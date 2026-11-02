@@ -1,0 +1,2382 @@
+{
+  "kind": "R3CDEFG-original-Angular-supplement-platform-cell",
+  "backend": "nest",
+  "label": "linux-native05",
+  "role": "admin",
+  "platform": "linux",
+  "tag": "parity01",
+  "apiRunId": "52ce8997-1946-4472-8e9a-91aa72be7f57",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "createdAt": "2026-11-02T04:38:06.574Z",
+  "input": {
+    "file": "tmp/rust-r3cdefg/ui-input-linux-native05.json",
+    "bytes": 23414,
+    "rawBytesSha256": "888ec5bcc17e9000228fdb51dfc36dcb750b914b7d0f9ce8c6faaf35077480e0"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "bytes": 10312,
+      "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "b20250e430554fe5f3225e150f5016cc8a502bf4934f68bd7b00927e9ba403a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/supplement-journey01.mjs",
+      "bytes": 19525,
+      "rawBytesSha256": "887851c135ff9c375f646c8d3f9f5f8e13e6a578a45306193e5018007726fc97"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-wire-client.mjs",
+      "bytes": 4227,
+      "rawBytesSha256": "ee4756c501570e8a036897107143343284f9157a2ff45f4690c78f51a8dcb612"
+    }
+  ],
+  "browser": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "bytes": 197422408,
+    "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+  },
+  "timezone": "Asia/Tokyo",
+  "result": "Pass",
+  "completed": true,
+  "errorName": null,
+  "failedStage": null,
+  "observations": [
+    {
+      "label": "supplement.linux-native05.admin.boundary",
+      "value": {
+        "remoteReplace": "separate real other-actor API action, never counted as UI",
+        "leadNavigation": "out-of-scope: Lead14 producer remains unmigrated",
+        "importsPerformIO": false
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.empty-cost.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/14a9c799-94a1-45f1-8c0a-b4093ce4ff64/technical-cost-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "projectId": "14a9c799-94a1-45f1-8c0a-b4093ce4ff64",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentPackage": null,
+          "scopeItems": [],
+          "riskItems": [],
+          "costItems": [],
+          "blockingReasons": [
+            "尚未形成技术与成本测算版本包。"
+          ],
+          "nextStep": "补齐技术可行性、范围边界、风险项和成本税务估算。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-technical-cost-workspace",
+            "create-technical-cost-package"
+          ],
+          "generatedAt": "2026-11-02T04:38:11.399Z"
+        },
+        "raw": "{\"projectId\":\"14a9c799-94a1-45f1-8c0a-b4093ce4ff64\",\"currentStage\":\"assessment\",\"status\":\"active\",\"currentPackage\":null,\"scopeItems\":[],\"riskItems\":[],\"costItems\":[],\"blockingReasons\":[\"尚未形成技术与成本测算版本包。\"],\"nextStep\":\"补齐技术可行性、范围边界、风险项和成本税务估算。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"allowedActions\":[\"view-technical-cost-workspace\",\"create-technical-cost-package\"],\"generatedAt\":\"2026-11-02T04:38:11.399Z\"}"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.empty-cost.dom",
+      "value": "技术与成本\n\n先确认技术结论、范围边界、风险阻断和前期成本口径。\n\n技术结论\n待形成版本包\n成本估算\n待估算\n最高风险\n无风险记录\n当前阻断\n1 项\n责任归口\nR3CG admin / R3CG admin\n技术与成本版本包尚未形成\n\n补齐技术可行性、范围边界、风险项和成本税务估算。\n\n缺少技术与成本版本包\n尚未形成技术与成本测算版本包。\n下一步\n\n补齐技术可行性、范围边界、风险项和成本税务估算。\n\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.linux-native05.admin.empty-cost.no-create-form",
+      "value": {
+        "forms": 0,
+        "createButtons": 0,
+        "source": "original technical-cost workspace imports no FormsModule and has read-only workspace UI for all roles"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.project-open.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+          "projectNo": "PRJ-2026-000037",
+          "projectName": "R3CG UI linux-native05 cost-readonly",
+          "sourceLeadId": null,
+          "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+          "customerName": "R3CG UI linux-native05 客户",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:52:18.904Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:52:18.904Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "ownerOrgName": "R3CG admin",
+          "sourceLeadSummary": null,
+          "stageSummary": {
+            "currentStage": "assessment",
+            "status": "active",
+            "plannedSignAt": null,
+            "closedAt": null,
+            "closedReason": null,
+            "blockingReasons": []
+          },
+          "currentBidSummary": {
+            "bidProcessId": null,
+            "bidStatus": "not_configured",
+            "resultStatus": null,
+            "tenderNo": null,
+            "bidPackageNo": null,
+            "summary": null
+          },
+          "currentContractSummary": {
+            "activeContractCount": 0,
+            "latestContractId": null,
+            "latestContractNo": null,
+            "latestContractStatus": null,
+            "signedAmountProjection": {
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "value": null,
+              "displayText": "-",
+              "reasonCode": "field-package-not-applicable"
+            },
+            "currencyCode": null,
+            "signedAt": null,
+            "currentSnapshotId": null
+          },
+          "currentApprovalSummary": {
+            "summarySnapshotId": null,
+            "summaryPackageKey": null,
+            "projectionLevel": null,
+            "exportPolicy": null,
+            "generatedAt": null
+          },
+          "currentConfirmationSummary": {
+            "confirmationRecordId": null,
+            "status": "not_configured",
+            "requiredCount": 0,
+            "confirmedCount": 0,
+            "pendingCount": 0,
+            "confirmedAt": null
+          },
+          "summarySnapshotId": null,
+          "projectionLevel": null,
+          "exportPolicy": null,
+          "allowedActions": [
+            "view-project-workspace",
+            "edit-project-basic-info",
+            "reassign-project-owner"
+          ],
+          "generatedAt": "2026-11-02T04:38:11.906Z"
+        },
+        "raw": "{\"id\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectNo\":\"PRJ-2026-000037\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"sourceLeadId\":null,\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"customerProjectNo\":null,\"status\":\"active\",\"currentStage\":\"assessment\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"plannedSignAt\":null,\"closedAt\":null,\"closedReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:52:18.904Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:52:18.904Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"ownerOrgName\":\"R3CG admin\",\"sourceLeadSummary\":null,\"stageSummary\":{\"currentStage\":\"assessment\",\"status\":\"active\",\"plannedSignAt\":null,\"closedAt\":null,\"closedReason\":null,\"blockingReasons\":[]},\"currentBidSummary\":{\"bidProcessId\":null,\"bidStatus\":\"not_configured\",\"resultStatus\":null,\"tenderNo\":null,\"bidPackageNo\":null,\"summary\":null},\"currentContractSummary\":{\"activeContractCount\":0,\"latestContractId\":null,\"latestContractNo\":null,\"latestContractStatus\":null,\"signedAmountProjection\":{\"fieldPackageKey\":\"contract-finance\",\"mode\":\"full\",\"value\":null,\"displayText\":\"-\",\"reasonCode\":\"field-package-not-applicable\"},\"currencyCode\":null,\"signedAt\":null,\"currentSnapshotId\":null},\"currentApprovalSummary\":{\"summarySnapshotId\":null,\"summaryPackageKey\":null,\"projectionLevel\":null,\"exportPolicy\":null,\"generatedAt\":null},\"currentConfirmationSummary\":{\"confirmationRecordId\":null,\"status\":\"not_configured\",\"requiredCount\":0,\"confirmedCount\":0,\"pendingCount\":0,\"confirmedAt\":null},\"summarySnapshotId\":null,\"projectionLevel\":null,\"exportPolicy\":null,\"allowedActions\":[\"view-project-workspace\",\"edit-project-basic-info\",\"reassign-project-owner\"],\"generatedAt\":\"2026-11-02T04:38:11.906Z\"}"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.project-open.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "raw": "[]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.select.salesFollowUpType",
+      "value": "电话"
+    },
+    {
+      "label": "supplement.linux-native05.admin.select.salesFollowUpOutcome",
+      "value": "有进展"
+    },
+    {
+      "label": "supplement.linux-native05.admin.date.salesFollowUpOccurredAt",
+      "value": {
+        "typedLocal": "2030-02-01 10:30",
+        "displayed": "2030-02-01 10:30",
+        "sourceFormat": "yy-mm-dd + showTime/hourFormat24"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.date.salesFollowUpNextAt",
+      "value": {
+        "typedLocal": "2030-02-02 09:45",
+        "displayed": "2030-02-02 09:45",
+        "sourceFormat": "yy-mm-dd + showTime/hourFormat24"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.project-followup.create.http",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records",
+        "status": 201,
+        "requestBody": {
+          "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+          "leadId": null,
+          "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+          "followUpType": "phone",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "UI项目跟进 linux-native05",
+          "detail": "项目真实UI linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z"
+        },
+        "body": {
+          "id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+          "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+          "customerName": "R3CG UI linux-native05 客户",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+          "projectName": "R3CG UI linux-native05 cost-readonly",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "UI项目跟进 linux-native05",
+          "detail": "项目真实UI linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T04:38:14.336Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T04:38:14.336Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "raw": "{\"id\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"UI项目跟进 linux-native05\",\"detail\":\"项目真实UI linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":null,\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:38:14.336Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T04:38:14.336Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.project-followup.create.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+            "customerName": "R3CG UI linux-native05 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectName": "R3CG UI linux-native05 cost-readonly",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-02-01T01:30:00.000Z",
+            "summary": "UI项目跟进 linux-native05",
+            "detail": "项目真实UI linux-native05",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": null,
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:38:14.336Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T04:38:14.336Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "raw": "[{\"id\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"UI项目跟进 linux-native05\",\"detail\":\"项目真实UI linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":null,\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:38:14.336Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T04:38:14.336Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.owned-identifiers",
+      "value": {
+        "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "originalId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "remoteId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "todoId": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.created.pg.sales_follow_up_record",
+      "value": {
+        "id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "customer_id": "366dbd73-6526-4f89-9462-cd021f116cd8",
+        "lead_id": null,
+        "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "follow_up_type": "phone",
+        "occurred_at": "2030-02-01T01:30:00.000Z",
+        "summary": "UI项目跟进 linux-native05",
+        "detail": "项目真实UI linux-native05",
+        "outcome": "progress",
+        "next_follow_up_at": "2030-02-02T00:45:00.000Z",
+        "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+        "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "row_version": 1,
+        "created_at": "2026-11-02T04:38:14.336Z",
+        "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "updated_at": "2026-11-02T04:38:14.336Z",
+        "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "status": "active",
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null,
+        "replacement_reason": null,
+        "voided_at": null,
+        "voided_by": null,
+        "void_reason": null
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.created.pg.todos",
+      "value": {
+        "sourceId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "rows": [
+          {
+            "id": "d55a5cec-1718-40a3-8159-1507bc4d0b5b",
+            "source_type": "sales-follow-up-record",
+            "source_id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "UI项目跟进 linux-native05",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "due_at": "2030-02-02T00:45:00.000Z",
+            "completed_at": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T04:38:14.340Z",
+            "updated_at": "2026-11-02T04:38:14.340Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Root-actual-remote-actor-api-not-UI-action",
+      "value": {
+        "method": "POST",
+        "recordId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "request": {
+          "followUpType": "phone",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "远端真实更正 linux-native05",
+          "detail": "另一actor真实API linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "replacementReason": "远端先提交 linux-native05",
+          "expectedVersion": 1
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+            "customerName": "R3CG UI linux-native05 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectName": "R3CG UI linux-native05 cost-readonly",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-02-01T01:30:00.000Z",
+            "summary": "远端真实更正 linux-native05",
+            "detail": "另一actor真实API linux-native05",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "replacedById": null,
+            "replacementReason": "远端先提交 linux-native05",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:38:15.026Z",
+            "createdBy": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+            "updatedAt": "2026-11-02T04:38:15.026Z",
+            "updatedBy": "069656de-280e-4fe8-85b5-675ecd8d1b95"
+          },
+          "requestId": "79fb7de8-579d-4f51-87c2-28aa115b3b80",
+          "headers": [
+            "X-Powered-By",
+            "Express",
+            "Access-Control-Allow-Origin",
+            "http://127.0.0.1:12300",
+            "Vary",
+            "Origin",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Content-Length",
+            "1067",
+            "ETag",
+            "W/\"42b-QI3XFuLy1MkizaJliXCFqwd+IxE\"",
+            "Date",
+            "Mon, 02 Nov 2026 04:38:15 GMT",
+            "Connection",
+            "close"
+          ],
+          "rawWire": {
+            "requestBytes": 865,
+            "requestSha256": "8f84e9a34c3397ad34e1f0d210824e1e4d03607442e5e67d24a2e359e12547fa",
+            "responseBytes": 1384,
+            "responseSha256": "32442983428656c5702b2826aa8620a92c21dcd91c180535e8b83ec42cd3f042",
+            "entityBodyBytes": 1067,
+            "entityBodySha256": "fd576fcae335584d89f0fb09c08004584515b4827926bbd8698771b7301163b5",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/remote-api-wire/other-actor-79fb7de8-579d-4f51-87c2-28aa115b3b80",
+            "originalRawRetained": true
+          }
+        }
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.remote-actor-api.replace",
+      "value": {
+        "actionKind": "real-other-actor-API; not UI",
+        "recordId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "requestBody": {
+          "followUpType": "phone",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "远端真实更正 linux-native05",
+          "detail": "另一actor真实API linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "replacementReason": "远端先提交 linux-native05",
+          "expectedVersion": 1
+        },
+        "status": 200,
+        "body": {
+          "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+          "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+          "customerName": "R3CG UI linux-native05 客户",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+          "projectName": "R3CG UI linux-native05 cost-readonly",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "远端真实更正 linux-native05",
+          "detail": "另一actor真实API linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "supersedesId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+          "replacedById": null,
+          "replacementReason": "远端先提交 linux-native05",
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T04:38:15.026Z",
+          "createdBy": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+          "updatedAt": "2026-11-02T04:38:15.026Z",
+          "updatedBy": "069656de-280e-4fe8-85b5-675ecd8d1b95"
+        }
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.owned-identifiers",
+      "value": {
+        "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "originalId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "remoteId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "todoId": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.pre-stale.old.pg.sales_follow_up_record",
+      "value": {
+        "id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "customer_id": "366dbd73-6526-4f89-9462-cd021f116cd8",
+        "lead_id": null,
+        "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "follow_up_type": "phone",
+        "occurred_at": "2030-02-01T01:30:00.000Z",
+        "summary": "UI项目跟进 linux-native05",
+        "detail": "项目真实UI linux-native05",
+        "outcome": "progress",
+        "next_follow_up_at": "2030-02-02T00:45:00.000Z",
+        "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+        "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "row_version": 2,
+        "created_at": "2026-11-02T04:38:14.336Z",
+        "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "updated_at": "2026-11-02T04:38:15.035Z",
+        "updated_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "status": "superseded",
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "replacement_reason": null,
+        "voided_at": null,
+        "voided_by": null,
+        "void_reason": null
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.pre-stale.current.pg.sales_follow_up_record",
+      "value": {
+        "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "customer_id": "366dbd73-6526-4f89-9462-cd021f116cd8",
+        "lead_id": null,
+        "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "follow_up_type": "phone",
+        "occurred_at": "2030-02-01T01:30:00.000Z",
+        "summary": "远端真实更正 linux-native05",
+        "detail": "另一actor真实API linux-native05",
+        "outcome": "progress",
+        "next_follow_up_at": "2030-02-02T00:45:00.000Z",
+        "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+        "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "row_version": 1,
+        "created_at": "2026-11-02T04:38:15.026Z",
+        "created_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "updated_at": "2026-11-02T04:38:15.026Z",
+        "updated_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "status": "active",
+        "supersedes_record_id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "replaced_by_record_id": null,
+        "replacement_reason": "远端先提交 linux-native05",
+        "voided_at": null,
+        "voided_by": null,
+        "void_reason": null
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.pre-stale.old.pg.todos",
+      "value": {
+        "sourceId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "rows": [
+          {
+            "id": "d55a5cec-1718-40a3-8159-1507bc4d0b5b",
+            "source_type": "sales-follow-up-record",
+            "source_id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "UI项目跟进 linux-native05",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "completed",
+            "priority": "normal",
+            "due_at": "2030-02-02T00:45:00.000Z",
+            "completed_at": "2026-11-02T04:38:15.029Z",
+            "row_version": 2,
+            "created_at": "2026-11-02T04:38:14.340Z",
+            "updated_at": "2026-11-02T04:38:15.045Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.pre-stale.current.pg.todos",
+      "value": {
+        "sourceId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "rows": [
+          {
+            "id": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d",
+            "source_type": "sales-follow-up-record",
+            "source_id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "远端真实更正 linux-native05",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "due_at": "2030-02-02T00:45:00.000Z",
+            "completed_at": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T04:38:15.032Z",
+            "updated_at": "2026-11-02T04:38:15.032Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.pre-stale.pg-count",
+      "value": {
+        "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "count": 2
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.stale-UI.replace.http",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records/36f14326-51c8-4197-82ef-2689a32d1a47:replace",
+        "status": 409,
+        "requestBody": {
+          "followUpType": "phone",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "旧UI待提交 linux-native05",
+          "detail": "项目真实UI linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "replacementReason": "UI旧版本冲突 linux-native05",
+          "expectedVersion": 1
+        },
+        "body": {
+          "message": "sales-follow-up-record version 1 does not match current version 2",
+          "error": "Conflict",
+          "statusCode": 409
+        },
+        "raw": "{\"message\":\"sales-follow-up-record version 1 does not match current version 2\",\"error\":\"Conflict\",\"statusCode\":409}"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.stale-UI.feedback.dom",
+      "value": "更正销售跟进\n跟进上下文\n更正会生成一条新的当前记录，原记录保留为已替代历史。\n跟进记录没有保存成功\n跟进记录没有更正成功，请刷新后重试。\n跟进方式\n电话\n发生时间\n摘要\n详情\n更正原因\n结果\n有进展\n下次跟进\n取消\n保存新版本"
+    },
+    {
+      "label": "supplement.linux-native05.admin.post-stale.old.pg.sales_follow_up_record",
+      "value": {
+        "id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "customer_id": "366dbd73-6526-4f89-9462-cd021f116cd8",
+        "lead_id": null,
+        "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "follow_up_type": "phone",
+        "occurred_at": "2030-02-01T01:30:00.000Z",
+        "summary": "UI项目跟进 linux-native05",
+        "detail": "项目真实UI linux-native05",
+        "outcome": "progress",
+        "next_follow_up_at": "2030-02-02T00:45:00.000Z",
+        "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+        "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "row_version": 2,
+        "created_at": "2026-11-02T04:38:14.336Z",
+        "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "updated_at": "2026-11-02T04:38:15.035Z",
+        "updated_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "status": "superseded",
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "replacement_reason": null,
+        "voided_at": null,
+        "voided_by": null,
+        "void_reason": null
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.post-stale.current.pg.sales_follow_up_record",
+      "value": {
+        "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "customer_id": "366dbd73-6526-4f89-9462-cd021f116cd8",
+        "lead_id": null,
+        "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "follow_up_type": "phone",
+        "occurred_at": "2030-02-01T01:30:00.000Z",
+        "summary": "远端真实更正 linux-native05",
+        "detail": "另一actor真实API linux-native05",
+        "outcome": "progress",
+        "next_follow_up_at": "2030-02-02T00:45:00.000Z",
+        "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+        "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "row_version": 1,
+        "created_at": "2026-11-02T04:38:15.026Z",
+        "created_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "updated_at": "2026-11-02T04:38:15.026Z",
+        "updated_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "status": "active",
+        "supersedes_record_id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "replaced_by_record_id": null,
+        "replacement_reason": "远端先提交 linux-native05",
+        "voided_at": null,
+        "voided_by": null,
+        "void_reason": null
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.post-stale.old.pg.todos",
+      "value": {
+        "sourceId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "rows": [
+          {
+            "id": "d55a5cec-1718-40a3-8159-1507bc4d0b5b",
+            "source_type": "sales-follow-up-record",
+            "source_id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "UI项目跟进 linux-native05",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "completed",
+            "priority": "normal",
+            "due_at": "2030-02-02T00:45:00.000Z",
+            "completed_at": "2026-11-02T04:38:15.029Z",
+            "row_version": 2,
+            "created_at": "2026-11-02T04:38:14.340Z",
+            "updated_at": "2026-11-02T04:38:15.045Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.post-stale.current.pg.todos",
+      "value": {
+        "sourceId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "rows": [
+          {
+            "id": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d",
+            "source_type": "sales-follow-up-record",
+            "source_id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "远端真实更正 linux-native05",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "due_at": "2030-02-02T00:45:00.000Z",
+            "completed_at": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T04:38:15.032Z",
+            "updated_at": "2026-11-02T04:38:15.032Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.post-stale.pg-count",
+      "value": {
+        "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "count": 2
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.normal-history-refresh.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=all",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+            "customerName": "R3CG UI linux-native05 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectName": "R3CG UI linux-native05 cost-readonly",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-02-01T01:30:00.000Z",
+            "summary": "远端真实更正 linux-native05",
+            "detail": "另一actor真实API linux-native05",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "replacedById": null,
+            "replacementReason": "远端先提交 linux-native05",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:38:15.026Z",
+            "createdBy": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+            "updatedAt": "2026-11-02T04:38:15.026Z",
+            "updatedBy": "069656de-280e-4fe8-85b5-675ecd8d1b95"
+          },
+          {
+            "id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+            "customerName": "R3CG UI linux-native05 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectName": "R3CG UI linux-native05 cost-readonly",
+            "followUpType": "phone",
+            "status": "superseded",
+            "occurredAt": "2030-02-01T01:30:00.000Z",
+            "summary": "UI项目跟进 linux-native05",
+            "detail": "项目真实UI linux-native05",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T04:38:14.336Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T04:38:15.035Z",
+            "updatedBy": "069656de-280e-4fe8-85b5-675ecd8d1b95"
+          }
+        ],
+        "raw": "[{\"id\":\"980f4891-0c62-4f0c-8622-cce9800c3070\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"远端真实更正 linux-native05\",\"detail\":\"另一actor真实API linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"replacedById\":null,\"replacementReason\":\"远端先提交 linux-native05\",\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:38:15.026Z\",\"createdBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\",\"updatedAt\":\"2026-11-02T04:38:15.026Z\",\"updatedBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\"},{\"id\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"superseded\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"UI项目跟进 linux-native05\",\"detail\":\"项目真实UI linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":\"980f4891-0c62-4f0c-8622-cce9800c3070\",\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":2,\"createdAt\":\"2026-11-02T04:38:14.336Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T04:38:15.035Z\",\"updatedBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\"}]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.stale-no-insert-evidence",
+      "value": {
+        "allLifecycleIds": [
+          "980f4891-0c62-4f0c-8622-cce9800c3070",
+          "36f14326-51c8-4197-82ef-2689a32d1a47"
+        ],
+        "pgCounterProvided": true,
+        "beforeCount": "2",
+        "afterCount": "2",
+        "existingRowsAndTodosUnchanged": true
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.normal-current-refresh.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+            "customerName": "R3CG UI linux-native05 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectName": "R3CG UI linux-native05 cost-readonly",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-02-01T01:30:00.000Z",
+            "summary": "远端真实更正 linux-native05",
+            "detail": "另一actor真实API linux-native05",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "replacedById": null,
+            "replacementReason": "远端先提交 linux-native05",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:38:15.026Z",
+            "createdBy": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+            "updatedAt": "2026-11-02T04:38:15.026Z",
+            "updatedBy": "069656de-280e-4fe8-85b5-675ecd8d1b95"
+          }
+        ],
+        "raw": "[{\"id\":\"980f4891-0c62-4f0c-8622-cce9800c3070\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"远端真实更正 linux-native05\",\"detail\":\"另一actor真实API linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"replacedById\":null,\"replacementReason\":\"远端先提交 linux-native05\",\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:38:15.026Z\",\"createdBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\",\"updatedAt\":\"2026-11-02T04:38:15.026Z\",\"updatedBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\"}]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.todo-public-consumer.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/me/todos",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "712aadfc-a858-4c3c-9ec5-ad8c83098a73",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "89090f99-f1a1-4ed8-915a-0df9d8c120c0",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "project",
+            "targetObjectId": "ffc1b190-10e0-4be7-986e-04cb23be0b3a",
+            "projectId": "ffc1b190-10e0-4be7-986e-04cb23be0b3a",
+            "title": "销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 null-owner-create",
+            "summary": "G1 old stream",
+            "targetTitle": "R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 null-owner-create",
+            "currentNodeName": "下次跟进：2027-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2027-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:20:56.290Z",
+            "updatedAt": "2026-11-02T03:20:56.290Z"
+          },
+          {
+            "id": "620027ee-d923-4a1a-bb68-8911e1e56acd",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "6b46533e-f985-4504-9e29-fe4fdf60adc5",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "project",
+            "targetObjectId": "9ff5763f-16c1-456e-9625-6b413fdc017c",
+            "projectId": "9ff5763f-16c1-456e-9625-6b413fdc017c",
+            "title": "销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 replace-audit",
+            "summary": "G1 committed replacement",
+            "targetTitle": "R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 replace-audit",
+            "currentNodeName": "下次跟进：2027-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2027-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:20:56.374Z",
+            "updatedAt": "2026-11-02T03:20:56.374Z"
+          },
+          {
+            "id": "007d5484-0757-47ea-9e77-28de4b255e5b",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "23687d56-c6cb-4f5d-9730-3d1742c3d849",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "project",
+            "targetObjectId": "11582fe1-78e5-410d-804e-f60b4b8ed729",
+            "projectId": "11582fe1-78e5-410d-804e-f60b4b8ed729",
+            "title": "销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 F CAS",
+            "summary": "G1 left",
+            "targetTitle": "R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 F CAS",
+            "currentNodeName": "下次跟进：2027-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2027-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:20:56.639Z",
+            "updatedAt": "2026-11-02T03:20:56.639Z"
+          },
+          {
+            "id": "3c0e5e1a-3f80-406f-b313-54d8b5fbe6ba",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "4dfce733-9523-4181-8539-e438f7b1125d",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "customer",
+            "targetObjectId": "2fef953d-2241-49e7-aac1-5e57728eb1fe",
+            "projectId": null,
+            "title": "销售跟进提醒：R3CG boundary renamed 02",
+            "summary": "R3CG boundary guard",
+            "targetTitle": "R3CG boundary renamed 02",
+            "currentNodeName": "下次跟进：2030-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2030-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:11:17.701Z",
+            "updatedAt": "2026-11-02T04:11:17.701Z"
+          },
+          {
+            "id": "d513dbf8-a460-4e29-82d2-c49ca09be35f",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "d7e3f662-8dc4-4245-bc90-06b2793f78b1",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "customer",
+            "targetObjectId": "b59739b4-16c2-4ebe-97f2-c8c9045d476c",
+            "projectId": null,
+            "title": "销售跟进提醒：R3CG boundary renamed 03",
+            "summary": "R3CG boundary guard",
+            "targetTitle": "R3CG boundary renamed 03",
+            "currentNodeName": "下次跟进：2030-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2030-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:12:29.010Z",
+            "updatedAt": "2026-11-02T04:12:29.010Z"
+          },
+          {
+            "id": "5ba07c6a-27fb-41aa-b8ab-6c4476b52ff2",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "8b34b149-f41a-49b8-9156-8698eef8c08f",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "customer",
+            "targetObjectId": "64c756ce-e10f-443c-b8fa-56746324a00a",
+            "projectId": null,
+            "title": "销售跟进提醒：R3CG boundary renamed 04",
+            "summary": "R3CG boundary version max",
+            "targetTitle": "R3CG boundary renamed 04",
+            "currentNodeName": "下次跟进：2030-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2030-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:13:57.309Z",
+            "updatedAt": "2026-11-02T04:13:57.309Z"
+          },
+          {
+            "id": "085e8148-32b7-49f2-ac5b-a8385d8e495e",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "4615f9ba-0a2e-494c-b8bf-e3f05ae97175",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "customer",
+            "targetObjectId": "99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+            "projectId": null,
+            "title": "销售跟进提醒：R3CG boundary renamed 05",
+            "summary": "R3CG boundary version max",
+            "targetTitle": "R3CG boundary renamed 05",
+            "currentNodeName": "下次跟进：2030-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2030-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:15:01.204Z",
+            "updatedAt": "2026-11-02T04:15:01.204Z"
+          },
+          {
+            "id": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "project",
+            "targetObjectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "远端真实更正 linux-native05",
+            "targetTitle": "R3CG UI linux-native05 cost-readonly",
+            "currentNodeName": "下次跟进：2030-02-02 08:45",
+            "allowedActions": [],
+            "assigneeUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2030-02-02T00:45:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:38:15.032Z",
+            "updatedAt": "2026-11-02T04:38:15.032Z"
+          }
+        ],
+        "raw": "[{\"id\":\"712aadfc-a858-4c3c-9ec5-ad8c83098a73\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"89090f99-f1a1-4ed8-915a-0df9d8c120c0\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"project\",\"targetObjectId\":\"ffc1b190-10e0-4be7-986e-04cb23be0b3a\",\"projectId\":\"ffc1b190-10e0-4be7-986e-04cb23be0b3a\",\"title\":\"销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 null-owner-create\",\"summary\":\"G1 old stream\",\"targetTitle\":\"R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 null-owner-create\",\"currentNodeName\":\"下次跟进：2027-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2027-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:20:56.290Z\",\"updatedAt\":\"2026-11-02T03:20:56.290Z\"},{\"id\":\"620027ee-d923-4a1a-bb68-8911e1e56acd\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"6b46533e-f985-4504-9e29-fe4fdf60adc5\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"project\",\"targetObjectId\":\"9ff5763f-16c1-456e-9625-6b413fdc017c\",\"projectId\":\"9ff5763f-16c1-456e-9625-6b413fdc017c\",\"title\":\"销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 replace-audit\",\"summary\":\"G1 committed replacement\",\"targetTitle\":\"R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 replace-audit\",\"currentNodeName\":\"下次跟进：2027-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2027-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:20:56.374Z\",\"updatedAt\":\"2026-11-02T03:20:56.374Z\"},{\"id\":\"007d5484-0757-47ea-9e77-28de4b255e5b\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"23687d56-c6cb-4f5d-9730-3d1742c3d849\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"project\",\"targetObjectId\":\"11582fe1-78e5-410d-804e-f60b4b8ed729\",\"projectId\":\"11582fe1-78e5-410d-804e-f60b4b8ed729\",\"title\":\"销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 F CAS\",\"summary\":\"G1 left\",\"targetTitle\":\"R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 F CAS\",\"currentNodeName\":\"下次跟进：2027-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2027-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:20:56.639Z\",\"updatedAt\":\"2026-11-02T03:20:56.639Z\"},{\"id\":\"3c0e5e1a-3f80-406f-b313-54d8b5fbe6ba\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"4dfce733-9523-4181-8539-e438f7b1125d\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"customer\",\"targetObjectId\":\"2fef953d-2241-49e7-aac1-5e57728eb1fe\",\"projectId\":null,\"title\":\"销售跟进提醒：R3CG boundary renamed 02\",\"summary\":\"R3CG boundary guard\",\"targetTitle\":\"R3CG boundary renamed 02\",\"currentNodeName\":\"下次跟进：2030-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2030-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:11:17.701Z\",\"updatedAt\":\"2026-11-02T04:11:17.701Z\"},{\"id\":\"d513dbf8-a460-4e29-82d2-c49ca09be35f\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"d7e3f662-8dc4-4245-bc90-06b2793f78b1\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"customer\",\"targetObjectId\":\"b59739b4-16c2-4ebe-97f2-c8c9045d476c\",\"projectId\":null,\"title\":\"销售跟进提醒：R3CG boundary renamed 03\",\"summary\":\"R3CG boundary guard\",\"targetTitle\":\"R3CG boundary renamed 03\",\"currentNodeName\":\"下次跟进：2030-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2030-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:12:29.010Z\",\"updatedAt\":\"2026-11-02T04:12:29.010Z\"},{\"id\":\"5ba07c6a-27fb-41aa-b8ab-6c4476b52ff2\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"8b34b149-f41a-49b8-9156-8698eef8c08f\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"customer\",\"targetObjectId\":\"64c756ce-e10f-443c-b8fa-56746324a00a\",\"projectId\":null,\"title\":\"销售跟进提醒：R3CG boundary renamed 04\",\"summary\":\"R3CG boundary version max\",\"targetTitle\":\"R3CG boundary renamed 04\",\"currentNodeName\":\"下次跟进：2030-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2030-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:13:57.309Z\",\"updatedAt\":\"2026-11-02T04:13:57.309Z\"},{\"id\":\"085e8148-32b7-49f2-ac5b-a8385d8e495e\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"4615f9ba-0a2e-494c-b8bf-e3f05ae97175\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"customer\",\"targetObjectId\":\"99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c\",\"projectId\":null,\"title\":\"销售跟进提醒：R3CG boundary renamed 05\",\"summary\":\"R3CG boundary version max\",\"targetTitle\":\"R3CG boundary renamed 05\",\"currentNodeName\":\"下次跟进：2030-01-02 08:00\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2030-01-02T00:00:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:15:01.204Z\",\"updatedAt\":\"2026-11-02T04:15:01.204Z\"},{\"id\":\"71cafaa3-10c3-4e8c-b688-02ea13d2b35d\",\"sourceType\":\"sales-follow-up-record\",\"sourceId\":\"980f4891-0c62-4f0c-8622-cce9800c3070\",\"todoType\":\"sales-follow-up-reminder\",\"businessDomain\":\"sales\",\"targetObjectType\":\"project\",\"targetObjectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"title\":\"销售跟进提醒：R3CG UI linux-native05 cost-readonly\",\"summary\":\"远端真实更正 linux-native05\",\"targetTitle\":\"R3CG UI linux-native05 cost-readonly\",\"currentNodeName\":\"下次跟进：2030-02-02 08:45\",\"allowedActions\":[],\"assigneeUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"status\":\"open\",\"priority\":\"normal\",\"dueAt\":\"2030-02-02T00:45:00.000Z\",\"completedAt\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:38:15.032Z\",\"updatedAt\":\"2026-11-02T04:38:15.032Z\"}]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.owned-identifiers",
+      "value": {
+        "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "originalId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "remoteId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "todoId": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.todo-actual-click.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+          "projectNo": "PRJ-2026-000037",
+          "projectName": "R3CG UI linux-native05 cost-readonly",
+          "sourceLeadId": null,
+          "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+          "customerName": "R3CG UI linux-native05 客户",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:52:18.904Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:52:18.904Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "ownerOrgName": "R3CG admin",
+          "sourceLeadSummary": null,
+          "stageSummary": {
+            "currentStage": "assessment",
+            "status": "active",
+            "plannedSignAt": null,
+            "closedAt": null,
+            "closedReason": null,
+            "blockingReasons": []
+          },
+          "currentBidSummary": {
+            "bidProcessId": null,
+            "bidStatus": "not_configured",
+            "resultStatus": null,
+            "tenderNo": null,
+            "bidPackageNo": null,
+            "summary": null
+          },
+          "currentContractSummary": {
+            "activeContractCount": 0,
+            "latestContractId": null,
+            "latestContractNo": null,
+            "latestContractStatus": null,
+            "signedAmountProjection": {
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "value": null,
+              "displayText": "-",
+              "reasonCode": "field-package-not-applicable"
+            },
+            "currencyCode": null,
+            "signedAt": null,
+            "currentSnapshotId": null
+          },
+          "currentApprovalSummary": {
+            "summarySnapshotId": null,
+            "summaryPackageKey": null,
+            "projectionLevel": null,
+            "exportPolicy": null,
+            "generatedAt": null
+          },
+          "currentConfirmationSummary": {
+            "confirmationRecordId": null,
+            "status": "not_configured",
+            "requiredCount": 0,
+            "confirmedCount": 0,
+            "pendingCount": 0,
+            "confirmedAt": null
+          },
+          "summarySnapshotId": null,
+          "projectionLevel": null,
+          "exportPolicy": null,
+          "allowedActions": [
+            "view-project-workspace",
+            "edit-project-basic-info",
+            "reassign-project-owner"
+          ],
+          "generatedAt": "2026-11-02T04:38:17.311Z"
+        },
+        "raw": "{\"id\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectNo\":\"PRJ-2026-000037\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"sourceLeadId\":null,\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"customerProjectNo\":null,\"status\":\"active\",\"currentStage\":\"assessment\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"plannedSignAt\":null,\"closedAt\":null,\"closedReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:52:18.904Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:52:18.904Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"ownerOrgName\":\"R3CG admin\",\"sourceLeadSummary\":null,\"stageSummary\":{\"currentStage\":\"assessment\",\"status\":\"active\",\"plannedSignAt\":null,\"closedAt\":null,\"closedReason\":null,\"blockingReasons\":[]},\"currentBidSummary\":{\"bidProcessId\":null,\"bidStatus\":\"not_configured\",\"resultStatus\":null,\"tenderNo\":null,\"bidPackageNo\":null,\"summary\":null},\"currentContractSummary\":{\"activeContractCount\":0,\"latestContractId\":null,\"latestContractNo\":null,\"latestContractStatus\":null,\"signedAmountProjection\":{\"fieldPackageKey\":\"contract-finance\",\"mode\":\"full\",\"value\":null,\"displayText\":\"-\",\"reasonCode\":\"field-package-not-applicable\"},\"currencyCode\":null,\"signedAt\":null,\"currentSnapshotId\":null},\"currentApprovalSummary\":{\"summarySnapshotId\":null,\"summaryPackageKey\":null,\"projectionLevel\":null,\"exportPolicy\":null,\"generatedAt\":null},\"currentConfirmationSummary\":{\"confirmationRecordId\":null,\"status\":\"not_configured\",\"requiredCount\":0,\"confirmedCount\":0,\"pendingCount\":0,\"confirmedAt\":null},\"summarySnapshotId\":null,\"projectionLevel\":null,\"exportPolicy\":null,\"allowedActions\":[\"view-project-workspace\",\"edit-project-basic-info\",\"reassign-project-owner\"],\"generatedAt\":\"2026-11-02T04:38:17.311Z\"}"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.todo-actual-click.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+            "customerName": "R3CG UI linux-native05 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "projectName": "R3CG UI linux-native05 cost-readonly",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-02-01T01:30:00.000Z",
+            "summary": "远端真实更正 linux-native05",
+            "detail": "另一actor真实API linux-native05",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+            "replacedById": null,
+            "replacementReason": "远端先提交 linux-native05",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T04:38:15.026Z",
+            "createdBy": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+            "updatedAt": "2026-11-02T04:38:15.026Z",
+            "updatedBy": "069656de-280e-4fe8-85b5-675ecd8d1b95"
+          }
+        ],
+        "raw": "[{\"id\":\"980f4891-0c62-4f0c-8622-cce9800c3070\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"远端真实更正 linux-native05\",\"detail\":\"另一actor真实API linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"replacedById\":null,\"replacementReason\":\"远端先提交 linux-native05\",\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T04:38:15.026Z\",\"createdBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\",\"updatedAt\":\"2026-11-02T04:38:15.026Z\",\"updatedBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\"}]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.todo-real-link",
+      "value": {
+        "url": "http://127.0.0.1:12300/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd?followUpId=980f4891-0c62-4f0c-8622-cce9800c3070&todoId=71cafaa3-10c3-4e8c-b688-02ea13d2b35d",
+        "sourceId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "todoId": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d",
+        "sourceBehavior": "project route + followUpId/todoId query context; no automatic row-scroll claim"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.refreshed-current.dom",
+      "value": "远端真实更正 linux-native05\n当前\n有进展\n2030-02-01 10:30\n电话\n项目跟进\nR3CG admin\n下次 02-02 09:45\n更正\n作废\n\n另一actor真实API linux-native05\n\n更正原因：远端先提交 linux-native05"
+    },
+    {
+      "label": "supplement.linux-native05.admin.current-chain.void.http",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records/980f4891-0c62-4f0c-8622-cce9800c3070:void",
+        "status": 200,
+        "requestBody": {
+          "reason": "UI当前链作废 linux-native05",
+          "comment": null,
+          "expectedVersion": 1
+        },
+        "body": {
+          "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+          "customerId": "366dbd73-6526-4f89-9462-cd021f116cd8",
+          "customerName": "R3CG UI linux-native05 客户",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+          "projectName": "R3CG UI linux-native05 cost-readonly",
+          "followUpType": "phone",
+          "status": "voided",
+          "occurredAt": "2030-02-01T01:30:00.000Z",
+          "summary": "远端真实更正 linux-native05",
+          "detail": "另一actor真实API linux-native05",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-02-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "supersedesId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+          "replacedById": null,
+          "replacementReason": "远端先提交 linux-native05",
+          "voidedAt": "2026-11-02T04:38:18.384Z",
+          "voidedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "voidedByName": "R3CG admin",
+          "voidReason": "UI当前链作废 linux-native05",
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T04:38:15.026Z",
+          "createdBy": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+          "updatedAt": "2026-11-02T04:38:18.388Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "raw": "{\"id\":\"980f4891-0c62-4f0c-8622-cce9800c3070\",\"customerId\":\"366dbd73-6526-4f89-9462-cd021f116cd8\",\"customerName\":\"R3CG UI linux-native05 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":\"a3ed14da-6728-42f8-9a08-82fd80c434bd\",\"projectName\":\"R3CG UI linux-native05 cost-readonly\",\"followUpType\":\"phone\",\"status\":\"voided\",\"occurredAt\":\"2030-02-01T01:30:00.000Z\",\"summary\":\"远端真实更正 linux-native05\",\"detail\":\"另一actor真实API linux-native05\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-02-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"36f14326-51c8-4197-82ef-2689a32d1a47\",\"replacedById\":null,\"replacementReason\":\"远端先提交 linux-native05\",\"voidedAt\":\"2026-11-02T04:38:18.384Z\",\"voidedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"voidedByName\":\"R3CG admin\",\"voidReason\":\"UI当前链作废 linux-native05\",\"rowVersion\":2,\"createdAt\":\"2026-11-02T04:38:15.026Z\",\"createdBy\":\"069656de-280e-4fe8-85b5-675ecd8d1b95\",\"updatedAt\":\"2026-11-02T04:38:18.388Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.current-chain.void.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "raw": "[]"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.terminal.pg.sales_follow_up_record",
+      "value": {
+        "id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "customer_id": "366dbd73-6526-4f89-9462-cd021f116cd8",
+        "lead_id": null,
+        "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "follow_up_type": "phone",
+        "occurred_at": "2030-02-01T01:30:00.000Z",
+        "summary": "远端真实更正 linux-native05",
+        "detail": "另一actor真实API linux-native05",
+        "outcome": "progress",
+        "next_follow_up_at": "2030-02-02T00:45:00.000Z",
+        "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+        "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "row_version": 2,
+        "created_at": "2026-11-02T04:38:15.026Z",
+        "created_by": "069656de-280e-4fe8-85b5-675ecd8d1b95",
+        "updated_at": "2026-11-02T04:38:18.388Z",
+        "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "status": "voided",
+        "supersedes_record_id": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "replaced_by_record_id": null,
+        "replacement_reason": "远端先提交 linux-native05",
+        "voided_at": "2026-11-02T04:38:18.384Z",
+        "voided_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "void_reason": "UI当前链作废 linux-native05"
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.terminal.pg.todos",
+      "value": {
+        "sourceId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "rows": [
+          {
+            "id": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d",
+            "source_type": "sales-follow-up-record",
+            "source_id": "980f4891-0c62-4f0c-8622-cce9800c3070",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "project_id": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+            "title": "销售跟进提醒：R3CG UI linux-native05 cost-readonly",
+            "summary": "远端真实更正 linux-native05",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "canceled",
+            "priority": "normal",
+            "due_at": "2030-02-02T00:45:00.000Z",
+            "completed_at": "2026-11-02T04:38:18.387Z",
+            "row_version": 2,
+            "created_at": "2026-11-02T04:38:15.032Z",
+            "updated_at": "2026-11-02T04:38:18.395Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "supplement.linux-native05.admin.complete",
+      "value": {
+        "projectId": "a3ed14da-6728-42f8-9a08-82fd80c434bd",
+        "originalId": "36f14326-51c8-4197-82ef-2689a32d1a47",
+        "remoteId": "980f4891-0c62-4f0c-8622-cce9800c3070",
+        "todoId": "71cafaa3-10c3-4e8c-b688-02ea13d2b35d"
+      }
+    }
+  ],
+  "network": [
+    {
+      "index": 0,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.454Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0000.json",
+        "bytes": 2353,
+        "rawBytesSha256": "c0d2ffd4098ad07fdf3d8ef6761106f8eda868d1586dbfade898721c0f81b9e6"
+      },
+      "completedAt": "2026-11-02T04:38:10.461Z"
+    },
+    {
+      "index": 1,
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.520Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0001.json",
+        "bytes": 2167,
+        "rawBytesSha256": "bff5a8b98111b4f3c0238729d626fccd96d8a5393e5a6012080ed5943b7b1d68"
+      },
+      "completedAt": "2026-11-02T04:38:10.544Z"
+    },
+    {
+      "index": 2,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.744Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0002.json",
+        "bytes": 2528,
+        "rawBytesSha256": "ab0ca7312c1c2bc1f63d70b5474ee149240f1e4370ddb7d6a1e80e8e25b780f0"
+      },
+      "completedAt": "2026-11-02T04:38:10.746Z"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.804Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0003.json",
+        "bytes": 6585,
+        "rawBytesSha256": "25e2ffb69bf7af3226b7feaf12d297d1ec1b8536941f17c57c9c9d02610f8426"
+      },
+      "completedAt": "2026-11-02T04:38:10.877Z"
+    },
+    {
+      "index": 4,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.882Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0004.json",
+        "bytes": 2928,
+        "rawBytesSha256": "2b98a313fc4cce352fed533d9416817fcad75d893cecfcdeab5b882eabc9dad2"
+      },
+      "completedAt": "2026-11-02T04:38:10.914Z"
+    },
+    {
+      "index": 5,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.929Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0005.json",
+        "bytes": 6068,
+        "rawBytesSha256": "bf66f57c4ecd521fe7774a2489ca8a192e66c71875b62754e19570b3c75e269f"
+      },
+      "completedAt": "2026-11-02T04:38:10.966Z"
+    },
+    {
+      "index": 6,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:10.968Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0006.json",
+        "bytes": 2590,
+        "rawBytesSha256": "709295d66677106d534a8baafe1b5e0d22ffc648e918db6324de168376e486eb"
+      },
+      "completedAt": "2026-11-02T04:38:11.023Z"
+    },
+    {
+      "index": 7,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:10.970Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0007.json",
+        "bytes": 2916,
+        "rawBytesSha256": "9478e534ad068e71cdec7c37b080b7030830c7e5a2fa5b6696071e42a1496958"
+      },
+      "completedAt": "2026-11-02T04:38:11.009Z"
+    },
+    {
+      "index": 8,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.013Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0008.json",
+        "bytes": 11850,
+        "rawBytesSha256": "229e416617cc6a09dbde727e89a89af4696253676594b2fc8b25826d4acf4517"
+      },
+      "completedAt": "2026-11-02T04:38:11.044Z"
+    },
+    {
+      "index": 9,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.014Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0009.json",
+        "bytes": 9821,
+        "rawBytesSha256": "6467fb204e5a53f5104f69c6ebc213715a8c065b9a99e857341d8b440e8a1f39"
+      },
+      "completedAt": "2026-11-02T04:38:11.089Z"
+    },
+    {
+      "index": 10,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.026Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0010.json",
+        "bytes": 3048,
+        "rawBytesSha256": "6ce050b4e153966ca2d398ba51fe0f85d20608cc6ead6d5cd0a3fc900ba8b094"
+      },
+      "completedAt": "2026-11-02T04:38:11.090Z"
+    },
+    {
+      "index": 11,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.094Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0011.json",
+        "bytes": 2594,
+        "rawBytesSha256": "c487f0d7a6787be8a9687e0e05deaf66fde428dae16940156002ac58f6bb4ced"
+      },
+      "completedAt": "2026-11-02T04:38:11.115Z"
+    },
+    {
+      "index": 12,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.095Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0012.json",
+        "bytes": 2589,
+        "rawBytesSha256": "b59ca9e24c57bd50121297740340a11a90a9bcd794197e94a260884e2f510336"
+      },
+      "completedAt": "2026-11-02T04:38:11.138Z"
+    },
+    {
+      "index": 13,
+      "method": "GET",
+      "path": "/api/projects/14a9c799-94a1-45f1-8c0a-b4093ce4ff64",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.281Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0013.json",
+        "bytes": 5229,
+        "rawBytesSha256": "8ef0e3fe4585b146f74b9781a4b759a6132494a2886ca46e89f775a99e677e8b"
+      },
+      "completedAt": "2026-11-02T04:38:11.354Z"
+    },
+    {
+      "index": 14,
+      "method": "GET",
+      "path": "/api/projects/14a9c799-94a1-45f1-8c0a-b4093ce4ff64/workspace-guidance",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.282Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0014.json",
+        "bytes": 9093,
+        "rawBytesSha256": "db6eb04bfae69a9a5dc666bc21674caed2633e838cb1cae41b7cab2e324ec460"
+      },
+      "completedAt": "2026-11-02T04:38:11.343Z"
+    },
+    {
+      "index": 15,
+      "method": "GET",
+      "path": "/api/projects/14a9c799-94a1-45f1-8c0a-b4093ce4ff64/technical-cost-workspace",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.365Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0015.json",
+        "bytes": 3248,
+        "rawBytesSha256": "23883be9f8540685e304d6f267800e6c669088c63948cfec57ed37cda3b44818"
+      },
+      "completedAt": "2026-11-02T04:38:11.400Z"
+    },
+    {
+      "index": 16,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.521Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0016.json",
+        "bytes": 2540,
+        "rawBytesSha256": "d76dad0f8f61e5353f7997b9623ab4e76a8b0ff76a15dfcc6fdc82bd2f2c8903"
+      },
+      "completedAt": "2026-11-02T04:38:11.549Z"
+    },
+    {
+      "index": 17,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.550Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0017.json",
+        "bytes": 2540,
+        "rawBytesSha256": "d76dad0f8f61e5353f7997b9623ab4e76a8b0ff76a15dfcc6fdc82bd2f2c8903"
+      },
+      "completedAt": "2026-11-02T04:38:11.576Z"
+    },
+    {
+      "index": 18,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.553Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0018.json",
+        "bytes": 2998,
+        "rawBytesSha256": "8fdaabb37818db5bd37d4a3c809a332d209158bc40d0f0a1c0e9230eed5f5005"
+      },
+      "completedAt": "2026-11-02T04:38:11.598Z"
+    },
+    {
+      "index": 19,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.599Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0019.json",
+        "bytes": 2998,
+        "rawBytesSha256": "0313192dcee319a53e2359ff6a94b9f327245537f8ae90f9e131255746806514"
+      },
+      "completedAt": "2026-11-02T04:38:11.630Z"
+    },
+    {
+      "index": 20,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.601Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0020.json",
+        "bytes": 2544,
+        "rawBytesSha256": "f078f5e31c82248c5d6dc989005383e3586a064c1282fff8b9452928ad182a0c"
+      },
+      "completedAt": "2026-11-02T04:38:11.629Z"
+    },
+    {
+      "index": 21,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.602Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0021.json",
+        "bytes": 2539,
+        "rawBytesSha256": "91856710b84190badd872bd6b8e2e57b0686f85c3915b1db558fac624cd94ae8"
+      },
+      "completedAt": "2026-11-02T04:38:11.654Z"
+    },
+    {
+      "index": 22,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.635Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0022.json",
+        "bytes": 2544,
+        "rawBytesSha256": "e9be29f2a8742c0ebb3f58f9382e263e5a1d063beb9b7a9bc4404e7c567c604b"
+      },
+      "completedAt": "2026-11-02T04:38:11.668Z"
+    },
+    {
+      "index": 23,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:11.656Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0023.json",
+        "bytes": 2539,
+        "rawBytesSha256": "e771e994d35dd93c851314db9635c2c648f6344f8bd3621a9653d15b9e85b7f6"
+      },
+      "completedAt": "2026-11-02T04:38:11.686Z"
+    },
+    {
+      "index": 24,
+      "method": "GET",
+      "path": "/api/platform/owner-reference",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.807Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0024.json",
+        "bytes": 21261,
+        "rawBytesSha256": "59d6be32e3c97b5a013de5d536862496c3f29c3a7af5cd2636baf86eb65bd45d"
+      },
+      "completedAt": "2026-11-02T04:38:11.906Z"
+    },
+    {
+      "index": 25,
+      "method": "GET",
+      "path": "/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.808Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0025.json",
+        "bytes": 5035,
+        "rawBytesSha256": "9db544e3ea5593805bb5aa240f8bf101071b4c766039f05673fe6d94834723d9"
+      },
+      "completedAt": "2026-11-02T04:38:11.907Z"
+    },
+    {
+      "index": 26,
+      "method": "GET",
+      "path": "/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd/timeline",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.809Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0026.json",
+        "bytes": 3190,
+        "rawBytesSha256": "c45472e83b6b6f8dc274c9a687994d8ecb2a640ec3ef83fbec1c5f351672ecd4"
+      },
+      "completedAt": "2026-11-02T04:38:11.899Z"
+    },
+    {
+      "index": 27,
+      "method": "GET",
+      "path": "/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd/archive-records",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.809Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0027.json",
+        "bytes": 2543,
+        "rawBytesSha256": "e8a0f5f478ab02c17d9cb427d8ab107a6cf422828e430ed19b7f27733efc9800"
+      },
+      "completedAt": "2026-11-02T04:38:11.898Z"
+    },
+    {
+      "index": 28,
+      "method": "GET",
+      "path": "/api/attachments?targetType=project&targetId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.962Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0028.json",
+        "bytes": 2558,
+        "rawBytesSha256": "ffd11814741749343c8cf155038a3545f659fb18dc9efac49e6ece8d3a76284d"
+      },
+      "completedAt": "2026-11-02T04:38:12.067Z"
+    },
+    {
+      "index": 29,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.963Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0029.json",
+        "bytes": 10244,
+        "rawBytesSha256": "64fa3cf768245b677675a00b8ba1f93fd645a6eb4fb3aa92cd3cacb272b77718"
+      },
+      "completedAt": "2026-11-02T04:38:12.066Z"
+    },
+    {
+      "index": 30,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.964Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0030.json",
+        "bytes": 2622,
+        "rawBytesSha256": "7a724f555e27d9eaca8b458d2282e2fdecb23f41c4fb4abce8c574fd481d55bb"
+      },
+      "completedAt": "2026-11-02T04:38:12.016Z"
+    },
+    {
+      "index": 31,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.964Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0031.json",
+        "bytes": 5812,
+        "rawBytesSha256": "ded067dab9486b10d4e42882270e79842499beb501aaf75e86f077b8452b7e15"
+      },
+      "completedAt": "2026-11-02T04:38:12.058Z"
+    },
+    {
+      "index": 32,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=366dbd73-6526-4f89-9462-cd021f116cd8",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.964Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0032.json",
+        "bytes": 3401,
+        "rawBytesSha256": "55c7bd9007a2277363e40af94a41dfadb9a2ed524417a14cb9ab149a202bf53a"
+      },
+      "completedAt": "2026-11-02T04:38:12.085Z"
+    },
+    {
+      "index": 33,
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:11.965Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0033.json",
+        "bytes": 2553,
+        "rawBytesSha256": "2cdf9bdb8619166eaa882316aad2fa98b8c18c90d414ad0e6058687d71b6f06b"
+      },
+      "completedAt": "2026-11-02T04:38:12.163Z"
+    },
+    {
+      "index": 34,
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:12.018Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0034.json",
+        "bytes": 2560,
+        "rawBytesSha256": "d9ca17eadc562188b90319e365f65fc03b087edd9629f0f509b82c6de253593d"
+      },
+      "completedAt": "2026-11-02T04:38:12.151Z"
+    },
+    {
+      "index": 35,
+      "method": "GET",
+      "path": "/api/sales-discovery-records?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:12.060Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0035.json",
+        "bytes": 2552,
+        "rawBytesSha256": "1f011ca3c83853df286188ceace1d990517d50294e21c67de6293d29742c693f"
+      },
+      "completedAt": "2026-11-02T04:38:12.149Z"
+    },
+    {
+      "index": 36,
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:12.070Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0036.json",
+        "bytes": 3838,
+        "rawBytesSha256": "6c57fa3dfb3096fa4dae79addbf886a6b8dd9db4ac1ffdfdc5ca748fb85742a4"
+      },
+      "completedAt": "2026-11-02T04:38:12.178Z"
+    },
+    {
+      "index": 37,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:12.070Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0037.json",
+        "bytes": 2597,
+        "rawBytesSha256": "cd780c64f3161d4f2c8971eba08ffd4a75ba86c7e351dd2f2ce315e9d54adb17"
+      },
+      "completedAt": "2026-11-02T04:38:12.181Z"
+    },
+    {
+      "index": 38,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records",
+      "backendPort": 12100,
+      "status": 201,
+      "startedAt": "2026-11-02T04:38:14.293Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0038.json",
+        "bytes": 4668,
+        "rawBytesSha256": "661948de8e4c7eb50308321b9c9f7a69430319a1b01f5a6eb306e863fda1844d"
+      },
+      "completedAt": "2026-11-02T04:38:14.361Z"
+    },
+    {
+      "index": 39,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:14.368Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0039.json",
+        "bytes": 4086,
+        "rawBytesSha256": "1a7947b6bf2a82ba2fee6d9a7f91484908107d24b1354a6a3c31130c0e64824b"
+      },
+      "completedAt": "2026-11-02T04:38:14.424Z"
+    },
+    {
+      "index": 40,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/36f14326-51c8-4197-82ef-2689a32d1a47:replace",
+      "backendPort": 12100,
+      "status": 409,
+      "startedAt": "2026-11-02T04:38:15.235Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0040.json",
+        "bytes": 3624,
+        "rawBytesSha256": "f6a5a5186cd5972cbec38db9cac75cdde0fd8b27c8ac36305be3c39260889e8e"
+      },
+      "completedAt": "2026-11-02T04:38:15.272Z"
+    },
+    {
+      "index": 41,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=all",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:16.531Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0041.json",
+        "bytes": 5427,
+        "rawBytesSha256": "09cec9d2df6253bc002125bfd6247e990426a08beb8c463f4172fc42f23d4cf1"
+      },
+      "completedAt": "2026-11-02T04:38:16.568Z"
+    },
+    {
+      "index": 42,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:16.633Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0042.json",
+        "bytes": 4188,
+        "rawBytesSha256": "815a5e100b6ada7d07929e45b900677d7a0aff494955847ec8a74f3d0176b3b8"
+      },
+      "completedAt": "2026-11-02T04:38:16.659Z"
+    },
+    {
+      "index": 43,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:16.729Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0043.json",
+        "bytes": 2468,
+        "rawBytesSha256": "90adc16786a6219f514e73a099d343035c356e5a2d36ec9af2de3aaf955dff8c"
+      },
+      "completedAt": "2026-11-02T04:38:16.754Z"
+    },
+    {
+      "index": 44,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:16.756Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0044.json",
+        "bytes": 2468,
+        "rawBytesSha256": "90adc16786a6219f514e73a099d343035c356e5a2d36ec9af2de3aaf955dff8c"
+      },
+      "completedAt": "2026-11-02T04:38:16.796Z"
+    },
+    {
+      "index": 45,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:16.759Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0045.json",
+        "bytes": 2926,
+        "rawBytesSha256": "771307b73c8dfdcc029ab26b234c147a657af339c3ed460a2067f2f8ebded5c7"
+      },
+      "completedAt": "2026-11-02T04:38:16.796Z"
+    },
+    {
+      "index": 46,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:16.800Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0046.json",
+        "bytes": 2926,
+        "rawBytesSha256": "e96e20f79010b84eb06c0cd6b924cb0ecb8c16fc35aa7ff9e224b53b483628c8"
+      },
+      "completedAt": "2026-11-02T04:38:16.857Z"
+    },
+    {
+      "index": 47,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:16.801Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0047.json",
+        "bytes": 2472,
+        "rawBytesSha256": "317507e4165c6d3ec0781f9d470f7cce7daa5612622c5f1f933579727bcc2c76"
+      },
+      "completedAt": "2026-11-02T04:38:16.826Z"
+    },
+    {
+      "index": 48,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:16.802Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0048.json",
+        "bytes": 10919,
+        "rawBytesSha256": "41f75624b59576f3d239eec41035a89c1226a40c5679dc766dff2a3f3687e399"
+      },
+      "completedAt": "2026-11-02T04:38:16.860Z"
+    },
+    {
+      "index": 49,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:16.862Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0049.json",
+        "bytes": 2472,
+        "rawBytesSha256": "378f9128b7597d61c7ae3bbe853eb051575c823468ebbae50e74a5ab80d8d0a7"
+      },
+      "completedAt": "2026-11-02T04:38:16.889Z"
+    },
+    {
+      "index": 50,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:16.862Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0050.json",
+        "bytes": 2467,
+        "rawBytesSha256": "ef6eeea0d528e4912527628f21e8be415dc2fde41a637ef60b2ed3fd11ddce93"
+      },
+      "completedAt": "2026-11-02T04:38:16.924Z"
+    },
+    {
+      "index": 51,
+      "method": "GET",
+      "path": "/api/projects",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:17.048Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0051.json",
+        "bytes": 82133,
+        "rawBytesSha256": "c3d528dc048a0d3225b789f7431ff0327f3a367492c6b214fedecdbf717b4bf1"
+      },
+      "completedAt": "2026-11-02T04:38:17.092Z"
+    },
+    {
+      "index": 52,
+      "method": "GET",
+      "path": "/api/platform/owner-reference",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.267Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0052.json",
+        "bytes": 2739,
+        "rawBytesSha256": "c9bf41cab66cd941a9b04704ea0b4de5542a3b3190de8a938b34890601ef8525"
+      },
+      "completedAt": "2026-11-02T04:38:17.355Z"
+    },
+    {
+      "index": 53,
+      "method": "GET",
+      "path": "/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:17.268Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0053.json",
+        "bytes": 5353,
+        "rawBytesSha256": "02114214038e4110a461ee1f1cfa4d7808c235ce0e59e25bba9f94ae43731e63"
+      },
+      "completedAt": "2026-11-02T04:38:17.312Z"
+    },
+    {
+      "index": 54,
+      "method": "GET",
+      "path": "/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd/timeline",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:17.269Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0054.json",
+        "bytes": 3508,
+        "rawBytesSha256": "513711e4b8eb77b9a5b15b1876b2bfceeffd073d90314888e7f7851fb4dc3b86"
+      },
+      "completedAt": "2026-11-02T04:38:17.355Z"
+    },
+    {
+      "index": 55,
+      "method": "GET",
+      "path": "/api/projects/a3ed14da-6728-42f8-9a08-82fd80c434bd/archive-records",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.269Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0055.json",
+        "bytes": 2767,
+        "rawBytesSha256": "0d01e325ad7fc34e69ad68ae8dd9fcee586973072552b35f5d52726525b294d8"
+      },
+      "completedAt": "2026-11-02T04:38:17.356Z"
+    },
+    {
+      "index": 56,
+      "method": "GET",
+      "path": "/api/attachments?targetType=project&targetId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.343Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0056.json",
+        "bytes": 2782,
+        "rawBytesSha256": "afd85c12f5b9072c05e3a93ee36c47a380956bb7007e4c619098260cd4e25d8f"
+      },
+      "completedAt": "2026-11-02T04:38:17.393Z"
+    },
+    {
+      "index": 57,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.344Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0057.json",
+        "bytes": 2768,
+        "rawBytesSha256": "012d916a008fd941adc9bc4f2ec8432c38ec463a9000e93d5c099e1b405b8d6a"
+      },
+      "completedAt": "2026-11-02T04:38:17.408Z"
+    },
+    {
+      "index": 58,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.344Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0058.json",
+        "bytes": 2852,
+        "rawBytesSha256": "3dc31909f2b801f7312219c03ae72469d67d82c2db11198755960b013c808c0e"
+      },
+      "completedAt": "2026-11-02T04:38:17.481Z"
+    },
+    {
+      "index": 59,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:17.356Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0059.json",
+        "bytes": 6130,
+        "rawBytesSha256": "31f7ce67c7de6d94638ea01c439b91da16fae1a8af1479ba2120f16e65e12379"
+      },
+      "completedAt": "2026-11-02T04:38:17.481Z"
+    },
+    {
+      "index": 60,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=366dbd73-6526-4f89-9462-cd021f116cd8",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.357Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0060.json",
+        "bytes": 2777,
+        "rawBytesSha256": "b4cc8e1e8a9268d0d02c0d628586ba3c19d76b1a1806729ddee1f87a48933671"
+      },
+      "completedAt": "2026-11-02T04:38:17.481Z"
+    },
+    {
+      "index": 61,
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.358Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0061.json",
+        "bytes": 2777,
+        "rawBytesSha256": "2827ccf9bcd694b2646598ecd4b01c486b11626aa555846473543c8099fdc751"
+      },
+      "completedAt": "2026-11-02T04:38:17.483Z"
+    },
+    {
+      "index": 62,
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.393Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0062.json",
+        "bytes": 2784,
+        "rawBytesSha256": "f72fba48436487eb1fb45b0f3179f62d601d8407b70811ce1aa9f068d6a3397f"
+      },
+      "completedAt": "2026-11-02T04:38:17.511Z"
+    },
+    {
+      "index": 63,
+      "method": "GET",
+      "path": "/api/sales-discovery-records?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.409Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0063.json",
+        "bytes": 2776,
+        "rawBytesSha256": "e9cd42b0d3c7348dfcf259c5ac75076994a57813ee2fd86aa5d04914406e0c80"
+      },
+      "completedAt": "2026-11-02T04:38:17.515Z"
+    },
+    {
+      "index": 64,
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps?projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.483Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0064.json",
+        "bytes": 2782,
+        "rawBytesSha256": "e1fbd27d9ce163d0b942dacb962e93cfe5b3dccb80f2fcdbb1f9d25a9502b1c9"
+      },
+      "completedAt": "2026-11-02T04:38:17.550Z"
+    },
+    {
+      "index": 65,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T04:38:17.483Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0065.json",
+        "bytes": 2821,
+        "rawBytesSha256": "446099e002fff40d4cfa0ea078209a735313f31a7170942474584cf47dbd296e"
+      },
+      "completedAt": "2026-11-02T04:38:17.549Z"
+    },
+    {
+      "index": 66,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/980f4891-0c62-4f0c-8622-cce9800c3070:void",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:18.334Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0066.json",
+        "bytes": 4782,
+        "rawBytesSha256": "4ce0b4372f46b929dfb62fe55d15ad867d90576b77a031ec5f926a694c2e4de3"
+      },
+      "completedAt": "2026-11-02T04:38:18.424Z"
+    },
+    {
+      "index": 67,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=366dbd73-6526-4f89-9462-cd021f116cd8&projectId=a3ed14da-6728-42f8-9a08-82fd80c434bd&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T04:38:18.427Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-native05-admin/proxy/http-0067.json",
+        "bytes": 2940,
+        "rawBytesSha256": "b035f47b7cf4716ee194cccb57b9f57669336939416574f9dc752eadec051ee0"
+      },
+      "completedAt": "2026-11-02T04:38:18.454Z"
+    }
+  ],
+  "staticBuild": {
+    "memberCount": 422,
+    "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+  },
+  "closure": {
+    "browserClosed": true,
+    "serverClosed": true,
+    "pending": 0,
+    "allRawExchangesRetained": true
+  },
+  "credentialOrRawAuthPublished": false,
+  "noMocksOrComponentEvaluate": true,
+  "outOfScopeRequestsDoNotClaimMigration": true,
+  "cohortCleanup": "Pending-whole-API-and-UI-cohort-terminal",
+  "G3Certified": false,
+  "G4Certified": false
+}

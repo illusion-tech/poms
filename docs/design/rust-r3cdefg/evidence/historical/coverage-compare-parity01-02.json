@@ -1,0 +1,179 @@
+{
+  "kind": "R3CDEFG-actual-full-coverage-body-comparison",
+  "createdAt": "2026-11-02T03:33:45.958Z",
+  "inputs": [
+    {
+      "file": "tmp/rust-r3cdefg/coverage-parity01-nest/report01.json",
+      "bytes": 4019586,
+      "rawBytesSha256": "fbad1d5fca53eacbd95624079a8662cf03c5ccef8c271822c8e0ab460a202aeb"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/coverage-parity01-rust/report01.json",
+      "bytes": 3950554,
+      "rawBytesSha256": "73168ce121704ae7a5057645fb5570b9082a0757e975b2cc29d27dde06e1d78f"
+    }
+  ],
+  "events": 1124,
+  "compared": "Full status, route/method/label and JSON body; original raw bytes independently retained per exchange",
+  "normalizations": {
+    "UUIDs": "Bijective generated identities joined only by corresponding producer/request fields; uppercase spelling retained",
+    "timeFields": [
+      "generatedAt",
+      "createdAt",
+      "updatedAt",
+      "effectiveAt",
+      "completedAt",
+      "canceledAt",
+      "created_at",
+      "updated_at",
+      "effective_at",
+      "completed_at",
+      "canceled_at"
+    ],
+    "otherDatesNumbersStringsAndErrorIssueArrays": "Compared exactly"
+  },
+  "differences": [
+    {
+      "index": 161,
+      "label": "dto.CreateProjectTechnicalCostPackageRequestSchema.costItems.variant5",
+      "native": {
+        "method": "POST",
+        "label": "dto.CreateProjectTechnicalCostPackageRequestSchema.costItems.variant5",
+        "route": "/api/projects/uuid.4/technical-cost-packages",
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "costItems"
+              ],
+              "message": "Invalid input: expected array, received string"
+            },
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "costItems"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      },
+      "rust": {
+        "method": "POST",
+        "label": "dto.CreateProjectTechnicalCostPackageRequestSchema.costItems.variant5",
+        "route": "/api/projects/uuid.4/technical-cost-packages",
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "invalid_type",
+              "expected": "array",
+              "message": "Invalid input: expected array, received string",
+              "path": [
+                "costItems"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        }
+      },
+      "nativeRequestId": "dfce5f78-a3c4-470e-8407-48069d4d30aa",
+      "rustRequestId": "2a5649ff-a5f7-41a5-ba48-af84883fa2b4"
+    },
+    {
+      "index": 1113,
+      "label": "followup.active-void",
+      "native": {
+        "method": "POST",
+        "label": "followup.active-void",
+        "route": "/api/sales-follow-up-records/uuid.61:void",
+        "status": 200,
+        "body": {
+          "id": "uuid.61",
+          "customerId": "uuid.0",
+          "customerName": "R3CG uuid.2",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "uuid.4",
+          "projectName": "R3CG uuid.2 version",
+          "followUpType": "phone",
+          "status": "voided",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "Replacement😀",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-03T00:00:00.000Z",
+          "ownerOrgId": "uuid.6",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "uuid.3",
+          "ownerName": "R3CG admin",
+          "supersedesId": "uuid.56",
+          "replacedById": null,
+          "replacementReason": "订正",
+          "voidedAt": "2026-11-02T03:24:36.468Z",
+          "voidedBy": "uuid.3",
+          "voidedByName": "R3CG admin",
+          "voidReason": "作废",
+          "rowVersion": 2,
+          "createdAt": "generated-server-time",
+          "createdBy": "uuid.3",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "uuid.3"
+        }
+      },
+      "rust": {
+        "method": "POST",
+        "label": "followup.active-void",
+        "route": "/api/sales-follow-up-records/uuid.61:void",
+        "status": 200,
+        "body": {
+          "createdAt": "generated-server-time",
+          "createdBy": "uuid.3",
+          "customerId": "uuid.0",
+          "customerName": "R3CG uuid.2",
+          "detail": null,
+          "followUpType": "phone",
+          "id": "uuid.61",
+          "leadId": null,
+          "leadName": null,
+          "nextFollowUpAt": "2027-01-03T00:00:00.000Z",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "outcome": "progress",
+          "ownerName": "R3CG admin",
+          "ownerOrgId": "uuid.6",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "uuid.3",
+          "projectId": "uuid.4",
+          "projectName": "R3CG uuid.2 version",
+          "replacedById": null,
+          "replacementReason": "订正",
+          "rowVersion": 2,
+          "status": "voided",
+          "summary": "Replacement😀",
+          "supersedesId": "uuid.56",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "uuid.3",
+          "voidReason": "作废",
+          "voidedAt": "2026-11-02T03:31:44.797Z",
+          "voidedBy": "uuid.3",
+          "voidedByName": "R3CG admin"
+        }
+      },
+      "nativeRequestId": "4f0b52b6-4f1b-4c63-b729-a72089370267",
+      "rustRequestId": "f7703be0-2fc3-4dfa-87fe-ee77be094b2c"
+    }
+  ],
+  "differenceCount": 2,
+  "result": "Needs-correction",
+  "G3Certified": false,
+  "G4Certified": false
+}

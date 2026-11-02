@@ -1,0 +1,301 @@
+{
+  "kind": "R3CDEFG-next16-native-G0-registration",
+  "createdAt": "2026-11-02T02:22:31.161Z",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "parent": 85,
+  "overall": 57,
+  "entries": [
+    {
+      "slice": "RUST-R3C",
+      "name": "项目技术成本包三操作",
+      "owner": "author1",
+      "wave": "first",
+      "ids": [
+        "ProjectController_listProjectTechnicalCostPackages",
+        "ProjectController_createProjectTechnicalCostPackage",
+        "ProjectController_getProjectTechnicalCostWorkspace"
+      ],
+      "detail": "成本包版本、当前有效/替代链、scope/risk/cost子表、原金额/税额/币种、项目状态门槛与原工作区完整返回。",
+      "number": 88,
+      "id": 6154981282,
+      "url": "https://github.com/illusion-tech/poms/issues/88",
+      "operations": [
+        {
+          "operationId": "ProjectController_listProjectTechnicalCostPackages",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/technical-cost-packages",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 233,
+            "domain": "project",
+            "capability": "listProjectTechnicalCostPackages",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "ProjectController_createProjectTechnicalCostPackage",
+          "method": "POST",
+          "path": "/api/projects/{projectId}/technical-cost-packages",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 232,
+            "domain": "project",
+            "capability": "createProjectTechnicalCostPackage",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/technical-cost-workspace",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 234,
+            "domain": "project",
+            "capability": "getProjectTechnicalCostWorkspace",
+            "status": "aligned"
+          }
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3D",
+      "name": "项目商务竞标三操作",
+      "owner": "author2",
+      "wave": "first",
+      "ids": [
+        "ProjectController_listProjectBidCommercialProcesses",
+        "ProjectController_createProjectBidCommercialProcess",
+        "ProjectController_getProjectBidCommercialWorkspace"
+      ],
+      "detail": "竞标路径/决策/结果、版本/当前有效/替代链、材料与时间线子表、阻断项及原竞标工作区。",
+      "number": 89,
+      "id": 6154997535,
+      "url": "https://github.com/illusion-tech/poms/issues/89",
+      "operations": [
+        {
+          "operationId": "ProjectController_listProjectBidCommercialProcesses",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/bid-commercial-processes",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 236,
+            "domain": "project",
+            "capability": "listProjectBidCommercialProcesses",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "ProjectController_createProjectBidCommercialProcess",
+          "method": "POST",
+          "path": "/api/projects/{projectId}/bid-commercial-processes",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 235,
+            "domain": "project",
+            "capability": "createProjectBidCommercialProcess",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/bid-commercial-workspace",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 237,
+            "domain": "project",
+            "capability": "getProjectBidCommercialWorkspace",
+            "status": "aligned"
+          }
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3E",
+      "name": "客户联系人三操作",
+      "owner": "author3",
+      "wave": "first",
+      "ids": [
+        "CustomerContactController_list",
+        "CustomerContactController_create",
+        "CustomerContactController_update"
+      ],
+      "detail": "只从原情报/联系人13操作中拆出联系人GET/POST/PATCH三项；不交付其余10项，不擅自复用更强active客户校验或新增owner/scope限制。",
+      "number": 90,
+      "id": 6154999359,
+      "url": "https://github.com/illusion-tech/poms/issues/90",
+      "operations": [
+        {
+          "operationId": "CustomerContactController_list",
+          "method": "GET",
+          "path": "/api/customer-contacts",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 352,
+            "domain": "sales-intelligence",
+            "capability": "listCustomerContacts",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "CustomerContactController_create",
+          "method": "POST",
+          "path": "/api/customer-contacts",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 353,
+            "domain": "sales-intelligence",
+            "capability": "createCustomerContact",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "CustomerContactController_update",
+          "method": "PATCH",
+          "path": "/api/customer-contacts/{id}",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 354,
+            "domain": "sales-intelligence",
+            "capability": "updateCustomerContact",
+            "status": "aligned"
+          }
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3F",
+      "name": "销售跟进四操作与真实提醒生产者",
+      "owner": "author3",
+      "wave": "first",
+      "ids": [
+        "SalesFollowUpController_list",
+        "SalesFollowUpController_create",
+        "SalesFollowUpController_replace",
+        "SalesFollowUpController_void"
+      ],
+      "detail": "跟进列表/创建/替换/作废、原客户/线索/项目上下文与owner规则、字典及审计；同片完整迁移真实Todo提醒写入/同步/撤销，公共Todo查询存在不作为该生产者已完成的证据。",
+      "number": 91,
+      "id": 6155001212,
+      "url": "https://github.com/illusion-tech/poms/issues/91",
+      "operations": [
+        {
+          "operationId": "SalesFollowUpController_list",
+          "method": "GET",
+          "path": "/api/sales-follow-up-records",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 343,
+            "domain": "sales-follow-up",
+            "capability": "listSalesFollowUpRecords",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "SalesFollowUpController_create",
+          "method": "POST",
+          "path": "/api/sales-follow-up-records",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 344,
+            "domain": "sales-follow-up",
+            "capability": "createSalesFollowUpRecord",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "SalesFollowUpController_replace",
+          "method": "POST",
+          "path": "/api/sales-follow-up-records/{id}:replace",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 345,
+            "domain": "sales-follow-up",
+            "capability": "replaceSalesFollowUpRecord",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "SalesFollowUpController_void",
+          "method": "POST",
+          "path": "/api/sales-follow-up-records/{id}:void",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 346,
+            "domain": "sales-follow-up",
+            "capability": "voidSalesFollowUpRecord",
+            "status": "aligned"
+          }
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3G",
+      "name": "项目报价评审三操作",
+      "owner": "author1",
+      "wave": "second",
+      "ids": [
+        "ProjectController_listProjectPricingMarginReviews",
+        "ProjectController_createProjectPricingMarginReview",
+        "ProjectController_getProjectPricingMarginWorkspace"
+      ],
+      "detail": "报价评审版本、金额与放行/阻断/条件项、原引用约束及工作区；实际集成消费本批C/D真实有效成本及适用竞标基线，不能用prepared来源替代该依赖链。",
+      "number": 92,
+      "id": 6155003918,
+      "url": "https://github.com/illusion-tech/poms/issues/92",
+      "operations": [
+        {
+          "operationId": "ProjectController_listProjectPricingMarginReviews",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/pricing-margin-reviews",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 239,
+            "domain": "project",
+            "capability": "listProjectPricingMarginReviews",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "ProjectController_createProjectPricingMarginReview",
+          "method": "POST",
+          "path": "/api/projects/{projectId}/pricing-margin-reviews",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 238,
+            "domain": "project",
+            "capability": "createProjectPricingMarginReview",
+            "status": "aligned"
+          }
+        },
+        {
+          "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/pricing-margin-workspace",
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 240,
+            "domain": "project",
+            "capability": "getProjectPricingMarginWorkspace",
+            "status": "aligned"
+          }
+        }
+      ]
+    }
+  ],
+  "totalOperations": 16,
+  "currentDelivered": 14,
+  "R3Total": 58,
+  "remainingAfterBatchG4": 28,
+  "G1": "Pending",
+  "G3": false,
+  "G4": false,
+  "originalInventory": {
+    "file": "tmp/rust-r3cdefg/root/g0-start-operation-inventory-original.json",
+    "bytes": 155132,
+    "rawBytesSha256": "144b00533cbc55a010892204119636cb51deabf904cac71177bcc22046fcba31"
+  },
+  "closeOnlyFiveChildrenAfterOwnG4": true,
+  "keep85and57Open": true
+}

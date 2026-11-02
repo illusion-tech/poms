@@ -1,0 +1,2044 @@
+{
+  "kind": "R3CDEFG-current-two-source-correction-and-original-provenance",
+  "createdAt": "2026-11-02T06:11:47.778Z",
+  "previousManifest": {
+    "file": "docs/design/rust-r3cdefg/g3-candidate-manifest02.json",
+    "bytes": 117019,
+    "rawBytesSha256": "0edc75c5b825f496668e7db99276a827b9fece64c060ed8d8a9a34cc9f9e37d9"
+  },
+  "previousIndependentReview": {
+    "file": "docs/design/rust-r3cdefg/C/g3-independent-review01.json",
+    "bytes": 18172,
+    "rawBytesSha256": "e348bfc0aa3801d7512d7a26be656726a9c906453d7ad939075bbcaaf9a519c7"
+  },
+  "frozenFormalFilesUnchanged": 44,
+  "NativePinsUnchanged": 872,
+  "sourceAfterCount": 203,
+  "onlySourceChanges": [
+    {
+      "before": {
+        "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+        "bytes": 6276,
+        "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+      },
+      "after": {
+        "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+        "bytes": 6585,
+        "rawBytesSha256": "7cf811beb2848495cd115415bcb57c7ac93594f18f3bec1ffa8405b55eaf1010"
+      }
+    },
+    {
+      "before": {
+        "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+        "bytes": 14332,
+        "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+      },
+      "after": {
+        "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+        "bytes": 17992,
+        "rawBytesSha256": "29dc55e1c13e63fbf846efd4c6c2e002c56700d2605394d7e085a082bfdc260a"
+      }
+    }
+  ],
+  "allOtherRustSourceByteEqual": true,
+  "NativeClientAngularUnchanged": true,
+  "UI": {
+    "actualArtifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/target/release/poms-api-rust",
+      "bytes": 40997208,
+      "rawBytesSha256": "ec988ffcecebbe40c89dc7551304d7ae66634ef1fc9cabed7d948a09e7f82c78"
+    },
+    "actualHTTP": 898,
+    "rerunOnCurrentArtifact": false,
+    "causalBoundary": "C UI is read-only; no technical-cost POST form. Only C preflight raw400 and transport branch changed. Router, guards, GET mappings, Native/client/Angular and all remaining Rust source unchanged.",
+    "independentAcceptance": "C confirmed boundary before this new candidate; formal G3 remains required"
+  },
+  "copies": [
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check08/cargo-check.log",
+        "bytes": 115,
+        "rawBytesSha256": "235382520425c4841a699c405e75ba1b581db26e68d7ff626656e0302cd25dec"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check08/cargo-check.log",
+        "bytes": 115,
+        "rawBytesSha256": "235382520425c4841a699c405e75ba1b581db26e68d7ff626656e0302cd25dec"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check08/cargo-fmt.log",
+        "bytes": 204,
+        "rawBytesSha256": "5bbfcd19b27f01f543e3c97ab1de71b6db4ab93dd04ef53edcc85d0056b2a3d7"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check08/cargo-fmt.log",
+        "bytes": 204,
+        "rawBytesSha256": "5bbfcd19b27f01f543e3c97ab1de71b6db4ab93dd04ef53edcc85d0056b2a3d7"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check08/report01.json",
+        "bytes": 77613,
+        "rawBytesSha256": "5292df1d81f23c4e99b885c9aff8bee5ac62bc75c525b5efe4265a9d085abd53"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check08/report01.json",
+        "bytes": 77613,
+        "rawBytesSha256": "5292df1d81f23c4e99b885c9aff8bee5ac62bc75c525b5efe4265a9d085abd53"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check09/cargo-check.log",
+        "bytes": 170,
+        "rawBytesSha256": "8da0e1410f9d948cd452d3549b56e72b270a6f2b500b668e52404e6344c4ccfd"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check09/cargo-check.log",
+        "bytes": 170,
+        "rawBytesSha256": "8da0e1410f9d948cd452d3549b56e72b270a6f2b500b668e52404e6344c4ccfd"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check09/cargo-clippy.log",
+        "bytes": 170,
+        "rawBytesSha256": "f8261aa62061890edae7bca5f74eca0dfbdedb0c2ba4e3b4893ed26d9a10ef26"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check09/cargo-clippy.log",
+        "bytes": 170,
+        "rawBytesSha256": "f8261aa62061890edae7bca5f74eca0dfbdedb0c2ba4e3b4893ed26d9a10ef26"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check09/cargo-fmt.log",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check09/cargo-fmt.log",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check09/cargo-release.log",
+        "bytes": 161,
+        "rawBytesSha256": "7d29ce9446d3a77fa212f2a617c1b3f0108a0abd085b9bdb314bc7c3dedf8e10"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check09/cargo-release.log",
+        "bytes": 161,
+        "rawBytesSha256": "7d29ce9446d3a77fa212f2a617c1b3f0108a0abd085b9bdb314bc7c3dedf8e10"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check09/cargo-test.log",
+        "bytes": 45118,
+        "rawBytesSha256": "7b8d592a394b3e433fc50287e53b3b0e6e37a2da487a26b4b1ec9f2cf8b67171"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check09/cargo-test.log",
+        "bytes": 45118,
+        "rawBytesSha256": "7b8d592a394b3e433fc50287e53b3b0e6e37a2da487a26b4b1ec9f2cf8b67171"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-check09/report01.json",
+        "bytes": 79205,
+        "rawBytesSha256": "53a7fdea88375e5f41f57b9fd5912c65a8ac32ee9ea062a36d1160aceb717b04"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-check09/report01.json",
+        "bytes": 79205,
+        "rawBytesSha256": "53a7fdea88375e5f41f57b9fd5912c65a8ac32ee9ea062a36d1160aceb717b04"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-candidate-raw-errors02/openapi.json",
+        "bytes": 978495,
+        "rawBytesSha256": "57a2a1a54a53811b0a41929c8943a926f7a190fa09932a13e84ac667b0041d46"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/openapi.json",
+        "bytes": 978495,
+        "rawBytesSha256": "57a2a1a54a53811b0a41929c8943a926f7a190fa09932a13e84ac667b0041d46"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/rust-candidate-raw-errors02/release-proof01.json",
+        "bytes": 42097,
+        "rawBytesSha256": "a025cbefa21cfeecc0d9783e9c8f5d5d95ed6fce78ff16f86cf1caf57c88948d"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/release-proof01.json",
+        "bytes": 42097,
+        "rawBytesSha256": "a025cbefa21cfeecc0d9783e9c8f5d5d95ed6fce78ff16f86cf1caf57c88948d"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/01-cost-first.json",
+        "bytes": 3984,
+        "rawBytesSha256": "63ec625d9fcce26a4ad2b7a3bf6b4389e1cfa2888b60b91ca0167d069f7243e7"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/01-cost-first.json",
+        "bytes": 3984,
+        "rawBytesSha256": "63ec625d9fcce26a4ad2b7a3bf6b4389e1cfa2888b60b91ca0167d069f7243e7"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/02-cost-second-version.json",
+        "bytes": 4122,
+        "rawBytesSha256": "072e509ed8b5434eb8771a6e3a1ad5d67ba430cadab851aa5b8caa7ad1e3d83d"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/02-cost-second-version.json",
+        "bytes": 4122,
+        "rawBytesSha256": "072e509ed8b5434eb8771a6e3a1ad5d67ba430cadab851aa5b8caa7ad1e3d83d"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/03-bid-first.json",
+        "bytes": 3083,
+        "rawBytesSha256": "f5bc2f726e379712233d407d56ebd901c44078a91e86a89f327df87bd62bd6ca"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/03-bid-first.json",
+        "bytes": 3083,
+        "rawBytesSha256": "f5bc2f726e379712233d407d56ebd901c44078a91e86a89f327df87bd62bd6ca"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/04-bid-second-version.json",
+        "bytes": 3222,
+        "rawBytesSha256": "dcb03d9c274aa963906bcacfbe95afbfc4c2b3f9fc15e0abf27396e5bae141a9"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/04-bid-second-version.json",
+        "bytes": 3222,
+        "rawBytesSha256": "dcb03d9c274aa963906bcacfbe95afbfc4c2b3f9fc15e0abf27396e5bae141a9"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/05-pricing-first-direct-no-reference.json",
+        "bytes": 6141,
+        "rawBytesSha256": "42cfa13d4a2b875182007d86b12f9428201d2316dd4fba64dd01784b5300d031"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/05-pricing-first-direct-no-reference.json",
+        "bytes": 6141,
+        "rawBytesSha256": "42cfa13d4a2b875182007d86b12f9428201d2316dd4fba64dd01784b5300d031"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/06-pricing-second-version.json",
+        "bytes": 4374,
+        "rawBytesSha256": "3b7f1e080262e14c42f22fbb581046f095086d8bdfb1694cbe0d6dc2638ca21f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/06-pricing-second-version.json",
+        "bytes": 4374,
+        "rawBytesSha256": "3b7f1e080262e14c42f22fbb581046f095086d8bdfb1694cbe0d6dc2638ca21f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/07-three-workspaces-read-permission-no-sensitive.json",
+        "bytes": 15682,
+        "rawBytesSha256": "76383f515733ac95457a0efb6100ca8e0ac32ae9b488735dd30cceaa8e58bc02"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/07-three-workspaces-read-permission-no-sensitive.json",
+        "bytes": 15682,
+        "rawBytesSha256": "76383f515733ac95457a0efb6100ca8e0ac32ae9b488735dd30cceaa8e58bc02"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/08-cost-money-number-and-post-get.json",
+        "bytes": 11204,
+        "rawBytesSha256": "e6872a9babbde7e892980d926cd62f64b6f010a015c6db46dd86c917c0409504"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/08-cost-money-number-and-post-get.json",
+        "bytes": 11204,
+        "rawBytesSha256": "e6872a9babbde7e892980d926cd62f64b6f010a015c6db46dd86c917c0409504"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/09-cost-large-9007.json",
+        "bytes": 4731,
+        "rawBytesSha256": "88c3fb66d152993c29310636a83d050f8f960fa6a20e703dca87e326b4b91f2c"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/09-cost-large-9007.json",
+        "bytes": 4731,
+        "rawBytesSha256": "88c3fb66d152993c29310636a83d050f8f960fa6a20e703dca87e326b4b91f2c"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/10-cost-large-9999.json",
+        "bytes": 2722,
+        "rawBytesSha256": "94255a305b1636a4d61e9bbb45ef4dd0abf6e6bc9ecdbd9b1c7c50e1c71421d5"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/10-cost-large-9999.json",
+        "bytes": 2722,
+        "rawBytesSha256": "94255a305b1636a4d61e9bbb45ef4dd0abf6e6bc9ecdbd9b1c7c50e1c71421d5"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/11-cost-child-insert-failure.json",
+        "bytes": 2122,
+        "rawBytesSha256": "3c3bb13be7c49f769d6456ad2f47de07f060271d814ff08db8a91214ab0ee337"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/11-cost-child-insert-failure.json",
+        "bytes": 2122,
+        "rawBytesSha256": "3c3bb13be7c49f769d6456ad2f47de07f060271d814ff08db8a91214ab0ee337"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/12-bid-child-insert-failure.json",
+        "bytes": 1406,
+        "rawBytesSha256": "6bcac8a8e5b71ea87f956fbc9c38b54cc5c4c62ae3524f1bb284ef07951fd793"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/12-bid-child-insert-failure.json",
+        "bytes": 1406,
+        "rawBytesSha256": "6bcac8a8e5b71ea87f956fbc9c38b54cc5c4c62ae3524f1bb284ef07951fd793"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/13-project_technical_cost_package-concurrent-first.json",
+        "bytes": 4833,
+        "rawBytesSha256": "787242940f9790a0f93bceffdfeb5542dd6718b90ebfc795dfbfded4ee74914e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/13-project_technical_cost_package-concurrent-first.json",
+        "bytes": 4833,
+        "rawBytesSha256": "787242940f9790a0f93bceffdfeb5542dd6718b90ebfc795dfbfded4ee74914e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/14-project_bid_commercial_process-concurrent-first.json",
+        "bytes": 4525,
+        "rawBytesSha256": "98f35403836b70074f039c08d4482aa4c87de7e7f6b3b005c748aa036c09d41e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/14-project_bid_commercial_process-concurrent-first.json",
+        "bytes": 4525,
+        "rawBytesSha256": "98f35403836b70074f039c08d4482aa4c87de7e7f6b3b005c748aa036c09d41e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/15-contact-gender-controller-drop.json",
+        "bytes": 2770,
+        "rawBytesSha256": "3534eb6603a718fe02a47a255c1062eb238618e1b13b7a2a5586d69ae686f038"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/15-contact-gender-controller-drop.json",
+        "bytes": 2770,
+        "rawBytesSha256": "3534eb6603a718fe02a47a255c1062eb238618e1b13b7a2a5586d69ae686f038"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/16-contact-email-dto-db-length.json",
+        "bytes": 2618,
+        "rawBytesSha256": "88804ca802154bee67a0d90b06c5db0d0621c00d875e2e36b601cabad2cfc1f8"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/16-contact-email-dto-db-length.json",
+        "bytes": 2618,
+        "rawBytesSha256": "88804ca802154bee67a0d90b06c5db0d0621c00d875e2e36b601cabad2cfc1f8"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/17-contact-audit-failure-atomicity.json",
+        "bytes": 3338,
+        "rawBytesSha256": "03341fac26a16c74aa8a333be823f56a3a238277fe9a862b9f0e92a60dcd62f0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/17-contact-audit-failure-atomicity.json",
+        "bytes": 3338,
+        "rawBytesSha256": "03341fac26a16c74aa8a333be823f56a3a238277fe9a862b9f0e92a60dcd62f0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/18-followup-create-reminder.json",
+        "bytes": 5098,
+        "rawBytesSha256": "f67e5bef4aae5776bb1b1bfec44c1343bde6154dd0b5067728d1feb13e8139d2"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/18-followup-create-reminder.json",
+        "bytes": 5098,
+        "rawBytesSha256": "f67e5bef4aae5776bb1b1bfec44c1343bde6154dd0b5067728d1feb13e8139d2"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/19-followup-no-next-completes-old-stream.json",
+        "bytes": 3442,
+        "rawBytesSha256": "0d3df91786f5a6f5e1b866ca2caff0009a680464052ea7245aa9bc758052ecc3"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/19-followup-no-next-completes-old-stream.json",
+        "bytes": 3442,
+        "rawBytesSha256": "0d3df91786f5a6f5e1b866ca2caff0009a680464052ea7245aa9bc758052ecc3"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/20-followup-second-reminder.json",
+        "bytes": 3404,
+        "rawBytesSha256": "24c781e35e9fb627266399bf1d208d87d7bd9e2b9e0bfdd0f6cd400b7913b64e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/20-followup-second-reminder.json",
+        "bytes": 3404,
+        "rawBytesSha256": "24c781e35e9fb627266399bf1d208d87d7bd9e2b9e0bfdd0f6cd400b7913b64e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/21-followup-replace-two-way-fk.json",
+        "bytes": 8979,
+        "rawBytesSha256": "e31a3e381b5297c5d2ffa20c28b66fa9d8a57499a80da71b44c4ad6b0181cf48"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/21-followup-replace-two-way-fk.json",
+        "bytes": 8979,
+        "rawBytesSha256": "e31a3e381b5297c5d2ffa20c28b66fa9d8a57499a80da71b44c4ad6b0181cf48"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/22-followup-postsave-audit-failure.json",
+        "bytes": 5072,
+        "rawBytesSha256": "8e9bae2857af5cedb46823602a809506487ba53f256479d5f3b5082f56a08a4d"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/22-followup-postsave-audit-failure.json",
+        "bytes": 5072,
+        "rawBytesSha256": "8e9bae2857af5cedb46823602a809506487ba53f256479d5f3b5082f56a08a4d"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/23-followup-todo-insert-failure-boundary.json",
+        "bytes": 2151,
+        "rawBytesSha256": "1a35d1da03e291cc14c2ed4218cf9d91c59109c1e5ecec27df9788ee7adb5529"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/23-followup-todo-insert-failure-boundary.json",
+        "bytes": 2151,
+        "rawBytesSha256": "1a35d1da03e291cc14c2ed4218cf9d91c59109c1e5ecec27df9788ee7adb5529"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/24-contacts-inactive-vs-followup-active.json",
+        "bytes": 3311,
+        "rawBytesSha256": "3c0147ee751cf4595ad06f87d02c52651a84ed1e139435db02d6efa201d4fc44"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/24-contacts-inactive-vs-followup-active.json",
+        "bytes": 3311,
+        "rawBytesSha256": "3c0147ee751cf4595ad06f87d02c52651a84ed1e139435db02d6efa201d4fc44"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/report01.json",
+        "bytes": 128552,
+        "rawBytesSha256": "60eed50d11d684cebb317106a6550e5e7630014e4c94b2246872981f28fb9319"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/report01.json",
+        "bytes": 128552,
+        "rawBytesSha256": "60eed50d11d684cebb317106a6550e5e7630014e4c94b2246872981f28fb9319"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-nest/sql-order-safe01.json",
+        "bytes": 159483,
+        "rawBytesSha256": "867ac71a3faa5b4a88c8c3540b7b777269a2207ddcb3c32b9714b2fc338f69ec"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-nest/sql-order-safe01.json",
+        "bytes": 159483,
+        "rawBytesSha256": "867ac71a3faa5b4a88c8c3540b7b777269a2207ddcb3c32b9714b2fc338f69ec"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/01-cost-first.json",
+        "bytes": 3915,
+        "rawBytesSha256": "5cb67c4a232f9ea89bcff52bdbb793de9dfe210801ef30fc3f8e24bb5efb54e8"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/01-cost-first.json",
+        "bytes": 3915,
+        "rawBytesSha256": "5cb67c4a232f9ea89bcff52bdbb793de9dfe210801ef30fc3f8e24bb5efb54e8"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/02-cost-second-version.json",
+        "bytes": 4054,
+        "rawBytesSha256": "ea7158e5776a73531815e4485aaa4ee5214738300aa7c071aed44d5be46d6ef0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/02-cost-second-version.json",
+        "bytes": 4054,
+        "rawBytesSha256": "ea7158e5776a73531815e4485aaa4ee5214738300aa7c071aed44d5be46d6ef0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/03-bid-first.json",
+        "bytes": 3027,
+        "rawBytesSha256": "a5485195e00c7cf2f515422b5aa00b947ae84500873937c302e4de5ad43e9216"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/03-bid-first.json",
+        "bytes": 3027,
+        "rawBytesSha256": "a5485195e00c7cf2f515422b5aa00b947ae84500873937c302e4de5ad43e9216"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/04-bid-second-version.json",
+        "bytes": 3168,
+        "rawBytesSha256": "38cf0c4a1dbd08d2755762c68151507d484ee65b6ed4215388b4975228e66351"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/04-bid-second-version.json",
+        "bytes": 3168,
+        "rawBytesSha256": "38cf0c4a1dbd08d2755762c68151507d484ee65b6ed4215388b4975228e66351"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/05-pricing-first-direct-no-reference.json",
+        "bytes": 6086,
+        "rawBytesSha256": "25e03f73e6bb06715626830f7aaf5f94fa370bfd0c7fdda87c5bf03186198f71"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/05-pricing-first-direct-no-reference.json",
+        "bytes": 6086,
+        "rawBytesSha256": "25e03f73e6bb06715626830f7aaf5f94fa370bfd0c7fdda87c5bf03186198f71"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/06-pricing-second-version.json",
+        "bytes": 4320,
+        "rawBytesSha256": "7fd2ceca38db54e7d4a24175db87003c5bf9ce0673111e1ebf31557b8de3bc57"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/06-pricing-second-version.json",
+        "bytes": 4320,
+        "rawBytesSha256": "7fd2ceca38db54e7d4a24175db87003c5bf9ce0673111e1ebf31557b8de3bc57"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/07-three-workspaces-read-permission-no-sensitive.json",
+        "bytes": 15493,
+        "rawBytesSha256": "4a73af49693b89c26d6986127e6acdc8197401ad440814e9bd8900fb459b7594"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/07-three-workspaces-read-permission-no-sensitive.json",
+        "bytes": 15493,
+        "rawBytesSha256": "4a73af49693b89c26d6986127e6acdc8197401ad440814e9bd8900fb459b7594"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/08-cost-money-number-and-post-get.json",
+        "bytes": 11091,
+        "rawBytesSha256": "b2646235d936f28131de9973c70e7affb5211e8d536e2e2f26827fc1befd9d36"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/08-cost-money-number-and-post-get.json",
+        "bytes": 11091,
+        "rawBytesSha256": "b2646235d936f28131de9973c70e7affb5211e8d536e2e2f26827fc1befd9d36"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/09-cost-large-9007.json",
+        "bytes": 4676,
+        "rawBytesSha256": "ed324e07f0ed7081e5e87e6c6e099bcc0402985bb9f6dcabd8a25c5d1f728c7e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/09-cost-large-9007.json",
+        "bytes": 4676,
+        "rawBytesSha256": "ed324e07f0ed7081e5e87e6c6e099bcc0402985bb9f6dcabd8a25c5d1f728c7e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/10-cost-large-9999.json",
+        "bytes": 2668,
+        "rawBytesSha256": "1db9f447afabadae448c93cd97b95ed31e662f2211247d7220d0e7785796060a"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/10-cost-large-9999.json",
+        "bytes": 2668,
+        "rawBytesSha256": "1db9f447afabadae448c93cd97b95ed31e662f2211247d7220d0e7785796060a"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/11-cost-child-insert-failure.json",
+        "bytes": 2054,
+        "rawBytesSha256": "dad6e40356a2685c26cf521b337633eed7ccb07a753fae28bc84125c420cf287"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/11-cost-child-insert-failure.json",
+        "bytes": 2054,
+        "rawBytesSha256": "dad6e40356a2685c26cf521b337633eed7ccb07a753fae28bc84125c420cf287"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/12-bid-child-insert-failure.json",
+        "bytes": 1352,
+        "rawBytesSha256": "f47790ce390c33e63ff62cf0869210c8b3d317d3ee1cc3fe09360ac4da52b2c6"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/12-bid-child-insert-failure.json",
+        "bytes": 1352,
+        "rawBytesSha256": "f47790ce390c33e63ff62cf0869210c8b3d317d3ee1cc3fe09360ac4da52b2c6"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/13-project_technical_cost_package-concurrent-first.json",
+        "bytes": 4716,
+        "rawBytesSha256": "485fa1deb280bc6fcb69efadb7d96251f09f2aa499d3900b726aa2f095ea4bf3"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/13-project_technical_cost_package-concurrent-first.json",
+        "bytes": 4716,
+        "rawBytesSha256": "485fa1deb280bc6fcb69efadb7d96251f09f2aa499d3900b726aa2f095ea4bf3"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/14-project_bid_commercial_process-concurrent-first.json",
+        "bytes": 4408,
+        "rawBytesSha256": "154f814715f2b61553083234e9b9b4f4c0496fc3163db6a963b6e6e75e996b53"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/14-project_bid_commercial_process-concurrent-first.json",
+        "bytes": 4408,
+        "rawBytesSha256": "154f814715f2b61553083234e9b9b4f4c0496fc3163db6a963b6e6e75e996b53"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/15-contact-gender-controller-drop.json",
+        "bytes": 2715,
+        "rawBytesSha256": "5dd6c2abb06a92ff116d0cf33e841bc31551f01e8a719e6aa3af0134d06949fd"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/15-contact-gender-controller-drop.json",
+        "bytes": 2715,
+        "rawBytesSha256": "5dd6c2abb06a92ff116d0cf33e841bc31551f01e8a719e6aa3af0134d06949fd"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/16-contact-email-dto-db-length.json",
+        "bytes": 2564,
+        "rawBytesSha256": "1b4666bf9ff9d5241ff6fec948c0b8e119560e568ae60a32545c3fe20a32fa16"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/16-contact-email-dto-db-length.json",
+        "bytes": 2564,
+        "rawBytesSha256": "1b4666bf9ff9d5241ff6fec948c0b8e119560e568ae60a32545c3fe20a32fa16"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/17-contact-audit-failure-atomicity.json",
+        "bytes": 3270,
+        "rawBytesSha256": "79a4d372cfa005db1ad6eb1b9337c3f5b2e983fe9e635eae48c24796d3ea2951"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/17-contact-audit-failure-atomicity.json",
+        "bytes": 3270,
+        "rawBytesSha256": "79a4d372cfa005db1ad6eb1b9337c3f5b2e983fe9e635eae48c24796d3ea2951"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/18-followup-create-reminder.json",
+        "bytes": 5029,
+        "rawBytesSha256": "f31e75bace49d3f2d9c0d24f24806af854b2de921960759098657172856275be"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/18-followup-create-reminder.json",
+        "bytes": 5029,
+        "rawBytesSha256": "f31e75bace49d3f2d9c0d24f24806af854b2de921960759098657172856275be"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/19-followup-no-next-completes-old-stream.json",
+        "bytes": 3388,
+        "rawBytesSha256": "e8922eec849a5414881cd14f210ab6fd046e04413658fb6c7a9bd3b9fb7dc930"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/19-followup-no-next-completes-old-stream.json",
+        "bytes": 3388,
+        "rawBytesSha256": "e8922eec849a5414881cd14f210ab6fd046e04413658fb6c7a9bd3b9fb7dc930"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/20-followup-second-reminder.json",
+        "bytes": 3351,
+        "rawBytesSha256": "8aec43bf8a6467fc8ad493a8f27d0fdaf90d823760b7343aead1695f7f0c97a4"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/20-followup-second-reminder.json",
+        "bytes": 3351,
+        "rawBytesSha256": "8aec43bf8a6467fc8ad493a8f27d0fdaf90d823760b7343aead1695f7f0c97a4"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/21-followup-replace-two-way-fk.json",
+        "bytes": 8909,
+        "rawBytesSha256": "58ab6c4e4e112b2a4eb7c1b0b2c78844f779991e26b31d5b616623593a6dc829"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/21-followup-replace-two-way-fk.json",
+        "bytes": 8909,
+        "rawBytesSha256": "58ab6c4e4e112b2a4eb7c1b0b2c78844f779991e26b31d5b616623593a6dc829"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/22-followup-postsave-audit-failure.json",
+        "bytes": 5000,
+        "rawBytesSha256": "6d046ee1ef7cb8130ec34430663af3527d42895d21a6838a761e25c023ebf854"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/22-followup-postsave-audit-failure.json",
+        "bytes": 5000,
+        "rawBytesSha256": "6d046ee1ef7cb8130ec34430663af3527d42895d21a6838a761e25c023ebf854"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/23-followup-todo-insert-failure-boundary.json",
+        "bytes": 2083,
+        "rawBytesSha256": "6eaa9a7484a868260a64b32a882aa352b44956bb172b5ec3a6551ebee8bab8dc"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/23-followup-todo-insert-failure-boundary.json",
+        "bytes": 2083,
+        "rawBytesSha256": "6eaa9a7484a868260a64b32a882aa352b44956bb172b5ec3a6551ebee8bab8dc"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/24-contacts-inactive-vs-followup-active.json",
+        "bytes": 3202,
+        "rawBytesSha256": "1ece549a44f394b83fae9718e3cf5dbe5b7c449141bbf68196bdd4a4374087ec"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/24-contacts-inactive-vs-followup-active.json",
+        "bytes": 3202,
+        "rawBytesSha256": "1ece549a44f394b83fae9718e3cf5dbe5b7c449141bbf68196bdd4a4374087ec"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/report01.json",
+        "bytes": 126517,
+        "rawBytesSha256": "5177cd33f1226fe01876ddca8405748aa7ad38de51b6f1b93799e8aaa3a153a5"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/report01.json",
+        "bytes": 126517,
+        "rawBytesSha256": "5177cd33f1226fe01876ddca8405748aa7ad38de51b6f1b93799e8aaa3a153a5"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors01-rust/sql-order-safe01.json",
+        "bytes": 203953,
+        "rawBytesSha256": "c20f91a30869f600049da7c5f8745f77b900bd9feb9b16815a1c017c49ebe2d8"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors01-rust/sql-order-safe01.json",
+        "bytes": 203953,
+        "rawBytesSha256": "c20f91a30869f600049da7c5f8745f77b900bd9feb9b16815a1c017c49ebe2d8"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/01-cost-first.json",
+        "bytes": 3915,
+        "rawBytesSha256": "934ec17f9ce3dc2b5d2b9f5c8d32396b220d736033ea974acbaf172ba668bab0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/01-cost-first.json",
+        "bytes": 3915,
+        "rawBytesSha256": "934ec17f9ce3dc2b5d2b9f5c8d32396b220d736033ea974acbaf172ba668bab0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/02-cost-second-version.json",
+        "bytes": 4054,
+        "rawBytesSha256": "e8818aab3c3a5825858573a8e06aa1368bb9bce0341c4b35216ca2f5377dcd6c"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/02-cost-second-version.json",
+        "bytes": 4054,
+        "rawBytesSha256": "e8818aab3c3a5825858573a8e06aa1368bb9bce0341c4b35216ca2f5377dcd6c"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/03-bid-first.json",
+        "bytes": 3027,
+        "rawBytesSha256": "233edad59da8336511792156328a053bfbe8728aa0246dbca6bc9e1c3d8bdbb6"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/03-bid-first.json",
+        "bytes": 3027,
+        "rawBytesSha256": "233edad59da8336511792156328a053bfbe8728aa0246dbca6bc9e1c3d8bdbb6"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/04-bid-second-version.json",
+        "bytes": 3168,
+        "rawBytesSha256": "ee7e91c5d1b5f3172023787b3dc05e6b3514bf9e01c7a7038dd657abaae752cc"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/04-bid-second-version.json",
+        "bytes": 3168,
+        "rawBytesSha256": "ee7e91c5d1b5f3172023787b3dc05e6b3514bf9e01c7a7038dd657abaae752cc"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/05-pricing-first-direct-no-reference.json",
+        "bytes": 6086,
+        "rawBytesSha256": "5c338862d06078c84cc2bd0db2a154a13bff00a3e5a0820f8a4772f942e16ebe"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/05-pricing-first-direct-no-reference.json",
+        "bytes": 6086,
+        "rawBytesSha256": "5c338862d06078c84cc2bd0db2a154a13bff00a3e5a0820f8a4772f942e16ebe"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/06-pricing-second-version.json",
+        "bytes": 4320,
+        "rawBytesSha256": "8e273479bf6803e9a5931107de456121e8cbdb95ae476edc4c367667c2d350ba"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/06-pricing-second-version.json",
+        "bytes": 4320,
+        "rawBytesSha256": "8e273479bf6803e9a5931107de456121e8cbdb95ae476edc4c367667c2d350ba"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/07-three-workspaces-read-permission-no-sensitive.json",
+        "bytes": 15493,
+        "rawBytesSha256": "19544697d46cbf97f3c3f324ca85b6d08b9fade34e9d9deb47d4bb37f1e5b975"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/07-three-workspaces-read-permission-no-sensitive.json",
+        "bytes": 15493,
+        "rawBytesSha256": "19544697d46cbf97f3c3f324ca85b6d08b9fade34e9d9deb47d4bb37f1e5b975"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/08-cost-money-number-and-post-get.json",
+        "bytes": 11094,
+        "rawBytesSha256": "1223edfb1061b031362c9902f1dbbc95ff81ce1f20fdb4d8cd2d489f62987dd7"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/08-cost-money-number-and-post-get.json",
+        "bytes": 11094,
+        "rawBytesSha256": "1223edfb1061b031362c9902f1dbbc95ff81ce1f20fdb4d8cd2d489f62987dd7"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/09-cost-large-9007.json",
+        "bytes": 4676,
+        "rawBytesSha256": "89a7295930a9a8ba0cfd691f72b4b8f82b4e282290ef7d4984425a9fa69f3cfe"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/09-cost-large-9007.json",
+        "bytes": 4676,
+        "rawBytesSha256": "89a7295930a9a8ba0cfd691f72b4b8f82b4e282290ef7d4984425a9fa69f3cfe"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/10-cost-large-9999.json",
+        "bytes": 2668,
+        "rawBytesSha256": "c9443313bc3a6a4039efc69d413c3cfba532204192b1adc11e97c4162fbb6abc"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/10-cost-large-9999.json",
+        "bytes": 2668,
+        "rawBytesSha256": "c9443313bc3a6a4039efc69d413c3cfba532204192b1adc11e97c4162fbb6abc"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/11-cost-child-insert-failure.json",
+        "bytes": 2054,
+        "rawBytesSha256": "bb4bc5318a2e6ddaffb9f360d18c9e9bd1767d292a07e8c69b291d8e7e9b73be"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/11-cost-child-insert-failure.json",
+        "bytes": 2054,
+        "rawBytesSha256": "bb4bc5318a2e6ddaffb9f360d18c9e9bd1767d292a07e8c69b291d8e7e9b73be"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/12-bid-child-insert-failure.json",
+        "bytes": 1352,
+        "rawBytesSha256": "5ae929e9d11c1eaae5b5b6f65652a084fab612db8410054a9071316b0af1353f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/12-bid-child-insert-failure.json",
+        "bytes": 1352,
+        "rawBytesSha256": "5ae929e9d11c1eaae5b5b6f65652a084fab612db8410054a9071316b0af1353f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/13-project_technical_cost_package-concurrent-first.json",
+        "bytes": 4716,
+        "rawBytesSha256": "32d5514d76746b4a7df2219ea2df45c949324834dbe6c72b73da1697d10e0e01"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/13-project_technical_cost_package-concurrent-first.json",
+        "bytes": 4716,
+        "rawBytesSha256": "32d5514d76746b4a7df2219ea2df45c949324834dbe6c72b73da1697d10e0e01"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/14-project_bid_commercial_process-concurrent-first.json",
+        "bytes": 4405,
+        "rawBytesSha256": "d0f0e50ae67b2a007a015a2f2fbd505632351412a82a92cf42289dcc987ccc2e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/14-project_bid_commercial_process-concurrent-first.json",
+        "bytes": 4405,
+        "rawBytesSha256": "d0f0e50ae67b2a007a015a2f2fbd505632351412a82a92cf42289dcc987ccc2e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/15-contact-gender-controller-drop.json",
+        "bytes": 2715,
+        "rawBytesSha256": "b0cd7ac5efad7134fc47301dc21c5ea2c54a9470c20dde7a0676b3cc5d084131"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/15-contact-gender-controller-drop.json",
+        "bytes": 2715,
+        "rawBytesSha256": "b0cd7ac5efad7134fc47301dc21c5ea2c54a9470c20dde7a0676b3cc5d084131"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/16-contact-email-dto-db-length.json",
+        "bytes": 2564,
+        "rawBytesSha256": "7f0ed6bb2b18be99eb0a4197f3e982b2ffa42c149d8e69f480fd776efe658b3f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/16-contact-email-dto-db-length.json",
+        "bytes": 2564,
+        "rawBytesSha256": "7f0ed6bb2b18be99eb0a4197f3e982b2ffa42c149d8e69f480fd776efe658b3f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/17-contact-audit-failure-atomicity.json",
+        "bytes": 3270,
+        "rawBytesSha256": "e0f7e7e36eb0c4951fae68215ea9ea9c4dc78b2004e0c81e72548bca4af2a579"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/17-contact-audit-failure-atomicity.json",
+        "bytes": 3270,
+        "rawBytesSha256": "e0f7e7e36eb0c4951fae68215ea9ea9c4dc78b2004e0c81e72548bca4af2a579"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/18-followup-create-reminder.json",
+        "bytes": 5029,
+        "rawBytesSha256": "ed8211478cb39759a0cd54fea1913cf489d91a0b0a5c6f61515a009bfb5029f0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/18-followup-create-reminder.json",
+        "bytes": 5029,
+        "rawBytesSha256": "ed8211478cb39759a0cd54fea1913cf489d91a0b0a5c6f61515a009bfb5029f0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/19-followup-no-next-completes-old-stream.json",
+        "bytes": 3388,
+        "rawBytesSha256": "12fc64f9cf28063c529b16ff191c9a1f06eec836353f43e44a95b980582e86f2"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/19-followup-no-next-completes-old-stream.json",
+        "bytes": 3388,
+        "rawBytesSha256": "12fc64f9cf28063c529b16ff191c9a1f06eec836353f43e44a95b980582e86f2"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/20-followup-second-reminder.json",
+        "bytes": 3351,
+        "rawBytesSha256": "af1907c075d00aa390c8cd5a2aa763d5453e58f1cb15540e2bcb8027b13a7e15"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/20-followup-second-reminder.json",
+        "bytes": 3351,
+        "rawBytesSha256": "af1907c075d00aa390c8cd5a2aa763d5453e58f1cb15540e2bcb8027b13a7e15"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/21-followup-replace-two-way-fk.json",
+        "bytes": 8913,
+        "rawBytesSha256": "e6dc1a448d34369c02d9986f5eebc8699c9ad0714966b7cdbdca8579df7fb053"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/21-followup-replace-two-way-fk.json",
+        "bytes": 8913,
+        "rawBytesSha256": "e6dc1a448d34369c02d9986f5eebc8699c9ad0714966b7cdbdca8579df7fb053"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/22-followup-postsave-audit-failure.json",
+        "bytes": 5005,
+        "rawBytesSha256": "d571f641367851cd54e8eee36f5b807e7b2a72def09722fde4b81143ef137490"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/22-followup-postsave-audit-failure.json",
+        "bytes": 5005,
+        "rawBytesSha256": "d571f641367851cd54e8eee36f5b807e7b2a72def09722fde4b81143ef137490"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/23-followup-todo-insert-failure-boundary.json",
+        "bytes": 2083,
+        "rawBytesSha256": "64eda14071b2a2c86df55d19db5d209eed27523bc4b27d22d37920aff63450d4"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/23-followup-todo-insert-failure-boundary.json",
+        "bytes": 2083,
+        "rawBytesSha256": "64eda14071b2a2c86df55d19db5d209eed27523bc4b27d22d37920aff63450d4"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/24-contacts-inactive-vs-followup-active.json",
+        "bytes": 3202,
+        "rawBytesSha256": "2db836b46132d76effe50ca509f2367e46d85a9f2c8ebdb9034ecfc565621897"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/24-contacts-inactive-vs-followup-active.json",
+        "bytes": 3202,
+        "rawBytesSha256": "2db836b46132d76effe50ca509f2367e46d85a9f2c8ebdb9034ecfc565621897"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/report01.json",
+        "bytes": 126526,
+        "rawBytesSha256": "eff5d51a3019db2ab880d75d6345fc7cd303689e5e88a56cf88890dc4e6d72ed"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/report01.json",
+        "bytes": 126526,
+        "rawBytesSha256": "eff5d51a3019db2ab880d75d6345fc7cd303689e5e88a56cf88890dc4e6d72ed"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-raw-errors02-rust/sql-order-safe01.json",
+        "bytes": 120910,
+        "rawBytesSha256": "bd0fe7f202b101dc48ba11e13c62b55d2b20f3f72e01d88bdc8cc3489f16a827"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-raw-errors02-rust/sql-order-safe01.json",
+        "bytes": 120910,
+        "rawBytesSha256": "bd0fe7f202b101dc48ba11e13c62b55d2b20f3f72e01d88bdc8cc3489f16a827"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/01-extra-cost-list-pending-session.json",
+        "bytes": 3017,
+        "rawBytesSha256": "e00fef855310a3d8992d706c6a2d6c5abc53bb9daa6898fcaee953bfc5e356b0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/01-extra-cost-list-pending-session.json",
+        "bytes": 3017,
+        "rawBytesSha256": "e00fef855310a3d8992d706c6a2d6c5abc53bb9daa6898fcaee953bfc5e356b0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/02-extra-cost-workspace-pending-session.json",
+        "bytes": 5080,
+        "rawBytesSha256": "c88859b69588068aa60c95ea983cbe2781f809da3ee95d14800a54b126b7b77e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/02-extra-cost-workspace-pending-session.json",
+        "bytes": 5080,
+        "rawBytesSha256": "c88859b69588068aa60c95ea983cbe2781f809da3ee95d14800a54b126b7b77e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/03-extra-bid-list-pending-session.json",
+        "bytes": 2922,
+        "rawBytesSha256": "cae596e1fa816a9223e1ca4008f5d9c8ca66cee0e4fa51ee8ec8b7e07cb30872"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/03-extra-bid-list-pending-session.json",
+        "bytes": 2922,
+        "rawBytesSha256": "cae596e1fa816a9223e1ca4008f5d9c8ca66cee0e4fa51ee8ec8b7e07cb30872"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/04-extra-bid-workspace-pending-session.json",
+        "bytes": 5445,
+        "rawBytesSha256": "e60b9d0246c92d86b906a15371b557c70fa5699c6cace0b762d2cbff7aa9b1f7"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/04-extra-bid-workspace-pending-session.json",
+        "bytes": 5445,
+        "rawBytesSha256": "e60b9d0246c92d86b906a15371b557c70fa5699c6cace0b762d2cbff7aa9b1f7"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/05-extra-pricing-list-pending-session.json",
+        "bytes": 3529,
+        "rawBytesSha256": "2bc9c3075f0d8247f200ad612697aeac3f82128f9ff9e380853b6134bbfc0dc6"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/05-extra-pricing-list-pending-session.json",
+        "bytes": 3529,
+        "rawBytesSha256": "2bc9c3075f0d8247f200ad612697aeac3f82128f9ff9e380853b6134bbfc0dc6"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/06-extra-pricing-workspace-pending-session.json",
+        "bytes": 5826,
+        "rawBytesSha256": "d0bcf9b0d0f2a76a1e3ef1b9785160163466d0bef686ac6531f260aacb2cc435"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/06-extra-pricing-workspace-pending-session.json",
+        "bytes": 5826,
+        "rawBytesSha256": "d0bcf9b0d0f2a76a1e3ef1b9785160163466d0bef686ac6531f260aacb2cc435"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/07-extra-contact-list-pending-session.json",
+        "bytes": 2701,
+        "rawBytesSha256": "23e8d1c8395a2d65ee3e07d6e7c27b6c27bf85707c95db1286c98ffa784d0c76"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/07-extra-contact-list-pending-session.json",
+        "bytes": 2701,
+        "rawBytesSha256": "23e8d1c8395a2d65ee3e07d6e7c27b6c27bf85707c95db1286c98ffa784d0c76"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/08-extra-followup-list-pending-session.json",
+        "bytes": 5876,
+        "rawBytesSha256": "3d6e0cf04d9fa2b62f2ff205fd51799a4df604c16dee51086e5645780ef10aa9"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/08-extra-followup-list-pending-session.json",
+        "bytes": 5876,
+        "rawBytesSha256": "3d6e0cf04d9fa2b62f2ff205fd51799a4df604c16dee51086e5645780ef10aa9"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/09-extra-pricing-cost-uppercase-reference.json",
+        "bytes": 1646,
+        "rawBytesSha256": "9e7340b0778d553d6c29452df06e17661b247c58d5833d126e94a5d3be2227f6"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/09-extra-pricing-cost-uppercase-reference.json",
+        "bytes": 1646,
+        "rawBytesSha256": "9e7340b0778d553d6c29452df06e17661b247c58d5833d126e94a5d3be2227f6"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/10-extra-pricing-bid-uppercase-reference.json",
+        "bytes": 1645,
+        "rawBytesSha256": "639c749a11f189ad7d7eaaf79fca6e66c1163d067a386fdcbfdde976a87c0b1c"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/10-extra-pricing-bid-uppercase-reference.json",
+        "bytes": 1645,
+        "rawBytesSha256": "639c749a11f189ad7d7eaaf79fca6e66c1163d067a386fdcbfdde976a87c0b1c"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/11-extra-direct-pricing-bypasses-lost-bid-no-reference.json",
+        "bytes": 8138,
+        "rawBytesSha256": "500b1b1070b4185247ed0f5f5ccb3fc07a7119983900ab82e6c416ea99a11164"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/11-extra-direct-pricing-bypasses-lost-bid-no-reference.json",
+        "bytes": 8138,
+        "rawBytesSha256": "500b1b1070b4185247ed0f5f5ccb3fc07a7119983900ab82e6c416ea99a11164"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/12-extra-contact-update-denial-rolls-back-prior-audit.json",
+        "bytes": 2595,
+        "rawBytesSha256": "e2cb2699140cc32eb6df52949848a40895fe53560796e5ce74a4233fdd588e16"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/12-extra-contact-update-denial-rolls-back-prior-audit.json",
+        "bytes": 2595,
+        "rawBytesSha256": "e2cb2699140cc32eb6df52949848a40895fe53560796e5ce74a4233fdd588e16"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/13-extra-followup-insert-denial-rolls-back-prior-todo.json",
+        "bytes": 1403,
+        "rawBytesSha256": "59898ffb4670e8624daed0cb9c737184e6d248e2d8986422948c57b8a1cf930b"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/13-extra-followup-insert-denial-rolls-back-prior-todo.json",
+        "bytes": 1403,
+        "rawBytesSha256": "59898ffb4670e8624daed0cb9c737184e6d248e2d8986422948c57b8a1cf930b"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/14-extra-followup-replace-same-owner-no-next.json",
+        "bytes": 6452,
+        "rawBytesSha256": "c4b3196baf64e69625586fa2b88dc840ee112a022f1bffd60da8a319d6b3f436"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/14-extra-followup-replace-same-owner-no-next.json",
+        "bytes": 6452,
+        "rawBytesSha256": "c4b3196baf64e69625586fa2b88dc840ee112a022f1bffd60da8a319d6b3f436"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/15-extra-followup-replace-different-owner.json",
+        "bytes": 7330,
+        "rawBytesSha256": "6293122b388f4074db2b51d9dad86d9a791fddf4687e81a2c0384885218f74e0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/15-extra-followup-replace-different-owner.json",
+        "bytes": 7330,
+        "rawBytesSha256": "6293122b388f4074db2b51d9dad86d9a791fddf4687e81a2c0384885218f74e0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/16-extra-followup-replace-null-owner.json",
+        "bytes": 6310,
+        "rawBytesSha256": "19ef5a8bf96d216a54b4593dbc1a18ea59a7b823398c3874698fa4c6b4cac9a4"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/16-extra-followup-replace-null-owner.json",
+        "bytes": 6310,
+        "rawBytesSha256": "19ef5a8bf96d216a54b4593dbc1a18ea59a7b823398c3874698fa4c6b4cac9a4"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/17-extra-null-owner-create-leaves-old-stream-open.json",
+        "bytes": 3330,
+        "rawBytesSha256": "209a85c1cf3be54ddae3cf271b9d9139ecb3be2af7d5c3a0632d6ff76f4ba8a0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/17-extra-null-owner-create-leaves-old-stream-open.json",
+        "bytes": 3330,
+        "rawBytesSha256": "209a85c1cf3be54ddae3cf271b9d9139ecb3be2af7d5c3a0632d6ff76f4ba8a0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/18-extra-followup-replace-postsave-audit-failure.json",
+        "bytes": 6293,
+        "rawBytesSha256": "846fbe788f013490f5f040fc6bfe58f74382564c94ec34c952c2d7596517507b"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/18-extra-followup-replace-postsave-audit-failure.json",
+        "bytes": 6293,
+        "rawBytesSha256": "846fbe788f013490f5f040fc6bfe58f74382564c94ec34c952c2d7596517507b"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/19-extra-followup-dictionary33-varchar32.json",
+        "bytes": 3068,
+        "rawBytesSha256": "a225774ef2c7356bd5c3475a015ee92acaec82271e4d6a89565753321fb760df"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/19-extra-followup-dictionary33-varchar32.json",
+        "bytes": 3068,
+        "rawBytesSha256": "a225774ef2c7356bd5c3475a015ee92acaec82271e4d6a89565753321fb760df"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/20-extra-contact-two-readers-CAS.json",
+        "bytes": 5349,
+        "rawBytesSha256": "e1a9138179b00a5c39290bcc2e1bd907118b8544f8ba1c66009f7e9026d4be4b"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/20-extra-contact-two-readers-CAS.json",
+        "bytes": 5349,
+        "rawBytesSha256": "e1a9138179b00a5c39290bcc2e1bd907118b8544f8ba1c66009f7e9026d4be4b"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/21-extra-followup-replace-two-readers-CAS.json",
+        "bytes": 8763,
+        "rawBytesSha256": "2ab180b500402619279eceb178f132911f4b3e90b15d2313819464fffd7acf22"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/21-extra-followup-replace-two-readers-CAS.json",
+        "bytes": 8763,
+        "rawBytesSha256": "2ab180b500402619279eceb178f132911f4b3e90b15d2313819464fffd7acf22"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/semantics-extra-raw-errors02-rust/report01.json",
+        "bytes": 110219,
+        "rawBytesSha256": "a820abf4db597853533eef03692a0e5b7a289e9145f2ed3f2eb7d366cc0a0df7"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/semantics-extra-raw-errors02-rust/report01.json",
+        "bytes": 110219,
+        "rawBytesSha256": "a820abf4db597853533eef03692a0e5b7a289e9145f2ed3f2eb7d366cc0a0df7"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/coverage-raw-errors02-rust/report01.json",
+        "bytes": 3952041,
+        "rawBytesSha256": "ef60d165df9356e5caeb5e4911c1001e5564cd3353e02235dd206b8d90c61612"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+        "bytes": 3952041,
+        "rawBytesSha256": "ef60d165df9356e5caeb5e4911c1001e5564cd3353e02235dd206b8d90c61612"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/edges-raw-errors02-rust-01/SQL-authority01.json",
+        "bytes": 630019,
+        "rawBytesSha256": "e799340cf6b7dcf393ed7aa0d103e6c6b76b7f3b6de252f6caaf20fda2fa6d15"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/edges-raw-errors02-rust-01/SQL-authority01.json",
+        "bytes": 630019,
+        "rawBytesSha256": "e799340cf6b7dcf393ed7aa0d103e6c6b76b7f3b6de252f6caaf20fda2fa6d15"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/edges-raw-errors02-rust-01/report01.json",
+        "bytes": 949876,
+        "rawBytesSha256": "d4fc95eb73f3916c0d99620fe8c98f235c43e076f72102537730bf19351e527f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/edges-raw-errors02-rust-01/report01.json",
+        "bytes": 949876,
+        "rawBytesSha256": "d4fc95eb73f3916c0d99620fe8c98f235c43e076f72102537730bf19351e527f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/boundaries-raw-errors02-rust-05/SQL-authority01.json",
+        "bytes": 428259,
+        "rawBytesSha256": "2f32177d8e66cfe022048ba3d79d66e4c62c39bfedff3fea48415980d1df0442"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/SQL-authority01.json",
+        "bytes": 428259,
+        "rawBytesSha256": "2f32177d8e66cfe022048ba3d79d66e4c62c39bfedff3fea48415980d1df0442"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/boundaries-raw-errors02-rust-05/report01.json",
+        "bytes": 422623,
+        "rawBytesSha256": "f8d42878ce5d66f761aae40b6362a9b760d9ebd3bbda77c7743e7ec6ca91d50f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+        "bytes": 422623,
+        "rawBytesSha256": "f8d42878ce5d66f761aae40b6362a9b760d9ebd3bbda77c7743e7ec6ca91d50f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/business-raw-errors02-rust-01/SQL-authority01.json",
+        "bytes": 1038006,
+        "rawBytesSha256": "f2e4960ba965c0d892420bdf91448f51954fd2dd821d18ec2e96ef67157e830f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/business-raw-errors02-rust-01/SQL-authority01.json",
+        "bytes": 1038006,
+        "rawBytesSha256": "f2e4960ba965c0d892420bdf91448f51954fd2dd821d18ec2e96ef67157e830f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/business-raw-errors02-rust-01/report01.json",
+        "bytes": 1301584,
+        "rawBytesSha256": "ad0fa184b6eccea8f68d3a35cf77f640b8c9aac4d6955044f4c768cea0a75724"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/business-raw-errors02-rust-01/report01.json",
+        "bytes": 1301584,
+        "rawBytesSha256": "ad0fa184b6eccea8f68d3a35cf77f640b8c9aac4d6955044f4c768cea0a75724"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/temporal-raw-errors02-rust-01/report01.json",
+        "bytes": 357724,
+        "rawBytesSha256": "5e4a5722f869da306110267c2f7280ee93a4db3a151ee3c9aaba83a67fc0338a"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/temporal-raw-errors02-rust-01/report01.json",
+        "bytes": 357724,
+        "rawBytesSha256": "5e4a5722f869da306110267c2f7280ee93a4db3a151ee3c9aaba83a67fc0338a"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/raw-errors-raw-errors01-nest-01/report01.json",
+        "bytes": 55334,
+        "rawBytesSha256": "fb35903d300f74750086ca541d4af860f80d9dbad5df7e5857882c6e5792637b"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/raw-errors-raw-errors01-nest-01/report01.json",
+        "bytes": 55334,
+        "rawBytesSha256": "fb35903d300f74750086ca541d4af860f80d9dbad5df7e5857882c6e5792637b"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/raw-errors-raw-errors01-rust-01/report01.json",
+        "bytes": 54454,
+        "rawBytesSha256": "4473b470b2f969229d310d2f882317e5b7bf09b46719bb8bf2643698a79ee8af"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/raw-errors-raw-errors01-rust-01/report01.json",
+        "bytes": 54454,
+        "rawBytesSha256": "4473b470b2f969229d310d2f882317e5b7bf09b46719bb8bf2643698a79ee8af"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/raw-errors-raw-errors02-rust-01/report01.json",
+        "bytes": 54491,
+        "rawBytesSha256": "7dc13410a76b09523c5f9b2d62a0fbc6ef31aca3b4c2c0890cfd59c20854733d"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/raw-errors-raw-errors02-rust-01/report01.json",
+        "bytes": 54491,
+        "rawBytesSha256": "7dc13410a76b09523c5f9b2d62a0fbc6ef31aca3b4c2c0890cfd59c20854733d"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/observer-raw-errors02-rust-02/SQL-authority01.json",
+        "bytes": 467863,
+        "rawBytesSha256": "4f3cadb522a1d3d7aa0fb9489c83a623eeed9cfccb0611385970fba0070e711f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/observer-raw-errors02-rust-02/SQL-authority01.json",
+        "bytes": 467863,
+        "rawBytesSha256": "4f3cadb522a1d3d7aa0fb9489c83a623eeed9cfccb0611385970fba0070e711f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/observer-raw-errors02-rust-02/exact-numeric-and-side-effects01.json",
+        "bytes": 137658,
+        "rawBytesSha256": "c3bf03144a5ef131b836a6999180490296b2569a97ef58d4698bb620b712b35d"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/observer-raw-errors02-rust-02/exact-numeric-and-side-effects01.json",
+        "bytes": 137658,
+        "rawBytesSha256": "c3bf03144a5ef131b836a6999180490296b2569a97ef58d4698bb620b712b35d"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/boundaries.log",
+        "bytes": 188,
+        "rawBytesSha256": "46731d9767ea92681ae7e10fedf24969f3072d7e4566a362379bbfd79bc30d8a"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/boundaries.log",
+        "bytes": 188,
+        "rawBytesSha256": "46731d9767ea92681ae7e10fedf24969f3072d7e4566a362379bbfd79bc30d8a"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/business-run.log",
+        "bytes": 204,
+        "rawBytesSha256": "f2bdc166afa415424bfdb02143cd080d60cc116a7625692f83330b94327ca9b4"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/business-run.log",
+        "bytes": 204,
+        "rawBytesSha256": "f2bdc166afa415424bfdb02143cd080d60cc116a7625692f83330b94327ca9b4"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/consume-targets.log",
+        "bytes": 167,
+        "rawBytesSha256": "4fa500c0d31cd4a728b36848b5f21d94db4242bcedb46b4ed8071e5cb7d83ef5"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/consume-targets.log",
+        "bytes": 167,
+        "rawBytesSha256": "4fa500c0d31cd4a728b36848b5f21d94db4242bcedb46b4ed8071e5cb7d83ef5"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/coverage.log",
+        "bytes": 156,
+        "rawBytesSha256": "67aa06d4ff8ee6dc372cb1f65b2bc2e6727e7e8acc0080eacebde5dd47b33ae4"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/coverage.log",
+        "bytes": 156,
+        "rawBytesSha256": "67aa06d4ff8ee6dc372cb1f65b2bc2e6727e7e8acc0080eacebde5dd47b33ae4"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/edge-run.log",
+        "bytes": 201,
+        "rawBytesSha256": "2de95cb9107ea602f2b5238b51248a36cce5cedb39b91073957a1cf621392e66"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/edge-run.log",
+        "bytes": 201,
+        "rawBytesSha256": "2de95cb9107ea602f2b5238b51248a36cce5cedb39b91073957a1cf621392e66"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/extract-additional-sql.log",
+        "bytes": 150,
+        "rawBytesSha256": "892c903b1425157d686dac404bd51c31e1b91863290c569ebe25933aaf65be94"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/extract-additional-sql.log",
+        "bytes": 150,
+        "rawBytesSha256": "892c903b1425157d686dac404bd51c31e1b91863290c569ebe25933aaf65be94"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/observe-actual.log",
+        "bytes": 203,
+        "rawBytesSha256": "26b4ab75c1d352ff114483e61c7bfd1f270fdef6433d14fe76be92f41c9cc173"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/observe-actual.log",
+        "bytes": 203,
+        "rawBytesSha256": "26b4ab75c1d352ff114483e61c7bfd1f270fdef6433d14fe76be92f41c9cc173"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/raw-errors.log",
+        "bytes": 171,
+        "rawBytesSha256": "5af62153b7df130e019f304b11b5cef3bff11975f18a23691955def9249a003f"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/raw-errors.log",
+        "bytes": 171,
+        "rawBytesSha256": "5af62153b7df130e019f304b11b5cef3bff11975f18a23691955def9249a003f"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/report01.json",
+        "bytes": 6772,
+        "rawBytesSha256": "baef6b9751f754306233008d2ab914860e0774f30e0549e7eb11739c2bffe7ad"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/report01.json",
+        "bytes": 6772,
+        "rawBytesSha256": "baef6b9751f754306233008d2ab914860e0774f30e0549e7eb11739c2bffe7ad"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/routing-probe.log",
+        "bytes": 2326,
+        "rawBytesSha256": "b5af57e8acf931b116fbf360cb02a184c05008b528bee87e0fc74a11fba725b9"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/routing-probe.log",
+        "bytes": 2326,
+        "rawBytesSha256": "b5af57e8acf931b116fbf360cb02a184c05008b528bee87e0fc74a11fba725b9"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/semantics-extra02.log",
+        "bytes": 218,
+        "rawBytesSha256": "4626bbfe9cbc77ad31caa3dc42180340c3b3deca3a4473a3088d7d8a287e2265"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/semantics-extra02.log",
+        "bytes": 218,
+        "rawBytesSha256": "4626bbfe9cbc77ad31caa3dc42180340c3b3deca3a4473a3088d7d8a287e2265"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/semantics01.log",
+        "bytes": 212,
+        "rawBytesSha256": "d49479abef1f746b98b0d1249df19e8b27163518b9ea8a1b1462b35210f9c744"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/semantics01.log",
+        "bytes": 212,
+        "rawBytesSha256": "d49479abef1f746b98b0d1249df19e8b27163518b9ea8a1b1462b35210f9c744"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/temporal.log",
+        "bytes": 174,
+        "rawBytesSha256": "7639dfc60611382cebbad74f2d9656f3e9f000d1262fe62dadcaf6bd15f9b6b2"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-raw-errors02/temporal.log",
+        "bytes": 174,
+        "rawBytesSha256": "7639dfc60611382cebbad74f2d9656f3e9f000d1262fe62dadcaf6bd15f9b6b2"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/01-extract-additional-sql.log",
+        "bytes": 155,
+        "rawBytesSha256": "26954aa5289b32442381a69720355587d58170d5e070dcec35f7f3fee8388687"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/01-extract-additional-sql.log",
+        "bytes": 155,
+        "rawBytesSha256": "26954aa5289b32442381a69720355587d58170d5e070dcec35f7f3fee8388687"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/02-extract-additional-sql.log",
+        "bytes": 159,
+        "rawBytesSha256": "3c8792363867c6632f7ccb045d2b4fd2807b57d657e243d1f5ef7546e5a5b3e7"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/02-extract-additional-sql.log",
+        "bytes": 159,
+        "rawBytesSha256": "3c8792363867c6632f7ccb045d2b4fd2807b57d657e243d1f5ef7546e5a5b3e7"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/03-compare-coverage.log",
+        "bytes": 105,
+        "rawBytesSha256": "bc422614df6b703ab86773411b9c88c78d8acf099840634e46e7f3afe4dede35"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/03-compare-coverage.log",
+        "bytes": 105,
+        "rawBytesSha256": "bc422614df6b703ab86773411b9c88c78d8acf099840634e46e7f3afe4dede35"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/04-compare-events.log",
+        "bytes": 129,
+        "rawBytesSha256": "07a335ede4a222e5506103af635fbfdb2f9a42778b70422a9fe3b9ede0647041"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/04-compare-events.log",
+        "bytes": 129,
+        "rawBytesSha256": "07a335ede4a222e5506103af635fbfdb2f9a42778b70422a9fe3b9ede0647041"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/05-compare-events.log",
+        "bytes": 135,
+        "rawBytesSha256": "f72efab1e95c2660bd39146c1cb5845b6d598b9dafd57068a262751d474dd922"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/05-compare-events.log",
+        "bytes": 135,
+        "rawBytesSha256": "f72efab1e95c2660bd39146c1cb5845b6d598b9dafd57068a262751d474dd922"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/06-compare-events.log",
+        "bytes": 139,
+        "rawBytesSha256": "761ce464372de632d7fb17db2dc3831850b68aacdf0700b2cc7b52b103b99b41"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/06-compare-events.log",
+        "bytes": 139,
+        "rawBytesSha256": "761ce464372de632d7fb17db2dc3831850b68aacdf0700b2cc7b52b103b99b41"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/07-compare-events.log",
+        "bytes": 134,
+        "rawBytesSha256": "e1b173753194527a22961ca0b4878ffa06e7a142c02cb8ef956d5e1969b8d9a6"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/07-compare-events.log",
+        "bytes": 134,
+        "rawBytesSha256": "e1b173753194527a22961ca0b4878ffa06e7a142c02cb8ef956d5e1969b8d9a6"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/08-compare-raw-errors.log",
+        "bytes": 102,
+        "rawBytesSha256": "ccead47681d4f2ca6f4a8d31d4ac64a2f0b4c1e566159ce4bebe45a80f62d57a"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/08-compare-raw-errors.log",
+        "bytes": 102,
+        "rawBytesSha256": "ccead47681d4f2ca6f4a8d31d4ac64a2f0b4c1e566159ce4bebe45a80f62d57a"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/report01.json",
+        "bytes": 4769,
+        "rawBytesSha256": "397b649575299f4a640a2700b3cb0ee1f1635bd3278c57e482af0105fd01a523"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/current-reacceptance-resume-raw-errors02/report01.json",
+        "bytes": 4769,
+        "rawBytesSha256": "397b649575299f4a640a2700b3cb0ee1f1635bd3278c57e482af0105fd01a523"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/raw-errors-compare-01.json",
+        "bytes": 9759,
+        "rawBytesSha256": "18064ca93dc162e668a6ee31c72863f46cd27ee8b51a083a2b4825a80e814bfc"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/raw-errors-compare-01.json",
+        "bytes": 9759,
+        "rawBytesSha256": "18064ca93dc162e668a6ee31c72863f46cd27ee8b51a083a2b4825a80e814bfc"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/raw-errors-compare-02.json",
+        "bytes": 837,
+        "rawBytesSha256": "528066c80ac91dbd6d553098704cdc5cc815cacbaa785410c7c79cf037d976b0"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/raw-errors-compare-02.json",
+        "bytes": 837,
+        "rawBytesSha256": "528066c80ac91dbd6d553098704cdc5cc815cacbaa785410c7c79cf037d976b0"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/coverage-compare-parity01-07.json",
+        "bytes": 3552,
+        "rawBytesSha256": "1d5a74600a1e3be277613a0fc58e97eb59f2710b9b8ecc190761a616ea91be9b"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/coverage-compare-parity01-07.json",
+        "bytes": 3552,
+        "rawBytesSha256": "1d5a74600a1e3be277613a0fc58e97eb59f2710b9b8ecc190761a616ea91be9b"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/edges-compare-parity01-raw-errors02-01.json",
+        "bytes": 1505,
+        "rawBytesSha256": "442112f900b438aad78414cf2cb5edd7d811c8f3bd9e4b8725b0c28bad5e5982"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/edges-compare-parity01-raw-errors02-01.json",
+        "bytes": 1505,
+        "rawBytesSha256": "442112f900b438aad78414cf2cb5edd7d811c8f3bd9e4b8725b0c28bad5e5982"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/business-compare-parity01-raw-errors02-01.json",
+        "bytes": 1516,
+        "rawBytesSha256": "57efb79d39fb2d16d5cb13a98a2e643b296a6bfe10e72f3af069704991438d80"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/business-compare-parity01-raw-errors02-01.json",
+        "bytes": 1516,
+        "rawBytesSha256": "57efb79d39fb2d16d5cb13a98a2e643b296a6bfe10e72f3af069704991438d80"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/boundaries-compare-parity01-raw-errors02-01.json",
+        "bytes": 1520,
+        "rawBytesSha256": "f38b8fe54ac15c4f9b0f7611313bb8fa4b9969060315151e216dbd6493f7c906"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/boundaries-compare-parity01-raw-errors02-01.json",
+        "bytes": 1520,
+        "rawBytesSha256": "f38b8fe54ac15c4f9b0f7611313bb8fa4b9969060315151e216dbd6493f7c906"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/temporal-compare-parity01-raw-errors02-01.json",
+        "bytes": 1513,
+        "rawBytesSha256": "116544a3c9c8b26b5e8cbf9e53f7a884982579779a904ebe79224ef355a9af27"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/temporal-compare-parity01-raw-errors02-01.json",
+        "bytes": 1513,
+        "rawBytesSha256": "116544a3c9c8b26b5e8cbf9e53f7a884982579779a904ebe79224ef355a9af27"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/routing-probe-raw-errors02-rust-01.json",
+        "bytes": 36135,
+        "rawBytesSha256": "ed10b57c4ae65836887e16a42fb6e0e9c8a23b6fee7076f393a5db0e9ad946f6"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/routing-probe-raw-errors02-rust-01.json",
+        "bytes": 36135,
+        "rawBytesSha256": "ed10b57c4ae65836887e16a42fb6e0e9c8a23b6fee7076f393a5db0e9ad946f6"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/consume-targets-raw-errors02-rust-01.json",
+        "bytes": 29187,
+        "rawBytesSha256": "1cb01502b16acd5618859fb24c0960715523603330f89357dd0e80d3061c80a9"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/consume-targets-raw-errors02-rust-01.json",
+        "bytes": 29187,
+        "rawBytesSha256": "1cb01502b16acd5618859fb24c0960715523603330f89357dd0e80d3061c80a9"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/cohort-terminal-raw-errors01-nest.json",
+        "bytes": 2695,
+        "rawBytesSha256": "ca818a0dca776c7ca68d7bceb50d8f41403d352fee032161c96dc24408beaf63"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/cohort-terminal-raw-errors01-nest.json",
+        "bytes": 2695,
+        "rawBytesSha256": "ca818a0dca776c7ca68d7bceb50d8f41403d352fee032161c96dc24408beaf63"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/cohort-terminal-raw-errors01-rust.json",
+        "bytes": 2695,
+        "rawBytesSha256": "fd0f64121b1db4be729c1ccc782914af9f734b0cb0f6379aabced43cde61b220"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/cohort-terminal-raw-errors01-rust.json",
+        "bytes": 2695,
+        "rawBytesSha256": "fd0f64121b1db4be729c1ccc782914af9f734b0cb0f6379aabced43cde61b220"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/cohort-terminal-raw-errors02-rust.json",
+        "bytes": 3216,
+        "rawBytesSha256": "48ed35d20da1ca9642f3395ac7666cd5a81dfa2b6def218e254330ca947b858b"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/cohort-terminal-raw-errors02-rust.json",
+        "bytes": 3216,
+        "rawBytesSha256": "48ed35d20da1ca9642f3395ac7666cd5a81dfa2b6def218e254330ca947b858b"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/owned-observation-before-terminal-raw-errors01-nest.json",
+        "bytes": 56440,
+        "rawBytesSha256": "a693daf29cbebe4247894f0565c6a59699c8f909cd609f2762c130d0b5444f5e"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/owned-observation-before-terminal-raw-errors01-nest.json",
+        "bytes": 56440,
+        "rawBytesSha256": "a693daf29cbebe4247894f0565c6a59699c8f909cd609f2762c130d0b5444f5e"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/owned-observation-before-terminal-raw-errors01-rust.json",
+        "bytes": 56436,
+        "rawBytesSha256": "6c33ad701a646c0cd28b2c55fd193b61736f97fe11bebf059e25b18c448b3444"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/owned-observation-before-terminal-raw-errors01-rust.json",
+        "bytes": 56436,
+        "rawBytesSha256": "6c33ad701a646c0cd28b2c55fd193b61736f97fe11bebf059e25b18c448b3444"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/owned-observation-before-terminal-raw-errors02-rust.json",
+        "bytes": 645675,
+        "rawBytesSha256": "c47c1461bbc76fd141d545854ae33c74205fd5001cb94a3299c6be4ff70007c2"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/owned-observation-before-terminal-raw-errors02-rust.json",
+        "bytes": 645675,
+        "rawBytesSha256": "c47c1461bbc76fd141d545854ae33c74205fd5001cb94a3299c6be4ff70007c2"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/environment-terminal02.json",
+        "bytes": 2768,
+        "rawBytesSha256": "5e915f43cf5c410b13cd2ec84341ed50b421627e7c8d560c199bbb84ca1f34c9"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/environment-terminal02.json",
+        "bytes": 2768,
+        "rawBytesSha256": "5e915f43cf5c410b13cd2ec84341ed50b421627e7c8d560c199bbb84ca1f34c9"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/runtime/nest-raw-errors01.json",
+        "bytes": 672,
+        "rawBytesSha256": "11a5d663206894709bc856d1e41db8aabda9e430e8c66eaf453996a4dd69d328"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/runtime/nest-raw-errors01.json",
+        "bytes": 672,
+        "rawBytesSha256": "11a5d663206894709bc856d1e41db8aabda9e430e8c66eaf453996a4dd69d328"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/runtime/rust-raw-errors01.json",
+        "bytes": 674,
+        "rawBytesSha256": "ad1743405d19b560227d487a6a4ecefbbc6d29af2ebe9eff8b506257fe8b4050"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/runtime/rust-raw-errors01.json",
+        "bytes": 674,
+        "rawBytesSha256": "ad1743405d19b560227d487a6a4ecefbbc6d29af2ebe9eff8b506257fe8b4050"
+      }
+    },
+    {
+      "source": {
+        "file": "tmp/rust-r3cdefg/runtime/rust-raw-errors02.json",
+        "bytes": 674,
+        "rawBytesSha256": "8959ece12f9245ec041c5b9a6d065d3936b9cff3b45f9a6fa7447da9b11a4997"
+      },
+      "copy": {
+        "file": "docs/design/rust-r3cdefg/evidence/correction06/runtime/rust-raw-errors02.json",
+        "bytes": 674,
+        "rawBytesSha256": "8959ece12f9245ec041c5b9a6d065d3936b9cff3b45f9a6fa7447da9b11a4997"
+      }
+    }
+  ],
+  "toolPreparationExceptions": {
+    "check08": "PATH missing cargo-fmt/rustc; never executed product build; originals retained;09 all five checks0",
+    "runner": "All actual API commands completed; duplicate extraction logfile EEXIST. Resume03 executes only missing SQL/comparisons, not product request repetition."
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

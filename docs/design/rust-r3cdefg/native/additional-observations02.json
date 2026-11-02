@@ -1,0 +1,1979 @@
+{
+  "kind": "R3CDEFG-original-Native-G1-additional-semantic-observations",
+  "createdAt": "2026-11-02T02:46:45.001Z",
+  "runId": "8335ed8a-f8ae-4874-a0e5-279189ceae14",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "database": "poms_r3cdefg_nest",
+  "runtime": {
+    "pid": 4992,
+    "bootId": "98ff89c0-32e8-44ba-a549-b7bdbef4fc1d",
+    "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+  },
+  "sources": [
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tools/rust-r3cdefg/native-witness-extra02.mjs",
+      "bytes": 20627,
+      "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tools/rust-r3cdefg/http-client.mjs",
+      "bytes": 2369,
+      "rawBytesSha256": "89f0ba94f7bfacd1ccdb8b6ddafe6f9e9147c496b74568d60cc13df2ef40ef2e"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/a-input/native-fixture-draft01.mjs",
+      "bytes": 4774,
+      "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/b-input/native-fixture-draft01.mjs",
+      "bytes": 4215,
+      "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+      "bytes": 180482,
+      "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+    }
+  ],
+  "lineageReport": {
+    "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/native-witness01/report01.json",
+    "bytes": 92429,
+    "rawBytesSha256": "e875854de67773370edd55614af99edd791fff196a03c72eb69d5bf36750abd4"
+  },
+  "completed": true,
+  "result": "Native-observations-completed-not-Rust-acceptance",
+  "failedAt": null,
+  "cases": [
+    {
+      "label": "extra-cost-list-pending-session",
+      "startedAt": "2026-11-02T02:46:43.323Z",
+      "completedAt": "2026-11-02T02:46:43.395Z",
+      "HTTP": {
+        "status": 200,
+        "body": [
+          {
+            "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalTaxCostAmount": "13.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "highestRiskLevel": "R1",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T02:36:54.501Z",
+            "createdAt": "2026-11-02T02:36:54.501Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.501Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          }
+        ],
+        "requestId": "631e22f0-2954-456d-8011-6b9aac2e053c"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 15,
+          "last_seen_at": "2026-11-02T02:45:42.326Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.497Z",
+          "updated_at": "2026-11-02T02:36:55.497Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 16,
+          "last_seen_at": "2026-11-02T02:46:43.340Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.340Z",
+          "updated_at": "2026-11-02T02:46:43.340Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-cost-workspace-pending-session",
+      "startedAt": "2026-11-02T02:46:43.396Z",
+      "completedAt": "2026-11-02T02:46:43.450Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentPackage": {
+            "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalTaxCostAmount": "13.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "highestRiskLevel": "R1",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T02:36:54.501Z",
+            "createdAt": "2026-11-02T02:36:54.501Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.501Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          },
+          "scopeItems": [
+            {
+              "id": "7f3f55b3-dba0-461a-8633-5dc9af60f321",
+              "packageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+              "scopeType": "in-scope",
+              "label": "G1 设备交付",
+              "description": "包含一项设备供货。",
+              "sortOrder": 1
+            }
+          ],
+          "riskItems": [
+            {
+              "id": "9c6be206-6088-4b3b-8eed-c7081102a088",
+              "packageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+              "riskCategory": "G1 供货",
+              "riskLevel": "R1",
+              "riskDescription": "供货周期已经核实。",
+              "impactScope": "设备供货范围。",
+              "mitigationPlan": "按已核实周期交付。",
+              "ownerRole": "售前",
+              "riskStatus": "closed",
+              "blocksNextStage": false,
+              "sortOrder": 1
+            }
+          ],
+          "costItems": [
+            {
+              "id": "4be79df6-00c0-410f-b146-4f16eaa46091",
+              "packageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+              "costCategory": "equipment",
+              "costSubcategory": null,
+              "costDescription": "G1 设备成本",
+              "estimationBasis": "G1 已确认询价。",
+              "quantity": null,
+              "unit": null,
+              "unitPrice": null,
+              "amountExcludingTax": "100.00",
+              "taxCostAmount": "13.00",
+              "amountIncludingTax": "113.00",
+              "currencyCode": "CNY",
+              "confidenceLevel": "high",
+              "highUncertainty": false,
+              "responsibleRole": null,
+              "sortOrder": 1
+            }
+          ],
+          "blockingReasons": [],
+          "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-technical-cost-workspace",
+            "create-technical-cost-package"
+          ],
+          "generatedAt": "2026-11-02T02:46:43.446Z"
+        },
+        "requestId": "cc3ae6a4-ecab-44e2-8779-0808d41ad370"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 16,
+          "last_seen_at": "2026-11-02T02:45:42.397Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.340Z",
+          "updated_at": "2026-11-02T02:46:43.340Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 17,
+          "last_seen_at": "2026-11-02T02:46:43.402Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.402Z",
+          "updated_at": "2026-11-02T02:46:43.402Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-bid-list-pending-session",
+      "startedAt": "2026-11-02T02:46:43.451Z",
+      "completedAt": "2026-11-02T02:46:43.489Z",
+      "HTTP": {
+        "status": 200,
+        "body": [
+          {
+            "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "bidMode": "public-tender",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "resultStatus": "pending",
+            "processSummary": "G1 first process",
+            "decisionSummary": "G1 first decision",
+            "resultSummary": null,
+            "tenderNo": "G1 first tender",
+            "bidPackageNo": "G1 first package",
+            "ownerRole": "G1 first owner",
+            "blockerCount": 1,
+            "effectiveAt": "2026-11-02T02:36:54.566Z",
+            "createdAt": "2026-11-02T02:36:54.567Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.567Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          }
+        ],
+        "requestId": "285a92bd-78a4-4e1d-ae25-35e42f5c783b"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 17,
+          "last_seen_at": "2026-11-02T02:45:42.452Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.402Z",
+          "updated_at": "2026-11-02T02:46:43.402Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 18,
+          "last_seen_at": "2026-11-02T02:46:43.456Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.456Z",
+          "updated_at": "2026-11-02T02:46:43.456Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-bid-workspace-pending-session",
+      "startedAt": "2026-11-02T02:46:43.490Z",
+      "completedAt": "2026-11-02T02:46:43.528Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentProcess": {
+            "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "bidMode": "public-tender",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "resultStatus": "pending",
+            "processSummary": "G1 first process",
+            "decisionSummary": "G1 first decision",
+            "resultSummary": null,
+            "tenderNo": "G1 first tender",
+            "bidPackageNo": "G1 first package",
+            "ownerRole": "G1 first owner",
+            "blockerCount": 1,
+            "effectiveAt": "2026-11-02T02:36:54.566Z",
+            "createdAt": "2026-11-02T02:36:54.567Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.567Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          },
+          "materialItems": [
+            {
+              "id": "34c88786-08b2-483c-b32f-e0ac61daeca8",
+              "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+              "materialKey": "G1 first material",
+              "label": "G1 first material label",
+              "materialStatus": "in-progress",
+              "responsibleRole": "G1 first material owner",
+              "dueAt": "2026-11-03T08:00:00.123Z",
+              "blocksNextStep": true,
+              "navigationHint": "/projects/current/workspace/bid-commercial",
+              "sortOrder": 1
+            },
+            {
+              "id": "6440ddbe-a006-4746-9e94-a90de25df3c0",
+              "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+              "materialKey": "G1 first ready material",
+              "label": "G1 first ready material label",
+              "materialStatus": "ready",
+              "responsibleRole": null,
+              "dueAt": null,
+              "blocksNextStep": false,
+              "navigationHint": null,
+              "sortOrder": 2
+            }
+          ],
+          "timelineItems": [
+            {
+              "id": "0824f76d-c056-4c2c-b931-1b1105fb4f4a",
+              "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+              "eventKey": "G1 first completed event",
+              "label": "G1 first completed event label",
+              "summary": "G1 first completed event summary",
+              "timelineStatus": "done",
+              "occurredAt": "2026-11-02T02:00:00.456Z",
+              "dueAt": "2026-11-02T03:00:00.000Z",
+              "responsibleRole": "G1 first event owner",
+              "sortOrder": 1
+            },
+            {
+              "id": "4e57e462-62ec-4223-98da-330b999d1cf2",
+              "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+              "eventKey": "G1 first pending event",
+              "label": "G1 first pending event label",
+              "summary": null,
+              "timelineStatus": "pending",
+              "occurredAt": null,
+              "dueAt": "2026-11-04T08:00:00.000Z",
+              "responsibleRole": null,
+              "sortOrder": 2
+            }
+          ],
+          "blockingReasons": [
+            "G1 first material label：材料仍在处理中"
+          ],
+          "nextStep": "先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-bid-commercial-workspace",
+            "create-bid-commercial-process"
+          ],
+          "generatedAt": "2026-11-02T02:46:43.525Z"
+        },
+        "requestId": "b00a95a1-9b34-48be-9690-c7691d17c165"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 18,
+          "last_seen_at": "2026-11-02T02:45:42.490Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.456Z",
+          "updated_at": "2026-11-02T02:46:43.456Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 19,
+          "last_seen_at": "2026-11-02T02:46:43.494Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.494Z",
+          "updated_at": "2026-11-02T02:46:43.494Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-pricing-list-pending-session",
+      "startedAt": "2026-11-02T02:46:43.530Z",
+      "completedAt": "2026-11-02T02:46:43.570Z",
+      "HTTP": {
+        "status": 200,
+        "body": [
+          {
+            "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalCostPackageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+            "bidCommercialProcessId": null,
+            "commercialReleaseBaselineId": null,
+            "pricingPath": "direct-commercial",
+            "quoteVersion": "Q-G1-DIRECT-01",
+            "currencyCode": "CNY",
+            "quoteAmountTaxInclusive": "226.00",
+            "quoteAmountTaxExclusive": "200.00",
+            "taxRate": "0.13000000",
+            "taxConditionSummary": "G1 报价税务条件已记录。",
+            "paymentTermsSummary": "G1 按约定节点回款。",
+            "grossMarginRate": null,
+            "grossMarginBand": "not-calculated",
+            "grossMarginSummary": "G1 毛利判断待评审。",
+            "decision": "pending",
+            "decisionSummary": "G1 待形成评审结论。",
+            "approvalScenarioKey": null,
+            "summaryPackageKey": null,
+            "summarySnapshotId": null,
+            "projectionLevel": null,
+            "exportPolicy": null,
+            "readyForContracting": false,
+            "ownerRole": null,
+            "blockerCount": 1,
+            "effectiveAt": "2026-11-02T02:36:54.625Z",
+            "createdAt": "2026-11-02T02:36:54.626Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.626Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          }
+        ],
+        "requestId": "d1257264-f2d7-447d-b1cc-bf9eae012d84"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 19,
+          "last_seen_at": "2026-11-02T02:45:42.530Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.494Z",
+          "updated_at": "2026-11-02T02:46:43.494Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 20,
+          "last_seen_at": "2026-11-02T02:46:43.534Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.534Z",
+          "updated_at": "2026-11-02T02:46:43.534Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-pricing-workspace-pending-session",
+      "startedAt": "2026-11-02T02:46:43.571Z",
+      "completedAt": "2026-11-02T02:46:43.613Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentReview": {
+            "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalCostPackageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+            "bidCommercialProcessId": null,
+            "commercialReleaseBaselineId": null,
+            "pricingPath": "direct-commercial",
+            "quoteVersion": "Q-G1-DIRECT-01",
+            "currencyCode": "CNY",
+            "quoteAmountTaxInclusive": "226.00",
+            "quoteAmountTaxExclusive": "200.00",
+            "taxRate": "0.13000000",
+            "taxConditionSummary": "G1 报价税务条件已记录。",
+            "paymentTermsSummary": "G1 按约定节点回款。",
+            "grossMarginRate": null,
+            "grossMarginBand": "not-calculated",
+            "grossMarginSummary": "G1 毛利判断待评审。",
+            "decision": "pending",
+            "decisionSummary": "G1 待形成评审结论。",
+            "approvalScenarioKey": null,
+            "summaryPackageKey": null,
+            "summarySnapshotId": null,
+            "projectionLevel": null,
+            "exportPolicy": null,
+            "readyForContracting": false,
+            "ownerRole": null,
+            "blockerCount": 1,
+            "effectiveAt": "2026-11-02T02:36:54.625Z",
+            "createdAt": "2026-11-02T02:36:54.626Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.626Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          },
+          "technicalCostPackage": {
+            "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalTaxCostAmount": "13.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "highestRiskLevel": "R1",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T02:36:54.501Z",
+            "createdAt": "2026-11-02T02:36:54.501Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.501Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          },
+          "bidCommercialProcess": null,
+          "conditionItems": [
+            {
+              "id": "b64726ff-9541-4a7e-b80b-1e52d7a201d5",
+              "reviewId": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+              "conditionKey": "g1-payment-review",
+              "conditionType": "payment",
+              "label": "G1 回款条件确认",
+              "conditionSummary": "核实已记录的回款节点。",
+              "conditionStatus": "open",
+              "requiredForContracting": false,
+              "responsibleRole": "财务",
+              "dueAt": "2026-11-02T00:00:00.000Z",
+              "resolutionSummary": null,
+              "sortOrder": 1
+            }
+          ],
+          "blockingReasons": [
+            "报价与毛利评审尚未形成放行结论。"
+          ],
+          "nextStep": "先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。",
+          "readyForContracting": false,
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-pricing-margin-workspace",
+            "create-pricing-margin-review"
+          ],
+          "generatedAt": "2026-11-02T02:46:43.611Z"
+        },
+        "requestId": "f7e0817e-9668-4f24-9055-f432bb5a7bc7"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 20,
+          "last_seen_at": "2026-11-02T02:45:42.571Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.534Z",
+          "updated_at": "2026-11-02T02:46:43.534Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 21,
+          "last_seen_at": "2026-11-02T02:46:43.575Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.575Z",
+          "updated_at": "2026-11-02T02:46:43.575Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-contact-list-pending-session",
+      "startedAt": "2026-11-02T02:46:43.614Z",
+      "completedAt": "2026-11-02T02:46:43.651Z",
+      "HTTP": {
+        "status": 200,
+        "body": [
+          {
+            "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+            "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+            "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+            "name": "G1 客户联系人😀",
+            "gender": "unknown",
+            "department": null,
+            "title": null,
+            "workPhone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": "g1@example.test",
+            "remark": null,
+            "status": "active",
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T02:36:55.206Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:55.206Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+          }
+        ],
+        "requestId": "072027e4-686e-4e97-9277-a48245b51631"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 21,
+          "last_seen_at": "2026-11-02T02:45:42.615Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.575Z",
+          "updated_at": "2026-11-02T02:46:43.575Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 22,
+          "last_seen_at": "2026-11-02T02:46:43.618Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.618Z",
+          "updated_at": "2026-11-02T02:46:43.618Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-followup-list-pending-session",
+      "startedAt": "2026-11-02T02:46:43.652Z",
+      "completedAt": "2026-11-02T02:46:43.685Z",
+      "HTTP": {
+        "status": 200,
+        "body": [
+          {
+            "id": "f7d2858c-48fb-4a59-8128-0d3969a8db33",
+            "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+            "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2026-11-02T00:00:00.000Z",
+            "summary": "G1 replacement",
+            "detail": null,
+            "outcome": "progress",
+            "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+            "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "ownerName": "R3CG admin",
+            "supersedesId": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+            "replacedById": null,
+            "replacementReason": "G1 replacement",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T02:36:55.401Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:55.401Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+          },
+          {
+            "id": "c9307b7a-69b4-449e-a37b-99504592b78c",
+            "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+            "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2026-11-02T00:00:00.000Z",
+            "summary": "G1 no next",
+            "detail": null,
+            "outcome": "progress",
+            "nextFollowUpAt": null,
+            "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": null,
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T02:36:55.331Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:55.331Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+          },
+          {
+            "id": "b109eca2-da7d-452e-a6f2-fbbf1ffd9bd7",
+            "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+            "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+            "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2026-11-02T00:00:00.000Z",
+            "summary": "G1 first reminder",
+            "detail": null,
+            "outcome": "progress",
+            "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+            "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": null,
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T02:36:55.294Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:55.294Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+          }
+        ],
+        "requestId": "3ab94934-d28e-4303-8a58-1c9d8ee32183"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 22,
+          "last_seen_at": "2026-11-02T02:45:42.652Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.618Z",
+          "updated_at": "2026-11-02T02:46:43.618Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 23,
+          "last_seen_at": "2026-11-02T02:46:43.656Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T03:01:43.656Z",
+          "updated_at": "2026-11-02T02:46:43.656Z"
+        }
+      ]
+    },
+    {
+      "label": "extra-pricing-cost-uppercase-reference",
+      "startedAt": "2026-11-02T02:46:43.690Z",
+      "completedAt": "2026-11-02T02:46:43.715Z",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "technicalCostPackageId must match the current effective technical cost package",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "c7f030f6-75a5-422b-8053-15647e892e33"
+      },
+      "costId": "2E2628D9-D4D6-4BA3-92C5-5439118CE375",
+      "bidId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+      "currentCostId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+      "currentBidId": "b030d947-bd65-49d6-b406-fb49fab333ec"
+    },
+    {
+      "label": "extra-pricing-bid-uppercase-reference",
+      "startedAt": "2026-11-02T02:46:43.716Z",
+      "completedAt": "2026-11-02T02:46:43.741Z",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "bidCommercialProcessId must match the current effective bid commercial process",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "4cc6509b-25b3-41e5-8125-63eaae3a1185"
+      },
+      "costId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+      "bidId": "B030D947-BD65-49D6-B406-FB49FAB333EC",
+      "currentCostId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+      "currentBidId": "b030d947-bd65-49d6-b406-fb49fab333ec"
+    },
+    {
+      "label": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+      "startedAt": "2026-11-02T02:46:43.743Z",
+      "completedAt": "2026-11-02T02:46:43.911Z",
+      "actualCostProducer": {
+        "status": 201,
+        "body": {
+          "id": "e72a4bd7-259f-4851-8ae9-a3d8380999fc",
+          "projectId": "4366b33c-009d-4b32-840c-0ec575227621",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "CNY",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalTaxCostAmount": "13.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T02:46:43.807Z",
+          "createdAt": "2026-11-02T02:46:43.807Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:43.807Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "68dfb9c0-35a9-40ff-be98-3ae0b425ea29"
+      },
+      "actualBidProducer": {
+        "status": 201,
+        "body": {
+          "id": "4ee53e81-25e6-470e-8ede-bf15e674e34b",
+          "projectId": "4366b33c-009d-4b32-840c-0ec575227621",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "bidMode": "public-tender",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "resultStatus": "lost",
+          "processSummary": "lost baseline",
+          "decisionSummary": null,
+          "resultSummary": null,
+          "tenderNo": null,
+          "bidPackageNo": null,
+          "ownerRole": null,
+          "blockerCount": 1,
+          "effectiveAt": "2026-11-02T02:46:43.845Z",
+          "createdAt": "2026-11-02T02:46:43.846Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:43.846Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "6143cadc-4c2a-4ed3-9a95-877ab94f8849"
+      },
+      "bidPath": {
+        "status": 400,
+        "body": {
+          "message": "current bid commercial process result cannot support bid pricing review",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "55179f2f-f361-4aa7-a03a-02f1ccd78cf6"
+      },
+      "directPath": {
+        "status": 201,
+        "body": {
+          "id": "010b50b2-e5b7-4c68-be5d-1e58f18217c3",
+          "projectId": "4366b33c-009d-4b32-840c-0ec575227621",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalCostPackageId": "e72a4bd7-259f-4851-8ae9-a3d8380999fc",
+          "bidCommercialProcessId": null,
+          "commercialReleaseBaselineId": null,
+          "pricingPath": "direct-commercial",
+          "quoteVersion": "Q-G1-DIRECT-01",
+          "currencyCode": "CNY",
+          "quoteAmountTaxInclusive": "226.00",
+          "quoteAmountTaxExclusive": "200.00",
+          "taxRate": "0.13",
+          "taxConditionSummary": "G1 报价税务条件已记录。",
+          "paymentTermsSummary": "G1 按约定节点回款。",
+          "grossMarginRate": null,
+          "grossMarginBand": "not-calculated",
+          "grossMarginSummary": "G1 毛利判断待评审。",
+          "decision": "pending",
+          "decisionSummary": "G1 待形成评审结论。",
+          "approvalScenarioKey": null,
+          "summaryPackageKey": null,
+          "summarySnapshotId": null,
+          "projectionLevel": null,
+          "exportPolicy": null,
+          "readyForContracting": false,
+          "ownerRole": null,
+          "blockerCount": 1,
+          "effectiveAt": "2026-11-02T02:46:43.899Z",
+          "createdAt": "2026-11-02T02:46:43.899Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:43.899Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "61bef7a7-1f7c-45b1-8f54-79d85848e83b"
+      }
+    },
+    {
+      "label": "extra-contact-update-denial-rolls-back-prior-audit",
+      "startedAt": "2026-11-02T02:46:43.914Z",
+      "completedAt": "2026-11-02T02:46:43.999Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "2b6ef233-de72-4b35-9fcf-48dfe0a6e311"
+      },
+      "before": {
+        "id": "7a865cdf-31e0-4509-96db-550f1007ed87",
+        "name": "G1 update-denied contact",
+        "email": null,
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:46:43.935+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:46:43.935+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      },
+      "after": {
+        "id": "7a865cdf-31e0-4509-96db-550f1007ed87",
+        "name": "G1 update-denied contact",
+        "email": null,
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:46:43.935+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:46:43.935+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      },
+      "actualAudits": 0,
+      "ACLRestored": true
+    },
+    {
+      "label": "extra-followup-insert-denial-rolls-back-prior-todo",
+      "startedAt": "2026-11-02T02:46:44.000Z",
+      "completedAt": "2026-11-02T02:46:44.074Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "d3ec96df-e16e-4c6a-a582-4f7cdc2d2da5"
+      },
+      "records": [],
+      "todos": [],
+      "ACLRestored": true
+    },
+    {
+      "label": "extra-followup-replace-same-owner-no-next",
+      "startedAt": "2026-11-02T02:46:44.075Z",
+      "completedAt": "2026-11-02T02:46:44.189Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "0ece5169-f577-46ef-b4aa-00f3a3f702c1",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "27b2b363-f160-4f07-8530-d14ed54a78db",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace same-owner-no-next",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 same-owner-no-next new",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": null,
+          "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "ownerName": "R3CG admin",
+          "supersedesId": "e69ebbc0-131f-414f-a3bd-feebc2dbf8a7",
+          "replacedById": null,
+          "replacementReason": "G1 same-owner-no-next",
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:46:44.164Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:44.164Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "718f75bf-d20c-4f8c-a566-6b51ffae165e"
+      },
+      "oldBefore": {
+        "id": "e69ebbc0-131f-414f-a3bd-feebc2dbf8a7",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 same-owner-no-next old",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.124+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "27b2b363-f160-4f07-8530-d14ed54a78db",
+        "updated_at": "2026-11-02T10:46:44.124+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "oldAfter": {
+        "id": "e69ebbc0-131f-414f-a3bd-feebc2dbf8a7",
+        "detail": null,
+        "status": "superseded",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 same-owner-no-next old",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.124+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "27b2b363-f160-4f07-8530-d14ed54a78db",
+        "updated_at": "2026-11-02T10:46:44.169+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "0ece5169-f577-46ef-b4aa-00f3a3f702c1"
+      },
+      "oldTodosBefore": [
+        {
+          "id": "e5f5fa5f-7bc7-4083-a5c8-fb9a768e5feb",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace same-owner-no-next",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 same-owner-no-next old",
+          "priority": "normal",
+          "source_id": "e69ebbc0-131f-414f-a3bd-feebc2dbf8a7",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.127+08:00",
+          "project_id": "27b2b363-f160-4f07-8530-d14ed54a78db",
+          "updated_at": "2026-11-02T10:46:44.127+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "27b2b363-f160-4f07-8530-d14ed54a78db",
+          "target_object_type": "project"
+        }
+      ],
+      "oldTodosAfter": [
+        {
+          "id": "e5f5fa5f-7bc7-4083-a5c8-fb9a768e5feb",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace same-owner-no-next",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "completed",
+          "summary": "G1 same-owner-no-next old",
+          "priority": "normal",
+          "source_id": "e69ebbc0-131f-414f-a3bd-feebc2dbf8a7",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.127+08:00",
+          "project_id": "27b2b363-f160-4f07-8530-d14ed54a78db",
+          "updated_at": "2026-11-02T10:46:44.171+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:46:44.166+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "27b2b363-f160-4f07-8530-d14ed54a78db",
+          "target_object_type": "project"
+        }
+      ],
+      "newTodos": []
+    },
+    {
+      "label": "extra-followup-replace-different-owner",
+      "startedAt": "2026-11-02T02:46:44.190Z",
+      "completedAt": "2026-11-02T02:46:44.318Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "da98f3ab-65ba-4d63-9567-47d34f3a27da",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace different-owner",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 different-owner new",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": "0ac68191-39d3-4251-9ab2-30ca03a06f70",
+          "ownerOrgName": "R3CG other",
+          "ownerUserId": "762cceea-1a0b-41d6-93b9-514fa010feca",
+          "ownerName": "R3CG other",
+          "supersedesId": "29b31b70-10c7-4214-b4b9-94b0bf15f0cd",
+          "replacedById": null,
+          "replacementReason": "G1 different-owner",
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:46:44.286Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:44.286Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "015927a8-c70c-44d0-9b08-1c1ba7e7c414"
+      },
+      "oldBefore": {
+        "id": "29b31b70-10c7-4214-b4b9-94b0bf15f0cd",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 different-owner old",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.244+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+        "updated_at": "2026-11-02T10:46:44.244+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "oldAfter": {
+        "id": "29b31b70-10c7-4214-b4b9-94b0bf15f0cd",
+        "detail": null,
+        "status": "superseded",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 different-owner old",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.244+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+        "updated_at": "2026-11-02T10:46:44.292+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "da98f3ab-65ba-4d63-9567-47d34f3a27da"
+      },
+      "oldTodosBefore": [
+        {
+          "id": "a7a0164a-5f78-4c3e-819e-9783549335eb",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace different-owner",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 different-owner old",
+          "priority": "normal",
+          "source_id": "29b31b70-10c7-4214-b4b9-94b0bf15f0cd",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.247+08:00",
+          "project_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "updated_at": "2026-11-02T10:46:44.247+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "target_object_type": "project"
+        }
+      ],
+      "oldTodosAfter": [
+        {
+          "id": "a7a0164a-5f78-4c3e-819e-9783549335eb",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace different-owner",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "canceled",
+          "summary": "G1 different-owner old",
+          "priority": "normal",
+          "source_id": "29b31b70-10c7-4214-b4b9-94b0bf15f0cd",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.247+08:00",
+          "project_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "updated_at": "2026-11-02T10:46:44.294+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:46:44.288+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "target_object_type": "project"
+        }
+      ],
+      "newTodos": [
+        {
+          "id": "d782fd7a-49d2-467c-9c82-e854c085f2f2",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace different-owner",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 different-owner new",
+          "priority": "normal",
+          "source_id": "da98f3ab-65ba-4d63-9567-47d34f3a27da",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.291+08:00",
+          "project_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "updated_at": "2026-11-02T10:46:44.291+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "762cceea-1a0b-41d6-93b9-514fa010feca",
+          "target_object_id": "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+          "target_object_type": "project"
+        }
+      ]
+    },
+    {
+      "label": "extra-followup-replace-null-owner",
+      "startedAt": "2026-11-02T02:46:44.319Z",
+      "completedAt": "2026-11-02T02:46:44.434Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "f9ca0cf1-8214-46cf-ae57-2dda39d1342d",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace null-owner",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 null-owner new",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": null,
+          "ownerOrgName": null,
+          "ownerUserId": null,
+          "ownerName": null,
+          "supersedesId": "7fa6f393-0746-4456-bf8b-adfbe5e829ab",
+          "replacedById": null,
+          "replacementReason": "G1 null-owner",
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:46:44.412Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:44.412Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "9c6509fe-3690-4a59-94aa-ff198df8fe33"
+      },
+      "oldBefore": {
+        "id": "7fa6f393-0746-4456-bf8b-adfbe5e829ab",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 null-owner old",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.377+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+        "updated_at": "2026-11-02T10:46:44.377+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "oldAfter": {
+        "id": "7fa6f393-0746-4456-bf8b-adfbe5e829ab",
+        "detail": null,
+        "status": "superseded",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 null-owner old",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.377+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+        "updated_at": "2026-11-02T10:46:44.414+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "f9ca0cf1-8214-46cf-ae57-2dda39d1342d"
+      },
+      "oldTodosBefore": [
+        {
+          "id": "2aa5d2fa-6647-4075-8a55-2b28080c1333",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace null-owner",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 null-owner old",
+          "priority": "normal",
+          "source_id": "7fa6f393-0746-4456-bf8b-adfbe5e829ab",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.38+08:00",
+          "project_id": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+          "updated_at": "2026-11-02T10:46:44.38+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+          "target_object_type": "project"
+        }
+      ],
+      "oldTodosAfter": [
+        {
+          "id": "2aa5d2fa-6647-4075-8a55-2b28080c1333",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace null-owner",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "canceled",
+          "summary": "G1 null-owner old",
+          "priority": "normal",
+          "source_id": "7fa6f393-0746-4456-bf8b-adfbe5e829ab",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.38+08:00",
+          "project_id": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+          "updated_at": "2026-11-02T10:46:44.416+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:46:44.414+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+          "target_object_type": "project"
+        }
+      ],
+      "newTodos": []
+    },
+    {
+      "label": "extra-null-owner-create-leaves-old-stream-open",
+      "startedAt": "2026-11-02T02:46:44.435Z",
+      "completedAt": "2026-11-02T02:46:44.522Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "c4b6c4f3-662d-4d84-b283-f6b3e02b2f7a",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "44930ba5-1b1d-452a-a21a-14d6dfed3c3d",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 null-owner-create",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 null owner",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": null,
+          "ownerOrgName": null,
+          "ownerUserId": null,
+          "ownerName": null,
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:46:44.512Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:44.512Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "c5ad96e1-b599-4cd4-a257-f51864938a59"
+      },
+      "oldTodos": [
+        {
+          "id": "d30c4fc3-dca2-4833-b8b0-3995da905cc3",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 null-owner-create",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 old stream",
+          "priority": "normal",
+          "source_id": "e98c5bd1-1f47-4d9c-a34b-4e732eb4ca30",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.486+08:00",
+          "project_id": "44930ba5-1b1d-452a-a21a-14d6dfed3c3d",
+          "updated_at": "2026-11-02T10:46:44.486+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "44930ba5-1b1d-452a-a21a-14d6dfed3c3d",
+          "target_object_type": "project"
+        }
+      ],
+      "newTodos": []
+    },
+    {
+      "label": "extra-followup-replace-postsave-audit-failure",
+      "startedAt": "2026-11-02T02:46:44.523Z",
+      "completedAt": "2026-11-02T02:46:44.636Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "2ab600a9-c0cb-49cd-8b65-30480bddf9fd"
+      },
+      "oldBefore": {
+        "id": "d6a3c6a9-93c8-4fc8-a3e0-90bb98b79860",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 replace audit source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.576+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+        "updated_at": "2026-11-02T10:46:44.576+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "oldAfter": {
+        "id": "d6a3c6a9-93c8-4fc8-a3e0-90bb98b79860",
+        "detail": null,
+        "status": "superseded",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 replace audit source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.576+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+        "updated_at": "2026-11-02T10:46:44.615+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "bda02d07-41be-4665-b517-d456d3fd76dd"
+      },
+      "newRows": [
+        {
+          "id": "bda02d07-41be-4665-b517-d456d3fd76dd",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "G1 committed replacement",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T10:46:44.61+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "project_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+          "updated_at": "2026-11-02T10:46:44.61+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+          "occurred_at": "2026-11-02T08:00:00+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+          "replacement_reason": "G1 denied audit",
+          "supersedes_record_id": "d6a3c6a9-93c8-4fc8-a3e0-90bb98b79860",
+          "replaced_by_record_id": null
+        }
+      ],
+      "todos": [
+        {
+          "id": "378f438b-bee1-491b-a001-df50e23ea54b",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace-audit",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "completed",
+          "summary": "G1 replace audit source",
+          "priority": "normal",
+          "source_id": "d6a3c6a9-93c8-4fc8-a3e0-90bb98b79860",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.579+08:00",
+          "project_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+          "updated_at": "2026-11-02T10:46:44.616+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:46:44.611+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+          "target_object_type": "project"
+        },
+        {
+          "id": "f08c3b53-2a93-4b51-badd-9fa3427bfe6b",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 replace-audit",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 committed replacement",
+          "priority": "normal",
+          "source_id": "bda02d07-41be-4665-b517-d456d3fd76dd",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.614+08:00",
+          "project_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+          "updated_at": "2026-11-02T10:46:44.614+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "cce7606f-addd-43c2-b536-6eed5aa605ba",
+          "target_object_type": "project"
+        }
+      ],
+      "actualAudits": 0,
+      "ACLRestored": true
+    },
+    {
+      "label": "extra-followup-dictionary33-varchar32",
+      "startedAt": "2026-11-02T02:46:44.637Z",
+      "completedAt": "2026-11-02T02:46:44.729Z",
+      "codeLength": 33,
+      "actualDictionaryProducer": {
+        "status": 201,
+        "body": {
+          "id": "f1056121-625a-4233-b6d6-e6abc1787776",
+          "domain": "sales-follow-up-type",
+          "code": "r33333333333333333333333333333333",
+          "name": "G1 长编码",
+          "description": null,
+          "status": "active",
+          "sortOrder": 9999,
+          "isSystem": false,
+          "usageCount": 0,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:46:44.678Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:46:44.678Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "187405f2-896d-40ef-a645-9532ef3c7886"
+      },
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "c096e3e4-00e7-486b-a5e6-6f6563b5fa60"
+      },
+      "records": [],
+      "todos": []
+    },
+    {
+      "label": "extra-contact-two-readers-CAS",
+      "startedAt": "2026-11-02T02:46:44.730Z",
+      "completedAt": "2026-11-02T02:46:44.839Z",
+      "before": {
+        "id": "44d2eddc-1dc6-49f8-85c5-f0b0d830976e",
+        "name": "G1 CAS contact",
+        "email": null,
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:46:44.745+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:46:44.745+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      },
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "44d2eddc-1dc6-49f8-85c5-f0b0d830976e",
+            "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+            "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+            "name": "G1 left",
+            "gender": "unknown",
+            "department": null,
+            "title": null,
+            "workPhone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T02:46:44.745Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:46:44.800Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+          },
+          "requestId": "4d646a9a-7399-4a2f-b712-a0e567988b5b"
+        },
+        {
+          "status": 500,
+          "body": {
+            "statusCode": 500,
+            "message": "Internal server error"
+          },
+          "requestId": "e39a5db0-736b-4911-a9bb-6bc189be5b31"
+        }
+      ],
+      "after": {
+        "id": "44d2eddc-1dc6-49f8-85c5-f0b0d830976e",
+        "name": "G1 left",
+        "email": null,
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:46:44.745+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:46:44.8+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 2
+      },
+      "actualAudits": [
+        {
+          "id": "ff8fbe72-6e90-4a54-b721-0fedf05d97be",
+          "reason": null,
+          "result": "success",
+          "metadata": {
+            "changedFields": [
+              "name"
+            ],
+            "sourceCommand": "update-customer-contact",
+            "redactedFields": [],
+            "businessContext": {
+              "customerId": "4a76893e-8633-4357-935f-ba76e7043472"
+            }
+          },
+          "target_id": "44d2eddc-1dc6-49f8-85c5-f0b0d830976e",
+          "event_type": "customer-contact.updated",
+          "request_id": "4d646a9a-7399-4a2f-b712-a0e567988b5b",
+          "occurred_at": "2026-11-02T10:46:44.799+08:00",
+          "operator_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_type": "customer-contact",
+          "after_snapshot": {
+            "name": "G1 left"
+          },
+          "before_snapshot": {
+            "name": "G1 CAS contact"
+          }
+        }
+      ]
+    },
+    {
+      "label": "extra-followup-replace-two-readers-CAS",
+      "startedAt": "2026-11-02T02:46:44.840Z",
+      "completedAt": "2026-11-02T02:46:44.991Z",
+      "before": {
+        "id": "d4e50d86-5ca3-4c8d-858f-db199f149d1d",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 CAS source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.888+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+        "updated_at": "2026-11-02T10:46:44.888+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "baa08803-1f93-48f1-ad06-0b9aa4137325",
+            "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+            "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+            "leadId": null,
+            "leadName": null,
+            "projectId": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+            "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 F CAS",
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2026-11-02T00:00:00.000Z",
+            "summary": "G1 left",
+            "detail": null,
+            "outcome": "progress",
+            "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+            "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "ownerName": "R3CG admin",
+            "supersedesId": "d4e50d86-5ca3-4c8d-858f-db199f149d1d",
+            "replacedById": null,
+            "replacementReason": "G1 left",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T02:46:44.945Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:46:44.945Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+          },
+          "requestId": "a79055c8-cd8a-4911-bae2-494031f3cc5e"
+        },
+        {
+          "status": 500,
+          "body": {
+            "statusCode": 500,
+            "message": "Internal server error"
+          },
+          "requestId": "cddd1ee3-e3d6-4332-9b30-f4205cd878c7"
+        }
+      ],
+      "oldAfter": {
+        "id": "d4e50d86-5ca3-4c8d-858f-db199f149d1d",
+        "detail": null,
+        "status": "superseded",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 CAS source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:46:44.888+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+        "updated_at": "2026-11-02T10:46:44.951+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "baa08803-1f93-48f1-ad06-0b9aa4137325"
+      },
+      "newRows": [
+        {
+          "id": "baa08803-1f93-48f1-ad06-0b9aa4137325",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "G1 left",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T10:46:44.945+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "project_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+          "updated_at": "2026-11-02T10:46:44.945+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+          "occurred_at": "2026-11-02T08:00:00+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+          "replacement_reason": "G1 left",
+          "supersedes_record_id": "d4e50d86-5ca3-4c8d-858f-db199f149d1d",
+          "replaced_by_record_id": null
+        }
+      ],
+      "todos": [
+        {
+          "id": "227c773f-1438-43d5-a83f-5058d88dec7b",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 F CAS",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "completed",
+          "summary": "G1 CAS source",
+          "priority": "normal",
+          "source_id": "d4e50d86-5ca3-4c8d-858f-db199f149d1d",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.892+08:00",
+          "project_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+          "updated_at": "2026-11-02T10:46:44.953+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:46:44.946+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+          "target_object_type": "project"
+        },
+        {
+          "id": "b0c268e9-6346-47f6-a4e8-2da3fcf8f240",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 F CAS",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 left",
+          "priority": "normal",
+          "source_id": "baa08803-1f93-48f1-ad06-0b9aa4137325",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:46:44.95+08:00",
+          "project_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+          "updated_at": "2026-11-02T10:46:44.95+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "e47d6f7b-9456-425c-9d90-a951d6a629a1",
+          "target_object_type": "project"
+        }
+      ]
+    }
+  ],
+  "caseCount": 21,
+  "created": {
+    "customer": [],
+    "project": [
+      "4366b33c-009d-4b32-840c-0ec575227621",
+      "fe143308-3db4-42dc-a6db-2ac7e7d5460c",
+      "27b2b363-f160-4f07-8530-d14ed54a78db",
+      "755edc01-316a-4bf2-b3ec-cae377ed2b34",
+      "cb004201-a5fa-4b61-97e2-558f2aa983a8",
+      "44930ba5-1b1d-452a-a21a-14d6dfed3c3d",
+      "cce7606f-addd-43c2-b536-6eed5aa605ba",
+      "6c80cf09-fc34-418c-9924-14537d862d29",
+      "e47d6f7b-9456-425c-9d90-a951d6a629a1"
+    ],
+    "contact": [
+      "7a865cdf-31e0-4509-96db-550f1007ed87",
+      "44d2eddc-1dc6-49f8-85c5-f0b0d830976e"
+    ]
+  },
+  "cleanup": "Pending-original-cohort-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,1270 @@
+{
+  "kind": "R3CDEFG-original-Angular-supplement-platform-cell",
+  "backend": "rust",
+  "label": "windows-rust03",
+  "role": "readonly",
+  "platform": "win32",
+  "tag": "parity04",
+  "apiRunId": "6f67881f-0071-43ca-88cf-0c61ef75f8df",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "createdAt": "2026-11-02T05:05:23.363Z",
+  "input": {
+    "file": "tmp/rust-r3cdefg/ui-input-windows-rust03.json",
+    "bytes": 22980,
+    "rawBytesSha256": "48efbdf1f036a7146d234a9cb5791b1a2598fb4cc33a5d9a70bda2f7b79df776"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "bytes": 10312,
+      "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "b20250e430554fe5f3225e150f5016cc8a502bf4934f68bd7b00927e9ba403a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/supplement-journey01.mjs",
+      "bytes": 19525,
+      "rawBytesSha256": "887851c135ff9c375f646c8d3f9f5f8e13e6a578a45306193e5018007726fc97"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-wire-client.mjs",
+      "bytes": 4227,
+      "rawBytesSha256": "ee4756c501570e8a036897107143343284f9157a2ff45f4690c78f51a8dcb612"
+    }
+  ],
+  "browser": {
+    "file": "E:\\projects\\worktrees\\poms-r2ef-foundation-audit\\poms\\tmp\\rust-r2ef\\windows-browser-cache\\chromium-1243\\chrome-win64\\chrome.exe",
+    "bytes": 4508160,
+    "rawBytesSha256": "9b07943f834485b43c9d54caea2951c78715f9f07070a80ab6658465ebd3e711"
+  },
+  "timezone": "Asia/Tokyo",
+  "result": "Pass",
+  "completed": true,
+  "errorName": null,
+  "failedStage": null,
+  "observations": [
+    {
+      "label": "supplement.windows-rust03.readonly.boundary",
+      "value": {
+        "role": "Root logged-in viewer; no mutation attempts in this journey",
+        "customerWriteCheck": "contact/follow-up panels only",
+        "leadNavigation": "out-of-scope; Lead14 not migrated"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.customer-readonly.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customer-contacts?customerId=256d47e7-e47a-4e48-b950-6420451afcdd",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "createdAt": "2026-11-02T05:04:53.197Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "customerId": "256d47e7-e47a-4e48-b950-6420451afcdd",
+            "customerName": "R3CG UI windows-rust03 客户",
+            "department": "UI客户关系部门",
+            "email": "windowsrust03@example.test",
+            "gender": "female",
+            "id": "926daf1c-b630-4461-99f8-71e295c30436",
+            "mobile": "13812345678",
+            "name": "UI联系人 windows-rust03",
+            "remark": "UI联系人修改 windows-rust03",
+            "rowVersion": 2,
+            "status": "active",
+            "title": "UI调整岗位 windows-rust03",
+            "updatedAt": "2026-11-02T05:04:55.301Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "wechat": "ui-windowsrust03",
+            "workPhone": null
+          }
+        ],
+        "raw": "[{\"createdAt\":\"2026-11-02T05:04:53.197Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"customerId\":\"256d47e7-e47a-4e48-b950-6420451afcdd\",\"customerName\":\"R3CG UI windows-rust03 客户\",\"department\":\"UI客户关系部门\",\"email\":\"windowsrust03@example.test\",\"gender\":\"female\",\"id\":\"926daf1c-b630-4461-99f8-71e295c30436\",\"mobile\":\"13812345678\",\"name\":\"UI联系人 windows-rust03\",\"remark\":\"UI联系人修改 windows-rust03\",\"rowVersion\":2,\"status\":\"active\",\"title\":\"UI调整岗位 windows-rust03\",\"updatedAt\":\"2026-11-02T05:04:55.301Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"wechat\":\"ui-windowsrust03\",\"workPhone\":null}]"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.customer-readonly.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=256d47e7-e47a-4e48-b950-6420451afcdd&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "raw": "[]"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.contacts.dom",
+      "value": "客户关系\n\n维护客户联系人，并作为线索和项目决策链的联系人来源。\n\n刷新\n客户联系人\n1 人\nUI联系人 windows-rust03\n女\n有效\nUI客户关系部门 · UI调整岗位 windows-rust03\n电话：13812345678\n微信：ui-windowsrust03\n邮箱：windowsrust03@example.test\n\nUI联系人修改 windows-rust03"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.customer-followups.dom",
+      "value": "客户销售跟进\n\n沉淀客户级沟通、长期采购信息、合作机会和下一步动作。\n\n显示历史\n刷新\n暂无销售跟进记录。"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.contacts.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.customer-followups.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.technical-cost.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/19377cea-aa15-4611-8353-dde2d7d03a1a/technical-cost-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "allowedActions": [
+            "view-technical-cost-workspace"
+          ],
+          "blockingReasons": [],
+          "costItems": [
+            {
+              "amountExcludingTax": "100.00",
+              "amountIncludingTax": "113.00",
+              "confidenceLevel": "high",
+              "costCategory": "equipment",
+              "costDescription": "G1 设备成本",
+              "costSubcategory": null,
+              "currencyCode": "CNY",
+              "estimationBasis": "G1 已确认询价。",
+              "highUncertainty": false,
+              "id": "89cfd07e-80de-4dfc-86f2-1bc2435fec44",
+              "packageId": "dd0cb2b5-a45e-4e71-b907-d8369cd00d8c",
+              "quantity": null,
+              "responsibleRole": null,
+              "sortOrder": 1,
+              "taxCostAmount": "13.00",
+              "unit": null,
+              "unitPrice": null
+            }
+          ],
+          "currentPackage": {
+            "allowNextStage": true,
+            "blockerCount": 0,
+            "createdAt": "2026-11-02T05:04:41.457Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currencyCode": "CNY",
+            "effectiveAt": "2026-11-02T05:04:41.457Z",
+            "highestRiskLevel": "R1",
+            "id": "dd0cb2b5-a45e-4e71-b907-d8369cd00d8c",
+            "isCurrent": true,
+            "projectId": "19377cea-aa15-4611-8353-dde2d7d03a1a",
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "technicalFeasibilityDecision": "feasible",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "totalTaxCostAmount": "13.00",
+            "updatedAt": "2026-11-02T05:04:41.457Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "2026-11-02T05:05:26.706Z",
+          "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "19377cea-aa15-4611-8353-dde2d7d03a1a",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "b163316f-189f-475f-a341-98a66bcf7e1a",
+              "impactScope": "设备供货范围。",
+              "mitigationPlan": "按已核实周期交付。",
+              "ownerRole": "售前",
+              "packageId": "dd0cb2b5-a45e-4e71-b907-d8369cd00d8c",
+              "riskCategory": "G1 供货",
+              "riskDescription": "供货周期已经核实。",
+              "riskLevel": "R1",
+              "riskStatus": "closed",
+              "sortOrder": 1
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "包含一项设备供货。",
+              "id": "1cbc85ac-0f99-49e0-89d6-164981e2e20e",
+              "label": "G1 设备交付",
+              "packageId": "dd0cb2b5-a45e-4e71-b907-d8369cd00d8c",
+              "scopeType": "in-scope",
+              "sortOrder": 1
+            }
+          ],
+          "status": "active"
+        },
+        "raw": "{\"allowedActions\":[\"view-technical-cost-workspace\"],\"blockingReasons\":[],\"costItems\":[{\"amountExcludingTax\":\"100.00\",\"amountIncludingTax\":\"113.00\",\"confidenceLevel\":\"high\",\"costCategory\":\"equipment\",\"costDescription\":\"G1 设备成本\",\"costSubcategory\":null,\"currencyCode\":\"CNY\",\"estimationBasis\":\"G1 已确认询价。\",\"highUncertainty\":false,\"id\":\"89cfd07e-80de-4dfc-86f2-1bc2435fec44\",\"packageId\":\"dd0cb2b5-a45e-4e71-b907-d8369cd00d8c\",\"quantity\":null,\"responsibleRole\":null,\"sortOrder\":1,\"taxCostAmount\":\"13.00\",\"unit\":null,\"unitPrice\":null}],\"currentPackage\":{\"allowNextStage\":true,\"blockerCount\":0,\"createdAt\":\"2026-11-02T05:04:41.457Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currencyCode\":\"CNY\",\"effectiveAt\":\"2026-11-02T05:04:41.457Z\",\"highestRiskLevel\":\"R1\",\"id\":\"dd0cb2b5-a45e-4e71-b907-d8369cd00d8c\",\"isCurrent\":true,\"projectId\":\"19377cea-aa15-4611-8353-dde2d7d03a1a\",\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"taxAssumptionSummary\":\"G1 设备成本含税测算，税务已复核。\",\"taxReviewStatus\":\"reviewed\",\"technicalConclusionSummary\":\"G1 技术方案可行。\",\"technicalFeasibilityDecision\":\"feasible\",\"totalEstimatedAmountExcludingTax\":\"100.00\",\"totalEstimatedAmountIncludingTax\":\"113.00\",\"totalTaxCostAmount\":\"13.00\",\"updatedAt\":\"2026-11-02T05:04:41.457Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"currentStage\":\"assessment\",\"generatedAt\":\"2026-11-02T05:05:26.706Z\",\"nextStep\":\"进入商务收口前，保持当前版本包作为报价和签约前判断依据。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"projectId\":\"19377cea-aa15-4611-8353-dde2d7d03a1a\",\"riskItems\":[{\"blocksNextStage\":false,\"id\":\"b163316f-189f-475f-a341-98a66bcf7e1a\",\"impactScope\":\"设备供货范围。\",\"mitigationPlan\":\"按已核实周期交付。\",\"ownerRole\":\"售前\",\"packageId\":\"dd0cb2b5-a45e-4e71-b907-d8369cd00d8c\",\"riskCategory\":\"G1 供货\",\"riskDescription\":\"供货周期已经核实。\",\"riskLevel\":\"R1\",\"riskStatus\":\"closed\",\"sortOrder\":1}],\"scopeItems\":[{\"description\":\"包含一项设备供货。\",\"id\":\"1cbc85ac-0f99-49e0-89d6-164981e2e20e\",\"label\":\"G1 设备交付\",\"packageId\":\"dd0cb2b5-a45e-4e71-b907-d8369cd00d8c\",\"scopeType\":\"in-scope\",\"sortOrder\":1}],\"status\":\"active\"}"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.technical-cost.dom",
+      "value": "技术与成本\n\n先确认技术结论、范围边界、风险阻断和前期成本口径。\n\n技术结论\n技术可行\n成本估算\n113.00 CNY\n最高风险\nR1\n当前阻断\n无阻断\n责任归口\nR3CG admin / R3CG admin\n技术结论与版本口径\n\nG1 技术方案可行。\n\n技术可行性\n技术可行\n下一阶段\n允许推进\n版本\nV1\n当前有效版本\n生效时间\n2026/11/02 14:04\n最高风险\nR1\n阻断数量\n0\n税务复核\n已复核\n更新时间\n2026/11/02 14:04\n当前没有阻断项\n进入商务收口前，保持当前版本包作为报价和签约前判断依据。\n范围边界\n\n范围内、排除项和假设必须在进入报价前清楚可读。\n\n类型\t条目\t说明\n\n范围内\n\tG1 设备交付\t包含一项设备供货。\n风险与保留意见\n\n阻塞下一阶段的风险必须明确责任角色和缓解计划。\n\n等级\t类别\t风险\t状态\t责任角色\t缓解计划\n\nR1\n\tG1 供货\t\n供货周期已经核实。\n设备供货范围。\n\t\n已关闭\n\t售前\t按已核实周期交付。\n前期成本与税务\n\nG1 设备成本含税测算，税务已复核。\n\n不含税估算\n100.00 CNY\n税金成本\n13.00 CNY\n含税估算\n113.00 CNY\n币种\nCNY\n首版同一版本包内保持单币种\n类别\t成本说明\t估算依据\t不含税\t税金\t含税\t置信度\t责任角色\n\nequipment\n无子类\n\tG1 设备成本\tG1 已确认询价。\t100.00 CNY\t13.00 CNY\t113.00 CNY\t\n高\n\t待确认\n下一步\n\n进入商务收口前，保持当前版本包作为报价和签约前判断依据。\n\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.technical-cost.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.technical-cost.money.dom",
+      "value": "含税估算\n113.00 CNY"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.technical-cost.money-source",
+      "value": {
+        "field": "含税估算",
+        "rawAmount": "113.00",
+        "currency": "CNY",
+        "expectedOriginalFormatAmount": "113.00 CNY"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.bid-commercial.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/bid-commercial-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "allowedActions": [
+            "view-bid-commercial-workspace"
+          ],
+          "blockingReasons": [],
+          "currentProcess": {
+            "bidMode": "public-tender",
+            "bidPackageNo": "windows-rust03-PKG1",
+            "blockerCount": 0,
+            "createdAt": "2026-11-02T05:05:05.891Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "decisionSummary": "windows-rust03 participate",
+            "effectiveAt": "2026-11-02T05:05:05.891Z",
+            "id": "351568c0-4baa-4dbe-8788-4317ce645e73",
+            "isCurrent": true,
+            "ownerRole": "windows-rust03 bid owner",
+            "processSummary": "windows-rust03 first bid through original UI",
+            "projectId": "9ed358b2-0f8e-4428-9177-996c9a04fff3",
+            "resultStatus": "pending",
+            "resultSummary": null,
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "tenderNo": "windows-rust03-T1",
+            "updatedAt": "2026-11-02T05:05:05.891Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "2026-11-02T05:05:27.062Z",
+          "materialItems": [
+            {
+              "blocksNextStep": true,
+              "dueAt": "2026-11-03T08:00:00.123Z",
+              "id": "884d3e71-0a20-43c8-a538-13b97e71a3b0",
+              "label": "windows-rust03 material",
+              "materialKey": "windows-rust03-material",
+              "materialStatus": "ready",
+              "navigationHint": "/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/workspace/bid-commercial",
+              "processId": "351568c0-4baa-4dbe-8788-4317ce645e73",
+              "responsibleRole": "windows-rust03 material owner",
+              "sortOrder": 1
+            }
+          ],
+          "nextStep": "补齐竞标过程依据，准备进入报价与毛利评审。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "9ed358b2-0f8e-4428-9177-996c9a04fff3",
+          "status": "active",
+          "timelineItems": [
+            {
+              "dueAt": "2026-11-03T03:00:00.000Z",
+              "eventKey": "windows-rust03-event",
+              "id": "3e85815d-8054-4209-8816-5f235a01b169",
+              "label": "windows-rust03 event",
+              "occurredAt": "2026-11-02T02:00:00.456Z",
+              "processId": "351568c0-4baa-4dbe-8788-4317ce645e73",
+              "responsibleRole": "windows-rust03 event owner",
+              "sortOrder": 1,
+              "summary": "windows-rust03 timeline through original UI",
+              "timelineStatus": "done"
+            }
+          ]
+        },
+        "raw": "{\"allowedActions\":[\"view-bid-commercial-workspace\"],\"blockingReasons\":[],\"currentProcess\":{\"bidMode\":\"public-tender\",\"bidPackageNo\":\"windows-rust03-PKG1\",\"blockerCount\":0,\"createdAt\":\"2026-11-02T05:05:05.891Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"decisionSummary\":\"windows-rust03 participate\",\"effectiveAt\":\"2026-11-02T05:05:05.891Z\",\"id\":\"351568c0-4baa-4dbe-8788-4317ce645e73\",\"isCurrent\":true,\"ownerRole\":\"windows-rust03 bid owner\",\"processSummary\":\"windows-rust03 first bid through original UI\",\"projectId\":\"9ed358b2-0f8e-4428-9177-996c9a04fff3\",\"resultStatus\":\"pending\",\"resultSummary\":null,\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"tenderNo\":\"windows-rust03-T1\",\"updatedAt\":\"2026-11-02T05:05:05.891Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"currentStage\":\"assessment\",\"generatedAt\":\"2026-11-02T05:05:27.062Z\",\"materialItems\":[{\"blocksNextStep\":true,\"dueAt\":\"2026-11-03T08:00:00.123Z\",\"id\":\"884d3e71-0a20-43c8-a538-13b97e71a3b0\",\"label\":\"windows-rust03 material\",\"materialKey\":\"windows-rust03-material\",\"materialStatus\":\"ready\",\"navigationHint\":\"/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/workspace/bid-commercial\",\"processId\":\"351568c0-4baa-4dbe-8788-4317ce645e73\",\"responsibleRole\":\"windows-rust03 material owner\",\"sortOrder\":1}],\"nextStep\":\"补齐竞标过程依据，准备进入报价与毛利评审。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"projectId\":\"9ed358b2-0f8e-4428-9177-996c9a04fff3\",\"status\":\"active\",\"timelineItems\":[{\"dueAt\":\"2026-11-03T03:00:00.000Z\",\"eventKey\":\"windows-rust03-event\",\"id\":\"3e85815d-8054-4209-8816-5f235a01b169\",\"label\":\"windows-rust03 event\",\"occurredAt\":\"2026-11-02T02:00:00.456Z\",\"processId\":\"351568c0-4baa-4dbe-8788-4317ce645e73\",\"responsibleRole\":\"windows-rust03 event owner\",\"sortOrder\":1,\"summary\":\"windows-rust03 timeline through original UI\",\"timelineStatus\":\"done\"}]}"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.bid-commercial.dom",
+      "value": "招投标 / 商务竞标\n\n先确认竞标形态、材料责任、关键节点和结果路径。\n\n竞标形态\n公开招标\n当前节点\n材料准备\n参与决策\n参与\n竞标结果\n待结果\n责任归口\nR3CG admin / R3CG admin\n过程维护\n\n新增或编辑当前竞标过程会提交新的当前版本，历史版本由后端保留。\n\n当前只读\n当前用户、项目阶段或项目状态没有招投标 / 商务竞标写入权限。\n当前竞标过程\n\nwindows-rust03 first bid through original UI\n\n竞标形态\n公开招标\n招标编号\nwindows-rust03-T1\n标段 / 包件编号\nwindows-rust03-PKG1\n过程阶段\n材料准备\n参与决策\n参与\n结果状态\n待结果\n阻断数量\n0\n当前版本\nV1\n当前有效版本\n责任角色\nwindows-rust03 bid owner\n生效时间\n2026/11/02 14:05\n当前没有竞标阻断\n补齐竞标过程依据，准备进入报价与毛利评审。\n材料与责任\n\n进入报价前，投标材料、责任角色和阻断状态必须清楚可读。\n\n材料\t状态\t责任角色\t截止时间\t阻断\t导航提示\nwindows-rust03 material\t\n已齐备\n\twindows-rust03 material owner\t2026/11/03 17:00\t阻断下一步\t/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/workspace/bid-commercial\n关键节点\n\n时间线用于解释当前结果是否来自正式过程，而不是页面临时判断。\n\n节点\t状态\t发生时间\t截止时间\t责任角色\t说明\nwindows-rust03 event\t\n已完成\n\t2026/11/02 11:00\t2026/11/03 12:00\twindows-rust03 event owner\twindows-rust03 timeline through original UI\n竞标版本历史\n\n查看当前 / 历史竞标过程、替代链和审计 metadata。\n\n当前版本\nV1\n351568c0...\n历史版本\n0\n不含当前版本\n最近生效\n2026/11/02 14:05\n上一版本\n无上一版本\nRow version 1\n版本\t当前\t状态\t过程阶段\t参与决策\t竞标结果\t生效时间\t创建时间\t操作人 ID\t替代关系\tRow version\nV1\t\n当前\n\t\n生效中\n\t\n过程阶段\n材料准备\n\t\n参与决策\n参与\n\t\n竞标结果\n待结果\n\t2026/11/02 14:05\t2026/11/02 14:05\t\n创建 138c7948-5e72-43c9-82dc-10770c667598\n更新 138c7948-5e72-43c9-82dc-10770c667598\n\t无上一版本\t1\n下一步\n\n补齐竞标过程依据，准备进入报价与毛利评审。\n\n进入报价与毛利评审\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.bid-commercial.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.bid-commercial.money",
+      "value": {
+        "applicability": "N/A",
+        "source": "original bid workspace has no monetary field; process facts remain readable",
+        "currentProcessId": "351568c0-4baa-4dbe-8788-4317ce645e73"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.pricing-margin.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/107a7e15-f2c0-470a-aded-8f1ca274c5b5/pricing-margin-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "allowedActions": [
+            "view-pricing-margin-workspace"
+          ],
+          "bidCommercialProcess": {
+            "bidMode": "public-tender",
+            "bidPackageNo": "UI真实竞标基线 package",
+            "blockerCount": 1,
+            "createdAt": "2026-11-02T05:04:41.510Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "decisionSummary": "UI真实竞标基线 decision",
+            "effectiveAt": "2026-11-02T05:04:41.510Z",
+            "id": "eaf71c85-d36d-4ba1-9c5b-d5f13674571d",
+            "isCurrent": true,
+            "ownerRole": "UI真实竞标基线 owner",
+            "processSummary": "UI真实竞标基线 process",
+            "projectId": "107a7e15-f2c0-470a-aded-8f1ca274c5b5",
+            "resultStatus": "pending",
+            "resultSummary": null,
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "tenderNo": "UI真实竞标基线 tender",
+            "updatedAt": "2026-11-02T05:04:41.510Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "blockingReasons": [
+            "报价与毛利评审尚未形成放行结论。"
+          ],
+          "conditionItems": [],
+          "currentReview": {
+            "approvalScenarioKey": "pricing-margin-review",
+            "bidCommercialProcessId": "eaf71c85-d36d-4ba1-9c5b-d5f13674571d",
+            "blockerCount": 1,
+            "commercialReleaseBaselineId": null,
+            "createdAt": "2026-11-02T05:05:08.514Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currencyCode": "CNY",
+            "decision": "pending",
+            "decisionSummary": "windows-rust03 pending pricing review through original UI",
+            "effectiveAt": "2026-11-02T05:05:08.514Z",
+            "exportPolicy": "internal",
+            "grossMarginBand": "not-calculated",
+            "grossMarginRate": null,
+            "grossMarginSummary": "windows-rust03 gross margin pending review",
+            "id": "4303bbbb-ed65-45bb-a9df-fed462f47d7e",
+            "isCurrent": true,
+            "ownerRole": "R3CG admin / R3CG admin",
+            "paymentTermsSummary": "windows-rust03 payment terms",
+            "pricingPath": "bid",
+            "projectId": "107a7e15-f2c0-470a-aded-8f1ca274c5b5",
+            "projectionLevel": "pricing-margin",
+            "quoteAmountTaxExclusive": "100.00",
+            "quoteAmountTaxInclusive": "120.00",
+            "quoteVersion": "windows-rust03-Q1",
+            "readyForContracting": false,
+            "rowVersion": 1,
+            "status": "effective",
+            "summaryPackageKey": "pricing-margin-summary",
+            "summarySnapshotId": null,
+            "supersedesId": null,
+            "taxConditionSummary": "windows-rust03 tax conditions",
+            "taxRate": "0.20000000",
+            "technicalCostPackageId": "be861d4b-eae9-4aa1-8527-829b5c1f54be",
+            "updatedAt": "2026-11-02T05:05:08.514Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "2026-11-02T05:05:27.392Z",
+          "nextStep": "先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "107a7e15-f2c0-470a-aded-8f1ca274c5b5",
+          "readyForContracting": false,
+          "status": "active",
+          "technicalCostPackage": {
+            "allowNextStage": true,
+            "blockerCount": 0,
+            "createdAt": "2026-11-02T05:04:41.498Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currencyCode": "CNY",
+            "effectiveAt": "2026-11-02T05:04:41.498Z",
+            "highestRiskLevel": "R1",
+            "id": "be861d4b-eae9-4aa1-8527-829b5c1f54be",
+            "isCurrent": true,
+            "projectId": "107a7e15-f2c0-470a-aded-8f1ca274c5b5",
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "technicalFeasibilityDecision": "feasible",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "totalTaxCostAmount": "13.00",
+            "updatedAt": "2026-11-02T05:04:41.498Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          }
+        },
+        "raw": "{\"allowedActions\":[\"view-pricing-margin-workspace\"],\"bidCommercialProcess\":{\"bidMode\":\"public-tender\",\"bidPackageNo\":\"UI真实竞标基线 package\",\"blockerCount\":1,\"createdAt\":\"2026-11-02T05:04:41.510Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"decisionSummary\":\"UI真实竞标基线 decision\",\"effectiveAt\":\"2026-11-02T05:04:41.510Z\",\"id\":\"eaf71c85-d36d-4ba1-9c5b-d5f13674571d\",\"isCurrent\":true,\"ownerRole\":\"UI真实竞标基线 owner\",\"processSummary\":\"UI真实竞标基线 process\",\"projectId\":\"107a7e15-f2c0-470a-aded-8f1ca274c5b5\",\"resultStatus\":\"pending\",\"resultSummary\":null,\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"tenderNo\":\"UI真实竞标基线 tender\",\"updatedAt\":\"2026-11-02T05:04:41.510Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"blockingReasons\":[\"报价与毛利评审尚未形成放行结论。\"],\"conditionItems\":[],\"currentReview\":{\"approvalScenarioKey\":\"pricing-margin-review\",\"bidCommercialProcessId\":\"eaf71c85-d36d-4ba1-9c5b-d5f13674571d\",\"blockerCount\":1,\"commercialReleaseBaselineId\":null,\"createdAt\":\"2026-11-02T05:05:08.514Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currencyCode\":\"CNY\",\"decision\":\"pending\",\"decisionSummary\":\"windows-rust03 pending pricing review through original UI\",\"effectiveAt\":\"2026-11-02T05:05:08.514Z\",\"exportPolicy\":\"internal\",\"grossMarginBand\":\"not-calculated\",\"grossMarginRate\":null,\"grossMarginSummary\":\"windows-rust03 gross margin pending review\",\"id\":\"4303bbbb-ed65-45bb-a9df-fed462f47d7e\",\"isCurrent\":true,\"ownerRole\":\"R3CG admin / R3CG admin\",\"paymentTermsSummary\":\"windows-rust03 payment terms\",\"pricingPath\":\"bid\",\"projectId\":\"107a7e15-f2c0-470a-aded-8f1ca274c5b5\",\"projectionLevel\":\"pricing-margin\",\"quoteAmountTaxExclusive\":\"100.00\",\"quoteAmountTaxInclusive\":\"120.00\",\"quoteVersion\":\"windows-rust03-Q1\",\"readyForContracting\":false,\"rowVersion\":1,\"status\":\"effective\",\"summaryPackageKey\":\"pricing-margin-summary\",\"summarySnapshotId\":null,\"supersedesId\":null,\"taxConditionSummary\":\"windows-rust03 tax conditions\",\"taxRate\":\"0.20000000\",\"technicalCostPackageId\":\"be861d4b-eae9-4aa1-8527-829b5c1f54be\",\"updatedAt\":\"2026-11-02T05:05:08.514Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"currentStage\":\"assessment\",\"generatedAt\":\"2026-11-02T05:05:27.392Z\",\"nextStep\":\"先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"projectId\":\"107a7e15-f2c0-470a-aded-8f1ca274c5b5\",\"readyForContracting\":false,\"status\":\"active\",\"technicalCostPackage\":{\"allowNextStage\":true,\"blockerCount\":0,\"createdAt\":\"2026-11-02T05:04:41.498Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currencyCode\":\"CNY\",\"effectiveAt\":\"2026-11-02T05:04:41.498Z\",\"highestRiskLevel\":\"R1\",\"id\":\"be861d4b-eae9-4aa1-8527-829b5c1f54be\",\"isCurrent\":true,\"projectId\":\"107a7e15-f2c0-470a-aded-8f1ca274c5b5\",\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"taxAssumptionSummary\":\"G1 设备成本含税测算，税务已复核。\",\"taxReviewStatus\":\"reviewed\",\"technicalConclusionSummary\":\"G1 技术方案可行。\",\"technicalFeasibilityDecision\":\"feasible\",\"totalEstimatedAmountExcludingTax\":\"100.00\",\"totalEstimatedAmountIncludingTax\":\"113.00\",\"totalTaxCostAmount\":\"13.00\",\"updatedAt\":\"2026-11-02T05:04:41.498Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1}}"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.pricing-margin.dom",
+      "value": "报价与毛利评审\n\n先确认报价、成本版本、税务回款条件和放行结论。\n\n报价版本\nwindows-rust03-Q1\n评审结论\n待评审\n毛利判断\n未计算\n签约承接\n暂不可进入\n责任归口\nR3CG admin / R3CG admin\n评审维护\n\n新增或编辑当前报价评审会提交新的当前版本，历史版本由后端保留。\n\n当前只读\n当前用户、项目阶段或项目状态没有报价 / 毛利评审写入权限。\n当前报价评审\n\nwindows-rust03 pending pricing review through original UI\n\n评审结论\n待评审\n毛利区间\n未计算\n签约承接\n暂不可进入\n阻断数量\n1\n当前版本\nV1\n当前有效版本\n商业放行基线\n待形成\n责任角色\nR3CG admin / R3CG admin\n生效时间\n2026/11/02 14:05\n当前阻断项\n报价与毛利评审尚未形成放行结论。\n报价、税务与回款条件\n\nwindows-rust03 gross margin pending review\n\n含税报价\n120.00 CNY\n不含税报价\n100.00 CNY\n税率\n20.00%\n毛利率\n待确认\n报价路径\n竞标承接\n税务条件\nwindows-rust03 tax conditions\n回款条件\nwindows-rust03 payment terms\n导出策略\ninternal\npricing-margin\n上游事实引用\n\n报价结论必须能追溯到成本版本和竞标 / 商务路径。\n\n成本版本\nV1\n当前有效版本\n技术可行性\n技术可行\n含税估算\n113.00 CNY\n税务复核\nreviewed\n竞标形态\n公开招标\n竞标结果\n待结果\n竞标版本\nV1\n当前有效版本\n结果说明\nUI真实竞标基线 decision\n条件与阻断\n\n有条件放行、升级或阻断项必须明确责任角色、截止时间和处理结论。\n\n条件\t类型\t状态\t签约前必须完成\t责任角色\t截止时间\t说明\n当前报价评审没有条件项。\n报价评审版本历史\n\n查看当前 / 历史报价评审、替代链和审计 metadata。\n\n当前版本\nV1\nwindows-rust03-Q1\n历史版本\n0\n不含当前版本\n最近生效\n2026/11/02 14:05\n上一版本\n无上一版本\nRow version 1\n版本\t当前\t状态\t报价版本\t毛利判断\t评审结论\t生效时间\t创建时间\t操作人 ID\t替代关系\tRow version\nV1\t\n当前\n\t\n生效中\n\t\n报价版本\nwindows-rust03-Q1\n\t\n毛利判断\n未计算\n\t\n评审结论\n待评审\n\t2026/11/02 14:05\t2026/11/02 14:05\t\n创建 138c7948-5e72-43c9-82dc-10770c667598\n更新 138c7948-5e72-43c9-82dc-10770c667598\n\t无上一版本\t1\n下一步\n\n先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。\n\n查看招投标 / 商务竞标\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.pricing-margin.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.pricing-margin.money.dom",
+      "value": "含税报价\n120.00 CNY"
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.workspace.pricing-margin.money-source",
+      "value": {
+        "field": "含税报价",
+        "rawAmount": "120.00",
+        "currency": "CNY",
+        "expectedOriginalFormatAmount": "120.00 CNY"
+      }
+    },
+    {
+      "label": "supplement.windows-rust03.readonly.complete",
+      "value": {
+        "readOnlySourceUIObserved": true,
+        "monetaryFieldsObservedWithoutMasking": [
+          "technical cost amount",
+          "pricing quote amount"
+        ],
+        "productPermissionExpansion": false
+      }
+    }
+  ],
+  "network": [
+    {
+      "index": 0,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:25.701Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0000.json",
+        "bytes": 2195,
+        "rawBytesSha256": "d4122c9b86b55365dc102732f1300435b9cdae47c726a969721b33088fb1bce2"
+      },
+      "completedAt": "2026-11-02T05:05:25.709Z"
+    },
+    {
+      "index": 1,
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:25.760Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0001.json",
+        "bytes": 2010,
+        "rawBytesSha256": "02a2ddf16f87b51407f075ce85e5f7cfe90b36f7851a5e0361b2fd29fcdb8756"
+      },
+      "completedAt": "2026-11-02T05:05:25.764Z"
+    },
+    {
+      "index": 2,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:25.978Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0002.json",
+        "bytes": 2370,
+        "rawBytesSha256": "0fa196cad6091341175f7fbb826db67151acaa3e0f8ce147ec988e58da013f0b"
+      },
+      "completedAt": "2026-11-02T05:05:25.980Z"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:25.985Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0003.json",
+        "bytes": 3980,
+        "rawBytesSha256": "e7f79aab5d0de13882c718074825e0cae8b43fa236eb2da3857c4926b5eac978"
+      },
+      "completedAt": "2026-11-02T05:05:25.998Z"
+    },
+    {
+      "index": 4,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.001Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0004.json",
+        "bytes": 2638,
+        "rawBytesSha256": "a0fd5ce3795a68c1e3aefaadc48b3804e0277028a980e2599f6c08b0a7132d20"
+      },
+      "completedAt": "2026-11-02T05:05:26.011Z"
+    },
+    {
+      "index": 5,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.042Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0005.json",
+        "bytes": 3279,
+        "rawBytesSha256": "98bbaeef87f0814cd34b805b09fc88740b8826b0cf6fcdaa37a0df8697c45802"
+      },
+      "completedAt": "2026-11-02T05:05:26.051Z"
+    },
+    {
+      "index": 6,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.052Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0006.json",
+        "bytes": 3279,
+        "rawBytesSha256": "6d98ce4505a07185e36946f1754d9f8fee9edbd307152f877f93f44954b2a1f2"
+      },
+      "completedAt": "2026-11-02T05:05:26.060Z"
+    },
+    {
+      "index": 7,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.056Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0007.json",
+        "bytes": 2710,
+        "rawBytesSha256": "3c82b95f26ee644d860d2c12c5c8b2e5786ebe4530a0b157f33afc7b8a972427"
+      },
+      "completedAt": "2026-11-02T05:05:26.068Z"
+    },
+    {
+      "index": 8,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.068Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0008.json",
+        "bytes": 2710,
+        "rawBytesSha256": "7451e143226c681b38ad9d6d8336f77b79f42ef07a4d5cbc073a90a8fb45bd0b"
+      },
+      "completedAt": "2026-11-02T05:05:26.077Z"
+    },
+    {
+      "index": 9,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.071Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0009.json",
+        "bytes": 2340,
+        "rawBytesSha256": "480c055bc8e5c59fb8c48a6c088a1b7489b5b8e7338fc3d1ba30f5ac56747622"
+      },
+      "completedAt": "2026-11-02T05:05:26.079Z"
+    },
+    {
+      "index": 10,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.072Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0010.json",
+        "bytes": 2335,
+        "rawBytesSha256": "c2ed541b22b4c9ea704cc0a837c4b4f70419d97d03206d73303d095be5b8b958"
+      },
+      "completedAt": "2026-11-02T05:05:26.083Z"
+    },
+    {
+      "index": 11,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.079Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0011.json",
+        "bytes": 2340,
+        "rawBytesSha256": "a44c8a16601723ae66d40ac07cc9d04b204f4039c71fc30ba6b6ccebaab87720"
+      },
+      "completedAt": "2026-11-02T05:05:26.085Z"
+    },
+    {
+      "index": 12,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.083Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0012.json",
+        "bytes": 2335,
+        "rawBytesSha256": "4d2b64392a6e8e70a034aae38921ed2d7e08b8a37010e111ee056b96ea0ad844"
+      },
+      "completedAt": "2026-11-02T05:05:26.088Z"
+    },
+    {
+      "index": 13,
+      "method": "GET",
+      "path": "/api/customers/256d47e7-e47a-4e48-b950-6420451afcdd/workspace-overview",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.172Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0013.json",
+        "bytes": 7254,
+        "rawBytesSha256": "fef23c0697abc9cf762ef037a131096a471cf3c2b4558f04447ee77ac6e233c3"
+      },
+      "completedAt": "2026-11-02T05:05:26.184Z"
+    },
+    {
+      "index": 14,
+      "method": "GET",
+      "path": "/api/customers/256d47e7-e47a-4e48-b950-6420451afcdd",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.173Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0014.json",
+        "bytes": 3669,
+        "rawBytesSha256": "5cf390c5859744be1738c12517bd7b9bcf6c540a65c9c3da0ee207844bebe744"
+      },
+      "completedAt": "2026-11-02T05:05:26.187Z"
+    },
+    {
+      "index": 15,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=256d47e7-e47a-4e48-b950-6420451afcdd",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.247Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0015.json",
+        "bytes": 3244,
+        "rawBytesSha256": "3b5596fb8d2a6977d83ed53b9df8f0601f76adc797c6fbc401866d0d4a31bce8"
+      },
+      "completedAt": "2026-11-02T05:05:26.260Z"
+    },
+    {
+      "index": 16,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=256d47e7-e47a-4e48-b950-6420451afcdd",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:05:26.248Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0016.json",
+        "bytes": 2706,
+        "rawBytesSha256": "abaabce797235b54c0e0157c715e64f56e5a40e7fc050eb42000aa09d51c519e"
+      },
+      "completedAt": "2026-11-02T05:05:26.253Z"
+    },
+    {
+      "index": 17,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=256d47e7-e47a-4e48-b950-6420451afcdd&lifecycleScope=active",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.248Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0017.json",
+        "bytes": 2420,
+        "rawBytesSha256": "25e2324f61fd95e8d51b6ab3a0f01ef7dcc87c5eba66001fce2c802292d41f20"
+      },
+      "completedAt": "2026-11-02T05:05:26.261Z"
+    },
+    {
+      "index": 18,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.249Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0018.json",
+        "bytes": 5875,
+        "rawBytesSha256": "de5316bcc1605a30d71297218e68223c26b0ddd26e66a8adacc7ced5002b4ab2"
+      },
+      "completedAt": "2026-11-02T05:05:26.274Z"
+    },
+    {
+      "index": 19,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=256d47e7-e47a-4e48-b950-6420451afcdd",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.250Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0019.json",
+        "bytes": 2404,
+        "rawBytesSha256": "44ee47ab775cd3bf4eb43bb77ddfac425d8a48f6629eacb1130e773441e7189c"
+      },
+      "completedAt": "2026-11-02T05:05:26.266Z"
+    },
+    {
+      "index": 20,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.250Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0020.json",
+        "bytes": 10622,
+        "rawBytesSha256": "12d642bcb31d0820b22b342a7d5c147d8c599d2170df42cce4e34a2f6fd5e32f"
+      },
+      "completedAt": "2026-11-02T05:05:26.282Z"
+    },
+    {
+      "index": 21,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.529Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0021.json",
+        "bytes": 3327,
+        "rawBytesSha256": "37496baabe2967caee027b6b6948a1e4ad2709952733ccf14e5facf66bd4cef3"
+      },
+      "completedAt": "2026-11-02T05:05:26.539Z"
+    },
+    {
+      "index": 22,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.539Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0022.json",
+        "bytes": 3327,
+        "rawBytesSha256": "331ff2204a16855d7f9cb43cf859d20d514265ba0f3fcba665840e19ad3c61b9"
+      },
+      "completedAt": "2026-11-02T05:05:26.548Z"
+    },
+    {
+      "index": 23,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.541Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0023.json",
+        "bytes": 2758,
+        "rawBytesSha256": "a57172808ae8c3ab0f2c1d1c4385985a8694424a598b0b8705c739f63d47a2fa"
+      },
+      "completedAt": "2026-11-02T05:05:26.550Z"
+    },
+    {
+      "index": 24,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.550Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0024.json",
+        "bytes": 2758,
+        "rawBytesSha256": "e19034c0100ded4dd245d2c20c6e156edc668b141de87fb451549889d92636cb"
+      },
+      "completedAt": "2026-11-02T05:05:26.559Z"
+    },
+    {
+      "index": 25,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.552Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0025.json",
+        "bytes": 2388,
+        "rawBytesSha256": "dd0c5c81009dbaf9d966ec00ee00f998e7510a928696b303e884ce923ed71007"
+      },
+      "completedAt": "2026-11-02T05:05:26.558Z"
+    },
+    {
+      "index": 26,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.553Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0026.json",
+        "bytes": 2383,
+        "rawBytesSha256": "3082c47967ac90c96f3125bdd8d41f9eac8824be3860d994d3d530f7cf093cd2"
+      },
+      "completedAt": "2026-11-02T05:05:26.561Z"
+    },
+    {
+      "index": 27,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.561Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0027.json",
+        "bytes": 2388,
+        "rawBytesSha256": "f31414a52d55eaaaf43352d811cc7e01828cbc5b8b9ab6c771841d52cdbc217f"
+      },
+      "completedAt": "2026-11-02T05:05:26.568Z"
+    },
+    {
+      "index": 28,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.562Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0028.json",
+        "bytes": 2383,
+        "rawBytesSha256": "c10d117cb63300d68861e05600adc40720d1167322adaaeb6a60054c5a87c9bf"
+      },
+      "completedAt": "2026-11-02T05:05:26.568Z"
+    },
+    {
+      "index": 29,
+      "method": "GET",
+      "path": "/api/projects/19377cea-aa15-4611-8353-dde2d7d03a1a",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.656Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0029.json",
+        "bytes": 4858,
+        "rawBytesSha256": "7e4fef04c8be12434341614bda285640f55a5eeee2530ccecef24940bc22d2a7"
+      },
+      "completedAt": "2026-11-02T05:05:26.668Z"
+    },
+    {
+      "index": 30,
+      "method": "GET",
+      "path": "/api/projects/19377cea-aa15-4611-8353-dde2d7d03a1a/workspace-guidance",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:05:26.656Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0030.json",
+        "bytes": 2806,
+        "rawBytesSha256": "30ce65f7513d02e8bbc7220eeaa43824f0833390b99adac5a1cff304e0078cad"
+      },
+      "completedAt": "2026-11-02T05:05:26.659Z"
+    },
+    {
+      "index": 31,
+      "method": "GET",
+      "path": "/api/projects/19377cea-aa15-4611-8353-dde2d7d03a1a/technical-cost-workspace",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.695Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0031.json",
+        "bytes": 5427,
+        "rawBytesSha256": "7f7b38c5e87b5c8c4314515e1e6fa78f2dd0262dc2c5d1e0dc73b2f982e140a6"
+      },
+      "completedAt": "2026-11-02T05:05:26.707Z"
+    },
+    {
+      "index": 32,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.873Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0032.json",
+        "bytes": 3327,
+        "rawBytesSha256": "74acd8dda4c32d4d38575dc53737b3dc859913ef2cf894b187f39b79ea69bffb"
+      },
+      "completedAt": "2026-11-02T05:05:26.885Z"
+    },
+    {
+      "index": 33,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.885Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0033.json",
+        "bytes": 3327,
+        "rawBytesSha256": "e1197d91fe0ee6266d116e546aabba20ac83fb6c0a34e584a6e38cc5441590a3"
+      },
+      "completedAt": "2026-11-02T05:05:26.898Z"
+    },
+    {
+      "index": 34,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.893Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0034.json",
+        "bytes": 2758,
+        "rawBytesSha256": "1d3439595382f36a738a65e40bf75402094ba714ff8ed4faec4cf009ae0ed427"
+      },
+      "completedAt": "2026-11-02T05:05:26.903Z"
+    },
+    {
+      "index": 35,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.903Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0035.json",
+        "bytes": 2758,
+        "rawBytesSha256": "5d4ce2979726822813cac179107793022fb8986f8938706262b8dfe79f92d704"
+      },
+      "completedAt": "2026-11-02T05:05:26.913Z"
+    },
+    {
+      "index": 36,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.905Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0036.json",
+        "bytes": 2388,
+        "rawBytesSha256": "0aedc7a8b9af29ecd42981ade990f903a980f2c5a51bb7622fbde4da0bc9459a"
+      },
+      "completedAt": "2026-11-02T05:05:26.912Z"
+    },
+    {
+      "index": 37,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.906Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0037.json",
+        "bytes": 2383,
+        "rawBytesSha256": "bdfef037bbac50a02bcf44cd50d58e9bec294e90f49ec4b2b43103afa7932593"
+      },
+      "completedAt": "2026-11-02T05:05:26.914Z"
+    },
+    {
+      "index": 38,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.915Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0038.json",
+        "bytes": 2383,
+        "rawBytesSha256": "425458139a07e9157ee55543e4ac166a35d7f95465285d25890bbf09a8dff21b"
+      },
+      "completedAt": "2026-11-02T05:05:26.923Z"
+    },
+    {
+      "index": 39,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:26.915Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0039.json",
+        "bytes": 2388,
+        "rawBytesSha256": "a1665a6a80fc994794f11d5279423f2d864257212be04fc16fa78c99e5517dc0"
+      },
+      "completedAt": "2026-11-02T05:05:26.921Z"
+    },
+    {
+      "index": 40,
+      "method": "GET",
+      "path": "/api/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.008Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0040.json",
+        "bytes": 5002,
+        "rawBytesSha256": "f53a75ce6c043d53a964221613dba7f4c00dc3bdcc253a781a980c8968adf103"
+      },
+      "completedAt": "2026-11-02T05:05:27.020Z"
+    },
+    {
+      "index": 41,
+      "method": "GET",
+      "path": "/api/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/workspace-guidance",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:05:27.009Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0041.json",
+        "bytes": 2806,
+        "rawBytesSha256": "4d5d62573aabdf0a791923a03bbe7d1df9a8a01d2ef33bdbefd41834d81fb4a4"
+      },
+      "completedAt": "2026-11-02T05:05:27.011Z"
+    },
+    {
+      "index": 42,
+      "method": "GET",
+      "path": "/api/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/bid-commercial-workspace",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.051Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0042.json",
+        "bytes": 5023,
+        "rawBytesSha256": "7f044c93a0989101b1d6e9758c34cf2dcb97fba7aa1d244d30ea85a3d037c436"
+      },
+      "completedAt": "2026-11-02T05:05:27.064Z"
+    },
+    {
+      "index": 43,
+      "method": "GET",
+      "path": "/api/projects/9ed358b2-0f8e-4428-9177-996c9a04fff3/bid-commercial-processes",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.052Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0043.json",
+        "bytes": 3465,
+        "rawBytesSha256": "9050156ac68597cb3be3a988bf797c1792e12a1111326339fd9e021506f0cbc4"
+      },
+      "completedAt": "2026-11-02T05:05:27.062Z"
+    },
+    {
+      "index": 44,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.212Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0044.json",
+        "bytes": 3327,
+        "rawBytesSha256": "0f26a1254c311c638d807f14c25d427a0f2e9d26bf82842f7d290254cc7a2a93"
+      },
+      "completedAt": "2026-11-02T05:05:27.222Z"
+    },
+    {
+      "index": 45,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.223Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0045.json",
+        "bytes": 3327,
+        "rawBytesSha256": "e624c9767711e7ca32b802c3be70a283f174470461248a4594a024ec9317191a"
+      },
+      "completedAt": "2026-11-02T05:05:27.233Z"
+    },
+    {
+      "index": 46,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.225Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0046.json",
+        "bytes": 2758,
+        "rawBytesSha256": "207c630584c8f8aa973ba503ff2274f6f3a8783ec709339f930d3dd54ac1efd5"
+      },
+      "completedAt": "2026-11-02T05:05:27.235Z"
+    },
+    {
+      "index": 47,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.235Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0047.json",
+        "bytes": 2758,
+        "rawBytesSha256": "26003550fbbcddb78036354c8ba0908102603bbe3606bedf5faa36aae37cad7a"
+      },
+      "completedAt": "2026-11-02T05:05:27.246Z"
+    },
+    {
+      "index": 48,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.237Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0048.json",
+        "bytes": 2388,
+        "rawBytesSha256": "ea5544bc11290d0133aa4f08e60f044e047b50eaa8568d389ce86a6a0656e167"
+      },
+      "completedAt": "2026-11-02T05:05:27.244Z"
+    },
+    {
+      "index": 49,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.237Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0049.json",
+        "bytes": 2383,
+        "rawBytesSha256": "3f37de14ca03ff68a32a83b590fbb6c7d3f370fa898c563d3b963fb55d16dba1"
+      },
+      "completedAt": "2026-11-02T05:05:27.245Z"
+    },
+    {
+      "index": 50,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.248Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0050.json",
+        "bytes": 2388,
+        "rawBytesSha256": "488d5ca32ca295ee693337669dd14cf71affe4dccbc056f29ade482b2cf437c8"
+      },
+      "completedAt": "2026-11-02T05:05:27.255Z"
+    },
+    {
+      "index": 51,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.249Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0051.json",
+        "bytes": 2383,
+        "rawBytesSha256": "2f3a841b985b5541bf4a59f260f69ec5dd7dcdcc5cebf8b38547a4682d068ad6"
+      },
+      "completedAt": "2026-11-02T05:05:27.256Z"
+    },
+    {
+      "index": 52,
+      "method": "GET",
+      "path": "/api/projects/107a7e15-f2c0-470a-aded-8f1ca274c5b5",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.337Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0052.json",
+        "bytes": 5010,
+        "rawBytesSha256": "c2306fe6875a5255fc0680a0c2d794b4b08fb53fb7c129eb9a0680df6b0efcdf"
+      },
+      "completedAt": "2026-11-02T05:05:27.348Z"
+    },
+    {
+      "index": 53,
+      "method": "GET",
+      "path": "/api/projects/107a7e15-f2c0-470a-aded-8f1ca274c5b5/workspace-guidance",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:05:27.337Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0053.json",
+        "bytes": 2806,
+        "rawBytesSha256": "6bcb00856136b8ac2a9b0fe4d9e25c8747bce0e386dfa38f778627a5aeb5f9bb"
+      },
+      "completedAt": "2026-11-02T05:05:27.340Z"
+    },
+    {
+      "index": 54,
+      "method": "GET",
+      "path": "/api/projects/107a7e15-f2c0-470a-aded-8f1ca274c5b5/pricing-margin-workspace",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.374Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0054.json",
+        "bytes": 6995,
+        "rawBytesSha256": "9635aa65c5da575a4801fea2a2797f07839f6b16579d9bacc03c6d5027331ba7"
+      },
+      "completedAt": "2026-11-02T05:05:27.393Z"
+    },
+    {
+      "index": 55,
+      "method": "GET",
+      "path": "/api/projects/107a7e15-f2c0-470a-aded-8f1ca274c5b5/pricing-margin-reviews",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:05:27.375Z",
+      "privateRaw": {
+        "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3cdefg/private/ui-extra-windows-rust03-readonly/proxy/http-0055.json",
+        "bytes": 4213,
+        "rawBytesSha256": "4d93458ebe9ec796ab68c2521a5997d150800312d04a10fa02834abb46cc24d3"
+      },
+      "completedAt": "2026-11-02T05:05:27.384Z"
+    }
+  ],
+  "staticBuild": {
+    "memberCount": 422,
+    "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+  },
+  "closure": {
+    "browserClosed": true,
+    "serverClosed": true,
+    "pending": 0,
+    "allRawExchangesRetained": true
+  },
+  "credentialOrRawAuthPublished": false,
+  "noMocksOrComponentEvaluate": true,
+  "outOfScopeRequestsDoNotClaimMigration": true,
+  "cohortCleanup": "Pending-whole-API-and-UI-cohort-terminal",
+  "G3Certified": false,
+  "G4Certified": false
+}

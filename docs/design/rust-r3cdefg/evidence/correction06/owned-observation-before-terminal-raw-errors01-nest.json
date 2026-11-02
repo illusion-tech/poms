@@ -1,0 +1,323 @@
+{
+  "kind": "R3CDEFG-complete-owned-business-before-terminal",
+  "backend": "nest",
+  "tag": "raw-errors01",
+  "runId": "eb7197ef-8f7f-4a0a-8320-2d75b2323601",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+  "rawBusinessRows": [
+    {
+      "table": "customer",
+      "rawJSONRows": [
+        "{\"id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"remark\": null, \"status\": \"active\", \"created_at\": \"2026-11-02T13:51:34.173+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"legal_name\": null, \"short_name\": null, \"updated_at\": \"2026-11-02T13:51:34.173+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_no\": \"CUST-2026-000003\", \"row_version\": 1, \"display_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_channel\": null, \"merged_into_customer_id\": null}",
+        "{\"id\": \"da703fa1-ca4e-4142-8096-3dc5c75cabd0\", \"remark\": null, \"status\": \"inactive\", \"created_at\": \"2026-11-02T13:51:35.57+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"legal_name\": null, \"short_name\": null, \"updated_at\": \"2026-11-02T13:51:35.594+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_no\": \"CUST-2026-000004\", \"row_version\": 2, \"display_name\": \"R3CG inactive eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_channel\": null, \"merged_into_customer_id\": null}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "customer_alias",
+      "rawJSONRows": [
+        "{\"id\": \"2e3312be-8016-476d-b044-ae5cb5ad0481\", \"alias_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T13:51:34.173+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_primary\": true, \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"normalized_name\": \"r3cg eb7197ef-8f7f-4a0a-8320-2d75b2323601\"}",
+        "{\"id\": \"2ec5d196-8be1-44d2-a160-5660ffc606eb\", \"alias_name\": \"R3CG inactive eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T13:51:35.57+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_primary\": true, \"customer_id\": \"da703fa1-ca4e-4142-8096-3dc5c75cabd0\", \"normalized_name\": \"r3cg inactive eb7197ef-8f7f-4a0a-8320-2d75b2323601\"}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "customer_contact",
+      "rawJSONRows": [
+        "{\"id\": \"83afb7fa-2ece-4254-8c65-483211493444\", \"name\": \"G1 客户联系人😀\", \"email\": \"g1@example.test\", \"title\": null, \"gender\": \"unknown\", \"mobile\": null, \"remark\": null, \"status\": \"active\", \"wechat\": null, \"created_at\": \"2026-11-02T13:51:35.147+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"department\": null, \"updated_at\": \"2026-11-02T13:51:35.147+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"work_phone\": null, \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1}",
+        "{\"id\": \"a52f341a-2f1a-4533-b9c5-1dee1956c514\", \"name\": \"G1 inactive contact\", \"email\": null, \"title\": null, \"gender\": \"unknown\", \"mobile\": null, \"remark\": null, \"status\": \"active\", \"wechat\": null, \"created_at\": \"2026-11-02T13:51:35.635+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"department\": null, \"updated_at\": \"2026-11-02T13:51:35.635+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"work_phone\": null, \"customer_id\": \"da703fa1-ca4e-4142-8096-3dc5c75cabd0\", \"row_version\": 1}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project",
+      "rawJSONRows": [
+        "{\"id\": \"26642919-dc7c-492d-adec-e3d1fbc939f1\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.06+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000010\", \"updated_at\": \"2026-11-02T13:52:04.06+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 low\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"2b7356ef-c01e-4cd1-a3e6-c18f84e7bf3d\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.411+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-02T13:52:04.411+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 matched-high\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"2bb98a1a-410f-42d3-9efd-c203ab1bbdc2\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.744+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000004\", \"updated_at\": \"2026-11-02T13:51:34.744+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 large-9999999999999999.99\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"426e7474-7443-4402-a1ac-0942ee4c44ab\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.68+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000003\", \"updated_at\": \"2026-11-02T13:51:34.68+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 large-9007199254740993.00\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"44380f2e-04c1-4ef5-bdee-d6fe6938b15e\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.007+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000009\", \"updated_at\": \"2026-11-02T13:52:04.007+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 high\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"60ac972f-e38d-4267-a3c2-0a2dfcf0d912\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.924+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000007\", \"updated_at\": \"2026-11-02T13:51:34.924+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 project_technical_cost_package concurrent\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"76e9501f-38fa-4365-85dc-c759d7d3f3f7\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.366+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000016\", \"updated_at\": \"2026-11-02T13:52:04.366+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 trim-high\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"7a36a08c-8a90-4824-a748-0073164b4a7e\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.118+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000011\", \"updated_at\": \"2026-11-02T13:52:04.118+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 astral\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.216+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000001\", \"updated_at\": \"2026-11-02T13:51:34.216+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 version\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"8cf8bd5d-61e1-4ef2-aa6e-6d7407c0ec67\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.274+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000014\", \"updated_at\": \"2026-11-02T13:52:04.274+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 quote\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"9b30e094-8c50-4f1b-a01c-c57574f245db\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.319+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000015\", \"updated_at\": \"2026-11-02T13:52:04.319+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 slash\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"aacf3eb7-c906-4028-98e3-041eec8aec4e\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.513+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000019\", \"updated_at\": \"2026-11-02T13:52:04.513+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 matched-astral\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"b9be2f0b-f89b-4ddb-bc90-fb8a6b89cb5c\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.23+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000013\", \"updated_at\": \"2026-11-02T13:52:04.23+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 nul\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"c74e849e-80a3-4500-b2a6-0e4d6bc26193\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.187+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000012\", \"updated_at\": \"2026-11-02T13:52:04.187+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 ascii\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"d3cec9b0-13cc-479b-a8e1-0f8f31f660cb\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.857+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000006\", \"updated_at\": \"2026-11-02T13:51:34.857+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 bid-fault\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"d5ef17e9-c295-4551-b07b-7d0df67cb8c2\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.589+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000002\", \"updated_at\": \"2026-11-02T13:51:34.589+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 money\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"e17b99a7-7fdd-45f4-b0f8-e30a1b5384d2\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:52:04.468+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000018\", \"updated_at\": \"2026-11-02T13:52:04.468+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG raw errors raw-errors01 01 matched-low\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"e4402cb8-6233-49c6-98b0-cada21b9ec8c\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:34.788+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000005\", \"updated_at\": \"2026-11-02T13:51:34.788+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 cost-fault\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}",
+        "{\"id\": \"e55e85e2-7063-47f9-8555-a01310f5d24f\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-02T13:51:35.037+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_no\": \"PRJ-2026-000008\", \"updated_at\": \"2026-11-02T13:51:35.037+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"row_version\": 1, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"project_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 project_bid_commercial_process concurrent\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_bid_commercial_material_item",
+      "rawJSONRows": [
+        "{\"id\": \"b36c11ad-e190-4b93-866a-41046c4368cc\", \"label\": \"G1 first material label\", \"due_at\": \"2026-11-03T16:00:00.123+08:00\", \"process_id\": \"839283e4-ec48-4aa2-a709-87b049b830af\", \"sort_order\": 1, \"material_key\": \"G1 first material\", \"material_status\": \"in-progress\", \"navigation_hint\": \"/projects/current/workspace/bid-commercial\", \"blocks_next_step\": true, \"responsible_role\": \"G1 first material owner\"}",
+        "{\"id\": \"bb91c4f1-cb2b-4a1c-95b4-8b401d8c2c49\", \"label\": \"G1 first ready material label\", \"due_at\": null, \"process_id\": \"839283e4-ec48-4aa2-a709-87b049b830af\", \"sort_order\": 2, \"material_key\": \"G1 first ready material\", \"material_status\": \"ready\", \"navigation_hint\": null, \"blocks_next_step\": false, \"responsible_role\": null}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_bid_commercial_process",
+      "rawJSONRows": [
+        "{\"id\": \"0338afd2-30ef-47eb-a402-f0f16ef2d809\", \"status\": \"effective\", \"version\": 1, \"bid_mode\": \"public-tender\", \"decision\": \"participate\", \"tender_no\": null, \"created_at\": \"2026-11-02T13:51:35.079+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"owner_role\": null, \"project_id\": \"e55e85e2-7063-47f9-8555-a01310f5d24f\", \"updated_at\": \"2026-11-02T13:51:35.079+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:35.079+08:00\", \"blocker_count\": 0, \"current_stage\": \"preparation\", \"result_status\": \"pending\", \"supersedes_id\": null, \"bid_package_no\": null, \"result_summary\": null, \"process_summary\": \"concurrent\", \"decision_summary\": null}",
+        "{\"id\": \"839283e4-ec48-4aa2-a709-87b049b830af\", \"status\": \"effective\", \"version\": 1, \"bid_mode\": \"public-tender\", \"decision\": \"participate\", \"tender_no\": \"G1 first tender\", \"created_at\": \"2026-11-02T13:51:34.354+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"owner_role\": \"G1 first owner\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:34.354+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:34.353+08:00\", \"blocker_count\": 1, \"current_stage\": \"preparation\", \"result_status\": \"pending\", \"supersedes_id\": null, \"bid_package_no\": \"G1 first package\", \"result_summary\": null, \"process_summary\": \"G1 first process\", \"decision_summary\": \"G1 first decision\"}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_bid_commercial_timeline_item",
+      "rawJSONRows": [
+        "{\"id\": \"0e63fdb1-f4d1-4815-822b-2ea5d8823d28\", \"label\": \"G1 first completed event label\", \"due_at\": \"2026-11-02T11:00:00+08:00\", \"summary\": \"G1 first completed event summary\", \"event_key\": \"G1 first completed event\", \"process_id\": \"839283e4-ec48-4aa2-a709-87b049b830af\", \"sort_order\": 1, \"occurred_at\": \"2026-11-02T10:00:00.456+08:00\", \"timeline_status\": \"done\", \"responsible_role\": \"G1 first event owner\"}",
+        "{\"id\": \"95be66f8-c8c1-4343-abbb-8f720bdd24d4\", \"label\": \"G1 first pending event label\", \"due_at\": \"2026-11-04T16:00:00+08:00\", \"summary\": null, \"event_key\": \"G1 first pending event\", \"process_id\": \"839283e4-ec48-4aa2-a709-87b049b830af\", \"sort_order\": 2, \"occurred_at\": null, \"timeline_status\": \"pending\", \"responsible_role\": null}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_pricing_margin_condition_item",
+      "rawJSONRows": [
+        "{\"id\": \"f5954973-e0b5-4837-8d94-a21be34ba500\", \"label\": \"G1 回款条件确认\", \"due_at\": \"2026-11-02T08:00:00+08:00\", \"review_id\": \"c7bfa8d8-c149-43a4-9bb5-67abee4c327c\", \"sort_order\": 1, \"condition_key\": \"g1-payment-review\", \"condition_type\": \"payment\", \"condition_status\": \"open\", \"responsible_role\": \"财务\", \"condition_summary\": \"核实已记录的回款节点。\", \"resolution_summary\": null, \"required_for_contracting\": false}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_pricing_margin_review",
+      "rawJSONRows": [
+        "{\"id\": \"c7bfa8d8-c149-43a4-9bb5-67abee4c327c\", \"status\": \"effective\", \"version\": 1, \"decision\": \"pending\", \"tax_rate\": 0.13000000, \"created_at\": \"2026-11-02T13:51:34.438+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"owner_role\": null, \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:34.438+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:34.437+08:00\", \"pricing_path\": \"direct-commercial\", \"blocker_count\": 1, \"currency_code\": \"CNY\", \"export_policy\": null, \"quote_version\": \"Q-G1-DIRECT-01\", \"supersedes_id\": null, \"decision_summary\": \"G1 待形成评审结论。\", \"projection_level\": null, \"gross_margin_band\": \"not-calculated\", \"gross_margin_rate\": null, \"summary_package_key\": null, \"summary_snapshot_id\": null, \"gross_margin_summary\": \"G1 毛利判断待评审。\", \"approval_scenario_key\": null, \"payment_terms_summary\": \"G1 按约定节点回款。\", \"ready_for_contracting\": false, \"tax_condition_summary\": \"G1 报价税务条件已记录。\", \"bid_commercial_process_id\": null, \"technical_cost_package_id\": \"9a8a13b2-61f0-4d1c-ac2f-b2e94e09199e\", \"quote_amount_tax_exclusive\": 200.00, \"quote_amount_tax_inclusive\": 226.00, \"commercial_release_baseline_id\": null}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_technical_cost_item",
+      "rawJSONRows": [
+        "{\"id\": \"2f14d647-d4a7-4248-aa54-21a516304873\", \"unit\": null, \"quantity\": null, \"package_id\": \"6f1cb003-f47a-482b-90cb-46ac687978d2\", \"sort_order\": 1, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"CNY\", \"tax_cost_amount\": 13.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 100.00, \"amount_including_tax\": 113.00}",
+        "{\"id\": \"7ce235b7-7eb5-4c16-8b3f-5229c562d140\", \"unit\": null, \"quantity\": null, \"package_id\": \"9a8a13b2-61f0-4d1c-ac2f-b2e94e09199e\", \"sort_order\": 1, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"CNY\", \"tax_cost_amount\": 13.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 100.00, \"amount_including_tax\": 113.00}",
+        "{\"id\": \"85ba6244-cf85-4e35-aeca-09590b1cbe1f\", \"unit\": null, \"quantity\": null, \"package_id\": \"b507e1e9-a7b1-4c1e-88cd-d38a7976316b\", \"sort_order\": 1, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"A�B\", \"tax_cost_amount\": 13.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 100.00, \"amount_including_tax\": 113.00}",
+        "{\"id\": \"879fea25-b4bc-4928-aa31-ea6f1d629e11\", \"unit\": null, \"quantity\": null, \"package_id\": \"502c4ebf-7af7-42ac-b719-2d674a185076\", \"sort_order\": 1, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"CNY\", \"tax_cost_amount\": 0.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 9007199254740992.00, \"amount_including_tax\": 9007199254740992.00}",
+        "{\"id\": \"88e1d71a-1776-4abb-929f-ae61151a4de1\", \"unit\": null, \"quantity\": null, \"package_id\": \"dc040689-e89a-4478-8f9c-2ea417071855\", \"sort_order\": 1, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"A�B\", \"tax_cost_amount\": 13.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 100.00, \"amount_including_tax\": 113.00}",
+        "{\"id\": \"92acac86-270d-4b2e-b689-4220fc8eb958\", \"unit\": null, \"quantity\": 1.2000, \"package_id\": \"559c23b0-88b6-4100-8986-7d8c759a0697\", \"sort_order\": 1, \"unit_price\": 0.1000, \"cost_category\": \"equipment\", \"currency_code\": \"CNY\", \"tax_cost_amount\": 0.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 0.10, \"amount_including_tax\": 0.10}",
+        "{\"id\": \"a51916bf-d751-41d3-8838-43a1b545e5f6\", \"unit\": null, \"quantity\": null, \"package_id\": \"559c23b0-88b6-4100-8986-7d8c759a0697\", \"sort_order\": 2, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"CNY\", \"tax_cost_amount\": 0.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 0.20, \"amount_including_tax\": 0.20}",
+        "{\"id\": \"fb9e3c47-0f41-4a6a-9669-1335e670b53c\", \"unit\": null, \"quantity\": null, \"package_id\": \"36f1e61c-fe15-4d59-a4da-935e2bb4082e\", \"sort_order\": 1, \"unit_price\": null, \"cost_category\": \"equipment\", \"currency_code\": \"A😀B\", \"tax_cost_amount\": 13.00, \"confidence_level\": \"high\", \"cost_description\": \"G1 设备成本\", \"cost_subcategory\": null, \"estimation_basis\": \"G1 已确认询价。\", \"high_uncertainty\": false, \"responsible_role\": null, \"amount_excluding_tax\": 100.00, \"amount_including_tax\": 113.00}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_technical_cost_package",
+      "rawJSONRows": [
+        "{\"id\": \"36f1e61c-fe15-4d59-a4da-935e2bb4082e\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:52:04.537+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"aacf3eb7-c906-4028-98e3-041eec8aec4e\", \"updated_at\": \"2026-11-02T13:52:04.537+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:52:04.537+08:00\", \"blocker_count\": 0, \"currency_code\": \"A😀B\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 13.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 100.00, \"total_estimated_amount_including_tax\": 113.00}",
+        "{\"id\": \"502c4ebf-7af7-42ac-b719-2d674a185076\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:51:34.714+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"426e7474-7443-4402-a1ac-0942ee4c44ab\", \"updated_at\": \"2026-11-02T13:51:34.714+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:34.714+08:00\", \"blocker_count\": 0, \"currency_code\": \"CNY\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 0.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 9007199254740992.00, \"total_estimated_amount_including_tax\": 9007199254740992.00}",
+        "{\"id\": \"559c23b0-88b6-4100-8986-7d8c759a0697\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:51:34.618+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"d5ef17e9-c295-4551-b07b-7d0df67cb8c2\", \"updated_at\": \"2026-11-02T13:51:34.618+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:34.618+08:00\", \"blocker_count\": 0, \"currency_code\": \"CNY\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 0.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 0.30, \"total_estimated_amount_including_tax\": 0.30}",
+        "{\"id\": \"6f1cb003-f47a-482b-90cb-46ac687978d2\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:51:34.966+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"60ac972f-e38d-4267-a3c2-0a2dfcf0d912\", \"updated_at\": \"2026-11-02T13:51:34.966+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:34.966+08:00\", \"blocker_count\": 0, \"currency_code\": \"CNY\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 13.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 100.00, \"total_estimated_amount_including_tax\": 113.00}",
+        "{\"id\": \"9a8a13b2-61f0-4d1c-ac2f-b2e94e09199e\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:51:34.269+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:34.269+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:51:34.268+08:00\", \"blocker_count\": 0, \"currency_code\": \"CNY\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 13.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 100.00, \"total_estimated_amount_including_tax\": 113.00}",
+        "{\"id\": \"b507e1e9-a7b1-4c1e-88cd-d38a7976316b\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:52:04.489+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"e17b99a7-7fdd-45f4-b0f8-e30a1b5384d2\", \"updated_at\": \"2026-11-02T13:52:04.489+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:52:04.489+08:00\", \"blocker_count\": 0, \"currency_code\": \"A�B\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 13.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 100.00, \"total_estimated_amount_including_tax\": 113.00}",
+        "{\"id\": \"dc040689-e89a-4478-8f9c-2ea417071855\", \"status\": \"effective\", \"version\": 1, \"created_at\": \"2026-11-02T13:52:04.436+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"is_current\": true, \"project_id\": \"2b7356ef-c01e-4cd1-a3e6-c18f84e7bf3d\", \"updated_at\": \"2026-11-02T13:52:04.436+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"row_version\": 1, \"effective_at\": \"2026-11-02T13:52:04.436+08:00\", \"blocker_count\": 0, \"currency_code\": \"A�B\", \"supersedes_id\": null, \"allow_next_stage\": true, \"tax_review_status\": \"reviewed\", \"highest_risk_level\": \"R1\", \"total_tax_cost_amount\": 13.00, \"tax_assumption_summary\": \"G1 设备成本含税测算，税务已复核。\", \"technical_conclusion_summary\": \"G1 技术方案可行。\", \"technical_feasibility_decision\": \"feasible\", \"total_estimated_amount_excluding_tax\": 100.00, \"total_estimated_amount_including_tax\": 113.00}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_technical_risk_item",
+      "rawJSONRows": [
+        "{\"id\": \"0bbb4337-ec51-4082-a071-82a9f9920b5d\", \"owner_role\": \"售前\", \"package_id\": \"6f1cb003-f47a-482b-90cb-46ac687978d2\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}",
+        "{\"id\": \"289230e0-31bb-4a41-bc3a-4e5b3982b4d5\", \"owner_role\": \"售前\", \"package_id\": \"559c23b0-88b6-4100-8986-7d8c759a0697\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}",
+        "{\"id\": \"43da1571-59fb-4c15-b91f-73104b6c459c\", \"owner_role\": \"售前\", \"package_id\": \"36f1e61c-fe15-4d59-a4da-935e2bb4082e\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}",
+        "{\"id\": \"8ab354cd-9b11-4b78-9968-61f70cdf2c42\", \"owner_role\": \"售前\", \"package_id\": \"dc040689-e89a-4478-8f9c-2ea417071855\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}",
+        "{\"id\": \"99ab32b5-a69b-4734-92e8-8ff2a0ddb347\", \"owner_role\": \"售前\", \"package_id\": \"b507e1e9-a7b1-4c1e-88cd-d38a7976316b\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}",
+        "{\"id\": \"cc12ef72-ec7e-442e-be53-6ff05b6e555a\", \"owner_role\": \"售前\", \"package_id\": \"9a8a13b2-61f0-4d1c-ac2f-b2e94e09199e\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}",
+        "{\"id\": \"d8ed4890-2811-4a54-92ae-517d6d88fab1\", \"owner_role\": \"售前\", \"package_id\": \"502c4ebf-7af7-42ac-b719-2d674a185076\", \"risk_level\": \"R1\", \"sort_order\": 1, \"risk_status\": \"closed\", \"impact_scope\": \"设备供货范围。\", \"risk_category\": \"G1 供货\", \"mitigation_plan\": \"按已核实周期交付。\", \"risk_description\": \"供货周期已经核实。\", \"blocks_next_stage\": false}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "project_technical_scope_item",
+      "rawJSONRows": [
+        "{\"id\": \"03e962ec-eee3-4537-9fe6-a1d6c0d8133d\", \"label\": \"G1 设备交付\", \"package_id\": \"9a8a13b2-61f0-4d1c-ac2f-b2e94e09199e\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}",
+        "{\"id\": \"1757e096-91e7-4ed0-b3ac-bb9b9b8180b5\", \"label\": \"G1 设备交付\", \"package_id\": \"dc040689-e89a-4478-8f9c-2ea417071855\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}",
+        "{\"id\": \"2ad57886-6c4c-4662-aef3-8b35f5e2dc83\", \"label\": \"G1 设备交付\", \"package_id\": \"559c23b0-88b6-4100-8986-7d8c759a0697\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}",
+        "{\"id\": \"8ef98ede-9863-44c1-989b-3d5a63b44bf5\", \"label\": \"G1 设备交付\", \"package_id\": \"b507e1e9-a7b1-4c1e-88cd-d38a7976316b\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}",
+        "{\"id\": \"c29b2e6e-c35e-4e02-b125-1450c0f1bcaf\", \"label\": \"G1 设备交付\", \"package_id\": \"502c4ebf-7af7-42ac-b719-2d674a185076\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}",
+        "{\"id\": \"d6bdc378-86a4-432c-b660-bf4a31312e8b\", \"label\": \"G1 设备交付\", \"package_id\": \"6f1cb003-f47a-482b-90cb-46ac687978d2\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}",
+        "{\"id\": \"d70fcfbb-f1fa-4d17-90f9-e01e071cf28d\", \"label\": \"G1 设备交付\", \"package_id\": \"36f1e61c-fe15-4d59-a4da-935e2bb4082e\", \"scope_type\": \"in-scope\", \"sort_order\": 1, \"description\": \"包含一项设备供货。\"}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "sales_follow_up_record",
+      "rawJSONRows": [
+        "{\"id\": \"385b060d-d560-45f8-bcc5-5df329456aac\", \"detail\": null, \"status\": \"superseded\", \"lead_id\": null, \"outcome\": \"progress\", \"summary\": \"G1 replace source\", \"voided_at\": null, \"voided_by\": null, \"created_at\": \"2026-11-02T13:51:35.338+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.389+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"occurred_at\": \"2026-11-02T08:00:00+08:00\", \"row_version\": 2, \"void_reason\": null, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"follow_up_type\": \"phone\", \"next_follow_up_at\": \"2027-01-02T08:00:00+08:00\", \"replacement_reason\": null, \"supersedes_record_id\": null, \"replaced_by_record_id\": \"bd0a7436-5a8e-4107-9fde-f4caec1cde71\"}",
+        "{\"id\": \"85a10fa9-9daf-4293-9a99-841f9f7ea23d\", \"detail\": null, \"status\": \"active\", \"lead_id\": null, \"outcome\": \"progress\", \"summary\": \"G1 no next\", \"voided_at\": null, \"voided_by\": null, \"created_at\": \"2026-11-02T13:51:35.305+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.305+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"occurred_at\": \"2026-11-02T08:00:00+08:00\", \"row_version\": 1, \"void_reason\": null, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"follow_up_type\": \"phone\", \"next_follow_up_at\": null, \"replacement_reason\": null, \"supersedes_record_id\": null, \"replaced_by_record_id\": null}",
+        "{\"id\": \"bd0a7436-5a8e-4107-9fde-f4caec1cde71\", \"detail\": null, \"status\": \"active\", \"lead_id\": null, \"outcome\": \"progress\", \"summary\": \"G1 replacement\", \"voided_at\": null, \"voided_by\": null, \"created_at\": \"2026-11-02T13:51:35.382+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.382+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"occurred_at\": \"2026-11-02T08:00:00+08:00\", \"row_version\": 1, \"void_reason\": null, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"follow_up_type\": \"phone\", \"next_follow_up_at\": \"2027-01-02T08:00:00+08:00\", \"replacement_reason\": \"G1 replacement\", \"supersedes_record_id\": \"385b060d-d560-45f8-bcc5-5df329456aac\", \"replaced_by_record_id\": null}",
+        "{\"id\": \"cf973f80-23df-4e5a-a2ce-08f3df400419\", \"detail\": null, \"status\": \"voided\", \"lead_id\": null, \"outcome\": \"progress\", \"summary\": \"G1 audit source\", \"voided_at\": \"2026-11-02T13:51:35.483+08:00\", \"voided_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"created_at\": \"2026-11-02T13:51:35.437+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.485+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"occurred_at\": \"2026-11-02T08:00:00+08:00\", \"row_version\": 2, \"void_reason\": \"G1 denied audit\", \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"follow_up_type\": \"phone\", \"next_follow_up_at\": \"2027-01-02T08:00:00+08:00\", \"replacement_reason\": null, \"supersedes_record_id\": null, \"replaced_by_record_id\": null}",
+        "{\"id\": \"e1441a6e-4747-4dd3-80e6-01485e08e79c\", \"detail\": null, \"status\": \"active\", \"lead_id\": null, \"outcome\": \"progress\", \"summary\": \"G1 first reminder\", \"voided_at\": null, \"voided_by\": null, \"created_at\": \"2026-11-02T13:51:35.258+08:00\", \"created_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.258+08:00\", \"updated_by\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"customer_id\": \"26643513-5988-4155-8a22-194f0c75ee98\", \"occurred_at\": \"2026-11-02T08:00:00+08:00\", \"row_version\": 1, \"void_reason\": null, \"owner_org_id\": \"1a1ba5e5-280d-4a7e-8969-1f3286de94ca\", \"owner_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"follow_up_type\": \"phone\", \"next_follow_up_at\": \"2027-01-02T08:00:00+08:00\", \"replacement_reason\": null, \"supersedes_record_id\": null, \"replaced_by_record_id\": null}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    },
+    {
+      "table": "todo_item",
+      "rawJSONRows": [
+        "{\"id\": \"3e570bf1-b034-41dc-afbc-1f63be545dc5\", \"title\": \"销售跟进提醒：R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 version\", \"due_at\": \"2027-01-02T08:00:00+08:00\", \"status\": \"completed\", \"summary\": \"G1 replace source\", \"priority\": \"normal\", \"source_id\": \"385b060d-d560-45f8-bcc5-5df329456aac\", \"todo_type\": \"sales-follow-up-reminder\", \"created_at\": \"2026-11-02T13:51:35.34+08:00\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.39+08:00\", \"row_version\": 2, \"source_type\": \"sales-follow-up-record\", \"completed_at\": \"2026-11-02T13:51:35.384+08:00\", \"business_domain\": \"sales\", \"assignee_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"target_object_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"target_object_type\": \"project\"}",
+        "{\"id\": \"45869d5a-a0ab-4d76-83b4-d4888646d21c\", \"title\": \"销售跟进提醒：R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 version\", \"due_at\": \"2027-01-02T08:00:00+08:00\", \"status\": \"completed\", \"summary\": \"G1 replacement\", \"priority\": \"normal\", \"source_id\": \"bd0a7436-5a8e-4107-9fde-f4caec1cde71\", \"todo_type\": \"sales-follow-up-reminder\", \"created_at\": \"2026-11-02T13:51:35.387+08:00\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.442+08:00\", \"row_version\": 2, \"source_type\": \"sales-follow-up-record\", \"completed_at\": \"2026-11-02T13:51:35.437+08:00\", \"business_domain\": \"sales\", \"assignee_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"target_object_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"target_object_type\": \"project\"}",
+        "{\"id\": \"5e546140-25e4-452a-8427-ccc953f02ca9\", \"title\": \"销售跟进提醒：R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 version\", \"due_at\": \"2027-01-02T08:00:00+08:00\", \"status\": \"completed\", \"summary\": \"G1 first reminder\", \"priority\": \"normal\", \"source_id\": \"e1441a6e-4747-4dd3-80e6-01485e08e79c\", \"todo_type\": \"sales-follow-up-reminder\", \"created_at\": \"2026-11-02T13:51:35.263+08:00\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.31+08:00\", \"row_version\": 2, \"source_type\": \"sales-follow-up-record\", \"completed_at\": \"2026-11-02T13:51:35.305+08:00\", \"business_domain\": \"sales\", \"assignee_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"target_object_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"target_object_type\": \"project\"}",
+        "{\"id\": \"5ef7117a-6c82-40f1-9df0-24b426c97ba5\", \"title\": \"销售跟进提醒：R3CG eb7197ef-8f7f-4a0a-8320-2d75b2323601 version\", \"due_at\": \"2027-01-02T08:00:00+08:00\", \"status\": \"canceled\", \"summary\": \"G1 audit source\", \"priority\": \"normal\", \"source_id\": \"cf973f80-23df-4e5a-a2ce-08f3df400419\", \"todo_type\": \"sales-follow-up-reminder\", \"created_at\": \"2026-11-02T13:51:35.44+08:00\", \"project_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"updated_at\": \"2026-11-02T13:51:35.487+08:00\", \"row_version\": 2, \"source_type\": \"sales-follow-up-record\", \"completed_at\": \"2026-11-02T13:51:35.485+08:00\", \"business_domain\": \"sales\", \"assignee_user_id\": \"bc16e0a1-b873-403f-b72d-a2a2cc43e8d2\", \"target_object_id\": \"8089ca97-0f90-4682-8dbe-05b10fc3a1c3\", \"target_object_type\": \"project\"}"
+      ],
+      "rawTextNotParsedForNumbers": true
+    }
+  ],
+  "numericText": [
+    {
+      "table": "project_technical_cost_package",
+      "columnsExplicitText": [
+        "total_estimated_amount_excluding_tax",
+        "total_tax_cost_amount",
+        "total_estimated_amount_including_tax"
+      ],
+      "rows": [
+        {
+          "id": "36f1e61c-fe15-4d59-a4da-935e2bb4082e",
+          "total_estimated_amount_excluding_tax": "100.00",
+          "total_tax_cost_amount": "13.00",
+          "total_estimated_amount_including_tax": "113.00"
+        },
+        {
+          "id": "502c4ebf-7af7-42ac-b719-2d674a185076",
+          "total_estimated_amount_excluding_tax": "9007199254740992.00",
+          "total_tax_cost_amount": "0.00",
+          "total_estimated_amount_including_tax": "9007199254740992.00"
+        },
+        {
+          "id": "559c23b0-88b6-4100-8986-7d8c759a0697",
+          "total_estimated_amount_excluding_tax": "0.30",
+          "total_tax_cost_amount": "0.00",
+          "total_estimated_amount_including_tax": "0.30"
+        },
+        {
+          "id": "6f1cb003-f47a-482b-90cb-46ac687978d2",
+          "total_estimated_amount_excluding_tax": "100.00",
+          "total_tax_cost_amount": "13.00",
+          "total_estimated_amount_including_tax": "113.00"
+        },
+        {
+          "id": "9a8a13b2-61f0-4d1c-ac2f-b2e94e09199e",
+          "total_estimated_amount_excluding_tax": "100.00",
+          "total_tax_cost_amount": "13.00",
+          "total_estimated_amount_including_tax": "113.00"
+        },
+        {
+          "id": "b507e1e9-a7b1-4c1e-88cd-d38a7976316b",
+          "total_estimated_amount_excluding_tax": "100.00",
+          "total_tax_cost_amount": "13.00",
+          "total_estimated_amount_including_tax": "113.00"
+        },
+        {
+          "id": "dc040689-e89a-4478-8f9c-2ea417071855",
+          "total_estimated_amount_excluding_tax": "100.00",
+          "total_tax_cost_amount": "13.00",
+          "total_estimated_amount_including_tax": "113.00"
+        }
+      ]
+    },
+    {
+      "table": "project_technical_cost_item",
+      "columnsExplicitText": [
+        "quantity",
+        "unit_price",
+        "amount_excluding_tax",
+        "tax_cost_amount",
+        "amount_including_tax"
+      ],
+      "rows": [
+        {
+          "id": "2f14d647-d4a7-4248-aa54-21a516304873",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "100.00",
+          "tax_cost_amount": "13.00",
+          "amount_including_tax": "113.00"
+        },
+        {
+          "id": "7ce235b7-7eb5-4c16-8b3f-5229c562d140",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "100.00",
+          "tax_cost_amount": "13.00",
+          "amount_including_tax": "113.00"
+        },
+        {
+          "id": "85ba6244-cf85-4e35-aeca-09590b1cbe1f",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "100.00",
+          "tax_cost_amount": "13.00",
+          "amount_including_tax": "113.00"
+        },
+        {
+          "id": "879fea25-b4bc-4928-aa31-ea6f1d629e11",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "9007199254740992.00",
+          "tax_cost_amount": "0.00",
+          "amount_including_tax": "9007199254740992.00"
+        },
+        {
+          "id": "88e1d71a-1776-4abb-929f-ae61151a4de1",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "100.00",
+          "tax_cost_amount": "13.00",
+          "amount_including_tax": "113.00"
+        },
+        {
+          "id": "92acac86-270d-4b2e-b689-4220fc8eb958",
+          "quantity": "1.2000",
+          "unit_price": "0.1000",
+          "amount_excluding_tax": "0.10",
+          "tax_cost_amount": "0.00",
+          "amount_including_tax": "0.10"
+        },
+        {
+          "id": "a51916bf-d751-41d3-8838-43a1b545e5f6",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "0.20",
+          "tax_cost_amount": "0.00",
+          "amount_including_tax": "0.20"
+        },
+        {
+          "id": "fb9e3c47-0f41-4a6a-9669-1335e670b53c",
+          "quantity": null,
+          "unit_price": null,
+          "amount_excluding_tax": "100.00",
+          "tax_cost_amount": "13.00",
+          "amount_including_tax": "113.00"
+        }
+      ]
+    },
+    {
+      "table": "project_pricing_margin_review",
+      "columnsExplicitText": [
+        "quote_amount_tax_inclusive",
+        "quote_amount_tax_exclusive",
+        "tax_rate",
+        "gross_margin_rate"
+      ],
+      "rows": [
+        {
+          "id": "c7bfa8d8-c149-43a4-9bb5-67abee4c327c",
+          "quote_amount_tax_inclusive": "226.00",
+          "quote_amount_tax_exclusive": "200.00",
+          "tax_rate": "0.13000000",
+          "gross_margin_rate": null
+        }
+      ]
+    }
+  ],
+  "credentialsOrRawAuthPublished": false,
+  "all107TablesDeltaReconciled": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

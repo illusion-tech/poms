@@ -1,0 +1,439 @@
+{
+  "kind": "R3CDEFG-original-error-safe-classification",
+  "createdAt": "2026-11-02T03:03:54.559Z",
+  "runId": "8335ed8a-f8ae-4874-a0e5-279189ceae14",
+  "report": {
+    "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/native-witness02/report01.json",
+    "bytes": 79607,
+    "rawBytesSha256": "99ecb8bd7f74a06353ad51a998e1ef358b3844fb602d24162725d22e267b0941"
+  },
+  "streams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/witness-8335ed8a-f8ae-4874-a0e5-279189ceae14/extra02/postgres-stdout-original02.log",
+      "bytes": 830,
+      "rawBytesSha256": "f85c69b1fcd0f652a65a769f2f85dfff8198768cb90dac9751113f41ddb9c77a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/witness-8335ed8a-f8ae-4874-a0e5-279189ceae14/extra02/postgres-stderr-original02.log",
+      "bytes": 463622,
+      "rawBytesSha256": "41dd82bdf35225aba63bbaed502011d880b9ccb302deecd46bf976340a55a910"
+    }
+  ],
+  "errors": [
+    {
+      "case": "cost-second-version",
+      "pid": "81",
+      "category": "unique-violation",
+      "observedConstraintName": "uq_project_technical_cost_package_current",
+      "observedRelation": null,
+      "originalErrorLineSha256": "3c8652384418319924a0e70bda147d33a614baac49e4ebe210b19eef182c0c8f",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "81",
+      "category": "unique-violation",
+      "observedConstraintName": "uq_project_bid_commercial_process_current",
+      "observedRelation": null,
+      "originalErrorLineSha256": "993916460acf4c2c25f59913e69338e3b7ba8c78e8ad07bd08c1c0e884c74573",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "81",
+      "category": "unique-violation",
+      "observedConstraintName": "uq_project_pricing_margin_review_current",
+      "observedRelation": null,
+      "originalErrorLineSha256": "c08aad42ea3ffe217c2d10e5119930ff755466dfb385b4a1f5c6c6c97fd8a61b",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "77",
+      "category": "numeric-field-overflow",
+      "observedConstraintName": null,
+      "observedRelation": null,
+      "originalErrorLineSha256": "3c32f2b2e4f5eb9eaaa6ec07667f567fb80de14f9f247457909ec2bff4f94f1a",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "77",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "project_technical_scope_item",
+      "originalErrorLineSha256": "79bb8285b349b79a37c8456effc732339b95293e8508e17ac9522266bc955a9a",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "77",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "project_bid_commercial_material_item",
+      "originalErrorLineSha256": "42d76d32f37552b722448eccbb7ec345fe77a45e2b8990e55867c476ae4459dc",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "78",
+      "category": "unique-violation",
+      "observedConstraintName": "uq_project_technical_cost_package_project_version",
+      "observedRelation": null,
+      "originalErrorLineSha256": "cc5dcd806bca3384fd33dd7023d8705a69b1dd890a611863eb60b8f85d54885d",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "78",
+      "category": "unique-violation",
+      "observedConstraintName": "uq_project_bid_commercial_process_project_version",
+      "observedRelation": null,
+      "originalErrorLineSha256": "58cccdc77ff7c9801441ec3d50058cc80448f185726e5eb075d7ee7bd346ef0d",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "78",
+      "category": "string-data-right-truncation",
+      "observedConstraintName": null,
+      "observedRelation": null,
+      "originalErrorLineSha256": "aabdb750d0610732828c4ef0cf4543219db153b5231a82089ce5c66ce05ead96",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "78",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "audit_log",
+      "originalErrorLineSha256": "1e1a800858ad6d39358336d19ed9f3b58911a3b950aa38273a617c6fbd005949",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "78",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "audit_log",
+      "originalErrorLineSha256": "9b109c3db30b0eaa00b7000ddfe7c685af98d0c877146d434729edd050f30327",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "78",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "todo_item",
+      "originalErrorLineSha256": "8c5f22b9e6aad23a4ce699cdf2279cc355b99bc4d32541da04879558b1af007d",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "extra-contact-update-denial-rolls-back-prior-audit",
+      "pid": "130",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "customer_contact",
+      "originalErrorLineSha256": "2f5ab8104debb4508072eacf74acaab63ec34e75cc3b6c5f2ae2900bf1dfaa05",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+      "pid": "130",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "sales_follow_up_record",
+      "originalErrorLineSha256": "cf78e12bbb3565a20a04a0150c9bb0f20b885299abdb16c6763023da56601da7",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "extra-followup-replace-postsave-audit-failure",
+      "pid": "130",
+      "category": "permission-denied",
+      "observedConstraintName": null,
+      "observedRelation": "audit_log",
+      "originalErrorLineSha256": "9a0c3308b3fd27cf1403e5962d3da92b77b6e66e43c8424d197a0610f5e66289",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "extra-followup-dictionary33-varchar32",
+      "pid": "130",
+      "category": "string-data-right-truncation",
+      "observedConstraintName": null,
+      "observedRelation": null,
+      "originalErrorLineSha256": "2ce79c863c964508126eb7b0552613a5748ece97af0b0590089f218c57c98bdd",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false
+    },
+    {
+      "case": "extra-followup-replace-two-readers-CAS",
+      "pid": "130",
+      "category": "unique-violation",
+      "observedConstraintName": "uq_sales_follow_up_supersedes_once",
+      "observedRelation": null,
+      "originalErrorLineSha256": "6a21d5cae789f8a9f4e0aa9ceb7a916ba09d2315667a954ec86f85903fcd61de",
+      "SQLSTATEObserved": false,
+      "SQLSTATE": null,
+      "parameterValuesPublished": false,
+      "actualIndex": {
+        "schemaname": "poms",
+        "tablename": "sales_follow_up_record",
+        "indexname": "uq_sales_follow_up_supersedes_once",
+        "indexdef": "CREATE UNIQUE INDEX uq_sales_follow_up_supersedes_once ON poms.sales_follow_up_record USING btree (supersedes_record_id) WHERE (supersedes_record_id IS NOT NULL)"
+      }
+    }
+  ],
+  "currentOriginalIndexDefinitions": [
+    {
+      "schemaname": "poms",
+      "tablename": "customer_contact",
+      "indexname": "customer_contact_pkey",
+      "indexdef": "CREATE UNIQUE INDEX customer_contact_pkey ON poms.customer_contact USING btree (id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "customer_contact",
+      "indexname": "idx_customer_contact_customer_status",
+      "indexdef": "CREATE INDEX idx_customer_contact_customer_status ON poms.customer_contact USING btree (customer_id, status)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "idx_project_bid_commercial_process_mode",
+      "indexdef": "CREATE INDEX idx_project_bid_commercial_process_mode ON poms.project_bid_commercial_process USING btree (bid_mode)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "idx_project_bid_commercial_process_project_current",
+      "indexdef": "CREATE INDEX idx_project_bid_commercial_process_project_current ON poms.project_bid_commercial_process USING btree (project_id, is_current)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "idx_project_bid_commercial_process_project_version",
+      "indexdef": "CREATE INDEX idx_project_bid_commercial_process_project_version ON poms.project_bid_commercial_process USING btree (project_id, version)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "idx_project_bid_commercial_process_result",
+      "indexdef": "CREATE INDEX idx_project_bid_commercial_process_result ON poms.project_bid_commercial_process USING btree (result_status)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "project_bid_commercial_process_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_bid_commercial_process_pkey ON poms.project_bid_commercial_process USING btree (id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "uq_project_bid_commercial_process_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_project_bid_commercial_process_current ON poms.project_bid_commercial_process USING btree (project_id) WHERE (is_current = true)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_bid_commercial_process",
+      "indexname": "uq_project_bid_commercial_process_project_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_project_bid_commercial_process_project_version ON poms.project_bid_commercial_process USING btree (project_id, version)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "idx_project_pricing_margin_review_baseline",
+      "indexdef": "CREATE INDEX idx_project_pricing_margin_review_baseline ON poms.project_pricing_margin_review USING btree (commercial_release_baseline_id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "idx_project_pricing_margin_review_cost_package",
+      "indexdef": "CREATE INDEX idx_project_pricing_margin_review_cost_package ON poms.project_pricing_margin_review USING btree (technical_cost_package_id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "idx_project_pricing_margin_review_decision",
+      "indexdef": "CREATE INDEX idx_project_pricing_margin_review_decision ON poms.project_pricing_margin_review USING btree (decision)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "idx_project_pricing_margin_review_project_current",
+      "indexdef": "CREATE INDEX idx_project_pricing_margin_review_project_current ON poms.project_pricing_margin_review USING btree (project_id, is_current)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "idx_project_pricing_margin_review_project_version",
+      "indexdef": "CREATE INDEX idx_project_pricing_margin_review_project_version ON poms.project_pricing_margin_review USING btree (project_id, version)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "idx_project_pricing_margin_review_summary_snapshot",
+      "indexdef": "CREATE INDEX idx_project_pricing_margin_review_summary_snapshot ON poms.project_pricing_margin_review USING btree (summary_snapshot_id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "project_pricing_margin_review_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_pricing_margin_review_pkey ON poms.project_pricing_margin_review USING btree (id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "uq_project_pricing_margin_review_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_project_pricing_margin_review_current ON poms.project_pricing_margin_review USING btree (project_id) WHERE (is_current = true)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_pricing_margin_review",
+      "indexname": "uq_project_pricing_margin_review_project_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_project_pricing_margin_review_project_version ON poms.project_pricing_margin_review USING btree (project_id, version)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_technical_cost_package",
+      "indexname": "idx_project_technical_cost_package_project_current",
+      "indexdef": "CREATE INDEX idx_project_technical_cost_package_project_current ON poms.project_technical_cost_package USING btree (project_id, is_current)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_technical_cost_package",
+      "indexname": "idx_project_technical_cost_package_project_version",
+      "indexdef": "CREATE INDEX idx_project_technical_cost_package_project_version ON poms.project_technical_cost_package USING btree (project_id, version)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_technical_cost_package",
+      "indexname": "idx_project_technical_cost_package_status",
+      "indexdef": "CREATE INDEX idx_project_technical_cost_package_status ON poms.project_technical_cost_package USING btree (status)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_technical_cost_package",
+      "indexname": "project_technical_cost_package_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_technical_cost_package_pkey ON poms.project_technical_cost_package USING btree (id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_technical_cost_package",
+      "indexname": "uq_project_technical_cost_package_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_project_technical_cost_package_current ON poms.project_technical_cost_package USING btree (project_id) WHERE (is_current = true)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "project_technical_cost_package",
+      "indexname": "uq_project_technical_cost_package_project_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_project_technical_cost_package_project_version ON poms.project_technical_cost_package USING btree (project_id, version)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_customer_occurred",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_customer_occurred ON poms.sales_follow_up_record USING btree (customer_id, occurred_at DESC)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_lead_occurred",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_lead_occurred ON poms.sales_follow_up_record USING btree (lead_id, occurred_at DESC)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_next_at",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_next_at ON poms.sales_follow_up_record USING btree (next_follow_up_at)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_owner_user_id",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_owner_user_id ON poms.sales_follow_up_record USING btree (owner_user_id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_project_occurred",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_project_occurred ON poms.sales_follow_up_record USING btree (project_id, occurred_at DESC)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_replaced_by",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_replaced_by ON poms.sales_follow_up_record USING btree (replaced_by_record_id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_status_occurred",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_status_occurred ON poms.sales_follow_up_record USING btree (status, occurred_at DESC)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "idx_sales_follow_up_supersedes",
+      "indexdef": "CREATE INDEX idx_sales_follow_up_supersedes ON poms.sales_follow_up_record USING btree (supersedes_record_id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "sales_follow_up_record_pkey",
+      "indexdef": "CREATE UNIQUE INDEX sales_follow_up_record_pkey ON poms.sales_follow_up_record USING btree (id)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "uq_sales_follow_up_replaced_by_once",
+      "indexdef": "CREATE UNIQUE INDEX uq_sales_follow_up_replaced_by_once ON poms.sales_follow_up_record USING btree (replaced_by_record_id) WHERE (replaced_by_record_id IS NOT NULL)"
+    },
+    {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "uq_sales_follow_up_supersedes_once",
+      "indexdef": "CREATE UNIQUE INDEX uq_sales_follow_up_supersedes_once ON poms.sales_follow_up_record USING btree (supersedes_record_id) WHERE (supersedes_record_id IS NOT NULL)"
+    }
+  ],
+  "SQLSTATENote": "Original default PostgreSQL log did not emit SQLSTATE. None is invented; category and constraint name are extracted from original ERROR lines, definitions are actual readonly pg_indexes.",
+  "source": {
+    "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tools/rust-r3cdefg/classify-native-extra-errors05.mjs",
+    "bytes": 3736,
+    "rawBytesSha256": "cc0fdbb62a952d04f95c285de2f78b397e40981653df161b879ad8cb37c0b793"
+  },
+  "productRerun": false,
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

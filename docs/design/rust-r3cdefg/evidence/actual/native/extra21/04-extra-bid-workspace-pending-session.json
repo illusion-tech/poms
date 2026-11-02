@@ -1,0 +1,153 @@
+{
+  "label": "extra-bid-workspace-pending-session",
+  "startedAt": "2026-11-02T03:20:55.578Z",
+  "completedAt": "2026-11-02T03:20:55.601Z",
+  "HTTP": {
+    "status": 200,
+    "body": {
+      "projectId": "c08e3359-9e21-428e-9fcb-6f8e07e3691b",
+      "currentStage": "assessment",
+      "status": "active",
+      "currentProcess": {
+        "id": "3fb85d6a-f4aa-45ab-8272-d51c254b9d4b",
+        "projectId": "c08e3359-9e21-428e-9fcb-6f8e07e3691b",
+        "version": 1,
+        "isCurrent": true,
+        "supersedesId": null,
+        "status": "effective",
+        "bidMode": "public-tender",
+        "currentStage": "preparation",
+        "decision": "participate",
+        "resultStatus": "pending",
+        "processSummary": "G1 first process",
+        "decisionSummary": "G1 first decision",
+        "resultSummary": null,
+        "tenderNo": "G1 first tender",
+        "bidPackageNo": "G1 first package",
+        "ownerRole": "G1 first owner",
+        "blockerCount": 1,
+        "effectiveAt": "2026-11-02T03:20:24.672Z",
+        "createdAt": "2026-11-02T03:20:24.672Z",
+        "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "updatedAt": "2026-11-02T03:20:24.672Z",
+        "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "rowVersion": 1
+      },
+      "materialItems": [
+        {
+          "id": "f6a7439f-13ca-4342-bd07-301e560c95f4",
+          "processId": "3fb85d6a-f4aa-45ab-8272-d51c254b9d4b",
+          "materialKey": "G1 first material",
+          "label": "G1 first material label",
+          "materialStatus": "in-progress",
+          "responsibleRole": "G1 first material owner",
+          "dueAt": "2026-11-03T08:00:00.123Z",
+          "blocksNextStep": true,
+          "navigationHint": "/projects/current/workspace/bid-commercial",
+          "sortOrder": 1
+        },
+        {
+          "id": "5f1a2f8d-0118-433e-a7e3-c087fd26270b",
+          "processId": "3fb85d6a-f4aa-45ab-8272-d51c254b9d4b",
+          "materialKey": "G1 first ready material",
+          "label": "G1 first ready material label",
+          "materialStatus": "ready",
+          "responsibleRole": null,
+          "dueAt": null,
+          "blocksNextStep": false,
+          "navigationHint": null,
+          "sortOrder": 2
+        }
+      ],
+      "timelineItems": [
+        {
+          "id": "bbfc1cf3-16bf-44e3-ac15-3ea2f9d55e6f",
+          "processId": "3fb85d6a-f4aa-45ab-8272-d51c254b9d4b",
+          "eventKey": "G1 first completed event",
+          "label": "G1 first completed event label",
+          "summary": "G1 first completed event summary",
+          "timelineStatus": "done",
+          "occurredAt": "2026-11-02T02:00:00.456Z",
+          "dueAt": "2026-11-02T03:00:00.000Z",
+          "responsibleRole": "G1 first event owner",
+          "sortOrder": 1
+        },
+        {
+          "id": "881ebff6-84d2-4ad8-9683-3fc3677391bf",
+          "processId": "3fb85d6a-f4aa-45ab-8272-d51c254b9d4b",
+          "eventKey": "G1 first pending event",
+          "label": "G1 first pending event label",
+          "summary": null,
+          "timelineStatus": "pending",
+          "occurredAt": null,
+          "dueAt": "2026-11-04T08:00:00.000Z",
+          "responsibleRole": null,
+          "sortOrder": 2
+        }
+      ],
+      "blockingReasons": [
+        "G1 first material label：材料仍在处理中"
+      ],
+      "nextStep": "先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。",
+      "ownerLabel": "R3CG admin / R3CG admin",
+      "allowedActions": [
+        "view-bid-commercial-workspace",
+        "create-bid-commercial-process"
+      ],
+      "generatedAt": "2026-11-02T03:20:55.599Z"
+    },
+    "requestId": "a5ff1325-dff4-4ee5-a4cf-ac0a20f06c41",
+    "headers": [
+      "X-Powered-By",
+      "Express",
+      "Access-Control-Allow-Origin",
+      "http://127.0.0.1:12300",
+      "Vary",
+      "Origin",
+      "Access-Control-Allow-Credentials",
+      "true",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "2540",
+      "ETag",
+      "W/\"9ec-/MkRtpWt+LUtkmrvdJjyJFJNEH8\"",
+      "Date",
+      "Mon, 02 Nov 2026 03:20:55 GMT",
+      "Connection",
+      "close"
+    ],
+    "rawWire": {
+      "requestBytes": 354,
+      "requestSha256": "90f20895170551561d06d68a4420232bf5f7f673d217a35406e465661b164434",
+      "responseBytes": 2857,
+      "responseSha256": "3669c30cbe61fb4c6f10dacfc9ae440d487140ed002c222a3393cbc4131952de",
+      "entityBodyBytes": 2540,
+      "entityBodySha256": "2748d44d010f41430f5dba3538c357c8e088bdcd8cd9bef1c447dd48c1507af9",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-52ce8997-1946-4472-8e9a-91aa72be7f57/extra02/raw-wire/admin-a5ff1325-dff4-4ee5-a4cf-ac0a20f06c41",
+      "originalRawRetained": true
+    }
+  },
+  "sessionBefore": [
+    {
+      "id": "e1980add-56c6-4980-bd09-00150ae34706",
+      "user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+      "row_version": 18,
+      "last_seen_at": "2026-11-02T03:19:54.578Z",
+      "last_ip": "::ffff:127.0.0.1",
+      "idle_expires_at": "2026-11-02T03:35:55.559Z",
+      "updated_at": "2026-11-02T03:20:55.559Z"
+    }
+  ],
+  "sessionAfter": [
+    {
+      "id": "e1980add-56c6-4980-bd09-00150ae34706",
+      "user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+      "row_version": 19,
+      "last_seen_at": "2026-11-02T03:20:55.582Z",
+      "last_ip": "::ffff:127.0.0.1",
+      "idle_expires_at": "2026-11-02T03:35:55.582Z",
+      "updated_at": "2026-11-02T03:20:55.582Z"
+    }
+  ]
+}

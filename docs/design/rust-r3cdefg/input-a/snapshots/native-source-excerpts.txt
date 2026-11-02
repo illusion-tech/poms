@@ -1,0 +1,2238 @@
+R3C/R3G static Native source excerpts. Numbered lines are verbatim text with line endings normalized to LF. Full raw source identity is in source-manifest.json. No runtime results.
+
+SOURCE apps/poms-api/src/app/features/project/project.controller.ts rawSHA256=1db2429199b857486385d2f8afcc38aea85ddd103670cf4bdfde07dcc416af68
+LINES 154-185
+154:     @Get(':projectId/pricing-margin-reviews')
+155:     @HasPermissions('project:read')
+156:     @ApiOperation({ summary: '获取项目签约前报价与毛利评审列表' })
+157:     @ApiOkResponse({ type: ProjectPricingMarginReviewListDto })
+158:     async listProjectPricingMarginReviews(@Param('projectId') projectId: string): Promise<ProjectPricingMarginReviewList> {
+159:         return this.projectQueryService.listProjectPricingMarginReviews(projectId);
+160:     }
+161: 
+162:     @Get(':projectId/pricing-margin-workspace')
+163:     @HasPermissions('project:read')
+164:     @ApiOperation({ summary: '获取项目签约前报价与毛利评审工作区' })
+165:     @ApiOkResponse({ type: ProjectPricingMarginWorkspaceViewDto })
+166:     async getProjectPricingMarginWorkspace(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectPricingMarginWorkspaceView> {
+167:         return this.projectQueryService.getProjectPricingMarginWorkspace(projectId, req.user);
+168:     }
+169: 
+170:     @Get(':projectId/technical-cost-packages')
+171:     @HasPermissions('project:read')
+172:     @ApiOperation({ summary: '获取项目签约前技术与成本版本包列表' })
+173:     @ApiOkResponse({ type: ProjectTechnicalCostPackageListDto })
+174:     async listProjectTechnicalCostPackages(@Param('projectId') projectId: string): Promise<ProjectTechnicalCostPackageList> {
+175:         return this.projectQueryService.listProjectTechnicalCostPackages(projectId);
+176:     }
+177: 
+178:     @Get(':projectId/technical-cost-workspace')
+179:     @HasPermissions('project:read')
+180:     @ApiOperation({ summary: '获取项目签约前技术与成本工作区' })
+181:     @ApiOkResponse({ type: ProjectTechnicalCostWorkspaceViewDto })
+182:     async getProjectTechnicalCostWorkspace(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectTechnicalCostWorkspaceView> {
+183:         return this.projectQueryService.getProjectTechnicalCostWorkspace(projectId, req.user);
+184:     }
+185: 
+LINES 298-315
+298:     @Post(':projectId/pricing-margin-reviews')
+299:     @HasPermissions('project:write')
+300:     @ApiOperation({ summary: '创建项目签约前报价与毛利评审版本' })
+301:     @ApiCreatedResponse({ type: ProjectPricingMarginReviewDto })
+302:     async createProjectPricingMarginReview(@Param('projectId') projectId: string, @Body() body: CreateProjectPricingMarginReviewRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectPricingMarginReviewSummary> {
+303:         const record = await this.projectService.createProjectPricingMarginReview(projectId, body, req.user.sub);
+304: 
+305:         return mapProjectPricingMarginReviewToSummary(record);
+306:     }
+307: 
+308:     @Post(':projectId/technical-cost-packages')
+309:     @HasPermissions('project:write')
+310:     @ApiOperation({ summary: '创建项目签约前技术与成本版本包' })
+311:     @ApiCreatedResponse({ type: ProjectTechnicalCostPackageDto })
+312:     async createProjectTechnicalCostPackage(@Param('projectId') projectId: string, @Body() body: CreateProjectTechnicalCostPackageRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectTechnicalCostPackageSummary> {
+313:         const record = await this.projectService.createProjectTechnicalCostPackage(projectId, body, req.user.sub);
+314: 
+315:         return mapProjectTechnicalCostPackageToSummary(record);
+LINES 440-506
+440: function mapProjectPricingMarginReviewToSummary(record: ProjectPricingMarginReview): ProjectPricingMarginReviewSummary {
+441:     return {
+442:         id: record.id,
+443:         projectId: record.projectId,
+444:         version: record.version,
+445:         isCurrent: record.isCurrent,
+446:         supersedesId: record.supersedesId ?? null,
+447:         status: record.status,
+448:         technicalCostPackageId: record.technicalCostPackageId,
+449:         bidCommercialProcessId: record.bidCommercialProcessId ?? null,
+450:         commercialReleaseBaselineId: record.commercialReleaseBaselineId ?? null,
+451:         pricingPath: record.pricingPath,
+452:         quoteVersion: record.quoteVersion,
+453:         currencyCode: record.currencyCode,
+454:         quoteAmountTaxInclusive: toDecimalString(record.quoteAmountTaxInclusive),
+455:         quoteAmountTaxExclusive: toDecimalString(record.quoteAmountTaxExclusive),
+456:         taxRate: toDecimalString(record.taxRate),
+457:         taxConditionSummary: record.taxConditionSummary,
+458:         paymentTermsSummary: record.paymentTermsSummary,
+459:         grossMarginRate: toNullableDecimalString(record.grossMarginRate),
+460:         grossMarginBand: record.grossMarginBand,
+461:         grossMarginSummary: record.grossMarginSummary,
+462:         decision: record.decision,
+463:         decisionSummary: record.decisionSummary,
+464:         approvalScenarioKey: record.approvalScenarioKey ?? null,
+465:         summaryPackageKey: record.summaryPackageKey ?? null,
+466:         summarySnapshotId: record.summarySnapshotId ?? null,
+467:         projectionLevel: record.projectionLevel ?? null,
+468:         exportPolicy: record.exportPolicy ?? null,
+469:         readyForContracting: record.readyForContracting,
+470:         ownerRole: record.ownerRole ?? null,
+471:         blockerCount: record.blockerCount,
+472:         effectiveAt: record.effectiveAt.toISOString(),
+473:         createdAt: record.createdAt.toISOString(),
+474:         createdBy: record.createdBy ?? null,
+475:         updatedAt: record.updatedAt.toISOString(),
+476:         updatedBy: record.updatedBy ?? null,
+477:         rowVersion: record.rowVersion
+478:     };
+479: }
+480: 
+481: function mapProjectTechnicalCostPackageToSummary(record: ProjectTechnicalCostPackage): ProjectTechnicalCostPackageSummary {
+482:     return {
+483:         id: record.id,
+484:         projectId: record.projectId,
+485:         version: record.version,
+486:         isCurrent: record.isCurrent,
+487:         supersedesId: record.supersedesId ?? null,
+488:         status: record.status,
+489:         technicalFeasibilityDecision: record.technicalFeasibilityDecision,
+490:         technicalConclusionSummary: record.technicalConclusionSummary,
+491:         allowNextStage: record.allowNextStage,
+492:         currencyCode: record.currencyCode,
+493:         totalEstimatedAmountExcludingTax: toDecimalString(record.totalEstimatedAmountExcludingTax),
+494:         totalTaxCostAmount: toDecimalString(record.totalTaxCostAmount),
+495:         totalEstimatedAmountIncludingTax: toDecimalString(record.totalEstimatedAmountIncludingTax),
+496:         taxAssumptionSummary: record.taxAssumptionSummary,
+497:         taxReviewStatus: record.taxReviewStatus,
+498:         highestRiskLevel: record.highestRiskLevel ?? null,
+499:         blockerCount: record.blockerCount,
+500:         effectiveAt: record.effectiveAt.toISOString(),
+501:         createdAt: record.createdAt.toISOString(),
+502:         createdBy: record.createdBy ?? null,
+503:         updatedAt: record.updatedAt.toISOString(),
+504:         updatedBy: record.updatedBy ?? null,
+505:         rowVersion: record.rowVersion
+506:     };
+
+SOURCE apps/poms-api/src/app/features/project/project.service.ts rawSHA256=69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323
+LINES 94-105
+94: const PRESIGNING_PROJECT_STAGES: readonly ProjectStage[] = [ProjectStageValue.Assessment, ProjectStageValue.ScopeConfirmation, ProjectStageValue.CommercialClosure, ProjectStageValue.Contracting];
+95: const EDITABLE_PROJECT_STATUSES: readonly ProjectStatus[] = [ProjectStatusValue.Active, ProjectStatusValue.Blocked];
+96: const CLOSED_PROJECT_STAGES: readonly ProjectStage[] = [ProjectStageValue.ClosedLost, ProjectStageValue.ClosedTerminated];
+97: const TECHNICAL_COST_ALLOWED_PROJECT_STAGES = PRESIGNING_PROJECT_STAGES;
+98: const BID_COMMERCIAL_ALLOWED_PROJECT_STAGES = PRESIGNING_PROJECT_STAGES;
+99: const PRICING_MARGIN_ALLOWED_PROJECT_STAGES = PRESIGNING_PROJECT_STAGES;
+100: const RISK_LEVEL_WEIGHT: Record<PreSigningRiskLevel, number> = {
+101:     R1: 1,
+102:     R2: 2,
+103:     R3: 3,
+104:     R4: 4
+105: };
+LINES 557-765
+557:     async createProjectPricingMarginReview(projectId: string, input: CreateProjectPricingMarginReviewRequest, operatorUserId: string): Promise<ProjectPricingMarginReview> {
+558:         const project = await this.projectRepository.findById(projectId);
+559:         if (!project) {
+560:             throw new NotFoundException(`Project ${projectId} not found`);
+561:         }
+562: 
+563:         if (project.status === ProjectStatusValue.Closed || !PRICING_MARGIN_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
+564:             throw new BadRequestException(`Project ${projectId} cannot record pricing margin review in stage ${project.currentStage}`);
+565:         }
+566: 
+567:         const currentTechnicalCostPackage = await this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(projectId);
+568:         if (!currentTechnicalCostPackage || currentTechnicalCostPackage.id !== input.technicalCostPackageId) {
+569:             throw new BadRequestException('technicalCostPackageId must match the current effective technical cost package');
+570:         }
+571: 
+572:         if (currentTechnicalCostPackage.currencyCode !== input.currencyCode) {
+573:             throw new BadRequestException(`currencyCode must equal technical cost package currencyCode ${currentTechnicalCostPackage.currencyCode}`);
+574:         }
+575: 
+576:         const currentBidCommercialProcess = await this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(projectId);
+577:         this.assertPricingMarginReferencesConsistent(input, currentBidCommercialProcess);
+578:         this.assertPricingAmounts(input);
+579: 
+580:         const previousReview = await this.projectRepository.findCurrentProjectPricingMarginReviewByProjectId(projectId);
+581:         if (previousReview) {
+582:             previousReview.isCurrent = false;
+583:             previousReview.status = 'superseded';
+584:             previousReview.updatedBy = operatorUserId;
+585:         }
+586: 
+587:         const reviewId = randomUUID();
+588:         const blockerCount = this.countPricingMarginBlockers(input);
+589:         const readyForContracting = ['released', 'conditional-release'].includes(input.decision) && blockerCount === 0;
+590:         const currentReview = this.projectRepository.createProjectPricingMarginReview({
+591:             id: reviewId,
+592:             projectId,
+593:             version: previousReview ? previousReview.version + 1 : 1,
+594:             isCurrent: true,
+595:             supersedesId: previousReview?.id ?? null,
+596:             status: 'effective',
+597:             technicalCostPackageId: input.technicalCostPackageId,
+598:             bidCommercialProcessId: input.bidCommercialProcessId ?? null,
+599:             commercialReleaseBaselineId: input.commercialReleaseBaselineId ?? null,
+600:             pricingPath: input.pricingPath,
+601:             quoteVersion: input.quoteVersion,
+602:             currencyCode: input.currencyCode,
+603:             quoteAmountTaxInclusive: this.formatMoney(this.parseNonNegativeDecimal(input.quoteAmountTaxInclusive, 'quoteAmountTaxInclusive')),
+604:             quoteAmountTaxExclusive: this.formatMoney(this.parseNonNegativeDecimal(input.quoteAmountTaxExclusive, 'quoteAmountTaxExclusive')),
+605:             taxRate: input.taxRate,
+606:             taxConditionSummary: input.taxConditionSummary,
+607:             paymentTermsSummary: input.paymentTermsSummary,
+608:             grossMarginRate: input.grossMarginRate ?? null,
+609:             grossMarginBand: input.grossMarginBand,
+610:             grossMarginSummary: input.grossMarginSummary,
+611:             decision: input.decision,
+612:             decisionSummary: input.decisionSummary,
+613:             approvalScenarioKey: input.approvalScenarioKey ?? null,
+614:             summaryPackageKey: input.summaryPackageKey ?? null,
+615:             summarySnapshotId: input.summarySnapshotId ?? null,
+616:             projectionLevel: input.projectionLevel ?? null,
+617:             exportPolicy: input.exportPolicy ?? null,
+618:             readyForContracting,
+619:             ownerRole: input.ownerRole ?? null,
+620:             blockerCount,
+621:             effectiveAt: new Date(),
+622:             createdBy: operatorUserId,
+623:             updatedBy: operatorUserId
+624:         });
+625:         const conditionItems = input.conditionItems.map((item, index) =>
+626:             this.projectRepository.createProjectPricingMarginConditionItem({
+627:                 reviewId,
+628:                 conditionKey: item.conditionKey,
+629:                 conditionType: item.conditionType,
+630:                 label: item.label,
+631:                 conditionSummary: item.conditionSummary,
+632:                 conditionStatus: item.conditionStatus,
+633:                 requiredForContracting: item.requiredForContracting ?? false,
+634:                 responsibleRole: item.responsibleRole ?? null,
+635:                 dueAt: item.dueAt ? new Date(item.dueAt) : null,
+636:                 resolutionSummary: item.resolutionSummary ?? null,
+637:                 sortOrder: item.sortOrder ?? index + 1
+638:             })
+639:         );
+640: 
+641:         await this.projectRepository.saveProjectPricingMarginReview({
+642:             currentReview,
+643:             previousReview,
+644:             conditionItems
+645:         });
+646: 
+647:         return currentReview;
+648:     }
+649: 
+650:     async createProjectTechnicalCostPackage(projectId: string, input: CreateProjectTechnicalCostPackageRequest, operatorUserId: string): Promise<ProjectTechnicalCostPackage> {
+651:         const project = await this.projectRepository.findById(projectId);
+652:         if (!project) {
+653:             throw new NotFoundException(`Project ${projectId} not found`);
+654:         }
+655: 
+656:         if (project.status === ProjectStatusValue.Closed || !TECHNICAL_COST_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
+657:             throw new BadRequestException(`Project ${projectId} cannot record technical cost package in stage ${project.currentStage}`);
+658:         }
+659: 
+660:         for (const [index, item] of input.costItems.entries()) {
+661:             if (item.currencyCode !== input.currencyCode) {
+662:                 throw new BadRequestException(`costItems[${index}].currencyCode must equal package currencyCode ${input.currencyCode}`);
+663:             }
+664: 
+665:             this.assertMoneyConsistent(item.amountExcludingTax, item.taxCostAmount, item.amountIncludingTax, `costItems[${index}]`);
+666:         }
+667: 
+668:         const previousPackage = await this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(projectId);
+669:         if (previousPackage) {
+670:             previousPackage.isCurrent = false;
+671:             previousPackage.status = 'superseded';
+672:             previousPackage.updatedBy = operatorUserId;
+673:         }
+674: 
+675:         const totals = input.costItems.reduce(
+676:             (sum, item) => ({
+677:                 amountExcludingTax: sum.amountExcludingTax + this.parseNonNegativeDecimal(item.amountExcludingTax, 'amountExcludingTax'),
+678:                 taxCostAmount: sum.taxCostAmount + this.parseNonNegativeDecimal(item.taxCostAmount, 'taxCostAmount'),
+679:                 amountIncludingTax: sum.amountIncludingTax + this.parseNonNegativeDecimal(item.amountIncludingTax, 'amountIncludingTax')
+680:             }),
+681:             {
+682:                 amountExcludingTax: 0,
+683:                 taxCostAmount: 0,
+684:                 amountIncludingTax: 0
+685:             }
+686:         );
+687:         const highestRiskLevel = this.resolveHighestRiskLevel(input.riskItems.map((item) => item.riskLevel));
+688:         const blockerCount = input.riskItems.filter((item) => item.blocksNextStage && item.riskStatus !== 'closed').length + (input.allowNextStage ? 0 : 1);
+689:         const now = new Date();
+690:         const currentPackageId = randomUUID();
+691:         const currentPackage = this.projectRepository.createProjectTechnicalCostPackage({
+692:             id: currentPackageId,
+693:             projectId,
+694:             version: previousPackage ? previousPackage.version + 1 : 1,
+695:             isCurrent: true,
+696:             supersedesId: previousPackage?.id ?? null,
+697:             status: 'effective',
+698:             technicalFeasibilityDecision: input.technicalFeasibilityDecision,
+699:             technicalConclusionSummary: input.technicalConclusionSummary,
+700:             allowNextStage: input.allowNextStage,
+701:             currencyCode: input.currencyCode,
+702:             totalEstimatedAmountExcludingTax: this.formatMoney(totals.amountExcludingTax),
+703:             totalTaxCostAmount: this.formatMoney(totals.taxCostAmount),
+704:             totalEstimatedAmountIncludingTax: this.formatMoney(totals.amountIncludingTax),
+705:             taxAssumptionSummary: input.taxAssumptionSummary,
+706:             taxReviewStatus: input.taxReviewStatus,
+707:             highestRiskLevel,
+708:             blockerCount,
+709:             effectiveAt: now,
+710:             createdBy: operatorUserId,
+711:             updatedBy: operatorUserId
+712:         });
+713:         const scopeItems = input.scopeItems.map((item, index) =>
+714:             this.projectRepository.createProjectTechnicalScopeItem({
+715:                 packageId: currentPackageId,
+716:                 scopeType: item.scopeType,
+717:                 label: item.label,
+718:                 description: item.description,
+719:                 sortOrder: item.sortOrder ?? index + 1
+720:             })
+721:         );
+722:         const riskItems = input.riskItems.map((item, index) =>
+723:             this.projectRepository.createProjectTechnicalRiskItem({
+724:                 packageId: currentPackageId,
+725:                 riskCategory: item.riskCategory,
+726:                 riskLevel: item.riskLevel,
+727:                 riskDescription: item.riskDescription,
+728:                 impactScope: item.impactScope,
+729:                 mitigationPlan: item.mitigationPlan,
+730:                 ownerRole: item.ownerRole,
+731:                 riskStatus: item.riskStatus,
+732:                 blocksNextStage: item.blocksNextStage,
+733:                 sortOrder: item.sortOrder ?? index + 1
+734:             })
+735:         );
+736:         const costItems = input.costItems.map((item, index) =>
+737:             this.projectRepository.createProjectTechnicalCostItem({
+738:                 packageId: currentPackageId,
+739:                 costCategory: item.costCategory,
+740:                 costSubcategory: item.costSubcategory ?? null,
+741:                 costDescription: item.costDescription,
+742:                 estimationBasis: item.estimationBasis,
+743:                 quantity: item.quantity ?? null,
+744:                 unit: item.unit ?? null,
+745:                 unitPrice: item.unitPrice ?? null,
+746:                 amountExcludingTax: this.formatMoney(this.parseNonNegativeDecimal(item.amountExcludingTax, 'amountExcludingTax')),
+747:                 taxCostAmount: this.formatMoney(this.parseNonNegativeDecimal(item.taxCostAmount, 'taxCostAmount')),
+748:                 amountIncludingTax: this.formatMoney(this.parseNonNegativeDecimal(item.amountIncludingTax, 'amountIncludingTax')),
+749:                 currencyCode: item.currencyCode,
+750:                 confidenceLevel: item.confidenceLevel,
+751:                 highUncertainty: item.highUncertainty,
+752:                 responsibleRole: item.responsibleRole ?? null,
+753:                 sortOrder: item.sortOrder ?? index + 1
+754:             })
+755:         );
+756: 
+757:         await this.projectRepository.saveProjectTechnicalCostPackage({
+758:             currentPackage,
+759:             previousPackage,
+760:             scopeItems,
+761:             riskItems,
+762:             costItems
+763:         });
+764: 
+765:         return currentPackage;
+LINES 793-881
+793:     private assertPricingMarginReferencesConsistent(input: CreateProjectPricingMarginReviewRequest, currentBidCommercialProcess: ProjectBidCommercialProcess | null): void {
+794:         if (input.pricingPath === 'bid') {
+795:             if (!input.bidCommercialProcessId) {
+796:                 throw new BadRequestException('bid pricingPath requires bidCommercialProcessId');
+797:             }
+798: 
+799:             if (!currentBidCommercialProcess || currentBidCommercialProcess.id !== input.bidCommercialProcessId) {
+800:                 throw new BadRequestException('bidCommercialProcessId must match the current effective bid commercial process');
+801:             }
+802: 
+803:             if (['lost', 'cancelled', 'not-applicable'].includes(currentBidCommercialProcess.resultStatus)) {
+804:                 throw new BadRequestException('current bid commercial process result cannot support bid pricing review');
+805:             }
+806:         }
+807: 
+808:         if (input.pricingPath === 'direct-commercial' && input.bidCommercialProcessId) {
+809:             if (!currentBidCommercialProcess || currentBidCommercialProcess.id !== input.bidCommercialProcessId) {
+810:                 throw new BadRequestException('bidCommercialProcessId must match the current effective bid commercial process');
+811:             }
+812: 
+813:             if (!['direct-commercial', 'not-required'].includes(currentBidCommercialProcess.bidMode)) {
+814:                 throw new BadRequestException('direct-commercial pricingPath can only reference a direct-commercial or not-required process');
+815:             }
+816:         }
+817: 
+818:         if (['released', 'conditional-release', 'escalation-required'].includes(input.decision)) {
+819:             const missingApprovalReference = [input.commercialReleaseBaselineId, input.approvalScenarioKey, input.summaryPackageKey, input.summarySnapshotId, input.projectionLevel, input.exportPolicy].some((value) => !value);
+820: 
+821:             if (missingApprovalReference) {
+822:                 throw new BadRequestException('released, conditional-release and escalation-required decisions require commercial baseline and approval summary references');
+823:             }
+824:         }
+825: 
+826:         if (input.decision === 'rejected' && input.commercialReleaseBaselineId) {
+827:             throw new BadRequestException('rejected decision must not reference a commercial release baseline');
+828:         }
+829:     }
+830: 
+831:     private assertPricingAmounts(input: CreateProjectPricingMarginReviewRequest): void {
+832:         const taxInclusive = this.parseNonNegativeDecimal(input.quoteAmountTaxInclusive, 'quoteAmountTaxInclusive');
+833:         const taxExclusive = this.parseNonNegativeDecimal(input.quoteAmountTaxExclusive, 'quoteAmountTaxExclusive');
+834:         this.parseNonNegativeDecimal(input.taxRate, 'taxRate');
+835: 
+836:         if (taxInclusive + 0.0001 < taxExclusive) {
+837:             throw new BadRequestException('quoteAmountTaxInclusive must be greater than or equal to quoteAmountTaxExclusive');
+838:         }
+839: 
+840:         if (input.grossMarginRate !== null && input.grossMarginRate !== undefined) {
+841:             this.parseSignedDecimal(input.grossMarginRate, 'grossMarginRate');
+842:         }
+843:     }
+844: 
+845:     private countPricingMarginBlockers(input: CreateProjectPricingMarginReviewRequest): number {
+846:         const conditionBlockers = input.conditionItems.filter((item) => item.requiredForContracting && item.conditionStatus === 'open').length;
+847:         const decisionBlocker = ['pending', 'rejected', 'escalation-required'].includes(input.decision) ? 1 : 0;
+848: 
+849:         return conditionBlockers + decisionBlocker;
+850:     }
+851: 
+852:     private assertMoneyConsistent(amountExcludingTax: string, taxCostAmount: string, amountIncludingTax: string, fieldPrefix: string): void {
+853:         const excluding = this.parseNonNegativeDecimal(amountExcludingTax, `${fieldPrefix}.amountExcludingTax`);
+854:         const tax = this.parseNonNegativeDecimal(taxCostAmount, `${fieldPrefix}.taxCostAmount`);
+855:         const including = this.parseNonNegativeDecimal(amountIncludingTax, `${fieldPrefix}.amountIncludingTax`);
+856: 
+857:         if (Math.abs(including - (excluding + tax)) > 0.0001) {
+858:             throw new BadRequestException(`${fieldPrefix}.amountIncludingTax must equal amountExcludingTax + taxCostAmount`);
+859:         }
+860:     }
+861: 
+862:     private parseNonNegativeDecimal(value: string | number, fieldName: string): number {
+863:         const parsed = typeof value === 'number' ? value : Number(value);
+864:         if (!Number.isFinite(parsed) || parsed < 0) {
+865:             throw new BadRequestException(`${fieldName} must be a non-negative decimal`);
+866:         }
+867: 
+868:         return parsed;
+869:     }
+870: 
+871:     private parseSignedDecimal(value: string | number, fieldName: string): number {
+872:         const parsed = typeof value === 'number' ? value : Number(value);
+873:         if (!Number.isFinite(parsed)) {
+874:             throw new BadRequestException(`${fieldName} must be a decimal`);
+875:         }
+876: 
+877:         return parsed;
+878:     }
+879: 
+880:     private formatMoney(value: number): string {
+881:         return value.toFixed(2);
+LINES 914-921
+914:     private resolveHighestRiskLevel(riskLevels: PreSigningRiskLevel[]): PreSigningRiskLevel | null {
+915:         return riskLevels.reduce<PreSigningRiskLevel | null>((highest, current) => {
+916:             if (!highest || RISK_LEVEL_WEIGHT[current] > RISK_LEVEL_WEIGHT[highest]) {
+917:                 return current;
+918:             }
+919: 
+920:             return highest;
+921:         }, null);
+
+SOURCE apps/poms-api/src/app/features/project/project-query.service.ts rawSHA256=f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d
+LINES 63-63
+63: const PROJECT_WORKSPACE_PRESIGNING_STAGES: readonly ProjectStage[] = [ProjectStageValue.Assessment, ProjectStageValue.ScopeConfirmation, ProjectStageValue.CommercialClosure, ProjectStageValue.Contracting];
+LINES 457-587
+457:     async listProjectPricingMarginReviews(projectId: string): Promise<ProjectPricingMarginReviewList> {
+458:         const project = await this.projectRepository.findById(projectId);
+459:         if (!project) {
+460:             throw new NotFoundException(`Project ${projectId} not found`);
+461:         }
+462: 
+463:         const reviews = await this.projectRepository.findProjectPricingMarginReviewsByProjectId(project.id);
+464:         return reviews.map((item) => this.mapProjectPricingMarginReview(item));
+465:     }
+466: 
+467:     async getProjectPricingMarginWorkspace(projectId: string, user: UserPayload): Promise<ProjectPricingMarginWorkspaceView> {
+468:         const project = await this.projectRepository.findById(projectId);
+469:         if (!project) {
+470:             throw new NotFoundException(`Project ${projectId} not found`);
+471:         }
+472: 
+473:         const [ownerUsers, ownerOrgUnits, currentReview, currentTechnicalCostPackage, currentBidCommercialProcess] = await Promise.all([
+474:             project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
+475:             project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
+476:             this.projectRepository.findCurrentProjectPricingMarginReviewByProjectId(project.id),
+477:             this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(project.id),
+478:             this.projectRepository.findCurrentProjectBidCommercialProcessByProjectId(project.id)
+479:         ]);
+480:         const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
+481:         const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
+482:         const allowedActions = this.buildPricingMarginAllowedActions(project, user.permissions);
+483: 
+484:         if (!currentReview) {
+485:             const blockingReasons = this.buildPricingMarginPrerequisiteBlockingReasons(currentTechnicalCostPackage, currentBidCommercialProcess);
+486:             return {
+487:                 projectId: project.id,
+488:                 currentStage: project.currentStage,
+489:                 status: project.status,
+490:                 currentReview: null,
+491:                 technicalCostPackage: currentTechnicalCostPackage ? this.mapProjectTechnicalCostPackage(currentTechnicalCostPackage) : null,
+492:                 bidCommercialProcess: currentBidCommercialProcess ? this.mapProjectBidCommercialProcess(currentBidCommercialProcess) : null,
+493:                 conditionItems: [],
+494:                 blockingReasons: blockingReasons.length > 0 ? blockingReasons : ['尚未形成报价与毛利评审记录。'],
+495:                 nextStep: this.buildPricingMarginEmptyNextStep(currentTechnicalCostPackage, currentBidCommercialProcess),
+496:                 readyForContracting: false,
+497:                 ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '销售 / 财务'),
+498:                 allowedActions,
+499:                 generatedAt: new Date().toISOString()
+500:             };
+501:         }
+502: 
+503:         const [conditionItems, technicalCostPackage, bidCommercialProcess] = await Promise.all([
+504:             this.projectRepository.findProjectPricingMarginConditionItemsByReviewIds([currentReview.id]),
+505:             this.projectRepository.findProjectTechnicalCostPackageById(currentReview.technicalCostPackageId),
+506:             currentReview.bidCommercialProcessId ? this.projectRepository.findProjectBidCommercialProcessById(currentReview.bidCommercialProcessId) : Promise.resolve(null)
+507:         ]);
+508: 
+509:         return {
+510:             projectId: project.id,
+511:             currentStage: project.currentStage,
+512:             status: project.status,
+513:             currentReview: this.mapProjectPricingMarginReview(currentReview),
+514:             technicalCostPackage: technicalCostPackage ? this.mapProjectTechnicalCostPackage(technicalCostPackage) : null,
+515:             bidCommercialProcess: bidCommercialProcess ? this.mapProjectBidCommercialProcess(bidCommercialProcess) : null,
+516:             conditionItems: conditionItems.map((item) => this.mapProjectPricingMarginConditionItem(item)),
+517:             blockingReasons: this.buildPricingMarginBlockingReasons(currentReview, conditionItems, technicalCostPackage),
+518:             nextStep: this.buildPricingMarginNextStep(currentReview, conditionItems, technicalCostPackage),
+519:             readyForContracting: currentReview.readyForContracting,
+520:             ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, currentReview.ownerRole ?? '销售 / 财务'),
+521:             allowedActions,
+522:             generatedAt: new Date().toISOString()
+523:         };
+524:     }
+525: 
+526:     async listProjectTechnicalCostPackages(projectId: string): Promise<ProjectTechnicalCostPackageList> {
+527:         const project = await this.projectRepository.findById(projectId);
+528:         if (!project) {
+529:             throw new NotFoundException(`Project ${projectId} not found`);
+530:         }
+531: 
+532:         const packages = await this.projectRepository.findProjectTechnicalCostPackagesByProjectId(project.id);
+533:         return packages.map((item) => this.mapProjectTechnicalCostPackage(item));
+534:     }
+535: 
+536:     async getProjectTechnicalCostWorkspace(projectId: string, user: UserPayload): Promise<ProjectTechnicalCostWorkspaceView> {
+537:         const project = await this.projectRepository.findById(projectId);
+538:         if (!project) {
+539:             throw new NotFoundException(`Project ${projectId} not found`);
+540:         }
+541: 
+542:         const [ownerUsers, ownerOrgUnits, currentPackage] = await Promise.all([
+543:             project.ownerUserId ? this.projectRepository.findPlatformUsersByIds([project.ownerUserId]) : Promise.resolve([]),
+544:             project.ownerOrgId ? this.projectRepository.findOrgUnitsByIds([project.ownerOrgId]) : Promise.resolve([]),
+545:             this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(project.id)
+546:         ]);
+547:         const ownerName = project.ownerUserId ? (ownerUsers[0]?.displayName ?? null) : null;
+548:         const ownerOrgName = project.ownerOrgId ? (ownerOrgUnits[0]?.name ?? null) : null;
+549:         const allowedActions = this.buildTechnicalCostAllowedActions(project, user.permissions);
+550: 
+551:         if (!currentPackage) {
+552:             return {
+553:                 projectId: project.id,
+554:                 currentStage: project.currentStage,
+555:                 status: project.status,
+556:                 currentPackage: null,
+557:                 scopeItems: [],
+558:                 riskItems: [],
+559:                 costItems: [],
+560:                 blockingReasons: ['尚未形成技术与成本测算版本包。'],
+561:                 nextStep: '补齐技术可行性、范围边界、风险项和成本税务估算。',
+562:                 ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '技术支持 / 售前'),
+563:                 allowedActions,
+564:                 generatedAt: new Date().toISOString()
+565:             };
+566:         }
+567: 
+568:         const [scopeItems, riskItems, costItems] = await Promise.all([
+569:             this.projectRepository.findProjectTechnicalScopeItemsByPackageIds([currentPackage.id]),
+570:             this.projectRepository.findProjectTechnicalRiskItemsByPackageIds([currentPackage.id]),
+571:             this.projectRepository.findProjectTechnicalCostItemsByPackageIds([currentPackage.id])
+572:         ]);
+573: 
+574:         return {
+575:             projectId: project.id,
+576:             currentStage: project.currentStage,
+577:             status: project.status,
+578:             currentPackage: this.mapProjectTechnicalCostPackage(currentPackage),
+579:             scopeItems: scopeItems.map((item) => this.mapProjectTechnicalScopeItem(item)),
+580:             riskItems: riskItems.map((item) => this.mapProjectTechnicalRiskItem(item)),
+581:             costItems: costItems.map((item) => this.mapProjectTechnicalCostItem(item)),
+582:             blockingReasons: this.buildTechnicalCostBlockingReasons(currentPackage, riskItems),
+583:             nextStep: this.buildTechnicalCostNextStep(currentPackage, riskItems),
+584:             ownerLabel: this.buildOwnerLabel(ownerName, ownerOrgName, '技术支持 / 售前'),
+585:             allowedActions,
+586:             generatedAt: new Date().toISOString()
+587:         };
+LINES 819-845
+819: 
+820:     private mapProjectBidCommercialProcess(record: ProjectBidCommercialProcess): ProjectBidCommercialProcessSummary {
+821:         return {
+822:             id: record.id,
+823:             projectId: record.projectId,
+824:             version: record.version,
+825:             isCurrent: record.isCurrent,
+826:             supersedesId: record.supersedesId ?? null,
+827:             status: record.status,
+828:             bidMode: record.bidMode,
+829:             currentStage: record.currentStage,
+830:             decision: record.decision,
+831:             resultStatus: record.resultStatus,
+832:             processSummary: record.processSummary,
+833:             decisionSummary: record.decisionSummary ?? null,
+834:             resultSummary: record.resultSummary ?? null,
+835:             tenderNo: record.tenderNo ?? null,
+836:             bidPackageNo: record.bidPackageNo ?? null,
+837:             ownerRole: record.ownerRole ?? null,
+838:             blockerCount: record.blockerCount,
+839:             effectiveAt: record.effectiveAt.toISOString(),
+840:             createdAt: record.createdAt.toISOString(),
+841:             createdBy: record.createdBy ?? null,
+842:             updatedAt: record.updatedAt.toISOString(),
+843:             updatedBy: record.updatedBy ?? null,
+844:             rowVersion: record.rowVersion
+845:         };
+LINES 878-1010
+878:     private mapProjectPricingMarginReview(record: ProjectPricingMarginReview): ProjectPricingMarginReviewSummary {
+879:         return {
+880:             id: record.id,
+881:             projectId: record.projectId,
+882:             version: record.version,
+883:             isCurrent: record.isCurrent,
+884:             supersedesId: record.supersedesId ?? null,
+885:             status: record.status,
+886:             technicalCostPackageId: record.technicalCostPackageId,
+887:             bidCommercialProcessId: record.bidCommercialProcessId ?? null,
+888:             commercialReleaseBaselineId: record.commercialReleaseBaselineId ?? null,
+889:             pricingPath: record.pricingPath,
+890:             quoteVersion: record.quoteVersion,
+891:             currencyCode: record.currencyCode,
+892:             quoteAmountTaxInclusive: this.toDecimalString(record.quoteAmountTaxInclusive),
+893:             quoteAmountTaxExclusive: this.toDecimalString(record.quoteAmountTaxExclusive),
+894:             taxRate: this.toDecimalString(record.taxRate),
+895:             taxConditionSummary: record.taxConditionSummary,
+896:             paymentTermsSummary: record.paymentTermsSummary,
+897:             grossMarginRate: this.toNullableDecimalString(record.grossMarginRate),
+898:             grossMarginBand: record.grossMarginBand,
+899:             grossMarginSummary: record.grossMarginSummary,
+900:             decision: record.decision,
+901:             decisionSummary: record.decisionSummary,
+902:             approvalScenarioKey: record.approvalScenarioKey ?? null,
+903:             summaryPackageKey: record.summaryPackageKey ?? null,
+904:             summarySnapshotId: record.summarySnapshotId ?? null,
+905:             projectionLevel: record.projectionLevel ?? null,
+906:             exportPolicy: record.exportPolicy ?? null,
+907:             readyForContracting: record.readyForContracting,
+908:             ownerRole: record.ownerRole ?? null,
+909:             blockerCount: record.blockerCount,
+910:             effectiveAt: record.effectiveAt.toISOString(),
+911:             createdAt: record.createdAt.toISOString(),
+912:             createdBy: record.createdBy ?? null,
+913:             updatedAt: record.updatedAt.toISOString(),
+914:             updatedBy: record.updatedBy ?? null,
+915:             rowVersion: record.rowVersion
+916:         };
+917:     }
+918: 
+919:     private mapProjectPricingMarginConditionItem(record: ProjectPricingMarginConditionItem): ProjectPricingMarginConditionItemView {
+920:         return {
+921:             id: record.id,
+922:             reviewId: record.reviewId,
+923:             conditionKey: record.conditionKey,
+924:             conditionType: record.conditionType,
+925:             label: record.label,
+926:             conditionSummary: record.conditionSummary,
+927:             conditionStatus: record.conditionStatus,
+928:             requiredForContracting: record.requiredForContracting,
+929:             responsibleRole: record.responsibleRole ?? null,
+930:             dueAt: record.dueAt?.toISOString() ?? null,
+931:             resolutionSummary: record.resolutionSummary ?? null,
+932:             sortOrder: record.sortOrder
+933:         };
+934:     }
+935: 
+936:     private mapProjectTechnicalCostPackage(record: ProjectTechnicalCostPackage): ProjectTechnicalCostPackageSummary {
+937:         return {
+938:             id: record.id,
+939:             projectId: record.projectId,
+940:             version: record.version,
+941:             isCurrent: record.isCurrent,
+942:             supersedesId: record.supersedesId ?? null,
+943:             status: record.status,
+944:             technicalFeasibilityDecision: record.technicalFeasibilityDecision,
+945:             technicalConclusionSummary: record.technicalConclusionSummary,
+946:             allowNextStage: record.allowNextStage,
+947:             currencyCode: record.currencyCode,
+948:             totalEstimatedAmountExcludingTax: this.toDecimalString(record.totalEstimatedAmountExcludingTax),
+949:             totalTaxCostAmount: this.toDecimalString(record.totalTaxCostAmount),
+950:             totalEstimatedAmountIncludingTax: this.toDecimalString(record.totalEstimatedAmountIncludingTax),
+951:             taxAssumptionSummary: record.taxAssumptionSummary,
+952:             taxReviewStatus: record.taxReviewStatus,
+953:             highestRiskLevel: record.highestRiskLevel ?? null,
+954:             blockerCount: record.blockerCount,
+955:             effectiveAt: record.effectiveAt.toISOString(),
+956:             createdAt: record.createdAt.toISOString(),
+957:             createdBy: record.createdBy ?? null,
+958:             updatedAt: record.updatedAt.toISOString(),
+959:             updatedBy: record.updatedBy ?? null,
+960:             rowVersion: record.rowVersion
+961:         };
+962:     }
+963: 
+964:     private mapProjectTechnicalScopeItem(record: ProjectTechnicalScopeItem): ProjectTechnicalScopeItemView {
+965:         return {
+966:             id: record.id,
+967:             packageId: record.packageId,
+968:             scopeType: record.scopeType,
+969:             label: record.label,
+970:             description: record.description,
+971:             sortOrder: record.sortOrder
+972:         };
+973:     }
+974: 
+975:     private mapProjectTechnicalRiskItem(record: ProjectTechnicalRiskItem): ProjectTechnicalRiskItemView {
+976:         return {
+977:             id: record.id,
+978:             packageId: record.packageId,
+979:             riskCategory: record.riskCategory,
+980:             riskLevel: record.riskLevel,
+981:             riskDescription: record.riskDescription,
+982:             impactScope: record.impactScope,
+983:             mitigationPlan: record.mitigationPlan,
+984:             ownerRole: record.ownerRole,
+985:             riskStatus: record.riskStatus,
+986:             blocksNextStage: record.blocksNextStage,
+987:             sortOrder: record.sortOrder
+988:         };
+989:     }
+990: 
+991:     private mapProjectTechnicalCostItem(record: ProjectTechnicalCostItem): ProjectTechnicalCostItemView {
+992:         return {
+993:             id: record.id,
+994:             packageId: record.packageId,
+995:             costCategory: record.costCategory,
+996:             costSubcategory: record.costSubcategory ?? null,
+997:             costDescription: record.costDescription,
+998:             estimationBasis: record.estimationBasis,
+999:             quantity: this.toNullableDecimalString(record.quantity),
+1000:             unit: record.unit ?? null,
+1001:             unitPrice: this.toNullableDecimalString(record.unitPrice),
+1002:             amountExcludingTax: this.toDecimalString(record.amountExcludingTax),
+1003:             taxCostAmount: this.toDecimalString(record.taxCostAmount),
+1004:             amountIncludingTax: this.toDecimalString(record.amountIncludingTax),
+1005:             currencyCode: record.currencyCode,
+1006:             confidenceLevel: record.confidenceLevel,
+1007:             highUncertainty: record.highUncertainty,
+1008:             responsibleRole: record.responsibleRole ?? null,
+1009:             sortOrder: record.sortOrder
+1010:         };
+LINES 1069-1204
+1069:     private buildPricingMarginAllowedActions(project: Project, permissions: PermissionKey[]): string[] {
+1070:         const permissionSet = new Set<PermissionKey>(permissions);
+1071:         const actions = ['view-pricing-margin-workspace'];
+1072: 
+1073:         if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
+1074:             actions.push('create-pricing-margin-review');
+1075:         }
+1076: 
+1077:         return actions;
+1078:     }
+1079: 
+1080:     private buildPricingMarginPrerequisiteBlockingReasons(technicalCostPackage: ProjectTechnicalCostPackage | null, bidCommercialProcess: ProjectBidCommercialProcess | null): string[] {
+1081:         const reasons: string[] = [];
+1082: 
+1083:         if (!technicalCostPackage) {
+1084:             reasons.push('尚未形成可引用的技术与成本版本包。');
+1085:         } else {
+1086:             if (!technicalCostPackage.allowNextStage) {
+1087:                 reasons.push('当前技术与成本版本包尚未允许进入报价评审。');
+1088:             }
+1089: 
+1090:             if (technicalCostPackage.taxReviewStatus === 'pending') {
+1091:                 reasons.push('当前技术与成本版本包的税务成本仍待复核。');
+1092:             }
+1093:         }
+1094: 
+1095:         if (bidCommercialProcess && ['lost', 'cancelled'].includes(bidCommercialProcess.resultStatus)) {
+1096:             reasons.push('当前竞标 / 商务过程结果不能直接支撑报价评审。');
+1097:         }
+1098: 
+1099:         return reasons;
+1100:     }
+1101: 
+1102:     private buildPricingMarginBlockingReasons(currentReview: ProjectPricingMarginReview, conditionItems: ProjectPricingMarginConditionItem[], technicalCostPackage: ProjectTechnicalCostPackage | null): string[] {
+1103:         const reasons: string[] = [];
+1104: 
+1105:         if (!technicalCostPackage) {
+1106:             reasons.push('报价评审引用的技术与成本版本包已不可用。');
+1107:         }
+1108: 
+1109:         if (currentReview.decision === 'pending') {
+1110:             reasons.push('报价与毛利评审尚未形成放行结论。');
+1111:         }
+1112: 
+1113:         if (currentReview.decision === 'rejected') {
+1114:             reasons.push('报价与毛利评审已被否决，需要回到技术、成本或商务条件重新收口。');
+1115:         }
+1116: 
+1117:         if (currentReview.decision === 'escalation-required') {
+1118:             reasons.push('当前报价与毛利评审需要升级审批，暂不能进入签约就绪。');
+1119:         }
+1120: 
+1121:         for (const item of conditionItems) {
+1122:             if (item.requiredForContracting && item.conditionStatus === 'open') {
+1123:                 reasons.push(`${item.label}：${item.conditionSummary}`);
+1124:             }
+1125:         }
+1126: 
+1127:         return reasons;
+1128:     }
+1129: 
+1130:     private buildPricingMarginEmptyNextStep(technicalCostPackage: ProjectTechnicalCostPackage | null, bidCommercialProcess: ProjectBidCommercialProcess | null): string {
+1131:         const blockingReasons = this.buildPricingMarginPrerequisiteBlockingReasons(technicalCostPackage, bidCommercialProcess);
+1132:         if (blockingReasons.length > 0) {
+1133:             return '先补齐技术成本、税务复核或商务路径依据，再发起报价与毛利评审。';
+1134:         }
+1135: 
+1136:         return '基于当前技术成本和商务路径，形成报价、税务条件、回款条件与毛利评审结论。';
+1137:     }
+1138: 
+1139:     private buildPricingMarginNextStep(currentReview: ProjectPricingMarginReview, conditionItems: ProjectPricingMarginConditionItem[], technicalCostPackage: ProjectTechnicalCostPackage | null): string {
+1140:         const blockingReasons = this.buildPricingMarginBlockingReasons(currentReview, conditionItems, technicalCostPackage);
+1141:         if (blockingReasons.length > 0) {
+1142:             return '先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。';
+1143:         }
+1144: 
+1145:         if (currentReview.readyForContracting) {
+1146:             return '可以将当前商业放行基线和摘要快照带入签约就绪。';
+1147:         }
+1148: 
+1149:         return '确认商业放行基线、审批摘要和签约承接关系后再进入签约就绪。';
+1150:     }
+1151: 
+1152:     private buildTechnicalCostAllowedActions(project: Project, permissions: PermissionKey[]): string[] {
+1153:         const permissionSet = new Set<PermissionKey>(permissions);
+1154:         const actions = ['view-technical-cost-workspace'];
+1155: 
+1156:         if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
+1157:             actions.push('create-technical-cost-package');
+1158:         }
+1159: 
+1160:         return actions;
+1161:     }
+1162: 
+1163:     private buildTechnicalCostBlockingReasons(currentPackage: ProjectTechnicalCostPackage, riskItems: ProjectTechnicalRiskItem[]): string[] {
+1164:         const reasons: string[] = [];
+1165: 
+1166:         if (!currentPackage.allowNextStage) {
+1167:             reasons.push('技术与成本版本包尚未允许进入下一阶段。');
+1168:         }
+1169: 
+1170:         for (const item of riskItems) {
+1171:             if (item.blocksNextStage && item.riskStatus !== 'closed') {
+1172:                 reasons.push(`${item.riskCategory}：${item.riskDescription}`);
+1173:             }
+1174:         }
+1175: 
+1176:         if (currentPackage.taxReviewStatus === 'pending') {
+1177:             reasons.push('税务成本假设仍待复核。');
+1178:         }
+1179: 
+1180:         return reasons;
+1181:     }
+1182: 
+1183:     private buildTechnicalCostNextStep(currentPackage: ProjectTechnicalCostPackage, riskItems: ProjectTechnicalRiskItem[]): string {
+1184:         if (currentPackage.allowNextStage && riskItems.every((item) => !item.blocksNextStage || item.riskStatus === 'closed')) {
+1185:             return '进入商务收口前，保持当前版本包作为报价和签约前判断依据。';
+1186:         }
+1187: 
+1188:         if (currentPackage.taxReviewStatus === 'pending') {
+1189:             return '先完成税务成本复核，再判断是否进入商务收口。';
+1190:         }
+1191: 
+1192:         return '先关闭阻塞风险或更新版本包，再进入商务收口。';
+1193:     }
+1194: 
+1195:     private toDecimalString(value: string | number): string {
+1196:         return typeof value === 'string' ? value : String(value);
+1197:     }
+1198: 
+1199:     private toNullableDecimalString(value: string | number | null | undefined): string | null {
+1200:         if (value == null) {
+1201:             return null;
+1202:         }
+1203: 
+1204:         return this.toDecimalString(value);
+LINES 1653-1658
+1653:     private buildOwnerLabel(ownerName: string | null, ownerOrgName: string | null, fallback: string): string {
+1654:         if (ownerName && ownerOrgName) {
+1655:             return `${ownerName} / ${ownerOrgName}`;
+1656:         }
+1657: 
+1658:         return ownerName ?? ownerOrgName ?? fallback;
+LINES 1673-1674
+1673:     private isClosedProject(project: Project): boolean {
+1674:         return project.status === ProjectStatusValue.Closed || project.currentStage === ProjectStageValue.ClosedLost || project.currentStage === ProjectStageValue.ClosedTerminated;
+
+SOURCE apps/poms-api/src/app/features/project/project.repository.ts rawSHA256=d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5
+LINES 268-387
+268:     async findProjectBidCommercialProcessesByProjectId(projectId: string): Promise<ProjectBidCommercialProcess[]> {
+269:         return this.projectBidCommercialProcessRepository.find(
+270:             { projectId },
+271:             {
+272:                 orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+273:             }
+274:         );
+275:     }
+276: 
+277:     async findCurrentProjectBidCommercialProcessByProjectId(projectId: string): Promise<ProjectBidCommercialProcess | null> {
+278:         return this.projectBidCommercialProcessRepository.findOne(
+279:             {
+280:                 projectId,
+281:                 isCurrent: true,
+282:                 status: 'effective'
+283:             },
+284:             {
+285:                 orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+286:             }
+287:         );
+288:     }
+289: 
+290:     async findProjectBidCommercialProcessById(id: string): Promise<ProjectBidCommercialProcess | null> {
+291:         return this.projectBidCommercialProcessRepository.findOne({ id });
+292:     }
+293: 
+294:     async findProjectBidCommercialMaterialItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialMaterialItem[]> {
+295:         if (processIds.length === 0) {
+296:             return [];
+297:         }
+298: 
+299:         return this.projectBidCommercialMaterialItemRepository.find({ processId: { $in: processIds } }, { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
+300:     }
+301: 
+302:     async findProjectBidCommercialTimelineItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialTimelineItem[]> {
+303:         if (processIds.length === 0) {
+304:             return [];
+305:         }
+306: 
+307:         return this.projectBidCommercialTimelineItemRepository.find({ processId: { $in: processIds } }, { orderBy: { processId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
+308:     }
+309: 
+310:     async findProjectTechnicalCostPackagesByProjectId(projectId: string): Promise<ProjectTechnicalCostPackage[]> {
+311:         return this.projectTechnicalCostPackageRepository.find(
+312:             { projectId },
+313:             {
+314:                 orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+315:             }
+316:         );
+317:     }
+318: 
+319:     async findProjectTechnicalCostPackageById(id: string): Promise<ProjectTechnicalCostPackage | null> {
+320:         return this.projectTechnicalCostPackageRepository.findOne({ id });
+321:     }
+322: 
+323:     async findCurrentProjectTechnicalCostPackageByProjectId(projectId: string): Promise<ProjectTechnicalCostPackage | null> {
+324:         return this.projectTechnicalCostPackageRepository.findOne(
+325:             {
+326:                 projectId,
+327:                 isCurrent: true,
+328:                 status: 'effective'
+329:             },
+330:             {
+331:                 orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+332:             }
+333:         );
+334:     }
+335: 
+336:     async findProjectPricingMarginReviewsByProjectId(projectId: string): Promise<ProjectPricingMarginReview[]> {
+337:         return this.projectPricingMarginReviewRepository.find(
+338:             { projectId },
+339:             {
+340:                 orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+341:             }
+342:         );
+343:     }
+344: 
+345:     async findCurrentProjectPricingMarginReviewByProjectId(projectId: string): Promise<ProjectPricingMarginReview | null> {
+346:         return this.projectPricingMarginReviewRepository.findOne(
+347:             {
+348:                 projectId,
+349:                 isCurrent: true,
+350:                 status: 'effective'
+351:             },
+352:             {
+353:                 orderBy: { version: QueryOrder.DESC, effectiveAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+354:             }
+355:         );
+356:     }
+357: 
+358:     async findProjectPricingMarginConditionItemsByReviewIds(reviewIds: string[]): Promise<ProjectPricingMarginConditionItem[]> {
+359:         if (reviewIds.length === 0) {
+360:             return [];
+361:         }
+362: 
+363:         return this.projectPricingMarginConditionItemRepository.find({ reviewId: { $in: reviewIds } }, { orderBy: { reviewId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
+364:     }
+365: 
+366:     async findProjectTechnicalScopeItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalScopeItem[]> {
+367:         if (packageIds.length === 0) {
+368:             return [];
+369:         }
+370: 
+371:         return this.projectTechnicalScopeItemRepository.find({ packageId: { $in: packageIds } }, { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
+372:     }
+373: 
+374:     async findProjectTechnicalRiskItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalRiskItem[]> {
+375:         if (packageIds.length === 0) {
+376:             return [];
+377:         }
+378: 
+379:         return this.projectTechnicalRiskItemRepository.find({ packageId: { $in: packageIds } }, { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
+380:     }
+381: 
+382:     async findProjectTechnicalCostItemsByPackageIds(packageIds: string[]): Promise<ProjectTechnicalCostItem[]> {
+383:         if (packageIds.length === 0) {
+384:             return [];
+385:         }
+386: 
+387:         return this.projectTechnicalCostItemRepository.find({ packageId: { $in: packageIds } }, { orderBy: { packageId: QueryOrder.ASC, sortOrder: QueryOrder.ASC } });
+LINES 422-443
+422:     createProjectPricingMarginReview(input: ConstructorParameters<typeof ProjectPricingMarginReview>[0]): ProjectPricingMarginReview {
+423:         return this.projectPricingMarginReviewRepository.create(input);
+424:     }
+425: 
+426:     createProjectPricingMarginConditionItem(input: ConstructorParameters<typeof ProjectPricingMarginConditionItem>[0]): ProjectPricingMarginConditionItem {
+427:         return this.projectPricingMarginConditionItemRepository.create(input);
+428:     }
+429: 
+430:     createProjectTechnicalCostPackage(input: ConstructorParameters<typeof ProjectTechnicalCostPackage>[0]): ProjectTechnicalCostPackage {
+431:         return this.projectTechnicalCostPackageRepository.create(input);
+432:     }
+433: 
+434:     createProjectTechnicalScopeItem(input: ConstructorParameters<typeof ProjectTechnicalScopeItem>[0]): ProjectTechnicalScopeItem {
+435:         return this.projectTechnicalScopeItemRepository.create(input);
+436:     }
+437: 
+438:     createProjectTechnicalRiskItem(input: ConstructorParameters<typeof ProjectTechnicalRiskItem>[0]): ProjectTechnicalRiskItem {
+439:         return this.projectTechnicalRiskItemRepository.create(input);
+440:     }
+441: 
+442:     createProjectTechnicalCostItem(input: ConstructorParameters<typeof ProjectTechnicalCostItem>[0]): ProjectTechnicalCostItem {
+443:         return this.projectTechnicalCostItemRepository.create(input);
+LINES 484-505
+484:     async saveProjectPricingMarginReview(input: { currentReview: ProjectPricingMarginReview; previousReview: ProjectPricingMarginReview | null; conditionItems: ProjectPricingMarginConditionItem[] }): Promise<void> {
+485:         const entities: object[] = [input.currentReview, ...input.conditionItems];
+486:         if (input.previousReview) {
+487:             entities.push(input.previousReview);
+488:         }
+489: 
+490:         await this.projectPricingMarginReviewRepository.getEntityManager().persist(entities).flush();
+491:     }
+492: 
+493:     async saveProjectTechnicalCostPackage(input: {
+494:         currentPackage: ProjectTechnicalCostPackage;
+495:         previousPackage: ProjectTechnicalCostPackage | null;
+496:         scopeItems: ProjectTechnicalScopeItem[];
+497:         riskItems: ProjectTechnicalRiskItem[];
+498:         costItems: ProjectTechnicalCostItem[];
+499:     }): Promise<void> {
+500:         const entities = [input.currentPackage, ...input.scopeItems, ...input.riskItems, ...input.costItems];
+501:         if (input.previousPackage) {
+502:             entities.push(input.previousPackage);
+503:         }
+504: 
+505:         await this.projectTechnicalCostPackageRepository.getEntityManager().persist(entities).flush();
+
+SOURCE apps/poms-api/src/app/features/project/project-technical-cost-package.entity.ts rawSHA256=813ba540023e08179c13baa6a37e4d4df9a3787c0baa89c16ff4f8a1ea4bec21
+LINES 1-
+LINES 204-
+
+SOURCE apps/poms-api/src/app/features/project/project-pricing-margin-review.entity.ts rawSHA256=a9989492509e65ea4f994fabfbf8197cb7913f5e090893d72403c84613a2419f
+LINES 1-
+LINES 170-
+
+SOURCE libs/shared/contracts/src/lib/shared-contracts.ts rawSHA256=fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097
+LINES 4524-4767
+4524: export const TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS = defineEnumDefinitions([
+4525:     { key: 'Feasible', value: 'feasible', label: '技术可行', order: 10 },
+4526:     { key: 'Conditional', value: 'conditional', label: '有条件可行', order: 20 },
+4527:     { key: 'NotFeasible', value: 'not-feasible', label: '暂不可行', order: 30 }
+4528: ] as const);
+4529: 
+4530: export const TECHNICAL_FEASIBILITY_DECISIONS = enumDefinitionValues(TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS);
+4531: 
+4532: export type TechnicalFeasibilityDecision = (typeof TECHNICAL_FEASIBILITY_DECISIONS)[number];
+4533: 
+4534: export const TechnicalFeasibilityDecisionLabel = enumDefinitionLabels(TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS);
+4535: 
+4536: export const TECHNICAL_SCOPE_ITEM_TYPE_DEFINITIONS = defineEnumDefinitions([
+4537:     { key: 'InScope', value: 'in-scope', label: '范围内', order: 10 },
+4538:     { key: 'OutOfScope', value: 'out-of-scope', label: '排除项', order: 20 },
+4539:     { key: 'Assumption', value: 'assumption', label: '假设', order: 30 }
+4540: ] as const);
+4541: 
+4542: export const TECHNICAL_SCOPE_ITEM_TYPES = enumDefinitionValues(TECHNICAL_SCOPE_ITEM_TYPE_DEFINITIONS);
+4543: 
+4544: export type TechnicalScopeItemType = (typeof TECHNICAL_SCOPE_ITEM_TYPES)[number];
+4545: 
+4546: export const TechnicalScopeItemTypeLabel = enumDefinitionLabels(TECHNICAL_SCOPE_ITEM_TYPE_DEFINITIONS);
+4547: 
+4548: export const PRESIGNING_RISK_LEVEL_DEFINITIONS = defineEnumDefinitions([
+4549:     { key: 'R1', value: 'R1', label: 'R1', order: 10 },
+4550:     { key: 'R2', value: 'R2', label: 'R2', order: 20 },
+4551:     { key: 'R3', value: 'R3', label: 'R3', order: 30 },
+4552:     { key: 'R4', value: 'R4', label: 'R4', order: 40 }
+4553: ] as const);
+4554: 
+4555: export const PRESIGNING_RISK_LEVELS = enumDefinitionValues(PRESIGNING_RISK_LEVEL_DEFINITIONS);
+4556: 
+4557: export type PreSigningRiskLevel = (typeof PRESIGNING_RISK_LEVELS)[number];
+4558: 
+4559: export const PreSigningRiskLevelLabel = enumDefinitionLabels(PRESIGNING_RISK_LEVEL_DEFINITIONS);
+4560: 
+4561: export const PRESIGNING_RISK_STATUS_DEFINITIONS = defineEnumDefinitions([
+4562:     { key: 'Open', value: 'open', label: '打开', order: 10 },
+4563:     { key: 'Mitigating', value: 'mitigating', label: '缓解中', order: 20 },
+4564:     { key: 'Accepted', value: 'accepted', label: '已接受', order: 30 },
+4565:     { key: 'Closed', value: 'closed', label: '已关闭', order: 40 }
+4566: ] as const);
+4567: 
+4568: export const PRESIGNING_RISK_STATUSES = enumDefinitionValues(PRESIGNING_RISK_STATUS_DEFINITIONS);
+4569: 
+4570: export type PreSigningRiskStatus = (typeof PRESIGNING_RISK_STATUSES)[number];
+4571: 
+4572: export const PreSigningRiskStatusLabel = enumDefinitionLabels(PRESIGNING_RISK_STATUS_DEFINITIONS);
+4573: 
+4574: export const COST_ESTIMATE_CONFIDENCE_LEVEL_DEFINITIONS = defineEnumDefinitions([
+4575:     { key: 'High', value: 'high', label: '高', order: 10 },
+4576:     { key: 'Medium', value: 'medium', label: '中', order: 20 },
+4577:     { key: 'Low', value: 'low', label: '低', order: 30 }
+4578: ] as const);
+4579: 
+4580: export const COST_ESTIMATE_CONFIDENCE_LEVELS = enumDefinitionValues(COST_ESTIMATE_CONFIDENCE_LEVEL_DEFINITIONS);
+4581: 
+4582: export type CostEstimateConfidenceLevel = (typeof COST_ESTIMATE_CONFIDENCE_LEVELS)[number];
+4583: 
+4584: export const CostEstimateConfidenceLevelLabel = enumDefinitionLabels(COST_ESTIMATE_CONFIDENCE_LEVEL_DEFINITIONS);
+4585: 
+4586: export const TAX_REVIEW_STATUS_DEFINITIONS = defineEnumDefinitions([
+4587:     { key: 'Pending', value: 'pending', label: '待复核', order: 10 },
+4588:     { key: 'Reviewed', value: 'reviewed', label: '已复核', order: 20 },
+4589:     { key: 'NotRequired', value: 'not-required', label: '无需复核', order: 30 }
+4590: ] as const);
+4591: 
+4592: export const TAX_REVIEW_STATUSES = enumDefinitionValues(TAX_REVIEW_STATUS_DEFINITIONS);
+4593: 
+4594: export type TaxReviewStatus = (typeof TAX_REVIEW_STATUSES)[number];
+4595: 
+4596: export const TaxReviewStatusLabel = enumDefinitionLabels(TAX_REVIEW_STATUS_DEFINITIONS);
+4597: 
+4598: export const PROJECT_TECHNICAL_COST_PACKAGE_STATUSES = ['effective', 'superseded'] as const;
+4599: 
+4600: export type ProjectTechnicalCostPackageStatus = (typeof PROJECT_TECHNICAL_COST_PACKAGE_STATUSES)[number];
+4601: 
+4602: const NonNegativeDecimalStringSchema = z
+4603:     .string()
+4604:     .trim()
+4605:     .regex(/^\d+(\.\d{1,4})?$/);
+4606: 
+4607: const NonNegativeMoneyStringSchema = z
+4608:     .string()
+4609:     .trim()
+4610:     .regex(/^\d+(\.\d{1,2})?$/);
+4611: 
+4612: const NonNegativeRatioStringSchema = z
+4613:     .string()
+4614:     .trim()
+4615:     .regex(/^\d+(\.\d{1,8})?$/);
+4616: 
+4617: const SignedRatioStringSchema = z
+4618:     .string()
+4619:     .trim()
+4620:     .regex(/^-?\d+(\.\d{1,8})?$/);
+4621: 
+4622: export const ProjectTechnicalScopeItemInputSchema = z
+4623:     .object({
+4624:         scopeType: z.enum(TECHNICAL_SCOPE_ITEM_TYPES),
+4625:         label: z.string().trim().min(1).max(255),
+4626:         description: z.string().trim().min(1).max(2000),
+4627:         sortOrder: z.number().int().nonnegative().optional()
+4628:     })
+4629:     .meta({ id: 'ProjectTechnicalScopeItemInput' });
+4630: 
+4631: export type ProjectTechnicalScopeItemInput = z.infer<typeof ProjectTechnicalScopeItemInputSchema>;
+4632: 
+4633: export const ProjectTechnicalRiskItemInputSchema = z
+4634:     .object({
+4635:         riskCategory: z.string().trim().min(1).max(128),
+4636:         riskLevel: z.enum(PRESIGNING_RISK_LEVELS),
+4637:         riskDescription: z.string().trim().min(1).max(2000),
+4638:         impactScope: z.string().trim().min(1).max(1000),
+4639:         mitigationPlan: z.string().trim().min(1).max(2000),
+4640:         ownerRole: z.string().trim().min(1).max(128),
+4641:         riskStatus: z.enum(PRESIGNING_RISK_STATUSES),
+4642:         blocksNextStage: z.boolean(),
+4643:         sortOrder: z.number().int().nonnegative().optional()
+4644:     })
+4645:     .meta({ id: 'ProjectTechnicalRiskItemInput' });
+4646: 
+4647: export type ProjectTechnicalRiskItemInput = z.infer<typeof ProjectTechnicalRiskItemInputSchema>;
+4648: 
+4649: export const ProjectTechnicalCostItemInputSchema = z
+4650:     .object({
+4651:         costCategory: z.string().trim().min(1).max(128),
+4652:         costSubcategory: z.string().trim().min(1).max(128).nullable().optional(),
+4653:         costDescription: z.string().trim().min(1).max(2000),
+4654:         estimationBasis: z.string().trim().min(1).max(2000),
+4655:         quantity: NonNegativeDecimalStringSchema.nullable().optional(),
+4656:         unit: z.string().trim().min(1).max(32).nullable().optional(),
+4657:         unitPrice: NonNegativeDecimalStringSchema.nullable().optional(),
+4658:         amountExcludingTax: NonNegativeMoneyStringSchema,
+4659:         taxCostAmount: NonNegativeMoneyStringSchema,
+4660:         amountIncludingTax: NonNegativeMoneyStringSchema,
+4661:         currencyCode: z.string().trim().min(3).max(16),
+4662:         confidenceLevel: z.enum(COST_ESTIMATE_CONFIDENCE_LEVELS),
+4663:         highUncertainty: z.boolean(),
+4664:         responsibleRole: z.string().trim().min(1).max(128).nullable().optional(),
+4665:         sortOrder: z.number().int().nonnegative().optional()
+4666:     })
+4667:     .meta({ id: 'ProjectTechnicalCostItemInput' });
+4668: 
+4669: export type ProjectTechnicalCostItemInput = z.infer<typeof ProjectTechnicalCostItemInputSchema>;
+4670: 
+4671: export const CreateProjectTechnicalCostPackageRequestSchema = z
+4672:     .object({
+4673:         technicalFeasibilityDecision: z.enum(TECHNICAL_FEASIBILITY_DECISIONS),
+4674:         technicalConclusionSummary: z.string().trim().min(1).max(2000),
+4675:         allowNextStage: z.boolean(),
+4676:         currencyCode: z.string().trim().min(3).max(16),
+4677:         taxAssumptionSummary: z.string().trim().min(1).max(2000),
+4678:         taxReviewStatus: z.enum(TAX_REVIEW_STATUSES),
+4679:         scopeItems: z.array(ProjectTechnicalScopeItemInputSchema).default([]),
+4680:         riskItems: z.array(ProjectTechnicalRiskItemInputSchema).default([]),
+4681:         costItems: z.array(ProjectTechnicalCostItemInputSchema).min(1)
+4682:     })
+4683:     .meta({ id: 'CreateProjectTechnicalCostPackageRequest' });
+4684: 
+4685: export type CreateProjectTechnicalCostPackageRequest = z.infer<typeof CreateProjectTechnicalCostPackageRequestSchema>;
+4686: 
+4687: export const ProjectTechnicalScopeItemViewSchema = ProjectTechnicalScopeItemInputSchema.extend({
+4688:     id: z.uuid(),
+4689:     packageId: z.uuid(),
+4690:     sortOrder: z.number().int().nonnegative()
+4691: }).meta({ id: 'ProjectTechnicalScopeItemView' });
+4692: 
+4693: export type ProjectTechnicalScopeItemView = z.infer<typeof ProjectTechnicalScopeItemViewSchema>;
+4694: 
+4695: export const ProjectTechnicalRiskItemViewSchema = ProjectTechnicalRiskItemInputSchema.extend({
+4696:     id: z.uuid(),
+4697:     packageId: z.uuid(),
+4698:     sortOrder: z.number().int().nonnegative()
+4699: }).meta({ id: 'ProjectTechnicalRiskItemView' });
+4700: 
+4701: export type ProjectTechnicalRiskItemView = z.infer<typeof ProjectTechnicalRiskItemViewSchema>;
+4702: 
+4703: export const ProjectTechnicalCostItemViewSchema = ProjectTechnicalCostItemInputSchema.extend({
+4704:     id: z.uuid(),
+4705:     packageId: z.uuid(),
+4706:     costSubcategory: z.string().nullable(),
+4707:     quantity: z.string().nullable(),
+4708:     unit: z.string().nullable(),
+4709:     unitPrice: z.string().nullable(),
+4710:     responsibleRole: z.string().nullable(),
+4711:     sortOrder: z.number().int().nonnegative()
+4712: }).meta({ id: 'ProjectTechnicalCostItemView' });
+4713: 
+4714: export type ProjectTechnicalCostItemView = z.infer<typeof ProjectTechnicalCostItemViewSchema>;
+4715: 
+4716: export const ProjectTechnicalCostPackageSummarySchema = z
+4717:     .object({
+4718:         id: z.uuid(),
+4719:         projectId: z.uuid(),
+4720:         version: z.number().int().positive(),
+4721:         isCurrent: z.boolean(),
+4722:         supersedesId: z.uuid().nullable(),
+4723:         status: z.enum(PROJECT_TECHNICAL_COST_PACKAGE_STATUSES),
+4724:         technicalFeasibilityDecision: z.enum(TECHNICAL_FEASIBILITY_DECISIONS),
+4725:         technicalConclusionSummary: z.string(),
+4726:         allowNextStage: z.boolean(),
+4727:         currencyCode: z.string(),
+4728:         totalEstimatedAmountExcludingTax: z.string(),
+4729:         totalTaxCostAmount: z.string(),
+4730:         totalEstimatedAmountIncludingTax: z.string(),
+4731:         taxAssumptionSummary: z.string(),
+4732:         taxReviewStatus: z.enum(TAX_REVIEW_STATUSES),
+4733:         highestRiskLevel: z.enum(PRESIGNING_RISK_LEVELS).nullable(),
+4734:         blockerCount: z.number().int().nonnegative(),
+4735:         effectiveAt: z.iso.datetime(),
+4736:         createdAt: z.iso.datetime(),
+4737:         createdBy: z.uuid().nullable(),
+4738:         updatedAt: z.iso.datetime(),
+4739:         updatedBy: z.uuid().nullable(),
+4740:         rowVersion: z.number().int()
+4741:     })
+4742:     .meta({ id: 'ProjectTechnicalCostPackageSummary' });
+4743: 
+4744: export type ProjectTechnicalCostPackageSummary = z.infer<typeof ProjectTechnicalCostPackageSummarySchema>;
+4745: 
+4746: export const ProjectTechnicalCostPackageListSchema = z.array(ProjectTechnicalCostPackageSummarySchema).meta({ id: 'ProjectTechnicalCostPackageList' });
+4747: 
+4748: export type ProjectTechnicalCostPackageList = z.infer<typeof ProjectTechnicalCostPackageListSchema>;
+4749: 
+4750: export const ProjectTechnicalCostWorkspaceViewSchema = z
+4751:     .object({
+4752:         projectId: z.uuid(),
+4753:         currentStage: ProjectStageSchema,
+4754:         status: ProjectStatusSchema,
+4755:         currentPackage: ProjectTechnicalCostPackageSummarySchema.nullable(),
+4756:         scopeItems: z.array(ProjectTechnicalScopeItemViewSchema),
+4757:         riskItems: z.array(ProjectTechnicalRiskItemViewSchema),
+4758:         costItems: z.array(ProjectTechnicalCostItemViewSchema),
+4759:         blockingReasons: z.array(z.string()),
+4760:         nextStep: z.string(),
+4761:         ownerLabel: z.string(),
+4762:         allowedActions: z.array(z.string()),
+4763:         generatedAt: z.iso.datetime()
+4764:     })
+4765:     .meta({ id: 'ProjectTechnicalCostWorkspaceView' });
+4766: 
+4767: export type ProjectTechnicalCostWorkspaceView = z.infer<typeof ProjectTechnicalCostWorkspaceViewSchema>;
+LINES 4888-4979
+4888:         bidMode: z.enum(BID_COMMERCIAL_MODES),
+4889:         currentStage: z.enum(BID_COMMERCIAL_STAGES),
+4890:         decision: z.enum(BID_COMMERCIAL_DECISIONS),
+4891:         resultStatus: z.enum(BID_COMMERCIAL_RESULT_STATUSES),
+4892:         processSummary: z.string().trim().min(1).max(2000),
+4893:         decisionSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+4894:         resultSummary: z.string().trim().min(1).max(1000).nullable().optional(),
+4895:         tenderNo: z.string().trim().min(1).max(128).nullable().optional(),
+4896:         bidPackageNo: z.string().trim().min(1).max(128).nullable().optional(),
+4897:         ownerRole: z.string().trim().min(1).max(128).nullable().optional(),
+4898:         materialItems: z.array(ProjectBidCommercialMaterialItemInputSchema).default([]),
+4899:         timelineItems: z.array(ProjectBidCommercialTimelineItemInputSchema).default([])
+4900:     })
+4901:     .meta({ id: 'CreateProjectBidCommercialProcessRequest' });
+4902: 
+4903: export type CreateProjectBidCommercialProcessRequest = z.infer<typeof CreateProjectBidCommercialProcessRequestSchema>;
+4904: 
+4905: export const ProjectBidCommercialMaterialItemViewSchema = ProjectBidCommercialMaterialItemInputSchema.extend({
+4906:     id: z.uuid(),
+4907:     processId: z.uuid(),
+4908:     responsibleRole: z.string().nullable(),
+4909:     dueAt: z.iso.datetime().nullable(),
+4910:     blocksNextStep: z.boolean(),
+4911:     navigationHint: z.string().nullable(),
+4912:     sortOrder: z.number().int().nonnegative()
+4913: }).meta({ id: 'ProjectBidCommercialMaterialItemView' });
+4914: 
+4915: export type ProjectBidCommercialMaterialItemView = z.infer<typeof ProjectBidCommercialMaterialItemViewSchema>;
+4916: 
+4917: export const ProjectBidCommercialTimelineItemViewSchema = ProjectBidCommercialTimelineItemInputSchema.extend({
+4918:     id: z.uuid(),
+4919:     processId: z.uuid(),
+4920:     summary: z.string().nullable(),
+4921:     occurredAt: z.iso.datetime().nullable(),
+4922:     dueAt: z.iso.datetime().nullable(),
+4923:     responsibleRole: z.string().nullable(),
+4924:     sortOrder: z.number().int().nonnegative()
+4925: }).meta({ id: 'ProjectBidCommercialTimelineItemView' });
+4926: 
+4927: export type ProjectBidCommercialTimelineItemView = z.infer<typeof ProjectBidCommercialTimelineItemViewSchema>;
+4928: 
+4929: export const ProjectBidCommercialProcessSummarySchema = z
+4930:     .object({
+4931:         id: z.uuid(),
+4932:         projectId: z.uuid(),
+4933:         version: z.number().int().positive(),
+4934:         isCurrent: z.boolean(),
+4935:         supersedesId: z.uuid().nullable(),
+4936:         status: z.enum(PROJECT_BID_COMMERCIAL_PROCESS_STATUSES),
+4937:         bidMode: z.enum(BID_COMMERCIAL_MODES),
+4938:         currentStage: z.enum(BID_COMMERCIAL_STAGES),
+4939:         decision: z.enum(BID_COMMERCIAL_DECISIONS),
+4940:         resultStatus: z.enum(BID_COMMERCIAL_RESULT_STATUSES),
+4941:         processSummary: z.string(),
+4942:         decisionSummary: z.string().nullable(),
+4943:         resultSummary: z.string().nullable(),
+4944:         tenderNo: z.string().nullable(),
+4945:         bidPackageNo: z.string().nullable(),
+4946:         ownerRole: z.string().nullable(),
+4947:         blockerCount: z.number().int().nonnegative(),
+4948:         effectiveAt: z.iso.datetime(),
+4949:         createdAt: z.iso.datetime(),
+4950:         createdBy: z.uuid().nullable(),
+4951:         updatedAt: z.iso.datetime(),
+4952:         updatedBy: z.uuid().nullable(),
+4953:         rowVersion: z.number().int()
+4954:     })
+4955:     .meta({ id: 'ProjectBidCommercialProcessSummary' });
+4956: 
+4957: export type ProjectBidCommercialProcessSummary = z.infer<typeof ProjectBidCommercialProcessSummarySchema>;
+4958: 
+4959: export const ProjectBidCommercialProcessListSchema = z.array(ProjectBidCommercialProcessSummarySchema).meta({ id: 'ProjectBidCommercialProcessList' });
+4960: 
+4961: export type ProjectBidCommercialProcessList = z.infer<typeof ProjectBidCommercialProcessListSchema>;
+4962: 
+4963: export const ProjectBidCommercialWorkspaceViewSchema = z
+4964:     .object({
+4965:         projectId: z.uuid(),
+4966:         currentStage: ProjectStageSchema,
+4967:         status: ProjectStatusSchema,
+4968:         currentProcess: ProjectBidCommercialProcessSummarySchema.nullable(),
+4969:         materialItems: z.array(ProjectBidCommercialMaterialItemViewSchema),
+4970:         timelineItems: z.array(ProjectBidCommercialTimelineItemViewSchema),
+4971:         blockingReasons: z.array(z.string()),
+4972:         nextStep: z.string(),
+4973:         ownerLabel: z.string(),
+4974:         allowedActions: z.array(z.string()),
+4975:         generatedAt: z.iso.datetime()
+4976:     })
+4977:     .meta({ id: 'ProjectBidCommercialWorkspaceView' });
+4978: 
+4979: export type ProjectBidCommercialWorkspaceView = z.infer<typeof ProjectBidCommercialWorkspaceViewSchema>;
+LINES 4981-5174
+4981: export const PRICING_MARGIN_PATH_DEFINITIONS = defineEnumDefinitions([
+4982:     { key: 'Bid', value: 'bid', label: '竞标承接', order: 10 },
+4983:     { key: 'DirectCommercial', value: 'direct-commercial', label: '直接商务', order: 20 }
+4984: ] as const);
+4985: 
+4986: export const PRICING_MARGIN_PATHS = enumDefinitionValues(PRICING_MARGIN_PATH_DEFINITIONS);
+4987: 
+4988: export type PricingMarginPath = (typeof PRICING_MARGIN_PATHS)[number];
+4989: 
+4990: export const PricingMarginPathLabel = enumDefinitionLabels(PRICING_MARGIN_PATH_DEFINITIONS);
+4991: 
+4992: export const PRICING_MARGIN_DECISION_DEFINITIONS = defineEnumDefinitions([
+4993:     { key: 'Pending', value: 'pending', label: '待评审', order: 10 },
+4994:     { key: 'Released', value: 'released', label: '已放行', order: 20 },
+4995:     { key: 'ConditionalRelease', value: 'conditional-release', label: '有条件放行', order: 30 },
+4996:     { key: 'Rejected', value: 'rejected', label: '已驳回', order: 40 },
+4997:     { key: 'EscalationRequired', value: 'escalation-required', label: '需升级', order: 50 }
+4998: ] as const);
+4999: 
+5000: export const PRICING_MARGIN_DECISIONS = enumDefinitionValues(PRICING_MARGIN_DECISION_DEFINITIONS);
+5001: 
+5002: export type PricingMarginDecision = (typeof PRICING_MARGIN_DECISIONS)[number];
+5003: 
+5004: export const PricingMarginDecisionLabel = enumDefinitionLabels(PRICING_MARGIN_DECISION_DEFINITIONS);
+5005: 
+5006: export const GROSS_MARGIN_BAND_DEFINITIONS = defineEnumDefinitions([
+5007:     { key: 'BelowRedline', value: 'below-redline', label: '低于红线', order: 10 },
+5008:     { key: 'Watch', value: 'watch', label: '需关注', order: 20 },
+5009:     { key: 'Target', value: 'target', label: '达到目标', order: 30 },
+5010:     { key: 'NotCalculated', value: 'not-calculated', label: '未计算', order: 40 }
+5011: ] as const);
+5012: 
+5013: export const GROSS_MARGIN_BANDS = enumDefinitionValues(GROSS_MARGIN_BAND_DEFINITIONS);
+5014: 
+5015: export type GrossMarginBand = (typeof GROSS_MARGIN_BANDS)[number];
+5016: 
+5017: export const GrossMarginBandLabel = enumDefinitionLabels(GROSS_MARGIN_BAND_DEFINITIONS);
+5018: 
+5019: export const PRICING_MARGIN_CONDITION_TYPE_DEFINITIONS = defineEnumDefinitions([
+5020:     { key: 'Financial', value: 'financial', label: '财务', order: 10 },
+5021:     { key: 'Tax', value: 'tax', label: '税务', order: 20 },
+5022:     { key: 'Payment', value: 'payment', label: '回款', order: 30 },
+5023:     { key: 'Scope', value: 'scope', label: '范围', order: 40 },
+5024:     { key: 'Risk', value: 'risk', label: '风险', order: 50 },
+5025:     { key: 'Approval', value: 'approval', label: '审批', order: 60 }
+5026: ] as const);
+5027: 
+5028: export const PRICING_MARGIN_CONDITION_TYPES = enumDefinitionValues(PRICING_MARGIN_CONDITION_TYPE_DEFINITIONS);
+5029: 
+5030: export type PricingMarginConditionType = (typeof PRICING_MARGIN_CONDITION_TYPES)[number];
+5031: 
+5032: export const PricingMarginConditionTypeLabel = enumDefinitionLabels(PRICING_MARGIN_CONDITION_TYPE_DEFINITIONS);
+5033: 
+5034: export const PRICING_MARGIN_CONDITION_STATUS_DEFINITIONS = defineEnumDefinitions([
+5035:     { key: 'Open', value: 'open', label: '打开', order: 10 },
+5036:     { key: 'Closed', value: 'closed', label: '已关闭', order: 20 },
+5037:     { key: 'Waived', value: 'waived', label: '已豁免', order: 30 }
+5038: ] as const);
+5039: 
+5040: export const PRICING_MARGIN_CONDITION_STATUSES = enumDefinitionValues(PRICING_MARGIN_CONDITION_STATUS_DEFINITIONS);
+5041: 
+5042: export type PricingMarginConditionStatus = (typeof PRICING_MARGIN_CONDITION_STATUSES)[number];
+5043: 
+5044: export const PricingMarginConditionStatusLabel = enumDefinitionLabels(PRICING_MARGIN_CONDITION_STATUS_DEFINITIONS);
+5045: 
+5046: export const PROJECT_PRICING_MARGIN_REVIEW_STATUSES = ['effective', 'superseded'] as const;
+5047: 
+5048: export type ProjectPricingMarginReviewStatus = (typeof PROJECT_PRICING_MARGIN_REVIEW_STATUSES)[number];
+5049: 
+5050: export const ProjectPricingMarginConditionItemInputSchema = z
+5051:     .object({
+5052:         conditionKey: z.string().trim().min(1).max(128),
+5053:         conditionType: z.enum(PRICING_MARGIN_CONDITION_TYPES),
+5054:         label: z.string().trim().min(1).max(255),
+5055:         conditionSummary: z.string().trim().min(1).max(2000),
+5056:         conditionStatus: z.enum(PRICING_MARGIN_CONDITION_STATUSES),
+5057:         requiredForContracting: z.boolean().optional(),
+5058:         responsibleRole: z.string().trim().min(1).max(128).nullable().optional(),
+5059:         dueAt: z.iso.datetime().nullable().optional(),
+5060:         resolutionSummary: z.string().trim().min(1).max(2000).nullable().optional(),
+5061:         sortOrder: z.number().int().nonnegative().optional()
+5062:     })
+5063:     .meta({ id: 'ProjectPricingMarginConditionItemInput' });
+5064: 
+5065: export type ProjectPricingMarginConditionItemInput = z.infer<typeof ProjectPricingMarginConditionItemInputSchema>;
+5066: 
+5067: export const CreateProjectPricingMarginReviewRequestSchema = z
+5068:     .object({
+5069:         technicalCostPackageId: z.uuid(),
+5070:         bidCommercialProcessId: z.uuid().nullable().optional(),
+5071:         commercialReleaseBaselineId: z.uuid().nullable().optional(),
+5072:         pricingPath: z.enum(PRICING_MARGIN_PATHS),
+5073:         quoteVersion: z.string().trim().min(1).max(64),
+5074:         currencyCode: z.string().trim().min(3).max(16),
+5075:         quoteAmountTaxInclusive: NonNegativeMoneyStringSchema,
+5076:         quoteAmountTaxExclusive: NonNegativeMoneyStringSchema,
+5077:         taxRate: NonNegativeRatioStringSchema,
+5078:         taxConditionSummary: z.string().trim().min(1).max(2000),
+5079:         paymentTermsSummary: z.string().trim().min(1).max(2000),
+5080:         grossMarginRate: SignedRatioStringSchema.nullable().optional(),
+5081:         grossMarginBand: z.enum(GROSS_MARGIN_BANDS),
+5082:         grossMarginSummary: z.string().trim().min(1).max(2000),
+5083:         decision: z.enum(PRICING_MARGIN_DECISIONS),
+5084:         decisionSummary: z.string().trim().min(1).max(2000),
+5085:         approvalScenarioKey: z.string().trim().min(1).max(128).nullable().optional(),
+5086:         summaryPackageKey: z.string().trim().min(1).max(64).nullable().optional(),
+5087:         summarySnapshotId: z.uuid().nullable().optional(),
+5088:         projectionLevel: z.string().trim().min(1).max(32).nullable().optional(),
+5089:         exportPolicy: z.string().trim().min(1).max(32).nullable().optional(),
+5090:         ownerRole: z.string().trim().min(1).max(128).nullable().optional(),
+5091:         conditionItems: z.array(ProjectPricingMarginConditionItemInputSchema).default([])
+5092:     })
+5093:     .meta({ id: 'CreateProjectPricingMarginReviewRequest' });
+5094: 
+5095: export type CreateProjectPricingMarginReviewRequest = z.infer<typeof CreateProjectPricingMarginReviewRequestSchema>;
+5096: 
+5097: export const ProjectPricingMarginConditionItemViewSchema = ProjectPricingMarginConditionItemInputSchema.extend({
+5098:     id: z.uuid(),
+5099:     reviewId: z.uuid(),
+5100:     requiredForContracting: z.boolean(),
+5101:     responsibleRole: z.string().nullable(),
+5102:     dueAt: z.iso.datetime().nullable(),
+5103:     resolutionSummary: z.string().nullable(),
+5104:     sortOrder: z.number().int().nonnegative()
+5105: }).meta({ id: 'ProjectPricingMarginConditionItemView' });
+5106: 
+5107: export type ProjectPricingMarginConditionItemView = z.infer<typeof ProjectPricingMarginConditionItemViewSchema>;
+5108: 
+5109: export const ProjectPricingMarginReviewSummarySchema = z
+5110:     .object({
+5111:         id: z.uuid(),
+5112:         projectId: z.uuid(),
+5113:         version: z.number().int().positive(),
+5114:         isCurrent: z.boolean(),
+5115:         supersedesId: z.uuid().nullable(),
+5116:         status: z.enum(PROJECT_PRICING_MARGIN_REVIEW_STATUSES),
+5117:         technicalCostPackageId: z.uuid(),
+5118:         bidCommercialProcessId: z.uuid().nullable(),
+5119:         commercialReleaseBaselineId: z.uuid().nullable(),
+5120:         pricingPath: z.enum(PRICING_MARGIN_PATHS),
+5121:         quoteVersion: z.string(),
+5122:         currencyCode: z.string(),
+5123:         quoteAmountTaxInclusive: z.string(),
+5124:         quoteAmountTaxExclusive: z.string(),
+5125:         taxRate: z.string(),
+5126:         taxConditionSummary: z.string(),
+5127:         paymentTermsSummary: z.string(),
+5128:         grossMarginRate: z.string().nullable(),
+5129:         grossMarginBand: z.enum(GROSS_MARGIN_BANDS),
+5130:         grossMarginSummary: z.string(),
+5131:         decision: z.enum(PRICING_MARGIN_DECISIONS),
+5132:         decisionSummary: z.string(),
+5133:         approvalScenarioKey: z.string().nullable(),
+5134:         summaryPackageKey: z.string().nullable(),
+5135:         summarySnapshotId: z.uuid().nullable(),
+5136:         projectionLevel: z.string().nullable(),
+5137:         exportPolicy: z.string().nullable(),
+5138:         readyForContracting: z.boolean(),
+5139:         ownerRole: z.string().nullable(),
+5140:         blockerCount: z.number().int().nonnegative(),
+5141:         effectiveAt: z.iso.datetime(),
+5142:         createdAt: z.iso.datetime(),
+5143:         createdBy: z.uuid().nullable(),
+5144:         updatedAt: z.iso.datetime(),
+5145:         updatedBy: z.uuid().nullable(),
+5146:         rowVersion: z.number().int()
+5147:     })
+5148:     .meta({ id: 'ProjectPricingMarginReviewSummary' });
+5149: 
+5150: export type ProjectPricingMarginReviewSummary = z.infer<typeof ProjectPricingMarginReviewSummarySchema>;
+5151: 
+5152: export const ProjectPricingMarginReviewListSchema = z.array(ProjectPricingMarginReviewSummarySchema).meta({ id: 'ProjectPricingMarginReviewList' });
+5153: 
+5154: export type ProjectPricingMarginReviewList = z.infer<typeof ProjectPricingMarginReviewListSchema>;
+5155: 
+5156: export const ProjectPricingMarginWorkspaceViewSchema = z
+5157:     .object({
+5158:         projectId: z.uuid(),
+5159:         currentStage: ProjectStageSchema,
+5160:         status: ProjectStatusSchema,
+5161:         currentReview: ProjectPricingMarginReviewSummarySchema.nullable(),
+5162:         technicalCostPackage: ProjectTechnicalCostPackageSummarySchema.nullable(),
+5163:         bidCommercialProcess: ProjectBidCommercialProcessSummarySchema.nullable(),
+5164:         conditionItems: z.array(ProjectPricingMarginConditionItemViewSchema),
+5165:         blockingReasons: z.array(z.string()),
+5166:         nextStep: z.string(),
+5167:         readyForContracting: z.boolean(),
+5168:         ownerLabel: z.string(),
+5169:         allowedActions: z.array(z.string()),
+5170:         generatedAt: z.iso.datetime()
+5171:     })
+5172:     .meta({ id: 'ProjectPricingMarginWorkspaceView' });
+5173: 
+5174: export type ProjectPricingMarginWorkspaceView = z.infer<typeof ProjectPricingMarginWorkspaceViewSchema>;
+
+SOURCE apps/poms-admin/src/app.routes.ts rawSHA256=5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7
+LINES 72-
+LINES 124-
+
+SOURCE apps/poms-admin/src/app/features/project/project-pricing-margin-workspace.ts rawSHA256=ae33fb437baba2f83190064b8ef201bc873c06e8891e77a3415caa5b7ab1c92d
+LINES 499-560
+499:     ngOnInit() {
+500:         const projectId = this.projectId();
+501:         if (projectId) {
+502:             void this.#workspaceStore.loadPricingMarginWorkspace(projectId).catch(() => undefined);
+503:             void this.#workspaceStore.loadPricingMarginReviewHistory(projectId).catch(() => undefined);
+504:         }
+505:     }
+506: 
+507:     projectId(): string {
+508:         return this.#route.parent?.snapshot.paramMap.get('id') ?? this.#route.snapshot.paramMap.get('id') ?? '';
+509:     }
+510: 
+511:     canWritePricingMargin(workspace: ProjectPricingMarginWorkspaceView): boolean {
+512:         return workspace.allowedActions.includes('create-pricing-margin-review') && workspace.technicalCostPackage !== null;
+513:     }
+514: 
+515:     pricingWriteDisabledReason(workspace: ProjectPricingMarginWorkspaceView): string {
+516:         if (!workspace.allowedActions.includes('create-pricing-margin-review')) {
+517:             return '当前用户、项目阶段或项目状态没有报价 / 毛利评审写入权限。';
+518:         }
+519: 
+520:         if (!workspace.technicalCostPackage) {
+521:             return '当前缺少可引用的技术与成本版本，需先完成技术与成本工作区。';
+522:         }
+523: 
+524:         return '当前工作区暂不允许写入。';
+525:     }
+526: 
+527:     openPricingDialog(workspace: ProjectPricingMarginWorkspaceView, mode: PricingMarginDialogMode): void {
+528:         this.pricingDialogMode = mode;
+529:         this.pricingSubmitAttempted = false;
+530:         this.pricingForm = mode === 'edit' && workspace.currentReview ? this.createPricingFormFromWorkspace(workspace) : this.createEmptyPricingForm(workspace);
+531:         this.pricingDialogVisible = true;
+532:     }
+533: 
+534:     closePricingDialog(): void {
+535:         this.pricingDialogVisible = false;
+536:         this.pricingSubmitAttempted = false;
+537:     }
+538: 
+539:     addConditionItem(): void {
+540:         this.pricingForm.conditionItems = [...this.pricingForm.conditionItems, this.createEmptyConditionItem(this.pricingForm.conditionItems.length + 1)];
+541:     }
+542: 
+543:     removeConditionItem(index: number): void {
+544:         this.pricingForm.conditionItems = this.pricingForm.conditionItems.filter((_, currentIndex) => currentIndex !== index);
+545:     }
+546: 
+547:     async submitPricingReview(): Promise<void> {
+548:         this.pricingSubmitAttempted = true;
+549:         const request = this.buildPricingRequest();
+550: 
+551:         if (!request) {
+552:             return;
+553:         }
+554: 
+555:         try {
+556:             await this.#workspaceStore.createPricingMarginReview(this.projectId(), request);
+557:             this.closePricingDialog();
+558:         } catch {
+559:             // Store exposes the backend error in the page feedback.
+560:         }
+LINES 941-1093
+941:     createEmptyPricingForm(workspace: ProjectPricingMarginWorkspaceView | null): PricingMarginForm {
+942:         const technicalCostPackage = workspace?.technicalCostPackage ?? null;
+943:         const bidCommercialProcess = workspace?.bidCommercialProcess ?? null;
+944: 
+945:         return {
+946:             technicalCostPackageId: technicalCostPackage?.id ?? '',
+947:             bidCommercialProcessId: bidCommercialProcess?.id ?? '',
+948:             commercialReleaseBaselineId: '',
+949:             pricingPath: bidCommercialProcess ? CreateProjectPricingMarginReviewRequestPricingPathEnum.Bid : CreateProjectPricingMarginReviewRequestPricingPathEnum.DirectCommercial,
+950:             quoteVersion: '',
+951:             currencyCode: technicalCostPackage?.currencyCode ?? 'CNY',
+952:             quoteAmountTaxInclusive: '',
+953:             quoteAmountTaxExclusive: '',
+954:             taxRate: '',
+955:             taxConditionSummary: technicalCostPackage?.taxAssumptionSummary ?? '',
+956:             paymentTermsSummary: '',
+957:             grossMarginRate: '',
+958:             grossMarginBand: CreateProjectPricingMarginReviewRequestGrossMarginBandEnum.NotCalculated,
+959:             grossMarginSummary: '',
+960:             decision: CreateProjectPricingMarginReviewRequestDecisionEnum.Pending,
+961:             decisionSummary: '',
+962:             approvalScenarioKey: 'pricing-margin-review',
+963:             summaryPackageKey: 'pricing-margin-summary',
+964:             summarySnapshotId: '',
+965:             projectionLevel: 'pricing-margin',
+966:             exportPolicy: 'internal',
+967:             ownerRole: workspace?.ownerLabel ?? '',
+968:             conditionItems: []
+969:         };
+970:     }
+971: 
+972:     createPricingFormFromWorkspace(workspace: ProjectPricingMarginWorkspaceView): PricingMarginForm {
+973:         const currentReview = workspace.currentReview;
+974:         if (!currentReview) {
+975:             return this.createEmptyPricingForm(workspace);
+976:         }
+977: 
+978:         return {
+979:             technicalCostPackageId: currentReview.technicalCostPackageId,
+980:             bidCommercialProcessId: currentReview.bidCommercialProcessId ?? '',
+981:             commercialReleaseBaselineId: currentReview.commercialReleaseBaselineId ?? '',
+982:             pricingPath: this.toPricingPath(currentReview.pricingPath),
+983:             quoteVersion: currentReview.quoteVersion,
+984:             currencyCode: currentReview.currencyCode,
+985:             quoteAmountTaxInclusive: currentReview.quoteAmountTaxInclusive,
+986:             quoteAmountTaxExclusive: currentReview.quoteAmountTaxExclusive,
+987:             taxRate: currentReview.taxRate,
+988:             taxConditionSummary: currentReview.taxConditionSummary,
+989:             paymentTermsSummary: currentReview.paymentTermsSummary,
+990:             grossMarginRate: currentReview.grossMarginRate ?? '',
+991:             grossMarginBand: this.toGrossMarginBand(currentReview.grossMarginBand),
+992:             grossMarginSummary: currentReview.grossMarginSummary,
+993:             decision: this.toPricingDecision(currentReview.decision),
+994:             decisionSummary: currentReview.decisionSummary,
+995:             approvalScenarioKey: currentReview.approvalScenarioKey ?? 'pricing-margin-review',
+996:             summaryPackageKey: currentReview.summaryPackageKey ?? 'pricing-margin-summary',
+997:             summarySnapshotId: currentReview.summarySnapshotId ?? '',
+998:             projectionLevel: currentReview.projectionLevel ?? 'pricing-margin',
+999:             exportPolicy: currentReview.exportPolicy ?? 'internal',
+1000:             ownerRole: currentReview.ownerRole ?? workspace.ownerLabel,
+1001:             conditionItems: this.conditionItems(workspace).map((item, index) => ({
+1002:                 conditionKey: item.conditionKey,
+1003:                 conditionType: this.toConditionType(item.conditionType),
+1004:                 label: item.label,
+1005:                 conditionSummary: item.conditionSummary,
+1006:                 conditionStatus: this.toConditionStatus(item.conditionStatus),
+1007:                 requiredForContracting: item.requiredForContracting,
+1008:                 responsibleRole: item.responsibleRole ?? '',
+1009:                 dueAt: item.dueAt ?? '',
+1010:                 resolutionSummary: item.resolutionSummary ?? '',
+1011:                 sortOrder: item.sortOrder ?? index + 1
+1012:             }))
+1013:         };
+1014:     }
+1015: 
+1016:     createEmptyConditionItem(sortOrder: number): PricingMarginConditionForm {
+1017:         return {
+1018:             conditionKey: '',
+1019:             conditionType: ProjectPricingMarginConditionItemInputConditionTypeEnum.Payment,
+1020:             label: '',
+1021:             conditionSummary: '',
+1022:             conditionStatus: ProjectPricingMarginConditionItemInputConditionStatusEnum.Open,
+1023:             requiredForContracting: true,
+1024:             responsibleRole: '',
+1025:             dueAt: '',
+1026:             resolutionSummary: '',
+1027:             sortOrder
+1028:         };
+1029:     }
+1030: 
+1031:     isPricingFormValid(): boolean {
+1032:         return (
+1033:             this.pricingForm.technicalCostPackageId.trim().length > 0 &&
+1034:             this.pricingForm.quoteVersion.trim().length > 0 &&
+1035:             this.pricingForm.currencyCode.trim().length > 0 &&
+1036:             this.pricingForm.quoteAmountTaxInclusive.trim().length > 0 &&
+1037:             this.pricingForm.quoteAmountTaxExclusive.trim().length > 0 &&
+1038:             this.pricingForm.taxRate.trim().length > 0 &&
+1039:             this.pricingForm.taxConditionSummary.trim().length > 0 &&
+1040:             this.pricingForm.paymentTermsSummary.trim().length > 0 &&
+1041:             this.pricingForm.grossMarginSummary.trim().length > 0 &&
+1042:             this.pricingForm.decisionSummary.trim().length > 0
+1043:         );
+1044:     }
+1045: 
+1046:     buildPricingRequest(): CreateProjectPricingMarginReviewRequest | null {
+1047:         if (!this.isPricingFormValid()) {
+1048:             return null;
+1049:         }
+1050: 
+1051:         return {
+1052:             technicalCostPackageId: this.pricingForm.technicalCostPackageId.trim(),
+1053:             bidCommercialProcessId: this.blankToNull(this.pricingForm.bidCommercialProcessId),
+1054:             commercialReleaseBaselineId: this.blankToNull(this.pricingForm.commercialReleaseBaselineId),
+1055:             pricingPath: this.pricingForm.pricingPath,
+1056:             quoteVersion: this.pricingForm.quoteVersion.trim(),
+1057:             currencyCode: this.pricingForm.currencyCode.trim(),
+1058:             quoteAmountTaxInclusive: this.pricingForm.quoteAmountTaxInclusive.trim(),
+1059:             quoteAmountTaxExclusive: this.pricingForm.quoteAmountTaxExclusive.trim(),
+1060:             taxRate: this.pricingForm.taxRate.trim(),
+1061:             taxConditionSummary: this.pricingForm.taxConditionSummary.trim(),
+1062:             paymentTermsSummary: this.pricingForm.paymentTermsSummary.trim(),
+1063:             grossMarginRate: this.blankToNull(this.pricingForm.grossMarginRate),
+1064:             grossMarginBand: this.pricingForm.grossMarginBand,
+1065:             grossMarginSummary: this.pricingForm.grossMarginSummary.trim(),
+1066:             decision: this.pricingForm.decision,
+1067:             decisionSummary: this.pricingForm.decisionSummary.trim(),
+1068:             approvalScenarioKey: this.blankToNull(this.pricingForm.approvalScenarioKey),
+1069:             summaryPackageKey: this.blankToNull(this.pricingForm.summaryPackageKey),
+1070:             summarySnapshotId: this.blankToNull(this.pricingForm.summarySnapshotId),
+1071:             projectionLevel: this.blankToNull(this.pricingForm.projectionLevel),
+1072:             exportPolicy: this.blankToNull(this.pricingForm.exportPolicy),
+1073:             ownerRole: this.blankToNull(this.pricingForm.ownerRole),
+1074:             conditionItems: this.pricingForm.conditionItems.map(
+1075:                 (item, index): ProjectPricingMarginConditionItemInput => ({
+1076:                     conditionKey: item.conditionKey.trim() || `condition-${index + 1}`,
+1077:                     conditionType: item.conditionType,
+1078:                     label: item.label.trim() || `条件项 ${index + 1}`,
+1079:                     conditionSummary: item.conditionSummary.trim() || `条件项 ${index + 1}`,
+1080:                     conditionStatus: item.conditionStatus,
+1081:                     requiredForContracting: item.requiredForContracting,
+1082:                     responsibleRole: this.blankToNull(item.responsibleRole),
+1083:                     dueAt: this.blankToNull(item.dueAt),
+1084:                     resolutionSummary: this.blankToNull(item.resolutionSummary),
+1085:                     sortOrder: index + 1
+1086:                 })
+1087:             )
+1088:         };
+1089:     }
+1090: 
+1091:     blankToNull(value: string): string | null {
+1092:         const normalized = value.trim();
+1093:         return normalized.length > 0 ? normalized : null;
+
+SOURCE libs/admin/data-access/src/lib/project/project-workspace.store.ts rawSHA256=64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443
+LINES 383-402
+383:     async loadTechnicalCostWorkspace(projectId: string): Promise<ProjectTechnicalCostWorkspaceView> {
+384:         this.#loadingTechnicalCost.set(true);
+385:         this.#technicalCostError.set(null);
+386: 
+387:         try {
+388:             const workspace = await firstValueFrom(
+389:                 this.#projectApi.projectControllerGetProjectTechnicalCostWorkspace({
+390:                     projectId
+391:                 })
+392:             );
+393:             this.#technicalCostWorkspace.set(workspace);
+394:             return workspace;
+395:         } catch (error) {
+396:             this.#technicalCostWorkspace.set(null);
+397:             this.#technicalCostError.set(this.#readWorkspaceError(error, 'technical-cost'));
+398:             throw error;
+399:         } finally {
+400:             this.#loadingTechnicalCost.set(false);
+401:         }
+402:     }
+LINES 467-527
+467:     async loadPricingMarginWorkspace(projectId: string): Promise<ProjectPricingMarginWorkspaceView> {
+468:         this.#loadingPricingMargin.set(true);
+469:         this.#pricingMarginError.set(null);
+470: 
+471:         try {
+472:             const workspace = await firstValueFrom(
+473:                 this.#projectApi.projectControllerGetProjectPricingMarginWorkspace({
+474:                     projectId
+475:                 })
+476:             );
+477:             this.#pricingMarginWorkspace.set(workspace);
+478:             return workspace;
+479:         } catch (error) {
+480:             this.#pricingMarginWorkspace.set(null);
+481:             this.#pricingMarginError.set(this.#readWorkspaceError(error, 'pricing-margin'));
+482:             throw error;
+483:         } finally {
+484:             this.#loadingPricingMargin.set(false);
+485:         }
+486:     }
+487: 
+488:     async loadPricingMarginReviewHistory(projectId: string): Promise<ProjectPricingMarginReviewSummary[]> {
+489:         this.#loadingPricingMarginHistory.set(true);
+490:         this.#pricingMarginHistoryError.set(null);
+491: 
+492:         try {
+493:             const reviews = await firstValueFrom(
+494:                 this.#projectApi.projectControllerListProjectPricingMarginReviews({
+495:                     projectId
+496:                 })
+497:             );
+498:             this.#pricingMarginReviewHistory.set(reviews);
+499:             return reviews;
+500:         } catch (error) {
+501:             this.#pricingMarginReviewHistory.set([]);
+502:             this.#pricingMarginHistoryError.set(this.#readWorkspaceError(error, 'pricing-margin'));
+503:             throw error;
+504:         } finally {
+505:             this.#loadingPricingMarginHistory.set(false);
+506:         }
+507:     }
+508: 
+509:     async createPricingMarginReview(projectId: string, request: CreateProjectPricingMarginReviewRequest): Promise<ProjectPricingMarginReviewSummary> {
+510:         this.#savingPricingMargin.set(true);
+511:         this.#pricingMarginError.set(null);
+512: 
+513:         try {
+514:             const result = await firstValueFrom(
+515:                 this.#projectApi.projectControllerCreateProjectPricingMarginReview({
+516:                     projectId,
+517:                     createProjectPricingMarginReviewRequest: request
+518:                 })
+519:             );
+520:             await Promise.all([this.loadPricingMarginWorkspace(projectId), this.loadPricingMarginReviewHistory(projectId)]);
+521:             return result;
+522:         } catch (error) {
+523:             this.#pricingMarginError.set(this.#readWorkspaceError(error, 'pricing-margin'));
+524:             throw error;
+525:         } finally {
+526:             this.#savingPricingMargin.set(false);
+527:         }
+
+SOURCE docs/design/api-route-canonical-inventory.md rawSHA256=dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4
+LINES 232-234
+232: | `project`          | `createProjectTechnicalCostPackage` | `POST /projects/{projectId}/technical-cost-packages`  | `POST /projects/{projectId}/technical-cost-packages`  | `POST /projects/{projectId}/technical-cost-packages`  | `ADR-015` + `EX-26`                         | `N/A`      | `EX-26` 新增签约前技术与成本版本包项目子集合 create；用于形成技术结论、范围边界、风险与前期成本事实源                    | `B3`  | `aligned` |
+233: | `project`          | `listProjectTechnicalCostPackages`  | `GET /projects/{projectId}/technical-cost-packages`   | `GET /projects/{projectId}/technical-cost-packages`   | `GET /projects/{projectId}/technical-cost-packages`   | `ADR-015` + `EX-26`                         | `N/A`      | `EX-26` 新增签约前技术与成本版本包读侧集合，供历史版本与后续报价 / 投标引用链消费                                        | `B3`  | `aligned` |
+234: | `project`          | `getProjectTechnicalCostWorkspace`  | `GET /projects/{projectId}/technical-cost-workspace`  | `GET /projects/{projectId}/technical-cost-workspace`  | `GET /projects/{projectId}/technical-cost-workspace`  | `ADR-015` + `EX-26`                         | `N/A`      | `EX-26` 新增项目级技术与成本工作区 query view；缺少当前版本包时返回业务 gap，不返回页面级 404                            | `B3`  | `aligned` |
+LINES 238-240
+238: | `project`          | `createProjectPricingMarginReview`  | `POST /projects/{projectId}/pricing-margin-reviews`   | `POST /projects/{projectId}/pricing-margin-reviews`   | `POST /projects/{projectId}/pricing-margin-reviews`   | `ADR-015` + `EX-28`                         | `N/A`      | `EX-28` 新增签约前报价与毛利评审项目子集合 create；用于形成报价、成本版本引用、税务 / 回款条件、毛利判断与放行结论事实源 | `B3`  | `aligned` |
+239: | `project`          | `listProjectPricingMarginReviews`   | `GET /projects/{projectId}/pricing-margin-reviews`    | `GET /projects/{projectId}/pricing-margin-reviews`    | `GET /projects/{projectId}/pricing-margin-reviews`    | `ADR-015` + `EX-28`                         | `N/A`      | `EX-28` 新增签约前报价与毛利评审历史版本读侧集合，供报价页、签约就绪和后续差异校验引用                                   | `B3`  | `aligned` |
+240: | `project`          | `getProjectPricingMarginWorkspace`  | `GET /projects/{projectId}/pricing-margin-workspace`  | `GET /projects/{projectId}/pricing-margin-workspace`  | `GET /projects/{projectId}/pricing-margin-workspace`  | `ADR-015` + `EX-28`                         | `N/A`      | `EX-28` 新增项目级报价与毛利评审 workspace query view；缺少当前评审时返回业务 gap，不返回页面级 404                      | `B3`  | `aligned` |
+
+SOURCE apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts rawSHA256=0b44d3076ad6eca4ff61bfc77fa87d3fd8f2eb9e4b5631c4250b107b74b36be8
+1: import { Migration } from '@mikro-orm/migrations';
+2: 
+3: export class Migration20260424170000_ex26_project_technical_cost_package extends Migration {
+4:     override async up(): Promise<void> {
+5:         this.addSql(`
+6:             create table "poms"."project_technical_cost_package" (
+7:                 "id" uuid not null default gen_random_uuid(),
+8:                 "project_id" uuid not null,
+9:                 "version" integer not null,
+10:                 "is_current" boolean not null default true,
+11:                 "supersedes_id" uuid null,
+12:                 "status" varchar(32) not null default 'effective',
+13:                 "technical_feasibility_decision" varchar(32) not null,
+14:                 "technical_conclusion_summary" text not null,
+15:                 "allow_next_stage" boolean not null default false,
+16:                 "currency_code" varchar(16) not null,
+17:                 "total_estimated_amount_excluding_tax" numeric(18,2) not null,
+18:                 "total_tax_cost_amount" numeric(18,2) not null,
+19:                 "total_estimated_amount_including_tax" numeric(18,2) not null,
+20:                 "tax_assumption_summary" text not null,
+21:                 "tax_review_status" varchar(32) not null,
+22:                 "highest_risk_level" varchar(16) null,
+23:                 "blocker_count" integer not null default 0,
+24:                 "effective_at" timestamptz not null,
+25:                 "created_at" timestamptz not null default now(),
+26:                 "created_by" uuid null,
+27:                 "updated_at" timestamptz not null default now(),
+28:                 "updated_by" uuid null,
+29:                 "row_version" integer not null default 1,
+30:                 constraint "project_technical_cost_package_pkey" primary key ("id"),
+31:                 constraint "uq_project_technical_cost_package_project_version" unique ("project_id", "version"),
+32:                 constraint "project_technical_cost_package_project_id_foreign" foreign key ("project_id") references "poms"."project" ("id") on update cascade on delete restrict,
+33:                 constraint "project_technical_cost_package_supersedes_id_foreign" foreign key ("supersedes_id") references "poms"."project_technical_cost_package" ("id") on update cascade on delete set null
+34:             );
+35:         `);
+36:         this.addSql(`comment on table "poms"."project_technical_cost_package" is '签约前技术与成本测算版本包';`);
+37:         this.addSql(`comment on column "poms"."project_technical_cost_package"."id" is '主键';`);
+38:         this.addSql(`comment on column "poms"."project_technical_cost_package"."project_id" is '项目 ID';`);
+39:         this.addSql(`comment on column "poms"."project_technical_cost_package"."version" is '版本号';`);
+40:         this.addSql(`comment on column "poms"."project_technical_cost_package"."is_current" is '是否当前有效版本';`);
+41:         this.addSql(`comment on column "poms"."project_technical_cost_package"."supersedes_id" is '替代的旧版本包 ID';`);
+42:         this.addSql(`comment on column "poms"."project_technical_cost_package"."status" is '状态：effective/superseded';`);
+43:         this.addSql(`comment on column "poms"."project_technical_cost_package"."technical_feasibility_decision" is '技术可行性结论';`);
+44:         this.addSql(`comment on column "poms"."project_technical_cost_package"."technical_conclusion_summary" is '技术结论摘要';`);
+45:         this.addSql(`comment on column "poms"."project_technical_cost_package"."allow_next_stage" is '是否允许进入下一阶段';`);
+46:         this.addSql(`comment on column "poms"."project_technical_cost_package"."currency_code" is '币种';`);
+47:         this.addSql(`comment on column "poms"."project_technical_cost_package"."total_estimated_amount_excluding_tax" is '估算总额（不含税）';`);
+48:         this.addSql(`comment on column "poms"."project_technical_cost_package"."total_tax_cost_amount" is '税金成本总额';`);
+49:         this.addSql(`comment on column "poms"."project_technical_cost_package"."total_estimated_amount_including_tax" is '估算总额（含税）';`);
+50:         this.addSql(`comment on column "poms"."project_technical_cost_package"."tax_assumption_summary" is '税务假设摘要';`);
+51:         this.addSql(`comment on column "poms"."project_technical_cost_package"."tax_review_status" is '税务复核状态';`);
+52:         this.addSql(`comment on column "poms"."project_technical_cost_package"."highest_risk_level" is '最高风险等级';`);
+53:         this.addSql(`comment on column "poms"."project_technical_cost_package"."blocker_count" is '阻塞事项数量';`);
+54:         this.addSql(`comment on column "poms"."project_technical_cost_package"."effective_at" is '版本生效时间';`);
+55:         this.addSql(`comment on column "poms"."project_technical_cost_package"."created_at" is '创建时间';`);
+56:         this.addSql(`comment on column "poms"."project_technical_cost_package"."created_by" is '创建人';`);
+57:         this.addSql(`comment on column "poms"."project_technical_cost_package"."updated_at" is '最后更新时间';`);
+58:         this.addSql(`comment on column "poms"."project_technical_cost_package"."updated_by" is '最后更新人';`);
+59:         this.addSql(`comment on column "poms"."project_technical_cost_package"."row_version" is '乐观锁版本号';`);
+60:         this.addSql(`create unique index "uq_project_technical_cost_package_current" on "poms"."project_technical_cost_package" ("project_id") where "is_current" = true;`);
+61:         this.addSql(`create index "idx_project_technical_cost_package_project_version" on "poms"."project_technical_cost_package" ("project_id", "version");`);
+62:         this.addSql(`create index "idx_project_technical_cost_package_project_current" on "poms"."project_technical_cost_package" ("project_id", "is_current");`);
+63:         this.addSql(`create index "idx_project_technical_cost_package_status" on "poms"."project_technical_cost_package" ("status");`);
+64: 
+65:         this.addSql(`
+66:             create table "poms"."project_technical_scope_item" (
+67:                 "id" uuid not null default gen_random_uuid(),
+68:                 "package_id" uuid not null,
+69:                 "scope_type" varchar(32) not null,
+70:                 "label" varchar(255) not null,
+71:                 "description" text not null,
+72:                 "sort_order" integer not null default 0,
+73:                 constraint "project_technical_scope_item_pkey" primary key ("id"),
+74:                 constraint "project_technical_scope_item_package_id_foreign" foreign key ("package_id") references "poms"."project_technical_cost_package" ("id") on update cascade on delete cascade
+75:             );
+76:         `);
+77:         this.addSql(`comment on table "poms"."project_technical_scope_item" is '签约前技术范围条目';`);
+78:         this.addSql(`comment on column "poms"."project_technical_scope_item"."id" is '主键';`);
+79:         this.addSql(`comment on column "poms"."project_technical_scope_item"."package_id" is '技术成本版本包 ID';`);
+80:         this.addSql(`comment on column "poms"."project_technical_scope_item"."scope_type" is '范围类型';`);
+81:         this.addSql(`comment on column "poms"."project_technical_scope_item"."label" is '条目名称';`);
+82:         this.addSql(`comment on column "poms"."project_technical_scope_item"."description" is '条目说明';`);
+83:         this.addSql(`comment on column "poms"."project_technical_scope_item"."sort_order" is '排序号';`);
+84:         this.addSql(`create index "idx_project_technical_scope_item_package" on "poms"."project_technical_scope_item" ("package_id", "sort_order");`);
+85:         this.addSql(`create index "idx_project_technical_scope_item_type" on "poms"."project_technical_scope_item" ("scope_type");`);
+86: 
+87:         this.addSql(`
+88:             create table "poms"."project_technical_risk_item" (
+89:                 "id" uuid not null default gen_random_uuid(),
+90:                 "package_id" uuid not null,
+91:                 "risk_category" varchar(128) not null,
+92:                 "risk_level" varchar(16) not null,
+93:                 "risk_description" text not null,
+94:                 "impact_scope" text not null,
+95:                 "mitigation_plan" text not null,
+96:                 "owner_role" varchar(128) not null,
+97:                 "risk_status" varchar(32) not null,
+98:                 "blocks_next_stage" boolean not null default false,
+99:                 "sort_order" integer not null default 0,
+100:                 constraint "project_technical_risk_item_pkey" primary key ("id"),
+101:                 constraint "project_technical_risk_item_package_id_foreign" foreign key ("package_id") references "poms"."project_technical_cost_package" ("id") on update cascade on delete cascade
+102:             );
+103:         `);
+104:         this.addSql(`comment on table "poms"."project_technical_risk_item" is '签约前技术风险条目';`);
+105:         this.addSql(`comment on column "poms"."project_technical_risk_item"."id" is '主键';`);
+106:         this.addSql(`comment on column "poms"."project_technical_risk_item"."package_id" is '技术成本版本包 ID';`);
+107:         this.addSql(`comment on column "poms"."project_technical_risk_item"."risk_category" is '风险类别';`);
+108:         this.addSql(`comment on column "poms"."project_technical_risk_item"."risk_level" is '风险等级';`);
+109:         this.addSql(`comment on column "poms"."project_technical_risk_item"."risk_description" is '风险说明';`);
+110:         this.addSql(`comment on column "poms"."project_technical_risk_item"."impact_scope" is '影响范围';`);
+111:         this.addSql(`comment on column "poms"."project_technical_risk_item"."mitigation_plan" is '缓解计划';`);
+112:         this.addSql(`comment on column "poms"."project_technical_risk_item"."owner_role" is '责任角色';`);
+113:         this.addSql(`comment on column "poms"."project_technical_risk_item"."risk_status" is '风险状态';`);
+114:         this.addSql(`comment on column "poms"."project_technical_risk_item"."blocks_next_stage" is '是否阻塞下一阶段';`);
+115:         this.addSql(`comment on column "poms"."project_technical_risk_item"."sort_order" is '排序号';`);
+116:         this.addSql(`create index "idx_project_technical_risk_item_package" on "poms"."project_technical_risk_item" ("package_id", "sort_order");`);
+117:         this.addSql(`create index "idx_project_technical_risk_item_level" on "poms"."project_technical_risk_item" ("risk_level");`);
+118:         this.addSql(`create index "idx_project_technical_risk_item_blocker" on "poms"."project_technical_risk_item" ("package_id", "blocks_next_stage");`);
+119: 
+120:         this.addSql(`
+121:             create table "poms"."project_technical_cost_item" (
+122:                 "id" uuid not null default gen_random_uuid(),
+123:                 "package_id" uuid not null,
+124:                 "cost_category" varchar(128) not null,
+125:                 "cost_subcategory" varchar(128) null,
+126:                 "cost_description" text not null,
+127:                 "estimation_basis" text not null,
+128:                 "quantity" numeric(18,4) null,
+129:                 "unit" varchar(32) null,
+130:                 "unit_price" numeric(18,4) null,
+131:                 "amount_excluding_tax" numeric(18,2) not null,
+132:                 "tax_cost_amount" numeric(18,2) not null,
+133:                 "amount_including_tax" numeric(18,2) not null,
+134:                 "currency_code" varchar(16) not null,
+135:                 "confidence_level" varchar(32) not null,
+136:                 "high_uncertainty" boolean not null default false,
+137:                 "responsible_role" varchar(128) null,
+138:                 "sort_order" integer not null default 0,
+139:                 constraint "project_technical_cost_item_pkey" primary key ("id"),
+140:                 constraint "project_technical_cost_item_package_id_foreign" foreign key ("package_id") references "poms"."project_technical_cost_package" ("id") on update cascade on delete cascade
+141:             );
+142:         `);
+143:         this.addSql(`comment on table "poms"."project_technical_cost_item" is '签约前成本估算条目';`);
+144:         this.addSql(`comment on column "poms"."project_technical_cost_item"."id" is '主键';`);
+145:         this.addSql(`comment on column "poms"."project_technical_cost_item"."package_id" is '技术成本版本包 ID';`);
+146:         this.addSql(`comment on column "poms"."project_technical_cost_item"."cost_category" is '成本类别';`);
+147:         this.addSql(`comment on column "poms"."project_technical_cost_item"."cost_subcategory" is '成本子类';`);
+148:         this.addSql(`comment on column "poms"."project_technical_cost_item"."cost_description" is '成本说明';`);
+149:         this.addSql(`comment on column "poms"."project_technical_cost_item"."estimation_basis" is '估算依据';`);
+150:         this.addSql(`comment on column "poms"."project_technical_cost_item"."quantity" is '数量';`);
+151:         this.addSql(`comment on column "poms"."project_technical_cost_item"."unit" is '单位';`);
+152:         this.addSql(`comment on column "poms"."project_technical_cost_item"."unit_price" is '单价';`);
+153:         this.addSql(`comment on column "poms"."project_technical_cost_item"."amount_excluding_tax" is '不含税金额';`);
+154:         this.addSql(`comment on column "poms"."project_technical_cost_item"."tax_cost_amount" is '税金成本';`);
+155:         this.addSql(`comment on column "poms"."project_technical_cost_item"."amount_including_tax" is '含税金额';`);
+156:         this.addSql(`comment on column "poms"."project_technical_cost_item"."currency_code" is '币种';`);
+157:         this.addSql(`comment on column "poms"."project_technical_cost_item"."confidence_level" is '估算置信度';`);
+158:         this.addSql(`comment on column "poms"."project_technical_cost_item"."high_uncertainty" is '是否高不确定性';`);
+159:         this.addSql(`comment on column "poms"."project_technical_cost_item"."responsible_role" is '责任角色';`);
+160:         this.addSql(`comment on column "poms"."project_technical_cost_item"."sort_order" is '排序号';`);
+161:         this.addSql(`create index "idx_project_technical_cost_item_package" on "poms"."project_technical_cost_item" ("package_id", "sort_order");`);
+162:         this.addSql(`create index "idx_project_technical_cost_item_category" on "poms"."project_technical_cost_item" ("cost_category");`);
+163:         this.addSql(`create index "idx_project_technical_cost_item_uncertainty" on "poms"."project_technical_cost_item" ("package_id", "high_uncertainty");`);
+164:     }
+165: 
+166:     override async down(): Promise<void> {
+167:         this.addSql(`drop table if exists "poms"."project_technical_cost_item";`);
+168:         this.addSql(`drop table if exists "poms"."project_technical_risk_item";`);
+169:         this.addSql(`drop table if exists "poms"."project_technical_scope_item";`);
+170:         this.addSql(`drop table if exists "poms"."project_technical_cost_package";`);
+171:     }
+172: }
+173: 
+
+SOURCE apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts rawSHA256=09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3
+1: import { Migration } from '@mikro-orm/migrations';
+2: 
+3: export class Migration20260424203000_ex28_project_pricing_margin_review extends Migration {
+4:     override async up(): Promise<void> {
+5:         this.addSql(`
+6:             create table "poms"."project_pricing_margin_review" (
+7:                 "id" uuid not null default gen_random_uuid(),
+8:                 "project_id" uuid not null,
+9:                 "version" integer not null,
+10:                 "is_current" boolean not null default true,
+11:                 "supersedes_id" uuid null,
+12:                 "status" varchar(32) not null default 'effective',
+13:                 "technical_cost_package_id" uuid not null,
+14:                 "bid_commercial_process_id" uuid null,
+15:                 "commercial_release_baseline_id" uuid null,
+16:                 "pricing_path" varchar(32) not null,
+17:                 "quote_version" varchar(64) not null,
+18:                 "currency_code" varchar(16) not null,
+19:                 "quote_amount_tax_inclusive" numeric(18,2) not null,
+20:                 "quote_amount_tax_exclusive" numeric(18,2) not null,
+21:                 "tax_rate" numeric(18,8) not null,
+22:                 "tax_condition_summary" text not null,
+23:                 "payment_terms_summary" text not null,
+24:                 "gross_margin_rate" numeric(18,8) null,
+25:                 "gross_margin_band" varchar(32) not null,
+26:                 "gross_margin_summary" text not null,
+27:                 "decision" varchar(32) not null,
+28:                 "decision_summary" text not null,
+29:                 "approval_scenario_key" varchar(128) null,
+30:                 "summary_package_key" varchar(64) null,
+31:                 "summary_snapshot_id" uuid null,
+32:                 "projection_level" varchar(32) null,
+33:                 "export_policy" varchar(32) null,
+34:                 "ready_for_contracting" boolean not null default false,
+35:                 "owner_role" varchar(128) null,
+36:                 "blocker_count" integer not null default 0,
+37:                 "effective_at" timestamptz not null,
+38:                 "created_at" timestamptz not null default now(),
+39:                 "created_by" uuid null,
+40:                 "updated_at" timestamptz not null default now(),
+41:                 "updated_by" uuid null,
+42:                 "row_version" integer not null default 1,
+43:                 constraint "project_pricing_margin_review_pkey" primary key ("id"),
+44:                 constraint "uq_project_pricing_margin_review_project_version" unique ("project_id", "version"),
+45:                 constraint "project_pricing_margin_review_project_id_foreign" foreign key ("project_id") references "poms"."project" ("id") on update cascade on delete restrict,
+46:                 constraint "project_pricing_margin_review_supersedes_id_foreign" foreign key ("supersedes_id") references "poms"."project_pricing_margin_review" ("id") on update cascade on delete set null,
+47:                 constraint "project_pricing_margin_review_technical_cost_package_id_foreign" foreign key ("technical_cost_package_id") references "poms"."project_technical_cost_package" ("id") on update cascade on delete restrict,
+48:                 constraint "project_pricing_margin_review_bid_commercial_process_id_foreign" foreign key ("bid_commercial_process_id") references "poms"."project_bid_commercial_process" ("id") on update cascade on delete set null,
+49:                 constraint "project_pricing_margin_review_commercial_release_baseline_id_fo" foreign key ("commercial_release_baseline_id") references "poms"."commercial_release_baseline" ("id") on update cascade on delete restrict,
+50:                 constraint "project_pricing_margin_review_summary_snapshot_id_foreign" foreign key ("summary_snapshot_id") references "poms"."approval_summary_snapshot" ("id") on update cascade on delete restrict
+51:             );
+52:         `);
+53:         this.addSql(`comment on table "poms"."project_pricing_margin_review" is '签约前报价与毛利评审版本';`);
+54:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."id" is '主键';`);
+55:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."project_id" is '项目 ID';`);
+56:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."version" is '版本号';`);
+57:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."is_current" is '是否当前有效版本';`);
+58:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."supersedes_id" is '替代的旧评审版本 ID';`);
+59:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."status" is '状态：effective/superseded';`);
+60:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."technical_cost_package_id" is '来源技术与成本版本包 ID';`);
+61:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."bid_commercial_process_id" is '来源招投标 / 商务竞标过程 ID';`);
+62:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."commercial_release_baseline_id" is '商业放行基线 ID';`);
+63:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."pricing_path" is '报价路径';`);
+64:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."quote_version" is '报价版本号';`);
+65:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."currency_code" is '币种';`);
+66:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."quote_amount_tax_inclusive" is '报价含税金额';`);
+67:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."quote_amount_tax_exclusive" is '报价不含税金额';`);
+68:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."tax_rate" is '税率';`);
+69:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."tax_condition_summary" is '税务条件摘要';`);
+70:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."payment_terms_summary" is '回款条件摘要';`);
+71:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."gross_margin_rate" is '预计毛利率';`);
+72:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."gross_margin_band" is '毛利区间';`);
+73:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."gross_margin_summary" is '毛利判断摘要';`);
+74:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."decision" is '评审结论';`);
+75:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."decision_summary" is '评审结论说明';`);
+76:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."approval_scenario_key" is '审批场景键';`);
+77:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."summary_package_key" is '审批摘要包键';`);
+78:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."summary_snapshot_id" is '审批摘要快照 ID';`);
+79:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."projection_level" is '投影级别';`);
+80:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."export_policy" is '导出策略';`);
+81:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."ready_for_contracting" is '是否可进入签约就绪';`);
+82:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."owner_role" is '责任角色';`);
+83:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."blocker_count" is '阻塞事项数量';`);
+84:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."effective_at" is '版本生效时间';`);
+85:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."created_at" is '创建时间';`);
+86:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."created_by" is '创建人';`);
+87:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."updated_at" is '最后更新时间';`);
+88:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."updated_by" is '最后更新人';`);
+89:         this.addSql(`comment on column "poms"."project_pricing_margin_review"."row_version" is '乐观锁版本号';`);
+90:         this.addSql(`create unique index "uq_project_pricing_margin_review_current" on "poms"."project_pricing_margin_review" ("project_id") where "is_current" = true;`);
+91:         this.addSql(`create index "idx_project_pricing_margin_review_project_version" on "poms"."project_pricing_margin_review" ("project_id", "version");`);
+92:         this.addSql(`create index "idx_project_pricing_margin_review_project_current" on "poms"."project_pricing_margin_review" ("project_id", "is_current");`);
+93:         this.addSql(`create index "idx_project_pricing_margin_review_decision" on "poms"."project_pricing_margin_review" ("decision");`);
+94:         this.addSql(`create index "idx_project_pricing_margin_review_cost_package" on "poms"."project_pricing_margin_review" ("technical_cost_package_id");`);
+95:         this.addSql(`create index "idx_project_pricing_margin_review_baseline" on "poms"."project_pricing_margin_review" ("commercial_release_baseline_id");`);
+96:         this.addSql(`create index "idx_project_pricing_margin_review_summary_snapshot" on "poms"."project_pricing_margin_review" ("summary_snapshot_id");`);
+97: 
+98:         this.addSql(`
+99:             create table "poms"."project_pricing_margin_condition_item" (
+100:                 "id" uuid not null default gen_random_uuid(),
+101:                 "review_id" uuid not null,
+102:                 "condition_key" varchar(128) not null,
+103:                 "condition_type" varchar(32) not null,
+104:                 "label" varchar(255) not null,
+105:                 "condition_summary" text not null,
+106:                 "condition_status" varchar(32) not null,
+107:                 "required_for_contracting" boolean not null default false,
+108:                 "responsible_role" varchar(128) null,
+109:                 "due_at" timestamptz null,
+110:                 "resolution_summary" text null,
+111:                 "sort_order" integer not null default 0,
+112:                 constraint "project_pricing_margin_condition_item_pkey" primary key ("id"),
+113:                 constraint "project_pricing_margin_condition_item_review_id_foreign" foreign key ("review_id") references "poms"."project_pricing_margin_review" ("id") on update cascade on delete cascade
+114:             );
+115:         `);
+116:         this.addSql(`comment on table "poms"."project_pricing_margin_condition_item" is '签约前报价与毛利评审条件项';`);
+117:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."id" is '主键';`);
+118:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."review_id" is '报价与毛利评审版本 ID';`);
+119:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."condition_key" is '条件键';`);
+120:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."condition_type" is '条件类型';`);
+121:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."label" is '条件名称';`);
+122:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."condition_summary" is '条件说明';`);
+123:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."condition_status" is '条件状态';`);
+124:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."required_for_contracting" is '是否阻塞进入签约就绪';`);
+125:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."responsible_role" is '责任角色';`);
+126:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."due_at" is '要求完成时间';`);
+127:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."resolution_summary" is '关闭或豁免说明';`);
+128:         this.addSql(`comment on column "poms"."project_pricing_margin_condition_item"."sort_order" is '排序号';`);
+129:         this.addSql(`create index "idx_project_pricing_margin_condition_review" on "poms"."project_pricing_margin_condition_item" ("review_id", "sort_order");`);
+130:         this.addSql(`create index "idx_project_pricing_margin_condition_status" on "poms"."project_pricing_margin_condition_item" ("condition_status");`);
+131:         this.addSql(`create index "idx_project_pricing_margin_condition_blocker" on "poms"."project_pricing_margin_condition_item" ("review_id", "required_for_contracting");`);
+132:     }
+133: 
+134:     override async down(): Promise<void> {
+135:         this.addSql(`drop table if exists "poms"."project_pricing_margin_condition_item";`);
+136:         this.addSql(`drop table if exists "poms"."project_pricing_margin_review";`);
+137:     }
+138: }
+139:

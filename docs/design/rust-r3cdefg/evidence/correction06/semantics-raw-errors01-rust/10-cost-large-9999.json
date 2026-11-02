@@ -1,0 +1,86 @@
+{
+  "label": "cost-large-9999",
+  "startedAt": "2026-11-02T05:51:34.295Z",
+  "completedAt": "2026-11-02T05:51:34.318Z",
+  "amount": "9999999999999999.99",
+  "request": {
+    "technicalFeasibilityDecision": "feasible",
+    "technicalConclusionSummary": "G1 技术方案可行。",
+    "allowNextStage": true,
+    "currencyCode": "CNY",
+    "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+    "taxReviewStatus": "reviewed",
+    "scopeItems": [
+      {
+        "scopeType": "in-scope",
+        "label": "G1 设备交付",
+        "description": "包含一项设备供货。",
+        "sortOrder": 1
+      }
+    ],
+    "riskItems": [
+      {
+        "riskCategory": "G1 供货",
+        "riskLevel": "R1",
+        "riskDescription": "供货周期已经核实。",
+        "impactScope": "设备供货范围。",
+        "mitigationPlan": "按已核实周期交付。",
+        "ownerRole": "售前",
+        "riskStatus": "closed",
+        "blocksNextStage": false,
+        "sortOrder": 1
+      }
+    ],
+    "costItems": [
+      {
+        "costCategory": "equipment",
+        "costDescription": "G1 设备成本",
+        "estimationBasis": "G1 已确认询价。",
+        "amountExcludingTax": "9999999999999999.99",
+        "taxCostAmount": "0",
+        "amountIncludingTax": "9999999999999999.99",
+        "currencyCode": "CNY",
+        "confidenceLevel": "high",
+        "highUncertainty": false,
+        "sortOrder": 1
+      }
+    ]
+  },
+  "HTTP": {
+    "status": 500,
+    "body": {
+      "message": "Internal server error",
+      "statusCode": 500
+    },
+    "requestId": "dda3a37e-b770-4c37-9bf7-13f340b71fcc",
+    "headers": [
+      "content-type",
+      "application/json; charset=utf-8",
+      "content-length",
+      "52",
+      "access-control-allow-origin",
+      "http://127.0.0.1:12300",
+      "vary",
+      "Origin",
+      "access-control-allow-credentials",
+      "true",
+      "x-request-id",
+      "r1a-102871-25",
+      "connection",
+      "close",
+      "date",
+      "Mon, 02 Nov 2026 05:51:34 GMT"
+    ],
+    "rawWire": {
+      "requestBytes": 1420,
+      "requestSha256": "44997ad0b32258cb9f2ba51017e23ac5d48238ab5497de1a6a32ad1e8803e4c8",
+      "responseBytes": 349,
+      "responseSha256": "10c8289cc9d37a5ebd76ad16d717afe0597f92b7395ed29a7356e0fdf498e4a9",
+      "entityBodyBytes": 52,
+      "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-9928c949-ae60-4619-b553-5765b25aea60/raw-wire/admin-dda3a37e-b770-4c37-9bf7-13f340b71fcc",
+      "originalRawRetained": true
+    }
+  },
+  "rows": []
+}

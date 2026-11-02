@@ -1,0 +1,141 @@
+# RUST-R3D 商务竞标 G1 作者输入候选
+
+状态：**仅静态输入，G1 Pending**。未运行 Native/Rust、HTTP、DB、浏览器、fixture、安装、构建、lint 或测试；本报告不是作者自评 Gate。仅 Root 联合 G1 与非作者独立 Pass 后才能写产品。
+
+## 身份与范围
+
+- checkout：`E:/projects/worktrees/poms-r3cdefg-next16/poms`。
+- branch：`codex/poms-r3cdefg-next16`；实读 HEAD：`0fced204c917a37b84a2ad50838e722e764b8f78`。
+- 切片：RUST-R3D [#89](https://github.com/illusion-tech/poms/issues/89)，3 个既有 HTTP 操作；编号由 Root 提供。父 R3 #85 / 总体 #57，本作者没有访问 GitHub。
+- 类型：`cross-layer-high-risk`，迁移现有行为；不新增公开路由、schema、DDL、DTO、shared enum 或更强校验。
+- 未来作者产品所有权：`apps/poms-api-rust/src/project_bid_commercial/**` 中除 `http.rs` 外的文件。本轮只写 `tmp/rust-r3cdefg/b-input/**` 三个输入文件。
+- Root 独占各新模块 `http.rs`、Cargo/lib/root HTTP、旧 `projects/**`、公共桥、生成物、治理、真实环境和验收。作者不改技术成本或报价模块；报价作者消费本文提出并由 Root 冻结的只读接口。
+- 主线 R3A/B 当前交付14/58，后续44与阶段验收未完成；本批16不能关闭父 R3 / 总体迁移项。公共 auth、编号、用户/组织、审计、summary 来源沿用现有交付。原规范实读为237 paths /291 operations /585 schemas；完整 generated client 的579文件保护由 Root 全局验收保全。
+- 代理目标遵照 Root 的显式 Sol/max；Fast 未核实，目标配置不是实际执行模式的证明。
+
+## 直接源码与路由
+
+逐文件原字节、SHA256、关键 symbol / 行号见 `source-manifest.json`。本候选只采用当前 controller/service/query/repository/entity/shared schema/migrations/UI/Rust 的组合，不以旧 EX-27 草案覆盖现行实现。
+
+| 操作 | controller 当前行 | canonical 当前行 | 权限 | 源码成功状态 |
+| --- | --- | --- | --- | --- |
+| `GET /api/projects/{projectId}/bid-commercial-processes` | 138 | 236 | `project:read` | 200 |
+| `POST /api/projects/{projectId}/bid-commercial-processes` | 288 | 235 | `project:write` | 201 |
+| `GET /api/projects/{projectId}/bid-commercial-workspace` | 146 | 237 | `project:read` | 200 |
+
+三个路由都是 `aligned`。以上状态是 decorator/OpenAPI 静态预期，实际 Native status、错误 body、HEAD、大小写、单尾斜杠、非法编码/UUID与错误 method 均待 Root 原始 HTTP 见证。`projectId` 是普通 `@Param` string，没有 `ParseUUIDPipe` 或 path Zod UUID schema；不能补一层 400 UUID 校验。未声明 query 参数，额外 query 不参与领域逻辑。
+
+## DTO / enum / presence 语义
+
+`libs/shared/contracts/src/lib/shared-contracts.ts:4768–4982` 是该请求/视图 SSOT；API DTO 使用 `createZodDto`。全局 `ZodValidationPipe` 调用 `schema.parse`。本请求和两种 child 均为 `z.object`，未知属性按原 Zod 默认 strip；需 Root 用真实 DTO 验证嵌套与顶层 strip，不把服务端字段误作客户端命令。
+
+| 层级/字段 | 现有约束 | missing / null / 默认 |
+| --- | --- | --- |
+| 顶层 `bidMode` | enum：`public-tender`, `invitation`, `comparison`, `commercial-negotiation`, `competitive-negotiation`, `direct-commercial`, `not-required` | 必填，null拒绝，无默认 |
+| 顶层 `currentStage` | enum：`not-started`, `preparation`, `submitted`, `negotiating`, `result-confirmed`, `closed` | 必填，null拒绝；这是过程stage，不是项目stage |
+| 顶层 `decision` | `pending`, `participate`, `no-bid`, `not-required` | 必填，null拒绝 |
+| 顶层 `resultStatus` | `pending`, `won`, `lost`, `cancelled`, `not-applicable` | 必填，null拒绝 |
+| `processSummary` | string，trim，1..2000 | 必填，null拒绝 |
+| `decisionSummary`, `resultSummary` | string，trim，1..1000 | optional+nullable；missing/null 持久化及输出均 null，空白 string 拒绝 |
+| `tenderNo`, `bidPackageNo`, `ownerRole` | string，trim，1..128 | optional+nullable；missing/null→null，空白拒绝；service 再 trim 前两者并 `||null` |
+| `materialItems`, `timelineItems` | 各自 child schema array，无 min/max/唯一性校验 | missing→`[]`；显式 null/对象/字符串拒绝 |
+| material `materialKey` | string，trim，1..128 | 必填且非null |
+| material `label` | string，trim，1..255 | 必填且非null |
+| material `materialStatus` | `missing`, `in-progress`, `ready`, `not-required` | 必填且非null |
+| material `responsibleRole` | trim，1..128 string | optional+nullable→null |
+| material `dueAt` | `z.iso.datetime()` | optional+nullable→null；非空字符串经 `new Date` |
+| material `blocksNextStep` | boolean，无 coerce | optional；service missing→false，null拒绝 |
+| material `navigationHint` | trim，1..255 string | optional+nullable→null；原始提示字符串，无 URL/路径白名单 |
+| material `sortOrder` | `z.number().int().nonnegative()` | optional；missing→输入 index+1；0原样保留，null/负数/小数拒绝 |
+| timeline `eventKey`, `label` | trim，分别1..128/1..255 string | 必填且非null |
+| timeline `summary` | trim，1..1000 string | optional+nullable→null |
+| timeline `timelineStatus` | `pending`, `done`, `cancelled` | 必填且非null |
+| timeline `occurredAt`, `dueAt` | `z.iso.datetime()` | optional+nullable→null；非空字符串经 `new Date` |
+| timeline `responsibleRole` | trim，1..128 string | optional+nullable→null |
+| timeline `sortOrder` | 与 material 相同 | missing→index+1；0保留 |
+
+本请求没有 UUID 字段；id/projectId/processId/version/isCurrent/status/supersedesId/effectiveAt/createdAt/createdBy/updatedAt/updatedBy/rowVersion/expectedVersion 都由服务器拥有，body 中同名未知字段应 strip。不存在客户端 expectedVersion 命令，不能新增强制 CAS 参数。不得校验 child key 唯一、sortOrder唯一/连续、dueAt先后、stage/result的一致性或最大 child 数量。
+
+Unicode 需保留原 JS trim 集合与字符串语义；不能直接用 Rust `str::trim`、UTF8 byte length 或将输入统一 Unicode normalization。当前 Rust `dictionary::validation::text` 和 `projects::model::trim_js` 可复用其已接受机制，但新 DTO 的边界仍由 Root 原始 DTO 见证：BMP、astral、组合字符、NBSP/BOM/U+200B、lone surrogate、NUL。POST 原始字符串与 PostgreSQL 再读（lone surrogate替换/非法NUL）必须分列，不能用 `serde_json::Value` 提前丢掉 JS UTF16。`z.iso.datetime()` 的原型要求、大小写、Z/offset、闰日、任意分数秒及 `new Date` 毫秒截断/输出均由实际 Native 验证，不擅自改用更宽 RFC3339。数字需覆盖 Zod safe integer 与 PostgreSQL int32 边界；不能把 DB 异常前移为新 DTO 限制。
+
+响应 schema 中 UUID 为 `z.uuid()`，时间为 `z.iso.datetime()`；实际 controller/query 均显式 mapper。三个处理器无 `ZodSerializerDto` metadata；全局 serializer 只有取得该 metadata 才 parse 响应。因此不能因为响应 schema enum 就对数据库读取额外 parse/filter，历史脏 enum 应按 Native mapper真实行为裁决。
+
+## 项目状态、路径和 blocker
+
+项目写前查 `findById(projectId)`；missing 抛 `NotFoundException("Project {projectId} not found")`。再拒绝 `project.status==='closed'` 或 `currentStage` 不在 `assessment/scope-confirmation/commercial-closure/contracting`。没有 owner/org/scope限制，没有要求 actor 是主责，没有再次要求 active customer、active operator、技术成本包、材料齐备或审批记录。`pending-approval/blocked/on-hold/completed` 等非closed status 在4个允许stage仍未被额外拒绝；不能套用项目基础修改的 active/blocked 限制。
+
+`assertBidCommercialPathConsistent` 只有三项原规则，按以下次序抛400：
+
+1. `bidMode=not-required` 时，必须同时 `decision=not-required` 与 `resultStatus=not-applicable`，否则 `not-required bidMode must use not-required decision and not-applicable resultStatus`；满足后return。
+2. 其他 mode 的 `decision=not-required`：`not-required decision requires not-required bidMode`。
+3. 其他 mode 的 `resultStatus=not-applicable`：`not-applicable resultStatus requires not-required bidMode`。
+
+`decision=pending/no-bid`、`result=lost/cancelled` 和任何合法过程stage均允许形成版本。`blockerCount` 是材料中 `blocksNextStep=true && materialStatus不在ready/not-required` 的数量，加 decision pending/no-bid 的1，加 result lost/cancelled 的1。timeline、时间先后与 bidder mode 不额外计数。
+
+## 版本、持久化与未知事务事实
+
+service 按以下静态次序执行：项目读取→状态/stage校验→路径校验→读取current effective→将旧对象内存标记 `isCurrent=false/status=superseded/updatedBy=operator`→randomUUID新parent→建立children→`saveProjectBidCommercialProcess`→返回新parent。
+
+- current query严格 `projectId + isCurrent=true + status=effective`，order `version DESC,effectiveAt DESC,createdAt DESC`；list只按projectId，保留所有状态与版本，用同一order。
+- 新版本 `version=previous.version+1`，无current则1；`supersedesId=previous.id`或null；`status=effective/isCurrent=true`；`effectiveAt=new Date()`；createdBy/updatedBy=请求user.sub。不存在 `MAX(version)+1`、校验全部历史链或先重建current。
+- 新children属于新parent；旧children不更新/删除。material与timeline id走原ORM UUID默认，parent由Node randomUUID生成。表没有 materialKey/eventKey/sortOrder唯一约束。
+- repository将 `[currentProcess,...materialItems,...timelineItems]`，再append旧parent，以同一EntityManager `persist(entities).flush()`。本方法无显式transaction/lock/retry；service也无显式transaction。
+- entity `.version()` 的 `rowVersion` 默认1；旧parent脏更新由ORM处理其乐观版本。新请求没有 expectedVersion。不得把原ORM冲突误改为新409业务协议。
+- schema已有 `(project_id,version)` unique和 `project_id where is_current=true` partial unique。current predicate排除 `status!=effective`，partial unique不排除这种行；不能将二者混为一谈。
+- project FK restrict；supersedes self-FK set null；children parent FK cascade。process字段为varchar/text/integer/timestamptz，枚举仅TS类型，无本片新增DB CHECK。`tender_no/bid_package_no`来自后续 EX-35a migration，不能只执行EX-27视为完整schema。
+- current缺失但历史version1仍存在时，源码仍尝试version1；不得擅自按历史max修复。未知current/status组合也不得静默修复。
+
+**Root必须先Native见证的事实**：正常第二版本是否成功、ORM insert/update排序和partial unique冲突、managed旧版rowVersion CAS、auto-flush点、隐式flush事务边界、session managed flush的相对次序、并发首建/替换/第三方旧行更新、唯一冲突的原HTTP状态/body、任一child/旧版更新/session触发故障后的全部rollback与残留。单测mock `save...=resolved` 不是这些事实的证明。先采原Native SQL/HTTP/持久化快照，再决定Rust语句次序与事务；不得以“合理的原子性”增强或修复原Native。
+
+## 查询投影、工作区和原UI
+
+process summary完整字段：`id,projectId,version,isCurrent,supersedesId,status,bidMode,currentStage,decision,resultStatus,processSummary,decisionSummary,resultSummary,tenderNo,bidPackageNo,ownerRole,blockerCount,effectiveAt,createdAt,createdBy,updatedAt,updatedBy,rowVersion`。没有child details或额外项目敏感字段。nullable字段显式null，时间调用JS `toISOString()`。
+
+material view：`id,processId,materialKey,label,materialStatus,responsibleRole,dueAt,blocksNextStep,navigationHint,sortOrder`。timeline view：`id,processId,eventKey,label,summary,timelineStatus,occurredAt,dueAt,responsibleRole,sortOrder`。children query按processId ASC、sortOrder ASC，没有tie-breaker；相同sortOrder不另排序id。
+
+workspace完整shape：`projectId,currentStage,status,currentProcess,materialItems,timelineItems,blockingReasons,nextStep,ownerLabel,allowedActions,generatedAt`。先项目，再并行查owner user/org与current；有current才读其children。owner user/org按ID读取，不补状态/权限过滤。ownerLabel为两者都真值时`name / org`，否则`ownerName ?? orgName ?? fallback`；fallback无current是`销售 / 商务`，有current是`ownerRole ?? 销售 / 商务`，需保留空串的truthy与nullish差异。
+
+无current时200业务gap：currentProcess=null、children=[]、blockingReasons=`["尚未形成招投标 / 商务竞标过程记录。"]`、nextStep=`明确是否需要投标、邀标、比选、商务竞标或直接商务报价路径。`。
+
+有current时 blockingReasons 原顺序：pending决策→no-bid决策→lost/cancelled结果→已排序材料逐项阻断。原中文文本和nextStep分支见query `buildBidCommercialBlockingReasons/buildBidCommercialNextStep`，必须逐字对齐。nextStep优先blocking→not-required→direct-commercial→won→通用。读不拒closed/非签约前stage。
+
+allowedActions总有 `view-bid-commercial-workspace`。只有 `!isClosedProject && 4签约前stage && permissions含project:write` 才有 `create-bid-commercial-process`；isClosedProject另含closed-lost/closed-terminated stage。actions不是新guard；POST自身只要求project:write，不要求project:read。
+
+原UI路径：`/projects/:id/workspace/bid-commercial`，路由父/子均要求`project:read`。页面init并发load workspace/history；create/edit dialog都POST新版本。form允许增删materials/timeline；blankToNull处理可选文本，缺key/label产生`material-N/材料项 N`与`event-N/节点 N`，sortOrder提交按index+1（API仍允许0/重复/乱序）。create成功后store并发重读workspace/history；错误由页面feedback展示，权限由allowedActions决定按钮。Root须原页面四组合（Nest/Rust API × 对应两平台UI）实际操作并验证history、空态、错误、readonly、material/timeline、原生成client及报价后续承接；作者未启动页面。
+
+## 认证、CSRF、敏感字段和审计
+
+原全局guard注册顺序：SessionAuthGuard→AuthCsrfGuard→PermissionsGuard→DTO pipe→controller。session resolve检查active user并touch会话；POST CSRF失败在权限检查之前记录`auth.csrf.failed`，权限不足记录`authz.permission.denied`；有效session缺失等错误按公共来源处理。非法JSON/路径层解码与guard先后由Root真实HTTP裁决。
+
+本三个入口不调用敏感投影服务，也不写业务AuditLog；project:read可读原summary/children文本，不能新增 finance 或敏感权限、脱敏mask、actor org限制。成功业务写、项目404、路径400、DTO400本身没有新领域审计；安全失败沿公共事件来源。Native session touch是公共repo原SQL更新，guard安全事件另用persist.flush；后续parent/children flush可能触碰managed session，实际次序/rowVersion/故障边界由Root见证，不能从旧Rust项目create或update照搬pending flush的位置。
+
+## 最小共享读取接口提案（未冻结）
+
+R3D唯一拥有 `Row`（事实snapshot）、current/by-id读取与summary投影。Root已接受与成本同型的下列接口形状及 `Service::new(Database)`；这不是联合G1已通过。报价作者通过这三个入口消费，不能另写竞标SQL或自行增加有效性条件。最终命名/公共桥仍由Root联合G1冻结：
+
+```rust
+// Proposed only; no product source was written.
+store::current(&mut PgConnection, project_id: &str)
+  -> Result<Option<Row>, sqlx::Error>
+store::by_id(&mut PgConnection, process_id: uuid::Uuid)
+  -> Result<Option<Row>, sqlx::Error>
+summary(&Row) -> serde_json::Value
+Service::new(Database)
+// list/workspace/create return Result<projects::model::Wire, module Error>.
+```
+
+- `Row`承载上述全部23个summary字段，至少包括报价直接消费的id/bidMode/decision/resultStatus/blockerCount；DB读取文本保留原字符串，不因为enum类型增校验。连接由消费方提供；查询不BEGIN、不flush、不lock、不retry、不写审计/session、不做权限或项目状态检查。
+- current：精确原三个predicates与三列DESC，不使用max-version代替。不存在时None。
+- by-id：只按id查询，不追加projectId/isCurrent/status条件；报价当前review展示会按历史引用id读取已superseded过程。历史引用来自DB UUID，接口收Uuid；不存在时None，不自行404。不得将该接口的Uuid类型拿来提前normalize报价命令原字符串比较。
+- summary：与原query/controller mapper同shape、null与JS ISO时间，不能把child一并带出。POST的原JsString回显需该作者另保留原始输入，不强迫DB历史读取承载未落库UTF16。
+- 报价create原规则由报价作者拥有：`pricingPath=bid`须非空reference且与current.id**JS字符串严格相等**，拒lost/cancelled/not-applicable；`direct-commercial`无reference可通过，有reference则需current.id相等且mode属direct-commercial/not-required。不能canonicalize客户端UUID后改变大小写比较结果，不能追加won/participate/blockerCount=0门槛。
+- 报价workspace无currentReview时消费current；有currentReview按reference by-id，包括历史版本；空review的prerequisite只针对lost/cancelled结果阻断，不自行增加not-applicable/no-bid/pending/material门槛。
+- 对项目/owner读取，优先消费Root批准的既有公开 `projects::store::find/user_names/org_names` 或Root专有桥；需要 id/status/currentStage/ownerUserId/ownerOrgId 与名称。作者不改旧projects文件，不重复activeCustomer/编号/用户权限/summary机制。
+
+## Root验收与当前未决
+
+机器矩阵 `acceptance-matrix.json` 中全部为 `Pending-root-original-Native-witness-and-dual-runtime`，只列静态预期/比较断言，实际case、HTTP、SQL、截图、source SHA、候选commit、残留/rollback/stop/partial都由Root保存。先Native裁决所有 `nativeWitnessRequired=true` 项，再冻结联合G1；独立审查Pass后才开始产品。
+
+必须覆盖：全DTO缺失/null/type/strip/Unicode/datetime/safeint与DB边界；所有项目status/stage；bid path三条规则和允许组合；三路由认证/CSRF/权限次序与敏感plain输出；正常版本替换及当前读取谓词；unique/CAS竞争与child/session故障rollback；真实原UI；由Rust商务竞标POST形成真实有效基线并被报价Rust POST/GET消费，旧引用历史展示和跨项目/非current引用拒绝保持原义。
+
+G1未决：Root公共桥/命名、原Native第二版本与flush/并发见证、具体共享接口联合接受、非作者独立审查。真实Issue已由Root提供为#89；本作者没有以此报告提出新规范或宣布G1/G2通过。

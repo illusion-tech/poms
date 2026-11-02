@@ -1,0 +1,70 @@
+# A/D 独立静态预审 01
+
+状态：**A/D 静态预审完成；联合G1未签发，G2未由本审查放行。** Root master及实际Native语义证据尚未纳入本份静态结论；后续Native证据另行审阅。
+
+工作树 E:/projects/worktrees/poms-r3cdefg-next16/poms；branch codex/poms-r3cdefg-next16；HEAD及本地origin/main均为0fced204c917a37b84a2ad50838e722e764b8f78。本审查只写tmp/rust-r3cdefg/c-review/**，未改作者原件或产品/Root工具，无commit/push。未运行作者脚本、fixture草稿、build/test/lint/DB/HTTP/browser/安装/runner，未访问private或旧run，未访问GitHub。
+
+## 原件与一致性
+
+- A：8份正式原件（artifact-receipt.json列出7份，另包含该receipt本身）及独立pure native-fixture-draft01.mjs已只读核对。160个来源条目、4,584,521 B均与当前原字节一致；receipt中的7份字节/hash全部吻合。
+- A的原OpenAPI抽取为4 paths/6 operations/19递归schema，全部method/schema/securitySchemes与原spec对应内容一致。13个来源的2,178个编号摘录行与原源码一致，摘录声明的LF归一化不冒称原文件字节。
+- D：6份交付原件（delivery-hashes.json列5份，另包含delivery本身）；70 source +2 protected artifacts +92 migrations +579 client =743个唯一条目，全部与当前字节/hash吻合。
+- A42场景组、D91场景组，分别为not-run-root-owned和Pending-Root；没有实际Pass。
+- A/B/D来源合计971条，union为796个唯一路径，148路径被多作者引用，重复路径的声明hash无冲突。B当前68来源仍吻合。
+- 机器原件见ad-prereview-static-receipt02.json。01保留；02仅修正摘录checker对末尾LF空行的计数：EX26的“173: ”是声明LF抽取的终止空行，原源码实际172行并有terminal LF。不是源码差异。
+
+本轮取样时尚无Root治理元数据漂移。以后Root更新计划/当前清单时，作者原件继续保留；应以base blob原副本+origin map明确历史metadata来源，不能把历史hash说成更新后当前hash。Native业务源码、DTO、DDL继续保护。
+
+## 当前源码支持的核心判断
+
+A的成本与报价：
+
+- project.service.ts:650–765,831–881,914–921：逐item先币种再金额检查；JS Number/binary64、输入顺序reduce、toFixed(2)；quantity/unitPrice及ratio保持原文本进入decimal；不新增精度上界、SQL SUM或毛利公式。
+- project.repository.ts:310–387：current按project/isCurrent/effective和三列DESC；by-id只按id；价格workspace历史引用不能替换成current。与B共享读取方案语义一致。
+- project-query.service.ts:526–586,1163–1204：成本blockerCount/reasons/nextStep并非同一条件；allow=true且风险不阻断时nextStep优先推进，tax pending reason仍可存在。
+- shared-contracts.ts:4602–4683,5050–5093：数组默认/null/optional、ASCII数字regex、小数位、枚举、UUID与datetime约束准确。pricing严格UUID原文比较、direct无bid引用分支及六引用truthy规则与B预审一致；不新增审批归属验证。
+- Native成本页只读；不能新增表单凑真实producer旅程。真实Rust producer验收留在G2后/G3。
+
+D的联系人、跟进和Todo：
+
+- sales-intelligence.controller.ts:48–62与service.ts:73–93：DTO合法gender不进入controller投影，HTTP创建仍unknown；客户只要求存在，创建无领域audit。
+- service.ts:96–159,578–591,630–715：PATCH显式transactional；已知字段归一化无差异时不persist/审计；changedFields固定顺序；五敏感字段审计仅present/UTF16 length；mapper18字段/null/ISO原样。
+- sales-follow-up.service.ts:42–80,83–180,191–287：仅create要求active customer；replace/void先expectedVersion后active状态；replace detail/next缺失变null；owner缺失保留旧owner、显式null清空；org的nullish fallback顺序正确。void不查字典或重算owner。
+- repository.ts:52–78,93–120,183–306：列表customer AND(lead OR project)；Todo先完成同owner/target其它source，再判断next；无owner立即return；existing查找不加todoType/target；cancel跨owner/target；摘要明确JS UTF16 slice157；开放source唯一键不含todoType/target。
+- follow-up审计在saveWithReminderSync之后独立recordAudit，没有传业务EM；不能凭源码把业务/Todo/audit强行变成一个事务。
+- 原Lead14 producer仍未交付；受控真实只读Lead事实不能计为producer完成。Todo公共消费者已存在也不能替代本片真实producer。
+- Windows已装zod@4.6.1的v4/core/checks.cjs:291–324确实对string使用codePointLength，支持D39的静态输入判断；业务显式JS length/slice仍为UTF16。这个依赖源码读取不是当前Native进程的实测证明。
+
+## Root master需消歧的可执行性记录
+
+### AD-F01：A22中的shortlisted不是原bid结果enum
+
+A22的stimulus列pending/won/shortlisted/lost/cancelled/not-applicable且setup为真实B producer。原enum只有pending/won/lost/cancelled/not-applicable（shared-contracts.ts的BID_COMMERCIAL_RESULT_STATUS_DEFINITIONS及B原件）。shortlisted不能算真实B POST的成功变体；应归为DTO400负例，或明确另列受控未知varchar历史事实，后者不冒充真实producer。
+
+### AD-F02：D F25的inactive不是合法follow-up lifecycle
+
+EX48A:36–37的CHECK只允许active/superseded/voided，后续迁移未移除该status约束。F25向量“inactive with stale version”不能靠改DDL制造成功历史行。用合法superseded/voided配stale expectedVersion即可验证“版本先于状态”；inactive仅列为约束拒绝/不可构造。E13/F04/T02等缺上下文分支同样须注明真实可执行的合法竞态/故障路径；不拆FK、unique或NOT NULL来造状态。
+
+### AD-F03：平台UI四组合与认证矩阵不能混为同一覆盖
+
+A报告149及A38–A41采用Linux/Windows原UI×Native/Rust；D报告187及U01/U03写Native/Rust×Cookie/Bearer。backend-rust-migration-plan.md:147既定平台组合为Linux managed Nest/Rust、Windows managed Nest/external Rust。Root master应明确平台/UI矩阵，并将认证Cookie/Bearer的实际支持面另行列出。D这组四组合不能替代平台组合，也不为凑认证分支改原UI。
+
+### AD-N01：A报告33的“三个GET”是计数笔误
+
+实际六操作为4 GET+2 POST；routeSets、OpenAPI抽取及其它章节均正确。Root master按四GET冻结，无需改作者原件。
+
+### AD-N02：全部预期成功/无残留断言需受Native实际结果约束
+
+例如A15/A29的逐版本201及A25“失败不留新review/children”等是候选断言，不是实际事实。若Root Native witness发现版本替代失败或分段提交，应按原行为逐case冻结，保留失败/partial标签，不能为了原矩阵预期修Native或增强Rust原子性。G1前settle Native语义，G3再验Rust、真实producer及平台UI；不产生Gate循环。
+
+## 最小公共接口结论
+
+A/B的cost/bid current(&mut PgConnection,&str)、by_id(&mut PgConnection,Uuid)、summary(&Row)->Value可统一冻结；Row保留完整summary的DB事实文本，current与历史by-id分离且无lock/retry/BEGIN/鉴权/写审计。pricing命令的UUID仍保留原字符串到严格比较。
+
+现有projects::store::find/user_names/org_names已公开；五模块Service/方法名、Request具体名、Error转换及参数仍须Root master给出可直接接线的唯一版本。A list目前不接session，若Native GET有pending session query flush，须据实调整，不能把候选签名提前当契约。
+
+D的actor/nullable primaryOrg应通过Root冻结的request-local快照桥；AuthUser只有user_id/username/permissions，完整primary_org_unit_id在ResolvedSession.user_snapshot。CustomersService.require_active_customer与DictionaryService.require_active_item已公开，但各自调用Database.with_connection、重新pool.acquire；不能仅凭“可复用”推导同一EM/连接或auto-flush语义。联系人与replace/void保留存在性读取，F create才适用active检查；Todo真实写链依Root见证的连接和flush边界实现。
+
+## 当前Gate结论
+
+可继续准备Root联合master并settle Native语义；尚不满足本审查签发联合G1的输入条件。未发现A/D对已核核心领域规则的实质误读，但上述可执行性/覆盖消歧及真实flush/失败/并发语义必须进入master。未签G1、未放行产品、无G3/G4结论；父#85/#57与余28/非HTTP/阶段边界保持。

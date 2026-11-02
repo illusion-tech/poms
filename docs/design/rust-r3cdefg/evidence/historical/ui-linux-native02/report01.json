@@ -1,0 +1,440 @@
+{
+  "kind": "R3CDEFG-original-Angular-real-platform-cell",
+  "backend": "nest",
+  "label": "linux-native02",
+  "platform": "linux",
+  "tag": "parity01",
+  "apiRunId": "52ce8997-1946-4472-8e9a-91aa72be7f57",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "createdAt": "2026-11-02T03:44:26.514Z",
+  "input": {
+    "file": "tmp/rust-r3cdefg/ui-input-linux-native02.json",
+    "bytes": 23414,
+    "rawBytesSha256": "569b86744cfd43c3ecdda36b49c4ffb613f71a4606f59995565fdf468817196b"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3cdefg/ui-run.mjs",
+      "bytes": 8327,
+      "rawBytesSha256": "33c5847eedb463f1f2703bf93e20f48502a56a08a93d25d5120d5333c8b60b05"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "b20250e430554fe5f3225e150f5016cc8a502bf4934f68bd7b00927e9ba403a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "bytes": 26226,
+      "rawBytesSha256": "d5656b833cb94e1745f967295d6c744ea7e8336e8bcf1f320b25299a752a44e2"
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-journey01.mjs",
+      "bytes": 23202,
+      "rawBytesSha256": "71e3ba9dbc4daea2e8345e0606589c5e501ce9a0fb299eeb2a96378fde795b19"
+    }
+  ],
+  "browser": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "bytes": 197422408,
+    "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+  },
+  "timezone": "Asia/Tokyo",
+  "result": "Failed-partial-retained",
+  "completed": false,
+  "errorName": "TimeoutError",
+  "failedStage": "contact-followup-original-UI",
+  "observations": [
+    {
+      "label": "customer-journey.linux-native02.source-boundary",
+      "value": {
+        "structure": "original customer workspace section-navigation buttons and dialogs",
+        "existingCustomerProducer": "Root supplied active customer; this journey creates no customer",
+        "contactProducer": "real UI POST and PATCH",
+        "followUpProducer": "real UI create/replace/void with original UI expectedVersion",
+        "todoConsumer": "Root-supplied real PG reader; this definition does not claim public Todo navigation coverage",
+        "scope": "customer context only; Lead/project producers and out-of-scope workspace requests remain separate",
+        "executedByDefinitionAuthor": false
+      }
+    },
+    {
+      "label": "customer-journey.linux-native02.open.http.GET./api/customers/3473473b-aed9-4fa7-a526-1803ef723724",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customers/3473473b-aed9-4fa7-a526-1803ef723724",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "id": "3473473b-aed9-4fa7-a526-1803ef723724",
+          "customerNo": "CUST-2026-000005",
+          "displayName": "R3CG UI linux-native02 客户",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:41:59.521Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:41:59.521Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "ownerOrgName": "R3CG admin",
+          "leadCount": 0,
+          "projectCount": 3,
+          "contractCount": 0,
+          "aliases": [
+            {
+              "id": "bc302cb5-0ef3-47bb-a605-804ed472be28",
+              "customerId": "3473473b-aed9-4fa7-a526-1803ef723724",
+              "aliasName": "R3CG UI linux-native02 客户",
+              "aliasType": "alias",
+              "normalizedName": "r3cg ui linux-native02 客户",
+              "isPrimary": true,
+              "createdAt": "2026-11-02T03:41:59.521Z",
+              "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+            }
+          ]
+        },
+        "rawBody": "{\"id\":\"3473473b-aed9-4fa7-a526-1803ef723724\",\"customerNo\":\"CUST-2026-000005\",\"displayName\":\"R3CG UI linux-native02 客户\",\"legalName\":null,\"shortName\":null,\"status\":\"active\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"sourceChannel\":null,\"remark\":null,\"mergedIntoCustomerId\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:41:59.521Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:41:59.521Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"ownerOrgName\":\"R3CG admin\",\"leadCount\":0,\"projectCount\":3,\"contractCount\":0,\"aliases\":[{\"id\":\"bc302cb5-0ef3-47bb-a605-804ed472be28\",\"customerId\":\"3473473b-aed9-4fa7-a526-1803ef723724\",\"aliasName\":\"R3CG UI linux-native02 客户\",\"aliasType\":\"alias\",\"normalizedName\":\"r3cg ui linux-native02 客户\",\"isPrimary\":true,\"createdAt\":\"2026-11-02T03:41:59.521Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native02.open.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=3473473b-aed9-4fa7-a526-1803ef723724&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "rawBody": "[]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native02.open.http.GET./api/customer-contacts",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customer-contacts?customerId=3473473b-aed9-4fa7-a526-1803ef723724",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "rawBody": "[]"
+      }
+    }
+  ],
+  "network": [
+    {
+      "index": 0,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:28.961Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0000.json",
+        "bytes": 2353,
+        "rawBytesSha256": "e4ee4da9aa9d63ada2091354580f29f7810200ca76a66ea4d72ceedae59e9231"
+      },
+      "completedAt": "2026-11-02T03:44:28.968Z"
+    },
+    {
+      "index": 1,
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.025Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0001.json",
+        "bytes": 2167,
+        "rawBytesSha256": "dedac0009b1a605f9b897b37acfc2fb36dc94d6e93b144b5230985a6da0b0506"
+      },
+      "completedAt": "2026-11-02T03:44:29.037Z"
+    },
+    {
+      "index": 2,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.237Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0002.json",
+        "bytes": 2528,
+        "rawBytesSha256": "03f61bfe6b91f5f439d840f328c0d13eb9082008e2c9732610b5194c2baaf46e"
+      },
+      "completedAt": "2026-11-02T03:44:29.240Z"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.288Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0003.json",
+        "bytes": 6585,
+        "rawBytesSha256": "b55b9d08481aa88816de617462e91024a0da6d758cf7513c1e1ad6e06ec6ac54"
+      },
+      "completedAt": "2026-11-02T03:44:29.323Z"
+    },
+    {
+      "index": 4,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.329Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0004.json",
+        "bytes": 2928,
+        "rawBytesSha256": "21a1e47879841d80ea7bf62fb4068f003e6e046057f753be03a4d23b044bc742"
+      },
+      "completedAt": "2026-11-02T03:44:29.349Z"
+    },
+    {
+      "index": 5,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.377Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0005.json",
+        "bytes": 6020,
+        "rawBytesSha256": "bbbc726ec48d1c443f89349a4e22815632dd3b8ff6b437a1ad634b81aee9f36e"
+      },
+      "completedAt": "2026-11-02T03:44:29.395Z"
+    },
+    {
+      "index": 6,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:44:29.397Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0006.json",
+        "bytes": 2542,
+        "rawBytesSha256": "b48987e42cf74e30550fe92927ed984f1446d0100ef16affa102682d73c68bdd"
+      },
+      "completedAt": "2026-11-02T03:44:29.437Z"
+    },
+    {
+      "index": 7,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.399Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0007.json",
+        "bytes": 2868,
+        "rawBytesSha256": "bcc030fc6eb9eb91952fa6b7b08382f3aacbd1509404dca0016c48671adac2b5"
+      },
+      "completedAt": "2026-11-02T03:44:29.432Z"
+    },
+    {
+      "index": 8,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.437Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0008.json",
+        "bytes": 11802,
+        "rawBytesSha256": "352ab87b99f7151a452815c6c91560b287652dd657100c77fec264a355f43c7e"
+      },
+      "completedAt": "2026-11-02T03:44:29.453Z"
+    },
+    {
+      "index": 9,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.438Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0009.json",
+        "bytes": 5812,
+        "rawBytesSha256": "66b0f9f8bcb8bcef70adfb5b7174697d8fd7db6214c1e8a8632db83de0d93268"
+      },
+      "completedAt": "2026-11-02T03:44:29.468Z"
+    },
+    {
+      "index": 10,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.442Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0010.json",
+        "bytes": 3000,
+        "rawBytesSha256": "6ac9a79155a3c163d6928ea4662281c0da87e0f4b3316fd49e0c1f610bda6828"
+      },
+      "completedAt": "2026-11-02T03:44:29.476Z"
+    },
+    {
+      "index": 11,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:44:29.479Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0011.json",
+        "bytes": 2546,
+        "rawBytesSha256": "55b02e7fd3491ad3e11488ed66665d2542673808ff4f2bbcd8d504224a97b704"
+      },
+      "completedAt": "2026-11-02T03:44:29.488Z"
+    },
+    {
+      "index": 12,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:44:29.480Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0012.json",
+        "bytes": 2538,
+        "rawBytesSha256": "e38ff3138944a14e82cc5f2f8c61794d11451a65f91617e975f43395a17c2b17"
+      },
+      "completedAt": "2026-11-02T03:44:29.494Z"
+    },
+    {
+      "index": 13,
+      "method": "GET",
+      "path": "/api/customers/3473473b-aed9-4fa7-a526-1803ef723724/workspace-overview",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.621Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0013.json",
+        "bytes": 7413,
+        "rawBytesSha256": "6fbc33b2b64fa207d399c7ab927cc689ae0cdc2e8d6e082403954ec5fe86fc84"
+      },
+      "completedAt": "2026-11-02T03:44:29.652Z"
+    },
+    {
+      "index": 14,
+      "method": "GET",
+      "path": "/api/customers/3473473b-aed9-4fa7-a526-1803ef723724",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.622Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0014.json",
+        "bytes": 3828,
+        "rawBytesSha256": "175d78ca62c4ed060df96f416a5979a30bde17a8f67ce83888c6608b02a3e177"
+      },
+      "completedAt": "2026-11-02T03:44:29.652Z"
+    },
+    {
+      "index": 15,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=3473473b-aed9-4fa7-a526-1803ef723724",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.726Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0015.json",
+        "bytes": 2549,
+        "rawBytesSha256": "2835367c89283105531b27f2f477ee8f0b1215eec9a4d4717dc2e46935915001"
+      },
+      "completedAt": "2026-11-02T03:44:29.760Z"
+    },
+    {
+      "index": 16,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=3473473b-aed9-4fa7-a526-1803ef723724",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.727Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0016.json",
+        "bytes": 2552,
+        "rawBytesSha256": "d71eaa29ea48a089ca8d07f1be19640cf1090d3b30c32f7584d9721b0885a844"
+      },
+      "completedAt": "2026-11-02T03:44:29.770Z"
+    },
+    {
+      "index": 17,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=3473473b-aed9-4fa7-a526-1803ef723724&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.727Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0017.json",
+        "bytes": 2577,
+        "rawBytesSha256": "9a1a8dfd368ee7d35265d984e90d29491a7b3aa1c892b89517e9500161b6b136"
+      },
+      "completedAt": "2026-11-02T03:44:29.752Z"
+    },
+    {
+      "index": 18,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.728Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0018.json",
+        "bytes": 5814,
+        "rawBytesSha256": "519210e37f1b2238710b4610ceb2f0c506875d509ac222eee64b9460b239afec"
+      },
+      "completedAt": "2026-11-02T03:44:29.787Z"
+    },
+    {
+      "index": 19,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=3473473b-aed9-4fa7-a526-1803ef723724",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.729Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0019.json",
+        "bytes": 2561,
+        "rawBytesSha256": "b71c4f0b428ae59fbbce8be628d7f718b2d1a44800fcfccd7229da117028b069"
+      },
+      "completedAt": "2026-11-02T03:44:29.780Z"
+    },
+    {
+      "index": 20,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:44:29.729Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native02/proxy/http-0020.json",
+        "bytes": 9106,
+        "rawBytesSha256": "c54a5c6b69650683790002bf1f0c28471c4eaac4b9f9a208ffa5dcf66c41a5f7"
+      },
+      "completedAt": "2026-11-02T03:44:29.792Z"
+    }
+  ],
+  "staticBuild": {
+    "memberCount": 422,
+    "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+  },
+  "closure": {
+    "browserClosed": true,
+    "serverClosed": true,
+    "pending": 0,
+    "allRawExchangesRetained": true
+  },
+  "credentialOrRawAuthPublished": false,
+  "noMocksOrComponentEvaluate": true,
+  "outOfScopeRequestsDoNotClaimMigration": true,
+  "cohortCleanup": "Pending-whole-API-and-UI-cohort-terminal",
+  "G3Certified": false,
+  "G4Certified": false
+}

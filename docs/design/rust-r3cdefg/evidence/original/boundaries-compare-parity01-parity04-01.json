@@ -1,0 +1,45 @@
+{
+  "kind": "R3CDEFG-full-additional-response-comparison",
+  "dataset": "boundaries",
+  "createdAt": "2026-11-02T05:03:44.595Z",
+  "inputs": [
+    {
+      "file": "tmp/rust-r3cdefg/boundaries-parity01-nest-05/report01.json",
+      "bytes": 455504,
+      "rawBytesSha256": "ca0ffe72d87474e42cc30132efce01b39d1d9b6ab8778305c109e42033c40198"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/boundaries-parity04-rust-05/report01.json",
+      "bytes": 422420,
+      "rawBytesSha256": "673a17fcd0270de5e16655cd2d8c6fe8b554d80b7761af58ccd46edd4906afef"
+    }
+  ],
+  "events": 171,
+  "normalizations": {
+    "UUIDs": "Bijective producer/corresponding-field identity mapping; preserve uppercase spelling",
+    "businessNumbers": "Only actual projectNo/customerNo identities allocated by corresponding real producers; values and formulas are unchanged",
+    "generatedDates": [
+      "generatedAt",
+      "voidedAt",
+      "createdAt",
+      "updatedAt",
+      "effectiveAt",
+      "completedAt",
+      "canceledAt",
+      "generated_at",
+      "voided_at",
+      "created_at",
+      "updated_at",
+      "effective_at",
+      "completed_at",
+      "canceled_at"
+    ],
+    "foundationLists": "Raw full lists retained; compare exactly the actual run-owned foundation customer/project record, excluding deliberately unequal earlier fixture cohorts",
+    "allOtherErrorArraysDatesMoneyStrings": "Compared exactly"
+  },
+  "result": "Pass",
+  "differenceCount": 0,
+  "differences": [],
+  "G3Certified": false,
+  "G4Certified": false
+}

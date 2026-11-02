@@ -1,0 +1,79 @@
+{
+  "kind": "R3CDEFG-full-additional-response-comparison",
+  "dataset": "boundaries",
+  "createdAt": "2026-11-02T04:27:55.381Z",
+  "inputs": [
+    {
+      "file": "tmp/rust-r3cdefg/boundaries-parity01-nest-05/report01.json",
+      "bytes": 455504,
+      "rawBytesSha256": "ca0ffe72d87474e42cc30132efce01b39d1d9b6ab8778305c109e42033c40198"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/boundaries-parity02-rust-05/report01.json",
+      "bytes": 427785,
+      "rawBytesSha256": "c4906942d733fbb53964d71363b0929e6d018b819da2fed1f48660677bfab3d1"
+    }
+  ],
+  "events": 171,
+  "normalizations": {
+    "UUIDs": "Bijective producer/corresponding-field identity mapping; preserve uppercase spelling",
+    "businessNumbers": "Only actual projectNo/customerNo identities allocated by corresponding real producers; values and formulas are unchanged",
+    "generatedDates": [
+      "generatedAt",
+      "voidedAt",
+      "createdAt",
+      "updatedAt",
+      "effectiveAt",
+      "completedAt",
+      "canceledAt",
+      "generated_at",
+      "voided_at",
+      "created_at",
+      "updated_at",
+      "effective_at",
+      "completed_at",
+      "canceled_at"
+    ],
+    "foundationLists": "Raw full lists retained; compare exactly the actual run-owned foundation customer/project record, excluding deliberately unequal earlier fixture cohorts",
+    "allOtherErrorArraysDatesMoneyStrings": "Compared exactly"
+  },
+  "result": "Needs-correction",
+  "differenceCount": 1,
+  "differences": [
+    {
+      "index": 135,
+      "label": "path.encoded-command",
+      "differences": [
+        {
+          "path": ".body",
+          "native": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/sales-follow-up-records/uuid.6%3Avoid</pre>\n</body>\n</html>\n",
+          "rust": {
+            "error": "Not Found",
+            "message": "Cannot POST /api/sales-follow-up-records/uuid.6%3Avoid",
+            "statusCode": 404
+          }
+        }
+      ],
+      "native": {
+        "label": "path.encoded-command",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/uuid.6%3Avoid",
+        "status": 404,
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/sales-follow-up-records/uuid.6%3Avoid</pre>\n</body>\n</html>\n"
+      },
+      "rust": {
+        "label": "path.encoded-command",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/uuid.6%3Avoid",
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Cannot POST /api/sales-follow-up-records/uuid.6%3Avoid",
+          "statusCode": 404
+        }
+      }
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

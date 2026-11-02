@@ -1,0 +1,102 @@
+{
+  "label": "contact-audit-failure-atomicity",
+  "startedAt": "2026-11-02T05:57:39.165Z",
+  "completedAt": "2026-11-02T05:57:39.192Z",
+  "HTTP": {
+    "status": 500,
+    "body": {
+      "message": "Internal server error",
+      "statusCode": 500
+    },
+    "requestId": "c003f619-361b-4eaf-b670-7324d5c49987",
+    "headers": [
+      "content-type",
+      "application/json; charset=utf-8",
+      "content-length",
+      "52",
+      "access-control-allow-origin",
+      "http://127.0.0.1:12300",
+      "vary",
+      "Origin",
+      "access-control-allow-credentials",
+      "true",
+      "x-request-id",
+      "r1a-108420-38",
+      "connection",
+      "close",
+      "date",
+      "Mon, 02 Nov 2026 05:57:39 GMT"
+    ],
+    "rawWire": {
+      "requestBytes": 482,
+      "requestSha256": "9a0c2187d1ff267b4d6f81bb8089081024d910712d9fd19e72bba61de471ef7c",
+      "responseBytes": 349,
+      "responseSha256": "3aee36406f7f82db21c6c1b74e927492dbfb8487f488a1fba01046a55226ecf2",
+      "entityBodyBytes": 52,
+      "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-2c9cb945-ae05-45c0-8e88-1a4bac0abe96/raw-wire/admin-c003f619-361b-4eaf-b670-7324d5c49987",
+      "originalRawRetained": true
+    }
+  },
+  "before": {
+    "id": "eb2ee93f-693e-42e3-8b65-bac943125b99",
+    "name": "G1 客户联系人😀",
+    "email": "g1@example.test",
+    "title": null,
+    "gender": "unknown",
+    "mobile": null,
+    "remark": null,
+    "status": "active",
+    "wechat": null,
+    "created_at": "2026-11-02T13:57:39.136+08:00",
+    "created_by": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+    "department": null,
+    "updated_at": "2026-11-02T13:57:39.136+08:00",
+    "updated_by": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+    "work_phone": null,
+    "customer_id": "5614b6bf-ee91-4764-b6d5-724ba47a656e",
+    "row_version": 1
+  },
+  "after": {
+    "id": "eb2ee93f-693e-42e3-8b65-bac943125b99",
+    "name": "G1 客户联系人😀",
+    "email": "g1@example.test",
+    "title": null,
+    "gender": "unknown",
+    "mobile": null,
+    "remark": null,
+    "status": "active",
+    "wechat": null,
+    "created_at": "2026-11-02T13:57:39.136+08:00",
+    "created_by": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+    "department": null,
+    "updated_at": "2026-11-02T13:57:39.136+08:00",
+    "updated_by": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+    "work_phone": null,
+    "customer_id": "5614b6bf-ee91-4764-b6d5-724ba47a656e",
+    "row_version": 1
+  },
+  "sessionBefore": [
+    {
+      "id": "941c11ba-bfd4-4e0d-ad26-8e3152b32559",
+      "user_id": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+      "row_version": 7,
+      "last_seen_at": "2026-11-02T05:56:38.166Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T06:12:38.823Z",
+      "updated_at": "2026-11-02T05:57:38.823Z"
+    }
+  ],
+  "sessionAfter": [
+    {
+      "id": "941c11ba-bfd4-4e0d-ad26-8e3152b32559",
+      "user_id": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+      "row_version": 8,
+      "last_seen_at": "2026-11-02T05:57:39.173Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T06:12:39.173Z",
+      "updated_at": "2026-11-02T05:57:39.173Z"
+    }
+  ],
+  "ACLRestored": true
+}

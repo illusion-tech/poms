@@ -1,0 +1,128 @@
+{
+  "label": "project_technical_cost_package-concurrent-first",
+  "startedAt": "2026-11-02T05:57:38.913Z",
+  "completedAt": "2026-11-02T05:57:39.026Z",
+  "waitingBeforeRelease": 2,
+  "responses": [
+    {
+      "status": 500,
+      "body": {
+        "message": "Internal server error",
+        "statusCode": 500
+      },
+      "requestId": "06753947-0411-4a3d-8213-2adeca2d25c1",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "52",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12300",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-108420-31",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 05:57:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1398,
+        "requestSha256": "0db4043f4759c53f780424b3b8488b572ee516e83399f94e79e8cd5f34447582",
+        "responseBytes": 349,
+        "responseSha256": "137e7e77153a6d2696acdd4bffa8d928f1734809acc6aaf6615ce7dea6840d78",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-2c9cb945-ae05-45c0-8e88-1a4bac0abe96/raw-wire/admin-06753947-0411-4a3d-8213-2adeca2d25c1",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "status": 201,
+      "body": {
+        "allowNextStage": true,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T05:57:38.968Z",
+        "createdBy": "c69f376b-aea8-417b-942c-aa5afbe8ad0f",
+        "currencyCode": "CNY",
+        "effectiveAt": "2026-11-02T05:57:38.968Z",
+        "highestRiskLevel": "R1",
+        "id": "db639012-032d-497c-bd9c-611ff9d18da8",
+        "isCurrent": true,
+        "projectId": "a7424ca1-1bb1-4dbc-b2bf-89389d97fea1",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "technicalFeasibilityDecision": "feasible",
+        "totalEstimatedAmountExcludingTax": "100.00",
+        "totalEstimatedAmountIncludingTax": "113.00",
+        "totalTaxCostAmount": "13.00",
+        "updatedAt": "2026-11-02T05:57:38.968Z",
+        "updatedBy": "c69f376b-aea8-417b-942c-aa5afbe8ad0f",
+        "version": 1
+      },
+      "requestId": "dbf1a917-7191-40f2-8268-a9bcf3a42d5f",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "870",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12300",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-108420-32",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 05:57:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1398,
+        "requestSha256": "7a1af99f053fb6650eaf367e0c074e5ad3ba6876d069137881e627df34a4ef39",
+        "responseBytes": 1154,
+        "responseSha256": "cfd4d7110eb666e8792dab363406c4e9dac4b7182c49646a5cdd41d7fc35fe13",
+        "entityBodyBytes": 870,
+        "entityBodySha256": "408a1ed2b02339f44018c4240fa39f68af335de9afe2a72d4219be854e27b707",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-2c9cb945-ae05-45c0-8e88-1a4bac0abe96/raw-wire/other-dbf1a917-7191-40f2-8268-a9bcf3a42d5f",
+        "originalRawRetained": true
+      }
+    }
+  ],
+  "after": [
+    {
+      "id": "db639012-032d-497c-bd9c-611ff9d18da8",
+      "status": "effective",
+      "version": 1,
+      "created_at": "2026-11-02T13:57:38.968+08:00",
+      "created_by": "c69f376b-aea8-417b-942c-aa5afbe8ad0f",
+      "is_current": true,
+      "project_id": "a7424ca1-1bb1-4dbc-b2bf-89389d97fea1",
+      "updated_at": "2026-11-02T13:57:38.968+08:00",
+      "updated_by": "c69f376b-aea8-417b-942c-aa5afbe8ad0f",
+      "row_version": 1,
+      "effective_at": "2026-11-02T13:57:38.968+08:00",
+      "blocker_count": 0,
+      "currency_code": "CNY",
+      "supersedes_id": null,
+      "allow_next_stage": true,
+      "tax_review_status": "reviewed",
+      "highest_risk_level": "R1",
+      "total_tax_cost_amount": 13,
+      "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+      "technical_conclusion_summary": "G1 技术方案可行。",
+      "technical_feasibility_decision": "feasible",
+      "total_estimated_amount_excluding_tax": 100,
+      "total_estimated_amount_including_tax": 113
+    }
+  ]
+}

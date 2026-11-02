@@ -1,0 +1,5190 @@
+{
+  "kind": "C-independent-current03-public-PG-SQL-audit-reconciliation",
+  "createdAt": "2026-11-02T04:56:40.871Z",
+  "inputs": [
+    {
+      "file": "tmp/rust-r3cdefg/observer-parity01-nest-02/exact-numeric-and-side-effects01.json",
+      "bytes": 124682,
+      "rawBytesSha256": "ff65168ed8dde1d1e658c4dc9736f16da3493241637206865b8a875c9a6d7c96"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/observer-parity03-rust-02/exact-numeric-and-side-effects01.json",
+      "bytes": 139528,
+      "rawBytesSha256": "bd420ff63fa9c47500a414f263db08f88ff830b767e543a96bc271d2ae2e88d9"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/observer-parity01-nest-02/SQL-authority01.json",
+      "bytes": 395014,
+      "rawBytesSha256": "c17055095779e2208236f84f21a907094d31f1c50875f7501a40b967242810b4"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/observer-parity03-rust-02/SQL-authority01.json",
+      "bytes": 467864,
+      "rawBytesSha256": "695e4690dcd162b4455de076064383dd5fd92942b10b19f0d1bc3d3c3e70fc0d"
+    }
+  ],
+  "checks": [
+    {
+      "label": "extra-contact-two-readers-CAS",
+      "backend": "native",
+      "name": "unique audit binds actual winner and PG",
+      "result": "Pass",
+      "facts": {
+        "auditId": "9a3def6a-3910-4aa7-b616-ca71562185ad",
+        "winnerRequestId": "612c27d8-da52-40d0-bdcd-22ffd60ff9ce",
+        "loserRequestId": "dc22a1d4-553e-4547-bb35-79d3e85bf64a",
+        "auditCount": 1,
+        "eventType": "customer-contact.updated"
+      }
+    },
+    {
+      "label": "extra-followup-replace-two-readers-CAS",
+      "backend": "native",
+      "name": "unique audit binds actual winner and PG",
+      "result": "Pass",
+      "facts": {
+        "auditId": "8236a7a3-aa3a-4176-8a16-faabe0ae025e",
+        "winnerRequestId": "a3f917bf-4db2-4f12-927f-53e0ccf3ea10",
+        "loserRequestId": "8cfc684e-64ee-4bf6-98a3-84ad771ff253",
+        "auditCount": 1,
+        "eventType": "sales-follow-up.replaced"
+      }
+    },
+    {
+      "label": "extra-contact-two-readers-CAS",
+      "backend": "rust",
+      "name": "unique audit binds actual winner and PG",
+      "result": "Pass",
+      "facts": {
+        "auditId": "744dc100-4675-4c5f-aafa-f6cdf77898b1",
+        "winnerRequestId": "ff779b06-4344-4ac3-9285-c9b241056f54",
+        "loserRequestId": "285e351d-31d0-421f-8809-0ab3b596241c",
+        "auditCount": 1,
+        "eventType": "customer-contact.updated"
+      }
+    },
+    {
+      "label": "extra-followup-replace-two-readers-CAS",
+      "backend": "rust",
+      "name": "unique audit binds actual winner and PG",
+      "result": "Pass",
+      "facts": {
+        "auditId": "87e7eaa2-e7de-42f4-b59c-853b7a700bf7",
+        "winnerRequestId": "cea20f2c-3055-46e3-9233-f9351c6192f8",
+        "loserRequestId": "c2272a30-a472-40a6-b8a7-be32119e8c58",
+        "auditCount": 1,
+        "eventType": "sales-follow-up.replaced"
+      }
+    },
+    {
+      "label": "project_technical_cost_package-concurrent-first",
+      "backend": "native",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "272",
+            "case": "project_technical_cost_package-concurrent-first",
+            "beginIndex": 279,
+            "operations": [
+              {
+                "index": 281,
+                "operation": "INSERT INTO",
+                "table": "project_technical_cost_package",
+                "versionPredicate": false
+              },
+              {
+                "index": 285,
+                "operation": "INSERT INTO",
+                "table": "project_technical_cost_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 286,
+                "operation": "INSERT INTO",
+                "table": "project_technical_risk_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 287,
+                "operation": "INSERT INTO",
+                "table": "project_technical_scope_item",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 288
+          },
+          {
+            "pid": "275",
+            "case": "project_technical_cost_package-concurrent-first",
+            "beginIndex": 280,
+            "operations": [
+              {
+                "index": 282,
+                "operation": "INSERT INTO",
+                "table": "project_technical_cost_package",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 289
+          }
+        ]
+      }
+    },
+    {
+      "label": "project_bid_commercial_process-concurrent-first",
+      "backend": "native",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "275",
+            "case": "project_bid_commercial_process-concurrent-first",
+            "beginIndex": 319,
+            "operations": [
+              {
+                "index": 321,
+                "operation": "INSERT INTO",
+                "table": "project_bid_commercial_process",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 325
+          },
+          {
+            "pid": "272",
+            "case": "project_bid_commercial_process-concurrent-first",
+            "beginIndex": 320,
+            "operations": [
+              {
+                "index": 322,
+                "operation": "INSERT INTO",
+                "table": "project_bid_commercial_process",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 326
+          }
+        ]
+      }
+    },
+    {
+      "label": "extra-contact-two-readers-CAS",
+      "backend": "native",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "287",
+            "case": "extra-contact-two-readers-CAS",
+            "beginIndex": 1061,
+            "operations": [
+              {
+                "index": 1063,
+                "operation": "SELECT",
+                "table": "customer_contact",
+                "versionPredicate": false
+              },
+              {
+                "index": 1065,
+                "operation": "SELECT",
+                "table": "customer",
+                "versionPredicate": false
+              },
+              {
+                "index": 1067,
+                "operation": "INSERT INTO",
+                "table": "audit_log",
+                "versionPredicate": false
+              },
+              {
+                "index": 1069,
+                "operation": "UPDATE",
+                "table": "customer_contact",
+                "versionPredicate": true
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 1073
+          },
+          {
+            "pid": "284",
+            "case": "extra-contact-two-readers-CAS",
+            "beginIndex": 1062,
+            "operations": [
+              {
+                "index": 1064,
+                "operation": "SELECT",
+                "table": "customer_contact",
+                "versionPredicate": false
+              },
+              {
+                "index": 1066,
+                "operation": "SELECT",
+                "table": "customer",
+                "versionPredicate": false
+              },
+              {
+                "index": 1068,
+                "operation": "INSERT INTO",
+                "table": "audit_log",
+                "versionPredicate": false
+              },
+              {
+                "index": 1070,
+                "operation": "UPDATE",
+                "table": "customer_contact",
+                "versionPredicate": true
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 1074
+          }
+        ]
+      }
+    },
+    {
+      "label": "extra-followup-replace-two-readers-CAS",
+      "backend": "native",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "284",
+            "case": "extra-followup-replace-two-readers-CAS",
+            "beginIndex": 1134,
+            "operations": [
+              {
+                "index": 1136,
+                "operation": "INSERT INTO",
+                "table": "todo_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 1138,
+                "operation": "INSERT INTO",
+                "table": "sales_follow_up_record",
+                "versionPredicate": false
+              },
+              {
+                "index": 1142,
+                "operation": "UPDATE",
+                "table": "todo_item",
+                "versionPredicate": true
+              },
+              {
+                "index": 1143,
+                "operation": "UPDATE",
+                "table": "sales_follow_up_record",
+                "versionPredicate": true
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 1144
+          },
+          {
+            "pid": "287",
+            "case": "extra-followup-replace-two-readers-CAS",
+            "beginIndex": 1135,
+            "operations": [
+              {
+                "index": 1137,
+                "operation": "INSERT INTO",
+                "table": "todo_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 1139,
+                "operation": "INSERT INTO",
+                "table": "sales_follow_up_record",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 1146
+          }
+        ]
+      }
+    },
+    {
+      "label": "project_technical_cost_package-concurrent-first",
+      "backend": "rust",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "848",
+            "case": "project_technical_cost_package-concurrent-first",
+            "beginIndex": 296,
+            "operations": [
+              {
+                "index": 297,
+                "operation": "INSERT INTO",
+                "table": "project_technical_cost_package",
+                "versionPredicate": false
+              },
+              {
+                "index": 310,
+                "operation": "INSERT INTO",
+                "table": "project_technical_cost_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 311,
+                "operation": "INSERT INTO",
+                "table": "project_technical_risk_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 312,
+                "operation": "INSERT INTO",
+                "table": "project_technical_scope_item",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 313
+          },
+          {
+            "pid": "847",
+            "case": "project_technical_cost_package-concurrent-first",
+            "beginIndex": 306,
+            "operations": [
+              {
+                "index": 307,
+                "operation": "INSERT INTO",
+                "table": "project_technical_cost_package",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 314
+          }
+        ]
+      }
+    },
+    {
+      "label": "project_bid_commercial_process-concurrent-first",
+      "backend": "rust",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "852",
+            "case": "project_bid_commercial_process-concurrent-first",
+            "beginIndex": 349,
+            "operations": [
+              {
+                "index": 351,
+                "operation": "INSERT INTO",
+                "table": "project_bid_commercial_process",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 355
+          },
+          {
+            "pid": "853",
+            "case": "project_bid_commercial_process-concurrent-first",
+            "beginIndex": 350,
+            "operations": [
+              {
+                "index": 352,
+                "operation": "INSERT INTO",
+                "table": "project_bid_commercial_process",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 356
+          }
+        ]
+      }
+    },
+    {
+      "label": "extra-contact-two-readers-CAS",
+      "backend": "rust",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "857",
+            "case": "extra-contact-two-readers-CAS",
+            "beginIndex": 1125,
+            "operations": [
+              {
+                "index": 1126,
+                "operation": "SELECT",
+                "table": "customer_contact",
+                "versionPredicate": false
+              },
+              {
+                "index": 1127,
+                "operation": "SELECT",
+                "table": "customer",
+                "versionPredicate": false
+              },
+              {
+                "index": 1128,
+                "operation": "INSERT INTO",
+                "table": "audit_log",
+                "versionPredicate": false
+              },
+              {
+                "index": 1129,
+                "operation": "UPDATE",
+                "table": "customer_contact",
+                "versionPredicate": true
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 1143
+          },
+          {
+            "pid": "863",
+            "case": "extra-contact-two-readers-CAS",
+            "beginIndex": 1136,
+            "operations": [
+              {
+                "index": 1137,
+                "operation": "SELECT",
+                "table": "customer_contact",
+                "versionPredicate": false
+              },
+              {
+                "index": 1138,
+                "operation": "SELECT",
+                "table": "customer",
+                "versionPredicate": false
+              },
+              {
+                "index": 1139,
+                "operation": "INSERT INTO",
+                "table": "audit_log",
+                "versionPredicate": false
+              },
+              {
+                "index": 1140,
+                "operation": "UPDATE",
+                "table": "customer_contact",
+                "versionPredicate": true
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 1144
+          }
+        ]
+      }
+    },
+    {
+      "label": "extra-followup-replace-two-readers-CAS",
+      "backend": "rust",
+      "name": "two product transactions one COMMIT one ROLLBACK",
+      "result": "Pass",
+      "facts": {
+        "transactions": [
+          {
+            "pid": "857",
+            "case": "extra-followup-replace-two-readers-CAS",
+            "beginIndex": 1205,
+            "operations": [
+              {
+                "index": 1207,
+                "operation": "INSERT INTO",
+                "table": "todo_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 1208,
+                "operation": "INSERT INTO",
+                "table": "sales_follow_up_record",
+                "versionPredicate": false
+              },
+              {
+                "index": 1217,
+                "operation": "UPDATE",
+                "table": "todo_item",
+                "versionPredicate": true
+              },
+              {
+                "index": 1218,
+                "operation": "UPDATE",
+                "table": "sales_follow_up_record",
+                "versionPredicate": true
+              }
+            ],
+            "terminal": "COMMIT",
+            "endIndex": 1219
+          },
+          {
+            "pid": "861",
+            "case": "extra-followup-replace-two-readers-CAS",
+            "beginIndex": 1212,
+            "operations": [
+              {
+                "index": 1213,
+                "operation": "INSERT INTO",
+                "table": "todo_item",
+                "versionPredicate": false
+              },
+              {
+                "index": 1214,
+                "operation": "INSERT INTO",
+                "table": "sales_follow_up_record",
+                "versionPredicate": false
+              }
+            ],
+            "terminal": "ROLLBACK",
+            "endIndex": 1220
+          }
+        ]
+      }
+    }
+  ],
+  "failures": [],
+  "PG": [
+    {
+      "field": "exactNumericText",
+      "nativeCount": 19,
+      "rustCount": 19,
+      "differences": []
+    },
+    {
+      "field": "audits",
+      "nativeCount": 9,
+      "rustCount": 9,
+      "differences": []
+    },
+    {
+      "field": "security",
+      "nativeCount": 16,
+      "rustCount": 16,
+      "differences": [
+        {
+          "path": "security.0.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.1.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.2.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.3.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.4.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.5.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.6.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.7.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.8.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.9.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.10.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.11.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.12.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.13.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.14.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        },
+        {
+          "path": "security.15.ip",
+          "native": "::ffff:127.0.0.1",
+          "rust": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "field": "followups",
+      "nativeCount": 20,
+      "rustCount": 28,
+      "differences": []
+    },
+    {
+      "field": "todos",
+      "nativeCount": 16,
+      "rustCount": 24,
+      "differences": []
+    }
+  ],
+  "SQL": [
+    {
+      "backend": "native",
+      "statements": 1152,
+      "coveredLabels": 45,
+      "recordedErrorCount": 17,
+      "closedTransactions": 79,
+      "openTransactions": 0,
+      "unassignedEntries": [],
+      "transactions": [
+        {
+          "pid": "274",
+          "case": "cost-first",
+          "beginIndex": 9,
+          "operations": [
+            {
+              "index": 10,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 11,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 12,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 13,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 14,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 15
+        },
+        {
+          "pid": "274",
+          "case": "cost-second-version",
+          "beginIndex": 28,
+          "operations": [
+            {
+              "index": 29,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 30
+        },
+        {
+          "pid": "274",
+          "case": "bid-first",
+          "beginIndex": 40,
+          "operations": [
+            {
+              "index": 41,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            },
+            {
+              "index": 42,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_timeline_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 43,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_material_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 44
+        },
+        {
+          "pid": "274",
+          "case": "bid-second-version",
+          "beginIndex": 55,
+          "operations": [
+            {
+              "index": 56,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 57
+        },
+        {
+          "pid": "274",
+          "case": "pricing-first-direct-no-reference",
+          "beginIndex": 68,
+          "operations": [
+            {
+              "index": 69,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_review",
+              "versionPredicate": false
+            },
+            {
+              "index": 70,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_condition_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 71
+        },
+        {
+          "pid": "274",
+          "case": "pricing-second-version",
+          "beginIndex": 84,
+          "operations": [
+            {
+              "index": 85,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_review",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 86
+        },
+        {
+          "pid": "273",
+          "case": "cost-money-number-and-post-get",
+          "beginIndex": 130,
+          "operations": [
+            {
+              "index": 131,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 132
+        },
+        {
+          "pid": "273",
+          "case": "cost-money-number-and-post-get",
+          "beginIndex": 140,
+          "operations": [
+            {
+              "index": 141,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 142,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 143,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 144,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 145
+        },
+        {
+          "pid": "272",
+          "case": "cost-large-9007",
+          "beginIndex": 166,
+          "operations": [
+            {
+              "index": 167,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 168
+        },
+        {
+          "pid": "272",
+          "case": "cost-large-9007",
+          "beginIndex": 176,
+          "operations": [
+            {
+              "index": 177,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 178,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 179,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 180,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 181
+        },
+        {
+          "pid": "272",
+          "case": "cost-large-9999",
+          "beginIndex": 189,
+          "operations": [
+            {
+              "index": 190,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 191
+        },
+        {
+          "pid": "272",
+          "case": "cost-large-9999",
+          "beginIndex": 199,
+          "operations": [
+            {
+              "index": 200,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 201
+        },
+        {
+          "pid": "272",
+          "case": "cost-child-insert-failure",
+          "beginIndex": 209,
+          "operations": [
+            {
+              "index": 210,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 211
+        },
+        {
+          "pid": "272",
+          "case": "cost-child-insert-failure",
+          "beginIndex": 221,
+          "operations": [
+            {
+              "index": 222,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 223,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 224,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 225,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 226
+        },
+        {
+          "pid": "272",
+          "case": "bid-child-insert-failure",
+          "beginIndex": 235,
+          "operations": [
+            {
+              "index": 236,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 237
+        },
+        {
+          "pid": "272",
+          "case": "bid-child-insert-failure",
+          "beginIndex": 245,
+          "operations": [
+            {
+              "index": 246,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            },
+            {
+              "index": 247,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_timeline_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 248,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_material_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 249
+        },
+        {
+          "pid": "272",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 257,
+          "operations": [
+            {
+              "index": 258,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 259
+        },
+        {
+          "pid": "276",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 262,
+          "operations": [
+            {
+              "index": 263,
+              "operation": "SELECT",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 284
+        },
+        {
+          "pid": "272",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 279,
+          "operations": [
+            {
+              "index": 281,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 285,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 286,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 287,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 288
+        },
+        {
+          "pid": "275",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 280,
+          "operations": [
+            {
+              "index": 282,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 289
+        },
+        {
+          "pid": "275",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 297,
+          "operations": [
+            {
+              "index": 298,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 299
+        },
+        {
+          "pid": "277",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 302,
+          "operations": [
+            {
+              "index": 303,
+              "operation": "SELECT",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 324
+        },
+        {
+          "pid": "275",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 319,
+          "operations": [
+            {
+              "index": 321,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 325
+        },
+        {
+          "pid": "272",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 320,
+          "operations": [
+            {
+              "index": 322,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 326
+        },
+        {
+          "pid": "272",
+          "case": "contact-gender-controller-drop",
+          "beginIndex": 334,
+          "operations": [
+            {
+              "index": 335,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 336
+        },
+        {
+          "pid": "272",
+          "case": "contact-email-dto-db-length",
+          "beginIndex": 344,
+          "operations": [
+            {
+              "index": 345,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 346,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 347,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 348,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 349
+        },
+        {
+          "pid": "272",
+          "case": "contact-audit-failure-atomicity",
+          "beginIndex": 359,
+          "operations": [
+            {
+              "index": 360,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 361,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 362,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 363
+        },
+        {
+          "pid": "272",
+          "case": "followup-create-reminder",
+          "beginIndex": 379,
+          "operations": [
+            {
+              "index": 380,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 381,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 382,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 383
+        },
+        {
+          "pid": "272",
+          "case": "followup-no-next-completes-old-stream",
+          "beginIndex": 397,
+          "operations": [
+            {
+              "index": 398,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 399,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 400
+        },
+        {
+          "pid": "272",
+          "case": "followup-second-reminder",
+          "beginIndex": 414,
+          "operations": [
+            {
+              "index": 415,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 416,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 417
+        },
+        {
+          "pid": "272",
+          "case": "followup-replace-two-way-fk",
+          "beginIndex": 435,
+          "operations": [
+            {
+              "index": 436,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 437,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 438,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            },
+            {
+              "index": 439,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 440,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 441
+        },
+        {
+          "pid": "272",
+          "case": "followup-replace-two-way-fk",
+          "beginIndex": 442,
+          "operations": [
+            {
+              "index": 443,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 444
+        },
+        {
+          "pid": "272",
+          "case": "followup-postsave-audit-failure",
+          "beginIndex": 460,
+          "operations": [
+            {
+              "index": 461,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 462,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 463,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 464
+        },
+        {
+          "pid": "272",
+          "case": "followup-postsave-audit-failure",
+          "beginIndex": 478,
+          "operations": [
+            {
+              "index": 479,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 480,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            },
+            {
+              "index": 481,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 482
+        },
+        {
+          "pid": "272",
+          "case": "followup-postsave-audit-failure",
+          "beginIndex": 483,
+          "operations": [
+            {
+              "index": 484,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 485
+        },
+        {
+          "pid": "272",
+          "case": "followup-todo-insert-failure-boundary",
+          "beginIndex": 503,
+          "operations": [
+            {
+              "index": 504,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 505
+        },
+        {
+          "pid": "272",
+          "case": "contacts-inactive-vs-followup-active",
+          "beginIndex": 514,
+          "operations": [
+            {
+              "index": 515,
+              "operation": "INSERT INTO",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 516,
+              "operation": "INSERT INTO",
+              "table": "customer_alias",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 517
+        },
+        {
+          "pid": "272",
+          "case": "contacts-inactive-vs-followup-active",
+          "beginIndex": 524,
+          "operations": [
+            {
+              "index": 525,
+              "operation": "UPDATE",
+              "table": "customer",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 526
+        },
+        {
+          "pid": "278",
+          "case": "contacts-inactive-vs-followup-active",
+          "beginIndex": 538,
+          "operations": [
+            {
+              "index": 539,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 540
+        },
+        {
+          "pid": "287",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 665,
+          "operations": [
+            {
+              "index": 666,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 667
+        },
+        {
+          "pid": "287",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 675,
+          "operations": [
+            {
+              "index": 676,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 677,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 678,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 679,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 680
+        },
+        {
+          "pid": "287",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 688,
+          "operations": [
+            {
+              "index": 689,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 690
+        },
+        {
+          "pid": "287",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 708,
+          "operations": [
+            {
+              "index": 709,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_review",
+              "versionPredicate": false
+            },
+            {
+              "index": 710,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_condition_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 711
+        },
+        {
+          "pid": "287",
+          "case": "extra-contact-update-denial-rolls-back-prior-audit",
+          "beginIndex": 718,
+          "operations": [
+            {
+              "index": 719,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 720
+        },
+        {
+          "pid": "287",
+          "case": "extra-contact-update-denial-rolls-back-prior-audit",
+          "beginIndex": 728,
+          "operations": [
+            {
+              "index": 729,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 730,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 731,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 732,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            },
+            {
+              "index": 733,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 734
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+          "beginIndex": 743,
+          "operations": [
+            {
+              "index": 744,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 745
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+          "beginIndex": 758,
+          "operations": [
+            {
+              "index": 759,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 760,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 761
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 770,
+          "operations": [
+            {
+              "index": 771,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 772
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 784,
+          "operations": [
+            {
+              "index": 785,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 786,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 787
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 802,
+          "operations": [
+            {
+              "index": 803,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 804,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 805,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 806
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 807,
+          "operations": [
+            {
+              "index": 808,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 809
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 819,
+          "operations": [
+            {
+              "index": 820,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 821
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 833,
+          "operations": [
+            {
+              "index": 834,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 835,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 836
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 853,
+          "operations": [
+            {
+              "index": 854,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 855,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 856,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 857,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 858
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 859,
+          "operations": [
+            {
+              "index": 860,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 861
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 871,
+          "operations": [
+            {
+              "index": 872,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 873
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 885,
+          "operations": [
+            {
+              "index": 886,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 887,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 888
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 901,
+          "operations": [
+            {
+              "index": 902,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 903,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 904,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 905
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 906,
+          "operations": [
+            {
+              "index": 907,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 908
+        },
+        {
+          "pid": "287",
+          "case": "extra-null-owner-create-leaves-old-stream-open",
+          "beginIndex": 918,
+          "operations": [
+            {
+              "index": 919,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 920
+        },
+        {
+          "pid": "287",
+          "case": "extra-null-owner-create-leaves-old-stream-open",
+          "beginIndex": 932,
+          "operations": [
+            {
+              "index": 933,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 934,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 935
+        },
+        {
+          "pid": "287",
+          "case": "extra-null-owner-create-leaves-old-stream-open",
+          "beginIndex": 944,
+          "operations": [
+            {
+              "index": 945,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 946
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 955,
+          "operations": [
+            {
+              "index": 956,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 957
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 969,
+          "operations": [
+            {
+              "index": 970,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 971,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 972
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 987,
+          "operations": [
+            {
+              "index": 988,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 989,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 990,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 991,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 992
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 993,
+          "operations": [
+            {
+              "index": 994,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 995
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-dictionary33-varchar32",
+          "beginIndex": 1006,
+          "operations": [
+            {
+              "index": 1007,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1008
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-dictionary33-varchar32",
+          "beginIndex": 1015,
+          "operations": [
+            {
+              "index": 1016,
+              "operation": "INSERT INTO",
+              "table": "dictionary_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1017
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-dictionary33-varchar32",
+          "beginIndex": 1030,
+          "operations": [
+            {
+              "index": 1031,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1032,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1033
+        },
+        {
+          "pid": "287",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1042,
+          "operations": [
+            {
+              "index": 1043,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1044
+        },
+        {
+          "pid": "288",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1048,
+          "operations": [
+            {
+              "index": 1049,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1072
+        },
+        {
+          "pid": "287",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1061,
+          "operations": [
+            {
+              "index": 1063,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 1065,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 1067,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 1069,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1073
+        },
+        {
+          "pid": "284",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1062,
+          "operations": [
+            {
+              "index": 1064,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 1066,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 1068,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 1070,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1074
+        },
+        {
+          "pid": "284",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1083,
+          "operations": [
+            {
+              "index": 1084,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1085
+        },
+        {
+          "pid": "284",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1097,
+          "operations": [
+            {
+              "index": 1098,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1099,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1100
+        },
+        {
+          "pid": "289",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1104,
+          "operations": [
+            {
+              "index": 1105,
+              "operation": "SELECT",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1141
+        },
+        {
+          "pid": "284",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1134,
+          "operations": [
+            {
+              "index": 1136,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1138,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 1142,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 1143,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1144
+        },
+        {
+          "pid": "287",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1135,
+          "operations": [
+            {
+              "index": 1137,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1139,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1146
+        },
+        {
+          "pid": "284",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1145,
+          "operations": [
+            {
+              "index": 1147,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1148
+        }
+      ],
+      "raceTransactions": [
+        {
+          "label": "project_technical_cost_package-concurrent-first",
+          "transactions": [
+            {
+              "pid": "272",
+              "case": "project_technical_cost_package-concurrent-first",
+              "beginIndex": 279,
+              "operations": [
+                {
+                  "index": 281,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_cost_package",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 285,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_cost_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 286,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_risk_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 287,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_scope_item",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 288
+            },
+            {
+              "pid": "275",
+              "case": "project_technical_cost_package-concurrent-first",
+              "beginIndex": 280,
+              "operations": [
+                {
+                  "index": 282,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_cost_package",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 289
+            }
+          ]
+        },
+        {
+          "label": "project_bid_commercial_process-concurrent-first",
+          "transactions": [
+            {
+              "pid": "275",
+              "case": "project_bid_commercial_process-concurrent-first",
+              "beginIndex": 319,
+              "operations": [
+                {
+                  "index": 321,
+                  "operation": "INSERT INTO",
+                  "table": "project_bid_commercial_process",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 325
+            },
+            {
+              "pid": "272",
+              "case": "project_bid_commercial_process-concurrent-first",
+              "beginIndex": 320,
+              "operations": [
+                {
+                  "index": 322,
+                  "operation": "INSERT INTO",
+                  "table": "project_bid_commercial_process",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 326
+            }
+          ]
+        },
+        {
+          "label": "extra-contact-two-readers-CAS",
+          "transactions": [
+            {
+              "pid": "287",
+              "case": "extra-contact-two-readers-CAS",
+              "beginIndex": 1061,
+              "operations": [
+                {
+                  "index": 1063,
+                  "operation": "SELECT",
+                  "table": "customer_contact",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1065,
+                  "operation": "SELECT",
+                  "table": "customer",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1067,
+                  "operation": "INSERT INTO",
+                  "table": "audit_log",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1069,
+                  "operation": "UPDATE",
+                  "table": "customer_contact",
+                  "versionPredicate": true
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 1073
+            },
+            {
+              "pid": "284",
+              "case": "extra-contact-two-readers-CAS",
+              "beginIndex": 1062,
+              "operations": [
+                {
+                  "index": 1064,
+                  "operation": "SELECT",
+                  "table": "customer_contact",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1066,
+                  "operation": "SELECT",
+                  "table": "customer",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1068,
+                  "operation": "INSERT INTO",
+                  "table": "audit_log",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1070,
+                  "operation": "UPDATE",
+                  "table": "customer_contact",
+                  "versionPredicate": true
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 1074
+            }
+          ]
+        },
+        {
+          "label": "extra-followup-replace-two-readers-CAS",
+          "transactions": [
+            {
+              "pid": "284",
+              "case": "extra-followup-replace-two-readers-CAS",
+              "beginIndex": 1134,
+              "operations": [
+                {
+                  "index": 1136,
+                  "operation": "INSERT INTO",
+                  "table": "todo_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1138,
+                  "operation": "INSERT INTO",
+                  "table": "sales_follow_up_record",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1142,
+                  "operation": "UPDATE",
+                  "table": "todo_item",
+                  "versionPredicate": true
+                },
+                {
+                  "index": 1143,
+                  "operation": "UPDATE",
+                  "table": "sales_follow_up_record",
+                  "versionPredicate": true
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 1144
+            },
+            {
+              "pid": "287",
+              "case": "extra-followup-replace-two-readers-CAS",
+              "beginIndex": 1135,
+              "operations": [
+                {
+                  "index": 1137,
+                  "operation": "INSERT INTO",
+                  "table": "todo_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1139,
+                  "operation": "INSERT INTO",
+                  "table": "sales_follow_up_record",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 1146
+            }
+          ]
+        }
+      ],
+      "actualErrors": [
+        {
+          "case": "cost-second-version",
+          "pid": "274",
+          "constraint": "uq_project_technical_cost_package_current",
+          "summary": "duplicate key value violates unique constraint \"uq_project_technical_cost_package_current\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "bid-second-version",
+          "pid": "274",
+          "constraint": "uq_project_bid_commercial_process_current",
+          "summary": "duplicate key value violates unique constraint \"uq_project_bid_commercial_process_current\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "pricing-second-version",
+          "pid": "274",
+          "constraint": "uq_project_pricing_margin_review_current",
+          "summary": "duplicate key value violates unique constraint \"uq_project_pricing_margin_review_current\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "cost-large-9999",
+          "pid": "272",
+          "constraint": null,
+          "summary": "numeric field overflow",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "cost-child-insert-failure",
+          "pid": "272",
+          "constraint": null,
+          "summary": "permission denied for table project_technical_scope_item",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "bid-child-insert-failure",
+          "pid": "272",
+          "constraint": null,
+          "summary": "permission denied for table project_bid_commercial_material_item",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "project_technical_cost_package-concurrent-first",
+          "pid": "275",
+          "constraint": "uq_project_technical_cost_package_project_version",
+          "summary": "duplicate key value violates unique constraint \"uq_project_technical_cost_package_project_version\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "project_bid_commercial_process-concurrent-first",
+          "pid": "272",
+          "constraint": "uq_project_bid_commercial_process_project_version",
+          "summary": "duplicate key value violates unique constraint \"uq_project_bid_commercial_process_project_version\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "contact-email-dto-db-length",
+          "pid": "272",
+          "constraint": null,
+          "summary": "value too long for type character varying(255)",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "contact-audit-failure-atomicity",
+          "pid": "272",
+          "constraint": null,
+          "summary": "permission denied for table audit_log",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "followup-postsave-audit-failure",
+          "pid": "272",
+          "constraint": null,
+          "summary": "permission denied for table audit_log",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "followup-todo-insert-failure-boundary",
+          "pid": "272",
+          "constraint": null,
+          "summary": "permission denied for table todo_item",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-contact-update-denial-rolls-back-prior-audit",
+          "pid": "287",
+          "constraint": null,
+          "summary": "permission denied for table customer_contact",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+          "pid": "287",
+          "constraint": null,
+          "summary": "permission denied for table sales_follow_up_record",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "pid": "287",
+          "constraint": null,
+          "summary": "permission denied for table audit_log",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-dictionary33-varchar32",
+          "pid": "287",
+          "constraint": null,
+          "summary": "value too long for type character varying(32)",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-replace-two-readers-CAS",
+          "pid": "287",
+          "constraint": "uq_sales_follow_up_supersedes_once",
+          "summary": "duplicate key value violates unique constraint \"uq_sales_follow_up_supersedes_once\"",
+          "SQLSTATEObserved": false
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "statements": 1227,
+      "coveredLabels": 45,
+      "recordedErrorCount": 17,
+      "closedTransactions": 79,
+      "openTransactions": 0,
+      "unassignedEntries": [],
+      "transactions": [
+        {
+          "pid": "840",
+          "case": "cost-first",
+          "beginIndex": 10,
+          "operations": [
+            {
+              "index": 11,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 12,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 13,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 14,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 15,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 16
+        },
+        {
+          "pid": "840",
+          "case": "cost-second-version",
+          "beginIndex": 30,
+          "operations": [
+            {
+              "index": 31,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 32
+        },
+        {
+          "pid": "843",
+          "case": "bid-first",
+          "beginIndex": 44,
+          "operations": [
+            {
+              "index": 45,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            },
+            {
+              "index": 46,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_timeline_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 47,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_material_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 48
+        },
+        {
+          "pid": "842",
+          "case": "bid-second-version",
+          "beginIndex": 60,
+          "operations": [
+            {
+              "index": 61,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 62
+        },
+        {
+          "pid": "843",
+          "case": "pricing-first-direct-no-reference",
+          "beginIndex": 75,
+          "operations": [
+            {
+              "index": 76,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_review",
+              "versionPredicate": false
+            },
+            {
+              "index": 77,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_condition_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 78
+        },
+        {
+          "pid": "843",
+          "case": "pricing-second-version",
+          "beginIndex": 92,
+          "operations": [
+            {
+              "index": 93,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_review",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 94
+        },
+        {
+          "pid": "844",
+          "case": "cost-money-number-and-post-get",
+          "beginIndex": 141,
+          "operations": [
+            {
+              "index": 143,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 144
+        },
+        {
+          "pid": "845",
+          "case": "cost-money-number-and-post-get",
+          "beginIndex": 152,
+          "operations": [
+            {
+              "index": 153,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 154,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 155,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 156,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 157
+        },
+        {
+          "pid": "844",
+          "case": "cost-large-9007",
+          "beginIndex": 178,
+          "operations": [
+            {
+              "index": 180,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 181
+        },
+        {
+          "pid": "845",
+          "case": "cost-large-9007",
+          "beginIndex": 189,
+          "operations": [
+            {
+              "index": 190,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 191,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 192,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 193,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 194
+        },
+        {
+          "pid": "844",
+          "case": "cost-large-9999",
+          "beginIndex": 202,
+          "operations": [
+            {
+              "index": 204,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 205
+        },
+        {
+          "pid": "845",
+          "case": "cost-large-9999",
+          "beginIndex": 213,
+          "operations": [],
+          "terminal": "ROLLBACK",
+          "endIndex": 214
+        },
+        {
+          "pid": "844",
+          "case": "cost-child-insert-failure",
+          "beginIndex": 224,
+          "operations": [
+            {
+              "index": 226,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 227
+        },
+        {
+          "pid": "844",
+          "case": "cost-child-insert-failure",
+          "beginIndex": 238,
+          "operations": [
+            {
+              "index": 239,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 240,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 241,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 242,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 243
+        },
+        {
+          "pid": "846",
+          "case": "bid-child-insert-failure",
+          "beginIndex": 254,
+          "operations": [
+            {
+              "index": 256,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 257
+        },
+        {
+          "pid": "846",
+          "case": "bid-child-insert-failure",
+          "beginIndex": 265,
+          "operations": [
+            {
+              "index": 266,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            },
+            {
+              "index": 267,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_timeline_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 268,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_material_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 269
+        },
+        {
+          "pid": "847",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 279,
+          "operations": [
+            {
+              "index": 281,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 282
+        },
+        {
+          "pid": "849",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 285,
+          "operations": [
+            {
+              "index": 286,
+              "operation": "SELECT",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 309
+        },
+        {
+          "pid": "848",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 296,
+          "operations": [
+            {
+              "index": 297,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 310,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 311,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 312,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 313
+        },
+        {
+          "pid": "847",
+          "case": "project_technical_cost_package-concurrent-first",
+          "beginIndex": 306,
+          "operations": [
+            {
+              "index": 307,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 314
+        },
+        {
+          "pid": "850",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 322,
+          "operations": [
+            {
+              "index": 324,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 325
+        },
+        {
+          "pid": "851",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 328,
+          "operations": [
+            {
+              "index": 329,
+              "operation": "SELECT",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 354
+        },
+        {
+          "pid": "852",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 349,
+          "operations": [
+            {
+              "index": 351,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 355
+        },
+        {
+          "pid": "853",
+          "case": "project_bid_commercial_process-concurrent-first",
+          "beginIndex": 350,
+          "operations": [
+            {
+              "index": 352,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 356
+        },
+        {
+          "pid": "850",
+          "case": "contact-gender-controller-drop",
+          "beginIndex": 364,
+          "operations": [
+            {
+              "index": 365,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 366
+        },
+        {
+          "pid": "852",
+          "case": "contact-email-dto-db-length",
+          "beginIndex": 374,
+          "operations": [
+            {
+              "index": 375,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 376,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 377,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 378
+        },
+        {
+          "pid": "848",
+          "case": "contact-audit-failure-atomicity",
+          "beginIndex": 389,
+          "operations": [
+            {
+              "index": 390,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 391,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 392,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 393
+        },
+        {
+          "pid": "850",
+          "case": "followup-create-reminder",
+          "beginIndex": 412,
+          "operations": [
+            {
+              "index": 413,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 414,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 415,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 416
+        },
+        {
+          "pid": "850",
+          "case": "followup-no-next-completes-old-stream",
+          "beginIndex": 430,
+          "operations": [
+            {
+              "index": 431,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 432,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 433
+        },
+        {
+          "pid": "850",
+          "case": "followup-second-reminder",
+          "beginIndex": 447,
+          "operations": [
+            {
+              "index": 448,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 449,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 450
+        },
+        {
+          "pid": "850",
+          "case": "followup-replace-two-way-fk",
+          "beginIndex": 469,
+          "operations": [
+            {
+              "index": 470,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 471,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 472,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            },
+            {
+              "index": 473,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 474,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 475
+        },
+        {
+          "pid": "854",
+          "case": "followup-replace-two-way-fk",
+          "beginIndex": 476,
+          "operations": [
+            {
+              "index": 477,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 478
+        },
+        {
+          "pid": "854",
+          "case": "followup-postsave-audit-failure",
+          "beginIndex": 494,
+          "operations": [
+            {
+              "index": 495,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 496,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 497,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 498
+        },
+        {
+          "pid": "850",
+          "case": "followup-postsave-audit-failure",
+          "beginIndex": 513,
+          "operations": [
+            {
+              "index": 514,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            },
+            {
+              "index": 515,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 516,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 517
+        },
+        {
+          "pid": "854",
+          "case": "followup-postsave-audit-failure",
+          "beginIndex": 518,
+          "operations": [
+            {
+              "index": 519,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 520
+        },
+        {
+          "pid": "850",
+          "case": "followup-todo-insert-failure-boundary",
+          "beginIndex": 541,
+          "operations": [
+            {
+              "index": 542,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 543
+        },
+        {
+          "pid": "855",
+          "case": "contacts-inactive-vs-followup-active",
+          "beginIndex": 554,
+          "operations": [
+            {
+              "index": 556,
+              "operation": "INSERT INTO",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 557,
+              "operation": "INSERT INTO",
+              "table": "customer_alias",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 558
+        },
+        {
+          "pid": "856",
+          "case": "contacts-inactive-vs-followup-active",
+          "beginIndex": 565,
+          "operations": [
+            {
+              "index": 566,
+              "operation": "UPDATE",
+              "table": "customer",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 567
+        },
+        {
+          "pid": "858",
+          "case": "contacts-inactive-vs-followup-active",
+          "beginIndex": 586,
+          "operations": [
+            {
+              "index": 587,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 588
+        },
+        {
+          "pid": "857",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 722,
+          "operations": [
+            {
+              "index": 724,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 725
+        },
+        {
+          "pid": "857",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 733,
+          "operations": [
+            {
+              "index": 734,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            },
+            {
+              "index": 735,
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 736,
+              "operation": "INSERT INTO",
+              "table": "project_technical_risk_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 737,
+              "operation": "INSERT INTO",
+              "table": "project_technical_scope_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 738
+        },
+        {
+          "pid": "858",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 746,
+          "operations": [
+            {
+              "index": 747,
+              "operation": "INSERT INTO",
+              "table": "project_bid_commercial_process",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 748
+        },
+        {
+          "pid": "856",
+          "case": "extra-direct-pricing-bypasses-lost-bid-no-reference",
+          "beginIndex": 766,
+          "operations": [
+            {
+              "index": 767,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_review",
+              "versionPredicate": false
+            },
+            {
+              "index": 768,
+              "operation": "INSERT INTO",
+              "table": "project_pricing_margin_condition_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 769
+        },
+        {
+          "pid": "856",
+          "case": "extra-contact-update-denial-rolls-back-prior-audit",
+          "beginIndex": 776,
+          "operations": [
+            {
+              "index": 777,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 778
+        },
+        {
+          "pid": "856",
+          "case": "extra-contact-update-denial-rolls-back-prior-audit",
+          "beginIndex": 787,
+          "operations": [
+            {
+              "index": 788,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 789,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 790,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 791,
+              "operation": "UPDATE",
+              "table": "auth_session",
+              "versionPredicate": true
+            },
+            {
+              "index": 792,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 793
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+          "beginIndex": 802,
+          "operations": [
+            {
+              "index": 804,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 805
+        },
+        {
+          "pid": "859",
+          "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+          "beginIndex": 819,
+          "operations": [
+            {
+              "index": 820,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 821,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 822
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 831,
+          "operations": [
+            {
+              "index": 833,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 834
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 846,
+          "operations": [
+            {
+              "index": 847,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 848,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 849
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 864,
+          "operations": [
+            {
+              "index": 865,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 866,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 867,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 868
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-same-owner-no-next",
+          "beginIndex": 869,
+          "operations": [
+            {
+              "index": 870,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 871
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 881,
+          "operations": [
+            {
+              "index": 883,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 884
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 896,
+          "operations": [
+            {
+              "index": 897,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 898,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 899
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 916,
+          "operations": [
+            {
+              "index": 917,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 918,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 919,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 920,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 921
+        },
+        {
+          "pid": "855",
+          "case": "extra-followup-replace-different-owner",
+          "beginIndex": 922,
+          "operations": [
+            {
+              "index": 923,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 924
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 934,
+          "operations": [
+            {
+              "index": 936,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 937
+        },
+        {
+          "pid": "855",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 949,
+          "operations": [
+            {
+              "index": 950,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 951,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 952
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 965,
+          "operations": [
+            {
+              "index": 966,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 967,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 968,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 969
+        },
+        {
+          "pid": "855",
+          "case": "extra-followup-replace-null-owner",
+          "beginIndex": 970,
+          "operations": [
+            {
+              "index": 971,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 972
+        },
+        {
+          "pid": "857",
+          "case": "extra-null-owner-create-leaves-old-stream-open",
+          "beginIndex": 982,
+          "operations": [
+            {
+              "index": 984,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 985
+        },
+        {
+          "pid": "855",
+          "case": "extra-null-owner-create-leaves-old-stream-open",
+          "beginIndex": 997,
+          "operations": [
+            {
+              "index": 998,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 999,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1000
+        },
+        {
+          "pid": "857",
+          "case": "extra-null-owner-create-leaves-old-stream-open",
+          "beginIndex": 1009,
+          "operations": [
+            {
+              "index": 1010,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1011
+        },
+        {
+          "pid": "855",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 1020,
+          "operations": [
+            {
+              "index": 1022,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1023
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 1035,
+          "operations": [
+            {
+              "index": 1036,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1037,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1038
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 1053,
+          "operations": [
+            {
+              "index": 1054,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1055,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 1056,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 1057,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1058
+        },
+        {
+          "pid": "855",
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "beginIndex": 1059,
+          "operations": [
+            {
+              "index": 1060,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1061
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-dictionary33-varchar32",
+          "beginIndex": 1072,
+          "operations": [
+            {
+              "index": 1074,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1075
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-dictionary33-varchar32",
+          "beginIndex": 1082,
+          "operations": [
+            {
+              "index": 1083,
+              "operation": "INSERT INTO",
+              "table": "dictionary_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1084
+        },
+        {
+          "pid": "858",
+          "case": "extra-followup-dictionary33-varchar32",
+          "beginIndex": 1097,
+          "operations": [
+            {
+              "index": 1098,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1099
+        },
+        {
+          "pid": "857",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1110,
+          "operations": [
+            {
+              "index": 1111,
+              "operation": "INSERT INTO",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1112
+        },
+        {
+          "pid": "862",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1116,
+          "operations": [
+            {
+              "index": 1117,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1142
+        },
+        {
+          "pid": "857",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1125,
+          "operations": [
+            {
+              "index": 1126,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 1127,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 1128,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 1129,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1143
+        },
+        {
+          "pid": "863",
+          "case": "extra-contact-two-readers-CAS",
+          "beginIndex": 1136,
+          "operations": [
+            {
+              "index": 1137,
+              "operation": "SELECT",
+              "table": "customer_contact",
+              "versionPredicate": false
+            },
+            {
+              "index": 1138,
+              "operation": "SELECT",
+              "table": "customer",
+              "versionPredicate": false
+            },
+            {
+              "index": 1139,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "index": 1140,
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1144
+        },
+        {
+          "pid": "861",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1153,
+          "operations": [
+            {
+              "index": 1155,
+              "operation": "INSERT INTO",
+              "table": "project",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1156
+        },
+        {
+          "pid": "861",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1168,
+          "operations": [
+            {
+              "index": 1169,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1170,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1171
+        },
+        {
+          "pid": "864",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1175,
+          "operations": [
+            {
+              "index": 1176,
+              "operation": "SELECT",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1216
+        },
+        {
+          "pid": "857",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1205,
+          "operations": [
+            {
+              "index": 1207,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1208,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            },
+            {
+              "index": 1217,
+              "operation": "UPDATE",
+              "table": "todo_item",
+              "versionPredicate": true
+            },
+            {
+              "index": 1218,
+              "operation": "UPDATE",
+              "table": "sales_follow_up_record",
+              "versionPredicate": true
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1219
+        },
+        {
+          "pid": "861",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1212,
+          "operations": [
+            {
+              "index": 1213,
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "index": 1214,
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK",
+          "endIndex": 1220
+        },
+        {
+          "pid": "866",
+          "case": "extra-followup-replace-two-readers-CAS",
+          "beginIndex": 1221,
+          "operations": [
+            {
+              "index": 1222,
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "COMMIT",
+          "endIndex": 1223
+        }
+      ],
+      "raceTransactions": [
+        {
+          "label": "project_technical_cost_package-concurrent-first",
+          "transactions": [
+            {
+              "pid": "848",
+              "case": "project_technical_cost_package-concurrent-first",
+              "beginIndex": 296,
+              "operations": [
+                {
+                  "index": 297,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_cost_package",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 310,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_cost_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 311,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_risk_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 312,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_scope_item",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 313
+            },
+            {
+              "pid": "847",
+              "case": "project_technical_cost_package-concurrent-first",
+              "beginIndex": 306,
+              "operations": [
+                {
+                  "index": 307,
+                  "operation": "INSERT INTO",
+                  "table": "project_technical_cost_package",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 314
+            }
+          ]
+        },
+        {
+          "label": "project_bid_commercial_process-concurrent-first",
+          "transactions": [
+            {
+              "pid": "852",
+              "case": "project_bid_commercial_process-concurrent-first",
+              "beginIndex": 349,
+              "operations": [
+                {
+                  "index": 351,
+                  "operation": "INSERT INTO",
+                  "table": "project_bid_commercial_process",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 355
+            },
+            {
+              "pid": "853",
+              "case": "project_bid_commercial_process-concurrent-first",
+              "beginIndex": 350,
+              "operations": [
+                {
+                  "index": 352,
+                  "operation": "INSERT INTO",
+                  "table": "project_bid_commercial_process",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 356
+            }
+          ]
+        },
+        {
+          "label": "extra-contact-two-readers-CAS",
+          "transactions": [
+            {
+              "pid": "857",
+              "case": "extra-contact-two-readers-CAS",
+              "beginIndex": 1125,
+              "operations": [
+                {
+                  "index": 1126,
+                  "operation": "SELECT",
+                  "table": "customer_contact",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1127,
+                  "operation": "SELECT",
+                  "table": "customer",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1128,
+                  "operation": "INSERT INTO",
+                  "table": "audit_log",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1129,
+                  "operation": "UPDATE",
+                  "table": "customer_contact",
+                  "versionPredicate": true
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 1143
+            },
+            {
+              "pid": "863",
+              "case": "extra-contact-two-readers-CAS",
+              "beginIndex": 1136,
+              "operations": [
+                {
+                  "index": 1137,
+                  "operation": "SELECT",
+                  "table": "customer_contact",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1138,
+                  "operation": "SELECT",
+                  "table": "customer",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1139,
+                  "operation": "INSERT INTO",
+                  "table": "audit_log",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1140,
+                  "operation": "UPDATE",
+                  "table": "customer_contact",
+                  "versionPredicate": true
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 1144
+            }
+          ]
+        },
+        {
+          "label": "extra-followup-replace-two-readers-CAS",
+          "transactions": [
+            {
+              "pid": "857",
+              "case": "extra-followup-replace-two-readers-CAS",
+              "beginIndex": 1205,
+              "operations": [
+                {
+                  "index": 1207,
+                  "operation": "INSERT INTO",
+                  "table": "todo_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1208,
+                  "operation": "INSERT INTO",
+                  "table": "sales_follow_up_record",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1217,
+                  "operation": "UPDATE",
+                  "table": "todo_item",
+                  "versionPredicate": true
+                },
+                {
+                  "index": 1218,
+                  "operation": "UPDATE",
+                  "table": "sales_follow_up_record",
+                  "versionPredicate": true
+                }
+              ],
+              "terminal": "COMMIT",
+              "endIndex": 1219
+            },
+            {
+              "pid": "861",
+              "case": "extra-followup-replace-two-readers-CAS",
+              "beginIndex": 1212,
+              "operations": [
+                {
+                  "index": 1213,
+                  "operation": "INSERT INTO",
+                  "table": "todo_item",
+                  "versionPredicate": false
+                },
+                {
+                  "index": 1214,
+                  "operation": "INSERT INTO",
+                  "table": "sales_follow_up_record",
+                  "versionPredicate": false
+                }
+              ],
+              "terminal": "ROLLBACK",
+              "endIndex": 1220
+            }
+          ]
+        }
+      ],
+      "actualErrors": [
+        {
+          "case": "cost-second-version",
+          "pid": "840",
+          "constraint": "uq_project_technical_cost_package_current",
+          "summary": "duplicate key value violates unique constraint \"uq_project_technical_cost_package_current\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "bid-second-version",
+          "pid": "842",
+          "constraint": "uq_project_bid_commercial_process_current",
+          "summary": "duplicate key value violates unique constraint \"uq_project_bid_commercial_process_current\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "pricing-second-version",
+          "pid": "843",
+          "constraint": "uq_project_pricing_margin_review_current",
+          "summary": "duplicate key value violates unique constraint \"uq_project_pricing_margin_review_current\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "cost-large-9999",
+          "pid": "845",
+          "constraint": null,
+          "summary": "numeric field overflow",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "cost-child-insert-failure",
+          "pid": "844",
+          "constraint": null,
+          "summary": "permission denied for table project_technical_scope_item",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "bid-child-insert-failure",
+          "pid": "846",
+          "constraint": null,
+          "summary": "permission denied for table project_bid_commercial_material_item",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "project_technical_cost_package-concurrent-first",
+          "pid": "847",
+          "constraint": "uq_project_technical_cost_package_project_version",
+          "summary": "duplicate key value violates unique constraint \"uq_project_technical_cost_package_project_version\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "project_bid_commercial_process-concurrent-first",
+          "pid": "853",
+          "constraint": "uq_project_bid_commercial_process_project_version",
+          "summary": "duplicate key value violates unique constraint \"uq_project_bid_commercial_process_project_version\"",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "contact-email-dto-db-length",
+          "pid": "852",
+          "constraint": null,
+          "summary": "value too long for type character varying(255)",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "contact-audit-failure-atomicity",
+          "pid": "848",
+          "constraint": null,
+          "summary": "permission denied for table audit_log",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "followup-postsave-audit-failure",
+          "pid": "854",
+          "constraint": null,
+          "summary": "permission denied for table audit_log",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "followup-todo-insert-failure-boundary",
+          "pid": "850",
+          "constraint": null,
+          "summary": "permission denied for table todo_item",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-contact-update-denial-rolls-back-prior-audit",
+          "pid": "856",
+          "constraint": null,
+          "summary": "permission denied for table customer_contact",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-insert-denial-rolls-back-prior-todo",
+          "pid": "859",
+          "constraint": null,
+          "summary": "permission denied for table sales_follow_up_record",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-replace-postsave-audit-failure",
+          "pid": "855",
+          "constraint": null,
+          "summary": "permission denied for table audit_log",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-dictionary33-varchar32",
+          "pid": "858",
+          "constraint": null,
+          "summary": "value too long for type character varying(32)",
+          "SQLSTATEObserved": false
+        },
+        {
+          "case": "extra-followup-replace-two-readers-CAS",
+          "pid": "861",
+          "constraint": "uq_sales_follow_up_supersedes_once",
+          "summary": "duplicate key value violates unique constraint \"uq_sales_follow_up_supersedes_once\"",
+          "SQLSTATEObserved": false
+        }
+      ]
+    }
+  ],
+  "allPGDifferences": [
+    {
+      "path": "security.0.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.1.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.2.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.3.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.4.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.5.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.6.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.7.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.8.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.9.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.10.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.11.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.12.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.13.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.14.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    },
+    {
+      "path": "security.15.ip",
+      "native": "::ffff:127.0.0.1",
+      "rust": "127.0.0.1"
+    }
+  ],
+  "contactWinnerAuditNormalizations": [
+    {
+      "side": 0,
+      "path": "audits.0",
+      "keys": [
+        "operator_id",
+        "after_snapshot.name"
+      ]
+    },
+    {
+      "side": 1,
+      "path": "audits.0",
+      "keys": [
+        "operator_id",
+        "after_snapshot.name"
+      ]
+    }
+  ],
+  "anonymousNumericIdentityBinding": [
+    {
+      "table": "project_technical_cost_item",
+      "nativeId": "389bf1f6-f5fc-4ef4-b1cf-d00cebf29191",
+      "rustId": "3e9f114f-cb01-4191-84d5-afcbd5de3d0c",
+      "exactTuple": {
+        "amount_excluding_tax": "100.00",
+        "amount_including_tax": "113.00",
+        "quantity": null,
+        "tax_cost_amount": "13.00",
+        "unit_price": null
+      }
+    },
+    {
+      "table": "project_technical_cost_item",
+      "nativeId": "4c7f49ce-aa6a-4d67-a0b6-e426a90e8915",
+      "rustId": "958e8256-2510-4d28-8d5c-fe151586855e",
+      "exactTuple": {
+        "amount_excluding_tax": "100.00",
+        "amount_including_tax": "113.00",
+        "quantity": null,
+        "tax_cost_amount": "13.00",
+        "unit_price": null
+      }
+    },
+    {
+      "table": "project_technical_cost_item",
+      "nativeId": "ced09fe9-eb8b-4dfb-87ae-0a548044defc",
+      "rustId": "a037cbef-cfbe-421a-a474-a4cc6a7e9952",
+      "exactTuple": {
+        "amount_excluding_tax": "100.00",
+        "amount_including_tax": "113.00",
+        "quantity": null,
+        "tax_cost_amount": "13.00",
+        "unit_price": null
+      }
+    },
+    {
+      "table": "project_technical_cost_item",
+      "nativeId": "e872e964-0770-40be-b882-ec9b68a06559",
+      "rustId": "af2034a2-1d57-475f-88d5-dc26d1feb5cb",
+      "exactTuple": {
+        "amount_excluding_tax": "100.00",
+        "amount_including_tax": "113.00",
+        "quantity": null,
+        "tax_cost_amount": "13.00",
+        "unit_price": null
+      }
+    },
+    {
+      "table": "project_technical_cost_item",
+      "nativeId": "b8709850-4dce-4044-94d5-8d5170d636a3",
+      "rustId": "e3778205-dc97-4fec-a576-21b092b195e1",
+      "exactTuple": {
+        "amount_excluding_tax": "9007199254740992.00",
+        "amount_including_tax": "9007199254740992.00",
+        "quantity": null,
+        "tax_cost_amount": "0.00",
+        "unit_price": null
+      }
+    }
+  ],
+  "excludedObserverRows": [
+    {
+      "backend": "native",
+      "rawFollowupCount": 20,
+      "selectedFollowupCount": 20,
+      "rawTodoCount": 16,
+      "selectedTodoCount": 16,
+      "excludedFollowups": [],
+      "excludedTodos": [],
+      "classification": "Later observer is a superset after supplementary work. Only exact known45+1124 identities are compared. Excluded rows are retained here, not asserted equivalent or harmless; year0000 drift remains outside this comparison and uncertified."
+    },
+    {
+      "backend": "rust",
+      "rawFollowupCount": 28,
+      "selectedFollowupCount": 20,
+      "rawTodoCount": 24,
+      "selectedTodoCount": 16,
+      "excludedFollowups": [
+        {
+          "id": "ff5bc74a-d008-40ce-b526-279527c65cbc",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal year0",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.054+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "c014fc6a-dbff-4f0e-86ae-8f410cf6fdea",
+          "updated_at": "2026-11-02T12:48:40.054+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "0001-02-29T08:00:00.123+08:00 BC",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "0001-02-29T08:00:00.123+08:00 BC",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "79f14793-5c1d-49b5-ba62-60085f262cc2",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal year1",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.117+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "7a5034dd-4b60-405b-8a1a-3dac90f87914",
+          "updated_at": "2026-11-02T12:48:40.117+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "0001-01-01T08:00:00+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "0001-01-01T08:00:00+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "1b609450-cc28-41bc-b338-7f57302b81d4",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal year99",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.175+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "27026382-c72b-4dfe-a015-688e33f9c8d5",
+          "updated_at": "2026-11-02T12:48:40.175+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "0100-01-01T07:59:59.999+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "0100-01-01T07:59:59.999+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "3cf73e81-d3c3-4750-847c-6365188131ea",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal year9999",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.227+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "ac74d32e-31e6-40c2-9167-119fc3995673",
+          "updated_at": "2026-11-02T12:48:40.227+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "10000-01-01T07:59:59.999+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "10000-01-01T07:59:59.999+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "3503730d-42a5-447c-8222-643f78469736",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal fraction1",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.281+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "fcf9de20-b5dd-48e0-96c1-cdd00c55e8d7",
+          "updated_at": "2026-11-02T12:48:40.281+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "2026-11-02T08:00:00.1+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "2026-11-02T08:00:00.1+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "19a65416-580d-45b3-b609-4d0400110d9f",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal fraction9",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.333+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "d72aff98-0ed7-482b-9600-fa3662134bb7",
+          "updated_at": "2026-11-02T12:48:40.333+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "2026-11-02T08:00:00.123+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "2026-11-02T08:00:00.123+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "5ff290d2-475e-466a-a394-ce67ffadc5ca",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal fraction-long",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.385+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "4747a2c2-e017-41a8-b452-b6149a4b58cd",
+          "updated_at": "2026-11-02T12:48:40.385+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "2026-11-02T08:00:00.123+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "2026-11-02T08:00:00.123+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        },
+        {
+          "id": "0de640c7-d66e-4628-9919-b06ce07f47bd",
+          "detail": null,
+          "status": "active",
+          "lead_id": null,
+          "outcome": "progress",
+          "summary": "Temporal leap-valid",
+          "voided_at": null,
+          "voided_by": null,
+          "created_at": "2026-11-02T12:48:40.439+08:00",
+          "created_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "project_id": "20384a77-d1c8-4b7a-aacb-64eed909883f",
+          "updated_at": "2026-11-02T12:48:40.439+08:00",
+          "updated_by": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "customer_id": "2a5ffdee-d76e-4dda-aa9f-6ffdb2a463d8",
+          "occurred_at": "2024-03-01T07:59:59+08:00",
+          "row_version": 1,
+          "void_reason": null,
+          "owner_org_id": "c1ebd341-0d20-4098-b9e7-19562326bd58",
+          "owner_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "follow_up_type": "phone",
+          "next_follow_up_at": "2024-03-01T07:59:59+08:00",
+          "replacement_reason": null,
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null
+        }
+      ],
+      "excludedTodos": [
+        {
+          "id": "6d599414-3e58-4bfa-92f0-c81254fa34a3",
+          "title": "销售跟进提醒：R3CG temporal year0 01",
+          "due_at": "0001-02-29T08:00:00.123+08:00 BC",
+          "status": "open",
+          "summary": "Temporal year0",
+          "priority": "high",
+          "source_id": "ff5bc74a-d008-40ce-b526-279527c65cbc",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.056+08:00",
+          "project_id": "c014fc6a-dbff-4f0e-86ae-8f410cf6fdea",
+          "updated_at": "2026-11-02T12:48:40.056+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "c014fc6a-dbff-4f0e-86ae-8f410cf6fdea",
+          "target_object_type": "project"
+        },
+        {
+          "id": "7e2c669a-1173-488c-a560-b1eec82be0d8",
+          "title": "销售跟进提醒：R3CG temporal year1 01",
+          "due_at": "0001-01-01T08:00:00+08:00",
+          "status": "open",
+          "summary": "Temporal year1",
+          "priority": "high",
+          "source_id": "79f14793-5c1d-49b5-ba62-60085f262cc2",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.118+08:00",
+          "project_id": "7a5034dd-4b60-405b-8a1a-3dac90f87914",
+          "updated_at": "2026-11-02T12:48:40.118+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "7a5034dd-4b60-405b-8a1a-3dac90f87914",
+          "target_object_type": "project"
+        },
+        {
+          "id": "3a42d0fd-e286-4fc2-9308-51c6a6b1e4da",
+          "title": "销售跟进提醒：R3CG temporal year99 01",
+          "due_at": "0100-01-01T07:59:59.999+08:00",
+          "status": "open",
+          "summary": "Temporal year99",
+          "priority": "high",
+          "source_id": "1b609450-cc28-41bc-b338-7f57302b81d4",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.176+08:00",
+          "project_id": "27026382-c72b-4dfe-a015-688e33f9c8d5",
+          "updated_at": "2026-11-02T12:48:40.176+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "27026382-c72b-4dfe-a015-688e33f9c8d5",
+          "target_object_type": "project"
+        },
+        {
+          "id": "7c5c6746-0773-431e-ac05-55a054777a6a",
+          "title": "销售跟进提醒：R3CG temporal year9999 01",
+          "due_at": "10000-01-01T07:59:59.999+08:00",
+          "status": "open",
+          "summary": "Temporal year9999",
+          "priority": "normal",
+          "source_id": "3cf73e81-d3c3-4750-847c-6365188131ea",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.229+08:00",
+          "project_id": "ac74d32e-31e6-40c2-9167-119fc3995673",
+          "updated_at": "2026-11-02T12:48:40.229+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "ac74d32e-31e6-40c2-9167-119fc3995673",
+          "target_object_type": "project"
+        },
+        {
+          "id": "c1acedab-e718-4f14-9596-7cd9c3baf25e",
+          "title": "销售跟进提醒：R3CG temporal fraction1 01",
+          "due_at": "2026-11-02T08:00:00.1+08:00",
+          "status": "open",
+          "summary": "Temporal fraction1",
+          "priority": "high",
+          "source_id": "3503730d-42a5-447c-8222-643f78469736",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.282+08:00",
+          "project_id": "fcf9de20-b5dd-48e0-96c1-cdd00c55e8d7",
+          "updated_at": "2026-11-02T12:48:40.282+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "fcf9de20-b5dd-48e0-96c1-cdd00c55e8d7",
+          "target_object_type": "project"
+        },
+        {
+          "id": "14a99764-20d1-4d94-ae53-5a64df1e507f",
+          "title": "销售跟进提醒：R3CG temporal fraction9 01",
+          "due_at": "2026-11-02T08:00:00.123+08:00",
+          "status": "open",
+          "summary": "Temporal fraction9",
+          "priority": "high",
+          "source_id": "19a65416-580d-45b3-b609-4d0400110d9f",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.334+08:00",
+          "project_id": "d72aff98-0ed7-482b-9600-fa3662134bb7",
+          "updated_at": "2026-11-02T12:48:40.334+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "d72aff98-0ed7-482b-9600-fa3662134bb7",
+          "target_object_type": "project"
+        },
+        {
+          "id": "b746cf0d-aaa1-4e35-bec0-5d2fecbcf659",
+          "title": "销售跟进提醒：R3CG temporal fraction-long 01",
+          "due_at": "2026-11-02T08:00:00.123+08:00",
+          "status": "open",
+          "summary": "Temporal fraction-long",
+          "priority": "high",
+          "source_id": "5ff290d2-475e-466a-a394-ce67ffadc5ca",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.386+08:00",
+          "project_id": "4747a2c2-e017-41a8-b452-b6149a4b58cd",
+          "updated_at": "2026-11-02T12:48:40.386+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "4747a2c2-e017-41a8-b452-b6149a4b58cd",
+          "target_object_type": "project"
+        },
+        {
+          "id": "dceb4640-9661-48a2-bfd8-33d07ccb2894",
+          "title": "销售跟进提醒：R3CG temporal leap-valid 01",
+          "due_at": "2024-03-01T07:59:59+08:00",
+          "status": "open",
+          "summary": "Temporal leap-valid",
+          "priority": "high",
+          "source_id": "0de640c7-d66e-4628-9919-b06ce07f47bd",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T12:48:40.44+08:00",
+          "project_id": "20384a77-d1c8-4b7a-aacb-64eed909883f",
+          "updated_at": "2026-11-02T12:48:40.44+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "107bdc7f-711b-49b6-942d-20eabb43a246",
+          "target_object_id": "20384a77-d1c8-4b7a-aacb-64eed909883f",
+          "target_object_type": "project"
+        }
+      ],
+      "classification": "Later observer is a superset after supplementary work. Only exact known45+1124 identities are compared. Excluded rows are retained here, not asserted equivalent or harmless; year0000 drift remains outside this comparison and uncertified."
+    }
+  ],
+  "normalizationPolicy": "Numeric::text strings/scale/null and every business state/date exact; only explicit generated IDs/time and proved contact winner audit values; table result arrays align by actual logical identity, HTTP array ordering unchanged elsewhere. Raw loopback IP differences remain visible. Anonymous numeric-child identity matching proves exact tuple multiset, not item-to-parent FK.",
+  "IPBaseline": {
+    "file": "docs/design/archive/slices/rust-r3ab/evidence/ip-context-original.json",
+    "bytes": 7670,
+    "rawBytesSha256": "35cd5410f5bc4b67eacb04790088c39865328684ce5863c28a4311a4833e8745"
+  },
+  "independentProductExecution": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

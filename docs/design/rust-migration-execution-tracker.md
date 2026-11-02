@@ -261,3 +261,15 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-02 R3A/B 独立实际 G4 终审 Pass
 
 [非作者实际G4](archive/slices/rust-r3ab/evidence/C/g4-independent-actual-review01.json) 920d490a已Pass，只认证本批14/58；#86/#87 Closed，#85/#57 Open，余44及完整R3阶段Gate保持未完成。[最新线上索引](archive/slices/rust-r3ab/evidence/online/g4-current-online-index03.json)绑定当前正文，关闭原件与旧快照不改；最终收据原字节归档及追加保全完成后作最后元数据读回，无新产品变更。
+
+### 2026-11-02 R3C–G 联合批次 G0
+
+用户已授权下一批16操作：[范围/依赖与归属](rust-r3cdefg-scope-and-dependencies.md)。原生子项为成本#88、竞标#89、联系人#90、跟进#91、报价#92，父#85/总体#57保持Open。首波13项、报价3项接续；G2阶段三个作者并行，独审按Gate占用空闲席位。当前仅G0/G1准备，产品尚未实施，R3已交付仍14/58；未完成44中本批16，后续28及完整非HTTP/阶段验收不完成。联系人3从原13拆出，其余10不重复计数。
+### 2026-11-02 R3C–G 联合 G1 冻结并进入 G2
+
+[同源线上冻结回执](rust-r3cdefg/g1-online-freeze-receipt01.json)绑定未改主基线、active manifest02及[非作者C02独审Pass](rust-r3cdefg/C/g1-independent-review02.json)。#88/#89/#90/#91/#92已读回G1，三作者恢复实现首波13项及接续报价3项；Root集中HTTP/公共桥与实际验收。review01 Needs-correction原件及修订前输入保持原字节。当前交付仍14/58，G3/G4未认证；父#85/#57保持Open，其余28和完整阶段验收未完成。
+
+
+### 2026-11-02 R3C–G 独立 G3 Pass，待固定提交与主线集成
+
+[非作者G3复审02](rust-r3cdefg/C/g3-independent-review02.json)对修复候选03签署Pass，只允许本批16操作提交；首审Needs-correction与六项纠偏均保留。当前产物c042513，145操作/116路径/585schemas，Rust235 passed/54 ignored；45组语义、1691固定事件、14字符探针及精确PG/SQL/终态已核，898条UI仍归原ec产物并按两文件因果边界引用。详见[当前checkpoint02](rust-r3cdefg-g3-checkpoint02.md)和[Gate授权](rust-r3cdefg/g3-gate-authority01.json)。尚待固定提交复核、main集成和归档关闭前许可；#88–92仍Open，正式交付仍14/58，#85/#57保持Open，后续28及完整阶段验收未完成。

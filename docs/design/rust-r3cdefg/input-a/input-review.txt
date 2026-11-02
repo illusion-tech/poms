@@ -1,0 +1,166 @@
+# R3C 技术成本 / R3G 报价毛利：作者 A 的 G1 输入候选
+
+- 材料类型：静态输入审阅；不是 G1 Pass、实现、测试结果或运行认证。
+- 工作树：`E:/projects/worktrees/poms-r3cdefg-next16/poms`。
+- Root 给定共同基线：`0fced204c917a37b84a2ad50838e722e764b8f78`；分支 `codex/poms-r3cdefg-next16`。本作者不执行 Git、安装、build、test、lint、DB、HTTP、浏览器或环境操作。
+- 切片：`R3C / #88`（成本）、`R3G / #92`（报价）；Root 已登记为父 `#85` 原生子项，总体 `#57`。线上事实及状态由 Root 读取/维护。
+- 风险类型：`cross-layer-high-risk`。先成本三操作，再集成实际成本 / 竞标生产者的报价三操作；后者不以 fixture-only 或重复 SQL 代替真实生产者。
+- 当前写入仅本目录。未来授权写入仅 `apps/poms-api-rust/src/project_technical_cost/**`、`apps/poms-api-rust/src/project_pricing_margin/**`。公共路由、Cargo/lib、原 projects、生成契约、投影和错误桥归 Root。
+- 子代理目标按派单显式 `gpt-6.1-sol / max`；Fast 没有本作者可核实的运行证据。
+
+## 1. 权威来源与冻结边界
+
+1. 当前 Native controller、service、query service、repository、entity、真实迁移、Zod schema 和实际 Native HTTP / PG 观察共同定义兼容行为。`source-manifest.json` 给出原件 raw bytes/SHA256 和关键行；`snapshots/native-source-excerpts.txt` 保留关键原行，`snapshots/openapi-six-operations.json` 是保护规范的静态抽取。
+2. `docs/design/api-route-canonical-inventory.md:232-234,238-240` 六行均 `aligned`，本片不新增/删除/改名路径。`/api` 来自 Native global prefix；OpenAPI 的 operationId 必须保留 controller 原名。
+3. `docs/design/backend-rust-migration-plan.md` 要求保留请求/响应、事务、金额、认证、证据、阶段边界。完整 Native `237 paths / 291 operations / 585 schemas`、579 client、原 shared-enums、DDL、TS / Angular 产品源码均保护。金额迁移不能用新十进制算法覆盖 Native JS 结果。
+4. 历史 EX-26 基线出现 `conditional-feasible / not-recommended / infeasible`、`confirmed`、`effectiveAt / versionChangeReason` 输入、列表 `items` 等旧描述；实际 schema 分别为 `feasible / conditional / not-feasible`、`pending / reviewed / not-required`、服务自建 effectiveAt、裸数组。本片把这些视为历史输入差异，不据旧文档扩展或修正产品。
+5. EX-28 历史基线说明业务意图，不代替实际引用验证。Native 只验证下文列出的条件及数据库 FK；不得补审批场景、摘要包、同项目 baseline/snapshot、放行状态、币种换算等检查。
+6. 本包所有“待 Native 见证”事项需由 Root 原样保全实测后冻结，不能由本作者静态推断写成通过。使用当次锁定依赖（根 lock 为 Zod 4.6.1、MikroORM 7.0.11）及当次 candidate；历史 jest/mock/E2E route mock 只作线索。
+
+## 2. 六操作、返回值、状态与守卫
+
+| 标签 | 真实路径 | 原 operationId | 成功返回 / 状态 |
+| --- | --- | --- | --- |
+| C-list | `GET /api/projects/{projectId}/technical-cost-packages` | `ProjectController_listProjectTechnicalCostPackages` | `ProjectTechnicalCostPackageSummary[]` / 200 |
+| C-create | `POST /api/projects/{projectId}/technical-cost-packages` | `ProjectController_createProjectTechnicalCostPackage` | `ProjectTechnicalCostPackageSummary` / 201 |
+| C-workspace | `GET /api/projects/{projectId}/technical-cost-workspace` | `ProjectController_getProjectTechnicalCostWorkspace` | `ProjectTechnicalCostWorkspaceView` / 200 |
+| G-list | `GET /api/projects/{projectId}/pricing-margin-reviews` | `ProjectController_listProjectPricingMarginReviews` | `ProjectPricingMarginReviewSummary[]` / 200 |
+| G-create | `POST /api/projects/{projectId}/pricing-margin-reviews` | `ProjectController_createProjectPricingMarginReview` | `ProjectPricingMarginReviewSummary` / 201 |
+| G-workspace | `GET /api/projects/{projectId}/pricing-margin-workspace` | `ProjectController_getProjectPricingMarginWorkspace` | `ProjectPricingMarginWorkspaceView` / 200 |
+
+- Native 全局顺序：SessionAuthGuard → AuthCsrfGuard → PermissionsGuard → DTO pipe → 方法；HTTP parser / 路径 decode 时机由 Root 统一按 Express 原行为接线。读 `project:read`，写 `project:write`；写权限不暗含读权限。没有本六操作专用数据归属校验。
+- 六操作先查项目；不存在抛 404 `Project ${projectId} not found`。参数只是 `@Param(...): string`，没有 UUID Pipe。非法 UUID、空/额外段、encoded slash、URI decode、大小写路径、HEAD、错误方法及默认错误 envelope 必须 Native 校准，不把 path 参数改为 Zod UUID。
+- 三个 GET 无 DTO query；额外 query 未使用。两个 POST 只有 body DTO；未知 body 字段按 Zod object 默认 strip，不允许它们控制 `version / status / isCurrent / supersedesId / effectiveAt / id / expectedVersion / rowVersion`。
+- 无当前版本但项目存在时：list 是 `[]`；workspace 是 200 + `currentPackage/currentReview: null` 和业务缺口，不是页面 404。
+- 写入仅拒 `project.status === closed` 或 stage 不属于 `assessment / scope-confirmation / commercial-closure / contracting`。`blocked` 可写；不要求 status 必须 active，不改变项目阶段/状态。
+- 本六方法没有业务审计写入、敏感字段 projection 或 mask 调用。SensitiveFieldProjectionModule 只导出 provider；不能因名称或旧设计主动加 mask / read audit。认证失败、CSRF 失败、permission denied 仍由全局框架形成原安全事件。
+- AppModule 虽注册 ZodSerializerInterceptor，但它只查 `ZodSerializerDto` metadata；本六方法只有 Swagger response decorators，没有该 metadata。返回来自显式 mapper，不能把 Swagger schema 当作运行期重算/剥字段验证。
+
+## 3. Zod、缺省、null、文本、ID、日期与数字
+
+### 3.1 共同规则
+
+- `z.object` 未用 strict/passthrough；顶层及每个子对象未知 key strip。字段解析/错误顺序按 schema 声明顺序；nested errors 路径含原数组索引。必须保留 `Validation failed`、errors 数组、type/format/enum/length issue 形状，Root 用 Native 输出冻结，不只比 HTTP 400。
+- JSON 无 undefined 字面量；“undefined”对应属性缺失。required 不接受缺失/null；`.optional()` 只允许缺失；`.nullable().optional()` 接受缺失或 null；数组 `.default([])` 仅对缺失生效，null 失败。没有 string/number/boolean 自动 coerce。
+- 所有下列文本、数字字符串 `.trim()` 使用 ECMAScript trim；非空和 max 在 trim 后执行。枚举、UUID、dueAt 不 trim。保持原大小写、Unicode、内部空白、换行；不做 NFC 或全角数字转换。
+- Unicode 边界需 Root 原依赖实测：astral（BMP 最大长度边界旁）、组合字、NBSP/BOM/U+0085/U+200B、孤立 surrogate、NUL。现 Rust `JsString`/Wire 支持原 UTF-16；不可用 serde 的有损字符串提前吞掉 Native 可返回的孤立 surrogate。Node pg DB 边界替换与 POST immediate / GET reread 差异属于待见证项。
+- ID body 使用 `z.uuid()`：不 trim；大小写文本须保留到 JS 严格比较；UUID v1-v8、nil/max、variant 错误的精确接受面交 Root Native。现 Rust public scalar/验证实现可参考，但不是本次实测。
+- route ID 由 PG UUID 类型查找，body reference ID 后续与 current.id 做 `!==`，大小写字符串即使同一个 UUID 也可能拒绝，必须实测并保持。无业务编号字段、无业务编号生成，不借用 R3A/B 编号机制。
+- `sortOrder` 是 `z.number().int().nonnegative().optional()`：不接数字字符串；缺失服务按原数组 `index + 1`，0 有效，允许相同排序号；不因 PG int4 范围或唯一性增强 DTO。超 JS safe integer/.int() 边界与 int4 overflow 分别观察。
+- 数字字符串模式均 ASCII digit：money `/^\d+(\.\d{1,2})?$/`；quantity/unitPrice `/^\d+(\.\d{1,4})?$/`；taxRate `/^\d+(\.\d{1,8})?$/`；grossMarginRate `/^-?\d+(\.\d{1,8})?$/`。允许 0、leading zeros；拒 `+1 / -1`（gross 可负）、`.1 / 1. / 1e2 / 全角数字`；整数部分无长度上限，不在 DTO 额外限 numeric precision。
+- condition `dueAt` 是 `z.iso.datetime().nullable().optional()`；服务 truthy 时 `new Date(...)`，否则 null，mapper `.toISOString()`。默认 UTC Z/seconds、任意 fractional、闰日/0000年、长fraction截毫秒、offset和小写拒绝、PG year0交 Root 原依赖见证；不能改成日期 date-only。
+
+### 3.2 成本输入字段（schema 4622-4683）
+
+- 顶层 required：`technicalFeasibilityDecision`（feasible/conditional/not-feasible）、`technicalConclusionSummary`（trim 1..2000）、`allowNextStage`（bool）、`currencyCode`（trim 3..16）、`taxAssumptionSummary`（trim 1..2000）、`taxReviewStatus`（pending/reviewed/not-required）、`costItems`（至少1）。`scopeItems / riskItems` 缺失默认 []。
+- scope 每项 required：`scopeType`（in-scope/out-of-scope/assumption）、`label`（1..255）、`description`（1..2000）；可选 `sortOrder`。
+- risk 每项 required：`riskCategory`（1..128）、`riskLevel`（R1/R2/R3/R4）、`riskDescription`（1..2000）、`impactScope`（1..1000）、`mitigationPlan`（1..2000）、`ownerRole`（1..128）、`riskStatus`（open/mitigating/accepted/closed）、`blocksNextStage` bool；可选 sortOrder。
+- cost 每项 required：`costCategory`（1..128）、`costDescription / estimationBasis`（1..2000）、`amountExcludingTax / taxCostAmount / amountIncludingTax` money、`currencyCode`（3..16）、`confidenceLevel`（high/medium/low）、`highUncertainty` bool。
+- cost 每项可缺失/null：`costSubcategory / responsibleRole`（存在非null时1..128）、`quantity / unitPrice` decimal4、`unit`（存在非null时1..32）；服务统一 `?? null`。sortOrder 可缺但不可 null。
+- 无数组 max、scope/risk 最少条数、重复 key、quantity×unitPrice、技术结论与 allowNextStage 联动验证。
+
+### 3.3 报价输入字段（schema 5050-5093）
+
+- 顶层 required：`technicalCostPackageId` UUID、`pricingPath`（bid/direct-commercial）、`quoteVersion`（1..64）、`currencyCode`（3..16）、`quoteAmountTaxInclusive / quoteAmountTaxExclusive` money、`taxRate` ratio8、`taxConditionSummary / paymentTermsSummary / grossMarginSummary / decisionSummary`（1..2000）、`grossMarginBand`（below-redline/watch/target/not-calculated）、`decision`（pending/released/conditional-release/rejected/escalation-required）。
+- 缺失默认 []：`conditionItems`。
+- 可缺失/null：`bidCommercialProcessId / commercialReleaseBaselineId / summarySnapshotId` UUID；`grossMarginRate` signed ratio8；`approvalScenarioKey / ownerRole`（存在时1..128）；`summaryPackageKey`（1..64）；`projectionLevel / exportPolicy`（1..32）。服务 `?? null`。
+- condition required：`conditionKey`（1..128）、`conditionType`（financial/tax/payment/scope/risk/approval）、`label`（1..255）、`conditionSummary`（1..2000）、`conditionStatus`（open/closed/waived）。`requiredForContracting` 可缺，服务 false；不可 null。`responsibleRole`（1..128）、`resolutionSummary`（1..2000）、`dueAt` datetime 可缺/null；服务 null。sortOrder 同共同规则。
+- 不按毛利/税率上限、grossMarginBand、decision 或已关闭条件强制 resolutionSummary；不计算毛利率，不验证报价=未税×(1+税率)。
+
+## 4. 成本命令与金额实际算法
+
+`project.service.ts:650-765,852-881,914-921` 的顺序必须保留：
+
+1. find project → 404 → stage/status 400。
+2. 按 costItems 原顺序：currency 必须与 package 完全相等（trim后的大小写仍敏感），否则 `costItems[${index}].currencyCode must equal package currencyCode ${currency}`；随后各项转 Number，拒非有限或负值，比较 `Math.abs(including - (excluding + tax)) > 0.0001`。
+3. find current package（projectId、isCurrent true、status effective；version/effectiveAt/createdAt DESC）；若有先改旧对象 `isCurrent=false,status=superseded,updatedBy=operator`，尚未显式 flush。
+4. 三列分别用 JS number 从0按输入数组顺序 reduce；各自 `.toFixed(2)` 变总额字符串。每项三金额也各 `Number(...).toFixed(2)`；quantity / unitPrice 不做 Number 运算，原字符串交 ORM decimal。
+5. highestRiskLevel 为全部 risk 最大 R1<R2<R3<R4（含closed，空=null）；blockerCount=`blocksNextStage && riskStatus !== closed` 条数 + `allowNextStage ? 0 : 1`。tax pending 不计数；accepted但blocks=true仍阻断。
+6. 新随机 UUID，version=旧version+1或1，isCurrent=true,status=effective,supersedesId=旧id或null；effectiveAt取一次new Date，createdBy/updatedBy=operator，createdAt/updatedAt/rowVersion由entity onCreate/version机制。三组子项不显式传id，entity/DB默认`gen_random_uuid()`生成，packageId显式传入，sortOrder缺省index+1。
+7. persist `[new package,...scope,...risk,...cost,old?]`.flush；不手动更新 project，不写编号/审批/业务audit。
+
+金额实现要点：Binary64 + JS Number + JS toFixed，而不是定点加法。现有 public `compat::scalars::{legacy_number,js_to_fixed}` 可复用。不能用 SQL SUM 或每项先round再sum。Root 要见证 >2^53 近旁、numeric(18,2)最大边界、巨长数字Infinity、leading-zero和0.10+0.20、多项顺序对总额的影响，以及POST立即返回/PG numeric/GET字符串补零。DTO允许的超precision合法文本交数据库时，错误是Native实际500/约束失败面，不另改400。
+
+## 5. 报价命令、真实生产者与引用规则
+
+`project.service.ts:557-647,793-849` 顺序：
+
+1. project 404及stage/status400。
+2. 读取真实当前成本：`projectId + isCurrent=true + status=effective`；无或current.id与输入字符串严格不等，400 `technicalCostPackageId must match the current effective technical cost package`。不额外要求成本allowNextStage、taxReviewed、blockerCount=0、technical feasible。成本币种不等，400 `currencyCode must equal technical cost package currencyCode ${currency}`。
+3. 读取真实当前竞标，随后执行以下原规则；不调用报价前置workspace blockers作为命令验证。
+4. 报价金额 Number finite/nonnegative、taxRate同样检查、`inclusive+0.0001 < exclusive` 时400；非null grossMarginRate只要求Number finite。只对两报价 `.toFixed(2)`，taxRate/grossMarginRate保持原字符串到decimal ORM；不重算毛利或税额。
+5. 查旧current review后在内存置superseded；新UUID/version/supersedes。blockerCount=condition `requiredForContracting && status===open`条数 + decision在pending/rejected/escalation-required时1；readyForContracting=decision为released/conditional-release且blockerCount=0。条件closed或waived不阻断，默认required=false；独立记录ownerRole及全部引用，不变更project。
+6. persist `[new review,...conditions,old?]`.flush。effectiveAt new Date，entity自动时间/version；condition dueAt new Date后持久化。
+
+| 分支 | Native 实际要求 | 必须保持的开放面 |
+| --- | --- | --- |
+| bid | bidCommercialProcessId truthy；等于该project当前effective process.id；resultStatus不为lost/cancelled/not-applicable | 不验证bidMode、decision、blockerCount；no-bid + pending result不自动拒绝；无合格process时400 |
+| direct-commercial且有bid ID | ID等于当前process；bidMode是direct-commercial/not-required | 未检resultStatus、decision、blockerCount；lost/cancelled/not-applicable可被该分支接受 |
+| direct-commercial且无bid ID（missing/null） | 不检查竞标引用 | 即使当前process为公开招标/no-bid/lost等仍可无引用创建；不强制生成not-required process |
+| released/conditional-release/escalation-required | 六个truthy引用同时存在：commercialReleaseBaselineId、approvalScenarioKey、summaryPackageKey、summarySnapshotId、projectionLevel、exportPolicy | 不查询baseline或summary业务归属/状态/场景一致性；两个UUID只靠既有FK存在性 |
+| rejected | 有commercialReleaseBaselineId即400 | 可携带其余summary引用；不强制清空所有引用 |
+| pending | 不额外要求六引用 | 允许部分引用；存在的UUID仍受PG FK约束 |
+
+真实集成必须由成本Rust POST产出current.id，再由竞标Rust POST产出current.id，报价Rust POST消费二者；包括成本V2后旧ID拒绝、竞标V2后旧ID拒绝；已存在报价workspace继续按review保存的旧cost/bid ID读取历史，而非悄悄换成最新版本。无需迁移R4写链/创建商业baseline或summary本体来宣称本片完成；Root可以调用已交付机制或受控fixture准备外部FK，但要明确不等同本片交付其写链。
+
+## 6. 返回字段与投影行为
+
+完整字段及nested类型以 `snapshots/native-source-excerpts.txt` 的 schema/mapper 和 OpenAPI抽取为准；以下列出必须逐字段比较的shape。
+
+- package summary：`id, projectId, version, isCurrent, supersedesId, status, technicalFeasibilityDecision, technicalConclusionSummary, allowNextStage, currencyCode, totalEstimatedAmountExcludingTax, totalTaxCostAmount, totalEstimatedAmountIncludingTax, taxAssumptionSummary, taxReviewStatus, highestRiskLevel, blockerCount, effectiveAt, createdAt, createdBy, updatedAt, updatedBy, rowVersion`。
+- review summary：`id, projectId, version, isCurrent, supersedesId, status, technicalCostPackageId, bidCommercialProcessId, commercialReleaseBaselineId, pricingPath, quoteVersion, currencyCode, quoteAmountTaxInclusive, quoteAmountTaxExclusive, taxRate, taxConditionSummary, paymentTermsSummary, grossMarginRate, grossMarginBand, grossMarginSummary, decision, decisionSummary, approvalScenarioKey, summaryPackageKey, summarySnapshotId, projectionLevel, exportPolicy, readyForContracting, ownerRole, blockerCount, effectiveAt, createdAt, createdBy, updatedAt, updatedBy, rowVersion`。
+- nullable summary字段均显式null；money/ratio为字符串，版本/计数/rowVersion为数字，bool为bool。日期ISO由Date.toISOString，不是原input任意fraction；不会为summary填入子表数组。
+- scope/risk view=对应input业务字段+`id,packageId`，sortOrder必有。cost view同input+id/packageId，缺省nullable字段显式null。condition view同input+`id,reviewId`，requiredForContracting必有bool，dueAt/resolution/responsible显式null或值。
+- 数字mapper统一 `typeof value === string ? value : String(value)`；nullable数字 null/undefined→null。POST使用controller mapper，GET使用query mapper；不对读取数据重新toFixed，不增数字规范化。
+- 列表是裸数组，顺序 `version DESC,effectiveAt DESC,createdAt DESC`；不限current、不带分页、非只最新。子项SQL按父ID ASC、sortOrder ASC，不附加id稳定排序；排序相同不能编造新保证。
+- C workspace字段：`projectId,currentStage,status,currentPackage,scopeItems,riskItems,costItems,blockingReasons,nextStep,ownerLabel,allowedActions,generatedAt`；G workspace字段：`projectId,currentStage,status,currentReview,technicalCostPackage,bidCommercialProcess,conditionItems,blockingReasons,nextStep,readyForContracting,ownerLabel,allowedActions,generatedAt`。
+- G无review时附当前cost和bid摘要；有review时取其保存ID的cost和bid（可为superseded），不是当前生产者；历史引用未找到返回null并仅cost缺失加reason。G返回review.readyForContracting，不根据读取时cost/bid状态动态重算。
+- ownerLabel：owner displayName与org.name两者truthy→`${name} / ${org}`；否则`name ?? org ?? fallback`（空字符串和null不能混淆）。C fallback `技术支持 / 售前`；G空review fallback `销售 / 财务`；有review用`review.ownerRole ?? 销售 / 财务`。通过现有平台user/org真实查询，不硬编码操作者名。
+- allowedActions先含各`view-*-workspace`，仅未closed（status closed或closed-lost/closed-terminated）、presigning stage、用户包含project:write时追加`create-*-*`。不按缺成本、taxPending或bid缺失删create action。generatedAt每次new Date ISO。
+
+### 6.1 原提示优先级（不得“优化”）
+
+- C空：reason `尚未形成技术与成本测算版本包。`；next `补齐技术可行性、范围边界、风险项和成本税务估算。`。
+- C当前reason顺序：不allow→`技术与成本版本包尚未允许进入下一阶段。`；每个阻断且非closed风险→`${riskCategory}：${riskDescription}`；tax pending→`税务成本假设仍待复核。`。
+- C next先判断allow=true且风险全部不阻断或closed→`进入商务收口前，保持当前版本包作为报价和签约前判断依据。`，即使tax pending也优先此句；否则tax pending→`先完成税务成本复核，再判断是否进入商务收口。`；否则→`先关闭阻塞风险或更新版本包，再进入商务收口。`。blockerCount、reasons.length、next不是统一重算同一个条件。
+- G空前置reason顺序：无成本→`尚未形成可引用的技术与成本版本包。`；有成本且!allow→`当前技术与成本版本包尚未允许进入报价评审。`；tax pending→`当前技术与成本版本包的税务成本仍待复核。`；当前bid结果lost/cancelled→`当前竞标 / 商务过程结果不能直接支撑报价评审。`。若全空用`尚未形成报价与毛利评审记录。`。前置reason非空next=`先补齐技术成本、税务复核或商务路径依据，再发起报价与毛利评审。`；否则`基于当前技术成本和商务路径，形成报价、税务条件、回款条件与毛利评审结论。`。无bid本身不形成reason。
+- G有review reason顺序：引用cost缺失→`报价评审引用的技术与成本版本包已不可用。`；pending→`报价与毛利评审尚未形成放行结论。`；rejected→`报价与毛利评审已被否决，需要回到技术、成本或商务条件重新收口。`；escalation→`当前报价与毛利评审需要升级审批，暂不能进入签约就绪。`；每required且open条件→`${label}：${conditionSummary}`。不因旧cost被替代、taxPending、bid无效追加reason。
+- G有review next：reasons非空→`先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。`；否则ready→`可以将当前商业放行基线和摘要快照带入签约就绪。`；否则→`确认商业放行基线、审批摘要和签约承接关系后再进入签约就绪。`。
+
+## 7. 持久化、失败与并发：静态已知 / 待 Native
+
+- 成本四表：`project_technical_cost_package / project_technical_scope_item / project_technical_risk_item / project_technical_cost_item`。报价两表：`project_pricing_margin_review / project_pricing_margin_condition_item`。不加 migration、不改原DDL。
+- 两主表 projectId FK restrict；supersedesId自FK set null；唯一(projectId,version)，partial unique(projectId) WHERE is_current=true（不含status谓词）；rowVersion default1 + ORM `.version()`。子表父FK cascade；子表无rowVersion/审计时间。
+- 所有money numeric(18,2)，quantity/unitPrice numeric(18,4)，taxRate/grossMarginRate numeric(18,8)；主表有效/创建/更新时间及condition dueAt均timestamptz。
+- review cost FK restrict、bid FK set null、baseline FK restrict、snapshot FK restrict。baseline/snapshot没有同项目复合FK。createdBy/updatedBy只是nullable UUID，不新加平台user FK。
+- 未发现给本六表追加enum CHECK的后续迁移；遵守原已存在constraints，不创建新CHECK或业务检查。SQL numeric/int/text/UUID错误仍走原错误协议。
+- Native service没有显式transaction、FOR UPDATE、expectedVersion入参或错误捕获。ORM flush可能用version predicate，可能把旧current UPDATE先于INSERT。仅凭`.version()`或unique不能断言实际CAS、锁模式、失败HTTP或“每并发必定一成功一409”。
+- Root必须先Native见证：首版并发、已有current并发、旧rowVersion被外部更新、旧current读后被替换/删除、子表insert失败、numeric/FK失败、提交前断连；观察status/rawbody、行数/链/current/status/rowVersion、全部子表、session managed flush、审计安全事件和连接/事务终态。
+- 原auth会话touch先独立SQL更新后把managed session字段写回；这些pending变化是否在本六读查询前auto-flush、写最终flush并入事务、预检查失败时发生以及flush失败回滚顺序，须分别见证。不要简单复制别域事务模型。
+- 本命令在改旧current后没有显式repository查询，随后只有同步组装与flush；但session/ORM自动flush不因此可忽略。读取workspace中的Promise.all也不应静态宣称事务snapshot一致。
+
+## 8. 原 UI 可达旅程与真实验收路径
+
+- 原routes：登录 → 项目列表/详情 → `/projects/:id/workspace` → 签约前 → `/technical-cost`；页面使用ProjectWorkspaceStore.loadTechnicalCostWorkspace→原generated ProjectApi。此页只读，展示空缺口/当前包/范围/风险/成本/税务/owner/actions，未提供技术成本创建表单。成本POST用真实HTTP验收；不能新增Angular表单凑旅程。
+- 签约前卡片或成本页link → `/bid-commercial` → `/pricing-margin`。报价ngOnInit并行load workspace及history，原generated client调用两个GET；write按钮要求allowedActions含create且workspace.technicalCostPackage非null。
+- 报价新建form引用workspace.cost.id及bid.id；有bid默认pricingPath=bid（即使not-required），无bid默认direct-commercial；currency/tax assumption来自cost；pending默认；summary keys默认`pricing-margin-review / pricing-margin-summary / pricing-margin / internal`，UUID引用不自动生成。
+- 报价编辑仍POST新版本；form沿用currentReview旧cost/bid ID，不能由Rust workspace换成最新来“修复”旧引用；用户保存被current-cost校验拒绝是兼容行为。提交成功store并行reload workspace/history；失败保持dialog，由store显示后端错误。
+- form trim并blank→null；condition空key/label/summary有UI默认文本、sortOrder重排index+1，必需条件默认true（与API缺省false区别）。这些是原consumer行为，不是后端额外默认值。
+- Root实际UI要在Linux/Windows原UI×Native/Rust后端四组合中从真实入口导航、写入pricing、刷新历史与错误提示，验证数据真实出自后端；已有`project-workspace.journey.spec.ts`大量page.route mock只能作locator线索，不计真实后端通过。
+
+## 9. 最小集成接口请求（待 Root 联合冻结）
+
+- Root接公共HTTP、权限/parser/URI行为、lib/Cargo、OpenAPI子集和模块错误桥；A不写http.rs或旧projects。
+- A拟各模块`Service::new(Database)`，`list(project_id: &str)`、`workspace(project_id: &str, session: &ResolvedSession)`、`create(project_id: &str, input: Request, session: &ResolvedSession)`，返回本模块error和现public `projects::model::Wire`。最终命名听Root接口裁决；本包不作为实现授权。
+- 复用现public `projects::store::{find, user_names, org_names}`和ProjectRow、`projects::model::{Wire,trim_js}`、`auth::js_json::{JsObject,JsString}`、`compat::scalars::{legacy_number,js_to_fixed,js_iso_string}`。不访问旧模块private helper。需要嵌套Zod issue构造时由A本模块写或Root公开窄接口，禁止跨模块偷用private。
+- A成本公开窄真实生产者读取：`store::current(&mut PgConnection,&str)`、`store::by_id(&mut PgConnection,Uuid)`、Row及`summary(&Row)->Value`；pricing复用这些，不复制current谓词。具体连接/错误类型由Root统一冻结。
+- Bid作者/Root提供同样public current/by_id/summary，Row至少含id、bidMode、decision、resultStatus、blockerCount及summary所需字段；pricing实际消费B模块，不访问B私有实现。
+- pending SessionFlush只能调用现public flush函数；缺少Root认可的flush边界或Native见证时不编造transaction模型。共享错误bridge需区分domain400/404与Native SQL/ORM500，不一律unique→409。
+- 可用generated enums通过原共享导出读；不改原shared-enums/生成契约；六operationId/response schema原样纳入Root子集。
+
+## 10. 本片逐项不做 / 完成前条件
+
+- 不做草稿PATCH/删除、审批/确认/summary新写链、商业baseline生成、合同readiness写入/状态迁移、受控回退、执行期actual cost、汇率/税额/毛利引擎、参数加强验证、数据归属加强、原UI改造、性能/部署结论。
+- 不宣称竞标其他操作、R3全58、R4/R5、父Issue完成；本片仅六既有操作，Root合并批次另有十项。
+- G1尚需：Root联合baseline，确认接口与上述待见证语义，非作者独立审查Pass并线上冻结。真Issue已登记，此前不写产品。
+- G3/G4尚需：按`acceptance-matrix.json`实际双端HTTP、PG、故障/并发、真实生产者消费、四组合原UI及共同必要检查；所有原件与candidate/source hash绑定；失败/partial/ignored不改写为Pass。作者不代跑、不提交推送。

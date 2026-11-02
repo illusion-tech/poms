@@ -1,0 +1,244 @@
+{
+  "kind": "R3CDEFG-joint-pre-G1-Native-decisions",
+  "createdAt": "2026-11-02T02:58:51.115Z",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "runId": "8335ed8a-f8ae-4874-a0e5-279189ceae14",
+  "NativeObservationCount": 45,
+  "observationsAreStructuredNotRawWireOrRustAcceptance": true,
+  "decisions": [
+    {
+      "id": "C-VERSION-EXISTING",
+      "classification": "existing-baseline-drift",
+      "actualHTTP": 500,
+      "existingCurrentV1Unchanged": true,
+      "rule": "Preserve actual INSERT-before-old-UPDATE partial-current unique failure; no positive version replacement claim.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/original-observations01.json",
+        "label": "cost-second-version",
+        "requestId": "9e677150-3361-419a-ac60-142f226a51bf"
+      }
+    },
+    {
+      "id": "D-VERSION-EXISTING",
+      "classification": "existing-baseline-drift",
+      "actualHTTP": 500,
+      "existingCurrentV1Unchanged": true,
+      "rule": "Preserve actual INSERT-before-old-UPDATE partial-current unique failure; no positive version replacement claim.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/original-observations01.json",
+        "label": "bid-second-version",
+        "requestId": "dad86a16-03fc-4cee-8fab-40ddfe0f83c1"
+      }
+    },
+    {
+      "id": "G-VERSION-EXISTING",
+      "classification": "existing-baseline-drift",
+      "actualHTTP": 500,
+      "existingCurrentV1Unchanged": true,
+      "rule": "Preserve actual INSERT-before-old-UPDATE partial-current unique failure; no positive version replacement claim.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/original-observations01.json",
+        "label": "pricing-second-version",
+        "requestId": "2101ef0d-983b-48c9-aca0-3825a6539d69"
+      }
+    },
+    {
+      "id": "E-GENDER-HTTP",
+      "rule": "POST controller drops validated gender; actual unknown.",
+      "actual": "unknown",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/original-observations01.json",
+        "label": "contact-gender-controller-drop",
+        "requestId": "b6049e52-f6d8-480a-bee5-eeb7b378766c"
+      }
+    },
+    {
+      "id": "followup-postsave-audit-failure",
+      "classification": "existing-baseline-drift",
+      "actualHTTP": 500,
+      "actualBusinessStatus": "voided",
+      "actualNewRows": 0,
+      "rule": "Separate post-business audit failure does not roll back already committed business/Reminder changes.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/original-observations01.json",
+        "label": "followup-postsave-audit-failure",
+        "requestId": "605d1511-bea3-43c2-a748-3f85d2639967"
+      }
+    },
+    {
+      "id": "extra-followup-replace-postsave-audit-failure",
+      "classification": "existing-baseline-drift",
+      "actualHTTP": 500,
+      "actualBusinessStatus": "superseded",
+      "actualNewRows": 1,
+      "rule": "Separate post-business audit failure does not roll back already committed business/Reminder changes.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-followup-replace-postsave-audit-failure",
+        "requestId": "2ab600a9-c0cb-49cd-8b65-30480bddf9fd"
+      }
+    },
+    {
+      "id": "extra-followup-replace-same-owner-no-next",
+      "rule": "Preserve managed-object/DB-stream overlay instead of eager SQL cancel.",
+      "actualOldTodoStatus": "completed",
+      "actualNewTodoCount": 0,
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-followup-replace-same-owner-no-next",
+        "requestId": "718f75bf-d20c-4f8c-a566-6b51ffae165e"
+      }
+    },
+    {
+      "id": "extra-followup-replace-different-owner",
+      "rule": "Preserve managed-object/DB-stream overlay instead of eager SQL cancel.",
+      "actualOldTodoStatus": "canceled",
+      "actualNewTodoCount": 1,
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-followup-replace-different-owner",
+        "requestId": "015927a8-c70c-44d0-9b08-1c1ba7e7c414"
+      }
+    },
+    {
+      "id": "extra-followup-replace-null-owner",
+      "rule": "Preserve managed-object/DB-stream overlay instead of eager SQL cancel.",
+      "actualOldTodoStatus": "canceled",
+      "actualNewTodoCount": 0,
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-followup-replace-null-owner",
+        "requestId": "9c6509fe-3690-4a59-94aa-ff198df8fe33"
+      }
+    },
+    {
+      "id": "extra-cost-list-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-cost-list-pending-session",
+        "requestId": "631e22f0-2954-456d-8011-6b9aac2e053c"
+      }
+    },
+    {
+      "id": "extra-cost-workspace-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-cost-workspace-pending-session",
+        "requestId": "cc3ae6a4-ecab-44e2-8779-0808d41ad370"
+      }
+    },
+    {
+      "id": "extra-bid-list-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-bid-list-pending-session",
+        "requestId": "285a92bd-78a4-4e1d-ae25-35e42f5c783b"
+      }
+    },
+    {
+      "id": "extra-bid-workspace-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-bid-workspace-pending-session",
+        "requestId": "b00a95a1-9b34-48be-9690-c7691d17c165"
+      }
+    },
+    {
+      "id": "extra-pricing-list-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-pricing-list-pending-session",
+        "requestId": "d1257264-f2d7-447d-b1cc-bf9eae012d84"
+      }
+    },
+    {
+      "id": "extra-pricing-workspace-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-pricing-workspace-pending-session",
+        "requestId": "f7e0817e-9668-4f24-9055-f432bb5a7bc7"
+      }
+    },
+    {
+      "id": "extra-contact-list-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-contact-list-pending-session",
+        "requestId": "072027e4-686e-4e97-9277-a48245b51631"
+      }
+    },
+    {
+      "id": "extra-followup-list-pending-session",
+      "actualVersionDeltas": [
+        1
+      ],
+      "rule": "Immediate guard touch only; read service does not flush pending session.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-followup-list-pending-session",
+        "requestId": "3ab94934-d28e-4303-8a58-1c9d8ee32183"
+      }
+    },
+    {
+      "id": "extra-contact-update-denial-rolls-back-prior-audit",
+      "rule": "Later actual business-write failure rolls back already-inserted audit/Todo in the observed transaction.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-contact-update-denial-rolls-back-prior-audit",
+        "requestId": "2b6ef233-de72-4b35-9fcf-48dfe0a6e311"
+      }
+    },
+    {
+      "id": "extra-followup-insert-denial-rolls-back-prior-todo",
+      "rule": "Later actual business-write failure rolls back already-inserted audit/Todo in the observed transaction.",
+      "evidence": {
+        "file": "docs/design/rust-r3cdefg/native/additional-observations02.json",
+        "label": "extra-followup-insert-denial-rolls-back-prior-todo",
+        "requestId": "d3ec96df-e16e-4c6a-a582-4f7cdc2d2da5"
+      }
+    }
+  ],
+  "additionalRules": {
+    "exactNumericTextAuthority": "docs/design/rust-r3cdefg/native/exact-numeric-text-and-audit03.json",
+    "errorConstraintAuthority": "docs/design/rust-r3cdefg/native/original-error-classification03.json",
+    "SQLSTATEUnobserved": true,
+    "SQLAuthorities": [
+      "docs/design/rust-r3cdefg/native/SQL-order-authority02.json",
+      "docs/design/rust-r3cdefg/native/additional-SQL-authority03.json"
+    ],
+    "unconstructibleFixtures": "No NOT NULL/CHECK/unique/FK weakening; original invalid enums and multi-current negatives remain DB rejection/not-constructible.",
+    "UIvsAuth": "Four platform/browser/backend combinations are distinct from Cookie/Bearer authentication vectors.",
+    "authorScope": "All five http.rs belong to Root even when an author matrix abbreviates a module directory."
+  },
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

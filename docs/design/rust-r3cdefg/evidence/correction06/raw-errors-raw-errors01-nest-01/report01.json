@@ -1,0 +1,1962 @@
+{
+  "kind": "R3CDEFG-actual-original-UTF16-error-correction-witness",
+  "createdAt": "2026-11-02T05:52:04.582Z",
+  "backend": "nest",
+  "tag": "raw-errors01",
+  "attempt": "01",
+  "runId": "eb7197ef-8f7f-4a0a-8320-2d75b2323601",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+  "sources": [
+    {
+      "file": "tools/rust-r3cdefg/raw-errors.mjs",
+      "bytes": 5518,
+      "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8"
+    },
+    {
+      "file": "tools/rust-r3cdefg/wire-client.mjs",
+      "bytes": 4063,
+      "rawBytesSha256": "1416d3bb8149c93042aa9910aa547cff2ffa7dfce234f72c32407e140780afa2"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+      "bytes": 14332,
+      "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+      "bytes": 6276,
+      "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+    }
+  ],
+  "completed": true,
+  "error": null,
+  "events": [
+    {
+      "label": "cost.high",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\ud800B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "44380f2e-04c1-4ef5-bdee-d6fe6938b15e",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\ud800B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "d4fde665-159e-4903-8d12-021ac50efc22",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "119",
+          "ETag",
+          "W/\"77-zWO5H/bLf0JFz0shRPGYUVjRRfg\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1403,
+          "requestSha256": "5ccab6b7c53d3e49b6502223fd93d0f92c03880780742b8b851b4757bd0b60ca",
+          "responseBytes": 443,
+          "responseSha256": "a662b5e2751bec7983120a58ceedc0a5d3b27a09875b55c472ed9296a3674953",
+          "entityBodyBytes": 119,
+          "entityBodySha256": "7615bed079a37420d5c38b1138c303786bd3c3c0c3f5ebc1eb482c4f3c47b001",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-d4fde665-159e-4903-8d12-021ac50efc22",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.low",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\udc00B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "26642919-dc7c-492d-adec-e3d1fbc939f1",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\udc00B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "a8350922-db24-41d5-a186-61d688c8f0cc",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "119",
+          "ETag",
+          "W/\"77-3D2Yx17klHipAL0F0ZTLO+g1vo8\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1403,
+          "requestSha256": "2bb493b697a76b3f50e265bdb45569bfef09cfd8f00ef8046b7d22cbb607cd18",
+          "responseBytes": 443,
+          "responseSha256": "ef01e64013ca17d663007180bfd6fcd181ff00b66d5b0f0c33aabe3764c6f825",
+          "entityBodyBytes": 119,
+          "entityBodySha256": "3533854983d4e08ac1ebcaf21a2161541b1a10d19f8e73bbcef840626dc49e84",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-a8350922-db24-41d5-a186-61d688c8f0cc",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.astral",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A😀B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "7a36a08c-8a90-4824-a748-0073164b4a7e",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A😀B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "734b6d12-6bd5-400d-9287-2a737300fedc",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "117",
+          "ETag",
+          "W/\"75-P3xORde+iJiMawJIKwXvqzsOulU\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1401,
+          "requestSha256": "c36ca951e077e309a1360d528954bc8f32de4fdbbdaa770fffc8710c679377de",
+          "responseBytes": 441,
+          "responseSha256": "3932dac6cb2c08f5a078497a9f0d71e914ce528f4eb9df22cfa7c23148460be6",
+          "entityBodyBytes": 117,
+          "entityBodySha256": "87746c09c55b5dc3e6ab4edba2025f0a914b1c4e0f45c3974504e655f785284a",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-734b6d12-6bd5-400d-9287-2a737300fedc",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.ascii",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "USD",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "c74e849e-80a3-4500-b2a6-0e4d6bc26193",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode USD",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "5188bf50-2e9f-497a-b299-718a7f051d40",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "114",
+          "ETag",
+          "W/\"72-MWyN/wWVlHscfeR8IHlxR3qRdRg\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1398,
+          "requestSha256": "b559b2a9ed0ca3c5360bc38441fb2725b6d4dc2a8a74f23d061873d058e6d98c",
+          "responseBytes": 438,
+          "responseSha256": "ff4754f1cf0e7df875c8952d540a56c215089dcde8d0889f203b873f85ef5c1c",
+          "entityBodyBytes": 114,
+          "entityBodySha256": "fc01adc38ffd4c5ed98ee176afb5b3a272d178c147bef1994262d978f3947e66",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-5188bf50-2e9f-497a-b299-718a7f051d40",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.nul",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\u0000B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "b9be2f0b-f89b-4ddb-bc90-fb8a6b89cb5c",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\u0000B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "a2700d85-b185-4d07-9885-2627d38c8b33",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "119",
+          "ETag",
+          "W/\"77-KYt7mh5otWHMtRSD78cVMvw/PPU\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1403,
+          "requestSha256": "d530a9e3983d2e044a5297c2677b4de03b500446fcd854cbb0b596e56691f6af",
+          "responseBytes": 443,
+          "responseSha256": "245fa319ea209689bcc79d50c019867903ba3639443a7949787891319dd75115",
+          "entityBodyBytes": 119,
+          "entityBodySha256": "f0f9e14460238de962b86a79c9a53342d3ffc72929e76e6b7f54d8c10409dcdf",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-a2700d85-b185-4d07-9885-2627d38c8b33",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.quote",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\"B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "8cf8bd5d-61e1-4ef2-aa6e-6d7407c0ec67",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\"B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "6cb2043e-dfe6-49cb-a027-b65cc78fa15d",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "115",
+          "ETag",
+          "W/\"73-YzHRfAQxt4HOgWpGTs5MefexiwQ\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1399,
+          "requestSha256": "24769adb303db4d5b67567108293bcf9b1a445c7d75386d5d922d83e95c828bb",
+          "responseBytes": 439,
+          "responseSha256": "2546db68559507ad13cf9855ba8ded76d1458daf5688ad94dd9e31b6b8673e34",
+          "entityBodyBytes": 115,
+          "entityBodySha256": "44ce0adac9a7af16b62a9587dfadad129e1fd90b1f715a23bd6a03702f831d9e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-6cb2043e-dfe6-49cb-a027-b65cc78fa15d",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.slash",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\\B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "9b30e094-8c50-4f1b-a01c-c57574f245db",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\\B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "25203b41-41b2-4751-bf90-0992ef502176",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "115",
+          "ETag",
+          "W/\"73-K6QciFw9I84iV15zUTLuFJQL18I\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1399,
+          "requestSha256": "f479fa842426880c47810598d518831657731f455331a1edda3259580ba0fc24",
+          "responseBytes": 439,
+          "responseSha256": "6f3bd23b0239840e51556ff3d439cea980a48a871dc2a5047e273042b0c70119",
+          "entityBodyBytes": 115,
+          "entityBodySha256": "2aee7e0fae6d4edf5c32b4a761908d3e6cd17ea0e2a518f1c525223b0f7e2851",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-25203b41-41b2-4751-bf90-0992ef502176",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.trim-high",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": " \tA\ud800B ",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "76e9501f-38fa-4365-85dc-c759d7d3f3f7",
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\ud800B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "40556c4c-780a-439e-9a91-1cfd4819a156",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "119",
+          "ETag",
+          "W/\"77-zWO5H/bLf0JFz0shRPGYUVjRRfg\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1408,
+          "requestSha256": "b169727c04026d0d4d57e6dabb53d5ae0b09f617c5019f731149d96e2248c88c",
+          "responseBytes": 443,
+          "responseSha256": "a662b5e2751bec7983120a58ceedc0a5d3b27a09875b55c472ed9296a3674953",
+          "entityBodyBytes": 119,
+          "entityBodySha256": "7615bed079a37420d5c38b1138c303786bd3c3c0c3f5ebc1eb482c4f3c47b001",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-40556c4c-780a-439e-9a91-1cfd4819a156",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.matched-high",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\ud800B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "A\ud800B",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "2b7356ef-c01e-4cd1-a3e6-c18f84e7bf3d",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "dc040689-e89a-4478-8f9c-2ea417071855",
+          "projectId": "2b7356ef-c01e-4cd1-a3e6-c18f84e7bf3d",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "A\ud800B",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalTaxCostAmount": "13.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T05:52:04.436Z",
+          "createdAt": "2026-11-02T05:52:04.436Z",
+          "createdBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+          "updatedAt": "2026-11-02T05:52:04.436Z",
+          "updatedBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+          "rowVersion": 1
+        },
+        "requestId": "51d423dd-7ef8-4d4b-85b0-369e6b9ada7d",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "809",
+          "ETag",
+          "W/\"329-Xout60o+Xi4UyU4T0oTyDdwm4Ak\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1408,
+          "requestSha256": "4d067ef02da75de662a88a0562fc23b4f036c7287a3b428f1f0f4cf8274c51c0",
+          "responseBytes": 1130,
+          "responseSha256": "e4b4b67510e69542109222156073c85bc22e2fd6e3ecd9906b613c8fe2117506",
+          "entityBodyBytes": 809,
+          "entityBodySha256": "772eae7e37eca0fb3065fbeccd6f667ed325181fe1854a9df697768512e193d6",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-51d423dd-7ef8-4d4b-85b0-369e6b9ada7d",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.matched-low",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A\udc00B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "A\udc00B",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "e17b99a7-7fdd-45f4-b0f8-e30a1b5384d2",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "b507e1e9-a7b1-4c1e-88cd-d38a7976316b",
+          "projectId": "e17b99a7-7fdd-45f4-b0f8-e30a1b5384d2",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "A\udc00B",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalTaxCostAmount": "13.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T05:52:04.489Z",
+          "createdAt": "2026-11-02T05:52:04.489Z",
+          "createdBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+          "updatedAt": "2026-11-02T05:52:04.489Z",
+          "updatedBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+          "rowVersion": 1
+        },
+        "requestId": "0a2fb6f7-6218-40d8-9d5c-a795055412b5",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "809",
+          "ETag",
+          "W/\"329-o3f/hVKDhHDbYHTyXI1dpDFSwK0\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1408,
+          "requestSha256": "a6c2edfce558ff33cd07f1094e1f86ca16cc90ace00d9e470ee0f2e15cc794bd",
+          "responseBytes": 1130,
+          "responseSha256": "9553ce2a2ccc8d771b9ff81908b3a32088d7ce398d471adf12b6c2e2098ea4e1",
+          "entityBodyBytes": 809,
+          "entityBodySha256": "7fd7eaa9747b0fd1ace15d14d713c699e3f0ba9a5b4f6e3454559f10db2526d5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-0a2fb6f7-6218-40d8-9d5c-a795055412b5",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "cost.matched-astral",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "A😀B",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.00",
+            "taxCostAmount": "13.00",
+            "amountIncludingTax": "113.00",
+            "currencyCode": "A😀B",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "projectId": "aacf3eb7-c906-4028-98e3-041eec8aec4e",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "36f1e61c-fe15-4d59-a4da-935e2bb4082e",
+          "projectId": "aacf3eb7-c906-4028-98e3-041eec8aec4e",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "A😀B",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalTaxCostAmount": "13.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T05:52:04.537Z",
+          "createdAt": "2026-11-02T05:52:04.537Z",
+          "createdBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+          "updatedAt": "2026-11-02T05:52:04.537Z",
+          "updatedBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+          "rowVersion": 1
+        },
+        "requestId": "d8eb0fdc-31fb-4590-afcc-46b43e39339b",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "807",
+          "ETag",
+          "W/\"327-Uj9BgAfru4Ubw3gZhQQcnWbaWOg\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 1404,
+          "requestSha256": "db897fe982b94d20aa4a47bfe979d12556cc5b088c7486874167a9f39928fac4",
+          "responseBytes": 1128,
+          "responseSha256": "6c7595f92442679000f3c42eae05d740cb3567da91b9dac34fae5b220da6345a",
+          "entityBodyBytes": 807,
+          "entityBodySha256": "5701ed2189fe6352a682c6bbcda17d878a20821431c4ca0a730eb235642efbd2",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-d8eb0fdc-31fb-4590-afcc-46b43e39339b",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "followup.high",
+      "request": {
+        "customerId": "26643513-5988-4155-8a22-194f0c75ee98",
+        "followUpType": "A\ud800B",
+        "occurredAt": "2026-11-02T00:00:00.000Z",
+        "summary": "ASCII-only dictionary negative",
+        "outcome": "progress"
+      },
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "regex",
+              "pattern": "/^[a-z][a-z0-9-]*$/",
+              "path": [
+                "followUpType"
+              ],
+              "message": "Dictionary code must use lower kebab-case"
+            }
+          ]
+        },
+        "requestId": "cf803aad-8dbe-44d6-852d-c9880a430a0d",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "230",
+          "ETag",
+          "W/\"e6-qccdpVbX/RL16yaz4EPl0A6y8dU\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 603,
+          "requestSha256": "1a47153fa02958c6625fdc81774df27d840507873a39f0a28fecf8ae79891bca",
+          "responseBytes": 554,
+          "responseSha256": "487624ae7cf37c2b7739ec4f34409dfb600a6f4c833072a70196969589bae109",
+          "entityBodyBytes": 230,
+          "entityBodySha256": "e645653d7e679787b77d395aef96dccb8b926a7ec8b3b424964d5e1c5f282d8e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-cf803aad-8dbe-44d6-852d-c9880a430a0d",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "followup.low",
+      "request": {
+        "customerId": "26643513-5988-4155-8a22-194f0c75ee98",
+        "followUpType": "A\udc00B",
+        "occurredAt": "2026-11-02T00:00:00.000Z",
+        "summary": "ASCII-only dictionary negative",
+        "outcome": "progress"
+      },
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "regex",
+              "pattern": "/^[a-z][a-z0-9-]*$/",
+              "path": [
+                "followUpType"
+              ],
+              "message": "Dictionary code must use lower kebab-case"
+            }
+          ]
+        },
+        "requestId": "996cbada-b620-4948-bb31-dfe8cf9a36d1",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "230",
+          "ETag",
+          "W/\"e6-qccdpVbX/RL16yaz4EPl0A6y8dU\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 603,
+          "requestSha256": "570312eb16a5d0c03a31ffe65f656fa554a29edd40c969c82a83da64e1bb3656",
+          "responseBytes": 554,
+          "responseSha256": "487624ae7cf37c2b7739ec4f34409dfb600a6f4c833072a70196969589bae109",
+          "entityBodyBytes": 230,
+          "entityBodySha256": "e645653d7e679787b77d395aef96dccb8b926a7ec8b3b424964d5e1c5f282d8e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-996cbada-b620-4948-bb31-dfe8cf9a36d1",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "followup.astral",
+      "request": {
+        "customerId": "26643513-5988-4155-8a22-194f0c75ee98",
+        "followUpType": "A😀B",
+        "occurredAt": "2026-11-02T00:00:00.000Z",
+        "summary": "ASCII-only dictionary negative",
+        "outcome": "progress"
+      },
+      "HTTP": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "regex",
+              "pattern": "/^[a-z][a-z0-9-]*$/",
+              "path": [
+                "followUpType"
+              ],
+              "message": "Dictionary code must use lower kebab-case"
+            }
+          ]
+        },
+        "requestId": "0dfd70d4-7fbd-400a-a2cf-68c8a471d6f0",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12300",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "230",
+          "ETag",
+          "W/\"e6-qccdpVbX/RL16yaz4EPl0A6y8dU\"",
+          "Date",
+          "Mon, 02 Nov 2026 05:52:04 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 601,
+          "requestSha256": "fd00b2a5a3e2d594a786888bc891a5476c308f100fd25722e6a3d7f5b617bf4f",
+          "responseBytes": 554,
+          "responseSha256": "487624ae7cf37c2b7739ec4f34409dfb600a6f4c833072a70196969589bae109",
+          "entityBodyBytes": 230,
+          "entityBodySha256": "e645653d7e679787b77d395aef96dccb8b926a7ec8b3b424964d5e1c5f282d8e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-errors01/raw-wire/admin-0dfd70d4-7fbd-400a-a2cf-68c8a471d6f0",
+          "originalRawRetained": true
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "label": "cost.high",
+      "status": 400,
+      "requestCodeUnits": [
+        65,
+        55296,
+        66
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        55296,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.low",
+      "status": 400,
+      "requestCodeUnits": [
+        65,
+        56320,
+        66
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        56320,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.astral",
+      "status": 400,
+      "requestCodeUnits": [
+        65,
+        55357,
+        56832,
+        66
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        55357,
+        56832,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.ascii",
+      "status": 400,
+      "requestCodeUnits": [
+        85,
+        83,
+        68
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        85,
+        83,
+        68
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.nul",
+      "status": 400,
+      "requestCodeUnits": [
+        65,
+        0,
+        66
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        0,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.quote",
+      "status": 400,
+      "requestCodeUnits": [
+        65,
+        34,
+        66
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        34,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.slash",
+      "status": 400,
+      "requestCodeUnits": [
+        65,
+        92,
+        66
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        92,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.trim-high",
+      "status": 400,
+      "requestCodeUnits": [
+        32,
+        9,
+        65,
+        55296,
+        66,
+        160
+      ],
+      "messageCodeUnits": [
+        99,
+        111,
+        115,
+        116,
+        73,
+        116,
+        101,
+        109,
+        115,
+        91,
+        48,
+        93,
+        46,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        109,
+        117,
+        115,
+        116,
+        32,
+        101,
+        113,
+        117,
+        97,
+        108,
+        32,
+        112,
+        97,
+        99,
+        107,
+        97,
+        103,
+        101,
+        32,
+        99,
+        117,
+        114,
+        114,
+        101,
+        110,
+        99,
+        121,
+        67,
+        111,
+        100,
+        101,
+        32,
+        65,
+        55296,
+        66
+      ],
+      "originalBodyCurrency": null,
+      "originalItemCurrency": null,
+      "storedCurrencies": [],
+      "rowCount": 0,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.matched-high",
+      "status": 201,
+      "requestCodeUnits": [
+        65,
+        55296,
+        66
+      ],
+      "messageCodeUnits": null,
+      "originalBodyCurrency": "A\ud800B",
+      "originalItemCurrency": null,
+      "storedCurrencies": [
+        "A�B"
+      ],
+      "rowCount": 1,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.matched-low",
+      "status": 201,
+      "requestCodeUnits": [
+        65,
+        56320,
+        66
+      ],
+      "messageCodeUnits": null,
+      "originalBodyCurrency": "A\udc00B",
+      "originalItemCurrency": null,
+      "storedCurrencies": [
+        "A�B"
+      ],
+      "rowCount": 1,
+      "auditCount": 0
+    },
+    {
+      "label": "cost.matched-astral",
+      "status": 201,
+      "requestCodeUnits": [
+        65,
+        55357,
+        56832,
+        66
+      ],
+      "messageCodeUnits": null,
+      "originalBodyCurrency": "A😀B",
+      "originalItemCurrency": null,
+      "storedCurrencies": [
+        "A😀B"
+      ],
+      "rowCount": 1,
+      "auditCount": 0
+    },
+    {
+      "label": "followup.high",
+      "status": 400,
+      "body": {
+        "statusCode": 400,
+        "message": "Validation failed",
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "followUpType"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "label": "followup.low",
+      "status": 400,
+      "body": {
+        "statusCode": 400,
+        "message": "Validation failed",
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "followUpType"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "label": "followup.astral",
+      "status": 400,
+      "body": {
+        "statusCode": 400,
+        "message": "Validation failed",
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "followUpType"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    }
+  ],
+  "credentialsOnlyPrivate": true,
+  "comparisonNormalization": "None for fixed error bodies, code units and explicit PG currencies",
+  "cleanup": "Owned whole cohort terminal pending",
+  "G3Certified": false,
+  "G4Certified": false
+}

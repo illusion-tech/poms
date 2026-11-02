@@ -1,0 +1,114 @@
+# A 模块接口与时序候选（供 Root 联合 G1）
+
+此文件定义静态接口候选，不含产品实现。Root 已认可 Service/公开 store 方向，实际错误及 UoW 时序在 Native witness 后冻结。Issue：R3C #88 / R3G #92。共同基线：`0fced204c917a37b84a2ad50838e722e764b8f78`。
+
+## 1. 接线归属与入口
+
+- A 独占两个模块的 `mod.rs / model.rs / validation.rs / store.rs / service.rs` 及授权后的模块内必要文件；Root 写所有 `http.rs`、lib/root、共享错误桥、Cargo、原 projects 和生成契约。
+- 共同返回复用现 public `projects::model::Wire`；DB读取的 summary 使用 `serde_json::Value`。POST summary 的用户文本需要用原 JsString 覆盖，保证原UTF-16与DB边界各自语义。
+- 入口候选（两个模块同型，Request/Row为各自具体类型；名称可由 Root统一）：
+
+```rust
+pub struct ProjectTechnicalCostService { /* Database only; no new shared state */ }
+pub struct ProjectPricingMarginService { /* Database only; no new shared state */ }
+
+impl ProjectTechnicalCostService {
+    pub fn new(database: Database) -> Self;
+    pub async fn list(&self, project_id: &str) -> Result<Wire, ProjectTechnicalCostError>;
+    pub async fn workspace(&self, project_id: &str, session: &ResolvedSession)
+        -> Result<Wire, ProjectTechnicalCostError>;
+    pub async fn create(&self, project_id: &str, input: CreateTechnicalCostPackage,
+        session: &ResolvedSession) -> Result<Wire, ProjectTechnicalCostError>;
+}
+impl ProjectPricingMarginService {
+    pub fn new(database: Database) -> Self;
+    pub async fn list(&self, project_id: &str) -> Result<Wire, ProjectPricingMarginError>;
+    pub async fn workspace(&self, project_id: &str, session: &ResolvedSession)
+        -> Result<Wire, ProjectPricingMarginError>;
+    pub async fn create(&self, project_id: &str, input: CreatePricingMarginReview,
+        session: &ResolvedSession) -> Result<Wire, ProjectPricingMarginError>;
+}
+
+// Owned module validation exports raw-body compatible parsing; root http owns calling order.
+pub fn validate_create(raw: Option<&str>) -> Result<Request, ApiError>;
+```
+
+guard、CSRF、权限、path decode、ParsedBody处理由 Root http 统一；模型解析不能采用 `serde_json::Value` 提前损失孤立surrogate，也不能把missing/null合并后再补schema错误。DTO仅本两模块，原TS及shared-contracts不改。
+
+## 2. 公共生产者读取（成本 → 报价）
+
+```rust
+pub async fn current(connection: &mut PgConnection, project_id: &str)
+    -> Result<Option<TechnicalCostPackageRow>, sqlx::Error>;
+pub async fn by_id(connection: &mut PgConnection, id: Uuid)
+    -> Result<Option<TechnicalCostPackageRow>, sqlx::Error>;
+pub fn summary(row: &TechnicalCostPackageRow) -> serde_json::Value;
+```
+
+current谓词必须是 `project_id = $id::uuid AND is_current = true AND status = 'effective'`，排序 `version DESC,effective_at DESC,created_at DESC`；by_id只查id，不加current/status/project筛选。不能把current行按id比较改为直接by_id+标志判定，从而改变原时序/错误。
+
+`TechnicalCostPackageRow` 公开全部summary所需字段（snake_case Rust名，字段对应原DB列）：
+
+| 字段 | 类型 / 对外语义 |
+| --- | --- |
+| id, project_id | `Uuid`；DB规范UUID；summary canonical字符串 |
+| version, blocker_count, row_version | `i32`；version/rowVersion按实际ORM变更读取 |
+| is_current, allow_next_stage | `bool` |
+| supersedes_id, created_by, updated_by | `Option<Uuid>` |
+| status, technical_feasibility_decision, technical_conclusion_summary, currency_code, tax_assumption_summary, tax_review_status | `String` |
+| total_estimated_amount_excluding_tax, total_tax_cost_amount, total_estimated_amount_including_tax | `String`，SQL numeric `::text`，不reformat |
+| highest_risk_level | `Option<String>` |
+| effective_at, created_at, updated_at | `DateTime<Utc>`；summary用JS兼容ISO |
+
+pricing前置current读取只用id/currency进行业务校验；不借读出的allow/tax/blocker加强命令。pricing workspace使用`review.technical_cost_package_id`调用by_id读取历史summary。
+
+## 3. Bid作者公开同型接口（Root协调）
+
+```rust
+pub async fn current(connection: &mut PgConnection, project_id: &str)
+    -> Result<Option<BidCommercialProcessRow>, sqlx::Error>;
+pub async fn by_id(connection: &mut PgConnection, id: Uuid)
+    -> Result<Option<BidCommercialProcessRow>, sqlx::Error>;
+pub fn summary(row: &BidCommercialProcessRow) -> serde_json::Value;
+```
+
+- current谓词、排序同成本但表为`project_bid_commercial_process`；by_id不加current/status/project条件。
+- 前置业务必须公开 `id: Uuid, bid_mode: String, decision: String, result_status: String, blocker_count: i32`。业务仅按Native已用字段判定，decision/blocker虽读得到也不新增校验。
+- 完整summary字段：`id,projectId,version,isCurrent,supersedesId,status,bidMode,currentStage,decision,resultStatus,processSummary,decisionSummary,resultSummary,tenderNo,bidPackageNo,ownerRole,blockerCount,effectiveAt,createdAt,createdBy,updatedAt,updatedBy,rowVersion`。公开Row或公开封装可按作者模块一致风格；pricing需要summary来构造workspace，不能自己拼一个缩水版。
+- pricing没有bid引用时不调用by_id；有引用的workspace使用已存review.bidCommercialProcessId，保留历史superseded记录。
+- 不读取bid material/timeline子表，不从其blocker推导pricing状态。
+
+## 4. 已有公共能力与不可调用边界
+
+- 可读/复用：`projects::store::{ProjectRow,find,user_names,org_names}`、`projects::model::{Wire,trim_js}`；auth公开request-local ResolvedSession / AuthUser；public `auth::store::flush_managed_session`；compat公开 `legacy_number/js_to_fixed/js_iso_string`；JsString/JsObject。
+- 旧 `projects::validation` 的私有uuid/enumeration/datetime helper不导入；dictionary仅使用已经公开到crate的窄API且由Root确认可共享，或A本模块精确复现issue结构。不得变更旧文件给自己开后门。
+- 原 `auth::model::clock_now` 为crate可见；若Root认可可作为同crate时间源，所有新模块沿用它；否则Root给公共窄clock接口。不能在A创建另一套全局假时间/测试控制。
+- Root持有shared error bridge。模块error最小为 `NotFound(String), BadRequest(String), Database(DbError), Internal`；并发Native若产生需保留的ORM版本冲突域型，Root见证后追加具体case；不预置所有SQL23505/23503→409/400映射。
+- 数据库操作用原Database.with_connection，SQLx Transaction；禁止raw BEGIN/COMMIT、绕开超时/连接隔离。是否何时进入transaction、更新旧current和pending session，按Native witness冻结。
+
+## 5. HTTP错误映射清单（错误桥由Root实现）
+
+- 404：`Project ${projectId} not found`（六方法共同）。保留输入projectId原拼写。
+- C 400：stage限制；`costItems[index].currencyCode must equal package currencyCode X`；`costItems[index].amountIncludingTax must equal amountExcludingTax + taxCostAmount`；`fieldName must be a non-negative decimal`。
+- G 400：stage限制；`technicalCostPackageId must match the current effective technical cost package`；currency不等；`bid pricingPath requires bidCommercialProcessId`；`bidCommercialProcessId must match the current effective bid commercial process`；`current bid commercial process result cannot support bid pricing review`；`direct-commercial pricingPath can only reference a direct-commercial or not-required process`；六引用缺失；rejected baseline；`quoteAmountTaxInclusive must be greater than or equal to quoteAmountTaxExclusive`；decimal finite/nonnegative及signed finite错误。
+- DTO 400由validate_create返回原ApiError Validation failed+errors；不要混入domain BadRequest消息。错误顺序必须与schema声明、service步骤和每数组index顺序一致。
+- DB非法path UUID、numeric/int4 overflow、FK/unique、连接/timeout及ORM乐观版本错误，Root保存Native实际status/message与PG变化后分别映射。未证实前标待Native，不预先承诺409。
+- guard401/403及安全事件在Root共同auth层；本模块不重复写、也不以actor存在性读取增加行为。
+
+## 6. 必须冻结的时间与flush时序
+
+| C技术成本 | G报价 |
+| --- | --- |
+| 查project→stage→按item校验→查旧current→改旧对象三个字段 | 查project→stage→查当前cost→比较id→比较currency→查当前bid→引用校验→金额校验→查旧review→改旧对象三个字段 |
+| 同步按输入序reduce总额→最高风险/计数→`now=new Date()`→new UUID→entity create | new UUID→blockerCount/ready计算→entity create参数中`effectiveAt=new Date()` |
+| package.createdAt与updatedAt各由entity onCreate的新Date调用，effectiveAt不是它们的别名 | review.createdAt与updatedAt同原entity各newDate |
+| 同步创建scope/risk/cost实体、数组缺省/排序，子项未显式传id（默认gen_random_uuid）→单次persist.flush | 同步创建condition、dueAt newDate，子项未显式传id（默认gen_random_uuid）→单次persist.flush |
+
+- 旧current updatedAt由ORM onUpdate `new Date()`，rowVersion由ORM version；不能静态规定它与new effectiveAt严格相等、固定先后或1ms差。Root用固定clock或观察原时序后约束可比较的毫秒和相对变化。
+- Native POST mapper对象未reread，可能仍保留原字符串及new UUID route spelling；GET则DB hydration。createdAt/updatedAt effectiveAt Date→ISO；持久化date高精度/0000年按实际PG驱动见证。
+- 原auth已发生的touchSQL与pending session managed差异单列；Root给本两模块可实施的flush协议，包含查询auto-flush/预检查失败/最终flush失败与并发session。报价读取cost/bid和写review不得凭想象包成更强snapshot事务。
+- G workspace先Promise.all读取owner/org/current review/current cost/current bid；有review再Promise.all读conditions及其历史cost/bid。无review使用第一批current producers；有review忽略第一批current producers而使用第二批保存引用。Root不得为性能合并成改变观测语义的JOIN/snapshot而不验收。
+
+## 7. 未决项与冻结条件
+
+Native见证原件必须回答：旧current更新/INSERT具体SQL顺序、首版/替代版竞争失败类型与atomicity、session dirty flush、numeric POST/GET差异、UUID大小写文本比较、Unicode/Date边界。接口文件是候选，Root联合baseline、非作者Pass与线上G1冻结前不写产品。

@@ -1,0 +1,2404 @@
+{
+  "kind": "R3CDEFG-original-Angular-real-platform-cell",
+  "backend": "nest",
+  "label": "linux-native04",
+  "platform": "linux",
+  "tag": "parity01",
+  "apiRunId": "52ce8997-1946-4472-8e9a-91aa72be7f57",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "createdAt": "2026-11-02T03:49:45.568Z",
+  "input": {
+    "file": "tmp/rust-r3cdefg/ui-input-linux-native04.json",
+    "bytes": 23414,
+    "rawBytesSha256": "538307710d311c826d024691bc25025e31cabc87f2e665004b84d06b66d80b28"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3cdefg/ui-run.mjs",
+      "bytes": 8284,
+      "rawBytesSha256": "c7ff67ed6d062e167748cec8cd3b57dd5f1ddb7bbed5620b3c38f681249aa37b"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "b20250e430554fe5f3225e150f5016cc8a502bf4934f68bd7b00927e9ba403a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "bytes": 26295,
+      "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-journey01.mjs",
+      "bytes": 23214,
+      "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+    }
+  ],
+  "browser": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "bytes": 197422408,
+    "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+  },
+  "timezone": "Asia/Tokyo",
+  "result": "Failed-partial-retained",
+  "completed": false,
+  "errorName": "AssertionError",
+  "failedStage": "cost-bid-pricing-original-UI",
+  "observations": [
+    {
+      "label": "customer-journey.linux-native04.source-boundary",
+      "value": {
+        "structure": "original customer workspace section-navigation buttons and dialogs",
+        "existingCustomerProducer": "Root supplied active customer; this journey creates no customer",
+        "contactProducer": "real UI POST and PATCH",
+        "followUpProducer": "real UI create/replace/void with original UI expectedVersion",
+        "todoConsumer": "Root-supplied real PG reader; this definition does not claim public Todo navigation coverage",
+        "scope": "customer context only; Lead/project producers and out-of-scope workspace requests remain separate",
+        "executedByDefinitionAuthor": false
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.open.http.GET./api/customers/439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customers/439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "customerNo": "CUST-2026-000008",
+          "displayName": "R3CG UI linux-native04 客户",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:49:44.249Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:49:44.249Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "ownerOrgName": "R3CG admin",
+          "leadCount": 0,
+          "projectCount": 3,
+          "contractCount": 0,
+          "aliases": [
+            {
+              "id": "62ee3eca-b415-40de-9fca-b756fb59457c",
+              "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+              "aliasName": "R3CG UI linux-native04 客户",
+              "aliasType": "alias",
+              "normalizedName": "r3cg ui linux-native04 客户",
+              "isPrimary": true,
+              "createdAt": "2026-11-02T03:49:44.249Z",
+              "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+            }
+          ]
+        },
+        "rawBody": "{\"id\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerNo\":\"CUST-2026-000008\",\"displayName\":\"R3CG UI linux-native04 客户\",\"legalName\":null,\"shortName\":null,\"status\":\"active\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"sourceChannel\":null,\"remark\":null,\"mergedIntoCustomerId\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:44.249Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:44.249Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"ownerOrgName\":\"R3CG admin\",\"leadCount\":0,\"projectCount\":3,\"contractCount\":0,\"aliases\":[{\"id\":\"62ee3eca-b415-40de-9fca-b756fb59457c\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"aliasName\":\"R3CG UI linux-native04 客户\",\"aliasType\":\"alias\",\"normalizedName\":\"r3cg ui linux-native04 客户\",\"isPrimary\":true,\"createdAt\":\"2026-11-02T03:49:44.249Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.open.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "rawBody": "[]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.open.http.GET./api/customer-contacts",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customer-contacts?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "rawBody": "[]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.create.gender.dropdown",
+      "value": {
+        "inputId": "salesIntelligenceContactGender",
+        "optionText": "女"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.create.http.POST./api/customer-contacts",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/customer-contacts",
+        "status": 201,
+        "requestBody": {
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "name": "UI联系人 linux-native04",
+          "gender": "female",
+          "department": "UI客户关系部门",
+          "title": "UI岗位 linux-native04",
+          "workPhone": "010-88886666",
+          "mobile": "13812345678",
+          "wechat": "ui-linuxnative04",
+          "email": "linuxnative04@example.test",
+          "remark": "UI联系人创建 linux-native04"
+        },
+        "body": {
+          "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "customerName": "R3CG UI linux-native04 客户",
+          "name": "UI联系人 linux-native04",
+          "gender": "unknown",
+          "department": "UI客户关系部门",
+          "title": "UI岗位 linux-native04",
+          "workPhone": "010-88886666",
+          "mobile": "13812345678",
+          "wechat": "ui-linuxnative04",
+          "email": "linuxnative04@example.test",
+          "remark": "UI联系人创建 linux-native04",
+          "status": "active",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:49:50.739Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:49:50.739Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "rawBody": "{\"id\":\"1f68a4cf-82cc-458a-9698-eeeca32826d4\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"name\":\"UI联系人 linux-native04\",\"gender\":\"unknown\",\"department\":\"UI客户关系部门\",\"title\":\"UI岗位 linux-native04\",\"workPhone\":\"010-88886666\",\"mobile\":\"13812345678\",\"wechat\":\"ui-linuxnative04\",\"email\":\"linuxnative04@example.test\",\"remark\":\"UI联系人创建 linux-native04\",\"status\":\"active\",\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:50.739Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:50.739Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.create.http.GET./api/customer-contacts",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customer-contacts?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "name": "UI联系人 linux-native04",
+            "gender": "unknown",
+            "department": "UI客户关系部门",
+            "title": "UI岗位 linux-native04",
+            "workPhone": "010-88886666",
+            "mobile": "13812345678",
+            "wechat": "ui-linuxnative04",
+            "email": "linuxnative04@example.test",
+            "remark": "UI联系人创建 linux-native04",
+            "status": "active",
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:49:50.739Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:50.739Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "rawBody": "[{\"id\":\"1f68a4cf-82cc-458a-9698-eeeca32826d4\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"name\":\"UI联系人 linux-native04\",\"gender\":\"unknown\",\"department\":\"UI客户关系部门\",\"title\":\"UI岗位 linux-native04\",\"workPhone\":\"010-88886666\",\"mobile\":\"13812345678\",\"wechat\":\"ui-linuxnative04\",\"email\":\"linuxnative04@example.test\",\"remark\":\"UI联系人创建 linux-native04\",\"status\":\"active\",\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:50.739Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:50.739Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.created-identifiers",
+      "value": {
+        "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "contactId": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "followUpId": null,
+        "replacementId": null,
+        "todoIds": [
+          "9495c206-203e-4384-a56c-059ac93fa267",
+          "e7618e70-7d46-481a-b19c-1e785ab0530f"
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.create.pg.customer_contact",
+      "value": {
+        "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "row": {
+          "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+          "customer_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "name": "UI联系人 linux-native04",
+          "department": "UI客户关系部门",
+          "title": "UI岗位 linux-native04",
+          "work_phone": "010-88886666",
+          "mobile": "13812345678",
+          "wechat": "ui-linuxnative04",
+          "email": "linuxnative04@example.test",
+          "remark": "UI联系人创建 linux-native04",
+          "status": "active",
+          "row_version": 1,
+          "created_at": "2026-11-02T03:49:50.739Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:50.739Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "gender": "unknown"
+        }
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.create.list.dom",
+      "value": {
+        "text": "UI联系人 linux-native04\n未知\n有效\nUI客户关系部门 · UI岗位 linux-native04\n编辑\n电话：010-88886666\n微信：ui-linuxnative04\n邮箱：linuxnative04@example.test\n\nUI联系人创建 linux-native04"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.edit.gender.dropdown",
+      "value": {
+        "inputId": "salesIntelligenceContactGender",
+        "optionText": "女"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.edit.http.PATCH./api/customer-contacts/1f68a4cf-82cc-458a-9698-eeeca32826d4",
+      "value": {
+        "method": "PATCH",
+        "url": "http://127.0.0.1:12300/api/customer-contacts/1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "status": 200,
+        "requestBody": {
+          "gender": "female",
+          "title": "UI调整岗位 linux-native04",
+          "workPhone": null,
+          "remark": "UI联系人修改 linux-native04"
+        },
+        "body": {
+          "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "customerName": "R3CG UI linux-native04 客户",
+          "name": "UI联系人 linux-native04",
+          "gender": "female",
+          "department": "UI客户关系部门",
+          "title": "UI调整岗位 linux-native04",
+          "workPhone": null,
+          "mobile": "13812345678",
+          "wechat": "ui-linuxnative04",
+          "email": "linuxnative04@example.test",
+          "remark": "UI联系人修改 linux-native04",
+          "status": "active",
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T03:49:50.739Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:49:52.614Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "rawBody": "{\"id\":\"1f68a4cf-82cc-458a-9698-eeeca32826d4\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"name\":\"UI联系人 linux-native04\",\"gender\":\"female\",\"department\":\"UI客户关系部门\",\"title\":\"UI调整岗位 linux-native04\",\"workPhone\":null,\"mobile\":\"13812345678\",\"wechat\":\"ui-linuxnative04\",\"email\":\"linuxnative04@example.test\",\"remark\":\"UI联系人修改 linux-native04\",\"status\":\"active\",\"rowVersion\":2,\"createdAt\":\"2026-11-02T03:49:50.739Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:52.614Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.edit.http.GET./api/customer-contacts",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customer-contacts?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "name": "UI联系人 linux-native04",
+            "gender": "female",
+            "department": "UI客户关系部门",
+            "title": "UI调整岗位 linux-native04",
+            "workPhone": null,
+            "mobile": "13812345678",
+            "wechat": "ui-linuxnative04",
+            "email": "linuxnative04@example.test",
+            "remark": "UI联系人修改 linux-native04",
+            "status": "active",
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T03:49:50.739Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:52.614Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "rawBody": "[{\"id\":\"1f68a4cf-82cc-458a-9698-eeeca32826d4\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"name\":\"UI联系人 linux-native04\",\"gender\":\"female\",\"department\":\"UI客户关系部门\",\"title\":\"UI调整岗位 linux-native04\",\"workPhone\":null,\"mobile\":\"13812345678\",\"wechat\":\"ui-linuxnative04\",\"email\":\"linuxnative04@example.test\",\"remark\":\"UI联系人修改 linux-native04\",\"status\":\"active\",\"rowVersion\":2,\"createdAt\":\"2026-11-02T03:49:50.739Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:52.614Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.edit.pg.customer_contact",
+      "value": {
+        "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "row": {
+          "id": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+          "customer_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "name": "UI联系人 linux-native04",
+          "department": "UI客户关系部门",
+          "title": "UI调整岗位 linux-native04",
+          "work_phone": null,
+          "mobile": "13812345678",
+          "wechat": "ui-linuxnative04",
+          "email": "linuxnative04@example.test",
+          "remark": "UI联系人修改 linux-native04",
+          "status": "active",
+          "row_version": 2,
+          "created_at": "2026-11-02T03:49:50.739Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:52.614Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "gender": "female"
+        }
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.contact.edit.list.dom",
+      "value": {
+        "text": "UI联系人 linux-native04\n女\n有效\nUI客户关系部门 · UI调整岗位 linux-native04\n编辑\n电话：13812345678\n微信：ui-linuxnative04\n邮箱：linuxnative04@example.test\n\nUI联系人修改 linux-native04"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.type.dropdown",
+      "value": {
+        "inputId": "salesFollowUpType",
+        "optionText": "电话"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.outcome.dropdown",
+      "value": {
+        "inputId": "salesFollowUpOutcome",
+        "optionText": "有进展"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.occurred.date-input",
+      "value": {
+        "inputId": "salesFollowUpOccurredAt",
+        "typed": "2030-01-01 10:30",
+        "displayed": "2030-01-01 10:30"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.next.date-input",
+      "value": {
+        "inputId": "salesFollowUpNextAt",
+        "typed": "2030-01-02 09:45",
+        "displayed": "2030-01-02 09:45"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.http.POST./api/sales-follow-up-records",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records",
+        "status": 201,
+        "requestBody": {
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "leadId": null,
+          "projectId": null,
+          "followUpType": "phone",
+          "occurredAt": "2030-01-01T01:30:00.000Z",
+          "summary": "UI跟进 linux-native04",
+          "detail": "UI真实跟进详情 linux-native04",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-01-02T00:45:00.000Z"
+        },
+        "body": {
+          "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "customerName": "R3CG UI linux-native04 客户",
+          "leadId": null,
+          "leadName": null,
+          "projectId": null,
+          "projectName": null,
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2030-01-01T01:30:00.000Z",
+          "summary": "UI跟进 linux-native04",
+          "detail": "UI真实跟进详情 linux-native04",
+          "outcome": "progress",
+          "nextFollowUpAt": "2030-01-02T00:45:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:49:55.949Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:49:55.949Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "rawBody": "{\"id\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI跟进 linux-native04\",\"detail\":\"UI真实跟进详情 linux-native04\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-01-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":null,\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:55.949Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:55.949Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": null,
+            "projectName": null,
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-01-01T01:30:00.000Z",
+            "summary": "UI跟进 linux-native04",
+            "detail": "UI真实跟进详情 linux-native04",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-01-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": null,
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:49:55.949Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:55.949Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "rawBody": "[{\"id\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI跟进 linux-native04\",\"detail\":\"UI真实跟进详情 linux-native04\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-01-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":null,\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:55.949Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:55.949Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.created-identifiers",
+      "value": {
+        "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "contactId": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "followUpId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "replacementId": null,
+        "todoIds": [
+          "9495c206-203e-4384-a56c-059ac93fa267",
+          "e7618e70-7d46-481a-b19c-1e785ab0530f"
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.pg.sales_follow_up_record",
+      "value": {
+        "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "row": {
+          "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "customer_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "lead_id": null,
+          "project_id": null,
+          "follow_up_type": "phone",
+          "occurred_at": "2030-01-01T01:30:00.000Z",
+          "summary": "UI跟进 linux-native04",
+          "detail": "UI真实跟进详情 linux-native04",
+          "outcome": "progress",
+          "next_follow_up_at": "2030-01-02T00:45:00.000Z",
+          "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "row_version": 1,
+          "created_at": "2026-11-02T03:49:55.949Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:55.949Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "status": "active",
+          "supersedes_record_id": null,
+          "replaced_by_record_id": null,
+          "replacement_reason": null,
+          "voided_at": null,
+          "voided_by": null,
+          "void_reason": null
+        }
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.pg.todo_item",
+      "value": {
+        "sourceId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "rows": [
+          {
+            "id": "9495c206-203e-4384-a56c-059ac93fa267",
+            "source_type": "sales-follow-up-record",
+            "source_id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "customer",
+            "target_object_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "project_id": null,
+            "title": "销售跟进提醒：R3CG UI linux-native04 客户",
+            "summary": "UI跟进 linux-native04",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "due_at": "2030-01-02T00:45:00.000Z",
+            "completed_at": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T03:49:55.952Z",
+            "updated_at": "2026-11-02T03:49:55.952Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.created-identifiers",
+      "value": {
+        "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "contactId": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "followUpId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "replacementId": null,
+        "todoIds": [
+          "9495c206-203e-4384-a56c-059ac93fa267",
+          "e7618e70-7d46-481a-b19c-1e785ab0530f"
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.create.list.dom",
+      "value": {
+        "text": "UI跟进 linux-native04\n当前\n有进展\n2030-01-01 10:30\n电话\n客户跟进\nR3CG admin\n下次 01-02 09:45\n更正\n作废\n\nUI真实跟进详情 linux-native04"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.outcome.dropdown",
+      "value": {
+        "inputId": "salesFollowUpOutcome",
+        "optionText": "待客户反馈"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.next.date-input",
+      "value": {
+        "inputId": "salesFollowUpNextAt",
+        "typed": "2030-01-03 10:15",
+        "displayed": "2030-01-03 10:15"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.http.POST./api/sales-follow-up-records/991e83c3-ab62-404a-a441-256ed50cdc84:replace",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records/991e83c3-ab62-404a-a441-256ed50cdc84:replace",
+        "status": 200,
+        "requestBody": {
+          "followUpType": "phone",
+          "occurredAt": "2030-01-01T01:30:00.000Z",
+          "summary": "UI更正 linux-native04",
+          "detail": "UI更正后详情 linux-native04",
+          "outcome": "waiting-customer",
+          "nextFollowUpAt": "2030-01-03T01:15:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "replacementReason": "UI更正原因 linux-native04",
+          "expectedVersion": 1
+        },
+        "body": {
+          "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "customerName": "R3CG UI linux-native04 客户",
+          "leadId": null,
+          "leadName": null,
+          "projectId": null,
+          "projectName": null,
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2030-01-01T01:30:00.000Z",
+          "summary": "UI更正 linux-native04",
+          "detail": "UI更正后详情 linux-native04",
+          "outcome": "waiting-customer",
+          "nextFollowUpAt": "2030-01-03T01:15:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "supersedesId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "replacedById": null,
+          "replacementReason": "UI更正原因 linux-native04",
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T03:49:57.561Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:49:57.561Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "rawBody": "{\"id\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI更正 linux-native04\",\"detail\":\"UI更正后详情 linux-native04\",\"outcome\":\"waiting-customer\",\"nextFollowUpAt\":\"2030-01-03T01:15:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"replacedById\":null,\"replacementReason\":\"UI更正原因 linux-native04\",\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:57.561Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:57.561Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": null,
+            "projectName": null,
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-01-01T01:30:00.000Z",
+            "summary": "UI更正 linux-native04",
+            "detail": "UI更正后详情 linux-native04",
+            "outcome": "waiting-customer",
+            "nextFollowUpAt": "2030-01-03T01:15:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "replacedById": null,
+            "replacementReason": "UI更正原因 linux-native04",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:49:57.561Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:57.561Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "rawBody": "[{\"id\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI更正 linux-native04\",\"detail\":\"UI更正后详情 linux-native04\",\"outcome\":\"waiting-customer\",\"nextFollowUpAt\":\"2030-01-03T01:15:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"replacedById\":null,\"replacementReason\":\"UI更正原因 linux-native04\",\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:57.561Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:57.561Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.created-identifiers",
+      "value": {
+        "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "contactId": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "followUpId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "replacementId": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "todoIds": [
+          "9495c206-203e-4384-a56c-059ac93fa267",
+          "e7618e70-7d46-481a-b19c-1e785ab0530f"
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.old.pg.sales_follow_up_record",
+      "value": {
+        "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "row": {
+          "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "customer_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "lead_id": null,
+          "project_id": null,
+          "follow_up_type": "phone",
+          "occurred_at": "2030-01-01T01:30:00.000Z",
+          "summary": "UI跟进 linux-native04",
+          "detail": "UI真实跟进详情 linux-native04",
+          "outcome": "progress",
+          "next_follow_up_at": "2030-01-02T00:45:00.000Z",
+          "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "row_version": 2,
+          "created_at": "2026-11-02T03:49:55.949Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:57.568Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "status": "superseded",
+          "supersedes_record_id": null,
+          "replaced_by_record_id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+          "replacement_reason": null,
+          "voided_at": null,
+          "voided_by": null,
+          "void_reason": null
+        }
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.new.pg.sales_follow_up_record",
+      "value": {
+        "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "row": {
+          "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+          "customer_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "lead_id": null,
+          "project_id": null,
+          "follow_up_type": "phone",
+          "occurred_at": "2030-01-01T01:30:00.000Z",
+          "summary": "UI更正 linux-native04",
+          "detail": "UI更正后详情 linux-native04",
+          "outcome": "waiting-customer",
+          "next_follow_up_at": "2030-01-03T01:15:00.000Z",
+          "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "row_version": 1,
+          "created_at": "2026-11-02T03:49:57.561Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:57.561Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "status": "active",
+          "supersedes_record_id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "replaced_by_record_id": null,
+          "replacement_reason": "UI更正原因 linux-native04",
+          "voided_at": null,
+          "voided_by": null,
+          "void_reason": null
+        }
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.old.pg.todo_item",
+      "value": {
+        "sourceId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "rows": [
+          {
+            "id": "9495c206-203e-4384-a56c-059ac93fa267",
+            "source_type": "sales-follow-up-record",
+            "source_id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "customer",
+            "target_object_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "project_id": null,
+            "title": "销售跟进提醒：R3CG UI linux-native04 客户",
+            "summary": "UI跟进 linux-native04",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "completed",
+            "priority": "normal",
+            "due_at": "2030-01-02T00:45:00.000Z",
+            "completed_at": "2026-11-02T03:49:57.563Z",
+            "row_version": 2,
+            "created_at": "2026-11-02T03:49:55.952Z",
+            "updated_at": "2026-11-02T03:49:57.569Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.new.pg.todo_item",
+      "value": {
+        "sourceId": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "rows": [
+          {
+            "id": "e7618e70-7d46-481a-b19c-1e785ab0530f",
+            "source_type": "sales-follow-up-record",
+            "source_id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "customer",
+            "target_object_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "project_id": null,
+            "title": "销售跟进提醒：R3CG UI linux-native04 客户",
+            "summary": "UI更正 linux-native04",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "open",
+            "priority": "normal",
+            "due_at": "2030-01-03T01:15:00.000Z",
+            "completed_at": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T03:49:57.567Z",
+            "updated_at": "2026-11-02T03:49:57.567Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.created-identifiers",
+      "value": {
+        "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "contactId": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "followUpId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "replacementId": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "todoIds": [
+          "9495c206-203e-4384-a56c-059ac93fa267",
+          "e7618e70-7d46-481a-b19c-1e785ab0530f"
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.replace.list.dom",
+      "value": {
+        "text": "UI更正 linux-native04\n当前\n待客户反馈\n2030-01-01 10:30\n电话\n客户跟进\nR3CG admin\n下次 01-03 10:15\n更正\n作废\n\nUI更正后详情 linux-native04\n\n更正原因：UI更正原因 linux-native04"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.history.on.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=all",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": null,
+            "projectName": null,
+            "followUpType": "phone",
+            "status": "active",
+            "occurredAt": "2030-01-01T01:30:00.000Z",
+            "summary": "UI更正 linux-native04",
+            "detail": "UI更正后详情 linux-native04",
+            "outcome": "waiting-customer",
+            "nextFollowUpAt": "2030-01-03T01:15:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "replacedById": null,
+            "replacementReason": "UI更正原因 linux-native04",
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T03:49:57.561Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:57.561Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          },
+          {
+            "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": null,
+            "projectName": null,
+            "followUpType": "phone",
+            "status": "superseded",
+            "occurredAt": "2030-01-01T01:30:00.000Z",
+            "summary": "UI跟进 linux-native04",
+            "detail": "UI真实跟进详情 linux-native04",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-01-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T03:49:55.949Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:57.568Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "rawBody": "[{\"id\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"active\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI更正 linux-native04\",\"detail\":\"UI更正后详情 linux-native04\",\"outcome\":\"waiting-customer\",\"nextFollowUpAt\":\"2030-01-03T01:15:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"replacedById\":null,\"replacementReason\":\"UI更正原因 linux-native04\",\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":1,\"createdAt\":\"2026-11-02T03:49:57.561Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:57.561Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"},{\"id\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"superseded\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI跟进 linux-native04\",\"detail\":\"UI真实跟进详情 linux-native04\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-01-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":2,\"createdAt\":\"2026-11-02T03:49:55.949Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:57.568Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.history.old.dom",
+      "value": {
+        "text": "UI跟进 linux-native04\n已替代\n有进展\n2030-01-01 10:30\n电话\n客户跟进\nR3CG admin\n\nUI真实跟进详情 linux-native04"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.http.POST./api/sales-follow-up-records/1c8ffb71-7826-4cdd-a770-ac53f0a70372:void",
+      "value": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records/1c8ffb71-7826-4cdd-a770-ac53f0a70372:void",
+        "status": 200,
+        "requestBody": {
+          "reason": "UI作废原因 linux-native04",
+          "comment": "UI补充说明 linux-native04",
+          "expectedVersion": 1
+        },
+        "body": {
+          "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+          "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "customerName": "R3CG UI linux-native04 客户",
+          "leadId": null,
+          "leadName": null,
+          "projectId": null,
+          "projectName": null,
+          "followUpType": "phone",
+          "status": "voided",
+          "occurredAt": "2030-01-01T01:30:00.000Z",
+          "summary": "UI更正 linux-native04",
+          "detail": "UI更正后详情 linux-native04",
+          "outcome": "waiting-customer",
+          "nextFollowUpAt": "2030-01-03T01:15:00.000Z",
+          "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "ownerName": "R3CG admin",
+          "supersedesId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "replacedById": null,
+          "replacementReason": "UI更正原因 linux-native04",
+          "voidedAt": "2026-11-02T03:49:58.566Z",
+          "voidedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "voidedByName": "R3CG admin",
+          "voidReason": "UI作废原因 linux-native04: UI补充说明 linux-native04",
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T03:49:57.561Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:49:58.568Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+        },
+        "rawBody": "{\"id\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"voided\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI更正 linux-native04\",\"detail\":\"UI更正后详情 linux-native04\",\"outcome\":\"waiting-customer\",\"nextFollowUpAt\":\"2030-01-03T01:15:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"replacedById\":null,\"replacementReason\":\"UI更正原因 linux-native04\",\"voidedAt\":\"2026-11-02T03:49:58.566Z\",\"voidedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"voidedByName\":\"R3CG admin\",\"voidReason\":\"UI作废原因 linux-native04: UI补充说明 linux-native04\",\"rowVersion\":2,\"createdAt\":\"2026-11-02T03:49:57.561Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:58.568Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=all",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": null,
+            "projectName": null,
+            "followUpType": "phone",
+            "status": "voided",
+            "occurredAt": "2030-01-01T01:30:00.000Z",
+            "summary": "UI更正 linux-native04",
+            "detail": "UI更正后详情 linux-native04",
+            "outcome": "waiting-customer",
+            "nextFollowUpAt": "2030-01-03T01:15:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "replacedById": null,
+            "replacementReason": "UI更正原因 linux-native04",
+            "voidedAt": "2026-11-02T03:49:58.566Z",
+            "voidedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "voidedByName": "R3CG admin",
+            "voidReason": "UI作废原因 linux-native04: UI补充说明 linux-native04",
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T03:49:57.561Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:58.568Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          },
+          {
+            "id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "customerName": "R3CG UI linux-native04 客户",
+            "leadId": null,
+            "leadName": null,
+            "projectId": null,
+            "projectName": null,
+            "followUpType": "phone",
+            "status": "superseded",
+            "occurredAt": "2030-01-01T01:30:00.000Z",
+            "summary": "UI跟进 linux-native04",
+            "detail": "UI真实跟进详情 linux-native04",
+            "outcome": "progress",
+            "nextFollowUpAt": "2030-01-02T00:45:00.000Z",
+            "ownerOrgId": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+            "ownerOrgName": "R3CG admin",
+            "ownerUserId": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "ownerName": "R3CG admin",
+            "supersedesId": null,
+            "replacedById": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "replacementReason": null,
+            "voidedAt": null,
+            "voidedBy": null,
+            "voidedByName": null,
+            "voidReason": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T03:49:55.949Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:57.568Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+          }
+        ],
+        "rawBody": "[{\"id\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"voided\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI更正 linux-native04\",\"detail\":\"UI更正后详情 linux-native04\",\"outcome\":\"waiting-customer\",\"nextFollowUpAt\":\"2030-01-03T01:15:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"replacedById\":null,\"replacementReason\":\"UI更正原因 linux-native04\",\"voidedAt\":\"2026-11-02T03:49:58.566Z\",\"voidedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"voidedByName\":\"R3CG admin\",\"voidReason\":\"UI作废原因 linux-native04: UI补充说明 linux-native04\",\"rowVersion\":2,\"createdAt\":\"2026-11-02T03:49:57.561Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:58.568Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"},{\"id\":\"991e83c3-ab62-404a-a441-256ed50cdc84\",\"customerId\":\"439b1cdc-a0a6-4a37-acfc-5d0b17a05885\",\"customerName\":\"R3CG UI linux-native04 客户\",\"leadId\":null,\"leadName\":null,\"projectId\":null,\"projectName\":null,\"followUpType\":\"phone\",\"status\":\"superseded\",\"occurredAt\":\"2030-01-01T01:30:00.000Z\",\"summary\":\"UI跟进 linux-native04\",\"detail\":\"UI真实跟进详情 linux-native04\",\"outcome\":\"progress\",\"nextFollowUpAt\":\"2030-01-02T00:45:00.000Z\",\"ownerOrgId\":\"8a2f4af8-c8d1-42fa-98cf-60091007b2d5\",\"ownerOrgName\":\"R3CG admin\",\"ownerUserId\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"ownerName\":\"R3CG admin\",\"supersedesId\":null,\"replacedById\":\"1c8ffb71-7826-4cdd-a770-ac53f0a70372\",\"replacementReason\":null,\"voidedAt\":null,\"voidedBy\":null,\"voidedByName\":null,\"voidReason\":null,\"rowVersion\":2,\"createdAt\":\"2026-11-02T03:49:55.949Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:57.568Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\"}]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.pg.sales_follow_up_record",
+      "value": {
+        "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "row": {
+          "id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+          "customer_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+          "lead_id": null,
+          "project_id": null,
+          "follow_up_type": "phone",
+          "occurred_at": "2030-01-01T01:30:00.000Z",
+          "summary": "UI更正 linux-native04",
+          "detail": "UI更正后详情 linux-native04",
+          "outcome": "waiting-customer",
+          "next_follow_up_at": "2030-01-03T01:15:00.000Z",
+          "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+          "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "row_version": 2,
+          "created_at": "2026-11-02T03:49:57.561Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:58.568Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "status": "voided",
+          "supersedes_record_id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+          "replaced_by_record_id": null,
+          "replacement_reason": "UI更正原因 linux-native04",
+          "voided_at": "2026-11-02T03:49:58.566Z",
+          "voided_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "void_reason": "UI作废原因 linux-native04: UI补充说明 linux-native04"
+        }
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.current.pg.todo_item",
+      "value": {
+        "sourceId": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "rows": [
+          {
+            "id": "e7618e70-7d46-481a-b19c-1e785ab0530f",
+            "source_type": "sales-follow-up-record",
+            "source_id": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "customer",
+            "target_object_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "project_id": null,
+            "title": "销售跟进提醒：R3CG UI linux-native04 客户",
+            "summary": "UI更正 linux-native04",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "canceled",
+            "priority": "normal",
+            "due_at": "2030-01-03T01:15:00.000Z",
+            "completed_at": "2026-11-02T03:49:58.567Z",
+            "row_version": 2,
+            "created_at": "2026-11-02T03:49:57.567Z",
+            "updated_at": "2026-11-02T03:49:58.569Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.old.pg.todo_item",
+      "value": {
+        "sourceId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "rows": [
+          {
+            "id": "9495c206-203e-4384-a56c-059ac93fa267",
+            "source_type": "sales-follow-up-record",
+            "source_id": "991e83c3-ab62-404a-a441-256ed50cdc84",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "customer",
+            "target_object_id": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+            "project_id": null,
+            "title": "销售跟进提醒：R3CG UI linux-native04 客户",
+            "summary": "UI跟进 linux-native04",
+            "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "status": "completed",
+            "priority": "normal",
+            "due_at": "2030-01-02T00:45:00.000Z",
+            "completed_at": "2026-11-02T03:49:57.563Z",
+            "row_version": 2,
+            "created_at": "2026-11-02T03:49:55.952Z",
+            "updated_at": "2026-11-02T03:49:57.569Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.history.dom",
+      "value": {
+        "text": "UI更正 linux-native04\n已作废\n待客户反馈\n2030-01-01 10:30\n电话\n客户跟进\nR3CG admin\n\nUI更正后详情 linux-native04\n\n更正原因：UI更正原因 linux-native04\n\n作废原因：UI作废原因 linux-native04: UI补充说明 linux-native04"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.history.off.http.GET./api/sales-follow-up-records",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "rawBody": "[]"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.follow-up.void.active-empty.dom",
+      "value": {
+        "text": "客户销售跟进\n\n沉淀客户级沟通、长期采购信息、合作机会和下一步动作。\n\n显示历史\n刷新\n记录跟进\n暂无销售跟进记录。"
+      }
+    },
+    {
+      "label": "customer-journey.linux-native04.completed-identifiers",
+      "value": {
+        "customerId": "439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+        "contactId": "1f68a4cf-82cc-458a-9698-eeeca32826d4",
+        "followUpId": "991e83c3-ab62-404a-a441-256ed50cdc84",
+        "replacementId": "1c8ffb71-7826-4cdd-a770-ac53f0a70372",
+        "todoIds": [
+          "9495c206-203e-4384-a56c-059ac93fa267",
+          "e7618e70-7d46-481a-b19c-1e785ab0530f"
+        ]
+      }
+    },
+    {
+      "label": "linux-native04.cost.initial.workspace.HTTP",
+      "value": {
+        "url": "http://127.0.0.1:12300/api/projects/a92cca5d-a6a9-427f-ac90-c401dc7ab989/technical-cost-workspace",
+        "method": "GET",
+        "status": 200,
+        "bodyText": "{\"projectId\":\"a92cca5d-a6a9-427f-ac90-c401dc7ab989\",\"currentStage\":\"assessment\",\"status\":\"active\",\"currentPackage\":{\"id\":\"68527a33-a5e1-487b-a729-b8f41f421854\",\"projectId\":\"a92cca5d-a6a9-427f-ac90-c401dc7ab989\",\"version\":1,\"isCurrent\":true,\"supersedesId\":null,\"status\":\"effective\",\"technicalFeasibilityDecision\":\"feasible\",\"technicalConclusionSummary\":\"G1 技术方案可行。\",\"allowNextStage\":true,\"currencyCode\":\"CNY\",\"totalEstimatedAmountExcludingTax\":\"100.00\",\"totalTaxCostAmount\":\"13.00\",\"totalEstimatedAmountIncludingTax\":\"113.00\",\"taxAssumptionSummary\":\"G1 设备成本含税测算，税务已复核。\",\"taxReviewStatus\":\"reviewed\",\"highestRiskLevel\":\"R1\",\"blockerCount\":0,\"effectiveAt\":\"2026-11-02T03:49:44.319Z\",\"createdAt\":\"2026-11-02T03:49:44.319Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:49:44.319Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"rowVersion\":1},\"scopeItems\":[{\"id\":\"57c6d65c-1fc1-4eee-ac77-988733f95d03\",\"packageId\":\"68527a33-a5e1-487b-a729-b8f41f421854\",\"scopeType\":\"in-scope\",\"label\":\"G1 设备交付\",\"description\":\"包含一项设备供货。\",\"sortOrder\":1}],\"riskItems\":[{\"id\":\"821253ce-630c-4985-806e-0a76ea4000d7\",\"packageId\":\"68527a33-a5e1-487b-a729-b8f41f421854\",\"riskCategory\":\"G1 供货\",\"riskLevel\":\"R1\",\"riskDescription\":\"供货周期已经核实。\",\"impactScope\":\"设备供货范围。\",\"mitigationPlan\":\"按已核实周期交付。\",\"ownerRole\":\"售前\",\"riskStatus\":\"closed\",\"blocksNextStage\":false,\"sortOrder\":1}],\"costItems\":[{\"id\":\"f7bb0f80-9219-4023-b206-f337c5a491f8\",\"packageId\":\"68527a33-a5e1-487b-a729-b8f41f421854\",\"costCategory\":\"equipment\",\"costSubcategory\":null,\"costDescription\":\"G1 设备成本\",\"estimationBasis\":\"G1 已确认询价。\",\"quantity\":null,\"unit\":null,\"unitPrice\":null,\"amountExcludingTax\":\"100.00\",\"taxCostAmount\":\"13.00\",\"amountIncludingTax\":\"113.00\",\"currencyCode\":\"CNY\",\"confidenceLevel\":\"high\",\"highUncertainty\":false,\"responsibleRole\":null,\"sortOrder\":1}],\"blockingReasons\":[],\"nextStep\":\"进入商务收口前，保持当前版本包作为报价和签约前判断依据。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"allowedActions\":[\"view-technical-cost-workspace\",\"create-technical-cost-package\"],\"generatedAt\":\"2026-11-02T03:49:59.513Z\"}",
+        "body": {
+          "projectId": "a92cca5d-a6a9-427f-ac90-c401dc7ab989",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentPackage": {
+            "id": "68527a33-a5e1-487b-a729-b8f41f421854",
+            "projectId": "a92cca5d-a6a9-427f-ac90-c401dc7ab989",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalTaxCostAmount": "13.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "highestRiskLevel": "R1",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T03:49:44.319Z",
+            "createdAt": "2026-11-02T03:49:44.319Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:49:44.319Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "rowVersion": 1
+          },
+          "scopeItems": [
+            {
+              "id": "57c6d65c-1fc1-4eee-ac77-988733f95d03",
+              "packageId": "68527a33-a5e1-487b-a729-b8f41f421854",
+              "scopeType": "in-scope",
+              "label": "G1 设备交付",
+              "description": "包含一项设备供货。",
+              "sortOrder": 1
+            }
+          ],
+          "riskItems": [
+            {
+              "id": "821253ce-630c-4985-806e-0a76ea4000d7",
+              "packageId": "68527a33-a5e1-487b-a729-b8f41f421854",
+              "riskCategory": "G1 供货",
+              "riskLevel": "R1",
+              "riskDescription": "供货周期已经核实。",
+              "impactScope": "设备供货范围。",
+              "mitigationPlan": "按已核实周期交付。",
+              "ownerRole": "售前",
+              "riskStatus": "closed",
+              "blocksNextStage": false,
+              "sortOrder": 1
+            }
+          ],
+          "costItems": [
+            {
+              "id": "f7bb0f80-9219-4023-b206-f337c5a491f8",
+              "packageId": "68527a33-a5e1-487b-a729-b8f41f421854",
+              "costCategory": "equipment",
+              "costSubcategory": null,
+              "costDescription": "G1 设备成本",
+              "estimationBasis": "G1 已确认询价。",
+              "quantity": null,
+              "unit": null,
+              "unitPrice": null,
+              "amountExcludingTax": "100.00",
+              "taxCostAmount": "13.00",
+              "amountIncludingTax": "113.00",
+              "currencyCode": "CNY",
+              "confidenceLevel": "high",
+              "highUncertainty": false,
+              "responsibleRole": null,
+              "sortOrder": 1
+            }
+          ],
+          "blockingReasons": [],
+          "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-technical-cost-workspace",
+            "create-technical-cost-package"
+          ],
+          "generatedAt": "2026-11-02T03:49:59.513Z"
+        },
+        "requestBody": null
+      }
+    },
+    {
+      "label": "linux-native04.cost.readonly.DOM",
+      "value": {
+        "packageId": "68527a33-a5e1-487b-a729-b8f41f421854",
+        "headingVisible": true,
+        "conclusionVisible": true,
+        "formCount": 0,
+        "textboxCount": 0,
+        "createEditSaveButtonCount": 0,
+        "responseCostItems": 1,
+        "renderedTableRows": 3
+      }
+    },
+    {
+      "label": "linux-native04.cost.readonly.before.DB",
+      "value": {
+        "table": "project_technical_cost_package",
+        "id": "68527a33-a5e1-487b-a729-b8f41f421854",
+        "row": {
+          "id": "68527a33-a5e1-487b-a729-b8f41f421854",
+          "project_id": "a92cca5d-a6a9-427f-ac90-c401dc7ab989",
+          "version": 1,
+          "is_current": true,
+          "supersedes_id": null,
+          "status": "effective",
+          "technical_feasibility_decision": "feasible",
+          "technical_conclusion_summary": "G1 技术方案可行。",
+          "allow_next_stage": true,
+          "currency_code": "CNY",
+          "total_estimated_amount_excluding_tax": "100.00",
+          "total_tax_cost_amount": "13.00",
+          "total_estimated_amount_including_tax": "113.00",
+          "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+          "tax_review_status": "reviewed",
+          "highest_risk_level": "R1",
+          "blocker_count": 0,
+          "effective_at": "2026-11-02T03:49:44.319Z",
+          "created_at": "2026-11-02T03:49:44.319Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:49:44.319Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "row_version": 1
+        }
+      }
+    },
+    {
+      "label": "linux-native04.bid.initial.workspace.HTTP",
+      "value": {
+        "url": "http://127.0.0.1:12300/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-workspace",
+        "method": "GET",
+        "status": 200,
+        "bodyText": "{\"projectId\":\"bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b\",\"currentStage\":\"assessment\",\"status\":\"active\",\"currentProcess\":null,\"materialItems\":[],\"timelineItems\":[],\"blockingReasons\":[\"尚未形成招投标 / 商务竞标过程记录。\"],\"nextStep\":\"明确是否需要投标、邀标、比选、商务竞标或直接商务报价路径。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"allowedActions\":[\"view-bid-commercial-workspace\",\"create-bid-commercial-process\"],\"generatedAt\":\"2026-11-02T03:50:00.062Z\"}",
+        "body": {
+          "projectId": "bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentProcess": null,
+          "materialItems": [],
+          "timelineItems": [],
+          "blockingReasons": [
+            "尚未形成招投标 / 商务竞标过程记录。"
+          ],
+          "nextStep": "明确是否需要投标、邀标、比选、商务竞标或直接商务报价路径。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-bid-commercial-workspace",
+            "create-bid-commercial-process"
+          ],
+          "generatedAt": "2026-11-02T03:50:00.062Z"
+        },
+        "requestBody": null
+      }
+    },
+    {
+      "label": "linux-native04.bid.initial.history.HTTP",
+      "value": {
+        "url": "http://127.0.0.1:12300/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-processes",
+        "method": "GET",
+        "status": 200,
+        "bodyText": "[]",
+        "body": [],
+        "requestBody": null
+      }
+    },
+    {
+      "label": "linux-native04.bid.first.post.HTTP",
+      "value": {
+        "url": "http://127.0.0.1:12300/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-processes",
+        "method": "POST",
+        "status": 201,
+        "bodyText": "{\"id\":\"8623fe78-c610-4bb0-99cc-f74064e71c56\",\"projectId\":\"bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b\",\"version\":1,\"isCurrent\":true,\"supersedesId\":null,\"status\":\"effective\",\"bidMode\":\"public-tender\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"resultStatus\":\"pending\",\"processSummary\":\"linux-native04 first bid through original UI\",\"decisionSummary\":\"linux-native04 participate\",\"resultSummary\":null,\"tenderNo\":\"linux-native04-T1\",\"bidPackageNo\":\"linux-native04-PKG1\",\"ownerRole\":\"linux-native04 bid owner\",\"blockerCount\":0,\"effectiveAt\":\"2026-11-02T03:50:03.175Z\",\"createdAt\":\"2026-11-02T03:50:03.175Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:50:03.175Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"rowVersion\":1}",
+        "body": {
+          "id": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+          "projectId": "bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "bidMode": "public-tender",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "resultStatus": "pending",
+          "processSummary": "linux-native04 first bid through original UI",
+          "decisionSummary": "linux-native04 participate",
+          "resultSummary": null,
+          "tenderNo": "linux-native04-T1",
+          "bidPackageNo": "linux-native04-PKG1",
+          "ownerRole": "linux-native04 bid owner",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T03:50:03.175Z",
+          "createdAt": "2026-11-02T03:50:03.175Z",
+          "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updatedAt": "2026-11-02T03:50:03.175Z",
+          "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "rowVersion": 1
+        },
+        "requestBody": {
+          "bidMode": "public-tender",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "resultStatus": "pending",
+          "processSummary": "linux-native04 first bid through original UI",
+          "decisionSummary": "linux-native04 participate",
+          "resultSummary": null,
+          "tenderNo": "linux-native04-T1",
+          "bidPackageNo": "linux-native04-PKG1",
+          "ownerRole": "linux-native04 bid owner",
+          "materialItems": [
+            {
+              "materialKey": "linux-native04-material",
+              "label": "linux-native04 material",
+              "materialStatus": "ready",
+              "responsibleRole": "linux-native04 material owner",
+              "dueAt": "2026-11-03T08:00:00.123Z",
+              "blocksNextStep": true,
+              "navigationHint": "/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/workspace/bid-commercial",
+              "sortOrder": 1
+            }
+          ],
+          "timelineItems": [
+            {
+              "eventKey": "linux-native04-event",
+              "label": "linux-native04 event",
+              "summary": "linux-native04 timeline through original UI",
+              "timelineStatus": "done",
+              "occurredAt": "2026-11-02T02:00:00.456Z",
+              "dueAt": "2026-11-03T03:00:00.000Z",
+              "responsibleRole": "linux-native04 event owner",
+              "sortOrder": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "linux-native04.bid.first.workspace.HTTP",
+      "value": {
+        "url": "http://127.0.0.1:12300/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-workspace",
+        "method": "GET",
+        "status": 200,
+        "bodyText": "{\"projectId\":\"bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b\",\"currentStage\":\"assessment\",\"status\":\"active\",\"currentProcess\":{\"id\":\"8623fe78-c610-4bb0-99cc-f74064e71c56\",\"projectId\":\"bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b\",\"version\":1,\"isCurrent\":true,\"supersedesId\":null,\"status\":\"effective\",\"bidMode\":\"public-tender\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"resultStatus\":\"pending\",\"processSummary\":\"linux-native04 first bid through original UI\",\"decisionSummary\":\"linux-native04 participate\",\"resultSummary\":null,\"tenderNo\":\"linux-native04-T1\",\"bidPackageNo\":\"linux-native04-PKG1\",\"ownerRole\":\"linux-native04 bid owner\",\"blockerCount\":0,\"effectiveAt\":\"2026-11-02T03:50:03.175Z\",\"createdAt\":\"2026-11-02T03:50:03.175Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:50:03.175Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"rowVersion\":1},\"materialItems\":[{\"id\":\"86865b2c-5db2-435b-8c80-d45899ac93cf\",\"processId\":\"8623fe78-c610-4bb0-99cc-f74064e71c56\",\"materialKey\":\"linux-native04-material\",\"label\":\"linux-native04 material\",\"materialStatus\":\"ready\",\"responsibleRole\":\"linux-native04 material owner\",\"dueAt\":\"2026-11-03T08:00:00.123Z\",\"blocksNextStep\":true,\"navigationHint\":\"/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/workspace/bid-commercial\",\"sortOrder\":1}],\"timelineItems\":[{\"id\":\"db5d27d0-0c74-4707-b0c9-348bfc62959a\",\"processId\":\"8623fe78-c610-4bb0-99cc-f74064e71c56\",\"eventKey\":\"linux-native04-event\",\"label\":\"linux-native04 event\",\"summary\":\"linux-native04 timeline through original UI\",\"timelineStatus\":\"done\",\"occurredAt\":\"2026-11-02T02:00:00.456Z\",\"dueAt\":\"2026-11-03T03:00:00.000Z\",\"responsibleRole\":\"linux-native04 event owner\",\"sortOrder\":1}],\"blockingReasons\":[],\"nextStep\":\"补齐竞标过程依据，准备进入报价与毛利评审。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"allowedActions\":[\"view-bid-commercial-workspace\",\"create-bid-commercial-process\"],\"generatedAt\":\"2026-11-02T03:50:03.207Z\"}",
+        "body": {
+          "projectId": "bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentProcess": {
+            "id": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+            "projectId": "bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "bidMode": "public-tender",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "resultStatus": "pending",
+            "processSummary": "linux-native04 first bid through original UI",
+            "decisionSummary": "linux-native04 participate",
+            "resultSummary": null,
+            "tenderNo": "linux-native04-T1",
+            "bidPackageNo": "linux-native04-PKG1",
+            "ownerRole": "linux-native04 bid owner",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T03:50:03.175Z",
+            "createdAt": "2026-11-02T03:50:03.175Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:50:03.175Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "rowVersion": 1
+          },
+          "materialItems": [
+            {
+              "id": "86865b2c-5db2-435b-8c80-d45899ac93cf",
+              "processId": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+              "materialKey": "linux-native04-material",
+              "label": "linux-native04 material",
+              "materialStatus": "ready",
+              "responsibleRole": "linux-native04 material owner",
+              "dueAt": "2026-11-03T08:00:00.123Z",
+              "blocksNextStep": true,
+              "navigationHint": "/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/workspace/bid-commercial",
+              "sortOrder": 1
+            }
+          ],
+          "timelineItems": [
+            {
+              "id": "db5d27d0-0c74-4707-b0c9-348bfc62959a",
+              "processId": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+              "eventKey": "linux-native04-event",
+              "label": "linux-native04 event",
+              "summary": "linux-native04 timeline through original UI",
+              "timelineStatus": "done",
+              "occurredAt": "2026-11-02T02:00:00.456Z",
+              "dueAt": "2026-11-03T03:00:00.000Z",
+              "responsibleRole": "linux-native04 event owner",
+              "sortOrder": 1
+            }
+          ],
+          "blockingReasons": [],
+          "nextStep": "补齐竞标过程依据，准备进入报价与毛利评审。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-bid-commercial-workspace",
+            "create-bid-commercial-process"
+          ],
+          "generatedAt": "2026-11-02T03:50:03.207Z"
+        },
+        "requestBody": null
+      }
+    },
+    {
+      "label": "linux-native04.bid.first.history.HTTP",
+      "value": {
+        "url": "http://127.0.0.1:12300/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-processes",
+        "method": "GET",
+        "status": 200,
+        "bodyText": "[{\"id\":\"8623fe78-c610-4bb0-99cc-f74064e71c56\",\"projectId\":\"bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b\",\"version\":1,\"isCurrent\":true,\"supersedesId\":null,\"status\":\"effective\",\"bidMode\":\"public-tender\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"resultStatus\":\"pending\",\"processSummary\":\"linux-native04 first bid through original UI\",\"decisionSummary\":\"linux-native04 participate\",\"resultSummary\":null,\"tenderNo\":\"linux-native04-T1\",\"bidPackageNo\":\"linux-native04-PKG1\",\"ownerRole\":\"linux-native04 bid owner\",\"blockerCount\":0,\"effectiveAt\":\"2026-11-02T03:50:03.175Z\",\"createdAt\":\"2026-11-02T03:50:03.175Z\",\"createdBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"updatedAt\":\"2026-11-02T03:50:03.175Z\",\"updatedBy\":\"3b762639-e811-48b0-8d34-6baeb72533f2\",\"rowVersion\":1}]",
+        "body": [
+          {
+            "id": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+            "projectId": "bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "bidMode": "public-tender",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "resultStatus": "pending",
+            "processSummary": "linux-native04 first bid through original UI",
+            "decisionSummary": "linux-native04 participate",
+            "resultSummary": null,
+            "tenderNo": "linux-native04-T1",
+            "bidPackageNo": "linux-native04-PKG1",
+            "ownerRole": "linux-native04 bid owner",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T03:50:03.175Z",
+            "createdAt": "2026-11-02T03:50:03.175Z",
+            "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "updatedAt": "2026-11-02T03:50:03.175Z",
+            "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+            "rowVersion": 1
+          }
+        ],
+        "requestBody": null
+      }
+    },
+    {
+      "label": "linux-native04.bid.first.parent.DB",
+      "value": {
+        "table": "project_bid_commercial_process",
+        "id": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+        "row": {
+          "id": "8623fe78-c610-4bb0-99cc-f74064e71c56",
+          "project_id": "bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+          "version": 1,
+          "is_current": true,
+          "supersedes_id": null,
+          "status": "effective",
+          "bid_mode": "public-tender",
+          "current_stage": "preparation",
+          "decision": "participate",
+          "result_status": "pending",
+          "process_summary": "linux-native04 first bid through original UI",
+          "decision_summary": "linux-native04 participate",
+          "result_summary": null,
+          "owner_role": "linux-native04 bid owner",
+          "blocker_count": 0,
+          "effective_at": "2026-11-02T03:50:03.175Z",
+          "created_at": "2026-11-02T03:50:03.175Z",
+          "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "updated_at": "2026-11-02T03:50:03.175Z",
+          "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+          "row_version": 1,
+          "tender_no": "linux-native04-T1",
+          "bid_package_no": "linux-native04-PKG1"
+        }
+      }
+    }
+  ],
+  "network": [
+    {
+      "index": 0,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:48.634Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0000.json",
+        "bytes": 2353,
+        "rawBytesSha256": "47d47de76790f6b4b8db68ff1d0d0758c1b3574f64da85d613348cefb151e04e"
+      },
+      "completedAt": "2026-11-02T03:49:48.640Z"
+    },
+    {
+      "index": 1,
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:48.692Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0001.json",
+        "bytes": 2167,
+        "rawBytesSha256": "c89f83b45f58bb20ed7288ba4733c5e58dfd3ee93af4df4bf5e629d8b5ab45a9"
+      },
+      "completedAt": "2026-11-02T03:49:48.697Z"
+    },
+    {
+      "index": 2,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:48.866Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0002.json",
+        "bytes": 2528,
+        "rawBytesSha256": "89c50b4bd06bef817144e629cde9d0caaccb80bceac8e7563edee521eb03f964"
+      },
+      "completedAt": "2026-11-02T03:49:48.868Z"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:48.913Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0003.json",
+        "bytes": 6585,
+        "rawBytesSha256": "0777998fcfee7378a0112d8b1139fae6a31b5e4b03bf64140f95cb900bbb28fe"
+      },
+      "completedAt": "2026-11-02T03:49:48.939Z"
+    },
+    {
+      "index": 4,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:48.945Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0004.json",
+        "bytes": 2928,
+        "rawBytesSha256": "90f0bd7be949ab19e22fc0f6cd9b7032810a91d347142ed848d5c223b1c74d0c"
+      },
+      "completedAt": "2026-11-02T03:49:48.960Z"
+    },
+    {
+      "index": 5,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:48.998Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0005.json",
+        "bytes": 6020,
+        "rawBytesSha256": "1d8c07a4b212ca47fe143ed5ee30a0cceb8c4700575e28eda9bb3a35c70852e4"
+      },
+      "completedAt": "2026-11-02T03:49:49.016Z"
+    },
+    {
+      "index": 6,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:49.019Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0006.json",
+        "bytes": 2542,
+        "rawBytesSha256": "5fbaa017bb2c766ae7630ad113cb65259b024b54966e9aeeded5d4efd0b983ac"
+      },
+      "completedAt": "2026-11-02T03:49:49.050Z"
+    },
+    {
+      "index": 7,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.021Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0007.json",
+        "bytes": 2868,
+        "rawBytesSha256": "4370a9635585290d6263ac59d36dfdc69c9577df55a0b55563fbe9895aee4187"
+      },
+      "completedAt": "2026-11-02T03:49:49.040Z"
+    },
+    {
+      "index": 8,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.045Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0008.json",
+        "bytes": 11802,
+        "rawBytesSha256": "decb6122e26d14b6218376d90599f4e09db3e65dee1cfb8bd6320e1b5b99f3eb"
+      },
+      "completedAt": "2026-11-02T03:49:49.063Z"
+    },
+    {
+      "index": 9,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.046Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0009.json",
+        "bytes": 5812,
+        "rawBytesSha256": "e020a496ed1384d418911d31ce618e62f9bb77f2fc39c784e81b0358c62c6ea4"
+      },
+      "completedAt": "2026-11-02T03:49:49.083Z"
+    },
+    {
+      "index": 10,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.055Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0010.json",
+        "bytes": 3000,
+        "rawBytesSha256": "0a4b9ec564a9ea5ab0a945e3e1776f00337e363c20b7d54a2393748b33927f0b"
+      },
+      "completedAt": "2026-11-02T03:49:49.090Z"
+    },
+    {
+      "index": 11,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:49.093Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0011.json",
+        "bytes": 2546,
+        "rawBytesSha256": "b7ad19a2348590774713dfd95195601e916262b46d8f39192d7de3acece43789"
+      },
+      "completedAt": "2026-11-02T03:49:49.104Z"
+    },
+    {
+      "index": 12,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:49.094Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0012.json",
+        "bytes": 2538,
+        "rawBytesSha256": "1d697decd566e03cec5155ae243c6f44fbfa0c939d9f65e74ee09d41f732b41c"
+      },
+      "completedAt": "2026-11-02T03:49:49.109Z"
+    },
+    {
+      "index": 13,
+      "method": "GET",
+      "path": "/api/customers/439b1cdc-a0a6-4a37-acfc-5d0b17a05885/workspace-overview",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.246Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0013.json",
+        "bytes": 7413,
+        "rawBytesSha256": "37461a6aa55f7514f230d669547530290704bdcabb049c5e3ac1bb3986451fa2"
+      },
+      "completedAt": "2026-11-02T03:49:49.273Z"
+    },
+    {
+      "index": 14,
+      "method": "GET",
+      "path": "/api/customers/439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.247Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0014.json",
+        "bytes": 3828,
+        "rawBytesSha256": "cda1049a4a79c53f8a0270254d91d6f6d2ed4d3837a245ada6af06349fcf8897"
+      },
+      "completedAt": "2026-11-02T03:49:49.274Z"
+    },
+    {
+      "index": 15,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.387Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0015.json",
+        "bytes": 2549,
+        "rawBytesSha256": "34816ba7a8f3895c8754a89f9ca1f4e1fda6f49be75c735233997b3de5aebd44"
+      },
+      "completedAt": "2026-11-02T03:49:49.418Z"
+    },
+    {
+      "index": 16,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.388Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0016.json",
+        "bytes": 2552,
+        "rawBytesSha256": "d2db2db725c565ca1e96658f4221874326a10eb7f15f37b55be29287b5bb5b25"
+      },
+      "completedAt": "2026-11-02T03:49:49.433Z"
+    },
+    {
+      "index": 17,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.389Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0017.json",
+        "bytes": 2577,
+        "rawBytesSha256": "9f61fd8a55f31361561a6f7410f99d42f1c1fa2aa14d8c00d3de71aae43f9ae6"
+      },
+      "completedAt": "2026-11-02T03:49:49.417Z"
+    },
+    {
+      "index": 18,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.390Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0018.json",
+        "bytes": 5814,
+        "rawBytesSha256": "1423e977590de0b9a70332b6643ed2b5bf55d6cea6ba18ff064d7f2c131fb64d"
+      },
+      "completedAt": "2026-11-02T03:49:49.443Z"
+    },
+    {
+      "index": 19,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.391Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0019.json",
+        "bytes": 2561,
+        "rawBytesSha256": "8705ff7f42bc223a4da04909e8114412c3b8bb8d6f2c2a45a2545184987117ce"
+      },
+      "completedAt": "2026-11-02T03:49:49.452Z"
+    },
+    {
+      "index": 20,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:49.392Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0020.json",
+        "bytes": 9106,
+        "rawBytesSha256": "f02ea6908b61fba1b6c92c3183a1111ae88aa27cb653c005e194e73f4c3eb871"
+      },
+      "completedAt": "2026-11-02T03:49:49.451Z"
+    },
+    {
+      "index": 21,
+      "method": "POST",
+      "path": "/api/customer-contacts",
+      "backendPort": 12100,
+      "status": 201,
+      "startedAt": "2026-11-02T03:49:50.728Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0021.json",
+        "bytes": 4200,
+        "rawBytesSha256": "f1ef94b598045d97daca351e17d8e3c33791456e887fb608d0e72ddbf60c778b"
+      },
+      "completedAt": "2026-11-02T03:49:50.745Z"
+    },
+    {
+      "index": 22,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:50.749Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0022.json",
+        "bytes": 3541,
+        "rawBytesSha256": "572e52b44c7c9cf3062757bcba4e545289f627cf8af6f9baa5e27f160f247166"
+      },
+      "completedAt": "2026-11-02T03:49:50.760Z"
+    },
+    {
+      "index": 23,
+      "method": "PATCH",
+      "path": "/api/customer-contacts/1f68a4cf-82cc-458a-9698-eeeca32826d4",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:52.597Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0023.json",
+        "bytes": 3942,
+        "rawBytesSha256": "9d39b90e71160b25629cf862bb264bbf0c4f500d347eab91630748a72fc18ffd"
+      },
+      "completedAt": "2026-11-02T03:49:52.626Z"
+    },
+    {
+      "index": 24,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:52.630Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0024.json",
+        "bytes": 3537,
+        "rawBytesSha256": "ec11f8ce650e3dc4e37f5b27b50b23e454653201a004b8984a44212fddb8a312"
+      },
+      "completedAt": "2026-11-02T03:49:52.653Z"
+    },
+    {
+      "index": 25,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records",
+      "backendPort": 12100,
+      "status": 201,
+      "startedAt": "2026-11-02T03:49:55.931Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0025.json",
+        "bytes": 4534,
+        "rawBytesSha256": "e2ec427a5e990c612fddbbee6bd8630f4c479d5aa45d4301b019dea6b8f06aa8"
+      },
+      "completedAt": "2026-11-02T03:49:55.962Z"
+    },
+    {
+      "index": 26,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:55.965Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0026.json",
+        "bytes": 3949,
+        "rawBytesSha256": "b4a24a3c4682763084e33470baf0ab4087beb33ec9eef14bffd07ea9cf781937"
+      },
+      "completedAt": "2026-11-02T03:49:55.981Z"
+    },
+    {
+      "index": 27,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/991e83c3-ab62-404a-a441-256ed50cdc84:replace",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:57.533Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0027.json",
+        "bytes": 4799,
+        "rawBytesSha256": "e85e4be3277824abb28df83093f5a7e12f84ae257403b4d6156b0fcbe1f3b765"
+      },
+      "completedAt": "2026-11-02T03:49:57.590Z"
+    },
+    {
+      "index": 28,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:57.596Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0028.json",
+        "bytes": 4041,
+        "rawBytesSha256": "6f55c9e1d10813b74c2f3d54991b3c09929e278315349fc3f493719fdfc5183a"
+      },
+      "completedAt": "2026-11-02T03:49:57.617Z"
+    },
+    {
+      "index": 29,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=all",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:58.012Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0029.json",
+        "bytes": 5194,
+        "rawBytesSha256": "b86a3dee813b34ea28c8f90622731740d74eb3c4002669779cd4e0758e102548"
+      },
+      "completedAt": "2026-11-02T03:49:58.031Z"
+    },
+    {
+      "index": 30,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/1c8ffb71-7826-4cdd-a770-ac53f0a70372:void",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:58.547Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0030.json",
+        "bytes": 4574,
+        "rawBytesSha256": "ea9c49b70ca99ec5f3f6994c77ff0a3f62b935f6a2ba383f1b63b640cbae1114"
+      },
+      "completedAt": "2026-11-02T03:49:58.581Z"
+    },
+    {
+      "index": 31,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=all",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:58.586Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0031.json",
+        "bytes": 5492,
+        "rawBytesSha256": "9b89af83c9b37f2b8d5911da56e3471f18d21b971a441aa4a9dc2811aaf9ec87"
+      },
+      "completedAt": "2026-11-02T03:49:58.607Z"
+    },
+    {
+      "index": 32,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=439b1cdc-a0a6-4a37-acfc-5d0b17a05885&lifecycleScope=active",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:58.996Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0032.json",
+        "bytes": 2711,
+        "rawBytesSha256": "d003f61578dde0059da162cff0f622aeb07b2596cc628218aa20b12e1f0fe325"
+      },
+      "completedAt": "2026-11-02T03:49:59.010Z"
+    },
+    {
+      "index": 33,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.160Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0033.json",
+        "bytes": 2590,
+        "rawBytesSha256": "d7a45e36e884ba1f000426608d914f33b31f5739fd2d804b3c8a1e0b432e6c9c"
+      },
+      "completedAt": "2026-11-02T03:49:59.178Z"
+    },
+    {
+      "index": 34,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.180Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0034.json",
+        "bytes": 2590,
+        "rawBytesSha256": "d7a45e36e884ba1f000426608d914f33b31f5739fd2d804b3c8a1e0b432e6c9c"
+      },
+      "completedAt": "2026-11-02T03:49:59.197Z"
+    },
+    {
+      "index": 35,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.184Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0035.json",
+        "bytes": 3048,
+        "rawBytesSha256": "0096ab8d7290ca9d539d474eb419b2ccd392c09594b48126685bfb80fc147f5d"
+      },
+      "completedAt": "2026-11-02T03:49:59.204Z"
+    },
+    {
+      "index": 36,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.205Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0036.json",
+        "bytes": 3048,
+        "rawBytesSha256": "04afbb50406b63a15dc4809adf6f13b2cf3cd21d32b7c1c536c53c7a3bd2d808"
+      },
+      "completedAt": "2026-11-02T03:49:59.226Z"
+    },
+    {
+      "index": 37,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.207Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0037.json",
+        "bytes": 2594,
+        "rawBytesSha256": "8b9f56c1fefdbf8357c40e9cefe8e2085a6e20652c95fddd1baa84481e8faed9"
+      },
+      "completedAt": "2026-11-02T03:49:59.219Z"
+    },
+    {
+      "index": 38,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.208Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0038.json",
+        "bytes": 2586,
+        "rawBytesSha256": "7b4dbcc23149c000e03f7433bfc3c53fcb22f59ff78bae14c0331bb17a2108ba"
+      },
+      "completedAt": "2026-11-02T03:49:59.241Z"
+    },
+    {
+      "index": 39,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.230Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0039.json",
+        "bytes": 2594,
+        "rawBytesSha256": "49047a615f23d796acfd4145a42b5a75216bcb2c67a94e851d880a21a6eedc1d"
+      },
+      "completedAt": "2026-11-02T03:49:59.249Z"
+    },
+    {
+      "index": 40,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.244Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0040.json",
+        "bytes": 2586,
+        "rawBytesSha256": "eb37c1de743cf06c8f04601203f60e692244f86d3be4ffb11318394827b21823"
+      },
+      "completedAt": "2026-11-02T03:49:59.273Z"
+    },
+    {
+      "index": 41,
+      "method": "GET",
+      "path": "/api/projects/a92cca5d-a6a9-427f-ac90-c401dc7ab989",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.432Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0041.json",
+        "bytes": 5085,
+        "rawBytesSha256": "a7a27354d630357c76b9d216a943c4bd31ee463a7c13ae1366dc65943f68c6de"
+      },
+      "completedAt": "2026-11-02T03:49:59.462Z"
+    },
+    {
+      "index": 42,
+      "method": "GET",
+      "path": "/api/projects/a92cca5d-a6a9-427f-ac90-c401dc7ab989/workspace-guidance",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.433Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0042.json",
+        "bytes": 9093,
+        "rawBytesSha256": "5e027f14104cf0ededb155d9fe9260683487f3e0f71fa5f0859a10ac99af5fbf"
+      },
+      "completedAt": "2026-11-02T03:49:59.471Z"
+    },
+    {
+      "index": 43,
+      "method": "GET",
+      "path": "/api/projects/a92cca5d-a6a9-427f-ac90-c401dc7ab989/technical-cost-workspace",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.490Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0043.json",
+        "bytes": 5626,
+        "rawBytesSha256": "cf6d83a8266aabe1f7f96c32ee509e9770eacdd2c7db553ac7d066172654f9a9"
+      },
+      "completedAt": "2026-11-02T03:49:59.515Z"
+    },
+    {
+      "index": 44,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.688Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0044.json",
+        "bytes": 2590,
+        "rawBytesSha256": "70d04f896389dd97af3e02d6d3656125b08f99f3a4384c20b5b4b47e7564ace2"
+      },
+      "completedAt": "2026-11-02T03:49:59.715Z"
+    },
+    {
+      "index": 45,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.717Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0045.json",
+        "bytes": 2590,
+        "rawBytesSha256": "70d04f896389dd97af3e02d6d3656125b08f99f3a4384c20b5b4b47e7564ace2"
+      },
+      "completedAt": "2026-11-02T03:49:59.731Z"
+    },
+    {
+      "index": 46,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.720Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0046.json",
+        "bytes": 3048,
+        "rawBytesSha256": "da135885de1aaedf696052875fb456c71d40162a7b5a07f2f754eb69b6191305"
+      },
+      "completedAt": "2026-11-02T03:49:59.740Z"
+    },
+    {
+      "index": 47,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.742Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0047.json",
+        "bytes": 3048,
+        "rawBytesSha256": "d9c652457e80ad0d3fdb361cfa023928451d422875345b9eaf9c5aa13282f490"
+      },
+      "completedAt": "2026-11-02T03:49:59.757Z"
+    },
+    {
+      "index": 48,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.743Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0048.json",
+        "bytes": 2594,
+        "rawBytesSha256": "f63cc617e78512f074de51178129918e752f4c6ba59f1757f861d84086fa61da"
+      },
+      "completedAt": "2026-11-02T03:49:59.762Z"
+    },
+    {
+      "index": 49,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.744Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0049.json",
+        "bytes": 2586,
+        "rawBytesSha256": "93022966b84e25bc0ae3ec7a1492556ca1431c3a80928283d9abdc600826374a"
+      },
+      "completedAt": "2026-11-02T03:49:59.771Z"
+    },
+    {
+      "index": 50,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.766Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0050.json",
+        "bytes": 2594,
+        "rawBytesSha256": "0fbef502a1633d84b4b31f0073964776a0048e86383d410d45c7ca4bf73ba293"
+      },
+      "completedAt": "2026-11-02T03:49:59.778Z"
+    },
+    {
+      "index": 51,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12100,
+      "status": 304,
+      "startedAt": "2026-11-02T03:49:59.774Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0051.json",
+        "bytes": 2586,
+        "rawBytesSha256": "5fcc976ec6bc45331a96e93b73287ce0135f7f8bcfa83f44f5cf5a33052e74ea"
+      },
+      "completedAt": "2026-11-02T03:49:59.792Z"
+    },
+    {
+      "index": 52,
+      "method": "GET",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.951Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0052.json",
+        "bytes": 5081,
+        "rawBytesSha256": "5f51bf00357e543b739bce6b202307596b3ad048f800aac19cb77dfa8235d1a2"
+      },
+      "completedAt": "2026-11-02T03:49:59.990Z"
+    },
+    {
+      "index": 53,
+      "method": "GET",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/workspace-guidance",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:49:59.952Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0053.json",
+        "bytes": 9093,
+        "rawBytesSha256": "51fac7fcb69c814934090c31118923b80ef33b6f01784332ac98befb8b26417a"
+      },
+      "completedAt": "2026-11-02T03:49:59.990Z"
+    },
+    {
+      "index": 54,
+      "method": "GET",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-workspace",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:50:00.026Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0054.json",
+        "bytes": 3268,
+        "rawBytesSha256": "2c62fc361e26c32c0da5a4a48051306bbc317d66a912ebbd489118a195c5999e"
+      },
+      "completedAt": "2026-11-02T03:50:00.063Z"
+    },
+    {
+      "index": 55,
+      "method": "GET",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-processes",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:50:00.027Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0055.json",
+        "bytes": 2602,
+        "rawBytesSha256": "d65037ba75a8128b8f2105b9d259b64a1bda3cfdda4a34d664fc847ea8b5dcc9"
+      },
+      "completedAt": "2026-11-02T03:50:00.064Z"
+    },
+    {
+      "index": 56,
+      "method": "POST",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-processes",
+      "backendPort": 12100,
+      "status": 201,
+      "startedAt": "2026-11-02T03:50:03.162Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0056.json",
+        "bytes": 5321,
+        "rawBytesSha256": "bce14e82b46086509f6908b1b14494b684776c7e2bfea7704344792553373e30"
+      },
+      "completedAt": "2026-11-02T03:50:03.183Z"
+    },
+    {
+      "index": 57,
+      "method": "GET",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-processes",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:50:03.187Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0057.json",
+        "bytes": 3624,
+        "rawBytesSha256": "9507096653d8aa9d803032a4b39e711c832aa7bc3b9a9e697dd2cc288e789aa9"
+      },
+      "completedAt": "2026-11-02T03:50:03.200Z"
+    },
+    {
+      "index": 58,
+      "method": "GET",
+      "path": "/api/projects/bb41f2fd-a5e8-4a83-89b0-d87f84ddcc0b/bid-commercial-workspace",
+      "backendPort": 12100,
+      "status": 200,
+      "startedAt": "2026-11-02T03:50:03.187Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-linux-native04/proxy/http-0058.json",
+        "bytes": 5356,
+        "rawBytesSha256": "0a872e89efd53330c5018ce8c8209ca9a347c9952e138a5896b4af0448b797af"
+      },
+      "completedAt": "2026-11-02T03:50:03.208Z"
+    }
+  ],
+  "staticBuild": {
+    "memberCount": 422,
+    "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+  },
+  "closure": {
+    "browserClosed": true,
+    "serverClosed": true,
+    "pending": 0,
+    "allRawExchangesRetained": true
+  },
+  "credentialOrRawAuthPublished": false,
+  "noMocksOrComponentEvaluate": true,
+  "outOfScopeRequestsDoNotClaimMigration": true,
+  "cohortCleanup": "Pending-whole-API-and-UI-cohort-terminal",
+  "G3Certified": false,
+  "G4Certified": false
+}

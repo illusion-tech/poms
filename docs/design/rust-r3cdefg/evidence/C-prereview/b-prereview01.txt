@@ -1,0 +1,74 @@
+# R3D 独立静态预审 01
+
+状态：**预审完成；联合 G1 尚未签发，G2 未获本审查放行。** 本轮只审 B 三原件、Root G0 登记原件及当前基线源码。A/D 和 Root 完整联合冻结包未纳入本轮结论。
+
+- checkout：E:/projects/worktrees/poms-r3cdefg-next16/poms
+- branch：codex/poms-r3cdefg-next16
+- HEAD / 本地 origin/main：0fced204c917a37b84a2ad50838e722e764b8f78
+- 写入范围：tmp/rust-r3cdefg/c-review/**。未改产品、作者输入、Root 工具、Native、contract、spec、client、DDL 或 shared enum；无 commit/push。
+- 只做源码读取、JSON 解析、原字节 SHA256 及只读 Git 核对。未运行 build/test/lint/DB/HTTP/browser/fixture/安装/runner，未访问 private 或旧 run；未访问 GitHub，在线状态须由 Root 提供当前回执。
+
+## 原件与静态事实
+
+B 三原件吻合交付记录：
+
+- input-review.md：19,004 B；c4c3af6c3b608a36fd993894be83fe812cffd84fddf33da80fa45e3ec9d72b1e
+- acceptance-matrix.json：55,773 B；469bf160a827f98848f52c2adda8ceb25aba971e2fa3fa913e7a044e59b113c5
+- source-manifest.json：64,505 B；929074f8bf0d11e70550384a4e22d7e990498fb8663723cba7dbc44a232c8957
+
+manifest 的68个源文件、4,047,122 B 全部与当前 checkout 原字节吻合。矩阵86个唯一 case，execution 全为 not-run，evidence 全空。这是86个场景组，不是86次实际执行结果；Root 执行时须展开变体并保留每次真实结果。
+
+Root register-g0.mjs 与 g0-issue-registration.json 一致登记 #88/#89/#90/#91/#92，操作数3/3/3/4/3且互斥；回执 G1=Pending、G3/G4=false。原 operation inventory 的155,132 B及144b00533cbc55a010892204119636cb51deabf904cac71177bcc22046fcba31与当前版本吻合。当前14/58；五片各自G4后才达30/58，余28及完整非HTTP/阶段验收未完成，父#85/总体#57保持Open。这里核对的是本地登记回执，未冒称独立在线复核。
+
+原 spec 静态计数237 paths /291 operations /585 schemas；git ls-files 的完整生成client为579文件。这是当前静态保护基数，不是生成检查已通过。
+
+逐项复核未发现 B 对下列规则的实质误读：
+
+1. project.service.ts:478–554：项目存在性、仅 closed 状态及四签约前stage门槛；三条路径规则；读current后旧对象内存变更，再建立新parent/children并统一persist.flush；无客户端expectedVersion。
+2. project.repository.ts:268–307,470–481：current精确 projectId/isCurrent=true/status=effective，三列DESC；by-id只按id；child仅processId/sortOrder排序；旧parent最后append不等于真实SQL语句顺序。
+3. project-query.service.ts:396–454,820–875,1013–1066,1653–1658：23字段summary、null/ISO映射、工作区空态、owner nullish/truthy及阻断顺序；allowedActions与POST门槛并非同一机制。
+4. project.service.ts:557–577,793–829：报价UUID保留输入原拼写严格比较current.id；bid分支拒lost/cancelled/not-applicable；direct无引用可过，有引用才查mode；不新增won/participate/blockerCount=0门槛。
+5. shared-contracts.ts:4856–4977：默认数组、optional/nullable、未知字段strip来源、sortOrder与datetime约束；controller无ZodSerializerDto响应解析，不能把响应schema误用作历史读取过滤器。
+6. 原entity及EX-27：process字段NOT NULL/nullable、version unique与仅is_current的partial unique、child外键及无key/sortOrder唯一约束；EX-35a补 tenderNo/bidPackageNo。
+
+## 冻结前需消歧的记录
+
+### C-B-01：把 G1 前 Native 语义见证与 G3 候选验收分列
+
+B报告137行要求先Native裁决全部 nativeWitnessRequired=true 再冻结G1，但同一矩阵把 B-DOWNSTREAM-01（真实Rust POST生产者）及候选Rust/UI比较也标为true。literal执行会形成先有产品才可G1的循环。
+
+Root master应明确列出：G1前必须settle的Native事实，以及G2后/G3的Rust、双端HTTP、四组合UI、真实生产者消费链。G3项保留not-run，G1只冻结其输入/断言/证据要求，不提前伪造执行结果。无需改B原件；在master按case id消歧并保留其哈希即可。
+
+### C-B-02：历史异常fixture不能突破受保护DDL
+
+B-WORKSPACE-06标题包含null stored enum；原EX-27中status/bidMode/currentStage/decision/resultStatus/materialStatus/timelineStatus均NOT NULL。应拆成：原约束下允许的未知varchar值、nullable字段的null，以及被DB拒绝或不可构造的null enum。不能为HTTP读取场景drop约束或把不可构造状态记成功。
+
+B-VERSION-06也应在原unique约束下验证可构造的current/status组合；不拆partial unique来制造同一project多current。原三列ORDER BY仍按源码保留，无法构造的并列排序不冒称运行验证。
+
+### C-B-03：机器ownership排除http.rs
+
+B矩阵authorScope写模块整目录；md/manifest已明确except http.rs且Root独占公共接线。Root master应以机器可判定的排除规则冻结，避免后续仅按authorScope glob审差异时把Root的http.rs归给作者。此项是记录消歧，不是已发生越权。
+
+## 最小共享接口建议
+
+沿用A/B候选接口，不扩充领域规则：
+
+- project_bid_commercial::store::current(&mut PgConnection, project_id: &str) -> Result<Option<Row>, sqlx::Error>
+- project_bid_commercial::store::by_id(&mut PgConnection, process_id: Uuid) -> Result<Option<Row>, sqlx::Error>
+- project_bid_commercial::summary(&Row) -> serde_json::Value
+- Service::new(Database)；list/workspace/create返回Result<projects::model::Wire, module Error>，各方法参数与Error到公共HTTP错误的转换仍须Root master冻结。
+
+Row承载23字段的DB事实，文本状态用原字符串保留。current保留三个谓词/三列DESC；by-id保留无额外过滤的历史读取。它们不BEGIN/flush/lock/retry/鉴权/写审计/补项目状态检查。报价命令UUID字符串不得为了调用该DB接口先canonicalize；by-id的Uuid仅来自已存引用。
+
+现有projects::store::find/user_names/org_names已公开，可作Root批准桥的底层；不复用较窄的projects::store::BidRow替代完整竞标Row。现有Wire::object只处理顶层原UTF16字符串，适合POST parent summary；DB读回与同请求原字符串仍分别处理，不把serde_json::Value当JS UTF16保真输入。
+
+Root master还须明确module service如何接收actor/permissions及pending session flush事实；共享current/by-id不能隐藏这种写入。保留既有54ignored/schema/TZ/隔离例外的原标签。
+
+## 联合 G1 当前缺口
+
+- 尚未审阅A/D三原件、Root master/形式包/联合hash与正式共享接口接受记录。
+- Native正常第二版本、真实flush语句顺序、implicit transaction/autoflush、旧rowVersion CAS及唯一冲突HTTP分类、session独立touch与managed flush残留均未由本审查见证；不能从persist数组或mock推导原子性。
+- DTO/路径错误先后、Unicode/datetime/number边界需Root真实Native结果作语义裁决；Rust实际验收留待G2后。
+- 当前线上Issue及父子关系的正式冻结快照仍由Root提供；本地G0脚本/回执不是当前在线状态的替代品。
+
+本轮结论仅是B候选静态输入可继续补齐联合冻结材料；**没有G1 Pass、没有产品开工许可、没有G3/G4结论**。

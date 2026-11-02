@@ -1,0 +1,862 @@
+{
+  "kind": "C-non-author-G3-correction-static-prereview",
+  "createdAt": "2026-11-02T06:11:39.079Z",
+  "originalCandidateManifest": {
+    "file": "docs/design/rust-r3cdefg/g3-candidate-manifest02.json",
+    "bytes": 117019,
+    "rawBytesSha256": "0edc75c5b825f496668e7db99276a827b9fece64c060ed8d8a9a34cc9f9e37d9"
+  },
+  "originalG3NeedsCorrection": {
+    "file": "tmp/rust-r3cdefg/c-review/g3-independent-review01.json",
+    "bytes": 18172,
+    "rawBytesSha256": "e348bfc0aa3801d7512d7a26be656726a9c906453d7ad939075bbcaaf9a519c7"
+  },
+  "decision": "Source fix is narrowly correct and original runtime counterexamples independently confirmed; new candidate actual verification and formal G3 remain pending",
+  "sourceRepairVisible": true,
+  "sourceScope": {
+    "oldRustSources": 203,
+    "changedProductFiles": [
+      {
+        "old": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6276,
+          "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+        },
+        "current": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6585,
+          "rawBytesSha256": "7cf811beb2848495cd115415bcb57c7ac93594f18f3bec1ffa8405b55eaf1010"
+        }
+      },
+      {
+        "old": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 14332,
+          "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+        },
+        "current": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 17992,
+          "rawBytesSha256": "29dc55e1c13e63fbf846efd4c6c2e002c56700d2605394d7e085a082bfdc260a"
+        }
+      }
+    ],
+    "unchangedRustSources": 201,
+    "NativePins": 872,
+    "NativeMismatches": 0,
+    "G1FormalPins": 44,
+    "G1FormalMismatches": 0,
+    "allOld560InputChanges": [
+      {
+        "old": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6276,
+          "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+        },
+        "current": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6585,
+          "rawBytesSha256": "7cf811beb2848495cd115415bcb57c7ac93594f18f3bec1ffa8405b55eaf1010"
+        }
+      },
+      {
+        "old": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 14332,
+          "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+        },
+        "current": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 17992,
+          "rawBytesSha256": "29dc55e1c13e63fbf846efd4c6c2e002c56700d2605394d7e085a082bfdc260a"
+        }
+      }
+    ],
+    "originMap": {
+      "file": "docs/design/rust-r3cdefg/candidate02-correction-origin-map01.json",
+      "bytes": 1864,
+      "rawBytesSha256": "99bb176e35ce47f925b3df2e6bda3bc881f6e0eb6359bd391a73c5ec15cd41e5"
+    },
+    "savedOriginals": [
+      {
+        "source": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 14332,
+          "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+        },
+        "preserved": {
+          "file": "docs/design/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 14332,
+          "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+        },
+        "stagedEcBytesVerified": true
+      },
+      {
+        "source": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6276,
+          "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+        },
+        "preserved": {
+          "file": "docs/design/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6276,
+          "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+        },
+        "stagedEcBytesVerified": true
+      },
+      {
+        "source": {
+          "file": "tmp/rust-r3cdefg/c-review/g3-independent-review01.json",
+          "bytes": 18172,
+          "rawBytesSha256": "e348bfc0aa3801d7512d7a26be656726a9c906453d7ad939075bbcaaf9a519c7"
+        },
+        "preserved": {
+          "file": "docs/design/rust-r3cdefg/C/g3-independent-review01.json",
+          "bytes": 18172,
+          "rawBytesSha256": "e348bfc0aa3801d7512d7a26be656726a9c906453d7ad939075bbcaaf9a519c7"
+        },
+        "originalReviewPreserved": true
+      },
+      {
+        "source": {
+          "file": "tmp/rust-r3cdefg/c-review/g3-dynamic-error-family-audit01.json",
+          "bytes": 41937,
+          "rawBytesSha256": "fbecf4fea6f08937440674336382efef547670a0ea0fb108e5320b262d18179d"
+        },
+        "preserved": {
+          "file": "docs/design/rust-r3cdefg/C/g3-dynamic-error-family-audit01.json",
+          "bytes": 41937,
+          "rawBytesSha256": "fbecf4fea6f08937440674336382efef547670a0ea0fb108e5320b262d18179d"
+        },
+        "originalReviewPreserved": true
+      }
+    ]
+  },
+  "sourceDiffs": [
+    {
+      "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+      "unifiedDiff": "diff --git a/docs/design/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/service.rs b/apps/poms-api-rust/src/project_technical_cost/service.rs\nindex 0366093a..8ff200e8 100644\n--- a/docs/design/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/service.rs\n+++ b/apps/poms-api-rust/src/project_technical_cost/service.rs\n@@ -7,6 +7,7 @@ use uuid::Uuid;\n use super::{model::CreateRequest, store};\n use crate::{\n     auth::{\n+        js_json::JsString,\n         model::{ResolvedSession, clock_now},\n         store::flush_managed_session,\n     },\n@@ -22,6 +23,7 @@ use crate::{\n pub enum Error {\n     NotFound(String),\n     BadRequest(String),\n+    BadRequestJs(JsString),\n     Database(DbError),\n     Internal,\n }\n@@ -109,10 +111,7 @@ fn random_uuid() -> Result<Uuid, Error> {\n fn validate_amounts(input: &CreateRequest) -> Result<(), Error> {\n     for (index, item) in input.cost_items.iter().enumerate() {\n         if item.currency_code != input.currency_code {\n-            return Err(Error::BadRequest(format!(\n-                \"costItems[{index}].currencyCode must equal package currencyCode {}\",\n-                input.currency_code.to_utf8_lossy()\n-            )));\n+            return Err(currency_mismatch(index, &input.currency_code));\n         }\n         let excluding = number(\n             &item.amount_excluding_tax,\n@@ -135,6 +134,16 @@ fn validate_amounts(input: &CreateRequest) -> Result<(), Error> {\n     Ok(())\n }\n \n+fn currency_mismatch(index: usize, currency: &JsString) -> Error {\n+    let prefix = format!(\"costItems[{index}].currencyCode must equal package currencyCode \");\n+    let mut units = prefix.encode_utf16().collect::<Vec<_>>();\n+    units.extend_from_slice(currency.as_code_units());\n+    match String::from_utf16(&units) {\n+        Ok(message) => Error::BadRequest(message),\n+        Err(_) => Error::BadRequestJs(JsString::from_code_units(units)),\n+    }\n+}\n+\n impl Service {\n     pub fn new(database: Database) -> Self {\n         Self { database }\n@@ -371,3 +380,80 @@ impl Service {\n         Ok(Wire::object(store::summary(&record), &original))\n     }\n }\n+\n+#[cfg(test)]\n+mod tests {\n+    use super::{Error, validate_amounts};\n+    use crate::{\n+        error::ApiError,\n+        project_technical_cost::{model::CreateRequest, validation::validate_create},\n+    };\n+\n+    fn mismatch_request(currency_json: &str) -> Result<CreateRequest, ApiError> {\n+        // Deliberately inconsistent amounts prove that currency preflight still\n+        // wins before money validation; this goes through the real request DTO.\n+        let raw = format!(\n+            r#\"{{\"technicalFeasibilityDecision\":\"feasible\",\"technicalConclusionSummary\":\"ok\",\"allowNextStage\":true,\"currencyCode\":{currency_json},\"taxAssumptionSummary\":\"ok\",\"taxReviewStatus\":\"reviewed\",\"costItems\":[{{\"costCategory\":\"equipment\",\"costDescription\":\"item\",\"estimationBasis\":\"quote\",\"amountExcludingTax\":\"1.00\",\"taxCostAmount\":\"0.00\",\"amountIncludingTax\":\"0.00\",\"currencyCode\":\"USD\",\"confidenceLevel\":\"high\",\"highUncertainty\":false}}]}}\"#\n+        );\n+        validate_create(Some(&raw))\n+    }\n+\n+    #[test]\n+    fn currency_preflight_retains_isolated_utf16_after_dto_trim() -> Result<(), ApiError> {\n+        for (input, expected_json) in [\n+            (\n+                r#\"\"A\\ud800B\"\"#,\n+                r#\"\"costItems[0].currencyCode must equal package currencyCode A\\ud800B\"\"#,\n+            ),\n+            (\n+                r#\"\"A\\udc00B\"\"#,\n+                r#\"\"costItems[0].currencyCode must equal package currencyCode A\\udc00B\"\"#,\n+            ),\n+            (\n+                r#\"\" \\tA\\ud800B\\u3000\"\"#,\n+                r#\"\"costItems[0].currencyCode must equal package currencyCode A\\ud800B\"\"#,\n+            ),\n+        ] {\n+            let request = mismatch_request(input)?;\n+            match validate_amounts(&request) {\n+                Err(Error::BadRequestJs(message)) => {\n+                    assert_eq!(message.json(), expected_json);\n+                    assert!(!message.as_code_units().contains(&0xfffd));\n+                }\n+                other => panic!(\"expected raw UTF-16 currency error, got {other:?}\"),\n+            }\n+        }\n+        Ok(())\n+    }\n+\n+    #[test]\n+    fn currency_preflight_keeps_complete_astral_and_ascii_as_string_errors() -> Result<(), ApiError>\n+    {\n+        for (input, expected) in [\n+            (\n+                r#\"\"A\\ud83d\\ude00B\"\"#,\n+                \"costItems[0].currencyCode must equal package currencyCode A😀B\",\n+            ),\n+            (\n+                r#\"\"CNY\"\"#,\n+                \"costItems[0].currencyCode must equal package currencyCode CNY\",\n+            ),\n+        ] {\n+            let request = mismatch_request(input)?;\n+            match validate_amounts(&request) {\n+                Err(Error::BadRequest(message)) => assert_eq!(message, expected),\n+                other => panic!(\"expected unchanged string currency error, got {other:?}\"),\n+            }\n+        }\n+        // With matching currency, the original ordinary money error is kept.\n+        let request = mismatch_request(r#\"\"USD\"\"#)?;\n+        match validate_amounts(&request) {\n+            Err(Error::BadRequest(message)) => assert_eq!(\n+                message,\n+                \"costItems[0].amountIncludingTax must equal amountExcludingTax + taxCostAmount\"\n+            ),\n+            other => panic!(\"expected unchanged money preflight error, got {other:?}\"),\n+        }\n+        Ok(())\n+    }\n+}\n"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+      "unifiedDiff": "diff --git a/docs/design/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/http.rs b/apps/poms-api-rust/src/project_technical_cost/http.rs\nindex 105d3f27..3915a287 100644\n--- a/docs/design/rust-r3cdefg/evidence/historical/candidate02-source/apps/poms-api-rust/src/project_technical_cost/http.rs\n+++ b/apps/poms-api-rust/src/project_technical_cost/http.rs\n@@ -174,6 +174,13 @@ async fn dispatch(\n             match error {\n                 Error::NotFound(message) => ApiError::message(StatusCode::NOT_FOUND, message),\n                 Error::BadRequest(message) => ApiError::message(StatusCode::BAD_REQUEST, message),\n+                Error::BadRequestJs(message) => ApiError::raw_json(\n+                    StatusCode::BAD_REQUEST,\n+                    format!(\n+                        r#\"{{\"statusCode\":400,\"message\":{},\"error\":\"Bad Request\"}}\"#,\n+                        message.json()\n+                    ),\n+                ),\n                 Error::Database(_) | Error::Internal => ApiError::internal(),\n             }\n             .into_response()\n"
+    }
+  ],
+  "sourceAssessment": {
+    "currencyComparisonAndOrder": "Same currency mismatch condition remains at same loop position before money validation/current lookup/business writes",
+    "rawInput": "Prefix encoded to UTF16 then exact validated currency code units appended; no conversion or replacement before retaining the new error payload",
+    "ordinaryInput": "String::from_utf16 succeeds for complete astral/ASCII/other valid scalar strings and retains the previous BadRequest(String) path",
+    "HTTP": "Only BadRequestJs uses pre-existing ApiError::raw_json with original400 status/message/error envelope and JsString.json escaping",
+    "noSharedMutation": "Existing raw_json/JsString helpers, guard/router, DTO/store/mapper, other201 Rust sources, Native/client/Angular remain unchanged",
+    "unitDefinitions": "Two real validate_create -> validate_amounts regressions cover high/low/trim, complete astral/ASCII and currency-before-inconsistent-money priority; C read definitions only, did not execute them"
+  },
+  "oldActualWitness": {
+    "sources": [
+      {
+        "file": "tmp/rust-r3cdefg/raw-errors-raw-errors01-nest-01/report01.json",
+        "bytes": 55334,
+        "rawBytesSha256": "fb35903d300f74750086ca541d4af860f80d9dbad5df7e5857882c6e5792637b"
+      },
+      {
+        "file": "tmp/rust-r3cdefg/raw-errors-raw-errors01-rust-01/report01.json",
+        "bytes": 54454,
+        "rawBytesSha256": "4473b470b2f969229d310d2f882317e5b7bf09b46719bb8bf2643698a79ee8af"
+      }
+    ],
+    "comparison": {
+      "file": "tmp/rust-r3cdefg/raw-errors-compare-01.json",
+      "bytes": 9759,
+      "rawBytesSha256": "18064ca93dc162e668a6ee31c72863f46cd27ee8b51a083a2b4825a80e814bfc"
+    },
+    "candidate": "Original ec988ff, not the fixed source build",
+    "eventsPerBackend": 14,
+    "independentDifferenceLabels": [
+      "cost.high",
+      "cost.low",
+      "cost.trim-high"
+    ],
+    "observations": [
+      {
+        "label": "cost.high",
+        "status": 400,
+        "observationEqual": false,
+        "fixed400BodyEqual": false,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.low",
+        "status": 400,
+        "observationEqual": false,
+        "fixed400BodyEqual": false,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.astral",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.ascii",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.nul",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.quote",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.slash",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.trim-high",
+        "status": 400,
+        "observationEqual": false,
+        "fixed400BodyEqual": false,
+        "nativeRowCount": 0,
+        "rustRowCount": 0,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.matched-high",
+        "status": 201,
+        "observationEqual": true,
+        "fixed400BodyEqual": null,
+        "nativeRowCount": 1,
+        "rustRowCount": 1,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.matched-low",
+        "status": 201,
+        "observationEqual": true,
+        "fixed400BodyEqual": null,
+        "nativeRowCount": 1,
+        "rustRowCount": 1,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cost.matched-astral",
+        "status": 201,
+        "observationEqual": true,
+        "fixed400BodyEqual": null,
+        "nativeRowCount": 1,
+        "rustRowCount": 1,
+        "auditCounts": [
+          0,
+          0
+        ]
+      },
+      {
+        "label": "followup.high",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "auditCounts": [
+          null,
+          null
+        ]
+      },
+      {
+        "label": "followup.low",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "auditCounts": [
+          null,
+          null
+        ]
+      },
+      {
+        "label": "followup.astral",
+        "status": 400,
+        "observationEqual": true,
+        "fixed400BodyEqual": true,
+        "auditCounts": [
+          null,
+          null
+        ]
+      }
+    ],
+    "rawDifferences": [
+      {
+        "label": "cost.high",
+        "nativeObservation": {
+          "label": "cost.high",
+          "status": 400,
+          "requestCodeUnits": [
+            65,
+            55296,
+            66
+          ],
+          "messageCodeUnits": [
+            99,
+            111,
+            115,
+            116,
+            73,
+            116,
+            101,
+            109,
+            115,
+            91,
+            48,
+            93,
+            46,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            109,
+            117,
+            115,
+            116,
+            32,
+            101,
+            113,
+            117,
+            97,
+            108,
+            32,
+            112,
+            97,
+            99,
+            107,
+            97,
+            103,
+            101,
+            32,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            65,
+            55296,
+            66
+          ],
+          "originalBodyCurrency": null,
+          "originalItemCurrency": null,
+          "storedCurrencies": [],
+          "rowCount": 0,
+          "auditCount": 0
+        },
+        "rustObservation": {
+          "label": "cost.high",
+          "status": 400,
+          "requestCodeUnits": [
+            65,
+            55296,
+            66
+          ],
+          "messageCodeUnits": [
+            99,
+            111,
+            115,
+            116,
+            73,
+            116,
+            101,
+            109,
+            115,
+            91,
+            48,
+            93,
+            46,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            109,
+            117,
+            115,
+            116,
+            32,
+            101,
+            113,
+            117,
+            97,
+            108,
+            32,
+            112,
+            97,
+            99,
+            107,
+            97,
+            103,
+            101,
+            32,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            65,
+            65533,
+            66
+          ],
+          "originalBodyCurrency": null,
+          "originalItemCurrency": null,
+          "storedCurrencies": [],
+          "rowCount": 0,
+          "auditCount": 0
+        },
+        "native400Body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\ud800B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "rust400Body": {
+          "error": "Bad Request",
+          "message": "costItems[0].currencyCode must equal package currencyCode A�B",
+          "statusCode": 400
+        }
+      },
+      {
+        "label": "cost.low",
+        "nativeObservation": {
+          "label": "cost.low",
+          "status": 400,
+          "requestCodeUnits": [
+            65,
+            56320,
+            66
+          ],
+          "messageCodeUnits": [
+            99,
+            111,
+            115,
+            116,
+            73,
+            116,
+            101,
+            109,
+            115,
+            91,
+            48,
+            93,
+            46,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            109,
+            117,
+            115,
+            116,
+            32,
+            101,
+            113,
+            117,
+            97,
+            108,
+            32,
+            112,
+            97,
+            99,
+            107,
+            97,
+            103,
+            101,
+            32,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            65,
+            56320,
+            66
+          ],
+          "originalBodyCurrency": null,
+          "originalItemCurrency": null,
+          "storedCurrencies": [],
+          "rowCount": 0,
+          "auditCount": 0
+        },
+        "rustObservation": {
+          "label": "cost.low",
+          "status": 400,
+          "requestCodeUnits": [
+            65,
+            56320,
+            66
+          ],
+          "messageCodeUnits": [
+            99,
+            111,
+            115,
+            116,
+            73,
+            116,
+            101,
+            109,
+            115,
+            91,
+            48,
+            93,
+            46,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            109,
+            117,
+            115,
+            116,
+            32,
+            101,
+            113,
+            117,
+            97,
+            108,
+            32,
+            112,
+            97,
+            99,
+            107,
+            97,
+            103,
+            101,
+            32,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            65,
+            65533,
+            66
+          ],
+          "originalBodyCurrency": null,
+          "originalItemCurrency": null,
+          "storedCurrencies": [],
+          "rowCount": 0,
+          "auditCount": 0
+        },
+        "native400Body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\udc00B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "rust400Body": {
+          "error": "Bad Request",
+          "message": "costItems[0].currencyCode must equal package currencyCode A�B",
+          "statusCode": 400
+        }
+      },
+      {
+        "label": "cost.trim-high",
+        "nativeObservation": {
+          "label": "cost.trim-high",
+          "status": 400,
+          "requestCodeUnits": [
+            32,
+            9,
+            65,
+            55296,
+            66,
+            160
+          ],
+          "messageCodeUnits": [
+            99,
+            111,
+            115,
+            116,
+            73,
+            116,
+            101,
+            109,
+            115,
+            91,
+            48,
+            93,
+            46,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            109,
+            117,
+            115,
+            116,
+            32,
+            101,
+            113,
+            117,
+            97,
+            108,
+            32,
+            112,
+            97,
+            99,
+            107,
+            97,
+            103,
+            101,
+            32,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            65,
+            55296,
+            66
+          ],
+          "originalBodyCurrency": null,
+          "originalItemCurrency": null,
+          "storedCurrencies": [],
+          "rowCount": 0,
+          "auditCount": 0
+        },
+        "rustObservation": {
+          "label": "cost.trim-high",
+          "status": 400,
+          "requestCodeUnits": [
+            32,
+            9,
+            65,
+            55296,
+            66,
+            160
+          ],
+          "messageCodeUnits": [
+            99,
+            111,
+            115,
+            116,
+            73,
+            116,
+            101,
+            109,
+            115,
+            91,
+            48,
+            93,
+            46,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            109,
+            117,
+            115,
+            116,
+            32,
+            101,
+            113,
+            117,
+            97,
+            108,
+            32,
+            112,
+            97,
+            99,
+            107,
+            97,
+            103,
+            101,
+            32,
+            99,
+            117,
+            114,
+            114,
+            101,
+            110,
+            99,
+            121,
+            67,
+            111,
+            100,
+            101,
+            32,
+            65,
+            65533,
+            66
+          ],
+          "originalBodyCurrency": null,
+          "originalItemCurrency": null,
+          "storedCurrencies": [],
+          "rowCount": 0,
+          "auditCount": 0
+        },
+        "native400Body": {
+          "message": "costItems[0].currencyCode must equal package currencyCode A\ud800B",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "rust400Body": {
+          "error": "Bad Request",
+          "message": "costItems[0].currencyCode must equal package currencyCode A�B",
+          "statusCode": 400
+        }
+      }
+    ],
+    "interpretation": "Confirms original isolated-surrogate400 drift. Complete astral/ASCII/NUL/quote/backslash, matched-currency201 raw response/PG replacement and F invalid-code DTO400 observations otherwise match. This is not repaired-runtime acceptance."
+  },
+  "UIBoundary": {
+    "repeat898NotRequiredForThisExactSourceDelta": true,
+    "reason": "The original technical-cost UI is read-only and has no POST form; already-tested UI GET/store/guard/response paths and every Angular/client byte are unchanged. Ordinary String errors use same path. Future candidate must show exact two-file causal delta and all45+1691+14 current API/PG/terminal verification.",
+    "oldUIArtifact": "Keep898 actual exchanges bound to ec988ff, never relabel as new-binary execution"
+  },
+  "nextRequired": "Root new artifact/source hashes; actual45+1691+14, strict raw-code-unit/full-body parity and PG/terminal; new manifest03 and independent formal G3. Current01 Needs-correction remains immutable.",
+  "independentProductExecution": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

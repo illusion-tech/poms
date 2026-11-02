@@ -1,0 +1,189 @@
+# R3E 客户联系人 3 操作与 R3F 销售跟进 4 操作：G1 静态输入审阅
+
+状态：`Prepared-for-joint-G1 / source-only / Native-witness-pending`。本文件不表示 G1、G2、实现、实际验证或 G4 通过。
+
+- 基线：`0fced204c917a37b84a2ad50838e722e764b8f78`。
+- 工作树：`E:/projects/worktrees/poms-r3cdefg-next16/poms`。
+- 分支：`codex/poms-r3cdefg-next16`。
+- 角色：作者 3；目标配置 Sol / max，Fast 没有独立可核实证据。
+- Issue：R3E 联系人 [#90](https://github.com/illusion-tech/poms/issues/90)、R3F 跟进 [#91](https://github.com/illusion-tech/poms/issues/91)；父 [#85](https://github.com/illusion-tech/poms/issues/85) 与总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持完整范围边界。ID由Root分配，本作者不访问或修改GitHub。
+- 分类：`cross-layer-high-risk`；只迁移既有 HTTP 行为，零新增公开路由、零产品 DDL。
+- 当前写入范围仅为 `tmp/rust-r3cdefg/d-input/**`。未来作者实现范围仅为 `apps/poms-api-rust/src/customer_contacts/**` 与 `apps/poms-api-rust/src/sales_follow_up/**`，其中各模块 `http.rs` 由Root独占；须等待 Root 联合 G1 与独立 Pass 后再接收 G2 指令。
+- Root 独占公共 HTTP、Cargo/lib、旧 customers/projects、共享投影和错误桥、生成物、公共治理、安装/build/test/lint/DB/HTTP/browser/host/env/fixture、保全和 Git 发布。
+
+## 1. 范围与权威输入
+
+R3E 只从原 sales-intelligence 的 13 操作拆出联系人 3 操作；其余机会关系人、竞争、情报和缺口 10 操作保持后续。R3F 是销售跟进 4 操作及其真实 Todo producer，不能以 R2 已有公共 Todo 机制替代本片交付。
+
+| 切片 | 操作 | Native 权限 | 源码成功状态 | canonical inventory |
+| --- | --- | --- | --- | --- |
+| R3E | `GET /api/customer-contacts` | all `customer:read` | 200 | 352 |
+| R3E | `POST /api/customer-contacts` | all `customer:write` | 201 | 353 |
+| R3E | `PATCH /api/customer-contacts/{id}` | all `customer:write` | 200 | 354 |
+| R3F | `GET /api/sales-follow-up-records` | any `customer:read`, `lead:read`, `project:read` | 200 | 343 |
+| R3F | `POST /api/sales-follow-up-records` | any `customer:write`, `lead:write`, `project:write` | 201 | 344 |
+| R3F | `POST /api/sales-follow-up-records/{id}:replace` | 同上写权限 any | 200 | 345 |
+| R3F | `POST /api/sales-follow-up-records/{id}:void` | 同上写权限 any | 200 | 346 |
+
+七行 canonical 状态均为 `aligned`。路径 action 是冒号后缀；未登记 GET detail、DELETE、PATCH follow-up 或 DELETE contact。Native 的 contact PATCH 与 follow-up replace/void 都只用 `@Param('id') id: string`，没有 UUID pipe。
+
+权威关系为：原 controller 的 HTTP 投影 + 原 shared schema / vendored DTO pipe + service / repository / mapper / entity + 92 个既有 migration 的累计 DDL。既有 OpenAPI、client、Rust shared enum 和 Node 源码是保护对象；本片不通过生成物修改反向改变契约。`source-manifest.json` 给出相对路径、原始字节数、SHA-256、关键符号与行段；`acceptance-matrix.json` 是 Root 实测断言清单，所有结果初始待执行。
+
+R3A/B 已交付的客户和项目 HTTP 是真实输入 producer。必须通过它们创建客户/项目再消费本片。Lead 14 操作仍未迁移；Lead 路径只能用 Root 隔离命名空间中的受控真实只读事实作为输入，并保留该来源标签。它不能被写成“Lead producer 已迁移”或完整 R3 阶段验收。
+
+## 2. 共同 DTO、标量和错误边界
+
+1. Nest 全局 `ZodValidationPipe` 调用原 schema `parse`；`z.object` 对未知键进行 strip。本片不添加 `.strict`，不自动把陌生键当合法更新字段。
+2. 默认错误对象来自 `ZodValidationException`：`{statusCode:400,message:'Validation failed',errors:issues}`；若原 parse 抛出的异常没有 issues，`errors` 会被 JSON 省略。没有额外 `error` 字段。字段 issue 顺序、path、code、pattern、message、同字段多条 issue 和 refine 是否执行由原 schema oracle / HTTP witness 冻结。
+3. 字符串没有全局 coercion；数字、布尔、数组、对象、null 与缺失需分别比较。JS 对异常 `.length` 对象 / 数组的 Zod 路径不能由通常标量校验猜测。
+4. 原 R3A/B 联合基线已记录锁定 Zod 4.6.1 的字符串 trim 后 min/max 按 Unicode code point 实测。此记录作为本批共同裁决的输入，Root 仍应对本片受影响 schema 复验边界。它不改变业务源码显式使用 JS UTF-16 `text.length` / `slice` 的审计长度和 Todo 截断。
+5. trim 是原 JS 空白集合；须覆盖 ASCII、NBSP、BOM、Unicode 分隔空白、零宽空格差异、emoji、组合字符、未配对 high/low surrogate 和 JSON 转义。Rust `str::trim`、UTF-8 字节数或无条件替换字符都不能代替原规则。
+6. `z.uuid()`：不 trim，接收版本 1–8 与合法 variant，也包含 nil UUID 与全小写 max UUID 的原 pattern。大小写、nil/max、坏 variant、version 0/9、无连字符、前后空白以及 URL/query 重复键要由原 DTO 断言。传入 service 的 UUID 原拼写与 DB canonical 化可能影响 JS 严格相等，不能提前统一小写后再比较。
+7. path ID 没有 DTO UUID 校验。坏 path UUID 的真实 PG/ORM/HTTP错误、大小写/连字符/特殊转义等须先 Native witness；不能新增 400 UUID pipe，也不能默认把其变成 404。
+8. 日期为 `z.iso.datetime()`，非仅日期，不启用 offset/local 选项。Root 冻结 Z、秒/小数、闰日、offset、缺失时区、无效日历、扩展年、过长小数、负/未来时间和 ISO 归一化。服务不要求 `nextFollowUpAt >= occurredAt`，也不要求 occurredAt 非未来。
+9. 普通 Native `BadRequestException` / `NotFoundException` / `ConflictException` 用默认 Nest string exception envelope；数据库/ORM失败用原未知错误路径。Root 共享错误桥裁决前作者不得自行发明映射。
+10. 认证、CSRF、permission guard、请求 ID 与 managed session 的 pending flush 属 Root 公共接线；对七操作逐项覆盖无会话、Cookie、Bearer、缺权限、any/all差异、写CSRF失败、允许的四认证组合。此处不增加 owner / organization / scope 权限判断。
+
+## 3. R3E：字段、HTTP 投影和读写规则
+
+源：shared-contracts.ts 2883–2907、3090–3167；sales-intelligence.controller.ts 30–71；service.ts 44–46、67–159、475–489、578–591、630–715、810–813；repository.ts 29–79；entity.ts 38–81。
+
+### 请求字段
+
+| 字段 | create | PATCH | 字段语义 |
+| --- | --- | --- | --- |
+| customerId | required `z.uuid()` | 不在 schema；strip | PATCH 不可改客户 |
+| name | required | optional | string trim，1..128 |
+| gender | optional | optional | enum `unknown/male/female`，不 nullable |
+| department/title | optional nullable | optional nullable | string trim，1..128 |
+| workPhone/mobile | optional nullable | optional nullable | string trim，1..64；没有号码格式 regex |
+| wechat | optional nullable | optional nullable | string trim，1..128 |
+| email | optional nullable | optional nullable | 原 `z.email()`，不 trim，无 schema max |
+| remark | optional nullable | optional nullable | string trim，1..2000 |
+| status | 不在 schema；strip | optional | enum `active/inactive`，不 nullable |
+| expectedVersion/owner 字段 | strip | strip | Native 没有这些请求契约 |
+
+PATCH 至少存在一个已知且非 undefined 字段，空对象 / 只有未知字段触发 `At least one field is required for update`。nullable 字段的 null 算有效更新；不允许用空/纯空白字符串代替 null。缺失保持原值。
+
+**HTTP create 的 gender 例外必须保留**：DTO 接受并校验 gender，但 controller.create 的对象只投影 customerId/name/department/title/workPhone/mobile/wechat/email/remark，不投影 gender。HTTP 合法 `male/female` 最终仍使用 service 的 `unknown` 回退。service 单元测试 163–195 直接调用时可保留 female，它不是 HTTP producer 的证据。
+
+创建先 `requireCustomer`，只要求客户存在，允许 inactive / merged 等现有客户状态。联系人默认 status=active；gender 在真实 HTTP 默认 unknown；optionalText 缺失/null 归一为 null；email 保留 DTO 值或 null。随机 UUID；createdBy/updatedBy 是操作人 ID。没有操作人再次存在性查询，也没有创建字段审计。
+
+列表必须先确认客户存在，再读取该 customerId 的全部联系人，包括 inactive；排序 `updated_at DESC, created_at DESC`，没有第三 tie-break。不存在客户 404 `Customer <id> not found`；存在但没有联系人返回 `[]`。不增加分页或 active filter。
+
+PATCH 在显式 `em.transactional` 内依次读取联系人、读取其所属客户，均只要求存在。缺联系人 404 `CustomerContact <id> not found`；所属客户缺失 404 `Customer <id> not found`。允许更新 inactive 联系人、inactive/merged客户下联系人；无 expectedVersion 请求前置条件。已知字段通过 trim/null 归一后比较。
+
+如果值完全相同：直接返回 mapper，不设置 updatedBy、不 persist、不记字段审计；transaction wrapper / managed session 是否仍有 flush 由 Root witness。若有变化：设置 updatedBy，persist contact；在同一个 EM 中 persist audit；显式 flush 后返回。ORM row_version 更新与 CAS/异常由真实并发冻结，不能把没有 expectedVersion 的接口改成有版本输入。
+
+### 审计与返回
+
+changedFields 顺序固定 `name,gender,department,title,workPhone,mobile,wechat,email,remark,status`，不是提交键顺序。比较为 `JSON.stringify(left ?? null) === JSON.stringify(right ?? null)`。
+
+eventType=`customer-contact.updated`，targetType=`customer-contact`，targetId=contact.id，operatorId、requestId或null、result=success。beforeSnapshot/afterSnapshot 仅包含 changedFields。`workPhone/mobile/wechat/email/remark` 脱敏为 `{changed:true,present:text.length>0,length:text.length}`，length 是 JS UTF-16 code units；非敏感字段保留值。metadata 包含 changedFields、sourceCommand=`update-customer-contact`、仅变更的 redactedFields 和 businessContext `{customerId}`。不存在 owner、lead、project 上下文扩展。
+
+mapper 返回固定全字段：id/customerId/customerName/name/gender/department/title/workPhone/mobile/wechat/email/remark/status/rowVersion/createdAt/createdBy/updatedAt/updatedBy。nullable 键显式 null；customerName 是当前 customer.displayName；日期 `.toISOString()`。name等新写入的未配对surrogate可能在当次managed对象返回与PG持久化/后续GET之间产生差别，必须保留分层 witness，不能用 serde_json 的可表示字符范围倒推 Native。
+
+email DTO没有 max，但 entity / DDL为 varchar255。合法长 email 的真实写入失败与返回不能被提前加 schema max 改写。
+
+## 4. R3F：字段、锚点与 owner 解析
+
+源：shared-contracts.ts 2396–2402、3460–3615；sales-follow-up controller 15–94、service 26–367、repository 14–307、mapper 18–51、entity 20–171；CustomerService.requireActiveCustomer 258–264；DictionaryService.requireActiveItem 66–76。
+
+### 请求与查询
+
+- GET：customerId/leadId/projectId 均 optional `z.uuid()`，不可 null；lifecycleScope optional enum `active/all`。至少一个 anchor，错误 `At least one anchor is required for sales follow-up query`。未传 scope 默认为 active；没有客户/线索/项目存在性查询。
+- filter 是 `(customer_id = customerId 如有) AND (lead_id=leadId OR project_id=projectId 如有)`；两个机会锚点不是 AND。scope active 加 status active，all 不加状态条件。排序 `occurred_at DESC, created_at DESC`，没有额外 tie-break；返回数组。
+- POST create：customerId required；leadId/projectId optional nullable UUID，可同时存在；不强制二选一，不验证 project.sourceLeadId 等于 leadId。
+- create/replace：followUpType required DictionaryCode，trim、1..64、`^[a-z][a-z0-9-]*$`；occurredAt required ISO datetime；summary required trim 1..2000；detail optional nullable trim 1..8000；outcome required enum `progress/waiting-customer/risk-discovered/deferred/close-recommended/no-response/other`；nextFollowUpAt optional nullable ISO datetime；ownerUserId/ownerOrgId optional nullable UUID。
+- replace 另外 required replacementReason trim1..1000，expectedVersion required number/int/positive；customerId/leadId/projectId/status/links/rowVersion等未知键 strip，不更换旧记录锚点。
+- void：reason required trim1..1000，comment optional nullable trim max1000（空串允许），expectedVersion required number/int/positive。无字符串转数字。正小数/0/负数/NaN不可JSON等按原DTO错误形状比较。
+
+followUpType DTO允许64字符，但 entity / DDL列为varchar32；字典表允许64字符。本片不能缩窄DTO或继续使用原始6值硬编码。当前 EX58C migration 已移除 chk_sales_follow_up_type；Root须覆盖真实active自定义字典值、inactive、missing，以及33..64合法字典值的DB错误。
+
+### create 校验与 owner
+
+执行先后：操作人存在性 → requireActiveCustomer → 可选lead → 可选project → resolveOwner → requireActiveItem(sales-follow-up-type) → 构造record → saveWithReminderSync → mapper。
+
+操作人缺失404 `Platform user <id> not found`；客户缺失404 `Customer <id> not found`；客户非active400 `Customer <id> is not active`。lead/project只要求存在、customerId严格相等，没有状态或owner/scope验证；不同客户400 `Lead/Project <id> does not belong to customer <customerId>`；缺失404 `Lead/Project <id> not found`。两锚点同客户即可，不要求两者互相关联。
+
+create owner规则：
+
+1. defaultOwnerUserId=`project.ownerUserId ?? lead.ownerUserId ?? operator.id`。
+2. defaultOwnerOrgId=`project.ownerOrgId ?? lead.ownerOrgId ?? operator.primaryOrgUnitId ?? null`。
+3. ownerUserId缺失采用默认，显式null清空；非null存在性查询，缺失404 `Platform user <id> not found`。不校验active、组织成员关系、数据scope或操作者等于owner。
+4. ownerOrgId缺失采用 `ownerUser.primaryOrgUnitId ?? defaultOwnerOrgId`；显式null清空。非null存在性查询，缺失404 `Org unit <id> not found`。即使owner显式null，org仍可由锚点/操作人默认；即使owner变化，原上下文org仍可作为fallback。
+5. ownerUser/Org在查询后用返回entity.id，保留原操作人identity map规则的 Root 统一裁决。
+
+构造active记录；summary trim，detail trim或null；next空值变null；createdBy/updatedBy=operator.id；created时无success审计。发生时间与下一次时间没有先后/未来限制。
+
+### replace / void 的差异
+
+两者先requireOperator、按path读旧record，缺失404 `SalesFollowUpRecord <id> not found`；再比较expectedVersion；不匹配409 `sales-follow-up-record version <expected> does not match current version <current>`；再判断status active。只有active可以替换或作废；400消息分别为 `Only active sales follow-up records can be replaced/voided, current status: <status>`。先版本后状态，组合错误优先级必须保持。service有缺expectedVersion的400支路，但真实HTTP先被required DTO拒绝，不能用service测试替代HTTP断言。
+
+loadRecordAnchors只要求customer存在，不再requireActiveCustomer；对旧lead/project继续检查存在和同客户。不新增closed/inactive限制。
+
+replace ownerUserId缺失保留currentRecord.ownerUserId；null清空；提供则查用户。ownerOrg缺失fallback按顺序：`ownerUser.primaryOrgUnitId ?? (ownerUserId缺失 ? currentRecord.ownerOrgId : null) ?? project.ownerOrgId ?? lead.ownerOrgId ?? operator.primaryOrgUnitId ?? null`；显式org null清空；非null查存在。只提供ownerOrg时也会重新查询ownerUser，用户当前primaryOrg可能优先于旧org。
+
+replace再验证字典，分配新UUID，捕获beforeSnapshot，然后将旧记录status=superseded/replacedByRecordId=newId/updatedBy=operator；新记录复制customer/lead/project锚点，使用替换body重建业务字段，status=active/supersedesRecordId=oldId/replacementReason trim，createdBy/updatedBy=operator。detail与next省略变null，并非保留旧值；owner按上述独立规则保留。新rowVersion默认1；旧rowVersion随真实flush增加，精确版本/时间按witness。返回新记录。
+
+void不查字典、不重新解析owner，只查现有owner user/org（找不到则mapper名字null）；设置status=voided、voidedAt=now、voidedBy=operator.id、voidReason=`trim(reason)`加非空trim(comment)的`: `后缀、updatedBy=operator。reason+comment组合可超过单字段1000，无新增组合限制。返回原记录的作废态。
+
+### follow-up 审计和 mapper
+
+replace保存/提醒sync完成以后另调用recordAudit：eventType=`sales-follow-up.replaced`、targetId=旧ID；metadata replacementId/replacementReason/before/after。void同样保存以后另记eventType=`sales-follow-up.voided`、targetId=原ID；metadata reason/before/after。targetType均sales-follow-up-record；requestId或null；result success。没有向recordAuditLog传业务EM。
+
+snapshot字段固定customerId/leadId/projectId/status/followUpType/occurredAt/summary/outcome/nextFollowUpAt/ownerUserId/ownerOrgId/supersedesId/replacedById/replacementReason/voidedAt/voidedBy/voidReason/rowVersion，**不含detail**。这些值没有联系人式脱敏。before是旧记录修改前；replace after是新记录；void after是保存后原记录。
+
+mapper固定全字段，列名转换supersedesRecordId→supersedesId、replacedByRecordId→replacedById；customer上下文缺失时customerName空字符串；lead/project/owner/voidedByName缺失时null；nullable字段显式null；日期toISOString。列表批量读取customer/lead/project/owner user/org，用户集合同时包含voidedBy。不得把context缺失改为404；只有命令anchor读有相应存在性规则。
+
+## 5. 真实 Todo producer：必须随 R3F 迁移
+
+源：sales-follow-up.repository.ts 14–20、93–121、183–306；todo-item.entity.ts；approval.service.ts 426–470、1142–1193；Rust approval/service.rs 158–247、approval_common/projection.rs 145起。
+
+1. saveWithReminderSync：persist record → syncReminderTodoForActiveRecord → em.flush；没有显式transactional。
+2. saveReplacementWithReminderSync：persist `[old,new]` → cancel旧source提醒 → sync新record提醒 → em.flush；没有显式transactional。旧/新互相FK、auto-flush与dirty/session写入顺序属于待Root实测，不能直接当作一个原子事务或猜测插入顺序。
+3. saveVoidWithReminderSync：persist原record → cancel原source提醒 → em.flush；没有显式transactional。
+4. sync若record非active或ownerUserId为空立即return，**不做目标stream清理**。
+5. reminder target优先project→lead→customer；projectId存在时target=project，todo.projectId=projectId，title优先projectName→leadName→customer.displayName；lead target的todo.projectId=null；customer同样null。
+6. stream查询条件为sourceType=`sales-follow-up-record`、todoType=`sales-follow-up-reminder`、assigneeUserId=当前owner、targetObjectType/targetObjectId=解析目标、status in open/processing。对sourceId不同的每条记录设置completed与相同now；同source不完成。不同owner/target/type、终态和其它来源不受此步影响。
+7. **先清理stream，再检查nextFollowUpAt**。next不存在仍完成其它旧来源提醒，但不查existing、不新建。owner为空则连这一步也不做。
+8. 有next时existing查询只按sourceType/sourceId/assignee/status open/processing，**没有todoType/target条件**。存在则覆盖todoType/businessDomain/target/project/title/summary/status=open/priority/dueAt/completedAt=null；即使processing也重开。不会变更assignee/source。
+9. 不存在existing时创建Todo：sourceType=sales-follow-up-record/sourceId=真实record.id/todoType=sales-follow-up-reminder/businessDomain=sales；target/project如上；assignee=owner；open；dueAt=next；completedAt=null；ID/default版本/时间由原ORM和DDL。
+10. title=`销售跟进提醒：<targetTitle>`；priority在next毫秒<=Date.now时high，否则normal；不依据occurredAt。
+11. summary=trim(summary)；无内容null；JS UTF-16 `length>160`时`slice(0,157)+'...'`。不能按code point截断；157边界可切开surrogate pair，需分别比较当次应用值与PG存储值。
+12. cancel按sourceType/sourceId/todoType/status open/processing，跨owner/target全取消，status=canceled/completedAt=同一now；completed/canceled终态不改。
+13. Todo entity版本锁，默认rowVersion1；更新是实际dirty-field驱动，包含createdAt/updatedAt。open-source部分唯一约束键为sourceType/sourceId/assignee，status open/processing；没有todoType/target键。并发同stream不同source可产生何种数量/冲突，必须用Native witness定界，不擅自加更强串行化。
+
+真实消费者验收：Rust HTTP创建customer（及project）→本片HTTP创建follow-up→同一DB真实todo_item→已有`GET /api/me/todos`→原UI提醒导航。返回sourceId必须为跟进真实ID，targetTitle当前事实名称，currentNodeName=`下次跟进：`+UTC+8日期时分，allowedActions=[]；只返回当前assignee的open/processing。被complete/cancel提醒从公开列表消失，实际行和版本仍保留；不能删行。public Todo机制现有投影读取受控事实的能力不代表本producer已交付。
+
+UI auth.store并非follow-up store的隐式自动刷新：跟进store只执行命令，panel随后reload跟进。验收应明确触发已有refreshTodos/页面重载后检查，不能新加产品刷新行为来使测试通过。
+
+## 6. 数据库、并发、故障与共享接线要求
+
+累计迁移保持92份原始字节。关键DDL：EX44建follow-up；EX48A加active/superseded/voided、双向self FK及非nullsupersedes/replacedBy独立唯一索引；EX58B稳定小写Todo枚举；EX58C移除follow-up固定type CHECK并引入字典；EX61建contact；EX62加gender。contact.customer / follow-up.customer/lead/project FK restrict；follow-up.owner user/org FK set null；createdBy/updatedBy/voidedBy是nullable UUID而非新加FK。
+
+联系人PATCH显式事务要验证审计插入失败、contact更新失败、managed session更新失败时contact/audit/session各行的实际rollback与版本；无变化PATCH在session dirty时仍须冻结事务wrapper产生的行为。
+
+follow-up保存与reminder查询可能auto-flush；查询前的managed业务记录、old/new互指、reminder清理、默认时间、rowVersion、session写入、审计独立flush必须用Native真实SQL观察。至少在record insert/update、stream SELECT、todo update/insert、cancel SELECT、业务最后flush、audit insert等阶段注入受控失败。每次检查HTTP、业务行、Todo行、audit、session、版本，结果可能是已部分提交；Pending不能写成rollback通过。
+
+并发覆盖contact同一行不同/相同字段、follow-up双replace、replace-vs-void、双void、同stream多create、不同stream隔离、同source open唯一冲突、dictionary停用、锚点/owner变化及会话CAS。真正Native冲突码/错误body/获胜者数量/新旧链/Todo终态/审计数量由Root先冻结；不把CAS loser统一改409，亦不为没有API版本要求的操作新增expectedVersion。
+
+公共复用：`CustomersService.require_active_customer`仅供follow-up create；联系人与follow-up replace/void须使用保持存在性规则的读接口或模块私有查询，不能误用active入口。Root决定共享current actor/nullable身份映射、pending session、错误桥、JS字符串与日期接口。作者模块不修改旧customers/projects或公共approval投影。
+
+建议的模块边界为`Service::new(Database[, Arc<CustomersService>])`，联系人暴露list/create/update，跟进暴露list/create/replace/void。具体参数要携带Root统一的request actor、pending session和requestId；`http.rs`负责guard与原DTO执行顺序。Root公共桥须满足下列输入要求，签名以联合G1为准：
+
+- lossless JS UTF-16输入、JSON输出Wire和PG写入转换三者可分离；创建响应保留managed输入文本，后续列表读PG文本，不能统一先lossy化。
+- 原Zod issue对象/顺序和异常无issues路径、非pipe path-ID数据库失败、普通Nest业务错误与未知错误有共同映射。
+- `Field<JsString/UUID>`保留Missing/Null/Value；日期解析/JS ISO输出、JS trim与显式UTF-16长度/slice可调用。
+- actor读取复用已认证请求的PlatformUser managed snapshot，适用时保留nullable primaryOrg identity-map语义；pending session在Native实际flush点同步，不在业务验证之前额外flush。
+- 真实Todo producer在本模块事务/flush点使用同一DB连接及原版本语义；公共Todo HTTP继续消费真实持久化行。若需要扩大公共store/projection接口，只向Root提需求，由Root单一写入。
+
+## 7. 原 UI 与验收执行归属
+
+联系人panel允许独立customer:write，create发送gender但Native HTTP丢弃；PATCH只提交归一化后变化字段，无expectedVersion，清空optional字段发null，更新后重新load该客户联系人；无变化禁保存。客户/项目/线索页面都嵌入同panel，project/lead上的联系人写权限仍是customer:write。
+
+跟进panel GET包含customer/lead/project与active/all；有project时create显式projectId并将leadId置null；普通create省略owner，replace发送原ownerUserId/ownerOrgId和rowVersion，void发送rowVersion。日期由Date.toISOString；可切换历史，状态决定replace/void按钮。必须验证页面错误、权限禁用和真实响应，不用组件mock代替HTTP。
+
+Root至少执行同一原UI对Native/Rust × Cookie/Bearer四组合的客户联系人创建/编辑/置inactive、跟进创建/历史/替换/作废、真实Todo导航及拒绝路径。项目上下文须由Rust已交付客户/项目操作真实创建。Lead上下文保留受控只读事实标签；加载整个lead/project详情可能还调用未迁移的其它接口，不能把本片通过写成这些producer也已迁移。
+
+`acceptance-matrix.json` / `.md` 逐列R3E、R3F、Todo、公共错误、故障/并发、UI及protected invariants。作者本轮没有执行安装/build/test/lint/DB/HTTP/browser或任何private访问；这些验证均为`Pending-Root`。Root完成实际Native witness后记录精确证据路径/哈希，再进入联合G1独立审阅；任何实施或闭环宣称须重新绑定当时确切候选。

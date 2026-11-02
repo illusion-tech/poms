@@ -22,6 +22,63 @@ use tower::ServiceExt;
 type TestResult<T = ()> = Result<T, Box<dyn Error>>;
 
 #[tokio::test]
+async fn unmatched_followup_commands_preserve_native_html_before_guards() -> TestResult {
+    let database = closed_database().await?;
+    let config = Config::from_map(&HashMap::from([
+        ("DB_HOST".to_owned(), "127.0.0.1".to_owned()),
+        ("DB_DATABASE".to_owned(), "unused-closed-pool".to_owned()),
+        ("DB_USER".to_owned(), "unused".to_owned()),
+        ("DB_PASSWORD".to_owned(), "public-unused".to_owned()),
+    ]))?;
+    let auth = poms_api_rust::auth::http::AuthHttpState {
+        service: std::sync::Arc::new(poms_api_rust::auth::service::AuthService::new(
+            database.clone(),
+            config.auth.clone(),
+        )),
+        cookies: poms_api_rust::auth::cookie::AuthCookieService::from_auth_config(&config.auth),
+    };
+    let app = http::router_with_auth(
+        AppState {
+            database,
+            started_at: Instant::now(),
+        },
+        &[],
+        auth,
+    );
+    // Original Native routing-probe01 observed Express finalhandler HTML for
+    // these unmatched spellings; encoded suffixes are not registered commands.
+    for suffix in ["", ":unknown", "%3Avoid", ":%72eplace"] {
+        let path = format!("/api/sales-follow-up-records/record{suffix}");
+        let response = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method(Method::POST)
+                    .uri(format!("{path}?ignored=1"))
+                    .body(Body::empty())?,
+            )
+            .await?;
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
+        assert_eq!(
+            response.headers()[header::CONTENT_TYPE],
+            "text/html; charset=utf-8"
+        );
+        assert_eq!(
+            response.headers()[header::CONTENT_SECURITY_POLICY],
+            "default-src 'none'"
+        );
+        let body = String::from_utf8(to_bytes(response.into_body(), usize::MAX).await?.to_vec())?;
+        assert_eq!(
+            body,
+            format!(
+                "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST {path}</pre>\n</body>\n</html>\n"
+            )
+        );
+    }
+    Ok(())
+}
+
+#[tokio::test]
 async fn native_path_decode_order_preserves_parser_cors_and_raw_uri() -> TestResult {
     let app = application(&[]).await?;
     for method in [
@@ -552,12 +609,12 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_has_one_hundred_twenty_nine_operations_and_preserves_existing_health_schemas()
+fn openapi_has_one_hundred_forty_five_operations_and_preserves_existing_health_schemas()
 -> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 105);
+    assert_eq!(paths.len(), 116);
     assert_eq!(
         paths
             .values()
@@ -569,10 +626,9 @@ fn openapi_has_one_hundred_twenty_nine_operations_and_preserves_existing_health_
                 .contains(&method.as_str()))
                 .count()))
             .sum::<usize>(),
-        129
+        145
     );
-    // R3AB adds exactly the source-frozen customer8/project6 operations. The
-    // original complete Native spec remains the independent contract oracle.
+    // Preserve all delivered R3 operations against the independent Native spec.
     for (path, method) in [
         ("/api/customers", "get"),
         ("/api/customers", "post"),
@@ -588,6 +644,22 @@ fn openapi_has_one_hundred_twenty_nine_operations_and_preserves_existing_health_
         ("/api/projects/{id}", "patch"),
         ("/api/projects/{id}:reassignOwner", "post"),
         ("/api/projects:lookup", "get"),
+        ("/api/projects/{projectId}/technical-cost-packages", "get"),
+        ("/api/projects/{projectId}/technical-cost-packages", "post"),
+        ("/api/projects/{projectId}/technical-cost-workspace", "get"),
+        ("/api/projects/{projectId}/bid-commercial-processes", "get"),
+        ("/api/projects/{projectId}/bid-commercial-processes", "post"),
+        ("/api/projects/{projectId}/bid-commercial-workspace", "get"),
+        ("/api/projects/{projectId}/pricing-margin-reviews", "get"),
+        ("/api/projects/{projectId}/pricing-margin-reviews", "post"),
+        ("/api/projects/{projectId}/pricing-margin-workspace", "get"),
+        ("/api/customer-contacts", "get"),
+        ("/api/customer-contacts", "post"),
+        ("/api/customer-contacts/{id}", "patch"),
+        ("/api/sales-follow-up-records", "get"),
+        ("/api/sales-follow-up-records", "post"),
+        ("/api/sales-follow-up-records/{id}:replace", "post"),
+        ("/api/sales-follow-up-records/{id}:void", "post"),
     ] {
         assert_eq!(
             document["paths"][path][method],

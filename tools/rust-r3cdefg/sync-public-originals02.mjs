@@ -1,0 +1,7 @@
+// Root incremental public copies; original payloads are never replaced.
+import fs from 'node:fs';import assert from 'node:assert/strict';import{createHash}from'node:crypto';
+const root='/home/wangzishi/projects/poms-rust-r3cdefg',win='/mnt/e/projects/worktrees/poms-r3cdefg-next16/poms';assert.equal(process.platform,'linux');
+const attempt=process.argv[2];assert(/^\d{2}$/.test(attempt));const output=win+'/tmp/rust-r3cdefg/root/public-original-sync'+attempt+'.json';assert(!fs.existsSync(output));
+const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(d+'/'+e.name):[d+'/'+e.name]).sort(),records=[];
+for(const file of walk(root+'/tmp/rust-r3cdefg')){assert(fs.lstatSync(file).isFile());const relative=file.slice((root+'/tmp/rust-r3cdefg/').length),dest=win+'/tmp/rust-r3cdefg/'+relative,b=fs.readFileSync(file);fs.mkdirSync(dest.slice(0,dest.lastIndexOf('/')),{recursive:true});if(fs.existsSync(dest))assert(b.equals(fs.readFileSync(dest)),'Existing original differs '+relative);else fs.writeFileSync(dest,b,{flag:'wx'});records.push({file:'tmp/rust-r3cdefg/'+relative,bytes:b.length,rawBytesSha256:createHash('sha256').update(b).digest('hex')})}
+fs.writeFileSync(output,JSON.stringify({kind:'R3CDEFG-public-original-byte-sync',createdAt:new Date().toISOString(),records,existingOriginalsNotReplaced:true},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({publicOriginalsVerified:records.length,existingBytesEqual:true,receipt:output}));

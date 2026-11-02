@@ -1,0 +1,162 @@
+{
+  "kind": "R3CDEFG-current-reacceptance-resume-complete",
+  "createdAt": "2026-11-02T05:59:22.605Z",
+  "tag": "raw-errors02",
+  "prior": {
+    "file": "tmp/rust-r3cdefg/current-reacceptance-raw-errors02/report01.json",
+    "bytes": 6772,
+    "rawBytesSha256": "baef6b9751f754306233008d2ab914860e0774f30e0549e7eb11739c2bffe7ad"
+  },
+  "priorAPICommandsNotRepeated": 12,
+  "completed": true,
+  "error": null,
+  "commands": [
+    {
+      "name": "extract-additional-sql",
+      "args": [
+        "business",
+        "raw-errors02",
+        "rust",
+        "01"
+      ],
+      "startedAt": "2026-11-02T05:59:21.780Z",
+      "completedAt": "2026-11-02T05:59:21.961Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/01-extract-additional-sql.log",
+        "bytes": 155,
+        "rawBytesSha256": "26954aa5289b32442381a69720355587d58170d5e070dcec35f7f3fee8388687"
+      }
+    },
+    {
+      "name": "extract-additional-sql",
+      "args": [
+        "boundaries",
+        "raw-errors02",
+        "rust",
+        "05"
+      ],
+      "startedAt": "2026-11-02T05:59:21.962Z",
+      "completedAt": "2026-11-02T05:59:22.119Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/02-extract-additional-sql.log",
+        "bytes": 159,
+        "rawBytesSha256": "3c8792363867c6632f7ccb045d2b4fd2807b57d657e243d1f5ef7546e5a5b3e7"
+      }
+    },
+    {
+      "name": "compare-coverage",
+      "args": [
+        "parity01",
+        "07",
+        "raw-errors02"
+      ],
+      "startedAt": "2026-11-02T05:59:22.119Z",
+      "completedAt": "2026-11-02T05:59:22.263Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/03-compare-coverage.log",
+        "bytes": 105,
+        "rawBytesSha256": "bc422614df6b703ab86773411b9c88c78d8acf099840634e46e7f3afe4dede35"
+      }
+    },
+    {
+      "name": "compare-events",
+      "args": [
+        "edges",
+        "parity01",
+        "raw-errors02",
+        "01",
+        "01"
+      ],
+      "startedAt": "2026-11-02T05:59:22.264Z",
+      "completedAt": "2026-11-02T05:59:22.352Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/04-compare-events.log",
+        "bytes": 129,
+        "rawBytesSha256": "07a335ede4a222e5506103af635fbfdb2f9a42778b70422a9fe3b9ede0647041"
+      }
+    },
+    {
+      "name": "compare-events",
+      "args": [
+        "business",
+        "parity01",
+        "raw-errors02",
+        "01",
+        "01"
+      ],
+      "startedAt": "2026-11-02T05:59:22.352Z",
+      "completedAt": "2026-11-02T05:59:22.450Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/05-compare-events.log",
+        "bytes": 135,
+        "rawBytesSha256": "f72efab1e95c2660bd39146c1cb5845b6d598b9dafd57068a262751d474dd922"
+      }
+    },
+    {
+      "name": "compare-events",
+      "args": [
+        "boundaries",
+        "parity01",
+        "raw-errors02",
+        "05",
+        "01"
+      ],
+      "startedAt": "2026-11-02T05:59:22.451Z",
+      "completedAt": "2026-11-02T05:59:22.505Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/06-compare-events.log",
+        "bytes": 139,
+        "rawBytesSha256": "761ce464372de632d7fb17db2dc3831850b68aacdf0700b2cc7b52b103b99b41"
+      }
+    },
+    {
+      "name": "compare-events",
+      "args": [
+        "temporal",
+        "parity01",
+        "raw-errors02",
+        "01",
+        "01"
+      ],
+      "startedAt": "2026-11-02T05:59:22.505Z",
+      "completedAt": "2026-11-02T05:59:22.568Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/07-compare-events.log",
+        "bytes": 134,
+        "rawBytesSha256": "e1b173753194527a22961ca0b4878ffa06e7a142c02cb8ef956d5e1969b8d9a6"
+      }
+    },
+    {
+      "name": "compare-raw-errors",
+      "args": [
+        "raw-errors01",
+        "raw-errors02",
+        "01",
+        "02",
+        "pass"
+      ],
+      "startedAt": "2026-11-02T05:59:22.568Z",
+      "completedAt": "2026-11-02T05:59:22.605Z",
+      "exitCode": 0,
+      "log": {
+        "file": "tmp/rust-r3cdefg/current-reacceptance-resume-raw-errors02/08-compare-raw-errors.log",
+        "bytes": 102,
+        "rawBytesSha256": "ccead47681d4f2ca6f4a8d31d4ac64a2f0b4c1e566159ce4bebe45a80f62d57a"
+      }
+    }
+  ],
+  "source": {
+    "file": "tools/rust-r3cdefg/acceptance-correction-resume03.mjs",
+    "bytes": 2641,
+    "rawBytesSha256": "514d959f71e2aaab4b365d59aed4b74fea15f6f6a7fcdc80b4f589a74ea9f192"
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

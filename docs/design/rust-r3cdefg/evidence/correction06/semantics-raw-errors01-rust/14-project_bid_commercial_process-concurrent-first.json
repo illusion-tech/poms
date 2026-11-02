@@ -1,0 +1,128 @@
+{
+  "label": "project_bid_commercial_process-concurrent-first",
+  "startedAt": "2026-11-02T05:51:34.557Z",
+  "completedAt": "2026-11-02T05:51:34.649Z",
+  "waitingBeforeRelease": 2,
+  "responses": [
+    {
+      "status": 500,
+      "body": {
+        "message": "Internal server error",
+        "statusCode": 500
+      },
+      "requestId": "85412e9e-38c8-4110-afaa-cd2e9fcf0274",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "52",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12300",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-102871-34",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 05:51:34 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 603,
+        "requestSha256": "06515c7ee42591b5d516cab9f6d983c129624cbc3d9fa9f6e1c2b148ffba26b1",
+        "responseBytes": 349,
+        "responseSha256": "2bc04d6fb51a095d84c75adbaef25298d97dec5bab64839d89571baa04310f6c",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-9928c949-ae60-4619-b553-5765b25aea60/raw-wire/admin-85412e9e-38c8-4110-afaa-cd2e9fcf0274",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "status": 201,
+      "body": {
+        "bidMode": "public-tender",
+        "bidPackageNo": null,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T05:51:34.607Z",
+        "createdBy": "6a35a160-f9b1-4de4-b268-1be7c7faa71e",
+        "currentStage": "preparation",
+        "decision": "participate",
+        "decisionSummary": null,
+        "effectiveAt": "2026-11-02T05:51:34.607Z",
+        "id": "d0485e72-81da-4d54-97c9-43ef9fdf53cc",
+        "isCurrent": true,
+        "ownerRole": null,
+        "processSummary": "concurrent",
+        "projectId": "83473a94-9751-4ad5-91c2-07787594b855",
+        "resultStatus": "pending",
+        "resultSummary": null,
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "tenderNo": null,
+        "updatedAt": "2026-11-02T05:51:34.607Z",
+        "updatedBy": "6a35a160-f9b1-4de4-b268-1be7c7faa71e",
+        "version": 1
+      },
+      "requestId": "845d4ccc-5c91-492e-a720-7d0016433335",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "651",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12300",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-102871-35",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 05:51:34 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 603,
+        "requestSha256": "0d12f7b5eab254708e113f4980fb560932a24e9ac88472822ed23a74e3e36221",
+        "responseBytes": 935,
+        "responseSha256": "f9183b70fd2281f7213e7d5bef232ab219910f743bfb697d16a7f46715ea9816",
+        "entityBodyBytes": 651,
+        "entityBodySha256": "ed35cd9bf7caa579309d0372c3d01b114ba89182161dc227f0cdc8b75dce3e25",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-9928c949-ae60-4619-b553-5765b25aea60/raw-wire/other-845d4ccc-5c91-492e-a720-7d0016433335",
+        "originalRawRetained": true
+      }
+    }
+  ],
+  "after": [
+    {
+      "id": "d0485e72-81da-4d54-97c9-43ef9fdf53cc",
+      "status": "effective",
+      "version": 1,
+      "bid_mode": "public-tender",
+      "decision": "participate",
+      "tender_no": null,
+      "created_at": "2026-11-02T13:51:34.607+08:00",
+      "created_by": "6a35a160-f9b1-4de4-b268-1be7c7faa71e",
+      "is_current": true,
+      "owner_role": null,
+      "project_id": "83473a94-9751-4ad5-91c2-07787594b855",
+      "updated_at": "2026-11-02T13:51:34.607+08:00",
+      "updated_by": "6a35a160-f9b1-4de4-b268-1be7c7faa71e",
+      "row_version": 1,
+      "effective_at": "2026-11-02T13:51:34.607+08:00",
+      "blocker_count": 0,
+      "current_stage": "preparation",
+      "result_status": "pending",
+      "supersedes_id": null,
+      "bid_package_no": null,
+      "result_summary": null,
+      "process_summary": "concurrent",
+      "decision_summary": null
+    }
+  ]
+}

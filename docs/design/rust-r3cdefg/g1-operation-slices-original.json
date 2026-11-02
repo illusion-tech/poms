@@ -1,0 +1,1348 @@
+{
+  "kind": "R3CDEFG-G1-current-16-operation-ownership",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "issues": [
+    88,
+    89,
+    90,
+    91,
+    92
+  ],
+  "operations": [
+    {
+      "operationId": "CustomerContactController_list",
+      "module": "sales-intelligence",
+      "controller": "CustomerContactController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/customer-contacts",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 36
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "CustomerContactListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 352,
+        "domain": "sales-intelligence",
+        "capability": "listCustomerContacts",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/customer-contacts",
+        "operationId": "CustomerContactController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customer-contacts",
+        "implementedPath": "/api/customer-contacts",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "CustomerContactController_create",
+      "module": "sales-intelligence",
+      "controller": "CustomerContactController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/customer-contacts",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 44
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateCustomerContactRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 353,
+        "domain": "sales-intelligence",
+        "capability": "createCustomerContact",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/customer-contacts",
+        "operationId": "CustomerContactController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerContactRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customer-contacts",
+        "implementedPath": "/api/customer-contacts",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "CustomerContactController_update",
+      "module": "sales-intelligence",
+      "controller": "CustomerContactController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/customer-contacts/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 65
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateCustomerContactRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 354,
+        "domain": "sales-intelligence",
+        "capability": "updateCustomerContact",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/customer-contacts/{id}",
+        "operationId": "CustomerContactController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCustomerContactRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customer-contacts/{id}",
+        "implementedPath": "/api/customer-contacts/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_listProjectBidCommercialProcesses",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "listProjectBidCommercialProcesses",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 138
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 236,
+        "domain": "project",
+        "capability": "listProjectBidCommercialProcesses",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "operationId": "ProjectController_listProjectBidCommercialProcesses",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "implementedPath": "/api/projects/{projectId}/bid-commercial-processes",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_createProjectBidCommercialProcess",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "createProjectBidCommercialProcess",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 288
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateProjectBidCommercialProcessRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 235,
+        "domain": "project",
+        "capability": "createProjectBidCommercialProcess",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "operationId": "ProjectController_createProjectBidCommercialProcess",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectBidCommercialProcessRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "implementedPath": "/api/projects/{projectId}/bid-commercial-processes",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getProjectBidCommercialWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-workspace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 146
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 237,
+        "domain": "project",
+        "capability": "getProjectBidCommercialWorkspace",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/bid-commercial-workspace",
+        "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/bid-commercial-workspace",
+        "implementedPath": "/api/projects/{projectId}/bid-commercial-workspace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_listProjectPricingMarginReviews",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "listProjectPricingMarginReviews",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/pricing-margin-reviews",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 154
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 239,
+        "domain": "project",
+        "capability": "listProjectPricingMarginReviews",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "operationId": "ProjectController_listProjectPricingMarginReviews",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "implementedPath": "/api/projects/{projectId}/pricing-margin-reviews",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_createProjectPricingMarginReview",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "createProjectPricingMarginReview",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/pricing-margin-reviews",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 298
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateProjectPricingMarginReviewRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 238,
+        "domain": "project",
+        "capability": "createProjectPricingMarginReview",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "operationId": "ProjectController_createProjectPricingMarginReview",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectPricingMarginReviewRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "implementedPath": "/api/projects/{projectId}/pricing-margin-reviews",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getProjectPricingMarginWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/pricing-margin-workspace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 162
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 240,
+        "domain": "project",
+        "capability": "getProjectPricingMarginWorkspace",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/pricing-margin-workspace",
+        "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/pricing-margin-workspace",
+        "implementedPath": "/api/projects/{projectId}/pricing-margin-workspace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_listProjectTechnicalCostPackages",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "listProjectTechnicalCostPackages",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/technical-cost-packages",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 170
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 233,
+        "domain": "project",
+        "capability": "listProjectTechnicalCostPackages",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "operationId": "ProjectController_listProjectTechnicalCostPackages",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "implementedPath": "/api/projects/{projectId}/technical-cost-packages",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_createProjectTechnicalCostPackage",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "createProjectTechnicalCostPackage",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/technical-cost-packages",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 308
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateProjectTechnicalCostPackageRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 232,
+        "domain": "project",
+        "capability": "createProjectTechnicalCostPackage",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "operationId": "ProjectController_createProjectTechnicalCostPackage",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTechnicalCostPackageRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "implementedPath": "/api/projects/{projectId}/technical-cost-packages",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getProjectTechnicalCostWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/technical-cost-workspace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 178
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 234,
+        "domain": "project",
+        "capability": "getProjectTechnicalCostWorkspace",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/technical-cost-workspace",
+        "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/technical-cost-workspace",
+        "implementedPath": "/api/projects/{projectId}/technical-cost-workspace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "SalesFollowUpController_list",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/sales-follow-up-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 15
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "SalesFollowUpRecordListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 343,
+        "domain": "sales-follow-up",
+        "capability": "listSalesFollowUpRecords",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/sales-follow-up-records",
+        "operationId": "SalesFollowUpController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "lifecycleScope",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/SalesFollowUpRecordLifecycleScope"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records",
+        "implementedPath": "/api/sales-follow-up-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "SalesFollowUpController_create",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 30
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateSalesFollowUpRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 344,
+        "domain": "sales-follow-up",
+        "capability": "createSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records",
+        "operationId": "SalesFollowUpController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records",
+        "implementedPath": "/api/sales-follow-up-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "SalesFollowUpController_replace",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "replace",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/{id}:replace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 53
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "ReplaceSalesFollowUpRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 345,
+        "domain": "sales-follow-up",
+        "capability": "replaceSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records/{id}:replace",
+        "operationId": "SalesFollowUpController_replace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records/{id}:replace",
+        "implementedPath": "/api/sales-follow-up-records/{id}:replace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    },
+    {
+      "operationId": "SalesFollowUpController_void",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "void",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/{id}:void",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 78
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "VoidSalesFollowUpRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 346,
+        "domain": "sales-follow-up",
+        "capability": "voidSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records/{id}:void",
+        "operationId": "SalesFollowUpController_void",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records/{id}:void",
+        "implementedPath": "/api/sales-follow-up-records/{id}:void",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
+    }
+  ],
+  "previous14RemainDelivered": true,
+  "future28NotDelivered": true
+}

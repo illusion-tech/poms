@@ -1,0 +1,4612 @@
+{
+  "kind": "R3CDEFG-private-original-SQL-safe-order-extraction",
+  "runId": "6f67881f-0071-43ca-88cf-0c61ef75f8df",
+  "privateOriginal": {
+    "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-6f67881f-0071-43ca-88cf-0c61ef75f8df/postgres-original.log",
+    "bytes": 11682937,
+    "rawBytesSha256": "d2e421816bbdc43461eef0b3e7068879d47fb42571be90cd86babae78d4b3e0c"
+  },
+  "entries": [
+    {
+      "case": "cost-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "cost-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "6542",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "6542",
+      "operation": "INSERT INTO",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "6542",
+      "operation": "INSERT INTO",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "6542",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "cost-first",
+      "pid": "1011",
+      "transactionId": "6542",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1011",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1011",
+      "transactionId": "6545",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1011",
+      "transactionId": "6545",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "6546",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_timeline_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "6546",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_material_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1014",
+      "transactionId": "6546",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "6549",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1013",
+      "transactionId": "6549",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "6550",
+      "operation": "INSERT INTO",
+      "table": "project_pricing_margin_condition_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1014",
+      "transactionId": "6550",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-first-direct-no-reference",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1014",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1014",
+      "transactionId": "6553",
+      "operation": "INSERT INTO",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1014",
+      "transactionId": "6553",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "pricing-second-version",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_material_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_timeline_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_review",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_pricing_margin_condition_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "three-workspaces-read-permission-no-sensitive",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "security_event",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "6555",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "6556",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "6556",
+      "operation": "INSERT INTO",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "6556",
+      "operation": "INSERT INTO",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "6556",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-money-number-and-post-get",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "6558",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "6559",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "6559",
+      "operation": "INSERT INTO",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "6559",
+      "operation": "INSERT INTO",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1016",
+      "transactionId": "6559",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9007",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "6561",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1016",
+      "transactionId": "0",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-large-9999",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "6563",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "6567",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "6567",
+      "operation": "INSERT INTO",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "6567",
+      "operation": "INSERT INTO",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "6567",
+      "operation": "INSERT INTO",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1015",
+      "transactionId": "6567",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "cost-child-insert-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "6570",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "6572",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_timeline_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "6572",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_material_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "6572",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_material_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1017",
+      "transactionId": "6572",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "bid-child-insert-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "6575",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1020",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "r3cdefg_control",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1020",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1020",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "pg_stat_activity",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "pg_stat_activity",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1020",
+      "transactionId": "6576",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "6577",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "6577",
+      "operation": "INSERT INTO",
+      "table": "project_technical_risk_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "6577",
+      "operation": "INSERT INTO",
+      "table": "project_technical_scope_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1019",
+      "transactionId": "6577",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "6578",
+      "operation": "INSERT INTO",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1018",
+      "transactionId": "6578",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_technical_cost_package-concurrent-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_technical_cost_package",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "6580",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1022",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "r3cdefg_control",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1022",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1022",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "pg_stat_activity",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "pg_stat_activity",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1022",
+      "transactionId": "6581",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1021",
+      "transactionId": "6582",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "6583",
+      "operation": "INSERT INTO",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1019",
+      "transactionId": "6583",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "project_bid_commercial_process-concurrent-first",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project_bid_commercial_process",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1023",
+      "transactionId": "6584",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-gender-controller-drop",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "6585",
+      "operation": "UPDATE",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1021",
+      "transactionId": "6585",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-email-dto-db-length",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1024",
+      "transactionId": "0",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contact-audit-failure-atomicity",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "dictionary_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "6592",
+      "operation": "INSERT INTO",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "6592",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1023",
+      "transactionId": "6592",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-create-reminder",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "dictionary_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "6593",
+      "operation": "UPDATE",
+      "table": "todo_item",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1023",
+      "transactionId": "6593",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-no-next-completes-old-stream",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "dictionary_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "6594",
+      "operation": "INSERT INTO",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1023",
+      "transactionId": "6594",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-second-reminder",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "dictionary_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "6597",
+      "operation": "INSERT INTO",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "6597",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "6597",
+      "operation": "UPDATE",
+      "table": "todo_item",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "6597",
+      "operation": "UPDATE",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1026",
+      "transactionId": "6597",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1023",
+      "transactionId": "6598",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-replace-two-way-fk",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "dictionary_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "6599",
+      "operation": "INSERT INTO",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "6599",
+      "operation": "UPDATE",
+      "table": "todo_item",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "6599",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "todo_item",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "6603",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "6603",
+      "operation": "UPDATE",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1026",
+      "transactionId": "6603",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1023",
+      "transactionId": "0",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-postsave-audit-failure",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "audit_log",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "auth_session",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "dictionary_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "todo_item",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1025",
+      "transactionId": "0",
+      "operation": "ROLLBACK",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "sales_follow_up_record",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "followup-todo-insert-failure-boundary",
+      "pid": "1012",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "business_number_sequence",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "6610",
+      "operation": "INSERT INTO",
+      "table": "customer_alias",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "6610",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "UPDATE",
+      "table": "customer",
+      "hasRowVersionPredicate": true
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "6611",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer_alias",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "project",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "contract",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1028",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "org_unit",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1029",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "lead",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1028",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1029",
+      "transactionId": "0",
+      "operation": "BEGIN",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1029",
+      "transactionId": "0",
+      "operation": "INSERT INTO",
+      "table": "customer_contact",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1029",
+      "transactionId": "6612",
+      "operation": "COMMIT",
+      "table": null,
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1027",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "auth_session",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1026",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "platform_user",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "user_role_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1030",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "role_permission_assignment",
+      "hasRowVersionPredicate": false
+    },
+    {
+      "case": "contacts-inactive-vs-followup-active",
+      "pid": "1028",
+      "transactionId": "0",
+      "operation": "SELECT",
+      "table": "customer",
+      "hasRowVersionPredicate": false
+    }
+  ],
+  "requestOrAuthValuesPublished": false
+}

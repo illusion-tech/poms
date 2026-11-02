@@ -1,0 +1,2342 @@
+{
+  "kind": "R3CDEFG-original-Native-G1-semantic-observations",
+  "runId": "8335ed8a-f8ae-4874-a0e5-279189ceae14",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "database": "poms_r3cdefg_nest",
+  "runtime": {
+    "pid": 4992,
+    "bootId": "98ff89c0-32e8-44ba-a549-b7bdbef4fc1d",
+    "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+  },
+  "sources": [
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tools/rust-r3cdefg/native-witness.mjs",
+      "bytes": 23714,
+      "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tools/rust-r3cdefg/http-client.mjs",
+      "bytes": 2369,
+      "rawBytesSha256": "89f0ba94f7bfacd1ccdb8b6ddafe6f9e9147c496b74568d60cc13df2ef40ef2e"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/a-input/native-fixture-draft01.mjs",
+      "bytes": 4774,
+      "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/b-input/native-fixture-draft01.mjs",
+      "bytes": 4215,
+      "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3cdefg/docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+      "bytes": 180482,
+      "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+    }
+  ],
+  "completed": true,
+  "result": "Native-observations-completed-not-Rust-acceptance",
+  "failedAt": null,
+  "cases": [
+    {
+      "label": "cost-first",
+      "startedAt": "2026-11-02T02:36:54.473Z",
+      "completedAt": "2026-11-02T02:36:54.518Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "CNY",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalTaxCostAmount": "13.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T02:36:54.501Z",
+          "createdAt": "2026-11-02T02:36:54.501Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:54.501Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "97cb76e4-25ea-413e-82c8-5d6ad3a2d46e"
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 1,
+          "last_seen_at": "2026-11-02T02:35:53.475Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.270Z",
+          "updated_at": "2026-11-02T02:36:54.271Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 3,
+          "last_seen_at": "2026-11-02T02:36:54.480Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.480Z",
+          "updated_at": "2026-11-02T02:36:54.503Z"
+        }
+      ],
+      "row": {
+        "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+        "status": "effective",
+        "version": 1,
+        "created_at": "2026-11-02T10:36:54.501+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.501+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.501+08:00",
+        "blocker_count": 0,
+        "currency_code": "CNY",
+        "supersedes_id": null,
+        "allow_next_stage": true,
+        "tax_review_status": "reviewed",
+        "highest_risk_level": "R1",
+        "total_tax_cost_amount": 13,
+        "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+        "technical_conclusion_summary": "G1 技术方案可行。",
+        "technical_feasibility_decision": "feasible",
+        "total_estimated_amount_excluding_tax": 100,
+        "total_estimated_amount_including_tax": 113
+      }
+    },
+    {
+      "label": "cost-second-version",
+      "startedAt": "2026-11-02T02:36:54.518Z",
+      "completedAt": "2026-11-02T02:36:54.549Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "9e677150-3361-419a-ac60-142f226a51bf"
+      },
+      "before": {
+        "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+        "status": "effective",
+        "version": 1,
+        "created_at": "2026-11-02T10:36:54.501+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.501+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.501+08:00",
+        "blocker_count": 0,
+        "currency_code": "CNY",
+        "supersedes_id": null,
+        "allow_next_stage": true,
+        "tax_review_status": "reviewed",
+        "highest_risk_level": "R1",
+        "total_tax_cost_amount": 13,
+        "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+        "technical_conclusion_summary": "G1 技术方案可行。",
+        "technical_feasibility_decision": "feasible",
+        "total_estimated_amount_excluding_tax": 100,
+        "total_estimated_amount_including_tax": 113
+      },
+      "after": [
+        {
+          "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+          "status": "effective",
+          "version": 1,
+          "created_at": "2026-11-02T10:36:54.501+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "is_current": true,
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:54.501+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 1,
+          "effective_at": "2026-11-02T10:36:54.501+08:00",
+          "blocker_count": 0,
+          "currency_code": "CNY",
+          "supersedes_id": null,
+          "allow_next_stage": true,
+          "tax_review_status": "reviewed",
+          "highest_risk_level": "R1",
+          "total_tax_cost_amount": 13,
+          "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+          "technical_conclusion_summary": "G1 技术方案可行。",
+          "technical_feasibility_decision": "feasible",
+          "total_estimated_amount_excluding_tax": 100,
+          "total_estimated_amount_including_tax": 113
+        }
+      ],
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 3,
+          "last_seen_at": "2026-11-02T02:35:53.519Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.480Z",
+          "updated_at": "2026-11-02T02:36:54.503Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 4,
+          "last_seen_at": "2026-11-02T02:36:54.523Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.523Z",
+          "updated_at": "2026-11-02T02:36:54.523Z"
+        }
+      ]
+    },
+    {
+      "label": "bid-first",
+      "startedAt": "2026-11-02T02:36:54.550Z",
+      "completedAt": "2026-11-02T02:36:54.579Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "bidMode": "public-tender",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "resultStatus": "pending",
+          "processSummary": "G1 first process",
+          "decisionSummary": "G1 first decision",
+          "resultSummary": null,
+          "tenderNo": "G1 first tender",
+          "bidPackageNo": "G1 first package",
+          "ownerRole": "G1 first owner",
+          "blockerCount": 1,
+          "effectiveAt": "2026-11-02T02:36:54.566Z",
+          "createdAt": "2026-11-02T02:36:54.567Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:54.567Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "992480e8-ed82-4f13-8238-6e7855445c5b"
+      },
+      "row": {
+        "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+        "status": "effective",
+        "version": 1,
+        "bid_mode": "public-tender",
+        "decision": "participate",
+        "tender_no": "G1 first tender",
+        "created_at": "2026-11-02T10:36:54.567+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "owner_role": "G1 first owner",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.567+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.566+08:00",
+        "blocker_count": 1,
+        "current_stage": "preparation",
+        "result_status": "pending",
+        "supersedes_id": null,
+        "bid_package_no": "G1 first package",
+        "result_summary": null,
+        "process_summary": "G1 first process",
+        "decision_summary": "G1 first decision"
+      }
+    },
+    {
+      "label": "bid-second-version",
+      "startedAt": "2026-11-02T02:36:54.579Z",
+      "completedAt": "2026-11-02T02:36:54.606Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "dad86a16-03fc-4cee-8fab-40ddfe0f83c1"
+      },
+      "before": {
+        "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+        "status": "effective",
+        "version": 1,
+        "bid_mode": "public-tender",
+        "decision": "participate",
+        "tender_no": "G1 first tender",
+        "created_at": "2026-11-02T10:36:54.567+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "owner_role": "G1 first owner",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.567+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.566+08:00",
+        "blocker_count": 1,
+        "current_stage": "preparation",
+        "result_status": "pending",
+        "supersedes_id": null,
+        "bid_package_no": "G1 first package",
+        "result_summary": null,
+        "process_summary": "G1 first process",
+        "decision_summary": "G1 first decision"
+      },
+      "after": [
+        {
+          "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+          "status": "effective",
+          "version": 1,
+          "bid_mode": "public-tender",
+          "decision": "participate",
+          "tender_no": "G1 first tender",
+          "created_at": "2026-11-02T10:36:54.567+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "is_current": true,
+          "owner_role": "G1 first owner",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:54.567+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 1,
+          "effective_at": "2026-11-02T10:36:54.566+08:00",
+          "blocker_count": 1,
+          "current_stage": "preparation",
+          "result_status": "pending",
+          "supersedes_id": null,
+          "bid_package_no": "G1 first package",
+          "result_summary": null,
+          "process_summary": "G1 first process",
+          "decision_summary": "G1 first decision"
+        }
+      ]
+    },
+    {
+      "label": "pricing-first-direct-no-reference",
+      "startedAt": "2026-11-02T02:36:54.608Z",
+      "completedAt": "2026-11-02T02:36:54.636Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalCostPackageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+          "bidCommercialProcessId": null,
+          "commercialReleaseBaselineId": null,
+          "pricingPath": "direct-commercial",
+          "quoteVersion": "Q-G1-DIRECT-01",
+          "currencyCode": "CNY",
+          "quoteAmountTaxInclusive": "226.00",
+          "quoteAmountTaxExclusive": "200.00",
+          "taxRate": "0.13",
+          "taxConditionSummary": "G1 报价税务条件已记录。",
+          "paymentTermsSummary": "G1 按约定节点回款。",
+          "grossMarginRate": null,
+          "grossMarginBand": "not-calculated",
+          "grossMarginSummary": "G1 毛利判断待评审。",
+          "decision": "pending",
+          "decisionSummary": "G1 待形成评审结论。",
+          "approvalScenarioKey": null,
+          "summaryPackageKey": null,
+          "summarySnapshotId": null,
+          "projectionLevel": null,
+          "exportPolicy": null,
+          "readyForContracting": false,
+          "ownerRole": null,
+          "blockerCount": 1,
+          "effectiveAt": "2026-11-02T02:36:54.625Z",
+          "createdAt": "2026-11-02T02:36:54.626Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:54.626Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "6b9f3970-2b19-4d98-9f7f-9ddb45c9580b"
+      },
+      "currentCost": {
+        "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+        "status": "effective",
+        "version": 1,
+        "created_at": "2026-11-02T10:36:54.501+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.501+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.501+08:00",
+        "blocker_count": 0,
+        "currency_code": "CNY",
+        "supersedes_id": null,
+        "allow_next_stage": true,
+        "tax_review_status": "reviewed",
+        "highest_risk_level": "R1",
+        "total_tax_cost_amount": 13,
+        "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+        "technical_conclusion_summary": "G1 技术方案可行。",
+        "technical_feasibility_decision": "feasible",
+        "total_estimated_amount_excluding_tax": 100,
+        "total_estimated_amount_including_tax": 113
+      },
+      "currentBid": {
+        "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+        "status": "effective",
+        "version": 1,
+        "bid_mode": "public-tender",
+        "decision": "participate",
+        "tender_no": "G1 first tender",
+        "created_at": "2026-11-02T10:36:54.567+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "owner_role": "G1 first owner",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.567+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.566+08:00",
+        "blocker_count": 1,
+        "current_stage": "preparation",
+        "result_status": "pending",
+        "supersedes_id": null,
+        "bid_package_no": "G1 first package",
+        "result_summary": null,
+        "process_summary": "G1 first process",
+        "decision_summary": "G1 first decision"
+      },
+      "row": {
+        "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+        "status": "effective",
+        "version": 1,
+        "decision": "pending",
+        "tax_rate": 0.13,
+        "created_at": "2026-11-02T10:36:54.626+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "owner_role": null,
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.626+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.625+08:00",
+        "pricing_path": "direct-commercial",
+        "blocker_count": 1,
+        "currency_code": "CNY",
+        "export_policy": null,
+        "quote_version": "Q-G1-DIRECT-01",
+        "supersedes_id": null,
+        "decision_summary": "G1 待形成评审结论。",
+        "projection_level": null,
+        "gross_margin_band": "not-calculated",
+        "gross_margin_rate": null,
+        "summary_package_key": null,
+        "summary_snapshot_id": null,
+        "gross_margin_summary": "G1 毛利判断待评审。",
+        "approval_scenario_key": null,
+        "payment_terms_summary": "G1 按约定节点回款。",
+        "ready_for_contracting": false,
+        "tax_condition_summary": "G1 报价税务条件已记录。",
+        "bid_commercial_process_id": null,
+        "technical_cost_package_id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+        "quote_amount_tax_exclusive": 200,
+        "quote_amount_tax_inclusive": 226,
+        "commercial_release_baseline_id": null
+      }
+    },
+    {
+      "label": "pricing-second-version",
+      "startedAt": "2026-11-02T02:36:54.637Z",
+      "completedAt": "2026-11-02T02:36:54.681Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "2101ef0d-983b-48c9-aca0-3825a6539d69"
+      },
+      "before": {
+        "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+        "status": "effective",
+        "version": 1,
+        "decision": "pending",
+        "tax_rate": 0.13,
+        "created_at": "2026-11-02T10:36:54.626+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "owner_role": null,
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:54.626+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.625+08:00",
+        "pricing_path": "direct-commercial",
+        "blocker_count": 1,
+        "currency_code": "CNY",
+        "export_policy": null,
+        "quote_version": "Q-G1-DIRECT-01",
+        "supersedes_id": null,
+        "decision_summary": "G1 待形成评审结论。",
+        "projection_level": null,
+        "gross_margin_band": "not-calculated",
+        "gross_margin_rate": null,
+        "summary_package_key": null,
+        "summary_snapshot_id": null,
+        "gross_margin_summary": "G1 毛利判断待评审。",
+        "approval_scenario_key": null,
+        "payment_terms_summary": "G1 按约定节点回款。",
+        "ready_for_contracting": false,
+        "tax_condition_summary": "G1 报价税务条件已记录。",
+        "bid_commercial_process_id": null,
+        "technical_cost_package_id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+        "quote_amount_tax_exclusive": 200,
+        "quote_amount_tax_inclusive": 226,
+        "commercial_release_baseline_id": null
+      },
+      "after": [
+        {
+          "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+          "status": "effective",
+          "version": 1,
+          "decision": "pending",
+          "tax_rate": 0.13,
+          "created_at": "2026-11-02T10:36:54.626+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "is_current": true,
+          "owner_role": null,
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:54.626+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 1,
+          "effective_at": "2026-11-02T10:36:54.625+08:00",
+          "pricing_path": "direct-commercial",
+          "blocker_count": 1,
+          "currency_code": "CNY",
+          "export_policy": null,
+          "quote_version": "Q-G1-DIRECT-01",
+          "supersedes_id": null,
+          "decision_summary": "G1 待形成评审结论。",
+          "projection_level": null,
+          "gross_margin_band": "not-calculated",
+          "gross_margin_rate": null,
+          "summary_package_key": null,
+          "summary_snapshot_id": null,
+          "gross_margin_summary": "G1 毛利判断待评审。",
+          "approval_scenario_key": null,
+          "payment_terms_summary": "G1 按约定节点回款。",
+          "ready_for_contracting": false,
+          "tax_condition_summary": "G1 报价税务条件已记录。",
+          "bid_commercial_process_id": null,
+          "technical_cost_package_id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+          "quote_amount_tax_exclusive": 200,
+          "quote_amount_tax_inclusive": 226,
+          "commercial_release_baseline_id": null
+        }
+      ]
+    },
+    {
+      "label": "three-workspaces-read-permission-no-sensitive",
+      "startedAt": "2026-11-02T02:36:54.682Z",
+      "completedAt": "2026-11-02T02:36:54.740Z",
+      "requests": [
+        {
+          "name": "technical-cost-workspace",
+          "HTTP": {
+            "status": 200,
+            "body": {
+              "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+              "currentStage": "assessment",
+              "status": "active",
+              "currentPackage": {
+                "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+                "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+                "version": 1,
+                "isCurrent": true,
+                "supersedesId": null,
+                "status": "effective",
+                "technicalFeasibilityDecision": "feasible",
+                "technicalConclusionSummary": "G1 技术方案可行。",
+                "allowNextStage": true,
+                "currencyCode": "CNY",
+                "totalEstimatedAmountExcludingTax": "100.00",
+                "totalTaxCostAmount": "13.00",
+                "totalEstimatedAmountIncludingTax": "113.00",
+                "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+                "taxReviewStatus": "reviewed",
+                "highestRiskLevel": "R1",
+                "blockerCount": 0,
+                "effectiveAt": "2026-11-02T02:36:54.501Z",
+                "createdAt": "2026-11-02T02:36:54.501Z",
+                "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "updatedAt": "2026-11-02T02:36:54.501Z",
+                "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "rowVersion": 1
+              },
+              "scopeItems": [
+                {
+                  "id": "7f3f55b3-dba0-461a-8633-5dc9af60f321",
+                  "packageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+                  "scopeType": "in-scope",
+                  "label": "G1 设备交付",
+                  "description": "包含一项设备供货。",
+                  "sortOrder": 1
+                }
+              ],
+              "riskItems": [
+                {
+                  "id": "9c6be206-6088-4b3b-8eed-c7081102a088",
+                  "packageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+                  "riskCategory": "G1 供货",
+                  "riskLevel": "R1",
+                  "riskDescription": "供货周期已经核实。",
+                  "impactScope": "设备供货范围。",
+                  "mitigationPlan": "按已核实周期交付。",
+                  "ownerRole": "售前",
+                  "riskStatus": "closed",
+                  "blocksNextStage": false,
+                  "sortOrder": 1
+                }
+              ],
+              "costItems": [
+                {
+                  "id": "4be79df6-00c0-410f-b146-4f16eaa46091",
+                  "packageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+                  "costCategory": "equipment",
+                  "costSubcategory": null,
+                  "costDescription": "G1 设备成本",
+                  "estimationBasis": "G1 已确认询价。",
+                  "quantity": null,
+                  "unit": null,
+                  "unitPrice": null,
+                  "amountExcludingTax": "100.00",
+                  "taxCostAmount": "13.00",
+                  "amountIncludingTax": "113.00",
+                  "currencyCode": "CNY",
+                  "confidenceLevel": "high",
+                  "highUncertainty": false,
+                  "responsibleRole": null,
+                  "sortOrder": 1
+                }
+              ],
+              "blockingReasons": [],
+              "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+              "ownerLabel": "R3CG admin / R3CG admin",
+              "allowedActions": [
+                "view-technical-cost-workspace"
+              ],
+              "generatedAt": "2026-11-02T02:36:54.701Z"
+            },
+            "requestId": "68cc0126-75fb-4953-888a-5252150453ed"
+          }
+        },
+        {
+          "name": "bid-commercial-workspace",
+          "HTTP": {
+            "status": 200,
+            "body": {
+              "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+              "currentStage": "assessment",
+              "status": "active",
+              "currentProcess": {
+                "id": "b030d947-bd65-49d6-b406-fb49fab333ec",
+                "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+                "version": 1,
+                "isCurrent": true,
+                "supersedesId": null,
+                "status": "effective",
+                "bidMode": "public-tender",
+                "currentStage": "preparation",
+                "decision": "participate",
+                "resultStatus": "pending",
+                "processSummary": "G1 first process",
+                "decisionSummary": "G1 first decision",
+                "resultSummary": null,
+                "tenderNo": "G1 first tender",
+                "bidPackageNo": "G1 first package",
+                "ownerRole": "G1 first owner",
+                "blockerCount": 1,
+                "effectiveAt": "2026-11-02T02:36:54.566Z",
+                "createdAt": "2026-11-02T02:36:54.567Z",
+                "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "updatedAt": "2026-11-02T02:36:54.567Z",
+                "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "rowVersion": 1
+              },
+              "materialItems": [
+                {
+                  "id": "34c88786-08b2-483c-b32f-e0ac61daeca8",
+                  "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+                  "materialKey": "G1 first material",
+                  "label": "G1 first material label",
+                  "materialStatus": "in-progress",
+                  "responsibleRole": "G1 first material owner",
+                  "dueAt": "2026-11-03T08:00:00.123Z",
+                  "blocksNextStep": true,
+                  "navigationHint": "/projects/current/workspace/bid-commercial",
+                  "sortOrder": 1
+                },
+                {
+                  "id": "6440ddbe-a006-4746-9e94-a90de25df3c0",
+                  "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+                  "materialKey": "G1 first ready material",
+                  "label": "G1 first ready material label",
+                  "materialStatus": "ready",
+                  "responsibleRole": null,
+                  "dueAt": null,
+                  "blocksNextStep": false,
+                  "navigationHint": null,
+                  "sortOrder": 2
+                }
+              ],
+              "timelineItems": [
+                {
+                  "id": "0824f76d-c056-4c2c-b931-1b1105fb4f4a",
+                  "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+                  "eventKey": "G1 first completed event",
+                  "label": "G1 first completed event label",
+                  "summary": "G1 first completed event summary",
+                  "timelineStatus": "done",
+                  "occurredAt": "2026-11-02T02:00:00.456Z",
+                  "dueAt": "2026-11-02T03:00:00.000Z",
+                  "responsibleRole": "G1 first event owner",
+                  "sortOrder": 1
+                },
+                {
+                  "id": "4e57e462-62ec-4223-98da-330b999d1cf2",
+                  "processId": "b030d947-bd65-49d6-b406-fb49fab333ec",
+                  "eventKey": "G1 first pending event",
+                  "label": "G1 first pending event label",
+                  "summary": null,
+                  "timelineStatus": "pending",
+                  "occurredAt": null,
+                  "dueAt": "2026-11-04T08:00:00.000Z",
+                  "responsibleRole": null,
+                  "sortOrder": 2
+                }
+              ],
+              "blockingReasons": [
+                "G1 first material label：材料仍在处理中"
+              ],
+              "nextStep": "先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。",
+              "ownerLabel": "R3CG admin / R3CG admin",
+              "allowedActions": [
+                "view-bid-commercial-workspace"
+              ],
+              "generatedAt": "2026-11-02T02:36:54.721Z"
+            },
+            "requestId": "f2de6f65-9ceb-44a8-8228-6540adb63eb2"
+          }
+        },
+        {
+          "name": "pricing-margin-workspace",
+          "HTTP": {
+            "status": 200,
+            "body": {
+              "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+              "currentStage": "assessment",
+              "status": "active",
+              "currentReview": {
+                "id": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+                "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+                "version": 1,
+                "isCurrent": true,
+                "supersedesId": null,
+                "status": "effective",
+                "technicalCostPackageId": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+                "bidCommercialProcessId": null,
+                "commercialReleaseBaselineId": null,
+                "pricingPath": "direct-commercial",
+                "quoteVersion": "Q-G1-DIRECT-01",
+                "currencyCode": "CNY",
+                "quoteAmountTaxInclusive": "226.00",
+                "quoteAmountTaxExclusive": "200.00",
+                "taxRate": "0.13000000",
+                "taxConditionSummary": "G1 报价税务条件已记录。",
+                "paymentTermsSummary": "G1 按约定节点回款。",
+                "grossMarginRate": null,
+                "grossMarginBand": "not-calculated",
+                "grossMarginSummary": "G1 毛利判断待评审。",
+                "decision": "pending",
+                "decisionSummary": "G1 待形成评审结论。",
+                "approvalScenarioKey": null,
+                "summaryPackageKey": null,
+                "summarySnapshotId": null,
+                "projectionLevel": null,
+                "exportPolicy": null,
+                "readyForContracting": false,
+                "ownerRole": null,
+                "blockerCount": 1,
+                "effectiveAt": "2026-11-02T02:36:54.625Z",
+                "createdAt": "2026-11-02T02:36:54.626Z",
+                "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "updatedAt": "2026-11-02T02:36:54.626Z",
+                "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "rowVersion": 1
+              },
+              "technicalCostPackage": {
+                "id": "2e2628d9-d4d6-4ba3-92c5-5439118ce375",
+                "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+                "version": 1,
+                "isCurrent": true,
+                "supersedesId": null,
+                "status": "effective",
+                "technicalFeasibilityDecision": "feasible",
+                "technicalConclusionSummary": "G1 技术方案可行。",
+                "allowNextStage": true,
+                "currencyCode": "CNY",
+                "totalEstimatedAmountExcludingTax": "100.00",
+                "totalTaxCostAmount": "13.00",
+                "totalEstimatedAmountIncludingTax": "113.00",
+                "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+                "taxReviewStatus": "reviewed",
+                "highestRiskLevel": "R1",
+                "blockerCount": 0,
+                "effectiveAt": "2026-11-02T02:36:54.501Z",
+                "createdAt": "2026-11-02T02:36:54.501Z",
+                "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "updatedAt": "2026-11-02T02:36:54.501Z",
+                "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+                "rowVersion": 1
+              },
+              "bidCommercialProcess": null,
+              "conditionItems": [
+                {
+                  "id": "b64726ff-9541-4a7e-b80b-1e52d7a201d5",
+                  "reviewId": "ff22fc9c-4f46-44cc-91de-b72bb420b9e4",
+                  "conditionKey": "g1-payment-review",
+                  "conditionType": "payment",
+                  "label": "G1 回款条件确认",
+                  "conditionSummary": "核实已记录的回款节点。",
+                  "conditionStatus": "open",
+                  "requiredForContracting": false,
+                  "responsibleRole": "财务",
+                  "dueAt": "2026-11-02T00:00:00.000Z",
+                  "resolutionSummary": null,
+                  "sortOrder": 1
+                }
+              ],
+              "blockingReasons": [
+                "报价与毛利评审尚未形成放行结论。"
+              ],
+              "nextStep": "先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。",
+              "readyForContracting": false,
+              "ownerLabel": "R3CG admin / R3CG admin",
+              "allowedActions": [
+                "view-pricing-margin-workspace"
+              ],
+              "generatedAt": "2026-11-02T02:36:54.737Z"
+            },
+            "requestId": "38cf9e14-7c3c-432d-9631-e69d0b596fa5"
+          }
+        }
+      ],
+      "actualSecurityEvents": 0
+    },
+    {
+      "label": "cost-money-number-and-post-get",
+      "startedAt": "2026-11-02T02:36:54.741Z",
+      "completedAt": "2026-11-02T02:36:54.816Z",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "CNY",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "000.10",
+            "taxCostAmount": "0",
+            "amountIncludingTax": "0.10",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1,
+            "quantity": "0001.20",
+            "unitPrice": "000.1000"
+          },
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "0.20",
+            "taxCostAmount": "0",
+            "amountIncludingTax": "0.20",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 2
+          }
+        ]
+      },
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+          "projectId": "c0c1152e-c7f9-4724-96f0-1e086fe4bfcd",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "CNY",
+          "totalEstimatedAmountExcludingTax": "0.30",
+          "totalTaxCostAmount": "0.00",
+          "totalEstimatedAmountIncludingTax": "0.30",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T02:36:54.776Z",
+          "createdAt": "2026-11-02T02:36:54.776Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:54.776Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "035c8852-3282-49fe-bf31-312e43086289"
+      },
+      "GET": {
+        "status": 200,
+        "body": {
+          "projectId": "c0c1152e-c7f9-4724-96f0-1e086fe4bfcd",
+          "currentStage": "assessment",
+          "status": "active",
+          "currentPackage": {
+            "id": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+            "projectId": "c0c1152e-c7f9-4724-96f0-1e086fe4bfcd",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "totalEstimatedAmountExcludingTax": "0.30",
+            "totalTaxCostAmount": "0.00",
+            "totalEstimatedAmountIncludingTax": "0.30",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "highestRiskLevel": "R1",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T02:36:54.776Z",
+            "createdAt": "2026-11-02T02:36:54.776Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:54.776Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          },
+          "scopeItems": [
+            {
+              "id": "2cbd7afe-b459-428a-9a2d-5ccd70de4ca3",
+              "packageId": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+              "scopeType": "in-scope",
+              "label": "G1 设备交付",
+              "description": "包含一项设备供货。",
+              "sortOrder": 1
+            }
+          ],
+          "riskItems": [
+            {
+              "id": "98a9152c-9b1c-4e95-b3fe-94f782e92e03",
+              "packageId": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+              "riskCategory": "G1 供货",
+              "riskLevel": "R1",
+              "riskDescription": "供货周期已经核实。",
+              "impactScope": "设备供货范围。",
+              "mitigationPlan": "按已核实周期交付。",
+              "ownerRole": "售前",
+              "riskStatus": "closed",
+              "blocksNextStage": false,
+              "sortOrder": 1
+            }
+          ],
+          "costItems": [
+            {
+              "id": "a0887719-e7ee-44f0-9d81-f0b06c0c56f4",
+              "packageId": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+              "costCategory": "equipment",
+              "costSubcategory": null,
+              "costDescription": "G1 设备成本",
+              "estimationBasis": "G1 已确认询价。",
+              "quantity": "1.2000",
+              "unit": null,
+              "unitPrice": "0.1000",
+              "amountExcludingTax": "0.10",
+              "taxCostAmount": "0.00",
+              "amountIncludingTax": "0.10",
+              "currencyCode": "CNY",
+              "confidenceLevel": "high",
+              "highUncertainty": false,
+              "responsibleRole": null,
+              "sortOrder": 1
+            },
+            {
+              "id": "c5ec0af6-5dd4-4e72-bd04-cf1ad801f575",
+              "packageId": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+              "costCategory": "equipment",
+              "costSubcategory": null,
+              "costDescription": "G1 设备成本",
+              "estimationBasis": "G1 已确认询价。",
+              "quantity": null,
+              "unit": null,
+              "unitPrice": null,
+              "amountExcludingTax": "0.20",
+              "taxCostAmount": "0.00",
+              "amountIncludingTax": "0.20",
+              "currencyCode": "CNY",
+              "confidenceLevel": "high",
+              "highUncertainty": false,
+              "responsibleRole": null,
+              "sortOrder": 2
+            }
+          ],
+          "blockingReasons": [],
+          "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "allowedActions": [
+            "view-technical-cost-workspace",
+            "create-technical-cost-package"
+          ],
+          "generatedAt": "2026-11-02T02:36:54.812Z"
+        },
+        "requestId": "b8c698a4-d6e4-4b31-93ad-384b258f00d3"
+      },
+      "row": {
+        "id": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+        "status": "effective",
+        "version": 1,
+        "created_at": "2026-11-02T10:36:54.776+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "is_current": true,
+        "project_id": "c0c1152e-c7f9-4724-96f0-1e086fe4bfcd",
+        "updated_at": "2026-11-02T10:36:54.776+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "row_version": 1,
+        "effective_at": "2026-11-02T10:36:54.776+08:00",
+        "blocker_count": 0,
+        "currency_code": "CNY",
+        "supersedes_id": null,
+        "allow_next_stage": true,
+        "tax_review_status": "reviewed",
+        "highest_risk_level": "R1",
+        "total_tax_cost_amount": 0,
+        "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+        "technical_conclusion_summary": "G1 技术方案可行。",
+        "technical_feasibility_decision": "feasible",
+        "total_estimated_amount_excluding_tax": 0.3,
+        "total_estimated_amount_including_tax": 0.3
+      },
+      "children": [
+        {
+          "id": "a0887719-e7ee-44f0-9d81-f0b06c0c56f4",
+          "unit": null,
+          "quantity": 1.2,
+          "package_id": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+          "sort_order": 1,
+          "unit_price": 0.1,
+          "cost_category": "equipment",
+          "currency_code": "CNY",
+          "tax_cost_amount": 0,
+          "confidence_level": "high",
+          "cost_description": "G1 设备成本",
+          "cost_subcategory": null,
+          "estimation_basis": "G1 已确认询价。",
+          "high_uncertainty": false,
+          "responsible_role": null,
+          "amount_excluding_tax": 0.1,
+          "amount_including_tax": 0.1
+        },
+        {
+          "id": "c5ec0af6-5dd4-4e72-bd04-cf1ad801f575",
+          "unit": null,
+          "quantity": null,
+          "package_id": "a35fd5b1-7b06-4e14-b610-f64059c8f06a",
+          "sort_order": 2,
+          "unit_price": null,
+          "cost_category": "equipment",
+          "currency_code": "CNY",
+          "tax_cost_amount": 0,
+          "confidence_level": "high",
+          "cost_description": "G1 设备成本",
+          "cost_subcategory": null,
+          "estimation_basis": "G1 已确认询价。",
+          "high_uncertainty": false,
+          "responsible_role": null,
+          "amount_excluding_tax": 0.2,
+          "amount_including_tax": 0.2
+        }
+      ]
+    },
+    {
+      "label": "cost-large-9007",
+      "startedAt": "2026-11-02T02:36:54.817Z",
+      "completedAt": "2026-11-02T02:36:54.862Z",
+      "amount": "9007199254740993.00",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "CNY",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "9007199254740993.00",
+            "taxCostAmount": "0",
+            "amountIncludingTax": "9007199254740993.00",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "6975f09e-13bf-439b-941f-067f096f4e48",
+          "projectId": "eda0f09f-996a-4bb6-ab52-cdda2449c051",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "CNY",
+          "totalEstimatedAmountExcludingTax": "9007199254740992.00",
+          "totalTaxCostAmount": "0.00",
+          "totalEstimatedAmountIncludingTax": "9007199254740992.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "2026-11-02T02:36:54.853Z",
+          "createdAt": "2026-11-02T02:36:54.853Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:54.853Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "rowVersion": 1
+        },
+        "requestId": "64ec0272-3288-49ba-8416-2d40d59add13"
+      },
+      "rows": [
+        {
+          "id": "6975f09e-13bf-439b-941f-067f096f4e48",
+          "status": "effective",
+          "version": 1,
+          "created_at": "2026-11-02T10:36:54.853+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "is_current": true,
+          "project_id": "eda0f09f-996a-4bb6-ab52-cdda2449c051",
+          "updated_at": "2026-11-02T10:36:54.853+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 1,
+          "effective_at": "2026-11-02T10:36:54.853+08:00",
+          "blocker_count": 0,
+          "currency_code": "CNY",
+          "supersedes_id": null,
+          "allow_next_stage": true,
+          "tax_review_status": "reviewed",
+          "highest_risk_level": "R1",
+          "total_tax_cost_amount": 0,
+          "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+          "technical_conclusion_summary": "G1 技术方案可行。",
+          "technical_feasibility_decision": "feasible",
+          "total_estimated_amount_excluding_tax": 9007199254740992,
+          "total_estimated_amount_including_tax": 9007199254740992
+        }
+      ]
+    },
+    {
+      "label": "cost-large-9999",
+      "startedAt": "2026-11-02T02:36:54.863Z",
+      "completedAt": "2026-11-02T02:36:54.904Z",
+      "amount": "9999999999999999.99",
+      "request": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "allowNextStage": true,
+        "currencyCode": "CNY",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "G1 设备交付",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "G1 供货",
+            "riskLevel": "R1",
+            "riskDescription": "供货周期已经核实。",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "G1 设备成本",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "9999999999999999.99",
+            "taxCostAmount": "0",
+            "amountIncludingTax": "9999999999999999.99",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1
+          }
+        ]
+      },
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "cc0b64b3-d4c6-4675-a253-db5911a80ed4"
+      },
+      "rows": []
+    },
+    {
+      "label": "cost-child-insert-failure",
+      "startedAt": "2026-11-02T02:36:54.905Z",
+      "completedAt": "2026-11-02T02:36:54.959Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "1dc240e7-03c4-4e2d-ba4a-8aa42916b3dd"
+      },
+      "rows": [],
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 6,
+          "last_seen_at": "2026-11-02T02:35:53.925Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.642Z",
+          "updated_at": "2026-11-02T02:36:54.642Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 7,
+          "last_seen_at": "2026-11-02T02:36:54.930Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.930Z",
+          "updated_at": "2026-11-02T02:36:54.930Z"
+        }
+      ],
+      "ACLRestored": true
+    },
+    {
+      "label": "bid-child-insert-failure",
+      "startedAt": "2026-11-02T02:36:54.960Z",
+      "completedAt": "2026-11-02T02:36:55.005Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "e40b55b8-586c-46b9-ab91-8d1dfdd3b58a"
+      },
+      "rows": [],
+      "ACLRestored": true
+    },
+    {
+      "label": "project_technical_cost_package-concurrent-first",
+      "startedAt": "2026-11-02T02:36:55.006Z",
+      "completedAt": "2026-11-02T02:36:55.103Z",
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 201,
+          "body": {
+            "id": "5b8c7773-ca58-4cd7-9ffd-2090b766529c",
+            "projectId": "26a7689a-07b3-4f55-8bbc-aa729c07a893",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalTaxCostAmount": "13.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "highestRiskLevel": "R1",
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T02:36:55.057Z",
+            "createdAt": "2026-11-02T02:36:55.057Z",
+            "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "updatedAt": "2026-11-02T02:36:55.057Z",
+            "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+            "rowVersion": 1
+          },
+          "requestId": "8dd1e7af-63eb-4fe9-b404-843656da8439"
+        },
+        {
+          "status": 500,
+          "body": {
+            "statusCode": 500,
+            "message": "Internal server error"
+          },
+          "requestId": "879b3bdf-5bb0-414c-873e-7976627e259e"
+        }
+      ],
+      "after": [
+        {
+          "id": "5b8c7773-ca58-4cd7-9ffd-2090b766529c",
+          "status": "effective",
+          "version": 1,
+          "created_at": "2026-11-02T10:36:55.057+08:00",
+          "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "is_current": true,
+          "project_id": "26a7689a-07b3-4f55-8bbc-aa729c07a893",
+          "updated_at": "2026-11-02T10:36:55.057+08:00",
+          "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 1,
+          "effective_at": "2026-11-02T10:36:55.057+08:00",
+          "blocker_count": 0,
+          "currency_code": "CNY",
+          "supersedes_id": null,
+          "allow_next_stage": true,
+          "tax_review_status": "reviewed",
+          "highest_risk_level": "R1",
+          "total_tax_cost_amount": 13,
+          "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+          "technical_conclusion_summary": "G1 技术方案可行。",
+          "technical_feasibility_decision": "feasible",
+          "total_estimated_amount_excluding_tax": 100,
+          "total_estimated_amount_including_tax": 113
+        }
+      ]
+    },
+    {
+      "label": "project_bid_commercial_process-concurrent-first",
+      "startedAt": "2026-11-02T02:36:55.104Z",
+      "completedAt": "2026-11-02T02:36:55.193Z",
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 500,
+          "body": {
+            "statusCode": 500,
+            "message": "Internal server error"
+          },
+          "requestId": "a993e580-f8bf-41a1-a8e5-e8a730290c4d"
+        },
+        {
+          "status": 201,
+          "body": {
+            "id": "7f6e4595-53dd-45d0-ba43-bbd2256729d9",
+            "projectId": "6adfd389-ea42-4bc7-beff-44fce965ca42",
+            "version": 1,
+            "isCurrent": true,
+            "supersedesId": null,
+            "status": "effective",
+            "bidMode": "public-tender",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "resultStatus": "pending",
+            "processSummary": "concurrent",
+            "decisionSummary": null,
+            "resultSummary": null,
+            "tenderNo": null,
+            "bidPackageNo": null,
+            "ownerRole": null,
+            "blockerCount": 0,
+            "effectiveAt": "2026-11-02T02:36:55.155Z",
+            "createdAt": "2026-11-02T02:36:55.155Z",
+            "createdBy": "762cceea-1a0b-41d6-93b9-514fa010feca",
+            "updatedAt": "2026-11-02T02:36:55.155Z",
+            "updatedBy": "762cceea-1a0b-41d6-93b9-514fa010feca",
+            "rowVersion": 1
+          },
+          "requestId": "2f8d7129-555f-40ac-9510-97b7b405d88d"
+        }
+      ],
+      "after": [
+        {
+          "id": "7f6e4595-53dd-45d0-ba43-bbd2256729d9",
+          "status": "effective",
+          "version": 1,
+          "bid_mode": "public-tender",
+          "decision": "participate",
+          "tender_no": null,
+          "created_at": "2026-11-02T10:36:55.155+08:00",
+          "created_by": "762cceea-1a0b-41d6-93b9-514fa010feca",
+          "is_current": true,
+          "owner_role": null,
+          "project_id": "6adfd389-ea42-4bc7-beff-44fce965ca42",
+          "updated_at": "2026-11-02T10:36:55.155+08:00",
+          "updated_by": "762cceea-1a0b-41d6-93b9-514fa010feca",
+          "row_version": 1,
+          "effective_at": "2026-11-02T10:36:55.155+08:00",
+          "blocker_count": 0,
+          "current_stage": "preparation",
+          "result_status": "pending",
+          "supersedes_id": null,
+          "bid_package_no": null,
+          "result_summary": null,
+          "process_summary": "concurrent",
+          "decision_summary": null
+        }
+      ]
+    },
+    {
+      "label": "contact-gender-controller-drop",
+      "startedAt": "2026-11-02T02:36:55.194Z",
+      "completedAt": "2026-11-02T02:36:55.214Z",
+      "request": {
+        "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+        "name": "G1 客户联系人😀",
+        "gender": "female",
+        "email": "g1@example.test"
+      },
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "name": "G1 客户联系人😀",
+          "gender": "unknown",
+          "department": null,
+          "title": null,
+          "workPhone": null,
+          "mobile": null,
+          "wechat": null,
+          "email": "g1@example.test",
+          "remark": null,
+          "status": "active",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:36:55.206Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:55.206Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "b6049e52-f6d8-480a-bee5-eeb7b378766c"
+      },
+      "row": {
+        "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+        "name": "G1 客户联系人😀",
+        "email": "g1@example.test",
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:36:55.206+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:36:55.206+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      }
+    },
+    {
+      "label": "contact-email-dto-db-length",
+      "startedAt": "2026-11-02T02:36:55.215Z",
+      "completedAt": "2026-11-02T02:36:55.237Z",
+      "emailLength": 263,
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "5df5849e-461e-4b8e-92bb-9ca951d293e1"
+      },
+      "before": {
+        "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+        "name": "G1 客户联系人😀",
+        "email": "g1@example.test",
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:36:55.206+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:36:55.206+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      },
+      "after": {
+        "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+        "name": "G1 客户联系人😀",
+        "email": "g1@example.test",
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:36:55.206+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:36:55.206+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      }
+    },
+    {
+      "label": "contact-audit-failure-atomicity",
+      "startedAt": "2026-11-02T02:36:55.238Z",
+      "completedAt": "2026-11-02T02:36:55.268Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "ed98779a-14dc-405b-842f-681cc3b87c05"
+      },
+      "before": {
+        "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+        "name": "G1 客户联系人😀",
+        "email": "g1@example.test",
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:36:55.206+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:36:55.206+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      },
+      "after": {
+        "id": "9aa29190-6987-4235-9721-cbfa4f6eaa1b",
+        "name": "G1 客户联系人😀",
+        "email": "g1@example.test",
+        "title": null,
+        "gender": "unknown",
+        "mobile": null,
+        "remark": null,
+        "status": "active",
+        "wechat": null,
+        "created_at": "2026-11-02T10:36:55.206+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "department": null,
+        "updated_at": "2026-11-02T10:36:55.206+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "work_phone": null,
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "row_version": 1
+      },
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 7,
+          "last_seen_at": "2026-11-02T02:35:54.239Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:54.930Z",
+          "updated_at": "2026-11-02T02:36:54.930Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 8,
+          "last_seen_at": "2026-11-02T02:36:55.245Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.245Z",
+          "updated_at": "2026-11-02T02:36:55.245Z"
+        }
+      ],
+      "ACLRestored": true
+    },
+    {
+      "label": "followup-create-reminder",
+      "startedAt": "2026-11-02T02:36:55.269Z",
+      "completedAt": "2026-11-02T02:36:55.312Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "b109eca2-da7d-452e-a6f2-fbbf1ffd9bd7",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 first reminder",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "ownerName": "R3CG admin",
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:36:55.294Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:55.294Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "0ea65666-4dfa-4acf-83f4-e7c402bce256"
+      },
+      "row": {
+        "id": "b109eca2-da7d-452e-a6f2-fbbf1ffd9bd7",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 first reminder",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:36:55.294+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:55.294+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "todos": [
+        {
+          "id": "58fc228c-b44f-4463-ab28-0ca1c980682e",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 first reminder",
+          "priority": "normal",
+          "source_id": "b109eca2-da7d-452e-a6f2-fbbf1ffd9bd7",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.297+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.297+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        }
+      ],
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 8,
+          "last_seen_at": "2026-11-02T02:35:54.270Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.245Z",
+          "updated_at": "2026-11-02T02:36:55.245Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 10,
+          "last_seen_at": "2026-11-02T02:36:55.274Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.274Z",
+          "updated_at": "2026-11-02T02:36:55.298Z"
+        }
+      ]
+    },
+    {
+      "label": "followup-no-next-completes-old-stream",
+      "startedAt": "2026-11-02T02:36:55.312Z",
+      "completedAt": "2026-11-02T02:36:55.344Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "c9307b7a-69b4-449e-a37b-99504592b78c",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 no next",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": null,
+          "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "ownerName": "R3CG admin",
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:36:55.331Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:55.331Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "0d130d8c-3630-41b5-a9a8-187dd3b5b09c"
+      },
+      "oldTodos": [
+        {
+          "id": "58fc228c-b44f-4463-ab28-0ca1c980682e",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "completed",
+          "summary": "G1 first reminder",
+          "priority": "normal",
+          "source_id": "b109eca2-da7d-452e-a6f2-fbbf1ffd9bd7",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.297+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.336+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:36:55.331+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        }
+      ],
+      "newTodos": []
+    },
+    {
+      "label": "followup-second-reminder",
+      "startedAt": "2026-11-02T02:36:55.345Z",
+      "completedAt": "2026-11-02T02:36:55.379Z",
+      "HTTP": {
+        "status": 201,
+        "body": {
+          "id": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 replace source",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "ownerName": "R3CG admin",
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:36:55.367Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:55.367Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "8ec7c894-d221-4b2f-8ab2-525fbec354fd"
+      },
+      "todos": [
+        {
+          "id": "c5648dd6-ab59-4a2a-a979-fefe83767e84",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 replace source",
+          "priority": "normal",
+          "source_id": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.37+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.37+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        }
+      ]
+    },
+    {
+      "label": "followup-replace-two-way-fk",
+      "startedAt": "2026-11-02T02:36:55.379Z",
+      "completedAt": "2026-11-02T02:36:55.426Z",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "f7d2858c-48fb-4a59-8128-0d3969a8db33",
+          "customerId": "4a76893e-8633-4357-935f-ba76e7043472",
+          "customerName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "leadId": null,
+          "leadName": null,
+          "projectId": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "projectName": "R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "G1 replacement",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "ownerName": "R3CG admin",
+          "supersedesId": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+          "replacedById": null,
+          "replacementReason": "G1 replacement",
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:36:55.401Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:55.401Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "2233709f-e5e6-469d-9248-8504fc355e59"
+      },
+      "before": {
+        "id": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 replace source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:36:55.367+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:55.367+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "oldAfter": {
+        "id": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+        "detail": null,
+        "status": "superseded",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 replace source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:36:55.367+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:55.405+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": "f7d2858c-48fb-4a59-8128-0d3969a8db33"
+      },
+      "newAfter": {
+        "id": "f7d2858c-48fb-4a59-8128-0d3969a8db33",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 replacement",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:36:55.401+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:55.401+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": "G1 replacement",
+        "supersedes_record_id": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+        "replaced_by_record_id": null
+      },
+      "todos": [
+        {
+          "id": "58fc228c-b44f-4463-ab28-0ca1c980682e",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "completed",
+          "summary": "G1 first reminder",
+          "priority": "normal",
+          "source_id": "b109eca2-da7d-452e-a6f2-fbbf1ffd9bd7",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.297+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.336+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:36:55.331+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        },
+        {
+          "id": "c5648dd6-ab59-4a2a-a979-fefe83767e84",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "completed",
+          "summary": "G1 replace source",
+          "priority": "normal",
+          "source_id": "271fe6da-8016-4a97-88ac-92dbf4317db3",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.37+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.407+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:36:55.402+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        },
+        {
+          "id": "ce1e405a-06bc-471b-b60e-3e204de0519c",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "open",
+          "summary": "G1 replacement",
+          "priority": "normal",
+          "source_id": "f7d2858c-48fb-4a59-8128-0d3969a8db33",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.404+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.404+08:00",
+          "row_version": 1,
+          "source_type": "sales-follow-up-record",
+          "completed_at": null,
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        }
+      ],
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 10,
+          "last_seen_at": "2026-11-02T02:35:54.381Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.274Z",
+          "updated_at": "2026-11-02T02:36:55.298Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 12,
+          "last_seen_at": "2026-11-02T02:36:55.384Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.384Z",
+          "updated_at": "2026-11-02T02:36:55.405Z"
+        }
+      ]
+    },
+    {
+      "label": "followup-postsave-audit-failure",
+      "startedAt": "2026-11-02T02:36:55.426Z",
+      "completedAt": "2026-11-02T02:36:55.491Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "605d1511-bea3-43c2-a748-3f85d2639967"
+      },
+      "before": {
+        "id": "95ba3d67-f9a5-43e0-8766-0448c041cfb5",
+        "detail": null,
+        "status": "active",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 audit source",
+        "voided_at": null,
+        "voided_by": null,
+        "created_at": "2026-11-02T10:36:55.441+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:55.441+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 1,
+        "void_reason": null,
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "after": {
+        "id": "95ba3d67-f9a5-43e0-8766-0448c041cfb5",
+        "detail": null,
+        "status": "voided",
+        "lead_id": null,
+        "outcome": "progress",
+        "summary": "G1 audit source",
+        "voided_at": "2026-11-02T10:36:55.472+08:00",
+        "voided_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "created_at": "2026-11-02T10:36:55.441+08:00",
+        "created_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+        "updated_at": "2026-11-02T10:36:55.474+08:00",
+        "updated_by": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "customer_id": "4a76893e-8633-4357-935f-ba76e7043472",
+        "occurred_at": "2026-11-02T08:00:00+08:00",
+        "row_version": 2,
+        "void_reason": "G1 denied audit",
+        "owner_org_id": "3991fa08-4ba1-4e84-9384-991613a07399",
+        "owner_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+        "follow_up_type": "phone",
+        "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+        "replacement_reason": null,
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null
+      },
+      "todos": [
+        {
+          "id": "2e6b8201-4b7d-445c-81d1-c04d6ffd7edb",
+          "title": "销售跟进提醒：R3CG 8335ed8a-f8ae-4874-a0e5-279189ceae14 version",
+          "due_at": "2027-01-02T08:00:00+08:00",
+          "status": "canceled",
+          "summary": "G1 audit source",
+          "priority": "normal",
+          "source_id": "95ba3d67-f9a5-43e0-8766-0448c041cfb5",
+          "todo_type": "sales-follow-up-reminder",
+          "created_at": "2026-11-02T10:36:55.443+08:00",
+          "project_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "updated_at": "2026-11-02T10:36:55.476+08:00",
+          "row_version": 2,
+          "source_type": "sales-follow-up-record",
+          "completed_at": "2026-11-02T10:36:55.473+08:00",
+          "business_domain": "sales",
+          "assignee_user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "target_object_id": "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+          "target_object_type": "project"
+        }
+      ],
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 12,
+          "last_seen_at": "2026-11-02T02:35:54.452Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.384Z",
+          "updated_at": "2026-11-02T02:36:55.405Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 14,
+          "last_seen_at": "2026-11-02T02:36:55.457Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.457Z",
+          "updated_at": "2026-11-02T02:36:55.474Z"
+        }
+      ],
+      "actualAudits": 0,
+      "ACLRestored": true
+    },
+    {
+      "label": "followup-todo-insert-failure-boundary",
+      "startedAt": "2026-11-02T02:36:55.492Z",
+      "completedAt": "2026-11-02T02:36:55.524Z",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "requestId": "a7304f31-61bc-4f57-abc6-33b02e7cb2e7"
+      },
+      "after": [],
+      "todos": [],
+      "sessionBefore": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 14,
+          "last_seen_at": "2026-11-02T02:35:54.492Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.457Z",
+          "updated_at": "2026-11-02T02:36:55.474Z"
+        }
+      ],
+      "sessionAfter": [
+        {
+          "id": "e822fcbb-4429-4a2a-9b2a-3935a01a3a04",
+          "user_id": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "row_version": 15,
+          "last_seen_at": "2026-11-02T02:36:55.497Z",
+          "last_ip": "::ffff:127.0.0.1",
+          "idle_expires_at": "2026-11-02T02:51:55.497Z",
+          "updated_at": "2026-11-02T02:36:55.497Z"
+        }
+      ],
+      "ACLRestored": true
+    },
+    {
+      "label": "contacts-inactive-vs-followup-active",
+      "startedAt": "2026-11-02T02:36:55.525Z",
+      "completedAt": "2026-11-02T02:36:55.606Z",
+      "contactHTTP": {
+        "status": 201,
+        "body": {
+          "id": "9487eea1-afe8-43ac-8c6e-afa3b8284173",
+          "customerId": "62397d5a-89e8-4c6f-8039-fbf3e7697878",
+          "customerName": "R3CG inactive 8335ed8a-f8ae-4874-a0e5-279189ceae14",
+          "name": "G1 inactive contact",
+          "gender": "unknown",
+          "department": null,
+          "title": null,
+          "workPhone": null,
+          "mobile": null,
+          "wechat": null,
+          "email": null,
+          "remark": null,
+          "status": "active",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T02:36:55.590Z",
+          "createdBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+          "updatedAt": "2026-11-02T02:36:55.590Z",
+          "updatedBy": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a"
+        },
+        "requestId": "21418763-eb13-46f7-86ae-4e613656fda9"
+      },
+      "followupHTTP": {
+        "status": 400,
+        "body": {
+          "message": "Customer 62397d5a-89e8-4c6f-8039-fbf3e7697878 is not active",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "beddea94-1fda-4a41-a15a-fb1e35ea7a80"
+      }
+    }
+  ],
+  "caseCount": 24,
+  "actors": [
+    {
+      "label": "admin",
+      "userId": "909458cd-f2e1-4cbe-bdc2-38a7fa570f6a",
+      "orgId": "3991fa08-4ba1-4e84-9384-991613a07399",
+      "roleId": "a6c5e271-633f-47cb-a233-f9e4d7d269de",
+      "username": "r3cg_8335ed8af8ae4874a0e5279189ceae14_admin"
+    },
+    {
+      "label": "other",
+      "userId": "762cceea-1a0b-41d6-93b9-514fa010feca",
+      "orgId": "0ac68191-39d3-4251-9ab2-30ca03a06f70",
+      "roleId": "a0883567-a16e-4ba2-a4aa-cdb9c1848eb1",
+      "username": "r3cg_8335ed8af8ae4874a0e5279189ceae14_other"
+    },
+    {
+      "label": "viewer",
+      "userId": "a5444d1f-0086-4e79-90fe-193f612b4c0f",
+      "orgId": "22b5aa25-1f82-4efe-804c-c65cdbce16c5",
+      "roleId": "fb51ce68-ff62-45af-a7e4-36919f564a75",
+      "username": "r3cg_8335ed8af8ae4874a0e5279189ceae14_viewer"
+    }
+  ],
+  "created": {
+    "customer": [
+      "4a76893e-8633-4357-935f-ba76e7043472",
+      "62397d5a-89e8-4c6f-8039-fbf3e7697878"
+    ],
+    "project": [
+      "9464d37a-e0b5-4121-bab9-0e533d0835ef",
+      "c0c1152e-c7f9-4724-96f0-1e086fe4bfcd",
+      "eda0f09f-996a-4bb6-ab52-cdda2449c051",
+      "cc6c1af6-744e-4958-a01a-894765cf9251",
+      "b4eddbe1-aced-4715-b75b-be3faae96135",
+      "754f6df0-1847-42d1-9662-ead7aeae2fed",
+      "26a7689a-07b3-4f55-8bbc-aa729c07a893",
+      "6adfd389-ea42-4bc7-beff-44fce965ca42"
+    ],
+    "contact": [
+      "9aa29190-6987-4235-9721-cbfa4f6eaa1b"
+    ]
+  },
+  "SQLOrder": {
+    "file": "/home/wangzishi/projects/poms-rust-r3cdefg/tmp/rust-r3cdefg/native-witness01/sql-order-safe01.json",
+    "bytes": 443,
+    "rawBytesSha256": "844a84117103c83bb371b1720c9b845a56cba4a8373f76ddafec9a467fdc8b66"
+  },
+  "cleanup": "Pending-owned-witness-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

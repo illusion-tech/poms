@@ -1,0 +1,51 @@
+    Checking poms-api-rust v0.1.0 (/home/wangzishi/projects/poms-rust-r3cdefg/apps/poms-api-rust)
+error: the `Err`-variant returned from this function is very large
+  --> src/customer_contacts/http.rs:37:51
+   |
+37 | fn rewrite(mut request: Request, path: String) -> Result<Request, Response> {
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ the `Err`-variant is at least 128 bytes
+   |
+   = help: try reducing the size of `axum::http::Response<axum::body::Body>`, for example by boxing large elements or replacing it with `Box<axum::http::Response<axum::body::Body>>`
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#result_large_err
+   = note: `-D clippy::result-large-err` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::result_large_err)]`
+
+error: the `Err`-variant returned from this function is very large
+  --> src/project_bid_commercial/http.rs:37:51
+   |
+37 | fn rewrite(mut request: Request, path: String) -> Result<Request, Response> {
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ the `Err`-variant is at least 128 bytes
+   |
+   = help: try reducing the size of `axum::http::Response<axum::body::Body>`, for example by boxing large elements or replacing it with `Box<axum::http::Response<axum::body::Body>>`
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#result_large_err
+
+error: the `Err`-variant returned from this function is very large
+  --> src/project_pricing_margin/http.rs:37:51
+   |
+37 | fn rewrite(mut request: Request, path: String) -> Result<Request, Response> {
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ the `Err`-variant is at least 128 bytes
+   |
+   = help: try reducing the size of `axum::http::Response<axum::body::Body>`, for example by boxing large elements or replacing it with `Box<axum::http::Response<axum::body::Body>>`
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#result_large_err
+
+error: the `Err`-variant returned from this function is very large
+  --> src/project_technical_cost/http.rs:37:51
+   |
+37 | fn rewrite(mut request: Request, path: String) -> Result<Request, Response> {
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ the `Err`-variant is at least 128 bytes
+   |
+   = help: try reducing the size of `axum::http::Response<axum::body::Body>`, for example by boxing large elements or replacing it with `Box<axum::http::Response<axum::body::Body>>`
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#result_large_err
+
+error: the `Err`-variant returned from this function is very large
+  --> src/sales_follow_up/http.rs:37:51
+   |
+37 | fn rewrite(mut request: Request, path: String) -> Result<Request, Response> {
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ the `Err`-variant is at least 128 bytes
+   |
+   = help: try reducing the size of `axum::http::Response<axum::body::Body>`, for example by boxing large elements or replacing it with `Box<axum::http::Response<axum::body::Body>>`
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#result_large_err
+
+error: could not compile `poms-api-rust` (lib) due to 5 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `poms-api-rust` (lib test) due to 5 previous errors

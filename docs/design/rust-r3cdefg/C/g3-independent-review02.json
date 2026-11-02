@@ -1,0 +1,474 @@
+{
+  "kind": "R3CDEFG-formal-independent-G3-review",
+  "createdAt": "2026-11-02T06:45:30.032Z",
+  "reviewer": {
+    "role": "C independent non-author",
+    "task": "/root/r3_next16_review",
+    "productAuthor": false
+  },
+  "decision": "Pass",
+  "Gate": "Scoped current16 G3 only; commit/push permitted, fixed-commit/main/G4 still separate",
+  "candidateManifest": {
+    "file": "docs/design/rust-r3cdefg/g3-candidate-manifest03.json",
+    "bytes": 162231,
+    "rawBytesSha256": "50ec4b8ec0b31fa86921ade5ebc5dd585357eb01e7b1c788da459d5da329669f"
+  },
+  "candidate": {
+    "artifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/target/release/poms-api-rust",
+      "bytes": 40997296,
+      "rawBytesSha256": "c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128"
+    },
+    "retainedArtifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/artifacts/c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128",
+      "bytes": 40997296,
+      "rawBytesSha256": "c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128"
+    },
+    "sourceAfter09": 203,
+    "sourceDeltaFromEC": 2,
+    "paths": 116,
+    "operations": 145,
+    "schemas": 585,
+    "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+    "branch": "codex/poms-r3cdefg-next16"
+  },
+  "previousDecision": {
+    "source": {
+      "file": "tmp/rust-r3cdefg/c-review/g3-independent-review01.json",
+      "bytes": 18172,
+      "rawBytesSha256": "e348bfc0aa3801d7512d7a26be656726a9c906453d7ad939075bbcaaf9a519c7"
+    },
+    "decision": "Needs-correction",
+    "preserved": true,
+    "notRetroactivelyPassed": true
+  },
+  "scope": {
+    "issues": [
+      88,
+      89,
+      90,
+      91,
+      92
+    ],
+    "operations": 16,
+    "perSlice": {
+      "R3C": 3,
+      "R3D": 3,
+      "R3E": 3,
+      "R3F": 4,
+      "R3G": 3
+    },
+    "includesRealFollowUpTodoProducer": true,
+    "formalDeliveredStill": "14/58 until own G4",
+    "possibleAfterAllFiveScopedG4": "30/58",
+    "remainingAfterBatch": 28,
+    "parent85MustRemainOpen": true,
+    "overall57MustRemainOpen": true,
+    "fullR3StageOrNonHTTPOrFutureDomainCertified": false
+  },
+  "findingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "findings": [],
+  "resolvedCurrentFinding": {
+    "id": "G3-C-UTF16-ERROR-ECHO-01",
+    "wasPriority": "P2",
+    "currentState": "Resolved on source09/current c042 actual originals",
+    "source": "Same currency preflight position now retains code units; ordinary complete strings stay on prior BadRequest(String), isolated units use narrow BadRequestJs plus existing raw_json transport.",
+    "actual": "Fresh14 events compare exact400 objects, code units, matched201 original currency and specified PG observations; all0 differences against retained Native. Two real DTO->preflight unit regressions actually passed in09.",
+    "family": "51 prior constructor/transport sites and34 interpolations audited; F current dictionary path remains ASCII DTO-constrained. Other201 Rust source files, Native/client/Angular/shared ApiError/JsString are unchanged."
+  },
+  "priorFiveCorrectionsRemainVerified": {
+    "ZodAccumulatedArrayErrors": true,
+    "wideInternalVersionAtOriginalPGInt4Boundary": true,
+    "FUnknownCommandOriginalHTML404": true,
+    "year0000OriginalSQLTextRejection": true,
+    "voidTodoThenSessionThenRecordUpdate": true
+  },
+  "evidence": {
+    "integrity": {
+      "manifestInputs": 740,
+      "inputMismatches": 0,
+      "indexRawBlobMismatches": 0,
+      "CodeAfter09": 203,
+      "sourceMismatches": 0,
+      "unchangedOtherRust": 201,
+      "NativePins": 872,
+      "NativeMismatches": 0,
+      "G1FormalFiles": 44,
+      "G1FormalMismatches": 0,
+      "newOriginalCopies": 165,
+      "copyMismatches": 0
+    },
+    "currentSemantic45": {
+      "independentBodyPGCaseComparisons": 45,
+      "independentBusinessSessionRelations": 78,
+      "independentAuditTransactionRelations": 12,
+      "failures": 0,
+      "remainingRawSessionIPDifferences": 32,
+      "remainingRawSecurityIPDifferences": 16,
+      "IPDisposition": "Explicit inherited existing-baseline-drift, original strings retained; never normalized",
+      "transactionsPerBackend": 79,
+      "openTransactions": 0,
+      "actualRecordedErrorsPerBackend": 17,
+      "errorClassificationDifferences": 0,
+      "SQLSTATE": "Not emitted and not fabricated",
+      "concurrency": "Each of4 races:2waiters, one success/one500, one target business COMMIT/oneROLLBACK; actual winner body->DB->unique audit bound. Post-business audit commits stay separate."
+    },
+    "currentFixedEvents": {
+      "coverage": 1124,
+      "edges": 129,
+      "boundaries": 171,
+      "business": 183,
+      "temporal": 84,
+      "total1691FullResponseDifferences": 0,
+      "coverageRequestAndResponseDifferences": 0,
+      "rawErrors": 14,
+      "rawErrorCodeUnits400BodiesAndSpecifiedPGDifferences": 0,
+      "combinedFixedEventCount": 1705,
+      "semanticGroupsNotCountedAsSingleHTTPRequests": true
+    },
+    "strictNormalization": "Only explicit generated identity/time mapping with bijective consistency; actual producer business numbers and declared prepared references explicitly joined; fixed dates/money/errors/states remain exact. Contact winner carry uses only two proven fields of two exact list objects per backend. No Unicode/IP/global actor normalization.",
+    "precisePG": {
+      "numericTextRowsPerBackend": 19,
+      "numericDifferences": 0,
+      "itemToActualParentAndSortOrderRelations": 8,
+      "fixedUserDatePGTextObservations": 21,
+      "fixedUserDateDifferences": 0,
+      "year0CurrentResidual": {
+        "followups": 0,
+        "pricingReviews": 0,
+        "todos": 0
+      },
+      "finalCohortSubset": "Core45+1124 exact identity subset is compared; later observer extra rows retained with their true scope, not hidden as equal."
+    },
+    "currentProducerToPublicConsumer": {
+      "targets": [
+        "customer",
+        "lead",
+        "project"
+      ],
+      "currentActualFAndPGToPublicTodoRelations": 3,
+      "NativeOriginalRelationsRetained": 3,
+      "LeadFact": "Legal read context only; Lead14 producer/detail/full-stage not certified"
+    },
+    "Rust09": {
+      "commands": [
+        {
+          "name": "cargo-fmt",
+          "exitCode": 0
+        },
+        {
+          "name": "cargo-check",
+          "exitCode": 0
+        },
+        {
+          "name": "cargo-clippy",
+          "exitCode": 0
+        },
+        {
+          "name": "cargo-test",
+          "exitCode": 0
+        },
+        {
+          "name": "cargo-release",
+          "exitCode": 0
+        }
+      ],
+      "tests": {
+        "passed": 235,
+        "failed": 0,
+        "ignored": 54
+      },
+      "ignoredAreNotCertifiedPGTests": true
+    },
+    "contract": {
+      "currentCompiled": {
+        "source": {
+          "file": "docs/design/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/openapi.json",
+          "bytes": 978495,
+          "rawBytesSha256": "57a2a1a54a53811b0a41929c8943a926f7a190fa09932a13e84ac667b0041d46"
+        },
+        "allCurrentOpenAPIValuesEqualEC": true
+      },
+      "Native": {
+        "paths": 237,
+        "operations": 291,
+        "schemas": 585,
+        "clientFiles": 579
+      },
+      "Rust": {
+        "paths": 116,
+        "operations": 145,
+        "schemas": 585
+      },
+      "all585SchemasAndNew16DefinitionsPreviouslyIndependentlyExact": true,
+      "onlyTwoInternalErrorPathFilesChangedSinceThatProof": true
+    },
+    "currentResourceTerminal": {
+      "preCorrectionNativeRowsRemoved": 171,
+      "preCorrectionRustRowsRemoved": 171,
+      "currentRustRowsRemoved": 1410,
+      "exactSeedTablesPerDB": 107,
+      "restoredIndividualPrivilegesPerDB": 428,
+      "allNineLinuxRuntimesStopped": true,
+      "browserLeases": 0,
+      "ownedPortsFree": true,
+      "PG15StoppedVolumeAndPrivateRetained": true,
+      "oldPG17AndOldPrivateUntouched": true
+    },
+    "online": {
+      "sameCandidate03ReadyBodyHash": "02bca183b135be1d06ddb813e97bf9eb9217e8a12ccd4ea28a7c76afd6ced2e0",
+      "sevenIssuesOpen": true,
+      "fiveExactReadyBodiesReadBack": true,
+      "parentProgressRefreshedAndIndependentlyRead": true,
+      "currentFormalCount14of58": true,
+      "ReadyWasNotTreatedAsPass": true
+    }
+  },
+  "UICausalEvidenceDecision": {
+    "approvedForThisExactCandidate": true,
+    "actualOriginalArtifact": "ec988ffcecebbe40c89dc7551304d7ae66634ef1fc9cabed7d948a09e7f82c78",
+    "actualOriginalUIReports": 12,
+    "actualOriginalOSBackendCells": 4,
+    "actualOriginalHTTP": 898,
+    "executedOnC042": false,
+    "relabelledAsC042": false,
+    "reason": "Only C service/HTTP currency-mismatch400 handling and local regressions changed. Normal complete-string errors keep prior path; C original UI has no cost POST form. All UI GET/store/router/guard/Angular/client code is identical, current45+1691+14 contracts/PG revalidated. Existing UI effects are therefore carried only under this explicit source-causal boundary.",
+    "owner": "Root",
+    "approver": "C current scoped G3 review02",
+    "reviewTrigger": "Any further source change affecting those paths requires risk re-evaluation; no blanket future UI waiver"
+  },
+  "preservedExceptions": [
+    {
+      "scope": "Client E1 equivalent frozen validation",
+      "approvedForCurrentScope": true,
+      "activeCLIExit": 1,
+      "substituteOriginalSixGuardsExit": 0,
+      "currentFiveInputsAnd579OutputsCopiedRaw": true,
+      "all585PathAttributesEqual": true,
+      "guardAndBaselineUnchanged": true,
+      "owner": "Root",
+      "cleanupDue": "2026-11-02 G4",
+      "boundary": "Original active protection failure remains explicit; no general guard waiver."
+    },
+    {
+      "scope": "IP/schema/TZ/ignored",
+      "classification": "existing-baseline-drift or original classified check outcome",
+      "boundary": "All48 IP strings retained; migrationCheck1/dump0 with168 existing CHECK/comment/marker classifications and noDDL; original timezone failure plusUTC pass;54ignored retain labels."
+    },
+    {
+      "scope": "Three execute-log visibility differences",
+      "observations": [
+        {
+          "case": "cost-large-9999",
+          "native": [
+            {
+              "operation": "INSERT INTO",
+              "table": "project_technical_cost_package",
+              "versionPredicate": false
+            }
+          ],
+          "rust": [],
+          "terminal": "ROLLBACK"
+        },
+        {
+          "case": "contact-email-dto-db-length",
+          "native": [
+            {
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            },
+            {
+              "operation": "UPDATE",
+              "table": "customer_contact",
+              "versionPredicate": true
+            }
+          ],
+          "rust": [
+            {
+              "operation": "INSERT INTO",
+              "table": "audit_log",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK"
+        },
+        {
+          "case": "extra-followup-dictionary33-varchar32",
+          "native": [
+            {
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            },
+            {
+              "operation": "INSERT INTO",
+              "table": "sales_follow_up_record",
+              "versionPredicate": false
+            }
+          ],
+          "rust": [
+            {
+              "operation": "INSERT INTO",
+              "table": "todo_item",
+              "versionPredicate": false
+            }
+          ],
+          "terminal": "ROLLBACK"
+        }
+      ],
+      "boundary": "Actual ERROR/rollback/residuals match; no invented missing DML, SQLSTATE or unproven log-phase explanation."
+    },
+    {
+      "scope": "Historical first46 binary availability",
+      "boundary": "Uncertified46 hash/logs/HTTP/PG retained but binary was not preserved; no replay claim. Later ca128/134/e782/ec/c042 full artifacts retained separately."
+    },
+    {
+      "scope": "Root08 PATH preparation and EEXIST orchestration",
+      "boundary": "Original failures/partial receipts retained;09 actual five commands0. API12 commands completed before EEXIST; resume only performed remaining SQL extraction/comparisons, no product request repetition."
+    },
+    {
+      "scope": "219 static risk groups/prepared facts",
+      "boundary": "Not219 runtime passes or all permutations;1011 of1124 are original DTO rejections. Prepared history/FK/Lead read facts do not certify successful ordinary HTTP V2 or future domain handlers."
+    }
+  ],
+  "evidencePins": [
+    {
+      "role": "inputs",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-input-raw-terminal01.json",
+        "bytes": 106565,
+        "rawBytesSha256": "c83b525f3238c358da1fab86ae5d088cd2d7ecdf82ef62731a0ecb5752a7bc18"
+      }
+    },
+    {
+      "role": "semantic",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-semantic01.json",
+        "bytes": 495508,
+        "rawBytesSha256": "6d290e16f1a0911ed1c09c1143f7fc8b180a5a86a43e207eac1ca9330a930520"
+      }
+    },
+    {
+      "role": "observer",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-observer01.json",
+        "bytes": 155071,
+        "rawBytesSha256": "f7b0d16e7a7e9b3eda765467d734118d2d14b25f9682140959f73e4cf74a2b51"
+      }
+    },
+    {
+      "role": "coverage",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-coverage01.json",
+        "bytes": 49855,
+        "rawBytesSha256": "32d0b0568c64f74e0d27319b23c333904266837aa836b1063a215d0fb7275eef"
+      }
+    },
+    {
+      "role": "additional",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-additional01.json",
+        "bytes": 37878,
+        "rawBytesSha256": "f122e447ff0574c98cd34adf71b562ff4bc62bcd7b679302e1e9f22f44f83e6e"
+      }
+    },
+    {
+      "role": "numeric",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-numeric01.json",
+        "bytes": 9511,
+        "rawBytesSha256": "9eb53e6f2d4623e8a901b84efc7b0ff525125a87255f28875d7ec45b3c5f3c0e"
+      }
+    },
+    {
+      "role": "fix",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-correction-static-prereview01.json",
+        "bytes": 28900,
+        "rawBytesSha256": "8a9e06a2076ce0091e7bba6b1a83bdccea776a4ba496b9bf7235b859026c0c30"
+      }
+    },
+    {
+      "role": "UI",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-ui-terminal-and-exceptions01.json",
+        "bytes": 59744,
+        "rawBytesSha256": "6469d96b49b3b166cc0dfd45cb7fda1828cea17005ff07ef9eef9369c54e3e30"
+      }
+    },
+    {
+      "role": "family",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-dynamic-error-family-audit01.json",
+        "bytes": 41937,
+        "rawBytesSha256": "fbecf4fea6f08937440674336382efef547670a0ea0fb108e5320b262d18179d"
+      }
+    },
+    {
+      "role": "previous",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-independent-review01.json",
+        "bytes": 18172,
+        "rawBytesSha256": "e348bfc0aa3801d7512d7a26be656726a9c906453d7ad939075bbcaaf9a519c7"
+      }
+    },
+    {
+      "role": "sourceProvenance",
+      "pin": {
+        "file": "docs/design/rust-r3cdefg/correction06-source-and-provenance-proof01.json",
+        "bytes": 87727,
+        "rawBytesSha256": "be808f363e29be5e38ae1d4bbd396138dda2a503bbc98640c05d08429ad4973a"
+      }
+    },
+    {
+      "role": "checkpoint02",
+      "pin": {
+        "file": "docs/design/rust-r3cdefg-g3-checkpoint02.md",
+        "bytes": 2363,
+        "rawBytesSha256": "65b60a2ccb0c765bc9e42202ceea4894be9a2f233de055be3437514f043b7058"
+      }
+    },
+    {
+      "role": "corrective02",
+      "pin": {
+        "file": "docs/design/rust-r3cdefg-corrective-checkpoint02.md",
+        "bytes": 3147,
+        "rawBytesSha256": "a8d7c417d4e02c66dc798714fc94d50549aec4af83e5e62ae187e2cbb434e8bc"
+      }
+    },
+    {
+      "role": "freshParentRead",
+      "pin": {
+        "file": "tmp/rust-r3cdefg/c-review/g3-c042-parent-online02.json",
+        "bytes": 8877,
+        "rawBytesSha256": "01a0716793d8d46da4a04fa43472fe4e08b92c5d20436876b49a15f51abf0eff"
+      }
+    }
+  ],
+  "authorization": {
+    "allowScopedCommit": true,
+    "allowScopedBranchPush": true,
+    "condition": "Commit exactly this tested source and preserved frozen/raw bytes; this review is an added receipt. Any product/input change requires review before relying on this Pass.",
+    "fixedCommitReviewRequiredBeforePrimaryFF": true,
+    "fixedCommitApproved": false,
+    "mainIntegrationApprovedNow": false,
+    "allowIssueClosure": false,
+    "allowG4": false
+  },
+  "nextSequence": "Root scoped commit/push -> independent exact fixed-commit/source/evidence review -> authorized primary fast-forward/main push and integration evidence -> lifecycle/raw archive plus separate independent G4 preflight/closeout. No child closes and no30/58 count before its own actual G4.",
+  "archiveCompatibilityProposal": {
+    "status": "Recorded only, not approved by this G3",
+    "fiveActiveByteEqualAliasesAndNewReadOnlyResolver": "Future explicit E1 owner/approver/deadline/exit conditions, real archive source/origin/replay proof and primary/main state must be reviewed at G4 preflight. No R3AB approval inheritance and no blanket507-tree mirror approved."
+  },
+  "independentExecution": "C only independently read Root public actual originals/source/hash/index/GitHub and ran own static JSON validators; did not run product/build/test/lint/DB/HTTP/browser/host checks or read private; no commit/push or external write performed.",
+  "G1Changed": false,
+  "G3Certified": true,
+  "G3CertificationScope": "Only current16 candidate03 c042 at precommit Gate",
+  "G4Certified": false
+}

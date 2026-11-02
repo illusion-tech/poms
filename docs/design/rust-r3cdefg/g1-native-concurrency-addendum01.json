@@ -1,0 +1,50 @@
+{
+  "kind": "R3CDEFG-G1-Native-concurrency-authority-addendum",
+  "createdAt": "2026-11-02T03:05:08.908Z",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "runId": "8335ed8a-f8ae-4874-a0e5-279189ceae14",
+  "correctsCandidate01": "Uppercase CAS marker suffix was missed by older extraction. Same retained original streams are parsed case-sensitively including uppercase; no product request repeated.",
+  "sourceSQL": {
+    "file": "docs/design/rust-r3cdefg/native/additional-SQL-authority04.json",
+    "bytes": 227325,
+    "rawBytesSha256": "7d595d1645aa568880270b9a1669cfb59314549da5dc39b888b86c7540659819"
+  },
+  "sourceErrors": {
+    "file": "docs/design/rust-r3cdefg/native/additional-error-classification05.json",
+    "bytes": 19453,
+    "rawBytesSha256": "ec6ab4ba97067ec88a76b454ec0c67a87780541a6122fe2c5f31554c3e0c5837"
+  },
+  "coveredAdditionalCases": 21,
+  "statements": 550,
+  "contact": {
+    "case": "extra-contact-two-readers-CAS",
+    "actualStatuses": [
+      200,
+      500
+    ],
+    "twoWaiters": true,
+    "actualContactUpdateHasVersionPredicate": true,
+    "oneBusinessCommitOneRollback": true
+  },
+  "followup": {
+    "case": "extra-followup-replace-two-readers-CAS",
+    "historicalCaseLabelIsNotCause": true,
+    "actualStatuses": [
+      200,
+      500
+    ],
+    "twoWaiters": true,
+    "actualLoserConstraint": "uq_sales_follow_up_supersedes_once",
+    "actualIndex": {
+      "schemaname": "poms",
+      "tablename": "sales_follow_up_record",
+      "indexname": "uq_sales_follow_up_supersedes_once",
+      "indexdef": "CREATE UNIQUE INDEX uq_sales_follow_up_supersedes_once ON poms.sales_follow_up_record USING btree (supersedes_record_id) WHERE (supersedes_record_id IS NOT NULL)"
+    },
+    "rule": "Native loser fails INSERT of replacement against the existing original supersedes-once unique index before reaching its old-record UPDATE. Preserve this actual path; do not infer CAS from the historical test label.",
+    "SQLSTATEObserved": false
+  },
+  "authority": "For additional witness SQL ordering this04 supersedes generic authority03 and original02; all earlier originals,45 observations,first-runSQL02 and exact numeric/audit receipt remain unchanged.",
+  "MasterOriginalUnchanged": true,
+  "G1Certified": false
+}

@@ -1,0 +1,1685 @@
+{
+  "kind": "R3D-G1-static-source-manifest",
+  "issue": 89,
+  "parentIssue": 85,
+  "overallIssue": 57,
+  "identity": {
+    "checkout": "E:/projects/worktrees/poms-r3cdefg-next16/poms",
+    "branch": "codex/poms-r3cdefg-next16",
+    "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+    "sourceOrigin": "raw worktree bytes read in this author pass"
+  },
+  "gateState": {
+    "G1": "Pending-root-joint-freeze-and-independent-Pass",
+    "G2": "not-started",
+    "authorGateDecision": "none"
+  },
+  "permissions": {
+    "written": [
+      "tmp/rust-r3cdefg/b-input/input-review.md",
+      "tmp/rust-r3cdefg/b-input/acceptance-matrix.json",
+      "tmp/rust-r3cdefg/b-input/source-manifest.json"
+    ],
+    "futureOwned": "apps/poms-api-rust/src/project_bid_commercial/** except http.rs after Root authorization",
+    "rootOwned": [
+      "all new-module http.rs",
+      "Cargo/lib/root HTTP/OpenAPI wiring",
+      "all old projects files",
+      "common bridges",
+      "generated files",
+      "public governance",
+      "actual runtime and environment"
+    ]
+  },
+  "evidenceMeaning": "Source review plus raw byte hashes only. No original Native or Rust runtime witness is asserted. Static mocked tests are read sources, not execution evidence.",
+  "operations": [
+    {
+      "operationId": "ProjectController_listProjectBidCommercialProcesses",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "permission": "project:read",
+      "sourceStatusExpectation": 200
+    },
+    {
+      "operationId": "ProjectController_createProjectBidCommercialProcess",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "permission": "project:write",
+      "sourceStatusExpectation": 201
+    },
+    {
+      "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-workspace",
+      "permission": "project:read",
+      "sourceStatusExpectation": 200
+    }
+  ],
+  "sharedReadContractCandidate": {
+    "decision": "Root accepted same shape as cost; final joint G1 still Pending",
+    "serviceConstructor": "Service::new(Database)",
+    "serviceReturns": "list/workspace/create -> Result<projects::model::Wire, module Error>",
+    "current": "store::current(&mut PgConnection, project_id: &str) -> Result<Option<Row>, sqlx::Error>",
+    "byId": "store::by_id(&mut PgConnection, process_id: uuid::Uuid) -> Result<Option<Row>, sqlx::Error>",
+    "summary": "summary(&Row) -> serde_json::Value",
+    "currentPredicate": [
+      "project_id = input",
+      "is_current = true",
+      "status = effective"
+    ],
+    "currentOrder": [
+      "version DESC",
+      "effective_at DESC",
+      "created_at DESC"
+    ],
+    "byIdPredicate": [
+      "id = input only"
+    ],
+    "noAdditionalEffects": [
+      "no BEGIN",
+      "no flush",
+      "no lock",
+      "no retry",
+      "no audit/session writes",
+      "no permission/state/scope validation"
+    ],
+    "summaryFields": [
+      "id",
+      "projectId",
+      "version",
+      "isCurrent",
+      "supersedesId",
+      "status",
+      "bidMode",
+      "currentStage",
+      "decision",
+      "resultStatus",
+      "processSummary",
+      "decisionSummary",
+      "resultSummary",
+      "tenderNo",
+      "bidPackageNo",
+      "ownerRole",
+      "blockerCount",
+      "effectiveAt",
+      "createdAt",
+      "createdBy",
+      "updatedAt",
+      "updatedBy",
+      "rowVersion"
+    ],
+    "pricingConstraint": "Preserve raw command UUID string for strict equality to current.id; Uuid by_id input only serves stored historical references."
+  },
+  "protectedInventoryObserved": {
+    "fullNative": {
+      "paths": 237,
+      "operations": 291,
+      "schemas": 585
+    },
+    "generatedClientTrackedFiles": 579,
+    "note": "Global before/after full-tree protection belongs to Root. This manifest freezes 68 selected source files, not only these routes' generated subset."
+  },
+  "checks": {
+    "staticRead": "completed",
+    "rawHashes": "completed",
+    "JSONParse": "completed for acceptance-matrix.json",
+    "runtime": "not-run-by-author",
+    "buildLintTests": "not-run-by-author",
+    "DB_HTTP_UI": "not-run-by-author",
+    "GitHub": "not-accessed-by-author",
+    "privateJournals": "not-read"
+  },
+  "unprovenNativeFacts": [
+    "normal second-version success and actual flush SQL ordering",
+    "implicit transaction and auto-flush boundaries",
+    "original .version() CAS and unique conflict HTTP classification",
+    "session raw touch and later managed flush order/residuals",
+    "concurrent creation/replacement and rollback",
+    "unmodified original UI four cells",
+    "Rust producer to Rust pricing consumer"
+  ],
+  "inputArtifacts": [
+    {
+      "file": "tmp/rust-r3cdefg/b-input/input-review.md",
+      "bytes": 19004,
+      "rawBytesSha256": "c4c3af6c3b608a36fd993894be83fe812cffd84fddf33da80fa45e3ec9d72b1e"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/b-input/acceptance-matrix.json",
+      "bytes": 55773,
+      "rawBytesSha256": "469bf160a827f98848f52c2adda8ceb25aba971e2fa3fa913e7a044e59b113c5"
+    }
+  ],
+  "sourceFileCount": 68,
+  "sourceBytes": 4047122,
+  "sources": [
+    {
+      "file": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "role": "governance-skill",
+      "bytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "symbols": [
+        {
+          "symbol": "### G1",
+          "line": 49,
+          "text": "### G1"
+        },
+        {
+          "symbol": "### G2",
+          "line": 62,
+          "text": "### G2"
+        },
+        {
+          "symbol": "### G3",
+          "line": 72,
+          "text": "### G3"
+        }
+      ]
+    },
+    {
+      "file": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "role": "governance-skill",
+      "bytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "symbols": [
+        {
+          "symbol": "## Phase 1 Rule",
+          "line": 10,
+          "text": "## Phase 1 Rule"
+        },
+        {
+          "symbol": "## Guardrails",
+          "line": 81,
+          "text": "## Guardrails"
+        }
+      ]
+    },
+    {
+      "file": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "role": "governance-summary",
+      "bytes": 9479,
+      "rawBytesSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "symbols": [
+        {
+          "symbol": "### G1",
+          "line": 27,
+          "text": "### G1"
+        },
+        {
+          "symbol": "### G3",
+          "line": 42,
+          "text": "### G3"
+        },
+        {
+          "symbol": "## High-Risk Alignment Points",
+          "line": 168,
+          "text": "## High-Risk Alignment Points"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "role": "current-plan",
+      "bytes": 62722,
+      "rawBytesSha256": "374fc9f2f26197619a4dee5f099868ca14c318e834809ca6d6d189eb0c68a381",
+      "symbols": [
+        {
+          "symbol": "### 2026-11-02 R3A/B 独立实际 G4 终审 Pass",
+          "line": 455,
+          "text": "### 2026-11-02 R3A/B 独立实际 G4 终审 Pass"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3-scope-and-dependencies.md",
+      "role": "current-scope",
+      "bytes": 3955,
+      "rawBytesSha256": "eda118ec7f693e8292a69a788f055685f03a2b118e87f8dac8453bebdd82734a",
+      "symbols": [
+        {
+          "symbol": "## 依赖与并行",
+          "line": 17,
+          "text": "## 依赖与并行"
+        },
+        {
+          "symbol": "## 后续真实依赖",
+          "line": 25,
+          "text": "## 后续真实依赖"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "role": "operation-inventory",
+      "bytes": 155132,
+      "rawBytesSha256": "144b00533cbc55a010892204119636cb51deabf904cac71177bcc22046fcba31",
+      "symbols": [
+        {
+          "symbol": "\"operationId\": \"ProjectController_listProjectBidCommercialProcesses\"",
+          "line": 3756,
+          "text": "\"operationId\": \"ProjectController_listProjectBidCommercialProcesses\","
+        },
+        {
+          "symbol": "\"operationId\": \"ProjectController_createProjectBidCommercialProcess\"",
+          "line": 3822,
+          "text": "\"operationId\": \"ProjectController_createProjectBidCommercialProcess\","
+        },
+        {
+          "symbol": "\"operationId\": \"ProjectController_getProjectBidCommercialWorkspace\"",
+          "line": 3911,
+          "text": "\"operationId\": \"ProjectController_getProjectBidCommercialWorkspace\","
+        }
+      ]
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "role": "route-authority",
+      "bytes": 172058,
+      "rawBytesSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4",
+      "symbols": [
+        {
+          "symbol": "`createProjectBidCommercialProcess`",
+          "line": 235,
+          "text": "| `project`          | `createProjectBidCommercialProcess` | `POST /projects/{projectId}/bid-commercial-processes` | `POST /projects/{projectId}/bid-commercial-processes` | `POST /projects/{projectId}/bid-commercial-processes` | `ADR-015` + `EX-27`                         | `N/A`      | `EX-27` 新增签约前招投标 / 商务竞标过程项目子集合 create；用于形成竞标形态、决策、结果与阻断事实源                       | `B3`  | `aligned` |"
+        },
+        {
+          "symbol": "`listProjectBidCommercialProcesses`",
+          "line": 236,
+          "text": "| `project`          | `listProjectBidCommercialProcesses` | `GET /projects/{projectId}/bid-commercial-processes`  | `GET /projects/{projectId}/bid-commercial-processes`  | `GET /projects/{projectId}/bid-commercial-processes`  | `ADR-015` + `EX-27`                         | `N/A`      | `EX-27` 新增签约前招投标 / 商务竞标过程读侧集合，供历史过程、结果追溯与后续报价评审引用                                  | `B3`  | `aligned` |"
+        },
+        {
+          "symbol": "`getProjectBidCommercialWorkspace`",
+          "line": 237,
+          "text": "| `project`          | `getProjectBidCommercialWorkspace`  | `GET /projects/{projectId}/bid-commercial-workspace`  | `GET /projects/{projectId}/bid-commercial-workspace`  | `GET /projects/{projectId}/bid-commercial-workspace`  | `ADR-015` + `EX-27`                         | `N/A`      | `EX-27` 新增项目级招投标 / 商务竞标工作区 query view；缺少当前过程时返回业务 gap，不返回页面级 404                       | `B3`  | `aligned` |"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/archive/slices/ex-27-presigning-bid-commercial-fact-source-baseline.md",
+      "role": "historical-design-context",
+      "bytes": 20766,
+      "rawBytesSha256": "1aecde49e13f60b40d524eab7c8283ba8a63dd02e4ad27ebbccdf9e8fd5132eb",
+      "symbols": [
+        {
+          "symbol": "## 8. Guard / Permission / State Rules",
+          "line": 150,
+          "text": "## 8. Guard / Permission / State Rules"
+        },
+        {
+          "symbol": "Child-table rules:",
+          "line": 144,
+          "text": "Child-table rules:"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/phase2-presigning-bid-commercial-workspace.md",
+      "role": "design-context",
+      "bytes": 7168,
+      "rawBytesSha256": "fce85853665e9e0d95bf363d99d46c8925a54fb1f2d2e914bb62f14b9139be64",
+      "symbols": [
+        {
+          "symbol": "## 4. 多形态统一骨架",
+          "line": 89,
+          "text": "## 4. 多形态统一骨架"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/schema-ddl-design.md",
+      "role": "protected-DDL-reference",
+      "bytes": 59569,
+      "rawBytesSha256": "a9f55d818b2d966b98d2bd8e580aac648f5d527f981f0a424d511922407e419d",
+      "symbols": [
+        {
+          "symbol": "# POMS",
+          "line": 1,
+          "text": "# POMS Schema 与 DDL 细化设计"
+        }
+      ]
+    },
+    {
+      "file": "package.json",
+      "role": "dependency-pin-context",
+      "bytes": 4286,
+      "rawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "symbols": [
+        {
+          "symbol": "\"@mikro-orm/core\"",
+          "line": 27,
+          "text": "\"@mikro-orm/core\": \"7.0.11\","
+        },
+        {
+          "symbol": "\"zod\"",
+          "line": 58,
+          "text": "\"zod\": \"^4.6.1\""
+        }
+      ]
+    },
+    {
+      "file": "pnpm-lock.yaml",
+      "role": "protected-dependency-lock",
+      "bytes": 837627,
+      "rawBytesSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "symbols": []
+    },
+    {
+      "file": "libs/shared/contracts/package.json",
+      "role": "contract-dependency-context",
+      "bytes": 245,
+      "rawBytesSha256": "a2e1ccab5c0310a523d3653cc5d44a401c9f26196753104bde3b54da06dd3ba6",
+      "symbols": [
+        {
+          "symbol": "\"zod\"",
+          "line": 10,
+          "text": "\"zod\": \"^4.3.6\""
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/package.json",
+      "role": "vendor-dependency-context",
+      "bytes": 359,
+      "rawBytesSha256": "32eb474f9bc1b2ee2eaf86832b55ef404c1c6d1494137f232d6745f3fa5ce1bd",
+      "symbols": [
+        {
+          "symbol": "\"zod\"",
+          "line": 9,
+          "text": "\"zod\": \"^4.6.1\","
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "role": "DTO-enum-shape-authority",
+      "bytes": 435823,
+      "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+      "symbols": [
+        {
+          "symbol": "export const PROJECT_STAGE_DEFINITIONS",
+          "line": 2193,
+          "text": "export const PROJECT_STAGE_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const PROJECT_STATUS_DEFINITIONS",
+          "line": 2220,
+          "text": "export const PROJECT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const BID_COMMERCIAL_MODE_DEFINITIONS",
+          "line": 4769,
+          "text": "export const BID_COMMERCIAL_MODE_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const BID_COMMERCIAL_STAGE_DEFINITIONS",
+          "line": 4785,
+          "text": "export const BID_COMMERCIAL_STAGE_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const BID_COMMERCIAL_DECISION_DEFINITIONS",
+          "line": 4800,
+          "text": "export const BID_COMMERCIAL_DECISION_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const BID_COMMERCIAL_RESULT_STATUS_DEFINITIONS",
+          "line": 4813,
+          "text": "export const BID_COMMERCIAL_RESULT_STATUS_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const BID_COMMERCIAL_MATERIAL_STATUS_DEFINITIONS",
+          "line": 4827,
+          "text": "export const BID_COMMERCIAL_MATERIAL_STATUS_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const BID_COMMERCIAL_TIMELINE_STATUS_DEFINITIONS",
+          "line": 4840,
+          "text": "export const BID_COMMERCIAL_TIMELINE_STATUS_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const PROJECT_BID_COMMERCIAL_PROCESS_STATUSES",
+          "line": 4852,
+          "text": "export const PROJECT_BID_COMMERCIAL_PROCESS_STATUSES = ['effective', 'superseded'] as const;"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialMaterialItemInputSchema",
+          "line": 4856,
+          "text": "export const ProjectBidCommercialMaterialItemInputSchema = z"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialTimelineItemInputSchema",
+          "line": 4871,
+          "text": "export const ProjectBidCommercialTimelineItemInputSchema = z"
+        },
+        {
+          "symbol": "export const CreateProjectBidCommercialProcessRequestSchema",
+          "line": 4886,
+          "text": "export const CreateProjectBidCommercialProcessRequestSchema = z"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialMaterialItemViewSchema",
+          "line": 4905,
+          "text": "export const ProjectBidCommercialMaterialItemViewSchema = ProjectBidCommercialMaterialItemInputSchema.extend({"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialTimelineItemViewSchema",
+          "line": 4917,
+          "text": "export const ProjectBidCommercialTimelineItemViewSchema = ProjectBidCommercialTimelineItemInputSchema.extend({"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialProcessSummarySchema",
+          "line": 4929,
+          "text": "export const ProjectBidCommercialProcessSummarySchema = z"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialProcessListSchema",
+          "line": 4959,
+          "text": "export const ProjectBidCommercialProcessListSchema = z.array(ProjectBidCommercialProcessSummarySchema).meta({ id: 'ProjectBidCommercialProcessList' });"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialWorkspaceViewSchema",
+          "line": 4963,
+          "text": "export const ProjectBidCommercialWorkspaceViewSchema = z"
+        }
+      ]
+    },
+    {
+      "file": "libs/api/contracts/src/lib/project/project.dto.ts",
+      "role": "Native-DTO-binding",
+      "bytes": 5018,
+      "rawBytesSha256": "c4357aef2244df45cf0348a8a22943321911e28d48d15a85030931a5ce72e114",
+      "symbols": [
+        {
+          "symbol": "export class ProjectBidCommercialProcessDto",
+          "line": 55,
+          "text": "export class ProjectBidCommercialProcessDto extends createZodDto(ProjectBidCommercialProcessSummarySchema) {}"
+        },
+        {
+          "symbol": "export class ProjectBidCommercialProcessListDto",
+          "line": 57,
+          "text": "export class ProjectBidCommercialProcessListDto extends createZodDto(ProjectBidCommercialProcessListSchema) {}"
+        },
+        {
+          "symbol": "export class ProjectBidCommercialWorkspaceViewDto",
+          "line": 59,
+          "text": "export class ProjectBidCommercialWorkspaceViewDto extends createZodDto(ProjectBidCommercialWorkspaceViewSchema) {}"
+        },
+        {
+          "symbol": "export class CreateProjectBidCommercialProcessRequestDto",
+          "line": 61,
+          "text": "export class CreateProjectBidCommercialProcessRequestDto extends createZodDto(CreateProjectBidCommercialProcessRequestSchema) {}"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "role": "Native-routes-and-command-mapper",
+      "bytes": 27547,
+      "rawBytesSha256": "1db2429199b857486385d2f8afcc38aea85ddd103670cf4bdfde07dcc416af68",
+      "symbols": [
+        {
+          "symbol": "    @Get(':projectId/bid-commercial-processes')",
+          "line": 138,
+          "text": "@Get(':projectId/bid-commercial-processes')"
+        },
+        {
+          "symbol": "    @Get(':projectId/bid-commercial-workspace')",
+          "line": 146,
+          "text": "@Get(':projectId/bid-commercial-workspace')"
+        },
+        {
+          "symbol": "    @Post(':projectId/bid-commercial-processes')",
+          "line": 288,
+          "text": "@Post(':projectId/bid-commercial-processes')"
+        },
+        {
+          "symbol": "function mapProjectBidCommercialProcessToSummary",
+          "line": 412,
+          "text": "function mapProjectBidCommercialProcessToSummary(record: ProjectBidCommercialProcess): ProjectBidCommercialProcessSummary {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.ts",
+      "role": "Native-command-semantics",
+      "bytes": 42650,
+      "rawBytesSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323",
+      "symbols": [
+        {
+          "symbol": "const PRESIGNING_PROJECT_STAGES",
+          "line": 94,
+          "text": "const PRESIGNING_PROJECT_STAGES: readonly ProjectStage[] = [ProjectStageValue.Assessment, ProjectStageValue.ScopeConfirmation, ProjectStageValue.CommercialClosure, ProjectStageValue.Contracting];"
+        },
+        {
+          "symbol": "    async createProjectBidCommercialProcess(",
+          "line": 478,
+          "text": "async createProjectBidCommercialProcess(projectId: string, input: CreateProjectBidCommercialProcessRequest, operatorUserId: string): Promise<ProjectBidCommercialProcess> {"
+        },
+        {
+          "symbol": "    private assertBidCommercialPathConsistent(",
+          "line": 768,
+          "text": "private assertBidCommercialPathConsistent(input: CreateProjectBidCommercialProcessRequest): void {"
+        },
+        {
+          "symbol": "    private countBidCommercialBlockers(",
+          "line": 785,
+          "text": "private countBidCommercialBlockers(input: CreateProjectBidCommercialProcessRequest): number {"
+        },
+        {
+          "symbol": "    private assertPricingMarginReferencesConsistent(",
+          "line": 793,
+          "text": "private assertPricingMarginReferencesConsistent(input: CreateProjectPricingMarginReviewRequest, currentBidCommercialProcess: ProjectBidCommercialProcess | null): void {"
+        },
+        {
+          "symbol": "    async createProjectPricingMarginReview(",
+          "line": 557,
+          "text": "async createProjectPricingMarginReview(projectId: string, input: CreateProjectPricingMarginReviewRequest, operatorUserId: string): Promise<ProjectPricingMarginReview> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-query.service.ts",
+      "role": "Native-query-and-view-semantics",
+      "bytes": 86242,
+      "rawBytesSha256": "f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d",
+      "symbols": [
+        {
+          "symbol": "const PROJECT_WORKSPACE_PRESIGNING_STAGES",
+          "line": 63,
+          "text": "const PROJECT_WORKSPACE_PRESIGNING_STAGES: readonly ProjectStage[] = [ProjectStageValue.Assessment, ProjectStageValue.ScopeConfirmation, ProjectStageValue.CommercialClosure, ProjectStageValue.Contracting];"
+        },
+        {
+          "symbol": "    async listProjectBidCommercialProcesses(",
+          "line": 396,
+          "text": "async listProjectBidCommercialProcesses(projectId: string): Promise<ProjectBidCommercialProcessList> {"
+        },
+        {
+          "symbol": "    async getProjectBidCommercialWorkspace(",
+          "line": 406,
+          "text": "async getProjectBidCommercialWorkspace(projectId: string, user: UserPayload): Promise<ProjectBidCommercialWorkspaceView> {"
+        },
+        {
+          "symbol": "    private mapProjectBidCommercialProcess(",
+          "line": 820,
+          "text": "private mapProjectBidCommercialProcess(record: ProjectBidCommercialProcess): ProjectBidCommercialProcessSummary {"
+        },
+        {
+          "symbol": "    private mapProjectBidCommercialMaterialItem(",
+          "line": 848,
+          "text": "private mapProjectBidCommercialMaterialItem(record: ProjectBidCommercialMaterialItem): ProjectBidCommercialMaterialItemView {"
+        },
+        {
+          "symbol": "    private mapProjectBidCommercialTimelineItem(",
+          "line": 863,
+          "text": "private mapProjectBidCommercialTimelineItem(record: ProjectBidCommercialTimelineItem): ProjectBidCommercialTimelineItemView {"
+        },
+        {
+          "symbol": "    private buildBidCommercialAllowedActions(",
+          "line": 1013,
+          "text": "private buildBidCommercialAllowedActions(project: Project, permissions: PermissionKey[]): string[] {"
+        },
+        {
+          "symbol": "    private buildBidCommercialBlockingReasons(",
+          "line": 1024,
+          "text": "private buildBidCommercialBlockingReasons(currentProcess: ProjectBidCommercialProcess, materialItems: ProjectBidCommercialMaterialItem[]): string[] {"
+        },
+        {
+          "symbol": "    private buildBidCommercialNextStep(",
+          "line": 1048,
+          "text": "private buildBidCommercialNextStep(currentProcess: ProjectBidCommercialProcess, materialItems: ProjectBidCommercialMaterialItem[]): string {"
+        },
+        {
+          "symbol": "    private buildOwnerLabel(",
+          "line": 1653,
+          "text": "private buildOwnerLabel(ownerName: string | null, ownerOrgName: string | null, fallback: string): string {"
+        },
+        {
+          "symbol": "    private isClosedProject(",
+          "line": 1673,
+          "text": "private isClosedProject(project: Project): boolean {"
+        },
+        {
+          "symbol": "    async getProjectPricingMarginWorkspace(",
+          "line": 467,
+          "text": "async getProjectPricingMarginWorkspace(projectId: string, user: UserPayload): Promise<ProjectPricingMarginWorkspaceView> {"
+        },
+        {
+          "symbol": "    private buildPricingMarginPrerequisiteBlockingReasons(",
+          "line": 1080,
+          "text": "private buildPricingMarginPrerequisiteBlockingReasons(technicalCostPackage: ProjectTechnicalCostPackage | null, bidCommercialProcess: ProjectBidCommercialProcess | null): string[] {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "role": "Native-read-and-flush-authority",
+      "bytes": 22209,
+      "rawBytesSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5",
+      "symbols": [
+        {
+          "symbol": "    async findById(",
+          "line": 97,
+          "text": "async findById(id: string): Promise<Project | null> {"
+        },
+        {
+          "symbol": "    async findPlatformUsersByIds(",
+          "line": 124,
+          "text": "async findPlatformUsersByIds(ids: string[]): Promise<PlatformUser[]> {"
+        },
+        {
+          "symbol": "    async findOrgUnitsByIds(",
+          "line": 132,
+          "text": "async findOrgUnitsByIds(ids: string[]): Promise<OrgUnit[]> {"
+        },
+        {
+          "symbol": "    async findProjectBidCommercialProcessesByProjectId(",
+          "line": 268,
+          "text": "async findProjectBidCommercialProcessesByProjectId(projectId: string): Promise<ProjectBidCommercialProcess[]> {"
+        },
+        {
+          "symbol": "    async findCurrentProjectBidCommercialProcessByProjectId(",
+          "line": 277,
+          "text": "async findCurrentProjectBidCommercialProcessByProjectId(projectId: string): Promise<ProjectBidCommercialProcess | null> {"
+        },
+        {
+          "symbol": "    async findProjectBidCommercialProcessById(",
+          "line": 290,
+          "text": "async findProjectBidCommercialProcessById(id: string): Promise<ProjectBidCommercialProcess | null> {"
+        },
+        {
+          "symbol": "    async findProjectBidCommercialMaterialItemsByProcessIds(",
+          "line": 294,
+          "text": "async findProjectBidCommercialMaterialItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialMaterialItem[]> {"
+        },
+        {
+          "symbol": "    async findProjectBidCommercialTimelineItemsByProcessIds(",
+          "line": 302,
+          "text": "async findProjectBidCommercialTimelineItemsByProcessIds(processIds: string[]): Promise<ProjectBidCommercialTimelineItem[]> {"
+        },
+        {
+          "symbol": "    createProjectBidCommercialProcess(",
+          "line": 410,
+          "text": "createProjectBidCommercialProcess(input: ConstructorParameters<typeof ProjectBidCommercialProcess>[0]): ProjectBidCommercialProcess {"
+        },
+        {
+          "symbol": "    createProjectBidCommercialMaterialItem(",
+          "line": 414,
+          "text": "createProjectBidCommercialMaterialItem(input: ConstructorParameters<typeof ProjectBidCommercialMaterialItem>[0]): ProjectBidCommercialMaterialItem {"
+        },
+        {
+          "symbol": "    createProjectBidCommercialTimelineItem(",
+          "line": 418,
+          "text": "createProjectBidCommercialTimelineItem(input: ConstructorParameters<typeof ProjectBidCommercialTimelineItem>[0]): ProjectBidCommercialTimelineItem {"
+        },
+        {
+          "symbol": "    async saveProjectBidCommercialProcess(",
+          "line": 470,
+          "text": "async saveProjectBidCommercialProcess(input: {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-bid-commercial-process.entity.ts",
+      "role": "Native-ORM-mapping",
+      "bytes": 9141,
+      "rawBytesSha256": "f1626d34c701cbf38be96b34ea85737dea59f0a3f0d324d5cb7b1d0a51fa6b2b",
+      "symbols": [
+        {
+          "symbol": "export const ProjectBidCommercialProcessSchema",
+          "line": 21,
+          "text": "export const ProjectBidCommercialProcessSchema = defineEntity({"
+        },
+        {
+          "symbol": "        { name: 'uq_project_bid_commercial_process_project_version'",
+          "line": 33,
+          "text": "{ name: 'uq_project_bid_commercial_process_project_version', properties: ['projectId', 'version'] },"
+        },
+        {
+          "symbol": "            name: 'uq_project_bid_commercial_process_current'",
+          "line": 35,
+          "text": "name: 'uq_project_bid_commercial_process_current',"
+        },
+        {
+          "symbol": "        rowVersion: p.integer().version()",
+          "line": 80,
+          "text": "rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialMaterialItemSchema",
+          "line": 88,
+          "text": "export const ProjectBidCommercialMaterialItemSchema = defineEntity({"
+        },
+        {
+          "symbol": "export const ProjectBidCommercialTimelineItemSchema",
+          "line": 124,
+          "text": "export const ProjectBidCommercialTimelineItemSchema = defineEntity({"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "role": "upstream-project-facts",
+      "bytes": 4183,
+      "rawBytesSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "symbols": [
+        {
+          "symbol": "export const ProjectSchema",
+          "line": 10,
+          "text": "export const ProjectSchema = defineEntity({"
+        },
+        {
+          "symbol": "        status: p.string()",
+          "line": 40,
+          "text": "status: p.string().$type<ProjectStatus>().length(32).comment('项目当前主状态'),"
+        },
+        {
+          "symbol": "        currentStage: p.string()",
+          "line": 41,
+          "text": "currentStage: p.string().$type<ProjectStage>().length(64).fieldName('current_stage').comment('项目当前阶段'),"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.module.ts",
+      "role": "Native-wiring",
+      "bytes": 2774,
+      "rawBytesSha256": "e73ba5353f0db401c69dc0b370ed2eb669e44c889288e82c66c7924b875e8c56",
+      "symbols": [
+        {
+          "symbol": "export class ProjectModule",
+          "line": 55,
+          "text": "export class ProjectModule {}"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.spec.ts",
+      "role": "static-mock-tests-only-not-runtime-evidence",
+      "bytes": 60959,
+      "rawBytesSha256": "132ef59513574c2f7da2423f514ef23215fe4cdb371ff40f742bcd488af6e904",
+      "symbols": [
+        {
+          "symbol": "    it('creates a bid commercial process",
+          "line": 872,
+          "text": "it('creates a bid commercial process with a new version and supersedes the previous current process', async () => {"
+        },
+        {
+          "symbol": "    it('rejects inconsistent not-required bid commercial process input",
+          "line": 974,
+          "text": "it('rejects inconsistent not-required bid commercial process input', async () => {"
+        },
+        {
+          "symbol": "    it('rejects bid commercial process creation outside pre-signing stages",
+          "line": 995,
+          "text": "it('rejects bid commercial process creation outside pre-signing stages', async () => {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-query.service.spec.ts",
+      "role": "static-mock-tests-only-not-runtime-evidence",
+      "bytes": 78754,
+      "rawBytesSha256": "e316284f909585cf2b5908715c342fad0ecb81ff8e7de38204209a979f8d7ef0",
+      "symbols": [
+        {
+          "symbol": "    it('lists bid commercial processes",
+          "line": 836,
+          "text": "it('lists bid commercial processes as project-scoped versioned facts', async () => {"
+        },
+        {
+          "symbol": "    it('returns an actionable bid commercial workspace",
+          "line": 865,
+          "text": "it('returns an actionable bid commercial workspace when no current process exists', async () => {"
+        },
+        {
+          "symbol": "    it('projects current bid commercial process details",
+          "line": 889,
+          "text": "it('projects current bid commercial process details into the workspace view', async () => {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+      "role": "Native-DDL-authority",
+      "bytes": 11064,
+      "rawBytesSha256": "5d9986be33e056be76a1be48e5b1056514ae1e50fb4d2504a001eea07ccb6171",
+      "symbols": [
+        {
+          "symbol": "            create table \"poms\".\"project_bid_commercial_process\" (",
+          "line": 6,
+          "text": "create table \"poms\".\"project_bid_commercial_process\" ("
+        },
+        {
+          "symbol": "        this.addSql(`create unique index \"uq_project_bid_commercial_process_current\"",
+          "line": 56,
+          "text": "this.addSql(`create unique index \"uq_project_bid_commercial_process_current\" on \"poms\".\"project_bid_commercial_process\" (\"project_id\") where \"is_current\" = true;`);"
+        },
+        {
+          "symbol": "            create table \"poms\".\"project_bid_commercial_material_item\" (",
+          "line": 63,
+          "text": "create table \"poms\".\"project_bid_commercial_material_item\" ("
+        },
+        {
+          "symbol": "            create table \"poms\".\"project_bid_commercial_timeline_item\" (",
+          "line": 94,
+          "text": "create table \"poms\".\"project_bid_commercial_timeline_item\" ("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260426113000_ex35a_business_number_generation.ts",
+      "role": "Native-DDL-supplement",
+      "bytes": 9124,
+      "rawBytesSha256": "ff284c4066a1c6ff5bc180b562f1dfce3f61acc3e89b975a80aef0dee9063803",
+      "symbols": [
+        {
+          "symbol": "        this.addSql(`alter table \"poms\".\"project_bid_commercial_process\" add column \"tender_no\"",
+          "line": 47,
+          "text": "this.addSql(`alter table \"poms\".\"project_bid_commercial_process\" add column \"tender_no\" varchar(128) null, add column \"bid_package_no\" varchar(128) null;`);"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+      "role": "downstream-reference-FK",
+      "bytes": 12884,
+      "rawBytesSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3",
+      "symbols": [
+        {
+          "symbol": "constraint \"project_pricing_margin_review_bid_commercial_process_id_foreign\"",
+          "line": 48,
+          "text": "constraint \"project_pricing_margin_review_bid_commercial_process_id_foreign\" foreign key (\"bid_commercial_process_id\") references \"poms\".\"project_bid_commercial_process\" (\"id\") on update cascade on delete set null,"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/app.module.ts",
+      "role": "Native-global-pipe-serializer-wiring",
+      "bytes": 3560,
+      "rawBytesSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "symbols": [
+        {
+          "symbol": "            useClass: ZodValidationPipe",
+          "line": 69,
+          "text": "useClass: ZodValidationPipe"
+        },
+        {
+          "symbol": "            useClass: ZodSerializerInterceptor",
+          "line": 73,
+          "text": "useClass: ZodSerializerInterceptor"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/main.ts",
+      "role": "Native-HTTP-runtime-source",
+      "bytes": 1789,
+      "rawBytesSha256": "396fb58af4558de82089bd842149a5040e29088314f6e6cd7921f771b5a0a8a0",
+      "symbols": [
+        {
+          "symbol": "    app.setGlobalPrefix(",
+          "line": 20,
+          "text": "app.setGlobalPrefix(GLOBAL_PREFIX);"
+        },
+        {
+          "symbol": "function buildCorsOptions(",
+          "line": 35,
+          "text": "function buildCorsOptions(corsOrigin: string) {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "role": "Native-ORM-request-context-and-defaults",
+      "bytes": 2360,
+      "rawBytesSha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c",
+      "symbols": [
+        {
+          "symbol": "export function createBaseMikroOrmOptions(",
+          "line": 12,
+          "text": "export function createBaseMikroOrmOptions(overrides: MikroOrmConfigOverrides = {}): PostgreSqlOptions & { connect: boolean } {"
+        },
+        {
+          "symbol": "export function createNestMikroOrmOptions(",
+          "line": 57,
+          "text": "export function createNestMikroOrmOptions(): MikroOrmModuleOptions {"
+        },
+        {
+          "symbol": "        registerRequestContext: true",
+          "line": 65,
+          "text": "registerRequestContext: true,"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/mikro-orm.config.ts",
+      "role": "Native-ORM-configuration",
+      "bytes": 240,
+      "rawBytesSha256": "8d4095a226daad0109ab2f2c5e4aca878743c7631a6aa9d2c3d18f22a15e6ed6",
+      "symbols": [
+        {
+          "symbol": "export default defineConfig(",
+          "line": 4,
+          "text": "export default defineConfig({"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth.module.ts",
+      "role": "Native-global-guard-order",
+      "bytes": 1439,
+      "rawBytesSha256": "ae71dd28c959449e4dea26a7f745ad2bbeb522be169cbb69e0e3382b8de24766",
+      "symbols": [
+        {
+          "symbol": "        { provide: APP_GUARD, useClass: SessionAuthGuard }",
+          "line": 28,
+          "text": "{ provide: APP_GUARD, useClass: SessionAuthGuard },"
+        },
+        {
+          "symbol": "        { provide: APP_GUARD, useClass: AuthCsrfGuard }",
+          "line": 29,
+          "text": "{ provide: APP_GUARD, useClass: AuthCsrfGuard },"
+        },
+        {
+          "symbol": "        { provide: APP_GUARD, useClass: PermissionsGuard }",
+          "line": 30,
+          "text": "{ provide: APP_GUARD, useClass: PermissionsGuard }"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "role": "Native-session-and-failure-audit",
+      "bytes": 3613,
+      "rawBytesSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+      "symbols": [
+        {
+          "symbol": "    async canActivate(",
+          "line": 26,
+          "text": "async canActivate(context: ExecutionContext): Promise<boolean> {"
+        },
+        {
+          "symbol": "    async #recordSessionFailure(",
+          "line": 55,
+          "text": "async #recordSessionFailure(code: AuthSessionErrorCode, request: RuntimeAuditRequestLike): Promise<void> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "role": "Native-CSRF-order-and-audit",
+      "bytes": 4389,
+      "rawBytesSha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+      "symbols": [
+        {
+          "symbol": "    async canActivate(",
+          "line": 29,
+          "text": "async canActivate(context: ExecutionContext): Promise<boolean> {"
+        },
+        {
+          "symbol": "    async #reject(",
+          "line": 81,
+          "text": "async #reject(reason: CsrfFailureReason, request: CsrfGuardRequest): Promise<never> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "role": "Native-permission-and-audit",
+      "bytes": 4036,
+      "rawBytesSha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306",
+      "symbols": [
+        {
+          "symbol": "    async canActivate(",
+          "line": 21,
+          "text": "async canActivate(context: ExecutionContext): Promise<boolean> {"
+        },
+        {
+          "symbol": "        await this.#runtimeAuditService.recordSecurityEvent(",
+          "line": 48,
+          "text": "await this.#runtimeAuditService.recordSecurityEvent({"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+      "role": "Native-session-resolution-and-touch",
+      "bytes": 12139,
+      "rawBytesSha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89",
+      "symbols": [
+        {
+          "symbol": "    async resolveSessionToken(",
+          "line": 88,
+          "text": "async resolveSessionToken(sessionToken: string, requestInfo: AuthSessionRequestInfo = {}, options: AuthSessionLifecycleOptions = {}): Promise<ResolvedAuthSession> {"
+        },
+        {
+          "symbol": "    async #touchSession(",
+          "line": 185,
+          "text": "async #touchSession(session: AuthSession, requestInfo: AuthSessionRequestInfo, options: AuthSessionLifecycleOptions, now: Date): Promise<void> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+      "role": "Native-session-raw-write-and-flush",
+      "bytes": 8133,
+      "rawBytesSha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622",
+      "symbols": [
+        {
+          "symbol": "    async saveAll(",
+          "line": 76,
+          "text": "async saveAll(entities: object[]): Promise<void> {"
+        },
+        {
+          "symbol": "    async touchLastSeenIfDue(",
+          "line": 94,
+          "text": "async touchLastSeenIfDue(input: TouchLastSeenInput): Promise<TouchedAuthSession | null> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "role": "Native-public-audit-service",
+      "bytes": 8958,
+      "rawBytesSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4",
+      "symbols": [
+        {
+          "symbol": "    async recordAuditLog(",
+          "line": 55,
+          "text": "async recordAuditLog(input: RecordAuditLogInput, entityManager?: EntityManager): Promise<void> {"
+        },
+        {
+          "symbol": "    async recordSecurityEvent(",
+          "line": 78,
+          "text": "async recordSecurityEvent(input: RecordSecurityEventInput): Promise<void> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+      "role": "Native-public-audit-flush",
+      "bytes": 1890,
+      "rawBytesSha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d",
+      "symbols": [
+        {
+          "symbol": "    async saveAll(",
+          "line": 24,
+          "text": "async saveAll(entities: object[]): Promise<void> {"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/dto.ts",
+      "role": "Native-DTO-runtime",
+      "bytes": 13712,
+      "rawBytesSha256": "83f71a127cfe8b652025007098851016e2b22ea064dd97b4a0f0a605d5426160",
+      "symbols": [
+        {
+          "symbol": "export function createZodDto",
+          "line": 38,
+          "text": "export function createZodDto<"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "role": "Native-validation-order",
+      "bytes": 1877,
+      "rawBytesSha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd",
+      "symbols": [
+        {
+          "symbol": "    public transform(",
+          "line": 47,
+          "text": "public transform(value: unknown, metadata: ArgumentMetadata) {"
+        },
+        {
+          "symbol": "export const ZodValidationPipe",
+          "line": 68,
+          "text": "export const ZodValidationPipe = createZodValidationPipe();"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/validate.ts",
+      "role": "Native-schema-parse",
+      "bytes": 742,
+      "rawBytesSha256": "6fb5056e500c9650e9056fd6e5043940ce7be3565aef608dd86fda708be356b5",
+      "symbols": [
+        {
+          "symbol": "export function validate",
+          "line": 9,
+          "text": "export function validate<TSchema extends UnknownSchema>("
+        },
+        {
+          "symbol": "    return schema.parse(",
+          "line": 17,
+          "text": "return schema.parse(value) as ReturnType<TSchema['parse']>;"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/exception.ts",
+      "role": "Native-validation-error-shape",
+      "bytes": 1004,
+      "rawBytesSha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14",
+      "symbols": [
+        {
+          "symbol": "export class ZodValidationException",
+          "line": 7,
+          "text": "export class ZodValidationException extends BadRequestException {"
+        },
+        {
+          "symbol": "export class ZodSerializationException",
+          "line": 24,
+          "text": "export class ZodSerializationException extends InternalServerErrorException {"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "role": "Native-response-metadata-gate",
+      "bytes": 5144,
+      "rawBytesSha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a",
+      "symbols": [
+        {
+          "symbol": "export function ZodSerializerDto(",
+          "line": 24,
+          "text": "export function ZodSerializerDto("
+        },
+        {
+          "symbol": "          if (!responseSchema) return res;",
+          "line": 61,
+          "text": "if (!responseSchema) return res;"
+        },
+        {
+          "symbol": "    protected getContextResponseSchema(",
+          "line": 151,
+          "text": "protected getContextResponseSchema("
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "role": "protected-full-Native-OpenAPI",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+      "symbols": [
+        {
+          "symbol": "\"/api/projects/{projectId}/bid-commercial-processes\"",
+          "line": 6077,
+          "text": "\"/api/projects/{projectId}/bid-commercial-processes\": {"
+        },
+        {
+          "symbol": "\"/api/projects/{projectId}/bid-commercial-workspace\"",
+          "line": 6157,
+          "text": "\"/api/projects/{projectId}/bid-commercial-workspace\": {"
+        },
+        {
+          "symbol": "\"CreateProjectBidCommercialProcessRequest\"",
+          "line": 23518,
+          "text": "\"CreateProjectBidCommercialProcessRequest\": {"
+        },
+        {
+          "symbol": "\"ProjectBidCommercialProcessSummary\"",
+          "line": 21461,
+          "text": "\"ProjectBidCommercialProcessSummary\": {"
+        },
+        {
+          "symbol": "\"ProjectBidCommercialWorkspaceView\"",
+          "line": 21769,
+          "text": "\"ProjectBidCommercialWorkspaceView\": {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/api/project.service.ts",
+      "role": "protected-original-client-calls",
+      "bytes": 112906,
+      "rawBytesSha256": "2851afdf65ef1a8da135aac0504e1668cf892d73efa5c8977aff01d7f7cca0f8",
+      "symbols": [
+        {
+          "symbol": "    public projectControllerCreateProjectBidCommercialProcess(",
+          "line": 574,
+          "text": "public projectControllerCreateProjectBidCommercialProcess(requestParameters: ProjectControllerCreateProjectBidCommercialProcessRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectBidCommercialProcessSummary>;"
+        },
+        {
+          "symbol": "    public projectControllerGetProjectBidCommercialWorkspace(",
+          "line": 996,
+          "text": "public projectControllerGetProjectBidCommercialWorkspace(requestParameters: ProjectControllerGetProjectBidCommercialWorkspaceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectBidCommercialWorkspaceView>;"
+        },
+        {
+          "symbol": "    public projectControllerListProjectBidCommercialProcesses(",
+          "line": 1507,
+          "text": "public projectControllerListProjectBidCommercialProcesses(requestParameters: ProjectControllerListProjectBidCommercialProcessesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectBidCommercialProcessSummary>>;"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/create-project-bid-commercial-process-request.ts",
+      "role": "protected-original-client-request",
+      "bytes": 2075,
+      "rawBytesSha256": "c7eba871a2d18c6d337e0e2df03ed91106b334736c5e1a1e9d7cdd512308a3ff",
+      "symbols": [
+        {
+          "symbol": "export interface CreateProjectBidCommercialProcessRequest",
+          "line": 14,
+          "text": "export interface CreateProjectBidCommercialProcessRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/project-bid-commercial-process-summary.ts",
+      "role": "protected-original-client-summary",
+      "bytes": 2157,
+      "rawBytesSha256": "90db4ae4c00d05315cf8b0d9bb2c3e6b138364b4b42bc732993f0aa72d4a9ebe",
+      "symbols": [
+        {
+          "symbol": "export interface ProjectBidCommercialProcessSummary",
+          "line": 12,
+          "text": "export interface ProjectBidCommercialProcessSummary {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/project-bid-commercial-material-item-input.ts",
+      "role": "protected-original-client-material-input",
+      "bytes": 711,
+      "rawBytesSha256": "96d9c2c66c6039774e8d63e9fca2223789d70be2107b8756351e3c0bc28de0f1",
+      "symbols": [
+        {
+          "symbol": "export interface ProjectBidCommercialMaterialItemInput",
+          "line": 12,
+          "text": "export interface ProjectBidCommercialMaterialItemInput {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/project-bid-commercial-timeline-item-input.ts",
+      "role": "protected-original-client-timeline-input",
+      "bytes": 664,
+      "rawBytesSha256": "8b3cda11f3009473429ea380fc47692f7daa6cd84eb61e9a4434f428daad22fb",
+      "symbols": [
+        {
+          "symbol": "export interface ProjectBidCommercialTimelineItemInput",
+          "line": 12,
+          "text": "export interface ProjectBidCommercialTimelineItemInput {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/project-bid-commercial-material-item-view.ts",
+      "role": "protected-original-client-material-view",
+      "bytes": 742,
+      "rawBytesSha256": "b0617e851ffb0f030724d5a47d9dafcb1f6a1a93ea75dafdec69d8d9b3870650",
+      "symbols": [
+        {
+          "symbol": "export interface ProjectBidCommercialMaterialItemView",
+          "line": 12,
+          "text": "export interface ProjectBidCommercialMaterialItemView {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/project-bid-commercial-timeline-item-view.ts",
+      "role": "protected-original-client-timeline-view",
+      "bytes": 695,
+      "rawBytesSha256": "35edd5aac078f2e64cde168f32e3046d6955ef42ae5995930314b4afeadd75dc",
+      "symbols": [
+        {
+          "symbol": "export interface ProjectBidCommercialTimelineItemView",
+          "line": 12,
+          "text": "export interface ProjectBidCommercialTimelineItemView {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/project-bid-commercial-workspace-view.ts",
+      "role": "protected-original-client-workspace",
+      "bytes": 1056,
+      "rawBytesSha256": "55d9a8c14fa37151d06647af7163826d5d48d610dc32f55008ac2302fac22b23",
+      "symbols": [
+        {
+          "symbol": "export interface ProjectBidCommercialWorkspaceView",
+          "line": 17,
+          "text": "export interface ProjectBidCommercialWorkspaceView {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-admin/src/app.routes.ts",
+      "role": "original-UI-route-and-permission",
+      "bytes": 18649,
+      "rawBytesSha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7",
+      "symbols": [
+        {
+          "symbol": "                        path: 'bid-commercial',",
+          "line": 107,
+          "text": "path: 'bid-commercial',"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-bid-commercial-workspace.ts",
+      "role": "original-UI-read-write",
+      "bytes": 60768,
+      "rawBytesSha256": "031a1ad79c53733d888b124786df27139726d7a7744051326b3b4a4328e2702a",
+      "symbols": [
+        {
+          "symbol": "    ngOnInit()",
+          "line": 530,
+          "text": "ngOnInit() {"
+        },
+        {
+          "symbol": "    canWriteBidCommercial(",
+          "line": 542,
+          "text": "canWriteBidCommercial(workspace: ProjectBidCommercialWorkspaceView): boolean {"
+        },
+        {
+          "symbol": "    async submitBidProcess(",
+          "line": 582,
+          "text": "async submitBidProcess(): Promise<void> {"
+        },
+        {
+          "symbol": "    createEmptyBidForm(",
+          "line": 884,
+          "text": "createEmptyBidForm(): BidCommercialForm {"
+        },
+        {
+          "symbol": "    createFormFromWorkspace(",
+          "line": 901,
+          "text": "createFormFromWorkspace(workspace: ProjectBidCommercialWorkspaceView): BidCommercialForm {"
+        },
+        {
+          "symbol": "    buildBidRequest(",
+          "line": 967,
+          "text": "buildBidRequest(): CreateProjectBidCommercialProcessRequest | null {"
+        },
+        {
+          "symbol": "    blankToNull(",
+          "line": 1011,
+          "text": "blankToNull(value: string): string | null {"
+        }
+      ]
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "role": "original-UI-client-and-refresh",
+      "bytes": 38994,
+      "rawBytesSha256": "64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443",
+      "symbols": [
+        {
+          "symbol": "    async loadBidCommercialWorkspace(",
+          "line": 404,
+          "text": "async loadBidCommercialWorkspace(projectId: string): Promise<ProjectBidCommercialWorkspaceView> {"
+        },
+        {
+          "symbol": "    async loadBidCommercialProcessHistory(",
+          "line": 425,
+          "text": "async loadBidCommercialProcessHistory(projectId: string): Promise<ProjectBidCommercialProcessSummary[]> {"
+        },
+        {
+          "symbol": "    async createBidCommercialProcess(",
+          "line": 446,
+          "text": "async createBidCommercialProcess(projectId: string, request: CreateProjectBidCommercialProcessRequest): Promise<ProjectBidCommercialProcessSummary> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/mod.rs",
+      "role": "existing-Rust-module-boundary",
+      "bytes": 270,
+      "rawBytesSha256": "1a0abd2ea079daf3fd79c9308845dc99e45dac9ea635c40aed676244aa5f4408",
+      "symbols": [
+        {
+          "symbol": "pub mod store;",
+          "line": 7,
+          "text": "pub mod store;"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/model.rs",
+      "role": "existing-Rust-wire-JS-text",
+      "bytes": 2674,
+      "rawBytesSha256": "e33a1ef1c78b83b109fd72ae90a750167e2848aef968c5a8bae6bb2b800680e4",
+      "symbols": [
+        {
+          "symbol": "pub struct Wire(",
+          "line": 49,
+          "text": "pub struct Wire(pub String);"
+        },
+        {
+          "symbol": "impl Wire",
+          "line": 51,
+          "text": "impl Wire {"
+        },
+        {
+          "symbol": "pub fn trim_js(",
+          "line": 80,
+          "text": "pub fn trim_js(value: JsString) -> JsString {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/store.rs",
+      "role": "existing-Rust-project-owner-read",
+      "bytes": 15141,
+      "rawBytesSha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef",
+      "symbols": [
+        {
+          "symbol": "pub struct ProjectRow",
+          "line": 13,
+          "text": "pub struct ProjectRow {"
+        },
+        {
+          "symbol": "pub async fn find(",
+          "line": 67,
+          "text": "pub async fn find("
+        },
+        {
+          "symbol": "pub async fn user_names(",
+          "line": 134,
+          "text": "pub async fn user_names("
+        },
+        {
+          "symbol": "pub async fn org_names(",
+          "line": 150,
+          "text": "pub async fn org_names("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/service.rs",
+      "role": "existing-Rust-session-flush-context-only",
+      "bytes": 32780,
+      "rawBytesSha256": "06ee76e45d684df23de9fb7f1d3fcc4d6743bf5c7df7a3d827580e3837b16101",
+      "symbols": [
+        {
+          "symbol": "pub struct ProjectsService",
+          "line": 77,
+          "text": "pub struct ProjectsService {"
+        },
+        {
+          "symbol": "    async fn flush_project(",
+          "line": 595,
+          "text": "async fn flush_project("
+        },
+        {
+          "symbol": "    async fn require_project(",
+          "line": 670,
+          "text": "async fn require_project(&self, id: &str) -> Result<ProjectRow, ProjectsError> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/http.rs",
+      "role": "existing-Rust-routing-and-guard-context",
+      "bytes": 10219,
+      "rawBytesSha256": "f860b8486fa80f565895ec3458192d31d67aeba2294ea7a3f40040d9f4763989",
+      "symbols": [
+        {
+          "symbol": "enum Operation",
+          "line": 32,
+          "text": "enum Operation {"
+        },
+        {
+          "symbol": "fn canonical(",
+          "line": 66,
+          "text": "fn canonical(path: &str) -> Option<String> {"
+        },
+        {
+          "symbol": "pub async fn normalize_uri(",
+          "line": 85,
+          "text": "pub async fn normalize_uri(mut request: Request, next: Next) -> Response {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/validation.rs",
+      "role": "existing-Rust-UUID-datetime-context",
+      "bytes": 14130,
+      "rawBytesSha256": "8f4d3e02d30e24601aad8750a541340831309c11220629ce2eab82d2b3da1358",
+      "symbols": [
+        {
+          "symbol": "const UUID_PATTERN",
+          "line": 16,
+          "text": "const UUID_PATTERN: &str = \"/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/\";"
+        },
+        {
+          "symbol": "const DATETIME_PATTERN",
+          "line": 17,
+          "text": "const DATETIME_PATTERN: &str = r\"/^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$/\";"
+        },
+        {
+          "symbol": "fn datetime_value(",
+          "line": 117,
+          "text": "fn datetime_value(value: &str) -> Option<DateTime<Utc>> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/validation.rs",
+      "role": "existing-Rust-text-safeint-helper",
+      "bytes": 20888,
+      "rawBytesSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6",
+      "symbols": [
+        {
+          "symbol": "pub(crate) fn text(",
+          "line": 153,
+          "text": "pub(crate) fn text("
+        },
+        {
+          "symbol": "    let length = char::decode_utf16",
+          "line": 183,
+          "text": "let length = char::decode_utf16(value.as_code_units().iter().copied()).count();"
+        },
+        {
+          "symbol": "pub(crate) fn integer(",
+          "line": 205,
+          "text": "pub(crate) fn integer("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/json.rs",
+      "role": "existing-Rust-presence-and-strip-mechanics",
+      "bytes": 4995,
+      "rawBytesSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+      "symbols": [
+        {
+          "symbol": "pub enum Field",
+          "line": 13,
+          "text": "pub enum Field<T> {"
+        },
+        {
+          "symbol": "pub fn with_default",
+          "line": 106,
+          "text": "pub fn with_default<T>(field: Field<T>, default: impl FnOnce() -> T) -> Field<T> {"
+        },
+        {
+          "symbol": "pub enum UnknownKeyPolicy",
+          "line": 130,
+          "text": "pub enum UnknownKeyPolicy {"
+        },
+        {
+          "symbol": "pub fn apply_unknown_keys",
+          "line": 138,
+          "text": "pub fn apply_unknown_keys("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/scalars.rs",
+      "role": "existing-Rust-scalar-helper",
+      "bytes": 18815,
+      "rawBytesSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+      "symbols": [
+        {
+          "symbol": "pub fn js_iso_string",
+          "line": 423,
+          "text": "pub fn js_iso_string(instant: DateTime<Utc>) -> Result<String, ScalarError> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/guards.rs",
+      "role": "existing-Rust-shared-guards",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+      "symbols": [
+        {
+          "symbol": "pub struct RoutePolicy",
+          "line": 34,
+          "text": "pub struct RoutePolicy {"
+        },
+        {
+          "symbol": "pub struct RequestMetadata",
+          "line": 78,
+          "text": "pub struct RequestMetadata {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/shared/generated.rs",
+      "role": "protected-generated-shared-enums",
+      "bytes": 315819,
+      "rawBytesSha256": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+      "symbols": [
+        {
+          "symbol": "    pub enum BidCommercialMode",
+          "line": 3511,
+          "text": "pub enum BidCommercialMode {"
+        },
+        {
+          "symbol": "    pub enum BidCommercialStage",
+          "line": 3560,
+          "text": "pub enum BidCommercialStage {"
+        },
+        {
+          "symbol": "    pub enum BidCommercialDecision",
+          "line": 3605,
+          "text": "pub enum BidCommercialDecision {"
+        },
+        {
+          "symbol": "    pub enum BidCommercialResultStatus",
+          "line": 3642,
+          "text": "pub enum BidCommercialResultStatus {"
+        },
+        {
+          "symbol": "    pub enum BidCommercialMaterialStatus",
+          "line": 3683,
+          "text": "pub enum BidCommercialMaterialStatus {"
+        },
+        {
+          "symbol": "    pub enum BidCommercialTimelineStatus",
+          "line": 3720,
+          "text": "pub enum BidCommercialTimelineStatus {"
+        },
+        {
+          "symbol": "    pub enum ProjectBidCommercialProcessStatus",
+          "line": 3753,
+          "text": "pub enum ProjectBidCommercialProcessStatus {"
+        }
+      ]
+    }
+  ]
+}

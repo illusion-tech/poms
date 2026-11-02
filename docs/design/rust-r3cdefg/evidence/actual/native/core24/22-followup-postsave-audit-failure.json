@@ -1,0 +1,141 @@
+{
+  "label": "followup-postsave-audit-failure",
+  "startedAt": "2026-11-02T03:20:25.812Z",
+  "completedAt": "2026-11-02T03:20:25.911Z",
+  "HTTP": {
+    "status": 500,
+    "body": {
+      "statusCode": 500,
+      "message": "Internal server error"
+    },
+    "requestId": "0197f967-bc7f-424c-954c-f1a161a539b6",
+    "headers": [
+      "X-Powered-By",
+      "Express",
+      "Access-Control-Allow-Origin",
+      "http://127.0.0.1:12300",
+      "Vary",
+      "Origin",
+      "Access-Control-Allow-Credentials",
+      "true",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "52",
+      "ETag",
+      "W/\"34-rlKccw1E+/fV8niQk4oFitDfPro\"",
+      "Date",
+      "Mon, 02 Nov 2026 03:20:25 GMT",
+      "Connection",
+      "close"
+    ],
+    "rawWire": {
+      "requestBytes": 509,
+      "requestSha256": "fdc7e6705e79ebed0773495aa9302ffa3d28d98542f15eac425569c33ef0f644",
+      "responseBytes": 385,
+      "responseSha256": "482a454b34ba526806aaffc9def8098384672134705d5e3d817f4c6276aaab3a",
+      "entityBodyBytes": 52,
+      "entityBodySha256": "fcbda2e2660dbbff82ba8df76212f3d4ab9ced3b9b9a8b8700621f45fb5ce006",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-52ce8997-1946-4472-8e9a-91aa72be7f57/raw-wire/admin-0197f967-bc7f-424c-954c-f1a161a539b6",
+      "originalRawRetained": true
+    }
+  },
+  "before": {
+    "id": "f5412df3-ba40-4fe8-aa8e-63fc9e972580",
+    "detail": null,
+    "status": "active",
+    "lead_id": null,
+    "outcome": "progress",
+    "summary": "G1 audit source",
+    "voided_at": null,
+    "voided_by": null,
+    "created_at": "2026-11-02T11:20:25.835+08:00",
+    "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "project_id": "c08e3359-9e21-428e-9fcb-6f8e07e3691b",
+    "updated_at": "2026-11-02T11:20:25.835+08:00",
+    "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "customer_id": "c5418705-9d5b-469b-9b31-a6a63bc38a76",
+    "occurred_at": "2026-11-02T08:00:00+08:00",
+    "row_version": 1,
+    "void_reason": null,
+    "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+    "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "follow_up_type": "phone",
+    "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+    "replacement_reason": null,
+    "supersedes_record_id": null,
+    "replaced_by_record_id": null
+  },
+  "after": {
+    "id": "f5412df3-ba40-4fe8-aa8e-63fc9e972580",
+    "detail": null,
+    "status": "voided",
+    "lead_id": null,
+    "outcome": "progress",
+    "summary": "G1 audit source",
+    "voided_at": "2026-11-02T11:20:25.886+08:00",
+    "voided_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "created_at": "2026-11-02T11:20:25.835+08:00",
+    "created_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "project_id": "c08e3359-9e21-428e-9fcb-6f8e07e3691b",
+    "updated_at": "2026-11-02T11:20:25.888+08:00",
+    "updated_by": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "customer_id": "c5418705-9d5b-469b-9b31-a6a63bc38a76",
+    "occurred_at": "2026-11-02T08:00:00+08:00",
+    "row_version": 2,
+    "void_reason": "G1 denied audit",
+    "owner_org_id": "8a2f4af8-c8d1-42fa-98cf-60091007b2d5",
+    "owner_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+    "follow_up_type": "phone",
+    "next_follow_up_at": "2027-01-02T08:00:00+08:00",
+    "replacement_reason": null,
+    "supersedes_record_id": null,
+    "replaced_by_record_id": null
+  },
+  "todos": [
+    {
+      "id": "60b2c75c-0ed5-48e2-b82d-703efb428e81",
+      "title": "销售跟进提醒：R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57 version",
+      "due_at": "2027-01-02T08:00:00+08:00",
+      "status": "canceled",
+      "summary": "G1 audit source",
+      "priority": "normal",
+      "source_id": "f5412df3-ba40-4fe8-aa8e-63fc9e972580",
+      "todo_type": "sales-follow-up-reminder",
+      "created_at": "2026-11-02T11:20:25.84+08:00",
+      "project_id": "c08e3359-9e21-428e-9fcb-6f8e07e3691b",
+      "updated_at": "2026-11-02T11:20:25.89+08:00",
+      "row_version": 2,
+      "source_type": "sales-follow-up-record",
+      "completed_at": "2026-11-02T11:20:25.888+08:00",
+      "business_domain": "sales",
+      "assignee_user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+      "target_object_id": "c08e3359-9e21-428e-9fcb-6f8e07e3691b",
+      "target_object_type": "project"
+    }
+  ],
+  "sessionBefore": [
+    {
+      "id": "e1980add-56c6-4980-bd09-00150ae34706",
+      "user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+      "row_version": 12,
+      "last_seen_at": "2026-11-02T03:19:24.857Z",
+      "last_ip": "::ffff:127.0.0.1",
+      "idle_expires_at": "2026-11-02T03:35:25.749Z",
+      "updated_at": "2026-11-02T03:20:25.786Z"
+    }
+  ],
+  "sessionAfter": [
+    {
+      "id": "e1980add-56c6-4980-bd09-00150ae34706",
+      "user_id": "3b762639-e811-48b0-8d34-6baeb72533f2",
+      "row_version": 14,
+      "last_seen_at": "2026-11-02T03:20:25.864Z",
+      "last_ip": "::ffff:127.0.0.1",
+      "idle_expires_at": "2026-11-02T03:35:25.864Z",
+      "updated_at": "2026-11-02T03:20:25.888Z"
+    }
+  ],
+  "actualAudits": 0,
+  "ACLRestored": true
+}

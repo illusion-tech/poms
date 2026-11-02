@@ -1,0 +1,2019 @@
+{
+  "schemaVersion": 1,
+  "kind": "static-source-material-manifest",
+  "baseCommit": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "baselineIdentity": "Root supplied and checked out; this author records exact current raw bytes without running git or runtime checks",
+  "sourceRoot": "E:/projects/worktrees/poms-r3cdefg-next16/poms",
+  "issues": {
+    "R3C": 88,
+    "R3G": 92,
+    "parent": 85,
+    "overall": 57
+  },
+  "hashMethod": "SHA256 of single ReadAllBytes result; bytes before decoding or line-ending normalization",
+  "authority": "Current Native source plus Root Native runtime witness; historical baselines are background with known drift",
+  "migrationFileCount": 92,
+  "sourceFileCount": 160,
+  "scope": "All entries are read only. Full native migrations listed for DDL protection; no DDL changes requested. Source roles distinguish protected product, public Rust adapters, historical background and Root-owned governance.",
+  "sources": [
+    {
+      "path": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "bytes": 27547,
+      "rawSha256": "1db2429199b857486385d2f8afcc38aea85ddd103670cf4bdfde07dcc416af68",
+      "utf8Bom": false,
+      "role": "protected-native-controller-and-mappers",
+      "keySymbols": [
+        "ProjectController.listProjectPricingMarginReviews",
+        "ProjectController.getProjectPricingMarginWorkspace",
+        "ProjectController.listProjectTechnicalCostPackages",
+        "ProjectController.getProjectTechnicalCostWorkspace",
+        "ProjectController.createProjectPricingMarginReview",
+        "ProjectController.createProjectTechnicalCostPackage",
+        "mapProjectPricingMarginReviewToSummary",
+        "mapProjectTechnicalCostPackageToSummary"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 154,
+          "end": 185
+        },
+        {
+          "start": 298,
+          "end": 315
+        },
+        {
+          "start": 440,
+          "end": 506
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.service.ts",
+      "bytes": 42650,
+      "rawSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323",
+      "utf8Bom": false,
+      "role": "protected-native-command-algorithms",
+      "keySymbols": [
+        "PRESIGNING_PROJECT_STAGES",
+        "createProjectPricingMarginReview",
+        "createProjectTechnicalCostPackage",
+        "assertPricingMarginReferencesConsistent",
+        "assertPricingAmounts",
+        "countPricingMarginBlockers",
+        "assertMoneyConsistent",
+        "parseNonNegativeDecimal",
+        "parseSignedDecimal",
+        "formatMoney",
+        "resolveHighestRiskLevel"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 94,
+          "end": 105
+        },
+        {
+          "start": 557,
+          "end": 765
+        },
+        {
+          "start": 793,
+          "end": 881
+        },
+        {
+          "start": 914,
+          "end": 921
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-query.service.ts",
+      "bytes": 86242,
+      "rawSha256": "f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d",
+      "utf8Bom": false,
+      "role": "protected-native-query-mappers-projection",
+      "keySymbols": [
+        "listProjectPricingMarginReviews",
+        "getProjectPricingMarginWorkspace",
+        "listProjectTechnicalCostPackages",
+        "getProjectTechnicalCostWorkspace",
+        "mapProjectBidCommercialProcess",
+        "mapProjectPricingMarginReview",
+        "mapProjectTechnicalCostPackage",
+        "buildPricingMarginAllowedActions",
+        "buildTechnicalCostAllowedActions",
+        "buildOwnerLabel",
+        "isClosedProject"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 63,
+          "end": 63
+        },
+        {
+          "start": 457,
+          "end": 587
+        },
+        {
+          "start": 819,
+          "end": 845
+        },
+        {
+          "start": 878,
+          "end": 1010
+        },
+        {
+          "start": 1069,
+          "end": 1204
+        },
+        {
+          "start": 1653,
+          "end": 1658
+        },
+        {
+          "start": 1673,
+          "end": 1674
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "bytes": 22209,
+      "rawSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5",
+      "utf8Bom": false,
+      "role": "protected-native-repository-order-and-flush",
+      "keySymbols": [
+        "findCurrentProjectBidCommercialProcessByProjectId",
+        "findProjectTechnicalCostPackageById",
+        "findCurrentProjectTechnicalCostPackageByProjectId",
+        "findProjectPricingMarginReviewsByProjectId",
+        "findCurrentProjectPricingMarginReviewByProjectId",
+        "saveProjectPricingMarginReview",
+        "saveProjectTechnicalCostPackage"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 268,
+          "end": 387
+        },
+        {
+          "start": 422,
+          "end": 443
+        },
+        {
+          "start": 484,
+          "end": 505
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-technical-cost-package.entity.ts",
+      "bytes": 11488,
+      "rawSha256": "813ba540023e08179c13baa6a37e4d4df9a3787c0baa89c16ff4f8a1ea4bec21",
+      "utf8Bom": false,
+      "role": "protected-native-cost-orm",
+      "keySymbols": [
+        "ProjectTechnicalCostPackageSchema",
+        "ProjectTechnicalScopeItemSchema",
+        "ProjectTechnicalRiskItemSchema",
+        "ProjectTechnicalCostItemSchema"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 1,
+          "end": null
+        },
+        {
+          "start": 204,
+          "end": null
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-pricing-margin-review.entity.ts",
+      "bytes": 10691,
+      "rawSha256": "a9989492509e65ea4f994fabfbf8197cb7913f5e090893d72403c84613a2419f",
+      "utf8Bom": false,
+      "role": "protected-native-pricing-orm",
+      "keySymbols": [
+        "ProjectPricingMarginReviewSchema",
+        "ProjectPricingMarginConditionItemSchema"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 1,
+          "end": null
+        },
+        {
+          "start": 170,
+          "end": null
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-bid-commercial-process.entity.ts",
+      "bytes": 9141,
+      "rawSha256": "f1626d34c701cbf38be96b34ea85737dea59f0a3f0d324d5cb7b1d0a51fa6b2b",
+      "utf8Bom": false,
+      "role": "protected-native-bid-producer-orm",
+      "keySymbols": [
+        "ProjectBidCommercialProcessSchema"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "bytes": 4183,
+      "rawSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "utf8Bom": false,
+      "role": "protected-native-project-orm",
+      "keySymbols": [
+        "ProjectSchema"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.module.ts",
+      "bytes": 2774,
+      "rawSha256": "e73ba5353f0db401c69dc0b370ed2eb669e44c889288e82c66c7924b875e8c56",
+      "utf8Bom": false,
+      "role": "protected-native-provider-wiring",
+      "keySymbols": [
+        "ProjectModule"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 435823,
+      "rawSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+      "utf8Bom": false,
+      "role": "protected-zod-dto-and-enum-ssot",
+      "keySymbols": [
+        "TECHNICAL_FEASIBILITY_DECISION_DEFINITIONS",
+        "TAX_REVIEW_STATUS_DEFINITIONS",
+        "NonNegativeDecimalStringSchema",
+        "NonNegativeMoneyStringSchema",
+        "NonNegativeRatioStringSchema",
+        "SignedRatioStringSchema",
+        "CreateProjectTechnicalCostPackageRequestSchema",
+        "ProjectTechnicalCostPackageSummarySchema",
+        "ProjectTechnicalCostWorkspaceViewSchema",
+        "CreateProjectPricingMarginReviewRequestSchema",
+        "ProjectPricingMarginReviewSummarySchema",
+        "ProjectPricingMarginWorkspaceViewSchema"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 4524,
+          "end": 4767
+        },
+        {
+          "start": 4888,
+          "end": 4979
+        },
+        {
+          "start": 4981,
+          "end": 5174
+        }
+      ]
+    },
+    {
+      "path": "libs/api/contracts/src/lib/project/project.dto.ts",
+      "bytes": 5018,
+      "rawSha256": "c4357aef2244df45cf0348a8a22943321911e28d48d15a85030931a5ce72e114",
+      "utf8Bom": false,
+      "role": "protected-nest-dto-bindings",
+      "keySymbols": [
+        "CreateProjectPricingMarginReviewRequestDto",
+        "CreateProjectTechnicalCostPackageRequestDto"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "bytes": 1129410,
+      "rawSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+      "utf8Bom": false,
+      "role": "protected-full-native-openapi",
+      "keySymbols": [
+        "ProjectController_createProjectTechnicalCostPackage",
+        "ProjectController_createProjectPricingMarginReview"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/shared/api-client/api/project.service.ts",
+      "bytes": 112906,
+      "rawSha256": "2851afdf65ef1a8da135aac0504e1668cf892d73efa5c8977aff01d7f7cca0f8",
+      "utf8Bom": false,
+      "role": "protected-generated-client-consumer",
+      "keySymbols": [
+        "projectControllerCreateProjectPricingMarginReview",
+        "projectControllerCreateProjectTechnicalCostPackage",
+        "projectControllerGetProjectPricingMarginWorkspace",
+        "projectControllerGetProjectTechnicalCostWorkspace",
+        "projectControllerListProjectPricingMarginReviews",
+        "projectControllerListProjectTechnicalCostPackages"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/app.module.ts",
+      "bytes": 3560,
+      "rawSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "utf8Bom": false,
+      "role": "protected-global-zod-boundary",
+      "keySymbols": [
+        "APP_PIPE ZodValidationPipe",
+        "APP_INTERCEPTOR ZodSerializerInterceptor"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/main.ts",
+      "bytes": 1789,
+      "rawSha256": "396fb58af4558de82089bd842149a5040e29088314f6e6cd7921f771b5a0a8a0",
+      "utf8Bom": false,
+      "role": "protected-native-global-prefix-parser-bootstrap",
+      "keySymbols": [
+        "bootstrap"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/config/openapi.config.ts",
+      "bytes": 560,
+      "rawSha256": "7d51ed82c06a552a972d5e8488642fc1ef46c33c157f046065ab395e54f5561f",
+      "utf8Bom": false,
+      "role": "protected-prefix-operation-configuration",
+      "keySymbols": [
+        "GLOBAL_PREFIX",
+        "buildOpenApiConfig"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "bytes": 1877,
+      "rawSha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd",
+      "utf8Bom": false,
+      "role": "protected-vendor-validation-boundary",
+      "keySymbols": [
+        "createZodValidationPipe"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/validate.ts",
+      "bytes": 742,
+      "rawSha256": "6fb5056e500c9650e9056fd6e5043940ce7be3565aef608dd86fda708be356b5",
+      "utf8Bom": false,
+      "role": "protected-vendor-schema-parse",
+      "keySymbols": [
+        "validate"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/exception.ts",
+      "bytes": 1004,
+      "rawSha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14",
+      "utf8Bom": false,
+      "role": "protected-validation-envelope",
+      "keySymbols": [
+        "ZodValidationException"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "bytes": 5144,
+      "rawSha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a",
+      "utf8Bom": false,
+      "role": "protected-response-metadata-boundary",
+      "keySymbols": [
+        "getContextResponseSchema"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth.module.ts",
+      "bytes": 1439,
+      "rawSha256": "ae71dd28c959449e4dea26a7f745ad2bbeb522be169cbb69e0e3382b8de24766",
+      "utf8Bom": false,
+      "role": "protected-guard-order",
+      "keySymbols": [
+        "AuthModule"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "bytes": 3613,
+      "rawSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+      "utf8Bom": false,
+      "role": "protected-session-guard",
+      "keySymbols": [
+        "SessionAuthGuard"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "bytes": 4389,
+      "rawSha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+      "utf8Bom": false,
+      "role": "protected-csrf-guard",
+      "keySymbols": [
+        "AuthCsrfGuard"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "bytes": 4036,
+      "rawSha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306",
+      "utf8Bom": false,
+      "role": "protected-permission-guard",
+      "keySymbols": [
+        "PermissionsGuard"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+      "bytes": 12139,
+      "rawSha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89",
+      "utf8Bom": false,
+      "role": "protected-session-managed-state",
+      "keySymbols": [
+        "resolveSessionToken",
+        "#touchSession"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+      "bytes": 8133,
+      "rawSha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622",
+      "utf8Bom": false,
+      "role": "protected-independent-session-sql",
+      "keySymbols": [
+        "touchLastSeenIfDue",
+        "saveAll"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "bytes": 2360,
+      "rawSha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c",
+      "utf8Bom": false,
+      "role": "protected-native-uow-config",
+      "keySymbols": [
+        "createBaseMikroOrmOptions",
+        "createNestMikroOrmOptions"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.module.ts",
+      "bytes": 305,
+      "rawSha256": "bd99e12c329a5661cd9b574ecbe35a2827e81564885e731c88be6ba74f4fe1b6",
+      "utf8Bom": false,
+      "role": "protected-provider-only-not-global-interceptor",
+      "keySymbols": [
+        "SensitiveFieldProjectionModule"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.policy.ts",
+      "bytes": 593,
+      "rawSha256": "80e2ef1e99761415d86b19d3a31e2e9095c03f31b8de178d3ddc784524f7a48d",
+      "utf8Bom": false,
+      "role": "protected-projection-reference",
+      "keySymbols": [
+        "source policy not invoked by six operations"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "bytes": 8958,
+      "rawSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4",
+      "utf8Bom": false,
+      "role": "protected-auth-security-audit",
+      "keySymbols": [
+        "recordSecurityEvent"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-admin/src/app.routes.ts",
+      "bytes": 18649,
+      "rawSha256": "5f792411b22894c9102587718df8708c78fbb2ce43e054b98ba4a93a13ad7db7",
+      "utf8Bom": false,
+      "role": "protected-original-route-journey",
+      "keySymbols": [
+        "projects/:id/workspace",
+        "technical-cost",
+        "pricing-margin"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 72,
+          "end": null
+        },
+        {
+          "start": 124,
+          "end": null
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-technical-cost-workspace.ts",
+      "bytes": 23611,
+      "rawSha256": "1984945c9b2567a6909fa530dba6f72cfbf67df9a72f0b450c74e3b64b39c08a",
+      "utf8Bom": false,
+      "role": "protected-original-cost-readonly-ui",
+      "keySymbols": [
+        "ProjectTechnicalCostWorkspace",
+        "ngOnInit",
+        "riskItems",
+        "costItems"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-pricing-margin-workspace.ts",
+      "bytes": 62464,
+      "rawSha256": "ae33fb437baba2f83190064b8ef201bc873c06e8891e77a3415caa5b7ab1c92d",
+      "utf8Bom": false,
+      "role": "protected-original-pricing-ui",
+      "keySymbols": [
+        "ProjectPricingMarginWorkspace",
+        "canWritePricingMargin",
+        "submitPricingReview",
+        "createEmptyPricingForm",
+        "createPricingFormFromWorkspace",
+        "buildPricingRequest"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 499,
+          "end": 560
+        },
+        {
+          "start": 941,
+          "end": 1093
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts",
+      "bytes": 18470,
+      "rawSha256": "de6ad70623ae8501ae8a561372bc166ac3a52fb730a4dad5aa5a17260d63cba5",
+      "utf8Bom": false,
+      "role": "protected-original-reachable-entry",
+      "keySymbols": [
+        "technical-cost entry",
+        "pricing-margin entry"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-workspace-shell.ts",
+      "bytes": 9416,
+      "rawSha256": "affc566038c28c3fcc087abb9f7f2902755feb4a66c30890392a175082216062",
+      "utf8Bom": false,
+      "role": "protected-original-workspace-provider",
+      "keySymbols": [
+        "ProjectWorkspaceShell"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "bytes": 38994,
+      "rawSha256": "64f98b48536e824ecd929625d130751ddd97148c798d40409e448ab632206443",
+      "utf8Bom": false,
+      "role": "protected-original-generated-client-usage",
+      "keySymbols": [
+        "loadTechnicalCostWorkspace",
+        "loadPricingMarginWorkspace",
+        "loadPricingMarginReviewHistory",
+        "createPricingMarginReview"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 383,
+          "end": 402
+        },
+        {
+          "start": 467,
+          "end": 527
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.service.spec.ts",
+      "bytes": 60959,
+      "rawSha256": "132ef59513574c2f7da2423f514ef23215fe4cdb371ff40f742bcd488af6e904",
+      "utf8Bom": false,
+      "role": "static-test-hints-mocked-not-runtime-proof",
+      "keySymbols": [
+        "creates a pricing margin review",
+        "creates a technical cost package"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-query.service.spec.ts",
+      "bytes": 78754,
+      "rawSha256": "e316284f909585cf2b5908715c342fad0ecb81ff8e7de38204209a979f8d7ef0",
+      "utf8Bom": false,
+      "role": "static-query-test-hints-mocked-not-runtime-proof",
+      "keySymbols": [
+        "returns an actionable pricing margin workspace",
+        "returns an actionable technical cost workspace"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.controller.spec.ts",
+      "bytes": 23852,
+      "rawSha256": "3d913735f9a57ef0d182d0308e99f56d7a8b1b6f7c5f35fbab21a1f60355e63a",
+      "utf8Bom": false,
+      "role": "static-controller-test-hints-not-runtime-proof",
+      "keySymbols": [
+        "ProjectController"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-admin-e2e/src/project-workspace.journey.spec.ts",
+      "bytes": 41280,
+      "rawSha256": "c3f83d7a97035b606239fb0cb227b935c088514b4b6e4a482fbcdd1e74cfe047",
+      "utf8Bom": false,
+      "role": "static-locator-hints-route-mocks-not-backend-proof",
+      "keySymbols": [
+        "page.route",
+        "pricingDialog",
+        "technical-cost"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-technical-cost-workspace.spec.ts",
+      "bytes": 8773,
+      "rawSha256": "9f7008d89403e0b076c73a2bfdd1f27e4699039c648d8ccc7dfd741966de3c7f",
+      "utf8Bom": false,
+      "role": "static-ui-test-hints-not-runtime-proof",
+      "keySymbols": [
+        "ProjectTechnicalCostWorkspace"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-pricing-margin-workspace.spec.ts",
+      "bytes": 14654,
+      "rawSha256": "cfc61f63e5963958e4552d1fcb2295846ddb3604c6edf8289f92eb26ade6f021",
+      "utf8Bom": false,
+      "role": "static-ui-test-hints-not-runtime-proof",
+      "keySymbols": [
+        "ProjectPricingMarginWorkspace"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/store.rs",
+      "bytes": 15141,
+      "rawSha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef",
+      "utf8Bom": false,
+      "role": "existing-public-project-read-adapter",
+      "keySymbols": [
+        "ProjectRow",
+        "find",
+        "user_names",
+        "org_names"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/model.rs",
+      "bytes": 2674,
+      "rawSha256": "e33a1ef1c78b83b109fd72ae90a750167e2848aef968c5a8bae6bb2b800680e4",
+      "utf8Bom": false,
+      "role": "existing-public-wire-and-trim",
+      "keySymbols": [
+        "Wire",
+        "trim_js"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/service.rs",
+      "bytes": 32780,
+      "rawSha256": "06ee76e45d684df23de9fb7f1d3fcc4d6743bf5c7df7a3d827580e3837b16101",
+      "utf8Bom": false,
+      "role": "existing-project-integration-pattern-not-new-source-contract",
+      "keySymbols": [
+        "ProjectsService",
+        "ProjectsError"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/validation.rs",
+      "bytes": 14130,
+      "rawSha256": "8f4d3e02d30e24601aad8750a541340831309c11220629ce2eab82d2b3da1358",
+      "utf8Bom": false,
+      "role": "existing-static-validator-reference-private-helpers-not-imported",
+      "keySymbols": [
+        "validate_create"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/http.rs",
+      "bytes": 10219,
+      "rawSha256": "f860b8486fa80f565895ec3458192d31d67aeba2294ea7a3f40040d9f4763989",
+      "utf8Bom": false,
+      "role": "existing-root-owned-http-reference",
+      "keySymbols": [
+        "router",
+        "dispatch",
+        "normalize_uri"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/js_json.rs",
+      "bytes": 6503,
+      "rawSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "utf8Bom": false,
+      "role": "existing-public-utf16-json",
+      "keySymbols": [
+        "JsString",
+        "JsObject"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/model.rs",
+      "bytes": 10433,
+      "rawSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "utf8Bom": false,
+      "role": "existing-request-local-session-types",
+      "keySymbols": [
+        "ResolvedSession",
+        "SessionFlush",
+        "clock_now"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22695,
+      "rawSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+      "utf8Bom": false,
+      "role": "existing-public-managed-session-flush",
+      "keySymbols": [
+        "flush_managed_session"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/compat/scalars.rs",
+      "bytes": 18815,
+      "rawSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+      "utf8Bom": false,
+      "role": "existing-public-js-number-and-date",
+      "keySymbols": [
+        "legacy_number",
+        "js_to_fixed",
+        "js_iso_string"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/compat/json.rs",
+      "bytes": 4995,
+      "rawSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+      "utf8Bom": false,
+      "role": "existing-public-presence-types",
+      "keySymbols": [
+        "Field"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api-rust/src/database.rs",
+      "bytes": 11644,
+      "rawSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9",
+      "utf8Bom": false,
+      "role": "existing-database-transaction-and-quarantine",
+      "keySymbols": [
+        "Database.with_connection",
+        "DbError"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "package.json",
+      "bytes": 4286,
+      "rawSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "utf8Bom": false,
+      "role": "pinned-root-dependency-source",
+      "keySymbols": [
+        "zod",
+        "@mikro-orm/core"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 837627,
+      "rawSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "utf8Bom": false,
+      "role": "exact-dependency-lock",
+      "keySymbols": [
+        "zod@4.6.1",
+        "@mikro-orm/core@7.0.11"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 172058,
+      "rawSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4",
+      "utf8Bom": false,
+      "role": "formal-existing-route-inventory",
+      "keySymbols": [
+        "EX-26",
+        "EX-28"
+      ],
+      "keyLineRanges": [
+        {
+          "start": 232,
+          "end": 234
+        },
+        {
+          "start": 238,
+          "end": 240
+        }
+      ]
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "bytes": 62722,
+      "rawSha256": "374fc9f2f26197619a4dee5f099868ca14c318e834809ca6d6d189eb0c68a381",
+      "utf8Bom": false,
+      "role": "formal-migration-governance-root-may-amend",
+      "keySymbols": [
+        "1.1",
+        "1.2",
+        "3.1",
+        "R3A/B actual G4"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 155132,
+      "rawSha256": "144b00533cbc55a010892204119636cb51deabf904cac71177bcc22046fcba31",
+      "utf8Bom": false,
+      "role": "formal-operation-assignment-root-may-amend",
+      "keySymbols": [
+        "R3C",
+        "R3G"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/schema-ddl-design.md",
+      "bytes": 59569,
+      "rawSha256": "a9f55d818b2d966b98d2bd8e580aac648f5d527f981f0a424d511922407e419d",
+      "utf8Bom": false,
+      "role": "design-background-migrations-own-exact-existing-ddl",
+      "keySymbols": [
+        "Schema 与命名基线"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/table-structure-freeze-design.md",
+      "bytes": 64112,
+      "rawSha256": "70bb473545f07a8c137ad38f1a3b7f0393241f64f78e5ec68af2c7ad2f5a0cc0",
+      "utf8Bom": false,
+      "role": "design-background-not-substitute-for-existing-ddl",
+      "keySymbols": [
+        "commercial_release_baseline"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/archive/slices/ex-26-presigning-technical-cost-fact-source-baseline.md",
+      "bytes": 21288,
+      "rawSha256": "caeb232911e896691a136dfe9b93a7d4e95e6b6ca1a9eba5732d08f90ef5e936",
+      "utf8Bom": false,
+      "role": "historical-design-known-differences-current-source-wins",
+      "keySymbols": [
+        "5. DTO / Contract Boundary",
+        "Required enums"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/archive/slices/ex-28-presigning-pricing-margin-fact-source-baseline.md",
+      "bytes": 12457,
+      "rawSha256": "aff9e4a4cdd547539a1accca828caeb65152eab4f2de7a534b35547c697d6617",
+      "utf8Bom": false,
+      "role": "historical-design-business-background",
+      "keySymbols": [
+        "5. DTO / Contract Boundary"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/archive/slices/fe-10-technical-cost-workspace-frontend-baseline.md",
+      "bytes": 13469,
+      "rawSha256": "a3c9d9c5d6e42136fcc0185d2ab04a5a2df0f29dc60ae35dc240f5ca3a630edb",
+      "utf8Bom": false,
+      "role": "historical-read-ui-background",
+      "keySymbols": [
+        "Browser journey"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/archive/slices/fe-11-bid-pricing-workspace-frontend-baseline.md",
+      "bytes": 13955,
+      "rawSha256": "928c8a43afbb842f9cb7cf51f132046a44845d88c17d51a1898eb9ce271dab03",
+      "utf8Bom": false,
+      "role": "historical-ui-background-current-ui-wins",
+      "keySymbols": [
+        "FE-11"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "docs/design/archive/slices/fe-11-bid-pricing-workspace-frontend-g1-unblock-addendum.md",
+      "bytes": 4590,
+      "rawSha256": "11ca60e16e68664ef2b64154e5d4bcf717dff526809178776fa079bf24e0b9b7",
+      "utf8Bom": false,
+      "role": "historical-ui-background-not-current-write-contract",
+      "keySymbols": [
+        "only reading originally"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "bytes": 10211,
+      "rawSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "utf8Bom": false,
+      "role": "governance",
+      "keySymbols": [
+        "G1",
+        "cross-layer-high-risk"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "bytes": 9479,
+      "rawSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "utf8Bom": false,
+      "role": "governance-risk-scaled-evidence",
+      "keySymbols": [
+        "Slice Type To Evidence"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "bytes": 3561,
+      "rawSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "utf8Bom": false,
+      "role": "github-issue-first-governance",
+      "keySymbols": [
+        "Phase 1 Rule"
+      ],
+      "keyLineRanges": null
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322193000_init_project.ts",
+      "bytes": 3253,
+      "rawSha256": "4caf9cc9ef4b4071bf1e0c9dc83fc7dee509ff100f9ed862dadff805d0927488",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260322193000_init_project"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322233000_init_contract.ts",
+      "bytes": 2721,
+      "rawSha256": "28a6ff1503db62c63133422b69562f2ca41f5fddff3ee1a68bf2779e35ed550d",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260322233000_init_contract"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322235500_init_approval_and_todo.ts",
+      "bytes": 3004,
+      "rawSha256": "736d5a1fa69846219f809e77c737e7b2aa3f13bb66374bef4a18cc72a91e56fc",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260322235500_init_approval_and_todo"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325153000_init_platform_governance_core.ts",
+      "bytes": 8958,
+      "rawSha256": "8583cbeb7f5ec4ba42af26c47014871650c357e9bd79e7c2754df94c4131c402",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260325153000_init_platform_governance_core"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325180000_add_password_hash_to_platform_user.ts",
+      "bytes": 436,
+      "rawSha256": "3e72cf80554fb6ab53ec7579452739677aaa7ed14d728a9d23de24f92aa88cdc",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260325180000_add_password_hash_to_platform_user"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325190000_init_commission_s10.ts",
+      "bytes": 4213,
+      "rawSha256": "d2ddddc758365f12416de54725ad25725da8b985114502a97b280cae206042f1",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260325190000_init_commission_s10"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325200000_init_commission_s11.ts",
+      "bytes": 6042,
+      "rawSha256": "c693c296be97e02f9c285bde4df8f58a81fb3d3ca5ca3db4a1998e1307b29a4e",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260325200000_init_commission_s11"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260327090000_init_commission_s12.ts",
+      "bytes": 2866,
+      "rawSha256": "38aa5b68ebfc46a725dd103ee7dd260bb1052afa2a3e0482268994fc00f6c4fc",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260327090000_init_commission_s12"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260327170000_init_contract_finance_facts.ts",
+      "bytes": 4045,
+      "rawSha256": "6af62cbeb11c72e4013f389c9788dc9315c34d4e90f853e55f48d68df3d26e4d",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260327170000_init_contract_finance_facts"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts",
+      "bytes": 2928,
+      "rawSha256": "5d45f17a8abfeafe7cec0ce92c5b6fa1b2f8d096c07e2a8ca59d9b47564d9e08",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260328120000_init_runtime_audit_and_security_event"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260404074500_add_org_unit_structure_constraints.ts",
+      "bytes": 1024,
+      "rawSha256": "17f4c39ec62f15488f37aca9d0ae3a784014bf11f4df4aa8bb64b26f3bc289d5",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260404074500_add_org_unit_structure_constraints"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260405100000_extract_local_credential_and_add_verified_fields.ts",
+      "bytes": 2595,
+      "rawSha256": "b9056ef64d7bcdca917edefdc3b35b495526d57078dfa3b096898be5227a390f",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260405100000_extract_local_credential_and_add_verified_fields"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260405113000_init_contract_readiness_chain.ts",
+      "bytes": 14621,
+      "rawSha256": "11faff7ad079f5af7f0eecc7857df7f13f85784d681b468f81d5810f8e4d8e63",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260405113000_init_contract_readiness_chain"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260405164244_init_actual_cost.ts",
+      "bytes": 13595,
+      "rawSha256": "53d9ebc777f7287529f31c280cfaee8ac6bac62cb6032089b4a7af65e41710b1",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260405164244_init_actual_cost"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260411120000_align_actual_cost_rate_version.ts",
+      "bytes": 4317,
+      "rawSha256": "bc8947752c716acafd6cd511bce70af64f25057301c65ec252ac2da0b8036409",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260411120000_align_actual_cost_rate_version"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412121500_add_payment_fact_source_current_unique.ts",
+      "bytes": 711,
+      "rawSha256": "5c9b7fd9513e937d3b6d4ab62a8e4de9a29cad778ab0faa2f08be5082824a31b",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412121500_add_payment_fact_source_current_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412152000_add_invoice_record.ts",
+      "bytes": 2616,
+      "rawSha256": "27396bc8808315a4676ba35c9100170fa827a6a67bf5d1d40be2fd3ace615962",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412152000_add_invoice_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412174000_add_invoice_source_current_unique.ts",
+      "bytes": 691,
+      "rawSha256": "6c954d15b01870552162a8e99bbfd26fa425f06b78147a450cfb9d5c677b42b5",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412174000_add_invoice_source_current_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412193000_add_expense_record.ts",
+      "bytes": 2520,
+      "rawSha256": "716c0de0ac3700e3c5484e7b562edc00a834e8196bb6e10fdf2d7882422f0d48",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412193000_add_expense_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412195000_add_expense_source_current_unique.ts",
+      "bytes": 687,
+      "rawSha256": "45e894632ac5783dfef0e8a2e64ef20e1d2a7902e5a261cc168ede0b201ad9aa",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412195000_add_expense_source_current_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412212000_add_payable_record.ts",
+      "bytes": 3382,
+      "rawSha256": "f3c6b28de18b4e1550afc6b776f88daaf7a6203a7b920164ce8d48d7311be856",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412212000_add_payable_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412233000_add_procurement_source_current_unique.ts",
+      "bytes": 717,
+      "rawSha256": "5e939d89dea8f2e2200539fa8e21e3110777cb2216b8ca530fc4ffd35a5e60c8",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260412233000_add_procurement_source_current_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260413093000_ex06d_payable_payment_tax_semantics.ts",
+      "bytes": 5423,
+      "rawSha256": "ae423d970c79315cdd9b95df8f76620dee6c2a2e0ac269ff4d357895a1772626",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260413093000_ex06d_payable_payment_tax_semantics"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+      "bytes": 21302,
+      "rawSha256": "8efe816a18ebb9b6c348f7c1ccb0b229a6882df2026a4135bbe6a34ff2925c94",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260414100000_ex07a_cost_accumulation_snapshot_model"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260414111805_ex07a_add_comments.ts",
+      "bytes": 33696,
+      "rawSha256": "9daecfcd9c69a835189795e7e66ea1a52edd7068a8359a259933bd219700151b",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260414111805_ex07a_add_comments"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260414130000_ex07b_operating_restatement_record.ts",
+      "bytes": 3680,
+      "rawSha256": "8e765bc065ba6c4b60dace5bc6b60ac31dfe5e7b3ffee72166978dcd577194b5",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260414130000_ex07b_operating_restatement_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260414131000_ex07b_operating_restatement_comments.ts",
+      "bytes": 3847,
+      "rawSha256": "7de24decbad7285ca0d852b15ac7ffa535ba3b4db96fc0f8ce69c30349732a49",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260414131000_ex07b_operating_restatement_comments"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415090000_ex08a1_project_handover_core.ts",
+      "bytes": 14726,
+      "rawSha256": "ab9378f7df4659ba3d0b72bf1e96a3cd8f3c441031276b14053b726f5a68afa7",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415090000_ex08a1_project_handover_core"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415100000_ex08a2_approval_summary_snapshot.ts",
+      "bytes": 13013,
+      "rawSha256": "ec42a5074ff2e39d8defe3657513f4b3d30df21c38b8b454bb03533e40286a3d",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415100000_ex08a2_approval_summary_snapshot"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415110000_ex08a3_confirmation_record.ts",
+      "bytes": 7040,
+      "rawSha256": "cd30de58727826af7b41519f8bf3402c9a9d0cdc6b8aa76c0d6d6f2316a960e8",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415110000_ex08a3_confirmation_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415130000_ex08b3b0_contract_amendment.ts",
+      "bytes": 3401,
+      "rawSha256": "db1f48224042faaf8396bffccfc6a59f3346d1009eda012bbef346d16e2230dc",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415130000_ex08b3b0_contract_amendment"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415131000_ex08b3b0_rebaseline_amendment_fk.ts",
+      "bytes": 1063,
+      "rawSha256": "93b2699ec19d70cd2adef2adaa57abc4f2e812a2bffe1079101734a82578bf42",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415131000_ex08b3b0_rebaseline_amendment_fk"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415142000_ex08b3b1_rebaseline_project_chain.ts",
+      "bytes": 1958,
+      "rawSha256": "614691d23dea82a19f1223f3e3e5041b6609edc27d8b1893c0e1a5f014fb7f65",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415142000_ex08b3b1_rebaseline_project_chain"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+      "bytes": 10335,
+      "rawSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416110000_ex07d3_tax_treatment_active_unique.ts",
+      "bytes": 556,
+      "rawSha256": "9607762a9d7ca95a8f258dd2dbc5b00b719a47c377ec90ab547c3c5c68fe29c4",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260416110000_ex07d3_tax_treatment_active_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416111000_ex08d1_project_rebaseline_effective_unique.ts",
+      "bytes": 543,
+      "rawSha256": "d7b8c43562b9351b41681ced2287a7657ede34b186d4540ec9dbfc43a7c5be5f",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260416111000_ex08d1_project_rebaseline_effective_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416130000_ex09a_commission_freeze_chain.ts",
+      "bytes": 3914,
+      "rawSha256": "12c0ba0ef8fc9e1c8a9a15868d832aedaa0b54756dc8252deeef44c20a157e70",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260416130000_ex09a_commission_freeze_chain"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416143000_ex09d_commission_freeze_dispute_chain.ts",
+      "bytes": 7516,
+      "rawSha256": "18ff243ed7c9dcecf2c557fb76a91b66ef20253bc2ee4be995c52da0aacc0604",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260416143000_ex09d_commission_freeze_dispute_chain"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416144500_ex09d_commission_freeze_dispute_comments.ts",
+      "bytes": 9829,
+      "rawSha256": "f5703ce2009833cc5beb78bf8886f5427b730b4f19c81c971437e733cb98e6ed",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260416144500_ex09d_commission_freeze_dispute_comments"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418110000_ex11d3_commission_current_unique.ts",
+      "bytes": 869,
+      "rawSha256": "ab52363c4c7f623a2f0148691899aa2889de19bc64168a474bc0e5ee8aa01aa8",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418110000_ex11d3_commission_current_unique"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418143000_ex12d1_commission_payout_compensating_chain.ts",
+      "bytes": 1929,
+      "rawSha256": "2aa2992848ee446406cc7746aa136b941f74eb83f43040b870c37f089212e285",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418143000_ex12d1_commission_payout_compensating_chain"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418170000_ex13a_operating_signal_model.ts",
+      "bytes": 26196,
+      "rawSha256": "5ebc7607a8c80e4a5368ed8508db7403cde0bf020c4072e9da1942f8c9580f54",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418170000_ex13a_operating_signal_model"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418183000_ex13b1_gate_review_summary_anchor.ts",
+      "bytes": 3247,
+      "rawSha256": "1552dbdc6b31dc93dc3272417fca92f9d2b0d25e180fc76ba22c04f1f9b98b46",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418183000_ex13b1_gate_review_summary_anchor"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts",
+      "bytes": 23948,
+      "rawSha256": "4bc97bbcc54f66fcd9aa63eb64010b1c350f986667e9aabf3acdd89452e985b7",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418193000_ex14a_settlement_and_rule_explanation_model"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418194500_ex14a_nullable_reference_fk_rules.ts",
+      "bytes": 2230,
+      "rawSha256": "a6593dabb0132c3190c72d79063b9d700d6129d3fe8085837722d32303ff4f66",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418194500_ex14a_nullable_reference_fk_rules"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418195000_ex14a_rule_explanation_parent_fk_delete_rule.ts",
+      "bytes": 1291,
+      "rawSha256": "ea6500a871d5dbbfdc3d055ff317bf364b307f13397fe3a1858eb12d60318f02",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260418195000_ex14a_rule_explanation_parent_fk_delete_rule"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260419120000_ex14d_retention_due_fact_source.ts",
+      "bytes": 891,
+      "rawSha256": "19b96553deefe9199453dd3dd587846502d68483d93411802f7c88bec2d46c68",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260419120000_ex14d_retention_due_fact_source"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260421110000_ex17_project_list_and_create_semantics.ts",
+      "bytes": 532,
+      "rawSha256": "189aeada4ff1e0f40e988d1eb6521edefe39da0a252762dc52ad0c54a4e36ae1",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260421110000_ex17_project_list_and_create_semantics"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260422031100_add_contract_term_snapshot_core_fields.ts",
+      "bytes": 6872,
+      "rawSha256": "df87f2b256d32e8846414fe22baabdb680e6445878591bfdd908021856be8397",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260422031100_add_contract_term_snapshot_core_fields"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260423130000_ex23_acceptance_record.ts",
+      "bytes": 3536,
+      "rawSha256": "642d6bb2d045f3b7b9f6d4179b9f0c23dea8cc8345e283e469ff73b687efb219",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260423130000_ex23_acceptance_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424100000_ex24_project_completion_record.ts",
+      "bytes": 3627,
+      "rawSha256": "2eca97690e6d20f1d4d9d6c9a3dda8ce06cb7a802729a1658bec8ce70d2b39fd",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260424100000_ex24_project_completion_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424143000_ex25_project_archive_record.ts",
+      "bytes": 3594,
+      "rawSha256": "35d1e2c399a4738f447feb183c83a21d78cdbe214a12ccbbcfed55bd5d65109a",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260424143000_ex25_project_archive_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+      "bytes": 14622,
+      "rawSha256": "0b44d3076ad6eca4ff61bfc77fa87d3fd8f2eb9e4b5631c4250b107b74b36be8",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260424170000_ex26_project_technical_cost_package"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+      "bytes": 11064,
+      "rawSha256": "5d9986be33e056be76a1be48e5b1056514ae1e50fb4d2504a001eea07ccb6171",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260424190000_ex27_project_bid_commercial_process"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+      "bytes": 12884,
+      "rawSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260424203000_ex28_project_pricing_margin_review"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260425103000_ex31_lead_minimal_fact_source.ts",
+      "bytes": 4035,
+      "rawSha256": "b66ac6d96c221773ec90918f667e2d03cbae58283dc9f3048115b220ebc505d5",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260425103000_ex31_lead_minimal_fact_source"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260425113000_ex32_project_source_lead.ts",
+      "bytes": 1050,
+      "rawSha256": "651350388f6f4c7a6521cdb47248a8129ce6a17bdd9c8ed3393817a4b9c78d5a",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260425113000_ex32_project_source_lead"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260426100000_ex34a_project_archive_record_reversal_replacement.ts",
+      "bytes": 3245,
+      "rawSha256": "8ba75108bbb08b230a2da41814a8c9b27a3a6e825e24f2cd058349640e23817c",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260426100000_ex34a_project_archive_record_reversal_replacement"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260426113000_ex35a_business_number_generation.ts",
+      "bytes": 9124,
+      "rawSha256": "ff284c4066a1c6ff5bc180b562f1dfce3f61acc3e89b975a80aef0dee9063803",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260426113000_ex35a_business_number_generation"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260429100000_ex41a_project_owner_reassignment_record.ts",
+      "bytes": 3710,
+      "rawSha256": "147ac2d3039c48a86102c674d8c1d80cf79372c2544ffc9eab3ea4c32b93d34e",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260429100000_ex41a_project_owner_reassignment_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260429140000_ex42_customer_master_data.ts",
+      "bytes": 12833,
+      "rawSha256": "a5cc60cd7780371de061c1812d65cda29c7598b56bb69c5c667f07565112df84",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260429140000_ex42_customer_master_data"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430100000_ex43_lead_source_and_profile_enrichment.ts",
+      "bytes": 8248,
+      "rawSha256": "4fd3c1f2efe20dafcefe898fb80f125a826cc4955a05a33047da8a57d74a5632",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260430100000_ex43_lead_source_and_profile_enrichment"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430120000_ex44_sales_follow_up_record.ts",
+      "bytes": 5594,
+      "rawSha256": "9c29fe492fa1a8480f44c0bfd3ca3038e4055247eb70bad4680f6ea53669e43e",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260430120000_ex44_sales_follow_up_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+      "bytes": 9005,
+      "rawSha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260430140000_ex45_attachment_evidence_repository"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430160000_ex46_lead_owner_assignment_record.ts",
+      "bytes": 4055,
+      "rawSha256": "4b8b40cf5bf76ff791eb8f5280f3d352199efd3d922a87c00baa8bf9a5e0bdf3",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260430160000_ex46_lead_owner_assignment_record"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430180000_ex47_lead_scoring_and_gate_explanation.ts",
+      "bytes": 4138,
+      "rawSha256": "f65f7088c89d82c74363ce5aa04fc06ee075ab336de2ab1ec6c3c2c1b6d9ca07",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260430180000_ex47_lead_scoring_and_gate_explanation"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501100000_ex48a_sales_follow_up_change_lifecycle.ts",
+      "bytes": 4701,
+      "rawSha256": "f5d49cde17b8475b39566491c3165992363ddb3774866aeac63c414ace07a6f9",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260501100000_ex48a_sales_follow_up_change_lifecycle"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501110000_ex56a_project_status_stage_checks.ts",
+      "bytes": 2597,
+      "rawSha256": "6a575cf69150509957530c2adbd1cbbeb2dc5f99561a5c5881706d02ff046f3e",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260501110000_ex56a_project_status_stage_checks"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501120000_ex56b_todo_approval_enum_checks.ts",
+      "bytes": 5173,
+      "rawSha256": "33365fac6d29c8f911a0b73fa224840ad31a8add7ad01d4d6ca0d79543a707ff",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260501120000_ex56b_todo_approval_enum_checks"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501160000_ex56c_crm_enum_checks.ts",
+      "bytes": 673,
+      "rawSha256": "26799693a14f61f5ea621ce4f78ac4a8f344310a4842c13b747ab908c5e17073",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260501160000_ex56c_crm_enum_checks"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501170000_ex56c_attachment_status_defaults.ts",
+      "bytes": 635,
+      "rawSha256": "cd91781afd3f08fde9654f6fd2b94307c2bf0e8c04cbaec789a621190b937ddb",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260501170000_ex56c_attachment_status_defaults"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260502100000_ex56d1_contract_finance_enum_checks.ts",
+      "bytes": 4863,
+      "rawSha256": "4a55fdf4c91de107c55c8076295ac5f3f5c9295d958b4d226878b3abbc558c38",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260502100000_ex56d1_contract_finance_enum_checks"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260502120000_ex56d2_project_cost_operating_enum_checks.ts",
+      "bytes": 28473,
+      "rawSha256": "51b76120a3fc144e3a24615d5d398ab6298f4c72da7877bf703bac3c91bccf2b",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260502120000_ex56d2_project_cost_operating_enum_checks"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260502133000_ex56d3_commission_enum_checks.ts",
+      "bytes": 11007,
+      "rawSha256": "3eab6a5069cf068d97696054e86ac39d11677f5c442f79eec8a4f8379ee04673",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260502133000_ex56d3_commission_enum_checks"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts",
+      "bytes": 39038,
+      "rawSha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260503160000_ex58b_enum_code_value_direct_cutover"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503170000_ex58c_configurable_dictionary_runtime.ts",
+      "bytes": 7672,
+      "rawSha256": "56afc4bb4c90ae6d2d8564a8bb5867cbaf54e5ccae4d604c5d246038ae4ce2f5",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260503170000_ex58c_configurable_dictionary_runtime"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+      "bytes": 25599,
+      "rawSha256": "c8642a90e9ecf622f1a2c80a8c6908e36ea19774a7ea4e605acf3e930f1947f1",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260504100000_ex61_sales_intelligence_discussion"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260504110000_ex62_customer_contact_gender.ts",
+      "bytes": 856,
+      "rawSha256": "c3414a36232692a4ea568e53699b16c49ea69761cd1ea21c88ac799960bb4034",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260504110000_ex62_customer_contact_gender"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+      "bytes": 2819,
+      "rawSha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260505100000_ex51_attachment_version_final_runtime"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+      "bytes": 13522,
+      "rawSha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260505113000_ex52a_attachment_handover_runtime"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260506100000_ex54a_lead_score_history_override.ts",
+      "bytes": 10719,
+      "rawSha256": "4bf313fd80784378ecace7d0fb9902a95a1705f870f50b0b7b617ea4c922be5c",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260506100000_ex54a_lead_score_history_override"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507130000_ex64b_identity_provider_config.ts",
+      "bytes": 3569,
+      "rawSha256": "bc75f9c308a3f47924a18932126230d4a8f9a8a4e476e2a18acec861c2db99cc",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260507130000_ex64b_identity_provider_config"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507143000_ex64c_external_identity_binding.ts",
+      "bytes": 5490,
+      "rawSha256": "47d9182f7a1fea3c9029e6acd2854187378886f115477006e8ec557a3779900e",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260507143000_ex64c_external_identity_binding"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507160000_ex64d_identity_provider_oauth_grant.ts",
+      "bytes": 5801,
+      "rawSha256": "8e7894a9557a16d68b6c948337baba33fb99cf0f78498c99a8e5cbc6509adc14",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260507160000_ex64d_identity_provider_oauth_grant"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507173000_ex64e_external_login_ticket.ts",
+      "bytes": 4618,
+      "rawSha256": "4904b98612863f32e77559fe33b84301bf894d1fe313030daafbcf827a63285d",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260507173000_ex64e_external_login_ticket"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511100000_ex64f_identity_provider_search_redirect_uri.ts",
+      "bytes": 863,
+      "rawSha256": "5e2969fca80600147c45a0838b715a5ec390e772f44b611a4d6465e9c0640f5f",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260511100000_ex64f_identity_provider_search_redirect_uri"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+      "bytes": 3697,
+      "rawSha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260511140000_ex65b_attachment_storage_provider_config"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+      "bytes": 8667,
+      "rawSha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260511160000_ex65d_attachment_upload_session"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260513100000_ex66b_auth_session.ts",
+      "bytes": 4503,
+      "rawSha256": "d468f42a3615ad2d298541f8d20c994de94d1e109d516ef0645d05aa0e5b423d",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260513100000_ex66b_auth_session"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260526100000_ex67a_system_setting.ts",
+      "bytes": 3558,
+      "rawSha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260526100000_ex67a_system_setting"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260529120000_ex70a_lead_source_dictionary_direct_cutover.ts",
+      "bytes": 7670,
+      "rawSha256": "e0b5204d1901e7492b3ec49c0f979a6eeb2da8f8c89e7073b2e6063323081002",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260529120000_ex70a_lead_source_dictionary_direct_cutover"
+      ],
+      "keyLineRanges": []
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260610120000_ex72b_external_org_sync_persistence.ts",
+      "bytes": 12441,
+      "rawSha256": "923ee191cd11a0777e5205ba5a59ee0f278bf68d14796c1b53e8914da8bbe2a0",
+      "utf8Bom": false,
+      "role": "protected-existing-migration-raw-file",
+      "keySymbols": [
+        "Migration20260610120000_ex72b_external_org_sync_persistence"
+      ],
+      "keyLineRanges": []
+    }
+  ]
+}

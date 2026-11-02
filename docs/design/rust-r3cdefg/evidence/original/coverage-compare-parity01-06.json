@@ -1,0 +1,97 @@
+{
+  "kind": "R3CDEFG-actual-full-coverage-body-comparison",
+  "createdAt": "2026-11-02T05:03:44.374Z",
+  "inputs": [
+    {
+      "file": "tmp/rust-r3cdefg/coverage-parity01-nest/report01.json",
+      "bytes": 4019586,
+      "rawBytesSha256": "fbad1d5fca53eacbd95624079a8662cf03c5ccef8c271822c8e0ab460a202aeb"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/coverage-parity04-rust/report01.json",
+      "bytes": 3950857,
+      "rawBytesSha256": "4aa1cbb5004a489d8be8dc25613f90d9708bb8cccbb66dbb08133066fd67202c"
+    }
+  ],
+  "events": 1124,
+  "compared": "Full status, route/method/label and JSON body; original raw bytes independently retained per exchange",
+  "normalizations": {
+    "UUIDs": "Bijective generated identities joined only by corresponding producer/request fields; uppercase spelling retained",
+    "timeFields": [
+      "generatedAt",
+      "voidedAt",
+      "createdAt",
+      "updatedAt",
+      "effectiveAt",
+      "completedAt",
+      "canceledAt",
+      "created_at",
+      "updated_at",
+      "effective_at",
+      "completed_at",
+      "canceled_at"
+    ],
+    "syntheticProjectNames": "Only the exact producer prefix R3CG coverage plus its run tag; other strings remain exact",
+    "controlledContactRace": "Only the proven race entity name/updatedBy follow its actual successful request; two waiters,one200/one500,rowVersion+1 and the one matching audit are checked before normalization",
+    "otherDatesNumbersStringsAndErrorIssueArrays": "Compared exactly"
+  },
+  "controlledContactRaceFacts": [
+    {
+      "source": "tmp/rust-r3cdefg/semantics-extra-parity01-nest/report01.json",
+      "id": "19e6c59c-4247-4aab-9c6c-27590e25f6d8",
+      "winner": {
+        "id": "19e6c59c-4247-4aab-9c6c-27590e25f6d8",
+        "customerId": "c5418705-9d5b-469b-9b31-a6a63bc38a76",
+        "customerName": "R3CG 52ce8997-1946-4472-8e9a-91aa72be7f57",
+        "name": "G1 left",
+        "gender": "unknown",
+        "department": null,
+        "title": null,
+        "workPhone": null,
+        "mobile": null,
+        "wechat": null,
+        "email": null,
+        "remark": null,
+        "status": "active",
+        "rowVersion": 2,
+        "createdAt": "2026-11-02T03:20:56.472Z",
+        "createdBy": "3b762639-e811-48b0-8d34-6baeb72533f2",
+        "updatedAt": "2026-11-02T03:20:56.505Z",
+        "updatedBy": "3b762639-e811-48b0-8d34-6baeb72533f2"
+      },
+      "auditRequestId": "612c27d8-da52-40d0-bdcd-22ffd60ff9ce",
+      "invariantsPassed": true
+    },
+    {
+      "source": "tmp/rust-r3cdefg/semantics-extra-parity04-rust/report01.json",
+      "id": "c9f09ca9-9755-4a80-a405-4f94a5c4fda9",
+      "winner": {
+        "createdAt": "2026-11-02T05:02:52.205Z",
+        "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+        "customerId": "4c78e765-089f-4462-bf2a-468910c7d664",
+        "customerName": "R3CG 6f67881f-0071-43ca-88cf-0c61ef75f8df",
+        "department": null,
+        "email": null,
+        "gender": "unknown",
+        "id": "c9f09ca9-9755-4a80-a405-4f94a5c4fda9",
+        "mobile": null,
+        "name": "G1 left",
+        "remark": null,
+        "rowVersion": 2,
+        "status": "active",
+        "title": null,
+        "updatedAt": "2026-11-02T05:02:52.237Z",
+        "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+        "wechat": null,
+        "workPhone": null
+      },
+      "auditRequestId": "2827fc8f-ca49-48c1-ab60-5a111b840da8",
+      "invariantsPassed": true
+    }
+  ],
+  "differences": [],
+  "differenceCount": 0,
+  "result": "Pass",
+  "G3Certified": false,
+  "G4Certified": false
+}

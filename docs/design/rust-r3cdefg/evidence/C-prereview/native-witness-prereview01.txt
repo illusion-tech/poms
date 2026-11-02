@@ -1,0 +1,90 @@
+# Native witness01 独立公开证据预审
+
+状态：**仅确认已记录Native语义及其证据边界；不签G1、不放行G2、无Rust/G3/G4验收结论。** 本份续接A/D静态预审，Root master及追加语义证据仍待齐。
+
+## 输入与绑定
+
+只读公开的tmp/rust-r3cdefg/native-witness01/**、当前collector源码和已审业务源码；未访问private、未执行任何build/test/lint/DB/HTTP/browser/fixture/runner/环境命令，未改产品/作者输入/Root工具。写入仅c-review。
+
+- report01.json：92,429 B；e875854de67773370edd55614af99edd791fff196a03c72eb69d5bf36750abd4。
+- 权威SQL抽取sql-order-safe02.json：197,442 B；278fdd3e3a29267e6e8ccf4749a1b80365f8f2ae7c6b1e9cf1d1251608aa8173。
+- runId：8335ed8a-f8ae-4874-a0e5-279189ceae14；base：0fced204c917a37b84a2ad50838e722e764b8f78；报告runtime pid4992/bootId/artifactSha是Root记录，本审查没有启动或查询进程。
+- 24个case文件与report内相应对象全部一致；24个唯一label均有完成时间和SQL条目。report所列5个源码输入映射到当前公开文件后原字节/hash均吻合。
+- safe02同runId并正确绑定report原hash。489条覆盖24label；按pid配对BEGIN/COMMIT/ROLLBACK可得37个闭合事务（25 COMMIT、12 ROLLBACK），所捕获区间无未配对frame。
+- “24 completed”表示采集完成，不能写为24Pass。report自带G1/G3/G4均false，cleanup仍Pending-owned-witness-terminal；上述frame闭合不是整个run零残留证明。
+
+机器复核结果见native-witness-prereview-static-receipt01.json；索引均指safe02.entries的一基序号。
+
+## 必须写入G1的现行行为
+
+### N-F01：同owner/target替换时旧Todo最终completed
+
+这是与D静态T10“旧提醒canceled”预期不符的真实观测，应分类为existing-baseline-drift并明确原行为。
+
+case20的Todo c5648dd6-ab59-4a2a-a979-fefe83767e84，sourceId=271fe6da-8016-4a97-88ac-92dbf4317db3，为open/rowVersion1。case21同ID变为**completed/rowVersion2**，completedAt=2026-11-02T02:36:55.402Z。新的follow-up f7d2858c-48fb-4a59-8128-0d3969a8db33对应新Todo为open。
+
+safe02的386/387/388是三次Todo SELECT，均早于389 BEGIN；390插入新Todo，391插入新follow-up，392更新session，393才更新旧Todo，394更新旧follow-up，395 COMMIT。结合sales-follow-up.repository.ts:104–113,183–215可推断：cancel先改managed对象为canceled但未落库；随后stream查询仍按DB的旧open状态命中同一行，循环将同一managed对象覆盖为completed。**最终completed是快照证实的事实；该identity-map原因是结合源码与SQL次序的解释。**
+
+Rust若先把cancel落库、再查stream，会把此分支变成canceled；这会改变现Native。Root须追加或显式标注同/不同/null owner、无next、processing及多owner旧source等变体，不能从这一组推导所有分支最终均completed或均canceled。
+
+### N-F02：成本/竞标/报价普通第二版本全部500
+
+case02/04/06均返回 {statusCode:500,message:"Internal server error"}，after仅一条V1。逐字段比较，原before与唯一after完全相同：version1/is_current=true/status=effective/row_version1。
+
+- 成本：safe02 24 BEGIN →25 INSERT新package尝试 →26 ROLLBACK。
+- 竞标：47 BEGIN →48 INSERT新process尝试 →49 ROLLBACK。
+- 报价：73 BEGIN →74 INSERT新review尝试 →75 ROLLBACK。
+
+三者均未执行旧parent UPDATE。因此persist数组append旧对象不等于先更新旧对象。不能通过Rust预先改旧current修成成功，也不能给原请求新增expectedVersion或把500统一转409。本片只迁移原契约，未承诺修Native版本替代缺陷。
+
+partial-current unique是Root已报告的错误归因，也与原DDL和已观察次序一致；**safe02自身没有ERROR/SQLSTATE/constraint字段，公开材料不足以独立确认具体失败约束名**，Root master应补脱参错误分类回执或明确绑定其受控见证来源。
+
+A15/A29/A30/B-VERSION-02、UI edit/history等需按实际结果冻结：普通第二次POST是500/V1保留，不能仍用成功V2/V3断言。历史superseded读取可使用合法受控历史事实另测，但须保留prepared来源标签，不能冒充真实HTTP版本替代producer成功。
+
+### N-F03：follow-up业务与后置audit分段提交
+
+case21 replace200，新记录active/version1，旧记录superseded/version2，双向ID正确。safe02 389–395业务事务包含新Todo/新follow-up/session/旧Todo/旧follow-up；396–398另起audit事务并提交。
+
+case22的返回HTTP属于void失败请求。426–430事务先更新Todo、session、原follow-up并COMMIT；431–433另起audit INSERT后ROLLBACK。快照原记录active/v1→voided/v2，Todo canceled/v2，actualAudits=0，session12→14，HTTP500。不能把audit失败时已经提交的业务改成全量rollback；也不能把此500视为业务未发生。case22前段410–414是该case内部准备源follow-up的事务，不能与void本身混算。
+
+### N-F04：失败点早于业务写入时，结论要保留精确边界
+
+case17 audit拒绝为324 BEGIN→SELECT contact/customer→327 INSERT audit尝试→328 ROLLBACK；没有contact UPDATE。contact before/after完全相同、session7→8，支持“audit插入被拒绝，contact未写入”，不应写为“已更新contact被回滚”。
+
+case16 email长度263，HTTP500；312–317为同事务INSERT audit→UPDATE contact→ROLLBACK，contact前后相同。它补充了contact更新失败时audit/业务的原事务次序；公开case仍没有实际audit行计数，若声明精确零audit需补计数。
+
+case23 Todo插入拒绝：446 BEGIN→447 INSERT Todo尝试→448 ROLLBACK；尚未INSERT follow-up。after record0/todo0、session14→15已证实，但不是“已插入record被回滚”的实测。
+
+相对地，成本case11在同事务尝试package→cost item→risk item→被拒scope item后ROLLBACK；竞标case12是process→timeline→被拒material后ROLLBACK。SQL次序与persist输入数组顺序不同。公开报告的业务parent为空；精确child表残留若用于验收计数，仍应补同源表快照/计数。
+
+### N-F05：DTO/controller/DB及数字分层差异保持
+
+- case15输入female，响应及PG gender均unknown，确认controller投影丢弃语义。
+- case24 inactive customer下contact POST201，follow-up create400；不能统一复用active gate。
+- case09输入9007199254740993.00，POST返回9007199254740992.00，确认binary64金额损失的现行行为；case10输入9999999999999999.99，HTTP500且parent0。
+- case08 0.10+0.20→总额0.30；GET quantity=1.2000/unitPrice=0.1000，nullable字段保持null。
+- case05 pricing税率POST为0.13，case07工作区GET为0.13000000。不能统一重format immediate与DB read响应。
+- case19新建无next仍完成旧stream提醒而不创建新Todo；业务旧follow-up不因此自动supersede。
+
+这些属于现Native兼容面，不因Rust实现方便而改十进制算法、DTO精度、额外active校验或字段转发。
+
+## SQL抽取与证据限度
+
+safe01保留443 B但entries为空；Root修正原因是最初只捕获stdout。safe02记录stdout830 B、stderr231,514 B的原件hash并追加提取，原报告及safe01未改。公开extract-native-sql.mjs只捕获日志/提取形状，没有产品HTTP调用；本审查没有读取那两份private日志。Root master必须显式pin safe02及extractor，不能只沿report.SQLOrder继续引用空safe01。
+
+safe02按app role/database过滤，发布operation/table/pid/tx/时间/hash，不带SQL参数。它记录的是**statement attempt**；日志首条写语句tx=0是执行前prefix，不能据此认定无事务，须按同pid的BEGIN/终结配对。跨pid同毫秒顺序是采集排序，不是额外串行化保证。
+
+HttpSession当前仅保留结构化status/body/requestId，没有原wire raw字节；可作为本次Native语义观察，不能冒称原始HTTP字节比较已经完成。per-case PG rows使用to_jsonb经Node JSON解码，不能替代numeric::text的精确尺度/大数快照。完整107表raw text snapshot在Root私有证据中，本审查未读取或认证。
+
+## 待追加/待主包明确的覆盖
+
+Root应按是否影响G1语义选择分为G1前裁决与G3实际验收；不能要求未来Rust先验收才可G1，也不能将未知项改为通过。
+
+- 追加脱参SQLSTATE/constraint分类，明确各500原因与普通Nest400/404/409的区分。
+- 按Root既定补例补list/workspace pending-session、无变化contact PATCH、UUID原拼写和pricing各引用分支；三个普通workspace读成功且无敏感权限的观测不能覆盖全部GET/guard/parser错误顺序。
+- 尤其补N-F01的替换提醒分支及replace后置audit失败。F并发CAS/多source stream竞争、旧current CAS与异常掩盖顺序仍未由本24组覆盖；不能从正常hasVersionPredicate布尔字段推导所有loser协议。
+- 缺少本片逐schema的Unicode/lone-surrogate/datetime/safeint/长自定义dictionary等实测与精确numeric::text。已有静态矩阵保留not-run并由主包分配，不补强DTO。
+- G3还需真实Rust第一版producer→pricing、follow-up→Todo公开消费者、原平台UI四组合、相应故障/并发、精确候选及全部owned终态。版本替代失败的原UI反馈要照实验收，受控历史数据单独标来源。
+- 54ignored/schema/TZ/隔离例外保持原标签；Native witness01的cleanup目前仍Pending。本轮不输出G1/G3/G4 Pass或父项完成判断。
+
+本轮最重要的冻结增量是**普通版本替代500/V1保留、同owner/target替换旧Todo completed、F后置audit失败仍有已提交业务，以及各故障点的精确先后**。

@@ -1,0 +1,151 @@
+{
+  "label": "extra-bid-workspace-pending-session",
+  "startedAt": "2026-11-02T05:57:51.239Z",
+  "completedAt": "2026-11-02T05:57:51.261Z",
+  "HTTP": {
+    "status": 200,
+    "body": {
+      "allowedActions": [
+        "view-bid-commercial-workspace",
+        "create-bid-commercial-process"
+      ],
+      "blockingReasons": [
+        "G1 first material label：材料仍在处理中"
+      ],
+      "currentProcess": {
+        "bidMode": "public-tender",
+        "bidPackageNo": "G1 first package",
+        "blockerCount": 1,
+        "createdAt": "2026-11-02T05:57:38.501Z",
+        "createdBy": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+        "currentStage": "preparation",
+        "decision": "participate",
+        "decisionSummary": "G1 first decision",
+        "effectiveAt": "2026-11-02T05:57:38.501Z",
+        "id": "99996afe-243e-4e11-8e0f-83393d000228",
+        "isCurrent": true,
+        "ownerRole": "G1 first owner",
+        "processSummary": "G1 first process",
+        "projectId": "d87ad37f-cee8-47ce-a8f3-b5e1c3000adc",
+        "resultStatus": "pending",
+        "resultSummary": null,
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "tenderNo": "G1 first tender",
+        "updatedAt": "2026-11-02T05:57:38.501Z",
+        "updatedBy": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+        "version": 1
+      },
+      "currentStage": "assessment",
+      "generatedAt": "2026-11-02T05:57:51.257Z",
+      "materialItems": [
+        {
+          "blocksNextStep": true,
+          "dueAt": "2026-11-03T08:00:00.123Z",
+          "id": "56346b1b-7edb-4790-8d90-9af705f8bbaf",
+          "label": "G1 first material label",
+          "materialKey": "G1 first material",
+          "materialStatus": "in-progress",
+          "navigationHint": "/projects/current/workspace/bid-commercial",
+          "processId": "99996afe-243e-4e11-8e0f-83393d000228",
+          "responsibleRole": "G1 first material owner",
+          "sortOrder": 1
+        },
+        {
+          "blocksNextStep": false,
+          "dueAt": null,
+          "id": "c7c910f7-6288-4199-821b-59e362895141",
+          "label": "G1 first ready material label",
+          "materialKey": "G1 first ready material",
+          "materialStatus": "ready",
+          "navigationHint": null,
+          "processId": "99996afe-243e-4e11-8e0f-83393d000228",
+          "responsibleRole": null,
+          "sortOrder": 2
+        }
+      ],
+      "nextStep": "先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。",
+      "ownerLabel": "R3CG admin / R3CG admin",
+      "projectId": "d87ad37f-cee8-47ce-a8f3-b5e1c3000adc",
+      "status": "active",
+      "timelineItems": [
+        {
+          "dueAt": "2026-11-02T03:00:00.000Z",
+          "eventKey": "G1 first completed event",
+          "id": "0d34d624-8e20-47c0-ab43-27fd9915ed7a",
+          "label": "G1 first completed event label",
+          "occurredAt": "2026-11-02T02:00:00.456Z",
+          "processId": "99996afe-243e-4e11-8e0f-83393d000228",
+          "responsibleRole": "G1 first event owner",
+          "sortOrder": 1,
+          "summary": "G1 first completed event summary",
+          "timelineStatus": "done"
+        },
+        {
+          "dueAt": "2026-11-04T08:00:00.000Z",
+          "eventKey": "G1 first pending event",
+          "id": "c700cfb7-9d42-4340-b4b1-f594ccb7c5f2",
+          "label": "G1 first pending event label",
+          "occurredAt": null,
+          "processId": "99996afe-243e-4e11-8e0f-83393d000228",
+          "responsibleRole": null,
+          "sortOrder": 2,
+          "summary": null,
+          "timelineStatus": "pending"
+        }
+      ]
+    },
+    "requestId": "598f4b90-f636-40c8-864e-65e34fd3ffba",
+    "headers": [
+      "content-type",
+      "application/json; charset=utf-8",
+      "content-length",
+      "2540",
+      "access-control-allow-origin",
+      "http://127.0.0.1:12300",
+      "vary",
+      "Origin",
+      "access-control-allow-credentials",
+      "true",
+      "x-request-id",
+      "r1a-108420-53",
+      "connection",
+      "close",
+      "date",
+      "Mon, 02 Nov 2026 05:57:51 GMT"
+    ],
+    "rawWire": {
+      "requestBytes": 354,
+      "requestSha256": "94931c3d1af58f3b81a08e47bdd8a114e23cc3130439cca855f5786affbfe27e",
+      "responseBytes": 2820,
+      "responseSha256": "4ecbeeafc4e6077884233bb3d529bd916cdb124ea92b030c381e38475d4c66d5",
+      "entityBodyBytes": 2540,
+      "entityBodySha256": "c86be846569f910cee441cbd75667b03df8f739defe672d2b6af6baf9348a4ab",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-2c9cb945-ae05-45c0-8e88-1a4bac0abe96/extra02/raw-wire/admin-598f4b90-f636-40c8-864e-65e34fd3ffba",
+      "originalRawRetained": true
+    }
+  },
+  "sessionBefore": [
+    {
+      "id": "941c11ba-bfd4-4e0d-ad26-8e3152b32559",
+      "user_id": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+      "row_version": 18,
+      "last_seen_at": "2026-11-02T05:56:50.240Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T06:12:51.225Z",
+      "updated_at": "2026-11-02T05:57:51.225Z"
+    }
+  ],
+  "sessionAfter": [
+    {
+      "id": "941c11ba-bfd4-4e0d-ad26-8e3152b32559",
+      "user_id": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+      "row_version": 19,
+      "last_seen_at": "2026-11-02T05:57:51.244Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T06:12:51.244Z",
+      "updated_at": "2026-11-02T05:57:51.244Z"
+    }
+  ]
+}

@@ -1,0 +1,1447 @@
+{
+  "kind": "R3D-static-G1-input-acceptance-matrix",
+  "state": "Pending-root-joint-G1-and-independent-Pass",
+  "issue": 89,
+  "issueState": "Real-ID-provided-by-Root-author-did-not-access-GitHub",
+  "checkout": "E:/projects/worktrees/poms-r3cdefg-next16/poms",
+  "branch": "codex/poms-r3cdefg-next16",
+  "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "authorScope": "apps/poms-api-rust/src/project_bid_commercial/** after authorization",
+  "writtenScope": "tmp/rust-r3cdefg/b-input/**",
+  "executionPolicy": "Static reads and hashes only for this author. Root performs original Native witnesses, SQL/HTTP/concurrency/rollback/UI and all commands.",
+  "expectedStatusRule": "All numbers are source expectations, never actual Native/Rust results.",
+  "sourceAuthorities": [
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "symbols": [
+        "listProjectBidCommercialProcesses",
+        "createProjectBidCommercialProcess",
+        "getProjectBidCommercialWorkspace",
+        "mapProjectBidCommercialProcessToSummary"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.ts",
+      "symbols": [
+        "createProjectBidCommercialProcess",
+        "assertBidCommercialPathConsistent",
+        "countBidCommercialBlockers",
+        "assertPricingMarginReferencesConsistent"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-query.service.ts",
+      "symbols": [
+        "listProjectBidCommercialProcesses",
+        "getProjectBidCommercialWorkspace",
+        "mapProjectBidCommercialProcess",
+        "buildBidCommercialAllowedActions",
+        "buildBidCommercialBlockingReasons",
+        "buildBidCommercialNextStep"
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "symbols": [
+        "findProjectBidCommercialProcessesByProjectId",
+        "findCurrentProjectBidCommercialProcessByProjectId",
+        "findProjectBidCommercialProcessById",
+        "saveProjectBidCommercialProcess"
+      ]
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "symbols": [
+        "ProjectBidCommercialMaterialItemInputSchema",
+        "ProjectBidCommercialTimelineItemInputSchema",
+        "CreateProjectBidCommercialProcessRequestSchema",
+        "ProjectBidCommercialProcessSummarySchema",
+        "ProjectBidCommercialWorkspaceViewSchema"
+      ]
+    }
+  ],
+  "requiredEvidencePerRuntimeCase": [
+    "exact source/candidate SHA",
+    "raw request and original Native response",
+    "raw Rust response compared with Native where applicable",
+    "isolated persistence before/after",
+    "actual status/body classification",
+    "case outcome and retained evidence path/rawSHA256"
+  ],
+  "unprovenCriticalFacts": [
+    "normal second-version success and SQL flush ordering",
+    "implicit transaction/autoflush and original CAS/unique conflict status",
+    "session raw touch versus later managed flush order and rollback",
+    "concurrent first/replacement writes",
+    "parent/child/oldparent/session fault residuals",
+    "original UI and real downstream pricing producer-consumer"
+  ],
+  "caseCount": 86,
+  "cases": [
+    {
+      "id": "B-ROUTE-01",
+      "group": "route",
+      "scenario": "Original three operations, canonical/current routes and OpenAPI response shapes",
+      "staticAssertions": [
+        "Three operations only; list/workspace 200 and POST 201 are source expectations.",
+        "No generated public spec/client/DTO/shared enum mutation; preserve full Native 237/291/585 and 579 generated client files."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROUTE-02",
+      "group": "route",
+      "scenario": "HEAD, method mismatch, route case, single trailing slash and unknown query",
+      "staticAssertions": [
+        "Match original Express actual routing/body/status/Allow semantics; no router rewrite assumption.",
+        "Unknown query fields do not enter domain methods."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "expectedStatus": "Pending-native",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROUTE-03",
+      "group": "route",
+      "scenario": "Malformed percent encoding, encoded slash, invalid UTF8, empty/oversize path and invalid UUID",
+      "staticAssertions": [
+        "Plain @Param string: no introduced ParseUUIDPipe/DTO UUID400.",
+        "Capture path-decode versus session/CSRF/permission versus PostgreSQL error precedence and exact response."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "expectedStatus": "Pending-native",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROUTE-04",
+      "group": "route",
+      "scenario": "Valid absent UUID, nil UUID, mixed-case valid UUID and UUID forms accepted by PostgreSQL",
+      "staticAssertions": [
+        "Absent valid project returns source404 Project {projectId} not found.",
+        "Preserve original DB parameter behavior and canonical DB id output; no new path UUID grammar."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-01",
+      "group": "guard",
+      "scenario": "No session + valid/invalid body",
+      "staticAssertions": [
+        "Session guard precedes DTO and permission; original401 authentication body; missing token does not fabricate invalid-session security event.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-02",
+      "group": "guard",
+      "scenario": "Revoked/expired/disabled-user session",
+      "staticAssertions": [
+        "Original401 code plus original expire/revoke state and auth.session.invalid security event; safe/unsafe route comparison.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-03",
+      "group": "guard",
+      "scenario": "POST missing CSRF header/cookie, mismatch or invalid session-bound token",
+      "staticAssertions": [
+        "Original403 csrf_failed and auth.csrf.failed event with original reason; before missing write permission and DTO.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-04",
+      "group": "guard",
+      "scenario": "GET with missing CSRF and project:read",
+      "staticAssertions": [
+        "GET bypasses CSRF; source200 when project exists.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-05",
+      "group": "guard",
+      "scenario": "Read-only actor POST with valid CSRF",
+      "staticAssertions": [
+        "Original403 permission_denied and authz.permission.denied event; parent/children unchanged.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-06",
+      "group": "guard",
+      "scenario": "Write-only actor POST with valid CSRF",
+      "staticAssertions": [
+        "project:write is sufficient for POST; do not add project:read/finance/owner permission.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-07",
+      "group": "guard",
+      "scenario": "Write-only/no-project:read actor list/workspace",
+      "staticAssertions": [
+        "Read routes require project:read; original403 and security event.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-08",
+      "group": "guard",
+      "scenario": "Foreign owner/org actor with proper operation permission",
+      "staticAssertions": [
+        "No owner/org scope restriction; original access retained.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-09",
+      "group": "guard",
+      "scenario": "Session touch due and not due on successful read, DTO400, project404 and path400",
+      "staticAssertions": [
+        "Capture original auth_session last_seen/row_version/updated_at; no new business audit.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-10",
+      "group": "guard",
+      "scenario": "CSRF and permission security-event persistence failures",
+      "staticAssertions": [
+        "Capture original error response and session/audit persistence boundaries; no business DML.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-GUARD-11",
+      "group": "guard",
+      "scenario": "Invalid JSON and content types with invalid session/CSRF/permission",
+      "staticAssertions": [
+        "Capture actual parser/guard precedence, duplicate object keys and malformed JSON error shape.",
+        "Use real HTTP plus public guard/session/audit snapshots, without reading private journals."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-SENSITIVE-01",
+      "group": "sensitive",
+      "scenario": "project:read actor without finance/sensitive permissions reads every process summary/child",
+      "staticAssertions": [
+        "Original unmasked plain text and null shape; no projection metadata or new redaction.",
+        "Do not expose unrelated project finance/customer/approval payloads."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-AUDIT-01",
+      "group": "audit",
+      "scenario": "Successful POST/read and domain or DTO failures",
+      "staticAssertions": [
+        "No new project.bid business AuditLog or projection audit is emitted by these methods.",
+        "Only original public guard/security and session behavior may change; capture event counts/order."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-01",
+      "group": "dto",
+      "scenario": "Body missing/null/array/scalar and valid empty object",
+      "staticAssertions": [
+        "Root-level z.object errors must match original status400 issue paths/order/message; no coercion."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "expectedStatusSource": 400,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-02",
+      "group": "dto",
+      "scenario": "Each required enum/processSummary omitted, null and wrong primitive/container type",
+      "staticAssertions": [
+        "bidMode,currentStage,decision,resultStatus,processSummary are required.",
+        "All original issue paths/order/enum allowed-values copied from actual DTO result."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "expectedStatusSource": 400,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-03",
+      "group": "dto",
+      "scenario": "All top-level enum members and invalid case/whitespace/numeric variants",
+      "staticAssertions": [
+        "Enums are exact strings with no trim/default/coercion.",
+        "Apply only the three original cross-field path rules after DTO parsing."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-04",
+      "group": "dto",
+      "scenario": "processSummary trim, blank, min1/max2000 and boundary overflow",
+      "staticAssertions": [
+        "Only original JS trim/character metric; non-string is invalid; whitespace-only rejects.",
+        "Include BMP, astral, combining sequence, NBSP, BOM and zero-width-space variants."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-05",
+      "group": "dto",
+      "scenario": "Every optional nullable string missing/null/valid/empty/blank/type and length boundary",
+      "staticAssertions": [
+        "decisionSummary/resultSummary1..1000; tenderNo/bidPackageNo/ownerRole1..128 after trim.",
+        "missing/null yield null in POST and later GET; blank string rejects rather than null."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-06",
+      "group": "dto",
+      "scenario": "Top-level unknown/server-owned fields",
+      "staticAssertions": [
+        "id/projectId/version/isCurrent/status/supersedesId/effectiveAt/createdAt/createdBy/updatedAt/updatedBy/rowVersion/expectedVersion and arbitrary unknown keys strip.",
+        "No client field can overwrite server ownership or introduce expectedVersion semantics."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-07",
+      "group": "dto",
+      "scenario": "Omitted arrays versus [] and explicit null/object/string arrays",
+      "staticAssertions": [
+        "materialItems/timelineItems missing default[]; [] valid.",
+        "Explicit null and non-array invalid; no maximum/minimum item count added."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-08",
+      "group": "dto",
+      "scenario": "Child null/scalar/array elements, required fields missing/null/wrong type",
+      "staticAssertions": [
+        "Nested z.object issue paths include array indices.",
+        "Material materialKey/label/materialStatus required; timeline eventKey/label/timelineStatus required."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-09",
+      "group": "dto",
+      "scenario": "Material key/label lengths and statuses",
+      "staticAssertions": [
+        "materialKey trim1..128, label trim1..255; exact missing/in-progress/ready/not-required enums."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-10",
+      "group": "dto",
+      "scenario": "Timeline key/label/summary lengths and statuses",
+      "staticAssertions": [
+        "eventKey trim1..128, label trim1..255; summary optional nullable trim1..1000.",
+        "Exact pending/done/cancelled enum; no stage or due-date coherence rule."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-11",
+      "group": "dto",
+      "scenario": "Child optional nullable role/navigation fields",
+      "staticAssertions": [
+        "responsibleRole trim1..128, navigationHint trim1..255; missing/null persist and output null.",
+        "navigationHint is plain text; do not add URL/route sanitization or whitelist."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-12",
+      "group": "dto",
+      "scenario": "blocksNextStep omitted,false,true,null,0,'true'",
+      "staticAssertions": [
+        "Omitted material flag defaults false in service; boolean values preserved.",
+        "Null/numeric/string reject; no coerce."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-13",
+      "group": "dto",
+      "scenario": "sortOrder omitted,0,repeated,unordered,-1,1.5,null,string",
+      "staticAssertions": [
+        "Missing defaults input index+1,0 preserves; repeated/unsorted values permitted.",
+        "Negative/noninteger/null/string reject at DTO; no sort-contiguity/uniqueness."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-14",
+      "group": "dto",
+      "scenario": "sortOrder Zod safe integers and PostgreSQL signed-int32 boundary",
+      "staticAssertions": [
+        "Capture 2147483647/2147483648 and MAX_SAFE_INTEGER/overflow behavior separately.",
+        "Do not introduce int32 DTO rejection; DB failure status/transaction behavior from Native."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "expectedStatus": "Pending-native-by-variant",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-15",
+      "group": "dto",
+      "scenario": "Unknown nested id/processId and arbitrary fields",
+      "staticAssertions": [
+        "Nested z.object strips unknown fields without passing extra persistence data.",
+        "Children always bind to server-generated new parent."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-16",
+      "group": "dto",
+      "scenario": "Duplicate materialKey/eventKey and duplicate sortOrder",
+      "staticAssertions": [
+        "No DTO/DB unique constraint on these child values.",
+        "Preserve original accepted data and query ordering only processId/sortOrder, without invented tie-breaker."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-17",
+      "group": "dto",
+      "scenario": "Datetime missing/null/valid Z/fractions and invalid leap-day/offset/case/no-seconds",
+      "staticAssertions": [
+        "Original z.iso.datetime() accepts/rejects before service.",
+        "Accepted strings pass new Date, output JS toISOString millisecond precision; no wider RFC3339 parser."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-18",
+      "group": "dto",
+      "scenario": "Lone surrogates, astral boundaries, combining text and Unicode whitespace in parent/children",
+      "staticAssertions": [
+        "Original request/POST UTF16 spelling versus stored/GET replacement kept distinct.",
+        "No Unicode normalization, UTF8 byte count or Rust default trim; compare exact JSON strings/validation issues."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-19",
+      "group": "dto",
+      "scenario": "NUL and PostgreSQL-invalid text in parent/child",
+      "staticAssertions": [
+        "Capture original accepted DTO then DB failure; no new string ban before persistence.",
+        "Compare parent/children/current/session rollback."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DTO-20",
+      "group": "dto",
+      "scenario": "Server-owned UUIDs and nullable response fields",
+      "staticAssertions": [
+        "POST UUID parent/randomUUID and child ORM defaults; no deterministic/new external number.",
+        "All23 process summary fields and nullable fields present; output times use original ISO format."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PROJECT-01",
+      "group": "project",
+      "scenario": "Missing project",
+      "staticAssertions": [
+        "Project lookup before current-process or child writes; source404 exact message."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "expectedStatusSource": 404,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PROJECT-02",
+      "group": "project",
+      "scenario": "All4 presigning stages × all6 project statuses",
+      "staticAssertions": [
+        "POST rejects statusclosed only, when stage allowed; other5 statuses have no extra gate.",
+        "allowedActions uses same write permission + !isClosedProject +4stages; record no new active/blocked-only gate."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PROJECT-03",
+      "group": "project",
+      "scenario": "All6 non-presigning project stages × statuses",
+      "staticAssertions": [
+        "POST source400 stage message; workspace/list still read existing history.",
+        "Process currentStageclosed is independent of project stage and not itself a POST blocker."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PROJECT-04",
+      "group": "project",
+      "scenario": "No owner, unknown/inactive owner or missing org row",
+      "staticAssertions": [
+        "No owner/active-user/customer prerequisite introduced into process create.",
+        "Workspace owner lookup fallback follows original nullish/truthy behavior."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PATH-01",
+      "group": "path",
+      "scenario": "not-required mode correct decision/result across all legal process stages",
+      "staticAssertions": [
+        "decisionnot-required and resultnot-applicable pass; materials/timeline may still exist.",
+        "No extra requirement to set process stageclosed."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PATH-02",
+      "group": "path",
+      "scenario": "not-required mode with each invalid decision or result",
+      "staticAssertions": [
+        "Source400 first error: not-required bidMode must use not-required decision and not-applicable resultStatus.",
+        "No current-process read or parent/child DML."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "expectedStatusSource": 400,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PATH-03",
+      "group": "path",
+      "scenario": "Other6 modes + decisionnot-required",
+      "staticAssertions": [
+        "Source400: not-required decision requires not-required bidMode.",
+        "This branch precedes invalid resultnot-applicable branch."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "expectedStatusSource": 400,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PATH-04",
+      "group": "path",
+      "scenario": "Other6 modes + resultnot-applicable without invalid decision",
+      "staticAssertions": [
+        "Source400: not-applicable resultStatus requires not-required bidMode."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "expectedStatusSource": 400,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-PATH-05",
+      "group": "path",
+      "scenario": "Valid combinations pending/no-bid/participate with pending/won/lost/cancelled result",
+      "staticAssertions": [
+        "Do not add decision/result/stage coherence validation or require winning result.",
+        "Negative/pending facts create versions and surface blockers."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-BLOCK-01",
+      "group": "blocker",
+      "scenario": "Material status×blocksNextStep truth table",
+      "staticAssertions": [
+        "Count one iff flagtrue and statusmissing/in-progress.",
+        "Ready/not-required never material-block even with flagtrue; timeline has no blocker role."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-BLOCK-02",
+      "group": "blocker",
+      "scenario": "Decision and result blocker combinations",
+      "staticAssertions": [
+        "pending/no-bid adds1; participate/not-required adds0; lost/cancelled adds1.",
+        "blockerCount equals material+decision+result without deduplication."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-BLOCK-03",
+      "group": "blocker",
+      "scenario": "Workspace blocker message order and exact Chinese wording",
+      "staticAssertions": [
+        "decision pending or no-bid, then negative result, then sorted child materials.",
+        "Missing material uses材料缺失; in-progress uses材料仍在处理中; preserve labels and duplicates."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-BLOCK-04",
+      "group": "blocker",
+      "scenario": "All nextStep precedence branches",
+      "staticAssertions": [
+        "Any blockingReason wins; otherwise not-required→direct-commercial→won→generic.",
+        "Exact original Chinese strings, no state transitions or quote commands."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-01",
+      "group": "version",
+      "scenario": "First creation with no current/history",
+      "staticAssertions": [
+        "source201; version1,isCurrenttrue,supersedesIdnull,statuseffective; server timestamps/actor fields/rowVersion.",
+        "Check real parent, both child tables and project unchanged."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "expectedStatusSource": 201,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-02",
+      "group": "version",
+      "scenario": "Sequential replacement with existing current + children",
+      "staticAssertions": [
+        "Capture Native flush SQL statement order first; do not assume source mock proves success.",
+        "If Native succeeds: new version old+1/supersedesold; old isCurrentfalse/statussuperseded/updatedBy actor and ORM rowVersion; old children immutable; new child IDs independent.",
+        "If Native fails: preserve exact original failure and no enhancement."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "expectedStatus": "Pending-native-normal-replacement",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-03",
+      "group": "version",
+      "scenario": "No current effective but history version1 present",
+      "staticAssertions": [
+        "Source chooses version1 rather than MAX+1; capture actual unique conflict and rollback.",
+        "No legacy-data repair or current reconstruction."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-04",
+      "group": "version",
+      "scenario": "isCurrenttrue/statussuperseded row; isCurrentfalse/statuseffective row",
+      "staticAssertions": [
+        "Current query requires bothtrue and effective; partial unique only uses isCurrent.",
+        "Capture absent-current view and create unique behavior; no predicate weakening."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-05",
+      "group": "version",
+      "scenario": "List sort and all-history inclusion",
+      "staticAssertions": [
+        "Only projectId filter; ORDER BY versionDESC,effectiveAtDESC,createdAtDESC.",
+        "Keep superseded and any persisted status in raw mapper; no current-only list."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-06",
+      "group": "version",
+      "scenario": "Effective-current selection with controlled inconsistent imported data",
+      "staticAssertions": [
+        "Match all3 predicates and all3 ordering columns; no greatest-version approximation.",
+        "No locks, retries or healing query."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-07",
+      "group": "version",
+      "scenario": "Parent and child timestamp/UUID/rowVersion output",
+      "staticAssertions": [
+        "Distinguish effectiveAt newDate from createdAt/updatedAt ORM onCreate/default timestamps.",
+        "Capture JS millisecond rounding, old update time/version and null actor handling; avoid deriving source actual from column defaults alone."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-VERSION-08",
+      "group": "version",
+      "scenario": "Post succeeds but reread/response projection fails",
+      "staticAssertions": [
+        "Capture actual business commit/response status split; do not claim rollback of a completed flush.",
+        "Original store UI reports post-refresh errors distinctly through feedback."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-RACE-01",
+      "group": "concurrency",
+      "scenario": "Two first creates held after current lookup",
+      "staticAssertions": [
+        "Record each HTTP status/body and SQLSTATE; one/more resulting rows according to actual Native unique behavior.",
+        "No silent retry/serialization/increased isolation; verify current/version uniqueness and child consistency."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "schedule": "Root controlled barrier before persist.flush; independent connections",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-RACE-02",
+      "group": "concurrency",
+      "scenario": "Two replacements observing same old current/version",
+      "staticAssertions": [
+        "Capture partial-unique/version-unique/optimistic-CAS winner/loser classification and row versions.",
+        "Only actual Native effects govern Rust; verify no orphan children or torn current chain."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "schedule": "Root controlled barrier after original current read",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-RACE-03",
+      "group": "concurrency",
+      "scenario": "External old-process rowVersion update during held replacement",
+      "staticAssertions": [
+        "Observe MikroORM .version() compare-and-set and exact HTTP error.",
+        "No client expectedVersion or invented409; check old state/new child/session after failure."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "schedule": "Root updates only isolated fixture row using approved fault harness",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-RACE-04",
+      "group": "concurrency",
+      "scenario": "Project changes status/stage after service preflight",
+      "staticAssertions": [
+        "Native has no explicit project lock/recheck in this method; witness actual statement boundaries.",
+        "Do not add stronger project CAS/status validation."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROLLBACK-01",
+      "group": "rollback",
+      "scenario": "Parent INSERT fault or unique/FK failure",
+      "staticAssertions": [
+        "Before/after parent/current/history/material/timeline/project/auth_session/audit snapshots.",
+        "Capture original implicit flush transaction and SQL order, HTTP500/other actual; do not mark atomicity proven by source."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROLLBACK-02",
+      "group": "rollback",
+      "scenario": "Material INSERT fault after parent persistence point",
+      "staticAssertions": [
+        "Capture whether new parent/previous flags/allchildren roll back together in actual Native.",
+        "Observe already touched session separately from managed-session flush."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROLLBACK-03",
+      "group": "rollback",
+      "scenario": "Timeline INSERT fault after material persistence point",
+      "staticAssertions": [
+        "Capture no/actual partial child persistence and old current state; compare original response.",
+        "Each fault injected on isolated fixture; do not touch old environments."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROLLBACK-04",
+      "group": "rollback",
+      "scenario": "Old-process UPDATE/CAS failure",
+      "staticAssertions": [
+        "Capture new parent/children rollback versus original behavior and all rowVersion/time values.",
+        "No remediation that makes failed response silently successful."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROLLBACK-05",
+      "group": "rollback",
+      "scenario": "Managed-session flush/update failure while business flush executes",
+      "staticAssertions": [
+        "Determine Native ordering relative to parent INSERT, child INSERTs and old UPDATE.",
+        "Observe auth_session direct touch already committed versus any managed second write; preserve original residual state."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-ROLLBACK-06",
+      "group": "rollback",
+      "scenario": "Security event flush failure versus business flush failure",
+      "staticAssertions": [
+        "Security guard fails before product DML; domain writes do not create businessAuditLog.",
+        "Classify each case separately and retain failures/partial/stopped evidence as such."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-WORKSPACE-01",
+      "group": "workspace",
+      "scenario": "Existing project with no effective process",
+      "staticAssertions": [
+        "source200; nullcurrentProcess,emptychildren; exact business gap and nextStep; projectstage/status retained.",
+        "No page404 and no synthetic successful process."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "expectedStatusSource": 200,
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-WORKSPACE-02",
+      "group": "workspace",
+      "scenario": "Current process with full material/timeline data",
+      "staticAssertions": [
+        "ProjectId/stage/status,currentProcess,materialItems,timelineItems,blockingReasons,nextStep,ownerLabel,allowedActions,generatedAt only.",
+        "Null fields emitted; children only current process; no historical-child merge."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-WORKSPACE-03",
+      "group": "workspace",
+      "scenario": "Owner display name/org/fallback combinations including empty strings",
+      "staticAssertions": [
+        "Both truthy returns name / org; otherwise name??org??fallback.",
+        "Fallback current ownerRole??销售 / 商务; no current uses销售 / 商务; no active filters."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-WORKSPACE-04",
+      "group": "workspace",
+      "scenario": "Read-only versus write-only/combined permission and allowedActions",
+      "staticAssertions": [
+        "view-bid-commercial-workspace always inside a permitted view.",
+        "create action only !isClosedProject+4stages+project:write; no action grants new permission."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-WORKSPACE-05",
+      "group": "workspace",
+      "scenario": "Material/timeline sort with0,repeated/unordered values",
+      "staticAssertions": [
+        "Repo sorts processIdASC then sortOrderASC only; no tie-breaker/id sorting.",
+        "UI additionally stable sorts sortOrder; compare accepted original ordering without overclaiming ties."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-WORKSPACE-06",
+      "group": "workspace",
+      "scenario": "Null/unknown stored enum and missing referenced owner rows in isolated Native fixture",
+      "staticAssertions": [
+        "Explicit mapper returns raw field values and nullable shape; no ZodSerializerDto metadata on these handlers.",
+        "Witness actual result and do not add strict response enum rejection."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace"
+      ],
+      "scope": "Only Root may create isolated legacy-state fixture",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-UI-01",
+      "group": "ui",
+      "scenario": "Original route load and empty business gap",
+      "staticAssertions": [
+        "/projects/:id/workspace/bid-commercial requires project:read.",
+        "Original Angular component and generated client load both workspace/history; loading/error/empty visible."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "GET /api/projects/{projectId}/bid-commercial-workspace",
+        "GET /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "combinations": "Root actual four UI/backend cells",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-UI-02",
+      "group": "ui",
+      "scenario": "Original create dialog adds material and timeline, submits, reloads",
+      "staticAssertions": [
+        "POST real operation; persisted values match displayed workspace/history; original fields/defaults/label generation.",
+        "No app/native source edits or fake store responses."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace",
+        "GET /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "combinations": "Root actual four UI/backend cells",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-UI-03",
+      "group": "ui",
+      "scenario": "Original edit dialog and history",
+      "staticAssertions": [
+        "Edit creates next version via samePOST and copies current children; original unique/flush behavior first witnessed.",
+        "Verify button/errors/history/current retained per actual Native result."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace",
+        "GET /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "combinations": "Root actual four UI/backend cells",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-UI-04",
+      "group": "ui",
+      "scenario": "Readonly, closed/stage restriction, backend validation and refresh failures",
+      "staticAssertions": [
+        "allowedActions drives write button; errors visible; no UI lockout of supported read history.",
+        "History refresh failure afterPOST must not be called business rollback."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "GET /api/projects/{projectId}/bid-commercial-workspace",
+        "GET /api/projects/{projectId}/bid-commercial-processes"
+      ],
+      "combinations": "Root actual four UI/backend cells",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DOWNSTREAM-01",
+      "group": "pricing-producer",
+      "scenario": "Real Rust POST process produces exact current effective baseline",
+      "staticAssertions": [
+        "Pricing author consumes R3D current-read interface, using actual producer row/id and sameproject.",
+        "No seed-only claim replaces producer-to-consumer delivery."
+      ],
+      "nativeWitnessRequired": true,
+      "routes": [
+        "POST /api/projects/{projectId}/bid-commercial-processes",
+        "POST /api/projects/{projectId}/pricing-margin-reviews"
+      ],
+      "owner": "Root+pricing author",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DOWNSTREAM-02",
+      "group": "pricing-producer",
+      "scenario": "Bid pricing reference absent/stale/other-project/noncurrent/samecurrent",
+      "staticAssertions": [
+        "bid requires nonempty reference exactly equal current effective id by original JS string comparison.",
+        "Reject lost/cancelled/not-applicable; do not require won/participate or blockerCount0."
+      ],
+      "nativeWitnessRequired": true,
+      "owner": "Root+pricing author",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DOWNSTREAM-03",
+      "group": "pricing-producer",
+      "scenario": "Direct-commercial pricing optional reference and current mode",
+      "staticAssertions": [
+        "No reference allowed; when provided must match current id and mode direct-commercial/not-required.",
+        "No result-status restriction added to this direct reference branch beyond source."
+      ],
+      "nativeWitnessRequired": true,
+      "owner": "Root+pricing author",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DOWNSTREAM-04",
+      "group": "pricing-producer",
+      "scenario": "Existing review references process later superseded",
+      "staticAssertions": [
+        "Pricing workspace by-id read returns historical process without isCurrent/status/project filters.",
+        "Current effective read and historicalbyid are distinct public internal contracts."
+      ],
+      "nativeWitnessRequired": true,
+      "owner": "Root+pricing author",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DOWNSTREAM-05",
+      "group": "pricing-producer",
+      "scenario": "Empty pricing review workspace consumes current process",
+      "staticAssertions": [
+        "Only lost/cancelled current results add bid prerequisite blocker; absentprocess does not create a new mandatory prereq.",
+        "No extra not-applicable/no-bid/pending/material blocker added."
+      ],
+      "nativeWitnessRequired": true,
+      "owner": "Root+pricing author",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-DOWNSTREAM-06",
+      "group": "pricing-producer",
+      "scenario": "Uppercase/variant UUID reference and canonical DB id",
+      "staticAssertions": [
+        "Preserve pricing original strict textual equality current.id!==input.bidCommercialProcessId.",
+        "Do not normalize input UUID before equality while by-id DB lookup retains original PostgreSQL behavior."
+      ],
+      "nativeWitnessRequired": true,
+      "owner": "Root+pricing author",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-INTEGRITY-01",
+      "group": "integrity",
+      "scenario": "Protected trees and base/branch exact identity",
+      "staticAssertions": [
+        "Compare raw bytes/SHA before and after for Native source/spec/DTO/shared/migrations/Angular/generated client.",
+        "Only authorproductdirectory afterG1 and Root-owned common integration permitted; unrelated old projects remain byte-identical."
+      ],
+      "nativeWitnessRequired": false,
+      "routes": [],
+      "owner": "Root",
+      "execution": "not-run",
+      "evidence": []
+    },
+    {
+      "id": "B-INTEGRITY-02",
+      "group": "integrity",
+      "scenario": "G1/G3/G4 and evidence state",
+      "staticAssertions": [
+        "No selfGate; Root jointG1 + independentPass beforeproduct.",
+        "Record each actual candidate SHA, original HTTP/SQL/UI evidence, stopped/partial/ignored and rollback classifications; do not close parent or treat source review as runtimePass."
+      ],
+      "nativeWitnessRequired": false,
+      "routes": [],
+      "owner": "Root+independent reviewer",
+      "execution": "not-run",
+      "evidence": []
+    }
+  ]
+}

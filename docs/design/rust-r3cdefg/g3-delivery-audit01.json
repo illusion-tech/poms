@@ -1,0 +1,206 @@
+{
+  "kind": "R3CDEFG-current-actual-delivery-audit-awaiting-independent-G3",
+  "createdAt": "2026-11-02T05:22:56.997Z",
+  "head": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "branch": "codex/poms-r3cdefg-next16",
+  "scope": {
+    "issues": [
+      88,
+      89,
+      90,
+      91,
+      92
+    ],
+    "operations": 16,
+    "parent85Open": true,
+    "overall57Open": true,
+    "currentG4Delivered": 14,
+    "possibleAfterScopedG4": 30,
+    "R3Total": 58,
+    "remainingAfterBatch": 28
+  },
+  "candidate": {
+    "release": {
+      "file": "docs/design/rust-r3cdefg/evidence/candidate/release-proof01.json",
+      "bytes": 42089,
+      "rawBytesSha256": "c07581a257d758258f69ba257c87f70f4205832a26faf70542f16600df334829"
+    },
+    "artifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/target/release/poms-api-rust",
+      "bytes": 40997208,
+      "rawBytesSha256": "ec988ffcecebbe40c89dc7551304d7ae66634ef1fc9cabed7d948a09e7f82c78"
+    },
+    "retainedArtifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3cdefg/artifacts/ec988ffcecebbe40c89dc7551304d7ae66634ef1fc9cabed7d948a09e7f82c78",
+      "bytes": 40997208,
+      "rawBytesSha256": "ec988ffcecebbe40c89dc7551304d7ae66634ef1fc9cabed7d948a09e7f82c78"
+    },
+    "paths": 116,
+    "operations": 145,
+    "schemas": 585,
+    "tests": {
+      "passed": 233,
+      "failed": 0,
+      "ignored": 54
+    }
+  },
+  "G1": {
+    "authority": {
+      "file": "docs/design/rust-r3cdefg/g1-gate-authority01.json",
+      "bytes": 1158,
+      "rawBytesSha256": "0fbe5d0e04b692bcc611ff43e81ea5ea10baf18abf1740bfa6b17a4ed353cb88"
+    },
+    "online": {
+      "file": "docs/design/rust-r3cdefg/g1-online-freeze-receipt01.json",
+      "bytes": 3613,
+      "rawBytesSha256": "f49f303732d7dac308c6314926e0ee020bf030216cea9222a8195b21a8489458"
+    },
+    "nativePins": 872,
+    "NativeBeforeAfterUnchanged": true,
+    "formalOriginalsUnchanged": true
+  },
+  "actual": {
+    "semanticGroupsPerBackend": 45,
+    "eventDatasetsPerBackend": {
+      "coverage": 1124,
+      "edges": 129,
+      "boundaries": 171,
+      "business": 183,
+      "temporal": 84
+    },
+    "fixedEventTotalPerBackend": 1691,
+    "comparisons": [
+      {
+        "file": "docs/design/rust-r3cdefg/evidence/original/coverage-compare-parity01-06.json",
+        "events": 1124,
+        "differenceCount": 0
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/evidence/original/edges-compare-parity01-parity04-01.json",
+        "events": 129,
+        "differenceCount": 0
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/evidence/original/business-compare-parity01-parity04-01.json",
+        "events": 183,
+        "differenceCount": 0
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/evidence/original/boundaries-compare-parity01-parity04-01.json",
+        "events": 171,
+        "differenceCount": 0
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/evidence/original/temporal-compare-parity01-parity04-01.json",
+        "events": 84,
+        "differenceCount": 0
+      }
+    ],
+    "publicTodoTargets": [
+      "customer",
+      "lead",
+      "project"
+    ],
+    "UI": [
+      {
+        "cell": "linux-native05",
+        "full": {
+          "observations": 85,
+          "HTTP": 100,
+          "staticBuild": {
+            "memberCount": 422,
+            "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+          }
+        },
+        "admin": {
+          "observations": 44,
+          "HTTP": 68
+        },
+        "readonly": {
+          "observations": 22,
+          "HTTP": 56
+        }
+      },
+      {
+        "cell": "windows-native01",
+        "full": {
+          "observations": 85,
+          "HTTP": 100,
+          "staticBuild": {
+            "memberCount": 422,
+            "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+          }
+        },
+        "admin": {
+          "observations": 44,
+          "HTTP": 68
+        },
+        "readonly": {
+          "observations": 22,
+          "HTTP": 56
+        }
+      },
+      {
+        "cell": "windows-rust03",
+        "full": {
+          "observations": 85,
+          "HTTP": 102,
+          "staticBuild": {
+            "memberCount": 422,
+            "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+          }
+        },
+        "admin": {
+          "observations": 44,
+          "HTTP": 68
+        },
+        "readonly": {
+          "observations": 22,
+          "HTTP": 56
+        }
+      },
+      {
+        "cell": "linux-rust03",
+        "full": {
+          "observations": 85,
+          "HTTP": 100,
+          "staticBuild": {
+            "memberCount": 422,
+            "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+          }
+        },
+        "admin": {
+          "observations": 44,
+          "HTTP": 68
+        },
+        "readonly": {
+          "observations": 22,
+          "HTTP": 56
+        }
+      }
+    ],
+    "UIHTTP": 898
+  },
+  "resourceTerminals": [
+    {
+      "file": "docs/design/rust-r3cdefg/evidence/original/cohort-terminal-parity01-nest.json",
+      "bytes": 3215,
+      "rawBytesSha256": "852a08f9291672d92dbdc9f7bf5dbc4f300e9c27af88aae2c8ee9f1cbf84b004"
+    },
+    {
+      "file": "docs/design/rust-r3cdefg/evidence/original/cohort-terminal-parity04-rust.json",
+      "bytes": 3212,
+      "rawBytesSha256": "325287e44f4a6e8ffed2522ff2d6044fb7094794ab113c50ffd3a4eab5f7c001"
+    }
+  ],
+  "environment": {
+    "file": "docs/design/rust-r3cdefg/evidence/original/environment-terminal01.json",
+    "bytes": 2066,
+    "rawBytesSha256": "39d6241805026f4172af84957116f4188e0f93795d73c210a6e5a8e3229bc33e"
+  },
+  "drift": "Five material implementation mismatches corrected and current actual acceptance rerun; current peer IP difference remains explicit inherited baseline, no arbitrary normalization",
+  "historicalLimit": "First uncertified46acb0 binary bytes were not retained; its hash/build/runtime/response originals remain. No current acceptance relies on replaying that binary. ca128ec/1346892/e782/ec988 full binary artifacts retained.",
+  "claimBoundary": "Matrices219 are static risk groups, not219 runtime passes. Lead14/other28/full stage and approval domain handlers remain pending; prepared history/reference facts do not assert their producers.",
+  "G3Certified": false,
+  "G4Certified": false
+}

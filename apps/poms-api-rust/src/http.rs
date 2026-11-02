@@ -190,6 +190,8 @@ pub fn openapi() -> serde_json::Value {
         crate::approval::http::openapi(),
         crate::customers::http::openapi(),
         crate::projects::http::openapi(),
+        serde_json::from_str(include_str!("../../../tools/rust-r3cdefg/openapi.json"))
+            .unwrap_or_else(|_| panic!("invalid original next16 OpenAPI subset")),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -300,6 +302,20 @@ pub fn router_with_runtime_settings(
         customers.clone(),
         auth.service.clone(),
     ));
+    let technical_cost = std::sync::Arc::new(crate::project_technical_cost::Service::new(
+        state.database.clone(),
+    ));
+    let bid_commercial = std::sync::Arc::new(crate::project_bid_commercial::Service::new(
+        state.database.clone(),
+    ));
+    let pricing_margin = std::sync::Arc::new(crate::project_pricing_margin::Service::new(
+        state.database.clone(),
+    ));
+    let contacts = std::sync::Arc::new(crate::customer_contacts::Service::new(
+        state.database.clone(),
+    ));
+    let follow_up =
+        std::sync::Arc::new(crate::sales_follow_up::Service::new(state.database.clone()));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
@@ -334,6 +350,26 @@ pub fn router_with_runtime_settings(
             .merge(crate::attachments::http::router(auth.clone(), attachments))
             .merge(crate::customers::http::router(auth.clone(), customers))
             .merge(crate::projects::http::router(auth.clone(), projects))
+            .merge(crate::project_technical_cost::http::router(
+                auth.clone(),
+                technical_cost,
+            ))
+            .merge(crate::project_bid_commercial::http::router(
+                auth.clone(),
+                bid_commercial,
+            ))
+            .merge(crate::project_pricing_margin::http::router(
+                auth.clone(),
+                pricing_margin,
+            ))
+            .merge(crate::customer_contacts::http::router(
+                auth.clone(),
+                contacts,
+            ))
+            .merge(crate::sales_follow_up::http::router(
+                auth.clone(),
+                follow_up,
+            ))
             .merge(crate::approval::http::router(auth, approval)),
         cors_origins,
     )
@@ -386,6 +422,21 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         .layer(middleware::from_fn(crate::approval::http::normalize_uri))
         .layer(middleware::from_fn(crate::customers::http::normalize_uri))
         .layer(middleware::from_fn(crate::projects::http::normalize_uri))
+        .layer(middleware::from_fn(
+            crate::project_technical_cost::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::project_bid_commercial::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::project_pricing_margin::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::customer_contacts::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::sales_follow_up::http::normalize_uri,
+        ))
         .layer(middleware::from_fn(decode_path_segments))
         .layer(middleware::from_fn(crate::auth::http::body_parser))
         .layer(middleware::from_fn_with_state(policy, observe_and_cors))

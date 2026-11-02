@@ -1,0 +1,100 @@
+# R3E / R3F Root 验收矩阵
+
+`Prepared / Pending-Root`；E #90 三操作，F #91 四操作，全部 91 个分组断言尚未实际执行。每组 vectors 须展开成具体可重复请求，Root绑定确切候选和原Native/Rust/PG/UI证据。细节见同目录 JSON 与 input-review.md。
+
+| ID | 片 | 类别 | 操作 | 断言 / 源码期望 | 待 Native 冻结 |
+| --- | --- | --- | --- | --- | --- |
+| P01 | joint | protected | seven operations | 交付计数仅E3+F4；联系人从原13拆3，其余10不进入本片；源操作/共享契约保持；本片G4不关闭R3 #85/总体 #57 | 实际结果仍 Pending-Root |
+| P02 | joint | protected | all | 全Native OpenAPI237 paths/291 ops/585 schemas、client579文件、共享enum/生成物保持原始字节；零产品DDL、零Node产品源码/生成client/API schema变更 | 实际结果仍 Pending-Root |
+| P03 | joint | protected | all | 92 migration完整raw SHA清单保持；Rust只依照累计既有DDL；不运行新增DDL、不继续硬编码已移除follow-up type CHECK | 实际结果仍 Pending-Root |
+| C01 | joint | auth | E GET/PATCH/POST | 联系人按customer权限all独立判定；GET要求customer:read，write要求customer:write；无owner/scope附加限制 | 实际结果仍 Pending-Root |
+| C02 | joint | auth | F GET/POST/replace/void | 跟进权限是any，不能要求三者同时拥有；单一任意对应权限足够；guard错误来自Root公共协议 | 实际结果仍 Pending-Root |
+| C03 | joint | DTO | all bodies | 原Zod object解析、strip与root type失败一致；已知键按schema解析，unknown strip；完整HTTP400与issues顺序对齐 | schema异常没有issues时errors字段省略；无body实际被Nest解析成何值 |
+| C04 | joint | DTO | all | 多字段无效保持schema遍历和refine错误顺序；statusCode400/message Validation failed，无额外error键；issues原样比对 | 异常length对象的Zod行为；refine在各invalid路径是否继续执行 |
+| C05 | joint | text | text fields | trim、min/max边界按Root锁定原Zod实测；本片schema边界复验原R3A/B code point裁决；显式JS length/slice另测 | 实际结果仍 Pending-Root |
+| C06 | joint | Unicode | all text responses and PG | 未配对surrogate区分DTO接受、managed响应、PG落值、后续GET；保持lossless原HTTP与PG实际结果 | PG驱动lone surrogate替换/错误；DB NUL失败与事务范围 |
+| C07 | joint | UUID | body/query UUID fields | 保留z.uuid格式与原拼写，不提前canonical化影响JS严格相等；原DTO接受/拒绝及pattern/issue完全一致 | uppercase-anchor vs managed customer ID比较 |
+| C08 | joint | path/error | E PATCH; F replace/void | 没有UUID pipe，坏path ID先Native实测；不擅加400 UUID pipe或统一404 | PG/ORM错误body/状态；路径解码和大小写identity map |
+| C09 | joint | query | E/F GET | query重复键与未知键保持Nest解析和strip；比较完整Native DTO错误/数组类型，不以first/last-wins猜测 | query parser重复/超限行为 |
+| C10 | joint | routes | all | 仅7条方法/路径，不引入额外detail/delete/patch；未注册路由保持Root transport404/405实际形状 | 实际结果仍 Pending-Root |
+| E01 | R3E | positive | POST /api/customer-contacts | 最小合法HTTP创建由真实Rust客户producer给ID；201；active/unknown；optional字段null；actor IDs；rowVersion1待PG确认 | 实际结果仍 Pending-Root |
+| E02 | R3E | HTTP projection | POST /api/customer-contacts | 合法gender经过DTO但controller不转发；合法输入创建仍unknown；invalid/null由DTO拒绝；不被service mock female结果替代 | 实际结果仍 Pending-Root |
+| E03 | R3E | defaults/strip | POST /api/customer-contacts | 未知status/owner/expectedVersion/customerName不影响创建；unknown键strip；status active与actor创建字段不变 | 实际结果仍 Pending-Root |
+| E04 | R3E | positive/negative | POST/PATCH contact | name/department/title/wechat/remark长度与nullable；name不nullable；optional text nullable；空串/纯trim空串400 | 实际结果仍 Pending-Root |
+| E05 | R3E | phone | POST/PATCH contact | 工作电话/手机只有文本长度限制；任意1..64非空文本接受；无号码regex/数字coercion | 实际结果仍 Pending-Root |
+| E06 | R3E | email/DB | POST/PATCH contact | email原z.email，不trim，无schema max，DB255；原DTO email错误；合法长值到DB后真实结果保持 | >255合法emailDB失败envelope和rollback |
+| E07 | R3E | positive | PATCH /api/customer-contacts/{id} | 逐项和组合修改全部10个字段；字段值/nullable/actor/版本/完整DTO和审计changedFields固定顺序 | 实际结果仍 Pending-Root |
+| E08 | R3E | null/omission | PATCH contact | optional字段缺失保持、null清空，name/gender/status null拒绝；clear与omit区分；customerId不可变 | 实际结果仍 Pending-Root |
+| E09 | R3E | negative | PATCH contact | 空或unknown-only更新触发refine；400 custom path[]: At least one field is required for update | 实际结果仍 Pending-Root |
+| E10 | R3E | no-op | PATCH contact | 归一化后无变化不改updatedBy、不persist、不写审计；contact业务行与审计不变 | transaction wrapper与pending session是否flush |
+| E11 | R3E | audit | PATCH contact | 敏感字段只给present/UTF16 length摘要且仅changed字段；before/after脱敏；metadata sourceCommand/update-customer-contact及customerId；顺序固定 | 实际结果仍 Pending-Root |
+| E12 | R3E | customer context | GET/POST/PATCH contact | 客户只要求存在，允许非active状态；不会调用require_active_customer；Native允许分支保持 | 实际结果仍 Pending-Root |
+| E13 | R3E | negative | GET/POST/PATCH contact | 缺客户/缺联系人错误与读取顺序；404 Customer/CustomerContact原消息；PATCH先contact后customer | 实际结果仍 Pending-Root |
+| E14 | R3E | list | GET /api/customer-contacts | 同客户全部状态及排序；array；updatedAt DESC/createdAt DESC；不增加tie-break或分页 | 完全相同排序键的允许顺序 |
+| E15 | R3E | mapping | GET/POST/PATCH contact | 固定全字段/null/ISO与当前客户名称；所有18字段齐全；customerName来自当前客户事实；createdAt/updatedAt JS ISO | 实际结果仍 Pending-Root |
+| E16 | R3E | audit boundary | POST contact | 创建没有customer-contact.updated审计；不存在作者新增的create success审计；原通用guard/security事件按Root既有边界 | 实际结果仍 Pending-Root |
+| E17 | R3E | fault | PATCH contact | 同EM显式transactional的失败边界；Root逐表冻结contact/audit/session的rollback与rowVersion，业务不预判 | 实际SQL顺序；事务失败后HTTP错误 |
+| E18 | R3E | concurrency | PATCH contact | 无expectedVersion输入仍保留ORM行版本竞争；原Native胜负/错误/行版本/审计数量一致；不新增expectedVersion | stale CAS loser是否500或其它；snapshot before/after归属 |
+| F01 | R3F | list | GET /api/sales-follow-up-records | 至少一个anchor；不先require各anchor存在；none400 custom；不存在anchor合法查询返回原数组通常[] | 实际结果仍 Pending-Root |
+| F02 | R3F | list | GET follow-ups | customer AND (lead OR project)与scope；scope默认active；all含active/superseded/voided；两个机会anchor用OR | 实际结果仍 Pending-Root |
+| F03 | R3F | list/order | GET follow-ups | 按occurredAt DESC/createdAt DESC返回全部；不添加pagination/id tie-break | 完全相同排序键顺序 |
+| F04 | R3F | context/mapping | GET follow-ups | 按记录批量装配客户/线索/项目/owner/voidedBy名称；customerName缺失空串；其它名称缺失null；voidedByName查询用户集合；固定全字段 | 实际结果仍 Pending-Root |
+| F05 | R3F | positive | POST /api/sales-follow-up-records | 最小create+真实customer producer；201 active；actor defaults；detail/next/links/void fields null；真实PG记录 | 实际结果仍 Pending-Root |
+| F06 | R3F | validation order | POST follow-up | operator→active customer→lead→project→owner→dictionary顺序；先出现的原业务错误消息；guard/DTO仍在service之前 | 实际结果仍 Pending-Root |
+| F07 | R3F | customer status | POST vs replace/void | 仅create要求active customer；create非active400；replace/void只要求客户存在，不添active check | 实际结果仍 Pending-Root |
+| F08 | R3F | anchor positive | POST follow-up | customer必填，lead/project可null/缺失/同时存在；不强制机会anchor、不强制二选一/互相关联/状态/owner/scope | 实际结果仍 Pending-Root |
+| F09 | R3F | anchor negative | POST/replace/void | lead/project存在且customerId严格匹配；原404或does not belong 400；比较输入原拼写与entity map语义 | uppercase相等行为 |
+| F10 | R3F | owner create | POST follow-up | owner缺失按project→lead→operator；user fallback优先级；nullish语义；无需active/member/scope约束 | 实际结果仍 Pending-Root |
+| F11 | R3F | org create | POST follow-up | org默认owner.primaryOrg优先于context默认；owner.primaryOrg ?? project.org ?? lead.org ?? operator.primaryOrg ?? null | 实际结果仍 Pending-Root |
+| F12 | R3F | null owner/org | POST follow-up | 显式null分别清空，owner null不阻断org默认；保持null与missing；不加成员/一致性约束；owner null无Todo清流 | 实际结果仍 Pending-Root |
+| F13 | R3F | owner negative | POST/replace | 非nullowner/org只要求存在；缺失404 Platform user/Org unit原消息；inactive存在仍允许 | 实际结果仍 Pending-Root |
+| F14 | R3F | dictionary | POST/replace | requireActiveItem(sales-follow-up-type)读取真实运营字典；missing/inactive400 Dictionary item not found/is inactive；不硬编码6值 | 实际结果仍 Pending-Root |
+| F15 | R3F | dictionary DTO/DB | POST/replace | DictionaryCode trim1..64 lower kebab；DBtype32差异；原regex ^[a-z][a-z0-9-]*$与DTO问题保持 | active合法33..64的DB写入错误及副作用 |
+| F16 | R3F | text DTO | POST/replace | summary/detail长度与null语义；summary required非nullable；detail optional nullable，空串拒绝；trim后写值 | 实际结果仍 Pending-Root |
+| F17 | R3F | outcome | POST/replace | 7值outcome完整且没有coercion/别名；原enum接受/issue值数组及顺序保持 | 实际结果仍 Pending-Root |
+| F18 | R3F | dates | POST/replace | ISO datetime原格式、归一化和无业务先后约束；只按原schema与Date处理，无新增next>=occurred或过去限制 | 完整z.iso.datetime oracle与扩展年JS Date行为 |
+| F19 | R3F | strip/default | POST follow-up | status/links/actor/id/rowVersion注入被strip；active新记录、actor字段原生成；不按注入数据执行 | 实际结果仍 Pending-Root |
+| F20 | R3F | replace positive | POST /api/sales-follow-up-records/{id}:replace | 追加新记录，旧superseded，新active，双向链；返回新ID；旧replacedBy=new/new.supersedes=old；anchors复制；旧actor更新；新初始版本 | 实际双向FK insert/update顺序与版本 |
+| F21 | R3F | replace fields | POST replace | detail/next省略归null，锚点/body未知键strip；不是PATCH保留旧detail/next；immutable anchors旧值 | 实际结果仍 Pending-Root |
+| F22 | R3F | replace owner | POST replace | owner缺失保留旧owner，null清空，显式存在性；与create默认user不同；不回退到project/operator替代旧null owner | 实际结果仍 Pending-Root |
+| F23 | R3F | replace org | POST replace | org fallback包含owner当前primaryOrg与是否省略owner条件；owner.primaryOrg ?? (owner missing?old.org:null) ?? project.org ?? lead.org ?? operator.org ?? null | 实际结果仍 Pending-Root |
+| F24 | R3F | version DTO | POST replace/void | expectedVersion必须number正整数且required；HTTP缺失先DTO400；不以service expectedVersion-is-required文本替代 | 整数极值Zod具体issues |
+| F25 | R3F | status/version priority | POST replace/void | 先版本后active状态判断；DTO先；存在记录版本不符409；版本符合但非active400原消息 | 实际结果仍 Pending-Root |
+| F26 | R3F | reason | POST replace | replacementReason trim1..1000并保留；required文本与原DTO错误；新记录reason与audit一致 | 实际结果仍 Pending-Root |
+| F27 | R3F | void positive | POST /api/sales-follow-up-records/{id}:void | 原记录置voided，时间/操作人/组合原因；reason trim；非空comment加 ': '；无合并后1000限制；返回原ID | 实际结果仍 Pending-Root |
+| F28 | R3F | void owner/dictionary | POST void | 不查字典、不重算owner，只为名字读旧owner/org；仍可void；名字缺失null；没有新增owner有效性检查 | 实际结果仍 Pending-Root |
+| F29 | R3F | audit | POST replace/void | 保存后另记audit，snapshot字段及目标ID精确；replace metadata replacementId/replacementReason/before/after；void reason/before/after；snapshot不含detail；不脱敏summary | 实际结果仍 Pending-Root |
+| F30 | R3F | audit boundary | POST create | create不记录replaced/voided success审计；不增加新审计event行为 | 实际结果仍 Pending-Root |
+| F31 | R3F | fault | POST replace/void | 业务save后独立audit失败的实际已提交状态；先Native查业务/Todo/audit/session，Rust复现精确边界 | 是否业务与Todo已经commit；HTTP500与审计行数量 |
+| F32 | R3F | mapping | all F responses | 所有字段和null/ISO/名称/链接字段名精确；supersedesId/replacedById public名不暴露RecordId内部名；managed返回与fresh读分别比对 | 实际结果仍 Pending-Root |
+| T01 | R3F | Todo producer | POST follow-up | active+owner+next创建真实Todo；sourceType sales-follow-up-record/sourceId真实recordID/todoType sales-follow-up-reminder/domain sales/open/owner | 实际结果仍 Pending-Root |
+| T02 | R3F | Todo target | sync reminder | 目标与title/projectId优先级；project→lead→customer；projectId仅project目标填；title销售跟进提醒：<title> | 实际结果仍 Pending-Root |
+| T03 | R3F | Todo priority | sync reminder | next<=now high，否则normal；按毫秒Date.now比较；不按occurredAt | 实际结果仍 Pending-Root |
+| T04 | R3F | Todo stream | POST follow-up | 先完成同owner同target其它source open/processing；其它source completed+completedAt；same source不完成；原业务记录不因此supersede/void | 实际结果仍 Pending-Root |
+| T05 | R3F | Todo isolation | POST follow-up | 清流只命中精确sourceType/todoType/assignee/target/status；非命中行值/版本/时间不变 | 实际结果仍 Pending-Root |
+| T06 | R3F | Todo no-next | POST follow-up | 无next仍完成旧stream，不创建新Todo；完成旧行后return；不执行existing查询/insert | 实际结果仍 Pending-Root |
+| T07 | R3F | Todo no-owner | POST follow-up | owner null立即return，不清理其它owner旧提醒；无新Todo、无stream清流 | 实际结果仍 Pending-Root |
+| T08 | R3F | Todo existing | sync reminder | existing查sourceType/sourceId/assignee/open-status，无todoType/target条件；命中行覆盖type/domain/target/project/title/summary/status/priority/due/completedAt；status重开open | 实际结果仍 Pending-Root |
+| T09 | R3F | Todo summary | sync reminder | 摘要用JS UTF16 length与slice157；大于160时slice(0,157)+'...'，不可按code point截断 | 切开surrogate后的PG存储与返回 |
+| T10 | R3F | Todo replacement | POST replace | 先cancel旧source，再sync新source；旧open/processing所有owner/target的reminder canceled；新规则按新owner/target执行 | 实际结果仍 Pending-Root |
+| T11 | R3F | Todo cancellation | POST void | 按source取消全部open/processing提醒，不恢复上一提醒；canceled与同now completedAt；终态/其它来源不变；无fallbackTodo | 实际结果仍 Pending-Root |
+| T12 | R3F | Todo versions | create/replace/void/stream | 真实Todo dirty更新和默认行版本；精确Native rowVersion/updatedAt/createdAt；不盲目每次+1 | managed dirty判断和batch/update顺序 |
+| T13 | R3F | Todo uniqueness | concurrent sync | open-source唯一键不含todoType/target；保持DDL约束与Native错误，不扩大唯一键 | 实际结果仍 Pending-Root |
+| T14 | R3F | consumer | GET /api/me/todos | 真实producer生成Todo由R2公开消费；sourceId真实F ID；current actor open/processing only；createdAt ASC；targetTitle当前事实；allowedActions[] | 实际结果仍 Pending-Root |
+| T15 | R3F | consumer projection | GET /api/me/todos | 下次跟进显示UTC+8与目标名，不需要approval record；currentNodeName下次跟进：YYYY-MM-DD HH:mm或下次跟进；targetTitle源事实 | 实际结果仍 Pending-Root |
+| T16 | R3F | consumer after writes | GET /api/me/todos | complete/cancel从公开列表消失而DB保留；真实行状态/rowVersion保留；不物理删除；不同actor隔离 | 实际结果仍 Pending-Root |
+| T17 | R3F | fault | record/Todo save* sync | auto-flush与故障按原SQL时间点冻结；Root在每阶段核对HTTP、F/Todo/session/audit所有行与版本 | 先前flush是否已提交；record/Todo部分提交；old/new双向FK顺序 |
+| T18 | R3F | concurrency | parallel follow-up creates | 同stream不同source竞争不自行加强串行化；按Native冻结胜负、open/completed数量及版本；不得预设始终仅1 open | 事务交错和stream读视图 |
+| T19 | R3F | concurrency | parallel replace/void | 版本竞争完整链与Todo/audit计数；只有Native实际赢家状态可接受；精确loser错误、无伪孤链 | CAS/unique/selfFK失败顺序与副作用 |
+| T20 | R3F | concurrency | references/session | 引用或session并发变化的原快照语义；按RootNative witness保持statement/identity-map视图，不自动加全程snapshot事务 | 原引用读序和flush时点 |
+| U01 | R3E | original UI | customer contact panel | 原UI创建→reload→编辑→inactive→reload；create payload含gender但结果unknown；edit只变更字段无expectedVersion；null清空；真实请求+PG | 实际结果仍 Pending-Root |
+| U02 | R3E | original UI permissions | customer/project/lead embedded contacts | 联系人写权限独立customer:write；按钮/错误与HTTP拒绝一致；不因project/lead:write新增contact权限 | 实际结果仍 Pending-Root |
+| U03 | R3F | original UI | customer follow-up panel | create→history→replace→void完整原UI；panelreload原列表；历史链与原因/错误信息；replace/void expectedVersion来自返回rowVersion | 实际结果仍 Pending-Root |
+| U04 | R3F | original UI project | project follow-up panel | 真实Rust客户+项目producer再跟进；遵循原panel请求投影，不修改UI为通过验收 | 实际结果仍 Pending-Root |
+| U05 | R3F | original UI Todo | real reminder→GET me/todos→navigation | 已有refreshTodos/页面reload后可见，点击定位真实跟进；同sourceId导航；不能因follow-up store未自动refresh而新增行为；取消后消失 | 实际结果仍 Pending-Root |
+| U06 | R3F | scope evidence | lead contexts | Lead只能使用受控真实只读输入；明确source标签；不写Lead14 producer完成或R3整阶段通过 | 实际结果仍 Pending-Root |
+| U07 | joint | original UI errors | E/F panels | 真实拒绝/网络错误保持原交互；loading/saving清理、dialog/error文本与按钮状态保持；mock不算HTTP/browser证据 | 实际结果仍 Pending-Root |
+| G01 | joint | evidence | all | Root统一运行且证据绑定精确候选；本矩阵准备不是Pass；每行填真实命令/输入/输出/PG快照/哈希 | 实际结果仍 Pending-Root |
+
+Root owns all installation/build/test/lint/DB/HTTP/browser/host/env/fixture execution, evidence preservation and publication. Author 3 performed only static source inspection and hash generation.
+

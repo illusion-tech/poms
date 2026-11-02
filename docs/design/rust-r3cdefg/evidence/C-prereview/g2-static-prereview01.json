@@ -1,0 +1,517 @@
+{
+  "kind": "R3CDEFG-independent-G2-static-prereview",
+  "reviewId": "g2-static-prereview01",
+  "createdAtUtc": "2026-11-02T03:39:28.3971630+00:00",
+  "identity": {
+    "checkout": "E:/projects/worktrees/poms-r3cdefg-next16/poms",
+    "branch": "codex/poms-r3cdefg-next16",
+    "head": "0fced204c917a37b84a2ad50838e722e764b8f78",
+    "base": "0fced204c917a37b84a2ad50838e722e764b8f78",
+    "mutableImplementationCandidate": true
+  },
+  "scope": "Five new modules complete DTO/model/store/service/reminder/HTTP surfaces and Root HTTP/lib/OpenAPI integration, compared with frozen Native and42/86/91 scene groups. Static pre-review only.",
+  "decision": "Two P2 findings reported early; source repairs read during review; post-repair runtime and boundary acceptance pending",
+  "formalG3Decision": "not-issued",
+  "G3Certified": false,
+  "G4Certified": false,
+  "reportedFindingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 2,
+    "P3": 0
+  },
+  "sourceRepairCounts": {
+    "visibleInCurrentSource": 2,
+    "actualPostRepairAcceptanceCertifiedByC": 0
+  },
+  "G1": {
+    "onlineFreeze": {
+      "file": "docs/design/rust-r3cdefg/g1-online-freeze-receipt01.json",
+      "bytes": 3613,
+      "rawBytesSha256": "f49f303732d7dac308c6314926e0ee020bf030216cea9222a8195b21a8489458"
+    },
+    "issues": [
+      88,
+      89,
+      90,
+      91,
+      92
+    ],
+    "sameCommentSHA": [
+      "2f6d32d0ece921fe69f74e6e003b077da4fda1cd21991542281db308908ea175"
+    ],
+    "issueReadbackPins": [
+      {
+        "issue": 88,
+        "file": {
+          "file": "tmp/rust-r3cdefg/root/g1-issue-88-readback01.json",
+          "bytes": 4990,
+          "rawBytesSha256": "b89a63d8f71e30228a223f36e69bb761395ffe3a0530f9dd99a84b40e0d5d2c2"
+        },
+        "matches": true
+      },
+      {
+        "issue": 89,
+        "file": {
+          "file": "tmp/rust-r3cdefg/root/g1-issue-89-readback01.json",
+          "bytes": 4970,
+          "rawBytesSha256": "cbc6210303a08177a52e6c4015cc0f1114156a551bff331fab237a9debe37e15"
+        },
+        "matches": true
+      },
+      {
+        "issue": 90,
+        "file": {
+          "file": "tmp/rust-r3cdefg/root/g1-issue-90-readback01.json",
+          "bytes": 4876,
+          "rawBytesSha256": "58fb0175031b210c8ef90ae1a6c7a2088fd92b8942cbde8b97a88d2d10185971"
+        },
+        "matches": true
+      },
+      {
+        "issue": 91,
+        "file": {
+          "file": "tmp/rust-r3cdefg/root/g1-issue-91-readback01.json",
+          "bytes": 5060,
+          "rawBytesSha256": "91093da50dda64c7b405ec9facacfbdcb74f3dce5ddf3631c3dc04dd9c122e91"
+        },
+        "matches": true
+      },
+      {
+        "issue": 92,
+        "file": {
+          "file": "tmp/rust-r3cdefg/root/g1-issue-92-readback01.json",
+          "bytes": 5044,
+          "rawBytesSha256": "1bdd5e4d3abf3aabaa48d68e01e9acc1e33835b3a7d314991fe1a77d9244cfa8"
+        },
+        "matches": true
+      }
+    ],
+    "reviewSHA": "e5a92602844334222382924299a6b3255f9df6c10535cf2ff42608e266f11edf",
+    "manifestSHA": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+    "masterSHA": "154effdddc740b567725c1a05c85fd8d53f4067b0662762d6ed06963d161c381",
+    "note": "C read the local published receipt/readbacks; no direct GitHub calls by C."
+  },
+  "sourceSnapshot": {
+    "newModuleFiles": [
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+        "bytes": 6276,
+        "rawBytesSha256": "130099bd721873af5a317fd668a3e123c5ef30636426d3bc91909a49a81fe0cf"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/mod.rs",
+        "bytes": 304,
+        "rawBytesSha256": "ba59e72c4f98a13b3044b4b91f0b219a8161d666546f1921f479fc7eb77b1d1e"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/model.rs",
+        "bytes": 1497,
+        "rawBytesSha256": "20702d110cfb52757f16988e1c4e1b5b983a66b4c7dc2d8d6af5606d5aaf1cb0"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+        "bytes": 14332,
+        "rawBytesSha256": "a9fdc2d95b9fa2a1d62b653bd8e54926d24835b70be89d46a88ed5abe39f994d"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+        "bytes": 16190,
+        "rawBytesSha256": "3f96ffedfd90fd74b54abe8dabb921403e8abe5bd45a23f58a248b7543b3bc3c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/validation.rs",
+        "bytes": 22012,
+        "rawBytesSha256": "9a86fb82a6b98da38cea57ae8d31795c43d5af99dcf83cf82d7a1680633ca639"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_bid_commercial/http.rs",
+        "bytes": 6281,
+        "rawBytesSha256": "017e88f66659ebd87a236a4919e09168db5e1d6cbff8c8e0537f5aa253f7caef"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_bid_commercial/mod.rs",
+        "bytes": 293,
+        "rawBytesSha256": "ff01cf8e1b175e5a1729a39e67bf5974a1a93a934433933b8cb8477d74a05bbb"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_bid_commercial/model.rs",
+        "bytes": 1292,
+        "rawBytesSha256": "d8c45bff85f58334d31f646f852faea0a188d65a1d0e15958d1b7d2b391ecb63"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_bid_commercial/service.rs",
+        "bytes": 16330,
+        "rawBytesSha256": "4529dce6ca3450a5bd35c9955aa72553060a7e9d042d5e2175f4ed61ff05ce50"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_bid_commercial/store.rs",
+        "bytes": 14003,
+        "rawBytesSha256": "efba964689b012572f9c2aa0dbc0c118437081daa001aa270734b4505ae0edae"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_bid_commercial/validation.rs",
+        "bytes": 11290,
+        "rawBytesSha256": "75b57a103da9971c9ad4bdef63bcf2d917993dc2e8eba609fbb3cd50c57c9bf3"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/http.rs",
+        "bytes": 6271,
+        "rawBytesSha256": "80d1bea34f0fea13c1ed7de41778dfac5e628a21978c211075ea4d22fd7cd9cf"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/mod.rs",
+        "bytes": 298,
+        "rawBytesSha256": "48125c24c61eb6db6341ef3044ba4bc3dd337ec0223e3cde1bc90ad5f7cd6071"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/model.rs",
+        "bytes": 1454,
+        "rawBytesSha256": "e719c3c215a1e0fd05d5a2b6ee3ba67e0bf6bbc9fb1f68b41991b92913b54f45"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+        "bytes": 21343,
+        "rawBytesSha256": "228ca74f9e3f826fcb40ee0d07b0691267d095c36084a976916e57338873cd92"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/store.rs",
+        "bytes": 12939,
+        "rawBytesSha256": "ea44f609b86449f5440474bd8cf3c59967889a3632b0b30cd4743625af849f10"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/validation.rs",
+        "bytes": 4697,
+        "rawBytesSha256": "ca959099458785ec4f41b7d079be0b4a6016087819ef9ab913fce172eaf541df"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/http.rs",
+        "bytes": 6112,
+        "rawBytesSha256": "132a87fa2abc40d564e505ae165cf269b2a258d092521aa1bbeb8a8d3efd4926"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/mod.rs",
+        "bytes": 191,
+        "rawBytesSha256": "8596a19c1d3d7d5ceffacba47231a70f15a35820524ad30fa3b6e842cc8b3340"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/model.rs",
+        "bytes": 927,
+        "rawBytesSha256": "ca035ed46d3a47ec3dcdf20f71e94c7e61441f804aff633c81ccd763f1cd24aa"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/service.rs",
+        "bytes": 14498,
+        "rawBytesSha256": "faee35b98d25f942fa3fc155912dd6fb6727669ff02957f33f6dc93162653949"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/store.rs",
+        "bytes": 5398,
+        "rawBytesSha256": "dec1ff65841d3564d75ff9ad0d168a04996dcf845f0971608ebff0a3fac835ba"
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/validation.rs",
+        "bytes": 8924,
+        "rawBytesSha256": "c432e2d741ec67c14c721b55950582d21a86f58dde3fc45211e0af77c220a3a9"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/http.rs",
+        "bytes": 7424,
+        "rawBytesSha256": "75b3edf0106a2c4da739ea72cedcc2969ee8fe3d6bc9116abc5d0fc791af2c51"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/mod.rs",
+        "bytes": 202,
+        "rawBytesSha256": "9051488a6625bfc767424c8d041aac810f8348f68faf032cdceb7a28f4e72dba"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/model.rs",
+        "bytes": 1050,
+        "rawBytesSha256": "c845f968cf43b7fa4c64388f50ca835c6556f4791f63b8329efad8ac4260bf86"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+        "bytes": 5417,
+        "rawBytesSha256": "ae06165669c57152924322ae7f272df33bb56b4458835cb345dfad147fac1d2d"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+        "bytes": 26105,
+        "rawBytesSha256": "612d95aafe7dd79a32c748d64319f913e26cc859a7f64833fe34c58008b0c3c2"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+        "bytes": 18081,
+        "rawBytesSha256": "500b3dadb2e105eff4c41dfdcffdad9bae327098e5b44a2ea2db824e8b039d86"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/validation.rs",
+        "bytes": 8741,
+        "rawBytesSha256": "ad25199c391d8290813e4f2e6ace53e7c1f73db1cc341710a1898c6026ed59ca"
+      }
+    ],
+    "newModuleCount": 31,
+    "integration": [
+      {
+        "file": "apps/poms-api-rust/src/http.rs",
+        "bytes": 24569,
+        "rawBytesSha256": "56ea96680411a1d353020c363ac9ac5c05ffd791e35a152aea8798d7eeb0cdac"
+      },
+      {
+        "file": "apps/poms-api-rust/src/lib.rs",
+        "bytes": 736,
+        "rawBytesSha256": "cb8d2fc31091fc7719a2fd867cb13d3ba23578342baeef8f7a154b63b3db8dcf"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/http.rs",
+        "bytes": 26526,
+        "rawBytesSha256": "ca0cb673f827e2d5e68c9d70ae076d62bac3c28c130032b5e4fd4ae0c659227b"
+      },
+      {
+        "file": "tools/rust-r3cdefg/openapi.json",
+        "bytes": 844442,
+        "rawBytesSha256": "007a344e59d1ec9847f50285c9e1629c8a06416c444c01c0fa1331a5e299e536"
+      }
+    ],
+    "protectedNativeCount": 872,
+    "protectedNativeDrifts": [],
+    "note": "Implementation was actively repaired during this pre-review. Detection hashes and the current source snapshot are recorded separately; this is not a fixed-commit G3 certification."
+  },
+  "findings": [
+    {
+      "id": "G2-C-ARRAY-MIN-01",
+      "priority": "P2",
+      "category": "new-real-drift",
+      "title": "costItems invalid array input lost the original length-check issue",
+      "locations": [
+        {
+          "file": "apps/poms-api-rust/src/project_technical_cost/validation.rs",
+          "originalStart": 402,
+          "originalEnd": 405
+        }
+      ],
+      "detectedSource": {
+        "bytes": 20322,
+        "rawBytesSha256": "4b2039c96721daffb95398ead0a24c94f190cfe1b5481961edb16713e5b80c1b"
+      },
+      "trigger": "Valid cost body except costItems is the empty string",
+      "NativeEvidence": {
+        "report": {
+          "file": "tmp/rust-r3cdefg/coverage-parity01-nest/report01.json",
+          "bytes": 4019586,
+          "rawBytesSha256": "fbad1d5fca53eacbd95624079a8662cf03c5ccef8c271822c8e0ab460a202aeb"
+        },
+        "label": "dto.CreateProjectTechnicalCostPackageRequestSchema.costItems.variant5",
+        "requestId": "dfce5f78-a3c4-470e-8407-48069d4d30aa",
+        "status": 400,
+        "entityBodySha256": "2fd95c37c8da1f985470f3b36060fa9537a076fdd0eb0a4bac3dc3055d6268d4",
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "costItems"
+              ],
+              "message": "Invalid input: expected array, received string"
+            },
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "costItems"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      },
+      "RustEvidence": {
+        "report": {
+          "file": "tmp/rust-r3cdefg/coverage-parity01-rust/report01.json",
+          "bytes": 3950554,
+          "rawBytesSha256": "73168ce121704ae7a5057645fb5570b9082a0757e975b2cc29d27dde06e1d78f"
+        },
+        "label": "dto.CreateProjectTechnicalCostPackageRequestSchema.costItems.variant5",
+        "requestId": "2a5649ff-a5f7-41a5-ba48-af84883fa2b4",
+        "status": 400,
+        "entityBodySha256": "b61fdd4c5f8b2a908314a3cdeefec8a0748b8dba9606489bb5109aa0315a5ef9",
+        "body": {
+          "errors": [
+            {
+              "code": "invalid_type",
+              "expected": "array",
+              "message": "Invalid input: expected array, received string",
+              "path": [
+                "costItems"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        }
+      },
+      "reason": "Original Zod4.6.1 array.min(1) has whenHasLength independent of the array type issue. Native emits invalid_type followed by too_small(origin=string,minimum1); the old Rust array branch returned after invalid_type. Matching400 was insufficient.",
+      "sourceRepair": "The current array branch independently applies the minimum when a non-nullish string/object has length, preserves issue ordering and JS length coercion, and only applies that check when minimum>0.",
+      "sourceRepairVisible": true,
+      "state": "Source-fixed; post-repair strict body recompare and unusual length-object boundary evidence pending",
+      "relatedFrozenCases": [
+        "A08",
+        "A09",
+        "A10",
+        "A19"
+      ]
+    },
+    {
+      "id": "G2-CG-VERSION-WIDTH-02",
+      "priority": "P2",
+      "category": "new-real-drift",
+      "title": "C/G narrow version increment could overflow before the original int4 database check",
+      "locations": [
+        {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "line": 299
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "line": 353
+        }
+      ],
+      "detectedSources": [
+        {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 14217,
+          "rawBytesSha256": "b0030a90f1a4e6a4be0f66f1f37bb545f45205e96d3a22d7c8208b67663c6c5d"
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "bytes": 20858,
+          "rawBytesSha256": "b968e616b334c84eb975744cd3147c742b6296591345121c2c8c2d37de837177"
+        }
+      ],
+      "trigger": "A legal imported current version2147483647; a controlled writer clears current after lookup but before candidate INSERT so the usual partial-current unique does not mask the candidate value",
+      "reason": "Old Row.version was i32 and row.version+1 could panic in checked builds or wrap in unchecked builds. Native increments as Number to2147483648 and PostgreSQL int4 rejects it. A wrapped negative replacement could otherwise commit in the controlled legal race.",
+      "proofBoundary": "Static arithmetic/type finding; C did not execute the extreme-value race. Ordinary second-version500 often masks it and is not evidence of correct width.",
+      "sourceRepair": "DB Row<V=i32> reads retain int4 decoding; NewPackage/NewReview=Row<i64>; increment widens before addition; first INSERT retains original DB range/unique enforcement and RETURNING hydrates the stored row.",
+      "sourceRepairVisible": true,
+      "immediateRatioPreservationAfterRepair": true,
+      "state": "Source-fixed; original error/DB/session boundary on int4 version extremes and controlled preflight race pending",
+      "relatedFrozenCases": [
+        "A33",
+        "A34",
+        "A36",
+        "B-VERSION-06"
+      ]
+    }
+  ],
+  "staticCoverage": {
+    "cost": [
+      "Original required/null/default/strip and child fields",
+      "Currency then per-item amount error order; Number/reduce/toFixed2",
+      "Raw POST projectId/text versus DB canonical GET/numeric::text",
+      "Current/effective predicates and historical by-id",
+      "Parent then cost/risk/scope INSERTs before session/old UPDATE",
+      "Original blockers/reasons/next/action differences"
+    ],
+    "bid": [
+      "Seven modes, decision/result consistency and blockers",
+      "Material/timeline defaults/null/date/sort fields",
+      "Raw route UUID and UTF16 immediate summary overrides",
+      "Exact current/list/by-id and all23 summary fields",
+      "Parent then timeline/material flush and original second-version failure",
+      "Owner truthy/nullish fallback and exact Chinese reason/next order"
+    ],
+    "pricing": [
+      "Raw UUID current-reference equality and currency checks",
+      "Bid deny-result set and direct optional-reference branch",
+      "Original six truthy approval references without stronger domain checks",
+      "Original Number comparisons and POST ratio strings versus DB padded reads",
+      "Historical referenced cost/bid summaries versus current producers",
+      "Condition blocker/ready flags and workspace-only prerequisites"
+    ],
+    "contacts": [
+      "Gender validated but dropped on POST",
+      "Existence-only customer gate and complete18-field mapper",
+      "Field presence/null and no-op handling",
+      "Fixed changedFields order and redacted UTF16 audit lengths",
+      "Audit then pending session then versioned contact UPDATE in explicit transaction",
+      "No new create audit or expectedVersion contract"
+    ],
+    "followup": [
+      "Any-permission guards; anchor query AND(lead OR project)",
+      "Create active customer versus replacement/void existence",
+      "Actor snapshot, nullable owner/org fallback and dictionary error order",
+      "Expected-version check before active lifecycle status",
+      "Raw UTF16 text and public chain field names",
+      "Todo managed overlay, existing/source/stream predicates and dirty-version updates",
+      "Todo/newF/session/oldTodo/oldF ordered business transaction",
+      "Separate post-business audit with committed state surviving audit500"
+    ],
+    "HTTP": [
+      "Root-owned five adapters authorize before DTO and retain raw path IDs",
+      "Read/write and any/all permission distinctions",
+      "Existing body-parser/URI middleware and method fallback inherited",
+      "Original16 operationIds, schema and path definitions copied without public contract mutation"
+    ]
+  },
+  "OpenAPI": {
+    "subset": {
+      "file": "tools/rust-r3cdefg/openapi.json",
+      "bytes": 844442,
+      "rawBytesSha256": "007a344e59d1ec9847f50285c9e1629c8a06416c444c01c0fa1331a5e299e536"
+    },
+    "subsetPaths": 11,
+    "operations": 16,
+    "schemas": 585,
+    "sourceCompared": "libs/shared/api-spec/openapi.json",
+    "operationDefinitionDrifts": [],
+    "schemaDefinitionDrifts": [],
+    "aggregate145operations116paths": "Root-reported/current integration source; C did not build or query a runtime OpenAPI endpoint"
+  },
+  "requiredActualEvidence": [
+    "Recompare the repaired costItems empty-string error array and length-bearing non-array family; preserve original old reports and strict nested issue order",
+    "Exercise C/G version int4 max plus controlled current changes; keep original500 and DB/session residuals without new DTO limits or DDL edits",
+    "Full dual body/PG/numeric::text/SQL comparison on the final candidate, not status-only completed runs",
+    "POST/GET UUID spelling and numeric scale including loose baseline/snapshot UUIDs, leading zeros, gross negative zero, Unicode/lone surrogate/NUL",
+    "Force-due no-op contact PATCH, dirty audit/session/contact failure timing, snapshot redaction and CAS loser effects",
+    "Reminder multi-row/processing/wrong-type-or-target existing lookup and different/null owner/no-next overlay with dirty-field CAS and audit-after-commit failures",
+    "Actor nullable primary-org snapshot and uppercase owner-ID read behavior under controlled concurrent identity changes",
+    "Declared read query windows, legitimate historical fixtures and all stage/status/actions/owner-label branches",
+    "Real Rust cost/bid to pricing and follow-up to public Todo producer-consumer chains, four platform UI cells plus separate auth/legacy vectors",
+    "All owned run/rows/ACL/process/browser/observer terminal evidence and frozen final source/commit review before formalG3/G4"
+  ],
+  "runtimeEvidenceBoundary": {
+    "readByC": [
+      "Original Native and old Rust coverage report single concrete counterexample",
+      "Frozen Native45 public semantic/SQL/error/numeric/terminal inputs from prior G1 reviews"
+    ],
+    "RootReportedDuringReview": "Old Rust45 and1124 completed; strict comparison reduced to the concrete costItems discrepancy after explicitly declared dynamic-time normalization. New repair check/parity remains Root-owned.",
+    "notClaimed": "No independent all1124 post-repair Pass, SQL boundary Pass, UI Pass, G3 or G4."
+  },
+  "validationBoundary": {
+    "performed": [
+      "public/source/JSON reads",
+      "raw hashes",
+      "read-only Git",
+      "own static record collection"
+    ],
+    "notPerformed": [
+      "build",
+      "test",
+      "lint",
+      "liveDB",
+      "HTTP",
+      "browser",
+      "host/env/fixture operations",
+      "private reads",
+      "product edits",
+      "Root tool edits",
+      "GitHub messages"
+    ]
+  },
+  "conclusion": "G2 static pre-review completed. Two P2s were reported early and both source repairs are now visible. No further concrete drift was found in the reviewed current paths, but actual repaired-candidate verification and formalG3 remain pending."
+}

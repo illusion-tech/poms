@@ -1,0 +1,30 @@
+{
+  "kind": "R3CDEFG-G2-coverage-prereview-source-scope-correction",
+  "amends": {
+    "file": "tmp/rust-r3cdefg/c-review/g2-coverage-gap01.json",
+    "bytes": 1760249,
+    "rawBytesSha256": "40d764bce57f8c6ca624dcb817266cb519a477c18abcf8add3c9621335b56127"
+  },
+  "originalPreserved": true,
+  "row": "A10-unicode-trim-roundtrip",
+  "correction": "The original A10 actual selectors refer to contact samples. They are shared parser background and must not receive R3C/R3G module coverage credit. Replace that row's actual selectors and actualSubset with the scoped C/G rejected samples below. This correction does not add a runtime execution or certify a success boundary.",
+  "replaceActualSubset": "C/G technicalConclusionSummary and quoteVersion astral max+1 inputs were actually rejected with400 in the selected corresponding Native/Rust coverage reports. Exact maximum acceptance, special ECMAScript whitespace, lone surrogates, persistence replacement, NUL and currency spelling remain unverified or planned.",
+  "replaceEvidence": [
+    {
+      "aliases": ["NC", "RC"],
+      "label": "dto.CreateProjectTechnicalCostPackageRequestSchema.technicalConclusionSummary.variant9",
+      "status": 400,
+      "classification": "actual-negative-Unicode-boundary-only"
+    },
+    {
+      "aliases": ["NC", "RC"],
+      "label": "dto.CreateProjectPricingMarginReviewRequestSchema.quoteVersion.variant9",
+      "status": 400,
+      "classification": "actual-negative-Unicode-boundary-only"
+    }
+  ],
+  "allOtherRowsAndCountsUnchanged": true,
+  "allOriginalVectorsCertified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

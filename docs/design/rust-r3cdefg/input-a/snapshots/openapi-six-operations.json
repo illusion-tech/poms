@@ -1,0 +1,1796 @@
+{
+  "kind": "static-original-openapi-extract-not-new-spec",
+  "baseCommit": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "sourcePath": "libs/shared/api-spec/openapi.json",
+  "sourceBytes": 1129410,
+  "sourceRawSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/projects/{projectId}/technical-cost-packages": {
+      "get": {
+        "operationId": "ProjectController_listProjectTechnicalCostPackages",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTechnicalCostPackageList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目签约前技术与成本版本包列表",
+        "tags": [
+          "project"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectTechnicalCostPackage",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTechnicalCostPackageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建项目签约前技术与成本版本包",
+        "tags": [
+          "project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/technical-cost-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTechnicalCostWorkspaceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目签约前技术与成本工作区",
+        "tags": [
+          "project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/pricing-margin-reviews": {
+      "get": {
+        "operationId": "ProjectController_listProjectPricingMarginReviews",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectPricingMarginReviewList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目签约前报价与毛利评审列表",
+        "tags": [
+          "project"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectPricingMarginReview",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectPricingMarginReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectPricingMarginReviewSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建项目签约前报价与毛利评审版本",
+        "tags": [
+          "project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/pricing-margin-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectPricingMarginWorkspaceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目签约前报价与毛利评审工作区",
+        "tags": [
+          "project"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateProjectPricingMarginReviewRequest": {
+        "type": "object",
+        "properties": {
+          "technicalCostPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "bidCommercialProcessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "commercialReleaseBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "pricingPath": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "direct-commercial"
+            ]
+          },
+          "quoteVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "quoteAmountTaxInclusive": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "quoteAmountTaxExclusive": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "taxRate": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,8})?$"
+          },
+          "taxConditionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "paymentTermsSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "pattern": "^-?\\d+(\\.\\d{1,8})?$",
+            "nullable": true
+          },
+          "grossMarginBand": {
+            "type": "string",
+            "enum": [
+              "below-redline",
+              "watch",
+              "target",
+              "not-calculated"
+            ]
+          },
+          "grossMarginSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "released",
+              "conditional-release",
+              "rejected",
+              "escalation-required"
+            ]
+          },
+          "decisionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "approvalScenarioKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "conditionItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectPricingMarginConditionItemInput"
+            }
+          }
+        },
+        "required": [
+          "technicalCostPackageId",
+          "pricingPath",
+          "quoteVersion",
+          "currencyCode",
+          "quoteAmountTaxInclusive",
+          "quoteAmountTaxExclusive",
+          "taxRate",
+          "taxConditionSummary",
+          "paymentTermsSummary",
+          "grossMarginBand",
+          "grossMarginSummary",
+          "decision",
+          "decisionSummary"
+        ]
+      },
+      "CreateProjectTechnicalCostPackageRequest": {
+        "type": "object",
+        "properties": {
+          "technicalFeasibilityDecision": {
+            "type": "string",
+            "enum": [
+              "feasible",
+              "conditional",
+              "not-feasible"
+            ]
+          },
+          "technicalConclusionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "allowNextStage": {
+            "type": "boolean"
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "taxAssumptionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxReviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "reviewed",
+              "not-required"
+            ]
+          },
+          "scopeItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalScopeItemInput"
+            }
+          },
+          "riskItems": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalRiskItemInput"
+            }
+          },
+          "costItems": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalCostItemInput"
+            }
+          }
+        },
+        "required": [
+          "technicalFeasibilityDecision",
+          "technicalConclusionSummary",
+          "allowNextStage",
+          "currencyCode",
+          "taxAssumptionSummary",
+          "taxReviewStatus",
+          "costItems"
+        ]
+      },
+      "ProjectBidCommercialProcessSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "effective",
+              "superseded"
+            ]
+          },
+          "bidMode": {
+            "type": "string",
+            "enum": [
+              "public-tender",
+              "invitation",
+              "comparison",
+              "commercial-negotiation",
+              "competitive-negotiation",
+              "direct-commercial",
+              "not-required"
+            ]
+          },
+          "currentStage": {
+            "type": "string",
+            "enum": [
+              "not-started",
+              "preparation",
+              "submitted",
+              "negotiating",
+              "result-confirmed",
+              "closed"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "participate",
+              "no-bid",
+              "not-required"
+            ]
+          },
+          "resultStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "won",
+              "lost",
+              "cancelled",
+              "not-applicable"
+            ]
+          },
+          "processSummary": {
+            "type": "string"
+          },
+          "decisionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "resultSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "tenderNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "bidPackageNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockerCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "isCurrent",
+          "supersedesId",
+          "status",
+          "bidMode",
+          "currentStage",
+          "decision",
+          "resultStatus",
+          "processSummary",
+          "decisionSummary",
+          "resultSummary",
+          "tenderNo",
+          "bidPackageNo",
+          "ownerRole",
+          "blockerCount",
+          "effectiveAt",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectPricingMarginConditionItemInput": {
+        "type": "object",
+        "properties": {
+          "conditionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "conditionType": {
+            "type": "string",
+            "enum": [
+              "financial",
+              "tax",
+              "payment",
+              "scope",
+              "risk",
+              "approval"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "conditionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "conditionStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed",
+              "waived"
+            ]
+          },
+          "requiredForContracting": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "resolutionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "conditionKey",
+          "conditionType",
+          "label",
+          "conditionSummary",
+          "conditionStatus"
+        ]
+      },
+      "ProjectPricingMarginConditionItemView": {
+        "type": "object",
+        "properties": {
+          "conditionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "conditionType": {
+            "type": "string",
+            "enum": [
+              "financial",
+              "tax",
+              "payment",
+              "scope",
+              "risk",
+              "approval"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "conditionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "conditionStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed",
+              "waived"
+            ]
+          },
+          "requiredForContracting": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "dueAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "resolutionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "reviewId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "conditionKey",
+          "conditionType",
+          "label",
+          "conditionSummary",
+          "conditionStatus",
+          "requiredForContracting",
+          "responsibleRole",
+          "dueAt",
+          "resolutionSummary",
+          "sortOrder",
+          "id",
+          "reviewId"
+        ]
+      },
+      "ProjectPricingMarginReviewList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectPricingMarginReviewSummary"
+        }
+      },
+      "ProjectPricingMarginReviewSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "effective",
+              "superseded"
+            ]
+          },
+          "technicalCostPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "bidCommercialProcessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "commercialReleaseBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "pricingPath": {
+            "type": "string",
+            "enum": [
+              "bid",
+              "direct-commercial"
+            ]
+          },
+          "quoteVersion": {
+            "type": "string"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "quoteAmountTaxInclusive": {
+            "type": "string"
+          },
+          "quoteAmountTaxExclusive": {
+            "type": "string"
+          },
+          "taxRate": {
+            "type": "string"
+          },
+          "taxConditionSummary": {
+            "type": "string"
+          },
+          "paymentTermsSummary": {
+            "type": "string"
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "grossMarginBand": {
+            "type": "string",
+            "enum": [
+              "below-redline",
+              "watch",
+              "target",
+              "not-calculated"
+            ]
+          },
+          "grossMarginSummary": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "released",
+              "conditional-release",
+              "rejected",
+              "escalation-required"
+            ]
+          },
+          "decisionSummary": {
+            "type": "string"
+          },
+          "approvalScenarioKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "readyForContracting": {
+            "type": "boolean"
+          },
+          "ownerRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockerCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "isCurrent",
+          "supersedesId",
+          "status",
+          "technicalCostPackageId",
+          "bidCommercialProcessId",
+          "commercialReleaseBaselineId",
+          "pricingPath",
+          "quoteVersion",
+          "currencyCode",
+          "quoteAmountTaxInclusive",
+          "quoteAmountTaxExclusive",
+          "taxRate",
+          "taxConditionSummary",
+          "paymentTermsSummary",
+          "grossMarginRate",
+          "grossMarginBand",
+          "grossMarginSummary",
+          "decision",
+          "decisionSummary",
+          "approvalScenarioKey",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "readyForContracting",
+          "ownerRole",
+          "blockerCount",
+          "effectiveAt",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectPricingMarginWorkspaceView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          },
+          "currentReview": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectPricingMarginReviewSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "technicalCostPackage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "bidCommercialProcess": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectBidCommercialProcessSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "conditionItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectPricingMarginConditionItemView"
+            }
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextStep": {
+            "type": "string"
+          },
+          "readyForContracting": {
+            "type": "boolean"
+          },
+          "ownerLabel": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentReview",
+          "technicalCostPackage",
+          "bidCommercialProcess",
+          "conditionItems",
+          "blockingReasons",
+          "nextStep",
+          "readyForContracting",
+          "ownerLabel",
+          "allowedActions",
+          "generatedAt"
+        ]
+      },
+      "ProjectStage": {
+        "type": "string",
+        "enum": [
+          "assessment",
+          "scope-confirmation",
+          "commercial-closure",
+          "contracting",
+          "handover",
+          "execution",
+          "acceptance",
+          "completed",
+          "closed-lost",
+          "closed-terminated"
+        ]
+      },
+      "ProjectStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "pending-approval",
+          "blocked",
+          "on-hold",
+          "completed",
+          "closed"
+        ]
+      },
+      "ProjectTechnicalCostItemInput": {
+        "type": "object",
+        "properties": {
+          "costCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "costSubcategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "estimationBasis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "quantity": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,4})?$",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,4})?$",
+            "nullable": true
+          },
+          "amountExcludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "taxCostAmount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "confidenceLevel": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "highUncertainty": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costCategory",
+          "costDescription",
+          "estimationBasis",
+          "amountExcludingTax",
+          "taxCostAmount",
+          "amountIncludingTax",
+          "currencyCode",
+          "confidenceLevel",
+          "highUncertainty"
+        ]
+      },
+      "ProjectTechnicalCostItemView": {
+        "type": "object",
+        "properties": {
+          "costCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "costSubcategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "costDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "estimationBasis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "quantity": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountExcludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "taxCostAmount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "amountIncludingTax": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,2})?$"
+          },
+          "currencyCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16
+          },
+          "confidenceLevel": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "highUncertainty": {
+            "type": "boolean"
+          },
+          "responsibleRole": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "costCategory",
+          "costSubcategory",
+          "costDescription",
+          "estimationBasis",
+          "quantity",
+          "unit",
+          "unitPrice",
+          "amountExcludingTax",
+          "taxCostAmount",
+          "amountIncludingTax",
+          "currencyCode",
+          "confidenceLevel",
+          "highUncertainty",
+          "responsibleRole",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTechnicalCostPackageList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+        }
+      },
+      "ProjectTechnicalCostPackageSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "effective",
+              "superseded"
+            ]
+          },
+          "technicalFeasibilityDecision": {
+            "type": "string",
+            "enum": [
+              "feasible",
+              "conditional",
+              "not-feasible"
+            ]
+          },
+          "technicalConclusionSummary": {
+            "type": "string"
+          },
+          "allowNextStage": {
+            "type": "boolean"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "totalEstimatedAmountExcludingTax": {
+            "type": "string"
+          },
+          "totalTaxCostAmount": {
+            "type": "string"
+          },
+          "totalEstimatedAmountIncludingTax": {
+            "type": "string"
+          },
+          "taxAssumptionSummary": {
+            "type": "string"
+          },
+          "taxReviewStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "reviewed",
+              "not-required"
+            ]
+          },
+          "highestRiskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4",
+              null
+            ],
+            "nullable": true
+          },
+          "blockerCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "isCurrent",
+          "supersedesId",
+          "status",
+          "technicalFeasibilityDecision",
+          "technicalConclusionSummary",
+          "allowNextStage",
+          "currencyCode",
+          "totalEstimatedAmountExcludingTax",
+          "totalTaxCostAmount",
+          "totalEstimatedAmountIncludingTax",
+          "taxAssumptionSummary",
+          "taxReviewStatus",
+          "highestRiskLevel",
+          "blockerCount",
+          "effectiveAt",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectTechnicalCostWorkspaceView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentStage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          },
+          "currentPackage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectTechnicalCostPackageSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "scopeItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalScopeItemView"
+            }
+          },
+          "riskItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalRiskItemView"
+            }
+          },
+          "costItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalCostItemView"
+            }
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextStep": {
+            "type": "string"
+          },
+          "ownerLabel": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentPackage",
+          "scopeItems",
+          "riskItems",
+          "costItems",
+          "blockingReasons",
+          "nextStep",
+          "ownerLabel",
+          "allowedActions",
+          "generatedAt"
+        ]
+      },
+      "ProjectTechnicalRiskItemInput": {
+        "type": "object",
+        "properties": {
+          "riskCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4"
+            ]
+          },
+          "riskDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "impactScope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "mitigationPlan": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "mitigating",
+              "accepted",
+              "closed"
+            ]
+          },
+          "blocksNextStage": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "riskCategory",
+          "riskLevel",
+          "riskDescription",
+          "impactScope",
+          "mitigationPlan",
+          "ownerRole",
+          "riskStatus",
+          "blocksNextStage"
+        ]
+      },
+      "ProjectTechnicalRiskItemView": {
+        "type": "object",
+        "properties": {
+          "riskCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4"
+            ]
+          },
+          "riskDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "impactScope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "mitigationPlan": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "mitigating",
+              "accepted",
+              "closed"
+            ]
+          },
+          "blocksNextStage": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "riskCategory",
+          "riskLevel",
+          "riskDescription",
+          "impactScope",
+          "mitigationPlan",
+          "ownerRole",
+          "riskStatus",
+          "blocksNextStage",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTechnicalScopeItemInput": {
+        "type": "object",
+        "properties": {
+          "scopeType": {
+            "type": "string",
+            "enum": [
+              "in-scope",
+              "out-of-scope",
+              "assumption"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "scopeType",
+          "label",
+          "description"
+        ]
+      },
+      "ProjectTechnicalScopeItemView": {
+        "type": "object",
+        "properties": {
+          "scopeType": {
+            "type": "string",
+            "enum": [
+              "in-scope",
+              "out-of-scope",
+              "assumption"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "scopeType",
+          "label",
+          "description",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "pomsSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "poms_session"
+      },
+      "pomsCsrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token"
+      }
+    }
+  },
+  "pathCount": 4,
+  "operationCount": 6,
+  "recursiveSchemaCount": 19,
+  "operationIds": [
+    "ProjectController_listProjectTechnicalCostPackages",
+    "ProjectController_createProjectTechnicalCostPackage",
+    "ProjectController_getProjectTechnicalCostWorkspace",
+    "ProjectController_listProjectPricingMarginReviews",
+    "ProjectController_createProjectPricingMarginReview",
+    "ProjectController_getProjectPricingMarginWorkspace"
+  ]
+}

@@ -1,0 +1,1580 @@
+{
+  "version": 1,
+  "kind": "G1-static-acceptance-input-not-executed",
+  "baseCommit": "0fced204c917a37b84a2ad50838e722e764b8f78",
+  "branch": "codex/poms-r3cdefg-next16",
+  "owner": "author-3",
+  "issues": {
+    "R3E": 90,
+    "R3F": 91,
+    "parent": 85,
+    "overall": 57
+  },
+  "scope": {
+    "R3E": 3,
+    "R3F": 4,
+    "total": 7
+  },
+  "sourceReview": "tmp/rust-r3cdefg/d-input/input-review.md",
+  "sourceManifest": "tmp/rust-r3cdefg/d-input/source-manifest.json",
+  "runtimeExecutor": "Root only",
+  "status": "Prepared / Pending-Root-Native-witness-and-joint-G1",
+  "evidenceRule": "Each row must bind exact candidate, Native/Rust HTTP requests and responses, PG rows/versions/audit/session state as relevant, actual runtime result and retained evidence path/hash; static/mocked coverage is not actual acceptance.",
+  "sharedRuntimeUnknownRule": "Rows list source expectations, not certified runtime outcomes. Native auto-flush/order/transactions/concurrency/DB-error body must be measured first and then frozen; no guessed Pass.",
+  "jointG1NativeWitnessPriorities": [
+    {"id":"W01","matrixRows":["E02"],"question":"HTTP create合法gender被controller省略后真实响应/PG是否unknown","status":"Pending-Root"},
+    {"id":"W02","matrixRows":["T17","F20"],"question":"follow-up auto-flush、双向self-FK、record/Todo/session的真实SQL顺序与提交点","status":"Pending-Root"},
+    {"id":"W03","matrixRows":["T04","T06","T07","T10","T11"],"question":"有next/无next/无owner、替换/作废的真实提醒完成/撤销/清流范围","status":"Pending-Root"},
+    {"id":"W04","matrixRows":["F31"],"question":"后置audit失败时follow-up与Todo是否已提交及版本/HTTP结果","status":"Pending-Root"},
+    {"id":"W05","matrixRows":["E17","E18","T18","T19","T20"],"question":"失败与并发的CAS loser错误、行/链/Todo/audit/session计数和rollback范围","status":"Pending-Root"},
+    {"id":"W06","matrixRows":["C04","C05","C06","C07","C08","C09","E06","F15","F18"],"question":"原DTO复杂错误、Unicode/lone surrogate、UUID/query/path、日期、schema与DB长度错位","status":"Pending-Root"}
+  ],
+  "rows": [
+    {
+      "id": "P01",
+      "slice": "joint",
+      "category": "protected",
+      "operation": "seven operations",
+      "assertion": "交付计数仅E3+F4；联系人从原13拆3，其余10不进入本片",
+      "vectors": [
+        "canonical inventory 343-346,352-354",
+        "R3A/B14先前交付不重复计数"
+      ],
+      "expectedSource": "源操作/共享契约保持；本片G4不关闭R3 #85/总体 #57",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "P02",
+      "slice": "joint",
+      "category": "protected",
+      "operation": "all",
+      "assertion": "全Native OpenAPI237 paths/291 ops/585 schemas、client579文件、共享enum/生成物保持原始字节",
+      "vectors": [
+        "before/after raw bytes SHA256",
+        "当前Rust dispatch129；E/F贡献7，联合16操作批次与其余9项去重统计"
+      ],
+      "expectedSource": "零产品DDL、零Node产品源码/生成client/API schema变更",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "P03",
+      "slice": "joint",
+      "category": "protected",
+      "operation": "all",
+      "assertion": "92 migration完整raw SHA清单保持；Rust只依照累计既有DDL",
+      "vectors": [
+        "92 migration count+hashes",
+        "EX44/48A/58B/58C/61/62",
+        "todo open-source部分唯一索引"
+      ],
+      "expectedSource": "不运行新增DDL、不继续硬编码已移除follow-up type CHECK",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C01",
+      "slice": "joint",
+      "category": "auth",
+      "operation": "E GET/PATCH/POST",
+      "assertion": "联系人按customer权限all独立判定",
+      "vectors": [
+        "no session",
+        "customer:read only",
+        "customer:write only",
+        "lead/project permissions only",
+        "none",
+        "cookie CSRF missing/valid",
+        "Bearer allowed combinations"
+      ],
+      "expectedSource": "GET要求customer:read，write要求customer:write；无owner/scope附加限制",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C02",
+      "slice": "joint",
+      "category": "auth",
+      "operation": "F GET/POST/replace/void",
+      "assertion": "跟进权限是any，不能要求三者同时拥有",
+      "vectors": [
+        "each one customer/lead/project read",
+        "each one write",
+        "read cannot write",
+        "write missing read",
+        "none",
+        "Cookie/Bearer+CSRF matrix"
+      ],
+      "expectedSource": "单一任意对应权限足够；guard错误来自Root公共协议",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C03",
+      "slice": "joint",
+      "category": "DTO",
+      "operation": "all bodies",
+      "assertion": "原Zod object解析、strip与root type失败一致",
+      "vectors": [
+        "missing body",
+        "null",
+        "[]",
+        "number",
+        "boolean",
+        "string",
+        "unknown property",
+        "duplicate JSON key",
+        "__proto__/constructor/toString"
+      ],
+      "expectedSource": "已知键按schema解析，unknown strip；完整HTTP400与issues顺序对齐",
+      "runtimeUnknowns": [
+        "schema异常没有issues时errors字段省略",
+        "无body实际被Nest解析成何值"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C04",
+      "slice": "joint",
+      "category": "DTO",
+      "operation": "all",
+      "assertion": "多字段无效保持schema遍历和refine错误顺序",
+      "vectors": [
+        "all required missing",
+        "invalid type+length",
+        "multiple enum/UUID errors",
+        "array/object with length",
+        "nullable optional invalid values"
+      ],
+      "expectedSource": "statusCode400/message Validation failed，无额外error键；issues原样比对",
+      "runtimeUnknowns": [
+        "异常length对象的Zod行为",
+        "refine在各invalid路径是否继续执行"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C05",
+      "slice": "joint",
+      "category": "text",
+      "operation": "text fields",
+      "assertion": "trim、min/max边界按Root锁定原Zod实测",
+      "vectors": [
+        "ASCII spaces",
+        "NBSP/U+FEFF/U+2000/U+2028/U+2029",
+        "U+200B nontrim",
+        "astral at max/max+1",
+        "combining marks",
+        "code point max vs UTF16"
+      ],
+      "expectedSource": "本片schema边界复验原R3A/B code point裁决；显式JS length/slice另测",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C06",
+      "slice": "joint",
+      "category": "Unicode",
+      "operation": "all text responses and PG",
+      "assertion": "未配对surrogate区分DTO接受、managed响应、PG落值、后续GET",
+      "vectors": [
+        "JSON \\ud800",
+        "JSON \\udc00",
+        "paired escaped surrogate",
+        "literal emoji",
+        "surrogate at truncation boundary",
+        "NUL text"
+      ],
+      "expectedSource": "保持lossless原HTTP与PG实际结果",
+      "runtimeUnknowns": [
+        "PG驱动lone surrogate替换/错误",
+        "DB NUL失败与事务范围"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C07",
+      "slice": "joint",
+      "category": "UUID",
+      "operation": "body/query UUID fields",
+      "assertion": "保留z.uuid格式与原拼写，不提前canonical化影响JS严格相等",
+      "vectors": [
+        "v1-v8 valid variants",
+        "nil",
+        "lowercase max",
+        "uppercase normal/max",
+        "v0/v9",
+        "bad variant",
+        "no hyphens",
+        "leading/trailing whitespace",
+        "number/null/array/object"
+      ],
+      "expectedSource": "原DTO接受/拒绝及pattern/issue完全一致",
+      "runtimeUnknowns": [
+        "uppercase-anchor vs managed customer ID比较"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C08",
+      "slice": "joint",
+      "category": "path/error",
+      "operation": "E PATCH; F replace/void",
+      "assertion": "没有UUID pipe，坏path ID先Native实测",
+      "vectors": [
+        "invalid UUID",
+        "existing uppercase UUID",
+        "missing valid UUID",
+        "percent encoded/colon suffix"
+      ],
+      "expectedSource": "不擅加400 UUID pipe或统一404",
+      "runtimeUnknowns": [
+        "PG/ORM错误body/状态",
+        "路径解码和大小写identity map"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C09",
+      "slice": "joint",
+      "category": "query",
+      "operation": "E/F GET",
+      "assertion": "query重复键与未知键保持Nest解析和strip",
+      "vectors": [
+        "same key twice",
+        "query arrays",
+        "customerId[]",
+        "empty value",
+        "unknown keys",
+        "1000+ query pairs"
+      ],
+      "expectedSource": "比较完整Native DTO错误/数组类型，不以first/last-wins猜测",
+      "runtimeUnknowns": [
+        "query parser重复/超限行为"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "C10",
+      "slice": "joint",
+      "category": "routes",
+      "operation": "all",
+      "assertion": "仅7条方法/路径，不引入额外detail/delete/patch",
+      "vectors": [
+        "GET /customer-contacts/{id}",
+        "DELETE contact",
+        "PATCH follow-up",
+        "GET follow-up/{id}",
+        "wrong slash/action colon forms"
+      ],
+      "expectedSource": "未注册路由保持Root transport404/405实际形状",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E01",
+      "slice": "R3E",
+      "category": "positive",
+      "operation": "POST /api/customer-contacts",
+      "assertion": "最小合法HTTP创建由真实Rust客户producer给ID",
+      "vectors": [
+        "customerId+trimmed name",
+        "no gender/status/optional fields"
+      ],
+      "expectedSource": "201；active/unknown；optional字段null；actor IDs；rowVersion1待PG确认",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E02",
+      "slice": "R3E",
+      "category": "HTTP projection",
+      "operation": "POST /api/customer-contacts",
+      "assertion": "合法gender经过DTO但controller不转发",
+      "vectors": [
+        "gender=male",
+        "gender=female",
+        "gender=unknown",
+        "gender omitted",
+        "gender invalid/null"
+      ],
+      "expectedSource": "合法输入创建仍unknown；invalid/null由DTO拒绝；不被service mock female结果替代",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E03",
+      "slice": "R3E",
+      "category": "defaults/strip",
+      "operation": "POST /api/customer-contacts",
+      "assertion": "未知status/owner/expectedVersion/customerName不影响创建",
+      "vectors": [
+        "status inactive",
+        "expectedVersion0",
+        "ownerUserId null",
+        "createdBy spoof",
+        "id spoof"
+      ],
+      "expectedSource": "unknown键strip；status active与actor创建字段不变",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E04",
+      "slice": "R3E",
+      "category": "positive/negative",
+      "operation": "POST/PATCH contact",
+      "assertion": "name/department/title/wechat/remark长度与nullable",
+      "vectors": [
+        "name 1/128/129",
+        "department/title/wechat1/128/129",
+        "remark1/2000/2001",
+        "missing/null/empty/whitespace"
+      ],
+      "expectedSource": "name不nullable；optional text nullable；空串/纯trim空串400",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E05",
+      "slice": "R3E",
+      "category": "phone",
+      "operation": "POST/PATCH contact",
+      "assertion": "工作电话/手机只有文本长度限制",
+      "vectors": [
+        "non-phone letters",
+        "international symbols",
+        "1/64/65 chars",
+        "trimmed text",
+        "null",
+        "empty",
+        "number"
+      ],
+      "expectedSource": "任意1..64非空文本接受；无号码regex/数字coercion",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E06",
+      "slice": "R3E",
+      "category": "email/DB",
+      "operation": "POST/PATCH contact",
+      "assertion": "email原z.email，不trim，无schema max，DB255",
+      "vectors": [
+        "valid ordinary",
+        "unicode/local edge cases",
+        "leading/trailing whitespace",
+        "empty/null/missing",
+        "valid <=255/>255"
+      ],
+      "expectedSource": "原DTO email错误；合法长值到DB后真实结果保持",
+      "runtimeUnknowns": [
+        ">255合法emailDB失败envelope和rollback"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E07",
+      "slice": "R3E",
+      "category": "positive",
+      "operation": "PATCH /api/customer-contacts/{id}",
+      "assertion": "逐项和组合修改全部10个字段",
+      "vectors": [
+        "name/gender/department/title/workPhone/mobile/wechat/email/remark/status",
+        "reordered JSON keys"
+      ],
+      "expectedSource": "字段值/nullable/actor/版本/完整DTO和审计changedFields固定顺序",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E08",
+      "slice": "R3E",
+      "category": "null/omission",
+      "operation": "PATCH contact",
+      "assertion": "optional字段缺失保持、null清空，name/gender/status null拒绝",
+      "vectors": [
+        "all nullable fields null",
+        "same values",
+        "omitted nullable fields",
+        "null name/gender/status",
+        "unknown customerId"
+      ],
+      "expectedSource": "clear与omit区分；customerId不可变",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E09",
+      "slice": "R3E",
+      "category": "negative",
+      "operation": "PATCH contact",
+      "assertion": "空或unknown-only更新触发refine",
+      "vectors": [
+        "{}",
+        "expectedVersion only",
+        "customerId only",
+        "owner only",
+        "name undefined represented by omission"
+      ],
+      "expectedSource": "400 custom path[]: At least one field is required for update",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E10",
+      "slice": "R3E",
+      "category": "no-op",
+      "operation": "PATCH contact",
+      "assertion": "归一化后无变化不改updatedBy、不persist、不写审计",
+      "vectors": [
+        "same name padded spaces",
+        "same gender/status",
+        "null already-null",
+        "same all fields",
+        "different actor"
+      ],
+      "expectedSource": "contact业务行与审计不变",
+      "runtimeUnknowns": [
+        "transaction wrapper与pending session是否flush"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E11",
+      "slice": "R3E",
+      "category": "audit",
+      "operation": "PATCH contact",
+      "assertion": "敏感字段只给present/UTF16 length摘要且仅changed字段",
+      "vectors": [
+        "workPhone/mobile/wechat/email/remark old/new",
+        "emoji/combining/lone surrogate",
+        "null to text/text to null",
+        "mixed nonsensitive change"
+      ],
+      "expectedSource": "before/after脱敏；metadata sourceCommand/update-customer-contact及customerId；顺序固定",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E12",
+      "slice": "R3E",
+      "category": "customer context",
+      "operation": "GET/POST/PATCH contact",
+      "assertion": "客户只要求存在，允许非active状态",
+      "vectors": [
+        "active",
+        "inactive",
+        "merged",
+        "inactive contact"
+      ],
+      "expectedSource": "不会调用require_active_customer；Native允许分支保持",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E13",
+      "slice": "R3E",
+      "category": "negative",
+      "operation": "GET/POST/PATCH contact",
+      "assertion": "缺客户/缺联系人错误与读取顺序",
+      "vectors": [
+        "missing customer GET",
+        "missing customer create",
+        "missing contact PATCH",
+        "orphan-customer controlled fault"
+      ],
+      "expectedSource": "404 Customer/CustomerContact原消息；PATCH先contact后customer",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E14",
+      "slice": "R3E",
+      "category": "list",
+      "operation": "GET /api/customer-contacts",
+      "assertion": "同客户全部状态及排序",
+      "vectors": [
+        "empty customer",
+        "multiple active/inactive",
+        "updatedAt unequal",
+        "same updatedAt different createdAt",
+        "exact ties"
+      ],
+      "expectedSource": "array；updatedAt DESC/createdAt DESC；不增加tie-break或分页",
+      "runtimeUnknowns": [
+        "完全相同排序键的允许顺序"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E15",
+      "slice": "R3E",
+      "category": "mapping",
+      "operation": "GET/POST/PATCH contact",
+      "assertion": "固定全字段/null/ISO与当前客户名称",
+      "vectors": [
+        "renamed customer",
+        "nullable createdBy/updatedBy",
+        "new managed string vs fresh GET"
+      ],
+      "expectedSource": "所有18字段齐全；customerName来自当前客户事实；createdAt/updatedAt JS ISO",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E16",
+      "slice": "R3E",
+      "category": "audit boundary",
+      "operation": "POST contact",
+      "assertion": "创建没有customer-contact.updated审计",
+      "vectors": [
+        "create success",
+        "create failure"
+      ],
+      "expectedSource": "不存在作者新增的create success审计；原通用guard/security事件按Root既有边界",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E17",
+      "slice": "R3E",
+      "category": "fault",
+      "operation": "PATCH contact",
+      "assertion": "同EM显式transactional的失败边界",
+      "vectors": [
+        "audit insert failure",
+        "contact update failure",
+        "session flush CAS failure",
+        "connection/flush failure"
+      ],
+      "expectedSource": "Root逐表冻结contact/audit/session的rollback与rowVersion，业务不预判",
+      "runtimeUnknowns": [
+        "实际SQL顺序",
+        "事务失败后HTTP错误"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "E18",
+      "slice": "R3E",
+      "category": "concurrency",
+      "operation": "PATCH contact",
+      "assertion": "无expectedVersion输入仍保留ORM行版本竞争",
+      "vectors": [
+        "two writers same field",
+        "different fields",
+        "identical writes",
+        "pending session conflict"
+      ],
+      "expectedSource": "原Native胜负/错误/行版本/审计数量一致；不新增expectedVersion",
+      "runtimeUnknowns": [
+        "stale CAS loser是否500或其它",
+        "snapshot before/after归属"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F01",
+      "slice": "R3F",
+      "category": "list",
+      "operation": "GET /api/sales-follow-up-records",
+      "assertion": "至少一个anchor；不先require各anchor存在",
+      "vectors": [
+        "none",
+        "customer only",
+        "lead only",
+        "project only",
+        "missing valid anchor"
+      ],
+      "expectedSource": "none400 custom；不存在anchor合法查询返回原数组通常[]",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F02",
+      "slice": "R3F",
+      "category": "list",
+      "operation": "GET follow-ups",
+      "assertion": "customer AND (lead OR project)与scope",
+      "vectors": [
+        "customer+lead",
+        "customer+project",
+        "lead+project same/different customer",
+        "all3",
+        "scope omitted/active/all/invalid"
+      ],
+      "expectedSource": "scope默认active；all含active/superseded/voided；两个机会anchor用OR",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F03",
+      "slice": "R3F",
+      "category": "list/order",
+      "operation": "GET follow-ups",
+      "assertion": "按occurredAt DESC/createdAt DESC返回全部",
+      "vectors": [
+        "out-of-order occurredAt",
+        "same occurredAt different create time",
+        "exact ties",
+        "history chain"
+      ],
+      "expectedSource": "不添加pagination/id tie-break",
+      "runtimeUnknowns": [
+        "完全相同排序键顺序"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F04",
+      "slice": "R3F",
+      "category": "context/mapping",
+      "operation": "GET follow-ups",
+      "assertion": "按记录批量装配客户/线索/项目/owner/voidedBy名称",
+      "vectors": [
+        "missing optional contexts",
+        "missing customer controlled read",
+        "renamed facts",
+        "voidedBy different from owner"
+      ],
+      "expectedSource": "customerName缺失空串；其它名称缺失null；voidedByName查询用户集合；固定全字段",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F05",
+      "slice": "R3F",
+      "category": "positive",
+      "operation": "POST /api/sales-follow-up-records",
+      "assertion": "最小create+真实customer producer",
+      "vectors": [
+        "active customer; no lead/project/owner/next/detail"
+      ],
+      "expectedSource": "201 active；actor defaults；detail/next/links/void fields null；真实PG记录",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F06",
+      "slice": "R3F",
+      "category": "validation order",
+      "operation": "POST follow-up",
+      "assertion": "operator→active customer→lead→project→owner→dictionary顺序",
+      "vectors": [
+        "several simultaneous missing references",
+        "inactive customer+missing lead",
+        "missing owner+missing dictionary"
+      ],
+      "expectedSource": "先出现的原业务错误消息；guard/DTO仍在service之前",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F07",
+      "slice": "R3F",
+      "category": "customer status",
+      "operation": "POST vs replace/void",
+      "assertion": "仅create要求active customer",
+      "vectors": [
+        "create active/inactive/merged",
+        "replace/void existing record under inactive/merged customer"
+      ],
+      "expectedSource": "create非active400；replace/void只要求客户存在，不添active check",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F08",
+      "slice": "R3F",
+      "category": "anchor positive",
+      "operation": "POST follow-up",
+      "assertion": "customer必填，lead/project可null/缺失/同时存在",
+      "vectors": [
+        "customer only",
+        "lead only context",
+        "project only context",
+        "both same customer unrelated sourceLeadId",
+        "closed lead/project"
+      ],
+      "expectedSource": "不强制机会anchor、不强制二选一/互相关联/状态/owner/scope",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F09",
+      "slice": "R3F",
+      "category": "anchor negative",
+      "operation": "POST/replace/void",
+      "assertion": "lead/project存在且customerId严格匹配",
+      "vectors": [
+        "missing lead",
+        "missing project",
+        "foreign customer lead",
+        "foreign customer project",
+        "uppercase customer/anchor spelling"
+      ],
+      "expectedSource": "原404或does not belong 400；比较输入原拼写与entity map语义",
+      "runtimeUnknowns": [
+        "uppercase相等行为"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F10",
+      "slice": "R3F",
+      "category": "owner create",
+      "operation": "POST follow-up",
+      "assertion": "owner缺失按project→lead→operator",
+      "vectors": [
+        "project owner present",
+        "project owner null + lead owner",
+        "both absent operator",
+        "explicit owner"
+      ],
+      "expectedSource": "user fallback优先级；nullish语义；无需active/member/scope约束",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F11",
+      "slice": "R3F",
+      "category": "org create",
+      "operation": "POST follow-up",
+      "assertion": "org默认owner.primaryOrg优先于context默认",
+      "vectors": [
+        "project org vs owner primary",
+        "owner primary null",
+        "lead org",
+        "operator primary",
+        "all null",
+        "explicit org"
+      ],
+      "expectedSource": "owner.primaryOrg ?? project.org ?? lead.org ?? operator.primaryOrg ?? null",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F12",
+      "slice": "R3F",
+      "category": "null owner/org",
+      "operation": "POST follow-up",
+      "assertion": "显式null分别清空，owner null不阻断org默认",
+      "vectors": [
+        "owner null/org omitted",
+        "owner omitted/org null",
+        "both null",
+        "owner provided/org null",
+        "mismatched valid owner/org"
+      ],
+      "expectedSource": "保持null与missing；不加成员/一致性约束；owner null无Todo清流",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F13",
+      "slice": "R3F",
+      "category": "owner negative",
+      "operation": "POST/replace",
+      "assertion": "非nullowner/org只要求存在",
+      "vectors": [
+        "missing owner",
+        "missing org",
+        "inactive owner/org",
+        "different org valid"
+      ],
+      "expectedSource": "缺失404 Platform user/Org unit原消息；inactive存在仍允许",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F14",
+      "slice": "R3F",
+      "category": "dictionary",
+      "operation": "POST/replace",
+      "assertion": "requireActiveItem(sales-follow-up-type)读取真实运营字典",
+      "vectors": [
+        "built-in active",
+        "custom active",
+        "missing",
+        "inactive",
+        "wrong domain same code"
+      ],
+      "expectedSource": "missing/inactive400 Dictionary item not found/is inactive；不硬编码6值",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F15",
+      "slice": "R3F",
+      "category": "dictionary DTO/DB",
+      "operation": "POST/replace",
+      "assertion": "DictionaryCode trim1..64 lower kebab；DBtype32差异",
+      "vectors": [
+        "1/32/33/64/65",
+        "active custom33..64",
+        "uppercase/underscore",
+        "leading hyphen/digit",
+        "double/trailing hyphen",
+        "trim"
+      ],
+      "expectedSource": "原regex ^[a-z][a-z0-9-]*$与DTO问题保持",
+      "runtimeUnknowns": [
+        "active合法33..64的DB写入错误及副作用"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F16",
+      "slice": "R3F",
+      "category": "text DTO",
+      "operation": "POST/replace",
+      "assertion": "summary/detail长度与null语义",
+      "vectors": [
+        "summary1/2000/2001",
+        "detail1/8000/8001",
+        "empty/whitespace/null/missing",
+        "astral/combining boundary"
+      ],
+      "expectedSource": "summary required非nullable；detail optional nullable，空串拒绝；trim后写值",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F17",
+      "slice": "R3F",
+      "category": "outcome",
+      "operation": "POST/replace",
+      "assertion": "7值outcome完整且没有coercion/别名",
+      "vectors": [
+        "progress",
+        "waiting-customer",
+        "risk-discovered",
+        "deferred",
+        "close-recommended",
+        "no-response",
+        "other",
+        "uppercase/unknown/null/number"
+      ],
+      "expectedSource": "原enum接受/issue值数组及顺序保持",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F18",
+      "slice": "R3F",
+      "category": "dates",
+      "operation": "POST/replace",
+      "assertion": "ISO datetime原格式、归一化和无业务先后约束",
+      "vectors": [
+        "Z",
+        "offset/local",
+        "seconds omitted",
+        "fraction1/3/6/9+",
+        "leap day invalid calendar",
+        "extended years",
+        "future occurredAt",
+        "next before occurred"
+      ],
+      "expectedSource": "只按原schema与Date处理，无新增next>=occurred或过去限制",
+      "runtimeUnknowns": [
+        "完整z.iso.datetime oracle与扩展年JS Date行为"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F19",
+      "slice": "R3F",
+      "category": "strip/default",
+      "operation": "POST follow-up",
+      "assertion": "status/links/actor/id/rowVersion注入被strip",
+      "vectors": [
+        "status voided",
+        "supersedesId",
+        "replacedById",
+        "createdBy",
+        "id",
+        "rowVersion",
+        "expectedVersion"
+      ],
+      "expectedSource": "active新记录、actor字段原生成；不按注入数据执行",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F20",
+      "slice": "R3F",
+      "category": "replace positive",
+      "operation": "POST /api/sales-follow-up-records/{id}:replace",
+      "assertion": "追加新记录，旧superseded，新active，双向链",
+      "vectors": [
+        "valid expectedVersion",
+        "all required body; new next/detail",
+        "chain replace twice"
+      ],
+      "expectedSource": "返回新ID；旧replacedBy=new/new.supersedes=old；anchors复制；旧actor更新；新初始版本",
+      "runtimeUnknowns": [
+        "实际双向FK insert/update顺序与版本"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F21",
+      "slice": "R3F",
+      "category": "replace fields",
+      "operation": "POST replace",
+      "assertion": "detail/next省略归null，锚点/body未知键strip",
+      "vectors": [
+        "omitted detail/next",
+        "explicit null",
+        "customer/lead/project spoof",
+        "status/chain spoof"
+      ],
+      "expectedSource": "不是PATCH保留旧detail/next；immutable anchors旧值",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F22",
+      "slice": "R3F",
+      "category": "replace owner",
+      "operation": "POST replace",
+      "assertion": "owner缺失保留旧owner，null清空，显式存在性",
+      "vectors": [
+        "omitted owner",
+        "null owner",
+        "different owner",
+        "same owner raw spelling"
+      ],
+      "expectedSource": "与create默认user不同；不回退到project/operator替代旧null owner",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F23",
+      "slice": "R3F",
+      "category": "replace org",
+      "operation": "POST replace",
+      "assertion": "org fallback包含owner当前primaryOrg与是否省略owner条件",
+      "vectors": [
+        "owner omitted/current org",
+        "changed owner no primary",
+        "owner null/org omitted",
+        "old org null/context org",
+        "explicit null/provided org"
+      ],
+      "expectedSource": "owner.primaryOrg ?? (owner missing?old.org:null) ?? project.org ?? lead.org ?? operator.org ?? null",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F24",
+      "slice": "R3F",
+      "category": "version DTO",
+      "operation": "POST replace/void",
+      "assertion": "expectedVersion必须number正整数且required",
+      "vectors": [
+        "omitted",
+        "null",
+        "0",
+        "negative",
+        "fraction",
+        "numeric string",
+        "unsafe integer extremes",
+        "positive current/stale"
+      ],
+      "expectedSource": "HTTP缺失先DTO400；不以service expectedVersion-is-required文本替代",
+      "runtimeUnknowns": [
+        "整数极值Zod具体issues"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F25",
+      "slice": "R3F",
+      "category": "status/version priority",
+      "operation": "POST replace/void",
+      "assertion": "先版本后active状态判断",
+      "vectors": [
+        "superseded/voided with current version",
+        "inactive with stale version",
+        "missing ID with bad expectedVersion"
+      ],
+      "expectedSource": "DTO先；存在记录版本不符409；版本符合但非active400原消息",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F26",
+      "slice": "R3F",
+      "category": "reason",
+      "operation": "POST replace",
+      "assertion": "replacementReason trim1..1000并保留",
+      "vectors": [
+        "1/1000/1001",
+        "empty/whitespace",
+        "null/missing",
+        "emoji boundary"
+      ],
+      "expectedSource": "required文本与原DTO错误；新记录reason与audit一致",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F27",
+      "slice": "R3F",
+      "category": "void positive",
+      "operation": "POST /api/sales-follow-up-records/{id}:void",
+      "assertion": "原记录置voided，时间/操作人/组合原因",
+      "vectors": [
+        "reason only",
+        "reason + padded comment",
+        "comment null/empty/whitespace",
+        "both1000 length"
+      ],
+      "expectedSource": "reason trim；非空comment加 ': '；无合并后1000限制；返回原ID",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F28",
+      "slice": "R3F",
+      "category": "void owner/dictionary",
+      "operation": "POST void",
+      "assertion": "不查字典、不重算owner，只为名字读旧owner/org",
+      "vectors": [
+        "old dictionary inactive/missing",
+        "old owner/org lookup missing controlled fact",
+        "customer inactive"
+      ],
+      "expectedSource": "仍可void；名字缺失null；没有新增owner有效性检查",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F29",
+      "slice": "R3F",
+      "category": "audit",
+      "operation": "POST replace/void",
+      "assertion": "保存后另记audit，snapshot字段及目标ID精确",
+      "vectors": [
+        "replace old target/new after",
+        "void same target",
+        "requestId present/absent",
+        "detail-sensitive text"
+      ],
+      "expectedSource": "replace metadata replacementId/replacementReason/before/after；void reason/before/after；snapshot不含detail；不脱敏summary",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F30",
+      "slice": "R3F",
+      "category": "audit boundary",
+      "operation": "POST create",
+      "assertion": "create不记录replaced/voided success审计",
+      "vectors": [
+        "create success/failure"
+      ],
+      "expectedSource": "不增加新审计event行为",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F31",
+      "slice": "R3F",
+      "category": "fault",
+      "operation": "POST replace/void",
+      "assertion": "业务save后独立audit失败的实际已提交状态",
+      "vectors": [
+        "audit create/save failure",
+        "connection failure during audit"
+      ],
+      "expectedSource": "先Native查业务/Todo/audit/session，Rust复现精确边界",
+      "runtimeUnknowns": [
+        "是否业务与Todo已经commit",
+        "HTTP500与审计行数量"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "F32",
+      "slice": "R3F",
+      "category": "mapping",
+      "operation": "all F responses",
+      "assertion": "所有字段和null/ISO/名称/链接字段名精确",
+      "vectors": [
+        "customerName empty fallback",
+        "nullable fields",
+        "owner/voidedBy displayName",
+        "created/updated actors",
+        "rowVersion changes"
+      ],
+      "expectedSource": "supersedesId/replacedById public名不暴露RecordId内部名；managed返回与fresh读分别比对",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T01",
+      "slice": "R3F",
+      "category": "Todo producer",
+      "operation": "POST follow-up",
+      "assertion": "active+owner+next创建真实Todo",
+      "vectors": [
+        "customer target",
+        "lead target controlled real read",
+        "project target from Rust project producer",
+        "both lead/project project wins"
+      ],
+      "expectedSource": "sourceType sales-follow-up-record/sourceId真实recordID/todoType sales-follow-up-reminder/domain sales/open/owner",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T02",
+      "slice": "R3F",
+      "category": "Todo target",
+      "operation": "sync reminder",
+      "assertion": "目标与title/projectId优先级",
+      "vectors": [
+        "projectName",
+        "project missing name fallback leadName/customerName",
+        "leadName/customerName",
+        "customer only"
+      ],
+      "expectedSource": "project→lead→customer；projectId仅project目标填；title销售跟进提醒：<title>",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T03",
+      "slice": "R3F",
+      "category": "Todo priority",
+      "operation": "sync reminder",
+      "assertion": "next<=now high，否则normal",
+      "vectors": [
+        "past",
+        "equal controlled clock",
+        "future",
+        "different occurredAt"
+      ],
+      "expectedSource": "按毫秒Date.now比较；不按occurredAt",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T04",
+      "slice": "R3F",
+      "category": "Todo stream",
+      "operation": "POST follow-up",
+      "assertion": "先完成同owner同target其它source open/processing",
+      "vectors": [
+        "previous open",
+        "previous processing",
+        "several previous source IDs",
+        "same source"
+      ],
+      "expectedSource": "其它source completed+completedAt；same source不完成；原业务记录不因此supersede/void",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T05",
+      "slice": "R3F",
+      "category": "Todo isolation",
+      "operation": "POST follow-up",
+      "assertion": "清流只命中精确sourceType/todoType/assignee/target/status",
+      "vectors": [
+        "different owner",
+        "different target/type",
+        "different sourceType/todoType",
+        "completed/canceled statuses"
+      ],
+      "expectedSource": "非命中行值/版本/时间不变",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T06",
+      "slice": "R3F",
+      "category": "Todo no-next",
+      "operation": "POST follow-up",
+      "assertion": "无next仍完成旧stream，不创建新Todo",
+      "vectors": [
+        "next omitted",
+        "next null",
+        "previous open/processing"
+      ],
+      "expectedSource": "完成旧行后return；不执行existing查询/insert",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T07",
+      "slice": "R3F",
+      "category": "Todo no-owner",
+      "operation": "POST follow-up",
+      "assertion": "owner null立即return，不清理其它owner旧提醒",
+      "vectors": [
+        "owner null with next",
+        "owner null without next",
+        "same target existing Todo"
+      ],
+      "expectedSource": "无新Todo、无stream清流",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T08",
+      "slice": "R3F",
+      "category": "Todo existing",
+      "operation": "sync reminder",
+      "assertion": "existing查sourceType/sourceId/assignee/open-status，无todoType/target条件",
+      "vectors": [
+        "existing processing",
+        "controlled wrong todoType/target same source",
+        "same source different owner"
+      ],
+      "expectedSource": "命中行覆盖type/domain/target/project/title/summary/status/priority/due/completedAt；status重开open",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T09",
+      "slice": "R3F",
+      "category": "Todo summary",
+      "operation": "sync reminder",
+      "assertion": "摘要用JS UTF16 length与slice157",
+      "vectors": [
+        "length159/160/161",
+        "emoji at cut157",
+        "lone surrogate",
+        "trimmed summary"
+      ],
+      "expectedSource": "大于160时slice(0,157)+'...'，不可按code point截断",
+      "runtimeUnknowns": [
+        "切开surrogate后的PG存储与返回"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T10",
+      "slice": "R3F",
+      "category": "Todo replacement",
+      "operation": "POST replace",
+      "assertion": "先cancel旧source，再sync新source",
+      "vectors": [
+        "owner same/different/null",
+        "new next present/null",
+        "multiple owner todos on old source"
+      ],
+      "expectedSource": "旧open/processing所有owner/target的reminder canceled；新规则按新owner/target执行",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T11",
+      "slice": "R3F",
+      "category": "Todo cancellation",
+      "operation": "POST void",
+      "assertion": "按source取消全部open/processing提醒，不恢复上一提醒",
+      "vectors": [
+        "old open+processing",
+        "multiple owners/targets",
+        "already completed/canceled",
+        "unrelated source"
+      ],
+      "expectedSource": "canceled与同now completedAt；终态/其它来源不变；无fallbackTodo",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T12",
+      "slice": "R3F",
+      "category": "Todo versions",
+      "operation": "create/replace/void/stream",
+      "assertion": "真实Todo dirty更新和默认行版本",
+      "vectors": [
+        "new row version/time",
+        "complete/cancel changes",
+        "existing refreshed no-diff controlled case",
+        "same timestamp/frozen clock"
+      ],
+      "expectedSource": "精确Native rowVersion/updatedAt/createdAt；不盲目每次+1",
+      "runtimeUnknowns": [
+        "managed dirty判断和batch/update顺序"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T13",
+      "slice": "R3F",
+      "category": "Todo uniqueness",
+      "operation": "concurrent sync",
+      "assertion": "open-source唯一键不含todoType/target",
+      "vectors": [
+        "same source+assignee duplicate open/processing",
+        "closed rows permit another open",
+        "different owner permit"
+      ],
+      "expectedSource": "保持DDL约束与Native错误，不扩大唯一键",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T14",
+      "slice": "R3F",
+      "category": "consumer",
+      "operation": "GET /api/me/todos",
+      "assertion": "真实producer生成Todo由R2公开消费",
+      "vectors": [
+        "Rust customer→F→Todo GET",
+        "Rust customer/project→F→Todo GET",
+        "controlled readonly lead→F→Todo GET"
+      ],
+      "expectedSource": "sourceId真实F ID；current actor open/processing only；createdAt ASC；targetTitle当前事实；allowedActions[]",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T15",
+      "slice": "R3F",
+      "category": "consumer projection",
+      "operation": "GET /api/me/todos",
+      "assertion": "下次跟进显示UTC+8与目标名，不需要approval record",
+      "vectors": [
+        "due boundary UTC day/year",
+        "project/lead/customer name",
+        "due null controlled fact"
+      ],
+      "expectedSource": "currentNodeName下次跟进：YYYY-MM-DD HH:mm或下次跟进；targetTitle源事实",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T16",
+      "slice": "R3F",
+      "category": "consumer after writes",
+      "operation": "GET /api/me/todos",
+      "assertion": "complete/cancel从公开列表消失而DB保留",
+      "vectors": [
+        "new record cleans previous",
+        "replace cancels old/new source visible",
+        "void current",
+        "owner different session"
+      ],
+      "expectedSource": "真实行状态/rowVersion保留；不物理删除；不同actor隔离",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T17",
+      "slice": "R3F",
+      "category": "fault",
+      "operation": "record/Todo save* sync",
+      "assertion": "auto-flush与故障按原SQL时间点冻结",
+      "vectors": [
+        "record insert fail",
+        "stream SELECT fail",
+        "old Todo update fail",
+        "new Todo insert fail",
+        "cancel SELECT fail",
+        "final flush fail",
+        "session update fail"
+      ],
+      "expectedSource": "Root在每阶段核对HTTP、F/Todo/session/audit所有行与版本",
+      "runtimeUnknowns": [
+        "先前flush是否已提交",
+        "record/Todo部分提交",
+        "old/new双向FK顺序"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T18",
+      "slice": "R3F",
+      "category": "concurrency",
+      "operation": "parallel follow-up creates",
+      "assertion": "同stream不同source竞争不自行加强串行化",
+      "vectors": [
+        "two next present",
+        "one no-next",
+        "same/different owner",
+        "same/different target"
+      ],
+      "expectedSource": "按Native冻结胜负、open/completed数量及版本；不得预设始终仅1 open",
+      "runtimeUnknowns": [
+        "事务交错和stream读视图"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T19",
+      "slice": "R3F",
+      "category": "concurrency",
+      "operation": "parallel replace/void",
+      "assertion": "版本竞争完整链与Todo/audit计数",
+      "vectors": [
+        "double replace same version",
+        "replace-vs-void",
+        "double void",
+        "stale UI version after replacement"
+      ],
+      "expectedSource": "只有Native实际赢家状态可接受；精确loser错误、无伪孤链",
+      "runtimeUnknowns": [
+        "CAS/unique/selfFK失败顺序与副作用"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "T20",
+      "slice": "R3F",
+      "category": "concurrency",
+      "operation": "references/session",
+      "assertion": "引用或session并发变化的原快照语义",
+      "vectors": [
+        "dictionary disabled after validation",
+        "customer/lead/project owner changes",
+        "owner primaryOrg changes",
+        "managed actor nullable org",
+        "pending session CAS conflict"
+      ],
+      "expectedSource": "按RootNative witness保持statement/identity-map视图，不自动加全程snapshot事务",
+      "runtimeUnknowns": [
+        "原引用读序和flush时点"
+      ],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U01",
+      "slice": "R3E",
+      "category": "original UI",
+      "operation": "customer contact panel",
+      "assertion": "原UI创建→reload→编辑→inactive→reload",
+      "vectors": [
+        "Native/Rust×Cookie/Bearer4组合",
+        "real Rust customer",
+        "gender选female",
+        "clear optional fields",
+        "unchanged submit disabled"
+      ],
+      "expectedSource": "create payload含gender但结果unknown；edit只变更字段无expectedVersion；null清空；真实请求+PG",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U02",
+      "slice": "R3E",
+      "category": "original UI permissions",
+      "operation": "customer/project/lead embedded contacts",
+      "assertion": "联系人写权限独立customer:write",
+      "vectors": [
+        "customer readonly",
+        "project writer without customer write",
+        "lead writer without customer write",
+        "customer writer"
+      ],
+      "expectedSource": "按钮/错误与HTTP拒绝一致；不因project/lead:write新增contact权限",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U03",
+      "slice": "R3F",
+      "category": "original UI",
+      "operation": "customer follow-up panel",
+      "assertion": "create→history→replace→void完整原UI",
+      "vectors": [
+        "Native/Rust×Cookie/Bearer",
+        "Dates.toISOString",
+        "stale version/rejected command"
+      ],
+      "expectedSource": "panelreload原列表；历史链与原因/错误信息；replace/void expectedVersion来自返回rowVersion",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U04",
+      "slice": "R3F",
+      "category": "original UI project",
+      "operation": "project follow-up panel",
+      "assertion": "真实Rust客户+项目producer再跟进",
+      "vectors": [
+        "projectId set/leadId null",
+        "create owner omitted",
+        "replace owner IDs sent",
+        "void"
+      ],
+      "expectedSource": "遵循原panel请求投影，不修改UI为通过验收",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U05",
+      "slice": "R3F",
+      "category": "original UI Todo",
+      "operation": "real reminder→GET me/todos→navigation",
+      "assertion": "已有refreshTodos/页面reload后可见，点击定位真实跟进",
+      "vectors": [
+        "customer /customers/{id}",
+        "project /projects/{id}",
+        "controlled lead /leads?leadId=...",
+        "followUpId+todoId params"
+      ],
+      "expectedSource": "同sourceId导航；不能因follow-up store未自动refresh而新增行为；取消后消失",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U06",
+      "slice": "R3F",
+      "category": "scope evidence",
+      "operation": "lead contexts",
+      "assertion": "Lead只能使用受控真实只读输入",
+      "vectors": [
+        "lead target read/create F",
+        "lead UI当前其它未迁移依赖"
+      ],
+      "expectedSource": "明确source标签；不写Lead14 producer完成或R3整阶段通过",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "U07",
+      "slice": "joint",
+      "category": "original UI errors",
+      "operation": "E/F panels",
+      "assertion": "真实拒绝/网络错误保持原交互",
+      "vectors": [
+        "missing permission",
+        "CSRF failure",
+        "bad email",
+        "stale expectedVersion",
+        "missing/inactive dictionary",
+        "source deleted"
+      ],
+      "expectedSource": "loading/saving清理、dialog/error文本与按钮状态保持；mock不算HTTP/browser证据",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    },
+    {
+      "id": "G01",
+      "slice": "joint",
+      "category": "evidence",
+      "operation": "all",
+      "assertion": "Root统一运行且证据绑定精确候选",
+      "vectors": [
+        "Native originals",
+        "Rust dual-end HTTP/PG",
+        "controlled concurrency/failure",
+        "original UI4 combos",
+        "appropriate build/lint/regressions",
+        "post integration"
+      ],
+      "expectedSource": "本矩阵准备不是Pass；每行填真实命令/输入/输出/PG快照/哈希",
+      "runtimeUnknowns": [],
+      "status": "Pending-Root"
+    }
+  ]
+}

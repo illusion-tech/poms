@@ -1,0 +1,1073 @@
+{
+  "kind": "R3CDEFG-full-additional-response-comparison",
+  "dataset": "temporal",
+  "createdAt": "2026-11-02T04:50:35.837Z",
+  "inputs": [
+    {
+      "file": "tmp/rust-r3cdefg/temporal-parity01-nest-01/report01.json",
+      "bytes": 362845,
+      "rawBytesSha256": "fa64dc4ad7f241b58389d7eb72f88ddfb8e838f0006931aad7d8a3d4d9906bc1"
+    },
+    {
+      "file": "tmp/rust-r3cdefg/temporal-parity03-rust-01/report01.json",
+      "bytes": 366608,
+      "rawBytesSha256": "f2598e37aa64850d9b5a7e1cee394f3767cdf14cc08bf377c08c03ffde03d936"
+    }
+  ],
+  "events": 84,
+  "normalizations": {
+    "UUIDs": "Bijective producer/corresponding-field identity mapping; preserve uppercase spelling",
+    "businessNumbers": "Only actual projectNo/customerNo identities allocated by corresponding real producers; values and formulas are unchanged",
+    "generatedDates": [
+      "generatedAt",
+      "voidedAt",
+      "createdAt",
+      "updatedAt",
+      "effectiveAt",
+      "completedAt",
+      "canceledAt",
+      "generated_at",
+      "voided_at",
+      "created_at",
+      "updated_at",
+      "effective_at",
+      "completed_at",
+      "canceled_at"
+    ],
+    "foundationLists": "Raw full lists retained; compare exactly the actual run-owned foundation customer/project record, excluding deliberately unequal earlier fixture cohorts",
+    "allOtherErrorArraysDatesMoneyStrings": "Compared exactly"
+  },
+  "result": "Needs-correction",
+  "differenceCount": 5,
+  "differences": [
+    {
+      "index": 1,
+      "label": "temporal.bid.year0",
+      "differences": [
+        {
+          "path": ".status",
+          "native": 500,
+          "rust": 201
+        },
+        {
+          "path": ".body.statusCode",
+          "native": 500
+        },
+        {
+          "path": ".body.message",
+          "native": "Internal server error"
+        },
+        {
+          "path": ".body.bidMode",
+          "rust": "public-tender"
+        },
+        {
+          "path": ".body.bidPackageNo",
+          "rust": "Temporal year0 package"
+        },
+        {
+          "path": ".body.blockerCount",
+          "rust": 1
+        },
+        {
+          "path": ".body.createdAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.createdBy",
+          "rust": "actor.admin.userId"
+        },
+        {
+          "path": ".body.currentStage",
+          "rust": "preparation"
+        },
+        {
+          "path": ".body.decision",
+          "rust": "participate"
+        },
+        {
+          "path": ".body.decisionSummary",
+          "rust": "Temporal year0 decision"
+        },
+        {
+          "path": ".body.effectiveAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.id",
+          "rust": "89f12f09-6e05-467f-8ded-4bda8956d51c"
+        },
+        {
+          "path": ".body.isCurrent",
+          "rust": true
+        },
+        {
+          "path": ".body.ownerRole",
+          "rust": "Temporal year0 owner"
+        },
+        {
+          "path": ".body.processSummary",
+          "rust": "Temporal year0 process"
+        },
+        {
+          "path": ".body.projectId",
+          "rust": "uuid.0"
+        },
+        {
+          "path": ".body.resultStatus",
+          "rust": "pending"
+        },
+        {
+          "path": ".body.resultSummary",
+          "rust": null
+        },
+        {
+          "path": ".body.rowVersion",
+          "rust": 1
+        },
+        {
+          "path": ".body.status",
+          "rust": "effective"
+        },
+        {
+          "path": ".body.supersedesId",
+          "rust": null
+        },
+        {
+          "path": ".body.tenderNo",
+          "rust": "Temporal year0 tender"
+        },
+        {
+          "path": ".body.updatedAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.updatedBy",
+          "rust": "actor.admin.userId"
+        },
+        {
+          "path": ".body.version",
+          "rust": 1
+        }
+      ],
+      "native": {
+        "label": "temporal.bid.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/bid-commercial-processes",
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        }
+      },
+      "rust": {
+        "label": "temporal.bid.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/bid-commercial-processes",
+        "status": 201,
+        "body": {
+          "bidMode": "public-tender",
+          "bidPackageNo": "Temporal year0 package",
+          "blockerCount": 1,
+          "createdAt": "generated-server-time",
+          "createdBy": "actor.admin.userId",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "decisionSummary": "Temporal year0 decision",
+          "effectiveAt": "generated-server-time",
+          "id": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+          "isCurrent": true,
+          "ownerRole": "Temporal year0 owner",
+          "processSummary": "Temporal year0 process",
+          "projectId": "uuid.0",
+          "resultStatus": "pending",
+          "resultSummary": null,
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": null,
+          "tenderNo": "Temporal year0 tender",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "actor.admin.userId",
+          "version": 1
+        }
+      }
+    },
+    {
+      "index": 2,
+      "label": "temporal.followup.year0",
+      "differences": [
+        {
+          "path": ".label",
+          "native": "temporal.followup.year0",
+          "rust": "temporal.bid.workspace.year0"
+        },
+        {
+          "path": ".method",
+          "native": "POST",
+          "rust": "GET"
+        },
+        {
+          "path": ".route",
+          "native": "/api/sales-follow-up-records",
+          "rust": "/api/projects/uuid.0/bid-commercial-workspace"
+        },
+        {
+          "path": ".status",
+          "native": 500,
+          "rust": 200
+        },
+        {
+          "path": ".body.statusCode",
+          "native": 500
+        },
+        {
+          "path": ".body.message",
+          "native": "Internal server error"
+        },
+        {
+          "path": ".body.allowedActions",
+          "rust": [
+            "view-bid-commercial-workspace",
+            "create-bid-commercial-process"
+          ]
+        },
+        {
+          "path": ".body.blockingReasons",
+          "rust": [
+            "Temporal year0 material label：材料仍在处理中"
+          ]
+        },
+        {
+          "path": ".body.currentProcess",
+          "rust": {
+            "bidMode": "public-tender",
+            "bidPackageNo": "Temporal year0 package",
+            "blockerCount": 1,
+            "createdAt": "generated-server-time",
+            "createdBy": "actor.admin.userId",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "decisionSummary": "Temporal year0 decision",
+            "effectiveAt": "generated-server-time",
+            "id": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+            "isCurrent": true,
+            "ownerRole": "Temporal year0 owner",
+            "processSummary": "Temporal year0 process",
+            "projectId": "uuid.0",
+            "resultStatus": "pending",
+            "resultSummary": null,
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "tenderNo": "Temporal year0 tender",
+            "updatedAt": "generated-server-time",
+            "updatedBy": "actor.admin.userId",
+            "version": 1
+          }
+        },
+        {
+          "path": ".body.currentStage",
+          "rust": "assessment"
+        },
+        {
+          "path": ".body.generatedAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.materialItems",
+          "rust": [
+            {
+              "blocksNextStep": true,
+              "dueAt": "0000-02-29T00:00:00.123Z",
+              "id": "fa9547c1-2c06-4364-ad43-dfa28224827f",
+              "label": "Temporal year0 material label",
+              "materialKey": "Temporal year0 material",
+              "materialStatus": "in-progress",
+              "navigationHint": "/projects/current/workspace/bid-commercial",
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": "Temporal year0 material owner",
+              "sortOrder": 1
+            },
+            {
+              "blocksNextStep": false,
+              "dueAt": null,
+              "id": "ba1ecd9c-0bd5-4a24-88f7-fe39c19cc704",
+              "label": "Temporal year0 ready material label",
+              "materialKey": "Temporal year0 ready material",
+              "materialStatus": "ready",
+              "navigationHint": null,
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": null,
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "path": ".body.nextStep",
+          "rust": "先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。"
+        },
+        {
+          "path": ".body.ownerLabel",
+          "rust": "R3CG admin / R3CG admin"
+        },
+        {
+          "path": ".body.projectId",
+          "rust": "uuid.0"
+        },
+        {
+          "path": ".body.status",
+          "rust": "active"
+        },
+        {
+          "path": ".body.timelineItems",
+          "rust": [
+            {
+              "dueAt": "0000-02-29T00:00:00.123Z",
+              "eventKey": "Temporal year0 completed event",
+              "id": "4871d023-b128-4f22-87c9-a3ec5d3796e9",
+              "label": "Temporal year0 completed event label",
+              "occurredAt": "0000-02-29T00:00:00.123Z",
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": "Temporal year0 event owner",
+              "sortOrder": 1,
+              "summary": "Temporal year0 completed event summary",
+              "timelineStatus": "done"
+            },
+            {
+              "dueAt": "2026-11-04T08:00:00.000Z",
+              "eventKey": "Temporal year0 pending event",
+              "id": "5ad21448-117b-487c-a6bc-8ec2dab77cfa",
+              "label": "Temporal year0 pending event label",
+              "occurredAt": null,
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": null,
+              "sortOrder": 2,
+              "summary": null,
+              "timelineStatus": "pending"
+            }
+          ]
+        }
+      ],
+      "native": {
+        "label": "temporal.followup.year0",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        }
+      },
+      "rust": {
+        "label": "temporal.bid.workspace.year0",
+        "method": "GET",
+        "route": "/api/projects/uuid.0/bid-commercial-workspace",
+        "status": 200,
+        "body": {
+          "allowedActions": [
+            "view-bid-commercial-workspace",
+            "create-bid-commercial-process"
+          ],
+          "blockingReasons": [
+            "Temporal year0 material label：材料仍在处理中"
+          ],
+          "currentProcess": {
+            "bidMode": "public-tender",
+            "bidPackageNo": "Temporal year0 package",
+            "blockerCount": 1,
+            "createdAt": "generated-server-time",
+            "createdBy": "actor.admin.userId",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "decisionSummary": "Temporal year0 decision",
+            "effectiveAt": "generated-server-time",
+            "id": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+            "isCurrent": true,
+            "ownerRole": "Temporal year0 owner",
+            "processSummary": "Temporal year0 process",
+            "projectId": "uuid.0",
+            "resultStatus": "pending",
+            "resultSummary": null,
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "tenderNo": "Temporal year0 tender",
+            "updatedAt": "generated-server-time",
+            "updatedBy": "actor.admin.userId",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "generated-server-time",
+          "materialItems": [
+            {
+              "blocksNextStep": true,
+              "dueAt": "0000-02-29T00:00:00.123Z",
+              "id": "fa9547c1-2c06-4364-ad43-dfa28224827f",
+              "label": "Temporal year0 material label",
+              "materialKey": "Temporal year0 material",
+              "materialStatus": "in-progress",
+              "navigationHint": "/projects/current/workspace/bid-commercial",
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": "Temporal year0 material owner",
+              "sortOrder": 1
+            },
+            {
+              "blocksNextStep": false,
+              "dueAt": null,
+              "id": "ba1ecd9c-0bd5-4a24-88f7-fe39c19cc704",
+              "label": "Temporal year0 ready material label",
+              "materialKey": "Temporal year0 ready material",
+              "materialStatus": "ready",
+              "navigationHint": null,
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": null,
+              "sortOrder": 2
+            }
+          ],
+          "nextStep": "先处理竞标决策、结果或材料阻断，再进入报价与毛利评审。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "uuid.0",
+          "status": "active",
+          "timelineItems": [
+            {
+              "dueAt": "0000-02-29T00:00:00.123Z",
+              "eventKey": "Temporal year0 completed event",
+              "id": "4871d023-b128-4f22-87c9-a3ec5d3796e9",
+              "label": "Temporal year0 completed event label",
+              "occurredAt": "0000-02-29T00:00:00.123Z",
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": "Temporal year0 event owner",
+              "sortOrder": 1,
+              "summary": "Temporal year0 completed event summary",
+              "timelineStatus": "done"
+            },
+            {
+              "dueAt": "2026-11-04T08:00:00.000Z",
+              "eventKey": "Temporal year0 pending event",
+              "id": "5ad21448-117b-487c-a6bc-8ec2dab77cfa",
+              "label": "Temporal year0 pending event label",
+              "occurredAt": null,
+              "processId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+              "responsibleRole": null,
+              "sortOrder": 2,
+              "summary": null,
+              "timelineStatus": "pending"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "index": 3,
+      "label": "producer.cost.year0",
+      "differences": [
+        {
+          "path": ".label",
+          "native": "producer.cost.year0",
+          "rust": "temporal.followup.year0"
+        },
+        {
+          "path": ".route",
+          "native": "/api/projects/uuid.0/technical-cost-packages",
+          "rust": "/api/sales-follow-up-records"
+        },
+        {
+          "path": ".body.version",
+          "native": 1
+        },
+        {
+          "path": ".body.isCurrent",
+          "native": true
+        },
+        {
+          "path": ".body.status",
+          "native": "effective",
+          "rust": "active"
+        },
+        {
+          "path": ".body.technicalFeasibilityDecision",
+          "native": "feasible"
+        },
+        {
+          "path": ".body.technicalConclusionSummary",
+          "native": "G1 技术方案可行。"
+        },
+        {
+          "path": ".body.allowNextStage",
+          "native": true
+        },
+        {
+          "path": ".body.currencyCode",
+          "native": "CNY"
+        },
+        {
+          "path": ".body.totalEstimatedAmountExcludingTax",
+          "native": "100.00"
+        },
+        {
+          "path": ".body.totalTaxCostAmount",
+          "native": "13.00"
+        },
+        {
+          "path": ".body.totalEstimatedAmountIncludingTax",
+          "native": "113.00"
+        },
+        {
+          "path": ".body.taxAssumptionSummary",
+          "native": "G1 设备成本含税测算，税务已复核。"
+        },
+        {
+          "path": ".body.taxReviewStatus",
+          "native": "reviewed"
+        },
+        {
+          "path": ".body.highestRiskLevel",
+          "native": "R1"
+        },
+        {
+          "path": ".body.blockerCount",
+          "native": 0
+        },
+        {
+          "path": ".body.effectiveAt",
+          "native": "generated-server-time"
+        },
+        {
+          "path": ".body.customerId",
+          "rust": "uuid.1"
+        },
+        {
+          "path": ".body.customerName",
+          "rust": "R3CG cohort.run"
+        },
+        {
+          "path": ".body.detail",
+          "rust": null
+        },
+        {
+          "path": ".body.followUpType",
+          "rust": "phone"
+        },
+        {
+          "path": ".body.leadId",
+          "rust": null
+        },
+        {
+          "path": ".body.leadName",
+          "rust": null
+        },
+        {
+          "path": ".body.nextFollowUpAt",
+          "rust": "0000-02-29T00:00:00.123Z"
+        },
+        {
+          "path": ".body.occurredAt",
+          "rust": "0000-02-29T00:00:00.123Z"
+        },
+        {
+          "path": ".body.outcome",
+          "rust": "progress"
+        },
+        {
+          "path": ".body.ownerName",
+          "rust": "R3CG admin"
+        },
+        {
+          "path": ".body.ownerOrgId",
+          "rust": "actor.admin.orgId"
+        },
+        {
+          "path": ".body.ownerOrgName",
+          "rust": "R3CG admin"
+        },
+        {
+          "path": ".body.ownerUserId",
+          "rust": "actor.admin.userId"
+        },
+        {
+          "path": ".body.projectName",
+          "rust": "R3CG temporal year0 01"
+        },
+        {
+          "path": ".body.replacedById",
+          "rust": null
+        },
+        {
+          "path": ".body.replacementReason",
+          "rust": null
+        },
+        {
+          "path": ".body.summary",
+          "rust": "Temporal year0"
+        },
+        {
+          "path": ".body.voidReason",
+          "rust": null
+        },
+        {
+          "path": ".body.voidedAt",
+          "rust": null
+        },
+        {
+          "path": ".body.voidedBy",
+          "rust": null
+        },
+        {
+          "path": ".body.voidedByName",
+          "rust": null
+        }
+      ],
+      "native": {
+        "label": "producer.cost.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/technical-cost-packages",
+        "status": 201,
+        "body": {
+          "id": "uuid.2",
+          "projectId": "uuid.0",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "technicalFeasibilityDecision": "feasible",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "allowNextStage": true,
+          "currencyCode": "CNY",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalTaxCostAmount": "13.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "highestRiskLevel": "R1",
+          "blockerCount": 0,
+          "effectiveAt": "generated-server-time",
+          "createdAt": "generated-server-time",
+          "createdBy": "actor.admin.userId",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "actor.admin.userId",
+          "rowVersion": 1
+        }
+      },
+      "rust": {
+        "label": "temporal.followup.year0",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 201,
+        "body": {
+          "createdAt": "generated-server-time",
+          "createdBy": "actor.admin.userId",
+          "customerId": "uuid.1",
+          "customerName": "R3CG cohort.run",
+          "detail": null,
+          "followUpType": "phone",
+          "id": "uuid.2",
+          "leadId": null,
+          "leadName": null,
+          "nextFollowUpAt": "0000-02-29T00:00:00.123Z",
+          "occurredAt": "0000-02-29T00:00:00.123Z",
+          "outcome": "progress",
+          "ownerName": "R3CG admin",
+          "ownerOrgId": "actor.admin.orgId",
+          "ownerOrgName": "R3CG admin",
+          "ownerUserId": "actor.admin.userId",
+          "projectId": "uuid.0",
+          "projectName": "R3CG temporal year0 01",
+          "replacedById": null,
+          "replacementReason": null,
+          "rowVersion": 1,
+          "status": "active",
+          "summary": "Temporal year0",
+          "supersedesId": null,
+          "updatedAt": "generated-server-time",
+          "updatedBy": "actor.admin.userId",
+          "voidReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null
+        }
+      }
+    },
+    {
+      "index": 4,
+      "label": "producer.bid.year0",
+      "differences": [
+        {
+          "path": ".label",
+          "native": "producer.bid.year0",
+          "rust": "producer.cost.year0"
+        },
+        {
+          "path": ".route",
+          "native": "/api/projects/uuid.0/bid-commercial-processes",
+          "rust": "/api/projects/uuid.0/technical-cost-packages"
+        },
+        {
+          "path": ".body.bidMode",
+          "native": "public-tender"
+        },
+        {
+          "path": ".body.currentStage",
+          "native": "preparation"
+        },
+        {
+          "path": ".body.decision",
+          "native": "participate"
+        },
+        {
+          "path": ".body.resultStatus",
+          "native": "pending"
+        },
+        {
+          "path": ".body.processSummary",
+          "native": "Valid date upstream process"
+        },
+        {
+          "path": ".body.decisionSummary",
+          "native": "Valid date upstream decision"
+        },
+        {
+          "path": ".body.resultSummary",
+          "native": null
+        },
+        {
+          "path": ".body.tenderNo",
+          "native": "Valid date upstream tender"
+        },
+        {
+          "path": ".body.bidPackageNo",
+          "native": "Valid date upstream package"
+        },
+        {
+          "path": ".body.ownerRole",
+          "native": "Valid date upstream owner"
+        },
+        {
+          "path": ".body.blockerCount",
+          "native": 1,
+          "rust": 0
+        },
+        {
+          "path": ".body.allowNextStage",
+          "rust": true
+        },
+        {
+          "path": ".body.currencyCode",
+          "rust": "CNY"
+        },
+        {
+          "path": ".body.highestRiskLevel",
+          "rust": "R1"
+        },
+        {
+          "path": ".body.taxAssumptionSummary",
+          "rust": "G1 设备成本含税测算，税务已复核。"
+        },
+        {
+          "path": ".body.taxReviewStatus",
+          "rust": "reviewed"
+        },
+        {
+          "path": ".body.technicalConclusionSummary",
+          "rust": "G1 技术方案可行。"
+        },
+        {
+          "path": ".body.technicalFeasibilityDecision",
+          "rust": "feasible"
+        },
+        {
+          "path": ".body.totalEstimatedAmountExcludingTax",
+          "rust": "100.00"
+        },
+        {
+          "path": ".body.totalEstimatedAmountIncludingTax",
+          "rust": "113.00"
+        },
+        {
+          "path": ".body.totalTaxCostAmount",
+          "rust": "13.00"
+        }
+      ],
+      "native": {
+        "label": "producer.bid.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/bid-commercial-processes",
+        "status": 201,
+        "body": {
+          "id": "uuid.3",
+          "projectId": "uuid.0",
+          "version": 1,
+          "isCurrent": true,
+          "supersedesId": null,
+          "status": "effective",
+          "bidMode": "public-tender",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "resultStatus": "pending",
+          "processSummary": "Valid date upstream process",
+          "decisionSummary": "Valid date upstream decision",
+          "resultSummary": null,
+          "tenderNo": "Valid date upstream tender",
+          "bidPackageNo": "Valid date upstream package",
+          "ownerRole": "Valid date upstream owner",
+          "blockerCount": 1,
+          "effectiveAt": "generated-server-time",
+          "createdAt": "generated-server-time",
+          "createdBy": "actor.admin.userId",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "actor.admin.userId",
+          "rowVersion": 1
+        }
+      },
+      "rust": {
+        "label": "producer.cost.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/technical-cost-packages",
+        "status": 201,
+        "body": {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "generated-server-time",
+          "createdBy": "actor.admin.userId",
+          "currencyCode": "CNY",
+          "effectiveAt": "generated-server-time",
+          "highestRiskLevel": "R1",
+          "id": "uuid.3",
+          "isCurrent": true,
+          "projectId": "uuid.0",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": null,
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "G1 技术方案可行。",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "totalTaxCostAmount": "13.00",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "actor.admin.userId",
+          "version": 1
+        }
+      }
+    },
+    {
+      "index": 5,
+      "label": "temporal.pricing.year0",
+      "differences": [
+        {
+          "path": ".status",
+          "native": 500,
+          "rust": 201
+        },
+        {
+          "path": ".body.statusCode",
+          "native": 500
+        },
+        {
+          "path": ".body.message",
+          "native": "Internal server error"
+        },
+        {
+          "path": ".body.approvalScenarioKey",
+          "rust": null
+        },
+        {
+          "path": ".body.bidCommercialProcessId",
+          "rust": "89f12f09-6e05-467f-8ded-4bda8956d51c"
+        },
+        {
+          "path": ".body.blockerCount",
+          "rust": 1
+        },
+        {
+          "path": ".body.commercialReleaseBaselineId",
+          "rust": null
+        },
+        {
+          "path": ".body.createdAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.createdBy",
+          "rust": "actor.admin.userId"
+        },
+        {
+          "path": ".body.currencyCode",
+          "rust": "CNY"
+        },
+        {
+          "path": ".body.decision",
+          "rust": "pending"
+        },
+        {
+          "path": ".body.decisionSummary",
+          "rust": "G1 待形成评审结论。"
+        },
+        {
+          "path": ".body.effectiveAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.exportPolicy",
+          "rust": null
+        },
+        {
+          "path": ".body.grossMarginBand",
+          "rust": "not-calculated"
+        },
+        {
+          "path": ".body.grossMarginRate",
+          "rust": null
+        },
+        {
+          "path": ".body.grossMarginSummary",
+          "rust": "G1 毛利判断待评审。"
+        },
+        {
+          "path": ".body.id",
+          "rust": "4a3b5b99-db83-40e8-a2fe-d5b5214a3b23"
+        },
+        {
+          "path": ".body.isCurrent",
+          "rust": true
+        },
+        {
+          "path": ".body.ownerRole",
+          "rust": null
+        },
+        {
+          "path": ".body.paymentTermsSummary",
+          "rust": "G1 按约定节点回款。"
+        },
+        {
+          "path": ".body.pricingPath",
+          "rust": "bid"
+        },
+        {
+          "path": ".body.projectId",
+          "rust": "uuid.0"
+        },
+        {
+          "path": ".body.projectionLevel",
+          "rust": null
+        },
+        {
+          "path": ".body.quoteAmountTaxExclusive",
+          "rust": "200.00"
+        },
+        {
+          "path": ".body.quoteAmountTaxInclusive",
+          "rust": "226.00"
+        },
+        {
+          "path": ".body.quoteVersion",
+          "rust": "Q-G1-BID-01"
+        },
+        {
+          "path": ".body.readyForContracting",
+          "rust": false
+        },
+        {
+          "path": ".body.rowVersion",
+          "rust": 1
+        },
+        {
+          "path": ".body.status",
+          "rust": "effective"
+        },
+        {
+          "path": ".body.summaryPackageKey",
+          "rust": null
+        },
+        {
+          "path": ".body.summarySnapshotId",
+          "rust": null
+        },
+        {
+          "path": ".body.supersedesId",
+          "rust": null
+        },
+        {
+          "path": ".body.taxConditionSummary",
+          "rust": "G1 报价税务条件已记录。"
+        },
+        {
+          "path": ".body.taxRate",
+          "rust": "0.13"
+        },
+        {
+          "path": ".body.technicalCostPackageId",
+          "rust": "uuid.3"
+        },
+        {
+          "path": ".body.updatedAt",
+          "rust": "generated-server-time"
+        },
+        {
+          "path": ".body.updatedBy",
+          "rust": "actor.admin.userId"
+        },
+        {
+          "path": ".body.version",
+          "rust": 1
+        }
+      ],
+      "native": {
+        "label": "temporal.pricing.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/pricing-margin-reviews",
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        }
+      },
+      "rust": {
+        "label": "temporal.pricing.year0",
+        "method": "POST",
+        "route": "/api/projects/uuid.0/pricing-margin-reviews",
+        "status": 201,
+        "body": {
+          "approvalScenarioKey": null,
+          "bidCommercialProcessId": "89f12f09-6e05-467f-8ded-4bda8956d51c",
+          "blockerCount": 1,
+          "commercialReleaseBaselineId": null,
+          "createdAt": "generated-server-time",
+          "createdBy": "actor.admin.userId",
+          "currencyCode": "CNY",
+          "decision": "pending",
+          "decisionSummary": "G1 待形成评审结论。",
+          "effectiveAt": "generated-server-time",
+          "exportPolicy": null,
+          "grossMarginBand": "not-calculated",
+          "grossMarginRate": null,
+          "grossMarginSummary": "G1 毛利判断待评审。",
+          "id": "4a3b5b99-db83-40e8-a2fe-d5b5214a3b23",
+          "isCurrent": true,
+          "ownerRole": null,
+          "paymentTermsSummary": "G1 按约定节点回款。",
+          "pricingPath": "bid",
+          "projectId": "uuid.0",
+          "projectionLevel": null,
+          "quoteAmountTaxExclusive": "200.00",
+          "quoteAmountTaxInclusive": "226.00",
+          "quoteVersion": "Q-G1-BID-01",
+          "readyForContracting": false,
+          "rowVersion": 1,
+          "status": "effective",
+          "summaryPackageKey": null,
+          "summarySnapshotId": null,
+          "supersedesId": null,
+          "taxConditionSummary": "G1 报价税务条件已记录。",
+          "taxRate": "0.13",
+          "technicalCostPackageId": "uuid.3",
+          "updatedAt": "generated-server-time",
+          "updatedBy": "actor.admin.userId",
+          "version": 1
+        }
+      }
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

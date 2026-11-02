@@ -1,0 +1,135 @@
+{
+  "label": "cost-large-9007",
+  "startedAt": "2026-11-02T05:51:34.658Z",
+  "completedAt": "2026-11-02T05:51:34.726Z",
+  "amount": "9007199254740993.00",
+  "request": {
+    "technicalFeasibilityDecision": "feasible",
+    "technicalConclusionSummary": "G1 技术方案可行。",
+    "allowNextStage": true,
+    "currencyCode": "CNY",
+    "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+    "taxReviewStatus": "reviewed",
+    "scopeItems": [
+      {
+        "scopeType": "in-scope",
+        "label": "G1 设备交付",
+        "description": "包含一项设备供货。",
+        "sortOrder": 1
+      }
+    ],
+    "riskItems": [
+      {
+        "riskCategory": "G1 供货",
+        "riskLevel": "R1",
+        "riskDescription": "供货周期已经核实。",
+        "impactScope": "设备供货范围。",
+        "mitigationPlan": "按已核实周期交付。",
+        "ownerRole": "售前",
+        "riskStatus": "closed",
+        "blocksNextStage": false,
+        "sortOrder": 1
+      }
+    ],
+    "costItems": [
+      {
+        "costCategory": "equipment",
+        "costDescription": "G1 设备成本",
+        "estimationBasis": "G1 已确认询价。",
+        "amountExcludingTax": "9007199254740993.00",
+        "taxCostAmount": "0",
+        "amountIncludingTax": "9007199254740993.00",
+        "currencyCode": "CNY",
+        "confidenceLevel": "high",
+        "highUncertainty": false,
+        "sortOrder": 1
+      }
+    ]
+  },
+  "HTTP": {
+    "status": 201,
+    "body": {
+      "id": "502c4ebf-7af7-42ac-b719-2d674a185076",
+      "projectId": "426e7474-7443-4402-a1ac-0942ee4c44ab",
+      "version": 1,
+      "isCurrent": true,
+      "supersedesId": null,
+      "status": "effective",
+      "technicalFeasibilityDecision": "feasible",
+      "technicalConclusionSummary": "G1 技术方案可行。",
+      "allowNextStage": true,
+      "currencyCode": "CNY",
+      "totalEstimatedAmountExcludingTax": "9007199254740992.00",
+      "totalTaxCostAmount": "0.00",
+      "totalEstimatedAmountIncludingTax": "9007199254740992.00",
+      "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+      "taxReviewStatus": "reviewed",
+      "highestRiskLevel": "R1",
+      "blockerCount": 0,
+      "effectiveAt": "2026-11-02T05:51:34.714Z",
+      "createdAt": "2026-11-02T05:51:34.714Z",
+      "createdBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+      "updatedAt": "2026-11-02T05:51:34.714Z",
+      "updatedBy": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+      "rowVersion": 1
+    },
+    "requestId": "f3734205-5600-46d5-ae07-59f04b9f69be",
+    "headers": [
+      "X-Powered-By",
+      "Express",
+      "Access-Control-Allow-Origin",
+      "http://127.0.0.1:12300",
+      "Vary",
+      "Origin",
+      "Access-Control-Allow-Credentials",
+      "true",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "829",
+      "ETag",
+      "W/\"33d-Tya+M/sA2D46K+d9UoN5TBJpowM\"",
+      "Date",
+      "Mon, 02 Nov 2026 05:51:34 GMT",
+      "Connection",
+      "close"
+    ],
+    "rawWire": {
+      "requestBytes": 1420,
+      "requestSha256": "95f98eec8fc71a00e97b0517a8a26ffd5e664ffb5ff4109ad32e379f0af673d8",
+      "responseBytes": 1150,
+      "responseSha256": "9779cedd16b687aa7d814a4c12712674b23f8bfa04205ae4fe5bf8595f37f9ac",
+      "entityBodyBytes": 829,
+      "entityBodySha256": "0e81a3535ee107b2ecbdb07a78c27ce217497c78bdc8d48a10ff74fd3873f87d",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-eb7197ef-8f7f-4a0a-8320-2d75b2323601/raw-wire/admin-f3734205-5600-46d5-ae07-59f04b9f69be",
+      "originalRawRetained": true
+    }
+  },
+  "rows": [
+    {
+      "id": "502c4ebf-7af7-42ac-b719-2d674a185076",
+      "status": "effective",
+      "version": 1,
+      "created_at": "2026-11-02T13:51:34.714+08:00",
+      "created_by": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+      "is_current": true,
+      "project_id": "426e7474-7443-4402-a1ac-0942ee4c44ab",
+      "updated_at": "2026-11-02T13:51:34.714+08:00",
+      "updated_by": "bc16e0a1-b873-403f-b72d-a2a2cc43e8d2",
+      "row_version": 1,
+      "effective_at": "2026-11-02T13:51:34.714+08:00",
+      "blocker_count": 0,
+      "currency_code": "CNY",
+      "supersedes_id": null,
+      "allow_next_stage": true,
+      "tax_review_status": "reviewed",
+      "highest_risk_level": "R1",
+      "total_tax_cost_amount": 0,
+      "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+      "technical_conclusion_summary": "G1 技术方案可行。",
+      "technical_feasibility_decision": "feasible",
+      "total_estimated_amount_excluding_tax": 9007199254740992,
+      "total_estimated_amount_including_tax": 9007199254740992
+    }
+  ]
+}

@@ -1,0 +1,1270 @@
+{
+  "kind": "R3CDEFG-original-Angular-supplement-platform-cell",
+  "backend": "rust",
+  "label": "linux-rust03",
+  "role": "readonly",
+  "platform": "linux",
+  "tag": "parity04",
+  "apiRunId": "6f67881f-0071-43ca-88cf-0c61ef75f8df",
+  "marker": "431c0049-7968-42b9-8f4c-a6451d6ca13b",
+  "createdAt": "2026-11-02T05:06:03.615Z",
+  "input": {
+    "file": "tmp/rust-r3cdefg/ui-input-linux-rust03.json",
+    "bytes": 22942,
+    "rawBytesSha256": "edc79ea06097950ac7a4e09eb13057c7ee8c195ea24d2532ddec337354f24ed5"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "bytes": 10312,
+      "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-server.mjs",
+      "bytes": 4455,
+      "rawBytesSha256": "b20250e430554fe5f3225e150f5016cc8a502bf4934f68bd7b00927e9ba403a0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/supplement-journey01.mjs",
+      "bytes": 19525,
+      "rawBytesSha256": "887851c135ff9c375f646c8d3f9f5f8e13e6a578a45306193e5018007726fc97"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-wire-client.mjs",
+      "bytes": 4227,
+      "rawBytesSha256": "ee4756c501570e8a036897107143343284f9157a2ff45f4690c78f51a8dcb612"
+    }
+  ],
+  "browser": {
+    "file": "/home/wangzishi/.local/share/poms-r2m/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "bytes": 197422408,
+    "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+  },
+  "timezone": "Asia/Tokyo",
+  "result": "Pass",
+  "completed": true,
+  "errorName": null,
+  "failedStage": null,
+  "observations": [
+    {
+      "label": "supplement.linux-rust03.readonly.boundary",
+      "value": {
+        "role": "Root logged-in viewer; no mutation attempts in this journey",
+        "customerWriteCheck": "contact/follow-up panels only",
+        "leadNavigation": "out-of-scope; Lead14 not migrated"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.customer-readonly.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/customer-contacts?customerId=e98792ed-b177-43b1-a545-02cc59c22666",
+        "status": 200,
+        "requestBody": null,
+        "body": [
+          {
+            "createdAt": "2026-11-02T05:05:35.770Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "customerId": "e98792ed-b177-43b1-a545-02cc59c22666",
+            "customerName": "R3CG UI linux-rust03 客户",
+            "department": "UI客户关系部门",
+            "email": "linuxrust03@example.test",
+            "gender": "female",
+            "id": "d37539c4-584c-45de-9b21-bc2143189203",
+            "mobile": "13812345678",
+            "name": "UI联系人 linux-rust03",
+            "remark": "UI联系人修改 linux-rust03",
+            "rowVersion": 2,
+            "status": "active",
+            "title": "UI调整岗位 linux-rust03",
+            "updatedAt": "2026-11-02T05:05:37.639Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "wechat": "ui-linuxrust03",
+            "workPhone": null
+          }
+        ],
+        "raw": "[{\"createdAt\":\"2026-11-02T05:05:35.770Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"customerId\":\"e98792ed-b177-43b1-a545-02cc59c22666\",\"customerName\":\"R3CG UI linux-rust03 客户\",\"department\":\"UI客户关系部门\",\"email\":\"linuxrust03@example.test\",\"gender\":\"female\",\"id\":\"d37539c4-584c-45de-9b21-bc2143189203\",\"mobile\":\"13812345678\",\"name\":\"UI联系人 linux-rust03\",\"remark\":\"UI联系人修改 linux-rust03\",\"rowVersion\":2,\"status\":\"active\",\"title\":\"UI调整岗位 linux-rust03\",\"updatedAt\":\"2026-11-02T05:05:37.639Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"wechat\":\"ui-linuxrust03\",\"workPhone\":null}]"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.customer-readonly.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/sales-follow-up-records?customerId=e98792ed-b177-43b1-a545-02cc59c22666&lifecycleScope=active",
+        "status": 200,
+        "requestBody": null,
+        "body": [],
+        "raw": "[]"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.contacts.dom",
+      "value": "客户关系\n\n维护客户联系人，并作为线索和项目决策链的联系人来源。\n\n刷新\n客户联系人\n1 人\nUI联系人 linux-rust03\n女\n有效\nUI客户关系部门 · UI调整岗位 linux-rust03\n电话：13812345678\n微信：ui-linuxrust03\n邮箱：linuxrust03@example.test\n\nUI联系人修改 linux-rust03"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.customer-followups.dom",
+      "value": "客户销售跟进\n\n沉淀客户级沟通、长期采购信息、合作机会和下一步动作。\n\n显示历史\n刷新\n暂无销售跟进记录。"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.contacts.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.customer-followups.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.technical-cost.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/b3d0e91b-ee51-438e-b234-f64282b83d8e/technical-cost-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "allowedActions": [
+            "view-technical-cost-workspace"
+          ],
+          "blockingReasons": [],
+          "costItems": [
+            {
+              "amountExcludingTax": "100.00",
+              "amountIncludingTax": "113.00",
+              "confidenceLevel": "high",
+              "costCategory": "equipment",
+              "costDescription": "G1 设备成本",
+              "costSubcategory": null,
+              "currencyCode": "CNY",
+              "estimationBasis": "G1 已确认询价。",
+              "highUncertainty": false,
+              "id": "4f183df3-1dc1-41b4-830d-0e02fcf3a3f2",
+              "packageId": "dc468cf0-409a-4758-95a8-e09185516943",
+              "quantity": null,
+              "responsibleRole": null,
+              "sortOrder": 1,
+              "taxCostAmount": "13.00",
+              "unit": null,
+              "unitPrice": null
+            }
+          ],
+          "currentPackage": {
+            "allowNextStage": true,
+            "blockerCount": 0,
+            "createdAt": "2026-11-02T05:04:41.654Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currencyCode": "CNY",
+            "effectiveAt": "2026-11-02T05:04:41.654Z",
+            "highestRiskLevel": "R1",
+            "id": "dc468cf0-409a-4758-95a8-e09185516943",
+            "isCurrent": true,
+            "projectId": "b3d0e91b-ee51-438e-b234-f64282b83d8e",
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "technicalFeasibilityDecision": "feasible",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "totalTaxCostAmount": "13.00",
+            "updatedAt": "2026-11-02T05:04:41.654Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "2026-11-02T05:06:08.413Z",
+          "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "b3d0e91b-ee51-438e-b234-f64282b83d8e",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "57c88b28-ec0c-472b-8958-90b71e52557f",
+              "impactScope": "设备供货范围。",
+              "mitigationPlan": "按已核实周期交付。",
+              "ownerRole": "售前",
+              "packageId": "dc468cf0-409a-4758-95a8-e09185516943",
+              "riskCategory": "G1 供货",
+              "riskDescription": "供货周期已经核实。",
+              "riskLevel": "R1",
+              "riskStatus": "closed",
+              "sortOrder": 1
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "包含一项设备供货。",
+              "id": "fd53250a-4d8d-44f1-b3e0-1332afd24b4b",
+              "label": "G1 设备交付",
+              "packageId": "dc468cf0-409a-4758-95a8-e09185516943",
+              "scopeType": "in-scope",
+              "sortOrder": 1
+            }
+          ],
+          "status": "active"
+        },
+        "raw": "{\"allowedActions\":[\"view-technical-cost-workspace\"],\"blockingReasons\":[],\"costItems\":[{\"amountExcludingTax\":\"100.00\",\"amountIncludingTax\":\"113.00\",\"confidenceLevel\":\"high\",\"costCategory\":\"equipment\",\"costDescription\":\"G1 设备成本\",\"costSubcategory\":null,\"currencyCode\":\"CNY\",\"estimationBasis\":\"G1 已确认询价。\",\"highUncertainty\":false,\"id\":\"4f183df3-1dc1-41b4-830d-0e02fcf3a3f2\",\"packageId\":\"dc468cf0-409a-4758-95a8-e09185516943\",\"quantity\":null,\"responsibleRole\":null,\"sortOrder\":1,\"taxCostAmount\":\"13.00\",\"unit\":null,\"unitPrice\":null}],\"currentPackage\":{\"allowNextStage\":true,\"blockerCount\":0,\"createdAt\":\"2026-11-02T05:04:41.654Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currencyCode\":\"CNY\",\"effectiveAt\":\"2026-11-02T05:04:41.654Z\",\"highestRiskLevel\":\"R1\",\"id\":\"dc468cf0-409a-4758-95a8-e09185516943\",\"isCurrent\":true,\"projectId\":\"b3d0e91b-ee51-438e-b234-f64282b83d8e\",\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"taxAssumptionSummary\":\"G1 设备成本含税测算，税务已复核。\",\"taxReviewStatus\":\"reviewed\",\"technicalConclusionSummary\":\"G1 技术方案可行。\",\"technicalFeasibilityDecision\":\"feasible\",\"totalEstimatedAmountExcludingTax\":\"100.00\",\"totalEstimatedAmountIncludingTax\":\"113.00\",\"totalTaxCostAmount\":\"13.00\",\"updatedAt\":\"2026-11-02T05:04:41.654Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"currentStage\":\"assessment\",\"generatedAt\":\"2026-11-02T05:06:08.413Z\",\"nextStep\":\"进入商务收口前，保持当前版本包作为报价和签约前判断依据。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"projectId\":\"b3d0e91b-ee51-438e-b234-f64282b83d8e\",\"riskItems\":[{\"blocksNextStage\":false,\"id\":\"57c88b28-ec0c-472b-8958-90b71e52557f\",\"impactScope\":\"设备供货范围。\",\"mitigationPlan\":\"按已核实周期交付。\",\"ownerRole\":\"售前\",\"packageId\":\"dc468cf0-409a-4758-95a8-e09185516943\",\"riskCategory\":\"G1 供货\",\"riskDescription\":\"供货周期已经核实。\",\"riskLevel\":\"R1\",\"riskStatus\":\"closed\",\"sortOrder\":1}],\"scopeItems\":[{\"description\":\"包含一项设备供货。\",\"id\":\"fd53250a-4d8d-44f1-b3e0-1332afd24b4b\",\"label\":\"G1 设备交付\",\"packageId\":\"dc468cf0-409a-4758-95a8-e09185516943\",\"scopeType\":\"in-scope\",\"sortOrder\":1}],\"status\":\"active\"}"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.technical-cost.dom",
+      "value": "技术与成本\n\n先确认技术结论、范围边界、风险阻断和前期成本口径。\n\n技术结论\n技术可行\n成本估算\n113.00 CNY\n最高风险\nR1\n当前阻断\n无阻断\n责任归口\nR3CG admin / R3CG admin\n技术结论与版本口径\n\nG1 技术方案可行。\n\n技术可行性\n技术可行\n下一阶段\n允许推进\n版本\nV1\n当前有效版本\n生效时间\n2026/11/02 14:04\n最高风险\nR1\n阻断数量\n0\n税务复核\n已复核\n更新时间\n2026/11/02 14:04\n当前没有阻断项\n进入商务收口前，保持当前版本包作为报价和签约前判断依据。\n范围边界\n\n范围内、排除项和假设必须在进入报价前清楚可读。\n\n类型\t条目\t说明\n\n范围内\n\tG1 设备交付\t包含一项设备供货。\n风险与保留意见\n\n阻塞下一阶段的风险必须明确责任角色和缓解计划。\n\n等级\t类别\t风险\t状态\t责任角色\t缓解计划\n\nR1\n\tG1 供货\t\n供货周期已经核实。\n设备供货范围。\n\t\n已关闭\n\t售前\t按已核实周期交付。\n前期成本与税务\n\nG1 设备成本含税测算，税务已复核。\n\n不含税估算\n100.00 CNY\n税金成本\n13.00 CNY\n含税估算\n113.00 CNY\n币种\nCNY\n首版同一版本包内保持单币种\n类别\t成本说明\t估算依据\t不含税\t税金\t含税\t置信度\t责任角色\n\nequipment\n无子类\n\tG1 设备成本\tG1 已确认询价。\t100.00 CNY\t13.00 CNY\t113.00 CNY\t\n高\n\t待确认\n下一步\n\n进入商务收口前，保持当前版本包作为报价和签约前判断依据。\n\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.technical-cost.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.technical-cost.money.dom",
+      "value": "含税估算\n113.00 CNY"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.technical-cost.money-source",
+      "value": {
+        "field": "含税估算",
+        "rawAmount": "113.00",
+        "currency": "CNY",
+        "expectedOriginalFormatAmount": "113.00 CNY"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.bid-commercial.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/bid-commercial-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "allowedActions": [
+            "view-bid-commercial-workspace"
+          ],
+          "blockingReasons": [],
+          "currentProcess": {
+            "bidMode": "public-tender",
+            "bidPackageNo": "linux-rust03-PKG1",
+            "blockerCount": 0,
+            "createdAt": "2026-11-02T05:05:48.368Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "decisionSummary": "linux-rust03 participate",
+            "effectiveAt": "2026-11-02T05:05:48.368Z",
+            "id": "3a25e0cb-c001-4378-8ad0-840bb345c61d",
+            "isCurrent": true,
+            "ownerRole": "linux-rust03 bid owner",
+            "processSummary": "linux-rust03 first bid through original UI",
+            "projectId": "d68c306f-3b63-42c7-8ac2-9ce425f962ee",
+            "resultStatus": "pending",
+            "resultSummary": null,
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "tenderNo": "linux-rust03-T1",
+            "updatedAt": "2026-11-02T05:05:48.368Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "2026-11-02T05:06:08.781Z",
+          "materialItems": [
+            {
+              "blocksNextStep": true,
+              "dueAt": "2026-11-03T08:00:00.123Z",
+              "id": "1a379507-33ae-4e0a-a683-37481fdb8c47",
+              "label": "linux-rust03 material",
+              "materialKey": "linux-rust03-material",
+              "materialStatus": "ready",
+              "navigationHint": "/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/workspace/bid-commercial",
+              "processId": "3a25e0cb-c001-4378-8ad0-840bb345c61d",
+              "responsibleRole": "linux-rust03 material owner",
+              "sortOrder": 1
+            }
+          ],
+          "nextStep": "补齐竞标过程依据，准备进入报价与毛利评审。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "d68c306f-3b63-42c7-8ac2-9ce425f962ee",
+          "status": "active",
+          "timelineItems": [
+            {
+              "dueAt": "2026-11-03T03:00:00.000Z",
+              "eventKey": "linux-rust03-event",
+              "id": "63e30a16-f7ca-42f0-a338-6ab9f4d7cdb7",
+              "label": "linux-rust03 event",
+              "occurredAt": "2026-11-02T02:00:00.456Z",
+              "processId": "3a25e0cb-c001-4378-8ad0-840bb345c61d",
+              "responsibleRole": "linux-rust03 event owner",
+              "sortOrder": 1,
+              "summary": "linux-rust03 timeline through original UI",
+              "timelineStatus": "done"
+            }
+          ]
+        },
+        "raw": "{\"allowedActions\":[\"view-bid-commercial-workspace\"],\"blockingReasons\":[],\"currentProcess\":{\"bidMode\":\"public-tender\",\"bidPackageNo\":\"linux-rust03-PKG1\",\"blockerCount\":0,\"createdAt\":\"2026-11-02T05:05:48.368Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"decisionSummary\":\"linux-rust03 participate\",\"effectiveAt\":\"2026-11-02T05:05:48.368Z\",\"id\":\"3a25e0cb-c001-4378-8ad0-840bb345c61d\",\"isCurrent\":true,\"ownerRole\":\"linux-rust03 bid owner\",\"processSummary\":\"linux-rust03 first bid through original UI\",\"projectId\":\"d68c306f-3b63-42c7-8ac2-9ce425f962ee\",\"resultStatus\":\"pending\",\"resultSummary\":null,\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"tenderNo\":\"linux-rust03-T1\",\"updatedAt\":\"2026-11-02T05:05:48.368Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"currentStage\":\"assessment\",\"generatedAt\":\"2026-11-02T05:06:08.781Z\",\"materialItems\":[{\"blocksNextStep\":true,\"dueAt\":\"2026-11-03T08:00:00.123Z\",\"id\":\"1a379507-33ae-4e0a-a683-37481fdb8c47\",\"label\":\"linux-rust03 material\",\"materialKey\":\"linux-rust03-material\",\"materialStatus\":\"ready\",\"navigationHint\":\"/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/workspace/bid-commercial\",\"processId\":\"3a25e0cb-c001-4378-8ad0-840bb345c61d\",\"responsibleRole\":\"linux-rust03 material owner\",\"sortOrder\":1}],\"nextStep\":\"补齐竞标过程依据，准备进入报价与毛利评审。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"projectId\":\"d68c306f-3b63-42c7-8ac2-9ce425f962ee\",\"status\":\"active\",\"timelineItems\":[{\"dueAt\":\"2026-11-03T03:00:00.000Z\",\"eventKey\":\"linux-rust03-event\",\"id\":\"63e30a16-f7ca-42f0-a338-6ab9f4d7cdb7\",\"label\":\"linux-rust03 event\",\"occurredAt\":\"2026-11-02T02:00:00.456Z\",\"processId\":\"3a25e0cb-c001-4378-8ad0-840bb345c61d\",\"responsibleRole\":\"linux-rust03 event owner\",\"sortOrder\":1,\"summary\":\"linux-rust03 timeline through original UI\",\"timelineStatus\":\"done\"}]}"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.bid-commercial.dom",
+      "value": "招投标 / 商务竞标\n\n先确认竞标形态、材料责任、关键节点和结果路径。\n\n竞标形态\n公开招标\n当前节点\n材料准备\n参与决策\n参与\n竞标结果\n待结果\n责任归口\nR3CG admin / R3CG admin\n过程维护\n\n新增或编辑当前竞标过程会提交新的当前版本，历史版本由后端保留。\n\n当前只读\n当前用户、项目阶段或项目状态没有招投标 / 商务竞标写入权限。\n当前竞标过程\n\nlinux-rust03 first bid through original UI\n\n竞标形态\n公开招标\n招标编号\nlinux-rust03-T1\n标段 / 包件编号\nlinux-rust03-PKG1\n过程阶段\n材料准备\n参与决策\n参与\n结果状态\n待结果\n阻断数量\n0\n当前版本\nV1\n当前有效版本\n责任角色\nlinux-rust03 bid owner\n生效时间\n2026/11/02 14:05\n当前没有竞标阻断\n补齐竞标过程依据，准备进入报价与毛利评审。\n材料与责任\n\n进入报价前，投标材料、责任角色和阻断状态必须清楚可读。\n\n材料\t状态\t责任角色\t截止时间\t阻断\t导航提示\nlinux-rust03 material\t\n已齐备\n\tlinux-rust03 material owner\t2026/11/03 17:00\t阻断下一步\t/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/workspace/bid-commercial\n关键节点\n\n时间线用于解释当前结果是否来自正式过程，而不是页面临时判断。\n\n节点\t状态\t发生时间\t截止时间\t责任角色\t说明\nlinux-rust03 event\t\n已完成\n\t2026/11/02 11:00\t2026/11/03 12:00\tlinux-rust03 event owner\tlinux-rust03 timeline through original UI\n竞标版本历史\n\n查看当前 / 历史竞标过程、替代链和审计 metadata。\n\n当前版本\nV1\n3a25e0cb...\n历史版本\n0\n不含当前版本\n最近生效\n2026/11/02 14:05\n上一版本\n无上一版本\nRow version 1\n版本\t当前\t状态\t过程阶段\t参与决策\t竞标结果\t生效时间\t创建时间\t操作人 ID\t替代关系\tRow version\nV1\t\n当前\n\t\n生效中\n\t\n过程阶段\n材料准备\n\t\n参与决策\n参与\n\t\n竞标结果\n待结果\n\t2026/11/02 14:05\t2026/11/02 14:05\t\n创建 138c7948-5e72-43c9-82dc-10770c667598\n更新 138c7948-5e72-43c9-82dc-10770c667598\n\t无上一版本\t1\n下一步\n\n补齐竞标过程依据，准备进入报价与毛利评审。\n\n进入报价与毛利评审\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.bid-commercial.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.bid-commercial.money",
+      "value": {
+        "applicability": "N/A",
+        "source": "original bid workspace has no monetary field; process facts remain readable",
+        "currentProcessId": "3a25e0cb-c001-4378-8ad0-840bb345c61d"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.pricing-margin.http",
+      "value": {
+        "method": "GET",
+        "url": "http://127.0.0.1:12300/api/projects/f8420126-3df7-46ae-abf0-25da264ce10a/pricing-margin-workspace",
+        "status": 200,
+        "requestBody": null,
+        "body": {
+          "allowedActions": [
+            "view-pricing-margin-workspace"
+          ],
+          "bidCommercialProcess": {
+            "bidMode": "public-tender",
+            "bidPackageNo": "UI真实竞标基线 package",
+            "blockerCount": 1,
+            "createdAt": "2026-11-02T05:04:41.702Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currentStage": "preparation",
+            "decision": "participate",
+            "decisionSummary": "UI真实竞标基线 decision",
+            "effectiveAt": "2026-11-02T05:04:41.702Z",
+            "id": "6b2d1847-02f3-4a39-bdb5-a46a05cada79",
+            "isCurrent": true,
+            "ownerRole": "UI真实竞标基线 owner",
+            "processSummary": "UI真实竞标基线 process",
+            "projectId": "f8420126-3df7-46ae-abf0-25da264ce10a",
+            "resultStatus": "pending",
+            "resultSummary": null,
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "tenderNo": "UI真实竞标基线 tender",
+            "updatedAt": "2026-11-02T05:04:41.702Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "blockingReasons": [
+            "报价与毛利评审尚未形成放行结论。"
+          ],
+          "conditionItems": [],
+          "currentReview": {
+            "approvalScenarioKey": "pricing-margin-review",
+            "bidCommercialProcessId": "6b2d1847-02f3-4a39-bdb5-a46a05cada79",
+            "blockerCount": 1,
+            "commercialReleaseBaselineId": null,
+            "createdAt": "2026-11-02T05:05:50.842Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currencyCode": "CNY",
+            "decision": "pending",
+            "decisionSummary": "linux-rust03 pending pricing review through original UI",
+            "effectiveAt": "2026-11-02T05:05:50.842Z",
+            "exportPolicy": "internal",
+            "grossMarginBand": "not-calculated",
+            "grossMarginRate": null,
+            "grossMarginSummary": "linux-rust03 gross margin pending review",
+            "id": "6c5d0ad3-ce44-4c3a-8894-fab497dc1501",
+            "isCurrent": true,
+            "ownerRole": "R3CG admin / R3CG admin",
+            "paymentTermsSummary": "linux-rust03 payment terms",
+            "pricingPath": "bid",
+            "projectId": "f8420126-3df7-46ae-abf0-25da264ce10a",
+            "projectionLevel": "pricing-margin",
+            "quoteAmountTaxExclusive": "100.00",
+            "quoteAmountTaxInclusive": "120.00",
+            "quoteVersion": "linux-rust03-Q1",
+            "readyForContracting": false,
+            "rowVersion": 1,
+            "status": "effective",
+            "summaryPackageKey": "pricing-margin-summary",
+            "summarySnapshotId": null,
+            "supersedesId": null,
+            "taxConditionSummary": "linux-rust03 tax conditions",
+            "taxRate": "0.20000000",
+            "technicalCostPackageId": "4af6142e-8943-4046-8cea-7447c209aeb9",
+            "updatedAt": "2026-11-02T05:05:50.842Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          },
+          "currentStage": "assessment",
+          "generatedAt": "2026-11-02T05:06:09.157Z",
+          "nextStep": "先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。",
+          "ownerLabel": "R3CG admin / R3CG admin",
+          "projectId": "f8420126-3df7-46ae-abf0-25da264ce10a",
+          "readyForContracting": false,
+          "status": "active",
+          "technicalCostPackage": {
+            "allowNextStage": true,
+            "blockerCount": 0,
+            "createdAt": "2026-11-02T05:04:41.690Z",
+            "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "currencyCode": "CNY",
+            "effectiveAt": "2026-11-02T05:04:41.690Z",
+            "highestRiskLevel": "R1",
+            "id": "4af6142e-8943-4046-8cea-7447c209aeb9",
+            "isCurrent": true,
+            "projectId": "f8420126-3df7-46ae-abf0-25da264ce10a",
+            "rowVersion": 1,
+            "status": "effective",
+            "supersedesId": null,
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "technicalFeasibilityDecision": "feasible",
+            "totalEstimatedAmountExcludingTax": "100.00",
+            "totalEstimatedAmountIncludingTax": "113.00",
+            "totalTaxCostAmount": "13.00",
+            "updatedAt": "2026-11-02T05:04:41.690Z",
+            "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+            "version": 1
+          }
+        },
+        "raw": "{\"allowedActions\":[\"view-pricing-margin-workspace\"],\"bidCommercialProcess\":{\"bidMode\":\"public-tender\",\"bidPackageNo\":\"UI真实竞标基线 package\",\"blockerCount\":1,\"createdAt\":\"2026-11-02T05:04:41.702Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currentStage\":\"preparation\",\"decision\":\"participate\",\"decisionSummary\":\"UI真实竞标基线 decision\",\"effectiveAt\":\"2026-11-02T05:04:41.702Z\",\"id\":\"6b2d1847-02f3-4a39-bdb5-a46a05cada79\",\"isCurrent\":true,\"ownerRole\":\"UI真实竞标基线 owner\",\"processSummary\":\"UI真实竞标基线 process\",\"projectId\":\"f8420126-3df7-46ae-abf0-25da264ce10a\",\"resultStatus\":\"pending\",\"resultSummary\":null,\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"tenderNo\":\"UI真实竞标基线 tender\",\"updatedAt\":\"2026-11-02T05:04:41.702Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"blockingReasons\":[\"报价与毛利评审尚未形成放行结论。\"],\"conditionItems\":[],\"currentReview\":{\"approvalScenarioKey\":\"pricing-margin-review\",\"bidCommercialProcessId\":\"6b2d1847-02f3-4a39-bdb5-a46a05cada79\",\"blockerCount\":1,\"commercialReleaseBaselineId\":null,\"createdAt\":\"2026-11-02T05:05:50.842Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currencyCode\":\"CNY\",\"decision\":\"pending\",\"decisionSummary\":\"linux-rust03 pending pricing review through original UI\",\"effectiveAt\":\"2026-11-02T05:05:50.842Z\",\"exportPolicy\":\"internal\",\"grossMarginBand\":\"not-calculated\",\"grossMarginRate\":null,\"grossMarginSummary\":\"linux-rust03 gross margin pending review\",\"id\":\"6c5d0ad3-ce44-4c3a-8894-fab497dc1501\",\"isCurrent\":true,\"ownerRole\":\"R3CG admin / R3CG admin\",\"paymentTermsSummary\":\"linux-rust03 payment terms\",\"pricingPath\":\"bid\",\"projectId\":\"f8420126-3df7-46ae-abf0-25da264ce10a\",\"projectionLevel\":\"pricing-margin\",\"quoteAmountTaxExclusive\":\"100.00\",\"quoteAmountTaxInclusive\":\"120.00\",\"quoteVersion\":\"linux-rust03-Q1\",\"readyForContracting\":false,\"rowVersion\":1,\"status\":\"effective\",\"summaryPackageKey\":\"pricing-margin-summary\",\"summarySnapshotId\":null,\"supersedesId\":null,\"taxConditionSummary\":\"linux-rust03 tax conditions\",\"taxRate\":\"0.20000000\",\"technicalCostPackageId\":\"4af6142e-8943-4046-8cea-7447c209aeb9\",\"updatedAt\":\"2026-11-02T05:05:50.842Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1},\"currentStage\":\"assessment\",\"generatedAt\":\"2026-11-02T05:06:09.157Z\",\"nextStep\":\"先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。\",\"ownerLabel\":\"R3CG admin / R3CG admin\",\"projectId\":\"f8420126-3df7-46ae-abf0-25da264ce10a\",\"readyForContracting\":false,\"status\":\"active\",\"technicalCostPackage\":{\"allowNextStage\":true,\"blockerCount\":0,\"createdAt\":\"2026-11-02T05:04:41.690Z\",\"createdBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"currencyCode\":\"CNY\",\"effectiveAt\":\"2026-11-02T05:04:41.690Z\",\"highestRiskLevel\":\"R1\",\"id\":\"4af6142e-8943-4046-8cea-7447c209aeb9\",\"isCurrent\":true,\"projectId\":\"f8420126-3df7-46ae-abf0-25da264ce10a\",\"rowVersion\":1,\"status\":\"effective\",\"supersedesId\":null,\"taxAssumptionSummary\":\"G1 设备成本含税测算，税务已复核。\",\"taxReviewStatus\":\"reviewed\",\"technicalConclusionSummary\":\"G1 技术方案可行。\",\"technicalFeasibilityDecision\":\"feasible\",\"totalEstimatedAmountExcludingTax\":\"100.00\",\"totalEstimatedAmountIncludingTax\":\"113.00\",\"totalTaxCostAmount\":\"13.00\",\"updatedAt\":\"2026-11-02T05:04:41.690Z\",\"updatedBy\":\"138c7948-5e72-43c9-82dc-10770c667598\",\"version\":1}}"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.pricing-margin.dom",
+      "value": "报价与毛利评审\n\n先确认报价、成本版本、税务回款条件和放行结论。\n\n报价版本\nlinux-rust03-Q1\n评审结论\n待评审\n毛利判断\n未计算\n签约承接\n暂不可进入\n责任归口\nR3CG admin / R3CG admin\n评审维护\n\n新增或编辑当前报价评审会提交新的当前版本，历史版本由后端保留。\n\n当前只读\n当前用户、项目阶段或项目状态没有报价 / 毛利评审写入权限。\n当前报价评审\n\nlinux-rust03 pending pricing review through original UI\n\n评审结论\n待评审\n毛利区间\n未计算\n签约承接\n暂不可进入\n阻断数量\n1\n当前版本\nV1\n当前有效版本\n商业放行基线\n待形成\n责任角色\nR3CG admin / R3CG admin\n生效时间\n2026/11/02 14:05\n当前阻断项\n报价与毛利评审尚未形成放行结论。\n报价、税务与回款条件\n\nlinux-rust03 gross margin pending review\n\n含税报价\n120.00 CNY\n不含税报价\n100.00 CNY\n税率\n20.00%\n毛利率\n待确认\n报价路径\n竞标承接\n税务条件\nlinux-rust03 tax conditions\n回款条件\nlinux-rust03 payment terms\n导出策略\ninternal\npricing-margin\n上游事实引用\n\n报价结论必须能追溯到成本版本和竞标 / 商务路径。\n\n成本版本\nV1\n当前有效版本\n技术可行性\n技术可行\n含税估算\n113.00 CNY\n税务复核\nreviewed\n竞标形态\n公开招标\n竞标结果\n待结果\n竞标版本\nV1\n当前有效版本\n结果说明\nUI真实竞标基线 decision\n条件与阻断\n\n有条件放行、升级或阻断项必须明确责任角色、截止时间和处理结论。\n\n条件\t类型\t状态\t签约前必须完成\t责任角色\t截止时间\t说明\n当前报价评审没有条件项。\n报价评审版本历史\n\n查看当前 / 历史报价评审、替代链和审计 metadata。\n\n当前版本\nV1\nlinux-rust03-Q1\n历史版本\n0\n不含当前版本\n最近生效\n2026/11/02 14:05\n上一版本\n无上一版本\nRow version 1\n版本\t当前\t状态\t报价版本\t毛利判断\t评审结论\t生效时间\t创建时间\t操作人 ID\t替代关系\tRow version\nV1\t\n当前\n\t\n生效中\n\t\n报价版本\nlinux-rust03-Q1\n\t\n毛利判断\n未计算\n\t\n评审结论\n待评审\n\t2026/11/02 14:05\t2026/11/02 14:05\t\n创建 138c7948-5e72-43c9-82dc-10770c667598\n更新 138c7948-5e72-43c9-82dc-10770c667598\n\t无上一版本\t1\n下一步\n\n先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。\n\n查看招投标 / 商务竞标\n返回签约前主线\n返回工作区总览"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.pricing-margin.write-buttons",
+      "value": []
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.pricing-margin.money.dom",
+      "value": "含税报价\n120.00 CNY"
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.workspace.pricing-margin.money-source",
+      "value": {
+        "field": "含税报价",
+        "rawAmount": "120.00",
+        "currency": "CNY",
+        "expectedOriginalFormatAmount": "120.00 CNY"
+      }
+    },
+    {
+      "label": "supplement.linux-rust03.readonly.complete",
+      "value": {
+        "readOnlySourceUIObserved": true,
+        "monetaryFieldsObservedWithoutMasking": [
+          "technical cost amount",
+          "pricing quote amount"
+        ],
+        "productPermissionExpansion": false
+      }
+    }
+  ],
+  "network": [
+    {
+      "index": 0,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.180Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0000.json",
+        "bytes": 2239,
+        "rawBytesSha256": "059b27985ced45a3f4e00b998029934c3f8eaeff3083ccaf079b49b64f86385a"
+      },
+      "completedAt": "2026-11-02T05:06:07.187Z"
+    },
+    {
+      "index": 1,
+      "method": "GET",
+      "path": "/api/auth/identity-providers",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.274Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0001.json",
+        "bytes": 2054,
+        "rawBytesSha256": "4c84a3e27d7f2b9bc6ea280351fe4d263a376f5f01b78204fa387ff04ce70cff"
+      },
+      "completedAt": "2026-11-02T05:06:07.279Z"
+    },
+    {
+      "index": 2,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.593Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0002.json",
+        "bytes": 2414,
+        "rawBytesSha256": "e4e37fa2cc93f2635d2c0c125baf91ad0790673bf730726594c33540baac04ea"
+      },
+      "completedAt": "2026-11-02T05:06:07.595Z"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.642Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0003.json",
+        "bytes": 4024,
+        "rawBytesSha256": "1dd7bb902b1f10df162f212ade6beb77094799112c2060c905ec1c7ad7ca262e"
+      },
+      "completedAt": "2026-11-02T05:06:07.663Z"
+    },
+    {
+      "index": 4,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.667Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0004.json",
+        "bytes": 2682,
+        "rawBytesSha256": "eceda2c1f2085c61dfce47d12203a892f4f225ecf8f1305ccac9963b18d5fb5a"
+      },
+      "completedAt": "2026-11-02T05:06:07.675Z"
+    },
+    {
+      "index": 5,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.704Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0005.json",
+        "bytes": 3323,
+        "rawBytesSha256": "5ff21bae767b69a3479e4e26f55205995b37f3a657578755dc2f29bfdf87e15d"
+      },
+      "completedAt": "2026-11-02T05:06:07.714Z"
+    },
+    {
+      "index": 6,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.715Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0006.json",
+        "bytes": 3323,
+        "rawBytesSha256": "6a076e19de75f4e610f321bf0acdc2ddf7a15abdefde7d994f5cad632f64ca06"
+      },
+      "completedAt": "2026-11-02T05:06:07.726Z"
+    },
+    {
+      "index": 7,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.724Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0007.json",
+        "bytes": 2754,
+        "rawBytesSha256": "1d500454d7401bf5954a5c4f07100f509978e6b8cec4501e7a5172df873d55ec"
+      },
+      "completedAt": "2026-11-02T05:06:07.734Z"
+    },
+    {
+      "index": 8,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.735Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0008.json",
+        "bytes": 2754,
+        "rawBytesSha256": "73e5b90b8f6ca10616fb6bf6061da79e4c49183caffac9c3f48b8b9aa9f48abf"
+      },
+      "completedAt": "2026-11-02T05:06:07.744Z"
+    },
+    {
+      "index": 9,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.737Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0009.json",
+        "bytes": 2384,
+        "rawBytesSha256": "81eda714299a5a776f414fb7df138ea33bfa03b909c18a62bdc3996d6def2b6f"
+      },
+      "completedAt": "2026-11-02T05:06:07.743Z"
+    },
+    {
+      "index": 10,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.737Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0010.json",
+        "bytes": 2379,
+        "rawBytesSha256": "c091b98bb73e162db3d9a76a5f0986e303c743605a8d2a0df40877889f4fadb5"
+      },
+      "completedAt": "2026-11-02T05:06:07.746Z"
+    },
+    {
+      "index": 11,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.747Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0011.json",
+        "bytes": 2384,
+        "rawBytesSha256": "983cfdebde4820adbf76ea64e9180457e034daff303ee70691c0ea0c36558a74"
+      },
+      "completedAt": "2026-11-02T05:06:07.752Z"
+    },
+    {
+      "index": 12,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.747Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0012.json",
+        "bytes": 2379,
+        "rawBytesSha256": "6df37f5123ff1a2764f11865e22e3d44ccca68c0f0e6e1aa4c4f8aabdcbcb4a8"
+      },
+      "completedAt": "2026-11-02T05:06:07.754Z"
+    },
+    {
+      "index": 13,
+      "method": "GET",
+      "path": "/api/customers/e98792ed-b177-43b1-a545-02cc59c22666/workspace-overview",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.867Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0013.json",
+        "bytes": 7266,
+        "rawBytesSha256": "9c7de5a6f336ab36e65861f637466d717617beb919a34f0617757666e512c808"
+      },
+      "completedAt": "2026-11-02T05:06:07.876Z"
+    },
+    {
+      "index": 14,
+      "method": "GET",
+      "path": "/api/customers/e98792ed-b177-43b1-a545-02cc59c22666",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.868Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0014.json",
+        "bytes": 3705,
+        "rawBytesSha256": "3a0d672060f52222183cfca7c3f939bc864a6d3f2725c70be75c14c428c59112"
+      },
+      "completedAt": "2026-11-02T05:06:07.877Z"
+    },
+    {
+      "index": 15,
+      "method": "GET",
+      "path": "/api/customer-contacts?customerId=e98792ed-b177-43b1-a545-02cc59c22666",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.950Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0015.json",
+        "bytes": 3272,
+        "rawBytesSha256": "ecb9c061f3a2dca635e1179d6b25753907b480676299cf54a0d839c21b125ba9"
+      },
+      "completedAt": "2026-11-02T05:06:07.959Z"
+    },
+    {
+      "index": 16,
+      "method": "GET",
+      "path": "/api/business-discussions?customerId=e98792ed-b177-43b1-a545-02cc59c22666",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:06:07.950Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0016.json",
+        "bytes": 2750,
+        "rawBytesSha256": "68f5019e76c0ba14cc002514d7f8d38c53c0d647462a4272fc5b5c6721e2aee7"
+      },
+      "completedAt": "2026-11-02T05:06:07.952Z"
+    },
+    {
+      "index": 17,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records?customerId=e98792ed-b177-43b1-a545-02cc59c22666&lifecycleScope=active",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.951Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0017.json",
+        "bytes": 2464,
+        "rawBytesSha256": "150e8c858f832b55c8ba44dd3969f5689aef981b1632517dbc0435cf98ab35fd"
+      },
+      "completedAt": "2026-11-02T05:06:07.959Z"
+    },
+    {
+      "index": 18,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=sales-follow-up-type&status=active",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.951Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0018.json",
+        "bytes": 5919,
+        "rawBytesSha256": "e8284a3f56c584ca1f63778aee6bf1d9e7cd1b294cbd0540c3d13ad8ccf34ef9"
+      },
+      "completedAt": "2026-11-02T05:06:07.967Z"
+    },
+    {
+      "index": 19,
+      "method": "GET",
+      "path": "/api/attachments?targetType=customer&targetId=e98792ed-b177-43b1-a545-02cc59c22666",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.952Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0019.json",
+        "bytes": 2448,
+        "rawBytesSha256": "fed823ab4fb56e0175c3f50b905d9bc3ec644956edab33bfac64149f4248662a"
+      },
+      "completedAt": "2026-11-02T05:06:07.963Z"
+    },
+    {
+      "index": 20,
+      "method": "GET",
+      "path": "/api/dictionaries?domain=attachment-category&status=active",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:07.953Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0020.json",
+        "bytes": 10666,
+        "rawBytesSha256": "2e7a2a1ad8d6fd7c7ee183dd2c15dd3bfae0dea388eef7a80af3d1bea1341d9e"
+      },
+      "completedAt": "2026-11-02T05:06:07.972Z"
+    },
+    {
+      "index": 21,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.196Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0021.json",
+        "bytes": 3371,
+        "rawBytesSha256": "2e73b41f4477a74641a1379a532ba26f77f8c6a8e3d15e26febdabfbec9fc55b"
+      },
+      "completedAt": "2026-11-02T05:06:08.205Z"
+    },
+    {
+      "index": 22,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.206Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0022.json",
+        "bytes": 3371,
+        "rawBytesSha256": "0e30b2f57238b17eca061ca7d8bd5b27d970932da92c53829d857f1fb18eb064"
+      },
+      "completedAt": "2026-11-02T05:06:08.214Z"
+    },
+    {
+      "index": 23,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.215Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0023.json",
+        "bytes": 2802,
+        "rawBytesSha256": "539cb5b3deb1a63247bc1aa465f3b4432c732a7ec4a5937ce43a4bb7cd6ab7d2"
+      },
+      "completedAt": "2026-11-02T05:06:08.224Z"
+    },
+    {
+      "index": 24,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.225Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0024.json",
+        "bytes": 2802,
+        "rawBytesSha256": "0279e15cc66ef4e29bbbc79fa0dbeeed6a10654eaf4e8b5f7495c273d0aa7006"
+      },
+      "completedAt": "2026-11-02T05:06:08.232Z"
+    },
+    {
+      "index": 25,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.226Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0025.json",
+        "bytes": 2432,
+        "rawBytesSha256": "96bc71c4f8c9a49e860937d62f10aa263f3df7171114007a5fab236cd2813764"
+      },
+      "completedAt": "2026-11-02T05:06:08.232Z"
+    },
+    {
+      "index": 26,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.226Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0026.json",
+        "bytes": 2427,
+        "rawBytesSha256": "24b1e5c42e79eaeb639cc0bc94c8d84f95ecfca9b81c42ba3c7b870323d424fb"
+      },
+      "completedAt": "2026-11-02T05:06:08.233Z"
+    },
+    {
+      "index": 27,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.235Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0027.json",
+        "bytes": 2432,
+        "rawBytesSha256": "89e11c3d373bd1ed5079745d07a5f4182514b9c25b46b8bd3c8eefb4c9773f3f"
+      },
+      "completedAt": "2026-11-02T05:06:08.240Z"
+    },
+    {
+      "index": 28,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.236Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0028.json",
+        "bytes": 2427,
+        "rawBytesSha256": "098bd6d28a5384ca58d9fe253d9766d5cc1d099523a4a281c9c2e0b8c7ecc8df"
+      },
+      "completedAt": "2026-11-02T05:06:08.242Z"
+    },
+    {
+      "index": 29,
+      "method": "GET",
+      "path": "/api/projects/b3d0e91b-ee51-438e-b234-f64282b83d8e",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.350Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0029.json",
+        "bytes": 4898,
+        "rawBytesSha256": "a2ca4288e49a2dbaee3c955246060aac43d31ac35228f62667e83c252a621544"
+      },
+      "completedAt": "2026-11-02T05:06:08.359Z"
+    },
+    {
+      "index": 30,
+      "method": "GET",
+      "path": "/api/projects/b3d0e91b-ee51-438e-b234-f64282b83d8e/workspace-guidance",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:06:08.351Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0030.json",
+        "bytes": 2850,
+        "rawBytesSha256": "fdb62fccd9aa601038bb5412feed3bf633e3982076306bd296789d0a36daf3de"
+      },
+      "completedAt": "2026-11-02T05:06:08.352Z"
+    },
+    {
+      "index": 31,
+      "method": "GET",
+      "path": "/api/projects/b3d0e91b-ee51-438e-b234-f64282b83d8e/technical-cost-workspace",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.400Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0031.json",
+        "bytes": 5471,
+        "rawBytesSha256": "7328cfa6fbfc58f71d7776e97b24d5d2ebba73d589b39db8abd2792017777458"
+      },
+      "completedAt": "2026-11-02T05:06:08.414Z"
+    },
+    {
+      "index": 32,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.560Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0032.json",
+        "bytes": 3371,
+        "rawBytesSha256": "28064a41703982eb0e24b2d96f1bef41efeb943c0db7e31524023c305c0f6b96"
+      },
+      "completedAt": "2026-11-02T05:06:08.568Z"
+    },
+    {
+      "index": 33,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.569Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0033.json",
+        "bytes": 3371,
+        "rawBytesSha256": "f9098367eee60996618d495cf6d66255be6800dd0429f82c2622838e87f2ad81"
+      },
+      "completedAt": "2026-11-02T05:06:08.579Z"
+    },
+    {
+      "index": 34,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.581Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0034.json",
+        "bytes": 2802,
+        "rawBytesSha256": "c333dd28b2e22a334d349502ae826cdd16ffd341cf574fde53c48bf69d3f3bdf"
+      },
+      "completedAt": "2026-11-02T05:06:08.590Z"
+    },
+    {
+      "index": 35,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.591Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0035.json",
+        "bytes": 2802,
+        "rawBytesSha256": "2ba4633f471521ef6fccd693f7762d9953198b41ef5efd8a5e7c1e4ed0a27378"
+      },
+      "completedAt": "2026-11-02T05:06:08.600Z"
+    },
+    {
+      "index": 36,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.594Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0036.json",
+        "bytes": 2432,
+        "rawBytesSha256": "d415f7c1f18497dae5f30dba92658e78115f38a658ed1d06c17305924a4ca7cb"
+      },
+      "completedAt": "2026-11-02T05:06:08.600Z"
+    },
+    {
+      "index": 37,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.595Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0037.json",
+        "bytes": 2427,
+        "rawBytesSha256": "9de5444cd9d6db18ff9cdc1483cce6d17893c93c0078f19cd186725ef3ec6404"
+      },
+      "completedAt": "2026-11-02T05:06:08.601Z"
+    },
+    {
+      "index": 38,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.607Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0038.json",
+        "bytes": 2432,
+        "rawBytesSha256": "6f88031a7bad684973429a1f4497e0b7e62f849295dcd5dec4a89fe6a0c246ee"
+      },
+      "completedAt": "2026-11-02T05:06:08.613Z"
+    },
+    {
+      "index": 39,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.608Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0039.json",
+        "bytes": 2427,
+        "rawBytesSha256": "d33e487795808c82d466dfe88e550a5d9a1d081a7ace25eb5a7b0c724236b022"
+      },
+      "completedAt": "2026-11-02T05:06:08.614Z"
+    },
+    {
+      "index": 40,
+      "method": "GET",
+      "path": "/api/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.721Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0040.json",
+        "bytes": 5034,
+        "rawBytesSha256": "5ef371b3478c4164d6a9ff70a6d96b5b9a57e2f8e9538059b8f58abfb1817ef8"
+      },
+      "completedAt": "2026-11-02T05:06:08.730Z"
+    },
+    {
+      "index": 41,
+      "method": "GET",
+      "path": "/api/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/workspace-guidance",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:06:08.721Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0041.json",
+        "bytes": 2850,
+        "rawBytesSha256": "555319a3214ef459c03d373feb7602b25709d12a30a9247510aecac1e5d3c546"
+      },
+      "completedAt": "2026-11-02T05:06:08.723Z"
+    },
+    {
+      "index": 42,
+      "method": "GET",
+      "path": "/api/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/bid-commercial-workspace",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.770Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0042.json",
+        "bytes": 5035,
+        "rawBytesSha256": "9f1b1c1db640521ce8d53c8f11fefa254365023332433ff233e9ae59a853511e"
+      },
+      "completedAt": "2026-11-02T05:06:08.781Z"
+    },
+    {
+      "index": 43,
+      "method": "GET",
+      "path": "/api/projects/d68c306f-3b63-42c7-8ac2-9ce425f962ee/bid-commercial-processes",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.771Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0043.json",
+        "bytes": 3497,
+        "rawBytesSha256": "f7da2066adf0a47066a5d91e65e645307ac941859f8c51028b43665ffe73c797"
+      },
+      "completedAt": "2026-11-02T05:06:08.778Z"
+    },
+    {
+      "index": 44,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.931Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0044.json",
+        "bytes": 3371,
+        "rawBytesSha256": "aa8adf15d0a1f559dc70ccc388ac5dda3812e2d411f97a6a9f88d086e64b41f8"
+      },
+      "completedAt": "2026-11-02T05:06:08.940Z"
+    },
+    {
+      "index": 45,
+      "method": "GET",
+      "path": "/api/auth/session",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.942Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0045.json",
+        "bytes": 3371,
+        "rawBytesSha256": "877bf5adf69d4e2f8e41e558bc7bff9faab96de26b6ca8ca9a639d668fb0812f"
+      },
+      "completedAt": "2026-11-02T05:06:08.950Z"
+    },
+    {
+      "index": 46,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.948Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0046.json",
+        "bytes": 2802,
+        "rawBytesSha256": "370e8248307a9165624e66ecd9360ee34ba325862d8ca01f037d885d5f6d7632"
+      },
+      "completedAt": "2026-11-02T05:06:08.955Z"
+    },
+    {
+      "index": 47,
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.956Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0047.json",
+        "bytes": 2802,
+        "rawBytesSha256": "87770a4a33ee42ac73c3021c392861a16154dc9ce39ac9964b6084cc542657bf"
+      },
+      "completedAt": "2026-11-02T05:06:08.964Z"
+    },
+    {
+      "index": 48,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.957Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0048.json",
+        "bytes": 2432,
+        "rawBytesSha256": "b30a393b658b2da468025fa350fe86014cd68cbec4a996827de5d011a13134a9"
+      },
+      "completedAt": "2026-11-02T05:06:08.962Z"
+    },
+    {
+      "index": 49,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.958Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0049.json",
+        "bytes": 2427,
+        "rawBytesSha256": "5eacc20ef1da9f0bec137a0311e574ac18f0d2c308a66357dc2e98bb4ef991cc"
+      },
+      "completedAt": "2026-11-02T05:06:08.963Z"
+    },
+    {
+      "index": 50,
+      "method": "GET",
+      "path": "/api/me/navigation",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.967Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0050.json",
+        "bytes": 2432,
+        "rawBytesSha256": "a60d4bc6ada44523e3933bd871e8ef51d80f2528fedb0ef8f4c017c92d6e886d"
+      },
+      "completedAt": "2026-11-02T05:06:08.971Z"
+    },
+    {
+      "index": 51,
+      "method": "GET",
+      "path": "/api/me/todos",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:08.967Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0051.json",
+        "bytes": 2427,
+        "rawBytesSha256": "2fde66ecbae06f254573efbe60c9ea47f3025ba1441118106259be94def94a67"
+      },
+      "completedAt": "2026-11-02T05:06:08.973Z"
+    },
+    {
+      "index": 52,
+      "method": "GET",
+      "path": "/api/projects/f8420126-3df7-46ae-abf0-25da264ce10a",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:09.091Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0052.json",
+        "bytes": 5050,
+        "rawBytesSha256": "9c85fb421882579a466a08a40593a28af18b0e33305f4ffbe76baf7728dd21f8"
+      },
+      "completedAt": "2026-11-02T05:06:09.099Z"
+    },
+    {
+      "index": 53,
+      "method": "GET",
+      "path": "/api/projects/f8420126-3df7-46ae-abf0-25da264ce10a/workspace-guidance",
+      "backendPort": 12200,
+      "status": 404,
+      "startedAt": "2026-11-02T05:06:09.091Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0053.json",
+        "bytes": 2850,
+        "rawBytesSha256": "88ec6e13dc6088c7b75ad7195a242c231ef1cc1f620e49b0e28e9c834bb5c4cc"
+      },
+      "completedAt": "2026-11-02T05:06:09.093Z"
+    },
+    {
+      "index": 54,
+      "method": "GET",
+      "path": "/api/projects/f8420126-3df7-46ae-abf0-25da264ce10a/pricing-margin-workspace",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:09.145Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0054.json",
+        "bytes": 7027,
+        "rawBytesSha256": "f81679a91182e7e89d8954dc8093ec97fb92aeaac7d55bf09d703bd869367f32"
+      },
+      "completedAt": "2026-11-02T05:06:09.158Z"
+    },
+    {
+      "index": 55,
+      "method": "GET",
+      "path": "/api/projects/f8420126-3df7-46ae-abf0-25da264ce10a/pricing-margin-reviews",
+      "backendPort": 12200,
+      "status": 200,
+      "startedAt": "2026-11-02T05:06:09.145Z",
+      "privateRaw": {
+        "file": "/home/wangzishi/.local/share/poms-r3cdefg/private/ui-extra-linux-rust03-readonly/proxy/http-0055.json",
+        "bytes": 4245,
+        "rawBytesSha256": "4a253b16a890da9a6b6d5a634ee64abb6df7af02dcba8bd156c1c4c2a896ea91"
+      },
+      "completedAt": "2026-11-02T05:06:09.153Z"
+    }
+  ],
+  "staticBuild": {
+    "memberCount": 422,
+    "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+  },
+  "closure": {
+    "browserClosed": true,
+    "serverClosed": true,
+    "pending": 0,
+    "allRawExchangesRetained": true
+  },
+  "credentialOrRawAuthPublished": false,
+  "noMocksOrComponentEvaluate": true,
+  "outOfScopeRequestsDoNotClaimMigration": true,
+  "cohortCleanup": "Pending-whole-API-and-UI-cohort-terminal",
+  "G3Certified": false,
+  "G4Certified": false
+}

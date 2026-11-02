@@ -11,7 +11,9 @@
     "B": 6,
     "later": 44,
     "currentRustR3Delivered": 14,
-    "firstBatchImplemented": 14
+    "firstBatchImplemented": 14,
+    "authorizedNextBatch": 16,
+    "laterUnstarted": 28
   },
   "nonHttpScope": {
     "businessNumbers": "A/B open the business transaction, then allocate through the independent shared pool next entry; committed counter gaps survive failed entity writes, per corrective4fda3a1a",
@@ -891,9 +893,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:sales-intelligence",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 352,
@@ -929,7 +931,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "CustomerContactController_create",
@@ -966,9 +972,9 @@
       ],
       "nativeStatusSourceExpectation": 201,
       "migrationPhase": "R3",
-      "owner": "future:sales-intelligence",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 353,
@@ -1002,7 +1008,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "CustomerContactController_update",
@@ -1046,9 +1056,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:sales-intelligence",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 354,
@@ -1091,7 +1101,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "CustomerController_list",
@@ -3780,9 +3794,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:project-bid-commercial",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 236,
@@ -3816,7 +3830,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_createProjectBidCommercialProcess",
@@ -3860,9 +3878,9 @@
       ],
       "nativeStatusSourceExpectation": 201,
       "migrationPhase": "R3",
-      "owner": "future:project-bid-commercial",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 235,
@@ -3905,7 +3923,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_getProjectBidCommercialWorkspace",
@@ -3942,9 +3964,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:project-bid-commercial",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 237,
@@ -3978,7 +4000,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_listProjectPricingMarginReviews",
@@ -4008,9 +4034,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:project-pricing-margin",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 239,
@@ -4044,7 +4070,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_createProjectPricingMarginReview",
@@ -4088,9 +4118,9 @@
       ],
       "nativeStatusSourceExpectation": 201,
       "migrationPhase": "R3",
-      "owner": "future:project-pricing-margin",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 238,
@@ -4133,7 +4163,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_getProjectPricingMarginWorkspace",
@@ -4170,9 +4204,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:project-pricing-margin",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 240,
@@ -4206,7 +4240,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_listProjectTechnicalCostPackages",
@@ -4236,9 +4274,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:project-technical-cost",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 233,
@@ -4272,7 +4310,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_createProjectTechnicalCostPackage",
@@ -4316,9 +4358,9 @@
       ],
       "nativeStatusSourceExpectation": 201,
       "migrationPhase": "R3",
-      "owner": "future:project-technical-cost",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 232,
@@ -4361,7 +4403,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
@@ -4398,9 +4444,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:project-technical-cost",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 234,
@@ -4434,7 +4480,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "ProjectController_getTimeline",
@@ -4848,9 +4898,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:sales-follow-up",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 343,
@@ -4914,7 +4964,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "SalesFollowUpController_create",
@@ -4953,9 +5007,9 @@
       ],
       "nativeStatusSourceExpectation": 201,
       "migrationPhase": "R3",
-      "owner": "future:sales-follow-up",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 344,
@@ -4989,7 +5043,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "SalesFollowUpController_replace",
@@ -5035,9 +5093,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:sales-follow-up",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 345,
@@ -5080,7 +5138,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "SalesFollowUpController_void",
@@ -5126,9 +5188,9 @@
       ],
       "nativeStatusSourceExpectation": 200,
       "migrationPhase": "R3",
-      "owner": "future:sales-follow-up",
-      "issue": null,
-      "scopeFrozen": false,
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 346,
@@ -5171,7 +5233,11 @@
         "status": "canonical-match"
       },
       "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": false
     },
     {
       "operationId": "SalesIntelligenceGapController_list",
@@ -5271,5 +5337,19 @@
     "parent85Open": true,
     "overall57Open": true
   },
-  "certificationScope": "Top-level G1/G3/G4 remain false for full58-operation R3; only the14 explicit A/B rows carry their completed scoped gates."
+  "certificationScope": "Only explicit scoped rows are certified; full58-operation R3 and parent85/57 remain incomplete. Contacts3 are split from original intelligence13; remaining10 are not duplicated.",
+  "nextBatchDelivery": {
+    "phase": "G2",
+    "operations": 16,
+    "source": {
+      "file": "docs/design/rust-r3cdefg-delivery-status.json",
+      "bytes": 3105,
+      "rawBytesSha256": "4cd82aa0f64ed3bf804b96a84bec1ce52391238044a85cb29c43415969cd1fbd"
+    },
+    "G1Certified": true,
+    "G3Certified": false,
+    "G4Certified": false,
+    "parent85Open": true,
+    "overall57Open": true
+  }
 }

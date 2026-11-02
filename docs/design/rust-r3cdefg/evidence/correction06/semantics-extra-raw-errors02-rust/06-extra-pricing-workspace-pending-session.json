@@ -1,0 +1,155 @@
+{
+  "label": "extra-pricing-workspace-pending-session",
+  "startedAt": "2026-11-02T05:57:51.280Z",
+  "completedAt": "2026-11-02T05:57:51.303Z",
+  "HTTP": {
+    "status": 200,
+    "body": {
+      "allowedActions": [
+        "view-pricing-margin-workspace",
+        "create-pricing-margin-review"
+      ],
+      "bidCommercialProcess": null,
+      "blockingReasons": [
+        "报价与毛利评审尚未形成放行结论。"
+      ],
+      "conditionItems": [
+        {
+          "conditionKey": "g1-payment-review",
+          "conditionStatus": "open",
+          "conditionSummary": "核实已记录的回款节点。",
+          "conditionType": "payment",
+          "dueAt": "2026-11-02T00:00:00.000Z",
+          "id": "ffd3e483-5263-46e0-bc5d-8caa1dcdee11",
+          "label": "G1 回款条件确认",
+          "requiredForContracting": false,
+          "resolutionSummary": null,
+          "responsibleRole": "财务",
+          "reviewId": "82965784-88b0-42da-b69d-dab7954cd519",
+          "sortOrder": 1
+        }
+      ],
+      "currentReview": {
+        "approvalScenarioKey": null,
+        "bidCommercialProcessId": null,
+        "blockerCount": 1,
+        "commercialReleaseBaselineId": null,
+        "createdAt": "2026-11-02T05:57:38.562Z",
+        "createdBy": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+        "currencyCode": "CNY",
+        "decision": "pending",
+        "decisionSummary": "G1 待形成评审结论。",
+        "effectiveAt": "2026-11-02T05:57:38.562Z",
+        "exportPolicy": null,
+        "grossMarginBand": "not-calculated",
+        "grossMarginRate": null,
+        "grossMarginSummary": "G1 毛利判断待评审。",
+        "id": "82965784-88b0-42da-b69d-dab7954cd519",
+        "isCurrent": true,
+        "ownerRole": null,
+        "paymentTermsSummary": "G1 按约定节点回款。",
+        "pricingPath": "direct-commercial",
+        "projectId": "d87ad37f-cee8-47ce-a8f3-b5e1c3000adc",
+        "projectionLevel": null,
+        "quoteAmountTaxExclusive": "200.00",
+        "quoteAmountTaxInclusive": "226.00",
+        "quoteVersion": "Q-G1-DIRECT-01",
+        "readyForContracting": false,
+        "rowVersion": 1,
+        "status": "effective",
+        "summaryPackageKey": null,
+        "summarySnapshotId": null,
+        "supersedesId": null,
+        "taxConditionSummary": "G1 报价税务条件已记录。",
+        "taxRate": "0.13000000",
+        "technicalCostPackageId": "4a04cc27-89dc-4d90-ac5f-8f8bd035674a",
+        "updatedAt": "2026-11-02T05:57:38.562Z",
+        "updatedBy": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+        "version": 1
+      },
+      "currentStage": "assessment",
+      "generatedAt": "2026-11-02T05:57:51.300Z",
+      "nextStep": "先处理报价结论、升级审批或条件放行阻断，再进入签约就绪。",
+      "ownerLabel": "R3CG admin / R3CG admin",
+      "projectId": "d87ad37f-cee8-47ce-a8f3-b5e1c3000adc",
+      "readyForContracting": false,
+      "status": "active",
+      "technicalCostPackage": {
+        "allowNextStage": true,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T05:57:38.441Z",
+        "createdBy": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+        "currencyCode": "CNY",
+        "effectiveAt": "2026-11-02T05:57:38.441Z",
+        "highestRiskLevel": "R1",
+        "id": "4a04cc27-89dc-4d90-ac5f-8f8bd035674a",
+        "isCurrent": true,
+        "projectId": "d87ad37f-cee8-47ce-a8f3-b5e1c3000adc",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "technicalFeasibilityDecision": "feasible",
+        "totalEstimatedAmountExcludingTax": "100.00",
+        "totalEstimatedAmountIncludingTax": "113.00",
+        "totalTaxCostAmount": "13.00",
+        "updatedAt": "2026-11-02T05:57:38.441Z",
+        "updatedBy": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+        "version": 1
+      }
+    },
+    "requestId": "dca11e77-3c30-42b9-816d-f0ec9f775189",
+    "headers": [
+      "content-type",
+      "application/json; charset=utf-8",
+      "content-length",
+      "2931",
+      "access-control-allow-origin",
+      "http://127.0.0.1:12300",
+      "vary",
+      "Origin",
+      "access-control-allow-credentials",
+      "true",
+      "x-request-id",
+      "r1a-108420-55",
+      "connection",
+      "close",
+      "date",
+      "Mon, 02 Nov 2026 05:57:51 GMT"
+    ],
+    "rawWire": {
+      "requestBytes": 354,
+      "requestSha256": "450dda05ea6560c13d961be35077bc39fcafd63784f2bf8b878b7ffa4ba5a8c6",
+      "responseBytes": 3211,
+      "responseSha256": "1dc7992457fa694720ef68726738c2dfcac5a13a711cb2b6d40d6d33799ddb04",
+      "entityBodyBytes": 2931,
+      "entityBodySha256": "23ad9b305db2b2de85df7ec6ec4e9a2e468aeeeabb3124e7afc1df98b37d279e",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-2c9cb945-ae05-45c0-8e88-1a4bac0abe96/extra02/raw-wire/admin-dca11e77-3c30-42b9-816d-f0ec9f775189",
+      "originalRawRetained": true
+    }
+  },
+  "sessionBefore": [
+    {
+      "id": "941c11ba-bfd4-4e0d-ad26-8e3152b32559",
+      "user_id": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+      "row_version": 20,
+      "last_seen_at": "2026-11-02T05:56:50.281Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T06:12:51.266Z",
+      "updated_at": "2026-11-02T05:57:51.266Z"
+    }
+  ],
+  "sessionAfter": [
+    {
+      "id": "941c11ba-bfd4-4e0d-ad26-8e3152b32559",
+      "user_id": "5bb14c1a-ee55-418a-bc9f-fab75bca79f6",
+      "row_version": 21,
+      "last_seen_at": "2026-11-02T05:57:51.285Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T06:12:51.285Z",
+      "updated_at": "2026-11-02T05:57:51.285Z"
+    }
+  ]
+}

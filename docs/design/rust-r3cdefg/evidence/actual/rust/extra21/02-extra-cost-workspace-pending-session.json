@@ -1,0 +1,143 @@
+{
+  "label": "extra-cost-workspace-pending-session",
+  "startedAt": "2026-11-02T05:02:51.519Z",
+  "completedAt": "2026-11-02T05:02:51.541Z",
+  "HTTP": {
+    "status": 200,
+    "body": {
+      "allowedActions": [
+        "view-technical-cost-workspace",
+        "create-technical-cost-package"
+      ],
+      "blockingReasons": [],
+      "costItems": [
+        {
+          "amountExcludingTax": "100.00",
+          "amountIncludingTax": "113.00",
+          "confidenceLevel": "high",
+          "costCategory": "equipment",
+          "costDescription": "G1 设备成本",
+          "costSubcategory": null,
+          "currencyCode": "CNY",
+          "estimationBasis": "G1 已确认询价。",
+          "highUncertainty": false,
+          "id": "26e0f855-ae82-4395-8259-187cea64996c",
+          "packageId": "b101176c-0ae1-4978-a9c5-e024c6bc720a",
+          "quantity": null,
+          "responsibleRole": null,
+          "sortOrder": 1,
+          "taxCostAmount": "13.00",
+          "unit": null,
+          "unitPrice": null
+        }
+      ],
+      "currentPackage": {
+        "allowNextStage": true,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T05:02:38.886Z",
+        "createdBy": "138c7948-5e72-43c9-82dc-10770c667598",
+        "currencyCode": "CNY",
+        "effectiveAt": "2026-11-02T05:02:38.886Z",
+        "highestRiskLevel": "R1",
+        "id": "b101176c-0ae1-4978-a9c5-e024c6bc720a",
+        "isCurrent": true,
+        "projectId": "830c5e64-db85-4025-a25a-38153f831172",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "technicalConclusionSummary": "G1 技术方案可行。",
+        "technicalFeasibilityDecision": "feasible",
+        "totalEstimatedAmountExcludingTax": "100.00",
+        "totalEstimatedAmountIncludingTax": "113.00",
+        "totalTaxCostAmount": "13.00",
+        "updatedAt": "2026-11-02T05:02:38.886Z",
+        "updatedBy": "138c7948-5e72-43c9-82dc-10770c667598",
+        "version": 1
+      },
+      "currentStage": "assessment",
+      "generatedAt": "2026-11-02T05:02:51.538Z",
+      "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+      "ownerLabel": "R3CG admin / R3CG admin",
+      "projectId": "830c5e64-db85-4025-a25a-38153f831172",
+      "riskItems": [
+        {
+          "blocksNextStage": false,
+          "id": "cddc4153-1a00-4ce0-8e80-7b7c86e7a55c",
+          "impactScope": "设备供货范围。",
+          "mitigationPlan": "按已核实周期交付。",
+          "ownerRole": "售前",
+          "packageId": "b101176c-0ae1-4978-a9c5-e024c6bc720a",
+          "riskCategory": "G1 供货",
+          "riskDescription": "供货周期已经核实。",
+          "riskLevel": "R1",
+          "riskStatus": "closed",
+          "sortOrder": 1
+        }
+      ],
+      "scopeItems": [
+        {
+          "description": "包含一项设备供货。",
+          "id": "8ac0a185-27e2-4711-bcc6-72153ebd4f84",
+          "label": "G1 设备交付",
+          "packageId": "b101176c-0ae1-4978-a9c5-e024c6bc720a",
+          "scopeType": "in-scope",
+          "sortOrder": 1
+        }
+      ],
+      "status": "active"
+    },
+    "requestId": "3795008a-99fe-4637-9f52-cd9d3ffa51a0",
+    "headers": [
+      "content-type",
+      "application/json; charset=utf-8",
+      "content-length",
+      "2265",
+      "access-control-allow-origin",
+      "http://127.0.0.1:12300",
+      "vary",
+      "Origin",
+      "access-control-allow-credentials",
+      "true",
+      "x-request-id",
+      "r1a-97899-51",
+      "connection",
+      "close",
+      "date",
+      "Mon, 02 Nov 2026 05:02:51 GMT"
+    ],
+    "rawWire": {
+      "requestBytes": 354,
+      "requestSha256": "e0f67c6253315c2b35590740e0817f186449ca8d25846cecd00e0c3ad4bfac50",
+      "responseBytes": 2544,
+      "responseSha256": "b0226549ac7c10cd9591623788cf0bbc99bef0135718fa4d141dc42f45e15ae1",
+      "entityBodyBytes": 2265,
+      "entityBodySha256": "30374ed492fd1a5517e04cd3b26b326958d3c1db311bad0ca5be02a1027401b9",
+      "privatePrefix": "/home/wangzishi/.local/share/poms-r3cdefg/private/acceptance-6f67881f-0071-43ca-88cf-0c61ef75f8df/extra02/raw-wire/admin-3795008a-99fe-4637-9f52-cd9d3ffa51a0",
+      "originalRawRetained": true
+    }
+  },
+  "sessionBefore": [
+    {
+      "id": "06787693-ce20-471b-ac3a-ef7e2892a3c1",
+      "user_id": "138c7948-5e72-43c9-82dc-10770c667598",
+      "row_version": 16,
+      "last_seen_at": "2026-11-02T05:01:50.520Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T05:17:51.499Z",
+      "updated_at": "2026-11-02T05:02:51.499Z"
+    }
+  ],
+  "sessionAfter": [
+    {
+      "id": "06787693-ce20-471b-ac3a-ef7e2892a3c1",
+      "user_id": "138c7948-5e72-43c9-82dc-10770c667598",
+      "row_version": 17,
+      "last_seen_at": "2026-11-02T05:02:51.524Z",
+      "last_ip": "127.0.0.1",
+      "idle_expires_at": "2026-11-02T05:17:51.524Z",
+      "updated_at": "2026-11-02T05:02:51.524Z"
+    }
+  ]
+}
