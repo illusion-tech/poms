@@ -25,3 +25,5 @@
 - [客户 #86 G4](https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630)、[项目 #87 G4](https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053)；[原始线上回执](rust-r3ab/evidence/online/g4-online-receipt01.json)、[父85现状](rust-r3ab/evidence/online/issue-85-after-g4.json)、[总体57现状](rust-r3ab/evidence/online/issue-57-after-g4.json)。
 - [独立关闭许可](rust-r3ab/evidence/C/g4-closeout-preflight01.json)已批准且仅批准86/87；E1兼容副本的独立approver/owner/日期/退出条件完整。
 - [当前交付状态](../../rust-r3ab-delivery-status.json)只对本批14条标记交付，余44及全R3阶段Gate继续未认证；后续最终独立终审和保全收据另附。
+
+当前子项正文以[客户 current02](rust-r3ab/evidence/online/issue-86-after-g4-current02.json)、[项目 current02](rust-r3ab/evidence/online/issue-87-after-g4-current02.json)为准：已移除未注明历史的旧 Doing 状态句，并明确独立池编号/业务事务边界；[更正记录](rust-r3ab/evidence/online/g4-current-body-correction02.json)只替代当前正文，原01关闭当时快照与回执保留原字节。
