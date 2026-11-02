@@ -10,7 +10,7 @@
 
 九个Linux runtime停止，全部当前cohort107表原JSON/428权限精确恢复，browser0/端口释放，PG停止且卷/private保留。旧PG17/旧批private、历史失败/partial/stopped/uncertified、原quarantine、schema/时区/IP分类与54ignored保持原标签。最早未认证46二进制字节缺口按原验证例外保留，不由新产物替代。
 
-实现、归档、独立关闭许可与线上5子项实际G4及父状态读回已完成；非作者最终实际G4终审与最后增量保全将在完成后追加。
+实现、归档、独立关闭许可与线上5子项实际G4及父状态读回已完成；非作者最终实际G4终审已Pass，最后增量保全按原字节核验。
 
 
 ## 独立关闭前许可
@@ -20,4 +20,9 @@
 
 ## 实际线上 G4
 
-[#88 G4](https://github.com/illusion-tech/poms/issues/88#issuecomment-6571762609)、[#89 G4](https://github.com/illusion-tech/poms/issues/89#issuecomment-6571762962)、[#90 G4](https://github.com/illusion-tech/poms/issues/90#issuecomment-6571763276)、[#91 G4](https://github.com/illusion-tech/poms/issues/91#issuecomment-6571763587)、[#92 G4](https://github.com/illusion-tech/poms/issues/92#issuecomment-6571763887) 已Closed；[独立许可](rust-r3cdefg/C/g4-closeout-preflight01.json)明确批准本批E1，只有5件419264B机器别名。实现fbc5ca10与归档4947c1a4及授权发布元数据均已main；[线上原件](rust-r3cdefg/evidence/online/g4-online-receipt01.json)核父85/57保持Open。当前累计30/58、余28，全R3阶段Gate仍未认证。非作者实际终审与增量保全待最后读回后追加。
+[#88 G4](https://github.com/illusion-tech/poms/issues/88#issuecomment-6571762609)、[#89 G4](https://github.com/illusion-tech/poms/issues/89#issuecomment-6571762962)、[#90 G4](https://github.com/illusion-tech/poms/issues/90#issuecomment-6571763276)、[#91 G4](https://github.com/illusion-tech/poms/issues/91#issuecomment-6571763587)、[#92 G4](https://github.com/illusion-tech/poms/issues/92#issuecomment-6571763887) 已Closed；[独立许可](rust-r3cdefg/C/g4-closeout-preflight01.json)明确批准本批E1，只有5件419264B机器别名。实现fbc5ca10与归档4947c1a4及授权发布元数据均已main；[线上原件](rust-r3cdefg/evidence/online/g4-online-receipt01.json)核父85/57保持Open。当前累计30/58、余28，全R3阶段Gate仍未认证。非作者实际终审已Pass，增量保全按末节凭据归档。
+
+
+## 独立实际 G4 完成
+
+[终审原件](rust-r3cdefg/C/g4-independent-actual-review01.json)已Pass，19326B，SHA256 `a1ff4225809188920f7290b4b106beca35f8f8030319b7b0fd5c20bcb5791fee`。实际七项状态、批准的正文/六checkbox/五G4评论、currentDone30of58及主线/源码/归档/E1与增量保全均由非作者独立复核；只认证本批16，不关闭父阶段。1140文件/86804818B的[公开保全02](rust-r3cdefg/evidence/governance/public-preservation02.json)与后续最后增量分别保留，不覆盖既有原件。

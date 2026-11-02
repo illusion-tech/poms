@@ -1,0 +1,77 @@
+Updating 688b57cc..af712807
+Fast-forward
+ docs/design/README.md                              |   7 +
+ .../design/archive/slices/rust-r3cdefg-closeout.md |  13 +-
+ .../governance/closeout-authority01-copy-map.json  | 117 +++++++++++
+ .../closeout-authority01/archive-check-stderr.log  |   0
+ .../closeout-authority01/archive-check-stdout.log  |   1 +
+ .../closeout-authority01/branch-push-stderr.log    |   2 +
+ .../closeout-authority01/branch-push-stdout.log    |   0
+ .../closeout-authority01/commit-stderr.log         |   0
+ .../closeout-authority01/commit-stdout.log         |  41 ++++
+ .../closeout-authority01/diff-check-stderr.log     |   0
+ .../closeout-authority01/diff-check-stdout.log     |   0
+ .../inventory-check-stderr.log                     |   0
+ .../inventory-check-stdout.log                     |   1 +
+ .../closeout-authority01/main-push-stderr.log      |   2 +
+ .../closeout-authority01/main-push-stdout.log      |   0
+ .../closeout-authority01/markdown-check-stderr.log |   1 +
+ .../closeout-authority01/markdown-check-stdout.log |   0
+ .../governance/closeout-authority01/message.txt    |   6 +
+ .../primary-archive-check-stderr.log               |   0
+ .../primary-archive-check-stdout.log               |   1 +
+ .../closeout-authority01/primary-ff-stderr.log     |   0
+ .../closeout-authority01/primary-ff-stdout.log     |  84 ++++++++
+ .../governance/closeout-authority01/proof01.json   | 230 +++++++++++++++++++++
+ .../closeout-authority01/stage-stderr.log          |   0
+ .../closeout-authority01/stage-stdout.log          |   0
+ .../evidence/online/g4-attempt01/after-input.json  |   3 +
+ .../online/g4-attempt01/after-stderr-original.log  |   0
+ .../online/g4-attempt01/after-stdout-original.json |   1 +
+ .../evidence/online/g4-attempt01/before-input.json |   3 +
+ .../online/g4-attempt01/before-stderr-original.log |   0
+ .../g4-attempt01/before-stdout-original.json       |   1 +
+ .../online/g4-attempt01/mutation-input.json        |  24 +++
+ .../g4-attempt01/mutation-stderr-original.log      |   0
+ .../g4-attempt01/mutation-stdout-original.json     |   1 +
+ .../evidence/online/g4-online-receipt01.json       |  75 +++++++
+ docs/design/backend-rust-migration-plan.md         |   9 +-
+ .../design/phase2-development-execution-tracker.md |   7 +
+ docs/design/rust-migration-execution-tracker.md    |  11 +-
+ docs/design/rust-r3-operation-slices.json          |  98 +++++----
+ docs/design/rust-r3-scope-and-dependencies.md      |  15 +-
+ docs/design/rust-r3cdefg-delivery-status.json      |  92 +++++----
+ 41 files changed, 754 insertions(+), 92 deletions(-)
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01-copy-map.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/archive-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/archive-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/branch-push-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/branch-push-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/commit-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/commit-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/diff-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/diff-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/inventory-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/inventory-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/main-push-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/main-push-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/markdown-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/markdown-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/message.txt
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/primary-archive-check-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/primary-archive-check-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/primary-ff-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/primary-ff-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/proof01.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/stage-stderr.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/stage-stdout.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/after-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/after-stderr-original.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/after-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/before-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/before-stderr-original.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/before-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/mutation-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/mutation-stderr-original.log
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-attempt01/mutation-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-online-receipt01.json

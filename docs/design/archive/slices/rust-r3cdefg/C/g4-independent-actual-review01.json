@@ -1,0 +1,469 @@
+{
+  "kind": "R3CDEFG-non-author-independent-actual-G4-final-review",
+  "createdAt": "2026-11-02T07:58:01.439Z",
+  "reviewer": {
+    "agent": "/root/r3_next16_review",
+    "role": "Independent non-author C",
+    "method": "Read-only public JSON, exact bytes, fixed Git blobs and independent live GitHub readback; own static validator only"
+  },
+  "decision": "Pass",
+  "G4Certified": true,
+  "certificationType": "Actual scoped closeout after independent G3, fixed implementation review, main integration, approved archive/E1 preflight and exact online execution",
+  "findingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "findings": [],
+  "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a",
+  "reviewedMain": "af712807e83c49ce7d8c6aeb1bb5bafa7865382c",
+  "archiveCommit": "4947c1a4f5c12a89734dccdf8ae781f0e708fe3e",
+  "preCloseAuthorityMain": "688b57ccfa2b7669b9e3a176860dd9fd3e588c76",
+  "approvedPlan": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/g4-closeout-plan01.json",
+    "bytes": 38388,
+    "rawBytesSha256": "5c7bf3b4bf2254f933064777001bdc24b84001d9737ced1f32b7077ec4299e56"
+  },
+  "independentPreflight": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json",
+    "bytes": 17009,
+    "rawBytesSha256": "8f7819db986f96f3e66ab2a76a44ed3b38d2e6cffea8ccd4ee6ad23df42a43db"
+  },
+  "actualOnlineReceipt": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-online-receipt01.json",
+    "bytes": 2646,
+    "rawBytesSha256": "dc5178e26313940d36f8171f3d1552c748209f71b24d66cbc468221540407c76"
+  },
+  "independentLiveReadback": {
+    "file": "tmp/rust-r3cdefg/c-review/g4-actual-live-readback01.json",
+    "bytes": 148948,
+    "rawBytesSha256": "10719bf15637b43b9eb9dfbf9ac2078de931caea6ebb2adebbbacb5df159248b",
+    "capturedAt": "2026-11-02T07:48:40.006Z",
+    "independentlyFetchedIssues": 7,
+    "independentlyFetchedCommentCollections": 5
+  },
+  "scope": {
+    "batch": "RUST-R3C/D/E/F/G",
+    "operations": 16,
+    "countsByChild": {
+      "88": 3,
+      "89": 3,
+      "90": 3,
+      "91": 4,
+      "92": 3
+    },
+    "closedIssues": [
+      88,
+      89,
+      90,
+      91,
+      92
+    ],
+    "keepOpen": [
+      85,
+      57
+    ],
+    "priorDelivered": 14,
+    "currentDelivered": 30,
+    "totalR3": 58,
+    "remaining": 28,
+    "remainingBreakdown": {
+      "lead": 14,
+      "intelligenceOtherThanContacts": 10,
+      "discussion": 2,
+      "projectCompleteWorkspace": 2
+    },
+    "fullR3G1Certified": false,
+    "fullR3G3Certified": false,
+    "fullR3G4Certified": false,
+    "fullStageComplete": false,
+    "completeNonHttpApprovalAndStageIntegration": false,
+    "R4ThroughR7Complete": false,
+    "NativeGovernanceIssuesNotRecounted": [
+      61,
+      82,
+      83,
+      84
+    ],
+    "realFollowUpTodoProducer": {
+      "delivered": true,
+      "targets": [
+        "customer",
+        "lead",
+        "project"
+      ],
+      "completeLeadDetailUI": false
+    }
+  },
+  "onlineConclusions": {
+    "approvedBeforeBodyHashesAllExact": true,
+    "approvedSevenIssueIdsAndExactMutationVariables": true,
+    "mutationOnlyFiveAddCommentAndSevenUpdateIssue": true,
+    "beforeMutationAfterRawGraphQLPreserved": true,
+    "noGraphQLErrors": true,
+    "issueBodiesExactStringAndUtf8BytesFromPlanThroughRootAndIndependentReadback": true,
+    "fiveChildrenClosedWithSixOfSixCheckboxes": true,
+    "oneExactApprovedG4CommentPerChild": true,
+    "bothParentsOpenAndFullStageIncomplete": true,
+    "approvalSignaturePlanAndMainProofAlreadyPresentIn688bBeforeFirstClosure": true,
+    "issues": [
+      {
+        "issue": 88,
+        "state": "closed",
+        "bodyBytes": 3491,
+        "bodySha256": "69c5407182a86e4a67cb0481d1bdf8fc22c9f7357c80e0e98a71d49b99bfa07b",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": 6571762609,
+        "checklist": "6/6"
+      },
+      {
+        "issue": 89,
+        "state": "closed",
+        "bodyBytes": 3474,
+        "bodySha256": "e6558760d78c816e40baa1b61765f59b9812cae9aedde7a577aaa33a27d66758",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": 6571762962,
+        "checklist": "6/6"
+      },
+      {
+        "issue": 90,
+        "state": "closed",
+        "bodyBytes": 3383,
+        "bodySha256": "9f3fde250b45e60cd0b2ba0367af6de3abb5ab13d08905fcb3cd7dfa53b1f71e",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": 6571763276,
+        "checklist": "6/6"
+      },
+      {
+        "issue": 91,
+        "state": "closed",
+        "bodyBytes": 3545,
+        "bodySha256": "52d90d9fe053c764398012ea0f002f9022d33f311127d1dd5b14720ebdd04c23",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": 6571763587,
+        "checklist": "6/6"
+      },
+      {
+        "issue": 92,
+        "state": "closed",
+        "bodyBytes": 3548,
+        "bodySha256": "713c45243aa96a6ba0f00e313102cce5d9def3ceea65c2bc7ec46a261500eacc",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": 6571763887,
+        "checklist": "6/6"
+      },
+      {
+        "issue": 85,
+        "state": "open",
+        "bodyBytes": 2491,
+        "bodySha256": "10d24a3a38d760326e8fde975f3b561eda29a5a32b925a1a3a0c518cbf47b1e2",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": null,
+        "checklist": null
+      },
+      {
+        "issue": 57,
+        "state": "open",
+        "bodyBytes": 2573,
+        "bodySha256": "5e380039fd4aab8e7f2579020e127b351a4d046330f04381d30cec1374540055",
+        "exactPlanAndMutationAndRootReadbackAndIndependentLiveMatch": true,
+        "commentId": null,
+        "checklist": null
+      }
+    ]
+  },
+  "currentMetadataConclusions": {
+    "status": {
+      "file": "docs/design/rust-r3cdefg-delivery-status.json",
+      "bytes": 22549,
+      "rawBytesSha256": "524ea022e681d0088d2ecb1f12623e0dc5c770be3b2ab328772e68e3b57eb0e4"
+    },
+    "inventory": {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 164534,
+      "rawBytesSha256": "f3b0af0e6d6c952fa0c40aa5329a2a8c13145cab869b44d05cdc9c82b14ce13a"
+    },
+    "phase": "Done",
+    "G1Certified": true,
+    "G3Certified": true,
+    "G4Certified": true,
+    "thisBatchRowsCertified": 16,
+    "currentDeliveredRows": 30,
+    "remainingRows": 28,
+    "all58OperationIdsMutuallyCounted": true,
+    "fullInventoryGateBooleansRemainFalse": true,
+    "currentStatusSixteenRowsAndInventoryRowsAgree": true,
+    "fourGlobalIndexesAndCurrentScopeAndCloseoutAgree": true,
+    "historicalDatedReadyAndPendingParagraphsRetainedAsHistory": true,
+    "actualDeliveredFollowUpProducerRemovedFromFutureOnlyList": true,
+    "independentFinalActualPendingPlaceholderMayNowBeReplacedWithThisExactSignature": true
+  },
+  "fixedMainConclusions": {
+    "primary": "E:/projects/poms",
+    "primaryClean": true,
+    "branchAndRemoteMain": "af712807e83c49ce7d8c6aeb1bb5bafa7865382c",
+    "independentLsRemote": "af712807e83c49ce7d8c6aeb1bb5bafa7865382c\trefs/heads/codex/poms-r3cdefg-next16\naf712807e83c49ce7d8c6aeb1bb5bafa7865382c\trefs/heads/main",
+    "onlyMetadataChangedSinceArchiveCommit": true,
+    "protectedNativeAngularContractsClientSpecAndRustProductTreesUnchangedFromImplementation": true,
+    "RustSourceFilesByteEqual09AndFixedImplementation": 203,
+    "frozenClosures": [
+      {
+        "kind": "G1Formal",
+        "files": 44,
+        "allCurrentPublicBytesEqual": true
+      },
+      {
+        "kind": "Native",
+        "files": 872,
+        "allCurrentPublicBytesEqual": true
+      },
+      {
+        "kind": "G3Inputs",
+        "files": 740,
+        "allCurrentPublicBytesEqual": true
+      },
+      {
+        "kind": "RustSource09",
+        "files": 203,
+        "allCurrentPublicBytesEqual": true
+      }
+    ],
+    "archivedOriginalsByteEqual": 668,
+    "allCurrentResolvedFilesAlsoEqualFixedMainBlobs": true,
+    "originalPlanAndOriginMapNotModified": true,
+    "actualMetadataCommandOriginals": [
+      {
+        "slug": "closeout-authority01",
+        "proof": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01/proof01.json",
+          "bytes": 8001,
+          "rawBytesSha256": "f44d52d818151f857c89924b37442f37f4b03968e370998ec6261b8010c224d3"
+        },
+        "copyMap": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/closeout-authority01-copy-map.json",
+          "bytes": 5528,
+          "rawBytesSha256": "61e622bbd4d003cc193f74b67e07cacf543f04d089f8d062934115f222f6d88b"
+        },
+        "commands": 10,
+        "allExit0": true,
+        "all22CopiesEqualSource": true
+      },
+      {
+        "slug": "online-g4-state01",
+        "proof": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/online-g4-state01/proof01.json",
+          "bytes": 7934,
+          "rawBytesSha256": "7e502c21182e400df41c36e9ae773600b03f7dc69314ebe2b87db14c09d77ee5"
+        },
+        "copyMap": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/online-g4-state01-copy-map.json",
+          "bytes": 5459,
+          "rawBytesSha256": "4288bf70c1b1dea0e0a6cfcda3096ab218d4ad90811301ed19d7439ef3a48caa"
+        },
+        "commands": 10,
+        "allExit0": true,
+        "all22CopiesEqualSource": true
+      }
+    ]
+  },
+  "E1": {
+    "approved": true,
+    "approvalWasNewForThisBatch": true,
+    "approvalAuthority": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json",
+      "bytes": 17009,
+      "rawBytesSha256": "8f7819db986f96f3e66ab2a76a44ed3b38d2e6cffea8ccd4ee6ad23df42a43db"
+    },
+    "scope": "Only five regular same-byte active machine inputs; no lifecycle Markdown or bulk evidence mirror",
+    "files": [
+      {
+        "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+        "bytes": 190930,
+        "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+        "bytes": 180482,
+        "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+        "bytes": 38863,
+        "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+        "bytes": 4774,
+        "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+        "bytes": 4215,
+        "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+      }
+    ],
+    "totalBytes": 419264,
+    "owner": "Root /root",
+    "reviewDue": "Next R3 G1 or 2026-11-09, whichever is earlier",
+    "exitCondition": "All identified replay entrypoints use archive-aware resolution and exact-hash verification, then remove these five regular aliases without rewriting historical originals",
+    "originalQualification": "Normal replay/attestation inputs only. Historical assemble/publish/freeze recipes and exact attributes checks retain their recorded prerequisites; not all original commands are rerunnable unchanged.",
+    "onlyFiveAliasesCurrentlyExist": true,
+    "archivedCopiesAndActiveAliasesExact": true,
+    "oldR3ABApprovalNotInherited": true,
+    "noExpansionApproved": true
+  },
+  "publicPreservation": {
+    "originals": [
+      {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/public-preservation01.json",
+        "bytes": 339109,
+        "rawBytesSha256": "d26e42fcc812f0cdbe040f2b8e1b7a4d11a08f2e26ad13ceea93c96101c5abf0"
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/public-preservation02.json",
+        "bytes": 360891,
+        "rawBytesSha256": "4a59da3cb60bdce48f2130028a1ea20187ded460afeba23b62d86e027477e22b"
+      }
+    ],
+    "files": 1140,
+    "bytes": 86804818,
+    "added": 71,
+    "allDestinationsAndAvailablePublicSourcesExact": true,
+    "first1069RetainedUnchanged": true,
+    "noDifferentBytesOverwritten": true,
+    "noOldNamespaceTouched": true,
+    "ownPrivateAndStoppedPG15VolumeRetainedByEarlierAcceptedEvidence": true,
+    "noPrivateReadByC": true,
+    "conclusion": "The two public preservation originals and all 1140 destinations/available public sources were byte checked; first 1069 retained, 71 added, no different bytes overwritten. C did not read private or re-probe runtime/host.",
+    "privateAndStoppedVolume": "Own private/PG15 retained in the previously approved locations according to already certified terminal evidence; older private/PG17 not accessed by this audit"
+  },
+  "retainedAcceptanceAndLimits": {
+    "G3Review": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g3-independent-review02.json",
+      "bytes": 17807,
+      "rawBytesSha256": "38646cdb48d0a048c3b640c8cde62c2eb8ff5f15271ac079d1b4813b1bfe864a"
+    },
+    "fixedCommitReview": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/fixed-commit-review01.json",
+      "bytes": 38052,
+      "rawBytesSha256": "46b1bfd9b4defc07348d74fe7489ded1eb4bb31874315e2dc86a8a0c6929596c"
+    },
+    "artifact": "c042513c98182fcf9e70a72cd71fd0b5231bc785fac86dac3ffd7b93d852c128",
+    "productAcceptanceNotRepeatedByThisG4Review": true,
+    "Rust235PassedAnd54IgnoredRemainSeparate": true,
+    "actual45And1691And14AndPGAndTodoEvidenceRemainOriginal": true,
+    "UI898EvidenceStillBelongsToEcArtifactWithPreviouslyApprovedNarrowSourceCausalTransfer": true,
+    "noClaimThatC042RanOldEcUI": true,
+    "allFailedPartialStoppedUncertifiedAndKnownNativeBaselineLabelsRetained": true,
+    "schemaTimezoneIpQuarantineIsolationAndHistoricalMissingEarliest46BinaryLimitsRemain": true,
+    "noDeploymentTrafficPerformanceOrCompleteR3Certification": true
+  },
+  "finalPublication": {
+    "actualG4IsCertifiedByThisReview": true,
+    "remainingWork": "Root append this exact signature and its audit/live originals, current references and final incremental public preservation; make metadata-only branch/primary FF/main publication and read back the resulting commit.",
+    "allowedChanges": "Additive signature/proof/preservation files and current independent-final-review references only.",
+    "productApprovedPlanOriginMapAndOnlineBodiesMustRemainUnchanged": true,
+    "pendingPreSignatureAdditiveFiles": [
+      "docs/design/archive/slices/rust-r3cdefg/evidence/governance/online-g4-state01-copy-map.json",
+      "docs/design/archive/slices/rust-r3cdefg/evidence/governance/online-g4-state01/",
+      "docs/design/archive/slices/rust-r3cdefg/evidence/governance/public-preservation01.json",
+      "docs/design/archive/slices/rust-r3cdefg/evidence/governance/public-preservation02.json"
+    ],
+    "noSecondProductAcceptanceOrNewOnlineMutationRequired": true,
+    "finalMainPublicationAndReadbackNotClaimedAlreadyDone": true
+  },
+  "evidencePins": {
+    "incrementalAudit": {
+      "file": "tmp/rust-r3cdefg/c-review/g4-actual-incremental-audit01.json",
+      "bytes": 23872,
+      "rawBytesSha256": "7f98f71b028058430fffb752e70b6e20c5be76f4cc702b3c68620342eddb2000"
+    },
+    "validator": {
+      "file": "tmp/rust-r3cdefg/c-review/g4-actual-incremental-audit01.mjs",
+      "bytes": 16616,
+      "rawBytesSha256": "d3f395a914b0247e82d520f86b542c0143708444852f260be9b6b8e3b5ae732d"
+    },
+    "beforeCloseDetailedAudit": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-byte-plan-audit01.json",
+      "bytes": 668414,
+      "rawBytesSha256": "30bf2dc17df6bb858a5428f5570e465c0bcab6c567d34d0d05bb5d855cf3adff"
+    },
+    "plan": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/governance/g4-closeout-plan01.json",
+      "bytes": 38388,
+      "rawBytesSha256": "5c7bf3b4bf2254f933064777001bdc24b84001d9737ced1f32b7077ec4299e56"
+    },
+    "preflight": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json",
+      "bytes": 17009,
+      "rawBytesSha256": "8f7819db986f96f3e66ab2a76a44ed3b38d2e6cffea8ccd4ee6ad23df42a43db"
+    },
+    "receipt": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/online/g4-online-receipt01.json",
+      "bytes": 2646,
+      "rawBytesSha256": "dc5178e26313940d36f8171f3d1552c748209f71b24d66cbc468221540407c76"
+    },
+    "live": {
+      "file": "tmp/rust-r3cdefg/c-review/g4-actual-live-readback01.json",
+      "bytes": 148948,
+      "rawBytesSha256": "10719bf15637b43b9eb9dfbf9ac2078de931caea6ebb2adebbbacb5df159248b"
+    },
+    "originMap": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+      "bytes": 355382,
+      "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+    },
+    "currentMetadata": [
+      {
+        "file": "docs/design/rust-r3cdefg-delivery-status.json",
+        "bytes": 22549,
+        "rawBytesSha256": "524ea022e681d0088d2ecb1f12623e0dc5c770be3b2ab328772e68e3b57eb0e4"
+      },
+      {
+        "file": "docs/design/rust-r3-operation-slices.json",
+        "bytes": 164534,
+        "rawBytesSha256": "f3b0af0e6d6c952fa0c40aa5329a2a8c13145cab869b44d05cdc9c82b14ce13a"
+      },
+      {
+        "file": "docs/design/README.md",
+        "bytes": 44039,
+        "rawBytesSha256": "47dba55ea0f2ca497485ee4ffb2ffc32e6b7eb0d3f2e1e9f3079d55433e0b0f4"
+      },
+      {
+        "file": "docs/design/backend-rust-migration-plan.md",
+        "bytes": 66933,
+        "rawBytesSha256": "8a0c1d5ce71014c25d7555068cb29a983e7f32a58ac2d757aa744effb2c69f71"
+      },
+      {
+        "file": "docs/design/phase2-development-execution-tracker.md",
+        "bytes": 398856,
+        "rawBytesSha256": "45dea5fd184facfe01e6df4886af1d5525d8de11709d538218c0f9c442383730"
+      },
+      {
+        "file": "docs/design/rust-migration-execution-tracker.md",
+        "bytes": 49754,
+        "rawBytesSha256": "6e9fe2aaacddcf07993f8b02e0973079d38e114d3441bb2c0de5bf3f645c2002"
+      },
+      {
+        "file": "docs/design/rust-r3-scope-and-dependencies.md",
+        "bytes": 4525,
+        "rawBytesSha256": "25d8cf7acdeb3387547568a4d7347e8af72e92ed525534aab74c09d70e5adbfa"
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r3cdefg-closeout.md",
+        "bytes": 3233,
+        "rawBytesSha256": "118dbd89b3706510d7579015fa98464481d68af37b4a6ae2bf3ccfa618efa985"
+      }
+    ]
+  },
+  "noIndependentProductBuildTestLintDbHttpBrowserOrHostExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true,
+  "noProductOrRootToolModification": true
+}
