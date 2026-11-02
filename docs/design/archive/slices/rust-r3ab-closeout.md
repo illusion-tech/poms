@@ -1,6 +1,6 @@
 # RUST-R3A/B 首批收口记录
 
-本批客户/别名8项与项目基础6项已按独立G4关闭前许可完成实际线上收口，#86/#87 Closed；当前交付 **14/58**，父#85/#57保持Open。实现 `df0d99decffbe974c988e85eea97767331044cbe`、原件归档及主线集成已完成；最终非作者实际G4终审收据另附。
+本批客户/别名8项与项目基础6项已按独立G4关闭前许可完成实际线上收口，#86/#87 Closed；当前交付 **14/58**，父#85/#57保持Open。实现 `df0d99decffbe974c988e85eea97767331044cbe`、原件归档及主线集成已完成；[非作者实际G4终审](rust-r3ab/evidence/C/g4-independent-actual-review01.json)已Pass，只认证本批14项。
 
 ## 实际交付与原件
 
@@ -17,7 +17,7 @@
 
 本次只允许 #86/#87 自身 G4 后关闭并计14/58。父 #85 与总体 #57 保持 Open；余44操作、完整非 HTTP/审批/副作用生产链及 R3 阶段验收仍待后续切片。R4–R7、正式部署/切流、真实云租户接管和性能认证不在本批。
 
-后续在线回执、实际状态和独立 G4 决定以归档目录中的增量原件及当前 `rust-r3ab-delivery-status.json` 为准；本段不预签尚未发生的结果。
+当前线上状态与独立G4决定见追加原件和[当前交付状态](../../rust-r3ab-delivery-status.json)，本批完成不改变父阶段未完成边界。
 
 
 ## 实际线上回执
@@ -27,3 +27,8 @@
 - [当前交付状态](../../rust-r3ab-delivery-status.json)只对本批14条标记交付，余44及全R3阶段Gate继续未认证；后续最终独立终审和保全收据另附。
 
 当前子项正文以[客户 current02](rust-r3ab/evidence/online/issue-86-after-g4-current02.json)、[项目 current02](rust-r3ab/evidence/online/issue-87-after-g4-current02.json)为准：已移除未注明历史的旧 Doing 状态句，并明确独立池编号/业务事务边界；[更正记录](rust-r3ab/evidence/online/g4-current-body-correction02.json)只替代当前正文，原01关闭当时快照与回执保留原字节。
+
+
+## 独立实际 G4 完成
+
+[实际终审原件](rust-r3ab/evidence/C/g4-independent-actual-review01.json)为13475B，SHA256 `920d490a5ed120b22d9bc6f94fadccdae19b7b0940ee448fbab0a58b116d2e72`，仅认证#86/#87共14/58。[最新当前线上索引03](rust-r3ab/evidence/online/g4-current-online-index03.json)确认父85/57仍Open；current02正文修正和原01关闭快照分列保留。新C收据与最后元数据按增量03保全，最后只读核当前提交/状态，不再扩大业务验收。

@@ -32,3 +32,5 @@
 ## 环境与验收边界
 
 独立 Windows worktree 与 Linux checkout；新建 PG15 容器、独立 `poms_r3ab_nest/poms_r3ab_rust`、marker/fixture namespace。PG17 与全部旧环境、private journals、QA volumes、失败和隔离图保留。客户/项目端口、构建输出与运行 ID 独立；Root 执行真实双端 HTTP/PG、受控并发、原 UI 四组合及适用公共回归。精确门槛见[联合基线](archive/slices/rust-r3ab-customer-project-baseline.md)。本批不执行产品 DDL、正式部署/切流、真实云租户接管或性能认证。
+
+非作者实际G4已[独立终审Pass](archive/slices/rust-r3ab/evidence/C/g4-independent-actual-review01.json)，仅本批14条；全R3和父项仍未完成。

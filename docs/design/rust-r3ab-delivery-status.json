@@ -1,6 +1,6 @@
 {
   "kind": "R3AB-current-scoped-delivery-status",
-  "updatedAt": "2026-11-02T01:46:53.4715658Z",
+  "updatedAt": "2026-11-02T01:53:35.512Z",
   "implementation": "df0d99decffbe974c988e85eea97767331044cbe",
   "phase": "Done",
   "G1Certified": true,
@@ -155,7 +155,7 @@
       }
     }
   ],
-  "requiredBeforeDone": "Scoped online G4 actually completed after independent closeout approval; final actual independent reconciliation is recorded separately.",
+  "requiredBeforeDone": "Scoped G1/G3/fixed-main/actual online G4 and independent actual G4 are complete. Full R3 and parents remain incomplete.",
   "receipts": {
     "G3": "docs/design/rust-r3ab/g3-independent-review01.json",
     "fixed": "docs/design/rust-r3ab/fixed-commit-review01.json",
@@ -166,11 +166,14 @@
     "G4CurrentBodies": [
       "docs/design/archive/slices/rust-r3ab/evidence/online/issue-86-after-g4-current02.json",
       "docs/design/archive/slices/rust-r3ab/evidence/online/issue-87-after-g4-current02.json"
-    ]
+    ],
+    "G4Actual": "docs/design/archive/slices/rust-r3ab/evidence/C/g4-independent-actual-review01.json",
+    "CurrentOnlineIndex": "docs/design/archive/slices/rust-r3ab/evidence/online/g4-current-online-index03.json"
   },
-  "independentActualG4": "Pending-final-actual-reconciliation",
+  "independentActualG4": "Pass",
   "G4CommentURLs": [
     "https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630",
     "https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053"
-  ]
+  ],
+  "independentActualG4SHA256": "920d490a5ed120b22d9bc6f94fadccdae19b7b0940ee448fbab0a58b116d2e72"
 }

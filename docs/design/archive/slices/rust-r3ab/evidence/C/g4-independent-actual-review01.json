@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-actual-G4-review",
+  "createdAtUtc": "2026-11-02T01:50:35.844Z",
+  "result": "Pass",
+  "G4Certified": true,
+  "certificationScope": "Only RUST-R3A customer/alias8 plus RUST-R3B project foundation6",
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "implementation": "df0d99decffbe974c988e85eea97767331044cbe",
+    "archiveCommit": "21d3a14a9520078d92f449d912a0d987c0bdaa26",
+    "preflightCommit": "8ed43720443ff35090bd18ca11e9d547998768ef",
+    "initialOnlineMetadataCommit": "1fb47a6d48e113d7c606a8d1c77fc433ed31a632",
+    "reviewedMetadataHead": "d51ac3e8da27c9d5f446eee6a88db314bc007d92",
+    "reviewedTree": "1f4ecd6977792427e4ba13c0b77a033245522299",
+    "branch": "codex/poms-r3ab-customer-project",
+    "worktree": "E:/projects/worktrees/poms-r3ab-customer-project/poms",
+    "primary": "E:/projects/poms",
+    "issues": {
+      "A": 86,
+      "B": 87,
+      "parent": 85,
+      "overall": 57
+    }
+  },
+  "decision": {
+    "actualScopedG4": "Pass",
+    "actualClosedIssues": [
+      86,
+      87
+    ],
+    "mayRetainDone": [
+      86,
+      87
+    ],
+    "mustKeepOpen": [
+      85,
+      57
+    ],
+    "R3Delivered": 14,
+    "R3Total": 58,
+    "remainingR3Operations": 44,
+    "currentRustDispatchOperations": 129,
+    "wholeR3G1G3G4Certified": false,
+    "fullR3StageAcceptanceCertified": false,
+    "completeNonHTTPProducerChainCertified": false,
+    "mayPublishThisExactReceipt": true,
+    "maySetCurrentIndependentActualG4PassToThisReceipt": true,
+    "finalMetadataVerificationStillRequired": true,
+    "additionalProductValidationRequired": false,
+    "reason": "The two approved child slices are actually closed after same-byte independent preflight/main/archive readiness. Saved actual comments, fresh corrected Issue bodies, native subissue states, exact committed source/formal/evidence bytes, scoped14-row delivery and preserved original plus incremental evidence agree. Whole-stage and parent completion remain outside this certificate."
+  },
+  "authorities": {
+    "C_G3": {
+      "file": "docs/design/archive/slices/rust-r3ab/g3-independent-review01.json",
+      "bytes": 18669,
+      "rawBytesSha256": "34218f90438d0ccae6a1513a58f62b47565cc895dca4de8cd4724fddb05f72bb"
+    },
+    "C_fixed": {
+      "file": "docs/design/archive/slices/rust-r3ab/fixed-commit-review01.json",
+      "bytes": 8545,
+      "rawBytesSha256": "9279e614ffad6c93cb97169743e7a98108ad7821c1bc2b698780c621e5cfdc85"
+    },
+    "C_preflight": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/C/g4-closeout-preflight01.json",
+      "bytes": 12334,
+      "rawBytesSha256": "22bfbdbba5af6bd6efee9c144dabb344b1a7b2d62fc9cca43db696621ea82786"
+    },
+    "actualOnline": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/online/g4-online-receipt01.json",
+      "bytes": 1008,
+      "rawBytesSha256": "063fbbff17e19688240b712a1e4a7a594c114f2822c70c59c83c96f443544a1c"
+    },
+    "currentBodyCorrection": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/online/g4-current-body-correction02.json",
+      "bytes": 679,
+      "rawBytesSha256": "80f5ef49ff5de57c9eb9a688d5f76db902835197df737aef4145b9ee927a4afa"
+    },
+    "currentStatus": {
+      "file": "docs/design/rust-r3ab-delivery-status.json",
+      "bytes": 6481,
+      "rawBytesSha256": "401e93de85409b6e29974f9d19e0343e65e8bcbbe902232d9190287448ee9d71"
+    },
+    "currentInventory": {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 155132,
+      "rawBytesSha256": "f97ad8a4e411212f1fd509d507d57e4e977de1115a7356022ef8b0fd33d2a46c"
+    },
+    "incremental02": {
+      "file": "docs/design/archive/slices/rust-r3ab/evidence/governance/primary-incremental02.json",
+      "bytes": 18458,
+      "rawBytesSha256": "301d30619f76f895a06dd778f0fba9cbeec46386645d85322f98141ef8dcdeb0"
+    },
+    "C_publicVerification": {
+      "file": "tmp/rust-r3ab/c-review/g4-actual-public-verification01.json",
+      "bytes": 7870,
+      "rawBytesSha256": "c788d09e2e0dd1a9b6a5b02eb1a4d5e2f472f1639cbdb51947ea8644ad21cd33"
+    },
+    "C_verifier": {
+      "file": "tmp/rust-r3ab/c-review/g4-actual-verifier01.mjs",
+      "bytes": 12012,
+      "rawBytesSha256": "21fb3e6bba4db1c345e4497c994c5bbfda5bd20a565ce2aa7c16023437680592"
+    }
+  },
+  "actualOnlineAssessment": {
+    "source": "Saved Root raw public GitHub response snapshots; C performed no live network or private access.",
+    "preflightBeforeClose": "The exact22bfbdbb C approval is committed at8ed43720, an ancestor of the actual-online metadata and reviewed main. It authorizes only86/87 and requires85/57Open.",
+    "closed": [
+      {
+        "issue": 86,
+        "title": "[RUST-R3A] 迁移客户主数据与别名八操作",
+        "state": "CLOSED",
+        "stateReasonInNativeChild": "completed",
+        "closedAt": "2026-11-02T01:38:16Z",
+        "operations": 8,
+        "G4URL": "https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630",
+        "authoritativeCurrentSnapshot": "docs/design/archive/slices/rust-r3ab/evidence/online/issue-86-after-g4-current02.json"
+      },
+      {
+        "issue": 87,
+        "title": "[RUST-R3B] 迁移项目基础六操作",
+        "state": "CLOSED",
+        "stateReasonInNativeChild": "completed",
+        "closedAt": "2026-11-02T01:38:32Z",
+        "operations": 6,
+        "G4URL": "https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053",
+        "authoritativeCurrentSnapshot": "docs/design/archive/slices/rust-r3ab/evidence/online/issue-87-after-g4-current02.json"
+      }
+    ],
+    "parents": [
+      {
+        "issue": 85,
+        "title": "[RUST-R3] 迁移客户销售与项目签约前链路",
+        "state": "OPEN",
+        "snapshot": "docs/design/archive/slices/rust-r3ab/evidence/online/issue-85-after-g4.json",
+        "currentBodyCount": "14/58",
+        "remaining44AndFullStageCheckboxesUnchecked": true
+      },
+      {
+        "issue": 57,
+        "title": "[RUST] Rust 后端分阶段迁移",
+        "state": "OPEN",
+        "snapshot": "docs/design/archive/slices/rust-r3ab/evidence/online/issue-57-after-g4.json",
+        "currentBodyCount": "14/58",
+        "R3AndR4ThroughR7Unchecked": true
+      }
+    ],
+    "nativeParentChildren": "Exactly86/87 closed/completed with matching original closed_at values; no parent closure inferred from both children being closed.",
+    "comments": "Both actual G4 comments contain the exact implementation, archive, preflight commit and C signature,14/58/remaining44 and85/57Open boundaries. Earlier G1/G3/Pending comments are immutable historical statements, not current status.",
+    "closedChildChecklistsComplete": true,
+    "prior57History": "Current parent body links the retained complete history comment6563891087 and keeps old quarantine561e7b81-4baa-4502-9b80-f5ce2028457a/PG17/old failures and volumes outside this batch's terminal claims."
+  },
+  "closedReviewFindings": [
+    {
+      "id": "ACTUAL-G4-C-META-001",
+      "status": "Closed",
+      "observation": "Initial after-g4 child bodies retained an unqualified old Doing/implementation-underway sentence despite current Done headlines.",
+      "correction": "Root changed only the current bodies to actual Done and saved new current02 snapshots; all non-body Issue fields and comments compare exactly with original01. Original committed01 snapshots and actual closure receipts remain unchanged."
+    },
+    {
+      "id": "ACTUAL-G4-C-META-002",
+      "status": "Closed",
+      "observation": "Customer Issue body retained a phrase implying same-transaction numbering from the pre-corrective draft.",
+      "correction": "Current customer body now distinguishes entity/primary-alias/pending-session business transaction from independent committed numbering. Both child bodies link approved corrective4fda and state number-entry failure prevents entity writes and later entity failure retains gaps.",
+      "noFrozenInputOrImplementationChange": true
+    }
+  ],
+  "immutableIntegrationAssessment": {
+    "command": "node tmp/rust-r3ab/c-review/g4-actual-verifier01.mjs d51ac3e8da27c9d5f446eee6a88db314bc007d92",
+    "exitCode": 0,
+    "publicPathsHashed": 2908,
+    "currentCommitBlobsVerified": 986,
+    "productionSourcesSameAsActualG3": 15,
+    "frozenFormalSources": 12,
+    "frozenNativeSources": 872,
+    "actualOriginalArchivePairs": 46,
+    "allRawHashAndLengthChecksPassed": true,
+    "currentRootBranchOriginBranchPrimaryHEADMainAndOriginMainEqual": true,
+    "bothCheckoutsClean": true,
+    "reviewedImplementationAndApprovalAncestors": true,
+    "allChangesAfterArchiveAreOrdinaryDocsAndStateEvidence": true,
+    "noProductOrAcceptanceBehaviorChangedSinceG3": true,
+    "buildsAndActualRuntimeAcceptance": "Reuse the exact accepted G3 source/binaries and protected originals. Root saved263+34 strict parity,10 external fault/concurrency checks per backend, four original Angular cells and all10 owned-run terminals retain their original labels.",
+    "noNewBuildTestOrRuntimeExecutionByC": true,
+    "sourceGuardAndClientProtectionStillCovered": true
+  },
+  "currentMetadataAssessment": {
+    "deliveryPhase": "Done",
+    "G1Certified": true,
+    "G3Certified": true,
+    "G4Certified": true,
+    "closedIssues": [
+      86,
+      87
+    ],
+    "mainIntegrated": true,
+    "deliveredRows": 14,
+    "futureRowsUnchanged": 44,
+    "rowIdentityScopeNativeStatusAndEvidenceBindingsUnchanged": true,
+    "currentFormalDeliveredCount": 14,
+    "currentRustDispatch": 129,
+    "topLevelWholeR3G1Certified": false,
+    "topLevelWholeR3G3Certified": false,
+    "topLevelWholeR3G4Certified": false,
+    "currentStatusRawBytesAndInventorySourcePinMatch": true,
+    "independentActualFieldBeforeThisSignature": "Pending-final-actual-reconciliation",
+    "fieldTransitionAllowed": "Root may replace only this current independentActual status/pointer with Pass bound to this exact receipt, refresh the inventory's status-file hash and publish the final ordinary metadata commit. The signed receipt itself must remain unchanged.",
+    "noDoubleCountingOfEarlierNativeLookupGovernance": true,
+    "userTaskScope": "Only the already authorized A/B completion; future44 and full R3/non-HTTP/stage work are not started or closed by this review."
+  },
+  "archiveAndPreservation": {
+    "archiveOriginMapUnchanged": "b90f8ccb298cf308711fcab7efdb1db4eb4f1bf7e72f42d3d5980ae66485514e",
+    "originalHumanLifecycleMarkdownMoves": 3,
+    "regularMachineMirrors": 22,
+    "E1": "Remains independently approved by preflight22bfbdbb, ownerRoot/review2026-12-02/explicit retirement condition; no frozen old Gate wording or raw input rewrite.",
+    "initial": {
+      "files": 732,
+      "bytes": 211083968,
+      "directory": "E:/projects/poms/tmp/rust-r3ab/windows-origin01",
+      "allDestinationRawHashesVerified": true
+    },
+    "incremental01": {
+      "files": 46,
+      "directory": "E:/projects/poms/tmp/rust-r3ab/incremental01",
+      "allSourceAndDestinationRawHashesVerified": true
+    },
+    "incremental02": {
+      "files": 76,
+      "directory": "E:/projects/poms/tmp/rust-r3ab/incremental02",
+      "allSourceAndDestinationRawHashesVerified": true
+    },
+    "originalSnapshotAndPriorIncrementsNotOverwritten": true,
+    "privateJournalsNotCopiedOrRead": true,
+    "newOutputBoundary": "The current02 corrections are already committed. This C actual signature and its source/fact receipt, plus final metadata, must be appended through incremental03 as planned; these new outputs are not falsely included in the earlier76-file increment."
+  },
+  "environmentAndRemainingScope": {
+    "acceptedOwnedRuns": 10,
+    "all107SeedTablesExactPerAcceptedRootTerminal": true,
+    "allFaultACLsRestored": true,
+    "observed06BootTerminationRetainsItsOwnLabel": true,
+    "onlyNewPG15StoppedVolumeAndPrivateRetained": true,
+    "olderQuarantineOrPG17CleanlinessOrMigrationClaimed": false,
+    "R3Parent85Complete": false,
+    "overall57Complete": false,
+    "laterR3Operations": 44,
+    "completeNonHTTPApprovalAndSideEffectChains": "Pending later slices",
+    "fullR3StageAcceptance": "Pending",
+    "R4ThroughR7": "Pending",
+    "deploymentCutoverTenantTakeoverPerformance": "Not certified"
+  },
+  "findings": {
+    "openBlocking": [],
+    "newProductDrift": [],
+    "unclassifiedArchiveOrStateDrift": [],
+    "currentMetadataCorrectionsClosed": 2
+  },
+  "requiredFinalBookkeeping": [
+    "Preserve this exact independent actual-G4 receipt and verifier/facts in the archive and append-only incremental03.",
+    "Set current independentActualG4 to Pass with this receipt's exact path/hash; refresh status-source pin and link final current closeout/Issue text as applicable without rewriting historical originals.",
+    "Push the ordinary final metadata commit to branch/main and reconcile both clean checkouts.",
+    "C performs one final read-only metadata/ref/preservation check. No further product/DB/HTTP/browser acceptance is required for these metadata-only actions."
+  ],
+  "reviewerActions": {
+    "productEdits": false,
+    "acceptanceToolEdits": false,
+    "GitMutations": false,
+    "hostChanges": false,
+    "actualBuildOrTests": false,
+    "DB": false,
+    "HTTP": false,
+    "browser": false,
+    "privateAccess": false,
+    "savedPublicBytesAndReadOnlyGit": true,
+    "ownCOutputsOnly": true
+  }
+}
