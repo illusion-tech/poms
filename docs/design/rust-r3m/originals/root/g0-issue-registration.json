@@ -1,0 +1,367 @@
+{
+  "kind": "R3-closeout-native-G0-registration",
+  "createdAt": "2026-11-02T21:11:52.903Z",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "code": "RUST-R3-CO",
+  "parent85": 85,
+  "overall57": 57,
+  "batch": {
+    "number": 97,
+    "title": "[RUST-R3-CO] R3 内部机制、审批归属与阶段集成收口",
+    "url": "https://github.com/illusion-tech/poms/issues/97"
+  },
+  "children": [
+    {
+      "key": "A",
+      "number": 98,
+      "id": 6171056709,
+      "title": "[RUST-R3-CO-A] 线索评分、人工覆盖审批与转换内部机制审计补缺",
+      "url": "https://github.com/illusion-tech/poms/issues/98",
+      "scope": "A线：Lead评分v2事实/触发/语义去重，人工覆盖提交/批准/驳回/撤销，状态与CAS，转换项目/附件复制/快照/必要审计的完整事务；必要真实故障、并发与查询无副作用断言。所有 leads/ 产品代码单一作者。"
+    },
+    {
+      "key": "B",
+      "number": 99,
+      "id": 6171058583,
+      "title": "[RUST-R3-CO-B] 客户销售协作与项目签约前内部链审计补缺",
+      "url": "https://github.com/illusion-tech/poms/issues/99",
+      "scope": "B线：客户/别名/联系人、跟进→唯一Todo提醒、情报/讨论/项目成本竞标报价，以及guidance/timeline读取；按具体来源核验完整内部链、精确金额、版本并发和错误回滚。R4/R5事实适配与真实未来命令严格分列。"
+    },
+    {
+      "key": "D",
+      "number": 100,
+      "id": 6171060627,
+      "title": "[RUST-R3-CO-C] R3交付审计、E1退出与统一阶段验收",
+      "url": "https://github.com/illusion-tech/poms/issues/100",
+      "scope": "第三线：58路由与非HTTP/审批交付盘点、统一候选真实阶段矩阵、54ignored分类、UI范围核验和E1归档重放退出方案。验收定义与支持入口可以并行准备，实际环境/程序运行由Root串行统筹；本线作者不能担任独立Gate审查。"
+    }
+  ],
+  "publicOperationsAdded": 0,
+  "R3HTTPDelivered": 58,
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "stageIntegrationComplete": false,
+  "files": [
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/01-before-input.json",
+      "bytes": 408,
+      "rawBytesSha256": "2b3323a535681908436d678da5d76646134f2e6bc70f70a188fb840b29c84a07"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/01-before-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/01-before-stdout-original.json",
+      "bytes": 25015,
+      "rawBytesSha256": "c853ec5fbaeee4668b238c26349fc13864d4831fee80e11fd40b66018a12e491"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/02-create-batch-input.json",
+      "bytes": 2234,
+      "rawBytesSha256": "21c8d6271248802326aa723b2362833f35c56a0ece876205e5b7b1cde943467c"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/02-create-batch-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/02-create-batch-stdout-original.json",
+      "bytes": 4496,
+      "rawBytesSha256": "8d057b48ae82ad616b2dc280c316e36ea4d5ad60635f757f2ec49ff4489a4916"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/03-children-before-batch-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/03-children-before-batch-stdout-original.json",
+      "bytes": 115918,
+      "rawBytesSha256": "70c69986b1e97ec3aab800436129ff38a1450fcfbb688383ec7e69d244f230fa"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/04-attach-batch-input.json",
+      "bytes": 33,
+      "rawBytesSha256": "8d364ab6c8c2df07f40ffd107c566ecd480b5d009bc77fbb81480bafe81d014f"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/04-attach-batch-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/04-attach-batch-stdout-original.json",
+      "bytes": 9289,
+      "rawBytesSha256": "36cc5b4d36b77bb3f0833ecf9ba0016d3a0519b73cead6adab5cfe0b87cf97e2"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/05-children-after-batch-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/05-children-after-batch-stdout-original.json",
+      "bytes": 125708,
+      "rawBytesSha256": "c485ae89c811346439ebe7397e8136aab0a834d5054bb8a3654c59f884c25c1c"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/06-create-A-input.json",
+      "bytes": 2278,
+      "rawBytesSha256": "ebc51e7c38fe9bbb130fd6ff5e7e9cd18a985feda85f7d34e1a89b7bc3048b74"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/06-create-A-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/06-create-A-stdout-original.json",
+      "bytes": 4540,
+      "rawBytesSha256": "423fcc44c1bb99dbe68d12dc8342e071556e4b4f31eb9c16adcfa8e20dccbe85"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/07-children-before-A-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/07-children-before-A-stdout-original.json",
+      "bytes": 2,
+      "rawBytesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/08-attach-A-input.json",
+      "bytes": 33,
+      "rawBytesSha256": "9fe6c0bfa854761deab1c512a25038dc55afd28cb468c768e40eed8a5254b18f"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/08-attach-A-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/08-attach-A-stdout-original.json",
+      "bytes": 9789,
+      "rawBytesSha256": "f20aa721b111bb296d1b4be0522a91ecee65d74a67df46829ead7dd295b16d0b"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/09-children-after-A-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/09-children-after-A-stdout-original.json",
+      "bytes": 9835,
+      "rawBytesSha256": "ff9ff6a471e3b453b61d7176e41222c50a12daf3738873e06b79501087a3d192"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/10-g0-A-input.json",
+      "bytes": 2182,
+      "rawBytesSha256": "9ab5f670922e85c6752473289f47fd73027eec218355558ddd7e42d3b3d209f6"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/10-g0-A-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/10-g0-A-stdout-original.json",
+      "bytes": 4619,
+      "rawBytesSha256": "588743014af2b0f9310428433ed35927b36429358a4e09e806468b8faceba170"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/11-create-B-input.json",
+      "bytes": 2274,
+      "rawBytesSha256": "20f3ec3bafc8f6c8aec4d2bdb093588f6e81a4f3c2a40e095ff04590f79d7504"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/11-create-B-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/11-create-B-stdout-original.json",
+      "bytes": 4536,
+      "rawBytesSha256": "6904c683940a35c6bfb2d944bde16600ccc946d7c07769a6eedda327d8f91e99"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/12-children-before-B-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/12-children-before-B-stdout-original.json",
+      "bytes": 9835,
+      "rawBytesSha256": "e8ec9079a88a64a2868a8ea82921b35aa6d972d5284010454278d867c382119c"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/13-attach-B-input.json",
+      "bytes": 33,
+      "rawBytesSha256": "ae0fa5802c3a3ee93953a1e7b2bd0e211f47e2fb0bda04e0293ac42152c97b01"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/13-attach-B-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/13-attach-B-stdout-original.json",
+      "bytes": 9789,
+      "rawBytesSha256": "54ed44983eb78034d418046c9d95b219ea0b5597e138de67b6f12251cb2074b6"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/14-children-after-B-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/14-children-after-B-stdout-original.json",
+      "bytes": 19665,
+      "rawBytesSha256": "8cdc2c1d1e96e6b2319367cb09f40fa9d8975f29451e8d122bad3b9fec7d2b4e"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/15-g0-B-input.json",
+      "bytes": 2187,
+      "rawBytesSha256": "d3ecc5b37ad7cabc18ac1c03d40211472ac5ddf132e91551d9f9d5910177bb1d"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/15-g0-B-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/15-g0-B-stdout-original.json",
+      "bytes": 4615,
+      "rawBytesSha256": "87b6de5f436939b1e3cd91afe4111cf52e2dd072fed3ff4ae7efb1e6a0b83504"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/16-create-D-input.json",
+      "bytes": 2279,
+      "rawBytesSha256": "ae6b277971db3e57baa118b844c00c0f8209e6354c39b16bf109dd881dcd5667"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/16-create-D-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/16-create-D-stdout-original.json",
+      "bytes": 4549,
+      "rawBytesSha256": "bf6d6ccb1e2393036caa8e0cf47e1a526bec8afedfcd196fa02044130e943986"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/17-children-before-D-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/17-children-before-D-stdout-original.json",
+      "bytes": 19665,
+      "rawBytesSha256": "c3d81c3e8489d17261e6d3a9094c69b1627e6144c9f1b39d1b1a7eba15fd1549"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/18-attach-D-input.json",
+      "bytes": 33,
+      "rawBytesSha256": "ec94b08d9a9cfef991d865990bad0ff3efbdb709e78d19f040f11caa1b02c534"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/18-attach-D-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/18-attach-D-stdout-original.json",
+      "bytes": 9789,
+      "rawBytesSha256": "a6d246db22943db1d827efaf2730d3519b84fd1f772e73dc67309647d20c8b8d"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/19-children-after-D-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/19-children-after-D-stdout-original.json",
+      "bytes": 29508,
+      "rawBytesSha256": "d6e7b62f44ddcde6b11b404b795ce54a6880ec27a8e6c477935a5558c7475ab8"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/20-g0-D-input.json",
+      "bytes": 2203,
+      "rawBytesSha256": "e91af77fc363459714b27ebfd0bd06f7dd89c9e98157e18837990930918fa673"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/20-g0-D-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/20-g0-D-stdout-original.json",
+      "bytes": 4628,
+      "rawBytesSha256": "be044a3bf98572ffed433be793e996c96930c6bf563df8aabc21d2f281a34439"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/21-g0-batch-input.json",
+      "bytes": 2199,
+      "rawBytesSha256": "8fe977e4d5a5e14de3ed1efda75c57a58f3e0a017dce903cb6ef3b5571b8ca88"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/21-g0-batch-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/21-g0-batch-stdout-original.json",
+      "bytes": 4619,
+      "rawBytesSha256": "33465c7d65f52b005b369d5dd96c0d565364b8a01a44eca33f28a471f5318a50"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/22-parent-85-input.json",
+      "bytes": 1954,
+      "rawBytesSha256": "d271ca5f1870d20adbc365321512b4408df35c950d30e1c9242ac800e0b90294"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/22-parent-85-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/22-parent-85-stdout-original.json",
+      "bytes": 4365,
+      "rawBytesSha256": "c42bb2ce7767a72e2789c658febeb77b896f6612c94e1af8d939ccbd4058faa1"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/23-parent-57-input.json",
+      "bytes": 2283,
+      "rawBytesSha256": "f2d57ea5e0a0fa69742195d465b6003486b97cdc2858bbfef5f27ec9220a5eb1"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/23-parent-57-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/23-parent-57-stdout-original.json",
+      "bytes": 8452,
+      "rawBytesSha256": "dda6f697301343560a6976541b3846c333543e282faa2d6628fa8014e73a516a"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/24-after-input.json",
+      "bytes": 283,
+      "rawBytesSha256": "cbf57b2bbf429512935f4c9e38a91da8c2756b436332241e989b2431a1454c51"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/24-after-stderr-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r3m/root/g0-online01/24-after-stdout-original.json",
+      "bytes": 3730,
+      "rawBytesSha256": "47658ef625a90f030d47a1e490fda7a8829cff4f79652a444221c1cf781b6b16"
+    }
+  ]
+}

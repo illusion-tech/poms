@@ -1,0 +1,19 @@
+{
+  "kind": "R3-closeout-G1-canonical-request-clarification",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "sealedBInputRetained": true,
+  "originalLocation": "B01 acceptanceMatrix[B-UI-DATE].requests[1].path",
+  "originalAuditTypo": "/api/leads/{leadId}:convert",
+  "authoritativeRequest": {
+    "operationId": "LeadController_convertToProject",
+    "method": "POST",
+    "canonicalPath": "/api/leads/{id}:convertToProject",
+    "placeholderMapping": "id is the same owned lead UUID referred to as leadId in the pure case definition",
+    "inventory": "docs/design/rust-r3-operation-slices.json",
+    "canonicalStatus": "aligned"
+  },
+  "policy": "Only correct the sealed pure-case request pointer. Do not add a :convert alias or change public routes, DTO, schema or production code.",
+  "publicOperationsAdded": 0,
+  "G1Certified": false,
+  "G2Authorized": false
+}

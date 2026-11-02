@@ -1,0 +1,4434 @@
+{
+  "kind": "RUST-R3-CO-D-G1-input-audit",
+  "version": "01",
+  "createdAt": "2026-11-02T21:22:07.0722553Z",
+  "baseline": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "status": "SourceReady-await-independent-G1",
+  "role": "AuthorD/third-line100,never-independent-reviewer",
+  "model": {
+    "target": "gpt-6.1-sol",
+    "reasoning": "max",
+    "explicitPerRootDispatch": true,
+    "Fast": "unverified"
+  },
+  "issues": {
+    "batch": 97,
+    "author": 100,
+    "stage": 85,
+    "overall": 57,
+    "overallStaysOpen": true
+  },
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "actualAcceptanceExecuted": false,
+  "scope": {
+    "onlyOwnInputWrites": true,
+    "productModification": false,
+    "buildTestDBHTTPBrowserWSL": false,
+    "oldPrivateRead": false,
+    "githubWrite": false
+  },
+  "baselineCounts": {
+    "R3": 58,
+    "RustOperations": 173,
+    "RustPaths": 138,
+    "RustSchemas": 585,
+    "NativePaths": 237,
+    "NativeOperations": 291,
+    "NativeSchemas": 585,
+    "clientFiles": 579,
+    "migrations": 92,
+    "GET": 25,
+    "POST": 25,
+    "PATCH": 7,
+    "DELETE": 1,
+    "countsSource": "Current formal sources / Root baseline, no fresh runtime execution by D"
+  },
+  "routeRows": [
+    {
+      "owner": "RUST-R3J",
+      "issue": 95,
+      "method": "GET",
+      "path": "/api/business-discussions",
+      "operationId": "BusinessDiscussionController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 365,
+        "domain": "business-discussion",
+        "capability": "listBusinessDiscussionComments",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+        "line": 14
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3J",
+      "issue": 95,
+      "method": "POST",
+      "path": "/api/business-discussions",
+      "operationId": "BusinessDiscussionController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 366,
+        "domain": "business-discussion",
+        "capability": "createBusinessDiscussionComment",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+        "line": 27
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records",
+      "operationId": "CompetitorIntelligenceRecordController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 358,
+        "domain": "sales-intelligence",
+        "capability": "listCompetitorIntelligenceRecords",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 129
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "POST",
+      "path": "/api/competitor-intelligence-records",
+      "operationId": "CompetitorIntelligenceRecordController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 359,
+        "domain": "sales-intelligence",
+        "capability": "createCompetitorIntelligenceRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 140
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "PATCH",
+      "path": "/api/competitor-intelligence-records/{id}",
+      "operationId": "CompetitorIntelligenceRecordController_update",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 360,
+        "domain": "sales-intelligence",
+        "capability": "updateCompetitorIntelligenceRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 164
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "DELETE",
+      "path": "/api/customer-aliases/{id}",
+      "operationId": "CustomerAliasController_delete",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 321,
+        "domain": "customer",
+        "capability": "deleteCustomerAlias",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer-alias.controller.ts",
+        "line": 14
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 204,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.alias.delete-204",
+          "requestId": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.alias.delete-204",
+        "requestId": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096"
+      },
+      "validScenario": "Delete an extra actual owned alias;204 then list confirms absence.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "method": "GET",
+      "path": "/api/customer-contacts",
+      "operationId": "CustomerContactController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 352,
+        "domain": "sales-intelligence",
+        "capability": "listCustomerContacts",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 36
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.9",
+          "requestId": "a358e181-ac8f-4fcc-b6eb-13823210aa6c",
+          "method": "GET",
+          "route": "/api/customer-contacts?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.9",
+          "requestId": "f872b48d-d203-40c0-9244-0c67232a7a83",
+          "method": "GET",
+          "route": "/api/customer-contacts?customerId=45e31307-32e1-4f96-b505-1a016d712d89",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.9",
+        "requestId": "a358e181-ac8f-4fcc-b6eb-13823210aa6c",
+        "method": "GET",
+        "route": "/api/customer-contacts?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "method": "POST",
+      "path": "/api/customer-contacts",
+      "operationId": "CustomerContactController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 353,
+        "domain": "sales-intelligence",
+        "capability": "createCustomerContact",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 44
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "producer.contact",
+          "requestId": "afd439e2-61e0-45d3-a4a4-c4ec71d16b58",
+          "method": "POST",
+          "route": "/api/customer-contacts",
+          "status": 201
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "producer.contact",
+          "requestId": "afdfaa78-1af2-40f1-8e6f-405025dc9f55",
+          "method": "POST",
+          "route": "/api/customer-contacts",
+          "status": 201
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.contact",
+        "requestId": "afd439e2-61e0-45d3-a4a4-c4ec71d16b58",
+        "method": "POST",
+        "route": "/api/customer-contacts",
+        "status": 201
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "method": "PATCH",
+      "path": "/api/customer-contacts/{id}",
+      "operationId": "CustomerContactController_update",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 354,
+        "domain": "sales-intelligence",
+        "capability": "updateCustomerContact",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 65
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "contact.update.gender-null",
+          "requestId": "ecd42442-bb54-4e5c-9c00-d830a6315254",
+          "method": "PATCH",
+          "route": "/api/customer-contacts/2728adb8-ca46-4ffe-af45-45c8ff9eaa1f",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "contact.update.gender-null",
+          "requestId": "58bd8cad-5665-4a7b-a025-8220d4d84696",
+          "method": "PATCH",
+          "route": "/api/customer-contacts/e3c17e59-c103-4c7c-94c7-2bd5b5cbde1a",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "contact.update.gender-null",
+        "requestId": "ecd42442-bb54-4e5c-9c00-d830a6315254",
+        "method": "PATCH",
+        "route": "/api/customer-contacts/2728adb8-ca46-4ffe-af45-45c8ff9eaa1f",
+        "status": 200
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "GET",
+      "path": "/api/customers",
+      "operationId": "CustomerController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 314,
+        "domain": "customer",
+        "capability": "listCustomers",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 25
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.list",
+          "requestId": "7df48fa8-f41b-441c-af59-04414b7efa29"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.list",
+        "requestId": "7df48fa8-f41b-441c-af59-04414b7efa29"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "POST",
+      "path": "/api/customers",
+      "operationId": "CustomerController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 315,
+        "domain": "customer",
+        "capability": "createCustomer",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 39
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.customer.active.create",
+          "requestId": "d34b1efe-0af9-4c77-89ef-fe52c08d5399"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.active.create",
+        "requestId": "d34b1efe-0af9-4c77-89ef-fe52c08d5399"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "GET",
+      "path": "/api/customers/{id}",
+      "operationId": "CustomerController_getById",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 316,
+        "domain": "customer",
+        "capability": "getCustomer",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 71
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.active.detail",
+          "requestId": "c0baa74d-ad6a-4fb4-81bb-2419b8c874ed"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.active.detail",
+        "requestId": "c0baa74d-ad6a-4fb4-81bb-2419b8c874ed"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "PATCH",
+      "path": "/api/customers/{id}",
+      "operationId": "CustomerController_update",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 318,
+        "domain": "customer",
+        "capability": "updateCustomer",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 79
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.inactive.disable",
+          "requestId": "06dce74c-bd03-47a3-bd61-e8484b6cfc7b"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.inactive.disable",
+        "requestId": "06dce74c-bd03-47a3-bd61-e8484b6cfc7b"
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "GET",
+      "path": "/api/customers/{id}/aliases",
+      "operationId": "CustomerController_listAliases",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 319,
+        "domain": "customer",
+        "capability": "listCustomerAliases",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 47
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.viewer.aliases",
+          "requestId": "6bc50ebf-68f5-414b-8f59-882b529fd6c4"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.viewer.aliases",
+        "requestId": "6bc50ebf-68f5-414b-8f59-882b529fd6c4"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "POST",
+      "path": "/api/customers/{id}/aliases",
+      "operationId": "CustomerController_createAlias",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 320,
+        "domain": "customer",
+        "capability": "createCustomerAlias",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 55
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.customer.alias.normalized.create",
+          "requestId": "67033d25-3fa8-4a29-a4b6-685c824c15d5"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.alias.normalized.create",
+        "requestId": "67033d25-3fa8-4a29-a4b6-685c824c15d5"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "method": "GET",
+      "path": "/api/customers/{id}/workspace-overview",
+      "operationId": "CustomerController_getWorkspaceOverview",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 317,
+        "domain": "customer",
+        "capability": "getCustomerWorkspaceOverview",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 63
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "customers.workspace.empty",
+          "requestId": "334ac04a-dac5-475a-92d3-276a9991a19c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.workspace.empty",
+        "requestId": "334ac04a-dac5-475a-92d3-276a9991a19c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/lead-score-overrides/{id}:approve",
+      "operationId": "LeadScoreOverrideController_approve",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 414,
+        "domain": "lead-scoring",
+        "capability": "approveLeadScoreOverride",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 259
+      },
+      "permissions": {
+        "all": [
+          "lead:score:override"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Approve pending override with fresh versions and consistent materialized/stored score tuple.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/lead-score-overrides/{id}:reject",
+      "operationId": "LeadScoreOverrideController_reject",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 415,
+        "domain": "lead-scoring",
+        "capability": "rejectLeadScoreOverride",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 276
+      },
+      "permissions": {
+        "all": [
+          "lead:score:override"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Reject separate pending override and retain previous effective score.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/lead-score-overrides/{id}:revoke",
+      "operationId": "LeadScoreOverrideController_revoke",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 416,
+        "domain": "lead-scoring",
+        "capability": "revokeLeadScoreOverride",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 293
+      },
+      "permissions": {
+        "all": [
+          "lead:score:override"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Revoke separate approved override and verify system score fallback and consistent explanation.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "GET",
+      "path": "/api/leads",
+      "operationId": "LeadController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 299,
+        "domain": "lead",
+        "capability": "listLeads",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 57
+      },
+      "permissions": {
+        "all": [
+          "lead:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads",
+      "operationId": "LeadController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 298,
+        "domain": "lead",
+        "capability": "createLead",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 95
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "GET",
+      "path": "/api/leads/{id}",
+      "operationId": "LeadController_getById",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 300,
+        "domain": "lead",
+        "capability": "getLead",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 79
+      },
+      "permissions": {
+        "all": [
+          "lead:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "PATCH",
+      "path": "/api/leads/{id}",
+      "operationId": "LeadController_update",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 301,
+        "domain": "lead",
+        "capability": "updateLead",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 169
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads/{id}:assignOwner",
+      "operationId": "LeadController_assignOwner",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 303,
+        "domain": "lead",
+        "capability": "assignLeadOwner",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 151
+      },
+      "permissions": {
+        "all": [
+          "lead:assign"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual distinct active owner assignment with persisted record and full readback.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads/{id}:claim",
+      "operationId": "LeadController_claimOwner",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 302,
+        "domain": "lead",
+        "capability": "claimLeadOwner",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 136
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Claim an extra eligible unowned Lead and verify ownership record/version/required graph.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads/{id}:close",
+      "operationId": "LeadController_close",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 305,
+        "domain": "lead",
+        "capability": "closeLead",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 211
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Close an extra eligible Lead; verify closed reason/status and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads/{id}:convertToProject",
+      "operationId": "LeadController_convertToProject",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 306,
+        "domain": "lead",
+        "capability": "convertLeadToProject",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 228
+      },
+      "permissions": {
+        "all": [
+          "lead:write",
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual qualified Lead with local uploaded bytes converts once; verify Project linkage/copy and nonempty ISO datetime.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads/{id}:qualify",
+      "operationId": "LeadController_qualify",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 304,
+        "domain": "lead",
+        "capability": "qualifyLead",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 194
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Qualify using actual gate facts then readback state and score history.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "GET",
+      "path": "/api/leads/{id}/score-history",
+      "operationId": "LeadController_getScoreHistory",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 412,
+        "domain": "lead-scoring",
+        "capability": "listLeadScoreHistory",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 87
+      },
+      "permissions": {
+        "all": [
+          "lead:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "method": "POST",
+      "path": "/api/leads/{id}/score-overrides",
+      "operationId": "LeadController_submitScoreOverride",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 413,
+        "domain": "lead-scoring",
+        "capability": "submitLeadScoreOverride",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 119
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Submit real pending override with fresh expectedLeadRowVersion and registered audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders",
+      "operationId": "OpportunityStakeholderController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 355,
+        "domain": "sales-intelligence",
+        "capability": "listOpportunityStakeholders",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 80
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "POST",
+      "path": "/api/opportunity-stakeholders",
+      "operationId": "OpportunityStakeholderController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 356,
+        "domain": "sales-intelligence",
+        "capability": "createOpportunityStakeholder",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 91
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "PATCH",
+      "path": "/api/opportunity-stakeholders/{id}",
+      "operationId": "OpportunityStakeholderController_update",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 357,
+        "domain": "sales-intelligence",
+        "capability": "updateOpportunityStakeholder",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 114
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "method": "GET",
+      "path": "/api/projects",
+      "operationId": "ProjectController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 307,
+        "domain": "project",
+        "capability": "listProjects",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 83
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "B.list.keyword",
+          "requestId": "9c3ba1c2-a4e7-4a18-8deb-d25d2f6c98ba"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.list.keyword",
+        "requestId": "9c3ba1c2-a4e7-4a18-8deb-d25d2f6c98ba"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "method": "POST",
+      "path": "/api/projects",
+      "operationId": "ProjectController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 542,
+        "domain": "project",
+        "capability": "createProject",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 194
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "B.project.active.create",
+          "requestId": "75b16e95-8df3-4a23-b8a1-21c82b2a80c4"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.project.active.create",
+        "requestId": "75b16e95-8df3-4a23-b8a1-21c82b2a80c4"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "method": "GET",
+      "path": "/api/projects:lookup",
+      "operationId": "ProjectController_getByCode",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 548,
+        "domain": "project",
+        "capability": "getProjectByCode",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 353
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "B.lookup.exact",
+          "requestId": "d10c408a-7847-4eb0-9c7a-58f527483a2d"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.lookup.exact",
+        "requestId": "d10c408a-7847-4eb0-9c7a-58f527483a2d"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "method": "GET",
+      "path": "/api/projects/{id}",
+      "operationId": "ProjectController_getById",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 230,
+        "domain": "project",
+        "capability": "getProject",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 186
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "B.detail.empty.admin",
+          "requestId": "41521ab1-37c5-4a15-a523-4e666952395e"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.detail.empty.admin",
+        "requestId": "41521ab1-37c5-4a15-a523-4e666952395e"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "method": "PATCH",
+      "path": "/api/projects/{id}",
+      "operationId": "ProjectController_updateBasicInfo",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 250,
+        "domain": "project",
+        "capability": "updateProject",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 318
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "B.patch.noop-known-plus-unknown",
+          "requestId": "c95650e1-2a6d-41ee-8462-167d61ffe9b8"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.patch.noop-known-plus-unknown",
+        "requestId": "c95650e1-2a6d-41ee-8462-167d61ffe9b8"
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "method": "POST",
+      "path": "/api/projects/{id}:reassignOwner",
+      "operationId": "ProjectController_reassignOwner",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 308,
+        "domain": "project",
+        "capability": "reassignProjectOwner",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 213
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+          "label": "B.reassign.other-primary",
+          "requestId": "0ddbcdb7-4daf-4958-b0ff-437a6b6a7c1a"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3ab-delivery-status.json",
+          "bytes": 6744,
+          "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.reassign.other-primary",
+        "requestId": "0ddbcdb7-4daf-4958-b0ff-437a6b6a7c1a"
+      },
+      "validScenario": "Actual owner reassignment with fresh expectedVersion, record and persisted Project.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "operationId": "ProjectController_listProjectBidCommercialProcesses",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 236,
+        "domain": "project",
+        "capability": "listProjectBidCommercialProcesses",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 138
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.3",
+          "requestId": "71df22e3-5883-4266-850a-b861514ea666",
+          "method": "GET",
+          "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/bid-commercial-processes",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.3",
+          "requestId": "d63278b1-e4de-439d-85d1-f91cd20298ed",
+          "method": "GET",
+          "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/bid-commercial-processes",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.3",
+        "requestId": "71df22e3-5883-4266-850a-b861514ea666",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/bid-commercial-processes",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "method": "POST",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "operationId": "ProjectController_createProjectBidCommercialProcess",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 235,
+        "domain": "project",
+        "capability": "createProjectBidCommercialProcess",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 288
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "bid.path.publicTender",
+          "requestId": "9a159db9-4419-4f3e-af82-fe4556e10422",
+          "method": "POST",
+          "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-processes",
+          "status": 201
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "bid.path.publicTender",
+          "requestId": "9f8e8048-5b87-401c-b782-1d78f85c99e8",
+          "method": "POST",
+          "route": "/api/projects/6215649a-1e6c-42db-b5e3-58667c5bf7c5/bid-commercial-processes",
+          "status": 201
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.path.publicTender",
+        "requestId": "9a159db9-4419-4f3e-af82-fe4556e10422",
+        "method": "POST",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-processes",
+        "status": 201
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-workspace",
+      "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 237,
+        "domain": "project",
+        "capability": "getProjectBidCommercialWorkspace",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 146
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "bid.workspace.publicTender",
+          "requestId": "a393865e-07c5-43ec-84a4-4eac79c1028c",
+          "method": "GET",
+          "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-workspace",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "bid.workspace.publicTender",
+          "requestId": "4e85b287-1e1b-40c5-99ed-cc141bd9e97a",
+          "method": "GET",
+          "route": "/api/projects/6215649a-1e6c-42db-b5e3-58667c5bf7c5/bid-commercial-workspace",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.workspace.publicTender",
+        "requestId": "a393865e-07c5-43ec-84a4-4eac79c1028c",
+        "method": "GET",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-workspace",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/pricing-margin-reviews",
+      "operationId": "ProjectController_listProjectPricingMarginReviews",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 239,
+        "domain": "project",
+        "capability": "listProjectPricingMarginReviews",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 154
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.6",
+          "requestId": "9bb811e7-a805-4ea1-8ff6-b492c6be1ed2",
+          "method": "GET",
+          "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/pricing-margin-reviews",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.6",
+          "requestId": "475c81cc-d4ca-4fdb-8144-94737facfbdf",
+          "method": "GET",
+          "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/pricing-margin-reviews",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.6",
+        "requestId": "9bb811e7-a805-4ea1-8ff6-b492c6be1ed2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/pricing-margin-reviews",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "method": "POST",
+      "path": "/api/projects/{projectId}/pricing-margin-reviews",
+      "operationId": "ProjectController_createProjectPricingMarginReview",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 238,
+        "domain": "project",
+        "capability": "createProjectPricingMarginReview",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 298
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "pricing.create.direct-commercial",
+          "requestId": "19bb94fc-1ddf-4908-8046-03a6f2d2da55",
+          "method": "POST",
+          "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-reviews",
+          "status": 201
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "pricing.create.direct-commercial",
+          "requestId": "99c4d9bb-72ef-460e-83ee-2219d97bd281",
+          "method": "POST",
+          "route": "/api/projects/a58c27c1-67fa-4d3f-966c-9b544ccd9e6e/pricing-margin-reviews",
+          "status": 201
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.create.direct-commercial",
+        "requestId": "19bb94fc-1ddf-4908-8046-03a6f2d2da55",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-reviews",
+        "status": 201
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/pricing-margin-workspace",
+      "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 240,
+        "domain": "project",
+        "capability": "getProjectPricingMarginWorkspace",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 162
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "pricing.workspace.direct-commercial",
+          "requestId": "658415fb-b24c-4253-b817-9dbc41c12845",
+          "method": "GET",
+          "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-workspace",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "pricing.workspace.direct-commercial",
+          "requestId": "4ea49bd1-4d8c-4964-aaee-689df6d5b7e4",
+          "method": "GET",
+          "route": "/api/projects/a58c27c1-67fa-4d3f-966c-9b544ccd9e6e/pricing-margin-workspace",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.workspace.direct-commercial",
+        "requestId": "658415fb-b24c-4253-b817-9dbc41c12845",
+        "method": "GET",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-workspace",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/technical-cost-packages",
+      "operationId": "ProjectController_listProjectTechnicalCostPackages",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 233,
+        "domain": "project",
+        "capability": "listProjectTechnicalCostPackages",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 170
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.0",
+          "requestId": "b1ed3582-e4f5-42c0-9e81-edb8a97e678f",
+          "method": "GET",
+          "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-packages",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.0",
+          "requestId": "f18956f6-b313-4307-a81d-c6e9904839ad",
+          "method": "GET",
+          "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/technical-cost-packages",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.0",
+        "requestId": "b1ed3582-e4f5-42c0-9e81-edb8a97e678f",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-packages",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "method": "POST",
+      "path": "/api/projects/{projectId}/technical-cost-packages",
+      "operationId": "ProjectController_createProjectTechnicalCostPackage",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 232,
+        "domain": "project",
+        "capability": "createProjectTechnicalCostPackage",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 308
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "pricing.cost.direct-commercial",
+          "requestId": "8062026b-c858-45b8-a9c6-235a241af49b",
+          "method": "POST",
+          "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/technical-cost-packages",
+          "status": 201
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "pricing.cost.direct-commercial",
+          "requestId": "44cd09e7-2349-4f35-aa7b-c08983c81982",
+          "method": "POST",
+          "route": "/api/projects/a58c27c1-67fa-4d3f-966c-9b544ccd9e6e/technical-cost-packages",
+          "status": 201
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.cost.direct-commercial",
+        "requestId": "8062026b-c858-45b8-a9c6-235a241af49b",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/technical-cost-packages",
+        "status": 201
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/technical-cost-workspace",
+      "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 234,
+        "domain": "project",
+        "capability": "getProjectTechnicalCostWorkspace",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 178
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.2",
+          "requestId": "c9d50a2c-0411-4c88-a94e-0cbaf1f396b2",
+          "method": "GET",
+          "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-workspace",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.2",
+          "requestId": "f5a5e107-9615-4e06-aa7d-7487b7eb3183",
+          "method": "GET",
+          "route": "/api/projects/b83eb37b-f608-46f3-a982-a640886d8531/technical-cost-workspace",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.2",
+        "requestId": "c9d50a2c-0411-4c88-a94e-0cbaf1f396b2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-workspace",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3K",
+      "issue": 96,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/timeline",
+      "operationId": "ProjectController_getTimeline",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 241,
+        "domain": "project",
+        "capability": "getProjectTimeline",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 106
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3K",
+      "issue": 96,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/workspace-guidance",
+      "operationId": "ProjectController_getWorkspaceGuidance",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 231,
+        "domain": "project",
+        "capability": "getProjectWorkspaceGuidance",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 98
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "GET",
+      "path": "/api/sales-discovery-records",
+      "operationId": "SalesDiscoveryRecordController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 361,
+        "domain": "sales-intelligence",
+        "capability": "listSalesDiscoveryRecords",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 179
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "POST",
+      "path": "/api/sales-discovery-records",
+      "operationId": "SalesDiscoveryRecordController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 362,
+        "domain": "sales-intelligence",
+        "capability": "createSalesDiscoveryRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 190
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "PATCH",
+      "path": "/api/sales-discovery-records/{id}",
+      "operationId": "SalesDiscoveryRecordController_update",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 363,
+        "domain": "sales-intelligence",
+        "capability": "updateSalesDiscoveryRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 211
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "method": "GET",
+      "path": "/api/sales-follow-up-records",
+      "operationId": "SalesFollowUpController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 343,
+        "domain": "sales-follow-up",
+        "capability": "listSalesFollowUpRecords",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 15
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.12",
+          "requestId": "abe2335c-2551-4858-baee-37f0dadcdf6b",
+          "method": "GET",
+          "route": "/api/sales-follow-up-records?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/boundaries-raw-errors02-rust-05/report01.json",
+          "label": "guard.valid-cookie-ignores-bearer.12",
+          "requestId": "90da6acb-4570-4333-85da-7014de1ad5d7",
+          "method": "GET",
+          "route": "/api/sales-follow-up-records?customerId=45e31307-32e1-4f96-b505-1a016d712d89",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.12",
+        "requestId": "abe2335c-2551-4858-baee-37f0dadcdf6b",
+        "method": "GET",
+        "route": "/api/sales-follow-up-records?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records",
+      "operationId": "SalesFollowUpController_create",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 344,
+        "domain": "sales-follow-up",
+        "capability": "createSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 30
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 201,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "producer.followup",
+          "requestId": "29031c63-3d36-4f4d-9366-ae1381ba34ed",
+          "method": "POST",
+          "route": "/api/sales-follow-up-records",
+          "status": 201
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "producer.followup",
+          "requestId": "8d6337b2-a427-4615-bcaf-89db066b16d1",
+          "method": "POST",
+          "route": "/api/sales-follow-up-records",
+          "status": 201
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.followup",
+        "requestId": "29031c63-3d36-4f4d-9366-ae1381ba34ed",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 201
+      },
+      "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/{id}:replace",
+      "operationId": "SalesFollowUpController_replace",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 345,
+        "domain": "sales-follow-up",
+        "capability": "replaceSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 53
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "followup.live-replace",
+          "requestId": "632dd3ef-9114-4ee2-aa2d-cdef0fbacd35",
+          "method": "POST",
+          "route": "/api/sales-follow-up-records/cbfb78a1-18ea-40c4-980a-ebb77f4643d8:replace",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "followup.live-replace",
+          "requestId": "a461f5ca-c5c6-420e-8480-d18d27da3b52",
+          "method": "POST",
+          "route": "/api/sales-follow-up-records/54ccbfdf-1c00-4b44-894e-2dbac9bbcdb4:replace",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.live-replace",
+        "requestId": "632dd3ef-9114-4ee2-aa2d-cdef0fbacd35",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/cbfb78a1-18ea-40c4-980a-ebb77f4643d8:replace",
+        "status": 200
+      },
+      "validScenario": "Actual changed replacement, current/history versions, required audit and Todo lifecycle.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/{id}:void",
+      "operationId": "SalesFollowUpController_void",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 346,
+        "domain": "sales-follow-up",
+        "capability": "voidSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 78
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+          "label": "followup.active-void",
+          "requestId": "4f0b52b6-4f1b-4c63-b729-a72089370267",
+          "method": "POST",
+          "route": "/api/sales-follow-up-records/1c698858-7568-4d9d-ac7c-37a5159d9843:void",
+          "status": 200
+        },
+        "rust": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/coverage-raw-errors02-rust/report01.json",
+          "label": "followup.active-void",
+          "requestId": "3efda7fe-1468-4cfd-a21a-c1d4983fb0a2",
+          "method": "POST",
+          "route": "/api/sales-follow-up-records/fe9d7e08-f70b-43f6-9a26-1d5b48c44287:void",
+          "status": 200
+        },
+        "source": {
+          "file": "docs/design/rust-r3cdefg-delivery-status.json",
+          "bytes": 22800,
+          "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.active-void",
+        "requestId": "4f0b52b6-4f1b-4c63-b729-a72089370267",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/1c698858-7568-4d9d-ac7c-37a5159d9843:void",
+        "status": 200
+      },
+      "validScenario": "Void an extra active FollowUp and verify actual history/Todo closure.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": true,
+      "freshResult": null
+    },
+    {
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps",
+      "operationId": "SalesIntelligenceGapController_list",
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 364,
+        "domain": "sales-intelligence",
+        "capability": "getSalesIntelligenceGaps",
+        "status": "aligned"
+      },
+      "nativeSource": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 226
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "expectedSuccessfulStatus": 200,
+      "scopedG4Certified": true,
+      "historicalDelivery": {
+        "native": {
+          "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+          "bytes": 3284583,
+          "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+        },
+        "rust": null,
+        "source": {
+          "file": "docs/design/rust-r3hijk-delivery-status.json",
+          "bytes": 20291,
+          "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+        }
+      },
+      "historicalNativeReceipt": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+      "freshSuccessfulReceiptRequired": true,
+      "freshGuardRequired": true,
+      "CSRFRequired": false,
+      "freshResult": null
+    }
+  ],
+  "nonHTTP": [
+    {
+      "mechanism": "business-number",
+      "owner": "R2 shared / R3 consumers",
+      "boundary": "Independent shared-pool reservation; approved gaps survive failed entity TX.",
+      "fresh": [
+        "M1-customer-to-score",
+        "M2-project-pricing-history",
+        "M3-required-write-rollback"
+      ]
+    },
+    {
+      "mechanism": "score facts and snapshots",
+      "owner": "R3",
+      "boundary": "I facts do not auto-refresh stored score. Explicit refresh uses one materialized tuple; manual/revoked uses matching last stored tuple. Historical missing-match fallback recomputes system+snapshot inside the same approval TX before manual state/snapshot/audit.",
+      "fresh": [
+        "M1-score-materialized-tuple",
+        "M1-manual-stored-tuple-after-new-I-facts",
+        "M3-historical-missing-matching-system-snapshot"
+      ]
+    },
+    {
+      "mechanism": "direct score override approval",
+      "owner": "R3 leads/service.rs:1256",
+      "boundary": "submit/approve/reject/revoke are R3, independent of generic ApprovalRecord; required state/snapshot/audit all atomic.",
+      "fresh": [
+        "M1-direct-score-approval",
+        "M3-required-write-rollback"
+      ]
+    },
+    {
+      "mechanism": "conversion and attachments",
+      "owner": "R3 consumer/R2 real storage producer",
+      "boundary": "leads/service.rs:1188 actual qualified Lead -> real Project plus actual uploaded attachment-copy graph; no cloud inference.",
+      "fresh": [
+        "M1-conversion-real-attachments",
+        "M3-required-write-rollback"
+      ]
+    },
+    {
+      "mechanism": "FollowUp/Todo",
+      "owner": "R3 real producer/R2 common mechanism",
+      "boundary": "Source CAS then target type/canonicalUUID TX advisory lock before reminder stream, owner filtering/lifecycle preserved.",
+      "fresh": [
+        "M2-follow-up-discussion-workspace",
+        "M3-cas-noop-concurrency"
+      ]
+    },
+    {
+      "mechanism": "C/D/G versions/Decimal",
+      "owner": "R3",
+      "boundary": "Real Project current/supersedes and children, exact decimal, required audit; future references explicitly prepared.",
+      "fresh": [
+        "M2-project-pricing-history",
+        "M3-required-write-rollback"
+      ]
+    },
+    {
+      "mechanism": "I/J/K relational consumption",
+      "owner": "R3",
+      "boundary": "Actual Customer/Lead/Project/Contact/FollowUp/competitor IDs and versions flow to legal UUID-identity anchors and workspace/timeline.",
+      "fresh": [
+        "M1-customer-to-score",
+        "M2-follow-up-discussion-workspace"
+      ]
+    },
+    {
+      "mechanism": "generic approval handlers",
+      "owner": "R4/R5",
+      "boundary": "approval/domain.rs:489:contract/contract-review R4; commission-payout/commission-payout-approval and commission-adjustment/commission-adjustment-approval R5. No invented R3 handler or circular wait.",
+      "fresh": []
+    },
+    {
+      "mechanism": "summary/confirmation/future facts",
+      "owner": "R2 shared plus future R4/R5",
+      "boundary": "Only actual R3 consumption and declared prepared readonly projections, no future producer completion claim.",
+      "fresh": [
+        "M2-project-pricing-history"
+      ]
+    },
+    {
+      "mechanism": "host scheduler/migration/cutover",
+      "owner": "R6/R7",
+      "boundary": "No R3 scheduler invented; host takeover and cutover outside this stage.",
+      "fresh": []
+    }
+  ],
+  "journeys": [
+    {
+      "name": "customerJourney",
+      "canonical": {
+        "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+        "bytes": 26295,
+        "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+      },
+      "supplement": "Current Customer/Contact CAS, UUID identity and other-actor semantic no-op."
+    },
+    {
+      "name": "projectJourney",
+      "canonical": {
+        "file": "tools/rust-r3cdefg/project-journey01.mjs",
+        "bytes": 23214,
+        "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+      },
+      "supplement": "Same-candidate actual C/D/G Decimal/current/history and valid operation receipts."
+    },
+    {
+      "name": "leadJourney",
+      "canonical": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/a-ui-definitions/lead-journey02.mjs",
+        "bytes": 22328,
+        "rawBytesSha256": "6219e45e909ec4a01ae3078a5eab99cfee659738a8462c15da422e27f4207a65"
+      },
+      "originalLogical": "tmp/rust-r3hijk/a-ui-definitions/lead-journey02.mjs",
+      "supplement": "New pure supplement for nonempty plannedSignAt; all four platform cells; original bytes unchanged."
+    },
+    {
+      "name": "intelligenceDiscussionJourney",
+      "canonical": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs",
+        "bytes": 31946,
+        "rawBytesSha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+      },
+      "originalLogical": "tmp/rust-r3hijk/b-ui-definitions/intelligence-discussion-journey02.mjs",
+      "supplement": "Current I/F/J/K producers and consumers; absent controls remain absent."
+    }
+  ],
+  "findings": [
+    {
+      "id": "D-P2-PLANNED-SIGN-AT-01",
+      "priority": "P2",
+      "class": "existing-baseline-drift",
+      "status": "Open-frozen-correction",
+      "trigger": "Nonempty original conversion DatePicker",
+      "source": "lead-list.ts:2173 -> toIsoDate:2503 -> lead.store.ts:214-217 unchanged -> shared-contracts.ts:2626 datetime -> leads/validation.rs:194-257",
+      "mockedIncorrectExpectation": "lead-list.spec.ts:1274",
+      "rootFix": "Exact two UI files, Date.toISOString(), no shared DTO weakening",
+      "runtimeReproducedByD": false,
+      "case": "M4-plannedSignAt-nonempty"
+    },
+    {
+      "id": "A-score-tuple-P2-communicated-by-Root",
+      "priority": "P2",
+      "independentlyAuditedByD": false,
+      "rootReportedUserDecision": "Historical no matching snapshot: recompute system score plus system snapshot in approval TX, then manual approval; any required write failure rolls all back.",
+      "caseDefinitions": {
+        "file": "tmp/rust-r3m/input-d/score-cases-addendum01.json",
+        "bytes": 3033,
+        "rawBytesSha256": "ec22de2868f63748a295d9ddde6898cbc2037dd395b2395b9fcc1e1e4ec2daa3"
+      }
+    }
+  ],
+  "freshStageCases": [
+    "M0-entry58",
+    "M0-guards",
+    "M1-customer-to-score",
+    "M1-direct-score-approval",
+    "M1-conversion-real-attachments",
+    "M2-project-pricing-history",
+    "M2-follow-up-discussion-workspace",
+    "M3-required-write-rollback",
+    "M3-cas-noop-concurrency",
+    "M4-four-journeys-four-platform-cells",
+    "M4-plannedSignAt-nonempty",
+    "M5-e1-strict-resolver",
+    "M5-e1-representative-actual-replay",
+    "M5-source-build-contract-integrity",
+    "M5-terminal-and-gates",
+    "M1-score-materialized-tuple",
+    "M1-manual-stored-tuple-after-new-I-facts",
+    "M3-historical-missing-matching-system-snapshot"
+  ],
+  "reuse": {
+    "protected1373IsMixedSet": true,
+    "includesAngular335Nest420Generated579APIContracts26": true,
+    "expectedUIChanges": [
+      "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+    ],
+    "otherProtectedBytesMustMatch": true,
+    "rootOwnsFullSourceAttestation": true,
+    "sourceAndDependencyImpactRequired": true,
+    "oldDeepEvidence": "May cite original exact-input dual-backend/Unicode/boundary/prior-closed-finding evidence with original candidate labels; never count as current run.",
+    "NativeRerun": "Required where affected or old evidence fails to establish new correctness assertion. All four actual UI platform axes run after the two-file fix.",
+    "DBIgnoredRerun": "Only as required by dependency impact, separately from mandatory current R3 actual PG/HTTP semantics."
+  },
+  "ignoredSummary": {
+    "total": 54,
+    "controlledDBOptIn": 53,
+    "explicitChildFixture": 1,
+    "defaultIgnoredNotPass": true,
+    "childParent": "blocking_worker_does_not_extend_process_shutdown; actual successful current parent receipt required"
+  },
+  "ignored": [
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 186,
+      "test": "async fn credentials_profile_permissions_and_memberships_use_real_rows() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 229,
+      "test": "async fn create_session_defaults_hashes_caps_and_timestamp_precision() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 288,
+      "test": "async fn exact_expiry_disabled_and_missing_errors_preserve_source_write_order() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 315,
+      "test": "async fn throttle_exact_boundary_coalesces_ip_and_caps_renewal() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 372,
+      "test": "async fn csrf_rotation_and_anonymous_expiry_are_distinct_from_session_caps() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 413,
+      "test": "async fn atomic_concurrent_touch_rotate_revoke_keep_legacy_guards() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 512,
+      "test": "async fn logout_and_batch_revoke_count_only_status_active_even_if_time_expired() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 575,
+      "test": "async fn independent_audit_failure_does_not_rollback_session_and_explicit_audit_tx_can_rollback() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 668,
+      "test": "async fn real_original_mikroorm_writer_and_sqlx_writer_interoperate_bidirectionally() {",
+      "reason": "#[ignore = \"explicit controlled PG15 and Node24: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 749,
+      "test": "async fn actual_session_guard_default_deny_all_any_override_and_wrong_method_effects() {",
+      "reason": "#[ignore = \"explicit controlled PG15: actual session to guarded MethodRouter and audit\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 818,
+      "test": "async fn managed_session_audit_flush_is_local_optimistic_and_atomic_after_raw_commit() {",
+      "reason": "#[ignore = \"explicit controlled PG15: original managed snapshot plus audit flush transaction\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_projection_db.rs",
+      "line": 18,
+      "test": "async fn projection_appends_one_batch_event_and_propagates_real_insert_failure()",
+      "reason": "#[ignore = \"requires check.sh db and dedicated marked PG15\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 261,
+      "test": "async fn every_connection_and_replacement_has_timezone_schema_and_runtime_identity() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 309,
+      "test": "async fn exhausted_pool_times_out_and_recovers_after_release() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 346,
+      "test": "async fn explicit_error_and_drop_rollbacks_leave_no_rows_or_transaction() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 425,
+      "test": "async fn server_statement_timeout_returns_57014_and_discards_connection() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 465,
+      "test": "async fn client_deadline_quarantines_connection_and_server_work_is_bounded() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 508,
+      "test": "async fn externally_cancelled_future_cannot_return_its_connection_to_pool() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 565,
+      "test": "async fn failed_initializer_never_borrows_an_uninitialized_connection() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 600,
+      "test": "async fn bounded_close_prevents_new_borrows_and_releases_existing_backend() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 309,
+      "test": "async fn four_real_usage_tables_dirty_noop_and_active_item_semantics() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 431,
+      "test": "async fn registered_setting_noop_audit_and_separate_audit_failure_commit() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 547,
+      "test": "async fn nine_scopes_borrowed_rollback_utc_and_int4_overflow() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 625,
+      "test": "async fn journalled_concurrency_and_default_connection_consumption() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "line": 370,
+      "test": "async fn navigation_audit_without_pending_preserves_session_and_all_twelve_columns() {",
+      "reason": "#[ignore = \"explicit R2A PG15: real audit insert, full wire snapshot and non-due session\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "line": 405,
+      "test": "async fn navigation_audit_commits_due_flush_once_after_raw_touch() {",
+      "reason": "#[ignore = \"explicit R2A PG15: raw due touch then business audit plus managed CAS commit\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "line": 443,
+      "test": "async fn navigation_audit_failures_preserve_raw_commit_and_rollback_the_insert() {",
+      "reason": "#[ignore = \"explicit R2A PG15: 22001 and late CAS failure roll back audit flush only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 456,
+      "test": "async fn organization_defaults_noops_ids_and_mutable_code_are_persisted() {",
+      "reason": "#[ignore = \"explicit R2C PG15: business/audit, no-op session, strict IDs and mutable code\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 536,
+      "test": "async fn mixed_cascade_changes_only_dirty_rows_and_audits_all_affected_in_list_order() {",
+      "reason": "#[ignore = \"explicit R2C PG15: mixed cascade, inactive descendants, hierarchy and audit arrays\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 682,
+      "test": "async fn surrogate_storage_audit_and_repeated_dirty_updates_keep_their_boundaries() {",
+      "reason": "#[ignore = \"explicit R2C PG15: UTF16 response versus PG text and separate audit failure\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 739,
+      "test": "async fn stale_batch_version_preflight_rolls_back_all_dirty_orgs_and_pending_session() {",
+      "reason": "#[ignore = \"explicit R2C PG15: stale batch precheck rolls back the same session transaction\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 801,
+      "test": "async fn stale_pending_session_stops_the_business_flush_before_org_update() {",
+      "reason": "#[ignore = \"explicit R2C PG15: stale managed-session CAS prevents the later organization write\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 847,
+      "test": "async fn explicit_and_default_display_order_overflow_are_storage_failures() {",
+      "reason": "#[ignore = \"explicit R2C PG15: explicit and default int4 overflows preserve raw session touch\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 902,
+      "test": "async fn alias_hydration_preserves_cached_nullable_fields_and_fresh_versions() {",
+      "reason": "#[ignore = \"explicit R2C PG15: real reads/shared hydration; not an HTTP two-SELECT barrier\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/process_runtime.rs",
+      "line": 15,
+      "test": "fn blocking_child_fixture() -> Result<(), Box<dyn Error>> {",
+      "reason": "#[ignore = \"child fixture: explicitly executed by blocking_worker_does_not_extend_process_shutdown\"]",
+      "class": "explicit-child-fixture-invoked-by-parent",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 492,
+      "test": "async fn role_business_and_audit_flushes_preserve_defaults_versions_and_noop_boundaries() {",
+      "reason": "#[ignore = \"explicit R2B PG15: create, dirty/no-op role flushes and twelve audit columns\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 532,
+      "test": "async fn business_failure_keeps_only_the_preexisting_raw_session_touch() {",
+      "reason": "#[ignore = \"explicit R2B PG15: int4 overflow rolls back the first flush and preserves raw touch\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 556,
+      "test": "async fn name_and_key_surrogate_audit_failures_preserve_first_flush_rows() {",
+      "reason": "#[ignore = \"explicit R2B PG15: raw UTF16 create commits before separate JSONB audit failure\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 588,
+      "test": "async fn description_surrogate_returns_original_code_units_then_each_dirty_update_commits() {",
+      "reason": "#[ignore = \"explicit R2B PG15: original surrogate response and repeated dirty update partial commits\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 641,
+      "test": "async fn request_role_snapshot_preserves_early_detail_and_fresh_list_except_nullable_description() {",
+      "reason": "#[ignore = \"explicit R2B PG15: guard Role snapshot, list null hydration and stale role CAS rollback\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 667,
+      "test": "async fn stale_session_flush_rolls_back_the_role_insert_and_skips_audit() {",
+      "reason": "#[ignore = \"explicit R2B PG15: late managed session CAS rolls back a role inserted earlier in the transaction\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 699,
+      "test": "async fn permission_replacement_preserves_history_and_changes_existing_sessions_immediately() {",
+      "reason": "#[ignore = \"explicit R2B PG15: permission history, audit-only no-op and immediate existing-session permissions\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 886,
+      "test": "async fn historical_permissions_and_unknown_system_role_are_not_silently_filtered_or_protected() {",
+      "reason": "#[ignore = \"explicit R2B PG15: historical raw keys, inactive-user counts and exact known-system minimum boundary\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 477,
+      "test": "async fn concurrent_commands_keep_managed_cas_and_do_not_strengthen_noop_windows() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W14 dirty CAS and weak no-op/same-primary windows using owned test-only row locks\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 540,
+      "test": "async fn owner_and_user_projections_preserve_microseconds_fallback_and_unknown_memberships() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W15 microsecond sort keys, ties, inactive candidates and duplicate role names\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 648,
+      "test": "async fn encoding_failures_preserve_the_two_distinct_flush_boundaries() {",
+      "reason": "#[ignore = \"explicit R2D PG15: complete W06 observations from retained failed remaining01 report\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 680,
+      "test": "async fn pending_session_cas_rolls_back_business_but_does_not_restore_native_deleted_history() {",
+      "reason": "#[ignore = \"explicit R2D PG15: complete W12 observations, pending session CAS rollback after split deletes\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 775,
+      "test": "async fn path_aliases_preserve_raw_audit_identity_and_body_aliases_fail_before_delete() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W10 PostgreSQL UUID aliases remain distinct from strict JS reference maps\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 867,
+      "test": "async fn reactivation_does_not_revive_used_revoked_session_and_roles_refresh_on_next_request() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W11 two pre-existing sessions and permission refresh at next authorization\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 993,
+      "test": "async fn create_preserves_generated_id_child_failure_and_session_flush_order() {",
+      "reason": "#[ignore = \"explicit R2D PG15: original W01 seven shapes, with non-due and due first flush\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1073,
+      "test": "async fn profile_patch_preserves_noops_verified_resets_audits_and_overflow() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W02 dirty/no-op patches, contact verification and overflow rollback\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1108,
+      "test": "async fn replacements_preserve_history_delete_commits_and_membership_projection() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W04/W05 nativeDelete history and failed duplicate replacement\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1205,
+      "test": "async fn self_snapshot_retains_audit_values_while_nonnull_hydration_refreshes_response() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W07 self nullable identity-map and audit/response snapshots\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1275,
+      "test": "async fn activation_ignores_command_fields_preserves_noops_and_defers_session_revoke() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W03 toggles/noops/raw entity and lazy current-session invalidation\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "currentExecuted": false
+    }
+  ],
+  "E1": {
+    "status": "Fresh-G1-approval-required-not-exited",
+    "priorApprovalNotInherited": true,
+    "owner": "Root /root",
+    "originalDeadline": "2026-11-09",
+    "deadlineExtension": false,
+    "exitBefore": "Current-batch-G3",
+    "aliasCount": 5,
+    "totalBytes": 419264,
+    "directConsumerCount": 23,
+    "aliases": [
+      {
+        "logical": {
+          "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+          "bytes": 190930,
+          "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json",
+          "bytes": 190930,
+          "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+        },
+        "regular": true,
+        "rawExact": true,
+        "historicalApprovedSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+        "freshG1Approved": false
+      },
+      {
+        "logical": {
+          "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+          "bytes": 180482,
+          "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json",
+          "bytes": 180482,
+          "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+        },
+        "regular": true,
+        "rawExact": true,
+        "historicalApprovedSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+        "freshG1Approved": false
+      },
+      {
+        "logical": {
+          "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+          "bytes": 38863,
+          "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json",
+          "bytes": 38863,
+          "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+        },
+        "regular": true,
+        "rawExact": true,
+        "historicalApprovedSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+        "freshG1Approved": false
+      },
+      {
+        "logical": {
+          "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "bytes": 4774,
+          "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "bytes": 4774,
+          "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+        },
+        "regular": true,
+        "rawExact": true,
+        "historicalApprovedSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+        "freshG1Approved": false
+      },
+      {
+        "logical": {
+          "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+          "bytes": 4215,
+          "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+          "bytes": 4215,
+          "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+        },
+        "regular": true,
+        "rawExact": true,
+        "historicalApprovedSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+        "freshG1Approved": false
+      }
+    ],
+    "consumers": [
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/attest-rust.mjs",
+          "bytes": 3611,
+          "rawBytesSha256": "3b23bec6e39c5fc5fe1657c035c5465ada74841f6549507ce76d93fc1eacb880"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-operation-slices-original.json"
+        ],
+        "class": "historical-build-attestation",
+        "historicalPrivateReference": false,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+          "bytes": 2515,
+          "rawBytesSha256": "ab6b7652adc286db8e43bedcb7e53d1508ac94e87954481b096a70db24fa5594"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+        ],
+        "class": "historical-build-attestation",
+        "historicalPrivateReference": false,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/boundaries.mjs",
+          "bytes": 24363,
+          "rawBytesSha256": "5457405b48964d177c09b9eb8f9c9e59004835b6c4ce014384e89ea6a0aaa1b3"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/business-branches01.mjs",
+          "bytes": 40691,
+          "rawBytesSha256": "80713d60314972cf611038c124805dc6fbbe0b87049a245ca15b02765b08d1e3"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-pure-case-library",
+        "historicalPrivateReference": false,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/business-run.mjs",
+          "bytes": 12262,
+          "rawBytesSha256": "263707c70d4de1b28c039b082f75fb19011f7fa7cb0c4e4a5cb8451853d8b8c6"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/coverage.mjs",
+          "bytes": 15589,
+          "rawBytesSha256": "3f326de2dc0b3f87904a3fe7c31aa8cb79eceb7b8249ab6d1d8c76a579850daf"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "bytes": 5174,
+          "rawBytesSha256": "6fdcdca0943d8cd16ae9b4662a8ad7b4c9c1132e635f99357d61cfc152345989"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-source-generator",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/edge-run.mjs",
+          "bytes": 7444,
+          "rawBytesSha256": "a09a15f8fd235556b7e0956d344c28a1960a2bd0d58e7beaa131b332cefaa39a"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/environment.mjs",
+          "bytes": 12044,
+          "rawBytesSha256": "3ee7cb95d54a0a660524a407968889c0f18c7826b991f07315e7e1b474eeb33b"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+        ],
+        "class": "historical-environment-provisioning",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+          "bytes": 20627,
+          "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/native-witness.mjs",
+          "bytes": 23714,
+          "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+          "bytes": 4117,
+          "rawBytesSha256": "0e3f7a7bec7a375737f6161be69fb378952637bef653db7fae662943ac8c0b34"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-ui-prepare-or-run",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/project-edges01.mjs",
+          "bytes": 23434,
+          "rawBytesSha256": "e31a97c7270798b4ae99144d2354b4153495336c25ea63097a74be2960b67e46"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-pure-case-library",
+        "historicalPrivateReference": false,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/raw-errors.mjs",
+          "bytes": 5518,
+          "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "bytes": 21311,
+          "rawBytesSha256": "24bfe129acccb685b87150234ddbad7fa74307237ad4fd38ae30e894d4d6f760"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+          "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "bytes": 24753,
+          "rawBytesSha256": "f645a5b221ad70f3369f9ee566f59c393592abe8ccde0384b4d2858890082f25"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+          "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+          "bytes": 3162,
+          "rawBytesSha256": "63d6260367301406944b1a84ac708d8fa5114643715f78d7d17c0b50793195ce"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+        ],
+        "class": "historical-build-attestation",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/shared-checks.mjs",
+          "bytes": 3382,
+          "rawBytesSha256": "d00fac17e7223baa0a77e2ff2b6c35ae1f3f6f0feae901f0dc2d2da3c69b686e"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+        ],
+        "class": "historical-build-attestation",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/temporal.mjs",
+          "bytes": 6292,
+          "rawBytesSha256": "7d9e685a4bf9c7146c23061d3bd062e0a59f98069ab2ea50d49deff13e44804b"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-HTTP-PG-evidence-runner",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+          "bytes": 10312,
+          "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+        ],
+        "class": "historical-ui-prepare-or-run",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/ui-run.mjs",
+          "bytes": 9095,
+          "rawBytesSha256": "fd67881ead6df4c431250d642901e53af5e0181ffe8dac1ecd484f2e8e3ce30d"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-input-manifest02.json"
+        ],
+        "class": "historical-ui-prepare-or-run",
+        "historicalPrivateReference": true,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+          "bytes": 12858,
+          "rawBytesSha256": "6a5e589c599fdba955e4a53236917b03d27aae5688ddba07663e529490cc3903"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/g1-operation-slices-original.json"
+        ],
+        "class": "historical-source-generator",
+        "historicalPrivateReference": false,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      },
+      {
+        "source": {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+        },
+        "directLiteralTargets": [
+          "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+        ],
+        "class": "historical-pure-case-library",
+        "historicalPrivateReference": false,
+        "originalBytesRemainImmutable": true,
+        "unchangedLegacyCommandReplaySupported": false,
+        "supportedReplacement": "tools/rust-r3m/e1-resolver01.mjs and e1-replay01.mjs for exact manifest/operation/fixture semantics; Root current-stage adapter consumes new pure definitions."
+      }
+    ],
+    "proposedSupportedFiles": [
+      "tools/rust-r3m/e1-resolver01.mjs",
+      "tools/rust-r3m/e1-replay01.mjs"
+    ],
+    "supportedModes": [
+      "Exact pinned historical manifest reads",
+      "Frozen operation projection",
+      "Actual canonical cost/direct-pricing/bid-pricing/bid-with-children fixture calls"
+    ],
+    "strictIdentity": "(originalPath,bytes,SHA256); immutable snapshot keyed by hash before canonical move; reject unknown/conflicting/traversal/absolute/hash/length; no active old-path or latest fallback.",
+    "exitActualCases": [
+      "M5-e1-strict-resolver",
+      "M5-e1-representative-actual-replay"
+    ],
+    "oldPrivateOrRuntimeReplaySupported": false,
+    "historicalScriptsRemainRawImmutable": true,
+    "newMirrorOrAliasAllowed": false
+  },
+  "formalInputs": [
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "bytes": 72948,
+      "rawBytesSha256": "d88b02cb98ab64aebddd6d2c00e7b6a36401be3eb220d30f8268286a6a599017"
+    },
+    {
+      "file": "docs/design/rust-r3-closeout-baseline.md",
+      "bytes": 14011,
+      "rawBytesSha256": "a4838996cf1aea0b91deafd1808b69486b64adc5ac381c7c54b7dcdfea16aa23"
+    },
+    {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 177599,
+      "rawBytesSha256": "8af54cffe608879d7ac8b6f200807e5ac8e9314689344197cecf7356abf2a129"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 172058,
+      "rawBytesSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4"
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 435823,
+      "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    },
+    {
+      "file": "libs/api/contracts/src/lib/lead/lead.dto.ts",
+      "bytes": 2345,
+      "rawBytesSha256": "25353c6d777b87079d71f954e246ff0af3b14a044063ec603fa2087a1f929be2"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/lead/lead.store.ts",
+      "bytes": 10539,
+      "rawBytesSha256": "7e967ec40ade254ac09678471d198e72fd65ba00b28249ad3544bc96a65122c6"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "bytes": 134217,
+      "rawBytesSha256": "1f256fd2f2b5d976e3572799193bbebcc867a34cde387ea88b394ebb38493408"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/lead/lead-list.spec.ts",
+      "bytes": 55321,
+      "rawBytesSha256": "5f75c4670498188001286bcecfe650848cf2ae2c7342c48c335b42f19024bba7"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/mod.rs",
+      "bytes": 214,
+      "rawBytesSha256": "a6270f4da4e4926955fb180d58497828b95ba11b762b725b848b455b980b1ae6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/service.rs",
+      "bytes": 65162,
+      "rawBytesSha256": "92337cccccbef402f6d9207d684fb57ad017cca7baf7686239e187a4b51de755"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/validation.rs",
+      "bytes": 30662,
+      "rawBytesSha256": "b73f6d20bbff8095b0abf1d197bed272acb40c6fa34d70cd82584ee04f7fd85b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval/domain.rs",
+      "bytes": 26954,
+      "rawBytesSha256": "8ff262a4abbb55587f60d61add1a3aa7ef17a862a901ec374d92fb570c037f5d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval/service.rs",
+      "bytes": 8961,
+      "rawBytesSha256": "116abb92571bfb85fe2d7f7a16ba79f3d6844d5e46fdb87cc0479bbcd233796e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/session.rs",
+      "bytes": 5088,
+      "rawBytesSha256": "e6afa3cb8edfff6e764c723b2aa1e0998600899f0002413d798e721b28bb04d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+      "bytes": 9339,
+      "rawBytesSha256": "da2f93ccd37bb42444d6bead2a1be95514c3eac10c7ba8845896dd5cab7bcd55"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/g3-input-manifest03.json",
+      "bytes": 856269,
+      "rawBytesSha256": "20d02317cf3ab6908d36d9a5b4412f90990576e3d7e8fe7cbd42e8f5809d2630"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/C/g3-independent-review02.json",
+      "bytes": 19936,
+      "rawBytesSha256": "6e9b594d2741cf97b64ba7233451726f7b487b79103bdf3ce5ab8380b32a1c62"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/C/g4-closeout-preflight01.json",
+      "bytes": 15177,
+      "rawBytesSha256": "3c04dcc047db6c22230c18dc738c0fc5715646ca18ad53cb616cca3383cb4069"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/C/g4-independent-actual-review01.json",
+      "bytes": 22353,
+      "rawBytesSha256": "ec540fc8c69a3a2030f0d704e6c591ef4b4123f465481557a5781bf6457a6c25"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/shared-boundaries01.json",
+      "bytes": 5722,
+      "rawBytesSha256": "53283853a25917d46080532205c696ead479bd9fd84b704db7cb123bc0bfe1c7"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/g3-submission02.md",
+      "bytes": 4429,
+      "rawBytesSha256": "1b9e85b7b7e291409fb761bff14301293e8aa0a21e93f91476088a039de21810"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/archive-origin-map.json",
+      "bytes": 827722,
+      "rawBytesSha256": "104434240ea4af61df20adbacee80fac5b81ecb0a8532cdf4aaf65b73ee23334"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+      "bytes": 355382,
+      "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+    },
+    {
+      "file": "tools/rust-r3hijk/archive-paths02.mjs",
+      "bytes": 1380,
+      "rawBytesSha256": "f315d38bd820d85cab1d11b29111d858317e7123fbc9b3019953f59ce4c3a7db"
+    },
+    {
+      "file": "tools/rust-r3hijk/verify-archive02.mjs",
+      "bytes": 1242,
+      "rawBytesSha256": "66f8a2427961df239c5590cfb77076955aa70f2289b2d0eeb305aa2b2ca1d3ee"
+    },
+    {
+      "file": "tmp/rust-r3m/input-d/acceptance-cases01.json",
+      "bytes": 14440,
+      "rawBytesSha256": "f0693659e0f70db124cd8284b12d688765430f6e95f44887f386ba08045ad92c"
+    },
+    {
+      "file": "tmp/rust-r3m/input-d/score-cases-addendum01.json",
+      "bytes": 3033,
+      "rawBytesSha256": "ec22de2868f63748a295d9ddde6898cbc2037dd395b2395b9fcc1e1e4ec2daa3"
+    },
+    {
+      "file": "tmp/rust-r3m/input-d/g1-input01.md",
+      "bytes": 6872,
+      "rawBytesSha256": "9ad4bf3f02c678ce9b8990601af7714a4523de95f3a001269a196a9f82b45a24"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "bytes": 43422,
+      "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_projection_db.rs",
+      "bytes": 3121,
+      "rawBytesSha256": "f4b05f7f0a1f661b5896d9b61fd9d10b125348157e8ca7fd2273ca5aa6efe223"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "bytes": 22387,
+      "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "bytes": 26521,
+      "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "bytes": 19687,
+      "rawBytesSha256": "78a8c93814e038b097464267ac889b0af20a1fdc96b9aca02a43fa7f2f64e8ea"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "bytes": 37152,
+      "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/process_runtime.rs",
+      "bytes": 3403,
+      "rawBytesSha256": "da4f7d93649ec8351e1ce835a3b008ca39b9080e6172d62365634ed24da75c0b"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "bytes": 38500,
+      "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "bytes": 56451,
+      "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+    }
+  ],
+  "caseDefinitions": [
+    {
+      "file": "tmp/rust-r3m/input-d/acceptance-cases01.json",
+      "bytes": 14440,
+      "rawBytesSha256": "f0693659e0f70db124cd8284b12d688765430f6e95f44887f386ba08045ad92c"
+    },
+    {
+      "file": "tmp/rust-r3m/input-d/score-cases-addendum01.json",
+      "bytes": 3033,
+      "rawBytesSha256": "ec22de2868f63748a295d9ddde6898cbc2037dd395b2395b9fcc1e1e4ec2daa3"
+    }
+  ],
+  "completion": "Only SourceReady. Actual unified stage/G3/fixed/main/archive/G4 conditions before100/97/85close;57 staysOpen."
+}

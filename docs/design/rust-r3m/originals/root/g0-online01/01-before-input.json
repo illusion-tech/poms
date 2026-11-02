@@ -1,0 +1,3 @@
+{
+  "query": "query{repository(owner:\"illusion-tech\",name:\"poms\"){id p85:issue(number:85){id number state body comments(first:100){nodes{body url}} subIssues(first:100){nodes{number state title}}} p57:issue(number:57){id number state body comments(first:100){nodes{body url}}} issues(first:100,states:OPEN,orderBy:{field:CREATED_AT,direction:DESC}){nodes{id databaseId number title body url state}}}}"
+}

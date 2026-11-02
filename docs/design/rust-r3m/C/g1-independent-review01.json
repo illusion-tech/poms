@@ -1,0 +1,866 @@
+{
+  "kind": "C-independent-R3-closeout-complete-joint-G1-review01",
+  "createdAt": "2026-11-02T21:45:13.063Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Sole independent non-author C; no author/executor/governance implementation",
+    "configuredTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Pass",
+  "G1Certified": true,
+  "G2AuthorizedAfterOnlineFreeze": true,
+  "G2AuthorizedNow": false,
+  "onlineFreezeCertified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "implementationAccepted": false,
+  "stageIntegrationComplete": false,
+  "activeManifest": {
+    "file": "docs/design/rust-r3m/g1-input-manifest01.json",
+    "bytes": 359370,
+    "rawBytesSha256": "7c41d08b0021ba0c7937948bd61ef990f4b4a7cac7bf4276d736a363a69b749e"
+  },
+  "supplementInputs": [
+    {
+      "file": "docs/design/rust-r3m/g1-root-supplement01.json",
+      "bytes": 1178,
+      "rawBytesSha256": "fa619436efc69714b2057956b558656a544da7905e63d7106bd6f6c9779a4f25"
+    },
+    {
+      "file": "docs/design/rust-r3m/g1-root-supplement02.json",
+      "bytes": 2570,
+      "rawBytesSha256": "625b7da8c6e2eae16f3d8a23b07e579bc391eb8b0b9a0dea23c6971de8086a13"
+    },
+    {
+      "file": "docs/design/rust-r3m/g1-root-supplement03.json",
+      "bytes": 878,
+      "rawBytesSha256": "dd18ba639340d31142140c7ce6458789eab2be3f51224ce799c2295ed031963c"
+    }
+  ],
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "branch": "codex/poms-r3-closeout",
+  "batchIssue": 97,
+  "scopeIssues": [
+    98,
+    99,
+    100
+  ],
+  "stageIssue": 85,
+  "overallIssue": 57,
+  "inputFindingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "findingCountsMeaning": "G1 input usability/scope/authority blockers only; the six named product correction targets below remain open G2 work.",
+  "unresolvedG1InputBlockers": [],
+  "acceptedG2CorrectionTargets": [
+    {
+      "id": "A-P2-01",
+      "owner": "A #98",
+      "scope": "System score and explanatory snapshot use one materialized tuple; normal manual/revoke reuses matching stored tuple; historical missing-match approval fallback follows direct user decision.",
+      "status": "Unimplemented, required G2 witness/repair/regression, not a G1-input blocker",
+      "sources": [
+        "apps/poms-api-rust/src/leads/service.rs:859",
+        "apps/poms-api-rust/src/leads/service.rs:1064"
+      ],
+      "cases": [
+        "A-S02",
+        "A-S03",
+        "A-S04",
+        "A-S08",
+        "A-S12"
+      ]
+    },
+    {
+      "id": "P2-B01",
+      "owner": "B #99",
+      "scope": "只CAS0为409；真正SQL500并必要audit/record/session整TX rollback",
+      "status": "Unimplemented, required G2 actual witness/repair/regression, not a G1-input blocker",
+      "sources": [
+        "apps/poms-api-rust/src/customer_contacts/store.rs:141-146",
+        "apps/poms-api-rust/src/customer_contacts/service.rs:49-56,196-219"
+      ],
+      "cases": [
+        "B-CAS-CONTACT"
+      ]
+    },
+    {
+      "id": "P2-B02",
+      "owner": "B #99",
+      "scope": "CAS0明确409，不新增DTO expectedVersion",
+      "status": "Unimplemented, required G2 actual witness/repair/regression, not a G1-input blocker",
+      "sources": [
+        "apps/poms-api-rust/src/customers/store.rs:301-308",
+        "apps/poms-api-rust/src/customers/service.rs:490-543"
+      ],
+      "cases": [
+        "B-CAS-CUSTOMER"
+      ]
+    },
+    {
+      "id": "P2-B03",
+      "owner": "B #99",
+      "scope": "先判业务字段语义变化，再写actor/time；no-op只允许session维护",
+      "status": "Unimplemented, required G2 actual witness/repair/regression, not a G1-input blocker",
+      "sources": [
+        "apps/poms-api-rust/src/customers/service.rs:490",
+        "apps/poms-api-rust/src/customers/service.rs:733-738"
+      ],
+      "cases": [
+        "B-NOOP-CUSTOMER"
+      ]
+    },
+    {
+      "id": "P2-B04",
+      "owner": "B #99",
+      "scope": "内部org identity lookup用parsed Uuid或规范key；raw请求/DTO不全局改写",
+      "status": "Unimplemented, required G2 actual witness/repair/regression, not a G1-input blocker",
+      "sources": [
+        "apps/poms-api-rust/src/customers/service.rs:743-772"
+      ],
+      "cases": [
+        "B-UUID-OWNERORG"
+      ]
+    },
+    {
+      "id": "D-P2-PLANNED-SIGN-AT-01 / B-UI05",
+      "owner": "Root",
+      "scope": "Exactly lead-list.ts and its spec; nonempty Date.toISOString, preserve datetime DTO and other date-only fields.",
+      "status": "Unimplemented, required G2 repair and actual sixteen journey cells including four filled-date conversions",
+      "cases": [
+        "M4-plannedSignAt-nonempty",
+        "B-UI-DATE"
+      ]
+    }
+  ],
+  "productCorrectionsAlreadyFixed": false,
+  "inputIntegrity": {
+    "directPinCounts": {
+      "protectedFiles": 1373,
+      "rustFiles": 239,
+      "controls": 11,
+      "originals": 75,
+      "E1Inputs": 5
+    },
+    "directPinsVerified": 1703,
+    "directPinnedBytes": 17935917,
+    "allDirectPinsExact": true,
+    "sortedGroupPinArraySha256": "eb43f165846fb36d7987b6104879dd4a6f553c117110a5f233d68dcd3087ddb7",
+    "all75OriginalCopiesEqualLogicalSourceBytes": true,
+    "allOriginalsRetained": true,
+    "AInternalPins": {
+      "source": 38,
+      "additional": 28,
+      "evidence": 7,
+      "all73CurrentRawExact": true
+    },
+    "BInternalPins": {
+      "source": 88,
+      "evidence": 24,
+      "currentRawExact": 109,
+      "threeHistoricalBasePinsExact": true,
+      "historicalGovernanceSources": [
+        {
+          "originalAuditPin": {
+            "file": "docs/design/rust-r3-operation-slices.json",
+            "bytes": 176354,
+            "rawBytesSha256": "6f859292afa8f5369304ac7e6932ca76000f38b5810135476ec315ff22488668"
+          },
+          "immutableSourceCommit": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+          "currentAuthority": {
+            "file": "docs/design/rust-r3-operation-slices.json",
+            "bytes": 177599,
+            "rawBytesSha256": "8af54cffe608879d7ac8b6f200807e5ac8e9314689344197cecf7356abf2a129"
+          },
+          "oldEqualsCurrent": false
+        },
+        {
+          "originalAuditPin": {
+            "file": "docs/design/rust-r3hijk-delivery-status.json",
+            "bytes": 20266,
+            "rawBytesSha256": "485eedbb979c47ff8527c5c9be86d456c05ee7fb8fa994c66f40c87ebc5a051b"
+          },
+          "immutableSourceCommit": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+          "currentAuthority": {
+            "file": "docs/design/rust-r3hijk-delivery-status.json",
+            "bytes": 20291,
+            "rawBytesSha256": "692c5af36409aa4c2d620edfdcb55fb31aff9914edf751b58b6d62947f2e011f"
+          },
+          "oldEqualsCurrent": false
+        },
+        {
+          "originalAuditPin": {
+            "file": "docs/design/rust-r3-scope-and-dependencies.md",
+            "bytes": 4525,
+            "rawBytesSha256": "25d8cf7acdeb3387547568a4d7347e8af72e92ed525534aab74c09d70e5adbfa"
+          },
+          "immutableSourceCommit": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+          "currentAuthority": {
+            "file": "docs/design/rust-r3-scope-and-dependencies.md",
+            "bytes": 4991,
+            "rawBytesSha256": "1d644f0cda376dcd67b7b907a1c310f56d837761485dce4b7bdcdd4e777f426c"
+          },
+          "oldEqualsCurrent": false
+        }
+      ]
+    },
+    "DInternalPins": {
+      "formal": 39,
+      "currentRawExact": 38,
+      "oneOldBaselinePinReconciled": true
+    },
+    "all224AuthorSourceFormalEvidencePinsResolvedWithoutClaimingFourOldPinsEqualCurrent": true,
+    "BImmutableProse": {
+      "formal": {
+        "file": "docs/design/rust-r3m/originals/input-b/g1-input01.md.bin",
+        "bytes": 11771,
+        "rawBytesSha256": "2f6f05a7818724615b1049ff7021bb8b9cd98b515280d18d420aaf90c8b18a5d"
+      },
+      "logicalOriginal": "tmp/rust-r3m/input-b/g1-input01.md",
+      "unformattedOriginalPreserved": true,
+      "representedAsFormatted": false,
+      "semanticAuthority": "Sealed B machine JSON plus Root joint baseline and supplements.",
+      "noProductSourceOrActiveMarkdownFormattingWaiver": true
+    },
+    "currentProductChangesBeforeG1": [],
+    "all239RustEngineeringAnd1373ProtectedPinsExact": true,
+    "noEarlyProductG2Observed": true,
+    "protectedMixedCounts": {
+      "admin": 335,
+      "nest": 420,
+      "client": 579,
+      "APIContracts": 26
+    },
+    "onlyAllowedProtectedG2Changes": [
+      "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+    ],
+    "nativeOpenAPI": {
+      "file": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "bytes": 1129410,
+        "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+      },
+      "paths": 237,
+      "operations": 291,
+      "schemas": 585
+    },
+    "priorRustOpenAPI": {
+      "file": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/final-integrity04/rust-openapi-original.json",
+        "bytes": 1011717,
+        "rawBytesSha256": "0e31ba312e3a939a6513d0dbf6f44a66394d54b5ff8fabb9c1ba0c86231b5adc"
+      },
+      "paths": 138,
+      "operations": 173,
+      "schemas": 585,
+      "classification": "Exact unchanged historical current-source output; fresh final candidate runtime comparison required in M5."
+    },
+    "historicalRuntimeIntegrity": {
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/final-integrity04/report01.json",
+      "bytes": 26574,
+      "rawBytesSha256": "c28d72802daca772fd43e84efab0261e7807066f1cb5e7dc4def64dde2bd1061"
+    },
+    "priorHIJKSchemaInput": {
+      "file": {
+        "file": "tools/rust-r3hijk/openapi.json",
+        "bytes": 860632,
+        "rawBytesSha256": "876f093c66b5b069333ac39fcc724eff3179c5b5394a060e0813fbe811ecf239"
+      },
+      "paths": 22,
+      "operations": 28,
+      "schemas": 585,
+      "notTheFullRuntimeSurface": true
+    },
+    "declaredRustEngineeringCount239OverridesApproximate235Prose": true,
+    "client579AndOriginal92MigrationsPinned": true
+  },
+  "resolvedInputClarifications": [
+    {
+      "id": "C-G1-D-BASELINE-PIN-01",
+      "authority": {
+        "file": "docs/design/rust-r3m/g1-input-manifest01.json",
+        "bytes": 359370,
+        "rawBytesSha256": "7c41d08b0021ba0c7937948bd61ef990f4b4a7cac7bf4276d736a363a69b749e"
+      },
+      "old": {
+        "file": "docs/design/rust-r3-closeout-baseline.md",
+        "bytes": 14011,
+        "rawBytesSha256": "a4838996cf1aea0b91deafd1808b69486b64adc5ac381c7c54b7dcdfea16aa23"
+      },
+      "current": {
+        "file": "docs/design/rust-r3-closeout-baseline.md",
+        "bytes": 14037,
+        "rawBytesSha256": "cacbb759574fa063f74bc7ddb5028fbd58e26c7f8289d2c87def43e2be630129"
+      },
+      "exact26ByteInverseVerified": true,
+      "noBusinessScopeDelta": true
+    },
+    {
+      "id": "C-G1-B-OWNERSHIP-01",
+      "authority": {
+        "file": "docs/design/rust-r3m/g1-root-supplement01.json",
+        "bytes": 1178,
+        "rawBytesSha256": "fa619436efc69714b2057956b558656a544da7905e63d7106bd6f6c9779a4f25"
+      },
+      "sealedBSource": {
+        "file": "docs/design/rust-r3m/originals/input-b/g1-input01.json",
+        "bytes": 77271,
+        "rawBytesSha256": "b8210d66e633a6aba96a89b58909180063852dbc85a5d3e0627e056f847a81b0"
+      },
+      "interpretation": "A leads14 + B38 + Root project-basic6; no A/B projects product authorization; discovered new project gap requires checkpoint."
+    },
+    {
+      "id": "C-G1-B-HISTORICAL-METADATA-01",
+      "authority": {
+        "file": "docs/design/rust-r3m/g1-root-supplement02.json",
+        "bytes": 2570,
+        "rawBytesSha256": "625b7da8c6e2eae16f3d8a23b07e579bc391eb8b0b9a0dea23c6971de8086a13"
+      },
+      "allThreeOldPinsExactAtBase": true,
+      "currentRootPinsVerified": true,
+      "sealedBRetained": true
+    },
+    {
+      "id": "C-G1-B-CONVERT-PATH-01",
+      "authority": {
+        "file": "docs/design/rust-r3m/g1-root-supplement03.json",
+        "bytes": 878,
+        "rawBytesSha256": "dd18ba639340d31142140c7ce6458789eab2be3f51224ce799c2295ed031963c"
+      },
+      "caseId": "B-UI-DATE",
+      "originalPath": "/api/leads/{leadId}:convert",
+      "authoritativeOperationId": "LeadController_convertToProject",
+      "method": "POST",
+      "canonicalPath": "/api/leads/{id}:convertToProject",
+      "placeholder": "leadId maps to id",
+      "noNewRouteAlias": true
+    }
+  ],
+  "ownershipAndPublicSurface": {
+    "existingDeliveredHTTP": 58,
+    "newPublicOperations": 0,
+    "newDTO": 0,
+    "newDDL": 0,
+    "newPermission": 0,
+    "newGeneratedClient": 0,
+    "scopeEquation": "14 + 38 + Root 6 = 58",
+    "AOperationIds": [
+      "LeadScoreOverrideController_approve",
+      "LeadScoreOverrideController_reject",
+      "LeadScoreOverrideController_revoke",
+      "LeadController_list",
+      "LeadController_create",
+      "LeadController_getById",
+      "LeadController_update",
+      "LeadController_assignOwner",
+      "LeadController_claimOwner",
+      "LeadController_close",
+      "LeadController_convertToProject",
+      "LeadController_qualify",
+      "LeadController_getScoreHistory",
+      "LeadController_submitScoreOverride"
+    ],
+    "BOperationIds": [
+      "BusinessDiscussionController_list",
+      "BusinessDiscussionController_create",
+      "CompetitorIntelligenceRecordController_list",
+      "CompetitorIntelligenceRecordController_create",
+      "CompetitorIntelligenceRecordController_update",
+      "CustomerAliasController_delete",
+      "CustomerContactController_list",
+      "CustomerContactController_create",
+      "CustomerContactController_update",
+      "CustomerController_list",
+      "CustomerController_create",
+      "CustomerController_getById",
+      "CustomerController_update",
+      "CustomerController_listAliases",
+      "CustomerController_createAlias",
+      "CustomerController_getWorkspaceOverview",
+      "OpportunityStakeholderController_list",
+      "OpportunityStakeholderController_create",
+      "OpportunityStakeholderController_update",
+      "ProjectController_listProjectBidCommercialProcesses",
+      "ProjectController_createProjectBidCommercialProcess",
+      "ProjectController_getProjectBidCommercialWorkspace",
+      "ProjectController_listProjectPricingMarginReviews",
+      "ProjectController_createProjectPricingMarginReview",
+      "ProjectController_getProjectPricingMarginWorkspace",
+      "ProjectController_listProjectTechnicalCostPackages",
+      "ProjectController_createProjectTechnicalCostPackage",
+      "ProjectController_getProjectTechnicalCostWorkspace",
+      "ProjectController_getTimeline",
+      "ProjectController_getWorkspaceGuidance",
+      "SalesDiscoveryRecordController_list",
+      "SalesDiscoveryRecordController_create",
+      "SalesDiscoveryRecordController_update",
+      "SalesFollowUpController_list",
+      "SalesFollowUpController_create",
+      "SalesFollowUpController_replace",
+      "SalesFollowUpController_void",
+      "SalesIntelligenceGapController_list"
+    ],
+    "RootProjectOperationIds": [
+      "ProjectController_list",
+      "ProjectController_create",
+      "ProjectController_getByCode",
+      "ProjectController_getById",
+      "ProjectController_updateBasicInfo",
+      "ProjectController_reassignOwner"
+    ],
+    "AProduct": "leads/ non-http only",
+    "BProduct": [
+      "apps/poms-api-rust/src/customers/ (除全部http.rs)",
+      "apps/poms-api-rust/src/customer_contacts/ (除全部http.rs)",
+      "apps/poms-api-rust/src/sales_follow_up/ (除全部http.rs)",
+      "apps/poms-api-rust/src/sales_intelligence/ (除全部http.rs)",
+      "apps/poms-api-rust/src/business_discussions/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_workspace/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_technical_cost/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_bid_commercial/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_pricing_margin/ (除全部http.rs)"
+    ],
+    "Root": "All shared HTTP/lib/Cargo/bridges/UI exact delta/governance/execution; projects6 valid actual stage receipts without project product edits.",
+    "D": "Input/ignored delivery audit and tools/rust-r3m/e1-* canonical/hash supported replay; actual environment execution remains Root-only.",
+    "approval": "R3 existing direct Lead score override lifecycle; R4 contract/contract-review; R5 commission payout/adjustment; no invented generic R3 handler or scheduler.",
+    "R2Shared": "Review only actual R3 consumption; future producer completion is not an R3 circular prerequisite.",
+    "preparedFutureFacts": "Only declared lawful readonly projections, independently visible committed fixtures and owned cleanup; no R4/R5 producer/approval certification."
+  },
+  "businessContractReview": {
+    "sourceAuthorities": [
+      "EX54 §5.1 semantic dedup tuple and §5.2 explanatory history",
+      "EX54 §6 manual override lifecycle",
+      "EX55A-R §5 single breakdown, existing explicit triggers and old readonly snapshots",
+      "Root current joint baseline business correctness policy",
+      "Direct human historical fallback decision relayed by Root and frozen in A input"
+    ],
+    "systemScore": "Each real explicit system trigger materializes one score/rating/formula/reason/breakdown/gates tuple and persists a coherent Lead/system snapshot; semantic tuple dedup remains.",
+    "manualScore": "Normal approve/revoke retains a genuinely matching stored system tuple and real manual effective/source/actor metadata; no reread of new facts falsely presented as old explanation.",
+    "historicalFallback": {
+      "source": {
+        "file": "docs/design/rust-r3m/originals/input-a/g1-input01.json",
+        "bytes": 25364,
+        "rawBytesSha256": "c3fc9e176e4a0038fa1efccb26cfa92a14d64881e6a239d32c912751450df232"
+      },
+      "decision": "审批事务内先补算系统评分并留快照，再执行覆盖审批；任一必要写入失败整体回滚（推荐）",
+      "onlyMissingMatchingSystemTuple": true,
+      "approvalTransaction": "First recompute system score from one current materialized tuple and store system snapshot, then override approval/manual snapshot/registered audit. Every necessary write shares one owning TX.",
+      "wholeGraphRollbackAndSuccessfulRecoveryRequired": true,
+      "noGETBackfillOrAutomaticI_F_UploadRefresh": true,
+      "noBulkHistoricalRewriteAuthorized": true
+    },
+    "requiredWrites": "Business states/dependents/snapshots/registered audits are atomic; independent number reservation gaps and independent session touches explicitly separate. Do not invent lead.created/I.created/snapshot-created audits absent the registered runtime contract.",
+    "CAS": "Only actual CAS0 conflicts409; genuine SQL errors500 plus rollback. Preserve legal two201 version creation and two201 first-comment contracts; no new expectedVersion DTO.",
+    "identity": "Parsed UUID identity for internal relation/owner/org comparison without global raw input lowercasing or widening eligibility.",
+    "noOpAndQueries": "Business-equal updates including other actor leave versions/time/actor/snapshots/audits unchanged; GET never repairs history.",
+    "moneyAndDates": "Exact Decimal: money2, quantity/unitPrice4, signed rates8 with existing numeric limits; date remains date, plannedSignAt remains ISO datetime. No new multiplication or 0..1 rule.",
+    "noHardGateRelaxation": "Manual high scores never fill missing conversion/qualification business facts."
+  },
+  "matrixReview": {
+    "ADefinitions": 12,
+    "BDefinitions": 32,
+    "DDefinitions": 18,
+    "definitionsAreUnexecuted": true,
+    "countsNotAcceptanceResults": true,
+    "all58DMethodPathOperationIssuePermissionRowsMatchCanonicalCurrentInventory": true,
+    "allARequestOperationMethodPathsMatchCurrentInventory": true,
+    "BSevenOtherStructuredRequestsMatchCurrentInventory": true,
+    "BOneWrongConversionExampleExplicitlySuperseded": true,
+    "M0": "Fresh final candidate valid receipts for all58; complete envelopes/contracts/real nonempty facts; each route missing-session/permission and every mutating CSRF; shared dispatch classes by real path and zero business deltas.",
+    "M1M2": "One actual Customer/Contact/Lead/I/F/upload/score/override/qualify/convert graph; consume that exact returned Project in cost/bid/pricing versions, real Todo/J/K and workspaces. No stitching unrelated old projects.",
+    "M3": "Fresh controlled A single-materialization interleaving; each affected explicit scoring trigger; normal manual after unrefreshed real facts; prepared legacy fallback and every necessary write failure; real Customer/Contact/Lead/override/I CAS; F same-source and target empty stream; C/D/G current/children/Decimal boundaries.",
+    "actualWaiterEvidence": "Observe actual fresh lock wait state/identity; no sleep-only claims. Distinct sessions/actors, before/after exact graph, legitimate winner normalization and recovery/cleanup.",
+    "UI": {
+      "journeys": [
+        "customerJourney",
+        "projectJourney",
+        "leadJourney",
+        "intelligenceDiscussionJourney"
+      ],
+      "journeysCount": 4,
+      "platformAxes": [
+        "Linux browser to Linux Native",
+        "Linux browser to Linux Rust",
+        "Windows browser to Windows Native",
+        "Windows browser to Linux Rust"
+      ],
+      "actualJourneyCellsRequired": 16,
+      "allAfterBoundedTwoFileFixAndCurrentBuild": true,
+      "nonemptyDateConversions": 4,
+      "blankNullAndOtherDateRegression": true,
+      "selectedLocalCalendarDateNetworkDatetimeProjectGETAndPGMustAgree": true,
+      "noMocksDOMInjectionOrFailureFallback": true,
+      "WindowsRustNativeServerCertified": false,
+      "originalAbsentIEditDeleteAndJSelectorControlsRemainAbsent": true
+    },
+    "M5": "Strict E1 replay and exact five alias exit; final source/artifact/runtime full spec/client/migration comparison; risk-scaled Rust/frontend validation and required lint, current full owned graph/seed/privilege/log restoration with second-zero cleanup, stop owned runtimes and PG preserve volume/private originals.",
+    "ignored": {
+      "total": 54,
+      "DBOptIn": 53,
+      "explicitParentInvokedChild": 1,
+      "all54CurrentIgnoreAttributeLinesAndTestNamesVerified": true,
+      "defaultIgnoredNotPass": true,
+      "parentCurrentPassReceiptRequired": true
+    },
+    "causalReuse": "Only exact hashes plus dependency impact; original candidate/platform/partial/failure labels retained. Historical deep matrices not counted as current execution; touched effects rerun on final candidate.",
+    "validationResponsibilities": "Root executes required Rust fmt/clippy deny warnings/locked offline tests/release; impacted admin lint/no new unexplained warnings/unit/production build, relevant API regression and static/full runtime integrity, Markdown and diff checks. C executed none of these products/checks."
+  },
+  "currentG1CommonChecks": {
+    "source": "Root direct report during this independent review",
+    "docsFormat": "Pass",
+    "unstagedDiff": "Pass",
+    "stagedDiff": "Pass",
+    "CExecuted": false,
+    "productStillUnmodified": true,
+    "productBuildTestAndEnvironmentAcceptanceStillPendingG2": true
+  },
+  "E1Approved": true,
+  "E1": {
+    "decision": "Fresh named current RUST-R3-CO G1 approval, only for bounded exit work. Prior batch approval not inherited.",
+    "approved": true,
+    "files": [
+      {
+        "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+        "bytes": 190930,
+        "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json",
+          "bytes": 190930,
+          "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+        }
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+        "bytes": 180482,
+        "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json",
+          "bytes": 180482,
+          "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+        }
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+        "bytes": 38863,
+        "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json",
+          "bytes": 38863,
+          "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+        }
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+        "bytes": 4774,
+        "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+          "bytes": 4774,
+          "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+        }
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+        "bytes": 4215,
+        "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+        "canonical": {
+          "file": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+          "bytes": 4215,
+          "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+        }
+      }
+    ],
+    "regularAliases": 5,
+    "totalBytes": 419264,
+    "allFiveRegularNonSymlinkSingleLinkAndCanonicalRawEqual": true,
+    "actualDirectLiteralLegacyConsumers": 23,
+    "consumerPaths": [
+      "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+      "tools/rust-r3cdefg/attest-rust.mjs",
+      "tools/rust-r3cdefg/bootstrap-linux.mjs",
+      "tools/rust-r3cdefg/boundaries.mjs",
+      "tools/rust-r3cdefg/business-branches01.mjs",
+      "tools/rust-r3cdefg/business-run.mjs",
+      "tools/rust-r3cdefg/coverage.mjs",
+      "tools/rust-r3cdefg/derive-acceptance.mjs",
+      "tools/rust-r3cdefg/edge-run.mjs",
+      "tools/rust-r3cdefg/environment.mjs",
+      "tools/rust-r3cdefg/native-witness-extra02.mjs",
+      "tools/rust-r3cdefg/native-witness.mjs",
+      "tools/rust-r3cdefg/prepare-ui.mjs",
+      "tools/rust-r3cdefg/project-edges01.mjs",
+      "tools/rust-r3cdefg/raw-errors.mjs",
+      "tools/rust-r3cdefg/semantics-extra02.mjs",
+      "tools/rust-r3cdefg/semantics01.mjs",
+      "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+      "tools/rust-r3cdefg/shared-checks.mjs",
+      "tools/rust-r3cdefg/temporal.mjs",
+      "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "tools/rust-r3cdefg/ui-run.mjs",
+      "tools/rust-r3cdefg/wire-http-modules.mjs"
+    ],
+    "all23OriginalConsumerSourcePinsExact": true,
+    "consumerClassificationPreserved": [
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/attest-rust.mjs",
+          "bytes": 3611,
+          "rawBytesSha256": "3b23bec6e39c5fc5fe1657c035c5465ada74841f6549507ce76d93fc1eacb880"
+        },
+        "class": "historical-build-attestation",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+          "bytes": 2515,
+          "rawBytesSha256": "ab6b7652adc286db8e43bedcb7e53d1508ac94e87954481b096a70db24fa5594"
+        },
+        "class": "historical-build-attestation",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/boundaries.mjs",
+          "bytes": 24363,
+          "rawBytesSha256": "5457405b48964d177c09b9eb8f9c9e59004835b6c4ce014384e89ea6a0aaa1b3"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/business-branches01.mjs",
+          "bytes": 40691,
+          "rawBytesSha256": "80713d60314972cf611038c124805dc6fbbe0b87049a245ca15b02765b08d1e3"
+        },
+        "class": "historical-pure-case-library",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/business-run.mjs",
+          "bytes": 12262,
+          "rawBytesSha256": "263707c70d4de1b28c039b082f75fb19011f7fa7cb0c4e4a5cb8451853d8b8c6"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/coverage.mjs",
+          "bytes": 15589,
+          "rawBytesSha256": "3f326de2dc0b3f87904a3fe7c31aa8cb79eceb7b8249ab6d1d8c76a579850daf"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "bytes": 5174,
+          "rawBytesSha256": "6fdcdca0943d8cd16ae9b4662a8ad7b4c9c1132e635f99357d61cfc152345989"
+        },
+        "class": "historical-source-generator",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/edge-run.mjs",
+          "bytes": 7444,
+          "rawBytesSha256": "a09a15f8fd235556b7e0956d344c28a1960a2bd0d58e7beaa131b332cefaa39a"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/environment.mjs",
+          "bytes": 12044,
+          "rawBytesSha256": "3ee7cb95d54a0a660524a407968889c0f18c7826b991f07315e7e1b474eeb33b"
+        },
+        "class": "historical-environment-provisioning",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+          "bytes": 20627,
+          "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/native-witness.mjs",
+          "bytes": 23714,
+          "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+          "bytes": 4117,
+          "rawBytesSha256": "0e3f7a7bec7a375737f6161be69fb378952637bef653db7fae662943ac8c0b34"
+        },
+        "class": "historical-ui-prepare-or-run",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/project-edges01.mjs",
+          "bytes": 23434,
+          "rawBytesSha256": "e31a97c7270798b4ae99144d2354b4153495336c25ea63097a74be2960b67e46"
+        },
+        "class": "historical-pure-case-library",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/raw-errors.mjs",
+          "bytes": 5518,
+          "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "bytes": 21311,
+          "rawBytesSha256": "24bfe129acccb685b87150234ddbad7fa74307237ad4fd38ae30e894d4d6f760"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "bytes": 24753,
+          "rawBytesSha256": "f645a5b221ad70f3369f9ee566f59c393592abe8ccde0384b4d2858890082f25"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+          "bytes": 3162,
+          "rawBytesSha256": "63d6260367301406944b1a84ac708d8fa5114643715f78d7d17c0b50793195ce"
+        },
+        "class": "historical-build-attestation",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/shared-checks.mjs",
+          "bytes": 3382,
+          "rawBytesSha256": "d00fac17e7223baa0a77e2ff2b6c35ae1f3f6f0feae901f0dc2d2da3c69b686e"
+        },
+        "class": "historical-build-attestation",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/temporal.mjs",
+          "bytes": 6292,
+          "rawBytesSha256": "7d9e685a4bf9c7146c23061d3bd062e0a59f98069ab2ea50d49deff13e44804b"
+        },
+        "class": "historical-HTTP-PG-evidence-runner",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+          "bytes": 10312,
+          "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+        },
+        "class": "historical-ui-prepare-or-run",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/ui-run.mjs",
+          "bytes": 9095,
+          "rawBytesSha256": "fd67881ead6df4c431250d642901e53af5e0181ffe8dac1ecd484f2e8e3ce30d"
+        },
+        "class": "historical-ui-prepare-or-run",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+          "bytes": 12858,
+          "rawBytesSha256": "6a5e589c599fdba955e4a53236917b03d27aae5688ddba07663e529490cc3903"
+        },
+        "class": "historical-source-generator",
+        "unchangedLegacyCommandReplaySupported": false
+      },
+      {
+        "source": {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+        },
+        "class": "historical-pure-case-library",
+        "unchangedLegacyCommandReplaySupported": false
+      }
+    ],
+    "owner": "Root /root",
+    "originalDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "exitBefore": "Current-batch G3 or original2026-11-09, whichever occurs first",
+    "noNewLegacyConsumerMirrorAliasLargeCopyOrPrivateRead": true,
+    "supportedExit": "Strict canonical archive identity (logical file,bytes,SHA), immutable snapshots before mapped move; reject conflict/unknown/traversal/absolute/wrong hash/length; never old-active/latest fallback. Actual two manifest/operation projection and four fixture builder modes, deterministic semantic/hash assertions; remove exactly five aliases then rerun successful supported entry and verify canonical/raw historical bytes unchanged.",
+    "oldHardcodedRuntimeScripts": "Remain immutable historical originals, with explicit support replacement and non-runnable-unchanged limitations; no claim all legacy commands replay.",
+    "G3BlockedUntilExitActuallyProven": true
+  },
+  "environmentAndPrivacy": {
+    "onlyNewRootOwnedIsolatedPG15CohortsAndPrivateStateAllowed": true,
+    "oldPG17PrivateKeysCohortsUnreadAndUnchanged": true,
+    "preciseEnvironment": "New poms-r3m PG15.12/volume/databases/role; ports23433->15432,Native13400/13410,Rust13500,UI13600 loopback and pre-bind identity checks. Original92 migration execution owner unchanged.",
+    "reusableCaches": "Hash-verified public toolchain/library/browser/image/cache only; never auth/secret/private original outputs.",
+    "publicOriginalJSONFilesScanned": 47,
+    "sensitiveLiteralFindings": 0,
+    "secretValuesPrinted": false,
+    "evidence": "Private raw auth/SQL originals protected; public redacted derivatives labelled with original hashes; full/failed/partial/uncertified/stopped kept and canonical archive mappings raw exact."
+  },
+  "gateDecision": {
+    "allowedAfterOnlineFreeze": "Root may activate bounded three-author G2 in isolated author worktrees after exact manifest plus supplement01/02/03 and this independent Pass are published/frozen with actual readback. No product execution/acceptance is inferred from this review.",
+    "futureCloseoutTargets": [
+      98,
+      99,
+      100,
+      97,
+      85
+    ],
+    "currentCloseoutAllowed": false,
+    "overall57MustRemainOpen": true,
+    "G3FixedMainArchiveAndActualG4RemainSeparate": true,
+    "newBusinessScopeOrUnforeseenRealGapRequiresCheckpointAndIndependentReview": true,
+    "baselinePendingAndAuthorSourceReadyFlagsAreHistoricalInputLabelsNotEvidenceOfPrematureImplementation": true
+  },
+  "noProductRootExecutorOrGovernanceWriting": true,
+  "noAuthorDefinitionsOrRootExecutorsImportedOrExecuted": true,
+  "noInstallBuildTestDBHTTPBrowserServiceOrWSLExecution": true,
+  "noPrivateRead": true,
+  "noGitMutationOrGitHubExternalWrite": true,
+  "onlyOwnCReviewArtifactsWritten": true,
+  "ownStaticVerifier": {
+    "file": "tmp/rust-r3m/c-review/write-g1-independent-review01.mjs",
+    "bytes": 32359,
+    "rawBytesSha256": "99e2b66cf08b8a3503d373ac999b3f37bcbe815a552073612b6b5b711ce7d45d"
+  },
+  "readableCompanion": {
+    "file": "tmp/rust-r3m/c-review/g1-independent-review01.md",
+    "bytes": 3200,
+    "rawBytesSha256": "88afa09e059d0b62fab9f1512a13bb91b6f8ae82782199f2eedf943dde61d2c4"
+  }
+}

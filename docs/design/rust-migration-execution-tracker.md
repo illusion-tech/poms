@@ -2,10 +2,19 @@
 
 **最后更新**: 2026-11-03
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: R0/R1/R2已交付；R3公共HTTP58/58、#86–96按子片G4 Closed、Rust173操作；#85/#57及完整非HTTP/审批/阶段验收保持Open
+**当前状态**: R0/R1/R2已交付；R3公共HTTP58/58、#86–96按子片G4 Closed、Rust173操作；收口父片#97及三子项#98–100已登记，联合G1准备中；#85/#57保持Open
 **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
+
+2026-11-03 用户授权启动完整 R3 收口批。原生关系为 #85 → [#97](https://github.com/illusion-tech/poms/issues/97) → #98（Lead内部机制）、#99（销售/项目内部链）、#100（交付审计/E1/阶段验收）；总体#57继续Open。当前三线仅做G1输入审计，产品未实施，详见[联合基线候选](rust-r3-closeout-baseline.md)与[当前机器状态](rust-r3-closeout-status.json)。独立联合G1及线上冻结后才进入产品补缺；全部实际阶段验收和独立G3/G4完成才可关闭#85。
+
+| 收口任务          | 负责人       | 状态 | 当前 Gate                                  |
+| ----------------- | ------------ | ---- | ------------------------------------------ |
+| RUST-R3-CO #97    | Root         | Todo | G0已登记，联合G1准备；0新增HTTP            |
+| RUST-R3-CO-A #98  | A            | Todo | Lead/评分覆盖/转换矩阵，禁止冻结前产品实施 |
+| RUST-R3-CO-B #99  | B            | Todo | 客户销售/项目链矩阵及明确补缺候选          |
+| RUST-R3-CO-C #100 | D + Root执行 | Todo | 交付审计、E1退出、统一阶段矩阵             |
 
 2026-10-26 初查尚无 Rust 任务；R0F 按用户授权建立 [总体 #57](https://github.com/illusion-tech/poms/issues/57) → [R0 #58](https://github.com/illusion-tech/poms/issues/58) → [R0F #59](https://github.com/illusion-tech/poms/issues/59) 原生父子关系。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 均已交付；R1E 实现 afbf4ee5 已集成推送，父阶段与子项 G4 随本归档提交及 Issue 同步生效。[lookup 裁决 #61](https://github.com/illusion-tech/poms/issues/61) 及其原生子项当前已 Closed（历次 Todo 描述仅代表原时点）。GitHub 拥有任务状态，本页保留输入与映射。
 

@@ -58,3 +58,10 @@ docs/design/rust-r3hijk/verification/**/*.bin binary
 docs/design/archive/slices/rust-r3hijk/verification/**/*.bin binary
 docs/design/rust-r3hijk/evidence/**/*.bin binary
 docs/design/archive/slices/rust-r3hijk/evidence/**/*.bin binary
+
+# R3 stage closeout inputs and actual observations preserve their original bytes.
+docs/design/rust-r3m/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/archive/slices/rust-r3m/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+tools/rust-r3m/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/rust-r3m/**/*.bin binary
+docs/design/archive/slices/rust-r3m/**/*.bin binary

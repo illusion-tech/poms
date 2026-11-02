@@ -1,0 +1,122 @@
+{
+  "kind": "RUST-R3-CO-D-pure-stage-case-definitions",
+  "version": "01",
+  "status": "G1-input-only-not-executed",
+  "baseline": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "issues": { "stage": 85, "batch": 97, "deliveryAudit": 100, "overallRemainOpen": 57 },
+  "noRunner": true,
+  "noImports": true,
+  "noIOSideEffects": true,
+  "executionOwner": "Root",
+  "acceptanceRule": "Business state, required score snapshot and registered required audit succeed or roll back together. Independent business-number reservations retain their already-approved gap semantics. Historical Node bugs are evidence, not acceptance targets.",
+  "cases": [
+    {
+      "id": "M0-entry58",
+      "stage": "M0",
+      "candidate": "fresh-final-Rust",
+      "definition": "Use the 58 exact method/path/operationId rows in g1-input01.json. Every row has its own successful receipt on the same candidate, real authorized actor, valid body and real target. Reuse a chain receipt only when it proves that exact operation.",
+      "assertions": ["58 distinct operations, no duplicates or substitutions", "Full status and contract response, real persisted graph where applicable", "Create+read-back; changed PATCH+read-back; actual DELETE followed by absence; actual close/reject/revoke/replace/void outcomes", "List/workspace/history receipts use owned nonempty facts. Empty 200 alone does not prove a required producer-consumer chain."],
+      "supplementalBranches": ["CustomerAliasController_delete uses an extra owned alias, then list confirms absence", "LeadController_claimOwner uses an unowned eligible extra Lead", "LeadController_assignOwner records an actual owner change", "LeadController_close uses an extra eligible Lead and confirms closed state", "LeadScoreOverrideController_reject uses a separate pending override", "LeadScoreOverrideController_revoke uses a separate approved override and verifies score fallback", "ProjectController_reassignOwner records an actual reassignment", "SalesFollowUpController_replace and void verify complete lifecycle, versions and Todo state", "All three sales-intelligence PATCH operations perform actual changed updates"]
+    },
+    {
+      "id": "M0-guards",
+      "stage": "M0",
+      "candidate": "fresh-final-Rust",
+      "definition": "For all 58 operations exercise missing session and insufficient route permissions using otherwise valid targets/bodies. Cover the exact all/any policy from each frozen row, and CSRF for every mutating route. Shared expired/revoked/disabled-session and method/URI classes are exercised once per actual shared dispatch path plus every distinct domain adapter, rather than multiplying every historical edge by every route.",
+      "assertions": ["Full error envelope and expected status from the frozen original guard contract", "Denied writes leave the business/snapshot/required-audit graph unchanged", "Wrong HTTP method, colon command dispatch, encoded UUID capture, case and malformed URI follow the established shared entry contract", "Bearer alone does not replace the actual Cookie session", "A business rejection is not counted as a valid operation receipt"]
+    },
+    {
+      "id": "M1-customer-to-score",
+      "stage": "M1",
+      "candidate": "fresh-final-Rust",
+      "definition": "Actual Customer, alias and Contact producers -> actual Lead -> actual stakeholder, competitor and discovery facts -> explicit Lead scoring trigger -> score-history read.",
+      "assertions": ["All IDs and versions come from actual earlier HTTP receipts", "Customer/Lead/Project anchors match UUID identity including uppercase spelling", "I writes do not silently recompute the stored Lead score; the declared explicit trigger does", "System and effective score/rating, gate summary and persisted snapshot fields match the semantic facts", "Query and semantic no-op do not create business versions, snapshots or registered audit"]
+    },
+    {
+      "id": "M1-direct-score-approval",
+      "stage": "M1",
+      "candidate": "fresh-final-Rust",
+      "definition": "Use the existing Lead score submit/approve/reject/revoke routes. Exercise approve+revoke and reject as separate successful branches, active/pending uniqueness, supersession and stale expectedLeadRowVersion/expectedRowVersion.",
+      "assertions": ["This R3 flow is independent of generic ApprovalRecord handlers", "A successful approval changes override and Lead effective score consistently and appends the required snapshot/audit once", "Reject preserves the previous effective score; revoke restores the correct system/remaining effective score", "Repeated or concurrent state transitions do not create a second winner", "No R4 contract or R5 commission producer is required"]
+    },
+    {
+      "id": "M1-conversion-real-attachments",
+      "stage": "M1",
+      "candidate": "fresh-final-Rust",
+      "definition": "Qualify a real Lead, upload owned local bytes through the existing attachment API, convert once, and consume the resulting Project in J/K and the project workspaces.",
+      "assertions": ["Lead.convertedProjectId and Project.sourceLeadId form the correct relationship", "Copied attachment metadata/version/binding and downloaded bytes match the declared copy set", "Original Lead attachments remain correct; excluded attachments are not copied", "Duplicate conversion produces no duplicate Project, attachment binding, snapshot or required audit", "Cloud-provider integration is not inferred from local upload/copy"]
+    },
+    {
+      "id": "M2-project-pricing-history",
+      "stage": "M2",
+      "candidate": "fresh-final-Rust",
+      "definition": "Consume a real current Project in technical-cost, bid-commercial and pricing-margin producers, then list/workspace reads and K timeline/guidance. Cover direct-commercial and bid pricing branches plus a later legal version.",
+      "assertions": ["Decimal money, quantity/unitPrice and tax/rate values are checked against canonical decimal text, not JS-number round trips", "Current/supersedes and child references are consistent and only one current version remains", "Historical rows remain readable without being relabelled as current", "Unchanged deep boundary evidence is cited with source impact analysis rather than counted as rerun", "Future contract/commission/handover facts are explicitly prepared read projections, never claimed as R4/R5 producer delivery"]
+    },
+    {
+      "id": "M2-follow-up-discussion-workspace",
+      "stage": "M2",
+      "candidate": "fresh-final-Rust",
+      "definition": "Use the same real Customer/Lead/Project/Contact and I competitor facts in FollowUp create/replace/void -> real Todo -> BusinessDiscussion -> customer workspace/Project timeline and guidance.",
+      "assertions": ["The most-specific target and actual owner determine the reminder stream", "Replacement and void preserve history and leave the correct Todo lifecycle", "J real relation anchors and K aggregation consume the newly produced facts", "Actual query permissions and sensitive-field projections are checked", "Absent I edit/delete UI and absent J relation-selector UI are not invented coverage"]
+    },
+    {
+      "id": "M3-required-write-rollback",
+      "stage": "M3",
+      "candidate": "fresh-final-Rust",
+      "definition": "Root injects a real failure in each distinct required transaction/flush path: business or dependent child write, score snapshot, registered audit, pending session CAS where enlisted. Cover Lead create/update/owner/qualify/close/convert, score override state transitions, actual changed Customer/Contact/I PATCH, FollowUp lifecycle, J writes and C/D/G version writes as required by their actual call graph.",
+      "assertions": ["Capture exact before/after business graph and necessary dependent rows", "Failure leaves the entire required graph unchanged and the response follows the frozen error contract", "Restore only the owned injected constraint/privilege/lock and retry successfully", "Independent number reservation gaps and independent session touch are recorded separately, not silently folded into business rollback", "Do not demand a new I created audit when the registered contract requires only changed PATCH updated audit"]
+    },
+    {
+      "id": "M3-cas-noop-concurrency",
+      "stage": "M3",
+      "candidate": "fresh-final-Rust",
+      "definition": "Use controlled overlaps, actual rows and fixed expected versions for Customer/Contact/Lead/override/I CAS, same-source FollowUp and distinct-source same-target empty reminder stream; add same-value/no-op PATCH from a different actor and decimal/current-version boundaries.",
+      "assertions": ["Exactly one CAS winner and correct conflict response; loser graph unchanged", "Two independent successful F facts on the same empty target produce one open and one completed Todo for the same owner", "Different owners retain separate allowed open streams", "All required audit/snapshot failures release transactional locks", "updatedBy alone does not manufacture a business change on another actor's equal-value PATCH", "Uppercase UUID spelling does not change legal ownership identity"]
+    },
+    {
+      "id": "M4-four-journeys-four-platform-cells",
+      "stage": "M4",
+      "candidate": "fresh-final-ui-build-plus-final-Rust",
+      "journeys": ["customerJourney", "projectJourney", "leadJourney", "intelligenceDiscussionJourney"],
+      "cells": ["Linux browser -> Linux Native", "Linux browser -> Linux Rust", "Windows browser -> Windows Native", "Windows browser -> Linux Rust"],
+      "definition": "Run all 16 journey/cell combinations after real login with owned actors/cohorts, the canonical pure journey inputs pinned in g1-input01.json and explicit current additions for the date fix. Root supplies actual page/network/DB execution.",
+      "assertions": ["No route mocks, component-state injection or failure fallback", "Check actual request bodies, complete responses and persisted graph", "Use existing visible controls and review the actual screenshots", "Windows browser -> Linux Rust is not Windows-native Rust server certification", "Permission/read-only presentation is preserved; missing controls are stated as absent"]
+    },
+    {
+      "id": "M4-plannedSignAt-nonempty",
+      "stage": "M4",
+      "finding": "D-P2-PLANNED-SIGN-AT-01",
+      "definition": "On each of the four platform cells choose a nonempty date in the original Lead conversion DatePicker and complete a real conversion. Also retain blank/null conversion coverage. Root's bounded UI fix uses Date.toISOString() while other date-only fields stay unchanged.",
+      "assertions": ["Outgoing plannedSignAt is a valid ISO datetime and equals the selected Date.toISOString()", "Actual conversion succeeds and Project response+GET+PG agree on the timestamp", "The UI project date is the selected local calendar date under its declared timezone", "The date-only invalid API payload remains rejected; do not weaken the shared datetime DTO", "The old mocked date-only expectation is replaced with a meaningful serialized-request assertion"]
+    },
+    {
+      "id": "M5-e1-strict-resolver",
+      "stage": "M5",
+      "candidate": "fresh-supported-tools",
+      "definition": "The new supported entry resolves historical (file,bytes,SHA256) identities through the canonical archive maps, including immutable snapshots, without the five active aliases.",
+      "assertions": ["All five exact pins resolve to their canonical originals", "Wrong hash/length, unknown identity, traversal, absolute path or conflicting map entries fail closed", "No fallback to an active old-path file or silently newest version", "Two identities with the same logical path but distinct hashes resolve only to their explicitly pinned originals", "Archive maps and original historical scripts retain their bytes"]
+    },
+    {
+      "id": "M5-e1-representative-actual-replay",
+      "stage": "M5",
+      "candidate": "fresh-supported-tools",
+      "definition": "Root actually invokes the supported entry to read and verify both G1/native manifests and the frozen operation projection; load the two hash-verified canonical pure fixture modules and execute cost, direct-pricing, bid-pricing and bid-with-children builders using explicit test IDs; compare deterministic semantic results and stable output hashes.",
+      "assertions": ["Five aliases have been removed and stay absent before and after replay", "Representative results come from actual calls, not text matching or a dry-run plan", "Actual module dependency closure uses canonical paths", "23 legacy direct consumers have an explicit historical-only/support-replacement classification", "Legacy runtime scripts are not advertised as runnable unchanged and no old private is read", "No mirror tree or newly retained compatibility alias is introduced"]
+    },
+    {
+      "id": "M5-source-build-contract-integrity",
+      "stage": "M5",
+      "candidate": "fresh-final-Rust-and-ui",
+      "definition": "Root binds final source manifest, locked/offline fmt/clippy/test/release outputs, current Rust runtime OpenAPI, frontend lint/unit/production build, full Native spec/client/migrations and the declared two-file UI delta.",
+      "assertions": ["Rust173 operations/138 paths/585 schemas and exact R3 method/path/operationId projection", "Native237 paths/291 operations/585 schemas;579 generated client files;92 migrations unchanged", "Every inherited or changed source has an explicit impact/reuse decision", "53 DB opt-in tests stay distinct from 1 child fixture; default ignored is never relabelled pass", "Original known schema check/comment drift is classified with no proposed DDL executed"]
+    },
+    {
+      "id": "M5-terminal-and-gates",
+      "stage": "M5",
+      "candidate": "fresh-owned-environment",
+      "definition": "Root restores the full owned data graph, privileges, logging and seed state, performs a second zero-change cleanup, stops owned runtimes/ports/PG and preserves the new volume/private original logs. Independent G3, fixed commit, main integration and actual G4 remain separate gates.",
+      "assertions": ["Failed/partial/stopped/uncertified runs remain in the ledger with real labels", "No old private/PG17 reads or mutations", "E1 exits before this batch G3 and deadline2026-11-09 is not extended", "Close85 only after all actual stage/G3/G4 conditions;57 stays Open", "This G1 input certifies no executed acceptance or independent review"]
+    }
+  ]
+}
