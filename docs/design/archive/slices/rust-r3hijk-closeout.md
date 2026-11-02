@@ -17,3 +17,8 @@
 ## 实际线上 G4
 
 [#93 G4](https://github.com/illusion-tech/poms/issues/93#issuecomment-6587329362)、[#94 G4](https://github.com/illusion-tech/poms/issues/94#issuecomment-6587333500)、[#95 G4](https://github.com/illusion-tech/poms/issues/95#issuecomment-6587337989)、[#96 G4](https://github.com/illusion-tech/poms/issues/96#issuecomment-6587342179) 已Closed，[六项原始回执](rust-r3hijk/g4-online-receipt01.json)核正文和评论与[批准方案](rust-r3hijk/g4-plan01/plan01.json)逐字节相同，四子项6/6、父85/57 Open。当前HTTP58/58并不认证完整R3，最后独立实际读回审查另附。
+
+
+## 独立实际 G4 完成
+
+[非作者实际终审](rust-r3hijk/C/g4-independent-actual-review01.json)已Pass，22353 B，SHA256 `ec540fc8c69a3a2030f0d704e6c591ef4b4123f465481557a5781bf6457a6c25`。四子项Closed和六项正文/评论、父85/57 Open、当前58/173与latestClosedBatch28、main及原件增量保全均已独立核验。仅本批28项完成G4，完整R3阶段未认证。
