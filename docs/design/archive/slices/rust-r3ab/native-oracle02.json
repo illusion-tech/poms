@@ -1,0 +1,1723 @@
+{
+  "kind": "R3AB-original-Native-actual-numbering-and-pending-session-supplement",
+  "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+  "createdAt": "2026-11-01T22:07:27.415Z",
+  "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+  "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+  "database": "poms_r3ab_nest",
+  "sourceReport01": {
+    "file": "/home/wangzishi/projects/poms-rust-r3ab/tmp/rust-r3ab/native-witness01/report01.json",
+    "bytes": 79509,
+    "rawBytesSha256": "7749ebca7057926bed67419aa996053b93e6f49ce5b319a7f914d55c43e04add"
+  },
+  "cases": [
+    {
+      "name": "project-create-insert-denied",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "HTTP": {
+        "status": 500,
+        "body": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "setCookie": [],
+        "requestId": "aa71f932-4c00-4673-9c91-099008ebab25"
+      },
+      "counterBefore": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 5
+        },
+        {
+          "scope": "project",
+          "period": "2026",
+          "next_value": 2
+        }
+      ],
+      "counterAfter": [
+        {
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 5
+        },
+        {
+          "scope": "project",
+          "period": "2026",
+          "next_value": 3
+        }
+      ],
+      "projectCount": 0
+    },
+    {
+      "name": "customer-change-pending-session",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 3,
+          "createdAt": "2026-11-01T22:01:08.947Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:07:27.140Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "ownerName": "R3AB actor",
+          "ownerOrgName": "R3AB actor",
+          "leadCount": 0,
+          "projectCount": 1,
+          "contractCount": 0,
+          "aliases": [
+            {
+              "id": "2baa7c22-0bf3-4196-9d8c-bd3586a9c444",
+              "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+              "aliasName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "normalizedName": "r3ab 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "isPrimary": true,
+              "createdAt": "2026-11-01T22:01:08.947Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+            }
+          ]
+        },
+        "setCookie": [],
+        "requestId": "827c5c92-ee95-4a63-84ac-5167540bc0eb"
+      },
+      "before": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:01:09.718+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 2,
+        "display_name": "R3AB concurrent left 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "after": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:07:27.14+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 3,
+        "display_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "pendingSessionForced": true
+    },
+    {
+      "name": "customer-noop-pending-session",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "074fe06e-6ae5-4422-844b-a328d0aec341",
+          "ownerUserId": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 3,
+          "createdAt": "2026-11-01T22:01:08.947Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:07:27.140Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "ownerName": "R3AB actor",
+          "ownerOrgName": "R3AB actor",
+          "leadCount": 0,
+          "projectCount": 1,
+          "contractCount": 0,
+          "aliases": [
+            {
+              "id": "2baa7c22-0bf3-4196-9d8c-bd3586a9c444",
+              "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+              "aliasName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "normalizedName": "r3ab 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "isPrimary": true,
+              "createdAt": "2026-11-01T22:01:08.947Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+            }
+          ]
+        },
+        "setCookie": [],
+        "requestId": "03cae866-107c-43fe-8575-77c0551f6a4a"
+      },
+      "before": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:07:27.14+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 3,
+        "display_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "after": {
+        "id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "remark": null,
+        "status": "active",
+        "created_at": "2026-11-02T06:01:08.947+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "legal_name": null,
+        "short_name": null,
+        "updated_at": "2026-11-02T06:07:27.14+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_no": "CUST-2026-000003",
+        "row_version": 3,
+        "display_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_org_id": "074fe06e-6ae5-4422-844b-a328d0aec341",
+        "owner_user_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "source_channel": null,
+        "merged_into_customer_id": null
+      },
+      "pendingSessionForced": true
+    },
+    {
+      "name": "project-change-pending-session",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "projectNo": "PRJ-2026-000001",
+          "projectName": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "sourceLeadId": null,
+          "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": null,
+          "ownerUserId": "89a341af-a198-46d2-9155-36a24b3bf865",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 5,
+          "createdAt": "2026-11-01T22:01:09.393Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:07:27.223Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        },
+        "setCookie": [],
+        "requestId": "8623e4d7-8384-4976-9a12-a20c3678f830"
+      },
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:01:09.82+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 4,
+        "owner_org_id": null,
+        "project_name": "R3AB concurrent left 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:07:27.223+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 5,
+        "owner_org_id": null,
+        "project_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "pendingSessionForced": true
+    },
+    {
+      "name": "project-noop-pending-session",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "HTTP": {
+        "status": 200,
+        "body": {
+          "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+          "projectNo": "PRJ-2026-000001",
+          "projectName": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "sourceLeadId": null,
+          "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+          "customerName": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": null,
+          "ownerUserId": "89a341af-a198-46d2-9155-36a24b3bf865",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 5,
+          "createdAt": "2026-11-01T22:01:09.393Z",
+          "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+          "updatedAt": "2026-11-01T22:07:27.223Z",
+          "updatedBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4"
+        },
+        "setCookie": [],
+        "requestId": "2182049a-8346-4aa6-a732-f402fbf1cb84"
+      },
+      "before": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:07:27.223+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 5,
+        "owner_org_id": null,
+        "project_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:07:27.223+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 5,
+        "owner_org_id": null,
+        "project_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      },
+      "pendingSessionForced": true
+    },
+    {
+      "name": "project-valid-stale-version",
+      "runId": "1f90e9b9-a535-4b71-9909-3d03afc4b478",
+      "HTTP": {
+        "status": 409,
+        "body": {
+          "message": "project version 1 does not match current version 5",
+          "error": "Conflict",
+          "statusCode": 409
+        },
+        "setCookie": [],
+        "requestId": "5fee3fe3-4d4f-4e62-9ac4-21075366a20a"
+      },
+      "after": {
+        "id": "1c0aa3c7-4863-44a4-b3a7-669bad4b3cd6",
+        "status": "active",
+        "closed_at": null,
+        "created_at": "2026-11-02T06:01:09.393+08:00",
+        "created_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "project_no": "PRJ-2026-000001",
+        "updated_at": "2026-11-02T06:07:27.223+08:00",
+        "updated_by": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+        "customer_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "row_version": 5,
+        "owner_org_id": null,
+        "project_name": "R3AB pending changed 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "closed_reason": null,
+        "current_stage": "assessment",
+        "customer_name": "R3AB 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+        "owner_user_id": "89a341af-a198-46d2-9155-36a24b3bf865",
+        "source_lead_id": null,
+        "planned_sign_at": null,
+        "customer_project_no": null
+      }
+    }
+  ],
+  "caseCount": 6,
+  "sqlCasesIncludingMultiline": {
+    "customer-create": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "79",
+        "sql": "insert into \"poms\".\"business_number_sequence\"\n\t                    (\"scope\", \"period\", \"next_value\", \"prefix\", \"padding\", \"description\", \"created_at\", \"updated_at\")\n\t                values ('<literal>', '<literal>', 2, '<literal>', 6, '<literal>', now(), now())\n\t                on conflict (\"scope\", \"period\")\n\t                do update set\n\t                    \"next_value\" = \"poms\".\"business_number_sequence\".\"next_value\" + 1,\n\t                    \"prefix\" = excluded.\"prefix\",\n\t                    \"padding\" = excluded.\"padding\",\n\t                    \"description\" = excluded.\"description\",\n\t                    \"updated_at\" = now()\n\t                returning \"next_value\" - 1 as \"sequence_value\";"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer\" (\"id\", \"customer_no\", \"display_name\", \"legal_name\", \"short_name\", \"status\", \"owner_org_id\", \"owner_user_id\", \"source_channel\", \"remark\", \"merged_into_customer_id\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', '<literal>', null, null, '<literal>', '<literal>', '<literal>', null, null, null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', true, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 2 returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "commit"
+      }
+    ],
+    "alias-create": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', false, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "commit"
+      }
+    ],
+    "alias-delete": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 4 returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "commit"
+      }
+    ],
+    "alias-delete-audit-denied": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "rollback"
+      }
+    ],
+    "alias-delete-delete-denied": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "rollback"
+      }
+    ],
+    "customer-create-alias-denied": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "begin"
+      },
+      {
+        "pid": "79",
+        "sql": "insert into \"poms\".\"business_number_sequence\"\n\t                    (\"scope\", \"period\", \"next_value\", \"prefix\", \"padding\", \"description\", \"created_at\", \"updated_at\")\n\t                values ('<literal>', '<literal>', 2, '<literal>', 6, '<literal>', now(), now())\n\t                on conflict (\"scope\", \"period\")\n\t                do update set\n\t                    \"next_value\" = \"poms\".\"business_number_sequence\".\"next_value\" + 1,\n\t                    \"prefix\" = excluded.\"prefix\",\n\t                    \"padding\" = excluded.\"padding\",\n\t                    \"description\" = excluded.\"description\",\n\t                    \"updated_at\" = now()\n\t                returning \"next_value\" - 1 as \"sequence_value\";"
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer\" (\"id\", \"customer_no\", \"display_name\", \"legal_name\", \"short_name\", \"status\", \"owner_org_id\", \"owner_user_id\", \"source_channel\", \"remark\", \"merged_into_customer_id\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', '<literal>', null, null, '<literal>', '<literal>', '<literal>', null, null, null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"row_version\""
+      },
+      {
+        "pid": "80",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', true, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "80",
+        "sql": "rollback"
+      }
+    ],
+    "customer-noop": [
+      {
+        "pid": "80",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "80",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"lead\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "79",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"project\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "78",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"customer_id\" = '<literal>' order by \"c0\".\"is_primary\" desc, \"c0\".\"created_at\" asc"
+      },
+      {
+        "pid": "82",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "81",
+        "sql": "select project.\"customer_id\", count(contract.\"id\")::int as \"count\"\n\t                from \"poms\".\"contract\" contract\n\t                inner join \"poms\".\"project\" project on project.\"id\" = contract.\"project_id\"\n\t                where project.\"customer_id\" in ('<literal>')\n\t                group by project.\"customer_id\""
+      },
+      {
+        "pid": "83",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" in ('<literal>')"
+      }
+    ],
+    "customer-owner-missing-after-name": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "customer-alias-duplicate": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"customer_alias\" (\"customer_id\", \"alias_name\", \"alias_type\", \"normalized_name\", \"is_primary\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', false, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "83",
+        "sql": "rollback"
+      }
+    ],
+    "project-create": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "81",
+        "sql": "insert into \"poms\".\"business_number_sequence\"\n\t                    (\"scope\", \"period\", \"next_value\", \"prefix\", \"padding\", \"description\", \"created_at\", \"updated_at\")\n\t                values ('<literal>', '<literal>', 2, '<literal>', 6, '<literal>', now(), now())\n\t                on conflict (\"scope\", \"period\")\n\t                do update set\n\t                    \"next_value\" = \"poms\".\"business_number_sequence\".\"next_value\" + 1,\n\t                    \"prefix\" = excluded.\"prefix\",\n\t                    \"padding\" = excluded.\"padding\",\n\t                    \"description\" = excluded.\"description\",\n\t                    \"updated_at\" = now()\n\t                returning \"next_value\" - 1 as \"sequence_value\";"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"project\" (\"project_no\", \"project_name\", \"source_lead_id\", \"customer_id\", \"customer_name\", \"customer_project_no\", \"status\", \"current_stage\", \"owner_org_id\", \"owner_user_id\", \"planned_sign_at\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', null, '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"id\", \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 6 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      }
+    ],
+    "project-noop": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "project-name-missing-customer": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "project-reassign-owner": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"project_owner_reassignment_record\" (\"id\", \"project_id\", \"previous_owner_org_id\", \"previous_owner_user_id\", \"new_owner_org_id\", \"new_owner_user_id\", \"reason\", \"reassigned_at\", \"reassigned_by\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 8 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"project\" set \"owner_org_id\" = '<literal>', \"owner_user_id\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 1 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      }
+    ],
+    "project-reassign-same-owner": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" = '<literal>' limit 1"
+      }
+    ],
+    "project-reassign-stale-version": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      }
+    ],
+    "project-reassign-noorg": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"project_owner_reassignment_record\" (\"id\", \"project_id\", \"previous_owner_org_id\", \"previous_owner_user_id\", \"new_owner_org_id\", \"new_owner_user_id\", \"reason\", \"reassigned_at\", \"reassigned_by\", \"created_at\", \"created_by\") values ('<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"project\" set \"owner_org_id\" = null, \"owner_user_id\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 2 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      }
+    ],
+    "customer-concurrent-update": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "81",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "81",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"customer\" set \"display_name\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 1 returning \"row_version\""
+      },
+      {
+        "pid": "81",
+        "sql": "update \"poms\".\"customer\" set \"display_name\" = '<literal>', \"updated_by\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 1 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"lead\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "79",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"project\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "82",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "78",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"customer_id\" = '<literal>' order by \"c0\".\"is_primary\" desc, \"c0\".\"created_at\" asc"
+      },
+      {
+        "pid": "80",
+        "sql": "select project.\"customer_id\", count(contract.\"id\")::int as \"count\"\n\t                from \"poms\".\"contract\" contract\n\t                inner join \"poms\".\"project\" project on project.\"id\" = contract.\"project_id\"\n\t                where project.\"customer_id\" in ('<literal>')\n\t                group by project.\"customer_id\""
+      },
+      {
+        "pid": "81",
+        "sql": "rollback"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" in ('<literal>')"
+      }
+    ],
+    "project-concurrent-update": [
+      {
+        "pid": "85",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "85",
+        "sql": "update \"poms\".\"project\" set \"project_name\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 3 returning \"row_version\""
+      },
+      {
+        "pid": "83",
+        "sql": "update \"poms\".\"project\" set \"project_name\" = '<literal>', \"updated_by\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 3 returning \"row_version\""
+      },
+      {
+        "pid": "85",
+        "sql": "commit"
+      },
+      {
+        "pid": "83",
+        "sql": "rollback"
+      }
+    ],
+    "alias-concurrent-delete": [
+      {
+        "pid": "83",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "83",
+        "sql": "begin"
+      },
+      {
+        "pid": "85",
+        "sql": "begin"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "85",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "83",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "85",
+        "sql": "insert into \"poms\".\"audit_log\" (\"event_type\", \"target_type\", \"target_id\", \"operator_id\", \"request_id\", \"result\", \"reason\", \"before_snapshot\", \"after_snapshot\", \"metadata\", \"occurred_at\") values ('<literal>', '<literal>', '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', null, '<literal>', '<literal>') returning \"id\""
+      },
+      {
+        "pid": "83",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "85",
+        "sql": "delete from \"poms\".\"customer_alias\" where \"id\" in ('<literal>')"
+      },
+      {
+        "pid": "83",
+        "sql": "commit"
+      },
+      {
+        "pid": "85",
+        "sql": "commit"
+      }
+    ],
+    "project-create-insert-denied": [
+      {
+        "pid": "115",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "115",
+        "sql": "begin"
+      },
+      {
+        "pid": "118",
+        "sql": "insert into \"poms\".\"business_number_sequence\"\n\t                    (\"scope\", \"period\", \"next_value\", \"prefix\", \"padding\", \"description\", \"created_at\", \"updated_at\")\n\t                values ('<literal>', '<literal>', 2, '<literal>', 6, '<literal>', now(), now())\n\t                on conflict (\"scope\", \"period\")\n\t                do update set\n\t                    \"next_value\" = \"poms\".\"business_number_sequence\".\"next_value\" + 1,\n\t                    \"prefix\" = excluded.\"prefix\",\n\t                    \"padding\" = excluded.\"padding\",\n\t                    \"description\" = excluded.\"description\",\n\t                    \"updated_at\" = now()\n\t                returning \"next_value\" - 1 as \"sequence_value\";"
+      },
+      {
+        "pid": "115",
+        "sql": "insert into \"poms\".\"project\" (\"project_no\", \"project_name\", \"source_lead_id\", \"customer_id\", \"customer_name\", \"customer_project_no\", \"status\", \"current_stage\", \"owner_org_id\", \"owner_user_id\", \"planned_sign_at\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('<literal>', '<literal>', null, '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>', null, '<literal>', '<literal>', '<literal>', '<literal>') returning \"id\", \"row_version\""
+      },
+      {
+        "pid": "115",
+        "sql": "rollback"
+      }
+    ],
+    "customer-change-pending-session": [
+      {
+        "pid": "115",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "115",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "115",
+        "sql": "begin"
+      },
+      {
+        "pid": "115",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 2 returning \"row_version\""
+      },
+      {
+        "pid": "115",
+        "sql": "update \"poms\".\"customer\" set \"display_name\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 2 returning \"row_version\""
+      },
+      {
+        "pid": "115",
+        "sql": "commit"
+      },
+      {
+        "pid": "115",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"lead\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "118",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"project\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "117",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"customer_id\" = '<literal>' order by \"c0\".\"is_primary\" desc, \"c0\".\"created_at\" asc"
+      },
+      {
+        "pid": "116",
+        "sql": "select project.\"customer_id\", count(contract.\"id\")::int as \"count\"\n\t                from \"poms\".\"contract\" contract\n\t                inner join \"poms\".\"project\" project on project.\"id\" = contract.\"project_id\"\n\t                where project.\"customer_id\" in ('<literal>')\n\t                group by project.\"customer_id\""
+      },
+      {
+        "pid": "114",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" in ('<literal>')"
+      }
+    ],
+    "customer-noop-pending-session": [
+      {
+        "pid": "119",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "119",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"c0\".* from \"poms\".\"customer\" as \"c0\" where \"c0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "119",
+        "sql": "begin"
+      },
+      {
+        "pid": "119",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 4 returning \"row_version\""
+      },
+      {
+        "pid": "119",
+        "sql": "commit"
+      },
+      {
+        "pid": "119",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"lead\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "115",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "118",
+        "sql": "select project.\"customer_id\", count(contract.\"id\")::int as \"count\"\n\t                from \"poms\".\"contract\" contract\n\t                inner join \"poms\".\"project\" project on project.\"id\" = contract.\"project_id\"\n\t                where project.\"customer_id\" in ('<literal>')\n\t                group by project.\"customer_id\""
+      },
+      {
+        "pid": "116",
+        "sql": "select \"customer_id\", count(*)::int as \"count\" from \"poms\".\"project\" where \"customer_id\" in ('<literal>') group by \"customer_id\""
+      },
+      {
+        "pid": "117",
+        "sql": "select \"c0\".* from \"poms\".\"customer_alias\" as \"c0\" where \"c0\".\"customer_id\" = '<literal>' order by \"c0\".\"is_primary\" desc, \"c0\".\"created_at\" asc"
+      },
+      {
+        "pid": "114",
+        "sql": "select \"o0\".* from \"poms\".\"org_unit\" as \"o0\" where \"o0\".\"id\" in ('<literal>')"
+      }
+    ],
+    "project-change-pending-session": [
+      {
+        "pid": "118",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "118",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "begin"
+      },
+      {
+        "pid": "118",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 6 returning \"row_version\""
+      },
+      {
+        "pid": "118",
+        "sql": "update \"poms\".\"project\" set \"project_name\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 4 returning \"row_version\""
+      },
+      {
+        "pid": "118",
+        "sql": "commit"
+      }
+    ],
+    "project-noop-pending-session": [
+      {
+        "pid": "118",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "118",
+        "sql": "update \"poms\".\"auth_session\"\n\t                set\n\t                    \"last_seen_at\" = '<literal>',\n\t                    \"last_ip\" = coalesce('<literal>', \"last_ip\"),\n\t                    \"idle_expires_at\" = least('<literal>', \"absolute_expires_at\"),\n\t                    \"row_version\" = \"row_version\" + 1,\n\t                    \"updated_at\" = '<literal>'\n\t                where\n\t                    \"id\" = '<literal>'\n\t                    and \"status\" = '<literal>'\n\t                    and \"last_seen_at\" <= '<literal>'\n\t                    and \"idle_expires_at\" > '<literal>'\n\t                    and \"absolute_expires_at\" > '<literal>'\n\t                returning\n\t                    \"last_seen_at\" as \"lastSeenAt\",\n\t                    \"last_ip\" as \"lastIp\",\n\t                    \"idle_expires_at\" as \"idleExpiresAt\",\n\t                    \"row_version\" as \"rowVersion\",\n\t                    \"updated_at\" as \"updatedAt\";"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "begin"
+      },
+      {
+        "pid": "118",
+        "sql": "update \"poms\".\"auth_session\" set \"idle_expires_at\" = '<literal>', \"last_seen_at\" = '<literal>', \"updated_at\" = '<literal>', \"row_version\" = \"row_version\" + 1 where \"id\" = '<literal>' and \"row_version\" = 8 returning \"row_version\""
+      },
+      {
+        "pid": "118",
+        "sql": "commit"
+      }
+    ],
+    "project-valid-stale-version": [
+      {
+        "pid": "118",
+        "sql": "select \"a0\".* from \"poms\".\"auth_session\" as \"a0\" where \"a0\".\"token_hash\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"platform_user\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"u0\".* from \"poms\".\"user_role_assignment\" as \"u0\" where \"u0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"role\" as \"p0\" where \"p0\".\"id\" in ('<literal>')"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"r0\".* from \"poms\".\"role_permission_assignment\" as \"r0\" where \"r0\".\"status\" = '<literal>'"
+      },
+      {
+        "pid": "118",
+        "sql": "select \"p0\".* from \"poms\".\"project\" as \"p0\" where \"p0\".\"id\" = '<literal>' limit 1"
+      }
+    ]
+  },
+  "auditPredicateCorrection": {
+    "sourceBug": "Report01 measured target_id=aliasId and returned irrelevant zero; original events target customerId and beforeSnapshot.aliasId",
+    "correctedResults": [
+      {
+        "aliasId": "0bf9208b-97c2-4832-b0bf-15dd979dc976",
+        "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "auditCount": 1,
+        "audits": [
+          {
+            "id": "bc601663-a5f1-4bba-9975-e873b92a3940",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+            "event_type": "customer.alias.deleted",
+            "request_id": "2af9a3c5-b054-4ae4-bc55-74647136abcc",
+            "occurred_at": "2026-11-02T06:01:09.048+08:00",
+            "operator_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "0bf9208b-97c2-4832-b0bf-15dd979dc976",
+              "aliasName": "R3AB ordinary 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T22:01:09.004Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+              "isPrimary": false,
+              "normalizedName": "r3ab ordinary 1f90e9b9-a535-4b71-9909-3d03afc4b478"
+            }
+          }
+        ]
+      },
+      {
+        "aliasId": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+        "customerId": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+        "auditCount": 2,
+        "audits": [
+          {
+            "id": "0d8bd153-aef5-426e-8fa0-3e2cdb58a5b7",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+            "event_type": "customer.alias.deleted",
+            "request_id": "458d2041-a05e-4492-984c-34614fcc0f6a",
+            "occurred_at": "2026-11-02T06:01:09.888+08:00",
+            "operator_id": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+              "aliasName": "R3AB fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T22:01:09.094Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+              "isPrimary": false,
+              "normalizedName": "r3ab fault 1f90e9b9-a535-4b71-9909-3d03afc4b478"
+            }
+          },
+          {
+            "id": "8aa896ef-6dd8-4348-9967-29e06b9788b9",
+            "reason": null,
+            "result": "success",
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "target_id": "2cac8a97-f9c4-4384-9038-35404a71a6b7",
+            "event_type": "customer.alias.deleted",
+            "request_id": "1ebf7018-b938-4f61-96c7-ee3bbabdf57b",
+            "occurred_at": "2026-11-02T06:01:09.891+08:00",
+            "operator_id": "ae974b4d-0d50-4ea5-b9d0-dea210c66bcd",
+            "target_type": "customer",
+            "after_snapshot": null,
+            "before_snapshot": {
+              "aliasId": "46d0ec2e-f26b-4a21-b26b-4e6b4c3b91e8",
+              "aliasName": "R3AB fault 1f90e9b9-a535-4b71-9909-3d03afc4b478",
+              "aliasType": "alias",
+              "createdAt": "2026-11-01T22:01:09.094Z",
+              "createdBy": "fef9b24f-e7f6-458d-87a9-e941f41c86d4",
+              "isPrimary": false,
+              "normalizedName": "r3ab fault 1f90e9b9-a535-4b71-9909-3d03afc4b478"
+            }
+          }
+        ]
+      }
+    ],
+    "original01Unchanged": true
+  },
+  "numberingSource": {
+    "file": "/home/wangzishi/projects/poms-rust-r3ab/apps/poms-api/src/app/features/business-number/business-number.service.ts",
+    "bytes": 2963,
+    "rawBytesSha256": "db909a59bb9f70d8e6637c6097958ae9ad56ed3afd2c3389a0bafb1aa88657df"
+  },
+  "privateRawTrace02": {
+    "bytes": 128763,
+    "rawBytesSha256": "ce3e285b50131840baefadc62612e14859ad5e48f2101e0b90782bdbe0edf0ec",
+    "parametersNotPublished": true
+  },
+  "result": "Actual-observations-not-G3-G4",
+  "cleanup": "Pending-same-owned-run-terminal-reconciliation",
+  "G3Certified": false,
+  "G4Certified": false
+}

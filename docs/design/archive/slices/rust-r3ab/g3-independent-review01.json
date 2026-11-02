@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-joint-independent-C-G3-decision",
+  "createdAtUtc": "2026-11-02T01:21:32.741Z",
+  "result": "Pass",
+  "G3Certified": true,
+  "G4Certified": false,
+  "G4": "Pending",
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "modelConfiguredByParent": "gpt-6.1-sol",
+    "reasoningEffortConfiguredByParent": "max",
+    "Fast": "not verified",
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "worktree": "E:/projects/worktrees/poms-r3ab-customer-project/poms",
+    "branch": "codex/poms-r3ab-customer-project",
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "sliceType": "cross-layer-high-risk",
+    "mode": "solo-worktree",
+    "issues": {
+      "A": 86,
+      "B": 87,
+      "parent": 85,
+      "overall": 57
+    },
+    "operations": {
+      "customerAlias": 8,
+      "projectFoundation": 6,
+      "joint": 14,
+      "R3Total": 58,
+      "later": 44
+    },
+    "reviewedStage": "Complete pre-commit implementation and actual acceptance candidate; fixed-commit/main/G4 review remains separate."
+  },
+  "decision": {
+    "mayCommitImplementation": true,
+    "mayPushImplementationBranch": true,
+    "mayMarkDone": false,
+    "mayCloseIssues": false,
+    "mainIntegrationCertified": false,
+    "mainIntegrationPendingFixedCommitReview": true,
+    "currentR3DeliveredBeforeG4": 0,
+    "onlyAfterActualG4MayCount": 14,
+    "keepOpen": [
+      85,
+      57
+    ],
+    "eventuallyCloseOnly": [
+      86,
+      87
+    ],
+    "reason": "The joint14-operation source, route/DTO/spec authority, actual API/PG/browser acceptance, classified drift, environment terminal and byte preservation satisfy G3. Immutable commit identity, actual main integration, lifecycle archive and online closure are not yet completed."
+  },
+  "authorities": {
+    "master": {
+      "file": "docs/design/rust-r3ab-customer-project-baseline.md",
+      "bytes": 12207,
+      "rawBytesSha256": "76cd99518de54967098c1c0ac720d18d07887af9a92731a134380a39ca95af85"
+    },
+    "manifest02": {
+      "file": "docs/design/rust-r3ab/g1-input-manifest02.json",
+      "bytes": 184081,
+      "rawBytesSha256": "c3dd258f06e828e274ce34fea22c54fe1f91efdedc4648084d14b573dd5f6359"
+    },
+    "C_G1": {
+      "file": "tmp/rust-r3ab/c-review/g1-independent-review02.json",
+      "rawBytesSha256": "d01c7db0b92809254bf4f0437c602f04fdff5dd4837a20060162d0cd68383468"
+    },
+    "numberingCorrective": {
+      "file": "docs/design/rust-r3ab-numbering-corrective-checkpoint.md",
+      "bytes": 5288,
+      "rawBytesSha256": "4fda3a1a3f1c71f19b818c013f74cb3f3063f312ca8c0df12eca5a3bcb674783"
+    },
+    "C_corrective": {
+      "file": "tmp/rust-r3ab/c-review/corrective-review01.json",
+      "bytes": 12186,
+      "rawBytesSha256": "a4f937f5c1b64a9ce1789efb8006ceebb6f9e9690608ffb73594e76f01241533"
+    },
+    "acceptance": {
+      "file": "docs/design/rust-r3ab/acceptance-evidence01.json",
+      "bytes": 37171,
+      "rawBytesSha256": "2ab9e448ed8c40389e2672b0db0de34c9ff29fb61433bc6bf1cafdd828d07d14"
+    },
+    "checkpoint": {
+      "file": "docs/design/rust-r3ab-g3-checkpoint.md",
+      "bytes": 6037,
+      "rawBytesSha256": "4b991f98bbbc8336a904de65ea10de428baf38f6dce0cff03d8c868738df6de8"
+    },
+    "sourceAndFormat": {
+      "file": "docs/design/rust-r3ab/source-and-format-proof01.json",
+      "bytes": 16415,
+      "rawBytesSha256": "ad05f840450e0730494f105ef2c65a3a0c4fa9a74094ae3bbd6dd6a1ba6d7504"
+    },
+    "C_publicVerification": {
+      "file": "tmp/rust-r3ab/c-review/g3-public-verification01.json",
+      "bytes": 7998,
+      "rawBytesSha256": "dc14c646d1173316cf99b04235d2efdec06694fe8763d2307f9adcc8c22ff0e1"
+    },
+    "C_verifier": {
+      "file": "tmp/rust-r3ab/c-review/g3-public-verifier01.mjs",
+      "bytes": 20321,
+      "rawBytesSha256": "3109008c97c18f2e5d548b9de611e9df455d36ad9057593ababdaf7d70788616"
+    },
+    "ignoredPreservation": {
+      "file": "tmp/rust-r3ab/root/primary-preservation01.json",
+      "bytes": 139516,
+      "rawBytesSha256": "415f25d9614390b097903b513660260de2b21a59ceec5762134fbf4372fcbe6a"
+    }
+  },
+  "reusedIndependentReviews": [
+    {
+      "file": "tmp/rust-r3ab/c-review/api-pg-scoped-review01.json",
+      "rawBytesSha256": "d857cb17365e9a5438dbb933fbe82d7efd1d6e104b7afec46780191625dc2243",
+      "applies": "15 production-source semantics, OpenAPI authority, actual263+34 pure read-only comparison replay and selected actual audit review"
+    },
+    {
+      "file": "tmp/rust-r3ab/c-review/api-pg-scoped-review02.json",
+      "rawBytesSha256": "3a1e254b2116d321c2951bf29b166779a431927fdbc715e48e20843c529a1216",
+      "applies": "API-PG-C-003 closed by bounded existing socket-IP representation evidence"
+    },
+    {
+      "file": "tmp/rust-r3ab/c-review/api-pg-scoped-review03.json",
+      "rawBytesSha256": "8ff3ce848db991c3870d86384c670d0678a248303a87a4d3a30117cab531bcb2",
+      "applies": "unchanged15 sources, API05-original snapshots versus UI-only edits and seven external write/concurrency cases per backend; its two remaining coverage items are closed below"
+    }
+  ],
+  "independentVerification": {
+    "command": "node tmp/rust-r3ab/c-review/g3-public-verifier01.mjs",
+    "exitCode": 0,
+    "kind": "Pure saved-public-data verification and read-only Git inspection",
+    "publicFilesHashed": 2508,
+    "frozenFormalInputs": 12,
+    "frozenNativeInputs": 872,
+    "allRawHashAndLengthEqual": true,
+    "productionSources": 15,
+    "allEqualPreviouslyReviewedCSourcePins": true,
+    "productionPinAuthority": "acceptance-evidence01.productionSources",
+    "stagedRawProductionToolAndFormalInputFiles": 63,
+    "allWorkingAndIndexRawHashesEqual": true,
+    "archiveOriginalPairs": 46,
+    "allSourceAndArchiveRawBytesEqual": true,
+    "originalGeneratedInputsAndOutputRawMembers": 584,
+    "allCurrentRawBytesMatchActualClient03": true,
+    "gitAttributePaths": 585,
+    "workingIndexAndOriginalFrozenSourceAttributesEqual": true,
+    "publicOriginalsAndOwnVerifierOnly": true,
+    "noAuthorPassFlagAcceptedAsSufficientProof": true,
+    "noAdditionalRuntimeExecution": true
+  },
+  "implementationAssessment": {
+    "result": "Pass",
+    "confirmedNewProductDefects": [],
+    "sourceBoundary": "A six customers files; B six projects files; Root src/http.rs, src/lib.rs and tests/http.rs. Other frozen Native/DDL/contracts/client/shared guard sources remain unchanged.",
+    "inspectedSemantics": [
+      "Unicode code-point and JavaScript trim/null/omitted/unknown DTO semantics and validation/error order",
+      "Original owner/customer existence and active checks, exact UUID string-map identity, no new ownership scope or locks",
+      "Customer summary/detail/workspace joins, alias canonicalization and uniqueness, primary-alias behavior and atomic delete audit",
+      "Project list/detail/lookup structure and ordering, source/contract/bid/approval references, sensitive projection and actual audit boundary",
+      "No-op versus real write, transaction/CAS/session flush order, original201 reassign response and concurrent500 behavior",
+      "Business BEGIN followed by original independent-pool numbering, preserving committed number gaps after later entity failure"
+    ],
+    "originalPublicSpec": {
+      "paths": 237,
+      "operations": 291,
+      "schemas": 585,
+      "rawSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    },
+    "rustPublicSurface": {
+      "paths": 105,
+      "operations": 129,
+      "newOperations": 14,
+      "newPaths": 9,
+      "oldOperations": 115
+    },
+    "newOperationsIndividuallyComparedWithOriginalSpec": 14,
+    "lookupAccounting": "First Rust R3 public lookup delivery. Prior Native/controller/spec/client canonicalization did not deliver a Rust business dispatch.",
+    "API05ProducerSnapshot": "Original a/b executed whole-module bytes are retained with matching executionSources. All non-UI bytes match current modules; UI selector/relative-URL/disambiguation changes do not weaken the API candidate."
+  },
+  "actualAcceptance": {
+    "API": {
+      "authority": "attempt05",
+      "perBackendHTTP": 263,
+      "perBackendObservations": 34,
+      "result": "Pass",
+      "strictNormalizedDifferences": 0,
+      "comparisonSha256": "1f3d1df0fadd0fa92d76341a8e5a390577dae0ef5b04d3a30a8ccda8ca0295a3",
+      "C_pureReplay": "Previously executed by C with exit0; exact reports, portable comparison authority and normalizer source hashes remain unchanged.",
+      "normalizationLimits": "Explicit identity substitutions and bounded runtime/used seed timestamps. No arbitrary IP or response-field omission; private bytes and current mtime are not required by replay.",
+      "actualProducerChain": "Real A-created customer response is consumed by real B project create/update/read operations. Prepared Lead/Contract/Bid/Approval/reference data remains read-source evidence and does not certify those producers."
+    },
+    "externalFaultsAndConcurrency": {
+      "perBackendChecks": 7,
+      "result": "Pass",
+      "counterLaterEntityFaults": "Business entity0 with independently committed counter+1 for both domains.",
+      "auditAndDeleteFaults": "500, alias retained, zero matching deletion audit; transaction rollback preserved.",
+      "CAS": "Two actual waiters; one200/one500, one version increment; persisted payload and updatedBy belong to the successful request. Different backend winners are allowed.",
+      "doubleDelete": "204/204 with two actual request/actor-linked audits, matching original behavior.",
+      "ACLRestored": true
+    },
+    "supplementalFaults": {
+      "authority": "attempt06 independent cohort, not replacing05",
+      "perBackendChecks": 3,
+      "result": "Pass",
+      "closedFindings": [
+        "COUNTER-ENTRY-FAILURE",
+        "B-35"
+      ],
+      "numberEntryFailure": "Both customer/project number INSERT refusals return500; counters unchanged, zero business entities, exactly one immediate guard session touch survives and pending business flush is absent.",
+      "maskedSecurityFailure": "security_event INSERT refusal returns500/event0, business row unchanged; only immediate guard touch+1 survives. After ACL restoration, masked200/event1 and session+2 prove the pending managed-session flush succeeds with the audit.",
+      "sameRuntimeArtifactsAsAuthority05": true,
+      "ACLRestored": true
+    },
+    "actualAudits": {
+      "perBackendSensitiveSelectors": 5,
+      "maskedEvents": 1,
+      "zeroEventSelectors": 4,
+      "perBackendAliasDeleteAudits": 2,
+      "requestActorPathPermissionAndDetailsReviewed": true,
+      "allAuditFieldsByteEqualityClaimed": false,
+      "IPDifferenceDisposition": "Existing no-XFF raw socket representation. Unchanged R2 route reproduces it; explicit identical XFF produces identical192.0.2.97. Original strings retained."
+    },
+    "UI": {
+      "result": "Pass",
+      "originalAngularBuildMembers": 422,
+      "buildManifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db",
+      "cells": [
+        {
+          "label": "linux-native06",
+          "observations": 8,
+          "HTTP": 81
+        },
+        {
+          "label": "linux-rust01",
+          "observations": 8,
+          "HTTP": 81
+        },
+        {
+          "label": "windows-native01",
+          "observations": 8,
+          "HTTP": 81
+        },
+        {
+          "label": "windows-rust01",
+          "observations": 8,
+          "HTTP": 83
+        }
+      ],
+      "checks": "Actual original customer create/workspace/alias-add/delete/edit/list and project list/detail/customer-selection/edit/save with saved PG row. Producer hashes, exact backend route/status evidence, UI IDs and response-to-row relationships independently checked.",
+      "projectCreateLimit": "Unchanged template has no reachable create entry; no component.evaluate or invented button. Project create is separately certified by the actual A-to-B HTTP chain.",
+      "outsideScope": "Rust future related-page requests retain their25 actual404 responses per cell; none is converted into a migrated success. Native related requests and all private raw exchange pins remain in original reports.",
+      "terminal": "Every passing cell browserClosed=true, serverClosed=true, pending=0; failed/uncertified earlier attempts remain labelled and retained."
+    }
+  },
+  "checksAndDrift": {
+    "Rust": {
+      "ordinaryPassed": 232,
+      "failed": 0,
+      "ignored": 54,
+      "fmt": "Root actual explicit cargo-bin PATH exit0",
+      "clippy": "--all-targets -D warnings exit0",
+      "release": "exit0; exact artifact bound to actual runtime",
+      "ignoredLimit": "53 explicit PG declarations plus1 child fixture remain ignored and are not actual PG certification."
+    },
+    "NativeAndAdminLint": "Root original commands exit0; no changed TS sources or new lint-warning waiver.",
+    "NativeUnitTests": {
+      "suites": 74,
+      "passed": 863
+    },
+    "AdminUnits": {
+      "UTC": {
+        "suites": 56,
+        "passed": 368
+      },
+      "originalJST": {
+        "passed": 367,
+        "failed": 1,
+        "retained": true
+      },
+      "classification": "existing-baseline-drift",
+      "basis": "Unchanged test2026-04-24T15:20Z expects UTC24 while original local formatter displays JST25. Only test child process TZ=UTC changed; no product/test/host timezone fix claimed."
+    },
+    "client": {
+      "result": "Accepted bounded evidence substitution",
+      "classification": "tool-noise",
+      "originalActiveCLI": "Failed .gitattributes frozen-input guard; original failure retained.",
+      "actualReplacement": "Original runClient --check on an independent checkout at1a941e8047c6269b52ef4ae8174e5f450f1db2f6; all six original guards preserved, original pinned Java/JAR generation and all579 output members compared.",
+      "independentCurrentBinding": "Current baseline and original checker hashes match actual log. Five protected inputs plus579 client members match raw execution pins; all585 effective Git attributes are identical for working tree, index and frozen source.",
+      "attrsScope": "Compared R3 append to a3a base, separately retaining prior R2M history versus older1a941 baseline; final new R3 raw/whitespace rules do not match generator input/output paths.",
+      "noGuardEntryRemoved": true,
+      "noSpecClientOrGeneratorBaselineRewrite": true,
+      "noCurrentActiveCLIByteCleanClaim": true
+    },
+    "schema": {
+      "classification": "existing-baseline-drift",
+      "migrationCheckExit": 1,
+      "dumpExit": 0,
+      "existingValidatedChecks": 168,
+      "predicateComparison": "Independently compared saved declared and actual predicates using finite PostgreSQL IN/ANY, singleton equality, cast and formatting equivalence; all168 agree.",
+      "existingCommentDifferences": 1,
+      "QAmarkerClassification": "tool-noise",
+      "originalDumpRemainingUnclassifiedStatements": 0,
+      "DDLExecuted": 0,
+      "noMigrationRepairInvented": true
+    },
+    "markdownAndWhitespace": {
+      "exactRepositoryDenoTaskExit": 0,
+      "stagedDiffCheckExit": 0,
+      "source": "source-and-format-proof01 plus pinned raw logs",
+      "frozenRawInputBytesPreserved": true
+    },
+    "openNewRealDrift": [],
+    "openDesignChangeRequired": [],
+    "acceptedTemporaryIncompleteValidationExceptions": []
+  },
+  "terminalAndPreservation": {
+    "result": "Pass",
+    "marker": "08609152-7a46-4b18-8861-f0f8a38d9e3e",
+    "ownedCohorts": 10,
+    "scope": "Nine HTTP/PG runs plus one Native witness, including failed/partial history.",
+    "original05": {
+      "nestRemovedRows": 311,
+      "rustRemovedRows": 293,
+      "signalSentNow": true,
+      "bootTermination": false
+    },
+    "supplement06": {
+      "nestRemovedRows": 278,
+      "rustRemovedRows": 278,
+      "externalBootTermination": true,
+      "signalSentNow": false,
+      "previousBoot": "429a3dc1-dcfe-4b4c-a73a-d5b40a9c2ace",
+      "observedCurrentBoot": "98ff89c0-32e8-44ba-a549-b7bdbef4fc1d",
+      "binding": "The original runtime metadata hash in boot receipts is reproduced from the source-defined public runtime envelope after removing only healthStatus/privateLogRetained. PID/boot/artifact/run/port bindings match; no private file is read.",
+      "noCrossBootPIDKill": true
+    },
+    "databaseBaseline": "Each Root actual cleanup compared all107 original poms tables by exact raw JSON rows, and final aggregate rechecked both databases. C verified the public terminal source, reference hashes, marker and receipts.",
+    "ACL": "All final declared fault privileges true on both owned databases.",
+    "resources": "Windows Native identity verified before stop; Linux/UI owned processes0 and ports11100/11200/11300 free. Only newly labelled PG15 stopped; volume and private journals retained.",
+    "oldEnvironmentOrPG17Touched": false,
+    "formalActualOriginalsPreserved": 46,
+    "primaryIgnoredOriginals": {
+      "memberCount": 732,
+      "bytes": 211083968,
+      "destination": "E:/projects/poms/tmp/rust-r3ab/windows-origin01",
+      "allSourceAndDestinationHashesIndependentlyVerified": true,
+      "privateCopied": false
+    },
+    "afterSnapshot": "This C G3 receipt and later fixed/main/G4 evidence require an append-only incremental preservation receipt; do not rewrite the original732-file snapshot."
+  },
+  "findings": {
+    "openP0": 0,
+    "openP1": 0,
+    "openP2": 0,
+    "openP3": 0,
+    "blockingItems": [],
+    "scopeLimit": "Pass certifies the bounded joint14-operation G3 candidate, not all58 R3 operations, complete non-HTTP production chains, rollout, performance or R4-R7."
+  },
+  "nextAuthorizedClosureSteps": [
+    "Root posts this same-byte independent G3 decision, then implementation commit/branch push.",
+    "C reviews immutable commit source/formal/artifact relations; no automatic main certification from this pre-commit receipt.",
+    "Root performs already authorized main FF/push and source/integration verification, then lifecycle archive/local readiness and append-only original preservation.",
+    "C checks readiness to close only86/87 before Root actual online G4/closeout;85/57 remain Open and14/58 is counted only after that boundary.",
+    "C independently reviews actual online G4, final metadata commits and evidence preservation before all-complete wording."
+  ],
+  "reviewerActions": {
+    "productionEdits": false,
+    "acceptanceToolEdits": false,
+    "liveDB": false,
+    "HTTP": false,
+    "browser": false,
+    "privateReads": false,
+    "hostChanges": false,
+    "actualBuildOrProductTests": false,
+    "publicSavedDataAndReadOnlyGit": true,
+    "ownReviewOutputsOnly": true
+  }
+}

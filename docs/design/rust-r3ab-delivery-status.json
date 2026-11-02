@@ -1,0 +1,161 @@
+{
+  "kind": "R3AB-current-scoped-delivery-status",
+  "updatedAt": "2026-11-02T01:31:03.767Z",
+  "implementation": "df0d99decffbe974c988e85eea97767331044cbe",
+  "phase": "G4Ready",
+  "G1Certified": true,
+  "G3Certified": true,
+  "G4Certified": false,
+  "mainIntegrated": true,
+  "closedIssues": [],
+  "parent85Open": true,
+  "overall57Open": true,
+  "operations": [
+    {
+      "operationId": "CustomerAliasController_delete",
+      "issue": 86,
+      "nativeStatus": 204,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.alias.delete-204",
+        "requestId": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096"
+      }
+    },
+    {
+      "operationId": "CustomerController_list",
+      "issue": 86,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.list",
+        "requestId": "7df48fa8-f41b-441c-af59-04414b7efa29"
+      }
+    },
+    {
+      "operationId": "CustomerController_create",
+      "issue": 86,
+      "nativeStatus": 201,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.active.create",
+        "requestId": "d34b1efe-0af9-4c77-89ef-fe52c08d5399"
+      }
+    },
+    {
+      "operationId": "CustomerController_getById",
+      "issue": 86,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.active.detail",
+        "requestId": "c0baa74d-ad6a-4fb4-81bb-2419b8c874ed"
+      }
+    },
+    {
+      "operationId": "CustomerController_update",
+      "issue": 86,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.inactive.disable",
+        "requestId": "06dce74c-bd03-47a3-bd61-e8484b6cfc7b"
+      }
+    },
+    {
+      "operationId": "CustomerController_listAliases",
+      "issue": 86,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.viewer.aliases",
+        "requestId": "6bc50ebf-68f5-414b-8f59-882b529fd6c4"
+      }
+    },
+    {
+      "operationId": "CustomerController_createAlias",
+      "issue": 86,
+      "nativeStatus": 201,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.alias.normalized.create",
+        "requestId": "67033d25-3fa8-4a29-a4b6-685c824c15d5"
+      }
+    },
+    {
+      "operationId": "CustomerController_getWorkspaceOverview",
+      "issue": 86,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.workspace.empty",
+        "requestId": "334ac04a-dac5-475a-92d3-276a9991a19c"
+      }
+    },
+    {
+      "operationId": "ProjectController_list",
+      "issue": 87,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.list.keyword",
+        "requestId": "9c3ba1c2-a4e7-4a18-8deb-d25d2f6c98ba"
+      }
+    },
+    {
+      "operationId": "ProjectController_create",
+      "issue": 87,
+      "nativeStatus": 201,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.project.active.create",
+        "requestId": "75b16e95-8df3-4a23-b8a1-21c82b2a80c4"
+      }
+    },
+    {
+      "operationId": "ProjectController_getByCode",
+      "issue": 87,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.lookup.exact",
+        "requestId": "d10c408a-7847-4eb0-9c7a-58f527483a2d"
+      }
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "issue": 87,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.detail.empty.admin",
+        "requestId": "41521ab1-37c5-4a15-a523-4e666952395e"
+      }
+    },
+    {
+      "operationId": "ProjectController_updateBasicInfo",
+      "issue": 87,
+      "nativeStatus": 200,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.patch.noop-known-plus-unknown",
+        "requestId": "c95650e1-2a6d-41ee-8462-167d61ffe9b8"
+      }
+    },
+    {
+      "operationId": "ProjectController_reassignOwner",
+      "issue": 87,
+      "nativeStatus": 201,
+      "NativeEvidence": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.reassign.other-primary",
+        "requestId": "0ddbcdb7-4daf-4958-b0ff-437a6b6a7c1a"
+      }
+    }
+  ],
+  "requiredBeforeDone": "Independent G4 preflight, actual online closeout/only86-87 closed, final metadata and independent actual G4 reconciliation",
+  "receipts": {
+    "G3": "docs/design/rust-r3ab/g3-independent-review01.json",
+    "fixed": "docs/design/rust-r3ab/fixed-commit-review01.json",
+    "integration": "docs/design/archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json"
+  }
+}

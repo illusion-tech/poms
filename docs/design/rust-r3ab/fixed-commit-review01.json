@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-fixed-commit-review",
+  "createdAtUtc": "2026-11-02T01:25:18.662Z",
+  "result": "Pass",
+  "fixedCommitCertified": true,
+  "G3Certified": true,
+  "G4Certified": false,
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "repository": "E:/projects/worktrees/poms-r3ab-customer-project/poms",
+    "primary": "E:/projects/poms",
+    "branch": "codex/poms-r3ab-customer-project",
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "commit": "df0d99decffbe974c988e85eea97767331044cbe",
+    "tree": "32c4f621d57044075b0061251b1750080805dfe8",
+    "parent": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "issues": {
+      "A": 86,
+      "B": 87,
+      "parent": 85,
+      "overall": 57
+    },
+    "scope": "Immutable133-file implementation commit for8 customer/alias plus6 project operations."
+  },
+  "decision": {
+    "mayFastForwardPrimaryMain": true,
+    "mayPushMain": true,
+    "exactAllowedTarget": "df0d99decffbe974c988e85eea97767331044cbe",
+    "integrationMode": "Fast-forward only; no unrelated commits or source changes are certified by this review.",
+    "observedSourceMain": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "observedPrimaryClean": true,
+    "actualMainIntegrationCertified": false,
+    "actualMainIntegration": "Pending Root actual FF/push and saved post-integration source/byte verification.",
+    "mayMarkDone": false,
+    "mayCloseIssues": false,
+    "G4": "Pending",
+    "currentR3Delivered": 0,
+    "onlyAfterActualG4MayCount": 14,
+    "keepOpen": [
+      85,
+      57
+    ],
+    "closeOnlyAfterOwnG4": [
+      86,
+      87
+    ]
+  },
+  "authority": {
+    "C_G3": {
+      "file": "tmp/rust-r3ab/c-review/g3-independent-review01.json",
+      "bytes": 18669,
+      "rawBytesSha256": "34218f90438d0ccae6a1513a58f62b47565cc895dca4de8cd4724fddb05f72bb"
+    },
+    "actualAcceptance": {
+      "file": "docs/design/rust-r3ab/acceptance-evidence01.json",
+      "bytes": 37171,
+      "rawBytesSha256": "2ab9e448ed8c40389e2672b0db0de34c9ff29fb61433bc6bf1cafdd828d07d14"
+    },
+    "sourceProof": {
+      "file": "docs/design/rust-r3ab/source-and-format-proof01.json",
+      "bytes": 16415,
+      "rawBytesSha256": "ad05f840450e0730494f105ef2c65a3a0c4fa9a74094ae3bbd6dd6a1ba6d7504"
+    },
+    "publicVerification": {
+      "file": "tmp/rust-r3ab/c-review/fixed-commit-public-verification01.json",
+      "bytes": 39620,
+      "rawBytesSha256": "a40b7461952e87b364769a45dfa44435088ea642f4af3f5fa49be677423bcf28"
+    },
+    "verifier": {
+      "file": "tmp/rust-r3ab/c-review/fixed-commit-verifier01.mjs",
+      "bytes": 9806,
+      "rawBytesSha256": "d3b148eec09d6ac0f90b09f5af7935555582713489b717ae3d89189e31da7b02"
+    }
+  },
+  "immutableVerification": {
+    "command": "node tmp/rust-r3ab/c-review/fixed-commit-verifier01.mjs",
+    "exitCode": 0,
+    "method": "Read-only git cat-file --batch retrieves1005 exact commit:path blobs. Parse raw lengths and hashes and compare with frozen/G3 pins; read-only Git refs/status/diff supply commit and primary context.",
+    "committedBlobInputsChecked": 1005,
+    "productionBlobs": 15,
+    "frozenFormalBlobs": 12,
+    "frozenNativeBlobs": 872,
+    "sourceProofStagedBlobs": 63,
+    "allRawBytesAndLengthsMatch": true,
+    "C_G3Copies": "Signed original, formal docs/design/rust-r3ab/g3-independent-review01.json and archive/evidence/C/g3-independent-review01.json are the same18669 bytes/34218f90 hash.",
+    "C_G3PublicVerifierAndFactReceiptSameBytes": true,
+    "actualOriginalArchivePairs": 46,
+    "allArchivedActualOriginalBytesMatch": true,
+    "G1History": "Original Needs-correction01 and Pass02 remain distinct and exact; master76cd, manifest02c3dd, six initial inputs, Unicode oracle and effective numbering corrective4fda retain their original bytes.",
+    "actualAcceptanceNotRerun": true,
+    "existingG3AppliesToExactCommittedProduction": true,
+    "productSourcePins": "The15 productionSources in committed acceptance-evidence01.json exactly match C G3 and current production bytes.",
+    "rawEvidenceNotRegeneratedOrRelabeled": true
+  },
+  "completeChangeBoundary": {
+    "totalChangedFiles": 133,
+    "added": 125,
+    "modified": 8,
+    "deleted": 0,
+    "categories": {
+      "production": 15,
+      "attributes": 1,
+      "sharedGovernance": 4,
+      "scopeAndInventory": 2,
+      "formalInputsAndDecisions": 24,
+      "actualEvidenceAndCArchive": 49,
+      "rootOwnedTools": 38
+    },
+    "existingModifiedPaths": [
+      ".gitattributes",
+      "apps/poms-api-rust/src/http.rs",
+      "apps/poms-api-rust/src/lib.rs",
+      "apps/poms-api-rust/tests/http.rs",
+      "docs/design/README.md",
+      "docs/design/backend-rust-migration-plan.md",
+      "docs/design/phase2-development-execution-tracker.md",
+      "docs/design/rust-migration-execution-tracker.md"
+    ],
+    "production": "Exactly six new customers files, six new projects files, and Root routing/lib/HTTP tests. No extra production path.",
+    "protected": "No Native, DDL/migration, shared contract, full OpenAPI, generated client, Cargo dependency or existing shared guard change. The872 frozen Native/spec/client/reference files are checked directly from this commit.",
+    "attributes": "Exact2192-byte2ab14666 version already certified by G3; R3 raw/whitespace rules only, with all585 original generator paths equivalent.",
+    "metadata": "Four shared governance files append history, preserving every preexisting byte. Latest appended status records G3 Pass, R3still0/58, fixed/main/G4 pending,86/87 not closed and85/57Open.",
+    "rootToolOutsideEarlier63FileSourceProof": {
+      "file": "tools/rust-r3ab/preserve-evidence.mjs",
+      "assessment": "Exclusive public byte copying and hashing to the explicitly named primary ignored directory; refuses overwrite/link/out-of-root targets. Previously reviewed source; no product/runtime behavior and no actual acceptance substitution."
+    },
+    "scopeInventory": "58 unique R3 operations remain8+6+44. The effective numbering corrective governs original static transaction assumptions; no frozen historical input is rewritten in this commit."
+  },
+  "refsAndWorkingDirectories": {
+    "worktreeHEAD": "df0d99decffbe974c988e85eea97767331044cbe",
+    "localBranch": "df0d99decffbe974c988e85eea97767331044cbe",
+    "originBranchTracking": "df0d99decffbe974c988e85eea97767331044cbe",
+    "worktreeStatus": "clean at start and end of review",
+    "primaryBranch": "main",
+    "primaryHEAD": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "primaryMain": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "primaryOriginMainTracking": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "primaryStatus": "clean",
+    "fastForwardAncestryVerified": true,
+    "commitSingleDirectParentIsBase": true,
+    "remoteLimit": "C inspected local origin tracking refs and Root saved push/G3 receipts; C did not fetch or query network services. Root must use ordinary non-force push and preserve any subsequently changed primary/remote state."
+  },
+  "onlineG3SavedReceipt": {
+    "file": "tmp/rust-r3ab/root/g3-online-receipt01.json",
+    "implementationMatches": true,
+    "CG3HashMatches": true,
+    "comments": [
+      {
+        "issue": 86,
+        "url": "https://github.com/illusion-tech/poms/issues/86#issuecomment-6566837827"
+      },
+      {
+        "issue": 87,
+        "url": "https://github.com/illusion-tech/poms/issues/87#issuecomment-6566838332"
+      }
+    ],
+    "savedCommentScope": "G3 only, same C signature and exact fixed commit; G4 Pending and no issue closure.",
+    "directOnlineReadByC": false
+  },
+  "findings": {
+    "openBlocking": [],
+    "newProductionOrEvidenceDrift": [],
+    "gateOverclaim": []
+  },
+  "remainingG4": [
+    "Actual primary FF/main push and saved source/raw-byte integration check.",
+    "Lifecycle archive/current-state metadata and append-only preservation of new C/fixed/main receipts, retaining original732-file snapshot.",
+    "C pre-close readiness review, then Root actual online G4/closeonly86/87 with85/57Open.",
+    "Final metadata commits/push, independent actualG4 and final preservation review before all-complete claim."
+  ],
+  "reviewLimits": {
+    "onlyReadOnlyGitBlobAndSavedPublicData": true,
+    "noProductOrAcceptanceToolEdits": true,
+    "noBuildOrProductTestRun": true,
+    "noDBHTTPBrowserOrPrivateAccess": true,
+    "noHostOrGitMutations": true,
+    "ownCOutputsOnly": true
+  }
+}

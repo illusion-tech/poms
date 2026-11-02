@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-joint-G1-review",
+  "createdAtUtc": "2026-11-01T21:37:50Z",
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "role": "C-independent-reviewer",
+    "configuredByParent": {
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "fast": "unverified"
+    },
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "workspace": "E:/projects/worktrees/poms-r3ab-customer-project/poms",
+    "branch": "codex/poms-r3ab-customer-project",
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "overallIssue": 57,
+    "parentIssue": 85,
+    "A": {
+      "issue": 86,
+      "operations": 8
+    },
+    "B": {
+      "issue": 87,
+      "operations": 6
+    },
+    "totalR3Operations": 58,
+    "remainingAfterOwnG4": 44,
+    "currentRustR3Delivered": 0
+  },
+  "decision": {
+    "gate": "G1",
+    "result": "Needs-correction",
+    "G1Certified": false,
+    "implementationAllowedByThisReview": false,
+    "openFindings": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 1,
+      "P3": 0
+    },
+    "reason": "联合正式输入对字符串长度同时存在 UTF-16 与 Unicode code point 两种表述；必须先记录唯一源 oracle 优先级，避免两线据不同规范实现。其他已审 G1 边界可用。",
+    "notADeclarationOfRuntimePass": true,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "reviewedInputs": {
+    "baseline": {
+      "file": "docs/design/rust-r3ab-customer-project-baseline.md",
+      "bytes": 11534,
+      "rawBytesSha256": "1fa0d709f90d00653ac78f098bcdecbbb8ea606741479e00e727c1d161aa8367"
+    },
+    "manifest": {
+      "file": "docs/design/rust-r3ab/g1-input-manifest.json",
+      "bytes": 183085,
+      "rawBytesSha256": "7346c8d21f4fbd43a35ca8ecd5846c7266626ebe9ef614a4f57be24398070f14"
+    },
+    "frozenOperationInventory": {
+      "file": "docs/design/rust-r3ab/g1-operation-slices-original.json",
+      "bytes": 148917,
+      "rawBytesSha256": "06e042e6097f93c2cfdee0fe071a21859aaad617914599fd3f743684a96d1bd6"
+    },
+    "inventoryGenerator": {
+      "file": "tools/rust-r3ab/inventory.mjs",
+      "rawBytesSha256": "6d7cfa70c81b8c0e3f3e6453c30fadeb3b521eaed5809cbd26323c11fb772da8",
+      "inspection": "read-only algorithm inspection; not reexecuted by C"
+    },
+    "g0Receipts": [
+      {
+        "file": "tmp/rust-r3ab/root/g0-issue-registration.json",
+        "rawBytesSha256": "b7e225bf4819e54c847b6fa973856f29dffb4e527dfed6077b766d297fe04164"
+      },
+      {
+        "file": "tmp/rust-r3ab/root/link-parent-b.json",
+        "rawBytesSha256": "b84644ba7bd54a2261809e1008318975f8c76cde9dc3e521ad952a58d7cc1efc"
+      },
+      {
+        "file": "tmp/rust-r3ab/root/link57-parent.json",
+        "rawBytesSha256": "82977b4947f499e791558325b013fd2e0f22191deb093f4ca8501c19047f4684"
+      }
+    ]
+  },
+  "integrity": {
+    "method": "Read-only PowerShell Get-Item/Get-FileHash plus in-memory JSON comparisons; no application, DB, HTTP, browser, build or runtime tests",
+    "formalFilesChecked": 10,
+    "nativeFilesChecked": 872,
+    "totalFilesChecked": 882,
+    "missingOrHashOrLengthMismatches": [],
+    "duplicateManifestPaths": [],
+    "unsafeManifestPaths": [],
+    "sourceOriginMapPairsChecked": 6,
+    "originAndFormalHashOrLengthMismatches": [],
+    "frozenInventorySourcesChecked": 69,
+    "frozenInventorySourceMismatches": [],
+    "aSourceReferencesChecked": 27,
+    "bSourceReferencesChecked": 44,
+    "sourceReferenceMismatchesAtReview": [],
+    "baselineAndManifestHashesRecheckedAtEnd": true,
+    "manifestRuntimeExecuted": false,
+    "manifestGatesAllFalse": true,
+    "all58OperationIdsAndMethodPathsUnique": true,
+    "currentOpenApiMethodPathAndOperationIdMismatches": [],
+    "canonicalRowReferenceMismatches": [],
+    "ownershipCounts": {
+      "RUST-R3A": 8,
+      "RUST-R3B": 6,
+      "future:lead": 14,
+      "future:sales-follow-up": 4,
+      "future:sales-intelligence": 13,
+      "future:business-discussion": 2,
+      "future:project-workspace": 2,
+      "future:project-technical-cost": 3,
+      "future:project-bid-commercial": 3,
+      "future:project-pricing-margin": 3
+    }
+  },
+  "findings": [
+    {
+      "id": "R3AB-G1-C-001",
+      "priority": "P2",
+      "status": "Open",
+      "category": "SSOT-ambiguity",
+      "title": "统一字符串长度 oracle 的权威性与实施前顺序",
+      "references": [
+        {
+          "file": "docs/design/rust-r3ab/input-a-contract.txt",
+          "line": 34,
+          "claim": "字符长度遵循 JS UTF-16"
+        },
+        {
+          "file": "docs/design/rust-r3ab/input-a-acceptance.json",
+          "line": 13,
+          "claim": "A04 以 UTF-16 boundaries 表述 expected"
+        },
+        {
+          "file": "docs/design/rust-r3ab/input-b-contract.txt",
+          "line": 44,
+          "claim": "Unicode code point 长度与锁定 Zod 实际 oracle 对照"
+        },
+        {
+          "file": "docs/design/rust-r3ab/input-b-acceptance.txt",
+          "line": 12,
+          "claim": "B-06 使用 Unicode code point 边界"
+        },
+        {
+          "file": "docs/design/rust-r3ab-customer-project-baseline.md",
+          "line": 33,
+          "claim": "逐项遵循正式 A/B 输入与原 Zod 包装，尚未明确互斥派生说明的覆盖顺序"
+        }
+      ],
+      "impact": "同一锁定 Zod 下的客户 displayName 与项目 projectName 都有 max255；若 A 使用 UTF-16 units 而 B 使用 code points，同一个 astral 字符串会在两个模块形成不同兼容边界。本文不选择其中一种计数方法，也不以静态推测代替实际 oracle。",
+      "requiredCorrection": "保留六份初始作者原件及其原字节映射；由 Root 在正式联合输入裁决中明确两种文字均为未证静态假设，锁定的原 shared schema + vendor pipe + 实际 Zod/Node oracle 为唯一权威。两线相关 validator 实施前，应先形成同一 astral 字符串 min/max、trim、surrogate 及完整 issue 结构的实际 oracle；若新正式裁决改变 formal 文件集合，绑定更新后的输入 manifest 和具体字节。",
+      "scopeOfCorrection": "同一个联合 G1 的输入澄清，不是新产品规则，不要求改 Native/DTO/spec/client，不新增普通脚本审查 gate",
+      "closureEvidenceRequired": "Root 明确的正式裁决及其源绑定，C 对同一修正输入的增量复核"
+    }
+  ],
+  "reviewedBoundaries": [
+    {
+      "id": "C-G1-01",
+      "result": "Pass-static-boundary",
+      "boundary": "G0 与父子关闭范围",
+      "evidence": "Root 公共 G0 回执记录 #85→#57、#86/#87，最后关联回执显示父 #85 有 2 个未完成子项；原初创建回执不改写。仅本片 A/B 自身 G4 后关闭 #86/#87，#85/#57 保持 Open。C 未重新请求在线 GitHub。"
+    },
+    {
+      "id": "C-G1-02",
+      "result": "Pass-static-boundary",
+      "boundary": "当前操作与历史 R0 区分",
+      "evidence": "58 个唯一当前 operationId/method/path 与现行完整 OpenAPI/canonical 对齐；A8/B6/后44互斥。ProjectLookupController 当前 /api/projects:lookup 保留 ProjectController_getByCode，旧 R0 路径仅 historicalR0，#84 无既有 Rust R3 交付。"
+    },
+    {
+      "id": "C-G1-03",
+      "result": "Pass-static-boundary",
+      "boundary": "模块所有权和单一公共写入方",
+      "evidence": "A customers/**、B projects/**；Root 单独编辑共享 Cargo/lib/http/生成保护/治理及实际环境；C 不实现产品或验收工具。配置显式模型与强度，Fast 未核实。"
+    },
+    {
+      "id": "C-G1-04",
+      "result": "Pass-static-boundary",
+      "boundary": "A→B 内部契约和真实生产者依赖",
+      "evidence": "以联合 baseline §6 服务入口为公共裁决，borrowed-connection helper 只承载同一实现；不另取事务、不加锁/owner scope。B create 保留 operator→事务外 active customer→项目事务次序，完整验收必须用 A Rust HTTP 实际创建客户，再执行 B Rust 项目链。"
+    },
+    {
+      "id": "C-G1-05",
+      "result": "Pass-static-boundary",
+      "boundary": "客户 owner、别名、删除审计",
+      "evidence": "omitted/null/UUID 回退、只校验存在、displayName 不同步主别名、唯一约束及删除的 404/primary409/merged409 顺序均被保留；编号/客户/主别名与删除/audit 的同事务边界明确。SQL/audit/auth flush 和并发未冒充已测。"
+    },
+    {
+      "id": "C-G1-06",
+      "result": "Pass-static-boundary",
+      "boundary": "项目状态、managed version/no-op/AUTO flush",
+      "evidence": "editable active/blocked、reassign expectedVersion 先于状态及目标错误次序已记录；不统一新增路径 UUID pipe、原子回滚、行锁或409。对应 SQL/CAS、no-op、AUTO flush、status 必须先 Native 实际见证。"
+    },
+    {
+      "id": "C-G1-07",
+      "result": "Pass-static-boundary",
+      "boundary": "完整查询结构与敏感审计",
+      "evidence": "客户工作区完整五类事实、总计/限量/排序/时间线；项目 list/detail/lookup 不同投影、合同 NULL 排序与金额文本、snapshot/bid 过滤、固定 not_configured confirmation、单敏感金额事件及 originalUrl/fallback 已列明。"
+    },
+    {
+      "id": "C-G1-08",
+      "result": "Pass-static-boundary",
+      "boundary": "原 guard、DTO、错误与路由行为",
+      "evidence": "session→CSRF→permission→DTO、unknown strip、null/omission、query 重复键、literal colon、GET/HEAD 与 URI 顺序、唯一 alias DELETE UUID pipe；完整原 schema/pipe 为权威。字符串计数派生文字的优先级仍由 R3AB-G1-C-001 阻断。"
+    },
+    {
+      "id": "C-G1-09",
+      "result": "Pass-defined-runtime-requirements-only",
+      "boundary": "实际环境、验收与不可认领范围",
+      "evidence": "新 PG15/volume/DB/OID/marker/run/端口与旧环境区分，PG17/private 不触碰；A24/B40 是覆盖类别并非执行计数；真实 HTTP/PG/并发/原 UI 四组合、构建/测试与保护项由 Root 集中执行，prepared-source 不认证未迁域写链。"
+    },
+    {
+      "id": "C-G1-10",
+      "result": "Pass-static-boundary",
+      "boundary": "证据保全与 G3/G4",
+      "evidence": "同一候选集中公共检查，修复只补受影响项；保留失败/partial/ignored/schema 分类；固定提交/主线/保全/归档/线上回写完成后才 G4。本报告不签 G3/G4 或运行结果。"
+    }
+  ],
+  "pendingRuntimeAssertions": [
+    "锁定 Zod 实际 oracle 先统一两线字符串长度/issue/Unicode 规则",
+    "Native 原 SQL/HTTP/并发先见证 alias delete 审计与 auth flush、项目 no-op/AUTO flush/版本失败、reassign 实际状态",
+    "A Rust 真实客户生产者到 B Rust 项目创建/更新/lookup/reassign 的持久化闭环",
+    "全部适用真实 HTTP/PG/UI 四组合及统一构建/测试/保护项，动态映射与原值保留",
+    "独立 G3、固定提交/主线集成、保全归档与在线 G4"
+  ],
+  "prohibitedClaims": [
+    "本报告不认证任何实际 HTTP/DB/browser/build/test 通过",
+    "不认证 Rust R3 已交付14/58",
+    "不认证 R3父 #85 或总体 #57 完成",
+    "不认证正式部署、产品DDL、性能或未迁域生产者"
+  ]
+}

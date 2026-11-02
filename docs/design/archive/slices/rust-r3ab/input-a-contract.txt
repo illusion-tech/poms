@@ -1,0 +1,80 @@
+# R3 首批 A：客户与别名 G1 输入核对
+
+- 状态：供 Root 联合冻结；尚未获准产品实施。
+- 来源基线：`a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d`。
+- 作者所有权：未来仅 `apps/poms-api-rust/src/customers/**`；共享接线、生成物、真实环境执行与集成验收归 Root。
+- 本记录是静态源码核对；Native SQL、HTTP、并发与浏览器见证均待 Root 执行，不能据此标记通过。
+- 逐文件 SHA-256、引用行及来源类别见 `source-refs.json`；候选验收项见 `acceptance-matrix.json`。
+
+## 1. 精确 8 项操作
+
+canonical inventory `314–321` 均为 `aligned`，无新增或修改公共路由；`/api` 为全局前缀。
+
+| operationId | HTTP | 权限 | 成功与返回 |
+| --- | --- | --- | --- |
+| `CustomerController_list` | `GET /api/customers` | `customer:read` | 200，`CustomerListView[]` |
+| `CustomerController_create` | `POST /api/customers` | `customer:write` | 201，`CustomerSummary` |
+| `CustomerController_getById` | `GET /api/customers/{id}` | `customer:read` | 200，`CustomerDetailView` |
+| `CustomerController_update` | `PATCH /api/customers/{id}` | `customer:write` | 200，`CustomerDetailView` |
+| `CustomerController_listAliases` | `GET /api/customers/{id}/aliases` | `customer:read` | 200，`CustomerAliasSummary[]` |
+| `CustomerController_createAlias` | `POST /api/customers/{id}/aliases` | `customer:write` | 201，`CustomerAliasSummary` |
+| `CustomerController_getWorkspaceOverview` | `GET /api/customers/{id}/workspace-overview` | `customer:read` | 200，`CustomerWorkspaceOverviewView` |
+| `CustomerAliasController_delete` | `DELETE /api/customer-aliases/{id}` | `customer:write` | 204，空响应体 |
+
+复用既有 session、CSRF、权限守卫和错误信封。只有 alias DELETE 显式使用 `ParseUUIDPipe()`；其余 customer path ID 直接送入 ORM。不得统一新增 UUID 400 或 scope/owner 限制；无效 UUID、重复 query、隐式 HEAD、大小写及尾斜杠等最终行为由 Root 原后端对照冻结。
+
+## 2. DTO 与输出事实
+
+唯一可编辑契约权威是 `libs/shared/contracts/src/lib/shared-contracts.ts`；Nest DTO 仅包装其 Zod schema。本片不修改它或 generated client/OpenAPI/Rust generated enums。
+
+- query：可省略 `status`（active/inactive/merged）、`ownerOrgId`（UUID）、`keyword`（trim，1–128）。无分页。unknown keys strip。`%`、`_` 原样进入 ILIKE 通配；不新增转义。
+- create：`displayName` 必填 trim，1–255。`legalName` 1–255、`shortName` 1–128、`sourceChannel` 1–64、`remark` 1–2000 均 trim、nullable、optional；owner 两个 UUID 也 nullable、optional。
+- update：以上字段均 optional；`displayName` 非 nullable；`status` 只允许 active/inactive。至少一个已知字段，否则 `At least one field is required for update`。省略保留原值，nullable 字段显式 null 清空。`rowVersion`/`expectedVersion`/`mergedIntoCustomerId` 不是请求字段。
+- alias create：`aliasName` 必填 trim，1–255；`aliasType` optional，合法值为 legal-name/short-name/legacy-input/import-name/alias。省略由 service 默认 alias；null 被 DTO 拒绝。
+- 字符长度遵循 JS UTF-16；trim、Unicode 空白、lone surrogate 和 locale lowercase 必须消费原 Zod/Node 见证，不以 Rust 默认字符串操作替代已验证行为。
+- summary 固定输出 nullable 字段，不能省略：legalName、shortName、ownerOrgId、ownerUserId、sourceChannel、remark、mergedIntoCustomerId、createdBy、updatedBy；rowVersion 为整数，时间为 JS ISO datetime。create 仅 summary；list 加 ownerName/ownerOrgName 和 3 个整数计数；detail 再加 aliases。
+- alias 输出固定 id/customerId/aliasName/aliasType/normalizedName/isPrimary/createdAt/createdBy。主名称编辑不更新既有主 alias，也不反向更新 Lead/Project 历史名称快照。
+
+## 3. 命令、错误及持久化
+
+- require customer：缺失 404 `Customer {id} not found`；读取不拒绝 inactive/merged。
+- create：先事务外查询 operator（缺失 404 `Platform user {id} not found`）与 owner/org；捕获 now；再开启事务，调用 `BusinessNumberService.next('customer', now, em)`，创建 active 客户（mergedInto=null、版本默认 1、createdBy=updatedBy=operator）和 `isPrimary=true, aliasType=alias` 的主 alias，persist 两者并 flush。编号是 `CUST-{UTC year}-{padStart(6)}`，必须与业务写入共用事务，后续失败回滚编号。无 create 审计。
+- update：先加载客户；原状态 merged 时 400 `Customer {id} is merged and cannot be edited directly`。按输入成员更新字段，按需查 owner/org，设置 updatedBy，再 persist+flush，最后走详情查询。没有 expectedVersion 请求或命令级显式事务；实体 version 属性使真实 UPDATE 使用读到的 row_version 做乐观条件并递增。不得无条件整行覆盖、每次强制递增或把 optimistic failure 自行改成 409；无变化与并发结果由 Native 见证冻结。无 update 审计。
+- alias create：先加载 customer；merged 时 400 `Customer {id} is merged and cannot accept new aliases`；inactive 允许。`normalizedName = aliasName.trim().replace(/\s+/g, ' ').toLocaleLowerCase()`；isPrimary=false，createdBy=当前用户；单独 persist+flush。无 operator 再校验、无 audit、无 customer 版本或时间更新。
+- alias 唯一约束是 `(customer_id, normalized_name, alias_type)`；同客户同名称不同 type、不同客户同名称允许。无 service 级重复检查或 DB exception 转换；重复等数据库异常进入既有 500 信封，待 Native 对照确认。主 alias 每客户最多一个；不新加 migration。
+- alias delete：事务内依次查 alias（404 `Customer alias {id} not found`）、查所属 customer（404）、检查 primary（409 `Primary customer alias {id} cannot be deleted`）、检查 merged（409 `Customer {customerId} is merged and its aliases cannot be deleted`）。primary 检查优先于 merged。inactive 非主 alias 允许删除。
+- delete 源码调用顺序为 remove → runtimeAudit.persist → flush。已安装 MikroORM 7.0.11 的 `UnitOfWork.persistToDatabase` 静态显示 CREATE 组在 DELETE 组之前，因此预期真实 SQL 为 audit INSERT → alias DELETE，均在同一事务；实际 SQL 见证待 Root，不能冒充已测。借用既有 `auth::audit::insert_audit_log(&mut PgConnection, ...)`，不得开另一个连接。
+- delete audit：eventType=customer.alias.deleted，targetType=customer，targetId=所属 customerId，operatorId=当前用户，result=success；requestId 优先 x-request-id，否则 x-correlation-id，否则 null（不自行 trim）。beforeSnapshot 为 aliasId/aliasName/aliasType/normalizedName/isPrimary/createdAt/createdBy，afterSnapshot=null，metadata={sourceCommand: delete-customer-alias}，reason=null。audit 失败和 DELETE 失败必须整体回滚；无 success audit 的拒绝分支。
+- alias delete 无显式 row lock、版本条件或 affected-row 检查；同 alias 并发不能擅自强化为单成功，需先见证 Native。除显式业务异常，ORM/DB 未转换异常沿既有 500 行为。
+- Root 必须一并见证 request-managed auth session 的 dirty flush 及事务失败边界；此记录不宣称 session SQL 次序已核验。
+
+## 4. Owner 规则
+
+- create 省略 ownerUserId：owner=operator；省略 org 时使用 operator.primaryOrgUnitId，否则用显式 org/null。
+- create 显式 ownerUserId=null：owner=null；省略 org 得 null。指定用户则仅检查其存在，省略 org 用该用户 primaryOrgUnitId。
+- update 省略 ownerUserId：保留原 owner；省略 org 保留原 org；显式 org/null 替换。
+- update 指定用户：仅检查存在；省略 org 用新用户 primaryOrgUnitId ?? 原 customer.ownerOrgId ?? null。显式 ownerUserId=null 且省略 org 时清空 owner、保留原 org。
+- 所有非 null org 仅检查存在；缺失 404 `Org unit {id} not found`。不验证用户/组织 active、用户是否属于指定组织或当前操作者是否拥有该客户。
+
+## 5. 只读列表与 workspace 多域查询
+
+- customer list：status/ownerOrgId 等值过滤；keyword 只查 customerNo/displayName/legalName/shortName，不查 aliases。排序 updated_at DESC, created_at DESC，无新增 id tie-breaker。
+- list/detail owner 名称来自 platform_user/org_unit；Lead/Project 计数包含所有状态；Contract 通过 project.customer_id 关联，包含所有合同状态。缺失 owner 名称为 null，缺失计数为 0。
+- aliases：is_primary DESC, created_at ASC，无新增 ID 排序。
+- workspace 只先验证 customer 存在，权限只有 customer:read；之后 6 个投影并行读取，无原子只读快照承诺，不添加 lead/project/finance 权限门槛。
+- summary：lead 总数；activeLead 为 registered/qualified；convertedLead 为 status=converted 或 converted_project_id 非 null；project 总数；activeProject 为 active/pending-approval/blocked/on-hold；contract 总数经 project 归属；recentFollowUpCount 是所有 active 客户跟进数，recentDiscussionCount 是 thread.customer_id 下所有 comment 数，名称中的 recent 不代表时间窗。latest 为各自 max occurred_at / created_at，无记录 null。
+- activeLeads/activeProjects 各最多 5，updated_at DESC, created_at DESC；recentContracts 最多 5，全部状态，updated_at DESC, created_at DESC；recentFollowUps 最多 5，仅 active，occurred_at DESC, created_at DESC；recentDiscussions 最多 5，comment.created_at DESC、无其他状态过滤。
+- contracts 含 projectName、nullable customerContractNo/signedAt；不包含 signedAmount 或其他敏感金额。follow-up/discussion 仅本 customer 关联投影，不扩到其他客户。
+- recommendedActions：按 count>0 条件添加 review-active-leads(10)、advance-active-projects(20)、review-recent-contracts(30)，始终添加 record-follow-up(40)、capture-discussion(50)；取各投影首项为目标（没有则 null），保留原中文文案，按 priority 升序最多 5。
+- timeline：按 leads→projects→contracts→followUps→discussions 顺序拼接这五份已截断投影，按 occurredAt 降序稳定排序，最多 12。时间并列保留拼接次序；key、文案与 isKey 完全按原 service。generatedAt 为响应组装时当前 JS ISO 时间。
+- workspace 不能以只填零、仅 customer/project 两域或替换成 Native HTTP 代理来交付；Root 需用真实多域事实验证其只读聚合。
+
+## 6. B 线借连接接口提案
+
+建议 `customers::service::require_active_customer_with_connection(connection: &mut sqlx::PgConnection, id: &str) -> Result<ActiveCustomerReference, CustomersError>`，其中 `ActiveCustomerReference { id: Uuid, display_name: String }` 仅承载 DB 客户身份和供项目复制的展示名称；最终签名由 Root 联合冻结裁决。
+
+helper 不获取连接、不启停事务、不加锁、不写库、不查 owner。借连接不意味着强制在事务内调用：项目 Native create/update 的 requireActiveCustomer 在事务外发生，B 保持原次序。不存在沿用 404；status!=active 沿用 400 `Customer {id} is not active`。不要把借连接能力变成新 active 锁定保证。
+
+## 7. 既有测试线索与未执行边界
+
+当前源码有 service 11 个 it、customer controller 5 个 it、alias controller 1 个 it、alias delete e2e 1 个 it。均只读核对、没有运行；service 测试使用 mocks，不证明 SQL 次序、真实回滚、唯一约束或并发。验收矩阵中的所有 runtime 项均为 `pending-root-runtime`，由 Root 填真实证据后独立 C 审查。

@@ -1,8 +1,8 @@
 # Rust 后端迁移执行追踪
 
-**最后更新**: 2026-10-30
+**最后更新**: 2026-11-02
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: R0/R1与R2A–K已交付，累计104/108；余L四操作及R2M，#57/#67与后续阶段保持Open
+**当前状态**: R0/R1/R2已交付，R2为108/108且#67/#80 Closed；R3 A/B14操作已集成main并G4就绪，正式计数待G4；#85/#57与余44保持Open
 **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
@@ -25,15 +25,15 @@
 
 ## 3. 后续阶段输入与完成边界
 
-| 阶段 | 状态  | 必需输入                                                                                                  | 交付边界                                                                            |
-| ---- | ----- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| R1   | Done  | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同                                                          | R1A–E 七操作、认证与基础已交付；G4 随本归档提交及 Issue 同步生效，不代表 R2–R7 完成 |
-| R2   | Doing | R1与已交付R2A–K、[范围/依赖](rust-r2-scope-and-dependencies.md)、[108归属](rust-r2-operation-slices.json) | #67；已交付104/108，L四操作与R2M待验，父#67/#57保持Open                             |
-| R3   | Todo  | R2、客户/线索/项目/签约前合同与事务边界                                                                   | 客户销售到签约前闭环                                                                |
-| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵                                                                     | 合同至执行与经营事实源                                                              |
-| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵                                                                       | 提成业务全链路                                                                      |
-| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计                                                              | 空库/存量/回滚/真实集成演练                                                         |
-| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口                                                                     | 统一切换、观察、旧运行时退出                                                        |
+| 阶段 | 状态  | 必需输入                                         | 交付边界                                                                            |
+| ---- | ----- | ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| R1   | Done  | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A–E 七操作、认证与基础已交付；G4 随本归档提交及 Issue 同步生效，不代表 R2–R7 完成 |
+| R2   | Done  | R1与R2A–M冻结输入和阶段验收                      | #67/#80 Closed；108/108公共操作及冻结阶段集成验收完成                               |
+| R3   | Doing | R2已完成；当前58项归属/依赖与各片G1              | #85 Open；首批14项已集成main、G4就绪，余44及阶段验收待完成                          |
+| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                              |
+| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                                      |
+| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                                         |
+| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                                        |
 
 | R1 子切片 | 状态 | Gate / 交付                                                                                                                                                                                                                          |
 | --------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -43,21 +43,21 @@
 | R1D #65   | Done | G4；c14333d5已推送；[归档基线](archive/slices/rust-r1d-e2e-client-baseline.md)、[纠偏](archive/slices/rust-r1d-corrective-checkpoint.md)与[机器证据](rust-r1d-validation.json)；双平台真实E2E/browser及579文件client一致             |
 | R1E #66   | Done | afbf4ee5 已集成推送；[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)、[机器证据](rust-r1e-validation.json)；64 stage、36 legacy（11 mock）、80 run清理及集成后19项通过，C无剩余P1/P2；G4随本归档提交及Issue同步生效 |
 
-| R2 子切片 | 状态  | Gate / 输入与边界                                                                                                                                                                                                                                                                |
-| --------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R2A #68   | Done  | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效                                                                                                    |
-| R2B #69   | Done  | 八操作；实现31555b76已集成推送，22项集成测试与157份来源检查通过；[收口](archive/slices/rust-r2b-closeout.md)、[机器验收](rust-r2b-validation.json)；G4随归档推送和Issue同步生效                                                                                                  |
-| R2C #70   | Done  | 组织8操作；实现319d5d89已集成推送，24项集成测试与152来源检查通过；[收口](archive/slices/rust-r2c-closeout.md)、[机器验收](rust-r2c-validation.json)；G4随归档推送和Issue同步生效                                                                                                 |
-| R2D #71   | Done  | 11操作；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项/1747来源检查通过；[收口](archive/slices/rust-r2d-closeout.md)、[基线](archive/slices/rust-r2d-users-profile-baseline.md)、[机器验收](rust-r2d-validation.json)；G4随归档提交推送与Issue同步生效 |
-| R2E #72   | Done  | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
-| R2F #73   | Done  | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
-| R2G #74   | Done  | 16操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
-| R2H #75   | Done  | 18操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
-| R2I #76   | Done  | 存储provider6操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                            |
-| R2J #77   | Done  | 上传/附件/中心19操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                         |
-| R2K #78   | Done  | 五操作与最小真实facts已完成G4；[收口](archive/slices/rust-r2k-closeout.md)，R2累计104/108                                                                                                                                                                                        |
-| R2L #79   | Doing | 四操作及必要真实域消费联合G1已冻结；L1已交付，实际验收/G3/G4待完成，R2仍104/108                                                                                                                                                                                                  |
-| R2M #80   | Todo  | R2 阶段验收，不增公共操作；A–L/跨域依赖完成后收口                                                                                                                                                                                                                                |
+| R2 子切片 | 状态 | Gate / 输入与边界                                                                                                                                                                                                                                                                |
+| --------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R2A #68   | Done | 实现2924bf30已推送，合入后21项适配器及98/82来源检查通过；[收口记录](archive/slices/rust-r2a-closeout.md)、[机器证据](rust-r2a-validation.json)；G4随本归档提交及Issue同步生效                                                                                                    |
+| R2B #69   | Done | 八操作；实现31555b76已集成推送，22项集成测试与157份来源检查通过；[收口](archive/slices/rust-r2b-closeout.md)、[机器验收](rust-r2b-validation.json)；G4随归档推送和Issue同步生效                                                                                                  |
+| R2C #70   | Done | 组织8操作；实现319d5d89已集成推送，24项集成测试与152来源检查通过；[收口](archive/slices/rust-r2c-closeout.md)、[机器验收](rust-r2c-validation.json)；G4随归档推送和Issue同步生效                                                                                                 |
+| R2D #71   | Done | 11操作；实现`9302fd7149257aa40584fc500fd76dd0c766b80d`已集成推送，归档前8步/26项/1747来源检查通过；[收口](archive/slices/rust-r2d-closeout.md)、[基线](archive/slices/rust-r2d-users-profile-baseline.md)、[机器验收](rust-r2d-validation.json)；G4随归档提交推送与Issue同步生效 |
+| R2E #72   | Done | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
+| R2F #73   | Done | 联合G3 Pass；实现9b3086f6已推送，[收口](archive/slices/rust-r2ef-closeout.md)、[机器验收](rust-r2ef-validation.json)；G4随归档推送与Issue同步生效                                                                                                                                |
+| R2G #74   | Done | 16操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
+| R2H #75   | Done | 18操作；G1/G3 Pass，实现91cda75f已推送并完成集成核验；[收口](archive/slices/rust-r2gh-closeout.md)、[终审](rust-r2gh-review02.json)，G4随归档推送与Issue回写生效                                                                                                                 |
+| R2I #76   | Done | 存储provider6操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                            |
+| R2J #77   | Done | 上传/附件/中心19操作；实现568c0ba3已推送，G3/集成核验Pass；[联合收口](archive/slices/rust-r2ij-closeout.md)，G4随归档推送及Issue核对生效                                                                                                                                         |
+| R2K #78   | Done | 五操作与最小真实facts已完成G4；[收口](archive/slices/rust-r2k-closeout.md)，R2累计104/108                                                                                                                                                                                        |
+| R2L #79   | Done | 四操作及必要真实域消费已完成G4；[收口](archive/slices/rust-r2l-closeout.md)，R2累计108/108                                                                                                                                                                                       |
+| R2M #80   | Done | R2阶段验收已完成G4；[收口](archive/slices/rust-r2m-closeout.md)，#80/#67均Closed                                                                                                                                                                                                 |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -228,17 +228,21 @@ R2A–L 既有公开操作为 **108/108**，与 R1 合计当前 Rust dispatch **
 
 R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 原生子项；首批 A [#86](https://github.com/illusion-tech/poms/issues/86) 客户/别名8项、B [#87](https://github.com/illusion-tech/poms/issues/87) 项目基础6项已建立原生子项。当前[操作归属](rust-r3-operation-slices.json)按本次 controller/spec/canonical 复核58项，首批14/后续44互斥；Rust R3当前交付0。
 
-用户授权先按[联合基线](rust-r3ab-customer-project-baseline.md)冻结G1，再两线并行实现；项目完整集成验收依赖客户真实Rust交付。当前G1待独立审查/线上冻结，无产品实现或运行验收通过。独立Windows worktree+Linux checkout，A/B独占模块，Root统一共享接线和实际环境/验收，C非作者审查；子代理显式Sol6.1/max，Fast未核实。
+用户授权先按[联合基线](archive/slices/rust-r3ab-customer-project-baseline.md)冻结G1，再两线并行实现；项目完整集成验收依赖客户真实Rust交付。当前G1待独立审查/线上冻结，无产品实现或运行验收通过。独立Windows worktree+Linux checkout，A/B独占模块，Root统一共享接线和实际环境/验收，C非作者审查；子代理显式Sol6.1/max，Fast未核实。
 
 本批只在自身独立G3/固定提交/主线集成、真实验收、保全归档和G4后关闭#86/#87；父#85和总体#57保持Open，R3其余44及非HTTP/阶段验收不提前完成。PG17与旧环境/数据、全部历史失败/partial/ignored和隔离例外保留，无部署或性能结论。
 
 
 ### 2026-11-02 R3A/B 联合 G1 已冻结
 
-首批A #86 / B #87 已按同一[联合基线](rust-r3ab-customer-project-baseline.md)原件76cd9951、有效输入manifest02 c3dd258f和[非作者G1 Pass](rust-r3ab/g1-independent-review02.json)冻结，P0–P3未闭0。两线进入Doing，Rust R3仍0/58；[A线上冻结](https://github.com/illusion-tech/poms/issues/86#issuecomment-6564302820)、[B线上冻结](https://github.com/illusion-tech/poms/issues/87#issuecomment-6564303631)。
+首批A #86 / B #87 已按同一[联合基线](archive/slices/rust-r3ab-customer-project-baseline.md)原件76cd9951、有效输入manifest02 c3dd258f和[非作者G1 Pass](rust-r3ab/g1-independent-review02.json)冻结，P0–P3未闭0。两线进入Doing，Rust R3仍0/58；[A线上冻结](https://github.com/illusion-tech/poms/issues/86#issuecomment-6564302820)、[B线上冻结](https://github.com/illusion-tech/poms/issues/87#issuecomment-6564303631)。
 
-原Native25项实际边界与[编号纠偏](rust-r3ab-numbering-corrective-checkpoint.md)已独立增量通过：失败时保留独立提交编号，业务记录仍回滚；原候选/六输入/旧预期保留原字节。当前完整Rust候选已写入，统一编译、真实双端/PG/四组合UI验收、G3/固定提交集成及G4仍待完成。仅#86/#87自身G4后关闭，#85/#57继续Open；旧环境/PG17与隔离证据保留，无部署/性能结论。
+原Native25项实际边界与[编号纠偏](archive/slices/rust-r3ab-numbering-corrective-checkpoint.md)已独立增量通过：失败时保留独立提交编号，业务记录仍回滚；原候选/六输入/旧预期保留原字节。当前完整Rust候选已写入，统一编译、真实双端/PG/四组合UI验收、G3/固定提交集成及G4仍待完成。仅#86/#87自身G4后关闭，#85/#57继续Open；旧环境/PG17与隔离证据保留，无部署/性能结论。
 
 ### 2026-11-02 R3A/B 联合 G3 Pass
 
-客户/别名8项及项目基础6项已完成真实双端验收：[联合证据](rust-r3ab/acceptance-evidence01.json)、[G3 checkpoint](rust-r3ab-g3-checkpoint.md)、[独立 C Pass](rust-r3ab/g3-independent-review01.json) 34218f90。每端263次 HTTP/34项观察、每端10项外部故障/并发和原 UI 四组合通过，Rust232通过/54 ignored 保留；共同检查、schema/TZ既有分类及全10个运行终态见原件。当前允许提交/推送实现分支，固定提交复核、主线集成及 G4 仍待完成；R3暂0/58，#86/#87尚不关闭，#85/#57保持Open。
+客户/别名8项及项目基础6项已完成真实双端验收：[联合证据](rust-r3ab/acceptance-evidence01.json)、[G3 checkpoint](archive/slices/rust-r3ab-g3-checkpoint.md)、[独立 C Pass](rust-r3ab/g3-independent-review01.json) 34218f90。每端263次 HTTP/34项观察、每端10项外部故障/并发和原 UI 四组合通过，Rust232通过/54 ignored 保留；共同检查、schema/TZ既有分类及全10个运行终态见原件。当前允许提交/推送实现分支，固定提交复核、主线集成及 G4 仍待完成；R3暂0/58，#86/#87尚不关闭，#85/#57保持Open。
+
+### 2026-11-02 R3A/B 主线集成与 G4 就绪
+
+实现 `df0d99decffbe974c988e85eea97767331044cbe` 已通过[固定提交复核](rust-r3ab/fixed-commit-review01.json)，并已 FF/push main。[原件归档与收口边界](archive/slices/rust-r3ab-closeout.md)、[来源映射](archive/slices/rust-r3ab/archive-origin-map.json)和[主区集成证据](archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json)已就绪。当前 #86/#87 为 G4 就绪，尚不标Done/关闭；独立关闭前复核、线上G4及最终元数据同步完成后才计14/58。#85/#57持续Open，余44及阶段验收不变。

@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "kind": "POMS-R3AB-independent-C-joint-G1-delta-review",
+  "createdAtUtc": "2026-11-01T21:40:15Z",
+  "reviewer": {
+    "agent": "/root/r3_independent_review",
+    "role": "C-independent-reviewer",
+    "configuredByParent": {
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "max",
+      "fast": "unverified"
+    },
+    "productAuthor": false,
+    "acceptanceToolAuthor": false,
+    "writeScope": "tmp/rust-r3ab/c-review/**"
+  },
+  "subject": {
+    "workspace": "E:/projects/worktrees/poms-r3ab-customer-project/poms",
+    "branch": "codex/poms-r3ab-customer-project",
+    "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+    "overallIssue": 57,
+    "parentIssue": 85,
+    "A": {
+      "issue": 86,
+      "operations": 8
+    },
+    "B": {
+      "issue": 87,
+      "operations": 6
+    },
+    "totalR3Operations": 58,
+    "remainingAfterOwnG4": 44,
+    "currentRustR3Delivered": 0
+  },
+  "decision": {
+    "gate": "G1",
+    "result": "Pass",
+    "G1IndependentReviewPassed": true,
+    "scope": "联合 G1 输入冻结与同一 P2 修正；不认证产品实现或实际运行验收",
+    "openFindings": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    },
+    "closedFindingIds": [
+      "R3AB-G1-C-001"
+    ],
+    "reason": "联合 baseline 明确锁定原 schema 与实际 Zod oracle 优先于作者初稿；源 checks.cjs 与22项原 schema 结果支持一致的 code point min/max，原拒绝候选和审查01保留。未变边界沿用01独立审查。",
+    "implementationMayBeginOnlyAfter": "Root 将本报告、当前 master baseline 和 active manifest02 的同一原字节线上冻结回写后分派 A/B；相关持久化 SQL 仍必须等待对应 Native 实际见证。",
+    "rootOnlineFreezeVerifiedByThisReport": false,
+    "G3Certified": false,
+    "G4Certified": false,
+    "runtimeAcceptancePassed": false
+  },
+  "carriedForwardReview": {
+    "file": "tmp/rust-r3ab/c-review/g1-independent-review01.json",
+    "bytes": 11357,
+    "rawBytesSha256": "178699d740e9cb0c3b3da3b10ec95ab7d3dbaa4ce65a3aadc9500caad5ab27b0",
+    "originalResult": "Needs-correction",
+    "unchangedOriginalPreserved": true,
+    "carriedBoundaries": [
+      "C-G1-01",
+      "C-G1-02",
+      "C-G1-03",
+      "C-G1-04",
+      "C-G1-05",
+      "C-G1-06",
+      "C-G1-07",
+      "C-G1-08",
+      "C-G1-09",
+      "C-G1-10"
+    ],
+    "note": "C-G1-08 中唯一 P2 由本次增量关闭；01本身不改成通过，也不重新审计所有未变输入。"
+  },
+  "activeFrozenInputs": {
+    "masterBaseline": {
+      "file": "docs/design/rust-r3ab-customer-project-baseline.md",
+      "bytes": 12207,
+      "rawBytesSha256": "76cd99518de54967098c1c0ac720d18d07887af9a92731a134380a39ca95af85"
+    },
+    "manifest": {
+      "file": "docs/design/rust-r3ab/g1-input-manifest02.json",
+      "bytes": 184081,
+      "rawBytesSha256": "c3dd258f06e828e274ce34fea22c54fe1f91efdedc4648084d14b573dd5f6359",
+      "revision": 2,
+      "formalFiles": 12,
+      "nativeFiles": 872
+    },
+    "jointDecision": {
+      "file": "docs/design/rust-r3ab/joint-string-length-decision.json",
+      "bytes": 6217,
+      "rawBytesSha256": "33724dd6024128190d8a0e35c38232464618ea963683e631fbaae445f9e1f60a"
+    },
+    "pureOracleTool": {
+      "file": "tools/rust-r3ab/contract-oracle.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "8385bf0a431998174569d8ebd1d8b08a4798e9b141a16b3bcd7cd0d57d48d842"
+    }
+  },
+  "preservedHistory": {
+    "manifest01": {
+      "file": "docs/design/rust-r3ab/g1-input-manifest.json",
+      "bytes": 183085,
+      "rawBytesSha256": "7346c8d21f4fbd43a35ca8ecd5846c7266626ebe9ef614a4f57be24398070f14",
+      "authority": "superseded pre-G1 candidate; retained unchanged"
+    },
+    "baselineCandidate01": {
+      "file": "docs/design/rust-r3ab/g1-baseline-candidate01-original.txt",
+      "bytes": 11534,
+      "rawBytesSha256": "1fa0d709f90d00653ac78f098bcdecbbb8ea606741479e00e727c1d161aa8367",
+      "authority": "rejected pre-G1 candidate; retained unchanged"
+    },
+    "rejectedOracleExpectation": {
+      "file": "tmp/rust-r3ab/root/oracle-candidate01-rejected.json",
+      "rawBytesSha256": "5b4dee0c8cb818aa20c9084b37c874749a8bbd0a67e38f7ccb4d1f6b4e500231",
+      "result": "Failed-with-classification",
+      "classification": "incorrect-unfrozen-oracle-expectation"
+    },
+    "rejectedOracleSource": {
+      "file": "tmp/rust-r3ab/root/contract-oracle-candidate01-original.txt",
+      "rawBytesSha256": "54472f6b2b2a4ceb91c0c29f396794cd64a933b8621209c744599e81f62f1853",
+      "reason": "expected 128 emoji to fail max255; original schema accepted, so the UTF-16 expectation was rejected"
+    }
+  },
+  "deltaIntegrity": {
+    "method": "Read-only public files, raw byte hashes, in-memory manifest comparison, original oracle-source inspection and installed locked Zod-source inspection; C did not execute the oracle or any actual environment",
+    "formalFilesChecked": 12,
+    "formalHashOrLengthMismatches": [],
+    "formalFilesAdded": [
+      "docs/design/rust-r3ab/joint-string-length-decision.json",
+      "tools/rust-r3ab/contract-oracle.mjs"
+    ],
+    "existingFormalFilesChanged": [
+      "docs/design/rust-r3ab-customer-project-baseline.md"
+    ],
+    "formalFilesRemoved": [],
+    "masterBaselineByteDelta": {
+      "commonPrefixBytes": 3394,
+      "commonSuffixBytes": 8140,
+      "removedBytes": 0,
+      "insertedBytes": 673,
+      "meaning": "only inserted the joint priority decision in section3"
+    },
+    "native872ManifestEntriesExactlyUnchanged": true,
+    "sixAuthorOriginalFormalCopiesUnchanged": true,
+    "operationInventoryAnd69SourcesUnchanged": true,
+    "a27AndB44SourceReferenceFilesUnchanged": true,
+    "review01AndManifest01HashesUnchanged": true,
+    "supersedesAndRejectedCandidateReferencesVerified": true
+  },
+  "p2Closure": {
+    "id": "R3AB-G1-C-001",
+    "priority": "P2",
+    "status": "Closed",
+    "authoritativeRule": "For the tested customer/project string min/max checks under locked Zod4.6.1, use Unicode code points after original trim. The original shared schemas plus actual oracle govern. The author UTF-16/code point prose has no independent normative priority.",
+    "baselineReference": {
+      "file": "docs/design/rust-r3ab-customer-project-baseline.md",
+      "line": 35
+    },
+    "originalSchema": {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 435823,
+      "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+    },
+    "lockedZod": {
+      "version": "4.6.1",
+      "entry": {
+        "file": "node_modules/.pnpm/zod@4.6.1/node_modules/zod/index.cjs",
+        "bytes": 2132,
+        "rawBytesSha256": "d93a8730d52c0fedab13619c8bc971cc99934c13d8dce7c97ee4d03a98d4096e"
+      },
+      "checks": {
+        "file": "node_modules/.pnpm/zod@4.6.1/node_modules/zod/v4/core/checks.cjs",
+        "bytes": 20164,
+        "rawBytesSha256": "c715bc2237695d0e72bfeb01e0d0ea38e51b67bb4e1cf273ca0a41fa8b7fa65d",
+        "maximumLines": [
+          291,
+          313
+        ],
+        "minimumLines": [
+          314,
+          338
+        ],
+        "observation": "Original code calls util.codePointLength when string units alone cannot determine the result."
+      }
+    },
+    "rootActualOracleEvidence": {
+      "execution": "Root original shared schema pure Node execution; no server/DB",
+      "reviewedByC": true,
+      "rerunByC": false,
+      "sourceLoading": "Tool transpiles and compiles the actual pinned shared-contracts.ts exports, then safeParse/parse executes those schemas; it does not copy hand-written substitute schemas.",
+      "declaredAndObservedCaseCount": 22,
+      "schemaGroups": 8,
+      "expectedAcceptances": 15,
+      "expectedBoundaryRejections": 7,
+      "coverage": "Five max255 name schema groups: 128 and255 emoji accepted,256 rejected. Customer and project keyword max128:65 and128 emoji accepted,129 rejected. Project lookup500 emoji accepted; separate original parse assertion retains surrounding spaces.",
+      "scopeLimit": "This artifact settles the disputed length authority only. It is not full HTTP/vendor-envelope/trim/lone-surrogate/JSON or product validation evidence."
+    },
+    "otherJSSemanticsNotOverridden": true,
+    "authorOriginalsNotRewritten": true
+  },
+  "remainingMandatoryExecutionOrder": [
+    "Root same-byte online G1 freeze before A/B product implementation",
+    "Native original SQL/HTTP/concurrency witnesses before corresponding persistence decisions, including alias audit/auth flush, project no-op/AUTO flush/version failures and reassign actual status",
+    "A Rust HTTP real active customer before B full Rust project integration acceptance; no stand-in customer producer",
+    "Full required DTO/guard/error/HTTP/PG/UI four-combination checks, applicable build/tests/protection checks and exact candidate binding remain Root-owned runtime work",
+    "Only after independent G3, fixed commits/main integration, preservation/archive and actual online G4 may #86/#87 close; #85/#57 remain Open"
+  ],
+  "evidenceClaims": {
+    "implementationWrittenByReviewer": false,
+    "acceptanceToolWrittenByReviewer": false,
+    "actualDBAccessByReviewer": false,
+    "privateAccessByReviewer": false,
+    "PG17AccessByReviewer": false,
+    "HTTPOrBrowserRunByReviewer": false,
+    "buildOrTestRunByReviewer": false,
+    "productRuntimePassClaimed": false,
+    "RustR3OperationsNewlyDeliveredByThisReport": 0,
+    "publicApiOrSchemaChanged": false,
+    "performanceOrDeploymentCertified": false
+  }
+}

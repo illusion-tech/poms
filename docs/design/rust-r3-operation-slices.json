@@ -10,10 +10,11 @@
     "A": 8,
     "B": 6,
     "later": 44,
-    "currentRustR3Delivered": 0
+    "currentRustR3Delivered": 0,
+    "firstBatchImplemented": 14
   },
   "nonHttpScope": {
-    "businessNumbers": "existing-R2-borrowed-connection-service; A/B producers in batch",
+    "businessNumbers": "A/B open the business transaction, then allocate through the independent shared pool next entry; committed counter gaps survive failed entity writes, per corrective4fda3a1a",
     "activeCustomer": "A real producer and original transaction-external lookup consumed by B",
     "future": [
       "lead conversion atomic attachment-copy and score",
@@ -815,7 +816,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 321,
@@ -849,8 +850,18 @@
         "implementedPath": "/api/customer-aliases/{id}",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 204,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.alias.delete-204",
+        "requestId": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerContactController_list",
@@ -1112,7 +1123,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 314,
@@ -1165,8 +1176,18 @@
         "implementedPath": "/api/customers",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.list",
+        "requestId": "7df48fa8-f41b-441c-af59-04414b7efa29"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerController_create",
@@ -1205,7 +1226,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 315,
@@ -1238,8 +1259,18 @@
         "implementedPath": "/api/customers",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.active.create",
+        "requestId": "d34b1efe-0af9-4c77-89ef-fe52c08d5399"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerController_getById",
@@ -1271,7 +1302,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 316,
@@ -1304,8 +1335,18 @@
         "implementedPath": "/api/customers/{id}",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.active.detail",
+        "requestId": "c0baa74d-ad6a-4fb4-81bb-2419b8c874ed"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerController_update",
@@ -1351,7 +1392,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 318,
@@ -1393,8 +1434,18 @@
         "implementedPath": "/api/customers/{id}",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.inactive.disable",
+        "requestId": "06dce74c-bd03-47a3-bd61-e8484b6cfc7b"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerController_listAliases",
@@ -1426,7 +1477,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 319,
@@ -1459,8 +1510,18 @@
         "implementedPath": "/api/customers/{id}/aliases",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.viewer.aliases",
+        "requestId": "6bc50ebf-68f5-414b-8f59-882b529fd6c4"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerController_createAlias",
@@ -1506,7 +1567,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 320,
@@ -1548,8 +1609,18 @@
         "implementedPath": "/api/customers/{id}/aliases",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.alias.normalized.create",
+        "requestId": "67033d25-3fa8-4a29-a4b6-685c824c15d5"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "CustomerController_getWorkspaceOverview",
@@ -1581,7 +1652,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3A",
       "issue": 86,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 317,
@@ -1614,8 +1685,18 @@
         "implementedPath": "/api/customers/{id}/workspace-overview",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.workspace.empty",
+        "requestId": "334ac04a-dac5-475a-92d3-276a9991a19c"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "LeadScoreOverrideController_approve",
@@ -3156,7 +3237,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3B",
       "issue": 87,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 307,
@@ -3217,8 +3298,18 @@
         "implementedPath": "/api/projects",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.list.keyword",
+        "requestId": "9c3ba1c2-a4e7-4a18-8deb-d25d2f6c98ba"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "ProjectController_create",
@@ -3257,7 +3348,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3B",
       "issue": 87,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 542,
@@ -3290,8 +3381,18 @@
         "implementedPath": "/api/projects",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.project.active.create",
+        "requestId": "75b16e95-8df3-4a23-b8a1-21c82b2a80c4"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "ProjectController_getByCode",
@@ -3323,7 +3424,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3B",
       "issue": 87,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 548,
@@ -3357,8 +3458,18 @@
         "implementedPath": "/api/projects/code/{projectNo}",
         "status": "canonical-decision-pending"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.lookup.exact",
+        "requestId": "d10c408a-7847-4eb0-9c7a-58f527483a2d"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "ProjectController_getById",
@@ -3397,7 +3508,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3B",
       "issue": 87,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 230,
@@ -3430,8 +3541,18 @@
         "implementedPath": "/api/projects/{id}",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.detail.empty.admin",
+        "requestId": "41521ab1-37c5-4a15-a523-4e666952395e"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "ProjectController_updateBasicInfo",
@@ -3477,7 +3598,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3B",
       "issue": 87,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 250,
@@ -3519,8 +3640,18 @@
         "implementedPath": "/api/projects/{id}",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.patch.noop-known-plus-unknown",
+        "requestId": "c95650e1-2a6d-41ee-8462-167d61ffe9b8"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "ProjectController_reassignOwner",
@@ -3566,7 +3697,7 @@
       "migrationPhase": "R3",
       "owner": "RUST-R3B",
       "issue": 87,
-      "scopeFrozen": false,
+      "scopeFrozen": true,
       "canonical": {
         "file": "docs/design/api-route-canonical-inventory.md",
         "line": 308,
@@ -3608,8 +3739,18 @@
         "implementedPath": "/api/projects/{id}:reassignOwner",
         "status": "canonical-match"
       },
-      "nativeStatusActual": "Pending-root-original-Native-witness",
-      "rustDelivered": false
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.reassign.other-primary",
+        "requestId": "0ddbcdb7-4daf-4958-b0ff-437a6b6a7c1a"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": false,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
     },
     {
       "operationId": "ProjectController_listProjectBidCommercialProcesses",
@@ -5112,8 +5253,23 @@
       "rustDelivered": false
     }
   ],
-  "dispatchCounting": "#84/#61 changed Native/canonical paths only; no previous Rust R3 public dispatch. First A/B G4 may count14, not entire R3.",
+  "dispatchCounting": "R3A/B implemented14 dispatch; formal R3 delivery count stays0 until actual scoped G4. #84/#61 are not duplicate Rust delivery.",
   "G1Certified": false,
   "G3Certified": false,
-  "G4Certified": false
+  "G4Certified": false,
+  "firstBatchDelivery": {
+    "phase": "G4Ready",
+    "operations": 14,
+    "G1Certified": true,
+    "G3Certified": true,
+    "G4Certified": false,
+    "currentStatusSource": {
+      "file": "docs/design/rust-r3ab-delivery-status.json",
+      "bytes": 5664,
+      "rawBytesSha256": "53c843d56b65994ad6a544f953a3068a75d7208ba8ae30ee3e12128a71b7f4e9"
+    },
+    "parent85Open": true,
+    "overall57Open": true
+  },
+  "certificationScope": "Top-level G1/G3/G4 remain false for full58-operation R3; only the14 explicit A/B rows carry their completed scoped gates."
 }
