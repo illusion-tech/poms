@@ -1,0 +1,79 @@
+{
+  "kind": "R3HIJK-actual-required-local-governance-checks",
+  "createdAt": "2026-11-02T20:13:44.726Z",
+  "source": {
+    "file": "tools/rust-r3hijk/common-checks01.mjs",
+    "bytes": 1503,
+    "rawBytesSha256": "cf1f868090badebee21852ef4d036e04815320a44d181a3c2d622d22b0cd2153"
+  },
+  "receipts": [
+    {
+      "name": "markdown-format",
+      "command": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "task",
+        "format:md:check"
+      ],
+      "exitCode": 0,
+      "errorName": null,
+      "streams": [
+        {
+          "file": "tmp/rust-r3hijk/common-checks08/markdown-format-stdout.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tmp/rust-r3hijk/common-checks08/markdown-format-stderr.bin",
+          "bytes": 83,
+          "rawBytesSha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd"
+        }
+      ]
+    },
+    {
+      "name": "diff-check",
+      "command": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "errorName": null,
+      "streams": [
+        {
+          "file": "tmp/rust-r3hijk/common-checks08/diff-check-stdout.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tmp/rust-r3hijk/common-checks08/diff-check-stderr.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "staged-diff-check",
+      "command": "git",
+      "args": [
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exitCode": 0,
+      "errorName": null,
+      "streams": [
+        {
+          "file": "tmp/rust-r3hijk/common-checks08/staged-diff-check-stdout.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tmp/rust-r3hijk/common-checks08/staged-diff-check-stderr.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ],
+  "allChecksPassed": true
+}

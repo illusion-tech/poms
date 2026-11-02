@@ -1,0 +1,374 @@
+{
+  "kind": "C-independent-R3HIJK-G4-exact-closeout-preflight01",
+  "createdAt": "2026-11-02T20:09:44.658Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Pass",
+  "closeoutAllowed": true,
+  "approvedPlan": {
+    "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/plan01.json",
+    "bytes": 21082,
+    "rawBytesSha256": "212ab4fd6a15b83ecfb7a632f51f5fe30ef5eba86dd8f434329236eabc1894bb"
+  },
+  "G4Certified": false,
+  "G4IndependentActualReadbackPending": true,
+  "G3Certified": true,
+  "fixedCommitCertified": true,
+  "mainIntegrationCertified": true,
+  "scopeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "closeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "parentsRemainOpen": [
+    85,
+    57
+  ],
+  "fullStageCertified": false,
+  "formalR3Before": 30,
+  "formalR3AfterExactActualG4": 58,
+  "implementation": "5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875",
+  "archiveCommit": "a720101037e7cbff06de132909991de1c746e0c2",
+  "mainReviewed": "b3b55f472febd6d129eae1150831b1a2a64d865f",
+  "mainSource": {
+    "GitMainAndOriginMainAtReviewedHead": true,
+    "linearFixedArchiveMetadataChain": true,
+    "noPostImplementationDiffIn235ProductAnd1373ProtectedInputs": true,
+    "all1608GitBlobRawPinsExact": true,
+    "all1608PrimaryLFOnlyReadbackExact": true,
+    "preexistingPrimaryCRLFFiles": 15,
+    "all15PhysicalRawBytesMatchBeforeAndAfterReceipt": true,
+    "physicalNativeRawExact": 1358,
+    "CRLFRepresentationClass": "tool-noise-existing-host-representation, not source mutation",
+    "failedStrictPreflightStoppedBeforeMergeAndModifiedNothing": true,
+    "integrationProof": {
+      "file": "docs/design/archive/slices/rust-r3hijk/main-integration-proof01.json",
+      "bytes": 14709,
+      "rawBytesSha256": "345613b0b8eab742965926903cf25a150e71d41809c2b3f6718b8abd6e2834cb"
+    }
+  },
+  "archive": {
+    "authority": {
+      "file": "docs/design/archive/slices/rust-r3hijk/archive-origin-map.json",
+      "bytes": 827722,
+      "rawBytesSha256": "104434240ea4af61df20adbacee80fac5b81ecb0a8532cdf4aaf65b73ee23334"
+    },
+    "movedOriginals": 2161,
+    "rootLifecycleMarkdownFiles": 7,
+    "allRawRelocationsVerified": true,
+    "rootLifecycleAliases": 0,
+    "publicOriginals": 1797,
+    "historicalVerifyArchive02PublicCount": 1788,
+    "subsequentMap06AddsNineRawCommonMetadataFiles": true,
+    "allPublicRawPinsResolve": true,
+    "G1FormalInputsResolved": 246,
+    "G3InputPinsResolved": 3840,
+    "allFrozenInputsAndPriorSignaturesRetained": true,
+    "canonicalReadersReviewed": [
+      "tools/rust-r3hijk/archive-paths02.mjs",
+      "tools/rust-r3hijk/verify-archive02.mjs"
+    ],
+    "CExecutedOnlyOwnVerifierNotRootReaders": true,
+    "immutableSnapshots": 21,
+    "G1InventoryRecovery": {
+      "record": {
+        "file": "docs/design/archive/slices/rust-r3hijk/immutable-inputs/g1-inventory-recovery.json",
+        "bytes": 786,
+        "rawBytesSha256": "68329443133a7d950a9771e324027540c19f697ffc97af7bbda72a3520a950f0"
+      },
+      "originalBytes": 15736,
+      "originalSHA256": "5bed930bdccfef84b9a5f112908c3ba88463e2e5d32dac148ef88d79629ad34a",
+      "exactFrozenG1PinRestored": true,
+      "onlyDeclaredTwoMetadataOverlayInverse": true,
+      "oldFrozenManifestNotRewritten": true,
+      "currentToolNotRewrittenByRecovery": true
+    }
+  },
+  "planReview": {
+    "sixEntries": [
+      {
+        "issue": 93,
+        "beforeState": "open",
+        "desiredState": "closed",
+        "operations": 14,
+        "checkedBoxes": 6,
+        "bodySha256": "7683faa4e86fe3dee67df6686c129031e08653e37be22c9708cce33deeff2275",
+        "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+        "original": {
+          "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-93.json",
+          "bytes": 5560,
+          "rawBytesSha256": "aeb47c0ae72fdfde3a11950d80b99a20cc936141ac14101b726ed6ed26264ded"
+        }
+      },
+      {
+        "issue": 94,
+        "beforeState": "open",
+        "desiredState": "closed",
+        "operations": 10,
+        "checkedBoxes": 6,
+        "bodySha256": "182d7ec01ee3d36aedcacb4542a043a843bfe4b66afdc28e027b562524e5fa21",
+        "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+        "original": {
+          "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-94.json",
+          "bytes": 5455,
+          "rawBytesSha256": "0d82262c55e5a71c83e40717bdb63af7e84ff21b4b285a94f5dedb7a0d8bbf24"
+        }
+      },
+      {
+        "issue": 95,
+        "beforeState": "open",
+        "desiredState": "closed",
+        "operations": 2,
+        "checkedBoxes": 6,
+        "bodySha256": "2052cf3c6ded1cd7a4f6ee1765669c5c84b3216af42d1e0ca8a45b10f1d56302",
+        "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+        "original": {
+          "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-95.json",
+          "bytes": 4699,
+          "rawBytesSha256": "5c517d2b47105c8130a2eca0ca3707e7beb98dcef1f4dd862512f699c4b46978"
+        }
+      },
+      {
+        "issue": 96,
+        "beforeState": "open",
+        "desiredState": "closed",
+        "operations": 2,
+        "checkedBoxes": 6,
+        "bodySha256": "1fad3a23e8cd9d31000702d4bbba9759c9209a8df0e88b97adc96112fea349ff",
+        "commentSha256": "30585e399e465cc557e6ca85a7e3e40e152531a1ed6e4d2ed6b0b69f4c83f63a",
+        "original": {
+          "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-96.json",
+          "bytes": 4721,
+          "rawBytesSha256": "e420b9f216a3c89e18fb01d2285da79ed2184676fca85a0692922860e23a9ad9"
+        }
+      },
+      {
+        "issue": 85,
+        "beforeState": "open",
+        "desiredState": "open",
+        "operations": 0,
+        "checkedBoxes": 0,
+        "bodySha256": "a0ecb8d9fac516203f698c481d1464fdab8321a0c6e890a40226de539f5d34cb",
+        "commentSha256": "c08bcef9b739fa8a8b9c6609dda2df9caf94e049d6a2ddc6d754999174904b8b",
+        "original": {
+          "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-85.json",
+          "bytes": 5906,
+          "rawBytesSha256": "69d108dd53abc3e3ed20d2fddda5c1515440fbe1cb2abb68137588c58d8f4721"
+        }
+      },
+      {
+        "issue": 57,
+        "beforeState": "open",
+        "desiredState": "open",
+        "operations": 0,
+        "checkedBoxes": 0,
+        "bodySha256": "ddd470bb626d01d8b81958fab81df74f53a7a913b456cdcf28bb4c912099c8a6",
+        "commentSha256": "c08bcef9b739fa8a8b9c6609dda2df9caf94e049d6a2ddc6d754999174904b8b",
+        "original": {
+          "file": "docs/design/archive/slices/rust-r3hijk/g4-plan01/before-57.json",
+          "bytes": 9743,
+          "rawBytesSha256": "44cdbf4c6d302e76e43531ec3bb811cbc257f7a38f5d70e87834fd5978638b82"
+        }
+      }
+    ],
+    "allSixBeforeRawGETPinsAndBodyHashesExact": true,
+    "allSixBeforeStatesOpen": true,
+    "onlyFourChildrenDesiredClosed": true,
+    "childrenChecklistsSixOfSixEach": true,
+    "operationSplit": [
+      14,
+      10,
+      2,
+      2
+    ],
+    "operationTotal": 28,
+    "all28MethodPathOperationIdsMatchFrozenScope": true,
+    "parentStageRequirementsRemainUnchecked": true,
+    "R0R1R2AndOld30DeliveryHistoryRespected": true,
+    "oldFullBodiesPreservedInBeforeOriginals": true,
+    "parent85AndOverall57MustRemainOpen": true,
+    "allPublishedMainFileLinksResolveAtReviewedMain": true,
+    "childAndParentBodiesAreIntendedPostActionTextsNotCurrentCertification": true,
+    "G3OnlineExactReadback": {
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/g3-online01/receipt01.json",
+      "bytes": 1137,
+      "rawBytesSha256": "5e6fc2dc611210c87391afe717ba0b12dbadde7b4a684b160c5e9d9c3c697717"
+    }
+  },
+  "currentGovernance": {
+    "status": {
+      "file": "docs/design/rust-r3hijk-delivery-status.json",
+      "bytes": 18792,
+      "rawBytesSha256": "8920d12311038a4608add833a9731400874d82929eaef3bc341c36b7f3017021"
+    },
+    "phase": "G4Ready",
+    "G3AndFixedAndMainTrueG4False": true,
+    "formal30Current173": true,
+    "closedIssuesCurrentlyEmpty": true,
+    "trueRustExecutionTracker": {
+      "file": "docs/design/rust-migration-execution-tracker.md",
+      "bytes": 51845,
+      "rawBytesSha256": "3d7a166dab65a4cbaa30d410202854d59071b0a588a9844ef1968d0a29b55391"
+    },
+    "currentHeader173AndAllFourRowsG4Ready": true,
+    "historicalParagraphsRetained": true,
+    "common07": {
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/common-checks07/report01.json",
+      "bytes": 2283,
+      "rawBytesSha256": "6c61dc3d890172277c7fe6361fb8ada5ff6750a3a2cea4e4038c7e6d31dde10d"
+    },
+    "threeChecksAll0": true,
+    "preparedDoneOnlyInventoryFix": "The uncommitted single if(done) latestClosedBatch=28 metadata correction leaves currentReady output unchanged; actualDone summary28 and truthful tracker/inventory/status must be checked in independent actualG4 review.",
+    "noProductChangeApprovedByMetadataPreparation": true
+  },
+  "E1Approved": true,
+  "E1": {
+    "decision": "Fresh explicit current-batch closeout continuation approved",
+    "priorApprovalNotSilentlyInherited": true,
+    "files": [
+      {
+        "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+        "bytes": 190930,
+        "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+        "canonicalArchive": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+        "bytes": 180482,
+        "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+        "canonicalArchive": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+        "bytes": 38863,
+        "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+        "canonicalArchive": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+        "bytes": 4774,
+        "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+        "canonicalArchive": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+        "bytes": 4215,
+        "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+        "canonicalArchive": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+      }
+    ],
+    "regularAliases": 5,
+    "totalBytes": 419264,
+    "allActiveCanonicalArchiveRawExact": true,
+    "actualDirectLiteralConsumers": 23,
+    "consumerPaths": [
+      "tools/rust-r3cdefg/attest-rust.mjs",
+      "tools/rust-r3cdefg/bootstrap-linux.mjs",
+      "tools/rust-r3cdefg/boundaries.mjs",
+      "tools/rust-r3cdefg/business-branches01.mjs",
+      "tools/rust-r3cdefg/business-run.mjs",
+      "tools/rust-r3cdefg/coverage.mjs",
+      "tools/rust-r3cdefg/derive-acceptance.mjs",
+      "tools/rust-r3cdefg/edge-run.mjs",
+      "tools/rust-r3cdefg/environment.mjs",
+      "tools/rust-r3cdefg/native-witness-extra02.mjs",
+      "tools/rust-r3cdefg/native-witness.mjs",
+      "tools/rust-r3cdefg/prepare-ui.mjs",
+      "tools/rust-r3cdefg/project-edges01.mjs",
+      "tools/rust-r3cdefg/raw-errors.mjs",
+      "tools/rust-r3cdefg/semantics-extra02.mjs",
+      "tools/rust-r3cdefg/semantics01.mjs",
+      "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+      "tools/rust-r3cdefg/shared-checks.mjs",
+      "tools/rust-r3cdefg/temporal.mjs",
+      "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "tools/rust-r3cdefg/ui-run.mjs",
+      "tools/rust-r3cdefg/wire-http-modules.mjs",
+      "tmp/rust-r3hijk/foundation-business-regression01.mjs"
+    ],
+    "owner": "Root /root",
+    "originalDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "nextReview": "Next subsequent R3 G1 or original2026-11-09, whichever is earlier",
+    "exit": "All identified supported replay consumers use canonical archive-aware resolution and exact hashes, then remove only five aliases; preserve immutable originals.",
+    "exitNotYetSatisfied": true,
+    "noNewLifecycleOrLargeEvidenceCompatibilityTreeApproved": true,
+    "noClaimAllHistoricalCommandsReplayUnchanged": true
+  },
+  "terminalAndPrivacy": {
+    "terminal": {
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/environment-terminal02.json",
+      "bytes": 3080,
+      "rawBytesSha256": "2926650ab4c4d191b4bf65bb78bd04c7ff42302498730e42c6c938537030c0a5"
+    },
+    "newCohort389AndSeed107Privileges428RestoreAcceptedFromCompleteG3": true,
+    "allEightLinuxAndWindowsNativeAndOriginalBrowserProxyStopsRetained": true,
+    "fivePortsFreeAndSQLNoneAndPG15StoppedRetained": true,
+    "volumePrivateAnd21LocalObjectsRetained": true,
+    "oldPG17AndPriorPrivateNotReadByC": true,
+    "independentPublicJSONScanned": 1516,
+    "sensitiveLiteralFindings": 0,
+    "valuesNotPrinted": true,
+    "rawQuarantine21NotPublished": true,
+    "public21StillExplicitPartialDerivative": true
+  },
+  "limitsRetained": {
+    "finalCandidate": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+    "testsPassed": 294,
+    "ignored": 54,
+    "ignoredNotExecutedPGTests": true,
+    "originalFourUICandidateAndBrowserPlatformReuseOnly": true,
+    "WindowsRustNativeServerCertified": false,
+    "nonemptyOptionalOriginalConversionDatePickerNotCertified": true,
+    "absentIEditDeleteAndJSelectorUINotInvented": true,
+    "onlyLocalUploadAndScopedCopyCertified": true,
+    "R4PreparedReadFactsNotWriteOrHandlerDelivery": true,
+    "fullNonHTTPApprovalR3StageAndR4ToR7StillIncomplete": true,
+    "noDeploymentCutoverOrPerformanceConclusion": true
+  },
+  "executionPermission": {
+    "onlyThisExactPlan": true,
+    "repository": "illusion-tech/poms",
+    "allowedIssueNumbers": [
+      93,
+      94,
+      95,
+      96,
+      85,
+      57
+    ],
+    "allowedPostActionStates": {
+      "57": "open",
+      "85": "open",
+      "93": "closed",
+      "94": "closed",
+      "95": "closed",
+      "96": "closed"
+    },
+    "bodyAndCommentHashesMustMatchPlan": true,
+    "freshBeforeBodyGuardOrExactAlreadyAppliedTargetAndMarkerIdempotencyRequired": true,
+    "noUnrelatedHumanBodyOverwrite": true,
+    "partialFailureMustRemainPartialNotCertified": true,
+    "allSixExactRemoteBodyStateCommentReadbacksAndFourChildSixOfSixRequired": true,
+    "localStatusInventoryTrackerFormal58LatestBatch28OnlyAfterActualConditionsSatisfied": true,
+    "afterActualActionsRequestIndependentG4FinalReadback": true,
+    "G4CertifiedByThisPermit": false
+  },
+  "noProductOrRootExecutorWriting": true,
+  "noRootExecutorProductBuildTestDBHTTPBrowserOrRuntimeExecution": true,
+  "noGitMutationOrGitHubExternalWrite": true,
+  "noPrivateRead": true,
+  "onlyOwnCReviewArtifactsWritten": true
+}

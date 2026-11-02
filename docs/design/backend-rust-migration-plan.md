@@ -521,3 +521,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-03 R3H–K main已集成，独立G4关闭许可待签
 
 实现5ca4adfa及归档a7201010已快进并push main；[实际主线读回](archive/slices/rust-r3hijk/main-integration-proof01.json)核235产品和1373保护输入，主区15份既有CRLF表示逐个保留，LF比较与Git源一致；首次严格原字节预检在merge前停止的tool-noise也保留。当前仅G4Ready、正式30/58，六Issue的[具体G4正文/评论方案](archive/slices/rust-r3hijk/g4-plan01/plan01.json)尚未发布，关闭许可另审。#93–96与父#85/#57保持Open。
+
+
+### 2026-11-03 R3H–K 实际线上 G4／HTTP58项完成
+
+[#93 G4](https://github.com/illusion-tech/poms/issues/93#issuecomment-6587329362)、[#94 G4](https://github.com/illusion-tech/poms/issues/94#issuecomment-6587333500)、[#95 G4](https://github.com/illusion-tech/poms/issues/95#issuecomment-6587337989)、[#96 G4](https://github.com/illusion-tech/poms/issues/96#issuecomment-6587342179) 已按[独立关闭前许可](archive/slices/rust-r3hijk/C/g4-closeout-preflight01.json)实际收口；[六项原始读回](archive/slices/rust-r3hijk/g4-online-receipt01.json)核4子项6/6及父#85/#57继续Open。R3公共HTTP累计58/58、Rust173操作；完整非HTTP/审批/阶段验收尚未完成，R4–R7仍按前置等待。当前状态/清单已同步，最后独立实际G4读回终审另附，旧原件不改。
