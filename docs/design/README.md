@@ -449,3 +449,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-02 R3A/B 主线集成与 G4 就绪
 
 实现 `df0d99decffbe974c988e85eea97767331044cbe` 已通过[固定提交复核](rust-r3ab/fixed-commit-review01.json)，并已 FF/push main。[原件归档与收口边界](archive/slices/rust-r3ab-closeout.md)、[来源映射](archive/slices/rust-r3ab/archive-origin-map.json)和[主区集成证据](archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json)已就绪。当前 #86/#87 为 G4 就绪，尚不标Done/关闭；独立关闭前复核、线上G4及最终元数据同步完成后才计14/58。#85/#57持续Open，余44及阶段验收不变。
+
+
+### 2026-11-02 R3A/B 实际 G4 在线收口
+
+客户/别名 [#86](https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630) 与项目基础 [#87](https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053) 已按独立关闭前许可完成 G4 并 Closed；本批交付 **14/58**，当前 Rust dispatch **129**。父 [#85](https://github.com/illusion-tech/poms/issues/85) 及总体 [#57](https://github.com/illusion-tech/poms/issues/57) 均保持 Open，余44与完整非HTTP/阶段验收不变。[收口记录](archive/slices/rust-r3ab-closeout.md)、[当前归属/计数](rust-r3-operation-slices.json)和[实际线上原件](archive/slices/rust-r3ab/evidence/online/g4-online-receipt01.json)已同步；最终非作者实际G4终审及增量保全另附，不覆盖旧原件。

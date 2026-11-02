@@ -1,13 +1,16 @@
 {
   "kind": "R3AB-current-scoped-delivery-status",
-  "updatedAt": "2026-11-02T01:31:03.767Z",
+  "updatedAt": "2026-11-02T01:41:48.684Z",
   "implementation": "df0d99decffbe974c988e85eea97767331044cbe",
-  "phase": "G4Ready",
+  "phase": "Done",
   "G1Certified": true,
   "G3Certified": true,
-  "G4Certified": false,
+  "G4Certified": true,
   "mainIntegrated": true,
-  "closedIssues": [],
+  "closedIssues": [
+    86,
+    87
+  ],
   "parent85Open": true,
   "overall57Open": true,
   "operations": [
@@ -152,10 +155,17 @@
       }
     }
   ],
-  "requiredBeforeDone": "Independent G4 preflight, actual online closeout/only86-87 closed, final metadata and independent actual G4 reconciliation",
+  "requiredBeforeDone": "Scoped online G4 actually completed after independent closeout approval; final actual independent reconciliation is recorded separately.",
   "receipts": {
     "G3": "docs/design/rust-r3ab/g3-independent-review01.json",
     "fixed": "docs/design/rust-r3ab/fixed-commit-review01.json",
-    "integration": "docs/design/archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json"
-  }
+    "integration": "docs/design/archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json",
+    "G4Preflight": "docs/design/archive/slices/rust-r3ab/evidence/C/g4-closeout-preflight01.json",
+    "G4Online": "docs/design/archive/slices/rust-r3ab/evidence/online/g4-online-receipt01.json"
+  },
+  "independentActualG4": "Pending-final-actual-reconciliation",
+  "G4CommentURLs": [
+    "https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630",
+    "https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053"
+  ]
 }

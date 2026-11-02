@@ -1,6 +1,6 @@
 # RUST-R3A/B 首批收口记录
 
-当前为 **G4 关闭前就绪**：客户/别名8项与项目基础6项已实现、验收，通过独立 G3 和固定提交复核；实现 `df0d99decffbe974c988e85eea97767331044cbe` 已 FF 并推送 main。线上 G4 与最终独立复核尚待完成，当前不关闭 #86/#87，正式交付暂0/58。
+本批客户/别名8项与项目基础6项已按独立G4关闭前许可完成实际线上收口，#86/#87 Closed；当前交付 **14/58**，父#85/#57保持Open。实现 `df0d99decffbe974c988e85eea97767331044cbe`、原件归档及主线集成已完成；最终非作者实际G4终审收据另附。
 
 ## 实际交付与原件
 
@@ -18,3 +18,10 @@
 本次只允许 #86/#87 自身 G4 后关闭并计14/58。父 #85 与总体 #57 保持 Open；余44操作、完整非 HTTP/审批/副作用生产链及 R3 阶段验收仍待后续切片。R4–R7、正式部署/切流、真实云租户接管和性能认证不在本批。
 
 后续在线回执、实际状态和独立 G4 决定以归档目录中的增量原件及当前 `rust-r3ab-delivery-status.json` 为准；本段不预签尚未发生的结果。
+
+
+## 实际线上回执
+
+- [客户 #86 G4](https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630)、[项目 #87 G4](https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053)；[原始线上回执](rust-r3ab/evidence/online/g4-online-receipt01.json)、[父85现状](rust-r3ab/evidence/online/issue-85-after-g4.json)、[总体57现状](rust-r3ab/evidence/online/issue-57-after-g4.json)。
+- [独立关闭许可](rust-r3ab/evidence/C/g4-closeout-preflight01.json)已批准且仅批准86/87；E1兼容副本的独立approver/owner/日期/退出条件完整。
+- [当前交付状态](../../rust-r3ab-delivery-status.json)只对本批14条标记交付，余44及全R3阶段Gate继续未认证；后续最终独立终审和保全收据另附。

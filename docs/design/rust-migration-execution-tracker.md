@@ -2,12 +2,12 @@
 
 **最后更新**: 2026-11-02
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: R0/R1/R2已交付，R2为108/108且#67/#80 Closed；R3 A/B14操作已集成main并G4就绪，正式计数待G4；#85/#57与余44保持Open
+**当前状态**: R0/R1/R2已交付，R2为108/108且#67/#80 Closed；R3 A/B已交付14/58，当前Rust dispatch129；#85/#57与余44保持Open
 **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
 
-2026-10-26 初查尚无 Rust 任务；R0F 按用户授权建立 [总体 #57](https://github.com/illusion-tech/poms/issues/57) → [R0 #58](https://github.com/illusion-tech/poms/issues/58) → [R0F #59](https://github.com/illusion-tech/poms/issues/59) 原生父子关系。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 均已交付；R1E 实现 afbf4ee5 已集成推送，父阶段与子项 G4 随本归档提交及 Issue 同步生效。[lookup 裁决 #61](https://github.com/illusion-tech/poms/issues/61) 保持 Todo。GitHub 拥有任务状态，本页保留输入与映射。
+2026-10-26 初查尚无 Rust 任务；R0F 按用户授权建立 [总体 #57](https://github.com/illusion-tech/poms/issues/57) → [R0 #58](https://github.com/illusion-tech/poms/issues/58) → [R0F #59](https://github.com/illusion-tech/poms/issues/59) 原生父子关系。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 均已交付；R1E 实现 afbf4ee5 已集成推送，父阶段与子项 G4 随本归档提交及 Issue 同步生效。[lookup 裁决 #61](https://github.com/illusion-tech/poms/issues/61) 及其原生子项当前已 Closed（历次 Todo 描述仅代表原时点）。GitHub 拥有任务状态，本页保留输入与映射。
 
 `Todo` 表示工程尚未开始（输入可能已冻结）；`Doing` 表示已授权的盘点/准备正在进行。未提交、未完成 G4 的成果不标记 `Done`。父阶段完成需要全部验收条件满足，不能由单个子任务推导。
 
@@ -29,7 +29,7 @@
 | ---- | ----- | ------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | R1   | Done  | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A–E 七操作、认证与基础已交付；G4 随本归档提交及 Issue 同步生效，不代表 R2–R7 完成 |
 | R2   | Done  | R1与R2A–M冻结输入和阶段验收                      | #67/#80 Closed；108/108公共操作及冻结阶段集成验收完成                               |
-| R3   | Doing | R2已完成；当前58项归属/依赖与各片G1              | #85 Open；首批14项已集成main、G4就绪，余44及阶段验收待完成                          |
+| R3   | Doing | R2已完成；当前58项归属/依赖与各片G1              | #85 Open；首批14/58已G4收口，#86/#87 Closed；余44及阶段验收待完成                   |
 | R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                              |
 | R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                                      |
 | R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                                         |
@@ -58,6 +58,11 @@
 | R2K #78   | Done | 五操作与最小真实facts已完成G4；[收口](archive/slices/rust-r2k-closeout.md)，R2累计104/108                                                                                                                                                                                        |
 | R2L #79   | Done | 四操作及必要真实域消费已完成G4；[收口](archive/slices/rust-r2l-closeout.md)，R2累计108/108                                                                                                                                                                                       |
 | R2M #80   | Done | R2阶段验收已完成G4；[收口](archive/slices/rust-r2m-closeout.md)，#80/#67均Closed                                                                                                                                                                                                 |
+
+| R3首批  | 状态 | 当前交付                                    |
+| ------- | ---- | ------------------------------------------- |
+| R3A #86 | Done | 客户/别名8操作已完成G4并Closed              |
+| R3B #87 | Done | 项目基础6操作及真实客户集成已完成G4并Closed |
 
 同一阶段可拆分多个工程切片；具体 G1 必须列路由、业务、DTO、权限、表、事务、测试和不做内容。阶段分工不授予正式写入权或远程发布权限。
 
@@ -246,3 +251,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-02 R3A/B 主线集成与 G4 就绪
 
 实现 `df0d99decffbe974c988e85eea97767331044cbe` 已通过[固定提交复核](rust-r3ab/fixed-commit-review01.json)，并已 FF/push main。[原件归档与收口边界](archive/slices/rust-r3ab-closeout.md)、[来源映射](archive/slices/rust-r3ab/archive-origin-map.json)和[主区集成证据](archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json)已就绪。当前 #86/#87 为 G4 就绪，尚不标Done/关闭；独立关闭前复核、线上G4及最终元数据同步完成后才计14/58。#85/#57持续Open，余44及阶段验收不变。
+
+
+### 2026-11-02 R3A/B 实际 G4 在线收口
+
+客户/别名 [#86](https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630) 与项目基础 [#87](https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053) 已按独立关闭前许可完成 G4 并 Closed；本批交付 **14/58**，当前 Rust dispatch **129**。父 [#85](https://github.com/illusion-tech/poms/issues/85) 及总体 [#57](https://github.com/illusion-tech/poms/issues/57) 均保持 Open，余44与完整非HTTP/阶段验收不变。[收口记录](archive/slices/rust-r3ab-closeout.md)、[当前归属/计数](rust-r3-operation-slices.json)和[实际线上原件](archive/slices/rust-r3ab/evidence/online/g4-online-receipt01.json)已同步；最终非作者实际G4终审及增量保全另附，不覆盖旧原件。

@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-10-29
-**Rust 迁移补充索引更新**: 2026-10-29；原第二阶段任务状态不变
+**Rust 迁移补充索引更新**: 2026-11-02；原第二阶段任务状态不变
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
 **关联文档**:
 
@@ -29,7 +29,7 @@
 
 ## 1. 文档目标
 
-Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 七操作、认证与基础已交付。R1E #66 实现 afbf4ee5 已集成推送，集成后19项检查通过，[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)与[机器证据](rust-r1e-validation.json)保留64项stage、36项Nest legacy（11项mock）、80个run清理全通过和非作者审查无剩余P1/P2；父子G4 / Done随本归档提交及Issue同步生效。总体#57与R2–R7仍未完成，PG17保留。不复用本板已完成任务编号，也不把原 TypeScript 业务交付状态改记为 Rust 业务交付状态。
+Rust 后端迁移是独立的后续工程范围，使用 [`RUST-R0` 至 `RUST-R7` 执行追踪](rust-migration-execution-tracker.md)承接任务及子切片，正式输入见 [Rust 重构计划](backend-rust-migration-plan.md)。[RUST-R0 #58](https://github.com/illusion-tech/poms/issues/58) 及 [R0F #59](https://github.com/illusion-tech/poms/issues/59) 已交付并归档；[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 七操作、认证与基础已交付。R1E #66 实现 afbf4ee5 已集成推送，集成后19项检查通过，[归档基线](archive/slices/rust-r1e-stage-acceptance-baseline.md)与[机器证据](rust-r1e-validation.json)保留64项stage、36项Nest legacy（11项mock）、80个run清理全通过和非作者审查无剩余P1/P2；父子G4 / Done随本归档提交及Issue同步生效。总体#57与R3–R7仍未完成；R2现108/108并已完成阶段G4，PG17保留。不复用本板已完成任务编号，也不把原 TypeScript 业务交付状态改记为 Rust 业务交付状态。
 
 本文档是第二阶段当前统一开发范围下的执行板，不承担历史论证职责。
 
@@ -656,3 +656,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-02 R3A/B 主线集成与 G4 就绪
 
 实现 `df0d99decffbe974c988e85eea97767331044cbe` 已通过[固定提交复核](rust-r3ab/fixed-commit-review01.json)，并已 FF/push main。[原件归档与收口边界](archive/slices/rust-r3ab-closeout.md)、[来源映射](archive/slices/rust-r3ab/archive-origin-map.json)和[主区集成证据](archive/slices/rust-r3ab/evidence/governance/main-integration-proof01.json)已就绪。当前 #86/#87 为 G4 就绪，尚不标Done/关闭；独立关闭前复核、线上G4及最终元数据同步完成后才计14/58。#85/#57持续Open，余44及阶段验收不变。
+
+
+### 2026-11-02 R3A/B 实际 G4 在线收口
+
+客户/别名 [#86](https://github.com/illusion-tech/poms/issues/86#issuecomment-6567020630) 与项目基础 [#87](https://github.com/illusion-tech/poms/issues/87#issuecomment-6567024053) 已按独立关闭前许可完成 G4 并 Closed；本批交付 **14/58**，当前 Rust dispatch **129**。父 [#85](https://github.com/illusion-tech/poms/issues/85) 及总体 [#57](https://github.com/illusion-tech/poms/issues/57) 均保持 Open，余44与完整非HTTP/阶段验收不变。[收口记录](archive/slices/rust-r3ab-closeout.md)、[当前归属/计数](rust-r3-operation-slices.json)和[实际线上原件](archive/slices/rust-r3ab/evidence/online/g4-online-receipt01.json)已同步；最终非作者实际G4终审及增量保全另附，不覆盖旧原件。
