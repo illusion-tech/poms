@@ -1,8 +1,8 @@
 # Rust 后端迁移执行追踪
 
-**最后更新**: 2026-11-02
+**最后更新**: 2026-11-03
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: R0/R1/R2已交付；R3 A–G已交付30/58，Rust dispatch145；#85/#57与余28及阶段验收保持Open
+**当前状态**: R0/R1/R2已交付；R3正式30/58，H–K另28项实现并通过G3/fixed，Rust173操作；待本批G4，#85/#57及完整阶段验收Open
 **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
@@ -292,3 +292,15 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-02 R3C–G 独立实际 G4 终审 Pass
 
 [非作者实际G4原件](archive/slices/rust-r3cdefg/C/g4-independent-actual-review01.json)已Pass，仅认证本批16操作；#88–92 Closed，#85/#57 Open，R3累计30/58、余28及完整阶段验收仍未完成。当前[交付状态](rust-r3cdefg-delivery-status.json)、[收口索引](archive/slices/rust-r3cdefg-closeout.md)及互斥清单已绑定终审；旧G1/G3/Failed/Pending、235/54ignored、旧ec UI因果引用和全部原始边界不回写。最后元数据及增量保全仅追加本签署与引用，不改产品、批准的七项方案或线上正文。
+
+
+### 2026-11-03 R3H–K 固定提交／原字节归档就绪
+
+实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875` 已通过独立G3复审02及固定提交复核；[收口索引](archive/slices/rust-r3hijk-closeout.md)与[原字节映射](archive/slices/rust-r3hijk/archive-origin-map.json)保留全部历史标签和七份根生命周期文档。当前G4Ready，正式仍30/58、Rust173；main集成读回、独立关闭许可及线上实际G4另行完成，#93–96尚Open，#85/#57保持Open。
+
+| 本批子片         | Issue | 操作数 | 当前状态        |
+| ---------------- | ----- | ------ | --------------- |
+| R3H 线索与评分   | #93   | 14     | Doing / G4Ready |
+| R3I 销售情报     | #94   | 10     | Doing / G4Ready |
+| R3J 业务讨论     | #95   | 2      | Doing / G4Ready |
+| R3K 项目综合读取 | #96   | 2      | Doing / G4Ready |

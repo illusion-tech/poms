@@ -490,24 +490,29 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 
 ### 2026-11-02 R3H–K 最后28项 G0 / 联合G1准备
 
-用户已授权本批完整G0–G4：[联合基线](rust-r3hijk-next28-baseline.md)覆盖线索#93十四项、情报#94十项、讨论#95两项及工作区#96两项。三作者在共享边界和独立联合G1线上冻结后并行实现，Root集中公共接线与实际验收，C保持非作者。当前已交付仍30/58、Rust145操作；本批28待交付，原Native风险54组/193HTTP不等于Rust/完整UI验收。全部HTTP完成后完整非HTTP/审批/阶段Gate仍未完成，#85/#57保持Open。
+用户已授权本批完整G0–G4：[联合基线](archive/slices/rust-r3hijk-next28-baseline.md)覆盖线索#93十四项、情报#94十项、讨论#95两项及工作区#96两项。三作者在共享边界和独立联合G1线上冻结后并行实现，Root集中公共接线与实际验收，C保持非作者。当前已交付仍30/58、Rust145操作；本批28待交付，原Native风险54组/193HTTP不等于Rust/完整UI验收。全部HTTP完成后完整非HTTP/审批/阶段Gate仍未完成，#85/#57保持Open。
 
 
 ### 2026-11-02 R3H–K 联合G1冻结，三线G2
 
-[独立G1 Pass](rust-r3hijk/C/g1-independent-review01.json)与[同源线上冻结回执](rust-r3hijk/g1-online01/receipt01.json)已核#93–96全部Doing/G1。active manifest02冻结246输入；三线H14/I10/J2+K2开始实施，Root公共接线/实际运行，C保持非作者。原Native54组/193HTTP和18schema向量仅为输入裁决；当前正式交付仍30/58，本批28、独立G3/G4及完整非HTTP/审批/阶段验收尚未完成，#85/#57保持Open。
+[独立G1 Pass](archive/slices/rust-r3hijk/C/g1-independent-review01.json)与[同源线上冻结回执](archive/slices/rust-r3hijk/g1-online01/receipt01.json)已核#93–96全部Doing/G1。active manifest02冻结246输入；三线H14/I10/J2+K2开始实施，Root公共接线/实际运行，C保持非作者。原Native54组/193HTTP和18schema向量仅为输入裁决；当前正式交付仍30/58，本批28、独立G3/G4及完整非HTTP/审批/阶段验收尚未完成，#85/#57保持Open。
 
 
 ### 2026-11-02 R3H–K 业务正确性准则纠偏
 
-用户明确 Rust 以业务语义/正确性/合理性为准，并直接裁决状态、评分快照和必要审计整体提交或整体回滚。[纠偏 checkpoint](rust-r3hijk-business-semantics-corrective-checkpoint01.md)覆盖旧G1中复制Native缺陷的裁决；旧Native/候选/审查原件保留。并发/状态/语义去重/输入与读模型按正式业务规则修正，不再将额外Zod issue或HTML404正文当阻断。当前仍Doing、正式交付30/58，独立G3/G4及完整阶段验收未完成，#85/#57保持Open。
+用户明确 Rust 以业务语义/正确性/合理性为准，并直接裁决状态、评分快照和必要审计整体提交或整体回滚。[纠偏 checkpoint](archive/slices/rust-r3hijk-business-semantics-corrective-checkpoint01.md)覆盖旧G1中复制Native缺陷的裁决；旧Native/候选/审查原件保留。并发/状态/语义去重/输入与读模型按正式业务规则修正，不再将额外Zod issue或HTML404正文当阻断。当前仍Doing、正式交付30/58，独立G3/G4及完整阶段验收未完成，#85/#57保持Open。
 
 
 ### 2026-11-03 R3H–K 实现／验收完成，提交独立 G3
 
-[提交前证据](rust-r3hijk/g3-submission01.md)绑定最终candidate04 `cb19cff2`、288 passed/54 ignored、金额精度、版本故障并发、旧30回归和业务原子性实际通过；四原UI cell按明确候选／平台轴保留。两G2 cohort 1265/2371行已清理，107 seed原JSON与428权限各自恢复，自有服务及PG15停止、卷/private/原件保留。当前实际Rust173操作，但正式仍30/58，G3/fixed/main/G4待独立签署；#93–96尚Open，#85/#57保持Open，完整R3阶段不由HTTP完成数代替。
+[提交前证据](archive/slices/rust-r3hijk/g3-submission01.md)绑定最终candidate04 `cb19cff2`、288 passed/54 ignored、金额精度、版本故障并发、旧30回归和业务原子性实际通过；四原UI cell按明确候选／平台轴保留。两G2 cohort 1265/2371行已清理，107 seed原JSON与428权限各自恢复，自有服务及PG15停止、卷/private/原件保留。当前实际Rust173操作，但正式仍30/58，G3/fixed/main/G4待独立签署；#93–96尚Open，#85/#57保持Open，完整R3阶段不由HTTP完成数代替。
 
 
 ### 2026-11-03 R3H–K 完整G3首审补正／复审待签
 
-[完整首审](rust-r3hijk/C/g3-independent-review01.json)为Needs-correction，阻断I的UUID文本身份误判及F空提醒流竞态；原件不改。两项限定修复已由最终candidate06 `66db94ce` 实测复验，294 passed/54 ignored，I大小写／归属／审计及H/J消费、F三目标／owner分流／空流与同源竞态、真实链及389行新cohort终态均通过。[复审提交](rust-r3hijk/g3-submission02.md)和active manifest03另冻结；当前尚无提交许可/G3/G4，正式仍30/58、Rust173，父#85/#57保持Open。
+[完整首审](archive/slices/rust-r3hijk/C/g3-independent-review01.json)为Needs-correction，阻断I的UUID文本身份误判及F空提醒流竞态；原件不改。两项限定修复已由最终candidate06 `66db94ce` 实测复验，294 passed/54 ignored，I大小写／归属／审计及H/J消费、F三目标／owner分流／空流与同源竞态、真实链及389行新cohort终态均通过。[复审提交](archive/slices/rust-r3hijk/g3-submission02.md)和active manifest03另冻结；当前尚无提交许可/G3/G4，正式仍30/58、Rust173，父#85/#57保持Open。
+
+
+### 2026-11-03 R3H–K 固定提交／原字节归档就绪
+
+实现 `5ca4adfa7f8351a7515b14cdb3d08b6f7f2d1875` 已通过独立G3复审02及固定提交复核；[收口索引](archive/slices/rust-r3hijk-closeout.md)与[原字节映射](archive/slices/rust-r3hijk/archive-origin-map.json)保留全部历史标签和七份根生命周期文档。当前G4Ready，正式仍30/58、Rust173；main集成读回、独立关闭许可及线上实际G4另行完成，#93–96尚Open，#85/#57保持Open。
