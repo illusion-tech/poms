@@ -1,0 +1,62 @@
+{
+  "label": "A.aliases.after-delete",
+  "startedAt": "2026-11-02T17:05:48.254Z",
+  "completedAt": "2026-11-02T17:05:48.266Z",
+  "value": {
+    "operationId": "CustomerController_listAliases",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers/25071e6d-a159-46bf-899d-09cfcb93e8ba/aliases"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "id": "efc468cf-5aef-44e2-9d81-ba6c8f0802d5",
+          "customerId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+          "aliasName": "R3HK-6872abb5-27 customer",
+          "aliasType": "alias",
+          "normalizedName": "r3hk-6872abb5-27 customer",
+          "isPrimary": true,
+          "createdAt": "2026-11-02T17:05:48.136Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+        }
+      ],
+      "requestId": "349f8747-edf4-4752-bfac-badb36626b3d",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "311",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-76822-644",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:05:48 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 337,
+        "requestSha256": "94e05f0483211ea3ee7dc26968514dbc2f00606bcf5487f5c32482b26adba5ee",
+        "responseBytes": 590,
+        "responseSha256": "fd5d34b0c0940201e5985242b6a553c5049a37bf72d04e673ae7f436499b7bff",
+        "entityBodyBytes": 311,
+        "entityBodySha256": "e11ea7463fc4c8996ee7b762fc6bad0143fa54aa01dd6dd778619b1b76a60df3",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase27/raw-wire/admin-62bacce1-0498-4fd5-90c1-64b9fabb5e31",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

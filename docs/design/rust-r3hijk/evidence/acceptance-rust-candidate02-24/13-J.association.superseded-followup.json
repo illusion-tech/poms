@@ -1,0 +1,95 @@
+{
+  "label": "J.association.superseded-followup",
+  "startedAt": "2026-11-02T16:37:24.004Z",
+  "completedAt": "2026-11-02T16:37:24.020Z",
+  "value": {
+    "definition": {
+      "id": "J.association.superseded-followup",
+      "covers": [
+        "J-A02"
+      ],
+      "requests": [
+        {
+          "id": "J.association.superseded-followup",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedFollowUpRecordId": "d946d492-6a1f-485b-acf0-5676a767c4e3"
+          },
+          "expect": {
+            "status": 201
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "compare": "All 19 comment fields; original canonical anchor snapshots; each error probe changes only one association. Simultaneous Promise.all failures have no fixed priority claim."
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 201,
+        "body": {
+          "body": "R3 J 讨论原语义",
+          "createdAt": "2026-11-02T16:37:24.013Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "createdByName": "HIJK admin",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "c87d9e5d-9009-4fd3-93e4-e815c574b0b1",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": "d946d492-6a1f-485b-acf0-5676a767c4e3",
+          "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "targetObjectType": "project",
+          "targetTitle": "真实联合集成项目😀",
+          "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+        },
+        "requestId": "952fa1ad-f173-473b-ace1-08c3ef11a1fc",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "722",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-331",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 628,
+          "requestSha256": "93b964d1af95b995c233fc33c483917dcea0496840d8d084fb5764680f47af61",
+          "responseBytes": 1006,
+          "responseSha256": "a25ceeae6b76b4c7d9998903da883363ba0c1618a8d96b5590c7488b28af751e",
+          "entityBodyBytes": 722,
+          "entityBodySha256": "a68f92f9943b7df3199f8f3c7f418c7efeb742d218e46d35ffa4e5257d397439",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-60de27b5-b644-43b7-8698-a35deba6bd1c",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

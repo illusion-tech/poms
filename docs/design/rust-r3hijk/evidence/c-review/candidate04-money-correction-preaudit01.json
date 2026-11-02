@@ -1,0 +1,664 @@
+{
+  "kind": "C-independent-R3HIJK-candidate04-actual-money-P2-close-incremental-preaudit01",
+  "createdAt": "2026-11-02T18:21:29.590Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Pass-limited-money-correction",
+  "G3Certified": false,
+  "G4Certified": false,
+  "fullGateSigned": false,
+  "candidateArtifactSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+  "candidateBuild": {
+    "report": {
+      "file": "tmp/rust-r3hijk/rust-check09/report01.json",
+      "bytes": 89524,
+      "rawBytesSha256": "5f93bf6f8801e10172a196f46ca9158f88e53c98e0c79cf6798a5cf30feaae45"
+    },
+    "artifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+      "bytes": 43654928,
+      "rawBytesSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa"
+    },
+    "fourRootCommandsExit0": true,
+    "testCounts": {
+      "passed": 288,
+      "failed": 0,
+      "ignored": 54
+    },
+    "all231SourcePinsCurrentExact": true,
+    "threeReviewedMoneySourcePinsBoundToThisBuild": true,
+    "ignored54AreNotPGAcceptance": true
+  },
+  "actualReports": [
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-43/report01.json",
+        "bytes": 235952,
+        "rawBytesSha256": "8e630ac896b2b8a80f1243195d9a689f9cd4b416b95172fc078f1a69d2d39ed6",
+        "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-43/report01.json"
+      },
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate04",
+        "pid": 96618,
+        "startTime": "2490567",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43654928,
+        "artifactSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:16:19.723Z"
+      },
+      "completed": true,
+      "groups": 1,
+      "HTTP": 3,
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+        },
+        {
+          "file": "tools/rust-r3hijk/money-business-probe03.mjs",
+          "bytes": 2691,
+          "rawBytesSha256": "269ba409c1ff9d315cf801d754e667dd829392ad1519b168e5dd58ed1dfa17da"
+        },
+        {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+        }
+      ],
+      "caseOriginalPins": [
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-43/01-exact-large-cost-and-quote-decimal-contract.json",
+          "bytes": 12325,
+          "rawBytesSha256": "9c9285c870ae07fdd874f2ad4c8d18aa9bcc084aedec7e8f915d2007d3302406",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-43/01-exact-large-cost-and-quote-decimal-contract.json"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/report01.json",
+        "bytes": 2049405,
+        "rawBytesSha256": "38d7c15787494ed1533a58a74dfc11b671b14592149eaad89d55979eeb517d22",
+        "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/report01.json"
+      },
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate04",
+        "pid": 96618,
+        "startTime": "2490567",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43654928,
+        "artifactSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:16:19.723Z"
+      },
+      "completed": true,
+      "groups": 17,
+      "HTTP": 17,
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+        },
+        {
+          "file": "tools/rust-r3hijk/money-boundaries01.mjs",
+          "bytes": 6655,
+          "rawBytesSha256": "bfd02e64eec71d05bcf0e7aa860c8ae1237b92bc1e09658d25cb8e8328035f30"
+        },
+        {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+        }
+      ],
+      "caseOriginalPins": [
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/01-money-real-project.json",
+          "bytes": 1070,
+          "rawBytesSha256": "ad2d7d61a8a72d0f6c4d369df3ce370f46b9fd5a7da5a9de15e6ec698c1bc080",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/01-money-real-project.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/02-money-cost-above-binary64.json",
+          "bytes": 4523,
+          "rawBytesSha256": "a797b749050f1ce1567a653f101db1c7e5e277c9d8308a351e77b1b1923f72c0",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/02-money-cost-above-binary64.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/03-money-cost-maximum-and-scale4.json",
+          "bytes": 4613,
+          "rawBytesSha256": "c5b0ab3dd73b80a48ba25e8fd72488ddc83fa6cfc63c543a2340096a69b4d2bb",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/03-money-cost-maximum-and-scale4.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/04-money-cost-exact-cent-addition.json",
+          "bytes": 5133,
+          "rawBytesSha256": "22d65cfa9218a14051d6e4ac0ad79cd4be3d0313114caa94db833e662e4c2696",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/04-money-cost-exact-cent-addition.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/05-money-cost-scale4-smallest.json",
+          "bytes": 4408,
+          "rawBytesSha256": "0cd709dd081afba6f0b7df90e07c86c82a3fd5e20ecb64d9812afa85b46890ef",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/05-money-cost-scale4-smallest.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/06-money-cost-individual-overflow.json",
+          "bytes": 171284,
+          "rawBytesSha256": "b04507be13b37d8844db9b9bd9d7d086d1c1b11cda801f0b939290ed075e4d5c",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/06-money-cost-individual-overflow.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/07-money-cost-sum-overflow.json",
+          "bytes": 171784,
+          "rawBytesSha256": "152a742843c19e9c941b24454829d4b437d45999ccd8985bb89b2ea634de202d",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/07-money-cost-sum-overflow.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/08-money-cost-equation-cent-difference.json",
+          "bytes": 171268,
+          "rawBytesSha256": "944cd949bed09eff3507ed0a7a360642caafc8ea26c98f96b919431efe975322",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/08-money-cost-equation-cent-difference.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/09-money-cost-quantity-overflow.json",
+          "bytes": 171254,
+          "rawBytesSha256": "93a1f1b80f8712d87d4059986b54e1846f248141c86a05b68e3d3742fb497eae",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/09-money-cost-quantity-overflow.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/10-money-cost-unit-price-overflow.json",
+          "bytes": 171257,
+          "rawBytesSha256": "da6939fd4385f8040332f6446a0e5d7e1dbdc0029d5d2f811ce07b8a2adf4b74",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/10-money-cost-unit-price-overflow.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/11-money-cost-quantity-public-scale.json",
+          "bytes": 171538,
+          "rawBytesSha256": "eca8d8f3ad6cf37e8869f0d4df8c6d0dce6eb0a14bae54ea5b1b1a19df2a0094",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/11-money-cost-quantity-public-scale.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/12-money-quote-large-negative-margin.json",
+          "bytes": 4449,
+          "rawBytesSha256": "acb7e72ebb874b1dc3f4cb6f4937d31d7ebeb2797c759b3a83a8e9e69117fc7f",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/12-money-quote-large-negative-margin.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/13-money-quote-maximum.json",
+          "bytes": 4507,
+          "rawBytesSha256": "08a927a2428c1c2b253f6525f9ff0176137f37c37a59b3ec8b715f7b95ff45a0",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/13-money-quote-maximum.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/14-money-quote-inclusive-less-by-cent.json",
+          "bytes": 179045,
+          "rawBytesSha256": "90335cc44ebeba833b02f877a934abb44750af0b560da634c94268c7d54b4b15",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/14-money-quote-inclusive-less-by-cent.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/15-money-quote-overflow.json",
+          "bytes": 179027,
+          "rawBytesSha256": "3f961c8f5d093388e865a656a530a5c52360e73d062a403526beada642412696",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/15-money-quote-overflow.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/16-money-quote-tax-rate-overflow.json",
+          "bytes": 179043,
+          "rawBytesSha256": "cbb83e8d2e08a4e595745fec7a8cd22b5392cd6c65568ee8b04b98e5f35b4a96",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/16-money-quote-tax-rate-overflow.json"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate04-44/17-money-quote-signed-margin-overflow.json",
+          "bytes": 179055,
+          "rawBytesSha256": "237dbc1aa61f29409925aa9c30ca8b49660d74e94716634c89d9567d200d2d24",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate04-44/17-money-quote-signed-margin-overflow.json"
+        }
+      ]
+    }
+  ],
+  "closedFinding": {
+    "id": "OLD30-BUSINESS-P2-EXACT-DECIMAL-01",
+    "priority": "P2",
+    "status": "Closed on candidate04 for the confirmed exact-money defect and its declared numeric boundaries",
+    "previousReview": {
+      "file": "tmp/rust-r3hijk/c-review/candidate03-foundation-timeline-ui-preaudit01.json",
+      "bytes": 75808,
+      "rawBytesSha256": "1efd702c79ed5e80f6bafa28734e744b86f31ef6b668e7df6779cb3c5b701815"
+    },
+    "staticCorrectionReview": {
+      "file": "tmp/rust-r3hijk/c-review/money-corrective-policy-static-review01.json",
+      "bytes": 11354,
+      "rawBytesSha256": "6cd1dd0a82624deb03c5dfbac4527d35b756c9a6fa620126d4f9ce46a4ac55fe"
+    },
+    "oldCandidate03Failed40And41PinsVerifiedUnchanged": true,
+    "oldFailuresNotRetroactivelyPassed": true,
+    "actualHighInput": "9007199254740993.01",
+    "actualCostHTTP": 201,
+    "actualPricingHTTP": 201,
+    "costParentAndChildAndBothQuoteFieldsPreserveExactCents": true,
+    "observedPreviousPlus99CentCorruptionAbsent": true,
+    "actualRegressionScope": "phase43 high lawful cost/quote plus phase44 exact arithmetic, schema/storage bounds and no-write rejections; this is not an overallG3 signature"
+  },
+  "independentChecks": {
+    "phase43RealProjectCostPricingHTTP": 3,
+    "phase44Groups": 17,
+    "phase44HTTP": 17,
+    "phase44AuxiliaryRealProject": 1,
+    "positiveCosts": [
+      {
+        "caseName": "money-cost-above-binary64",
+        "HTTP": 201,
+        "parent": {
+          "excluding": "9007199254740993.01",
+          "tax": "0.00",
+          "including": "9007199254740993.01"
+        },
+        "SQLSum": {
+          "excluding": "9007199254740993.01",
+          "tax": "0.00",
+          "including": "9007199254740993.01"
+        },
+        "children": [
+          {
+            "id": "62c3bc77-cb7c-486a-af99-350a43c151de",
+            "excluding": "9007199254740993.01",
+            "tax": "0.00",
+            "including": "9007199254740993.01",
+            "quantity": "1.0000",
+            "unit_price": "1.0000"
+          }
+        ],
+        "exactInputParentChildSQLSumAndResponse": true,
+        "quantityUnitPriceInputPGExact": true
+      },
+      {
+        "caseName": "money-cost-maximum-and-scale4",
+        "HTTP": 201,
+        "parent": {
+          "excluding": "9999999999999999.99",
+          "tax": "0.00",
+          "including": "9999999999999999.99"
+        },
+        "SQLSum": {
+          "excluding": "9999999999999999.99",
+          "tax": "0.00",
+          "including": "9999999999999999.99"
+        },
+        "children": [
+          {
+            "id": "de75ccf1-5746-44d0-9c23-10a533ad14be",
+            "excluding": "9999999999999999.99",
+            "tax": "0.00",
+            "including": "9999999999999999.99",
+            "quantity": "99999999999999.9999",
+            "unit_price": "99999999999999.9999"
+          }
+        ],
+        "exactInputParentChildSQLSumAndResponse": true,
+        "quantityUnitPriceInputPGExact": true
+      },
+      {
+        "caseName": "money-cost-exact-cent-addition",
+        "HTTP": 201,
+        "parent": {
+          "excluding": "0.30",
+          "tax": "0.00",
+          "including": "0.30"
+        },
+        "SQLSum": {
+          "excluding": "0.30",
+          "tax": "0.00",
+          "including": "0.30"
+        },
+        "children": [
+          {
+            "id": "f7f9c2c6-6b27-4ba2-9411-64912f973b69",
+            "excluding": "0.10",
+            "tax": "0.00",
+            "including": "0.10",
+            "quantity": "1.0000",
+            "unit_price": "1.0000"
+          },
+          {
+            "id": "85530e43-2edd-4a52-9a18-2c85e8ccbc5b",
+            "excluding": "0.20",
+            "tax": "0.00",
+            "including": "0.20",
+            "quantity": "1.0000",
+            "unit_price": "1.0000"
+          }
+        ],
+        "exactInputParentChildSQLSumAndResponse": true,
+        "quantityUnitPriceInputPGExact": true
+      },
+      {
+        "caseName": "money-cost-scale4-smallest",
+        "HTTP": 201,
+        "parent": {
+          "excluding": "0.01",
+          "tax": "0.00",
+          "including": "0.01"
+        },
+        "SQLSum": {
+          "excluding": "0.01",
+          "tax": "0.00",
+          "including": "0.01"
+        },
+        "children": [
+          {
+            "id": "88a38135-f997-4839-9baf-e916f03f9ed7",
+            "excluding": "0.01",
+            "tax": "0.00",
+            "including": "0.01",
+            "quantity": "0.0001",
+            "unit_price": "0.0001"
+          }
+        ],
+        "exactInputParentChildSQLSumAndResponse": true,
+        "quantityUnitPriceInputPGExact": true
+      }
+    ],
+    "positiveQuotes": [
+      {
+        "caseName": "money-quote-large-negative-margin",
+        "HTTP": 201,
+        "inputQuoteExclusive": "9007199254740993.01",
+        "inputQuoteInclusive": "9007199254740993.01",
+        "inputGrossMarginRate": "-0.12345678",
+        "inputTaxRate": "0.13",
+        "stored": {
+          "excluding": "9007199254740993.01",
+          "including": "9007199254740993.01",
+          "tax_rate": "0.13000000",
+          "gross_margin_rate": "-0.12345678"
+        },
+        "responseAndStoredExact": true,
+        "signedMarginPreserved": true
+      },
+      {
+        "caseName": "money-quote-maximum",
+        "HTTP": 201,
+        "inputQuoteExclusive": "9999999999999999.99",
+        "inputQuoteInclusive": "9999999999999999.99",
+        "inputGrossMarginRate": "-9999999999.99999999",
+        "inputTaxRate": "9999999999.99999999",
+        "stored": {
+          "excluding": "9999999999999999.99",
+          "including": "9999999999999999.99",
+          "tax_rate": "9999999999.99999999",
+          "gross_margin_rate": "-9999999999.99999999"
+        },
+        "responseAndStoredExact": true,
+        "signedMarginPreserved": true
+      }
+    ],
+    "rejections": [
+      {
+        "caseName": "money-cost-individual-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-cost-sum-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-cost-equation-cent-difference",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-cost-quantity-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-cost-unit-price-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-cost-quantity-public-scale",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-quote-inclusive-less-by-cent",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-quote-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-quote-tax-rate-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "money-quote-signed-margin-overflow",
+        "HTTP": 400,
+        "businessTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      }
+    ],
+    "totalBusinessMoneyGroups": 17,
+    "totalRawHTTP": 20,
+    "all18CaseCopiesMatchReports": true,
+    "allFourCostQuantityAndUnitPriceInputPGValuesChecked": true,
+    "allPositiveQuoteInclusiveExclusiveResponsePGAndRatesChecked": true,
+    "allTen400BeforeAfterSevenBusinessTablesRawExact": true
+  },
+  "contractBoundary": {
+    "quantityFractionDigits": 4,
+    "unitPriceFractionDigits": 4,
+    "RustValidationStillFour": true,
+    "TSAndOpenAPIOriginalPinsExact": true,
+    "quantityFiveFractionDigitsActual400AndNoBusinessWrites": true,
+    "unitPriceFiveFractionDigitsNotSeparatelyRunInThese17Groups": true,
+    "unitPriceFourPlaceValidatorUnchangedAndBothMinPositiveTickAndMaxActualPGChecked": true,
+    "smallestPositiveFourPlaceTickActuallyChecked": "0.0001",
+    "zeroQuantityBoundaryNotClaimedAsExplicitRuntimeCase": true,
+    "noFiveToEightPlaceAcceptanceOrNewQuantization": true,
+    "moneyFractionDigits": 2,
+    "moneyStorage": "numeric(18,2)",
+    "quantityUnitPriceStorage": "numeric(18,4)",
+    "ratesStorage": "numeric(18,8)",
+    "grossMarginRateSigned": true,
+    "noNewZeroToOneConstraint": true,
+    "noQuantityTimesUnitPriceAmountRule": true,
+    "noAutomaticMarginRepricing": true,
+    "noPublicRouteDTOClientDDLOrLockChange": true
+  },
+  "UIReuseBoundary": {
+    "review": {
+      "file": "tmp/rust-r3hijk/c-review/ui-platform-scope-review01.json",
+      "bytes": 16573,
+      "rawBytesSha256": "750dfdef47cbc67ab4fde668a9ddec45fd8e62c2c331dfd7fb26160bfa8c60f3"
+    },
+    "originalRustUICandidateRemains": "candidate03",
+    "originalNativeUICandidateRemains": "g2-native01",
+    "noNewUICandidate04RerunClaimed": true,
+    "WindowsBrowserExternalLinuxRustCertifiedOnlyAsUICell": true,
+    "WindowsRustNativeServerCertified": false,
+    "explicitFinalEvidenceCausalityReconciliationRequired": true
+  },
+  "remainingBeforeFullG3": [
+    "Review actual three-version-domain concurrency and all required write-fault rollback on candidate04.",
+    "Review candidate04 foundation56/business-core14 and final integrity02, evidence reuse causality and scoped coverage reconciliation.",
+    "Review whole owned Rust cohort/seed/ACL/object/runtime terminal and final independentG3/fixed-commit/G4 artifacts.",
+    "Final E1 consumer reconciliation remains required; no additional aliases or deadline extension approved."
+  ],
+  "scope": {
+    "issues": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "operations": 28,
+    "formalR3Delivered": 30,
+    "totalR3HTTP": 58,
+    "parentsRemainOpen": [
+      85,
+      57
+    ]
+  },
+  "policy": "Business correctness and current frozen decimal contracts; no Native/Node bug equivalence acceptance.",
+  "noProductOrRootExecutorChanges": true,
+  "noAuthorOrRootExecutorRun": true,
+  "noBuildTestHTTPDBBrowserOrRuntimeExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true
+}

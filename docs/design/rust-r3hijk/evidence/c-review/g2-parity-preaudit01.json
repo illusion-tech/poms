@@ -1,0 +1,1268 @@
+{
+  "kind": "C-independent-R3HIJK-bounded-G2-parity-preaudit01",
+  "createdAt": "2026-11-02T12:36:13.701Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "observedGitHEAD": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "candidateArtifactSha256": "5b46080f11154d3e93f3374743b43367288c34a5350388bcf182a95decd322a2",
+  "artifactIsNotCommitSHA": true,
+  "verdict": "No-substantive-P1-P2-parity-finding-in-reviewed-actual-scope",
+  "G3Certified": false,
+  "G4Certified": false,
+  "fullGateSigned": false,
+  "findings": [],
+  "unresolvedP1": 0,
+  "unresolvedP2": 0,
+  "reviewedScope": {
+    "coreEach": {
+      "caseGroups": 43,
+      "HTTP": 165,
+      "observations": 14
+    },
+    "realchainEachGroups": 3,
+    "realchainHTTP": {
+      "Native": 34,
+      "Rust": 35
+    },
+    "totalRetainedGroupsEach": 46,
+    "totalHTTPEach": {
+      "Native": 199,
+      "Rust": 200
+    },
+    "doesNotCertifyAll28OperationMatricesOrG3": true
+  },
+  "provenance": {
+    "reports": [
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/report01.json",
+        "bytes": 3264821,
+        "rawBytesSha256": "e8fde7ff771873cdcac8ce0c150e9c1762e8d403ed40b0dd1c29be4b20632223"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/report01.json",
+        "bytes": 276438,
+        "rawBytesSha256": "030e5fdc3ffa01ebb7b21d3987381200f480d316220092e439a2f8f9856eee0c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-02/report01.json",
+        "bytes": 270054,
+        "rawBytesSha256": "8f63c428019149bccea258aadbe05632e6bbc882693d0fcb33d8a79c99eaedc5"
+      }
+    ],
+    "allCaseRecordCopiesExact": true,
+    "caseRecordPins": [
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/01-foundation-real-HTTP-producers.json",
+        "bytes": 4410,
+        "rawBytesSha256": "700860a3b42161a9b10fe5b920a9c305285f6545800d109700685ab2eca09d25"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/02-H93.native-risk.W1.create-denied-lead.json",
+        "bytes": 2967,
+        "rawBytesSha256": "7016b9afe46c75d3dbe601f0e7a1caf51db0c879f7bce7037e41bdb28208b324"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/03-H93.native-risk.W1.create-denied-lead_score_snapshot.json",
+        "bytes": 3012,
+        "rawBytesSha256": "d2503bbabebffe4920ed1d3eb29b95a87d56ff27fb6d275d1f695309c88bc2e7"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/04-H93.native-risk.W1.convert-denied-project.json",
+        "bytes": 21818,
+        "rawBytesSha256": "95243d2ea6380f1e22764bf612dc02b1da6bfb8a0ffa0c4d496153f9145e1d4e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/05-H93.native-risk.W1.convert-denied-lead_score_snapshot.json",
+        "bytes": 21890,
+        "rawBytesSha256": "1447456f4cc03c1e4b721938268fbd61438fdd0b80a6752d5cd8513cd5ef3bc2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/06-H93.native-risk.W2.lead-explicit-stale-versus-CAS.json",
+        "bytes": 23499,
+        "rawBytesSha256": "054817aad87b3a2275b985e8900d5aad19dfccf16248e9e97c5c7c38cf4b860a"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/07-H93.native-risk.W2.override-explicit-stale-versus-CAS.json",
+        "bytes": 26188,
+        "rawBytesSha256": "be5132ec143cf4f00ea4b8087f29d48b3272de626f8217bc6e891a13d5c4b149"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/08-H93.native-risk.W3.main-save-then-denied-snapshot.qualify.json",
+        "bytes": 13794,
+        "rawBytesSha256": "d06725aefdd2f81440296300727fcb12badffb68fef053fab28cc27eb657e85d"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/09-H93.native-risk.W3.main-save-then-denied-snapshot.close.json",
+        "bytes": 13775,
+        "rawBytesSha256": "adc90db74b8ec41d0d8c882fc36dcb5bebac504e9d262e1b61e7b2f6f9c2fc5d"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/10-H93.native-risk.W3.main-save-then-denied-snapshot.claim.json",
+        "bytes": 14453,
+        "rawBytesSha256": "8cc8914de5f53157559b7e45dbea0e64a6cd68656c6693095b109b151bd3386c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/11-H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner.json",
+        "bytes": 14467,
+        "rawBytesSha256": "0e4c0f3c5377c63fb0409b92a31c9869c40ca92bc07887229a509f80a8188d5d"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/12-H93.native-risk.W3.override-denied-post-audit.submit.json",
+        "bytes": 17276,
+        "rawBytesSha256": "c67ab9690f1dde668e8f3dbff9d6082e2f0f2c54f6566e611b4c2f0fba8178fa"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/13-H93.native-risk.W3.override-denied-post-audit.approve.json",
+        "bytes": 26310,
+        "rawBytesSha256": "9325e06da81ab3fedb28405f7fc23f9faa922f23ea987dd7261b22158e7665e1"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/14-H93.native-risk.W3.override-denied-post-audit.reject.json",
+        "bytes": 19802,
+        "rawBytesSha256": "596e177420eab73c5ca4e66393caba4bb4be55bae097cfed648c0c5d53790843"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/15-H93.native-risk.W3.override-denied-post-audit.revoke.json",
+        "bytes": 35837,
+        "rawBytesSha256": "9571b012ba30d08256cd0a34274566779db042e27d01b0aab4563135721942a8"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/16-H93.native-risk.W4.approved-then-new-pending-approval-order.json",
+        "bytes": 45299,
+        "rawBytesSha256": "83f42b884773cb40cfa09793a9b5d8472c0a6769dd13f9e9f2f2d7975630c897"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/17-H93.native-risk.W5.cross-request-dedup-noop-and-real-I-refresh.json",
+        "bytes": 99564,
+        "rawBytesSha256": "4e463a8f785b6c8470fa11a4d5fee5c769209c37543e2f3e44fc291b2e1145c0"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/18-I94.N1.missing-anchor-custom400.json",
+        "bytes": 137,
+        "rawBytesSha256": "9e8b4ed911b7e9db73dbce3c4bbc14d7819db40a2712e284181707da07cc8f4b"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/19-I94.N1N3.three-domain-full-roundtrip.json",
+        "bytes": 142,
+        "rawBytesSha256": "8e5b464c32cea084c642885d6fd59eecd9c6ef133442ab3766e1f4c6567b04d2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/20-I94.N2.same-customer-dual-anchor-OR.json",
+        "bytes": 141,
+        "rawBytesSha256": "55b0b61c54f1fd1f8bc64707acf710dfecc92f2af5d35bf3c9c96b37ce3a8ea0"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/21-I94.N2.UUID-spelling-and-priority.json",
+        "bytes": 139,
+        "rawBytesSha256": "99e7545a3f0fa2450d38b741aee06c83f53f2eaaa1547a27e3b36b5046556ecc"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/22-I94.N2.no-added-active-or-state-gates.json",
+        "bytes": 143,
+        "rawBytesSha256": "0f4af35b3f548b915fdc807ec6cb94c55366483bc6c2cf2bb0328398b810089e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/23-I94.N3.audit-and-business-denial-rollback.json",
+        "bytes": 147,
+        "rawBytesSha256": "e7d5fad7a5a118ade0c797dc8e6f4cc9cf85b9a73152f5817363afcdf21b3530"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/24-I94.N8.requestId65-changed-noop-and-create.json",
+        "bytes": 148,
+        "rawBytesSha256": "8a2132b16bcd68d1d36d8201c267bc85c46ce28e197826e40a13b24911e48b42"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/25-I94.N5.codepoint-versus-audit-UTF16.json",
+        "bytes": 141,
+        "rawBytesSha256": "8101d25ea2913e46d300879da635347853ee5b69729155729a9991679879c88c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/26-I94.N7.legal-legacy-focus-JSONB-read.json",
+        "bytes": 142,
+        "rawBytesSha256": "0a077ca4de32eaff427fe3ec9e65b6d2c07f9ec08700335fcfab8b7bf93624ab"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/27-I94.N6.stable-gaps-latest-and-score-sort.json",
+        "bytes": 146,
+        "rawBytesSha256": "ee35ebf0ed67152fa738947099f06df9c0e43dc4ea05769ff9ae7da0fefba337"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/28-I94.N4.two-reader-managed-CAS.json",
+        "bytes": 135,
+        "rawBytesSha256": "da877e14fa5b7547649e0e843dab86fc7da12c0b965595cf6f8955f314f8985a"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/29-I-json-null-to-empty-array-managed-flush.json",
+        "bytes": 3956,
+        "rawBytesSha256": "712488f4147dcabb3b1a27eaea05491303f13fe5fb2bedade249a5f2c4974cc0"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/30-HTTP-discussion.bmp8000.json",
+        "bytes": 37085,
+        "rawBytesSha256": "9b0cb319c6c25a59532b2370b83fd4e299175ee2a8daf8de126bd8ae0bb2481e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/31-HTTP-discussion.bmp8001.json",
+        "bytes": 20172,
+        "rawBytesSha256": "0791dca77bab10b6958701afd6477f1f1ba111e3b71fb78e4eac831ca9bf82ef"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/32-HTTP-discussion.emoji4000.json",
+        "bytes": 77985,
+        "rawBytesSha256": "2771b7646180656f98cc10a2f350e79633ea80a814c02bdf75f541b6b248ef6a"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/33-HTTP-discussion.emoji4001.json",
+        "bytes": 94892,
+        "rawBytesSha256": "9ebef4d5e73333d9c1954596d2f207bf95d12b95cf34e46e014ec8ad7783afce"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/34-HTTP-discussion.emoji8000.json",
+        "bytes": 175772,
+        "rawBytesSha256": "559e7f0bf3b61270822afcacd449f834b4b6f854d36f8187814712263aad9f66"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/35-HTTP-discussion.emoji8001.json",
+        "bytes": 110859,
+        "rawBytesSha256": "76acaeebe5a3205cab4528efc1752010c0e5cdbb8c178d16396f4dbf69696405"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/36-HTTP-discussion.FEFF-trim.json",
+        "bytes": 80666,
+        "rawBytesSha256": "1415cae4c723934490f89bb6537e158767bf966279abba58835ecdaf2a067e63"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/37-HTTP-discussion.NEL-not-trim.json",
+        "bytes": 81569,
+        "rawBytesSha256": "7bc757e0fc3e2837606bfc7842290b905b58f81d66f33410a4341a75d2c719e3"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/38-HTTP-discussion.zero-width.json",
+        "bytes": 82471,
+        "rawBytesSha256": "31e89a2762dfb262a7b1e46004ab94c2668b048abec650acb7386529b4fcd5d0"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/39-HTTP-discussion.nul.json",
+        "bytes": 81230,
+        "rawBytesSha256": "1cea8324f1d13c511ff4c3e84ee85eb7ced68b9c76602f8dc8645ae4c3cef298"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/40-HTTP-discussion.high-surrogate.json",
+        "bytes": 83371,
+        "rawBytesSha256": "f76c41a4d3cede3b12267ac44d21b0196fdc0785279d10ed7a83d28c1b5e580c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/41-HTTP-discussion.low-surrogate.json",
+        "bytes": 84266,
+        "rawBytesSha256": "5558ac4ff031ab1f8bd81125d89baa7a9f4e42340c49cfd2b530c21988d62471"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/42-K-workspace-guidance.json",
+        "bytes": 9369,
+        "rawBytesSha256": "b15049fa88c69d6f6d671d95046ad7bfda79e966fa037e11e9f46a5a54c0f240"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/43-K-timeline.json",
+        "bytes": 3440,
+        "rawBytesSha256": "43f3e060c12b44dc13b8fe6aa64d465129368bfca08ab54743e6c4d1f469b74f"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/01-foundation-real-HTTP-producers.json",
+        "bytes": 4410,
+        "rawBytesSha256": "8d193e4abb029ba4dac21630cb88fc190ad7f650340e6b1d7fb52e58e681984b"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/02-H93.native-risk.W1.create-denied-lead.json",
+        "bytes": 2908,
+        "rawBytesSha256": "741ee06dea338a0eff8f7c37006dec2be07a4285848c740b8f2909705ffd6968"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/03-H93.native-risk.W1.create-denied-lead_score_snapshot.json",
+        "bytes": 2953,
+        "rawBytesSha256": "ee366c7e0731c4f6f89ab277413ae138e0a67c3bf3e840ff478b8ebf9c0c9587"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/04-H93.native-risk.W1.convert-denied-project.json",
+        "bytes": 21695,
+        "rawBytesSha256": "a96325839938bbc75bc05047b6e08c832e32517f84b0e1b6ad98accaa24bd7b1"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/05-H93.native-risk.W1.convert-denied-lead_score_snapshot.json",
+        "bytes": 21767,
+        "rawBytesSha256": "d13f58fb1031f4e52579ceb36fd551b12d2333a8fff8a09cb79af14c40f07e89"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/06-H93.native-risk.W2.lead-explicit-stale-versus-CAS.json",
+        "bytes": 23305,
+        "rawBytesSha256": "2511240a59485ccb622b99908269c319785ad484e764c8469f62e649bf42cb0e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/07-H93.native-risk.W2.override-explicit-stale-versus-CAS.json",
+        "bytes": 25930,
+        "rawBytesSha256": "02a03ceca359249758834ed553231ca8cfd3e64b410cbfb4b349783dd6049995"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/08-H93.native-risk.W3.main-save-then-denied-snapshot.qualify.json",
+        "bytes": 13675,
+        "rawBytesSha256": "7c72f9da728d2a877d8255b2bddb7c1ebd4b00420a24784bba49e1d5f89bf9e5"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/09-H93.native-risk.W3.main-save-then-denied-snapshot.close.json",
+        "bytes": 13656,
+        "rawBytesSha256": "2de45f4e2edb9c81368ae4f3addaad22aa45ca83ce34a755aaf2f8a2a2fa7ae8"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/10-H93.native-risk.W3.main-save-then-denied-snapshot.claim.json",
+        "bytes": 14334,
+        "rawBytesSha256": "f10abfc2235b0688db8c2b923f2529ba2e160d6d89f7510b9941585fd5e4157c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/11-H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner.json",
+        "bytes": 14348,
+        "rawBytesSha256": "dcdf21765ba968caf1dada550a18ddb948cef552841ba1bd561d6b50b674ed3b"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/12-H93.native-risk.W3.override-denied-post-audit.submit.json",
+        "bytes": 17157,
+        "rawBytesSha256": "a961c44af3c6c2be12e8cb60b2abf344cf6425486452b60ce85091641a78b375"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/13-H93.native-risk.W3.override-denied-post-audit.approve.json",
+        "bytes": 26126,
+        "rawBytesSha256": "a5ccd3bf06793cef603187cbeca2d9df0bffeb248204187c2ddbea516a346c0a"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/14-H93.native-risk.W3.override-denied-post-audit.reject.json",
+        "bytes": 19619,
+        "rawBytesSha256": "c3b16ab1da2df95a236c210cf4e212e5c8460a9eb285051fdc0a4d96d29d0cf5"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/15-H93.native-risk.W3.override-denied-post-audit.revoke.json",
+        "bytes": 35589,
+        "rawBytesSha256": "4d10cfcbe33f0a3293c9d9e03dd217b69f1b1c053d4f0e1e3394f9c99d9f261f"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/16-H93.native-risk.W4.approved-then-new-pending-approval-order.json",
+        "bytes": 44994,
+        "rawBytesSha256": "bad989e4d4ca23f06cf2341ea89c38f3e5073febdcbe68c8d7dbf261555f835e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/17-H93.native-risk.W5.cross-request-dedup-noop-and-real-I-refresh.json",
+        "bytes": 98947,
+        "rawBytesSha256": "8058d8574b49d5cb850a3eb7d31475f14f9db762b9bd0603530bc65184a6d8a7"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/18-I94.N1.missing-anchor-custom400.json",
+        "bytes": 137,
+        "rawBytesSha256": "d6b7bfeae7ab1d3588ca23eda4986c29194ea2241dab15f367b39c2c928a5d57"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/19-I94.N1N3.three-domain-full-roundtrip.json",
+        "bytes": 142,
+        "rawBytesSha256": "144f877dcb856f6789d9cac0b35a8d94aa82301e298a4c74e66528fb84d59438"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/20-I94.N2.same-customer-dual-anchor-OR.json",
+        "bytes": 141,
+        "rawBytesSha256": "e8c81942257c1c8be0f87958a5056b9359d283b0e98e25123b348cf078d7c476"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/21-I94.N2.UUID-spelling-and-priority.json",
+        "bytes": 139,
+        "rawBytesSha256": "0c141ef3289756865a13b923caf6ae9ca120463203bbc6a8a5c894506a61dd98"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/22-I94.N2.no-added-active-or-state-gates.json",
+        "bytes": 143,
+        "rawBytesSha256": "314d1e244c0edf9665c138de04fe94a877ad9826adde93843078ba285f3c68a2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/23-I94.N3.audit-and-business-denial-rollback.json",
+        "bytes": 147,
+        "rawBytesSha256": "a2c0870d4811d7d9cd8c59d6d04713a87c2b379b0704fe04ca3a623c46bb3de7"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/24-I94.N8.requestId65-changed-noop-and-create.json",
+        "bytes": 148,
+        "rawBytesSha256": "f1ce80d0a198a4f47a93915eb90f0b7d224e228b461ecc21c6b3e5cb6807c57c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/25-I94.N5.codepoint-versus-audit-UTF16.json",
+        "bytes": 141,
+        "rawBytesSha256": "2179fa4c70dc55e86061899e8c22e390952af2e4c2cfe4754071740e71eef3c4"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/26-I94.N7.legal-legacy-focus-JSONB-read.json",
+        "bytes": 142,
+        "rawBytesSha256": "b7569a646e8453f041801598afe7997e14adefc408627c5016b6bc99f95e70a1"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/27-I94.N6.stable-gaps-latest-and-score-sort.json",
+        "bytes": 146,
+        "rawBytesSha256": "2ccb67ab33b2b77338f9ce672f578e80b4b114e076a06b0c91ce837ec4a570d8"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/28-I94.N4.two-reader-managed-CAS.json",
+        "bytes": 135,
+        "rawBytesSha256": "a58aab768867c7c40192f246afb0b37bd6210818d3549b3f58dd8008a1acdaf2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/29-I-json-null-to-empty-array-managed-flush.json",
+        "bytes": 3897,
+        "rawBytesSha256": "8a4aa651274b386ec7b3880e8c42347a0c615eb211baf2cf170d4097e6bf511e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/30-HTTP-discussion.bmp8000.json",
+        "bytes": 36965,
+        "rawBytesSha256": "3e1bc3f402173e28d95a7324e2c817d1059d3f8909efb76cd6b53e634fe42da5"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/31-HTTP-discussion.bmp8001.json",
+        "bytes": 20054,
+        "rawBytesSha256": "2e75eb8b1041d0ee8253cf71eb7455cc4bbe964b173beed12b899f66800e0964"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/32-HTTP-discussion.emoji4000.json",
+        "bytes": 77865,
+        "rawBytesSha256": "78efa0ee4b2d3e044ae99e56cf75026e04c8d811152f7eb906e99a3f44e3b333"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/33-HTTP-discussion.emoji4001.json",
+        "bytes": 94772,
+        "rawBytesSha256": "a69e543bd53860aecde9d95b14696f888efa6d28f54d4ee0bbefd0b67131c8e3"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/34-HTTP-discussion.emoji8000.json",
+        "bytes": 175651,
+        "rawBytesSha256": "1ed826e973111f44c39b44d56304bf6c743749dcb7254f0317e4dca445bdffa5"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/35-HTTP-discussion.emoji8001.json",
+        "bytes": 110740,
+        "rawBytesSha256": "d78345fddb94992be4f80a63bf825835b46649ca2e8ad1327f869b0636e327b2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/36-HTTP-discussion.FEFF-trim.json",
+        "bytes": 80546,
+        "rawBytesSha256": "caa6a6afb2fd5b555ab9b80d93cf3a0891ee158ae9826392f9c2178e22867bdc"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/37-HTTP-discussion.NEL-not-trim.json",
+        "bytes": 81449,
+        "rawBytesSha256": "27f9f70b1412ec16a4da63bf1c2d1b98f51bd4b3469d68116ceb9d4b112cc83d"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/38-HTTP-discussion.zero-width.json",
+        "bytes": 82351,
+        "rawBytesSha256": "fbceb9788fd848984613607cde4da0e7adf8d19921fa54ec364d3875201831a4"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/39-HTTP-discussion.nul.json",
+        "bytes": 81111,
+        "rawBytesSha256": "7a62a22345761f7bb4765314f7416e6acd2959e7a7d072ce44368c2a595aa1c5"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/40-HTTP-discussion.high-surrogate.json",
+        "bytes": 83251,
+        "rawBytesSha256": "3927e1c82301787fa22fb3bf2adb3b1bbcf4b35a66e42f112cf9a7d6048189a0"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/41-HTTP-discussion.low-surrogate.json",
+        "bytes": 84146,
+        "rawBytesSha256": "6faf6fc672459b00b00038fda23e8ca31da6ae6b107068697a5ea39ca5c024f6"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/42-K-workspace-guidance.json",
+        "bytes": 9251,
+        "rawBytesSha256": "9cc426f0e746d04c47df9ba7718619a7e89b0da71791cef4ed1ca0e9070fb9ed"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/43-K-timeline.json",
+        "bytes": 3323,
+        "rawBytesSha256": "34cd83fe453b2de10e0facf8c0d9a46f1f00f49585f706228950494d7e399cbf"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/01-real-active-attachment-category-producers.json",
+        "bytes": 2364,
+        "rawBytesSha256": "aa8bda9de5e6bd58186246bac8491fd7ddfde0d1992118e9e10029e7f6155493"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/02-chain-real-Lead-intelligence-followup-upload-producers.json",
+        "bytes": 109431,
+        "rawBytesSha256": "e316463fa3f61872da4a4544a1e32796c4df77404f1e0ecae904021ba3988241"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/03-bulk-override-competing-approvals.json",
+        "bytes": 33017,
+        "rawBytesSha256": "5cf3536d44d4581ec61e54de618f715c2c5aca277130ac504c6779c5fc672e99"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-02/01-real-active-attachment-category-producers.json",
+        "bytes": 2382,
+        "rawBytesSha256": "7c67dad7690db55970732fa3bd8bbcdc1fa2474945a2cbb56c0475e2d1674198"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-02/02-chain-real-Lead-intelligence-followup-upload-producers.json",
+        "bytes": 105800,
+        "rawBytesSha256": "b2558e43a653d62fab4ff374e485ac0a56e883f50ab5fbfe9b757a97a1472658"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-02/03-bulk-override-competing-approvals.json",
+        "bytes": 32765,
+        "rawBytesSha256": "78acb765ec13ae789f63700a0d370958e61c422520e1850dd55cf241cfdf7a15"
+      }
+    ],
+    "allPublicExecutorSourcePinsExact": true,
+    "RootBuildReport": {
+      "file": "tmp/rust-r3hijk/rust-check04/report01.json",
+      "bytes": 89125,
+      "rawBytesSha256": "68442ae4c0c78d2064ffb5ce349f9d4859f68958aa218c5fc42babb9ef744294"
+    },
+    "RootBuildLogs": [
+      {
+        "name": "cargo-fmt",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check04/cargo-fmt.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "name": "cargo-clippy",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check04/cargo-clippy.log",
+          "bytes": 170,
+          "rawBytesSha256": "3b293e9b36b7b5bfdce3718fbe903c28fc235bd050b593983dd8ee652a3d38c8"
+        }
+      },
+      {
+        "name": "cargo-test",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check04/cargo-test.log",
+          "bytes": 56387,
+          "rawBytesSha256": "7004b0edf5a387cc57606cfb370c2763db7e184744b7ae139b41271b5dee546f"
+        }
+      },
+      {
+        "name": "cargo-release",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check04/cargo-release.log",
+          "bytes": 9900,
+          "rawBytesSha256": "aacf9a32080a809b70c546b657f4aed4107ea76db07182922ff7d426deb1258a"
+        }
+      }
+    ],
+    "all230CandidateAfterSourcePinsCurrentExact": true,
+    "all1373NativeProtectedSourcePinsCurrentExact": true,
+    "RootReportedTests": {
+      "passed": 261,
+      "ignored": 54,
+      "logsIndependentlyReadNotReexecuted": true
+    },
+    "runtimeArtifactHashesMatchBuildAndRetainedReports": true,
+    "currentFocusSourcePins": [
+      {
+        "file": "apps/poms-api-rust/src/leads/service.rs",
+        "bytes": 66286,
+        "rawBytesSha256": "52d31b421fbf61539ef22f3dfe5a4d022552506c7579f8bf684243fbc2209767"
+      },
+      {
+        "file": "apps/poms-api-rust/src/leads/store.rs",
+        "bytes": 36488,
+        "rawBytesSha256": "b0343f2a63f24406ba411e3846812fbdb912d8279c0b46f1e093a2a67d761901"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+        "bytes": 37146,
+        "rawBytesSha256": "5c3b91008dbe22e399e29356eace49732de28541a86c94dffbe4f3b012c28cab"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_intelligence/store.rs",
+        "bytes": 15750,
+        "rawBytesSha256": "66b0b3072aa2d488c758b8265e761dc27dfb29ac32a04f8a35687268f839a85d"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/service.rs",
+        "bytes": 22211,
+        "rawBytesSha256": "b0cac730e3d526236e949b7c1393cc994b6b1692821097a2d8f5496e62540d77"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/store.rs",
+        "bytes": 6116,
+        "rawBytesSha256": "4cef476607e40f413f740eb71ff0dae587595af1f9f5ce8cdfb35ddee66902d0"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/service.rs",
+        "bytes": 19248,
+        "rawBytesSha256": "eb4a8371d984870cad84b374bed25a183f27125b4bef8a1bb8e90a3913356558"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/guidance.rs",
+        "bytes": 26859,
+        "rawBytesSha256": "965ed7f2b5f2f6cb37f8094a91cff18906799fa26e7d7554d045e7927e3a8d14"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/store.rs",
+        "bytes": 6871,
+        "rawBytesSha256": "edff5cd3e24e58047a1fcd606895394e64c92a79811ce7ae9b49922ba7397684"
+      }
+    ]
+  },
+  "actualCoreInvariants": [
+    {
+      "backend": "nest",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      },
+      "assertions": [
+        {
+          "label": "H93.native-risk.W1.create-denied-lead",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W1.convert-denied-project",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+          "HTTP": 500,
+          "overrideStatus": "pending",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+          "HTTP": 500,
+          "overrideStatus": "approved",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+          "HTTP": 500,
+          "overrideStatus": "rejected",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+          "HTTP": 500,
+          "overrideStatus": "revoked",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+          "waiters": 2,
+          "statuses": [
+            200,
+            500
+          ],
+          "winner": "other",
+          "storedAndAuditMatchWinner": true
+        },
+        {
+          "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+          "waiters": 2,
+          "statuses": [
+            200,
+            500
+          ],
+          "winner": "admin",
+          "storedAndAuditMatchWinner": true
+        },
+        {
+          "label": "I-roundtrip-stakeholder",
+          "anchorsUnchanged": true,
+          "oneMatchingAudit": true
+        },
+        {
+          "label": "I-roundtrip-competitor",
+          "anchorsUnchanged": true,
+          "oneMatchingAudit": true
+        },
+        {
+          "label": "I-roundtrip-discovery",
+          "anchorsUnchanged": true,
+          "oneMatchingAudit": true
+        },
+        {
+          "label": "I94.N4.two-reader-managed-CAS",
+          "waiters": 2,
+          "statuses": [
+            200,
+            500
+          ],
+          "winner": "admin",
+          "storedAndAuditMatchWinner": true
+        }
+      ],
+      "unicode": [
+        {
+          "label": "bmp8000",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "bmp8001",
+          "status": 400,
+          "threeWayTextChecked": false
+        },
+        {
+          "label": "emoji4000",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "emoji4001",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "emoji8000",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "emoji8001",
+          "status": 400,
+          "threeWayTextChecked": false
+        },
+        {
+          "label": "FEFF-trim",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "NEL-not-trim",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "zero-width",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "nul",
+          "status": 500,
+          "threeWayTextChecked": false
+        },
+        {
+          "label": "high-surrogate",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "low-surrogate",
+          "status": 201,
+          "threeWayTextChecked": true
+        }
+      ],
+      "jsonbNullFlush": {
+        "responseVersion": 1,
+        "storedVersion": 2,
+        "audits": 0
+      },
+      "postFailureAndConcurrencyRelationsChecked": true
+    },
+    {
+      "backend": "rust",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/report01.json",
+        "bytes": 3264821,
+        "rawBytesSha256": "e8fde7ff771873cdcac8ce0c150e9c1762e8d403ed40b0dd1c29be4b20632223"
+      },
+      "assertions": [
+        {
+          "label": "H93.native-risk.W1.create-denied-lead",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W1.convert-denied-project",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+          "HTTP": 500,
+          "independentCounterDelta": 1,
+          "businessRollback": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+          "HTTP": 500,
+          "mainVersionDelta": 1,
+          "snapshotDelta": 0,
+          "mainCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+          "HTTP": 500,
+          "overrideStatus": "pending",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+          "HTTP": 500,
+          "overrideStatus": "approved",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+          "HTTP": 500,
+          "overrideStatus": "rejected",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+          "HTTP": 500,
+          "overrideStatus": "revoked",
+          "businessCommitSurvives": true
+        },
+        {
+          "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+          "waiters": 2,
+          "statuses": [
+            200,
+            500
+          ],
+          "winner": "admin",
+          "storedAndAuditMatchWinner": true
+        },
+        {
+          "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+          "waiters": 2,
+          "statuses": [
+            200,
+            500
+          ],
+          "winner": "admin",
+          "storedAndAuditMatchWinner": true
+        },
+        {
+          "label": "I-roundtrip-stakeholder",
+          "anchorsUnchanged": true,
+          "oneMatchingAudit": true
+        },
+        {
+          "label": "I-roundtrip-competitor",
+          "anchorsUnchanged": true,
+          "oneMatchingAudit": true
+        },
+        {
+          "label": "I-roundtrip-discovery",
+          "anchorsUnchanged": true,
+          "oneMatchingAudit": true
+        },
+        {
+          "label": "I94.N4.two-reader-managed-CAS",
+          "waiters": 2,
+          "statuses": [
+            200,
+            500
+          ],
+          "winner": "other",
+          "storedAndAuditMatchWinner": true
+        }
+      ],
+      "unicode": [
+        {
+          "label": "bmp8000",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "bmp8001",
+          "status": 400,
+          "threeWayTextChecked": false
+        },
+        {
+          "label": "emoji4000",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "emoji4001",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "emoji8000",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "emoji8001",
+          "status": 400,
+          "threeWayTextChecked": false
+        },
+        {
+          "label": "FEFF-trim",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "NEL-not-trim",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "zero-width",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "nul",
+          "status": 500,
+          "threeWayTextChecked": false
+        },
+        {
+          "label": "high-surrogate",
+          "status": 201,
+          "threeWayTextChecked": true
+        },
+        {
+          "label": "low-surrogate",
+          "status": 201,
+          "threeWayTextChecked": true
+        }
+      ],
+      "jsonbNullFlush": {
+        "responseVersion": 1,
+        "storedVersion": 2,
+        "audits": 0
+      },
+      "postFailureAndConcurrencyRelationsChecked": true
+    }
+  ],
+  "actualRealchainInvariants": [
+    {
+      "backend": "nest",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/report01.json",
+        "bytes": 276438,
+        "rawBytesSha256": "030e5fdc3ffa01ebb7b21d3987381200f480d316220092e439a2f8f9856eee0c"
+      },
+      "uploads": [
+        {
+          "category": "proposal",
+          "bytes": 36,
+          "sha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+          "version": 1
+        },
+        {
+          "category": "quotation",
+          "bytes": 37,
+          "sha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+          "version": 1
+        },
+        {
+          "category": "finance",
+          "bytes": 35,
+          "sha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+          "version": 1
+        },
+        {
+          "category": "internal-assessment",
+          "bytes": 47,
+          "sha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+          "version": 1
+        }
+      ],
+      "sourceLinks": 4,
+      "copiedEligibleLinks": 2,
+      "excludedFinanceAndInternalAssessment": true,
+      "commentSourceAggregationRetainsOriginalIds": true,
+      "currentTodoFollowsRealFollowup": true,
+      "priorPartialTodoCount": 2,
+      "bulk": {
+        "waiters": 2,
+        "statuses": [
+          200,
+          200
+        ],
+        "responseVersions": [
+          2,
+          3
+        ],
+        "approvedVersion": [
+          1,
+          3
+        ],
+        "supersededVersion": [
+          2,
+          4
+        ],
+        "snapshotDelta": 2,
+        "auditRowsEach": 1,
+        "lastResponseMatchesStored": true
+      }
+    },
+    {
+      "backend": "rust",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-02/report01.json",
+        "bytes": 270054,
+        "rawBytesSha256": "8f63c428019149bccea258aadbe05632e6bbc882693d0fcb33d8a79c99eaedc5"
+      },
+      "uploads": [
+        {
+          "category": "proposal",
+          "bytes": 36,
+          "sha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+          "version": 1
+        },
+        {
+          "category": "quotation",
+          "bytes": 37,
+          "sha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+          "version": 1
+        },
+        {
+          "category": "finance",
+          "bytes": 35,
+          "sha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+          "version": 1
+        },
+        {
+          "category": "internal-assessment",
+          "bytes": 47,
+          "sha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+          "version": 1
+        }
+      ],
+      "sourceLinks": 4,
+      "copiedEligibleLinks": 2,
+      "excludedFinanceAndInternalAssessment": true,
+      "commentSourceAggregationRetainsOriginalIds": true,
+      "currentTodoFollowsRealFollowup": true,
+      "priorPartialTodoCount": 0,
+      "bulk": {
+        "waiters": 2,
+        "statuses": [
+          200,
+          200
+        ],
+        "responseVersions": [
+          2,
+          3
+        ],
+        "approvedVersion": [
+          1,
+          3
+        ],
+        "supersededVersion": [
+          2,
+          4
+        ],
+        "snapshotDelta": 2,
+        "auditRowsEach": 1,
+        "lastResponseMatchesStored": true
+      }
+    }
+  ],
+  "comparisonMethod": {
+    "exploratory": {
+      "file": "tmp/rust-r3hijk/c-review/g2-parity-diff-candidates01.json",
+      "bytes": 33390,
+      "rawBytesSha256": "d376e75b1aeada8a29e6d1d20c6705ea9a21ef984b3aecf94900a898bdd02311"
+    },
+    "warning": "UUID/time masking and object-array bag sorting were triage only, not proofs of relational parity. Independent within-backend ID/anchor/request/audit/stored-version assertions above restore the relationships relevant to this bounded review.",
+    "HTTP": "Matched event labels/actors/occurrences; non-race body triage agrees. Races are judged by status multisets and their own committed winner, not identical actors.",
+    "database": "Within-run exact before/after and per-ID relationships; no cross-run random-ID row-position comparison.",
+    "Unicode": "Immediate POST and stored/GET UTF16 units checked separately for lone surrogate; validation status and stored text limits match.",
+    "coverageLimit": "Clock values, host paths, generated business sequence numbers and independent IDs were not required to equal across separate real runs. Their presence/relationships and counter deltas were checked where observed."
+  },
+  "classifiedNonFindings": [
+    {
+      "kind": "legal-concurrency-winner",
+      "detail": "H lead and I discovery choose different successful actors across runtimes; each has200/500 and stored value/operator/audit all match its own successful request."
+    },
+    {
+      "kind": "legal-bulk-serialization-order",
+      "detail": "Both bulk requests200. Versions2/3 and final approval note/operator can swap by actor; both stored rows advance2→4 and1→3, +2snapshots and one audit per request."
+    },
+    {
+      "kind": "prior-partial-owned-state",
+      "detail": "Native current todo list has two additional reminders whose sourceIds exactly match successful followups from partial04/05. The new-chain reminder exists and links to the new followup in both runtimes."
+    },
+    {
+      "kind": "observer-input-shape",
+      "detail": "Native proposal dictionary already existed from partial05 and is observed as a raw PG snake_case row; Rust creates it via public HTTP and records camelCase DTO. Rust therefore has one additional real producer HTTP event. This is not a public business response mismatch."
+    },
+    {
+      "kind": "random-observer-row-order",
+      "detail": "Independent database observations may be sorted by unrelated random IDs; cross-backend array positions are not treated as relation drift."
+    },
+    {
+      "kind": "owned-local-object-path",
+      "detail": "Actual object paths use separate nest/rust roots and independent session UUIDs. Four deterministic payload byte counts/checksums agree with each producer request, stored attachment and Root-observed object hash."
+    }
+  ],
+  "preservedPartialOriginals": [
+    {
+      "phase": "03",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-03/report01.json",
+        "bytes": 20377,
+        "rawBytesSha256": "9c5ecf5e5781d2bdec292563291c25bc5f62f9cf1909009d9da46b673a8af31f"
+      },
+      "completed": false,
+      "failedAt": "chain.discovery",
+      "error": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'code')"
+      },
+      "successfulRecordedEvents": 5,
+      "notIncludedIn46GroupsOr199NativeHTTP": true
+    },
+    {
+      "phase": "04",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-04/report01.json",
+        "bytes": 31028,
+        "rawBytesSha256": "36ee3e9c823e09c4fa806a9aaf32a4d1f6f2a1831f5e71434b29837b75974b43"
+      },
+      "completed": false,
+      "failedAt": "upload.proposal.create",
+      "error": {
+        "name": "AssertionError",
+        "message": "upload.proposal.create\n\n400 !== 201\n"
+      },
+      "successfulRecordedEvents": 9,
+      "notIncludedIn46GroupsOr199NativeHTTP": true
+    },
+    {
+      "phase": "05",
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-05/report01.json",
+        "bytes": 76958,
+        "rawBytesSha256": "76d2a87efb197860193fc6d57f19a2c8ce4274862aad5ea40de192f266e22a2e"
+      },
+      "completed": false,
+      "failedAt": "upload.proposal-v2.complete",
+      "error": {
+        "name": "AssertionError",
+        "message": "upload.proposal-v2.complete\n\n500 !== 200\n"
+      },
+      "successfulRecordedEvents": 24,
+      "notIncludedIn46GroupsOr199NativeHTTP": true
+    }
+  ],
+  "attachmentVersionBoundary": {
+    "NativeVersionComplete500Observed": true,
+    "sourceReport": {
+      "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-05/report01.json",
+      "bytes": 76958,
+      "rawBytesSha256": "76d2a87efb197860193fc6d57f19a2c8ce4274862aad5ea40de192f266e22a2e"
+    },
+    "reportedConstraint": "uq_attachment_latest_active",
+    "constraintNameSource": "Root coordination report; C did not read private SQL to independently identify this name",
+    "noOldR2ProductRepairPerformed": true,
+    "final06FourUploadsVersion1Only": true,
+    "versionOperationNotCertified": true,
+    "priorG1PreparedIsLatestFalseEvidenceRetainsItsSeparateLabel": true,
+    "cloudCertification": false
+  },
+  "pendingForRootAndLaterIndependentG3": [
+    "Unified final response/database comparison and complete current operation/guard/validation matrices.",
+    "Old30 regression and all four Native/Rust × Linux/Windows UI combinations.",
+    "Remaining source-defined J thread/concurrency/association and nondefault K read projection cases.",
+    "Fresh owned terminal/cohort/seed/ACL/object/runtime final reconciliation; currently retained active runtime reports are not terminal evidence.",
+    "Complete final candidate source/artifact/check binding and independent G3/fixed-commit/G4; no new gate follows from this preaudit.",
+    "Keep #85/#57 Open and formally delivered R3 count30/58 until actual scoped G4."
+  ],
+  "resourceProbeBoundary": "Root reports PG15 TCP recovery verified after a retained socket-only readiness failure; this static review did not inspect the host or re-run either probe.",
+  "noProductOrExecutorWriting": true,
+  "noInstallationBuildTestHTTPDBBrowserOrHostServiceExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true,
+  "onlyCReviewStaticScriptsAndRecordsWritten": true
+}

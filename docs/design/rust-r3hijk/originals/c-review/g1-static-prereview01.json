@@ -1,0 +1,267 @@
+{
+  "kind": "R3HIJK-independent-G1-static-prereview-A-D-and-E1",
+  "createdAt": "2026-11-02T08:47:37.841Z",
+  "reviewer": {
+    "agent": "/root/r3_next16_review",
+    "role": "Sole independent non-author C",
+    "method": "Public source/JSON/exact hashes/read-only Git; own static validator only",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "branch": "codex/poms-r3hijk-next28",
+  "decision": "Needs-correction-before-joint-G1",
+  "formalJointG1Decision": false,
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "scope": {
+    "operations": 28,
+    "groups": {
+      "H": 14,
+      "I": 10,
+      "J": 2,
+      "K": 2
+    },
+    "currentDelivered": 30,
+    "totalR3": 58,
+    "parentsRemainOpen": [
+      85,
+      57
+    ],
+    "publicHttpCouldReach58OnlyAfterActualScopedG4": true,
+    "fullR3StageNonHttpApprovalAcceptanceSeparate": true
+  },
+  "exactInputs": {
+    "byteAudit": {
+      "file": "tmp/rust-r3hijk/c-review/g1-input-byte-prereview01.json",
+      "bytes": 19779,
+      "rawBytesSha256": "17f88177b3443d04c3f8a565c0f7e9edf727409cde67eab583f82b75c40c77fa"
+    },
+    "catalog": {
+      "file": "tmp/rust-r3hijk/root/g0-current28-catalog02.json",
+      "bytes": 78240,
+      "rawBytesSha256": "c19dde600ad3526edcbca1b45764b0737c3945d2ce4d57aec112b342cdc45cda"
+    },
+    "preflight": {
+      "file": "tmp/rust-r3hijk/root/preflight-source-manifest02.json",
+      "bytes": 324402,
+      "rawBytesSha256": "38756a2f21f818ada19b65a51134f94a8e5197217dcd424c0d9e10ab809f833d"
+    },
+    "sourceGroups": [
+      {
+        "kind": "RootNativeUIContractClient",
+        "count": 1373,
+        "allCurrentBytesExact": true,
+        "baseEqual": 1373,
+        "notInBase": []
+      },
+      {
+        "kind": "RootRustBaseline",
+        "count": 206,
+        "allCurrentBytesExact": true,
+        "baseEqual": 206,
+        "notInBase": []
+      },
+      {
+        "kind": "ASource",
+        "manifest": {
+          "file": "tmp/rust-r3hijk/a-input/source-manifest.json",
+          "bytes": 182812,
+          "rawBytesSha256": "0a461737d485055b9a56ce214210a660ed0ae3d964efd75be10636eea43b5b4d"
+        },
+        "count": 172,
+        "allCurrentBytesExact": true,
+        "baseEqual": 172,
+        "notInBase": []
+      },
+      {
+        "kind": "DSource",
+        "manifest": {
+          "file": "tmp/rust-r3hijk/d-input/source-manifest.json",
+          "bytes": 154019,
+          "rawBytesSha256": "4bdff1f9bcb2f15b3d5460814168d397d10f753b0273c09900b0c0823cbf3cb9"
+        },
+        "count": 53,
+        "allCurrentBytesExact": true,
+        "baseEqual": 53,
+        "notInBase": []
+      }
+    ],
+    "AReceipt": {
+      "file": "tmp/rust-r3hijk/a-input/artifact-receipt.json",
+      "bytes": 2356,
+      "rawBytesSha256": "db2cc7ef0fc121cda04a30340105e1adbe14d0ec7f298013055f1ae19d7568b2"
+    },
+    "definitionCounts": {
+      "A": 44,
+      "D": 56,
+      "meaning": "Unexecuted risk/assertion definitions; not HTTP counts or passed cases"
+    },
+    "authorTextAndMatrixPins": [
+      {
+        "file": "tmp/rust-r3hijk/a-input/input-review.txt",
+        "bytes": 24352,
+        "rawBytesSha256": "9dad97c415868439dd2a35b8ef271cf06d1f3b6019033b5caf9c29b06bcfd060"
+      },
+      {
+        "file": "tmp/rust-r3hijk/a-input/interfaces-proposal.txt",
+        "bytes": 4286,
+        "rawBytesSha256": "4f2eb06e8d2658452215239e64fbcf125ba7d17f2c0847be1a21ca3e94693127"
+      },
+      {
+        "file": "tmp/rust-r3hijk/a-input/acceptance-matrix.json",
+        "bytes": 32554,
+        "rawBytesSha256": "e57c77e3ae2ca1333d3b2b5c9f406c37bb1921362ca534e46536a6fd6653737e"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/input-review.txt",
+        "bytes": 16134,
+        "rawBytesSha256": "cc04d234be0aff64f318ec2e0b30be62b6c652b7803f6c1a8e9761beceb02a24"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/shared-dependency-interface-draft01.json",
+        "bytes": 7294,
+        "rawBytesSha256": "0ab071d5e9d2f5ae7bc8f8f28e47287e3d7906e4782a5a4c81a82a5c1010e997"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/acceptance-matrix.json",
+        "bytes": 18508,
+        "rawBytesSha256": "e3c112b9ac5cafdced1e5d587e8391878a50aae875143e93d36ae09f716008e7"
+      }
+    ]
+  },
+  "routeForecast": {
+    "scoped": 28,
+    "groups": [
+      14,
+      10,
+      2,
+      2
+    ],
+    "current": {
+      "paths": 116,
+      "operations": 145,
+      "schemas": 585
+    },
+    "expectedAfterStaticUnion": {
+      "paths": 138,
+      "operations": 173,
+      "schemas": 585
+    },
+    "staticForecastNotRuntimeAttestation": true,
+    "meaning": "Static union of the full prior 145-operation runtime OpenAPI and 28 disjoint aligned operations. No runtime was launched or attested."
+  },
+  "findings": [
+    {
+      "id": "G1-P2-01",
+      "priority": "P2",
+      "classification": "unsettled-input-contradiction",
+      "title": "A and D give incompatible astral-character length rules for source Zod string bounds",
+      "locations": [
+        {
+          "file": "tmp/rust-r3hijk/a-input/input-review.txt",
+          "line": 34,
+          "claim": "Zod4.6.1 min/max count codepoints; JS demand/audit lengths count UTF16."
+        },
+        {
+          "file": "tmp/rust-r3hijk/d-input/input-review.txt",
+          "line": 38,
+          "claim": "Discussion body trim().min(1).max(8000) counts UTF16 units."
+        },
+        {
+          "file": "tmp/rust-r3hijk/d-input/shared-dependency-interface-draft01.json",
+          "field": "textAndDate.body",
+          "claim": "JS trim and UTF-16 1..8000."
+        },
+        {
+          "file": "tmp/rust-r3hijk/d-input/acceptance-matrix.json",
+          "case": "J-U01",
+          "claim": "4001 astral emoji fail the max8000 source bound."
+        }
+      ],
+      "consequence": "A scalar-count implementation and a UTF16-unit implementation disagree at 4001 emoji, so both cannot be frozen as the same original Zod string check.",
+      "existingRustEvidence": {
+        "file": "apps/poms-api-rust/src/project_technical_cost/validation.rs",
+        "line": 162,
+        "meaning": "decode_utf16(...).count() shows existing Rust codepoint counting only; it is not new Native evidence."
+      },
+      "requiredCorrection": "Preserve these original candidate bytes. Use Root original installed Zod schema and actual J HTTP/PG at 8000/8001 BMP,4000/4001/8000/8001 astral and trim/lone-surrogate controls; add corrected numbered author input with the measured source rule before joint G1. Keep business JS demand.length/audit.length as a separate UTF16 rule.",
+      "status": "Reported to Root; Root acknowledged fresh source-schema and Native HTTP/PG witnesses plus numbered D02 correction. Not yet certified by C."
+    }
+  ],
+  "highValueNativeWitnessesRequiredBeforeSemanticFreeze": [
+    {
+      "id": "H-number-convert-managed-flush",
+      "source": [
+        "lead.service.ts:110-143,340-391",
+        "attachment.service.ts:862-924"
+      ],
+      "focus": "Actual physical transactions for lead/project number allocation; conversion with eligible real attachments; query/audit-triggered managed-graph flush order; failures at attachment audit, score snapshot and final flush; exact Lead/Project/link/audit/session/number residuals. Passing em is not proof of connection/commit scope."
+    },
+    {
+      "id": "H-snapshots-and-effective-score",
+      "source": [
+        "lead-score.service.ts:94-240,282-367",
+        "lead.service.ts:293-331,541-569"
+      ],
+      "focus": "Approved→superseded plus new approval under original partial uniques; no-em snapshots after claim/assign/qualify/close; post-transaction override audit failures; JSON.stringify de-dup after JSONB reload; command summary system-effective versus read manual-effective. Capture SQL, actual errors and before/after independently of expected definitions."
+    },
+    {
+      "id": "H-I-J-real-producer-chain",
+      "source": [
+        "lead-score-facts.service.ts",
+        "sales-intelligence.service.ts:requireOpportunityContext",
+        "business-discussion.service.ts"
+      ],
+      "focus": "Real H create→I stakeholder/competitor/discovery→changed H refresh→qualify→convert→J history aggregation; raw/canonical UUID string comparisons, both or nullable anchors, inactive existing contact, voided followup. Prepared rows may isolate invalid/timestamp cases but cannot prove domain producer delivery."
+    },
+    {
+      "id": "J-first-thread-and-text",
+      "source": [
+        "business-discussion.repository.ts:110-117",
+        "business-discussion.service.ts:37-83"
+      ],
+      "focus": "Concurrent first-thread unique outcome and rollback graph without invented upsert/409; lone UTF16 immediate POST versus stored/re-read text; NUL database rejection; raw errors separate from SQL log. Resolve G1-P2-01 before freezing body length."
+    },
+    {
+      "id": "K-exact-read-projections",
+      "source": [
+        "project-query.service.ts:51-187,590-748,1342-1674",
+        "project.repository.ts:171-261"
+      ],
+      "focus": "Raw malformed path errors for both K routes; snapshot selectors/exportPolicy; closed versus completed and permission some/every combinations; earliest signed contract and other exact lifecycle selectors with microseconds before Date formatting. Completely equal source sort keys remain explicitly undefined; R4 facts are prepared query projections only."
+    }
+  ],
+  "minimalSharedInterfaceConclusions": [
+    "A/I/J LeadRef id/customer_id/lead_name by_id and by_ids is sufficient; lookup only, raw path reaches original PG semantics, no active/status/owner/lock/new TX.",
+    "I→H collect_lead_score_facts must use caller connection and exact seven booleans, lead-only predicate, original discovery updated_at-only selection. Do not reuse public OR-anchor lists or add H score refresh to I writes.",
+    "I→J CompetitorRef id/customer_id/nullable lead_id/project_id is sufficient; D applies original nullable checks, not sourceLead equivalence or lifecycle filters.",
+    "Root must freeze precise Service/error/Wire/session signatures and attachment-copy managed-graph/number/snapshot bridges after Native witnesses; all http.rs/Cargo/lib/shared older modules remain Root-owned.",
+    "Retain source text in dynamic errors/JSON where Native retains raw UTF16; do not silently pass to lossy String during preflight or reuse a stricter active-only existing helper."
+  ],
+  "remainingGatePrerequisites": [
+    "Complete B source manifest/matrix/fixture package and independent source check",
+    "Root structured Native semantic witnesses and raw SQL/error/PG originals",
+    "Final Root shared-interface and ownership package",
+    "Final master/manifest with immutable author originals and explicit mutable-governance origin handling",
+    "Current G0 native subissue/parent readback and later same-byte online G1 freeze"
+  ],
+  "E1Review": {
+    "file": "tmp/rust-r3hijk/c-review/e1-compatibility-rereview01.json",
+    "bytes": 7006,
+    "rawBytesSha256": "540022255e05bc470cfe5b7e0acaab7eee4aa447768e34585313a27168d66415",
+    "decision": "Conditionally-approved-continuation",
+    "E1Approved": true,
+    "files": 5,
+    "totalBytes": 419264,
+    "exitConditionSatisfied": false,
+    "calendarDeadline": "2026-11-09",
+    "deadlineExtended": false
+  },
+  "noProductBuildTestFmtLintDbHttpBrowserHostOrPrivateExecution": true,
+  "noAuthorRootToolExecution": true,
+  "noGitHubWrite": true,
+  "conclusion": "Static A/D admission and route arithmetic pass exact-byte checks. One specific length-rule contradiction and the explicitly pending semantic/package prerequisites prevent any joint G1 signature or G2 start. Separate E1 continuation is approved only within its unchanged five-file/deadline boundary."
+}

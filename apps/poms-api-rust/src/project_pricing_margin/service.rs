@@ -1,5 +1,6 @@
 use std::{collections::BTreeMap, error, fmt};
 
+use rust_decimal::Decimal;
 use serde_json::{Value, json};
 use sqlx::Connection;
 use uuid::Uuid;
@@ -10,11 +11,11 @@ use crate::{
         model::{ResolvedSession, clock_now},
         store::flush_managed_session,
     },
-    compat::scalars::{NumberInput, js_iso_string, js_to_fixed, legacy_number},
+    compat::scalars::js_iso_string,
     database::{Database, DbError},
     project_bid_commercial::store as bids,
     project_technical_cost::{
-        service::{allowed, owner_label, presigning},
+        service::{allowed, decimal_input, decimal_text, owner_label, presigning},
         store as costs,
     },
     projects::{
@@ -27,12 +28,18 @@ use crate::{
 pub enum Error {
     NotFound(String),
     BadRequest(String),
+    Conflict(String),
     Database(DbError),
     Internal,
 }
 impl From<DbError> for Error {
     fn from(value: DbError) -> Self {
         Self::Database(value)
+    }
+}
+impl From<sqlx::Error> for Error {
+    fn from(_: sqlx::Error) -> Self {
+        Self::Internal
     }
 }
 impl fmt::Display for Error {
@@ -47,17 +54,8 @@ pub struct Service {
     database: Database,
 }
 
-fn number(value: &str, field: &str) -> Result<f64, Error> {
-    let value = legacy_number(NumberInput::Text(value));
-    if !value.is_finite() || value < 0.0 {
-        return Err(Error::BadRequest(format!(
-            "{field} must be a non-negative decimal"
-        )));
-    }
-    Ok(value)
-}
-fn money(value: f64) -> Result<String, Error> {
-    js_to_fixed(value, 2).map_err(|_| Error::Internal)
+fn amount(value: &str, field: &str) -> Result<Decimal, Error> {
+    decimal_input(value, field, 2, false).map_err(Error::BadRequest)
 }
 fn random_uuid() -> Result<Uuid, Error> {
     let mut bytes = [0_u8; 16];
@@ -74,7 +72,7 @@ fn references(input: &CreateRequest, current: Option<&bids::Row>) -> Result<(), 
                 "bid pricingPath requires bidCommercialProcessId".into(),
             ));
         };
-        let Some(current) = current.filter(|row| row.id.to_string() == *id) else {
+        let Some(current) = current.filter(|row| Uuid::parse_str(id).ok() == Some(row.id)) else {
             return Err(Error::BadRequest(
                 "bidCommercialProcessId must match the current effective bid commercial process"
                     .into(),
@@ -92,7 +90,7 @@ fn references(input: &CreateRequest, current: Option<&bids::Row>) -> Result<(), 
     if input.pricing_path == "direct-commercial"
         && let Some(id) = input.bid_commercial_process_id.as_ref()
     {
-        let Some(current) = current.filter(|row| row.id.to_string() == *id) else {
+        let Some(current) = current.filter(|row| Uuid::parse_str(id).ok() == Some(row.id)) else {
             return Err(Error::BadRequest(
                 "bidCommercialProcessId must match the current effective bid commercial process"
                     .into(),
@@ -125,22 +123,38 @@ fn references(input: &CreateRequest, current: Option<&bids::Row>) -> Result<(), 
     Ok(())
 }
 
+fn cost_reference(
+    input_id: &str,
+    currency: &crate::auth::js_json::JsString,
+    current: Option<(Uuid, &str)>,
+) -> Result<(), Error> {
+    let Some((_, current_currency)) =
+        current.filter(|(id, _)| Uuid::parse_str(input_id).ok() == Some(*id))
+    else {
+        return Err(Error::BadRequest(
+            "technicalCostPackageId must match the current effective technical cost package".into(),
+        ));
+    };
+    if *currency != js(current_currency) {
+        return Err(Error::BadRequest(format!(
+            "currencyCode must equal technical cost package currencyCode {current_currency}"
+        )));
+    }
+    Ok(())
+}
+
 fn amounts(input: &CreateRequest) -> Result<(), Error> {
-    let inclusive = number(&input.quote_amount_tax_inclusive, "quoteAmountTaxInclusive")?;
-    let exclusive = number(&input.quote_amount_tax_exclusive, "quoteAmountTaxExclusive")?;
-    number(&input.tax_rate, "taxRate")?;
-    if inclusive + 0.0001 < exclusive {
+    let inclusive = amount(&input.quote_amount_tax_inclusive, "quoteAmountTaxInclusive")?;
+    let exclusive = amount(&input.quote_amount_tax_exclusive, "quoteAmountTaxExclusive")?;
+    decimal_input(&input.tax_rate, "taxRate", 8, false).map_err(Error::BadRequest)?;
+    if inclusive < exclusive {
         return Err(Error::BadRequest(
             "quoteAmountTaxInclusive must be greater than or equal to quoteAmountTaxExclusive"
                 .into(),
         ));
     }
-    if let Some(value) = input.gross_margin_rate.as_ref()
-        && !legacy_number(NumberInput::Text(value)).is_finite()
-    {
-        return Err(Error::BadRequest(
-            "grossMarginRate must be a decimal".into(),
-        ));
+    if let Some(value) = input.gross_margin_rate.as_ref() {
+        decimal_input(value, "grossMarginRate", 8, true).map_err(Error::BadRequest)?;
     }
     Ok(())
 }
@@ -316,24 +330,39 @@ impl Service {
         session: &ResolvedSession,
     ) -> Result<Wire, Error> {
         let id = project_id.to_owned();
-        let (project,previous,input)=self.database.with_connection(move|connection|Box::pin(async move{
-            let Some(project)=projects::find(connection,&id).await? else{return Ok(Err(Error::NotFound(format!("Project {id} not found"))));};
-            if project.status=="closed" || !presigning(&project.current_stage){
-                return Ok(Err(Error::BadRequest(format!("Project {id} cannot record pricing margin review in stage {}",project.current_stage))));
-            }
-            let cost=costs::current(connection,&id).await?;
-            let Some(cost)=cost.filter(|cost|cost.id.to_string()==input.technical_cost_package_id) else{
-                return Ok(Err(Error::BadRequest("technicalCostPackageId must match the current effective technical cost package".into())));
-            };
-            if input.currency_code!=js(&cost.currency_code){
-                return Ok(Err(Error::BadRequest(format!("currencyCode must equal technical cost package currencyCode {}",cost.currency_code))));
-            }
-            let bid=bids::current(connection,&id).await?;
-            if let Err(error)=references(&input,bid.as_ref()){return Ok(Err(error));}
-            if let Err(error)=amounts(&input){return Ok(Err(error));}
-            let previous=store::current(connection,&id).await?;
-            Ok(Ok((project,previous,input)))
-        })).await??;
+        let (project, input) = self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(async move {
+                    let Some(project) = projects::find(connection, &id).await? else {
+                        return Ok(Err(Error::NotFound(format!("Project {id} not found"))));
+                    };
+                    if project.status == "closed" || !presigning(&project.current_stage) {
+                        return Ok(Err(Error::BadRequest(format!(
+                            "Project {id} cannot record pricing margin review in stage {}",
+                            project.current_stage
+                        ))));
+                    }
+                    let cost = costs::current(connection, &id).await?;
+                    if let Err(error) = cost_reference(
+                        &input.technical_cost_package_id,
+                        &input.currency_code,
+                        cost.as_ref()
+                            .map(|cost| (cost.id, cost.currency_code.as_str())),
+                    ) {
+                        return Ok(Err(error));
+                    }
+                    let bid = bids::current(connection, &id).await?;
+                    if let Err(error) = references(&input, bid.as_ref()) {
+                        return Ok(Err(error));
+                    }
+                    if let Err(error) = amounts(&input) {
+                        return Ok(Err(error));
+                    }
+                    Ok(Ok((project, input)))
+                })
+            })
+            .await??;
         let id = random_uuid()?;
         let blockers = input
             .condition_items
@@ -350,11 +379,9 @@ impl Service {
         let record = store::NewReview {
             id,
             project_id: project.id,
-            version: previous
-                .as_ref()
-                .map_or(1, |row| i64::from(row.version) + 1),
+            version: 1,
             is_current: true,
-            supersedes_id: previous.as_ref().map(|row| row.id),
+            supersedes_id: None,
             status: "effective".into(),
             technical_cost_package_id: uuid(&input.technical_cost_package_id)?,
             bid_commercial_process_id: input
@@ -370,14 +397,14 @@ impl Service {
             pricing_path: input.pricing_path.clone(),
             quote_version: input.quote_version.to_utf8_lossy(),
             currency_code: input.currency_code.to_utf8_lossy(),
-            quote_amount_tax_inclusive: money(number(
-                &input.quote_amount_tax_inclusive,
-                "quoteAmountTaxInclusive",
-            )?)?,
-            quote_amount_tax_exclusive: money(number(
-                &input.quote_amount_tax_exclusive,
-                "quoteAmountTaxExclusive",
-            )?)?,
+            quote_amount_tax_inclusive: decimal_text(
+                amount(&input.quote_amount_tax_inclusive, "quoteAmountTaxInclusive")?,
+                2,
+            ),
+            quote_amount_tax_exclusive: decimal_text(
+                amount(&input.quote_amount_tax_exclusive, "quoteAmountTaxExclusive")?,
+                2,
+            ),
             tax_rate: input.tax_rate.clone(),
             tax_condition_summary: input.tax_condition_summary.to_utf8_lossy(),
             payment_terms_summary: input.payment_terms_summary.to_utf8_lossy(),
@@ -461,7 +488,8 @@ impl Service {
         if let Some(value) = input.gross_margin_rate.as_deref() {
             original.insert("grossMarginRate".to_owned(), js(value));
         }
-        let persisted = record.clone();
+        let mut persisted = record;
+        let project_key = project_id.to_owned();
         let pending = session.pending_flush.clone();
         let actor = session.user.user_id;
         let record = self
@@ -469,17 +497,29 @@ impl Service {
             .with_connection(move |connection| {
                 Box::pin(async move {
                     let mut transaction = connection.begin().await?;
-                    let result: Result<store::Row, sqlx::Error> = async {
-                        // Existing current makes this INSERT fail before old UPDATE,
-                        // preserving the confirmed Native existing-baseline-drift.
+                    let result: Result<store::Row, Error> = async {
+                        let project=costs::lock_project(&mut transaction,&project_key).await?
+                            .ok_or_else(||Error::NotFound(format!("Project {project_key} not found")))?;
+                        if project.status=="closed" || !presigning(&project.current_stage) {
+                            return Err(Error::BadRequest(format!("Project {project_key} cannot record pricing margin review in stage {}",project.current_stage)));
+                        }
+                        let cost=costs::current(&mut transaction,&project_key).await?;
+                        cost_reference(&input.technical_cost_package_id,&input.currency_code,cost.as_ref().map(|cost|(cost.id,cost.currency_code.as_str())))?;
+                        let bid=bids::current(&mut transaction,&project_key).await?;
+                        references(&input,bid.as_ref())?;
+                        let previous=store::current(&mut transaction,&project_key).await?;
+                        persisted.version=store::next_version(&mut transaction,project.id).await?;
+                        persisted.supersedes_id=previous.as_ref().map(|row|row.id);
+                        let effective_at=clock_now();
+                        persisted.effective_at=effective_at;persisted.created_at=effective_at;persisted.updated_at=effective_at;
+                        if let Some(previous)=previous.as_ref()
+                            && !store::supersede(&mut transaction,previous,actor,effective_at).await? {
+                            return Err(Error::Conflict("Current pricing margin review changed; reload and retry".into()));
+                        }
                         let current = store::insert(&mut transaction, &persisted).await?;
                         store::insert_conditions(&mut transaction, persisted.id, &input).await?;
                         if let Some(pending) = pending.as_ref() {
                             flush_managed_session(&mut transaction, pending).await?;
-                        }
-                        if let Some(previous) = previous.as_ref() {
-                            store::supersede(&mut transaction, previous, actor, clock_now())
-                                .await?;
                         }
                         Ok(current)
                     }
@@ -487,16 +527,98 @@ impl Service {
                     match result {
                         Ok(current) => {
                             transaction.commit().await?;
-                            Ok(current)
+                            Ok(Ok(current))
                         }
                         Err(error) => {
                             transaction.rollback().await?;
-                            Err(error)
+                            Ok(Err(error))
                         }
                     }
                 })
             })
-            .await?;
+            .await??;
         Ok(Wire::object(store::summary(&record), &original))
+    }
+}
+
+#[cfg(test)]
+mod version_reference_tests {
+    use super::*;
+
+    #[test]
+    fn pricing_accepts_only_the_current_cost_identity_and_currency() {
+        let current = Uuid::from_u128(0x01234567_89ab_4cde_8fab_0123456789ab);
+        let stale = Uuid::from_u128(0x01234567_89ab_4cde_8fab_0123456789ac);
+        assert!(cost_reference(&current.to_string(), &js("CNY"), Some((current, "CNY"))).is_ok());
+        assert!(
+            cost_reference(
+                &current.to_string().to_uppercase(),
+                &js("CNY"),
+                Some((current, "CNY"))
+            )
+            .is_ok()
+        );
+        assert!(matches!(
+            cost_reference(&stale.to_string(), &js("CNY"), Some((current, "CNY"))),
+            Err(Error::BadRequest(_))
+        ));
+        assert!(matches!(
+            cost_reference(&current.to_string(), &js("CNY"), None),
+            Err(Error::BadRequest(_))
+        ));
+        assert!(matches!(
+            cost_reference(&current.to_string(), &js("USD"), Some((current, "CNY"))),
+            Err(Error::BadRequest(_))
+        ));
+    }
+
+    fn quote(inclusive: &str, exclusive: &str, margin: &str) -> CreateRequest {
+        let raw=json!({"technicalCostPackageId":"00000000-0000-4000-8000-000000000001","pricingPath":"direct-commercial","quoteVersion":"Q1","currencyCode":"CNY",
+            "quoteAmountTaxInclusive":inclusive,"quoteAmountTaxExclusive":exclusive,"taxRate":"0.13","taxConditionSummary":"已记录税务条件","paymentTermsSummary":"按节点回款",
+            "grossMarginRate":margin,"grossMarginBand":"target","grossMarginSummary":"调用者给出的毛利判断","decision":"pending","decisionSummary":"待形成结论","conditionItems":[]}).to_string();
+        super::super::validation::validate_create(Some(&raw))
+            .unwrap_or_else(|_| panic!("valid quote DTO"))
+    }
+
+    #[test]
+    fn pricing_preserves_large_cents_and_signed_caller_margin() {
+        let request = quote("9007199254740993.01", "9007199254740993.01", "-0.12500001");
+        assert!(amounts(&request).is_ok());
+        assert_eq!(
+            amount(
+                &request.quote_amount_tax_inclusive,
+                "quoteAmountTaxInclusive"
+            )
+            .map(|value| decimal_text(value, 2))
+            .ok()
+            .as_deref(),
+            Some("9007199254740993.01")
+        );
+        assert_eq!(
+            decimal_input(
+                request.gross_margin_rate.as_deref().unwrap_or(""),
+                "grossMarginRate",
+                8,
+                true
+            )
+            .map(|value| decimal_text(value, 8))
+            .ok()
+            .as_deref(),
+            Some("-0.12500001")
+        );
+        assert!(amounts(&quote("9999999999999999.99", "9999999999999999.99", "0")).is_ok());
+    }
+
+    #[test]
+    fn pricing_rejects_exact_cent_inversion_and_storage_overflow() {
+        assert!(
+            matches!(amounts(&quote("9007199254740993.00","9007199254740993.01","0")),Err(Error::BadRequest(message)) if message.contains("greater than or equal"))
+        );
+        assert!(
+            matches!(amounts(&quote("10000000000000000.00","0.00","0")),Err(Error::BadRequest(message)) if message.contains("numeric(18,2)"))
+        );
+        assert!(
+            matches!(amounts(&quote("1.00","1.00","10000000000.00000000")),Err(Error::BadRequest(message)) if message.contains("grossMarginRate"))
+        );
     }
 }

@@ -1,5 +1,5 @@
-//! Native command/query semantics, including its observed INSERT-before-update
-//! second-version failure. Guards and HTTP transport remain Root-owned.
+//! Project version creation is serialized and atomic. Guards and HTTP
+//! transport remain Root-owned.
 
 use std::{collections::BTreeMap, error::Error as StdError, fmt};
 
@@ -30,6 +30,7 @@ use crate::{
 pub enum Error {
     NotFound(String),
     BadRequest(String),
+    Conflict(String),
     Database(DbError),
     Internal,
 }
@@ -39,6 +40,7 @@ impl Error {
         match self {
             Self::NotFound(message) => ApiError::message(StatusCode::NOT_FOUND, message),
             Self::BadRequest(message) => ApiError::message(StatusCode::BAD_REQUEST, message),
+            Self::Conflict(message) => ApiError::message(StatusCode::CONFLICT, message),
             Self::Database(_) | Self::Internal => ApiError::internal(),
         }
     }
@@ -55,6 +57,11 @@ impl StdError for Error {}
 impl From<DbError> for Error {
     fn from(value: DbError) -> Self {
         Self::Database(value)
+    }
+}
+impl From<sqlx::Error> for Error {
+    fn from(_: sqlx::Error) -> Self {
+        Self::Internal
     }
 }
 
@@ -186,49 +193,55 @@ impl Service {
         self.database
             .with_connection(move |connection| {
                 Box::pin(async move {
-                    let Some(project) = project_store::find(connection, &key).await? else {
-                        return Ok(Err(Error::NotFound(format!("Project {key} not found"))));
-                    };
-                    if project.status == "closed" || !presigning_stage(&project.current_stage) {
-                        return Ok(Err(Error::BadRequest(format!(
-                            "Project {key} cannot record bid commercial process in stage {}",
-                            project.current_stage
-                        ))));
-                    }
-                    if let Some(message) = path_error(&input) {
-                        return Ok(Err(Error::BadRequest(message.to_owned())));
-                    }
-
-                    let previous = store::current(connection, &key).await?;
-                    input.tender_no = input
-                        .tender_no
-                        .map(trim_js)
-                        .filter(|value| !value.is_empty());
-                    input.bid_package_no = input
-                        .bid_package_no
-                        .map(trim_js)
-                        .filter(|value| !value.is_empty());
-                    let id = random_uuid()?;
-                    let effective_at = clock_now();
-                    let created_at = clock_now();
-                    let updated_at = clock_now();
-                    // UoW onUpdate hooks are sampled during flush preparation,
-                    // before SQL groups; all entity INSERTs precede managed UPDATEs.
-                    let flush_at = clock_now();
-                    let version = previous
-                        .as_ref()
-                        .map_or(1, |row| i64::from(row.version) + 1);
-                    let supersedes_id = previous.as_ref().map(|row| row.id);
-                    let blocker_count = blocker_count(&input);
-                    let mut original_text = original_text(&input);
-                    // The newly created Native entity retains the route's UUID
-                    // spelling until a later repository read canonicalizes it.
-                    original_text.insert("projectId".to_owned(), js(&key));
                     let mut transaction = connection.begin().await?;
-                    let result: Result<Row, sqlx::Error> = async {
-                        // Actual Native D first-write order is parent, timeline,
-                        // material. With an existing current the first INSERT
-                        // hits its original partial unique and no UPDATE occurs.
+                    let result: Result<Wire, Error> = async {
+                        let Some(project) = crate::project_technical_cost::store::lock_project(
+                            &mut transaction,
+                            &key,
+                        )
+                        .await?
+                        else {
+                            return Err(Error::NotFound(format!("Project {key} not found")));
+                        };
+                        if project.status == "closed" || !presigning_stage(&project.current_stage) {
+                            return Err(Error::BadRequest(format!(
+                                "Project {key} cannot record bid commercial process in stage {}",
+                                project.current_stage
+                            )));
+                        }
+                        if let Some(message) = path_error(&input) {
+                            return Err(Error::BadRequest(message.to_owned()));
+                        }
+
+                        let previous = store::current(&mut transaction, &key).await?;
+                        input.tender_no = input
+                            .tender_no
+                            .map(trim_js)
+                            .filter(|value| !value.is_empty());
+                        input.bid_package_no = input
+                            .bid_package_no
+                            .map(trim_js)
+                            .filter(|value| !value.is_empty());
+                        let id = random_uuid()?;
+                        let effective_at = clock_now();
+                        let created_at = clock_now();
+                        let updated_at = clock_now();
+                        let flush_at = clock_now();
+                        let version = store::next_version(&mut transaction, project.id).await?;
+                        let supersedes_id = previous.as_ref().map(|row| row.id);
+                        let blocker_count = blocker_count(&input);
+                        let mut original_text = original_text(&input);
+                        // The newly created Native entity retains the route's UUID
+                        // spelling until a later repository read canonicalizes it.
+                        original_text.insert("projectId".to_owned(), js(&key));
+                        if let Some(previous) = previous.as_ref()
+                            && !store::supersede(&mut transaction, previous, operator, flush_at)
+                                .await?
+                        {
+                            return Err(Error::Conflict(
+                                "Current bid commercial process changed; reload and retry".into(),
+                            ));
+                        }
                         let current = store::insert_parent(
                             &mut transaction,
                             &store::NewProcess {
@@ -249,27 +262,20 @@ impl Service {
                             .await?;
                         store::insert_materials(&mut transaction, id, &input.material_items)
                             .await?;
-                        // D force-due placement is derived from the original UoW
-                        // and the frozen C inserts-before-session witness. Root's
-                        // D-specific runtime acceptance remains required.
                         if let Some(pending) = pending.as_ref() {
                             flush_managed_session_at(&mut transaction, pending, flush_at).await?;
                         }
-                        if let Some(previous) = previous.as_ref() {
-                            store::supersede(&mut transaction, previous, operator, flush_at)
-                                .await?;
-                        }
-                        Ok(current)
+                        Ok(Wire::object(store::summary(&current), &original_text))
                     }
                     .await;
                     match result {
-                        Ok(current) => {
+                        Ok(wire) => {
                             transaction.commit().await?;
-                            Ok(Ok(Wire::object(store::summary(&current), &original_text)))
+                            Ok(Ok(wire))
                         }
                         Err(error) => {
                             transaction.rollback().await?;
-                            Err(error)
+                            Ok(Err(error))
                         }
                     }
                 })

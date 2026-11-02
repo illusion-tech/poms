@@ -1,0 +1,218 @@
+{
+  "label": "K-workspace-guidance",
+  "startedAt": "2026-11-02T09:13:40.679Z",
+  "completedAt": "2026-11-02T09:13:40.716Z",
+  "value": {
+    "success": {
+      "status": 200,
+      "body": {
+        "projectId": "1f6adb25-346b-472b-a92c-af4f7417cae7",
+        "currentStage": "assessment",
+        "status": "active",
+        "currentStageLabel": "立项评估",
+        "statusLabel": "进行中",
+        "headline": "先判断这个项目是否值得继续推进",
+        "currentFocus": "完成立项评估与机会判断。",
+        "currentGap": "需要补齐客户背景、关键风险和是否继续投入的判断。",
+        "nextStep": "确认范围后进入范围确认。",
+        "ownerLabel": "HIJK admin / HIJK admin",
+        "blockingReasons": [],
+        "basisSummary": {
+          "summarySnapshotId": null,
+          "projectionLevel": null,
+          "exportPolicy": null,
+          "generatedAt": null
+        },
+        "recommendedEntries": [
+          {
+            "key": "project-detail",
+            "label": "项目详情",
+            "description": "查看项目主体、负责人、合同、审批和确认情况。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7",
+            "enabled": true,
+            "disabledReason": null,
+            "actionKey": "project:read"
+          },
+          {
+            "key": "workspace-home",
+            "label": "工作区总览",
+            "description": "查看当前阶段、缺口、下一步和推荐入口。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace",
+            "enabled": true,
+            "disabledReason": null,
+            "actionKey": "view-project-workspace"
+          },
+          {
+            "key": "pre-signing-workspace",
+            "label": "签约前主线",
+            "description": "查看签约前当前阶段、阻断原因、下一步和责任归口。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace/pre-signing",
+            "enabled": true,
+            "disabledReason": null,
+            "actionKey": "view-project-workspace"
+          },
+          {
+            "key": "technical-cost-workspace",
+            "label": "技术与成本",
+            "description": "查看技术可行性、范围边界、风险保留和前期成本估算。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace/technical-cost",
+            "enabled": true,
+            "disabledReason": null,
+            "actionKey": "view-project-workspace"
+          },
+          {
+            "key": "bid-commercial-workspace",
+            "label": "招投标 / 商务竞标",
+            "description": "查看竞标形态、阶段、决策、材料齐备度、结果和下一步。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace/bid-commercial",
+            "enabled": true,
+            "disabledReason": null,
+            "actionKey": "view-project-workspace"
+          },
+          {
+            "key": "pricing-margin-workspace",
+            "label": "报价与毛利评审",
+            "description": "查看报价、成本引用、税务回款条件、毛利判断、放行结论和签约承接。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace/pricing-margin",
+            "enabled": true,
+            "disabledReason": null,
+            "actionKey": "view-project-workspace"
+          },
+          {
+            "key": "operating-overview",
+            "label": "经营总览",
+            "description": "查看收入、成本、回款和经营口径。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace/operating-overview",
+            "enabled": false,
+            "disabledReason": "项目进入正式执行后再查看经营总览。",
+            "actionKey": "contract:finance:manage"
+          },
+          {
+            "key": "variance-risk",
+            "label": "偏差与风险",
+            "description": "查看经营偏差、风险等级和建议动作。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/workspace/variance-risk",
+            "enabled": false,
+            "disabledReason": "项目进入正式执行后再查看偏差与风险。",
+            "actionKey": "contract:finance:manage"
+          },
+          {
+            "key": "commission-freeze-binding",
+            "label": "冻结与责任边界",
+            "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/commission/freeze-binding",
+            "enabled": false,
+            "disabledReason": "项目进入移交或执行阶段后再查看冻结与责任边界。",
+            "actionKey": "commission:assignments:manage"
+          },
+          {
+            "key": "commission-gate-overview",
+            "label": "提成阶段解释",
+            "description": "查看当前阶段是否满足提成闸口条件。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/commission/gate-overview",
+            "enabled": false,
+            "disabledReason": "项目进入移交或执行阶段后再查看提成阶段解释。",
+            "actionKey": "contract:finance:manage"
+          },
+          {
+            "key": "commission-final-settlement",
+            "label": "最终结算",
+            "description": "查看最终结算、质保金和发放条件。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/commission/final-settlement",
+            "enabled": false,
+            "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+            "actionKey": "commission:payouts:manage"
+          },
+          {
+            "key": "commission-rule-explanation",
+            "label": "规则解释",
+            "description": "查看当前项目适用的提成规则和解释口径。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/commission/rule-explanation",
+            "enabled": false,
+            "disabledReason": "项目进入移交或执行阶段后再查看规则解释。",
+            "actionKey": "commission:payouts:manage"
+          },
+          {
+            "key": "commission-operations",
+            "label": "提成操作",
+            "description": "处理提成规则、计算、发放和调整。",
+            "route": "/projects/1f6adb25-346b-472b-a92c-af4f7417cae7/commission/operations",
+            "enabled": false,
+            "disabledReason": "项目进入移交或执行阶段后再处理提成操作。",
+            "actionKey": "manage-project-commission"
+          }
+        ],
+        "generatedAt": "2026-11-02T09:13:40.697Z"
+      },
+      "requestId": "43cba81b-626b-4116-8e1d-26bad7f7ea8f",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "4867",
+        "ETag",
+        "W/\"1303-t25RfaqoiP93gXyP1WoicqshmOc\"",
+        "Date",
+        "Mon, 02 Nov 2026 09:13:40 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 347,
+        "requestSha256": "5cad58b745c5e4bf44522477702dd92243a013418b3f3cbfda6e7127ec54bd78",
+        "responseBytes": 5185,
+        "responseSha256": "15b93051566e9861e6f2acac185439d03959ea642dea97cd3a4e09eed04c84b0",
+        "entityBodyBytes": 4867,
+        "entityBodySha256": "2668819e5a518c2529a781281e478447120280606be00b3b484f68021b4e4a0e",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase02/raw-wire/admin-43cba81b-626b-4116-8e1d-26bad7f7ea8f",
+        "originalRawRetained": true
+      }
+    },
+    "invalidUUID": {
+      "status": 500,
+      "body": {
+        "statusCode": 500,
+        "message": "Internal server error"
+      },
+      "requestId": "2ef6dfa2-e863-4004-9070-45afdd27f156",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "52",
+        "ETag",
+        "W/\"34-rlKccw1E+/fV8niQk4oFitDfPro\"",
+        "Date",
+        "Mon, 02 Nov 2026 09:13:40 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 321,
+        "requestSha256": "d7b0d2ff15a91d0b19119e130f35dd5d236f77a44f6da15f48881c1229e5fe4b",
+        "responseBytes": 385,
+        "responseSha256": "359fdf11b0756512bd0f94fb4c01d375beff4f7c01c38cb533162a1ffb63d071",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "fcbda2e2660dbbff82ba8df76212f3d4ab9ced3b9b9a8b8700621f45fb5ce006",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase02/raw-wire/admin-2ef6dfa2-e863-4004-9070-45afdd27f156",
+        "originalRawRetained": true
+      }
+    }
+  }
+}

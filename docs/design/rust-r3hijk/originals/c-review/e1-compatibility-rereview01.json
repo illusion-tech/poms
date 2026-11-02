@@ -1,0 +1,142 @@
+{
+  "kind": "R3HIJK-current-G1-triggered-R3CDEFG-E1-independent-rereview",
+  "createdAt": "2026-11-02T08:47:37.841Z",
+  "reviewer": {
+    "agent": "/root/r3_next16_review",
+    "role": "Sole independent non-author C",
+    "method": "Public source/JSON/exact hashes/read-only Git; own static validator only",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "decision": "Conditionally-approved-continuation",
+  "E1Approved": true,
+  "approvalNewForThisReview": true,
+  "priorApprovalNotSilentlyInherited": true,
+  "reviewTrigger": "The newly authorized R3HIJK G1 preparation is the next-G1 review required by the original R3CDEFG E1.",
+  "exactScope": {
+    "files": [
+      {
+        "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+        "bytes": 190930,
+        "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+        "bytes": 180482,
+        "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+        "bytes": 38863,
+        "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+        "bytes": 4774,
+        "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+        "bytes": 4215,
+        "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+      }
+    ],
+    "regularFiles": 5,
+    "totalBytes": 419264,
+    "onlyTheseFiveActiveFiles": true,
+    "noSymlinks": true,
+    "activeArchiveAndBaseGitBytesExact": true
+  },
+  "owner": "Root /root",
+  "approver": "Independent non-author C /root/r3_next16_review",
+  "deadline": {
+    "originalCalendarDeadline": "2026-11-09",
+    "calendarDeadlineExtended": false,
+    "reviewAgain": "Next subsequent R3 G1 or 2026-11-09, whichever is earlier",
+    "currentG1TriggerSatisfiedByThisReview": true
+  },
+  "exitCondition": "All identified replay entrypoints use archive-aware resolution and exact-hash verification, then remove these five regular aliases without rewriting historical originals",
+  "exitConditionSatisfied": false,
+  "evidenceOfContinuedNeed": {
+    "directLiteralConsumers": 22,
+    "sourceFilesScanned": 75,
+    "fullConsumerPinsAndLineReferences": {
+      "file": "tmp/rust-r3hijk/c-review/g1-input-byte-prereview01.json",
+      "section": "E1.consumers"
+    },
+    "examples": [
+      {
+        "tool": "tools/rust-r3cdefg/semantics01.mjs",
+        "purpose": "Imports both pure fixture builders; reads the frozen G1 Native source guard and frozen preflight manifest at active paths."
+      },
+      {
+        "tool": "tools/rust-r3cdefg/coverage.mjs",
+        "purpose": "Imports both pure fixture builders and reads frozen Native guard manifest."
+      },
+      {
+        "tool": "tools/rust-r3cdefg/environment.mjs",
+        "purpose": "Reads frozen Native source admission manifest."
+      },
+      {
+        "tool": "tools/rust-r3cdefg/attest-rust.mjs",
+        "purpose": "Reads original operation inventory for retained-candidate attestation; original runtime/artifact prerequisites still apply."
+      }
+    ],
+    "conclusion": "Supported replay/import/guard readers still contain direct active-path accesses without the archive resolver. Removing the five files now would break those paths. The existing resolver alone does not meet the migration exit condition.",
+    "staticDetectionLimits": "Direct literal scan is a demonstrated lower bound, not a complete call-graph or successful replay claim. Historical assembler/publisher/freeze recipes remain outside unchanged-command guarantees."
+  },
+  "conditions": [
+    "Keep exactly these five regular byte-identical files and their archived originals; no lifecycle Markdown, bulk raw evidence or extra alias copies.",
+    "Keep the existing Root owner and original 2026-11-09 calendar deadline. This review does not approve any date extension.",
+    "Do not rewrite old frozen manifests, source pins, historic labels or authority records to adopt new paths or this decision.",
+    "When all identified supported replay consumers use archive-aware resolution and exact-hash verification, verify the exit and remove only the five active aliases.",
+    "A consumer migration, scope increase, hash change or proposed date extension needs explicit fresh review; this continuation authorizes none of them.",
+    "No broad rewrite of the old tool namespace is required as a condition of this current bounded 28-operation G1 preparation."
+  ],
+  "existingLimitsRetained": [
+    "No inherited R3AB approval",
+    "No guarantee all historic command recipes replay unchanged",
+    "No product/HTTP/DB/browser/runtime acceptance from static inspection",
+    "Own/older private and PG17 not accessed"
+  ],
+  "authorityPins": {
+    "originalPreflight": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json",
+      "bytes": 17009,
+      "rawBytesSha256": "8f7819db986f96f3e66ab2a76a44ed3b38d2e6cffea8ccd4ee6ad23df42a43db"
+    },
+    "previousActualG4": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-independent-actual-review01.json",
+      "bytes": 19326,
+      "rawBytesSha256": "a1ff4225809188920f7290b4b106beca35f8f8030319b7b0fd5c20bcb5791fee"
+    },
+    "originMap": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+      "bytes": 355382,
+      "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+    },
+    "currentIndependentByteAudit": {
+      "file": "tmp/rust-r3hijk/c-review/g1-input-byte-prereview01.json",
+      "bytes": 19779,
+      "rawBytesSha256": "17f88177b3443d04c3f8a565c0f7e9edf727409cde67eab583f82b75c40c77fa"
+    },
+    "archiveResolver": {
+      "file": "tools/rust-r3cdefg/archive-paths.mjs",
+      "bytes": 1220,
+      "rawBytesSha256": "8e2bbd0085838b6fb9a9a27ef369150a28d7ed66a75b394e6d6d2a9f4de07687"
+    }
+  },
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "noProductOrEnvironmentExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true
+}

@@ -174,6 +174,7 @@ async fn dispatch(
             match error {
                 Error::NotFound(message) => ApiError::message(StatusCode::NOT_FOUND, message),
                 Error::BadRequest(message) => ApiError::message(StatusCode::BAD_REQUEST, message),
+                Error::Conflict(message) => ApiError::message(StatusCode::CONFLICT, message),
                 Error::BadRequestJs(message) => ApiError::raw_json(
                     StatusCode::BAD_REQUEST,
                     format!(

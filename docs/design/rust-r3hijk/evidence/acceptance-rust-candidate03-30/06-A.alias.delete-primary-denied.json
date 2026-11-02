@@ -1,0 +1,91 @@
+{
+  "label": "A.alias.delete-primary-denied",
+  "startedAt": "2026-11-02T17:35:13.495Z",
+  "completedAt": "2026-11-02T17:35:13.509Z",
+  "value": {
+    "operationId": "CustomerAliasController_delete",
+    "request": {
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/customer-aliases/1166a50f-db08-48c2-b787-dfc41cd5ef5f"
+    },
+    "response": {
+      "status": 409,
+      "body": {
+        "error": "Conflict",
+        "message": "Primary customer alias 1166a50f-db08-48c2-b787-dfc41cd5ef5f cannot be deleted",
+        "statusCode": 409
+      },
+      "requestId": "92d13c0e-a52c-4155-9ac2-1d0f44cfdc09",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "127",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-88686-59",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:35:13 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 398,
+        "requestSha256": "ef31ecae78b6133ba392031b9c14fdc6bde965420f56c626ae8b6cee163b8d8b",
+        "responseBytes": 411,
+        "responseSha256": "330ab715993ce75126e3a29cb0ff286989e623c5d1fb3802f1861965247405e7",
+        "entityBodyBytes": 127,
+        "entityBodySha256": "1c370455c125ea45c0da58d78e1d4100e6d0cdb5604328822c2193209a01381c",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase30/raw-wire/admin-9e2cf5fd-3682-455f-b48c-4fcd5dd96d4c",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {
+        "customer_alias": [
+          "{\"id\": \"1166a50f-db08-48c2-b787-dfc41cd5ef5f\", \"alias_name\": \"R3HK-6872abb5-30 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:35:13.403+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"5be8a9e5-976d-42d1-b561-2729acdaa834\", \"normalized_name\": \"r3hk-6872abb5-30 customer\"}",
+          "{\"id\": \"39e5cafc-5698-435c-ad12-912ac9de6956\", \"alias_name\": \"HIJK legacy-audit-replace 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:12:28.294+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"19b401cc-e730-440b-9912-88d972832197\", \"normalized_name\": \"hijk legacy-audit-replace 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"5fb7c1c2-23fd-4a57-89ae-c0dbfb4ba8bf\", \"alias_name\": \"HIJK I94 inactive 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:36.927+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"1be85a57-4a98-4454-96fb-db777bc4e030\", \"normalized_name\": \"hijk i94 inactive 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"71ced9f2-143a-4300-b040-b15cd1f1274f\", \"alias_name\": \"HIJK legacy-gender 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:12:28.248+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"da200db7-1518-4212-8ec1-88f4e29addad\", \"normalized_name\": \"hijk legacy-gender 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"79bd7084-0c39-488a-8ba4-980660edabd5\", \"alias_name\": \"R3HK-6872abb5-30 procurement alias\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:35:13.473+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": false, \"customer_id\": \"5be8a9e5-976d-42d1-b561-2729acdaa834\", \"normalized_name\": \"r3hk-6872abb5-30 procurement alias\"}",
+          "{\"id\": \"8078bc6c-e23f-41c8-bad8-bfe97ec96b63\", \"alias_name\": \"HIJK D-customerEmpty 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T00:34:32.817+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"6ad81b79-694b-4f82-9ceb-e55a6ff01e08\", \"normalized_name\": \"hijk d-customerempty 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"87c9db81-25da-48d6-b9b2-b3c322177523\", \"alias_name\": \"HIJK I94 latest 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:37.319+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"363db2b0-97c0-4fcd-837d-e98fa4639fd7\", \"normalized_name\": \"hijk i94 latest 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"9316aa46-2b95-4316-ba6e-a39f258fdf2a\", \"alias_name\": \"华南地铁集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.737462+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000003\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000001\", \"normalized_name\": \"华南地铁集团\"}",
+          "{\"id\": \"96694dab-0531-4892-9c6f-93c42c85624e\", \"alias_name\": \"HIJK legacy-audit-void 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:12:28.398+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"cf97c0ba-3edb-4630-af91-ede2eb05b267\", \"normalized_name\": \"hijk legacy-audit-void 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"bdc67851-8153-4a51-8630-81cc9671a94a\", \"alias_name\": \"北城建设集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.742433+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000004\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000002\", \"normalized_name\": \"北城建设集团\"}",
+          "{\"id\": \"e63784ab-b757-4653-bc6a-acfd30f3cbbd\", \"alias_name\": \"HIJK I94 roundtrip 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:36.626+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"3978e343-cfc9-4697-96f5-06e0fb1d12e5\", \"normalized_name\": \"hijk i94 roundtrip 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"e84e71bf-645b-4938-be46-5f894521c076\", \"alias_name\": \"HIJK D-customerB 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T00:34:32.78+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"53395311-2cf1-427c-9175-4fad7fb1b30d\", \"normalized_name\": \"hijk d-customerb 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"efc468cf-5aef-44e2-9d81-ba6c8f0802d5\", \"alias_name\": \"R3HK-6872abb5-27 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:05:48.136+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"25071e6d-a159-46bf-899d-09cfcb93e8ba\", \"normalized_name\": \"r3hk-6872abb5-27 customer\"}",
+          "{\"id\": \"f1e9e493-a96b-41e9-bd65-f5effce9ad8a\", \"alias_name\": \"R3HK-6872abb5-26 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:00:34.277+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"89c757c2-a80e-498b-ab55-e92004e18fac\", \"normalized_name\": \"r3hk-6872abb5-26 customer\"}",
+          "{\"id\": \"f836b346-e62d-43fd-b6be-ebec11d521f5\", \"alias_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:34.71+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"normalized_name\": \"hijk foundation 6872abb5-12af-486f-ada6-02e484421d1f\"}"
+        ]
+      },
+      "afterRows": {
+        "customer_alias": [
+          "{\"id\": \"1166a50f-db08-48c2-b787-dfc41cd5ef5f\", \"alias_name\": \"R3HK-6872abb5-30 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:35:13.403+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"5be8a9e5-976d-42d1-b561-2729acdaa834\", \"normalized_name\": \"r3hk-6872abb5-30 customer\"}",
+          "{\"id\": \"39e5cafc-5698-435c-ad12-912ac9de6956\", \"alias_name\": \"HIJK legacy-audit-replace 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:12:28.294+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"19b401cc-e730-440b-9912-88d972832197\", \"normalized_name\": \"hijk legacy-audit-replace 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"5fb7c1c2-23fd-4a57-89ae-c0dbfb4ba8bf\", \"alias_name\": \"HIJK I94 inactive 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:36.927+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"1be85a57-4a98-4454-96fb-db777bc4e030\", \"normalized_name\": \"hijk i94 inactive 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"71ced9f2-143a-4300-b040-b15cd1f1274f\", \"alias_name\": \"HIJK legacy-gender 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:12:28.248+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"da200db7-1518-4212-8ec1-88f4e29addad\", \"normalized_name\": \"hijk legacy-gender 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"79bd7084-0c39-488a-8ba4-980660edabd5\", \"alias_name\": \"R3HK-6872abb5-30 procurement alias\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:35:13.473+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": false, \"customer_id\": \"5be8a9e5-976d-42d1-b561-2729acdaa834\", \"normalized_name\": \"r3hk-6872abb5-30 procurement alias\"}",
+          "{\"id\": \"8078bc6c-e23f-41c8-bad8-bfe97ec96b63\", \"alias_name\": \"HIJK D-customerEmpty 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T00:34:32.817+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"6ad81b79-694b-4f82-9ceb-e55a6ff01e08\", \"normalized_name\": \"hijk d-customerempty 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"87c9db81-25da-48d6-b9b2-b3c322177523\", \"alias_name\": \"HIJK I94 latest 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:37.319+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"363db2b0-97c0-4fcd-837d-e98fa4639fd7\", \"normalized_name\": \"hijk i94 latest 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"9316aa46-2b95-4316-ba6e-a39f258fdf2a\", \"alias_name\": \"华南地铁集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.737462+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000003\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000001\", \"normalized_name\": \"华南地铁集团\"}",
+          "{\"id\": \"96694dab-0531-4892-9c6f-93c42c85624e\", \"alias_name\": \"HIJK legacy-audit-void 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:12:28.398+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"cf97c0ba-3edb-4630-af91-ede2eb05b267\", \"normalized_name\": \"hijk legacy-audit-void 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"bdc67851-8153-4a51-8630-81cc9671a94a\", \"alias_name\": \"北城建设集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.742433+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000004\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000002\", \"normalized_name\": \"北城建设集团\"}",
+          "{\"id\": \"e63784ab-b757-4653-bc6a-acfd30f3cbbd\", \"alias_name\": \"HIJK I94 roundtrip 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:36.626+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"3978e343-cfc9-4697-96f5-06e0fb1d12e5\", \"normalized_name\": \"hijk i94 roundtrip 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"e84e71bf-645b-4938-be46-5f894521c076\", \"alias_name\": \"HIJK D-customerB 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T00:34:32.78+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"53395311-2cf1-427c-9175-4fad7fb1b30d\", \"normalized_name\": \"hijk d-customerb 6872abb5-12af-486f-ada6-02e484421d1f\"}",
+          "{\"id\": \"efc468cf-5aef-44e2-9d81-ba6c8f0802d5\", \"alias_name\": \"R3HK-6872abb5-27 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:05:48.136+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"25071e6d-a159-46bf-899d-09cfcb93e8ba\", \"normalized_name\": \"r3hk-6872abb5-27 customer\"}",
+          "{\"id\": \"f1e9e493-a96b-41e9-bd65-f5effce9ad8a\", \"alias_name\": \"R3HK-6872abb5-26 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T01:00:34.277+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"89c757c2-a80e-498b-ab55-e92004e18fac\", \"normalized_name\": \"r3hk-6872abb5-26 customer\"}",
+          "{\"id\": \"f836b346-e62d-43fd-b6be-ebec11d521f5\", \"alias_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T20:15:34.71+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"is_primary\": true, \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"normalized_name\": \"hijk foundation 6872abb5-12af-486f-ada6-02e484421d1f\"}"
+        ]
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

@@ -1,0 +1,4337 @@
+{
+  "kind": "R3HIJK-original-HTTP-body-comparison",
+  "createdAt": "2026-11-02T12:26:31.685Z",
+  "sources": [
+    {
+      "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/report01.json",
+      "bytes": 3284583,
+      "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+    },
+    {
+      "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-01/report01.json",
+      "bytes": 3264821,
+      "rawBytesSha256": "e8fde7ff771873cdcac8ce0c150e9c1762e8d403ed40b0dd1c29be4b20632223"
+    }
+  ],
+  "events": {
+    "native": 165,
+    "rust": 165,
+    "paired": 165
+  },
+  "policy": {
+    "identity": "Consistent bijective primary/reference UUID renaming; any alias conflict retained",
+    "time": "Only explicit runtime creation/update/decision keys with exact ISO millisecond shape renamed; business date/planned/expiry strings retained",
+    "objectOrder": "JSON response objects compared by fields; string content/array order/null/presence/numeric values retained",
+    "races": "Initial literal comparison reports all winner permutations; none silently ignored",
+    "businessNumbers": "Not normalized by this core comparator",
+    "SQLOrTerminalAcceptance": false
+  },
+  "bindings": [
+    {
+      "native": "b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+      "rust": "6872abb5-12af-486f-ada6-02e484421d1f",
+      "alias": "<run>"
+    },
+    {
+      "native": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "rust": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "alias": "<actor.admin.userId>"
+    },
+    {
+      "native": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "rust": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+      "alias": "<actor.admin.orgId>"
+    },
+    {
+      "native": "2abfae41-882f-47df-8cf8-4868f9402191",
+      "rust": "0af368e6-91bc-42f9-9707-a01dc599958f",
+      "alias": "<actor.admin.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_admin",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_admin",
+      "alias": "<actor.admin.username>"
+    },
+    {
+      "native": "125e8556-1b6a-4843-a051-ff53c496744e",
+      "rust": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+      "alias": "<actor.other.userId>"
+    },
+    {
+      "native": "57d89883-d119-42b0-9761-02f8af6e797d",
+      "rust": "234391e6-c263-409d-805a-fdec017770ea",
+      "alias": "<actor.other.orgId>"
+    },
+    {
+      "native": "8f48e384-9c99-4d2f-81ea-3a069a705821",
+      "rust": "aaeefca4-ff5a-41d0-a563-3acc92ada286",
+      "alias": "<actor.other.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_other",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_other",
+      "alias": "<actor.other.username>"
+    },
+    {
+      "native": "6cbbe64f-1782-410d-8381-9c8290f251cb",
+      "rust": "f385c01d-6860-4a87-9286-7092f1f1f5cd",
+      "alias": "<request.producer.customer.foundation.0>"
+    },
+    {
+      "native": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+      "rust": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "alias": "<producer.customer.foundation.body.id>"
+    },
+    {
+      "native": "a9fb2869-8fe4-4352-81d7-5925538faf6c",
+      "rust": "e01f0fec-2298-487c-86be-2fe3c630e147",
+      "alias": "<request.producer.project.foundation.0>"
+    },
+    {
+      "native": "b96be569-1022-47f6-b1e3-5d9c82003f7e",
+      "rust": "5c4495ef-56b6-47be-90ec-245c0f07d164",
+      "alias": "<producer.project.foundation.body.id>"
+    },
+    {
+      "native": "15364d66-4aa8-47e7-b78f-b537daec87e2",
+      "rust": "8100b785-dd5b-434b-b361-8ef7372161d2",
+      "alias": "<request.producer.contact.foundation.0>"
+    },
+    {
+      "native": "82083aa7-d495-4fec-952a-ede876cab553",
+      "rust": "ecbd0873-9d80-42e7-bd65-1844dd2d257f",
+      "alias": "<producer.contact.foundation.body.id>"
+    },
+    {
+      "native": "975401a3-8ddf-48c2-aafd-1558f57df401",
+      "rust": "a198e728-86cf-4cfb-a418-583e3b8c7c15",
+      "alias": "<request.producer.lead.foundation.0>"
+    },
+    {
+      "native": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+      "rust": "6ced5bad-58b2-41e9-a122-44b4163ec3fc",
+      "alias": "<producer.lead.foundation.body.id>"
+    },
+    {
+      "native": "39580673-75d9-4f0a-903b-ee40f662051d",
+      "rust": "b394b4fb-968d-4066-b0fc-4cd096b83110",
+      "alias": "<request.H93.native-risk.W1.create-denied-lead.post.0>"
+    },
+    {
+      "native": "fc46b583-091b-4028-a15d-f0615c1f0838",
+      "rust": "f28d05c9-a461-467c-b5e9-6aed0203e7f9",
+      "alias": "<request.H93.native-risk.W1.create-denied-lead_score_snapshot.post.0>"
+    },
+    {
+      "native": "499d398a-5cdb-443c-b053-003c4c34dc7d",
+      "rust": "267a1191-c3f6-4719-b568-8b35b73c3b40",
+      "alias": "<request.producer.lead.H93.native-risk.convert-denied-project.0>"
+    },
+    {
+      "native": "0a49b0ad-797c-45e9-b814-e81e0e400659",
+      "rust": "9c4d8676-2fb7-4c5d-aba9-829bd3dc7ee4",
+      "alias": "<producer.lead.H93.native-risk.convert-denied-project.body.id>"
+    },
+    {
+      "native": "eda05e9e-57ed-4924-a30f-bd948ddc8bde",
+      "rust": "8dcd91e1-3e52-4904-8d82-e8d6775bf3ac",
+      "alias": "<request.H93.native-risk.convert-denied-project.qualify.0>"
+    },
+    {
+      "native": "6fb8be2e-4751-4486-b87b-cf6a319b9d9d",
+      "rust": "3fb57ab2-42fe-4ddf-8fd8-15bcca9c15c5",
+      "alias": "<request.H93.native-risk.W1.convert-denied-project.post.0>"
+    },
+    {
+      "native": "3a8ca8f7-6031-4209-a7bc-de21b9eb4cab",
+      "rust": "7e267222-b5ec-4f20-b1e2-2a14330bc1d7",
+      "alias": "<request.producer.lead.H93.native-risk.convert-denied-lead_score_snapshot.0>"
+    },
+    {
+      "native": "3ef877c2-bdf4-41d5-909d-e5bb0228db68",
+      "rust": "04b49628-033b-442a-903a-ce2223ef0e07",
+      "alias": "<producer.lead.H93.native-risk.convert-denied-lead_score_snapshot.body.id>"
+    },
+    {
+      "native": "9b5ac1dc-8558-4904-a26d-ca2b2e9d77af",
+      "rust": "7588ff44-0a6e-4430-96b0-e33076995572",
+      "alias": "<request.H93.native-risk.convert-denied-lead_score_snapshot.qualify.0>"
+    },
+    {
+      "native": "2b504231-a59c-428f-b876-31c87ac31b16",
+      "rust": "2cf4f38d-ed8b-469a-959c-95fcfb999651",
+      "alias": "<request.H93.native-risk.W1.convert-denied-lead_score_snapshot.post.0>"
+    },
+    {
+      "native": "071ca22f-4aee-47fb-8623-82d45701e62c",
+      "rust": "08a9b9ba-765f-40e5-8ede-b377aa62b13d",
+      "alias": "<request.producer.lead.H93.native-risk.lead-CAS.0>"
+    },
+    {
+      "native": "a8b68e0d-9893-451f-b786-1e72b07889a8",
+      "rust": "2cbbbdde-054a-494f-9288-ecc92649aa8c",
+      "alias": "<producer.lead.H93.native-risk.lead-CAS.body.id>"
+    },
+    {
+      "native": "af767bad-4088-4236-b6b4-abfe3460ae4c",
+      "rust": "054e7a0c-9a64-4c04-af09-5f3808ba4dc5",
+      "alias": "<request.H93.native-risk.W2.lead.explicit-stale.0>"
+    },
+    {
+      "native": "039d08cb-0cc5-4fbd-a650-0358014b6417",
+      "rust": "dabae017-0a7b-4bcf-aa7e-cb3500a1711d",
+      "alias": "<request.controlled-race.lead.0.0>"
+    },
+    {
+      "native": "2642e0bf-5c64-4308-936d-6d4873a732db",
+      "rust": "b5f5d8c7-2a88-450e-baee-fe9cf1dd5694",
+      "alias": "<request.controlled-race.lead.1.0>"
+    },
+    {
+      "native": "f28b4541-64f5-4200-81df-0aa74edbda81",
+      "rust": "e7afa931-7796-418c-9e72-1d33f1caf134",
+      "alias": "<request.producer.lead.H93.native-risk.override-CAS.0>"
+    },
+    {
+      "native": "194938e1-fdc3-44a1-b95d-34ae1d415716",
+      "rust": "ce7a21f3-68ac-4ca1-bb45-d7d11e6b4d53",
+      "alias": "<producer.lead.H93.native-risk.override-CAS.body.id>"
+    },
+    {
+      "native": "0761471b-77c3-4389-9cc5-1e720becf6b4",
+      "rust": "2e426b92-ee30-4c90-b208-1b281db72864",
+      "alias": "<request.H93.native-risk.override-CAS.submit.0>"
+    },
+    {
+      "native": "6ae0791c-8332-4648-be95-077b5f1f8c16",
+      "rust": "ee545029-42ff-4f62-a3ee-b65e7619f258",
+      "alias": "<H93.native-risk.override-CAS.submit.body.id>"
+    },
+    {
+      "native": "dd84ec2e-844d-43fd-beb2-1c5ff8f02b44",
+      "rust": "8b31b22e-b530-478e-9dc9-e64c46e40496",
+      "alias": "<request.H93.native-risk.W2.override.explicit-stale.0>"
+    },
+    {
+      "native": "dab28492-04b6-43db-aa80-61fbc6a119f0",
+      "rust": "a856c665-9133-490e-9e97-7d6a65b9b3bf",
+      "alias": "<request.controlled-race.lead_score_override.1.0>"
+    },
+    {
+      "native": "ccc55e3a-7bf0-4387-9887-f6a71535dedf",
+      "rust": "ffbb2c9a-69f1-42d2-afe3-d9867ed2679f",
+      "alias": "<request.controlled-race.lead_score_override.0.0>"
+    },
+    {
+      "native": "eab3d1eb-5758-4dae-bb87-2076480e28ca",
+      "rust": "cbe4227c-e274-4bb9-885e-5a3bafdee345",
+      "alias": "<request.producer.lead.H93.native-risk.snapshot-after-qualify.0>"
+    },
+    {
+      "native": "b288d0eb-477b-49af-b95b-ee3949cddfb5",
+      "rust": "41df5fe3-ba20-4aad-af31-b6fc81e630cb",
+      "alias": "<producer.lead.H93.native-risk.snapshot-after-qualify.body.id>"
+    },
+    {
+      "native": "d00bb1e2-9a9c-4252-809e-47540c57d9f6",
+      "rust": "17a1f0be-a59e-44fa-bd42-9df3a7796758",
+      "alias": "<request.H93.native-risk.W3.qualify.post.0>"
+    },
+    {
+      "native": "395e1c96-10b2-4495-a820-290221bc5beb",
+      "rust": "9a705cb0-98eb-457a-a1ab-4e256ebec3aa",
+      "alias": "<request.H93.native-risk.W3.qualify.detail.0>"
+    },
+    {
+      "native": "9c0a0953-4396-4406-b2f5-2d6a82417258",
+      "rust": "8586b7b1-6f49-48a7-93f2-b5462ab5af48",
+      "alias": "<request.producer.lead.H93.native-risk.snapshot-after-close.0>"
+    },
+    {
+      "native": "3a0fbf3a-c9ea-4ca2-ba9b-8c94a4ed50ce",
+      "rust": "721a92fc-b07e-4308-bae6-7c8e249a6010",
+      "alias": "<producer.lead.H93.native-risk.snapshot-after-close.body.id>"
+    },
+    {
+      "native": "cb34192a-a296-47cf-8f0f-6879aca62933",
+      "rust": "0a412fde-3593-48a0-8568-7489752c1e3f",
+      "alias": "<request.H93.native-risk.W3.close.post.0>"
+    },
+    {
+      "native": "fe968aa0-43b5-4a5c-91fc-b7e0dae51fd2",
+      "rust": "db2f4acd-0496-4df2-a863-5bb01b9778bf",
+      "alias": "<request.H93.native-risk.W3.close.detail.0>"
+    },
+    {
+      "native": "57a7f873-a533-424d-af34-a660924189f7",
+      "rust": "d04880e9-7bff-4e79-8895-2ad9c8de9379",
+      "alias": "<request.producer.lead.H93.native-risk.snapshot-after-claim.0>"
+    },
+    {
+      "native": "61ef808b-25f4-4df4-a8c3-ba4e9e3279e3",
+      "rust": "22646ce2-8ad3-4459-abd1-130b8a473577",
+      "alias": "<producer.lead.H93.native-risk.snapshot-after-claim.body.id>"
+    },
+    {
+      "native": "15a61123-9cbe-411d-9051-b5fe2f739086",
+      "rust": "3c482347-480e-47e8-b643-0c503e60c91a",
+      "alias": "<request.H93.native-risk.W3.claim.post.0>"
+    },
+    {
+      "native": "204cb844-2390-4396-80c1-3b4cd7d0446e",
+      "rust": "a0e347c9-41f4-46a5-8e6d-34009ca20c87",
+      "alias": "<request.H93.native-risk.W3.claim.detail.0>"
+    },
+    {
+      "native": "4bf668c4-f7a6-488e-892c-f9c793a1187a",
+      "rust": "a9f8405d-c793-48d8-8a37-312b89ed947c",
+      "alias": "<request.producer.lead.H93.native-risk.snapshot-after-assignOwner.0>"
+    },
+    {
+      "native": "a77b5ec3-f8ac-4a1e-a9fa-984d6be0aa06",
+      "rust": "72941679-44e8-4c7d-9eba-827402ce58b4",
+      "alias": "<producer.lead.H93.native-risk.snapshot-after-assignOwner.body.id>"
+    },
+    {
+      "native": "29c4aa64-a961-44b2-b543-12ac33a84df4",
+      "rust": "e0cff7aa-2cc4-4da1-b18e-afc6d328a0fb",
+      "alias": "<request.H93.native-risk.W3.assignOwner.post.0>"
+    },
+    {
+      "native": "009e02b1-69ed-4965-ad12-deb2b89dd458",
+      "rust": "e5f217ae-8c81-4b6b-a578-a179407d48e0",
+      "alias": "<request.H93.native-risk.W3.assignOwner.detail.0>"
+    },
+    {
+      "native": "d7e47660-e4f3-416d-8aa6-061766890e00",
+      "rust": "efd0c541-b130-4266-bf51-c3d8ffd97863",
+      "alias": "<request.producer.lead.H93.native-risk.audit-after-submit.0>"
+    },
+    {
+      "native": "b636d35f-2ad2-4c12-ba6a-f932a9bc560f",
+      "rust": "b35560b4-ad48-4825-a359-25146eaf1023",
+      "alias": "<producer.lead.H93.native-risk.audit-after-submit.body.id>"
+    },
+    {
+      "native": "e319327f-51b4-4761-846b-b6fde9b8c33e",
+      "rust": "8ee0d54b-13fb-42d2-b990-aeef17f21d14",
+      "alias": "<request.H93.native-risk.W3.submit.denied-audit.0>"
+    },
+    {
+      "native": "dc536746-cecc-4c7b-a2b3-78738ec59c6a",
+      "rust": "c0ee5870-39e8-483a-a578-9a18a3ed34ef",
+      "alias": "<request.H93.native-risk.W3.submit.history-after.0>"
+    },
+    {
+      "native": "69922de6-04e9-43c6-8a42-c27e88919898",
+      "rust": "d2c451dc-b5bb-46b3-acc1-2b36c2df45f0",
+      "alias": "<H93.native-risk.W3.submit.history-after.body.pendingOverride.id>"
+    },
+    {
+      "native": "3435de5d-de0d-45c3-bcd4-d803494c2578",
+      "rust": "296a6bde-827f-4252-a866-bfa733e177ca",
+      "alias": "<H93.native-risk.W3.submit.history-after.body.snapshots.0.id>"
+    },
+    {
+      "native": "444ca598-8758-40a7-96c3-9b16a7d1d5ea",
+      "rust": "bd0d29ea-7372-44c3-a096-19f2623afb2d",
+      "alias": "<request.producer.lead.H93.native-risk.audit-after-approve.0>"
+    },
+    {
+      "native": "0d956cad-3932-4c9b-af74-3d39c1e0ac39",
+      "rust": "11a04549-692c-497b-af8f-8f9c9ffe3bd9",
+      "alias": "<producer.lead.H93.native-risk.audit-after-approve.body.id>"
+    },
+    {
+      "native": "6caceee3-d434-417f-b523-84cdd15372cb",
+      "rust": "64f4960c-f722-4a01-8455-577c270320c1",
+      "alias": "<request.H93.native-risk.W3.approve.prerequisite.submit.0>"
+    },
+    {
+      "native": "3b8833af-dc95-4f18-883a-c4f4cf46e1e8",
+      "rust": "858a465d-1dc3-4791-b19f-1e4dc736744b",
+      "alias": "<H93.native-risk.W3.approve.prerequisite.submit.body.id>"
+    },
+    {
+      "native": "b140cc43-72dd-4978-bee0-87344207a8e2",
+      "rust": "81335a7f-45fe-414d-989a-b927e9ba1fde",
+      "alias": "<request.H93.native-risk.W3.approve.denied-audit.0>"
+    },
+    {
+      "native": "c4392274-af89-4536-b6e8-450844379bb7",
+      "rust": "a02d9fcb-9d6c-4539-ab6e-ac561753274d",
+      "alias": "<request.H93.native-risk.W3.approve.history-after.0>"
+    },
+    {
+      "native": "b97c1783-95e7-47cb-a525-5b9784f8e85a",
+      "rust": "7544ac36-5628-4b5e-8329-8cf420db8bba",
+      "alias": "<H93.native-risk.W3.approve.history-after.body.snapshots.0.id>"
+    },
+    {
+      "native": "3cb6d047-6abe-479e-81b1-33ce76b7449c",
+      "rust": "ce4e99f5-f729-49ea-9c44-7876eb45176b",
+      "alias": "<H93.native-risk.W3.approve.history-after.body.snapshots.1.id>"
+    },
+    {
+      "native": "ebdb94b0-79d1-499d-bed0-b0775384c677",
+      "rust": "66b550ee-8188-41a4-bd47-9c1203f247bf",
+      "alias": "<request.producer.lead.H93.native-risk.audit-after-reject.0>"
+    },
+    {
+      "native": "cfbb35c2-81e9-40c1-b56f-731c0ce596a6",
+      "rust": "c45ce720-de84-497d-b851-00d7aafe7cc8",
+      "alias": "<producer.lead.H93.native-risk.audit-after-reject.body.id>"
+    },
+    {
+      "native": "e9f56e28-1a0c-48d6-b318-0adc1d8146c2",
+      "rust": "76f663ae-5205-4545-a111-fbbebe571458",
+      "alias": "<request.H93.native-risk.W3.reject.prerequisite.submit.0>"
+    },
+    {
+      "native": "c028df46-a6b3-49f6-b65e-182da4b6ef54",
+      "rust": "83a20b54-dc11-4549-8047-48172f6908bf",
+      "alias": "<H93.native-risk.W3.reject.prerequisite.submit.body.id>"
+    },
+    {
+      "native": "edf5b51c-2fed-4bb1-87dd-8845ccca29cc",
+      "rust": "3d9cd7e7-539f-4464-8be7-dea0821d2e2b",
+      "alias": "<request.H93.native-risk.W3.reject.denied-audit.0>"
+    },
+    {
+      "native": "56042810-0746-4eb8-aef0-a627833e43fb",
+      "rust": "8e5ee057-f6d9-4050-ba5c-68b8793a759c",
+      "alias": "<request.H93.native-risk.W3.reject.history-after.0>"
+    },
+    {
+      "native": "6daee8bf-1829-4667-b73c-99343121a484",
+      "rust": "1fb53a98-7755-4f2e-bb52-361c6d7fe691",
+      "alias": "<H93.native-risk.W3.reject.history-after.body.snapshots.0.id>"
+    },
+    {
+      "native": "6b9242f2-6b87-498c-a134-363d3b4c1660",
+      "rust": "5ef21f33-b653-4661-b17c-00f0de137088",
+      "alias": "<request.producer.lead.H93.native-risk.audit-after-revoke.0>"
+    },
+    {
+      "native": "be7cd78c-0670-4ecb-9bde-45bdf4960793",
+      "rust": "3914f847-e80c-4e39-80fa-136128e33531",
+      "alias": "<producer.lead.H93.native-risk.audit-after-revoke.body.id>"
+    },
+    {
+      "native": "b4edefb4-1b21-4f1d-9f00-a199741b595e",
+      "rust": "f8581f66-38af-4baa-b0b5-ad7449540a43",
+      "alias": "<request.H93.native-risk.W3.revoke.prerequisite.submit.0>"
+    },
+    {
+      "native": "825b51a3-685d-4732-a431-07827835c22e",
+      "rust": "e0193f69-5364-46fc-a385-7ccb08ed2aac",
+      "alias": "<H93.native-risk.W3.revoke.prerequisite.submit.body.id>"
+    },
+    {
+      "native": "59fd0720-7a52-44cf-a0f3-e8708b8c7a05",
+      "rust": "1bcb3eb2-5122-41ed-9b8d-d012ae648ab8",
+      "alias": "<request.H93.native-risk.W3.revoke.prerequisite.approve.0>"
+    },
+    {
+      "native": "56b4a09f-165e-486e-8366-5b345246f6ac",
+      "rust": "9ed8c4a3-f884-4927-8d9f-9e61ab8b20f0",
+      "alias": "<request.H93.native-risk.W3.revoke.denied-audit.0>"
+    },
+    {
+      "native": "a679b123-3668-4f68-88f7-d3e4ea51e1e4",
+      "rust": "5ddfddf3-59b8-4ff5-9fea-a751d596595d",
+      "alias": "<request.H93.native-risk.W3.revoke.history-after.0>"
+    },
+    {
+      "native": "4b3a00b9-9843-4c85-8d57-36cfadfef44c",
+      "rust": "99edd00e-4cea-49d3-803b-cd22141770e1",
+      "alias": "<H93.native-risk.W3.revoke.history-after.body.snapshots.0.id>"
+    },
+    {
+      "native": "e83bac83-a9d3-4b0e-9d93-65ce4bf7f19f",
+      "rust": "22155905-052d-45be-a4e4-db7f17ecad3b",
+      "alias": "<H93.native-risk.W3.revoke.history-after.body.snapshots.1.id>"
+    },
+    {
+      "native": "97fda46f-e930-4b53-bbf2-caa868c4804a",
+      "rust": "14635e06-0bfb-41fc-bab9-b5907b6ff47c",
+      "alias": "<H93.native-risk.W3.revoke.history-after.body.snapshots.2.id>"
+    },
+    {
+      "native": "b4dad00b-e93e-4c8a-9ba3-29ffb07fd5e8",
+      "rust": "9dafa18c-5d5d-4723-84c1-db9eded95447",
+      "alias": "<request.producer.lead.H93.native-risk.approved-then-pending.0>"
+    },
+    {
+      "native": "9b742604-8747-4001-9f8f-014f7970f1d0",
+      "rust": "4f3f81ca-a226-4862-9d3f-aae614d74cd3",
+      "alias": "<producer.lead.H93.native-risk.approved-then-pending.body.id>"
+    },
+    {
+      "native": "e199746a-1ae2-4c64-a6a5-ca5b0c4bfcb0",
+      "rust": "4c4eb1ce-b89e-4a3f-9027-42ab5f0b2040",
+      "alias": "<request.H93.native-risk.approved-then-pending.submit.0>"
+    },
+    {
+      "native": "53604b52-26fe-46f1-8476-4f8dfd3bc9f8",
+      "rust": "2a4d1afb-e20d-4c04-9d70-759452a05a3a",
+      "alias": "<H93.native-risk.approved-then-pending.submit.body.id>"
+    },
+    {
+      "native": "8f71b48d-9dae-40ec-a697-ca55ab30ad35",
+      "rust": "4d62e55a-7b13-4b43-bf67-db30534f82fe",
+      "alias": "<request.H93.native-risk.W4.first-approval.0>"
+    },
+    {
+      "native": "a2097322-62b9-48ce-8135-a7829b2c8120",
+      "rust": "4f1c6192-ee10-4a6e-9dd4-706fba087f5a",
+      "alias": "<request.H93.native-risk.W4.second-submit.0>"
+    },
+    {
+      "native": "1fa02635-a9e7-4ab4-af41-7d63585ae7aa",
+      "rust": "47b0b077-bd1b-457d-9e19-6edca330effb",
+      "alias": "<H93.native-risk.W4.second-submit.body.id>"
+    },
+    {
+      "native": "048d46e2-6566-46f4-a2a6-d51b0faefa00",
+      "rust": "d14bbbb4-8dee-45d8-a658-37ad68460a92",
+      "alias": "<request.H93.native-risk.W4.second-approval-observe.0>"
+    },
+    {
+      "native": "f1c1f0ce-c4be-4700-9cce-2129b2cfc260",
+      "rust": "70f87eb4-3142-4cff-b245-35640d35dcd9",
+      "alias": "<request.H93.native-risk.W4.history-after.0>"
+    },
+    {
+      "native": "3a5e5aed-6708-470c-814a-7a7c1869382c",
+      "rust": "b40b9860-eee4-4021-b998-8e78cbc54590",
+      "alias": "<H93.native-risk.W4.history-after.body.snapshots.0.id>"
+    },
+    {
+      "native": "4ff032ff-abf2-4b1a-9f33-139e912ce57f",
+      "rust": "55d1d854-2ad7-4c68-9157-0383593fd620",
+      "alias": "<H93.native-risk.W4.history-after.body.snapshots.1.id>"
+    },
+    {
+      "native": "69680e1c-45e7-4a7f-975a-bf0da1d6b52e",
+      "rust": "e87b950d-16b7-4a4d-8176-9035b6d443d7",
+      "alias": "<H93.native-risk.W4.history-after.body.snapshots.2.id>"
+    },
+    {
+      "native": "8c5ee706-36b6-48cd-b195-92a7397f1970",
+      "rust": "86743443-d54d-427a-b96e-9f2362441a36",
+      "alias": "<request.producer.lead.H93.native-risk.dedup-I-refresh.0>"
+    },
+    {
+      "native": "5db4f297-2ed1-46b4-b759-b98a1bfc9f6f",
+      "rust": "1e39871c-ddad-4815-ba01-881e50767410",
+      "alias": "<producer.lead.H93.native-risk.dedup-I-refresh.body.id>"
+    },
+    {
+      "native": "b644f5af-d474-4c3a-9848-6a94270ab31a",
+      "rust": "79aacab3-f197-40cd-981f-b4d128ab0c25",
+      "alias": "<request.H93.native-risk.W5.name-only-real-change.0>"
+    },
+    {
+      "native": "fa841b07-dfd5-43a2-b73b-0f84214a81fb",
+      "rust": "a9e05b5f-1f6d-4a28-bf9b-46c916807017",
+      "alias": "<request.H93.native-risk.W5.actual-noop.0>"
+    },
+    {
+      "native": "b89754dc-38bf-4fd2-9aa7-1c33eb1da33c",
+      "rust": "95c2a0f2-5472-4717-a891-9ee89180e76c",
+      "alias": "<request.producer.contact.score-facts.0>"
+    },
+    {
+      "native": "618bae7b-8793-4351-93ac-0b1c480587fa",
+      "rust": "401a92e1-c8ab-42ea-a28a-599d3d2ca4ed",
+      "alias": "<producer.contact.score-facts.body.id>"
+    },
+    {
+      "native": "db2ea5e5-2020-4dac-9731-494beddee3dd",
+      "rust": "acae94b1-f18b-42a9-bbc6-51cc31c9cb03",
+      "alias": "<request.facts.decision-maker.0>"
+    },
+    {
+      "native": "600ba097-648d-4556-b28c-253c20704233",
+      "rust": "9fa801a1-ac96-41fe-b1a7-b6ecb70a5789",
+      "alias": "<facts.decision-maker.body.id>"
+    },
+    {
+      "native": "92b12470-05e7-4119-866c-31e21923c04d",
+      "rust": "5c984dbb-f985-4de6-83f5-913b9a3d39f0",
+      "alias": "<request.facts.technical-evaluator.0>"
+    },
+    {
+      "native": "92ec9312-1916-4b89-81a2-a015357c7546",
+      "rust": "f8130c4d-574a-44d4-85d3-3d605effee80",
+      "alias": "<facts.technical-evaluator.body.id>"
+    },
+    {
+      "native": "c2636605-7a1e-4eff-9a26-ad2f0424248c",
+      "rust": "4d521bf4-e64f-4549-a89a-cd6c6d7a09fd",
+      "alias": "<request.facts.competitor.0>"
+    },
+    {
+      "native": "4240bb9d-d817-4c37-a35a-5254246804fb",
+      "rust": "5dc7b858-6125-440c-a65e-2e2b16732212",
+      "alias": "<facts.competitor.body.id>"
+    },
+    {
+      "native": "2675f0f3-bb5d-402b-aac4-92179feb19f6",
+      "rust": "49a4c98e-1550-4bbd-88dc-61edfab3fa00",
+      "alias": "<request.facts.discovery.0>"
+    },
+    {
+      "native": "1be70f2d-cdac-4025-9207-402f37fec1c6",
+      "rust": "17332e7a-5288-40d3-a227-c86cb504d3a6",
+      "alias": "<facts.discovery.body.id>"
+    },
+    {
+      "native": "4fcbf362-d990-4892-b9e1-5538e8233360",
+      "rust": "88f36ddb-368e-4884-a09d-f1e0104569fb",
+      "alias": "<request.H93.native-risk.W5.detail-after-I-before-refresh.0>"
+    },
+    {
+      "native": "c2270f94-b1b2-4aef-ab0e-c8e0b2cbc80d",
+      "rust": "245715d9-7e23-4fe5-94d0-a406951855af",
+      "alias": "<request.H93.native-risk.W5.history-after-I-before-refresh.0>"
+    },
+    {
+      "native": "5f2a4653-dcdd-49b7-ab33-0b6cb228e25d",
+      "rust": "4d825f36-9e86-4531-ae88-5f6df4c6fb9f",
+      "alias": "<H93.native-risk.W5.history-after-I-before-refresh.body.snapshots.0.id>"
+    },
+    {
+      "native": "bf561407-34dc-4f74-b176-c12995b5ae6b",
+      "rust": "917ee105-b8fd-4e84-bd6a-567cb583808e",
+      "alias": "<H93.native-risk.W5.history-after-I-before-refresh.body.snapshots.1.id>"
+    },
+    {
+      "native": "fbc5738d-cda7-4bbf-9986-b10fbea7e1e8",
+      "rust": "fddbd4f0-7aec-45ce-b5d5-975be5e2407d",
+      "alias": "<request.H93.native-risk.W5.changed-PATCH-after-real-I.0>"
+    },
+    {
+      "native": "9b59e447-79c9-4bc9-9673-f6c86ae5585c",
+      "rust": "932968aa-8804-429e-8812-ab9ea45f37c5",
+      "alias": "<request.H93.native-risk.W5.history-after-refresh.0>"
+    },
+    {
+      "native": "9ea3b591-f8ed-4add-8d2e-ba5737e8f898",
+      "rust": "3b5f486e-c870-42d4-ac84-a2f77b8191a6",
+      "alias": "<H93.native-risk.W5.history-after-refresh.body.snapshots.0.id>"
+    },
+    {
+      "native": "i94-3812e8ea-1",
+      "rust": "i94-a1be5f15-1",
+      "alias": "<request.I94.N1.stakeholder.create.0>"
+    },
+    {
+      "native": "i94-3812e8ea-2",
+      "rust": "i94-a1be5f15-2",
+      "alias": "<request.I94.N1.competitor.create.0>"
+    },
+    {
+      "native": "i94-3812e8ea-3",
+      "rust": "i94-a1be5f15-3",
+      "alias": "<request.I94.N1.discovery.create.0>"
+    },
+    {
+      "native": "f46a3f95-00c4-42e7-a152-3398b9277239",
+      "rust": "a3893a7f-25d0-4ca9-b66a-e663eefb9ede",
+      "alias": "<request.I94.N1.unknown-only-query.0>"
+    },
+    {
+      "native": "952bf3b8-b956-4ed1-8c67-db5777087e41",
+      "rust": "059dff7c-ce6a-425f-ad85-22542d1f64ef",
+      "alias": "<request.producer.customer.I94 roundtrip.0>"
+    },
+    {
+      "native": "ae71ab84-2521-4618-8e0c-b19663dbd647",
+      "rust": "3978e343-cfc9-4697-96f5-06e0fb1d12e5",
+      "alias": "<producer.customer.I94 roundtrip.body.id>"
+    },
+    {
+      "native": "a6d1af0b-4056-49f9-8574-12ebb421c04b",
+      "rust": "73c500cb-3c41-4eb1-9242-80f21def396a",
+      "alias": "<request.producer.contact.I94 roundtrip.0>"
+    },
+    {
+      "native": "8c4fb94d-ebb3-4550-916d-314fa92a771f",
+      "rust": "2fc7024f-d501-4913-ba3a-3eb0c19f9d43",
+      "alias": "<producer.contact.I94 roundtrip.body.id>"
+    },
+    {
+      "native": "b8fe062d-fa46-4ab0-943c-03043276e9b7",
+      "rust": "c09fd88a-f90f-4b6e-ae53-40dba8103e27",
+      "alias": "<request.producer.lead.I94 roundtrip.0>"
+    },
+    {
+      "native": "491d3616-d457-4ad5-ae83-367148ea73a4",
+      "rust": "fdd66bea-13aa-4fe5-93ac-fbd82b118e40",
+      "alias": "<producer.lead.I94 roundtrip.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-4",
+      "rust": "i94-a1be5f15-4",
+      "alias": "<request.I94.roundtrip.producer.project.0>"
+    },
+    {
+      "native": "2483213b-cfcf-4058-a7dc-22c84678f524",
+      "rust": "a4e6afaf-853c-45d7-949b-0f567a8334bc",
+      "alias": "<I94.roundtrip.producer.project.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-5",
+      "rust": "i94-a1be5f15-5",
+      "alias": "<request.I94.roundtrip.stakeholder.create.0>"
+    },
+    {
+      "native": "81f0aaa7-fd27-4139-9509-cfb260edb4c2",
+      "rust": "81f3ec3e-d6fd-4924-921f-dc2128149def",
+      "alias": "<I94.roundtrip.stakeholder.create.body.id>"
+    },
+    {
+      "native": "6b869811-f3aa-4177-8786-ebf0fbcae2e2",
+      "rust": "eafb2bdb-2f29-4b98-9a13-010d4c31bafe",
+      "alias": "<request.I94.roundtrip.stakeholder.list.0>"
+    },
+    {
+      "native": "i94-3812e8ea-6",
+      "rust": "i94-a1be5f15-6",
+      "alias": "<request.I94.roundtrip.stakeholder.update.0>"
+    },
+    {
+      "native": "i94-3812e8ea-8",
+      "rust": "i94-a1be5f15-8",
+      "alias": "<request.I94.roundtrip.competitor.create.0>"
+    },
+    {
+      "native": "f7588230-905f-430e-b789-55cd5f8700d6",
+      "rust": "b9faf471-8b45-49a8-b4e8-e3de1a0ddf15",
+      "alias": "<I94.roundtrip.competitor.create.body.id>"
+    },
+    {
+      "native": "1fa9dbd7-58b7-4ef3-9a67-0ac7ba1a40ee",
+      "rust": "b2f18ab7-7c11-426a-bfcd-95f8bd715cfc",
+      "alias": "<request.I94.roundtrip.competitor.list.0>"
+    },
+    {
+      "native": "i94-3812e8ea-9",
+      "rust": "i94-a1be5f15-9",
+      "alias": "<request.I94.roundtrip.competitor.update.0>"
+    },
+    {
+      "native": "i94-3812e8ea-11",
+      "rust": "i94-a1be5f15-11",
+      "alias": "<request.I94.roundtrip.discovery.create.0>"
+    },
+    {
+      "native": "8ef7365a-13b4-4443-81de-4b957f70fa23",
+      "rust": "5aad7c4d-b53c-4907-b8a1-03436042caf0",
+      "alias": "<I94.roundtrip.discovery.create.body.id>"
+    },
+    {
+      "native": "1bfd3306-92e3-4f89-ae1f-01b5e6238f0f",
+      "rust": "3ed0f6ef-588e-4500-84ee-beeb33b0f4cc",
+      "alias": "<request.I94.roundtrip.discovery.list.0>"
+    },
+    {
+      "native": "i94-3812e8ea-12",
+      "rust": "i94-a1be5f15-12",
+      "alias": "<request.I94.roundtrip.discovery.update.0>"
+    },
+    {
+      "native": "i94-3812e8ea-14",
+      "rust": "i94-a1be5f15-14",
+      "alias": "<request.I94.OR.lead-only.0>"
+    },
+    {
+      "native": "62fbb47d-7ce2-4f23-8a5c-37ec7a7424ea",
+      "rust": "33559053-4d7b-49ce-bd7c-9bcf1b91c49b",
+      "alias": "<I94.OR.lead-only.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-15",
+      "rust": "i94-a1be5f15-15",
+      "alias": "<request.I94.OR.project-only.0>"
+    },
+    {
+      "native": "d5e23907-01a5-4a80-a53f-e44e218a13b7",
+      "rust": "98992275-0202-4aaf-a850-f1eca2461b2e",
+      "alias": "<I94.OR.project-only.body.id>"
+    },
+    {
+      "native": "f91f7302-9cfc-4cdf-9529-54126fd5ff51",
+      "rust": "f774bf11-0913-4d1e-a2a6-ef9d6324d3d4",
+      "alias": "<request.I94.OR.list-lead.0>"
+    },
+    {
+      "native": "8428df1f-3c65-4e9a-b35f-224cf835efee",
+      "rust": "2b856763-83ba-41c2-a7de-d5adcbcb65ed",
+      "alias": "<request.I94.OR.list-project.0>"
+    },
+    {
+      "native": "935eabf3-4565-4fb0-a579-fe2b58cf4063",
+      "rust": "dc81a4ef-eecf-4019-8e79-b02da886cddd",
+      "alias": "<request.I94.OR.list-both.0>"
+    },
+    {
+      "native": "i94-3812e8ea-16",
+      "rust": "i94-a1be5f15-16",
+      "alias": "<request.I94.UUID.customer-upper.0>"
+    },
+    {
+      "native": "50aaf928-6c97-46b8-87a4-4fe2db663ab6",
+      "rust": "3a68ec4d-15ee-4da9-b49f-a107b2b8b6f6",
+      "alias": "<request.I94.UUID.query-upper.0>"
+    },
+    {
+      "native": "4006dd92-beb0-4b31-a6fe-57a569c16c0e",
+      "rust": "fc042619-99b0-49f3-8333-bad18f67345e",
+      "alias": "<request.I94.UUID.both-missing.0>"
+    },
+    {
+      "native": "5ea0648c-40db-437e-a3b6-9cab2171935a",
+      "rust": "4188153f-d284-4e2a-a625-f9192a0bfef9",
+      "alias": "<request.producer.customer.I94 inactive.0>"
+    },
+    {
+      "native": "0aaa3c6b-5c10-4990-99e2-64aceb050d39",
+      "rust": "1be85a57-4a98-4454-96fb-db777bc4e030",
+      "alias": "<producer.customer.I94 inactive.body.id>"
+    },
+    {
+      "native": "e86d5f0a-351c-4f28-99a0-85fbdfa90124",
+      "rust": "d5a69cc2-7829-4c49-8677-dfe26db72c8a",
+      "alias": "<request.producer.contact.I94 inactive.0>"
+    },
+    {
+      "native": "2b28e776-f2e0-400f-9f1f-0e7583c13d3f",
+      "rust": "13083fb9-95e9-41c3-b666-094bf15d32da",
+      "alias": "<producer.contact.I94 inactive.body.id>"
+    },
+    {
+      "native": "1c4d919b-21d8-424a-86d2-7993ed8ac091",
+      "rust": "da46e75a-934c-46ff-8046-8da0a69996b3",
+      "alias": "<request.producer.lead.I94 inactive.0>"
+    },
+    {
+      "native": "d7ae4423-de10-42de-a8f0-e6925eab40b9",
+      "rust": "9fbc83e2-3966-4dc7-848e-48863b33dc48",
+      "alias": "<producer.lead.I94 inactive.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-17",
+      "rust": "i94-a1be5f15-17",
+      "alias": "<request.I94.inactive.producer.project.0>"
+    },
+    {
+      "native": "aafa0978-ef2a-4d24-aac2-f73e54dd2fd7",
+      "rust": "cb8509c3-c7e1-48c6-a8bd-c28acbff893a",
+      "alias": "<I94.inactive.producer.project.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-18",
+      "rust": "i94-a1be5f15-18",
+      "alias": "<request.I94.inactive.stakeholder.0>"
+    },
+    {
+      "native": "4d6370c0-6464-44c3-a20c-75e633a430e3",
+      "rust": "8e2ef8d6-9100-42af-9f76-1fe4033de3be",
+      "alias": "<I94.inactive.stakeholder.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-19",
+      "rust": "i94-a1be5f15-19",
+      "alias": "<request.I94.inactive.competitor.0>"
+    },
+    {
+      "native": "7ab23932-2aa7-45c6-8220-a83dd7665c22",
+      "rust": "137446a1-8118-4d73-9555-1a7c09503bd3",
+      "alias": "<I94.inactive.competitor.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-20",
+      "rust": "i94-a1be5f15-20",
+      "alias": "<request.I94.inactive.discovery.0>"
+    },
+    {
+      "native": "fe53d596-d570-4ad1-8887-ab8aba98e353",
+      "rust": "92ed8bdd-939b-4322-a8c0-b90343a6214b",
+      "alias": "<I94.inactive.discovery.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-21",
+      "rust": "i94-a1be5f15-21",
+      "alias": "<request.I94.denied.audit_log.0>"
+    },
+    {
+      "native": "i94-3812e8ea-23",
+      "rust": "i94-a1be5f15-23",
+      "alias": "<request.I94.denied.competitor_intelligence_record.0>"
+    },
+    {
+      "native": "i94-3812e8ea-25-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+      "rust": "i94-a1be5f15-25-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+      "alias": "<request.I94.requestId65.changed.0>"
+    },
+    {
+      "native": "e53fc582-6cf1-4c64-b704-13542c49fe5f",
+      "rust": "bf194fcf-ae17-46ab-86ec-ca7dbe2db57a",
+      "alias": "<I94.requestId65.create.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-29",
+      "rust": "i94-a1be5f15-29",
+      "alias": "<request.I94.Unicode.boundary.0>"
+    },
+    {
+      "native": "i94-3812e8ea-31",
+      "rust": "i94-a1be5f15-31",
+      "alias": "<request.I94.Unicode.plus-one.0>"
+    },
+    {
+      "native": "i94-3812e8ea-32",
+      "rust": "i94-a1be5f15-32",
+      "alias": "<request.I94.focus.json-null.producer.0>"
+    },
+    {
+      "native": "431abaec-6739-4ec4-bb34-e16544291979",
+      "rust": "b270e2f3-0648-45bc-9847-36b294a46f3e",
+      "alias": "<I94.focus.json-null.producer.body.id>"
+    },
+    {
+      "native": "742845ea-0a91-4c14-bb91-10089b7486e0",
+      "rust": "fc50e454-7260-4d30-96a2-74481dd05773",
+      "alias": "<request.I94.focus.json-null.list.0>"
+    },
+    {
+      "native": "i94-3812e8ea-33",
+      "rust": "i94-a1be5f15-33",
+      "alias": "<request.I94.focus.json-object.producer.0>"
+    },
+    {
+      "native": "fb79d53c-69f0-4e03-bf6a-d9f8aa7a1fce",
+      "rust": "c1be8d69-92ee-4386-8a73-4674009c7158",
+      "alias": "<I94.focus.json-object.producer.body.id>"
+    },
+    {
+      "native": "97373080-65a3-4c65-a497-eebaa19da755",
+      "rust": "615d17d4-9364-4729-806a-10509d590ccf",
+      "alias": "<request.I94.focus.json-object.list.0>"
+    },
+    {
+      "native": "i94-3812e8ea-34",
+      "rust": "i94-a1be5f15-34",
+      "alias": "<request.I94.focus.object.unrelated-patch.0>"
+    },
+    {
+      "native": "i94-3812e8ea-35",
+      "rust": "i94-a1be5f15-35",
+      "alias": "<request.I94.focus.over-request-cap.producer.0>"
+    },
+    {
+      "native": "2253df22-b088-4200-bc9f-f288a5d887f5",
+      "rust": "43acb22e-85d8-4884-aa3b-3154c0ce44e7",
+      "alias": "<I94.focus.over-request-cap.producer.body.id>"
+    },
+    {
+      "native": "65eb4454-d0d1-418e-8afe-4c97ae330af3",
+      "rust": "0fd8f269-7f31-4344-b2fc-cdc77260c6fc",
+      "alias": "<request.I94.focus.over-request-cap.list.0>"
+    },
+    {
+      "native": "a4bede5c-1da2-4b6b-97fe-cf5379a51b41",
+      "rust": "6cf5cf09-7d74-4be2-8cfd-07824b76b0e0",
+      "alias": "<request.producer.customer.I94 latest.0>"
+    },
+    {
+      "native": "7451082d-31bd-4e85-bcc4-8608473ee043",
+      "rust": "363db2b0-97c0-4fcd-837d-e98fa4639fd7",
+      "alias": "<producer.customer.I94 latest.body.id>"
+    },
+    {
+      "native": "fff6e193-93a8-4273-bca4-310c1cc6aa1e",
+      "rust": "9eb6e84e-faa5-4d1f-9f9f-28464bee4ca7",
+      "alias": "<request.producer.contact.I94 latest.0>"
+    },
+    {
+      "native": "44c53109-9c7b-460b-90eb-0f49efdb9083",
+      "rust": "8e9b10f0-3d74-42a2-b7ae-569e3b0723d6",
+      "alias": "<producer.contact.I94 latest.body.id>"
+    },
+    {
+      "native": "c6fe5ba8-217d-4ce2-8d05-d2a760c342ff",
+      "rust": "dc489d81-2065-430f-a710-43cd464a696f",
+      "alias": "<request.producer.lead.I94 latest.0>"
+    },
+    {
+      "native": "9acdc90c-ae4f-4f7d-b6a1-e58d4e76ec5a",
+      "rust": "3ffa4cdd-813c-4a6a-83c2-07d364a56ffe",
+      "alias": "<producer.lead.I94 latest.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-36",
+      "rust": "i94-a1be5f15-36",
+      "alias": "<request.I94.latest.producer.project.0>"
+    },
+    {
+      "native": "9e2b2895-002a-42fe-97d5-a843dd8fa31c",
+      "rust": "7ff44cce-d0aa-45aa-96cb-e0c82609c2e5",
+      "alias": "<I94.latest.producer.project.body.id>"
+    },
+    {
+      "native": "56c8f204-7f40-4cbf-abe9-bf9aea484c58",
+      "rust": "0b0443cd-a53c-4328-a84c-e8e1e19581b9",
+      "alias": "<request.I94.gaps.initial.0>"
+    },
+    {
+      "native": "i94-3812e8ea-37",
+      "rust": "i94-a1be5f15-37",
+      "alias": "<request.I94.gaps.decision.0>"
+    },
+    {
+      "native": "22776e6b-c830-4d5c-882e-5586c9cb0a46",
+      "rust": "86e26854-9b08-439d-950c-85343abd7c1d",
+      "alias": "<I94.gaps.decision.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-38",
+      "rust": "i94-a1be5f15-38",
+      "alias": "<request.I94.gaps.technical.0>"
+    },
+    {
+      "native": "8b52f2b1-8f49-4d82-88ee-a59249af7b07",
+      "rust": "61fa7e68-d8f0-4b09-9584-798a6e6a0797",
+      "alias": "<I94.gaps.technical.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-39",
+      "rust": "i94-a1be5f15-39",
+      "alias": "<request.I94.gaps.competitor.0>"
+    },
+    {
+      "native": "95d77eec-d9af-4aef-9e01-74bc9d4f5da3",
+      "rust": "f58a42c8-bc5e-4c00-a721-1462b113f79a",
+      "alias": "<I94.gaps.competitor.body.id>"
+    },
+    {
+      "native": "i94-3812e8ea-40",
+      "rust": "i94-a1be5f15-40",
+      "alias": "<request.I94.gaps.complete.0>"
+    },
+    {
+      "native": "bbf002d3-cd15-4d20-9f1c-9f2dc8003fbb",
+      "rust": "9971d540-3c67-4d27-ac00-402acd974815",
+      "alias": "<I94.gaps.complete.body.id>"
+    },
+    {
+      "native": "7ec13012-cce9-4ff4-b8cf-3423554d35a8",
+      "rust": "d8f06f2f-f9a7-4d0d-b453-95ed295a3d2a",
+      "alias": "<request.I94.gaps.complete-list.0>"
+    },
+    {
+      "native": "i94-3812e8ea-41",
+      "rust": "i94-a1be5f15-41",
+      "alias": "<request.I94.score.complete.refresh-via-update.0>"
+    },
+    {
+      "native": "36c58f15-e097-48dd-80bd-171a3a1baf12",
+      "rust": "132525b9-1f39-4538-a8c8-82afc1e38a0c",
+      "alias": "<request.I94.score.complete.history.0>"
+    },
+    {
+      "native": "4bb76c8f-2d43-4367-814e-e20ae5e2cb8c",
+      "rust": "74d19d06-682c-420c-a704-bb19ff06cf54",
+      "alias": "<I94.score.complete.history.body.snapshots.0.id>"
+    },
+    {
+      "native": "c35ce385-350e-459a-9f68-d1308036f942",
+      "rust": "163d5093-1ed8-439d-84e4-86859c90871e",
+      "alias": "<I94.score.complete.history.body.snapshots.1.id>"
+    },
+    {
+      "native": "i94-3812e8ea-42",
+      "rust": "i94-a1be5f15-42",
+      "alias": "<request.I94.gaps.new-empty.0>"
+    },
+    {
+      "native": "76576fd8-91f3-4d6d-95bc-6f050ed84bed",
+      "rust": "241ffed9-df28-4494-9b19-7bde6712807a",
+      "alias": "<I94.gaps.new-empty.body.id>"
+    },
+    {
+      "native": "b69ee3d9-9f98-4e5f-86e2-577550654718",
+      "rust": "c4aa8044-0e86-490b-92bf-0f0dd3055a12",
+      "alias": "<request.I94.gaps.latest-empty.0>"
+    },
+    {
+      "native": "i94-3812e8ea-43",
+      "rust": "i94-a1be5f15-43",
+      "alias": "<request.I94.score.latest-empty.refresh-via-update.0>"
+    },
+    {
+      "native": "828e9fd3-b6a7-4390-8384-ce22ecfa742b",
+      "rust": "a3b4aa8a-6ffd-4291-a737-4ba2da756b2a",
+      "alias": "<request.I94.score.latest-empty.history.0>"
+    },
+    {
+      "native": "a860bba3-42a7-41d9-b825-1dfa3bfa25cb",
+      "rust": "7fccb4b3-6700-48ad-9215-8d6b916305d8",
+      "alias": "<I94.score.latest-empty.history.body.snapshots.0.id>"
+    },
+    {
+      "native": "fabc6dc0-731c-4c43-9cd5-f4e264b3d829",
+      "rust": "382993ed-270e-41c0-a6b7-62e204923dc3",
+      "alias": "<request.I94.gaps.tie-created-desc.0>"
+    },
+    {
+      "native": "i94-3812e8ea-44",
+      "rust": "i94-a1be5f15-44",
+      "alias": "<request.I94.score.tie-observe.refresh-via-update.0>"
+    },
+    {
+      "native": "e834726e-e61c-430b-bb90-bf1bbf26e896",
+      "rust": "381ad495-6b04-4da7-846a-05edf34acf23",
+      "alias": "<request.I94.score.tie-observe.history.0>"
+    },
+    {
+      "native": "ce37a15c-d512-48fa-b9be-649a8cb8b1fb",
+      "rust": "9ccaff70-8e47-45f9-aaea-778c2a08babb",
+      "alias": "<I94.score.tie-observe.history.body.snapshots.0.id>"
+    },
+    {
+      "native": "i94-3812e8ea-45",
+      "rust": "i94-a1be5f15-45",
+      "alias": "<request.I94.CAS.producer.0>"
+    },
+    {
+      "native": "e230dd02-7195-4aeb-adbe-3a6ed6b7e282",
+      "rust": "634518d2-8f96-4775-9eb3-dfdc625df208",
+      "alias": "<I94.CAS.producer.body.id>"
+    },
+    {
+      "native": "a057c1a3-7742-44fc-b55f-b2046f60dc15",
+      "rust": "6ada82ad-73a6-4287-bdec-98587ba996c5",
+      "alias": "<request.controlled-race.sales_discovery_record.0.0>"
+    },
+    {
+      "native": "3980f1dc-82b4-4f6a-b5c5-5935964c1d5a",
+      "rust": "2205bcb5-16d5-4800-8ebb-4602c769daac",
+      "alias": "<request.controlled-race.sales_discovery_record.1.0>"
+    },
+    {
+      "native": "fe28b417-dd51-4848-b30a-f2b5b5263507",
+      "rust": "2aa173c9-a1e2-4b97-a054-2d239b7167c3",
+      "alias": "<request.I.null.create.0>"
+    },
+    {
+      "native": "47fbbd19-625a-4f2e-ab91-15c15488a413",
+      "rust": "f254d795-a629-42c7-b46d-75b45135dd46",
+      "alias": "<I.null.create.body.id>"
+    },
+    {
+      "native": "058cbaf2-d5e9-4aa1-bdb3-d94d4d91d1df",
+      "rust": "d49fec58-9af1-490b-bea2-1a97b619acf0",
+      "alias": "<request.I.null.update.0>"
+    },
+    {
+      "native": "c3b14f76-72d8-4e24-b16b-635fa3afbb4c",
+      "rust": "c8ec6ec9-6368-4e18-8b91-e455b31e4f66",
+      "alias": "<request.discussion.bmp8000.0>"
+    },
+    {
+      "native": "ba957fa9-b2bd-47f2-bade-e365dbd08d21",
+      "rust": "ce2d1c3c-49ba-4717-860a-637720fe0b0e",
+      "alias": "<discussion.bmp8000.body.id>"
+    },
+    {
+      "native": "f9a0639c-9597-47ba-ab88-18caf24522f4",
+      "rust": "d08c24cc-a46b-43dd-a0b2-b74c701cd933",
+      "alias": "<discussion.bmp8000.body.threadId>"
+    },
+    {
+      "native": "b825a5ab-5af8-4b2d-a8af-c8057dfd6a1d",
+      "rust": "7746e0a6-121e-4db8-b81c-55c561b1e7cb",
+      "alias": "<request.discussion.bmp8000.GET.0>"
+    },
+    {
+      "native": "ceacea18-3581-421b-a664-0ba0e42b7a2f",
+      "rust": "6c18fda4-de3b-4607-8add-5d6fc95b386a",
+      "alias": "<request.discussion.bmp8001.0>"
+    },
+    {
+      "native": "31db1729-0fb0-448d-b485-ae6b1cd28333",
+      "rust": "ecbece6e-744f-4ccb-a5ef-68881947de85",
+      "alias": "<request.discussion.bmp8001.GET.0>"
+    },
+    {
+      "native": "93087a72-d9d3-478a-a2fc-bc5b62521dd7",
+      "rust": "6507826d-fe67-444c-a237-c7874b308284",
+      "alias": "<request.discussion.emoji4000.0>"
+    },
+    {
+      "native": "b8b030f6-7692-480a-b302-7ba2fb12f869",
+      "rust": "3b9fc72c-f19d-4a60-a10c-bc151cecf551",
+      "alias": "<discussion.emoji4000.body.id>"
+    },
+    {
+      "native": "db78257b-a8fb-4b6d-baee-0b3e52b892c5",
+      "rust": "03ce123d-79b3-440b-922e-1dea912ab8d6",
+      "alias": "<request.discussion.emoji4000.GET.0>"
+    },
+    {
+      "native": "54200b6a-e7bf-4f04-938c-069cf36019fd",
+      "rust": "a010e195-a79e-41ca-8f00-afb75c716bc6",
+      "alias": "<request.discussion.emoji4001.0>"
+    },
+    {
+      "native": "b680e84a-c55e-473e-b564-1ad15c6d4754",
+      "rust": "e56bd4fb-6f29-4d9f-b472-d292cdd0f031",
+      "alias": "<discussion.emoji4001.body.id>"
+    },
+    {
+      "native": "300dd2f1-7166-45d8-9973-96e311d6e994",
+      "rust": "59a650d3-8d67-4766-bcb5-b5fc8f751f01",
+      "alias": "<request.discussion.emoji4001.GET.0>"
+    },
+    {
+      "native": "3824c86e-7d79-4cee-8458-f8d7e066448b",
+      "rust": "debea27b-34f3-43d9-bf61-3cc975df39d0",
+      "alias": "<request.discussion.emoji8000.0>"
+    },
+    {
+      "native": "80d08a28-99bd-4777-9ab8-0fc27a9131fc",
+      "rust": "dd0d433a-4aa3-4162-bf82-685cb273baf2",
+      "alias": "<discussion.emoji8000.body.id>"
+    },
+    {
+      "native": "1b13487d-9b56-4d9d-9052-dc9ef72f4765",
+      "rust": "cd1476d2-b6b5-44dc-9899-9e8321097855",
+      "alias": "<request.discussion.emoji8000.GET.0>"
+    },
+    {
+      "native": "6db85823-7602-4967-9012-54177203bdf4",
+      "rust": "11df765f-89e2-473f-8718-52f48aeb203c",
+      "alias": "<request.discussion.emoji8001.0>"
+    },
+    {
+      "native": "624690ef-2a66-4532-bd0f-4ff88fa6a611",
+      "rust": "59a67164-b686-47d1-b133-a751ba4a5423",
+      "alias": "<request.discussion.emoji8001.GET.0>"
+    },
+    {
+      "native": "e32ba3dc-173e-40ef-bbf2-3fc4b1625e99",
+      "rust": "f4f9062c-cf86-4619-b86f-0276dd38de36",
+      "alias": "<request.discussion.FEFF-trim.0>"
+    },
+    {
+      "native": "ea3a239b-13d7-4661-a4e5-dfbe06906b02",
+      "rust": "715ddf61-cca5-4972-a45d-ee003e477fff",
+      "alias": "<discussion.FEFF-trim.body.id>"
+    },
+    {
+      "native": "a5df3d21-2f77-4bde-aa1c-32358ac5363f",
+      "rust": "cf8b3416-beab-43e8-bed1-f4fb133f4ad2",
+      "alias": "<request.discussion.FEFF-trim.GET.0>"
+    },
+    {
+      "native": "ebfbd948-fd42-464f-9e7c-68020cc6121d",
+      "rust": "c12a50b5-946c-4f90-ba9a-9b1eb9d1eb4a",
+      "alias": "<request.discussion.NEL-not-trim.0>"
+    },
+    {
+      "native": "1c0cbe29-4fe2-4ca3-81fe-e1c24578c3dc",
+      "rust": "162805a4-7836-4722-b95c-99bca3871a83",
+      "alias": "<discussion.NEL-not-trim.body.id>"
+    },
+    {
+      "native": "d9537fb7-309c-49c4-8386-fe41864c0190",
+      "rust": "4aa9b9ef-5ac9-4c3a-8bf9-8513c8a5c059",
+      "alias": "<request.discussion.NEL-not-trim.GET.0>"
+    },
+    {
+      "native": "84e3c10d-2a4e-4b0b-b913-5b689dba9482",
+      "rust": "13ab503e-de62-490c-b1ba-2d79d53f8a64",
+      "alias": "<request.discussion.zero-width.0>"
+    },
+    {
+      "native": "bb8b41ec-cec9-4578-9e42-034ed221133a",
+      "rust": "74f63080-51a7-4e95-afa7-d3e06ed510a7",
+      "alias": "<discussion.zero-width.body.id>"
+    },
+    {
+      "native": "31d208bb-7867-4c48-a290-615ccf0b4461",
+      "rust": "ada11c64-3c47-4b5c-a071-2cfc56b3813b",
+      "alias": "<request.discussion.zero-width.GET.0>"
+    },
+    {
+      "native": "d8fbb25e-51bb-444c-82d1-8966d7983135",
+      "rust": "66c1d684-3236-45ae-9520-277ea7f5b6fc",
+      "alias": "<request.discussion.nul.0>"
+    },
+    {
+      "native": "df54ba62-451c-41a4-a9fe-2a03cbe94b1c",
+      "rust": "236df23f-741e-4b8a-9fa0-900263d97ad5",
+      "alias": "<request.discussion.nul.GET.0>"
+    },
+    {
+      "native": "8ebac49d-5dd8-4255-aa54-bed484f5aee9",
+      "rust": "d4913c9b-1848-4657-b226-5ebc3dc1d37f",
+      "alias": "<request.discussion.high-surrogate.0>"
+    },
+    {
+      "native": "0fa1ce2a-5eec-447d-aecc-d1ae5049f03c",
+      "rust": "4d0c49ac-3daa-4e82-aa9d-176aa575c0dc",
+      "alias": "<discussion.high-surrogate.body.id>"
+    },
+    {
+      "native": "acfc3329-53a9-4df4-8048-70b0eb5b5e8c",
+      "rust": "7900f669-9ca5-4a6b-9465-b983af8ae23e",
+      "alias": "<request.discussion.high-surrogate.GET.0>"
+    },
+    {
+      "native": "42ccf784-6a4a-4df5-ba37-3969e196b2f4",
+      "rust": "285ef5bb-8b6f-43fc-8d3c-dd8462179dcf",
+      "alias": "<request.discussion.low-surrogate.0>"
+    },
+    {
+      "native": "04407f13-1eaa-46c2-a8f3-82a685a1757a",
+      "rust": "a2402e46-630f-4f83-b5ee-f1ec08ee2439",
+      "alias": "<discussion.low-surrogate.body.id>"
+    },
+    {
+      "native": "d164b33e-b2ab-4b01-84e4-371fa7e362eb",
+      "rust": "b7f95ba1-ba58-4556-bb03-cfce77952e98",
+      "alias": "<request.discussion.low-surrogate.GET.0>"
+    },
+    {
+      "native": "f1b974cb-62a1-4435-b854-3660f9b917fd",
+      "rust": "72d5cefe-2a21-4d13-a0c3-733fa83ba790",
+      "alias": "<request.K.workspace-guidance.0>"
+    },
+    {
+      "native": "fdd5bcb7-62b2-4b49-a650-d4d14a110c9d",
+      "rust": "9c6ecce8-1ac1-4865-b387-4ee23af4c5fd",
+      "alias": "<request.K.workspace-guidance.bad-UUID.0>"
+    },
+    {
+      "native": "315e1bf1-e152-4d54-8f88-a6529da4cb38",
+      "rust": "e084791a-950d-4d11-84d1-13d7c8a09afe",
+      "alias": "<request.K.timeline.0>"
+    },
+    {
+      "native": "aaa0a757-24c1-449c-a31a-1227eff94f62",
+      "rust": "471b9f11-3b45-4cb7-b02f-579493855533",
+      "alias": "<request.K.timeline.bad-UUID.0>"
+    }
+  ],
+  "conflicts": [],
+  "comparisons": [
+    {
+      "label": "producer.customer.foundation",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.project.foundation",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.contact.foundation",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.foundation",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W1.create-denied-lead.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W1.create-denied-lead_score_snapshot.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.H93.native-risk.convert-denied-project",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.convert-denied-project.qualify",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "H93.native-risk.W1.convert-denied-project.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.H93.native-risk.convert-denied-lead_score_snapshot",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.convert-denied-lead_score_snapshot.qualify",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.H93.native-risk.lead-CAS",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W2.lead.explicit-stale",
+      "index": 0,
+      "nativeStatus": 409,
+      "rustStatus": 409,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "controlled-race.lead.0",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 41
+    },
+    {
+      "label": "controlled-race.lead.1",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 500,
+      "bodyEqual": false,
+      "changedPaths": 41
+    },
+    {
+      "label": "producer.lead.H93.native-risk.override-CAS",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.override-CAS.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W2.override.explicit-stale",
+      "index": 0,
+      "nativeStatus": 409,
+      "rustStatus": 409,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "controlled-race.lead_score_override.1",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "controlled-race.lead_score_override.0",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "producer.lead.H93.native-risk.snapshot-after-qualify",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.qualify.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.qualify.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "producer.lead.H93.native-risk.snapshot-after-close",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.close.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.close.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "producer.lead.H93.native-risk.snapshot-after-claim",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.claim.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.claim.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "producer.lead.H93.native-risk.snapshot-after-assignOwner",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.assignOwner.post",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.assignOwner.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "producer.lead.H93.native-risk.audit-after-submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.submit.denied-audit",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.submit.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 3
+    },
+    {
+      "label": "producer.lead.H93.native-risk.audit-after-approve",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.approve.prerequisite.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.approve.denied-audit",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.approve.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 4
+    },
+    {
+      "label": "producer.lead.H93.native-risk.audit-after-reject",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.reject.prerequisite.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.reject.denied-audit",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.reject.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "producer.lead.H93.native-risk.audit-after-revoke",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.revoke.prerequisite.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W3.revoke.prerequisite.approve",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "H93.native-risk.W3.revoke.denied-audit",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W3.revoke.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "producer.lead.H93.native-risk.approved-then-pending",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.approved-then-pending.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W4.first-approval",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "H93.native-risk.W4.second-submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W4.second-approval-observe",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 2
+    },
+    {
+      "label": "H93.native-risk.W4.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 4
+    },
+    {
+      "label": "producer.lead.H93.native-risk.dedup-I-refresh",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W5.name-only-real-change",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W5.actual-noop",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "producer.contact.score-facts",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "facts.decision-maker",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "facts.technical-evaluator",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "facts.competitor",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "facts.discovery",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "H93.native-risk.W5.detail-after-I-before-refresh",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W5.history-after-I-before-refresh",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W5.changed-PATCH-after-real-I",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "H93.native-risk.W5.history-after-refresh",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.N1.stakeholder.create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.N1.competitor.create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.N1.discovery.create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.N1.unknown-only-query",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.customer.I94 roundtrip",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.contact.I94 roundtrip",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.I94 roundtrip",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.roundtrip.producer.project",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.stakeholder.create",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.stakeholder.list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.stakeholder.update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.competitor.create",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.competitor.list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.competitor.update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.discovery.create",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.discovery.list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.roundtrip.discovery.update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.OR.lead-only",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.OR.project-only",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.OR.list-lead",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.OR.list-project",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.OR.list-both",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.UUID.customer-upper",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.UUID.query-upper",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.UUID.both-missing",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.customer.I94 inactive",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.contact.I94 inactive",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.I94 inactive",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.inactive.producer.project",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.inactive.stakeholder",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.inactive.competitor",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.inactive.discovery",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.denied.audit_log",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.denied.competitor_intelligence_record",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.requestId65.changed",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.requestId65.noop",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.requestId65.create",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.Unicode.boundary",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.Unicode.plus-one",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.json-null.producer",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.json-null.list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.json-object.producer",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.json-object.list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.object.unrelated-patch",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.over-request-cap.producer",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.focus.over-request-cap.list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.customer.I94 latest",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.contact.I94 latest",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "producer.lead.I94 latest",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.latest.producer.project",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.initial",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.decision",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.technical",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.competitor",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.complete",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.complete-list",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.score.complete.refresh-via-update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.score.complete.history",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.gaps.new-empty",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.gaps.latest-empty",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.score.latest-empty.refresh-via-update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.score.latest-empty.history",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.gaps.tie-created-desc",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I94.score.tie-observe.refresh-via-update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.score.tie-observe.history",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "I94.CAS.producer",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "controlled-race.sales_discovery_record.0",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 500,
+      "bodyEqual": false,
+      "changedPaths": 20
+    },
+    {
+      "label": "controlled-race.sales_discovery_record.1",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 20
+    },
+    {
+      "label": "I.null.create",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "I.null.update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.bmp8000",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.bmp8000.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.bmp8001",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.bmp8001.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji4000",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji4000.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji4001",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji4001.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji8000",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji8000.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji8001",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.emoji8001.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.FEFF-trim",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.FEFF-trim.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.NEL-not-trim",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.NEL-not-trim.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.zero-width",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.zero-width.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.nul",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.nul.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.high-surrogate",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.high-surrogate.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.low-surrogate",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "discussion.low-surrogate.GET",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "K.workspace-guidance",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "K.workspace-guidance.bad-UUID",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "K.timeline",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "K.timeline.bad-UUID",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    }
+  ],
+  "differences": [
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.foundation",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:52.787Z",
+          "rust": "2026-11-02T12:15:34.773Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.convert-denied-project",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:52.999Z",
+          "rust": "2026-11-02T12:15:34.916Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.convert-denied-project.qualify",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".qualifiedAt",
+          "native": "2026-11-02T11:56:53.041Z",
+          "rust": "2026-11-02T12:15:34.941Z"
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.045Z",
+          "rust": "2026-11-02T12:15:34.944Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.convert-denied-lead_score_snapshot",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.183Z",
+          "rust": "2026-11-02T12:15:35.032Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.convert-denied-lead_score_snapshot.qualify",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".qualifiedAt",
+          "native": "2026-11-02T11:56:53.225Z",
+          "rust": "2026-11-02T12:15:35.055Z"
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.228Z",
+          "rust": "2026-11-02T12:15:35.059Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.lead-CAS",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.369Z",
+          "rust": "2026-11-02T12:15:35.137Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "controlled-race.lead.0",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".message",
+          "native": "Internal server error"
+        },
+        {
+          "path": ".statusCode",
+          "native": 500
+        },
+        {
+          "path": ".activeScoreOverrideId",
+          "rust": null
+        },
+        {
+          "path": ".budgetStatus",
+          "rust": "budget-confirmed"
+        },
+        {
+          "path": ".closedAt",
+          "rust": null
+        },
+        {
+          "path": ".closedBy",
+          "rust": null
+        },
+        {
+          "path": ".closedReason",
+          "rust": null
+        },
+        {
+          "path": ".convertedAt",
+          "rust": null
+        },
+        {
+          "path": ".convertedBy",
+          "rust": null
+        },
+        {
+          "path": ".convertedProjectId",
+          "rust": null
+        },
+        {
+          "path": ".createdAt",
+          "rust": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".createdBy",
+          "rust": "<actor.admin.userId>"
+        },
+        {
+          "path": ".customerId",
+          "rust": "<producer.customer.foundation.body.id>"
+        },
+        {
+          "path": ".customerName",
+          "rust": "HIJK foundation <run>"
+        },
+        {
+          "path": ".demandDescription",
+          "rust": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。"
+        },
+        {
+          "path": ".effectiveRating",
+          "rust": "B"
+        },
+        {
+          "path": ".effectiveScore",
+          "rust": 62
+        },
+        {
+          "path": ".effectiveScoreReason",
+          "rust": "基础商务+62"
+        },
+        {
+          "path": ".effectiveScoreSource",
+          "rust": "system"
+        },
+        {
+          "path": ".estimatedAmount",
+          "rust": "1200000.00"
+        },
+        {
+          "path": ".expectedDecisionDate",
+          "rust": "2026-11-20"
+        },
+        {
+          "path": ".gateSummary",
+          "rust": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          }
+        },
+        {
+          "path": ".id",
+          "rust": "<producer.lead.H93.native-risk.lead-CAS.body.id>"
+        },
+        {
+          "path": ".leadName",
+          "rust": "H93 Native CAS-admin <producer.lead.foundation.body.id>"
+        },
+        {
+          "path": ".leadNo",
+          "rust": "LD-2026-000006"
+        },
+        {
+          "path": ".ownerOrgId",
+          "rust": "<actor.admin.orgId>"
+        },
+        {
+          "path": ".ownerUserId",
+          "rust": "<actor.admin.userId>"
+        },
+        {
+          "path": ".qualificationSummary",
+          "rust": null
+        },
+        {
+          "path": ".qualifiedAt",
+          "rust": null
+        },
+        {
+          "path": ".qualifiedBy",
+          "rust": null
+        },
+        {
+          "path": ".rating",
+          "rust": "B"
+        },
+        {
+          "path": ".rowVersion",
+          "rust": 2
+        },
+        {
+          "path": ".score",
+          "rust": 62
+        },
+        {
+          "path": ".scoreReason",
+          "rust": "基础商务+62"
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "rust": "2026-11-02T12:15:35.217Z"
+        },
+        {
+          "path": ".sourceCode",
+          "rust": "customer-visit"
+        },
+        {
+          "path": ".sourceName",
+          "rust": "客户拜访"
+        },
+        {
+          "path": ".status",
+          "rust": "registered"
+        },
+        {
+          "path": ".updatedAt",
+          "rust": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".updatedBy",
+          "rust": "<actor.admin.userId>"
+        },
+        {
+          "path": ".urgency",
+          "rust": "high"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "controlled-race.lead.1",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 500,
+      "delta": [
+        {
+          "path": ".activeScoreOverrideId",
+          "native": null
+        },
+        {
+          "path": ".budgetStatus",
+          "native": "budget-confirmed"
+        },
+        {
+          "path": ".closedAt",
+          "native": null
+        },
+        {
+          "path": ".closedBy",
+          "native": null
+        },
+        {
+          "path": ".closedReason",
+          "native": null
+        },
+        {
+          "path": ".convertedAt",
+          "native": null
+        },
+        {
+          "path": ".convertedBy",
+          "native": null
+        },
+        {
+          "path": ".convertedProjectId",
+          "native": null
+        },
+        {
+          "path": ".createdAt",
+          "native": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".createdBy",
+          "native": "<actor.admin.userId>"
+        },
+        {
+          "path": ".customerId",
+          "native": "<producer.customer.foundation.body.id>"
+        },
+        {
+          "path": ".customerName",
+          "native": "HIJK foundation <run>"
+        },
+        {
+          "path": ".demandDescription",
+          "native": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。"
+        },
+        {
+          "path": ".effectiveRating",
+          "native": "B"
+        },
+        {
+          "path": ".effectiveScore",
+          "native": 62
+        },
+        {
+          "path": ".effectiveScoreReason",
+          "native": "基础商务+62"
+        },
+        {
+          "path": ".effectiveScoreSource",
+          "native": "system"
+        },
+        {
+          "path": ".estimatedAmount",
+          "native": "1200000.00"
+        },
+        {
+          "path": ".expectedDecisionDate",
+          "native": "2026-11-20"
+        },
+        {
+          "path": ".gateSummary",
+          "native": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          }
+        },
+        {
+          "path": ".id",
+          "native": "<producer.lead.H93.native-risk.lead-CAS.body.id>"
+        },
+        {
+          "path": ".leadName",
+          "native": "H93 Native CAS-other <producer.lead.foundation.body.id>"
+        },
+        {
+          "path": ".leadNo",
+          "native": "LD-2026-000006"
+        },
+        {
+          "path": ".ownerOrgId",
+          "native": "<actor.admin.orgId>"
+        },
+        {
+          "path": ".ownerUserId",
+          "native": "<actor.admin.userId>"
+        },
+        {
+          "path": ".qualificationSummary",
+          "native": null
+        },
+        {
+          "path": ".qualifiedAt",
+          "native": null
+        },
+        {
+          "path": ".qualifiedBy",
+          "native": null
+        },
+        {
+          "path": ".rating",
+          "native": "B"
+        },
+        {
+          "path": ".rowVersion",
+          "native": 2
+        },
+        {
+          "path": ".score",
+          "native": 62
+        },
+        {
+          "path": ".scoreReason",
+          "native": "基础商务+62"
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.516Z"
+        },
+        {
+          "path": ".sourceCode",
+          "native": "customer-visit"
+        },
+        {
+          "path": ".sourceName",
+          "native": "客户拜访"
+        },
+        {
+          "path": ".status",
+          "native": "registered"
+        },
+        {
+          "path": ".updatedAt",
+          "native": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".updatedBy",
+          "native": "<actor.other.userId>"
+        },
+        {
+          "path": ".urgency",
+          "native": "high"
+        },
+        {
+          "path": ".message",
+          "rust": "Internal server error"
+        },
+        {
+          "path": ".statusCode",
+          "rust": 500
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.override-CAS",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.655Z",
+          "rust": "2026-11-02T12:15:35.283Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.override-CAS.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:53.707Z",
+          "rust": "2026-11-02T12:15:35.311Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "controlled-race.lead_score_override.0",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".approvedAt",
+          "native": "2026-11-02T11:56:53.800Z",
+          "rust": "2026-11-02T12:15:35.366Z"
+        },
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:53.707Z",
+          "rust": "2026-11-02T12:15:35.311Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.snapshot-after-qualify",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.906Z",
+          "rust": "2026-11-02T12:15:35.427Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.qualify.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".qualifiedAt",
+          "native": "2026-11-02T11:56:53.958Z",
+          "rust": "2026-11-02T12:15:35.467Z"
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:53.961Z",
+          "rust": "2026-11-02T12:15:35.476Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.snapshot-after-close",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.059Z",
+          "rust": "2026-11-02T12:15:35.530Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.close.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.117Z",
+          "rust": "2026-11-02T12:15:35.570Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.snapshot-after-claim",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.197Z",
+          "rust": "2026-11-02T12:15:35.622Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.claim.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.255Z",
+          "rust": "2026-11-02T12:15:35.666Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.snapshot-after-assignOwner",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.355Z",
+          "rust": "2026-11-02T12:15:35.721Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.assignOwner.detail",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.431Z",
+          "rust": "2026-11-02T12:15:35.769Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.audit-after-submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.537Z",
+          "rust": "2026-11-02T12:15:35.825Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.submit.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".overrides",
+          "native": [
+            {
+              "approvalNote": null,
+              "approvedAt": null,
+              "approvedBy": null,
+              "id": "<H93.native-risk.W3.submit.history-after.body.pendingOverride.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-submit.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T11:56:54.588Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 1,
+              "status": "pending",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ],
+          "rust": [
+            {
+              "approvalNote": null,
+              "approvedAt": null,
+              "approvedBy": null,
+              "id": "<H93.native-risk.W3.submit.history-after.body.pendingOverride.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-submit.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T12:15:35.866Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 1,
+              "status": "pending",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ]
+        },
+        {
+          "path": ".pendingOverride.requestedAt",
+          "native": "2026-11-02T11:56:54.588Z",
+          "rust": "2026-11-02T12:15:35.866Z"
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.537Z",
+          "rust": "2026-11-02T12:15:35.825Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.audit-after-approve",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.657Z",
+          "rust": "2026-11-02T12:15:35.910Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.approve.prerequisite.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:54.707Z",
+          "rust": "2026-11-02T12:15:35.938Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.approve.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".activeOverride.approvedAt",
+          "native": "2026-11-02T11:56:54.761Z",
+          "rust": "2026-11-02T12:15:35.972Z"
+        },
+        {
+          "path": ".activeOverride.requestedAt",
+          "native": "2026-11-02T11:56:54.707Z",
+          "rust": "2026-11-02T12:15:35.938Z"
+        },
+        {
+          "path": ".overrides",
+          "native": [
+            {
+              "approvalNote": "已核实人工评估依据。",
+              "approvedAt": "2026-11-02T11:56:54.761Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.W3.approve.prerequisite.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-approve.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T11:56:54.707Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 2,
+              "status": "approved",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ],
+          "rust": [
+            {
+              "approvalNote": "已核实人工评估依据。",
+              "approvedAt": "2026-11-02T12:15:35.972Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.W3.approve.prerequisite.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-approve.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T12:15:35.938Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 2,
+              "status": "approved",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ]
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.657Z",
+          "rust": "2026-11-02T12:15:35.910Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.audit-after-reject",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.829Z",
+          "rust": "2026-11-02T12:15:36.021Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.reject.prerequisite.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:54.865Z",
+          "rust": "2026-11-02T12:15:36.049Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.reject.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".overrides",
+          "native": [
+            {
+              "approvalNote": null,
+              "approvedAt": null,
+              "approvedBy": null,
+              "id": "<H93.native-risk.W3.reject.prerequisite.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-reject.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": "现有依据不足以支持人工调整。",
+              "rejectedAt": "2026-11-02T11:56:54.905Z",
+              "rejectedBy": "<actor.admin.userId>",
+              "requestedAt": "2026-11-02T11:56:54.865Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 2,
+              "status": "rejected",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ],
+          "rust": [
+            {
+              "approvalNote": null,
+              "approvedAt": null,
+              "approvedBy": null,
+              "id": "<H93.native-risk.W3.reject.prerequisite.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-reject.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": "现有依据不足以支持人工调整。",
+              "rejectedAt": "2026-11-02T12:15:36.076Z",
+              "rejectedBy": "<actor.admin.userId>",
+              "requestedAt": "2026-11-02T12:15:36.049Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 2,
+              "status": "rejected",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ]
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.829Z",
+          "rust": "2026-11-02T12:15:36.021Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.audit-after-revoke",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.971Z",
+          "rust": "2026-11-02T12:15:36.116Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.revoke.prerequisite.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:55.010Z",
+          "rust": "2026-11-02T12:15:36.143Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.revoke.prerequisite.approve",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".approvedAt",
+          "native": "2026-11-02T11:56:55.042Z",
+          "rust": "2026-11-02T12:15:36.159Z"
+        },
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:55.010Z",
+          "rust": "2026-11-02T12:15:36.143Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W3.revoke.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".overrides",
+          "native": [
+            {
+              "approvalNote": "已核实人工评估依据。",
+              "approvedAt": "2026-11-02T11:56:55.042Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.W3.revoke.prerequisite.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-revoke.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T11:56:55.010Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": "人工调整依据已失效，恢复系统评分。",
+              "revokedAt": "<runtime-ISO-ms>",
+              "revokedBy": "<actor.admin.userId>",
+              "rowVersion": 3,
+              "status": "revoked",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ],
+          "rust": [
+            {
+              "approvalNote": "已核实人工评估依据。",
+              "approvedAt": "2026-11-02T12:15:36.159Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.W3.revoke.prerequisite.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.audit-after-revoke.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T12:15:36.143Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": "人工调整依据已失效，恢复系统评分。",
+              "revokedAt": "<runtime-ISO-ms>",
+              "revokedBy": "<actor.admin.userId>",
+              "rowVersion": 3,
+              "status": "revoked",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ]
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:54.971Z",
+          "rust": "2026-11-02T12:15:36.116Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.approved-then-pending",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.166Z",
+          "rust": "2026-11-02T12:15:36.236Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.approved-then-pending.submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:55.200Z",
+          "rust": "2026-11-02T12:15:36.262Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W4.first-approval",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".approvedAt",
+          "native": "2026-11-02T11:56:55.228Z",
+          "rust": "2026-11-02T12:15:36.280Z"
+        },
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:55.200Z",
+          "rust": "2026-11-02T12:15:36.262Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W4.second-submit",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:55.263Z",
+          "rust": "2026-11-02T12:15:36.300Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W4.second-approval-observe",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".approvedAt",
+          "native": "2026-11-02T11:56:55.302Z",
+          "rust": "2026-11-02T12:15:36.328Z"
+        },
+        {
+          "path": ".requestedAt",
+          "native": "2026-11-02T11:56:55.263Z",
+          "rust": "2026-11-02T12:15:36.300Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W4.history-after",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".activeOverride.approvedAt",
+          "native": "2026-11-02T11:56:55.302Z",
+          "rust": "2026-11-02T12:15:36.328Z"
+        },
+        {
+          "path": ".activeOverride.requestedAt",
+          "native": "2026-11-02T11:56:55.263Z",
+          "rust": "2026-11-02T12:15:36.300Z"
+        },
+        {
+          "path": ".overrides",
+          "native": [
+            {
+              "approvalNote": "Observe supersede order",
+              "approvedAt": "2026-11-02T11:56:55.302Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.W4.second-submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.approved-then-pending.body.id>",
+              "reason": "Second actual Native pending override",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T11:56:55.263Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "B",
+              "requestedScore": 65,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 2,
+              "status": "approved",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            },
+            {
+              "approvalNote": "First approved override",
+              "approvedAt": "2026-11-02T11:56:55.228Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.approved-then-pending.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.approved-then-pending.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T11:56:55.200Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 3,
+              "status": "superseded",
+              "supersededById": "<H93.native-risk.W4.second-submit.body.id>",
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ],
+          "rust": [
+            {
+              "approvalNote": "Observe supersede order",
+              "approvedAt": "2026-11-02T12:15:36.328Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.W4.second-submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.approved-then-pending.body.id>",
+              "reason": "Second actual Native pending override",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T12:15:36.300Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "B",
+              "requestedScore": 65,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 2,
+              "status": "approved",
+              "supersededById": null,
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            },
+            {
+              "approvalNote": "First approved override",
+              "approvedAt": "2026-11-02T12:15:36.280Z",
+              "approvedBy": "<actor.admin.userId>",
+              "id": "<H93.native-risk.approved-then-pending.submit.body.id>",
+              "leadId": "<producer.lead.H93.native-risk.approved-then-pending.body.id>",
+              "reason": "客户已确认新增关键事实，申请人工评估。",
+              "rejectReason": null,
+              "rejectedAt": null,
+              "rejectedBy": null,
+              "requestedAt": "2026-11-02T12:15:36.262Z",
+              "requestedBy": "<actor.admin.userId>",
+              "requestedRating": "A",
+              "requestedScore": 85,
+              "revokeReason": null,
+              "revokedAt": null,
+              "revokedBy": null,
+              "rowVersion": 3,
+              "status": "superseded",
+              "supersededById": "<H93.native-risk.W4.second-submit.body.id>",
+              "systemRatingAtRequest": "B",
+              "systemScoreAtRequest": 62
+            }
+          ]
+        },
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.166Z",
+          "rust": "2026-11-02T12:15:36.236Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.H93.native-risk.dedup-I-refresh",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.379Z",
+          "rust": "2026-11-02T12:15:36.370Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W5.name-only-real-change",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.419Z",
+          "rust": "2026-11-02T12:15:36.399Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W5.actual-noop",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.419Z",
+          "rust": "2026-11-02T12:15:36.399Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W5.detail-after-I-before-refresh",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.419Z",
+          "rust": "2026-11-02T12:15:36.399Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W5.history-after-I-before-refresh",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.419Z",
+          "rust": "2026-11-02T12:15:36.399Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W5.changed-PATCH-after-real-I",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.647Z",
+          "rust": "2026-11-02T12:15:36.554Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "H93.native-risk.W5.history-after-refresh",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.647Z",
+          "rust": "2026-11-02T12:15:36.554Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.I94 roundtrip",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:55.836Z",
+          "rust": "2026-11-02T12:15:36.658Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.I94 inactive",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:56.362Z",
+          "rust": "2026-11-02T12:15:36.960Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "producer.lead.I94 latest",
+      "index": 0,
+      "nativeStatus": 201,
+      "rustStatus": 201,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:56.963Z",
+          "rust": "2026-11-02T12:15:37.351Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "I94.score.complete.refresh-via-update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:57.141Z",
+          "rust": "2026-11-02T12:15:37.466Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "I94.score.complete.history",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:57.141Z",
+          "rust": "2026-11-02T12:15:37.466Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "I94.score.latest-empty.refresh-via-update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:57.234Z",
+          "rust": "2026-11-02T12:15:37.535Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "I94.score.latest-empty.history",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:57.234Z",
+          "rust": "2026-11-02T12:15:37.535Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "I94.score.tie-observe.refresh-via-update",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:57.301Z",
+          "rust": "2026-11-02T12:15:37.595Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "I94.score.tie-observe.history",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".scoreUpdatedAt",
+          "native": "2026-11-02T11:56:57.301Z",
+          "rust": "2026-11-02T12:15:37.595Z"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "controlled-race.sales_discovery_record.0",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 500,
+      "delta": [
+        {
+          "path": ".budgetSource",
+          "native": "I94 CAS initial budget"
+        },
+        {
+          "path": ".createdAt",
+          "native": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".createdBy",
+          "native": "<actor.admin.userId>"
+        },
+        {
+          "path": ".customerId",
+          "native": "<producer.customer.I94 roundtrip.body.id>"
+        },
+        {
+          "path": ".customerName",
+          "native": "HIJK I94 roundtrip <run>"
+        },
+        {
+          "path": ".customerPainPoints",
+          "native": "I94 CAS initial pain"
+        },
+        {
+          "path": ".decisionCycle",
+          "native": "I94 CAS initial cycle"
+        },
+        {
+          "path": ".id",
+          "native": "<I94.CAS.producer.body.id>"
+        },
+        {
+          "path": ".leadId",
+          "native": "<producer.lead.I94 roundtrip.body.id>"
+        },
+        {
+          "path": ".leadName",
+          "native": "HIJK I94 roundtrip"
+        },
+        {
+          "path": ".nextContactPlan",
+          "native": "I94 CAS initial next contact"
+        },
+        {
+          "path": ".procurementProcess",
+          "native": "I94 CAS initial procurement"
+        },
+        {
+          "path": ".projectId",
+          "native": "<I94.roundtrip.producer.project.body.id>"
+        },
+        {
+          "path": ".projectName",
+          "native": "I94 roundtrip project"
+        },
+        {
+          "path": ".remark",
+          "native": "I94 CAS admin"
+        },
+        {
+          "path": ".rowVersion",
+          "native": 2
+        },
+        {
+          "path": ".updatedAt",
+          "native": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".updatedBy",
+          "native": "<actor.admin.userId>"
+        },
+        {
+          "path": ".message",
+          "rust": "Internal server error"
+        },
+        {
+          "path": ".statusCode",
+          "rust": 500
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "controlled-race.sales_discovery_record.1",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".message",
+          "native": "Internal server error"
+        },
+        {
+          "path": ".statusCode",
+          "native": 500
+        },
+        {
+          "path": ".budgetSource",
+          "rust": "I94 CAS initial budget"
+        },
+        {
+          "path": ".createdAt",
+          "rust": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".createdBy",
+          "rust": "<actor.admin.userId>"
+        },
+        {
+          "path": ".customerId",
+          "rust": "<producer.customer.I94 roundtrip.body.id>"
+        },
+        {
+          "path": ".customerName",
+          "rust": "HIJK I94 roundtrip <run>"
+        },
+        {
+          "path": ".customerPainPoints",
+          "rust": "I94 CAS initial pain"
+        },
+        {
+          "path": ".decisionCycle",
+          "rust": "I94 CAS initial cycle"
+        },
+        {
+          "path": ".id",
+          "rust": "<I94.CAS.producer.body.id>"
+        },
+        {
+          "path": ".leadId",
+          "rust": "<producer.lead.I94 roundtrip.body.id>"
+        },
+        {
+          "path": ".leadName",
+          "rust": "HIJK I94 roundtrip"
+        },
+        {
+          "path": ".nextContactPlan",
+          "rust": "I94 CAS initial next contact"
+        },
+        {
+          "path": ".procurementProcess",
+          "rust": "I94 CAS initial procurement"
+        },
+        {
+          "path": ".projectId",
+          "rust": "<I94.roundtrip.producer.project.body.id>"
+        },
+        {
+          "path": ".projectName",
+          "rust": "I94 roundtrip project"
+        },
+        {
+          "path": ".remark",
+          "rust": "I94 CAS other"
+        },
+        {
+          "path": ".rowVersion",
+          "rust": 2
+        },
+        {
+          "path": ".updatedAt",
+          "rust": "<runtime-ISO-ms>"
+        },
+        {
+          "path": ".updatedBy",
+          "rust": "<actor.other.userId>"
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "K.timeline",
+      "index": 0,
+      "nativeStatus": 200,
+      "rustStatus": 200,
+      "delta": [
+        {
+          "path": ".events",
+          "native": [
+            {
+              "actorName": "HIJK admin",
+              "actorUserId": "<actor.admin.userId>",
+              "eventKey": "project-created",
+              "eventType": "stage-entered",
+              "evidenceLabel": "PRJ-2026-000001",
+              "isAuthoritative": true,
+              "occurredAt": "2026-11-02T11:56:52.715Z",
+              "resultLabel": "项目创建",
+              "sourceId": "<producer.project.foundation.body.id>",
+              "sourceType": "project",
+              "stage": "assessment",
+              "stageLabel": "立项评估"
+            }
+          ],
+          "rust": [
+            {
+              "actorName": "HIJK admin",
+              "actorUserId": "<actor.admin.userId>",
+              "eventKey": "project-created",
+              "eventType": "stage-entered",
+              "evidenceLabel": "PRJ-2026-000001",
+              "isAuthoritative": true,
+              "occurredAt": "2026-11-02T12:15:34.731Z",
+              "resultLabel": "项目创建",
+              "sourceId": "<producer.project.foundation.body.id>",
+              "sourceType": "project",
+              "stage": "assessment",
+              "stageLabel": "立项评估"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,207 @@
+{
+  "label": "K.G06.handover-finance",
+  "startedAt": "2026-11-02T16:53:51.446Z",
+  "completedAt": "2026-11-02T16:53:51.469Z",
+  "value": {
+    "definition": {
+      "id": "K.G06.handover-finance",
+      "covers": [
+        "K-G06",
+        "K-G07"
+      ],
+      "prepare": [],
+      "requests": [
+        {
+          "id": "K.G06.handover-finance",
+          "method": "GET",
+          "path": "/api/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/workspace-guidance",
+          "sessionRole": "finance",
+          "expect": {
+            "status": 200,
+            "operatingOverviewEnabled": false,
+            "operatingDisabledReason": "项目进入正式执行后再查看经营总览。",
+            "commissionGateEnabled": true
+          },
+          "actual": null,
+          "capture": [
+            "full 14-field payload",
+            "entry array and all 7 fields",
+            "basis all 4 fields",
+            "before/after owned domain rows and row versions",
+            "request-clock window"
+          ]
+        }
+      ]
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "完成项目移交并明确责任边界。",
+          "currentGap": "需要完成移交确认、责任归口和下游冻结依据。",
+          "currentStage": "handover",
+          "currentStageLabel": "项目移交",
+          "generatedAt": "2026-11-02T16:53:51.462Z",
+          "headline": "把项目移交清楚，避免责任边界不明",
+          "nextStep": "移交完成后进入正式执行。",
+          "ownerLabel": "HIJK admin / HIJK admin",
+          "projectId": "b5f33009-963a-4b9a-af43-a4cfdfa1030a",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/workspace"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看合同生效后到正式移交前的承接状态、基线和阻断事项。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "handover-workspace",
+              "label": "合同承接",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/workspace/contract-handover"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "项目进入正式执行后再查看经营总览。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "项目进入正式执行后再查看偏差与风险。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "需要项目查看和提成角色冻结权限。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "需要项目查看和提成发放权限。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "需要完整的提成治理操作权限。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/b5f33009-963a-4b9a-af43-a4cfdfa1030a/commission/operations"
+            }
+          ],
+          "status": "active",
+          "statusLabel": "进行中"
+        },
+        "requestId": "aef75749-a6a6-4dd7-a9cf-65a7eb5263ac",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "3786",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-487",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:51 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "20606ebad6d29300ec3707e84e753cfd1dedb544e66f7bf04d3d0d258ad3e4d3",
+          "responseBytes": 4066,
+          "responseSha256": "2166c4438cae317e6dd7b9d227bce8381c46c18a9bbfdb52210c0d922f602b7f",
+          "entityBodyBytes": 3786,
+          "entityBodySha256": "a8bce0b762eb15592f6cd9876977fefe7c520e238c65047ff93cbb6d789079de",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_finance-bf12f2a7-d721-4704-9e90-f3180e828d42",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"b5f33009-963a-4b9a-af43-a4cfdfa1030a\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.436+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000023\", \"updated_at\": \"2026-11-03T00:34:33.436+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"D G2 handover 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"handover\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"b5f33009-963a-4b9a-af43-a4cfdfa1030a\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.436+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000023\", \"updated_at\": \"2026-11-03T00:34:33.436+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"D G2 handover 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"handover\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

@@ -1,0 +1,1108 @@
+{
+  "exploratoryOnly": true,
+  "normalizationWarning": "All UUIDs/times and object-array order masked for triage only; relational invariants and source order require independent checks",
+  "pairs": [
+    {
+      "name": "core",
+      "nativeRun": "b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+      "rustRun": "6872abb5-12af-486f-ada6-02e484421d1f",
+      "eventCounts": [
+        165,
+        165
+      ],
+      "extraNative": [],
+      "extraRust": [],
+      "events": [
+        {
+          "key": "controlled-race.lead.0|admin",
+          "index": 0,
+          "status": [
+            500,
+            200
+          ],
+          "diffCount": 40,
+          "diffs": [
+            {
+              "path": ".message",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "Internal server error"
+            },
+            {
+              "path": ".statusCode",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": 500
+            },
+            {
+              "path": ".activeScoreOverrideId",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".budgetStatus",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "budget-confirmed"
+            },
+            {
+              "path": ".closedAt",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".closedBy",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".closedReason",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".convertedAt",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".convertedBy",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".convertedProjectId",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": null
+            },
+            {
+              "path": ".createdAt",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".createdBy",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".customerId",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".customerName",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "HIJK foundation <uuid>"
+            },
+            {
+              "path": ".demandDescription",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。"
+            }
+          ]
+        },
+        {
+          "key": "controlled-race.lead.1|other",
+          "index": 0,
+          "status": [
+            200,
+            500
+          ],
+          "diffCount": 40,
+          "diffs": [
+            {
+              "path": ".activeScoreOverrideId",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".budgetStatus",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "budget-confirmed"
+            },
+            {
+              "path": ".closedAt",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".closedBy",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".closedReason",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".convertedAt",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".convertedBy",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".convertedProjectId",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": null
+            },
+            {
+              "path": ".createdAt",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".createdBy",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".customerId",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".customerName",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "HIJK foundation <uuid>"
+            },
+            {
+              "path": ".demandDescription",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。"
+            },
+            {
+              "path": ".effectiveRating",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "B"
+            },
+            {
+              "path": ".effectiveScore",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": 62
+            }
+          ]
+        },
+        {
+          "key": "controlled-race.sales_discovery_record.0|admin",
+          "index": 0,
+          "status": [
+            200,
+            500
+          ],
+          "diffCount": 19,
+          "diffs": [
+            {
+              "path": ".budgetSource",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 CAS initial budget"
+            },
+            {
+              "path": ".createdAt",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".createdBy",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".customerId",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".customerName",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "HIJK I94 roundtrip <uuid>"
+            },
+            {
+              "path": ".customerPainPoints",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 CAS initial pain"
+            },
+            {
+              "path": ".decisionCycle",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 CAS initial cycle"
+            },
+            {
+              "path": ".leadId",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".leadName",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "HIJK I94 roundtrip"
+            },
+            {
+              "path": ".nextContactPlan",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 CAS initial next contact"
+            },
+            {
+              "path": ".procurementProcess",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 CAS initial procurement"
+            },
+            {
+              "path": ".projectId",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".projectName",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 roundtrip project"
+            },
+            {
+              "path": ".remark",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "I94 CAS admin"
+            },
+            {
+              "path": ".rowVersion",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": 2
+            }
+          ]
+        },
+        {
+          "key": "controlled-race.sales_discovery_record.1|other",
+          "index": 0,
+          "status": [
+            500,
+            200
+          ],
+          "diffCount": 19,
+          "diffs": [
+            {
+              "path": ".message",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "Internal server error"
+            },
+            {
+              "path": ".statusCode",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": 500
+            },
+            {
+              "path": ".budgetSource",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "I94 CAS initial budget"
+            },
+            {
+              "path": ".createdAt",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".createdBy",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".customerId",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".customerName",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "HIJK I94 roundtrip <uuid>"
+            },
+            {
+              "path": ".customerPainPoints",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "I94 CAS initial pain"
+            },
+            {
+              "path": ".decisionCycle",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "I94 CAS initial cycle"
+            },
+            {
+              "path": ".leadId",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".leadName",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "HIJK I94 roundtrip"
+            },
+            {
+              "path": ".nextContactPlan",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "I94 CAS initial next contact"
+            },
+            {
+              "path": ".procurementProcess",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "I94 CAS initial procurement"
+            },
+            {
+              "path": ".projectId",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".projectName",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "I94 roundtrip project"
+            }
+          ]
+        }
+      ],
+      "cases": [
+        {
+          "label": "foundation-real-HTTP-producers",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W1.create-denied-lead",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W1.convert-denied-project",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+          "diffCount": 4,
+          "diffs": [
+            {
+              "path": ".after.lead.lead_name",
+              "native": "H93 Native CAS-other <uuid>",
+              "rust": "H93 Native CAS-admin <uuid>"
+            },
+            {
+              "path": ".audits.0.0",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": {
+                "after_snapshot": {
+                  "leadName": "H93 Native CAS-admin <uuid>"
+                },
+                "before_snapshot": {
+                  "leadName": "HIJK H93.native-risk.lead-CAS"
+                },
+                "event_type": "lead.updated",
+                "metadata": {
+                  "businessContext": {
+                    "leadId": "<uuid>"
+                  },
+                  "changedFields": [
+                    "leadName"
+                  ],
+                  "expectedVersion": 1,
+                  "redactedFields": [],
+                  "sourceCommand": "update-lead"
+                },
+                "occurred_at": "<runtime-ISO-present>",
+                "operator_id": "<uuid>",
+                "reason": null,
+                "result": "success",
+                "target_id": "<uuid>",
+                "target_type": "lead"
+              }
+            },
+            {
+              "path": ".audits.1.0",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": {
+                "after_snapshot": {
+                  "leadName": "H93 Native CAS-other <uuid>"
+                },
+                "before_snapshot": {
+                  "leadName": "HIJK H93.native-risk.lead-CAS"
+                },
+                "event_type": "lead.updated",
+                "metadata": {
+                  "businessContext": {
+                    "leadId": "<uuid>"
+                  },
+                  "changedFields": [
+                    "leadName"
+                  ],
+                  "expectedVersion": 1,
+                  "redactedFields": [],
+                  "sourceCommand": "update-lead"
+                },
+                "occurred_at": "<runtime-ISO-present>",
+                "operator_id": "<uuid>",
+                "reason": null,
+                "result": "success",
+                "target_id": "<uuid>",
+                "target_type": "lead"
+              }
+            },
+            {
+              "path": ".competition.responses.0.body.leadName",
+              "native": "H93 Native CAS-other <uuid>",
+              "rust": "H93 Native CAS-admin <uuid>"
+            }
+          ]
+        },
+        {
+          "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W4.approved-then-new-pending-approval-order",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.W5.cross-request-dedup-noop-and-real-I-refresh",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N1.missing-anchor-custom400",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N1N3.three-domain-full-roundtrip",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N2.same-customer-dual-anchor-OR",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N2.UUID-spelling-and-priority",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N2.no-added-active-or-state-gates",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N3.audit-and-business-denial-rollback",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N8.requestId65-changed-noop-and-create",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N5.codepoint-versus-audit-UTF16",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N7.legal-legacy-focus-JSONB-read",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N6.stable-gaps-latest-and-score-sort",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N4.two-reader-managed-CAS",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I-json-null-to-empty-array-managed-flush",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.bmp8000",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.bmp8001",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.emoji4000",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.emoji4001",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.emoji8000",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.emoji8001",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.FEFF-trim",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.NEL-not-trim",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.zero-width",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.nul",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.high-surrogate",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "HTTP-discussion.low-surrogate",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "K-workspace-guidance",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "K-timeline",
+          "diffCount": 0,
+          "diffs": []
+        }
+      ],
+      "observations": [
+        {
+          "label": "H93.native-risk.static-scope",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "H93.native-risk.Root-owned-attachment-copy-cuts-definition",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N1.missing-anchor-custom400",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N1N3.three-domain-full-roundtrip",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N2.same-customer-dual-anchor-OR",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N2.UUID-spelling-and-priority",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N2.no-added-active-or-state-gates",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N3.audit-and-business-denial-rollback",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N8.requestId65-changed-noop-and-create",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N5.codepoint-versus-audit-UTF16",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N7.legal-legacy-focus-JSONB-read",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N6.stable-gaps-latest-and-score-sort",
+          "diffCount": 0,
+          "diffs": []
+        },
+        {
+          "label": "I94.N4.two-reader-managed-CAS",
+          "diffCount": 2,
+          "diffs": [
+            {
+              "path": ".after.remark",
+              "native": "I94 CAS admin",
+              "rust": "I94 CAS other"
+            },
+            {
+              "path": ".race.responses.0.body.remark",
+              "native": "I94 CAS admin",
+              "rust": "I94 CAS other"
+            }
+          ]
+        },
+        {
+          "label": "I94.native-risk-vectors.terminal",
+          "diffCount": 0,
+          "diffs": []
+        }
+      ]
+    },
+    {
+      "name": "chain",
+      "nativeRun": "b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+      "rustRun": "6872abb5-12af-486f-ada6-02e484421d1f",
+      "eventCounts": [
+        34,
+        35
+      ],
+      "extraNative": [],
+      "extraRust": [
+        "producer.dictionary.proposal|admin"
+      ],
+      "events": [
+        {
+          "key": "chain.todos|admin",
+          "index": 0,
+          "status": [
+            200,
+            200
+          ],
+          "diffCount": 2,
+          "diffs": [
+            {
+              "path": ".1",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": {
+                "allowedActions": [],
+                "assigneeUserId": "<uuid>",
+                "businessDomain": "sales",
+                "completedAt": null,
+                "createdAt": "<runtime-ISO-present>",
+                "currentNodeName": "下次跟进：2027-01-02 08:00",
+                "dueAt": "<runtime-ISO-present>",
+                "priority": "normal",
+                "projectId": null,
+                "rowVersion": 1,
+                "sourceId": "<uuid>",
+                "sourceType": "sales-follow-up-record",
+                "status": "open",
+                "summary": "真实跟进生产者",
+                "targetObjectId": "<uuid>",
+                "targetObjectType": "lead",
+                "targetTitle": "HIJK real-integration",
+                "title": "销售跟进提醒：HIJK real-integration",
+                "todoType": "sales-follow-up-reminder",
+                "updatedAt": "<runtime-ISO-present>"
+              }
+            },
+            {
+              "path": ".2",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": {
+                "allowedActions": [],
+                "assigneeUserId": "<uuid>",
+                "businessDomain": "sales",
+                "completedAt": null,
+                "createdAt": "<runtime-ISO-present>",
+                "currentNodeName": "下次跟进：2027-01-02 08:00",
+                "dueAt": "<runtime-ISO-present>",
+                "priority": "normal",
+                "projectId": null,
+                "rowVersion": 1,
+                "sourceId": "<uuid>",
+                "sourceType": "sales-follow-up-record",
+                "status": "open",
+                "summary": "真实跟进生产者",
+                "targetObjectId": "<uuid>",
+                "targetObjectType": "lead",
+                "targetTitle": "HIJK real-integration",
+                "title": "销售跟进提醒：HIJK real-integration",
+                "todoType": "sales-follow-up-reminder",
+                "updatedAt": "<runtime-ISO-present>"
+              }
+            }
+          ]
+        },
+        {
+          "key": "controlled-race.lead_score_override.0|admin",
+          "index": 0,
+          "status": [
+            200,
+            200
+          ],
+          "diffCount": 1,
+          "diffs": [
+            {
+              "path": ".rowVersion",
+              "native": 2,
+              "rust": 3
+            }
+          ]
+        },
+        {
+          "key": "controlled-race.lead_score_override.1|other",
+          "index": 0,
+          "status": [
+            200,
+            200
+          ],
+          "diffCount": 1,
+          "diffs": [
+            {
+              "path": ".rowVersion",
+              "native": 3,
+              "rust": 2
+            }
+          ]
+        }
+      ],
+      "cases": [
+        {
+          "label": "real-active-attachment-category-producers",
+          "diffCount": 15,
+          "diffs": [
+            {
+              "path": ".categories.2.created_at",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".categories.2.created_by",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".categories.2.is_system",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": false
+            },
+            {
+              "path": ".categories.2.row_version",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": 1
+            },
+            {
+              "path": ".categories.2.sort_order",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": 990
+            },
+            {
+              "path": ".categories.2.updated_at",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".categories.2.updated_by",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": "<uuid>"
+            },
+            {
+              "path": ".categories.2.createdAt",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".categories.2.createdBy",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".categories.2.isSystem",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": false
+            },
+            {
+              "path": ".categories.2.rowVersion",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": 1
+            },
+            {
+              "path": ".categories.2.sortOrder",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": 990
+            },
+            {
+              "path": ".categories.2.updatedAt",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<runtime-ISO-present>"
+            },
+            {
+              "path": ".categories.2.updatedBy",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": "<uuid>"
+            },
+            {
+              "path": ".categories.2.usageCount",
+              "nativePresent": false,
+              "rustPresent": true,
+              "rust": 0
+            }
+          ]
+        },
+        {
+          "label": "chain-real-Lead-intelligence-followup-upload-producers",
+          "diffCount": 6,
+          "diffs": [
+            {
+              "path": ".files.0.actualObject.file",
+              "native": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/<uuid>/original.txt",
+              "rust": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/<uuid>/original.txt"
+            },
+            {
+              "path": ".files.1.actualObject.file",
+              "native": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/<uuid>/original.txt",
+              "rust": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/<uuid>/original.txt"
+            },
+            {
+              "path": ".files.2.actualObject.file",
+              "native": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/<uuid>/original.txt",
+              "rust": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/<uuid>/original.txt"
+            },
+            {
+              "path": ".files.3.actualObject.file",
+              "native": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/<uuid>/original.txt",
+              "rust": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/<uuid>/original.txt"
+            },
+            {
+              "path": ".todos.body.1",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": {
+                "allowedActions": [],
+                "assigneeUserId": "<uuid>",
+                "businessDomain": "sales",
+                "completedAt": null,
+                "createdAt": "<runtime-ISO-present>",
+                "currentNodeName": "下次跟进：2027-01-02 08:00",
+                "dueAt": "<runtime-ISO-present>",
+                "priority": "normal",
+                "projectId": null,
+                "rowVersion": 1,
+                "sourceId": "<uuid>",
+                "sourceType": "sales-follow-up-record",
+                "status": "open",
+                "summary": "真实跟进生产者",
+                "targetObjectId": "<uuid>",
+                "targetObjectType": "lead",
+                "targetTitle": "HIJK real-integration",
+                "title": "销售跟进提醒：HIJK real-integration",
+                "todoType": "sales-follow-up-reminder",
+                "updatedAt": "<runtime-ISO-present>"
+              }
+            },
+            {
+              "path": ".todos.body.2",
+              "nativePresent": true,
+              "rustPresent": false,
+              "native": {
+                "allowedActions": [],
+                "assigneeUserId": "<uuid>",
+                "businessDomain": "sales",
+                "completedAt": null,
+                "createdAt": "<runtime-ISO-present>",
+                "currentNodeName": "下次跟进：2027-01-02 08:00",
+                "dueAt": "<runtime-ISO-present>",
+                "priority": "normal",
+                "projectId": null,
+                "rowVersion": 1,
+                "sourceId": "<uuid>",
+                "sourceType": "sales-follow-up-record",
+                "status": "open",
+                "summary": "真实跟进生产者",
+                "targetObjectId": "<uuid>",
+                "targetObjectType": "lead",
+                "targetTitle": "HIJK real-integration",
+                "title": "销售跟进提醒：HIJK real-integration",
+                "todoType": "sales-follow-up-reminder",
+                "updatedAt": "<runtime-ISO-present>"
+              }
+            }
+          ]
+        },
+        {
+          "label": "bulk-override-competing-approvals",
+          "diffCount": 3,
+          "diffs": [
+            {
+              "path": ".after.overrides.0.approval_note",
+              "native": "同义bulk竞态 other",
+              "rust": "同义bulk竞态 admin"
+            },
+            {
+              "path": ".race.responses.0.body.rowVersion",
+              "native": 2,
+              "rust": 3
+            },
+            {
+              "path": ".race.responses.1.body.rowVersion",
+              "native": 3,
+              "rust": 2
+            }
+          ]
+        }
+      ],
+      "observations": []
+    }
+  ]
+}

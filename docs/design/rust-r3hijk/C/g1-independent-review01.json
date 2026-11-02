@@ -1,0 +1,1147 @@
+{
+  "kind": "C-independent-R3HIJK-joint-G1-review01",
+  "createdAt": "2026-11-02T11:34:57.344Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "actualModelAndEffortNotIndependentlyVisible": true,
+    "Fast": "unverified",
+    "method": "Own public-file static validator, exact raw hashes and controller/canonical/OpenAPI comparison; no author or Root executor run"
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "branch": "codex/poms-r3hijk-next28",
+  "verdict": "Pass",
+  "G1Certified": true,
+  "G2Authorized": false,
+  "G2AuthorizedAfterOnlineFreeze": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "activeManifest": {
+    "file": "docs/design/rust-r3hijk/g1-input-manifest02.json",
+    "bytes": 54664,
+    "rawBytesSha256": "979ecf83a801bc3b373014c308c2ec096acb18fa715c04abd3467b18de776d08"
+  },
+  "scopeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "findings": [],
+  "unresolvedP1": 0,
+  "unresolvedP2": 0,
+  "formalBaseline": {
+    "file": "docs/design/rust-r3hijk-next28-baseline.md",
+    "bytes": 6022,
+    "rawBytesSha256": "31e61d14044c0d9b4c0627d7447af0d6a2aa7e89aa3bbc2f89fe9da062b33ea7"
+  },
+  "sharedBoundary": {
+    "file": "docs/design/rust-r3hijk/shared-boundaries01.json",
+    "bytes": 5722,
+    "rawBytesSha256": "53283853a25917d46080532205c696ead479bd9fd84b704db7cb123bc0bfe1c7"
+  },
+  "activeNativeDecisions": {
+    "file": "docs/design/rust-r3hijk/native-decisions02.json",
+    "bytes": 6236,
+    "rawBytesSha256": "030c98753a6a523325408bd933d23674df7cf51097cbbc0681c1a085c46d7bb9"
+  },
+  "scope": {
+    "operations": 28,
+    "H": 14,
+    "I": 10,
+    "J": 2,
+    "K": 2,
+    "sliceType": "cross-layer-high-risk",
+    "currentDelivered": 30,
+    "R3Total": 58,
+    "parentIssuesRemainOpen": [
+      85,
+      57
+    ],
+    "R4WriteSideAndFullStageAcceptanceNotDelivered": true
+  },
+  "inputIntegrity": {
+    "manifestEntries": 246,
+    "all246ExactCurrentRawPins": true,
+    "originMap": {
+      "file": "docs/design/rust-r3hijk/g1-original-origin-map01.json",
+      "bytes": 67105,
+      "rawBytesSha256": "787c3e8cf2056a324efb09ef4d9fda5332ef511d582b7fdf280cbf8b16ee0f56"
+    },
+    "mappedOriginalCopies": 211,
+    "all211CurrentAndLogicalOriginalPinsExact": true,
+    "supplementalCOriginalCopies": [
+      {
+        "original": {
+          "file": "tmp/rust-r3hijk/c-review/g1-incremental02.json",
+          "bytes": 33224,
+          "rawBytesSha256": "7b92109d36ce17cc6916802b0388b86a0a67311ccf8df3ad784c041d04f7554b"
+        },
+        "copy": {
+          "file": "docs/design/rust-r3hijk/originals/c-review/g1-incremental02.json",
+          "bytes": 33224,
+          "rawBytesSha256": "7b92109d36ce17cc6916802b0388b86a0a67311ccf8df3ad784c041d04f7554b"
+        }
+      },
+      {
+        "original": {
+          "file": "tmp/rust-r3hijk/c-review/g1-incremental-audit02.mjs",
+          "bytes": 19016,
+          "rawBytesSha256": "95df88415dbf3b03ad1fd3ea68aa38d2bd27527d12eaa5568e7ae3a712d137db"
+        },
+        "copy": {
+          "file": "docs/design/rust-r3hijk/originals/c-review/g1-incremental-audit02.mjs",
+          "bytes": 19016,
+          "rawBytesSha256": "95df88415dbf3b03ad1fd3ea68aa38d2bd27527d12eaa5568e7ae3a712d137db"
+        }
+      }
+    ],
+    "totalPinnedOriginalCopies": 213,
+    "originalsNotRewritten": true,
+    "sourceAdmission": {
+      "file": "docs/design/rust-r3hijk/preflight-native-source-manifest01.json",
+      "bytes": 324402,
+      "rawBytesSha256": "38756a2f21f818ada19b65a51134f94a8e5197217dcd424c0d9e10ab809f833d"
+    },
+    "NativeProtectedFiles": 1373,
+    "RustBaseProtectedFiles": 206,
+    "all1579ProductInputsCurrentRawExact": true,
+    "authorSourceCaptures": [
+      {
+        "author": "A",
+        "manifest": {
+          "file": "docs/design/rust-r3hijk/originals/a-input/source-manifest.json",
+          "bytes": 182812,
+          "rawBytesSha256": "0a461737d485055b9a56ce214210a660ed0ae3d964efd75be10636eea43b5b4d"
+        },
+        "sourceCount": 172,
+        "currentExactSources": 170,
+        "expectedGovernanceDifferences": [
+          {
+            "historical": {
+              "file": "docs/design/backend-rust-migration-plan.md",
+              "bytes": 67561,
+              "rawBytesSha256": "99db69bd6295c9d6ae45e50b83e973c2bedab989f3fba8c63447f528218d9a0c"
+            },
+            "current": {
+              "file": "docs/design/backend-rust-migration-plan.md",
+              "bytes": 68123,
+              "rawBytesSha256": "5415f7661883e5ccc9b79417b6b8a5b65f4766f55a211ceb5263207ea7f75576"
+            },
+            "reason": "Root-authorized G0 governance overlay; original capture preserved; no Native/Rust product or contract change"
+          },
+          {
+            "historical": {
+              "file": "docs/design/rust-r3-operation-slices.json",
+              "bytes": 164534,
+              "rawBytesSha256": "5d73698e17fe8d346e902c55380f14bc2eae8b76b891e8b17dc5cd34fb5ccda8"
+            },
+            "current": {
+              "file": "docs/design/rust-r3-operation-slices.json",
+              "bytes": 167859,
+              "rawBytesSha256": "3398c4d573c739d7ce944b220a09f60badcf0bbb5ddc781e094c3f0e2d1534e9"
+            },
+            "reason": "Root-authorized G0 governance overlay; original capture preserved; no Native/Rust product or contract change"
+          }
+        ]
+      },
+      {
+        "author": "B",
+        "manifest": {
+          "file": "docs/design/rust-r3hijk/originals/b-input/source-manifest.json",
+          "bytes": 69062,
+          "rawBytesSha256": "eddb1343b9f75af45dbaaf8a6a9a708c402160fbd8f45deadd6926c33a0c9eca"
+        },
+        "sourceCount": 60,
+        "currentExactSources": 59,
+        "expectedGovernanceDifferences": [
+          {
+            "historical": {
+              "file": "docs/design/rust-r3-operation-slices.json",
+              "bytes": 164534,
+              "rawBytesSha256": "5d73698e17fe8d346e902c55380f14bc2eae8b76b891e8b17dc5cd34fb5ccda8"
+            },
+            "current": {
+              "file": "docs/design/rust-r3-operation-slices.json",
+              "bytes": 167859,
+              "rawBytesSha256": "3398c4d573c739d7ce944b220a09f60badcf0bbb5ddc781e094c3f0e2d1534e9"
+            },
+            "reason": "Root-authorized G0 governance overlay; original capture preserved; no Native/Rust product or contract change"
+          }
+        ]
+      },
+      {
+        "author": "D",
+        "manifest": {
+          "file": "docs/design/rust-r3hijk/originals/d-input/source-manifest.json",
+          "bytes": 154019,
+          "rawBytesSha256": "4bdff1f9bcb2f15b3d5460814168d397d10f753b0273c09900b0c0823cbf3cb9"
+        },
+        "sourceCount": 53,
+        "currentExactSources": 52,
+        "expectedGovernanceDifferences": [
+          {
+            "historical": {
+              "file": "docs/design/rust-r3-operation-slices.json",
+              "bytes": 164534,
+              "rawBytesSha256": "5d73698e17fe8d346e902c55380f14bc2eae8b76b891e8b17dc5cd34fb5ccda8"
+            },
+            "current": {
+              "file": "docs/design/rust-r3-operation-slices.json",
+              "bytes": 167859,
+              "rawBytesSha256": "3398c4d573c739d7ce944b220a09f60badcf0bbb5ddc781e094c3f0e2d1534e9"
+            },
+            "reason": "Root-authorized G0 governance overlay; original capture preserved; no Native/Rust product or contract change"
+          }
+        ]
+      }
+    ],
+    "mutableGovernanceHandling": "Author capture manifests remain exact historical base inputs. Only Root G0 plan and current operation ownership/count overlays differ from those historical hashes; current overlay pins/readback are separately reviewed here. These intended metadata changes do not change the product contracts or invalidate frozen author originals."
+  },
+  "routeContractReview": {
+    "registration": {
+      "file": "docs/design/rust-r3hijk/originals/root/g0-issue-registration.json",
+      "bytes": 77765,
+      "rawBytesSha256": "b202c5b35778593aa98fc8db089a77df4b1a1518fca5b10ca9b4f92f7fc84832"
+    },
+    "sourceSpec": {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    },
+    "canonicalInventory": {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 172058,
+      "rawBytesSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4"
+    },
+    "operations": [
+      {
+        "operationId": "LeadScoreOverrideController_approve",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/lead-score-overrides/{id}:approve",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 259
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 414,
+          "domain": "lead-scoring",
+          "capability": "approveLeadScoreOverride",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:score:override"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadScoreOverrideController_reject",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/lead-score-overrides/{id}:reject",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 276
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 415,
+          "domain": "lead-scoring",
+          "capability": "rejectLeadScoreOverride",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:score:override"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadScoreOverrideController_revoke",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/lead-score-overrides/{id}:revoke",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 293
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 416,
+          "domain": "lead-scoring",
+          "capability": "revokeLeadScoreOverride",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:score:override"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_list",
+        "issue": 93,
+        "method": "GET",
+        "path": "/api/leads",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 57
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 299,
+          "domain": "lead",
+          "capability": "listLeads",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:read"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_create",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 95
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 298,
+          "domain": "lead",
+          "capability": "createLead",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_getById",
+        "issue": 93,
+        "method": "GET",
+        "path": "/api/leads/{id}",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 79
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 300,
+          "domain": "lead",
+          "capability": "getLead",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:read"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_update",
+        "issue": 93,
+        "method": "PATCH",
+        "path": "/api/leads/{id}",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 169
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 301,
+          "domain": "lead",
+          "capability": "updateLead",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_assignOwner",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads/{id}:assignOwner",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 151
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 303,
+          "domain": "lead",
+          "capability": "assignLeadOwner",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:assign"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_claimOwner",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads/{id}:claim",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 136
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 302,
+          "domain": "lead",
+          "capability": "claimLeadOwner",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_close",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads/{id}:close",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 211
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 305,
+          "domain": "lead",
+          "capability": "closeLead",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_convertToProject",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads/{id}:convertToProject",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 228
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 306,
+          "domain": "lead",
+          "capability": "convertLeadToProject",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write",
+            "project:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_qualify",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads/{id}:qualify",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 194
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 304,
+          "domain": "lead",
+          "capability": "qualifyLead",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_getScoreHistory",
+        "issue": 93,
+        "method": "GET",
+        "path": "/api/leads/{id}/score-history",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 87
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 412,
+          "domain": "lead-scoring",
+          "capability": "listLeadScoreHistory",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:read"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "LeadController_submitScoreOverride",
+        "issue": 93,
+        "method": "POST",
+        "path": "/api/leads/{id}/score-overrides",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 119
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 413,
+          "domain": "lead-scoring",
+          "capability": "submitLeadScoreOverride",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "CompetitorIntelligenceRecordController_list",
+        "issue": 94,
+        "method": "GET",
+        "path": "/api/competitor-intelligence-records",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 129
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 358,
+          "domain": "sales-intelligence",
+          "capability": "listCompetitorIntelligenceRecords",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "CompetitorIntelligenceRecordController_create",
+        "issue": 94,
+        "method": "POST",
+        "path": "/api/competitor-intelligence-records",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 140
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 359,
+          "domain": "sales-intelligence",
+          "capability": "createCompetitorIntelligenceRecord",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "CompetitorIntelligenceRecordController_update",
+        "issue": 94,
+        "method": "PATCH",
+        "path": "/api/competitor-intelligence-records/{id}",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 164
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 360,
+          "domain": "sales-intelligence",
+          "capability": "updateCompetitorIntelligenceRecord",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "OpportunityStakeholderController_list",
+        "issue": 94,
+        "method": "GET",
+        "path": "/api/opportunity-stakeholders",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 80
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 355,
+          "domain": "sales-intelligence",
+          "capability": "listOpportunityStakeholders",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "OpportunityStakeholderController_create",
+        "issue": 94,
+        "method": "POST",
+        "path": "/api/opportunity-stakeholders",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 91
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 356,
+          "domain": "sales-intelligence",
+          "capability": "createOpportunityStakeholder",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "OpportunityStakeholderController_update",
+        "issue": 94,
+        "method": "PATCH",
+        "path": "/api/opportunity-stakeholders/{id}",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 114
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 357,
+          "domain": "sales-intelligence",
+          "capability": "updateOpportunityStakeholder",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "SalesDiscoveryRecordController_list",
+        "issue": 94,
+        "method": "GET",
+        "path": "/api/sales-discovery-records",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 179
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 361,
+          "domain": "sales-intelligence",
+          "capability": "listSalesDiscoveryRecords",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "SalesDiscoveryRecordController_create",
+        "issue": 94,
+        "method": "POST",
+        "path": "/api/sales-discovery-records",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 190
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 362,
+          "domain": "sales-intelligence",
+          "capability": "createSalesDiscoveryRecord",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "SalesDiscoveryRecordController_update",
+        "issue": 94,
+        "method": "PATCH",
+        "path": "/api/sales-discovery-records/{id}",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 211
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 363,
+          "domain": "sales-intelligence",
+          "capability": "updateSalesDiscoveryRecord",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "SalesIntelligenceGapController_list",
+        "issue": 94,
+        "method": "GET",
+        "path": "/api/sales-intelligence-gaps",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 226
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 364,
+          "domain": "sales-intelligence",
+          "capability": "getSalesIntelligenceGaps",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "BusinessDiscussionController_list",
+        "issue": 95,
+        "method": "GET",
+        "path": "/api/business-discussions",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+          "line": 14
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 365,
+          "domain": "business-discussion",
+          "capability": "listBusinessDiscussionComments",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "BusinessDiscussionController_create",
+        "issue": 95,
+        "method": "POST",
+        "path": "/api/business-discussions",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+          "line": 27
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 366,
+          "domain": "business-discussion",
+          "capability": "createBusinessDiscussionComment",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "ProjectController_getTimeline",
+        "issue": 96,
+        "method": "GET",
+        "path": "/api/projects/{projectId}/timeline",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 106
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 241,
+          "domain": "project",
+          "capability": "getProjectTimeline",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      },
+      {
+        "operationId": "ProjectController_getWorkspaceGuidance",
+        "issue": 96,
+        "method": "GET",
+        "path": "/api/projects/{projectId}/workspace-guidance",
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 98
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 231,
+          "domain": "project",
+          "capability": "getProjectWorkspaceGuidance",
+          "status": "aligned"
+        },
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "sourceAndSpecAligned": true
+      }
+    ],
+    "all28UniqueControllerCanonicalOpenAPIAligned": true,
+    "noNewPublicRouteOrDTOMeaning": true,
+    "oldRuntimeOpenAPI": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/openapi.json",
+      "bytes": 978495,
+      "rawBytesSha256": "57a2a1a54a53811b0a41929c8943a926f7a190fa09932a13e84ac667b0041d46"
+    },
+    "runtimeBefore": {
+      "operations": 145,
+      "paths": 116,
+      "schemas": 585
+    },
+    "expectedAfterScopedImplementation": {
+      "operations": 173,
+      "paths": 138,
+      "schemas": 585
+    },
+    "Native": {
+      "operations": 291,
+      "paths": 237,
+      "schemas": 585
+    },
+    "existingClient579AndMigrations92Retained": true
+  },
+  "sharedSemantics": {
+    "ownership": "A leads non-http; B sales_intelligence non-http; D discussions/workspace non-http; Root HTTP/global/common/old modules/Cargo/runtime/governance; C review only",
+    "typedCrossAuthorInterfaces": "The eight shared-boundaries01 functions and LeadRef/CompetitorRef/seven-boolean facts/ContactRef/FollowUpRef remain the cross-author SSOT",
+    "connection": "Borrow caller PgConnection; no hidden BEGIN/flush/session/audit or extra status/owner/active filters; independent business numbering remains explicit",
+    "errorAndPresence": "Root owns HTTP validation/permission/CSRF/error wire. Domain source error priority, Missing/Null/Value, raw UUID spelling and UTF16 dynamic text remain required; malformed unvalidated path retains PostgreSQL500",
+    "text": "Zod4.6.1 trimmed code points, explicit source JS.length UTF16, POST/raw wire versus stored GET surrogate replacement remain separate",
+    "moneyDates": "Existing source decimal/JS-number/date/datetime/nullable semantics are pinned; no added rounding/clock or tie-break policy",
+    "scoreSelectors": "Lead-only facts use updated_at DESC only, gaps retain updated_at DESC then created_at DESC; I writes do not refresh stored H score; JSON.stringify comparison retains property order",
+    "NativeFlushAndRace": "Single-row CAS200/500 differs from two-row bulk200/200; explicit single/two-link autoflush graph and counter/business/audit/snapshot boundaries bind implementation",
+    "moduleInternalABI": "Root explicitly accepted A LeadsService::new(Database,Arc<CustomersService>,Arc<DictionaryService>,Arc<AuthService>) and B Service::new(Database) during this review; no change to the frozen cross-author read-only signatures"
+  },
+  "NativeEvidence": {
+    "incrementalReview": {
+      "file": "tmp/rust-r3hijk/c-review/g1-incremental02.json",
+      "bytes": 33224,
+      "rawBytesSha256": "7b92109d36ce17cc6916802b0388b86a0a67311ccf8df3ad784c041d04f7554b"
+    },
+    "completedGroups": 54,
+    "HTTPEvents": 193,
+    "schemaOracleVectors": 18,
+    "markerBoundSQLStatements": 3737,
+    "completeBeginEndGroups": 53,
+    "phase10BeginObserved": false,
+    "phase10TemporalSQLStatements": 126,
+    "separateTemporalLabelRequired": true,
+    "partialAttemptsRemainUncertified": [
+      {
+        "phase": "01",
+        "report": {
+          "file": "tmp/rust-r3hijk/native-witness01/report01.json",
+          "bytes": 20282,
+          "rawBytesSha256": "cc95256367074d49a6a6e3cd433967c5f3dacfbcd4f55b66729a30ed423d0dee"
+        },
+        "completed": false,
+        "failedAt": "foundation.lead-history",
+        "error": {
+          "name": "error",
+          "message": "column \"year\" does not exist"
+        },
+        "successfulRecordedEvents": 5,
+        "notIncludedIn51Or181": true,
+        "stillPinnedExact": true,
+        "excludedFrom54And193": true
+      },
+      {
+        "phase": "04",
+        "report": {
+          "file": "tmp/rust-r3hijk/native-witness04/report01.json",
+          "bytes": 220428,
+          "rawBytesSha256": "61db5401a0f3e86fb9d4f428a7c5d2a4a0033bcfa51e8f0aa4d1800cfd63846e"
+        },
+        "completed": false,
+        "failedAt": "I94.requestId65.create",
+        "error": {
+          "name": "Error",
+          "message": "EEXIST: file already exists, open '/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase04/raw-wire/admin-i94-2dd64735-25-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr-request.bin'"
+        },
+        "successfulRecordedEvents": 36,
+        "notIncludedIn51Or181": true,
+        "stillPinnedExact": true,
+        "excludedFrom54And193": true
+      },
+      {
+        "phase": "05",
+        "report": {
+          "file": "tmp/rust-r3hijk/native-witness05/report01.json",
+          "bytes": 40460,
+          "rawBytesSha256": "f0852a2380512b8c2388eab166feec3971858331b94083d6d67968e63268e5f8"
+        },
+        "completed": false,
+        "failedAt": "I94.roundtrip.stakeholder.update",
+        "error": {
+          "name": "Error",
+          "message": "stakeholder: one changed-field audit"
+        },
+        "successfulRecordedEvents": 11,
+        "notIncludedIn51Or181": true,
+        "stillPinnedExact": true,
+        "excludedFrom54And193": true
+      },
+      {
+        "phase": "07",
+        "report": {
+          "file": "tmp/rust-r3hijk/native-witness07/report01.json",
+          "bytes": 23980,
+          "rawBytesSha256": "f82c7c26928b02e10f4fea3c99a65246ce77cf27c8206a1bcc8ed2812f292c0b"
+        },
+        "completed": false,
+        "failedAt": "attachment.success.convert",
+        "error": {
+          "name": "AssertionError",
+          "message": "Expected values to be strictly equal:\n\n200 !== 201\n"
+        },
+        "successfulRecordedEvents": 3,
+        "notIncludedIn51Or181": true,
+        "stillPinnedExact": true,
+        "excludedFrom54And193": true
+      }
+    ],
+    "SQLSTATEAndPrivateOriginalLimitsRetained": true,
+    "attachmentMetadataPreparedNotRealUploadAcceptance": true,
+    "terminal": {
+      "report": {
+        "file": "tmp/rust-r3hijk/native-cohort-terminal01.json",
+        "bytes": 2479,
+        "rawBytesSha256": "94aa67dd155b51416dd1692dd52d5829f5a0b6ade1fd7d28042a5991da1e7737"
+      },
+      "ownedBeforeTerminal": {
+        "file": "tmp/rust-r3hijk/owned-observation-before-terminal-native01.json",
+        "bytes": 347526,
+        "rawBytesSha256": "99a80ee7171f70fe3a6796ffad31f39c4c84257f2ca6fcec6fcd3df895280a9c"
+      },
+      "cleanupSource": {
+        "file": "tools/rust-r3hijk/cleanup-native-cohort.mjs",
+        "bytes": 8441,
+        "rawBytesSha256": "77261570e8e305333e54f46aa542a2dbc1fbc4dbdd094e3dfc0d26d6848b18ab"
+      },
+      "ownedRowsRemoved": 382,
+      "fullSeedTables": 107,
+      "rawJSONSeedRowsExact": true,
+      "privilegesRestored": 428,
+      "NativeRuntimeStopped": true,
+      "port12400Free": true,
+      "PG15VolumeAndPrivateOriginalsRetained": true,
+      "oldPG17Untouched": true,
+      "publicOwnedBusinessCountsMatchRemovalCounts": true,
+      "methodLimit": "Root-produced terminal report and source invariant chain reviewed statically; C did not reconnect to DB, inspect private seed or credentials, or execute cleanup"
+    },
+    "notRustOrFullUIOrAllMatrixAcceptance": true,
+    "remainingSourceDefinedCases": "J first-thread/association races and nondefault K projections remain source-defined required comparisons. They are frozen as source-equivalent behavior, not labelled as Native-runtime-passed; no invented upsert/retry/custom409 or new selection tie-breaker."
+  },
+  "resolvedFindings": [
+    {
+      "id": "G1-P2-01",
+      "resolution": "D02 plus pinned Zod4.6.1 schema and raw Native HTTP/PG three-way text evidence correct the previous UTF16/body-limit conflation; D01 retained."
+    },
+    {
+      "id": "G1-P2-02",
+      "resolution": "authority03 independently checks WHERE before RETURNING; old01 false27/old02 false29 retained as historical errors; original lines/HTTP/PG and actual two-waiter bulk behavior bind the correction."
+    }
+  ],
+  "E1": {
+    "authority": {
+      "file": "tmp/rust-r3hijk/c-review/e1-compatibility-rereview01.json",
+      "bytes": 7006,
+      "rawBytesSha256": "540022255e05bc470cfe5b7e0acaab7eee4aa447768e34585313a27168d66415"
+    },
+    "approval": "Reuse this batch-triggered independent rereview; not an inherited prior-batch approval",
+    "fiveFiles": 5,
+    "totalBytes": 419264,
+    "directLiteralConsumers": 22,
+    "allCurrentAliasArchiveAndConsumerPinsExact": true,
+    "owner": "Root /root",
+    "calendarDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "exitConditionSatisfied": false,
+    "reviewAgain": "Next subsequent R3 G1 or 2026-11-09, whichever is earlier",
+    "scopeUnchanged": true
+  },
+  "currentGovernance": {
+    "deliveryStatus": {
+      "file": "docs/design/rust-r3hijk-delivery-status.json",
+      "bytes": 5799,
+      "rawBytesSha256": "169b4b248492f802d6194c15c2fe3fc50f0fb319ea68ae0d2388c3cbda612423"
+    },
+    "operationInventory": {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 167859,
+      "rawBytesSha256": "3398c4d573c739d7ce944b220a09f60badcf0bbb5ddc781e094c3f0e2d1534e9"
+    },
+    "actualInventoryRefreshAndCheck": {
+      "file": "tmp/rust-r3hijk/root/g1-current-inventory01/report01.json",
+      "bytes": 1326,
+      "rawBytesSha256": "46101f6993558c0d01b4ec3e51be68f2f3fd035b074731aef57a47f54ff27449"
+    },
+    "all58OwnersUnique": true,
+    "delivered30": true,
+    "authorized28": true,
+    "laterUnstarted0": true,
+    "scopedChildrenCurrentlyOpenG0": {
+      "file": "docs/design/rust-r3hijk/originals/root/g0-online02/16-after-stdout-original.json",
+      "bytes": 16887,
+      "rawBytesSha256": "6b15b0342b9cab476eae17ca3bf27e3947e41e25697632cfa0d1f5ab4f721645"
+    },
+    "parentsOpenInCapturedG0Readback": [
+      85,
+      57
+    ],
+    "liveGitHubNotRequeriedByC": true,
+    "historicalProposalPendingSourceLabels": "Preserved original input-state labels are not claims that product implementation has started; exact frozen baseline and this review carry current G1 interpretation."
+  },
+  "requiredG2G3Acceptance": {
+    "definitionCounts": {
+      "A": 44,
+      "B": 89,
+      "D": 56
+    },
+    "definitionsAreNotExecution": true,
+    "realProducers": "Real Customer/Lead/I/Contact/FollowUp/attachment upload → conversion → discussion/workspace; prepared R4 facts remain read projections only",
+    "runtime": "Both Native and Rust all28 public operations plus old30 regression, exact auth/permission/CSRF/validation/errors and decimal/date/UUID/text behavior; complete business/audit/snapshot/number/link/session residuals under failure and concurrency",
+    "UI": "Linux/Windows Native/Rust four combinations and real source consumer paths",
+    "schemaAndContract": "Original protected Native/contracts/client/migrations unchanged; two owned PG15 schema evidence and scoped OpenAPI173/138/585",
+    "quality": "Root runs relevant Rust fmt/clippy/build/meaningful unit/DB/HTTP tests, affected lint/build/test, docs format and diff checks, records actual result or explicit bounded reason, then submits independent G3/fixed-commit/G4",
+    "completion": "Only #93–96 may close on their actual G4; #85/#57 remain Open even if scoped HTTP reaches58/58"
+  },
+  "validationThisReview": {
+    "ownStaticHashAndSourceAssertions": "ran and passed",
+    "productBuildTestLintFmtDBHTTPBrowser": "not run by C; not required for this input-only independent G1 signature; Root-owned G2/G3 execution remains required",
+    "RootInventoryRefreshCheck": "Original public logs pinned and matched current inventory",
+    "RootDocsFormatAndGitDiffCheck": "Root reported passed in coordination; C did not execute or independently certify command output in this static review",
+    "noPrivateReads": true,
+    "noHostServiceMutation": true,
+    "noGitHubWrite": true,
+    "onlyCReviewFilesWritten": true
+  },
+  "activationDecision": "Pass for this exact joint G1 input set. Only after Root publishes the same baseline/manifest/shared-boundary/Native-decision/C-review freeze to #93/#94/#95/#96 and verifies the public receipts may Root activate the three implementation lines for these28 operations. This authorizes no broader slice, G3/G4 certification, parent closure or deployment."
+}

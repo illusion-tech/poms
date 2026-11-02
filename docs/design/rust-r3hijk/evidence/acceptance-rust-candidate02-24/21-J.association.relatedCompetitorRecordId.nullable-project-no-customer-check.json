@@ -1,0 +1,95 @@
+{
+  "label": "J.association.relatedCompetitorRecordId.nullable-project-no-customer-check",
+  "startedAt": "2026-11-02T16:37:24.119Z",
+  "completedAt": "2026-11-02T16:37:24.135Z",
+  "value": {
+    "definition": {
+      "id": "J.association.relatedCompetitorRecordId.nullable-project-no-customer-check",
+      "covers": [
+        "J-A03"
+      ],
+      "requests": [
+        {
+          "id": "J.association.relatedCompetitorRecordId.nullable-project-no-customer-check",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "8b28a047-2fea-47b8-a858-07da061cd805",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedCompetitorRecordId": "84f97ea4-825c-4e48-bf10-7b9a22f75b91"
+          },
+          "expect": {
+            "status": 201
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "compare": "All 19 comment fields; original canonical anchor snapshots; each error probe changes only one association. Simultaneous Promise.all failures have no fixed priority claim."
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 201,
+        "body": {
+          "body": "R3 J 讨论原语义",
+          "createdAt": "2026-11-02T16:37:24.129Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "createdByName": "HIJK admin",
+          "customerId": null,
+          "discussionType": "general",
+          "id": "0eb682ab-d6bb-4ad8-abf8-5bac2e5e4404",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "8b28a047-2fea-47b8-a858-07da061cd805",
+          "relatedCompetitorRecordId": "84f97ea4-825c-4e48-bf10-7b9a22f75b91",
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "8b28a047-2fea-47b8-a858-07da061cd805",
+          "targetObjectType": "project",
+          "targetTitle": "HIJK D-projectNullCustomer 6872abb5-12af-486f-ada6-02e484421d1f",
+          "threadId": "bc3ddebb-d192-41e0-b591-52ec9db24909"
+        },
+        "requestId": "53a83ed8-fc44-49ad-9d47-7d8e3570d3db",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "723",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-339",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 630,
+          "requestSha256": "e5a56291f060876d64dcbd322983eba3a0442ac0cb8d7d48589e44aa8553e53d",
+          "responseBytes": 1007,
+          "responseSha256": "e8fafe40921a42b7ec9ba5947980ed37a827a8da6415761dadb3bd6f2ed89645",
+          "entityBodyBytes": 723,
+          "entityBodySha256": "c20ca6b3012aa99766036ebef3c75c4b86e5ed3b9412c16973db5bf74418ac71",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-e112dd8d-18f7-476e-8ddc-bc3caf51759d",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

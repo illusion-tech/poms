@@ -1,0 +1,40 @@
+H/I/J最小接口候选，非产品实现，待Root联合G1冻结
+base 7f970c992291c61477eb9bd83a48cec19a769d88
+
+1 Lead只读引用（已与I和J作者静态确认）
+leads::store::by_id(&mut PgConnection, &str) -> Result<Option<LeadRef>, sqlx::Error>
+leads::store::by_ids(&mut PgConnection, &[Uuid]) -> Result<Vec<LeadRef>, sqlx::Error>
+pub struct LeadRef { pub id: Uuid, pub customer_id: Uuid, pub lead_name: String }
+只按id/ids匹配当前原lead表；customer_id原not null，customerName不是I/J关系判定必需字段。无status/owner/active/scope过滤、锁、独立TX、audit/session flush。
+原路径ID保留字符串到PG；若I收到显式customerId，必须保留UUID原拼写与LeadRef canonical customer_id做原JS严格字符串比较，不静默归一。
+H完整lead实体内部查询可名store::find，避免该public by_id返回写模型后形成consumer绑定。
+
+2 I销售情报事实（I作者已给准确模块名）
+sales_intelligence::store::collect_lead_score_facts(&mut PgConnection,&str)
+  -> Result<sales_intelligence::model::SalesIntelligenceFacts,sqlx::Error>
+pub struct SalesIntelligenceFacts {
+ decision_maker_known: bool, technical_evaluator_known: bool,
+ procurement_process_known: bool, budget_source_known: bool,
+ competitor_known: bool, pain_point_known: bool, next_contact_known: bool
+}
+以上字段pub；I类型不依赖leads，避免循环类型所有权。H组合followup/attachment facts时转原camelCase JSON。
+事实仅lead_id；stakeholders不限状态/primary，competitor存在即known，discovery ORDER updated_at DESC ONLY LIMIT1，不添created_at/tie id、customer或project为空条件。
+I不另开BEGIN/flush/audit/session；H传入原业务TX连接。严格保留None/空事实七false；I真实写并不自动触发H评分重算。
+
+3 H服务/Root HTTP建议
+leads::Service::new(Database, ...Root认可的Customers/Dictionary/Attachments/number/audit窄桥)
+list(query,&ResolvedSession), get(&str,&ResolvedSession), create(input,&ResolvedSession), update(&str,input,&ResolvedSession,requestId), claim/assign/qualify/close/convert,
+score_history(&str), submit_override(&str,input,&ResolvedSession,requestId), approve/reject/revoke_override(&str,input,&ResolvedSession,requestId)。
+错误需原NotFound/BadRequest/Conflict/Database/Internal，涉及原动态UTF16消息/JSONB时按Root现ApiError raw桥，不能lossy提前替换。DTO按原presence区分Missing/Null/Value；公开validation每操作入口由Root接线。所有http.rs/Cargo/lib/共同旧桥归Root，A不写。
+Source v2 scoring纯函数和facts读取分开；GET只读存储score；manual effective单独overlay。运行时createdAt/onUpdate/clock_now调用数量与flush边界按Root原Native见证冻结，不新增global测试clock。
+
+4 编号与附件共同桥（Root先Native再裁决）
+原Lead create与convert传em给BusinessNumberService.next；Rust已有next_with_connection与next，两者选择不能仅凭方法参数猜连接语义。H不改旧number共享文件。
+转换需要同原transaction/context复制原active+latest附件links，精确排除finance/internal-assessment，copy audit位于final snapshot/flush之前。当前Rust attachment模块未见copyActiveLinksToTarget等价公开方法；请Root提供可传原PgConnection/managed-session的窄copy能力或明确由H自有实现的原最小SQL读取/links写图，禁止为了复用绕开同TX边界。
+Root统一确认attachment audit是否触发中途flush及旧snapshot/audit机制的事务承接，不能把全行为包进单一新helper而失去原边界。
+
+5 实际生产者验收产物契约
+Root实际run导出真实customer{id,displayName}、active lead-source code、actor{id,primaryOrgId}、Lead registered body/qualified body、转换Project{id,sourceLeadId,customerId,ownerUserId,ownerOrgId}及对应run/marker/candidate。
+I消费LeadRef真实HTTP产物创建stakeholder/competitor/discovery；H通过有变化update或qualify刷新v2并record snapshot；转换继续硬闸，无manual score捷径。
+J消费同一Lead/Project产物，project view可合并sourceLead讨论但不复制历史，不加I/J原方法没有的sourceLead一致性约束。
+所有夹具/运行/SQL故障/ACL/cleanup由Root执行；本作者只定义构建器和可观察断言。

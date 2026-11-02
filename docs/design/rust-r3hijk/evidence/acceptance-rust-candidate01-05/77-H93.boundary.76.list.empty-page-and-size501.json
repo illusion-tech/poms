@@ -1,0 +1,353 @@
+{
+  "label": "H93.boundary.76.list.empty-page-and-size501",
+  "startedAt": "2026-11-02T13:11:41.659Z",
+  "completedAt": "2026-11-02T13:11:41.681Z",
+  "value": {
+    "definition": {
+      "operationId": "LeadController_list",
+      "name": "H93.boundary.76.list.empty-page-and-size501",
+      "method": "GET",
+      "path": "/api/leads",
+      "query": {
+        "page": "",
+        "pageSize": "501"
+      },
+      "covers": [
+        "H04"
+      ],
+      "risk": "Empty text coerces to zero while 501 independently exceeds pageSize max; compare original issue order.",
+      "expectedOriginalSchemaStatus": 400,
+      "definitionOnly": true
+    },
+    "originalSchema": {
+      "schemaName": "LeadListQuerySchema",
+      "success": false,
+      "issues": [
+        {
+          "origin": "number",
+          "code": "too_small",
+          "minimum": 1,
+          "inclusive": true,
+          "path": [
+            "page"
+          ],
+          "message": "Too small: expected number to be >=1"
+        },
+        {
+          "origin": "number",
+          "code": "too_big",
+          "maximum": 500,
+          "inclusive": true,
+          "path": [
+            "pageSize"
+          ],
+          "message": "Too big: expected number to be <=500"
+        }
+      ]
+    },
+    "response": {
+      "status": 400,
+      "body": {
+        "errors": [
+          {
+            "code": "too_small",
+            "inclusive": true,
+            "message": "Too small: expected number to be >=1",
+            "minimum": 1,
+            "origin": "number",
+            "path": [
+              "page"
+            ]
+          },
+          {
+            "code": "too_big",
+            "inclusive": true,
+            "maximum": 500,
+            "message": "Too big: expected number to be <=500",
+            "origin": "number",
+            "path": [
+              "pageSize"
+            ]
+          }
+        ],
+        "message": "Validation failed",
+        "statusCode": 400
+      },
+      "requestId": "e6a41a30-2534-46d9-8396-fce35d134417",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "329",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-61068-668",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 13:11:41 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 307,
+        "requestSha256": "52e75f19cc7f492b84b433bd3b1038c96273bb9794c37ea043c8862fc05b08a7",
+        "responseBytes": 617,
+        "responseSha256": "9e91aab537b98979847abad71eb7038692b8d5bc937d9212c687826874de84cb",
+        "entityBodyBytes": 329,
+        "entityBodySha256": "b1c9d8f31625791e4383368f643f5237cfa450f19fc3997ea2395c9723b5a2b3",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase05/raw-wire/admin-aeb685e3-ee75-45ec-9946-c24ff4c61d34",
+        "originalRawRetained": true
+      }
+    },
+    "before": {
+      "rows": {
+        "lead": 52,
+        "lead_score_snapshot": 88,
+        "lead_score_override": 16,
+        "lead_owner_assignment_record": 4,
+        "project": 19,
+        "audit_log": 50,
+        "opportunity_stakeholder": 13,
+        "competitor_intelligence_record": 8,
+        "sales_discovery_record": 9,
+        "business_discussion_thread": 3,
+        "business_discussion_comment": 11
+      },
+      "counters": [
+        {
+          "id": "149ad695-98e4-4a4c-a06c-78e2c04f2235",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:05.744Z",
+          "updated_at": "2026-11-02T12:15:37.317Z"
+        },
+        {
+          "id": "745f9eab-9b00-4b66-93ae-2c5067f3b6b0",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 58,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T12:15:34.764Z",
+          "updated_at": "2026-11-02T13:11:40.936Z"
+        },
+        {
+          "id": "98cf516b-1115-4ac6-9b19-677a4fb73cda",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 11,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T12:15:34.729Z",
+          "updated_at": "2026-11-02T13:11:40.444Z"
+        }
+      ]
+    },
+    "after": {
+      "rows": {
+        "lead": 52,
+        "lead_score_snapshot": 88,
+        "lead_score_override": 16,
+        "lead_owner_assignment_record": 4,
+        "project": 19,
+        "audit_log": 50,
+        "opportunity_stakeholder": 13,
+        "competitor_intelligence_record": 8,
+        "sales_discovery_record": 9,
+        "business_discussion_thread": 3,
+        "business_discussion_comment": 11
+      },
+      "counters": [
+        {
+          "id": "149ad695-98e4-4a4c-a06c-78e2c04f2235",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:05.744Z",
+          "updated_at": "2026-11-02T12:15:37.317Z"
+        },
+        {
+          "id": "745f9eab-9b00-4b66-93ae-2c5067f3b6b0",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 58,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T12:15:34.764Z",
+          "updated_at": "2026-11-02T13:11:40.936Z"
+        },
+        {
+          "id": "98cf516b-1115-4ac6-9b19-677a4fb73cda",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 11,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T12:15:34.729Z",
+          "updated_at": "2026-11-02T13:11:40.444Z"
+        }
+      ]
+    },
+    "stored": null,
+    "fixtureIds": {
+      "adminUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "adminOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+      "otherUserId": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+      "otherOrgId": "234391e6-c263-409d-805a-fdec017770ea",
+      "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "sourceCode": "customer-visit",
+      "projectId": "5c4495ef-56b6-47be-90ec-245c0f07d164",
+      "contactId": "ecbd0873-9d80-42e7-bd65-1844dd2d257f",
+      "leadId": "6ced5bad-58b2-41e9-a122-44b4163ec3fc",
+      "integration": {
+        "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+        "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+        "contactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+        "competitorId": "305d2d06-504e-46be-bbde-60554f0c6286",
+        "followUpId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+        "leadCommentId": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+        "projectCommentId": "e080b015-39fc-42cc-8aac-543458309eb2",
+        "uploads": [
+          {
+            "sessionId": "db0e8c9f-de06-4fc3-aa9d-99186e5d0c67",
+            "attachmentId": "6700b7c4-c184-4fc8-a2de-6d6a00641071",
+            "storageKey": "attachments/uploads/2026/11/02/db0e8c9f-de06-4fc3-aa9d-99186e5d0c67/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/db0e8c9f-de06-4fc3-aa9d-99186e5d0c67/original.txt",
+              "bytes": 36,
+              "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "e2acff1d-1515-4afc-bae7-d2f15279ec21",
+            "attachmentId": "89af83db-7ec5-43f8-9a12-bc00466c0523",
+            "storageKey": "attachments/uploads/2026/11/02/e2acff1d-1515-4afc-bae7-d2f15279ec21/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/e2acff1d-1515-4afc-bae7-d2f15279ec21/original.txt",
+              "bytes": 37,
+              "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "59f0e54c-1a6d-4e59-8f7f-24fc19532915",
+            "attachmentId": "c224d8fc-c95e-4cc0-a5f8-0b4fa36bec18",
+            "storageKey": "attachments/uploads/2026/11/02/59f0e54c-1a6d-4e59-8f7f-24fc19532915/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/59f0e54c-1a6d-4e59-8f7f-24fc19532915/original.txt",
+              "bytes": 35,
+              "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "48ce5049-9d0e-448a-bc0b-d14c63a5fe5d",
+            "attachmentId": "31ab1f10-090f-4cd4-a560-9e72f83b0a00",
+            "storageKey": "attachments/uploads/2026/11/02/48ce5049-9d0e-448a-bc0b-d14c63a5fe5d/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/48ce5049-9d0e-448a-bc0b-d14c63a5fe5d/original.txt",
+              "bytes": 47,
+              "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          }
+        ]
+      },
+      "readerUserId": "45c0e073-9dff-4fd9-9537-7c0fdaa32a26",
+      "readerOrgId": "58823c9b-2344-4775-9189-bc7ee785a994",
+      "leadOnlyUserId": "5f198414-b718-4512-ad29-f6e6587a1dd4",
+      "leadOnlyOrgId": "9354833b-1a73-4df3-b635-0d76b5c163c5",
+      "projectOnlyUserId": "c9d95863-f5f1-498d-9cc1-c6ee6d0f10de",
+      "projectOnlyOrgId": "2016882b-2c5b-47d1-aa51-8e86580a979c",
+      "missingUUID": "b0cedeb7-7298-4966-b84a-e9d542781f95"
+    },
+    "listExistingBaseline": {
+      "name": "H93.boundary.76.list.empty-page-and-size501",
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "too_small",
+              "inclusive": true,
+              "message": "Too small: expected number to be >=1",
+              "minimum": 1,
+              "origin": "number",
+              "path": [
+                "page"
+              ]
+            },
+            {
+              "code": "too_big",
+              "inclusive": true,
+              "maximum": 500,
+              "message": "Too big: expected number to be <=500",
+              "origin": "number",
+              "path": [
+                "pageSize"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "0465f865-eb93-4c73-be7e-6ea9a4d9c66a",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "329",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-61068-553",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 13:11:38 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 307,
+          "requestSha256": "9ee786965b4a78dda17ec567a20b657342dfd7b1c3fd21d35980d37ce2ce84d3",
+          "responseBytes": 617,
+          "responseSha256": "2a6ef6254786d91cdb79d1b7307e09b62f21d3a43cd702bd9eb55e0d0626db85",
+          "entityBodyBytes": 329,
+          "entityBodySha256": "b1c9d8f31625791e4383368f643f5237cfa450f19fc3997ea2395c9723b5a2b3",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase05/raw-wire/admin-4bbbd286-ed81-41c9-8239-037afb9f819c",
+          "originalRawRetained": true
+        }
+      }
+    },
+    "definitionExpected400": 400
+  }
+}

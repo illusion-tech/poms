@@ -1,0 +1,3821 @@
+H14 static source excerpts. Full raw source bytes/hash in source-manifest.json. Excerpts only normalize line endings; no runtime result.
+
+SOURCE apps/poms-api/src/app/core/date/business-date.utils.ts rawSHA256=da63a9963433b87f3c81d93104a30556b1c468e4b751ced4f8224e60fbcd8bb2
+1: export const BUSINESS_DATE_TIME_ZONE = 'Asia/Hong_Kong';
+2: 
+3: export function toBusinessDateString(value: Date, timeZone = BUSINESS_DATE_TIME_ZONE): string {
+4:     const parts = new Intl.DateTimeFormat('en-US', {
+5:         timeZone,
+6:         year: 'numeric',
+7:         month: '2-digit',
+8:         day: '2-digit'
+9:     }).formatToParts(value);
+10: 
+11:     const year = parts.find((part) => part.type === 'year')?.value;
+12:     const month = parts.find((part) => part.type === 'month')?.value;
+13:     const day = parts.find((part) => part.type === 'day')?.value;
+14: 
+15:     if (!year || !month || !day) {
+16:         throw new RangeError('Unable to format business date');
+17:     }
+18: 
+19:     return `${year}-${month}-${day}`;
+20: }
+21: 
+22: export function toBusinessDateOnly(value: Date | string | null | undefined, timeZone = BUSINESS_DATE_TIME_ZONE): string | null {
+23:     if (!value) {
+24:         return null;
+25:     }
+26: 
+27:     return typeof value === 'string' ? value.slice(0, 10) : toBusinessDateString(value, timeZone);
+28: }
+29: 
+
+SOURCE apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts rawSHA256=0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4
+62:             result: input.result,
+63:             reason: input.reason ?? null,
+64:             beforeSnapshot: input.beforeSnapshot ?? null,
+65:             afterSnapshot: input.afterSnapshot ?? null,
+66:             metadata: input.metadata ?? null,
+67:             occurredAt: input.occurredAt ?? new Date()
+68:         });
+69: 
+70:         if (entityManager) {
+71:             entityManager.persist(entity);
+72:             return;
+73:         }
+74: 
+75:         await this.runtimeAuditRepository.saveAll([entity]);
+76:     }
+77: 
+78:     async recordSecurityEvent(input: RecordSecurityEventInput): Promise<void> {
+79:         const entity = this.runtimeAuditRepository.createSecurityEvent({
+80:             eventType: input.eventType,
+81:             severity: input.severity,
+82:             actorId: input.actorId ?? null,
+83:             principal: input.principal ?? null,
+84:             requestId: input.requestId ?? null,
+85:             path: input.path,
+86:             method: input.method ?? null,
+87:             permissionKey: input.permissionKey ?? null,
+
+SOURCE apps/poms-api/src/app/features/attachment/attachment.repository.ts rawSHA256=9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f
+125:     async findAttachmentsByTarget(filters: AttachmentListFilters): Promise<Array<{ attachment: Attachment; links: AttachmentLink[] }>> {
+126:         const targetLinks = await this.attachmentLinkRepository.find(
+127:             {
+128:                 targetType: filters.targetType,
+129:                 targetId: filters.targetId,
+130:                 status: AttachmentLinkStatusValue.Active
+131:             },
+132:             { orderBy: { linkedAt: QueryOrder.DESC } }
+133:         );
+134: 
+135:         const attachmentIds = [...new Set(targetLinks.map((link) => link.attachmentId))];
+136:         if (attachmentIds.length === 0) {
+137:             return [];
+138:         }
+139: 
+140:         const where: FilterQuery<Attachment> = {
+141:             id: { $in: attachmentIds },
+142:             status: filters.status ?? AttachmentStatusValue.Active,
+143:             ...(filters.includeVersions ? {} : { isLatest: true }),
+144:             ...(filters.category ? { category: filters.category } : {})
+145:         };
+146:         const attachments = await this.attachmentRepository.find(where, { orderBy: { uploadedAt: QueryOrder.DESC } });
+147:         const activeLinks = await this.attachmentLinkRepository.find(
+148:             {
+149:                 attachmentId: { $in: attachments.map((attachment) => attachment.id) },
+150:                 status: AttachmentLinkStatusValue.Active
+151:             },
+152:             { orderBy: { linkedAt: QueryOrder.DESC } }
+153:         );
+154:         const linksByAttachmentId = new Map<string, AttachmentLink[]>();
+155: 
+156:         for (const link of activeLinks) {
+157:             const list = linksByAttachmentId.get(link.attachmentId) ?? [];
+158:             list.push(link);
+159:             linksByAttachmentId.set(link.attachmentId, list);
+160:         }
+161: 
+162:         return attachments.map((attachment) => ({
+163:             attachment,
+164:             links: linksByAttachmentId.get(attachment.id) ?? []
+165:         }));
+166:     }
+260:     async findExistingActiveLink(input: Pick<AttachmentLink, 'attachmentId' | 'targetType' | 'targetId' | 'relationType'>): Promise<AttachmentLink | null> {
+261:         return this.attachmentLinkRepository.findOne({
+262:             attachmentId: input.attachmentId,
+263:             targetType: input.targetType,
+264:             targetId: input.targetId,
+265:             relationType: input.relationType,
+266:             status: AttachmentLinkStatusValue.Active
+267:         });
+
+SOURCE apps/poms-api/src/app/features/attachment/attachment.service.ts rawSHA256=b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2
+862:     async copyActiveLinksToTarget(input: {
+863:         from: { targetType: AttachmentTargetType; targetId: string };
+864:         to: { targetType: AttachmentTargetType; targetId: string };
+865:         relationType: AttachmentRelationType;
+866:         operatorUserId: string;
+867:         requestId?: string | null;
+868:         entityManager?: EntityManager;
+869:         excludeCategories?: AttachmentCategory[];
+870:     }): Promise<void> {
+871:         const rows = await this.attachmentRepository.findAttachmentsByTarget({
+872:             targetType: input.from.targetType,
+873:             targetId: input.from.targetId,
+874:             status: AttachmentStatusValue.Active
+875:         });
+876:         const excludeCategories = new Set(input.excludeCategories ?? []);
+877:         const em = input.entityManager;
+878:         const linksToPersist: AttachmentLink[] = [];
+879: 
+880:         for (const { attachment } of rows) {
+881:             if (excludeCategories.has(attachment.category)) {
+882:                 continue;
+883:             }
+884: 
+885:             const existing = await this.attachmentRepository.findExistingActiveLink({
+886:                 attachmentId: attachment.id,
+887:                 targetType: input.to.targetType,
+888:                 targetId: input.to.targetId,
+889:                 relationType: input.relationType
+890:             });
+891: 
+892:             if (existing) {
+893:                 continue;
+894:             }
+895: 
+896:             const linkInput = {
+897:                 attachmentId: attachment.id,
+898:                 targetType: input.to.targetType,
+899:                 targetId: input.to.targetId,
+900:                 relationType: input.relationType,
+901:                 status: AttachmentLinkStatusValue.Active,
+902:                 linkedBy: input.operatorUserId,
+903:                 linkedAt: new Date()
+904:             };
+905:             const link = em ? em.create(AttachmentLink, linkInput) : this.attachmentRepository.createLink(linkInput);
+906:             linksToPersist.push(link);
+907:         }
+908: 
+909:         if (linksToPersist.length === 0) {
+910:             return;
+911:         }
+912: 
+913:         if (em) {
+914:             em.persist(linksToPersist);
+915:         } else {
+916:             await this.attachmentRepository.saveAll(linksToPersist);
+917:         }
+918: 
+919:         await this.recordAudit('attachment.link_copied_to_project', input.to.targetId, input.operatorUserId, input.requestId, 'success', {
+920:             from: input.from,
+921:             to: input.to,
+922:             relationType: input.relationType,
+923:             copiedCount: linksToPersist.length
+924:         });
+925:     }
+2180:     private async recordAudit(eventType: string, targetId: string, operatorId: string | null, requestId: string | null | undefined, result: 'success' | 'rejected' | 'failed', metadata: Record<string, unknown>): Promise<void> {
+2181:         await this.runtimeAuditService.recordAuditLog({
+2182:             eventType,
+2183:             targetType: ATTACHMENT_AUDIT_TARGET_TYPE,
+2184:             targetId,
+2185:             operatorId,
+2186:             requestId: requestId ?? null,
+2187:             result,
+2188:             metadata
+2189:         });
+2190:     }
+2191: }
+2192: 
+
+SOURCE apps/poms-api/src/app/features/business-number/business-number.service.ts rawSHA256=db909a59bb9f70d8e6637c6097958ae9ad56ed3afd2c3389a0bafb1aa88657df
+1: import { Inject, Injectable } from '@nestjs/common';
+2: import { EntityManager } from '@mikro-orm/postgresql';
+3: 
+4: interface BusinessNumberEntityManager {
+5:     getConnection(): {
+6:         execute(query: string, params?: unknown[]): Promise<unknown>;
+7:     };
+8: }
+9: 
+10: export type BusinessNumberScope = 'customer' | 'lead' | 'project' | 'contract' | 'cost-payment-fact' | 'cost-invoice' | 'cost-expense' | 'cost-procurement' | 'cost-labor';
+11: 
+12: interface BusinessNumberSpec {
+13:     prefix: string;
+14:     padding: number;
+15:     description: string;
+16: }
+17: 
+18: const BUSINESS_NUMBER_SPECS: Record<BusinessNumberScope, BusinessNumberSpec> = {
+19:     customer: { prefix: 'CUST', padding: 6, description: '客户编号' },
+20:     lead: { prefix: 'LD', padding: 6, description: '线索编号' },
+21:     project: { prefix: 'PRJ', padding: 6, description: '项目编号' },
+22:     contract: { prefix: 'CT', padding: 6, description: '合同编号' },
+23:     'cost-payment-fact': { prefix: 'AC-PAY', padding: 6, description: '付款事实实际成本编号' },
+24:     'cost-invoice': { prefix: 'AC-INV', padding: 6, description: '发票实际成本编号' },
+25:     'cost-expense': { prefix: 'AC-EXP', padding: 6, description: '费用实际成本编号' },
+26:     'cost-procurement': { prefix: 'AC-PRC', padding: 6, description: '采购实际成本编号' },
+27:     'cost-labor': { prefix: 'AC-LBR', padding: 6, description: '人力实际成本编号' }
+28: };
+29: 
+30: @Injectable()
+31: export class BusinessNumberService {
+32:     constructor(@Inject(EntityManager) private readonly entityManager: EntityManager) {}
+33: 
+34:     async next(scope: BusinessNumberScope, at = new Date(), em: BusinessNumberEntityManager = this.entityManager): Promise<string> {
+35:         const spec = BUSINESS_NUMBER_SPECS[scope];
+36:         const period = String(at.getUTCFullYear());
+37:         const rows = (await em.getConnection().execute(
+38:             `
+39:                 insert into "poms"."business_number_sequence"
+40:                     ("scope", "period", "next_value", "prefix", "padding", "description", "created_at", "updated_at")
+41:                 values (?, ?, 2, ?, ?, ?, now(), now())
+42:                 on conflict ("scope", "period")
+43:                 do update set
+44:                     "next_value" = "poms"."business_number_sequence"."next_value" + 1,
+45:                     "prefix" = excluded."prefix",
+46:                     "padding" = excluded."padding",
+47:                     "description" = excluded."description",
+48:                     "updated_at" = now()
+49:                 returning "next_value" - 1 as "sequence_value";
+50:             `,
+51:             [scope, period, spec.prefix, spec.padding, spec.description]
+52:         )) as { sequence_value: number | string }[];
+53:         const sequenceValue = Number(rows[0]?.sequence_value);
+54: 
+55:         return this.format(spec.prefix, period, sequenceValue, spec.padding);
+56:     }
+57: 
+58:     format(prefix: string, period: string, value: number, padding: number): string {
+59:         return `${prefix}-${period}-${String(value).padStart(padding, '0')}`;
+60:     }
+61: }
+62: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-owner-assignment-record.entity.ts rawSHA256=ee7037bbb70de5b9977e0c176ee6852dd4af73d6e1793ddb2f904628d232292d
+1: import { defineEntity } from '@mikro-orm/core';
+2: import { LEAD_OWNER_ASSIGNMENT_TYPES, type LeadOwnerAssignmentType } from '@poms/shared-contracts';
+3: import { Lead } from './lead.entity';
+4: 
+5: const p = defineEntity.properties;
+6: 
+7: const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
+8: 
+9: export const LeadOwnerAssignmentRecordSchema = defineEntity({
+10:     name: 'LeadOwnerAssignmentRecord',
+11:     tableName: 'lead_owner_assignment_record',
+12:     schema: 'poms',
+13:     comment: '线索销售主责申领与分配动作记录',
+14:     indexes: [
+15:         { name: 'idx_lead_owner_assignment_lead_assigned', properties: ['leadId', 'assignedAt'] },
+16:         { name: 'idx_lead_owner_assignment_assigned_by', properties: ['assignedBy'] },
+17:         { name: 'idx_lead_owner_assignment_new_owner', properties: ['newOwnerUserId'] }
+18:     ],
+19:     checks: [
+20:         {
+21:             name: 'chk_lead_owner_assignment_type',
+22:             expression: `"assignment_type" in (${toSqlStringList(LEAD_OWNER_ASSIGNMENT_TYPES)})`
+23:         }
+24:     ],
+25:     properties: {
+26:         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+27:         leadId: () => p.manyToOne(Lead).mapToPk().fieldName('lead_id').foreignKeyName('lead_owner_assignment_record_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索 ID'),
+28:         previousOwnerOrgId: p.uuid().nullable().fieldName('previous_owner_org_id').comment('动作前销售主责组织 ID'),
+29:         previousOwnerUserId: p.uuid().nullable().fieldName('previous_owner_user_id').comment('动作前销售主责人 ID'),
+30:         newOwnerOrgId: p.uuid().nullable().fieldName('new_owner_org_id').comment('动作后销售主责组织 ID'),
+31:         newOwnerUserId: p.uuid().fieldName('new_owner_user_id').comment('动作后销售主责人 ID'),
+32:         assignmentType: p.string().$type<LeadOwnerAssignmentType>().length(32).fieldName('assignment_type').comment('负责人动作类型'),
+33:         reason: p.text().nullable().comment('负责人动作原因'),
+34:         assignedAt: p.datetime().fieldName('assigned_at').comment('动作生效时间'),
+35:         assignedBy: p.uuid().fieldName('assigned_by').comment('动作操作人'),
+36:         createdAt: p
+37:             .datetime()
+38:             .defaultRaw('now()')
+39:             .onCreate(() => new Date())
+40:             .fieldName('created_at')
+41:             .comment('创建时间'),
+42:         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人')
+43:     }
+44: });
+45: 
+46: export class LeadOwnerAssignmentRecord extends LeadOwnerAssignmentRecordSchema.class {}
+47: 
+48: LeadOwnerAssignmentRecordSchema.setClass(LeadOwnerAssignmentRecord);
+49: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-query.service.ts rawSHA256=89cbee3d8cd2ddfd9e1626cd396ee7e615b047ff22094c6d48ea379dc1d206f2
+1: import { Inject, NotFoundException, Injectable } from '@nestjs/common';
+2: import {
+3:     DictionaryDomainValue,
+4:     LeadAllowedActionValue,
+5:     LeadOwnershipScopeValue,
+6:     LeadStatusValue,
+7:     LeadWorkbenchScopeValue,
+8:     type DictionaryItemSummary,
+9:     type LeadAllowedAction,
+10:     type LeadDetailView,
+11:     type LeadListQuery,
+12:     type LeadListResponse,
+13:     type UserPayload
+14: } from '@poms/shared-contracts';
+15: import { DictionaryService } from '../dictionary/dictionary.service';
+16: import { OrgUnit } from '../platform/org-unit.entity';
+17: import { PlatformUser } from '../platform/platform-user.entity';
+18: import { Project } from '../project/project.entity';
+19: import { mapLeadToDetailView, mapLeadToListView } from './lead.mapper';
+20: import { LeadRepository } from './lead.repository';
+21: import { LeadScoreService } from './lead-score.service';
+22: import { buildLeadWorkbenchFacets, buildLeadWorkbenchSummary, leadMatchesWorkbenchScope } from './lead-workbench';
+23: 
+24: const LEAD_ASSIGNABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
+25: const DEFAULT_LEAD_LIST_PAGE = 1;
+26: const DEFAULT_LEAD_LIST_PAGE_SIZE = 500;
+27: 
+28: @Injectable()
+29: export class LeadQueryService {
+30:     constructor(
+31:         @Inject(LeadRepository) private readonly leadRepository: LeadRepository,
+32:         @Inject(DictionaryService) private readonly dictionaryService: DictionaryService,
+33:         @Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService
+34:     ) {}
+35: 
+36:     async listLeads(query: LeadListQuery, user: UserPayload): Promise<LeadListResponse> {
+37:         const scope = query.scope ?? LeadWorkbenchScopeValue.Active;
+38:         const page = query.page ?? DEFAULT_LEAD_LIST_PAGE;
+39:         const pageSize = query.pageSize ?? DEFAULT_LEAD_LIST_PAGE_SIZE;
+40:         const leads = await this.leadRepository.findMany(this.resolveLeadListRepositoryQuery(query, user));
+41:         const summary = buildLeadWorkbenchSummary(leads);
+42:         const scopedLeads = leads.filter((lead) => leadMatchesWorkbenchScope(lead, scope));
+43:         const totalItems = scopedLeads.length;
+44:         const pageLeads = scopedLeads.slice((page - 1) * pageSize, page * pageSize);
+45:         const context = await this.loadListContext(pageLeads);
+46:         const activeOverrideMap = await this.leadScoreService.findActiveOverridesByLeadIds(pageLeads.map((lead) => lead.id));
+47: 
+48:         return {
+49:             scope,
+50:             summary,
+51:             facets: buildLeadWorkbenchFacets(summary),
+52:             totalItems,
+53:             page,
+54:             pageSize,
+55:             items: pageLeads.map((lead) =>
+56:                 mapLeadToListView(
+57:                     lead,
+58:                     context.sourceMap.get(lead.sourceCode) ?? null,
+59:                     lead.ownerUserId ? (context.userMap.get(lead.ownerUserId) ?? null) : null,
+60:                     lead.ownerOrgId ? (context.orgUnitMap.get(lead.ownerOrgId) ?? null) : null,
+61:                     lead.convertedProjectId ? (context.projectMap.get(lead.convertedProjectId) ?? null) : null,
+62:                     activeOverrideMap.get(lead.id) ?? null,
+63:                     this.resolveAllowedActions(lead, user)
+64:                 )
+65:             )
+66:         };
+67:     }
+68: 
+69:     async getLead(id: string, user: UserPayload): Promise<LeadDetailView> {
+70:         const lead = await this.leadRepository.findById(id);
+71:         if (!lead) {
+72:             throw new NotFoundException(`Lead ${id} not found`);
+73:         }
+74: 
+75:         const [source, owner, ownerOrg, convertedProjects, activeOverride] = await Promise.all([
+76:             this.loadSourceDictionaryMap([lead.sourceCode]).then((sourceMap) => sourceMap.get(lead.sourceCode) ?? null),
+77:             lead.ownerUserId ? this.leadRepository.findPlatformUserById(lead.ownerUserId) : Promise.resolve(null),
+78:             lead.ownerOrgId ? this.leadRepository.findOrgUnitById(lead.ownerOrgId) : Promise.resolve(null),
+79:             lead.convertedProjectId ? this.leadRepository.findProjectsByIds([lead.convertedProjectId]) : Promise.resolve([]),
+80:             this.leadScoreService.findActiveOverrideByLeadId(lead.id)
+81:         ]);
+82: 
+83:         return mapLeadToDetailView(lead, source, owner, ownerOrg, convertedProjects[0] ?? null, activeOverride, this.resolveAllowedActions(lead, user));
+84:     }
+85: 
+86:     private resolveLeadListRepositoryQuery(query: LeadListQuery, user: UserPayload): Omit<LeadListQuery, 'scope' | 'page' | 'pageSize' | 'ownershipScope'> & { unassignedOnly?: boolean } {
+87:         const repositoryQuery = {
+88:             sourceCode: query.sourceCode,
+89:             budgetStatus: query.budgetStatus,
+90:             urgency: query.urgency,
+91:             rating: query.rating,
+92:             ownerOrgId: query.ownerOrgId,
+93:             ownerUserId: query.ownerUserId,
+94:             keyword: query.keyword
+95:         };
+96: 
+97:         if (query.ownershipScope === LeadOwnershipScopeValue.Mine) {
+98:             return {
+99:                 ...repositoryQuery,
+100:                 ownerUserId: user.sub,
+101:                 unassignedOnly: false
+102:             };
+103:         }
+104: 
+105:         if (query.ownershipScope === LeadOwnershipScopeValue.PublicPool) {
+106:             return {
+107:                 ...repositoryQuery,
+108:                 ownerUserId: undefined,
+109:                 unassignedOnly: true
+110:             };
+111:         }
+112: 
+113:         return repositoryQuery;
+114:     }
+115: 
+116:     private resolveAllowedActions(lead: { status: string; ownerUserId?: string | null }, user: UserPayload): LeadAllowedAction[] {
+117:         const permissions = new Set(user.permissions);
+118:         const isAssignableStatus = LEAD_ASSIGNABLE_STATUSES.includes(lead.status);
+119:         const actions: LeadAllowedAction[] = [];
+120: 
+121:         if (isAssignableStatus && !lead.ownerUserId && permissions.has('lead:write')) {
+122:             actions.push(LeadAllowedActionValue.ClaimLeadOwner);
+123:         }
+124: 
+125:         if (isAssignableStatus && permissions.has('lead:assign')) {
+126:             actions.push(LeadAllowedActionValue.AssignLeadOwner);
+127:         }
+128: 
+129:         return actions;
+130:     }
+131: 
+132:     private async loadListContext(leads: { sourceCode: string; ownerUserId?: string | null; ownerOrgId?: string | null; convertedProjectId?: string | null }[]): Promise<{
+133:         sourceMap: Map<string, DictionaryItemSummary>;
+134:         userMap: Map<string, PlatformUser>;
+135:         orgUnitMap: Map<string, OrgUnit>;
+136:         projectMap: Map<string, Project>;
+137:     }> {
+138:         const sourceCodes = [...new Set(leads.map((lead) => lead.sourceCode).filter((code): code is string => Boolean(code)))];
+139:         const ownerUserIds = [...new Set(leads.map((lead) => lead.ownerUserId).filter((id): id is string => Boolean(id)))];
+140:         const ownerOrgIds = [...new Set(leads.map((lead) => lead.ownerOrgId).filter((id): id is string => Boolean(id)))];
+141:         const convertedProjectIds = [...new Set(leads.map((lead) => lead.convertedProjectId).filter((id): id is string => Boolean(id)))];
+142:         const [sourceMap, users, orgUnits, projects] = await Promise.all([
+143:             this.loadSourceDictionaryMap(sourceCodes),
+144:             this.leadRepository.findPlatformUsersByIds(ownerUserIds),
+145:             this.leadRepository.findOrgUnitsByIds(ownerOrgIds),
+146:             this.leadRepository.findProjectsByIds(convertedProjectIds)
+147:         ]);
+148: 
+149:         return {
+150:             sourceMap,
+151:             userMap: new Map(users.map((user) => [user.id, user])),
+152:             orgUnitMap: new Map(orgUnits.map((orgUnit) => [orgUnit.id, orgUnit])),
+153:             projectMap: new Map(projects.map((project) => [project.id, project]))
+154:         };
+155:     }
+156: 
+157:     private async loadSourceDictionaryMap(sourceCodes: string[]): Promise<Map<string, DictionaryItemSummary>> {
+158:         if (sourceCodes.length === 0) {
+159:             return new Map();
+160:         }
+161: 
+162:         const sourceCodeSet = new Set(sourceCodes);
+163:         const items = await this.dictionaryService.listItems({ domain: DictionaryDomainValue.LeadSource });
+164:         return new Map(items.filter((item) => sourceCodeSet.has(item.code)).map((item) => [item.code, item]));
+165:     }
+166: }
+167: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-score-facts.service.ts rawSHA256=0292fbab6c16cf71ee26d3cbf5b4a87159fc901b0547fe83304b5e3430f76964
+1: import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
+2: import { InjectRepository } from '@mikro-orm/nestjs';
+3: import { Injectable } from '@nestjs/common';
+4: import {
+5:     AttachmentLinkStatusValue,
+6:     AttachmentStatusValue,
+7:     AttachmentTargetTypeValue,
+8:     OpportunityStakeholderRoleValue,
+9:     SalesFollowUpRecordStatusValue,
+10:     type AttachmentCategory
+11: } from '@poms/shared-contracts';
+12: import { Attachment, AttachmentLink } from '../attachment/attachment.entity';
+13: import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
+14: import { CompetitorIntelligenceRecord, OpportunityStakeholder, SalesDiscoveryRecord } from '../sales-intelligence/sales-intelligence.entity';
+15: import { EMPTY_LEAD_SCORE_V2_FACT_SUMMARY, type LeadScoreV2FactSummary } from './lead-scoring';
+16: 
+17: @Injectable()
+18: export class LeadScoreFactsService {
+19:     constructor(
+20:         @InjectRepository(OpportunityStakeholder)
+21:         private readonly stakeholderRepository: EntityRepository<OpportunityStakeholder>,
+22:         @InjectRepository(CompetitorIntelligenceRecord)
+23:         private readonly competitorRepository: EntityRepository<CompetitorIntelligenceRecord>,
+24:         @InjectRepository(SalesDiscoveryRecord)
+25:         private readonly discoveryRepository: EntityRepository<SalesDiscoveryRecord>,
+26:         @InjectRepository(SalesFollowUpRecord)
+27:         private readonly followUpRepository: EntityRepository<SalesFollowUpRecord>,
+28:         @InjectRepository(Attachment)
+29:         private readonly attachmentRepository: EntityRepository<Attachment>,
+30:         @InjectRepository(AttachmentLink)
+31:         private readonly attachmentLinkRepository: EntityRepository<AttachmentLink>
+32:     ) {}
+33: 
+34:     async collectLeadScoreFacts(leadId: string, entityManager?: EntityManager): Promise<LeadScoreV2FactSummary> {
+35:         const [salesIntelligence, followUp, attachmentEvidence] = await Promise.all([
+36:             this.collectSalesIntelligenceFacts(leadId, entityManager),
+37:             this.collectFollowUpFacts(leadId, entityManager),
+38:             this.collectAttachmentEvidenceFacts(leadId, entityManager)
+39:         ]);
+40: 
+41:         return {
+42:             salesIntelligence,
+43:             followUp,
+44:             attachmentEvidence
+45:         };
+46:     }
+47: 
+48:     private async collectSalesIntelligenceFacts(leadId: string, entityManager?: EntityManager): Promise<LeadScoreV2FactSummary['salesIntelligence']> {
+49:         const stakeholdersPromise = entityManager
+50:             ? entityManager.find(OpportunityStakeholder, { leadId })
+51:             : this.stakeholderRepository.find({ leadId });
+52:         const competitorsPromise = entityManager
+53:             ? entityManager.find(CompetitorIntelligenceRecord, { leadId })
+54:             : this.competitorRepository.find({ leadId });
+55:         const discoveryPromise = entityManager
+56:             ? entityManager.findOne(SalesDiscoveryRecord, { leadId }, { orderBy: { updatedAt: QueryOrder.DESC } })
+57:             : this.discoveryRepository.findOne({ leadId }, { orderBy: { updatedAt: QueryOrder.DESC } });
+58: 
+59:         const [stakeholders, competitors, discovery] = await Promise.all([stakeholdersPromise, competitorsPromise, discoveryPromise]);
+60: 
+61:         return {
+62:             decisionMakerKnown: stakeholders.some((stakeholder) => stakeholder.role === OpportunityStakeholderRoleValue.DecisionMaker),
+63:             technicalEvaluatorKnown: stakeholders.some((stakeholder) => stakeholder.role === OpportunityStakeholderRoleValue.TechnicalEvaluator),
+64:             procurementProcessKnown: hasText(discovery?.procurementProcess),
+65:             budgetSourceKnown: hasText(discovery?.budgetSource),
+66:             competitorKnown: competitors.length > 0,
+67:             painPointKnown: hasText(discovery?.customerPainPoints),
+68:             nextContactKnown: hasText(discovery?.nextContactPlan) || stakeholders.some((stakeholder) => stakeholder.isPrimary)
+69:         };
+70:     }
+71: 
+72:     private async collectFollowUpFacts(leadId: string, entityManager?: EntityManager): Promise<LeadScoreV2FactSummary['followUp']> {
+73:         const followUps = entityManager
+74:             ? await entityManager.find(
+75:                   SalesFollowUpRecord,
+76:                   { leadId, status: SalesFollowUpRecordStatusValue.Active },
+77:                   { orderBy: { occurredAt: QueryOrder.DESC } }
+78:               )
+79:             : await this.followUpRepository.find(
+80:                   { leadId, status: SalesFollowUpRecordStatusValue.Active },
+81:                   { orderBy: { occurredAt: QueryOrder.DESC } }
+82:               );
+83:         const now = new Date();
+84:         const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+85:         const nextFollowUpAt = followUps
+86:             .map((record) => record.nextFollowUpAt)
+87:             .filter((value): value is Date => value instanceof Date)
+88:             .sort((left, right) => left.getTime() - right.getTime())[0] ?? null;
+89:         const lastFollowUpAt = followUps[0]?.occurredAt ?? null;
+90: 
+91:         return {
+92:             lastFollowUpAt: lastFollowUpAt?.toISOString() ?? null,
+93:             daysSinceLastFollowUp: lastFollowUpAt ? Math.max(Math.floor((now.getTime() - lastFollowUpAt.getTime()) / (24 * 60 * 60 * 1000)), 0) : null,
+94:             followUpCount30d: followUps.filter((record) => record.occurredAt >= thirtyDaysAgo).length,
+95:             hasPlannedNextFollowUp: nextFollowUpAt !== null,
+96:             nextFollowUpAt: nextFollowUpAt?.toISOString() ?? null,
+97:             nextFollowUpOverdue: nextFollowUpAt ? nextFollowUpAt.getTime() < now.getTime() : false
+98:         };
+99:     }
+100: 
+101:     private async collectAttachmentEvidenceFacts(leadId: string, entityManager?: EntityManager): Promise<LeadScoreV2FactSummary['attachmentEvidence']> {
+102:         const links = entityManager
+103:             ? await entityManager.find(AttachmentLink, {
+104:                   targetType: AttachmentTargetTypeValue.Lead,
+105:                   targetId: leadId,
+106:                   status: AttachmentLinkStatusValue.Active
+107:               })
+108:             : await this.attachmentLinkRepository.find({
+109:                   targetType: AttachmentTargetTypeValue.Lead,
+110:                   targetId: leadId,
+111:                   status: AttachmentLinkStatusValue.Active
+112:               });
+113:         const attachmentIds = [...new Set(links.map((link) => link.attachmentId))];
+114:         if (attachmentIds.length === 0) {
+115:             return { ...EMPTY_LEAD_SCORE_V2_FACT_SUMMARY.attachmentEvidence };
+116:         }
+117: 
+118:         const attachments = entityManager
+119:             ? await entityManager.find(Attachment, {
+120:                   id: { $in: attachmentIds },
+121:                   status: AttachmentStatusValue.Active
+122:               })
+123:             : await this.attachmentRepository.find({
+124:                   id: { $in: attachmentIds },
+125:                   status: AttachmentStatusValue.Active
+126:               });
+127:         const latestOrFinalAttachments = attachments.filter((attachment) => attachment.isLatest || attachment.isFinal);
+128:         const evidenceAttachments = latestOrFinalAttachments.filter((attachment) => isEvidenceCategory(attachment.category));
+129: 
+130:         return {
+131:             evidenceAttachmentCount: evidenceAttachments.length,
+132:             hasProposalAttachment: latestOrFinalAttachments.some((attachment) => isProposalCategory(attachment.category)),
+133:             hasQuotationAttachment: latestOrFinalAttachments.some((attachment) => isQuotationCategory(attachment.category)),
+134:             hasBudgetEvidenceAttachment: latestOrFinalAttachments.some((attachment) => isBudgetEvidenceCategory(attachment.category)),
+135:             latestAttachmentCount: attachments.filter((attachment) => attachment.isLatest).length,
+136:             finalAttachmentCount: attachments.filter((attachment) => attachment.isFinal).length
+137:         };
+138:     }
+139: }
+140: 
+141: function hasText(value: string | null | undefined): boolean {
+142:     return Boolean(value?.trim());
+143: }
+144: 
+145: function isEvidenceCategory(category: AttachmentCategory): boolean {
+146:     return isProposalCategory(category) || isQuotationCategory(category) || isBudgetEvidenceCategory(category);
+147: }
+148: 
+149: function isProposalCategory(category: AttachmentCategory): boolean {
+150:     const normalized = category.toLowerCase();
+151:     return normalized.includes('proposal') || normalized.includes('solution') || normalized.includes('plan') || normalized.includes('方案');
+152: }
+153: 
+154: function isQuotationCategory(category: AttachmentCategory): boolean {
+155:     const normalized = category.toLowerCase();
+156:     return normalized.includes('quotation') || normalized.includes('quote') || normalized.includes('报价');
+157: }
+158: 
+159: function isBudgetEvidenceCategory(category: AttachmentCategory): boolean {
+160:     const normalized = category.toLowerCase();
+161:     return normalized.includes('budget') || normalized.includes('预算');
+162: }
+163: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-score-history.entity.ts rawSHA256=c9982f417919038db2f1c3250c3230f712d95f2ce8909aea46314a2be3ddb8c4
+1: import { defineEntity } from '@mikro-orm/core';
+2: import {
+3:     LEAD_EFFECTIVE_SCORE_SOURCES,
+4:     LEAD_RATINGS,
+5:     LEAD_SCORE_OVERRIDE_STATUSES,
+6:     LEAD_SCORE_SNAPSHOT_KINDS,
+7:     LeadEffectiveScoreSourceValue,
+8:     LeadRatingValue,
+9:     LeadScoreOverrideStatusValue,
+10:     LeadScoreSnapshotKindValue,
+11:     type LeadEffectiveScoreSource,
+12:     type LeadGateSummary,
+13:     type LeadRating,
+14:     type LeadScoreOverrideStatus,
+15:     type LeadScoreSnapshotKind
+16: } from '@poms/shared-contracts';
+17: import { Lead } from './lead.entity';
+18: 
+19: const p = defineEntity.properties;
+20: const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
+21: 
+22: export const LEAD_SCORE_FORMULA_VERSION = 'lead-score-v1';
+23: 
+24: export const LeadScoreSnapshotSchema = defineEntity({
+25:     name: 'LeadScoreSnapshot',
+26:     tableName: 'lead_score_snapshot',
+27:     schema: 'poms',
+28:     comment: '线索评分历史快照',
+29:     indexes: [
+30:         { name: 'idx_lss_lead_created', properties: ['leadId', 'createdAt'] },
+31:         { name: 'idx_lss_kind_created', properties: ['snapshotKind', 'createdAt'] },
+32:         { name: 'idx_lss_source_record', properties: ['sourceRecordId'] }
+33:     ],
+34:     checks: [
+35:         {
+36:             name: 'chk_lss_snapshot_kind',
+37:             expression: `"snapshot_kind" in (${toSqlStringList(LEAD_SCORE_SNAPSHOT_KINDS)})`
+38:         },
+39:         {
+40:             name: 'chk_lss_system_score_range',
+41:             expression: `"system_score" >= 0 and "system_score" <= 100`
+42:         },
+43:         {
+44:             name: 'chk_lss_effective_score_range',
+45:             expression: `"effective_score" >= 0 and "effective_score" <= 100`
+46:         },
+47:         {
+48:             name: 'chk_lss_system_rating',
+49:             expression: `"system_rating" in (${toSqlStringList(LEAD_RATINGS)})`
+50:         },
+51:         {
+52:             name: 'chk_lss_effective_rating',
+53:             expression: `"effective_rating" in (${toSqlStringList(LEAD_RATINGS)})`
+54:         },
+55:         {
+56:             name: 'chk_lss_effective_score_source',
+57:             expression: `"effective_score_source" in (${toSqlStringList(LEAD_EFFECTIVE_SCORE_SOURCES)})`
+58:         }
+59:     ],
+60:     properties: {
+61:         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('评分快照主键'),
+62:         leadId: () => p.manyToOne(Lead).mapToPk().fieldName('lead_id').foreignKeyName('lead_score_snapshot_lead_id_foreign').updateRule('cascade').deleteRule('cascade').comment('线索 ID'),
+63:         snapshotKind: p.string().$type<LeadScoreSnapshotKind>().length(32).default(LeadScoreSnapshotKindValue.System).fieldName('snapshot_kind').comment('快照类型'),
+64:         overrideId: p.uuid().nullable().fieldName('override_id').comment('关联人工覆盖记录 ID'),
+65:         formulaVersion: p.string().length(64).default(LEAD_SCORE_FORMULA_VERSION).fieldName('formula_version').comment('评分公式版本'),
+66:         systemScore: p.integer().default(0).fieldName('system_score').comment('当时系统评分'),
+67:         systemRating: p.string().$type<LeadRating>().length(8).default(LeadRatingValue.D).fieldName('system_rating').comment('当时系统评级'),
+68:         effectiveScore: p.integer().default(0).fieldName('effective_score').comment('当时有效评分'),
+69:         effectiveRating: p.string().$type<LeadRating>().length(8).default(LeadRatingValue.D).fieldName('effective_rating').comment('当时有效评级'),
+70:         effectiveScoreSource: p.string().$type<LeadEffectiveScoreSource>().length(32).default(LeadEffectiveScoreSourceValue.System).fieldName('effective_score_source').comment('有效评分来源'),
+71:         scoreReason: p.text().fieldName('score_reason').comment('评分说明'),
+72:         componentBreakdown: p.json<Record<string, unknown>>().defaultRaw(`'{}'::jsonb`).fieldName('component_breakdown').comment('评分组件摘要'),
+73:         gateSummarySnapshot: p.json<LeadGateSummary>().fieldName('gate_summary_snapshot').comment('硬闸口摘要快照'),
+74:         sourceCommand: p.string().length(64).fieldName('source_command').comment('触发命令'),
+75:         sourceRecordId: p.uuid().nullable().fieldName('source_record_id').comment('触发记录 ID'),
+76:         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+77:         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人')
+78:     }
+79: });
+80: 
+81: export const LeadScoreOverrideSchema = defineEntity({
+82:     name: 'LeadScoreOverride',
+83:     tableName: 'lead_score_override',
+84:     schema: 'poms',
+85:     comment: '线索评分人工覆盖记录',
+86:     indexes: [
+87:         { name: 'idx_lso_lead_status', properties: ['leadId', 'status'] },
+88:         { name: 'idx_lso_requested_at', properties: ['requestedAt'] },
+89:         { name: 'idx_lso_superseded_by', properties: ['supersededById'] }
+90:     ],
+91:     uniques: [
+92:         {
+93:             name: 'uq_lso_lead_pending',
+94:             expression: (columns, table, indexName) =>
+95:                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.leadId}") where "${columns.status}" = '${LeadScoreOverrideStatusValue.Pending}'`
+96:         },
+97:         {
+98:             name: 'uq_lso_lead_approved',
+99:             expression: (columns, table, indexName) =>
+100:                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.leadId}") where "${columns.status}" = '${LeadScoreOverrideStatusValue.Approved}'`
+101:         }
+102:     ],
+103:     checks: [
+104:         {
+105:             name: 'chk_lso_status',
+106:             expression: `"status" in (${toSqlStringList(LEAD_SCORE_OVERRIDE_STATUSES)})`
+107:         },
+108:         {
+109:             name: 'chk_lso_requested_score_range',
+110:             expression: `"requested_score" >= 0 and "requested_score" <= 100`
+111:         },
+112:         {
+113:             name: 'chk_lso_requested_rating',
+114:             expression: `"requested_rating" in (${toSqlStringList(LEAD_RATINGS)})`
+115:         },
+116:         {
+117:             name: 'chk_lso_system_score_at_request_range',
+118:             expression: `"system_score_at_request" >= 0 and "system_score_at_request" <= 100`
+119:         },
+120:         {
+121:             name: 'chk_lso_system_rating_at_request',
+122:             expression: `"system_rating_at_request" in (${toSqlStringList(LEAD_RATINGS)})`
+123:         }
+124:     ],
+125:     properties: {
+126:         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('人工覆盖记录主键'),
+127:         leadId: () => p.manyToOne(Lead).mapToPk().fieldName('lead_id').foreignKeyName('lead_score_override_lead_id_foreign').updateRule('cascade').deleteRule('cascade').comment('线索 ID'),
+128:         requestedScore: p.integer().fieldName('requested_score').comment('请求覆盖评分'),
+129:         requestedRating: p.string().$type<LeadRating>().length(8).fieldName('requested_rating').comment('请求覆盖评级'),
+130:         reason: p.text().comment('提交原因'),
+131:         status: p.string().$type<LeadScoreOverrideStatus>().length(32).default(LeadScoreOverrideStatusValue.Pending).comment('覆盖状态'),
+132:         systemScoreAtRequest: p.integer().fieldName('system_score_at_request').comment('提交时系统评分'),
+133:         systemRatingAtRequest: p.string().$type<LeadRating>().length(8).fieldName('system_rating_at_request').comment('提交时系统评级'),
+134:         requestedBy: p.uuid().nullable().fieldName('requested_by').comment('提交人'),
+135:         requestedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('requested_at').comment('提交时间'),
+136:         approvedBy: p.uuid().nullable().fieldName('approved_by').comment('批准人'),
+137:         approvedAt: p.datetime().nullable().fieldName('approved_at').comment('批准时间'),
+138:         approvalNote: p.text().nullable().fieldName('approval_note').comment('批准说明'),
+139:         rejectedBy: p.uuid().nullable().fieldName('rejected_by').comment('驳回人'),
+140:         rejectedAt: p.datetime().nullable().fieldName('rejected_at').comment('驳回时间'),
+141:         rejectReason: p.text().nullable().fieldName('reject_reason').comment('驳回原因'),
+142:         revokedBy: p.uuid().nullable().fieldName('revoked_by').comment('撤销人'),
+143:         revokedAt: p.datetime().nullable().fieldName('revoked_at').comment('撤销时间'),
+144:         revokeReason: p.text().nullable().fieldName('revoke_reason').comment('撤销原因'),
+145:         supersededById: p.uuid().nullable().fieldName('superseded_by_id').comment('替代本记录的新覆盖记录 ID'),
+146:         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+147:         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+148:         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+149:         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+150:     }
+151: });
+152: 
+153: export class LeadScoreSnapshot extends LeadScoreSnapshotSchema.class {}
+154: 
+155: export class LeadScoreOverride extends LeadScoreOverrideSchema.class {}
+156: 
+157: LeadScoreSnapshotSchema.setClass(LeadScoreSnapshot);
+158: LeadScoreOverrideSchema.setClass(LeadScoreOverride);
+159: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-score.service.ts rawSHA256=8abd11fa5840895d68467d5d3b6551f3438cde2fceb0ceba737c10c3a88cc27a
+1: import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
+2: import { InjectRepository } from '@mikro-orm/nestjs';
+3: import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+4: import { randomUUID } from 'node:crypto';
+5: import {
+6:     LeadEffectiveScoreSourceValue,
+7:     LeadScoreOverrideStatusValue,
+8:     LeadScoreSnapshotKindValue,
+9:     type ApproveLeadScoreOverrideRequest,
+10:     type LeadEffectiveScoreSource,
+11:     type LeadGateSummary,
+12:     type LeadRating,
+13:     type LeadScoreHistoryItem,
+14:     type LeadScoreHistoryView,
+15:     type LeadScoreOverrideSummary,
+16:     type LeadScoreSnapshotKind,
+17:     type RejectLeadScoreOverrideRequest,
+18:     type RevokeLeadScoreOverrideRequest,
+19:     type SubmitLeadScoreOverrideRequest
+20: } from '@poms/shared-contracts';
+21: import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+22: import { LeadScoreOverride, LeadScoreSnapshot } from './lead-score-history.entity';
+23: import { Lead } from './lead.entity';
+24: import { LeadScoreFactsService } from './lead-score-facts.service';
+25: import { buildLeadGateSummary, buildLeadScoreComponentBreakdown, LEAD_SCORE_FORMULA_VERSION, resolveLeadRating } from './lead-scoring';
+26: 
+27: export type ActiveLeadScoreOverride = Pick<LeadScoreOverride, 'id' | 'leadId' | 'requestedScore' | 'requestedRating' | 'reason'>;
+28: 
+29: export interface LeadEffectiveScore {
+30:     effectiveScore: number;
+31:     effectiveRating: LeadRating;
+32:     effectiveScoreReason: string;
+33:     effectiveScoreSource: LeadEffectiveScoreSource;
+34:     activeScoreOverrideId: string | null;
+35: }
+36: 
+37: interface LeadScoreSnapshotInput {
+38:     leadId: string;
+39:     snapshotKind: LeadScoreSnapshotKind;
+40:     overrideId: string | null;
+41:     formulaVersion: string;
+42:     systemScore: number;
+43:     systemRating: LeadRating;
+44:     effectiveScore: number;
+45:     effectiveRating: LeadRating;
+46:     effectiveScoreSource: LeadEffectiveScoreSource;
+47:     scoreReason: string;
+48:     componentBreakdown: Record<string, unknown>;
+49:     gateSummarySnapshot: LeadGateSummary;
+50:     sourceCommand: string;
+51:     sourceRecordId: string | null;
+52:     createdBy: string | null;
+53: }
+54: 
+55: @Injectable()
+56: export class LeadScoreService {
+57:     constructor(
+58:         @InjectRepository(Lead)
+59:         private readonly leadRepository: EntityRepository<Lead>,
+60:         @InjectRepository(LeadScoreSnapshot)
+61:         private readonly snapshotRepository: EntityRepository<LeadScoreSnapshot>,
+62:         @InjectRepository(LeadScoreOverride)
+63:         private readonly overrideRepository: EntityRepository<LeadScoreOverride>,
+64:         @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService,
+65:         @Inject(LeadScoreFactsService) private readonly leadScoreFactsService: LeadScoreFactsService
+66:     ) {}
+67: 
+68:     async getLeadScoreHistory(leadId: string): Promise<LeadScoreHistoryView> {
+69:         const lead = await this.leadRepository.findOne({ id: leadId });
+70:         if (!lead) {
+71:             throw new NotFoundException(`Lead ${leadId} not found`);
+72:         }
+73: 
+74:         const [snapshots, overrides] = await Promise.all([this.snapshotRepository.find({ leadId }, { orderBy: { createdAt: QueryOrder.DESC } }), this.overrideRepository.find({ leadId }, { orderBy: { requestedAt: QueryOrder.DESC } })]);
+75:         const activeOverride = overrides.find((override) => override.status === LeadScoreOverrideStatusValue.Approved) ?? null;
+76:         const pendingOverride = overrides.find((override) => override.status === LeadScoreOverrideStatusValue.Pending) ?? null;
+77:         const effectiveScore = this.resolveEffectiveScore(lead, activeOverride);
+78: 
+79:         return {
+80:             leadId: lead.id,
+81:             systemScore: lead.score,
+82:             systemRating: lead.rating,
+83:             scoreReason: lead.scoreReason,
+84:             scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+85:             ...effectiveScore,
+86:             activeOverride: activeOverride ? this.mapScoreOverride(activeOverride) : null,
+87:             pendingOverride: pendingOverride ? this.mapScoreOverride(pendingOverride) : null,
+88:             snapshots: snapshots.map((snapshot) => this.mapScoreSnapshot(snapshot)),
+89:             overrides: overrides.map((override) => this.mapScoreOverride(override))
+90:         };
+91:     }
+92: 
+93:     async submitLeadScoreOverride(leadId: string, input: SubmitLeadScoreOverrideRequest, operatorUserId: string, requestId?: string | null): Promise<LeadScoreOverrideSummary> {
+94:         const override = await this.overrideRepository.getEntityManager().transactional(async (em) => {
+95:             const lead = await em.findOne(Lead, { id: leadId });
+96:             if (!lead) {
+97:                 throw new NotFoundException(`Lead ${leadId} not found`);
+98:             }
+99:             this.assertExpectedVersion(lead.rowVersion, input.expectedLeadRowVersion, 'lead');
+100: 
+101:             const existingPending = await em.findOne(LeadScoreOverride, {
+102:                 leadId,
+103:                 status: LeadScoreOverrideStatusValue.Pending
+104:             });
+105:             if (existingPending) {
+106:                 throw new ConflictException(`Lead ${leadId} already has pending score override ${existingPending.id}`);
+107:             }
+108: 
+109:             const now = new Date();
+110:             const entity = em.create(LeadScoreOverride, {
+111:                 id: randomUUID(),
+112:                 leadId,
+113:                 requestedScore: input.score,
+114:                 requestedRating: resolveLeadRating(input.score),
+115:                 reason: input.reason.trim(),
+116:                 status: LeadScoreOverrideStatusValue.Pending,
+117:                 systemScoreAtRequest: lead.score,
+118:                 systemRatingAtRequest: lead.rating,
+119:                 requestedBy: operatorUserId,
+120:                 requestedAt: now,
+121:                 updatedAt: now,
+122:                 updatedBy: operatorUserId
+123:             });
+124: 
+125:             em.persist(entity);
+126:             await em.flush();
+127:             return entity;
+128:         });
+129: 
+130:         await this.recordAudit('lead-score-override.submitted', override.id, operatorUserId, requestId, {
+131:             leadId: override.leadId,
+132:             requestedScore: override.requestedScore,
+133:             requestedRating: override.requestedRating,
+134:             systemScoreAtRequest: override.systemScoreAtRequest,
+135:             systemRatingAtRequest: override.systemRatingAtRequest
+136:         });
+137: 
+138:         return this.mapScoreOverride(override);
+139:     }
+140: 
+141:     async approveLeadScoreOverride(id: string, input: ApproveLeadScoreOverrideRequest, operatorUserId: string, requestId?: string | null): Promise<LeadScoreOverrideSummary> {
+142:         const override = await this.overrideRepository.getEntityManager().transactional(async (em) => {
+143:             const entity = await this.requireOverride(id, em);
+144:             this.assertExpectedVersion(entity.rowVersion, input.expectedOverrideRowVersion, 'lead score override');
+145:             this.assertOverrideStatus(entity, LeadScoreOverrideStatusValue.Pending, 'approve');
+146: 
+147:             const lead = await em.findOne(Lead, { id: entity.leadId });
+148:             if (!lead) {
+149:                 throw new NotFoundException(`Lead ${entity.leadId} not found`);
+150:             }
+151: 
+152:             const existingActiveOverride = await em.findOne(LeadScoreOverride, {
+153:                 leadId: entity.leadId,
+154:                 status: LeadScoreOverrideStatusValue.Approved
+155:             });
+156:             if (existingActiveOverride) {
+157:                 existingActiveOverride.status = LeadScoreOverrideStatusValue.Superseded;
+158:                 existingActiveOverride.supersededById = entity.id;
+159:                 existingActiveOverride.updatedBy = operatorUserId;
+160:             }
+161: 
+162:             const now = new Date();
+163:             entity.status = LeadScoreOverrideStatusValue.Approved;
+164:             entity.approvedAt = now;
+165:             entity.approvedBy = operatorUserId;
+166:             entity.approvalNote = this.normalizeOptionalText(input.note);
+167:             entity.updatedBy = operatorUserId;
+168: 
+169:             await this.recordManualOverrideSnapshot(lead, entity, LeadScoreSnapshotKindValue.ManualOverride, 'approve-score-override', operatorUserId, em);
+170:             em.persist(entity);
+171:             await em.flush();
+172:             return entity;
+173:         });
+174: 
+175:         await this.recordAudit('lead-score-override.approved', override.id, operatorUserId, requestId, {
+176:             leadId: override.leadId,
+177:             requestedScore: override.requestedScore,
+178:             requestedRating: override.requestedRating,
+179:             approvalNote: override.approvalNote ?? null
+180:         });
+181: 
+182:         return this.mapScoreOverride(override);
+183:     }
+184: 
+185:     async rejectLeadScoreOverride(id: string, input: RejectLeadScoreOverrideRequest, operatorUserId: string, requestId?: string | null): Promise<LeadScoreOverrideSummary> {
+186:         const override = await this.overrideRepository.getEntityManager().transactional(async (em) => {
+187:             const entity = await this.requireOverride(id, em);
+188:             this.assertExpectedVersion(entity.rowVersion, input.expectedOverrideRowVersion, 'lead score override');
+189:             this.assertOverrideStatus(entity, LeadScoreOverrideStatusValue.Pending, 'reject');
+190: 
+191:             const now = new Date();
+192:             entity.status = LeadScoreOverrideStatusValue.Rejected;
+193:             entity.rejectedAt = now;
+194:             entity.rejectedBy = operatorUserId;
+195:             entity.rejectReason = input.reason.trim();
+196:             entity.updatedBy = operatorUserId;
+197:             em.persist(entity);
+198:             await em.flush();
+199:             return entity;
+200:         });
+201: 
+202:         await this.recordAudit('lead-score-override.rejected', override.id, operatorUserId, requestId, {
+203:             leadId: override.leadId,
+204:             rejectReason: override.rejectReason
+205:         });
+206: 
+207:         return this.mapScoreOverride(override);
+208:     }
+209: 
+210:     async revokeLeadScoreOverride(id: string, input: RevokeLeadScoreOverrideRequest, operatorUserId: string, requestId?: string | null): Promise<LeadScoreOverrideSummary> {
+211:         const override = await this.overrideRepository.getEntityManager().transactional(async (em) => {
+212:             const entity = await this.requireOverride(id, em);
+213:             this.assertExpectedVersion(entity.rowVersion, input.expectedOverrideRowVersion, 'lead score override');
+214:             this.assertOverrideStatus(entity, LeadScoreOverrideStatusValue.Approved, 'revoke');
+215: 
+216:             const lead = await em.findOne(Lead, { id: entity.leadId });
+217:             if (!lead) {
+218:                 throw new NotFoundException(`Lead ${entity.leadId} not found`);
+219:             }
+220: 
+221:             const now = new Date();
+222:             entity.status = LeadScoreOverrideStatusValue.Revoked;
+223:             entity.revokedAt = now;
+224:             entity.revokedBy = operatorUserId;
+225:             entity.revokeReason = input.reason.trim();
+226:             entity.updatedBy = operatorUserId;
+227: 
+228:             await this.recordManualOverrideSnapshot(lead, null, LeadScoreSnapshotKindValue.OverrideRevoked, 'revoke-score-override', operatorUserId, em, entity.id);
+229:             em.persist(entity);
+230:             await em.flush();
+231:             return entity;
+232:         });
+233: 
+234:         await this.recordAudit('lead-score-override.revoked', override.id, operatorUserId, requestId, {
+235:             leadId: override.leadId,
+236:             revokeReason: override.revokeReason
+237:         });
+238: 
+239:         return this.mapScoreOverride(override);
+240:     }
+241: 
+242:     async findActiveOverridesByLeadIds(leadIds: string[]): Promise<Map<string, LeadScoreOverride>> {
+243:         if (leadIds.length === 0) {
+244:             return new Map();
+245:         }
+246: 
+247:         const overrides = await this.overrideRepository.find({
+248:             leadId: { $in: [...new Set(leadIds)] },
+249:             status: LeadScoreOverrideStatusValue.Approved
+250:         });
+251: 
+252:         return new Map(overrides.map((override) => [override.leadId, override]));
+253:     }
+254: 
+255:     async findActiveOverrideByLeadId(leadId: string): Promise<LeadScoreOverride | null> {
+256:         return this.overrideRepository.findOne({
+257:             leadId,
+258:             status: LeadScoreOverrideStatusValue.Approved
+259:         });
+260:     }
+261: 
+262:     resolveEffectiveScore(lead: Pick<Lead, 'score' | 'rating' | 'scoreReason'>, activeOverride: ActiveLeadScoreOverride | null | undefined): LeadEffectiveScore {
+263:         if (activeOverride) {
+264:             return {
+265:                 effectiveScore: activeOverride.requestedScore,
+266:                 effectiveRating: activeOverride.requestedRating,
+267:                 effectiveScoreReason: `人工覆盖评分：${activeOverride.reason}`,
+268:                 effectiveScoreSource: LeadEffectiveScoreSourceValue.ManualOverride,
+269:                 activeScoreOverrideId: activeOverride.id
+270:             };
+271:         }
+272: 
+273:         return {
+274:             effectiveScore: lead.score,
+275:             effectiveRating: lead.rating,
+276:             effectiveScoreReason: lead.scoreReason,
+277:             effectiveScoreSource: LeadEffectiveScoreSourceValue.System,
+278:             activeScoreOverrideId: null
+279:         };
+280:     }
+281: 
+282:     async recordSystemSnapshot(lead: Lead, sourceCommand: string, operatorUserId: string | null, sourceRecordId: string | null = null, entityManager?: EntityManager): Promise<LeadScoreSnapshot | null> {
+283:         const em = entityManager ?? this.snapshotRepository.getEntityManager();
+284:         const activeOverride = await em.findOne(LeadScoreOverride, {
+285:             leadId: lead.id,
+286:             status: LeadScoreOverrideStatusValue.Approved
+287:         });
+288:         const snapshot = await this.buildSnapshotInput(lead, activeOverride, LeadScoreSnapshotKindValue.System, sourceCommand, operatorUserId, sourceRecordId, em);
+289:         const latestSnapshot = await em.findOne(LeadScoreSnapshot, { leadId: lead.id }, { orderBy: { createdAt: QueryOrder.DESC } });
+290: 
+291:         if (latestSnapshot && this.isDuplicateSnapshot(latestSnapshot, snapshot)) {
+292:             return null;
+293:         }
+294: 
+295:         const entity = em.create(LeadScoreSnapshot, {
+296:             id: randomUUID(),
+297:             ...snapshot
+298:         });
+299:         em.persist(entity);
+300:         if (!entityManager) {
+301:             await em.flush();
+302:         }
+303: 
+304:         return entity;
+305:     }
+306: 
+307:     private async recordManualOverrideSnapshot(
+308:         lead: Lead,
+309:         activeOverride: LeadScoreOverride | null,
+310:         snapshotKind: LeadScoreSnapshotKind,
+311:         sourceCommand: string,
+312:         operatorUserId: string,
+313:         entityManager: EntityManager,
+314:         sourceRecordId: string | null = activeOverride?.id ?? null
+315:     ): Promise<LeadScoreSnapshot> {
+316:         const entity = entityManager.create(LeadScoreSnapshot, {
+317:             id: randomUUID(),
+318:             ...(await this.buildSnapshotInput(lead, activeOverride, snapshotKind, sourceCommand, operatorUserId, sourceRecordId, entityManager))
+319:         });
+320:         entityManager.persist(entity);
+321:         return entity;
+322:     }
+323: 
+324:     private async buildSnapshotInput(
+325:         lead: Lead,
+326:         activeOverride: ActiveLeadScoreOverride | null,
+327:         snapshotKind: LeadScoreSnapshotKind,
+328:         sourceCommand: string,
+329:         operatorUserId: string | null,
+330:         sourceRecordId: string | null,
+331:         entityManager?: EntityManager
+332:     ): Promise<LeadScoreSnapshotInput> {
+333:         const effectiveScore = this.resolveEffectiveScore(lead, activeOverride);
+334:         const facts = await this.leadScoreFactsService.collectLeadScoreFacts(lead.id, entityManager);
+335: 
+336:         return {
+337:             leadId: lead.id,
+338:             snapshotKind,
+339:             overrideId: activeOverride?.id ?? null,
+340:             formulaVersion: LEAD_SCORE_FORMULA_VERSION,
+341:             systemScore: lead.score,
+342:             systemRating: lead.rating,
+343:             effectiveScore: effectiveScore.effectiveScore,
+344:             effectiveRating: effectiveScore.effectiveRating,
+345:             effectiveScoreSource: effectiveScore.effectiveScoreSource,
+346:             scoreReason: effectiveScore.effectiveScoreReason,
+347:             componentBreakdown: { ...buildLeadScoreComponentBreakdown(lead, facts) },
+348:             gateSummarySnapshot: buildLeadGateSummary(lead),
+349:             sourceCommand,
+350:             sourceRecordId,
+351:             createdBy: operatorUserId
+352:         };
+353:     }
+354: 
+355:     private isDuplicateSnapshot(latestSnapshot: LeadScoreSnapshot, nextSnapshot: LeadScoreSnapshotInput): boolean {
+356:         return (
+357:             latestSnapshot.snapshotKind === nextSnapshot.snapshotKind &&
+358:             latestSnapshot.formulaVersion === nextSnapshot.formulaVersion &&
+359:             latestSnapshot.systemScore === nextSnapshot.systemScore &&
+360:             latestSnapshot.systemRating === nextSnapshot.systemRating &&
+361:             latestSnapshot.effectiveScore === nextSnapshot.effectiveScore &&
+362:             latestSnapshot.effectiveRating === nextSnapshot.effectiveRating &&
+363:             latestSnapshot.effectiveScoreSource === nextSnapshot.effectiveScoreSource &&
+364:             latestSnapshot.scoreReason === nextSnapshot.scoreReason &&
+365:             latestSnapshot.sourceRecordId === nextSnapshot.sourceRecordId &&
+366:             JSON.stringify(latestSnapshot.componentBreakdown) === JSON.stringify(nextSnapshot.componentBreakdown) &&
+367:             JSON.stringify(latestSnapshot.gateSummarySnapshot) === JSON.stringify(nextSnapshot.gateSummarySnapshot)
+368:         );
+369:     }
+370: 
+371:     private async requireOverride(id: string, entityManager: EntityManager): Promise<LeadScoreOverride> {
+372:         const override = await entityManager.findOne(LeadScoreOverride, { id });
+373:         if (!override) {
+374:             throw new NotFoundException(`Lead score override ${id} not found`);
+375:         }
+376:         return override;
+377:     }
+378: 
+379:     private assertExpectedVersion(currentVersion: number, expectedVersion: number, targetType: string): void {
+380:         if (currentVersion !== expectedVersion) {
+381:             throw new ConflictException(`${targetType} version ${expectedVersion} does not match current version ${currentVersion}`);
+382:         }
+383:     }
+384: 
+385:     private assertOverrideStatus(override: LeadScoreOverride, expectedStatus: string, action: string): void {
+386:         if (override.status !== expectedStatus) {
+387:             throw new BadRequestException(`Cannot ${action} lead score override ${override.id} in status ${override.status}`);
+388:         }
+389:     }
+390: 
+391:     private normalizeOptionalText(value: string | null | undefined): string | null {
+392:         const normalized = value?.trim();
+393:         return normalized ? normalized : null;
+394:     }
+395: 
+396:     private mapScoreOverride(override: LeadScoreOverride): LeadScoreOverrideSummary {
+397:         return {
+398:             id: override.id,
+399:             leadId: override.leadId,
+400:             requestedScore: override.requestedScore,
+401:             requestedRating: override.requestedRating,
+402:             reason: override.reason,
+403:             status: override.status,
+404:             systemScoreAtRequest: override.systemScoreAtRequest,
+405:             systemRatingAtRequest: override.systemRatingAtRequest,
+406:             requestedBy: override.requestedBy ?? null,
+407:             requestedAt: override.requestedAt.toISOString(),
+408:             approvedBy: override.approvedBy ?? null,
+409:             approvedAt: override.approvedAt?.toISOString() ?? null,
+410:             approvalNote: override.approvalNote ?? null,
+411:             rejectedBy: override.rejectedBy ?? null,
+412:             rejectedAt: override.rejectedAt?.toISOString() ?? null,
+413:             rejectReason: override.rejectReason ?? null,
+414:             revokedBy: override.revokedBy ?? null,
+415:             revokedAt: override.revokedAt?.toISOString() ?? null,
+416:             revokeReason: override.revokeReason ?? null,
+417:             supersededById: override.supersededById ?? null,
+418:             rowVersion: override.rowVersion
+419:         };
+420:     }
+421: 
+422:     private mapScoreSnapshot(snapshot: LeadScoreSnapshot): LeadScoreHistoryItem {
+423:         return {
+424:             id: snapshot.id,
+425:             leadId: snapshot.leadId,
+426:             snapshotKind: snapshot.snapshotKind,
+427:             overrideId: snapshot.overrideId ?? null,
+428:             formulaVersion: snapshot.formulaVersion,
+429:             systemScore: snapshot.systemScore,
+430:             systemRating: snapshot.systemRating,
+431:             effectiveScore: snapshot.effectiveScore,
+432:             effectiveRating: snapshot.effectiveRating,
+433:             effectiveScoreSource: snapshot.effectiveScoreSource,
+434:             scoreReason: snapshot.scoreReason,
+435:             componentBreakdown: snapshot.componentBreakdown,
+436:             gateSummarySnapshot: snapshot.gateSummarySnapshot,
+437:             sourceCommand: snapshot.sourceCommand,
+438:             sourceRecordId: snapshot.sourceRecordId ?? null,
+439:             createdAt: snapshot.createdAt.toISOString(),
+440:             createdBy: snapshot.createdBy ?? null
+441:         };
+442:     }
+443: 
+444:     private async recordAudit(eventType: string, targetId: string, operatorUserId: string, requestId: string | null | undefined, metadata: Record<string, unknown>): Promise<void> {
+445:         await this.runtimeAuditService.recordAuditLog({
+446:             eventType,
+447:             targetType: 'lead-score-override',
+448:             targetId,
+449:             operatorId: operatorUserId,
+450:             requestId: requestId ?? null,
+451:             result: 'success',
+452:             metadata
+453:         });
+454:     }
+455: }
+456: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-scoring.ts rawSHA256=08822054495c1e6d1aa68fca89fc6d5228e1193f1382af07ee101f331efb53f1
+1: import {
+2:     LeadBudgetStatusValue,
+3:     LeadGateMissingItemLabel,
+4:     LeadGateMissingItemValue,
+5:     LeadGateStatusValue,
+6:     LeadRatingValue,
+7:     LeadStatusValue,
+8:     LeadUrgencyValue,
+9:     type LeadBudgetStatus,
+10:     type LeadGateCheck,
+11:     type LeadGateMissingItem,
+12:     type LeadGateSummary,
+13:     type LeadRating,
+14:     type LeadStatus,
+15:     type LeadUrgency
+16: } from '@poms/shared-contracts';
+17: 
+18: export interface LeadGateInput {
+19:     sourceCode?: string | null;
+20:     demandDescription?: string | null;
+21:     budgetStatus: LeadBudgetStatus;
+22:     estimatedAmount?: string | null;
+23:     urgency?: LeadUrgency | null;
+24:     expectedDecisionDate?: string | Date | null;
+25:     ownerUserId?: string | null;
+26:     ownerOrgId?: string | null;
+27:     status: LeadStatus;
+28:     convertedProjectId?: string | null;
+29: }
+30: 
+31: export interface LeadScoreSnapshot {
+32:     score: number;
+33:     rating: LeadRating;
+34:     scoreReason: string;
+35:     componentBreakdown: LeadScoreComponentBreakdown;
+36: }
+37: 
+38: export interface LeadScoreComponentBreakdown {
+39:     source: number;
+40:     demand: number;
+41:     budget: number;
+42:     amount: number;
+43:     urgency: number;
+44:     expectedDecisionDate: number;
+45:     owner: number;
+46:     baseBusiness: number;
+47:     salesIntelligence: number;
+48:     followUpActivity: number;
+49:     attachmentEvidence: number;
+50:     total: number;
+51:     formulaVersion: typeof LEAD_SCORE_FORMULA_VERSION;
+52:     salesIntelligenceFacts: LeadScoreSalesIntelligenceFactSummary;
+53:     followUpFacts: LeadScoreFollowUpFactSummary;
+54:     attachmentFacts: LeadScoreAttachmentFactSummary;
+55: }
+56: 
+57: export interface LeadScoreSalesIntelligenceFactSummary {
+58:     decisionMakerKnown: boolean;
+59:     technicalEvaluatorKnown: boolean;
+60:     procurementProcessKnown: boolean;
+61:     budgetSourceKnown: boolean;
+62:     competitorKnown: boolean;
+63:     painPointKnown: boolean;
+64:     nextContactKnown: boolean;
+65: }
+66: 
+67: export interface LeadScoreFollowUpFactSummary {
+68:     lastFollowUpAt: string | null;
+69:     daysSinceLastFollowUp: number | null;
+70:     followUpCount30d: number;
+71:     hasPlannedNextFollowUp: boolean;
+72:     nextFollowUpAt: string | null;
+73:     nextFollowUpOverdue: boolean;
+74: }
+75: 
+76: export interface LeadScoreAttachmentFactSummary {
+77:     evidenceAttachmentCount: number;
+78:     hasProposalAttachment: boolean;
+79:     hasQuotationAttachment: boolean;
+80:     hasBudgetEvidenceAttachment: boolean;
+81:     latestAttachmentCount: number;
+82:     finalAttachmentCount: number;
+83: }
+84: 
+85: export interface LeadScoreV2FactSummary {
+86:     salesIntelligence: LeadScoreSalesIntelligenceFactSummary;
+87:     followUp: LeadScoreFollowUpFactSummary;
+88:     attachmentEvidence: LeadScoreAttachmentFactSummary;
+89: }
+90: 
+91: export const LEAD_SCORE_FORMULA_VERSION = 'lead-score-v2';
+92: 
+93: export const EMPTY_LEAD_SCORE_V2_FACT_SUMMARY: LeadScoreV2FactSummary = {
+94:     salesIntelligence: {
+95:         decisionMakerKnown: false,
+96:         technicalEvaluatorKnown: false,
+97:         procurementProcessKnown: false,
+98:         budgetSourceKnown: false,
+99:         competitorKnown: false,
+100:         painPointKnown: false,
+101:         nextContactKnown: false
+102:     },
+103:     followUp: {
+104:         lastFollowUpAt: null,
+105:         daysSinceLastFollowUp: null,
+106:         followUpCount30d: 0,
+107:         hasPlannedNextFollowUp: false,
+108:         nextFollowUpAt: null,
+109:         nextFollowUpOverdue: false
+110:     },
+111:     attachmentEvidence: {
+112:         evidenceAttachmentCount: 0,
+113:         hasProposalAttachment: false,
+114:         hasQuotationAttachment: false,
+115:         hasBudgetEvidenceAttachment: false,
+116:         latestAttachmentCount: 0,
+117:         finalAttachmentCount: 0
+118:     }
+119: };
+120: 
+121: export function calculateLeadScore(input: LeadGateInput, facts: LeadScoreV2FactSummary = EMPTY_LEAD_SCORE_V2_FACT_SUMMARY): LeadScoreSnapshot {
+122:     const components: string[] = [];
+123:     const breakdown = buildLeadScoreComponentBreakdown(input, facts);
+124:     const score = breakdown.total;
+125: 
+126:     const add = (label: string, points: number) => {
+127:         if (points <= 0) {
+128:             return;
+129:         }
+130:         components.push(`${label}+${points}`);
+131:     };
+132: 
+133:     add('基础商务', breakdown.baseBusiness);
+134:     add('销售情报', breakdown.salesIntelligence);
+135:     add('跟进活跃', breakdown.followUpActivity);
+136:     add('附件证据', breakdown.attachmentEvidence);
+137: 
+138:     const cappedScore = Math.min(score, 100);
+139:     return {
+140:         score: cappedScore,
+141:         rating: resolveLeadRating(cappedScore),
+142:         scoreReason: components.length > 0 ? components.join('；') : '暂无有效评分事实',
+143:         componentBreakdown: {
+144:             ...breakdown,
+145:             total: cappedScore
+146:         }
+147:     };
+148: }
+149: 
+150: export function buildLeadScoreComponentBreakdown(input: LeadGateInput, facts: LeadScoreV2FactSummary = EMPTY_LEAD_SCORE_V2_FACT_SUMMARY): LeadScoreComponentBreakdown {
+151:     const demandLength = input.demandDescription?.trim().length ?? 0;
+152:     const baseFacts = {
+153:         source: input.sourceCode ? 10 : 0,
+154:         demand: demandLength >= 30 ? 15 : demandLength > 0 ? 10 : 0,
+155:         budget: resolveBudgetScore(input.budgetStatus),
+156:         amount: parsePositiveAmount(input.estimatedAmount) ? 15 : 0,
+157:         urgency: resolveUrgencyScore(input.urgency),
+158:         expectedDecisionDate: input.expectedDecisionDate ? 10 : 0,
+159:         owner: input.ownerUserId && input.ownerOrgId ? 10 : 0
+160:     };
+161:     const baseRaw = Object.values(baseFacts).reduce((sum, points) => sum + points, 0);
+162:     const baseBusiness = Math.round(Math.min(baseRaw, 100) * 0.65);
+163:     const salesIntelligence = resolveSalesIntelligenceScore(facts.salesIntelligence);
+164:     const followUpActivity = resolveFollowUpActivityScore(facts.followUp);
+165:     const attachmentEvidence = resolveAttachmentEvidenceScore(facts.attachmentEvidence);
+166:     const total = Math.min(baseBusiness + salesIntelligence + followUpActivity + attachmentEvidence, 100);
+167: 
+168:     return {
+169:         ...baseFacts,
+170:         baseBusiness,
+171:         salesIntelligence,
+172:         followUpActivity,
+173:         attachmentEvidence,
+174:         total,
+175:         formulaVersion: LEAD_SCORE_FORMULA_VERSION,
+176:         salesIntelligenceFacts: { ...facts.salesIntelligence },
+177:         followUpFacts: { ...facts.followUp },
+178:         attachmentFacts: { ...facts.attachmentEvidence }
+179:     };
+180: }
+181: 
+182: export function buildLeadGateSummary(input: LeadGateInput): LeadGateSummary {
+183:     return {
+184:         qualification: buildGateCheck(collectLeadGateMissingItems(input, 'qualification'), 'qualification'),
+185:         conversion: buildGateCheck(collectLeadGateMissingItems(input, 'conversion'), 'conversion')
+186:     };
+187: }
+188: 
+189: export function collectLeadGateMissingItems(input: LeadGateInput, gate: 'qualification' | 'conversion'): LeadGateMissingItem[] {
+190:     const missing: LeadGateMissingItem[] = [];
+191: 
+192:     if (input.status === LeadStatusValue.Closed) {
+193:         missing.push(LeadGateMissingItemValue.NotClosed);
+194:     }
+195: 
+196:     if (gate === 'qualification') {
+197:         if (input.status !== LeadStatusValue.Registered) {
+198:             missing.push(LeadGateMissingItemValue.RegisteredStatus);
+199:         }
+200:     } else {
+201:         if (input.status === LeadStatusValue.Converted || input.convertedProjectId) {
+202:             missing.push(LeadGateMissingItemValue.NotConverted);
+203:         }
+204:         if (input.status !== LeadStatusValue.Qualified) {
+205:             missing.push(LeadGateMissingItemValue.QualifiedStatus);
+206:         }
+207:     }
+208: 
+209:     if (!input.sourceCode) missing.push(LeadGateMissingItemValue.Source);
+210:     if (!input.demandDescription?.trim()) missing.push(LeadGateMissingItemValue.DemandDescription);
+211:     if (input.budgetStatus === LeadBudgetStatusValue.Unknown || input.budgetStatus === LeadBudgetStatusValue.NoBudget) missing.push(LeadGateMissingItemValue.Budget);
+212:     if (!parsePositiveAmount(input.estimatedAmount)) missing.push(LeadGateMissingItemValue.EstimatedAmount);
+213:     if (!input.urgency) missing.push(LeadGateMissingItemValue.Urgency);
+214:     if (!input.ownerUserId) missing.push(LeadGateMissingItemValue.Owner);
+215:     if (!input.ownerOrgId) missing.push(LeadGateMissingItemValue.OwnerOrg);
+216: 
+217:     return [...new Set(missing)];
+218: }
+219: 
+220: function buildGateCheck(missingItems: LeadGateMissingItem[], gate: 'qualification' | 'conversion'): LeadGateCheck {
+221:     if (missingItems.length === 0) {
+222:         return {
+223:             status: LeadGateStatusValue.Ready,
+224:             missingItems: [],
+225:             explanation: gate === 'qualification' ? '已满足确认有效硬闸口' : '已满足转项目硬闸口'
+226:         };
+227:     }
+228: 
+229:     return {
+230:         status: LeadGateStatusValue.Blocked,
+231:         missingItems,
+232:         explanation: `缺少：${missingItems.map((item) => LeadGateMissingItemLabel[item]).join('、')}`
+233:     };
+234: }
+235: 
+236: function resolveBudgetScore(status: LeadBudgetStatus): number {
+237:     switch (status) {
+238:         case LeadBudgetStatusValue.RoughBudget:
+239:             return 15;
+240:         case LeadBudgetStatusValue.BudgetConfirmed:
+241:             return 20;
+242:         case LeadBudgetStatusValue.BudgetApproved:
+243:             return 25;
+244:         default:
+245:             return 0;
+246:     }
+247: }
+248: 
+249: function resolveUrgencyScore(urgency: LeadUrgency | null | undefined): number {
+250:     switch (urgency) {
+251:         case LeadUrgencyValue.Low:
+252:             return 5;
+253:         case LeadUrgencyValue.Normal:
+254:             return 10;
+255:         case LeadUrgencyValue.High:
+256:         case LeadUrgencyValue.Critical:
+257:             return 15;
+258:         default:
+259:             return 0;
+260:     }
+261: }
+262: 
+263: function resolveSalesIntelligenceScore(facts: LeadScoreSalesIntelligenceFactSummary): number {
+264:     return Math.min(
+265:         (facts.decisionMakerKnown ? 4 : 0) +
+266:             (facts.technicalEvaluatorKnown ? 3 : 0) +
+267:             (facts.procurementProcessKnown ? 3 : 0) +
+268:             (facts.budgetSourceKnown ? 3 : 0) +
+269:             (facts.competitorKnown ? 2 : 0) +
+270:             (facts.painPointKnown ? 3 : 0) +
+271:             (facts.nextContactKnown ? 2 : 0),
+272:         20
+273:     );
+274: }
+275: 
+276: function resolveFollowUpActivityScore(facts: LeadScoreFollowUpFactSummary): number {
+277:     const countScore = facts.followUpCount30d >= 3 ? 4 : facts.followUpCount30d > 0 ? 2 : 0;
+278:     const recencyScore = facts.daysSinceLastFollowUp === null ? 0 : facts.daysSinceLastFollowUp <= 7 ? 3 : facts.daysSinceLastFollowUp <= 14 ? 2 : facts.daysSinceLastFollowUp <= 30 ? 1 : 0;
+279:     const planScore = facts.hasPlannedNextFollowUp ? (facts.nextFollowUpOverdue ? 0 : 3) : 0;
+280: 
+281:     return Math.min(countScore + recencyScore + planScore, 10);
+282: }
+283: 
+284: function resolveAttachmentEvidenceScore(facts: LeadScoreAttachmentFactSummary): number {
+285:     return Math.min((facts.hasProposalAttachment ? 2 : 0) + (facts.hasQuotationAttachment ? 2 : 0) + (facts.hasBudgetEvidenceAttachment ? 1 : 0), 5);
+286: }
+287: 
+288: export function resolveLeadRating(score: number): LeadRating {
+289:     if (score >= 80) return LeadRatingValue.A;
+290:     if (score >= 60) return LeadRatingValue.B;
+291:     if (score >= 40) return LeadRatingValue.C;
+292:     return LeadRatingValue.D;
+293: }
+294: 
+295: function parsePositiveAmount(value: string | null | undefined): boolean {
+296:     if (!value) {
+297:         return false;
+298:     }
+299: 
+300:     return Number(value) > 0;
+301: }
+302: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead-workbench.ts rawSHA256=26d7c834a154bd5d261b472eefbab058dc34e9ac18662d02ed88e0dce78cee92
+1: import {
+2:     LEAD_WORKBENCH_SCOPE_DEFINITIONS,
+3:     LeadGateStatusValue,
+4:     LeadStatusValue,
+5:     LeadWorkbenchScopeHint,
+6:     LeadWorkbenchScopeLabel,
+7:     LeadWorkbenchScopeSeverity,
+8:     LeadWorkbenchScopeValue,
+9:     type LeadWorkbenchFacet,
+10:     type LeadWorkbenchScope,
+11:     type LeadWorkbenchSummary
+12: } from '@poms/shared-contracts';
+13: import { buildLeadGateSummary, type LeadGateInput } from './lead-scoring';
+14: 
+15: export function resolveLeadWorkbenchScopes(input: LeadGateInput): LeadWorkbenchScope[] {
+16:     const scopes = new Set<LeadWorkbenchScope>([LeadWorkbenchScopeValue.All]);
+17: 
+18:     if (input.status === LeadStatusValue.Converted || input.convertedProjectId) {
+19:         scopes.add(LeadWorkbenchScopeValue.Converted);
+20:         return [...scopes];
+21:     }
+22: 
+23:     if (input.status === LeadStatusValue.Closed) {
+24:         scopes.add(LeadWorkbenchScopeValue.Closed);
+25:         return [...scopes];
+26:     }
+27: 
+28:     if (input.status === LeadStatusValue.Registered) {
+29:         scopes.add(LeadWorkbenchScopeValue.Active);
+30:         scopes.add(LeadWorkbenchScopeValue.Registered);
+31:         return [...scopes];
+32:     }
+33: 
+34:     if (input.status === LeadStatusValue.Qualified) {
+35:         scopes.add(LeadWorkbenchScopeValue.Active);
+36:         scopes.add(LeadWorkbenchScopeValue.Qualified);
+37:         scopes.add(buildLeadGateSummary(input).conversion.status === LeadGateStatusValue.Ready ? LeadWorkbenchScopeValue.ReadyToConvert : LeadWorkbenchScopeValue.BlockedConversion);
+38:     }
+39: 
+40:     return [...scopes];
+41: }
+42: 
+43: export function leadMatchesWorkbenchScope(input: LeadGateInput, scope: LeadWorkbenchScope): boolean {
+44:     return resolveLeadWorkbenchScopes(input).includes(scope);
+45: }
+46: 
+47: export function buildLeadWorkbenchSummary(inputs: readonly LeadGateInput[]): LeadWorkbenchSummary {
+48:     const summary = createEmptyLeadWorkbenchSummary();
+49: 
+50:     for (const input of inputs) {
+51:         for (const scope of resolveLeadWorkbenchScopes(input)) {
+52:             summary[scope] += 1;
+53:         }
+54:     }
+55: 
+56:     return summary;
+57: }
+58: 
+59: export function buildLeadWorkbenchFacets(summary: LeadWorkbenchSummary): LeadWorkbenchFacet[] {
+60:     return LEAD_WORKBENCH_SCOPE_DEFINITIONS.map((definition) => ({
+61:         scope: definition.value,
+62:         label: LeadWorkbenchScopeLabel[definition.value],
+63:         hint: LeadWorkbenchScopeHint[definition.value],
+64:         severity: LeadWorkbenchScopeSeverity[definition.value],
+65:         count: summary[definition.value],
+66:         order: definition.order
+67:     }));
+68: }
+69: 
+70: function createEmptyLeadWorkbenchSummary(): LeadWorkbenchSummary {
+71:     return {
+72:         active: 0,
+73:         registered: 0,
+74:         qualified: 0,
+75:         'ready-to-convert': 0,
+76:         'blocked-conversion': 0,
+77:         converted: 0,
+78:         closed: 0,
+79:         all: 0
+80:     };
+81: }
+82: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead.controller.ts rawSHA256=7a644370fdb139d2b5c07797398f3194eeaa6ace20d8b198709d0505b8180e58
+1: import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Request } from '@nestjs/common';
+2: import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+3: import {
+4:     AssignLeadOwnerRequestDto,
+5:     ApproveLeadScoreOverrideRequestDto,
+6:     ClaimLeadOwnerRequestDto,
+7:     CloseLeadRequestDto,
+8:     ConvertLeadToProjectRequestDto,
+9:     CreateLeadRequestDto,
+10:     LeadDetailViewDto,
+11:     LeadDto,
+12:     LeadListQueryDto,
+13:     LeadListResponseDto,
+14:     LeadOwnerAssignmentResultDto,
+15:     LeadScoreHistoryViewDto,
+16:     LeadScoreOverrideDto,
+17:     ProjectDto,
+18:     QualifyLeadRequestDto,
+19:     RejectLeadScoreOverrideRequestDto,
+20:     RevokeLeadScoreOverrideRequestDto,
+21:     SubmitLeadScoreOverrideRequestDto,
+22:     UpdateLeadRequestDto
+23: } from '@poms/api-contracts';
+24: import {
+25:     DictionaryDomainValue,
+26:     type LeadDetailView,
+27:     type LeadListQuery,
+28:     type LeadListResponse,
+29:     type LeadOwnerAssignmentResult,
+30:     type LeadScoreHistoryView,
+31:     type LeadScoreOverrideSummary,
+32:     type LeadSummary,
+33:     type ProjectSummary,
+34:     type UserPayload
+35: } from '@poms/shared-contracts';
+36: import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
+37: import { getRequestId, type RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
+38: import { DictionaryService } from '../dictionary/dictionary.service';
+39: import { Project } from '../project/project.entity';
+40: import { Lead } from './lead.entity';
+41: import { mapLeadToSummary } from './lead.mapper';
+42: import { LeadQueryService } from './lead-query.service';
+43: import { LeadScoreService } from './lead-score.service';
+44: import { LeadService } from './lead.service';
+45: 
+46: @ApiTags('lead')
+47: @ApiCookieAuth('pomsSession')
+48: @Controller('leads')
+49: export class LeadController {
+50:     constructor(
+51:         @Inject(LeadQueryService) private readonly leadQueryService: LeadQueryService,
+52:         @Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService,
+53:         @Inject(LeadService) private readonly leadService: LeadService,
+54:         @Inject(DictionaryService) private readonly dictionaryService: DictionaryService
+55:     ) {}
+56: 
+57:     @Get()
+58:     @HasPermissions('lead:read')
+59:     @ApiOperation({ summary: '获取线索列表' })
+60:     @ApiOkResponse({ type: LeadListResponseDto })
+61:     async list(@Query() query: LeadListQueryDto, @Request() req: { user: UserPayload }): Promise<LeadListResponse> {
+62:         const listQuery: LeadListQuery = {
+63:             scope: query.scope,
+64:             sourceCode: query.sourceCode,
+65:             budgetStatus: query.budgetStatus,
+66:             urgency: query.urgency,
+67:             rating: query.rating,
+68:             ownerOrgId: query.ownerOrgId,
+69:             ownerUserId: query.ownerUserId,
+70:             ownershipScope: query.ownershipScope,
+71:             keyword: query.keyword,
+72:             page: query.page,
+73:             pageSize: query.pageSize
+74:         };
+75: 
+76:         return this.leadQueryService.listLeads(listQuery, req.user);
+77:     }
+78: 
+79:     @Get(':id')
+80:     @HasPermissions('lead:read')
+81:     @ApiOperation({ summary: '获取线索详情' })
+82:     @ApiOkResponse({ type: LeadDetailViewDto })
+83:     getById(@Param('id') id: string, @Request() req: { user: UserPayload }): Promise<LeadDetailView> {
+84:         return this.leadQueryService.getLead(id, req.user);
+85:     }
+86: 
+87:     @Get(':id/score-history')
+88:     @HasPermissions('lead:read')
+89:     @ApiOperation({ summary: '获取线索评分历史与人工覆盖状态' })
+90:     @ApiOkResponse({ type: LeadScoreHistoryViewDto })
+91:     getScoreHistory(@Param('id') id: string): Promise<LeadScoreHistoryView> {
+92:         return this.leadScoreService.getLeadScoreHistory(id);
+93:     }
+94: 
+95:     @Post()
+96:     @HasPermissions('lead:write')
+97:     @ApiOperation({ summary: '登记线索' })
+98:     @ApiCreatedResponse({ type: LeadDto })
+99:     async create(@Body() body: CreateLeadRequestDto, @Request() req: { user: UserPayload }): Promise<LeadSummary> {
+100:         const lead = await this.leadService.createLead(
+101:             {
+102:                 leadName: body.leadName,
+103:                 customerId: body.customerId,
+104:                 sourceCode: body.sourceCode,
+105:                 demandDescription: body.demandDescription,
+106:                 budgetStatus: body.budgetStatus,
+107:                 estimatedAmount: body.estimatedAmount,
+108:                 urgency: body.urgency,
+109:                 expectedDecisionDate: body.expectedDecisionDate,
+110:                 ownerOrgId: body.ownerOrgId,
+111:                 ownerUserId: body.ownerUserId
+112:             },
+113:             req.user.sub
+114:         );
+115: 
+116:         return this.mapLeadCommandSummary(lead);
+117:     }
+118: 
+119:     @Post(':id/score-overrides')
+120:     @HasPermissions('lead:write')
+121:     @ApiOperation({ summary: '提交线索评分人工覆盖申请' })
+122:     @ApiCreatedResponse({ type: LeadScoreOverrideDto })
+123:     submitScoreOverride(@Param('id') id: string, @Body() body: SubmitLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
+124:         return this.leadScoreService.submitLeadScoreOverride(
+125:             id,
+126:             {
+127:                 score: body.score,
+128:                 reason: body.reason,
+129:                 expectedLeadRowVersion: body.expectedLeadRowVersion
+130:             },
+131:             req.user.sub,
+132:             getRequestId(req)
+133:         );
+134:     }
+135: 
+136:     @Post(':id\\:claim')
+137:     @HasPermissions('lead:write')
+138:     @HttpCode(HttpStatus.OK)
+139:     @ApiOperation({ summary: '申领公共池线索' })
+140:     @ApiOkResponse({ type: LeadOwnerAssignmentResultDto })
+141:     claimOwner(@Param('id') id: string, @Body() body: ClaimLeadOwnerRequestDto, @Request() req: { user: UserPayload }): Promise<LeadOwnerAssignmentResult> {
+142:         return this.leadService.claimLeadOwner(
+143:             id,
+144:             {
+145:                 expectedVersion: body.expectedVersion
+146:             },
+147:             req.user.sub
+148:         );
+149:     }
+150: 
+151:     @Post(':id\\:assignOwner')
+152:     @HasPermissions('lead:assign')
+153:     @HttpCode(HttpStatus.OK)
+154:     @ApiOperation({ summary: '分配或改派线索销售主责' })
+155:     @ApiOkResponse({ type: LeadOwnerAssignmentResultDto })
+156:     assignOwner(@Param('id') id: string, @Body() body: AssignLeadOwnerRequestDto, @Request() req: { user: UserPayload }): Promise<LeadOwnerAssignmentResult> {
+157:         return this.leadService.assignLeadOwner(
+158:             id,
+159:             {
+160:                 ownerUserId: body.ownerUserId,
+161:                 ownerOrgId: body.ownerOrgId,
+162:                 reason: body.reason,
+163:                 expectedVersion: body.expectedVersion
+164:             },
+165:             req.user.sub
+166:         );
+167:     }
+168: 
+169:     @Patch(':id')
+170:     @HasPermissions('lead:write')
+171:     @ApiOperation({ summary: '更新线索基础信息' })
+172:     @ApiOkResponse({ type: LeadDto })
+173:     async update(@Param('id') id: string, @Body() body: UpdateLeadRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadSummary> {
+174:         const lead = await this.leadService.updateLead(
+175:             id,
+176:             {
+177:                 leadName: body.leadName,
+178:                 customerId: body.customerId,
+179:                 sourceCode: body.sourceCode,
+180:                 demandDescription: body.demandDescription,
+181:                 budgetStatus: body.budgetStatus,
+182:                 estimatedAmount: body.estimatedAmount,
+183:                 urgency: body.urgency,
+184:                 expectedDecisionDate: body.expectedDecisionDate,
+185:                 expectedVersion: body.expectedVersion
+186:             },
+187:             req.user.sub,
+188:             getRequestId(req)
+189:         );
+190: 
+191:         return this.mapLeadCommandSummary(lead);
+192:     }
+193: 
+194:     @Post(':id\\:qualify')
+195:     @HasPermissions('lead:write')
+196:     @HttpCode(HttpStatus.OK)
+197:     @ApiOperation({ summary: '确认线索有效' })
+198:     @ApiOkResponse({ type: LeadDto })
+199:     async qualify(@Param('id') id: string, @Body() body: QualifyLeadRequestDto, @Request() req: { user: UserPayload }): Promise<LeadSummary> {
+200:         const lead = await this.leadService.qualifyLead(
+201:             id,
+202:             {
+203:                 qualificationSummary: body.qualificationSummary
+204:             },
+205:             req.user.sub
+206:         );
+207: 
+208:         return this.mapLeadCommandSummary(lead);
+209:     }
+210: 
+211:     @Post(':id\\:close')
+212:     @HasPermissions('lead:write')
+213:     @HttpCode(HttpStatus.OK)
+214:     @ApiOperation({ summary: '关闭线索' })
+215:     @ApiOkResponse({ type: LeadDto })
+216:     async close(@Param('id') id: string, @Body() body: CloseLeadRequestDto, @Request() req: { user: UserPayload }): Promise<LeadSummary> {
+217:         const lead = await this.leadService.closeLead(
+218:             id,
+219:             {
+220:                 closedReason: body.closedReason
+221:             },
+222:             req.user.sub
+223:         );
+224: 
+225:         return this.mapLeadCommandSummary(lead);
+226:     }
+227: 
+228:     @Post(':id\\:convertToProject')
+229:     @HasPermissions('lead:write', 'project:write')
+230:     @HttpCode(HttpStatus.OK)
+231:     @ApiOperation({ summary: '将有效线索转为项目' })
+232:     @ApiOkResponse({ type: ProjectDto })
+233:     async convertToProject(@Param('id') id: string, @Body() body: ConvertLeadToProjectRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectSummary> {
+234:         const project = await this.leadService.convertToProject(
+235:             id,
+236:             {
+237:                 projectName: body.projectName,
+238:                 customerProjectNo: body.customerProjectNo,
+239:                 plannedSignAt: body.plannedSignAt ? new Date(body.plannedSignAt) : null
+240:             },
+241:             req.user.sub
+242:         );
+243: 
+244:         return mapProjectToSummary(project);
+245:     }
+246: 
+247:     private async mapLeadCommandSummary(lead: Lead): Promise<LeadSummary> {
+248:         const sourceItems = await this.dictionaryService.listItems({ domain: DictionaryDomainValue.LeadSource });
+249:         return mapLeadToSummary(lead, sourceItems.find((item) => item.code === lead.sourceCode) ?? null);
+250:     }
+251: }
+252: 
+253: @ApiTags('lead')
+254: @ApiCookieAuth('pomsSession')
+255: @Controller('lead-score-overrides')
+256: export class LeadScoreOverrideController {
+257:     constructor(@Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService) {}
+258: 
+259:     @Post(':id\\:approve')
+260:     @HasPermissions('lead:score:override')
+261:     @HttpCode(HttpStatus.OK)
+262:     @ApiOperation({ summary: '批准线索评分人工覆盖' })
+263:     @ApiOkResponse({ type: LeadScoreOverrideDto })
+264:     approve(@Param('id') id: string, @Body() body: ApproveLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
+265:         return this.leadScoreService.approveLeadScoreOverride(
+266:             id,
+267:             {
+268:                 expectedOverrideRowVersion: body.expectedOverrideRowVersion,
+269:                 note: body.note
+270:             },
+271:             req.user.sub,
+272:             getRequestId(req)
+273:         );
+274:     }
+275: 
+276:     @Post(':id\\:reject')
+277:     @HasPermissions('lead:score:override')
+278:     @HttpCode(HttpStatus.OK)
+279:     @ApiOperation({ summary: '驳回线索评分人工覆盖' })
+280:     @ApiOkResponse({ type: LeadScoreOverrideDto })
+281:     reject(@Param('id') id: string, @Body() body: RejectLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
+282:         return this.leadScoreService.rejectLeadScoreOverride(
+283:             id,
+284:             {
+285:                 reason: body.reason,
+286:                 expectedOverrideRowVersion: body.expectedOverrideRowVersion
+287:             },
+288:             req.user.sub,
+289:             getRequestId(req)
+290:         );
+291:     }
+292: 
+293:     @Post(':id\\:revoke')
+294:     @HasPermissions('lead:score:override')
+295:     @HttpCode(HttpStatus.OK)
+296:     @ApiOperation({ summary: '撤销线索评分人工覆盖' })
+297:     @ApiOkResponse({ type: LeadScoreOverrideDto })
+298:     revoke(@Param('id') id: string, @Body() body: RevokeLeadScoreOverrideRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<LeadScoreOverrideSummary> {
+299:         return this.leadScoreService.revokeLeadScoreOverride(
+300:             id,
+301:             {
+302:                 reason: body.reason,
+303:                 expectedOverrideRowVersion: body.expectedOverrideRowVersion
+304:             },
+305:             req.user.sub,
+306:             getRequestId(req)
+307:         );
+308:     }
+309: }
+310: 
+311: function mapProjectToSummary(project: Project): ProjectSummary {
+312:     return {
+313:         id: project.id,
+314:         projectNo: project.projectNo,
+315:         projectName: project.projectName,
+316:         sourceLeadId: project.sourceLeadId ?? null,
+317:         customerId: project.customerId ?? null,
+318:         customerName: project.customerName ?? null,
+319:         customerProjectNo: project.customerProjectNo ?? null,
+320:         status: project.status,
+321:         currentStage: project.currentStage,
+322:         ownerOrgId: project.ownerOrgId ?? null,
+323:         ownerUserId: project.ownerUserId ?? null,
+324:         plannedSignAt: project.plannedSignAt?.toISOString() ?? null,
+325:         closedAt: project.closedAt?.toISOString() ?? null,
+326:         closedReason: project.closedReason ?? null,
+327:         rowVersion: project.rowVersion,
+328:         createdAt: project.createdAt.toISOString(),
+329:         createdBy: project.createdBy ?? null,
+330:         updatedAt: project.updatedAt.toISOString(),
+331:         updatedBy: project.updatedBy ?? null
+332:     };
+333: }
+334: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead.entity.ts rawSHA256=7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef
+1: import { defineEntity } from '@mikro-orm/core';
+2: import {
+3:     LEAD_BUDGET_STATUSES,
+4:     LEAD_RATINGS,
+5:     LEAD_STATUSES,
+6:     LEAD_URGENCIES,
+7:     LeadBudgetStatusValue,
+8:     LeadRatingValue,
+9:     LeadStatusValue,
+10:     LeadUrgencyValue,
+11:     type LeadBudgetStatus,
+12:     type LeadRating,
+13:     type LeadStatus,
+14:     type LeadUrgency
+15: } from '@poms/shared-contracts';
+16: import { Customer } from '../customer/customer.entity';
+17: 
+18: const p = defineEntity.properties;
+19: 
+20: const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
+21: 
+22: export const LeadSchema = defineEntity({
+23:     name: 'lead',
+24:     tableName: 'lead',
+25:     schema: 'poms',
+26:     comment: 'POMS 销售线索事实源表',
+27:     indexes: [
+28:         { name: 'idx_lead_status', properties: ['status'] },
+29:         { name: 'idx_lead_customer_id', properties: ['customerId'] },
+30:         { name: 'idx_lead_source_code', properties: ['sourceCode'] },
+31:         { name: 'idx_lead_budget_status', properties: ['budgetStatus'] },
+32:         { name: 'idx_lead_urgency', properties: ['urgency'] },
+33:         { name: 'idx_lead_rating_score', properties: ['rating', 'score'] },
+34:         { name: 'idx_lead_owner_org_id', properties: ['ownerOrgId'] },
+35:         { name: 'idx_lead_owner_user_id', properties: ['ownerUserId'] },
+36:         { name: 'idx_lead_converted_project_id', properties: ['convertedProjectId'] }
+37:     ],
+38:     checks: [
+39:         {
+40:             name: 'chk_lead_status',
+41:             expression: `"status" in (${toSqlStringList(LEAD_STATUSES)})`
+42:         },
+43:         {
+44:             name: 'chk_lead_budget_status',
+45:             expression: `"budget_status" in (${toSqlStringList(LEAD_BUDGET_STATUSES)})`
+46:         },
+47:         {
+48:             name: 'chk_lead_urgency',
+49:             expression: `"urgency" in (${toSqlStringList(LEAD_URGENCIES)})`
+50:         },
+51:         {
+52:             name: 'chk_lead_estimated_amount_non_negative',
+53:             expression: `"estimated_amount" is null or "estimated_amount" >= 0`
+54:         },
+55:         {
+56:             name: 'chk_lead_score_range',
+57:             expression: `"score" >= 0 and "score" <= 100`
+58:         },
+59:         {
+60:             name: 'chk_lead_rating',
+61:             expression: `"rating" in (${toSqlStringList(LEAD_RATINGS)})`
+62:         }
+63:     ],
+64:     properties: {
+65:         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('线索主键'),
+66:         leadNo: p.string().length(64).unique().fieldName('lead_no').comment('线索编号'),
+67:         leadName: p.string().length(255).fieldName('lead_name').comment('线索标题/机会名称'),
+68:         customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('lead_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),
+69:         customerName: p.string().length(255).fieldName('customer_name').comment('客户名称'),
+70:         sourceCode: p.string().length(64).fieldName('source_code').comment('线索来源字典编码'),
+71:         demandDescription: p.text().nullable().fieldName('demand_description').comment('客户需求描述'),
+72:         budgetStatus: p.string().$type<LeadBudgetStatus>().length(32).default(LeadBudgetStatusValue.Unknown).fieldName('budget_status').comment('预算状态'),
+73:         estimatedAmount: p.string().columnType('numeric(18,2)').nullable().fieldName('estimated_amount').comment('预计金额'),
+74:         urgency: p.string().$type<LeadUrgency>().length(32).default(LeadUrgencyValue.Normal).comment('紧迫程度'),
+75:         expectedDecisionDate: p.date().nullable().fieldName('expected_decision_date').comment('预计决策日期'),
+76:         score: p.integer().default(0).comment('线索评分，范围 0-100'),
+77:         rating: p.string().$type<LeadRating>().length(8).default(LeadRatingValue.D).comment('线索评级'),
+78:         scoreReason: p.text().default('暂无有效评分事实').fieldName('score_reason').comment('线索评分说明'),
+79:         scoreUpdatedAt: p
+80:             .datetime()
+81:             .defaultRaw('now()')
+82:             .onCreate(() => new Date())
+83:             .fieldName('score_updated_at')
+84:             .comment('线索评分更新时间'),
+85:         status: p.string().$type<LeadStatus>().length(32).default(LeadStatusValue.Registered).comment('线索状态'),
+86:         ownerOrgId: p.uuid().nullable().fieldName('owner_org_id').comment('线索销售主责组织标识，可为空表示公共池'),
+87:         ownerUserId: p.uuid().nullable().fieldName('owner_user_id').comment('线索销售主责人标识，可为空表示公共池'),
+88:         qualificationSummary: p.text().nullable().fieldName('qualification_summary').comment('线索有效性说明'),
+89:         qualifiedAt: p.datetime().nullable().fieldName('qualified_at').comment('线索有效化时间'),
+90:         qualifiedBy: p.uuid().nullable().fieldName('qualified_by').comment('线索有效化操作人'),
+91:         closedReason: p.text().nullable().fieldName('closed_reason').comment('线索关闭原因'),
+92:         closedAt: p.datetime().nullable().fieldName('closed_at').comment('线索关闭时间'),
+93:         closedBy: p.uuid().nullable().fieldName('closed_by').comment('线索关闭操作人'),
+94:         convertedProjectId: p.uuid().nullable().fieldName('converted_project_id').comment('已转项目标识'),
+95:         convertedAt: p.datetime().nullable().fieldName('converted_at').comment('线索转项目时间'),
+96:         convertedBy: p.uuid().nullable().fieldName('converted_by').comment('线索转项目操作人'),
+97:         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+98:         createdAt: p
+99:             .datetime()
+100:             .defaultRaw('now()')
+101:             .onCreate(() => new Date())
+102:             .fieldName('created_at')
+103:             .comment('创建时间'),
+104:         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人标识'),
+105:         updatedAt: p
+106:             .datetime()
+107:             .defaultRaw('now()')
+108:             .onCreate(() => new Date())
+109:             .onUpdate(() => new Date())
+110:             .fieldName('updated_at')
+111:             .comment('最后更新时间'),
+112:         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')
+113:     }
+114: });
+115: 
+116: export class Lead extends LeadSchema.class {}
+117: 
+118: LeadSchema.setClass(Lead);
+119: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead.mapper.ts rawSHA256=7d8903046fa5e06a956cc9b7975e57dbced6edcbd116fbf8034c03c1326c4451
+1: import { LeadEffectiveScoreSourceValue, type DictionaryItemSummary, type LeadAllowedAction, type LeadDetailView, type LeadListView, type LeadSummary } from '@poms/shared-contracts';
+2: import { toBusinessDateOnly } from '../../core/date/business-date.utils';
+3: import { OrgUnit } from '../platform/org-unit.entity';
+4: import { PlatformUser } from '../platform/platform-user.entity';
+5: import { Project } from '../project/project.entity';
+6: import { Lead } from './lead.entity';
+7: import type { ActiveLeadScoreOverride } from './lead-score.service';
+8: import { buildLeadGateSummary } from './lead-scoring';
+9: 
+10: export function mapLeadToSummary(lead: Lead, source: DictionaryItemSummary | null = null, activeScoreOverride: ActiveLeadScoreOverride | null = null): LeadSummary {
+11:     const effectiveScore = resolveEffectiveScore(lead, activeScoreOverride);
+12: 
+13:     return {
+14:         id: lead.id,
+15:         leadNo: lead.leadNo,
+16:         leadName: lead.leadName,
+17:         customerId: lead.customerId,
+18:         customerName: lead.customerName,
+19:         sourceCode: lead.sourceCode,
+20:         sourceName: source?.name ?? null,
+21:         demandDescription: lead.demandDescription ?? null,
+22:         budgetStatus: lead.budgetStatus,
+23:         estimatedAmount: lead.estimatedAmount ?? null,
+24:         urgency: lead.urgency,
+25:         expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
+26:         score: lead.score,
+27:         rating: lead.rating,
+28:         scoreReason: lead.scoreReason,
+29:         scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+30:         effectiveScore: effectiveScore.effectiveScore,
+31:         effectiveRating: effectiveScore.effectiveRating,
+32:         effectiveScoreReason: effectiveScore.effectiveScoreReason,
+33:         effectiveScoreSource: effectiveScore.effectiveScoreSource,
+34:         activeScoreOverrideId: effectiveScore.activeScoreOverrideId,
+35:         gateSummary: buildLeadGateSummary(lead),
+36:         status: lead.status,
+37:         ownerOrgId: lead.ownerOrgId ?? null,
+38:         ownerUserId: lead.ownerUserId ?? null,
+39:         qualificationSummary: lead.qualificationSummary ?? null,
+40:         qualifiedAt: lead.qualifiedAt?.toISOString() ?? null,
+41:         qualifiedBy: lead.qualifiedBy ?? null,
+42:         closedReason: lead.closedReason ?? null,
+43:         closedAt: lead.closedAt?.toISOString() ?? null,
+44:         closedBy: lead.closedBy ?? null,
+45:         convertedProjectId: lead.convertedProjectId ?? null,
+46:         convertedAt: lead.convertedAt?.toISOString() ?? null,
+47:         convertedBy: lead.convertedBy ?? null,
+48:         rowVersion: lead.rowVersion,
+49:         createdAt: lead.createdAt.toISOString(),
+50:         createdBy: lead.createdBy ?? null,
+51:         updatedAt: lead.updatedAt.toISOString(),
+52:         updatedBy: lead.updatedBy ?? null
+53:     };
+54: }
+55: 
+56: export function mapLeadToListView(
+57:     lead: Lead,
+58:     source: DictionaryItemSummary | null,
+59:     owner: PlatformUser | null,
+60:     ownerOrg: OrgUnit | null,
+61:     convertedProject: Project | null,
+62:     activeScoreOverride: ActiveLeadScoreOverride | null,
+63:     allowedActions: LeadAllowedAction[] = []
+64: ): LeadListView {
+65:     const effectiveScore = resolveEffectiveScore(lead, activeScoreOverride);
+66: 
+67:     return {
+68:         id: lead.id,
+69:         leadNo: lead.leadNo,
+70:         leadName: lead.leadName,
+71:         customerId: lead.customerId,
+72:         customerName: lead.customerName,
+73:         sourceCode: lead.sourceCode,
+74:         sourceName: source?.name ?? null,
+75:         demandDescription: lead.demandDescription ?? null,
+76:         budgetStatus: lead.budgetStatus,
+77:         estimatedAmount: lead.estimatedAmount ?? null,
+78:         urgency: lead.urgency,
+79:         expectedDecisionDate: toBusinessDateOnly(lead.expectedDecisionDate),
+80:         score: lead.score,
+81:         rating: lead.rating,
+82:         scoreReason: lead.scoreReason,
+83:         scoreUpdatedAt: lead.scoreUpdatedAt.toISOString(),
+84:         effectiveScore: effectiveScore.effectiveScore,
+85:         effectiveRating: effectiveScore.effectiveRating,
+86:         effectiveScoreReason: effectiveScore.effectiveScoreReason,
+87:         effectiveScoreSource: effectiveScore.effectiveScoreSource,
+88:         activeScoreOverrideId: effectiveScore.activeScoreOverrideId,
+89:         gateSummary: buildLeadGateSummary(lead),
+90:         status: lead.status,
+91:         ownerOrgId: lead.ownerOrgId ?? null,
+92:         ownerUserId: lead.ownerUserId ?? null,
+93:         ownerName: owner?.displayName ?? null,
+94:         ownerOrgName: ownerOrg?.name ?? null,
+95:         qualifiedAt: lead.qualifiedAt?.toISOString() ?? null,
+96:         convertedProjectId: lead.convertedProjectId ?? null,
+97:         convertedAt: lead.convertedAt?.toISOString() ?? null,
+98:         convertedProjectSummary: mapConvertedProjectSummary(convertedProject),
+99:         rowVersion: lead.rowVersion,
+100:         createdAt: lead.createdAt.toISOString(),
+101:         updatedAt: lead.updatedAt.toISOString(),
+102:         allowedActions
+103:     };
+104: }
+105: 
+106: export function mapLeadToDetailView(
+107:     lead: Lead,
+108:     source: DictionaryItemSummary | null,
+109:     owner: PlatformUser | null,
+110:     ownerOrg: OrgUnit | null,
+111:     convertedProject: Project | null,
+112:     activeScoreOverride: ActiveLeadScoreOverride | null,
+113:     allowedActions: LeadAllowedAction[] = []
+114: ): LeadDetailView {
+115:     return {
+116:         ...mapLeadToSummary(lead, source, activeScoreOverride),
+117:         ownerName: owner?.displayName ?? null,
+118:         ownerOrgName: ownerOrg?.name ?? null,
+119:         sourceSummary: source?.name ? `来源：${source.name}` : null,
+120:         convertedProjectSummary: mapConvertedProjectSummary(convertedProject),
+121:         allowedActions
+122:     };
+123: }
+124: 
+125: function mapConvertedProjectSummary(convertedProject: Project | null): LeadDetailView['convertedProjectSummary'] {
+126:     return convertedProject
+127:         ? {
+128:               id: convertedProject.id,
+129:               projectNo: convertedProject.projectNo,
+130:               projectName: convertedProject.projectName,
+131:               customerId: convertedProject.customerId ?? null,
+132:               status: convertedProject.status,
+133:               currentStage: convertedProject.currentStage
+134:           }
+135:         : null;
+136: }
+137: 
+138: function resolveEffectiveScore(lead: Pick<Lead, 'score' | 'rating' | 'scoreReason'>, activeScoreOverride: ActiveLeadScoreOverride | null): Pick<LeadSummary, 'effectiveScore' | 'effectiveRating' | 'effectiveScoreReason' | 'effectiveScoreSource' | 'activeScoreOverrideId'> {
+139:     if (activeScoreOverride) {
+140:         return {
+141:             effectiveScore: activeScoreOverride.requestedScore,
+142:             effectiveRating: activeScoreOverride.requestedRating,
+143:             effectiveScoreReason: `人工覆盖评分：${activeScoreOverride.reason}`,
+144:             effectiveScoreSource: LeadEffectiveScoreSourceValue.ManualOverride,
+145:             activeScoreOverrideId: activeScoreOverride.id
+146:         };
+147:     }
+148: 
+149:     return {
+150:         effectiveScore: lead.score,
+151:         effectiveRating: lead.rating,
+152:         effectiveScoreReason: lead.scoreReason,
+153:         effectiveScoreSource: LeadEffectiveScoreSourceValue.System,
+154:         activeScoreOverrideId: null
+155:     };
+156: }
+157: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead.module.ts rawSHA256=b1e7f3bce41672379bf93a407efaeeb4bc904c40232eb3d305eba558588f3c6c
+1: import { MikroOrmModule } from '@mikro-orm/nestjs';
+2: import { Module } from '@nestjs/common';
+3: import { AttachmentModule } from '../attachment/attachment.module';
+4: import { Attachment, AttachmentLink } from '../attachment/attachment.entity';
+5: import { BusinessNumberModule } from '../business-number/business-number.module';
+6: import { CustomerModule } from '../customer/customer.module';
+7: import { DictionaryModule } from '../dictionary/dictionary.module';
+8: import { RuntimeAuditModule } from '../../core/runtime-audit/runtime-audit.module';
+9: import { OrgUnit } from '../platform/org-unit.entity';
+10: import { PlatformUser } from '../platform/platform-user.entity';
+11: import { Project } from '../project/project.entity';
+12: import { SalesFollowUpRecord } from '../sales-follow-up/sales-follow-up-record.entity';
+13: import { CompetitorIntelligenceRecord, OpportunityStakeholder, SalesDiscoveryRecord } from '../sales-intelligence/sales-intelligence.entity';
+14: import { LeadScoreFactsService } from './lead-score-facts.service';
+15: import { LeadController, LeadScoreOverrideController } from './lead.controller';
+16: import { Lead } from './lead.entity';
+17: import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
+18: import { LeadQueryService } from './lead-query.service';
+19: import { LeadRepository } from './lead.repository';
+20: import { LeadScoreOverride, LeadScoreSnapshot } from './lead-score-history.entity';
+21: import { LeadScoreService } from './lead-score.service';
+22: import { LeadService } from './lead.service';
+23: 
+24: @Module({
+25:     imports: [
+26:         MikroOrmModule.forFeature([
+27:             Lead,
+28:             LeadOwnerAssignmentRecord,
+29:             LeadScoreSnapshot,
+30:             LeadScoreOverride,
+31:             Project,
+32:             PlatformUser,
+33:             OrgUnit,
+34:             OpportunityStakeholder,
+35:             CompetitorIntelligenceRecord,
+36:             SalesDiscoveryRecord,
+37:             SalesFollowUpRecord,
+38:             Attachment,
+39:             AttachmentLink
+40:         ]),
+41:         AttachmentModule,
+42:         BusinessNumberModule,
+43:         CustomerModule,
+44:         DictionaryModule,
+45:         RuntimeAuditModule
+46:     ],
+47:     controllers: [LeadController, LeadScoreOverrideController],
+48:     providers: [LeadRepository, LeadQueryService, LeadScoreFactsService, LeadScoreService, LeadService],
+49:     exports: [LeadRepository, LeadQueryService, LeadScoreService, LeadService]
+50: })
+51: export class LeadModule {}
+52: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead.repository.ts rawSHA256=9c95df00200ffa1c54ab66e0ab3c53b510c02ed5af24f005a6211887d52de7e9
+1: import { EntityManager, EntityRepository, FilterQuery, QueryOrder } from '@mikro-orm/core';
+2: import { InjectRepository } from '@mikro-orm/nestjs';
+3: import { Injectable } from '@nestjs/common';
+4: import type { LeadBudgetStatus, LeadRating, LeadUrgency } from '@poms/shared-contracts';
+5: import { OrgUnit } from '../platform/org-unit.entity';
+6: import { PlatformUser } from '../platform/platform-user.entity';
+7: import { Project } from '../project/project.entity';
+8: import { Lead } from './lead.entity';
+9: import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
+10: 
+11: @Injectable()
+12: export class LeadRepository {
+13:     constructor(
+14:         @InjectRepository(Lead)
+15:         private readonly leadRepository: EntityRepository<Lead>,
+16:         @InjectRepository(LeadOwnerAssignmentRecord)
+17:         private readonly leadOwnerAssignmentRecordRepository: EntityRepository<LeadOwnerAssignmentRecord>,
+18:         @InjectRepository(Project)
+19:         private readonly projectRepository: EntityRepository<Project>,
+20:         @InjectRepository(PlatformUser)
+21:         private readonly platformUserRepository: EntityRepository<PlatformUser>,
+22:         @InjectRepository(OrgUnit)
+23:         private readonly orgUnitRepository: EntityRepository<OrgUnit>
+24:     ) {}
+25: 
+26:     async findMany(input: {
+27:         sourceCode?: string;
+28:         budgetStatus?: LeadBudgetStatus;
+29:         urgency?: LeadUrgency;
+30:         rating?: LeadRating;
+31:         ownerOrgId?: string;
+32:         ownerUserId?: string;
+33:         unassignedOnly?: boolean;
+34:         keyword?: string;
+35:     }): Promise<Lead[]> {
+36:         const where: FilterQuery<Lead> = {};
+37: 
+38:         if (input.sourceCode) {
+39:             where.sourceCode = input.sourceCode;
+40:         }
+41: 
+42:         if (input.budgetStatus) {
+43:             where.budgetStatus = input.budgetStatus;
+44:         }
+45: 
+46:         if (input.urgency) {
+47:             where.urgency = input.urgency;
+48:         }
+49: 
+50:         if (input.rating) {
+51:             where.rating = input.rating;
+52:         }
+53: 
+54:         if (input.ownerOrgId) {
+55:             where.ownerOrgId = input.ownerOrgId;
+56:         }
+57: 
+58:         if (input.ownerUserId) {
+59:             where.ownerUserId = input.ownerUserId;
+60:         }
+61: 
+62:         if (input.unassignedOnly) {
+63:             where.ownerUserId = null;
+64:         }
+65: 
+66:         if (input.keyword) {
+67:             (where as FilterQuery<Lead> & { $or?: FilterQuery<Lead>[] }).$or = [
+68:                 { leadNo: { $ilike: `%${input.keyword}%` } },
+69:                 { leadName: { $ilike: `%${input.keyword}%` } },
+70:                 { customerName: { $ilike: `%${input.keyword}%` } },
+71:                 { sourceCode: { $ilike: `%${input.keyword}%` } }
+72:             ];
+73:         }
+74: 
+75:         return this.leadRepository.find(where, {
+76:             orderBy: { updatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+77:         });
+78:     }
+79: 
+80:     async findById(id: string): Promise<Lead | null> {
+81:         return this.leadRepository.findOne({ id });
+82:     }
+83: 
+84:     async findByNo(leadNo: string): Promise<Lead | null> {
+85:         return this.leadRepository.findOne({ leadNo });
+86:     }
+87: 
+88:     async findProjectByNo(projectNo: string): Promise<Project | null> {
+89:         return this.projectRepository.findOne({ projectNo });
+90:     }
+91: 
+92:     async findProjectsByIds(ids: string[]): Promise<Project[]> {
+93:         if (ids.length === 0) {
+94:             return [];
+95:         }
+96: 
+97:         return this.projectRepository.find({ id: { $in: ids } });
+98:     }
+99: 
+100:     async findPlatformUserById(id: string): Promise<PlatformUser | null> {
+101:         return this.platformUserRepository.findOne({ id });
+102:     }
+103: 
+104:     async findPlatformUsersByIds(ids: string[]): Promise<PlatformUser[]> {
+105:         if (ids.length === 0) {
+106:             return [];
+107:         }
+108: 
+109:         return this.platformUserRepository.find({ id: { $in: ids } });
+110:     }
+111: 
+112:     async findOrgUnitById(id: string): Promise<OrgUnit | null> {
+113:         return this.orgUnitRepository.findOne({ id });
+114:     }
+115: 
+116:     async findOrgUnitsByIds(ids: string[]): Promise<OrgUnit[]> {
+117:         if (ids.length === 0) {
+118:             return [];
+119:         }
+120: 
+121:         return this.orgUnitRepository.find({ id: { $in: ids } });
+122:     }
+123: 
+124:     create(input: ConstructorParameters<typeof Lead>[0]): Lead {
+125:         return this.leadRepository.create(input);
+126:     }
+127: 
+128:     createProject(input: ConstructorParameters<typeof Project>[0]): Project {
+129:         return this.projectRepository.create(input);
+130:     }
+131: 
+132:     createLeadOwnerAssignmentRecord(input: ConstructorParameters<typeof LeadOwnerAssignmentRecord>[0]): LeadOwnerAssignmentRecord {
+133:         return this.leadOwnerAssignmentRecordRepository.create(input);
+134:     }
+135: 
+136:     async save(lead: Lead): Promise<void> {
+137:         await this.leadRepository.getEntityManager().persist(lead).flush();
+138:     }
+139: 
+140:     async saveLeadAndProject(lead: Lead, project: Project): Promise<void> {
+141:         await this.leadRepository.getEntityManager().persist([lead, project]).flush();
+142:     }
+143: 
+144:     async saveLeadOwnerAssignment(input: { lead: Lead; record: LeadOwnerAssignmentRecord }): Promise<void> {
+145:         await this.leadOwnerAssignmentRecordRepository.getEntityManager().persist([input.lead, input.record]).flush();
+146:     }
+147: 
+148:     getEntityManager(): EntityManager {
+149:         return this.leadRepository.getEntityManager();
+150:     }
+151: }
+152: 
+
+SOURCE apps/poms-api/src/app/features/lead/lead.service.ts rawSHA256=379a5bc481148067ac52df9ff930cb61e3133609263bf19adb86fb3882784966
+1: import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+2: import type { EntityManager } from '@mikro-orm/core';
+3: import { randomUUID } from 'node:crypto';
+4: import {
+5:     AttachmentRelationTypeValue,
+6:     AttachmentTargetTypeValue,
+7:     DictionaryDomainValue,
+8:     LeadOwnerAssignmentTypeValue,
+9:     LeadStatusValue,
+10:     ProjectStageValue,
+11:     ProjectStatusValue,
+12:     type LeadBudgetStatus,
+13:     type LeadOwnerAssignmentResult,
+14:     type LeadOwnerAssignmentType,
+15:     type LeadUrgency
+16: } from '@poms/shared-contracts';
+17: import { AttachmentService } from '../attachment/attachment.service';
+18: import { BusinessNumberService } from '../business-number/business-number.service';
+19: import type { AuditSnapshot } from '../../core/runtime-audit/audit-log.entity';
+20: import { RuntimeAuditService } from '../../core/runtime-audit/runtime-audit.service';
+21: import { CustomerService } from '../customer/customer.service';
+22: import { DictionaryService } from '../dictionary/dictionary.service';
+23: import { Project } from '../project/project.entity';
+24: import { LeadOwnerAssignmentRecord } from './lead-owner-assignment-record.entity';
+25: import { Lead } from './lead.entity';
+26: import { LeadRepository } from './lead.repository';
+27: import { LeadScoreFactsService } from './lead-score-facts.service';
+28: import { LeadScoreService } from './lead-score.service';
+29: import { calculateLeadScore, collectLeadGateMissingItems } from './lead-scoring';
+30: 
+31: const LEAD_MUTABLE_STATUSES: readonly string[] = [LeadStatusValue.Registered, LeadStatusValue.Qualified];
+32: const LEAD_FIELD_AUDIT_FIELDS = ['leadName', 'customerId', 'customerName', 'sourceCode', 'demandDescription', 'budgetStatus', 'estimatedAmount', 'urgency', 'expectedDecisionDate'] as const;
+33: 
+34: type LeadFieldAuditField = (typeof LEAD_FIELD_AUDIT_FIELDS)[number];
+35: type LeadFieldAuditValues = Record<LeadFieldAuditField, unknown>;
+36: const LEAD_FIELD_AUDIT_REDACTED_FIELDS = new Set<LeadFieldAuditField>(['demandDescription']);
+37: 
+38: export interface CreateLeadRecord {
+39:     leadName: string;
+40:     customerId: string;
+41:     sourceCode: string;
+42:     demandDescription: string;
+43:     budgetStatus: LeadBudgetStatus;
+44:     estimatedAmount?: string | null;
+45:     urgency: LeadUrgency;
+46:     expectedDecisionDate?: string | null;
+47:     ownerOrgId?: string | null;
+48:     ownerUserId?: string | null;
+49: }
+50: 
+51: export interface UpdateLeadRecord {
+52:     leadName?: string;
+53:     customerId?: string;
+54:     sourceCode?: string;
+55:     demandDescription?: string;
+56:     budgetStatus?: LeadBudgetStatus;
+57:     estimatedAmount?: string | null;
+58:     urgency?: LeadUrgency;
+59:     expectedDecisionDate?: string | null;
+60:     expectedVersion?: number;
+61: }
+62: 
+63: export interface ClaimLeadOwnerRecord {
+64:     expectedVersion?: number;
+65: }
+66: 
+67: export interface AssignLeadOwnerRecord {
+68:     ownerUserId: string;
+69:     ownerOrgId?: string | null;
+70:     reason: string;
+71:     expectedVersion?: number;
+72: }
+73: 
+74: export interface QualifyLeadRecord {
+75:     qualificationSummary: string;
+76: }
+77: 
+78: export interface CloseLeadRecord {
+79:     closedReason: string;
+80: }
+81: 
+82: export interface ConvertLeadToProjectRecord {
+83:     projectName?: string;
+84:     customerProjectNo?: string | null;
+85:     plannedSignAt?: Date | null;
+86: }
+87: 
+88: @Injectable()
+89: export class LeadService {
+90:     constructor(
+91:         @Inject(LeadRepository) private readonly leadRepository: LeadRepository,
+92:         @Inject(BusinessNumberService) private readonly businessNumberService: BusinessNumberService,
+93:         @Inject(CustomerService) private readonly customerService: CustomerService,
+94:         @Inject(DictionaryService) private readonly dictionaryService: DictionaryService,
+95:         @Inject(AttachmentService) private readonly attachmentService: AttachmentService,
+96:         @Inject(LeadScoreFactsService) private readonly leadScoreFactsService: LeadScoreFactsService,
+97:         @Inject(LeadScoreService) private readonly leadScoreService: LeadScoreService,
+98:         @Inject(RuntimeAuditService) private readonly runtimeAuditService: RuntimeAuditService
+99:     ) {}
+100: 
+101:     async createLead(input: CreateLeadRecord, operatorUserId: string): Promise<Lead> {
+102:         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
+103:         if (!operator) {
+104:             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
+105:         }
+106: 
+107:         const owner = await this.resolveOwner(input.ownerUserId, input.ownerOrgId, operator);
+108:         const customer = await this.customerService.requireActiveCustomer(input.customerId);
+109:         const source = await this.requireActiveSourceDictionaryItem(input.sourceCode);
+110:         return this.leadRepository.getEntityManager().transactional(async (em) => {
+111:             const leadNo = await this.businessNumberService.next('lead', new Date(), em);
+112:             const lead = em.create(Lead, {
+113:                 id: randomUUID(),
+114:                 leadNo,
+115:                 leadName: input.leadName,
+116:                 customerId: customer.id,
+117:                 customerName: customer.displayName,
+118:                 sourceCode: source.code,
+119:                 demandDescription: input.demandDescription.trim(),
+120:                 budgetStatus: input.budgetStatus,
+121:                 estimatedAmount: this.normalizeEstimatedAmount(input.estimatedAmount),
+122:                 urgency: input.urgency,
+123:                 expectedDecisionDate: this.normalizeDateOnly(input.expectedDecisionDate),
+124:                 status: LeadStatusValue.Registered,
+125:                 ownerOrgId: owner.ownerOrgId,
+126:                 ownerUserId: owner.ownerUserId,
+127:                 qualificationSummary: null,
+128:                 qualifiedAt: null,
+129:                 qualifiedBy: null,
+130:                 closedReason: null,
+131:                 closedAt: null,
+132:                 closedBy: null,
+133:                 convertedProjectId: null,
+134:                 convertedAt: null,
+135:                 convertedBy: null,
+136:                 createdBy: operator.id,
+137:                 updatedBy: operator.id
+138:             });
+139: 
+140:             await this.refreshLeadScore(lead, em);
+141:             em.persist(lead);
+142:             await this.leadScoreService.recordSystemSnapshot(lead, 'create-lead', operator.id, null, em);
+143:             await em.flush();
+144:             return lead;
+145:         });
+146:     }
+147: 
+148:     async updateLead(id: string, input: UpdateLeadRecord, operatorUserId: string, requestId?: string | null): Promise<Lead> {
+149:         const customer = input.customerId !== undefined ? await this.customerService.requireActiveCustomer(input.customerId) : null;
+150:         const source = input.sourceCode !== undefined ? await this.requireActiveSourceDictionaryItem(input.sourceCode) : null;
+151: 
+152:         return this.leadRepository.getEntityManager().transactional(async (em) => {
+153:             const lead = await em.findOne(Lead, { id });
+154:             if (!lead) {
+155:                 throw new NotFoundException(`Lead ${id} not found`);
+156:             }
+157:             this.assertLeadEditable(lead);
+158:             this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'lead');
+159: 
+160:             const beforeValues = this.buildLeadFieldAuditValues(lead);
+161: 
+162:             if (input.leadName !== undefined) {
+163:                 lead.leadName = input.leadName;
+164:             }
+165: 
+166:             if (customer) {
+167:                 lead.customerId = customer.id;
+168:                 lead.customerName = customer.displayName;
+169:             }
+170: 
+171:             if (source) {
+172:                 lead.sourceCode = source.code;
+173:             }
+174: 
+175:             if (input.demandDescription !== undefined) {
+176:                 lead.demandDescription = input.demandDescription.trim();
+177:             }
+178: 
+179:             if (input.budgetStatus !== undefined) {
+180:                 lead.budgetStatus = input.budgetStatus;
+181:             }
+182: 
+183:             if (input.estimatedAmount !== undefined) {
+184:                 lead.estimatedAmount = this.normalizeEstimatedAmount(input.estimatedAmount);
+185:             }
+186: 
+187:             if (input.urgency !== undefined) {
+188:                 lead.urgency = input.urgency;
+189:             }
+190: 
+191:             if (input.expectedDecisionDate !== undefined) {
+192:                 lead.expectedDecisionDate = this.normalizeDateOnly(input.expectedDecisionDate);
+193:             }
+194: 
+195:             const afterValues = this.buildLeadFieldAuditValues(lead);
+196:             const changedFields = this.collectLeadFieldAuditChangedFields(beforeValues, afterValues);
+197:             if (changedFields.length === 0) {
+198:                 return lead;
+199:             }
+200: 
+201:             lead.updatedBy = operatorUserId;
+202:             await this.refreshLeadScore(lead, em);
+203:             em.persist(lead);
+204:             await this.leadScoreService.recordSystemSnapshot(lead, 'update-lead', operatorUserId, null, em);
+205:             await this.runtimeAuditService.recordAuditLog(
+206:                 {
+207:                     eventType: 'lead.updated',
+208:                     targetType: 'lead',
+209:                     targetId: lead.id,
+210:                     operatorId: operatorUserId,
+211:                     requestId: requestId ?? null,
+212:                     result: 'success',
+213:                     beforeSnapshot: this.pickLeadFieldAuditSnapshot(beforeValues, changedFields),
+214:                     afterSnapshot: this.pickLeadFieldAuditSnapshot(afterValues, changedFields),
+215:                     metadata: {
+216:                         changedFields,
+217:                         sourceCommand: 'update-lead',
+218:                         expectedVersion: input.expectedVersion ?? null,
+219:                         redactedFields: changedFields.filter((field) => LEAD_FIELD_AUDIT_REDACTED_FIELDS.has(field)),
+220:                         businessContext: {
+221:                             leadId: lead.id
+222:                         }
+223:                     }
+224:                 },
+225:                 em
+226:             );
+227:             await em.flush();
+228: 
+229:             return lead;
+230:         });
+231:     }
+232: 
+233:     async claimLeadOwner(id: string, input: ClaimLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
+234:         const lead = await this.requireLead(id);
+235:         this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'lead');
+236:         this.assertLeadAssignable(lead);
+237: 
+238:         if (lead.ownerUserId) {
+239:             throw new ConflictException(`Lead ${id} already has owner ${lead.ownerUserId}`);
+240:         }
+241: 
+242:         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
+243:         if (!operator) {
+244:             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
+245:         }
+246:         if (operator.isActive === false) {
+247:             throw new BadRequestException(`Platform user ${operatorUserId} is not active`);
+248:         }
+249: 
+250:         const nextOwnerOrgId = operator.primaryOrgUnitId ?? null;
+251:         await this.assertActiveOrgExists(nextOwnerOrgId);
+252: 
+253:         return this.applyLeadOwnerAssignment({
+254:             lead,
+255:             operatorUserId,
+256:             ownerUserId: operator.id,
+257:             ownerOrgId: nextOwnerOrgId,
+258:             assignmentType: LeadOwnerAssignmentTypeValue.Claimed,
+259:             reason: null
+260:         });
+261:     }
+262: 
+263:     async assignLeadOwner(id: string, input: AssignLeadOwnerRecord, operatorUserId: string): Promise<LeadOwnerAssignmentResult> {
+264:         const lead = await this.requireLead(id);
+265:         this.assertExpectedVersion(lead.rowVersion, input.expectedVersion, 'lead');
+266:         this.assertLeadAssignable(lead);
+267: 
+268:         const targetOwner = await this.leadRepository.findPlatformUserById(input.ownerUserId);
+269:         if (!targetOwner) {
+270:             throw new NotFoundException(`Platform user ${input.ownerUserId} not found`);
+271:         }
+272:         if (targetOwner.isActive === false) {
+273:             throw new BadRequestException(`Platform user ${input.ownerUserId} is not active`);
+274:         }
+275: 
+276:         const nextOwnerOrgId = input.ownerOrgId === undefined ? (targetOwner.primaryOrgUnitId ?? null) : (input.ownerOrgId ?? null);
+277:         await this.assertActiveOrgExists(nextOwnerOrgId);
+278: 
+279:         if (lead.ownerUserId === targetOwner.id && (lead.ownerOrgId ?? null) === nextOwnerOrgId) {
+280:             throw new BadRequestException(`Lead ${id} already has the requested owner`);
+281:         }
+282: 
+283:         return this.applyLeadOwnerAssignment({
+284:             lead,
+285:             operatorUserId,
+286:             ownerUserId: targetOwner.id,
+287:             ownerOrgId: nextOwnerOrgId,
+288:             assignmentType: lead.ownerUserId ? LeadOwnerAssignmentTypeValue.Reassigned : LeadOwnerAssignmentTypeValue.Assigned,
+289:             reason: input.reason.trim()
+290:         });
+291:     }
+292: 
+293:     async qualifyLead(id: string, input: QualifyLeadRecord, operatorUserId: string): Promise<Lead> {
+294:         const lead = await this.requireLead(id);
+295:         if (lead.status !== LeadStatusValue.Registered) {
+296:             throw new BadRequestException(`Lead ${id} cannot be qualified in status ${lead.status}`);
+297:         }
+298:         this.assertLeadReadyForQualified(lead);
+299: 
+300:         const now = new Date();
+301:         lead.status = LeadStatusValue.Qualified;
+302:         lead.qualificationSummary = input.qualificationSummary;
+303:         lead.qualifiedAt = now;
+304:         lead.qualifiedBy = operatorUserId;
+305:         lead.updatedBy = operatorUserId;
+306:         await this.refreshLeadScore(lead);
+307: 
+308:         await this.leadRepository.save(lead);
+309:         await this.leadScoreService.recordSystemSnapshot(lead, 'qualify-lead', operatorUserId);
+310: 
+311:         return lead;
+312:     }
+313: 
+314:     async closeLead(id: string, input: CloseLeadRecord, operatorUserId: string): Promise<Lead> {
+315:         const lead = await this.requireLead(id);
+316:         if (!LEAD_MUTABLE_STATUSES.includes(lead.status)) {
+317:             throw new BadRequestException(`Lead ${id} cannot be closed in status ${lead.status}`);
+318:         }
+319: 
+320:         const now = new Date();
+321:         lead.status = LeadStatusValue.Closed;
+322:         lead.closedReason = input.closedReason;
+323:         lead.closedAt = now;
+324:         lead.closedBy = operatorUserId;
+325:         lead.updatedBy = operatorUserId;
+326:         await this.refreshLeadScore(lead);
+327: 
+328:         await this.leadRepository.save(lead);
+329:         await this.leadScoreService.recordSystemSnapshot(lead, 'close-lead', operatorUserId);
+330: 
+331:         return lead;
+332:     }
+333: 
+334:     async convertToProject(id: string, input: ConvertLeadToProjectRecord, operatorUserId: string): Promise<Project> {
+335:         const operator = await this.leadRepository.findPlatformUserById(operatorUserId);
+336:         if (!operator) {
+337:             throw new NotFoundException(`Platform user ${operatorUserId} not found`);
+338:         }
+339: 
+340:         return this.leadRepository.getEntityManager().transactional(async (em) => {
+341:             const lead = await em.findOne(Lead, { id });
+342:             if (!lead) {
+343:                 throw new NotFoundException(`Lead ${id} not found`);
+344:             }
+345: 
+346:             if (lead.status === LeadStatusValue.Converted || lead.convertedProjectId) {
+347:                 throw new ConflictException(`Lead ${id} has already been converted to project ${lead.convertedProjectId}`);
+348:             }
+349: 
+350:             if (lead.status !== LeadStatusValue.Qualified) {
+351:                 throw new BadRequestException(`Lead ${id} cannot be converted in status ${lead.status}`);
+352:             }
+353:             this.assertLeadReadyForProject(lead);
+354: 
+355:             const projectNo = await this.businessNumberService.next('project', new Date(), em);
+356:             const project = em.create(Project, {
+357:                 id: randomUUID(),
+358:                 projectNo,
+359:                 projectName: input.projectName?.trim() || lead.leadName,
+360:                 sourceLeadId: lead.id,
+361:                 status: ProjectStatusValue.Active,
+362:                 currentStage: ProjectStageValue.Assessment,
+363:                 customerId: lead.customerId,
+364:                 customerName: lead.customerName,
+365:                 customerProjectNo: input.customerProjectNo?.trim() || null,
+366:                 ownerOrgId: lead.ownerOrgId ?? null,
+367:                 ownerUserId: lead.ownerUserId ?? null,
+368:                 plannedSignAt: input.plannedSignAt ?? null,
+369:                 createdBy: operator.id,
+370:                 updatedBy: operator.id
+371:             });
+372: 
+373:             const now = new Date();
+374:             lead.status = LeadStatusValue.Converted;
+375:             lead.convertedProjectId = project.id;
+376:             lead.convertedAt = now;
+377:             lead.convertedBy = operator.id;
+378:             lead.updatedBy = operator.id;
+379:             await this.refreshLeadScore(lead, em);
+380: 
+381:             em.persist([lead, project]);
+382:             await this.attachmentService.copyActiveLinksToTarget({
+383:                 from: { targetType: AttachmentTargetTypeValue.Lead, targetId: lead.id },
+384:                 to: { targetType: AttachmentTargetTypeValue.Project, targetId: project.id },
+385:                 relationType: AttachmentRelationTypeValue.Source,
+386:                 operatorUserId: operator.id,
+387:                 entityManager: em,
+388:                 excludeCategories: ['finance', 'internal-assessment']
+389:             });
+390:             await this.leadScoreService.recordSystemSnapshot(lead, 'convert-to-project', operator.id, project.id, em);
+391:             await em.flush();
+392:             return project;
+393:         });
+394:     }
+395: 
+396:     private async requireLead(id: string): Promise<Lead> {
+397:         const lead = await this.leadRepository.findById(id);
+398:         if (!lead) {
+399:             throw new NotFoundException(`Lead ${id} not found`);
+400:         }
+401: 
+402:         return lead;
+403:     }
+404: 
+405:     private requireActiveSourceDictionaryItem(code: string) {
+406:         return this.dictionaryService.requireActiveItem(DictionaryDomainValue.LeadSource, code);
+407:     }
+408: 
+409:     private assertLeadEditable(lead: Lead): void {
+410:         if (!LEAD_MUTABLE_STATUSES.includes(lead.status)) {
+411:             throw new BadRequestException(`Lead ${lead.id} cannot be edited in status ${lead.status}`);
+412:         }
+413:     }
+414: 
+415:     private assertLeadAssignable(lead: Lead): void {
+416:         if (!LEAD_MUTABLE_STATUSES.includes(lead.status)) {
+417:             throw new BadRequestException(`Lead ${lead.id} cannot assign owner in status ${lead.status}`);
+418:         }
+419:     }
+420: 
+421:     private assertLeadReadyForQualified(lead: Lead): void {
+422:         const missing = collectLeadGateMissingItems(lead, 'qualification');
+423:         if (missing.length > 0) {
+424:             throw new BadRequestException(`Lead ${lead.id} is missing required qualification facts: ${missing.join(', ')}`);
+425:         }
+426:     }
+427: 
+428:     private assertLeadReadyForProject(lead: Lead): void {
+429:         const missing = collectLeadGateMissingItems(lead, 'conversion');
+430:         if (missing.length > 0) {
+431:             throw new BadRequestException(`Lead ${lead.id} is missing required conversion facts: ${missing.join(', ')}`);
+432:         }
+433:     }
+434: 
+435:     private normalizeEstimatedAmount(value: string | null | undefined): string | null {
+436:         const normalized = value?.trim();
+437:         return normalized ? normalized : null;
+438:     }
+439: 
+440:     private normalizeDateOnly(value: string | null | undefined): string | null {
+441:         const normalized = value?.trim();
+442:         return normalized ? normalized.slice(0, 10) : null;
+443:     }
+444: 
+445:     private buildLeadFieldAuditValues(lead: Lead): LeadFieldAuditValues {
+446:         return {
+447:             leadName: lead.leadName,
+448:             customerId: lead.customerId,
+449:             customerName: lead.customerName,
+450:             sourceCode: lead.sourceCode,
+451:             demandDescription: lead.demandDescription ?? null,
+452:             budgetStatus: lead.budgetStatus,
+453:             estimatedAmount: lead.estimatedAmount ?? null,
+454:             urgency: lead.urgency,
+455:             expectedDecisionDate: this.normalizeAuditDate(lead.expectedDecisionDate)
+456:         };
+457:     }
+458: 
+459:     private collectLeadFieldAuditChangedFields(beforeValues: LeadFieldAuditValues, afterValues: LeadFieldAuditValues): LeadFieldAuditField[] {
+460:         return LEAD_FIELD_AUDIT_FIELDS.filter((field) => beforeValues[field] !== afterValues[field]);
+461:     }
+462: 
+463:     private pickLeadFieldAuditSnapshot(values: LeadFieldAuditValues, fields: readonly LeadFieldAuditField[]): AuditSnapshot {
+464:         return fields.reduce<AuditSnapshot>((snapshot, field) => {
+465:             snapshot[field] = field === 'demandDescription' ? this.summarizeAuditText(values[field]) : (values[field] ?? null);
+466:             return snapshot;
+467:         }, {});
+468:     }
+469: 
+470:     private summarizeAuditText(value: unknown): AuditSnapshot {
+471:         const text = typeof value === 'string' ? value : '';
+472:         return {
+473:             changed: true,
+474:             length: text.length
+475:         };
+476:     }
+477: 
+478:     private normalizeAuditDate(value: Date | string | null | undefined): string | null {
+479:         if (value instanceof Date) {
+480:             return value.toISOString().slice(0, 10);
+481:         }
+482:         return this.normalizeDateOnly(value);
+483:     }
+484: 
+485:     private async resolveOwner(ownerUserId: string | null | undefined, ownerOrgId: string | null | undefined, operator: { id: string; primaryOrgUnitId?: string | null }): Promise<{ ownerUserId: string | null; ownerOrgId: string | null }> {
+486:         if (ownerUserId === undefined) {
+487:             const resolvedOrgId = ownerOrgId === undefined ? (operator.primaryOrgUnitId ?? null) : ownerOrgId;
+488:             await this.assertOrgExists(resolvedOrgId);
+489:             return {
+490:                 ownerUserId: operator.id,
+491:                 ownerOrgId: resolvedOrgId
+492:             };
+493:         }
+494: 
+495:         if (ownerUserId === null) {
+496:             return {
+497:                 ownerUserId: null,
+498:                 ownerOrgId: null
+499:             };
+500:         }
+501: 
+502:         const ownerUser = ownerUserId ? await this.leadRepository.findPlatformUserById(ownerUserId) : null;
+503:         if (ownerUserId && !ownerUser) {
+504:             throw new NotFoundException(`Platform user ${ownerUserId} not found`);
+505:         }
+506: 
+507:         const resolvedOrgId = ownerOrgId === undefined ? (ownerUser?.primaryOrgUnitId ?? null) : ownerOrgId;
+508:         await this.assertOrgExists(resolvedOrgId);
+509: 
+510:         return {
+511:             ownerUserId: ownerUser?.id ?? null,
+512:             ownerOrgId: resolvedOrgId
+513:         };
+514:     }
+515: 
+516:     private async assertOrgExists(orgUnitId: string | null): Promise<void> {
+517:         if (!orgUnitId) {
+518:             return;
+519:         }
+520: 
+521:         const orgUnit = await this.leadRepository.findOrgUnitById(orgUnitId);
+522:         if (!orgUnit) {
+523:             throw new NotFoundException(`Org unit ${orgUnitId} not found`);
+524:         }
+525:     }
+526: 
+527:     private async assertActiveOrgExists(orgUnitId: string | null): Promise<void> {
+528:         if (!orgUnitId) {
+529:             return;
+530:         }
+531: 
+532:         const orgUnit = await this.leadRepository.findOrgUnitById(orgUnitId);
+533:         if (!orgUnit) {
+534:             throw new NotFoundException(`Org unit ${orgUnitId} not found`);
+535:         }
+536:         if (orgUnit.isActive === false) {
+537:             throw new BadRequestException(`Org unit ${orgUnitId} is not active`);
+538:         }
+539:     }
+540: 
+541:     private async applyLeadOwnerAssignment(input: { lead: Lead; operatorUserId: string; ownerUserId: string; ownerOrgId: string | null; assignmentType: LeadOwnerAssignmentType; reason: string | null }): Promise<LeadOwnerAssignmentResult> {
+542:         const previousOwnerUserId = input.lead.ownerUserId ?? null;
+543:         const previousOwnerOrgId = input.lead.ownerOrgId ?? null;
+544:         const now = new Date();
+545:         const record = this.leadRepository.createLeadOwnerAssignmentRecord({
+546:             id: randomUUID(),
+547:             leadId: input.lead.id,
+548:             previousOwnerOrgId,
+549:             previousOwnerUserId,
+550:             newOwnerOrgId: input.ownerOrgId,
+551:             newOwnerUserId: input.ownerUserId,
+552:             assignmentType: input.assignmentType,
+553:             reason: input.reason,
+554:             assignedAt: now,
+555:             assignedBy: input.operatorUserId,
+556:             createdAt: now,
+557:             createdBy: input.operatorUserId
+558:         });
+559: 
+560:         input.lead.ownerUserId = input.ownerUserId;
+561:         input.lead.ownerOrgId = input.ownerOrgId;
+562:         input.lead.updatedBy = input.operatorUserId;
+563:         await this.refreshLeadScore(input.lead);
+564: 
+565:         await this.leadRepository.saveLeadOwnerAssignment({
+566:             lead: input.lead,
+567:             record
+568:         });
+569:         await this.leadScoreService.recordSystemSnapshot(input.lead, `${input.assignmentType}-lead-owner`, input.operatorUserId, record.id);
+570: 
+571:         return this.mapLeadOwnerAssignmentResult(input.lead, record);
+572:     }
+573: 
+574:     private assertExpectedVersion(currentVersion: number, expectedVersion: number | undefined, targetType: string): void {
+575:         if (expectedVersion !== undefined && currentVersion !== expectedVersion) {
+576:             throw new ConflictException(`${targetType} version ${expectedVersion} does not match current version ${currentVersion}`);
+577:         }
+578:     }
+579: 
+580:     private mapLeadOwnerAssignmentResult(lead: Lead, record: LeadOwnerAssignmentRecord): LeadOwnerAssignmentResult {
+581:         return {
+582:             targetId: lead.id,
+583:             leadOwnerAssignmentRecordId: record.id,
+584:             previousOwnerUserId: record.previousOwnerUserId ?? null,
+585:             previousOwnerOrgId: record.previousOwnerOrgId ?? null,
+586:             newOwnerUserId: record.newOwnerUserId,
+587:             newOwnerOrgId: record.newOwnerOrgId ?? null,
+588:             assignmentType: record.assignmentType,
+589:             businessStatusAfter: lead.status
+590:         };
+591:     }
+592: 
+593:     private async refreshLeadScore(lead: Lead, entityManager?: EntityManager): Promise<void> {
+594:         const facts = await this.leadScoreFactsService.collectLeadScoreFacts(lead.id, entityManager);
+595:         const snapshot = calculateLeadScore(lead, facts);
+596:         lead.score = snapshot.score;
+597:         lead.rating = snapshot.rating;
+598:         lead.scoreReason = snapshot.scoreReason;
+599:         lead.scoreUpdatedAt = new Date();
+600:     }
+601: }
+602: 
+
+SOURCE apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.ts rawSHA256=ed6daeec4a727dbb8d81f4c59e4ba078e654c309fc483854112cd050e5c6ad01
+515:     private async requireOpportunityContext(input: OpportunityContextQuery & { customerId?: string }): Promise<{ customer: Customer; lead: Lead | null; project: Project | null }> {
+516:         const [lead, project] = await Promise.all([input.leadId ? this.salesIntelligenceRepository.findLeadById(input.leadId) : null, input.projectId ? this.salesIntelligenceRepository.findProjectById(input.projectId) : null]);
+517:         if (input.leadId && !lead) {
+518:             throw new NotFoundException(`Lead ${input.leadId} not found`);
+519:         }
+520:         if (input.projectId && !project) {
+521:             throw new NotFoundException(`Project ${input.projectId} not found`);
+522:         }
+523: 
+524:         const customerId = input.customerId ?? project?.customerId ?? lead?.customerId;
+525:         if (!customerId) {
+526:             throw new BadRequestException('Opportunity context must resolve a customer');
+527:         }
+528:         if (lead && lead.customerId !== customerId) {
+529:             throw new BadRequestException(`Lead ${lead.id} does not belong to customer ${customerId}`);
+530:         }
+531:         if (project && project.customerId !== customerId) {
+532:             throw new BadRequestException(`Project ${project.id} does not belong to customer ${customerId}`);
+533:         }
+534: 
+535:         const customer = await this.requireCustomer(customerId);
+536:         return { customer, lead, project };
+537:     }
+
+SOURCE libs/shared/contracts/src/lib/shared-contracts.ts rawSHA256=fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097
+2074: 
+2075: export type CreateCustomerAliasRequest = z.infer<typeof CreateCustomerAliasRequestSchema>;
+2076: 
+2077: // ---------------------------------------------------------------------------
+2078: // Lead
+2079: // ---------------------------------------------------------------------------
+2080: 
+2081: export const LEAD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+2082:     { key: 'Registered', value: 'registered', label: '待确认', severity: 'secondary', order: 10 },
+2083:     { key: 'Qualified', value: 'qualified', label: '已有效', severity: 'success', order: 20 },
+2084:     { key: 'Converted', value: 'converted', label: '已转项目', severity: 'info', order: 30 },
+2085:     { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 40 }
+2086: ] as const);
+2087: 
+2088: export const LeadStatusValue = enumDefinitionValueObject(LEAD_STATUS_DEFINITIONS);
+2089: 
+2090: export const LEAD_STATUSES = enumDefinitionValues(LEAD_STATUS_DEFINITIONS);
+2091: 
+2092: export type LeadStatus = (typeof LEAD_STATUSES)[number];
+2093: 
+2094: export const LeadStatusSchema = z.enum(LEAD_STATUSES).meta({ id: 'LeadStatus' });
+2095: 
+2096: export const LeadStatusLabel = enumDefinitionLabels(LEAD_STATUS_DEFINITIONS);
+2097: 
+2098: export const LeadStatusSeverity = enumDefinitionSeverities(LEAD_STATUS_DEFINITIONS);
+2099: 
+2100: export const LeadStatusOptions = enumDefinitionOptions(LEAD_STATUS_DEFINITIONS);
+2101: 
+2102: export const LEAD_WORKBENCH_SCOPE_DEFINITIONS = defineSeverityEnumDefinitions([
+2103:     { key: 'Active', value: 'active', label: '处理中', severity: 'info', order: 10, hint: '待确认与已有效线索' },
+2104:     { key: 'Registered', value: 'registered', label: '待确认', severity: 'secondary', order: 20, hint: '尚未确认有效的线索' },
+2105:     { key: 'Qualified', value: 'qualified', label: '已有效', severity: 'success', order: 30, hint: '已确认有效且仍在推进的线索' },
+2106:     { key: 'ReadyToConvert', value: 'ready-to-convert', label: '可转项目', severity: 'success', order: 40, hint: '已满足转项目硬闸口的线索' },
+2107:     { key: 'BlockedConversion', value: 'blocked-conversion', label: '转化受阻', severity: 'warn', order: 50, hint: '已有效但缺少转项目必填条件的线索' },
+2108:     { key: 'Converted', value: 'converted', label: '已转项目', severity: 'info', order: 60, hint: '已完成项目转化的历史线索' },
+2109:     { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 70, hint: '已关闭且不再推进的线索' },
+2110:     { key: 'All', value: 'all', label: '全部线索', severity: 'secondary', order: 80, hint: '包含处理中、已转项目和已关闭线索' }
+2111: ] as const);
+2112: 
+2113: export const LeadWorkbenchScopeValue = enumDefinitionValueObject(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+2114: 
+2115: export const LEAD_WORKBENCH_SCOPES = enumDefinitionValues(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+2116: 
+2117: export type LeadWorkbenchScope = (typeof LEAD_WORKBENCH_SCOPES)[number];
+2118: 
+2119: export const LeadWorkbenchScopeSchema = z.enum(LEAD_WORKBENCH_SCOPES).meta({ id: 'LeadWorkbenchScope' });
+2120: 
+2121: export const LeadWorkbenchScopeLabel = enumDefinitionLabels(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+2122: 
+2123: export const LeadWorkbenchScopeSeverity = enumDefinitionSeverities(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+2124: 
+2125: export const LeadWorkbenchScopeHint = enumDefinitionHints(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+2126: 
+2127: export const LeadWorkbenchScopeOptions = enumDefinitionOptions(LEAD_WORKBENCH_SCOPE_DEFINITIONS);
+2128: 
+2129: export const LEAD_BUDGET_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+2130:     { key: 'Unknown', value: 'unknown', label: '预算未知', severity: 'secondary', order: 10 },
+2131:     { key: 'NoBudget', value: 'no-budget', label: '暂无预算', severity: 'warn', order: 20 },
+2132:     { key: 'RoughBudget', value: 'rough-budget', label: '初步预算', severity: 'info', order: 30 },
+2133:     { key: 'BudgetConfirmed', value: 'budget-confirmed', label: '预算已确认', severity: 'success', order: 40 },
+2134:     { key: 'BudgetApproved', value: 'budget-approved', label: '预算已批准', severity: 'success', order: 50 }
+2135: ] as const);
+2136: 
+2137: export const LeadBudgetStatusValue = enumDefinitionValueObject(LEAD_BUDGET_STATUS_DEFINITIONS);
+2138: 
+2139: export const LEAD_BUDGET_STATUSES = enumDefinitionValues(LEAD_BUDGET_STATUS_DEFINITIONS);
+2140: 
+2141: export type LeadBudgetStatus = (typeof LEAD_BUDGET_STATUSES)[number];
+2142: 
+2143: export const LeadBudgetStatusSchema = z.enum(LEAD_BUDGET_STATUSES).meta({ id: 'LeadBudgetStatus' });
+2144: 
+2145: export const LeadBudgetStatusLabel = enumDefinitionLabels(LEAD_BUDGET_STATUS_DEFINITIONS);
+2146: 
+2147: export const LeadBudgetStatusSeverity = enumDefinitionSeverities(LEAD_BUDGET_STATUS_DEFINITIONS);
+2148: 
+2149: export const LeadBudgetStatusOptions = enumDefinitionOptions(LEAD_BUDGET_STATUS_DEFINITIONS);
+2150: 
+2151: export const LEAD_URGENCY_DEFINITIONS = defineSeverityEnumDefinitions([
+2152:     { key: 'Low', value: 'low', label: '低', severity: 'secondary', order: 10 },
+2153:     { key: 'Normal', value: 'normal', label: '一般', severity: 'info', order: 20 },
+2154:     { key: 'High', value: 'high', label: '高', severity: 'warn', order: 30 },
+2155:     { key: 'Critical', value: 'critical', label: '紧急', severity: 'danger', order: 40 }
+2156: ] as const);
+2157: 
+2158: export const LeadUrgencyValue = enumDefinitionValueObject(LEAD_URGENCY_DEFINITIONS);
+2159: 
+2160: export const LEAD_URGENCIES = enumDefinitionValues(LEAD_URGENCY_DEFINITIONS);
+2161: 
+2162: export type LeadUrgency = (typeof LEAD_URGENCIES)[number];
+2163: 
+2164: export const LeadUrgencySchema = z.enum(LEAD_URGENCIES).meta({ id: 'LeadUrgency' });
+2165: 
+2166: export const LeadUrgencyLabel = enumDefinitionLabels(LEAD_URGENCY_DEFINITIONS);
+2167: 
+2168: export const LeadUrgencySeverity = enumDefinitionSeverities(LEAD_URGENCY_DEFINITIONS);
+2169: 
+2170: export const LeadUrgencyOptions = enumDefinitionOptions(LEAD_URGENCY_DEFINITIONS);
+2171: 
+2172: export const LEAD_RATING_DEFINITIONS = defineSeverityEnumDefinitions([
+2173:     { key: 'A', value: 'A', label: 'A级', severity: 'success', order: 10 },
+2174:     { key: 'B', value: 'B', label: 'B级', severity: 'info', order: 20 },
+2175:     { key: 'C', value: 'C', label: 'C级', severity: 'warn', order: 30 },
+2176:     { key: 'D', value: 'D', label: 'D级', severity: 'danger', order: 40 }
+2177: ] as const);
+2178: 
+2179: export const LeadRatingValue = enumDefinitionValueObject(LEAD_RATING_DEFINITIONS);
+2180: 
+2181: export const LEAD_RATINGS = enumDefinitionValues(LEAD_RATING_DEFINITIONS);
+2182: 
+2183: export type LeadRating = (typeof LEAD_RATINGS)[number];
+2184: 
+2185: export const LeadRatingSchema = z.enum(LEAD_RATINGS).meta({ id: 'LeadRating' });
+2186: 
+2187: export const LeadRatingLabel = enumDefinitionLabels(LEAD_RATING_DEFINITIONS);
+2188: 
+2189: export const LeadRatingSeverity = enumDefinitionSeverities(LEAD_RATING_DEFINITIONS);
+2190: 
+2191: export const LeadRatingOptions = enumDefinitionOptions(LEAD_RATING_DEFINITIONS);
+2192: 
+2193: export const PROJECT_STAGE_DEFINITIONS = defineSeverityEnumDefinitions([
+2194:     { key: 'Assessment', value: 'assessment', label: '立项评估', severity: 'secondary', order: 10 },
+2195:     { key: 'ScopeConfirmation', value: 'scope-confirmation', label: '范围确认', severity: 'info', order: 20 },
+2196:     { key: 'CommercialClosure', value: 'commercial-closure', label: '商务收口', severity: 'warn', order: 30 },
+2197:     { key: 'Contracting', value: 'contracting', label: '签约中', severity: 'warn', order: 40 },
+2198:     { key: 'Handover', value: 'handover', label: '项目移交', severity: 'warn', order: 50 },
+2199:     { key: 'Execution', value: 'execution', label: '正式执行', severity: 'success', order: 60 },
+2200:     { key: 'Acceptance', value: 'acceptance', label: '验收确认', severity: 'info', order: 70 },
+2201:     { key: 'Completed', value: 'completed', label: '已完成', severity: 'contrast', order: 80 },
+2202:     { key: 'ClosedLost', value: 'closed-lost', label: '已丢单', severity: 'danger', order: 90 },
+2203:     { key: 'ClosedTerminated', value: 'closed-terminated', label: '已终止', severity: 'danger', order: 100 }
+2204: ] as const);
+2205: 
+2206: export const ProjectStageValue = enumDefinitionValueObject(PROJECT_STAGE_DEFINITIONS);
+2207: 
+2208: export const PROJECT_STAGES = enumDefinitionValues(PROJECT_STAGE_DEFINITIONS);
+2209: 
+2210: export type ProjectStage = (typeof PROJECT_STAGES)[number];
+2211: 
+2212: export const ProjectStageSchema = z.enum(PROJECT_STAGES).meta({ id: 'ProjectStage' });
+2213: 
+2214: export const ProjectStageLabel = enumDefinitionLabels(PROJECT_STAGE_DEFINITIONS);
+2215: 
+2216: export const ProjectStageSeverity = enumDefinitionSeverities(PROJECT_STAGE_DEFINITIONS);
+2217: 
+2218: export const ProjectStageOptions = enumDefinitionOptions(PROJECT_STAGE_DEFINITIONS);
+2219: 
+2220: export const PROJECT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+2221:     { key: 'Active', value: 'active', label: '进行中', severity: 'info', order: 10 },
+2222:     { key: 'PendingApproval', value: 'pending-approval', label: '待审批', severity: 'secondary', order: 20 },
+2223:     { key: 'Blocked', value: 'blocked', label: '阻塞中', severity: 'warn', order: 30 },
+2224:     { key: 'OnHold', value: 'on-hold', label: '已挂起', severity: 'warn', order: 40 },
+2225:     { key: 'Completed', value: 'completed', label: '已完成', severity: 'success', order: 50 },
+2226:     { key: 'Closed', value: 'closed', label: '已关闭', severity: 'contrast', order: 60 }
+2227: ] as const);
+2228: 
+2229: export const ProjectStatusValue = enumDefinitionValueObject(PROJECT_STATUS_DEFINITIONS);
+2230: 
+2231: export const PROJECT_STATUSES = enumDefinitionValues(PROJECT_STATUS_DEFINITIONS);
+2232: 
+2233: export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+2234: 
+2235: export const ProjectStatusSchema = z.enum(PROJECT_STATUSES).meta({ id: 'ProjectStatus' });
+2236: 
+2237: export const ProjectStatusLabel = enumDefinitionLabels(PROJECT_STATUS_DEFINITIONS);
+2238: 
+2239: export const ProjectStatusSeverity = enumDefinitionSeverities(PROJECT_STATUS_DEFINITIONS);
+2240: 
+2241: export const ProjectStatusOptions = enumDefinitionOptions(PROJECT_STATUS_DEFINITIONS);
+2242: 
+2243: export const LEAD_GATE_STATUSES = ['ready', 'blocked'] as const;
+2244: 
+2245: export type LeadGateStatus = (typeof LEAD_GATE_STATUSES)[number];
+2246: 
+2247: export const LeadGateStatusSchema = z.enum(LEAD_GATE_STATUSES).meta({ id: 'LeadGateStatus' });
+2248: 
+2249: export const LeadGateStatusValue = {
+2250:     Ready: 'ready',
+2251:     Blocked: 'blocked'
+2252: } as const satisfies Record<string, LeadGateStatus>;
+2253: 
+2254: export const LEAD_GATE_MISSING_ITEM_DEFINITIONS = defineEnumDefinitions([
+2255:     { key: 'Source', value: 'source', label: '线索来源', order: 10 },
+2256:     { key: 'DemandDescription', value: 'demand-description', label: '需求描述', order: 20 },
+2257:     { key: 'Budget', value: 'budget', label: '预算情况', order: 30 },
+2258:     { key: 'EstimatedAmount', value: 'estimated-amount', label: '预计金额', order: 40 },
+2259:     { key: 'Urgency', value: 'urgency', label: '紧迫程度', order: 50 },
+2260:     { key: 'Owner', value: 'owner', label: '销售主责人', order: 60 },
+2261:     { key: 'OwnerOrg', value: 'owner-org', label: '销售主责组织', order: 70 },
+2262:     { key: 'RegisteredStatus', value: 'registered-status', label: '待确认状态', order: 80 },
+2263:     { key: 'QualifiedStatus', value: 'qualified-status', label: '已确认有效状态', order: 90 },
+2264:     { key: 'NotConverted', value: 'not-converted', label: '未转项目状态', order: 100 },
+2265:     { key: 'NotClosed', value: 'not-closed', label: '未关闭状态', order: 110 }
+2266: ] as const);
+2267: 
+2268: export const LeadGateMissingItemValue = enumDefinitionValueObject(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
+2269: 
+2270: export const LEAD_GATE_MISSING_ITEMS = enumDefinitionValues(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
+2271: 
+2272: export type LeadGateMissingItem = (typeof LEAD_GATE_MISSING_ITEMS)[number];
+2273: 
+2274: export const LeadGateMissingItemSchema = z.enum(LEAD_GATE_MISSING_ITEMS).meta({ id: 'LeadGateMissingItem' });
+2275: 
+2276: export const LeadGateMissingItemLabel = enumDefinitionLabels(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
+2277: 
+2278: export const LeadGateMissingItemOptions = enumDefinitionOptions(LEAD_GATE_MISSING_ITEM_DEFINITIONS);
+2279: 
+2280: export const LEAD_OWNERSHIP_SCOPES = ['all', 'mine', 'public-pool'] as const;
+2281: 
+2282: export type LeadOwnershipScope = (typeof LEAD_OWNERSHIP_SCOPES)[number];
+2283: 
+2284: export const LeadOwnershipScopeSchema = z.enum(LEAD_OWNERSHIP_SCOPES).meta({ id: 'LeadOwnershipScope' });
+2285: 
+2286: export const LeadOwnershipScopeValue = {
+2287:     All: 'all',
+2288:     Mine: 'mine',
+2289:     PublicPool: 'public-pool'
+2290: } as const satisfies Record<string, LeadOwnershipScope>;
+2291: 
+2292: export const LEAD_ALLOWED_ACTIONS = ['claim-lead-owner', 'assign-lead-owner'] as const;
+2293: 
+2294: export type LeadAllowedAction = (typeof LEAD_ALLOWED_ACTIONS)[number];
+2295: 
+2296: export const LeadAllowedActionSchema = z.enum(LEAD_ALLOWED_ACTIONS).meta({ id: 'LeadAllowedAction' });
+2297: 
+2298: export const LeadAllowedActionValue = {
+2299:     ClaimLeadOwner: 'claim-lead-owner',
+2300:     AssignLeadOwner: 'assign-lead-owner'
+2301: } as const satisfies Record<string, LeadAllowedAction>;
+2302: 
+2303: export const LEAD_OWNER_ASSIGNMENT_TYPES = ['claimed', 'assigned', 'reassigned'] as const;
+2304: 
+2305: export type LeadOwnerAssignmentType = (typeof LEAD_OWNER_ASSIGNMENT_TYPES)[number];
+2306: 
+2307: export const LeadOwnerAssignmentTypeSchema = z.enum(LEAD_OWNER_ASSIGNMENT_TYPES).meta({ id: 'LeadOwnerAssignmentType' });
+2308: 
+2309: export const LeadOwnerAssignmentTypeValue = {
+2310:     Claimed: 'claimed',
+2311:     Assigned: 'assigned',
+2312:     Reassigned: 'reassigned'
+2313: } as const satisfies Record<string, LeadOwnerAssignmentType>;
+2314: 
+2315: export const LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS = defineEnumDefinitions([
+2316:     { key: 'System', value: 'system', label: '系统评分', order: 10 },
+2317:     { key: 'ManualOverride', value: 'manual-override', label: '人工覆盖', order: 20 }
+2318: ] as const);
+2319: 
+2320: export const LeadEffectiveScoreSourceValue = enumDefinitionValueObject(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+2321: 
+2322: export const LEAD_EFFECTIVE_SCORE_SOURCES = enumDefinitionValues(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+2323: 
+2324: export type LeadEffectiveScoreSource = (typeof LEAD_EFFECTIVE_SCORE_SOURCES)[number];
+2325: 
+2326: export const LeadEffectiveScoreSourceSchema = z.enum(LEAD_EFFECTIVE_SCORE_SOURCES).meta({ id: 'LeadEffectiveScoreSource' });
+2327: 
+2328: export const LeadEffectiveScoreSourceLabel = enumDefinitionLabels(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+2329: 
+2330: export const LeadEffectiveScoreSourceOptions = enumDefinitionOptions(LEAD_EFFECTIVE_SCORE_SOURCE_DEFINITIONS);
+2331: 
+2332: export const LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS = defineEnumDefinitions([
+2333:     { key: 'System', value: 'system', label: '系统评分', order: 10 },
+2334:     { key: 'ManualOverride', value: 'manual-override', label: '人工覆盖', order: 20 },
+2335:     { key: 'OverrideRevoked', value: 'override-revoked', label: '覆盖撤销', order: 30 }
+2336: ] as const);
+2337: 
+2338: export const LeadScoreSnapshotKindValue = enumDefinitionValueObject(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+2339: 
+2340: export const LEAD_SCORE_SNAPSHOT_KINDS = enumDefinitionValues(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+2341: 
+2342: export type LeadScoreSnapshotKind = (typeof LEAD_SCORE_SNAPSHOT_KINDS)[number];
+2343: 
+2344: export const LeadScoreSnapshotKindSchema = z.enum(LEAD_SCORE_SNAPSHOT_KINDS).meta({ id: 'LeadScoreSnapshotKind' });
+2345: 
+2346: export const LeadScoreSnapshotKindLabel = enumDefinitionLabels(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+2347: 
+2348: export const LeadScoreSnapshotKindOptions = enumDefinitionOptions(LEAD_SCORE_SNAPSHOT_KIND_DEFINITIONS);
+2349: 
+2350: export const LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
+2351:     { key: 'Pending', value: 'pending', label: '待审批', severity: 'warn', order: 10 },
+2352:     { key: 'Approved', value: 'approved', label: '已批准', severity: 'success', order: 20 },
+2353:     { key: 'Rejected', value: 'rejected', label: '已驳回', severity: 'danger', order: 30 },
+2354:     { key: 'Revoked', value: 'revoked', label: '已撤销', severity: 'secondary', order: 40 },
+2355:     { key: 'Superseded', value: 'superseded', label: '已替代', severity: 'contrast', order: 50 }
+2356: ] as const);
+2357: 
+2358: export const LeadScoreOverrideStatusValue = enumDefinitionValueObject(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+2359: 
+2360: export const LEAD_SCORE_OVERRIDE_STATUSES = enumDefinitionValues(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+2361: 
+2362: export type LeadScoreOverrideStatus = (typeof LEAD_SCORE_OVERRIDE_STATUSES)[number];
+2363: 
+2364: export const LeadScoreOverrideStatusSchema = z.enum(LEAD_SCORE_OVERRIDE_STATUSES).meta({ id: 'LeadScoreOverrideStatus' });
+2365: 
+2366: export const LeadScoreOverrideStatusLabel = enumDefinitionLabels(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+2367: 
+2368: export const LeadScoreOverrideStatusSeverity = enumDefinitionSeverities(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+2369: 
+2370: export const LeadScoreOverrideStatusOptions = enumDefinitionOptions(LEAD_SCORE_OVERRIDE_STATUS_DEFINITIONS);
+2371: 
+2372: const LeadEstimatedAmountStringSchema = z
+2373:     .string()
+2374:     .trim()
+2375:     .regex(/^\d+(\.\d{1,2})?$/);
+2376: 
+2377: export const LeadGateCheckSchema = z
+2378:     .object({
+2379:         status: LeadGateStatusSchema,
+2380:         missingItems: z.array(LeadGateMissingItemSchema),
+2381:         explanation: z.string()
+2382:     })
+2383:     .meta({ id: 'LeadGateCheck' });
+2384: 
+2385: export type LeadGateCheck = z.infer<typeof LeadGateCheckSchema>;
+2386: 
+2387: export const LeadGateSummarySchema = z
+2388:     .object({
+2389:         qualification: LeadGateCheckSchema,
+2390:         conversion: LeadGateCheckSchema
+2391:     })
+2392:     .meta({ id: 'LeadGateSummary' });
+2393: 
+2394: export type LeadGateSummary = z.infer<typeof LeadGateSummarySchema>;
+2395: 
+2396: export const DictionaryCodeSchema = z
+2397:     .string()
+2398:     .trim()
+2399:     .min(1)
+2400:     .max(64)
+2401:     .regex(/^[a-z][a-z0-9-]*$/, 'Dictionary code must use lower kebab-case')
+2402:     .meta({ id: 'DictionaryCode' });
+2403: 
+2404: export type DictionaryCode = z.infer<typeof DictionaryCodeSchema>;
+2405: 
+2406: export const LeadSummarySchema = z
+2407:     .object({
+2408:         id: z.uuid(),
+2409:         leadNo: z.string(),
+2410:         leadName: z.string(),
+2411:         customerId: z.uuid(),
+2412:         customerName: z.string(),
+2413:         sourceCode: DictionaryCodeSchema,
+2414:         sourceName: z.string().nullable(),
+2415:         demandDescription: z.string().nullable(),
+2416:         budgetStatus: LeadBudgetStatusSchema,
+2417:         estimatedAmount: z.string().nullable(),
+2418:         urgency: LeadUrgencySchema,
+2419:         expectedDecisionDate: z.iso.date().nullable(),
+2420:         score: z.number().int().min(0).max(100),
+2421:         rating: LeadRatingSchema,
+2422:         scoreReason: z.string(),
+2423:         scoreUpdatedAt: z.iso.datetime(),
+2424:         effectiveScore: z.number().int().min(0).max(100),
+2425:         effectiveRating: LeadRatingSchema,
+2426:         effectiveScoreReason: z.string(),
+2427:         effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+2428:         activeScoreOverrideId: z.uuid().nullable(),
+2429:         gateSummary: LeadGateSummarySchema,
+2430:         status: LeadStatusSchema,
+2431:         ownerOrgId: z.uuid().nullable(),
+2432:         ownerUserId: z.uuid().nullable(),
+2433:         qualificationSummary: z.string().nullable(),
+2434:         qualifiedAt: z.iso.datetime().nullable(),
+2435:         qualifiedBy: z.uuid().nullable(),
+2436:         closedReason: z.string().nullable(),
+2437:         closedAt: z.iso.datetime().nullable(),
+2438:         closedBy: z.uuid().nullable(),
+2439:         convertedProjectId: z.uuid().nullable(),
+2440:         convertedAt: z.iso.datetime().nullable(),
+2441:         convertedBy: z.uuid().nullable(),
+2442:         rowVersion: z.number().int(),
+2443:         createdAt: z.iso.datetime(),
+2444:         createdBy: z.uuid().nullable(),
+2445:         updatedAt: z.iso.datetime(),
+2446:         updatedBy: z.uuid().nullable()
+2447:     })
+2448:     .meta({ id: 'LeadSummary' });
+2449: 
+2450: export type LeadSummary = z.infer<typeof LeadSummarySchema>;
+2451: 
+2452: export const LeadConvertedProjectSummarySchema = z
+2453:     .object({
+2454:         id: z.uuid(),
+2455:         projectNo: z.string(),
+2456:         projectName: z.string(),
+2457:         customerId: z.uuid().nullable(),
+2458:         status: ProjectStatusSchema,
+2459:         currentStage: ProjectStageSchema
+2460:     })
+2461:     .meta({ id: 'LeadConvertedProjectSummary' });
+2462: 
+2463: export type LeadConvertedProjectSummary = z.infer<typeof LeadConvertedProjectSummarySchema>;
+2464: 
+2465: export const LeadListViewSchema = z
+2466:     .object({
+2467:         id: z.uuid(),
+2468:         leadNo: z.string(),
+2469:         leadName: z.string(),
+2470:         customerId: z.uuid(),
+2471:         customerName: z.string(),
+2472:         sourceCode: DictionaryCodeSchema,
+2473:         sourceName: z.string().nullable(),
+2474:         demandDescription: z.string().nullable(),
+2475:         budgetStatus: LeadBudgetStatusSchema,
+2476:         estimatedAmount: z.string().nullable(),
+2477:         urgency: LeadUrgencySchema,
+2478:         expectedDecisionDate: z.iso.date().nullable(),
+2479:         score: z.number().int().min(0).max(100),
+2480:         rating: LeadRatingSchema,
+2481:         scoreReason: z.string(),
+2482:         scoreUpdatedAt: z.iso.datetime(),
+2483:         effectiveScore: z.number().int().min(0).max(100),
+2484:         effectiveRating: LeadRatingSchema,
+2485:         effectiveScoreReason: z.string(),
+2486:         effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+2487:         activeScoreOverrideId: z.uuid().nullable(),
+2488:         gateSummary: LeadGateSummarySchema,
+2489:         status: LeadStatusSchema,
+2490:         ownerOrgId: z.uuid().nullable(),
+2491:         ownerUserId: z.uuid().nullable(),
+2492:         ownerName: z.string().nullable(),
+2493:         ownerOrgName: z.string().nullable(),
+2494:         qualifiedAt: z.iso.datetime().nullable(),
+2495:         convertedProjectId: z.uuid().nullable(),
+2496:         convertedAt: z.iso.datetime().nullable(),
+2497:         convertedProjectSummary: LeadConvertedProjectSummarySchema.nullable(),
+2498:         rowVersion: z.number().int(),
+2499:         createdAt: z.iso.datetime(),
+2500:         updatedAt: z.iso.datetime(),
+2501:         allowedActions: z.array(LeadAllowedActionSchema)
+2502:     })
+2503:     .meta({ id: 'LeadListView' });
+2504: 
+2505: export type LeadListView = z.infer<typeof LeadListViewSchema>;
+2506: 
+2507: export const LeadWorkbenchSummarySchema = z
+2508:     .object({
+2509:         active: z.number().int().nonnegative(),
+2510:         registered: z.number().int().nonnegative(),
+2511:         qualified: z.number().int().nonnegative(),
+2512:         'ready-to-convert': z.number().int().nonnegative(),
+2513:         'blocked-conversion': z.number().int().nonnegative(),
+2514:         converted: z.number().int().nonnegative(),
+2515:         closed: z.number().int().nonnegative(),
+2516:         all: z.number().int().nonnegative()
+2517:     })
+2518:     .meta({ id: 'LeadWorkbenchSummary' });
+2519: 
+2520: export type LeadWorkbenchSummary = z.infer<typeof LeadWorkbenchSummarySchema>;
+2521: 
+2522: export const LeadWorkbenchFacetSchema = z
+2523:     .object({
+2524:         scope: LeadWorkbenchScopeSchema,
+2525:         label: z.string(),
+2526:         hint: z.string(),
+2527:         severity: z.string(),
+2528:         count: z.number().int().nonnegative(),
+2529:         order: z.number().int()
+2530:     })
+2531:     .meta({ id: 'LeadWorkbenchFacet' });
+2532: 
+2533: export type LeadWorkbenchFacet = z.infer<typeof LeadWorkbenchFacetSchema>;
+2534: 
+2535: export const LeadListResponseSchema = z
+2536:     .object({
+2537:         scope: LeadWorkbenchScopeSchema,
+2538:         items: z.array(LeadListViewSchema),
+2539:         summary: LeadWorkbenchSummarySchema,
+2540:         facets: z.array(LeadWorkbenchFacetSchema),
+2541:         totalItems: z.number().int().nonnegative(),
+2542:         page: z.number().int().positive(),
+2543:         pageSize: z.number().int().positive()
+2544:     })
+2545:     .meta({ id: 'LeadListResponse' });
+2546: 
+2547: export type LeadListResponse = z.infer<typeof LeadListResponseSchema>;
+2548: 
+2549: export const LeadDetailViewSchema = LeadSummarySchema.extend({
+2550:     ownerName: z.string().nullable(),
+2551:     ownerOrgName: z.string().nullable(),
+2552:     sourceSummary: z.string().nullable(),
+2553:     convertedProjectSummary: LeadConvertedProjectSummarySchema.nullable(),
+2554:     allowedActions: z.array(LeadAllowedActionSchema)
+2555: }).meta({ id: 'LeadDetailView' });
+2556: 
+2557: export type LeadDetailView = z.infer<typeof LeadDetailViewSchema>;
+2558: 
+2559: export const CreateLeadRequestSchema = z
+2560:     .object({
+2561:         leadName: z.string().trim().min(1).max(255),
+2562:         customerId: z.uuid(),
+2563:         sourceCode: DictionaryCodeSchema,
+2564:         demandDescription: z.string().trim().min(1).max(4000),
+2565:         budgetStatus: LeadBudgetStatusSchema,
+2566:         estimatedAmount: LeadEstimatedAmountStringSchema.nullable().optional(),
+2567:         urgency: LeadUrgencySchema,
+2568:         expectedDecisionDate: z.iso.date().nullable().optional(),
+2569:         ownerOrgId: z.uuid().nullable().optional(),
+2570:         ownerUserId: z.uuid().nullable().optional()
+2571:     })
+2572:     .meta({ id: 'CreateLeadRequest' });
+2573: 
+2574: export type CreateLeadRequest = z.infer<typeof CreateLeadRequestSchema>;
+2575: 
+2576: export const UpdateLeadRequestSchema = z
+2577:     .object({
+2578:         leadName: z.string().trim().min(1).max(255).optional(),
+2579:         customerId: z.uuid().optional(),
+2580:         sourceCode: DictionaryCodeSchema.optional(),
+2581:         demandDescription: z.string().trim().min(1).max(4000).optional(),
+2582:         budgetStatus: LeadBudgetStatusSchema.optional(),
+2583:         estimatedAmount: LeadEstimatedAmountStringSchema.nullable().optional(),
+2584:         urgency: LeadUrgencySchema.optional(),
+2585:         expectedDecisionDate: z.iso.date().nullable().optional(),
+2586:         expectedVersion: z.number().int().positive().optional()
+2587:     })
+2588:     .refine(
+2589:         (value) =>
+2590:             value.leadName !== undefined ||
+2591:             value.customerId !== undefined ||
+2592:             value.sourceCode !== undefined ||
+2593:             value.demandDescription !== undefined ||
+2594:             value.budgetStatus !== undefined ||
+2595:             value.estimatedAmount !== undefined ||
+2596:             value.urgency !== undefined ||
+2597:             value.expectedDecisionDate !== undefined,
+2598:         {
+2599:             message: 'At least one field is required for update'
+2600:         }
+2601:     )
+2602:     .meta({ id: 'UpdateLeadRequest' });
+2603: 
+2604: export type UpdateLeadRequest = z.infer<typeof UpdateLeadRequestSchema>;
+2605: 
+2606: export const QualifyLeadRequestSchema = z
+2607:     .object({
+2608:         qualificationSummary: z.string().trim().min(1).max(2000)
+2609:     })
+2610:     .meta({ id: 'QualifyLeadRequest' });
+2611: 
+2612: export type QualifyLeadRequest = z.infer<typeof QualifyLeadRequestSchema>;
+2613: 
+2614: export const CloseLeadRequestSchema = z
+2615:     .object({
+2616:         closedReason: z.string().trim().min(1).max(1000)
+2617:     })
+2618:     .meta({ id: 'CloseLeadRequest' });
+2619: 
+2620: export type CloseLeadRequest = z.infer<typeof CloseLeadRequestSchema>;
+2621: 
+2622: export const ConvertLeadToProjectRequestSchema = z
+2623:     .object({
+2624:         projectName: z.string().trim().min(1).max(255).optional(),
+2625:         customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
+2626:         plannedSignAt: z.iso.datetime().nullable().optional()
+2627:     })
+2628:     .meta({ id: 'ConvertLeadToProjectRequest' });
+2629: 
+2630: export type ConvertLeadToProjectRequest = z.infer<typeof ConvertLeadToProjectRequestSchema>;
+2631: 
+2632: export const ClaimLeadOwnerRequestSchema = z
+2633:     .object({
+2634:         expectedVersion: z.number().int().positive().optional()
+2635:     })
+2636:     .meta({ id: 'ClaimLeadOwnerRequest' });
+2637: 
+2638: export type ClaimLeadOwnerRequest = z.infer<typeof ClaimLeadOwnerRequestSchema>;
+2639: 
+2640: export const AssignLeadOwnerRequestSchema = z
+2641:     .object({
+2642:         ownerUserId: z.uuid(),
+2643:         ownerOrgId: z.uuid().nullable().optional(),
+2644:         reason: z.string().trim().min(1).max(1000),
+2645:         expectedVersion: z.number().int().positive().optional()
+2646:     })
+2647:     .meta({ id: 'AssignLeadOwnerRequest' });
+2648: 
+2649: export type AssignLeadOwnerRequest = z.infer<typeof AssignLeadOwnerRequestSchema>;
+2650: 
+2651: export const LeadOwnerAssignmentResultSchema = z
+2652:     .object({
+2653:         targetId: z.uuid(),
+2654:         leadOwnerAssignmentRecordId: z.uuid(),
+2655:         previousOwnerUserId: z.uuid().nullable(),
+2656:         previousOwnerOrgId: z.uuid().nullable(),
+2657:         newOwnerUserId: z.uuid(),
+2658:         newOwnerOrgId: z.uuid().nullable(),
+2659:         assignmentType: LeadOwnerAssignmentTypeSchema,
+2660:         businessStatusAfter: LeadStatusSchema
+2661:     })
+2662:     .meta({ id: 'LeadOwnerAssignmentResult' });
+2663: 
+2664: export type LeadOwnerAssignmentResult = z.infer<typeof LeadOwnerAssignmentResultSchema>;
+2665: 
+2666: export const LeadScoreOverrideSummarySchema = z
+2667:     .object({
+2668:         id: z.uuid(),
+2669:         leadId: z.uuid(),
+2670:         requestedScore: z.number().int().min(0).max(100),
+2671:         requestedRating: LeadRatingSchema,
+2672:         reason: z.string(),
+2673:         status: LeadScoreOverrideStatusSchema,
+2674:         systemScoreAtRequest: z.number().int().min(0).max(100),
+2675:         systemRatingAtRequest: LeadRatingSchema,
+2676:         requestedBy: z.uuid().nullable(),
+2677:         requestedAt: z.iso.datetime(),
+2678:         approvedBy: z.uuid().nullable(),
+2679:         approvedAt: z.iso.datetime().nullable(),
+2680:         approvalNote: z.string().nullable(),
+2681:         rejectedBy: z.uuid().nullable(),
+2682:         rejectedAt: z.iso.datetime().nullable(),
+2683:         rejectReason: z.string().nullable(),
+2684:         revokedBy: z.uuid().nullable(),
+2685:         revokedAt: z.iso.datetime().nullable(),
+2686:         revokeReason: z.string().nullable(),
+2687:         supersededById: z.uuid().nullable(),
+2688:         rowVersion: z.number().int().positive()
+2689:     })
+2690:     .meta({ id: 'LeadScoreOverrideSummary' });
+2691: 
+2692: export type LeadScoreOverrideSummary = z.infer<typeof LeadScoreOverrideSummarySchema>;
+2693: 
+2694: export const LeadScoreHistoryItemSchema = z
+2695:     .object({
+2696:         id: z.uuid(),
+2697:         leadId: z.uuid(),
+2698:         snapshotKind: LeadScoreSnapshotKindSchema,
+2699:         overrideId: z.uuid().nullable(),
+2700:         formulaVersion: z.string(),
+2701:         systemScore: z.number().int().min(0).max(100),
+2702:         systemRating: LeadRatingSchema,
+2703:         effectiveScore: z.number().int().min(0).max(100),
+2704:         effectiveRating: LeadRatingSchema,
+2705:         effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+2706:         scoreReason: z.string(),
+2707:         componentBreakdown: z.record(z.string(), z.unknown()),
+2708:         gateSummarySnapshot: LeadGateSummarySchema,
+2709:         sourceCommand: z.string(),
+2710:         sourceRecordId: z.uuid().nullable(),
+2711:         createdAt: z.iso.datetime(),
+2712:         createdBy: z.uuid().nullable()
+2713:     })
+2714:     .meta({ id: 'LeadScoreHistoryItem' });
+2715: 
+2716: export type LeadScoreHistoryItem = z.infer<typeof LeadScoreHistoryItemSchema>;
+2717: 
+2718: export const LeadScoreHistoryViewSchema = z
+2719:     .object({
+2720:         leadId: z.uuid(),
+2721:         systemScore: z.number().int().min(0).max(100),
+2722:         systemRating: LeadRatingSchema,
+2723:         scoreReason: z.string(),
+2724:         scoreUpdatedAt: z.iso.datetime(),
+2725:         effectiveScore: z.number().int().min(0).max(100),
+2726:         effectiveRating: LeadRatingSchema,
+2727:         effectiveScoreReason: z.string(),
+2728:         effectiveScoreSource: LeadEffectiveScoreSourceSchema,
+2729:         activeScoreOverrideId: z.uuid().nullable(),
+2730:         activeOverride: LeadScoreOverrideSummarySchema.nullable(),
+2731:         pendingOverride: LeadScoreOverrideSummarySchema.nullable(),
+2732:         snapshots: z.array(LeadScoreHistoryItemSchema),
+2733:         overrides: z.array(LeadScoreOverrideSummarySchema)
+2734:     })
+2735:     .meta({ id: 'LeadScoreHistoryView' });
+2736: 
+2737: export type LeadScoreHistoryView = z.infer<typeof LeadScoreHistoryViewSchema>;
+2738: 
+2739: export const SubmitLeadScoreOverrideRequestSchema = z
+2740:     .object({
+2741:         score: z.number().int().min(0).max(100),
+2742:         reason: z.string().trim().min(1).max(1000),
+2743:         expectedLeadRowVersion: z.number().int().positive()
+2744:     })
+2745:     .meta({ id: 'SubmitLeadScoreOverrideRequest' });
+2746: 
+2747: export type SubmitLeadScoreOverrideRequest = z.infer<typeof SubmitLeadScoreOverrideRequestSchema>;
+2748: 
+2749: export const ApproveLeadScoreOverrideRequestSchema = z
+2750:     .object({
+2751:         expectedOverrideRowVersion: z.number().int().positive(),
+2752:         note: z.string().trim().min(1).max(1000).nullable().optional()
+2753:     })
+2754:     .meta({ id: 'ApproveLeadScoreOverrideRequest' });
+2755: 
+2756: export type ApproveLeadScoreOverrideRequest = z.infer<typeof ApproveLeadScoreOverrideRequestSchema>;
+2757: 
+2758: export const RejectLeadScoreOverrideRequestSchema = z
+2759:     .object({
+2760:         reason: z.string().trim().min(1).max(1000),
+2761:         expectedOverrideRowVersion: z.number().int().positive()
+2762:     })
+2763:     .meta({ id: 'RejectLeadScoreOverrideRequest' });
+2764: 
+2765: export type RejectLeadScoreOverrideRequest = z.infer<typeof RejectLeadScoreOverrideRequestSchema>;
+2766: 
+2767: export const RevokeLeadScoreOverrideRequestSchema = z
+2768:     .object({
+2769:         reason: z.string().trim().min(1).max(1000),
+2770:         expectedOverrideRowVersion: z.number().int().positive()
+2771:     })
+2772:     .meta({ id: 'RevokeLeadScoreOverrideRequest' });
+2773: 
+2774: export type RevokeLeadScoreOverrideRequest = z.infer<typeof RevokeLeadScoreOverrideRequestSchema>;
+2775: 
+2776: export const LeadListQuerySchema = z
+2777:     .object({
+2778:         scope: LeadWorkbenchScopeSchema.optional(),
+2779:         sourceCode: DictionaryCodeSchema.optional(),
+2780:         budgetStatus: LeadBudgetStatusSchema.optional(),
+2781:         urgency: LeadUrgencySchema.optional(),
+2782:         rating: LeadRatingSchema.optional(),
+2783:         ownerOrgId: z.uuid().optional(),
+2784:         ownerUserId: z.uuid().optional(),
+2785:         ownershipScope: LeadOwnershipScopeSchema.optional(),
+2786:         keyword: z.string().trim().min(1).max(128).optional(),
+2787:         page: z.coerce.number().int().min(1).optional(),
+2788:         pageSize: z.coerce.number().int().min(1).max(500).optional()
+2789:     })
+2790:     .meta({ id: 'LeadListQuery' });
+2791: 
+2792: export type LeadListQuery = z.infer<typeof LeadListQuerySchema>;

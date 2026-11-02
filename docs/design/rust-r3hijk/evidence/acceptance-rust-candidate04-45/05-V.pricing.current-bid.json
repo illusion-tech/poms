@@ -1,0 +1,112 @@
+{
+  "label": "V.pricing.current-bid",
+  "startedAt": "2026-11-02T18:17:56.803Z",
+  "completedAt": "2026-11-02T18:17:56.814Z",
+  "value": {
+    "kind": "read",
+    "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+    "exchange": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-bid-commercial-workspace",
+          "create-bid-commercial-process"
+        ],
+        "blockingReasons": [],
+        "currentProcess": {
+          "bidMode": "public-tender",
+          "bidPackageNo": "hijkV-45-bid-2-package",
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T18:17:56.740Z",
+          "createdBy": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "decisionSummary": "hijkV-45-bid-2 participate",
+          "effectiveAt": "2026-11-02T18:17:56.740Z",
+          "id": "b288a327-6c35-4aea-ac7d-4703d1b93721",
+          "isCurrent": true,
+          "ownerRole": "销售 / 商务",
+          "processSummary": "hijkV-45-bid-2 process",
+          "projectId": "ee73aa56-c894-4c84-b407-6439ad13119d",
+          "resultStatus": "pending",
+          "resultSummary": null,
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "94eaaceb-acf2-4b4d-994b-3208f7658fcb",
+          "tenderNo": "hijkV-45-bid-2-tender",
+          "updatedAt": "2026-11-02T18:17:56.740Z",
+          "updatedBy": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+          "version": 3
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T18:17:56.813Z",
+        "materialItems": [
+          {
+            "blocksNextStep": false,
+            "dueAt": null,
+            "id": "1305b6d0-e9fc-4847-ac3a-8cad964aadec",
+            "label": "hijkV-45-bid-2 material",
+            "materialKey": "hijkV-45-bid-2-material",
+            "materialStatus": "ready",
+            "navigationHint": "/projects/ee73aa56-c894-4c84-b407-6439ad13119d/workspace/bid-commercial",
+            "processId": "b288a327-6c35-4aea-ac7d-4703d1b93721",
+            "responsibleRole": "商务",
+            "sortOrder": 1
+          }
+        ],
+        "nextStep": "补齐竞标过程依据，准备进入报价与毛利评审。",
+        "ownerLabel": "HIJK admin / HIJK admin",
+        "projectId": "ee73aa56-c894-4c84-b407-6439ad13119d",
+        "status": "active",
+        "timelineItems": [
+          {
+            "dueAt": null,
+            "eventKey": "hijkV-45-bid-2-event",
+            "id": "c0e427b4-d372-4d51-818f-c39a99b29942",
+            "label": "hijkV-45-bid-2 timeline",
+            "occurredAt": null,
+            "processId": "b288a327-6c35-4aea-ac7d-4703d1b93721",
+            "responsibleRole": "商务",
+            "sortOrder": 1,
+            "summary": "hijkV-45-bid-2 planned event",
+            "timelineStatus": "pending"
+          }
+        ]
+      },
+      "requestId": "8bb3335a-27fd-464a-ae34-d0b266c600c4",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1855",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-203",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:17:56 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 353,
+        "requestSha256": "c932e89b0f5575dd688179873200e5a59cc5355e386ae69cc94cfd3fd8a34f77",
+        "responseBytes": 2135,
+        "responseSha256": "e4b84a8ba2715a3c472514a38d3b284c3f09ccab0f7e0ad53736caf90f468687",
+        "entityBodyBytes": 1855,
+        "entityBodySha256": "f4eeb8827659e1f8ff888e5c766f11a3dfa8b32c5c350ce47c5c47eafc88a2a2",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase45/raw-wire/admin-288205bc-66f2-4849-9d9b-1c822d12170d",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

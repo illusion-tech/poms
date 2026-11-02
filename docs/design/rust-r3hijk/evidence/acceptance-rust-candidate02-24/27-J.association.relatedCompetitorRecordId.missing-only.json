@@ -1,0 +1,80 @@
+{
+  "label": "J.association.relatedCompetitorRecordId.missing-only",
+  "startedAt": "2026-11-02T16:37:24.197Z",
+  "completedAt": "2026-11-02T16:37:24.207Z",
+  "value": {
+    "definition": {
+      "id": "J.association.relatedCompetitorRecordId.missing-only",
+      "covers": [
+        "J-A05"
+      ],
+      "requests": [
+        {
+          "id": "J.association.relatedCompetitorRecordId.missing-only",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedCompetitorRecordId": "36fc96fe-613b-4b08-9f2c-71fd824beb23"
+          },
+          "expect": {
+            "status": 404,
+            "message": "CompetitorIntelligenceRecord 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "compare": "All 19 comment fields; original canonical anchor snapshots; each error probe changes only one association. Simultaneous Promise.all failures have no fixed priority claim."
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "CompetitorIntelligenceRecord 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "9c20dd24-9fd3-49f2-8c7b-f41852b3f1cb",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "126",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-345",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 630,
+          "requestSha256": "0c4600c90bce6cfa4e6012a7433b893c2552e61ba77be5292491a12ab7f3476b",
+          "responseBytes": 412,
+          "responseSha256": "a585f7121722ea9a5ad3ca920a23a8e28ae3b616403914fa692088a3060f87bc",
+          "entityBodyBytes": 126,
+          "entityBodySha256": "38e090fc150212e1caec9fdad74ae42c1dd1979ed0a02234a2bff2fb0b862ad3",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-fc9dbc9c-ee6b-4696-aa24-502b1b03c798",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

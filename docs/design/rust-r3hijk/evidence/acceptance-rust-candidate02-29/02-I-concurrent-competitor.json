@@ -1,0 +1,206 @@
+{
+  "label": "I-concurrent-competitor",
+  "startedAt": "2026-11-02T17:25:56.399Z",
+  "completedAt": "2026-11-02T17:25:56.524Z",
+  "value": {
+    "before": {
+      "id": "538afd15-1fd0-41a7-b8ef-12e55b4fa367",
+      "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "lead_id": "a44b77b7-4b73-4230-ba17-091b2358b945",
+      "project_id": null,
+      "competitor_name": "Native I competitor",
+      "position": "active-competitor",
+      "customer_preference": "neutral",
+      "competitor_strengths": "Native I competitor initial strengths",
+      "competitor_weaknesses": "Native I competitor initial weaknesses",
+      "our_advantages": "Native I competitor initial advantages",
+      "our_risks": "Native I competitor initial risks",
+      "win_probability": "medium",
+      "evidence": "Native I competitor initial evidence",
+      "row_version": 1,
+      "created_at": "2026-11-02T17:25:56.461Z",
+      "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "updated_at": "2026-11-02T17:25:56.461Z",
+      "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/competitor-intelligence-records/538afd15-1fd0-41a7-b8ef-12e55b4fa367",
+        "json": {
+          "evidence": "concurrent admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/competitor-intelligence-records/538afd15-1fd0-41a7-b8ef-12e55b4fa367",
+        "json": {
+          "evidence": "concurrent other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "538afd15-1fd0-41a7-b8ef-12e55b4fa367",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "leadId": "a44b77b7-4b73-4230-ba17-091b2358b945",
+            "leadName": "HIJK I-concurrent-competitor",
+            "projectId": null,
+            "projectName": null,
+            "competitorName": "Native I competitor",
+            "position": "active-competitor",
+            "customerPreference": "neutral",
+            "competitorStrengths": "Native I competitor initial strengths",
+            "competitorWeaknesses": "Native I competitor initial weaknesses",
+            "ourAdvantages": "Native I competitor initial advantages",
+            "ourRisks": "Native I competitor initial risks",
+            "winProbability": "medium",
+            "evidence": "concurrent admin",
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T17:25:56.461Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updatedAt": "2026-11-02T17:25:56.491Z",
+            "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          },
+          "requestId": "e7a3f3f8-a086-4232-a667-171a82a23fa0",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "875",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-782",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 17:25:56 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 495,
+            "requestSha256": "f3af2d2c1ef04aab8a1e2af233dcf7f44971cfbb9b30f7dc66317624fabed2f3",
+            "responseBytes": 1154,
+            "responseSha256": "f1c61a1699f7a4fa0b17ffc69f2bd737615599bf3f3dfda8f573860676a7133a",
+            "entityBodyBytes": 875,
+            "entityBodySha256": "482f0986d1e4e7a6ac8772bfc74289ce77e3c78222b8524727fd8391d3158e16",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase29/raw-wire/admin-b1235f4f-e31a-4bfe-85a0-ef37605bb3e0",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "CompetitorIntelligenceRecord 538afd15-1fd0-41a7-b8ef-12e55b4fa367 has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "b1e5b738-fa1b-4f13-82fe-ce9a4e30f714",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "152",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-783",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 17:25:56 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 495,
+            "requestSha256": "17aa55119b1da28309805d9912842afc36f2c47ef41d88e7e836e821c58bdaed",
+            "responseBytes": 437,
+            "responseSha256": "b3a0274284f12a4f4b71a4dfa441c5556d182c59039763814fcaf04c67cede91",
+            "entityBodyBytes": 152,
+            "entityBodySha256": "611b8157690365339307b8edc67971ace47bfb41bb1afc9255d9918e46729b77",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase29/raw-wire/other-226140ec-bc41-49e2-ac92-dab1979bc6b7",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "538afd15-1fd0-41a7-b8ef-12e55b4fa367",
+      "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "lead_id": "a44b77b7-4b73-4230-ba17-091b2358b945",
+      "project_id": null,
+      "competitor_name": "Native I competitor",
+      "position": "active-competitor",
+      "customer_preference": "neutral",
+      "competitor_strengths": "Native I competitor initial strengths",
+      "competitor_weaknesses": "Native I competitor initial weaknesses",
+      "our_advantages": "Native I competitor initial advantages",
+      "our_risks": "Native I competitor initial risks",
+      "win_probability": "medium",
+      "evidence": "concurrent admin",
+      "row_version": 2,
+      "created_at": "2026-11-02T17:25:56.461Z",
+      "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "updated_at": "2026-11-02T17:25:56.491Z",
+      "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+    },
+    "audits": [
+      [
+        {
+          "id": "f55f93b9-0aae-42c9-ab59-363de4ba5cce",
+          "event_type": "competitor-intelligence.updated",
+          "target_type": "competitor-intelligence",
+          "target_id": "538afd15-1fd0-41a7-b8ef-12e55b4fa367",
+          "operator_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "request_id": "e7a3f3f8-a086-4232-a667-171a82a23fa0",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "evidence": {
+              "length": 36,
+              "changed": true,
+              "present": true
+            }
+          },
+          "after_snapshot": {
+            "evidence": {
+              "length": 16,
+              "changed": true,
+              "present": true
+            }
+          },
+          "metadata": {
+            "changedFields": [
+              "evidence"
+            ],
+            "sourceCommand": "update-competitor-intelligence-record",
+            "redactedFields": [
+              "evidence"
+            ],
+            "businessContext": {
+              "leadId": "a44b77b7-4b73-4230-ba17-091b2358b945",
+              "projectId": null,
+              "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308"
+            }
+          },
+          "occurred_at": "2026-11-02T17:25:56.490Z"
+        }
+      ],
+      []
+    ]
+  }
+}

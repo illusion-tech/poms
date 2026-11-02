@@ -1,0 +1,200 @@
+{
+  "label": "I-boundary.query.customer-only",
+  "startedAt": "2026-11-02T18:50:24.730Z",
+  "completedAt": "2026-11-02T18:50:24.740Z",
+  "value": {
+    "definition": {
+      "name": "I-boundary.query.customer-only",
+      "operationId": "SalesDiscoveryRecordController_list",
+      "method": "GET",
+      "path": "/api/sales-discovery-records",
+      "query": {
+        "customerId": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c"
+      },
+      "schemaName": "OpportunityContextQuerySchema",
+      "requirementIds": [
+        "I-QUERY-01"
+      ],
+      "fixtureRequirement": "Root-supplied real opportunity context; no status/owner/active gate assumed",
+      "expectedStatus": 400
+    },
+    "originalSchema": {
+      "schemaName": "OpportunityContextQuerySchema",
+      "success": false,
+      "issues": [
+        {
+          "code": "custom",
+          "path": [],
+          "message": "At least one opportunity anchor is required"
+        }
+      ]
+    },
+    "response": {
+      "status": 400,
+      "body": {
+        "errors": [
+          {
+            "code": "custom",
+            "message": "At least one opportunity anchor is required",
+            "path": []
+          }
+        ],
+        "message": "Validation failed",
+        "statusCode": 400
+      },
+      "requestId": "755ce168-cd10-41c8-94e0-78532b19b36e",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "143",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-103190-87",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:50:24 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 354,
+        "requestSha256": "a2b73440abd7ff576201efd95c832b2ef55930741196feb933cb506d7dc194da",
+        "responseBytes": 431,
+        "responseSha256": "4ae14a96f6b329a6d0f6680f1fa4f06daf6faa6af320beceae7cd32c59fdaa95",
+        "entityBodyBytes": 143,
+        "entityBodySha256": "0f8717b7d3a2527c756f1d90457e21df07fd5e3c87520b60b5da5bb30a0774b6",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase52/raw-wire/admin-4c6f6988-fc6a-43eb-a256-2cd631f35027",
+        "originalRawRetained": true
+      }
+    },
+    "before": {
+      "rows": {
+        "lead": 2,
+        "lead_score_snapshot": 3,
+        "lead_score_override": 0,
+        "lead_owner_assignment_record": 0,
+        "project": 13,
+        "audit_log": 4,
+        "opportunity_stakeholder": 4,
+        "competitor_intelligence_record": 3,
+        "sales_discovery_record": 3,
+        "business_discussion_thread": 1,
+        "business_discussion_comment": 1
+      },
+      "counters": [
+        {
+          "id": "149ad695-98e4-4a4c-a06c-78e2c04f2235",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 6,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:05.744Z",
+          "updated_at": "2026-11-02T18:49:00.987Z"
+        },
+        {
+          "id": "aac13496-9a0d-470c-aa54-769d7760ab83",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 3,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T18:42:27.317Z",
+          "updated_at": "2026-11-02T18:50:24.618Z"
+        },
+        {
+          "id": "6bc03b97-4637-460c-8450-e586eaa18acf",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 3,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T18:42:27.285Z",
+          "updated_at": "2026-11-02T18:46:11.397Z"
+        }
+      ]
+    },
+    "after": {
+      "rows": {
+        "lead": 2,
+        "lead_score_snapshot": 3,
+        "lead_score_override": 0,
+        "lead_owner_assignment_record": 0,
+        "project": 13,
+        "audit_log": 4,
+        "opportunity_stakeholder": 4,
+        "competitor_intelligence_record": 3,
+        "sales_discovery_record": 3,
+        "business_discussion_thread": 1,
+        "business_discussion_comment": 1
+      },
+      "counters": [
+        {
+          "id": "149ad695-98e4-4a4c-a06c-78e2c04f2235",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 6,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:05.744Z",
+          "updated_at": "2026-11-02T18:49:00.987Z"
+        },
+        {
+          "id": "aac13496-9a0d-470c-aa54-769d7760ab83",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 3,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T18:42:27.317Z",
+          "updated_at": "2026-11-02T18:50:24.618Z"
+        },
+        {
+          "id": "6bc03b97-4637-460c-8450-e586eaa18acf",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 3,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T18:42:27.285Z",
+          "updated_at": "2026-11-02T18:46:11.397Z"
+        }
+      ]
+    },
+    "stored": null,
+    "fixtureIds": {
+      "adminUserId": "85005c87-2c45-450d-9e07-9417b682459e",
+      "adminOrgId": "8e5b2125-63ce-4d38-85c8-1481cf11c296",
+      "otherUserId": "455cd0c1-31a2-461b-8088-cb962754d259",
+      "otherOrgId": "4edab6e6-91aa-4a51-8eff-8cab0f273b93",
+      "sourceCode": "customer-visit",
+      "customerId": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c",
+      "projectId": "17d898a0-651a-4755-b2b0-0df8fcb52281",
+      "contactId": "d749af9c-e842-4052-a5b5-c567221426df",
+      "leadId": "4a2e05e1-9cf7-4d94-84f5-335d88ecdb35",
+      "missingUUID": "48c4f7d3-371a-4cb3-b361-fe0899cdb618",
+      "stakeholderId": "10392274-3e18-4bef-a980-664bd832f11f",
+      "competitorId": "50eaf936-e6ee-4a09-90ae-9ae43ed4a654",
+      "discoveryId": "e6ab7ab9-8f72-455a-b439-184a79d4fefe"
+    },
+    "listExistingBaseline": null,
+    "definitionExpected400": 400
+  }
+}

@@ -1,5 +1,5 @@
-//! Original table reads and flush primitives. No query adds a lock or a state
-//! predicate beyond Native. The service owns the original flush transaction.
+//! Existing bid/commercial tables. The service owns project-level serialization
+//! and atomic replacement; supersession still checks version and current state.
 
 use chrono::{DateTime, Datelike, SecondsFormat, Timelike, Utc};
 use serde_json::{Value, json};
@@ -135,6 +135,14 @@ pub async fn current(
     .await?
     .map(row)
     .transpose()
+}
+
+pub(crate) async fn next_version(
+    connection: &mut PgConnection,
+    project_id: Uuid,
+) -> Result<i64, sqlx::Error> {
+    sqlx::query_scalar("SELECT COALESCE(MAX(version)::bigint,0)+1 FROM poms.project_bid_commercial_process WHERE project_id=$1")
+        .bind(project_id).fetch_one(connection).await
 }
 
 pub async fn by_id(connection: &mut PgConnection, id: Uuid) -> Result<Option<Row>, sqlx::Error> {
@@ -371,18 +379,13 @@ pub(crate) async fn supersede(
     previous: &Row,
     operator: Uuid,
     updated_at: DateTime<Utc>,
-) -> Result<(), sqlx::Error> {
-    let changed = sqlx::query("UPDATE poms.project_bid_commercial_process SET is_current=false,status='superseded',updated_by=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 RETURNING id")
+) -> Result<bool, sqlx::Error> {
+    let changed = sqlx::query("UPDATE poms.project_bid_commercial_process SET is_current=false,status='superseded',updated_by=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 AND is_current=true AND status='effective' RETURNING id")
         .bind(operator)
         .bind(updated_at)
         .bind(previous.id)
         .bind(previous.row_version)
         .fetch_optional(connection)
         .await?;
-    if changed.is_none() {
-        return Err(sqlx::Error::Protocol(
-            "bid commercial managed version conflict".into(),
-        ));
-    }
-    Ok(())
+    Ok(changed.is_some())
 }

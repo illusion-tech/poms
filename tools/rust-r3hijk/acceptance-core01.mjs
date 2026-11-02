@@ -1,0 +1,18 @@
+// Root alone runs adopted original risk definitions against either real backend.
+import fs from'node:fs';import assert from'node:assert/strict';
+import{openAcceptanceContext}from'./acceptance-context01.mjs';
+import{nativeLeadRisks}from'../../tmp/rust-r3hijk/a-native-risks/native-lead-risks01.mjs';
+import{nativeIntelligenceRisks}from'../../tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs';
+const[backend,tag,phase,mode,existingRun]=process.argv.slice(2);assert(['nest','rust'].includes(backend));assert(['core','h','i','unicode','jsonnull'].includes(mode));
+const ctx=await openAcceptanceContext({backend,tag,phase,runId:existingRun||null});ctx.addSource('tools/rust-r3hijk/acceptance-core01.mjs');ctx.addSource('tmp/rust-r3hijk/a-native-risks/native-lead-risks01.mjs');ctx.addSource('tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs');let completed=false,error=null;
+try{
+ await ctx.case('foundation-real-HTTP-producers',async()=>{if(ctx.ids.leadId)return{priorRealProducerIDs:ctx.ids};const customer=await ctx.produceCustomer('foundation');ctx.ids.customerId=customer.id;ctx.ids.sourceCode=(await ctx.db.query("select code from poms.dictionary_item where domain='lead-source' and status='active' order by sort_order,code limit 1")).rows[0].code;const project=await ctx.produceProject('foundation'),contact=await ctx.produceContact(customer.id,'foundation');ctx.ids.projectId=project.id;ctx.ids.contactId=contact.id;const lead=await ctx.produceLead('foundation');ctx.ids.leadId=lead.id;return{customer,project,contact,lead};});
+ if(mode==='core'||mode==='h')await nativeLeadRisks(ctx);
+ if(mode==='core'||mode==='i')await nativeIntelligenceRisks(ctx);
+ if(mode==='core'||mode==='jsonnull')await ctx.case('I-json-null-to-empty-array-managed-flush',async()=>{const created=await ctx.step('I.null.create','POST','/api/opportunity-stakeholders',{json:ctx.build.buildStakeholderRequest({customerId:ctx.ids.customerId,contactId:ctx.ids.contactId,leadId:ctx.ids.leadId,overrides:{focusAreas:[]}})},201);await ctx.prepare('opportunity_stakeholder',created.body.id,{focus_areas_json:null});const before=await ctx.row('opportunity_stakeholder',created.body.id);await ctx.due();const update=await ctx.step('I.null.update','PATCH','/api/opportunity-stakeholders/'+created.body.id,{json:{focusAreas:[]}});return{before,update,after:await ctx.row('opportunity_stakeholder',created.body.id),audit:await ctx.audit(update.requestId),preparedJSONBNullNotHTTPProducer:true};});
+ if(mode==='core'||mode==='unicode'){
+  const oracle=JSON.parse(fs.readFileSync('tmp/rust-r3hijk/schema-oracle01/report01.json'));for(const vector of oracle.results.filter(v=>v.label.startsWith('discussion.')))await ctx.case('HTTP-'+vector.label,async()=>{const input={...vector.input,targetObjectId:ctx.ids.customerId},response=await ctx.step(vector.label,'POST','/api/business-discussions',{json:input}),GET=await ctx.step(vector.label+'.GET','GET','/api/business-discussions?customerId='+ctx.ids.customerId,{},200);return{input,response,GET,stored:response.body?.id?await ctx.row('business_discussion_comment',response.body.id):null,originalSchemaSuccess:vector.success};});
+  for(const tail of['workspace-guidance','timeline'])await ctx.case('K-'+tail,async()=>({success:await ctx.step('K.'+tail,'GET','/api/projects/'+ctx.ids.projectId+'/'+tail,{},200),invalid:await ctx.step('K.'+tail+'.bad-UUID','GET','/api/projects/not-a-uuid/'+tail)}));
+ }
+ completed=true;
+}catch(e){error={name:e.name,message:e.message};fs.writeFileSync(ctx.directory+'/original-error.json',JSON.stringify({...error,stack:e.stack},null,2)+'\n',{flag:'wx',mode:0o600});process.exitCode=1;}finally{await ctx.finish(completed,error)}

@@ -1,0 +1,8 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {pin} from './source-guard.mjs';
+const base='docs/design/rust-r3hijk',source='tmp/rust-r3hijk/c-review/g3-independent-review02.json',review=JSON.parse(fs.readFileSync(source));
+assert(review.G3Certified&&review.commitAllowed&&review.verdict==='Pass');assert.equal(review.activeManifest.rawBytesSha256,'20d02317cf3ab6908d36d9a5b4412f90990576e3d7e8fe7cbd42e8f5809d2630');
+const target=base+'/C/g3-independent-review02.json';fs.copyFileSync(source,target,fs.constants.COPYFILE_EXCL);
+const authority={kind:'R3HIJK-independent-G3-commit-authority',createdAt:new Date().toISOString(),manifest:pin(base+'/g3-input-manifest03.json'),review:pin(target),issues:[93,94,95,96],operations:28,G3Certified:true,commitAllowed:true,fixedCommitCertified:false,mainIntegrationAllowed:false,G4Certified:false,formalR3Delivered:30,parentsRemainOpen:[85,57],fullStageCertified:false};
+fs.writeFileSync(base+'/g3-gate-authority01.json',JSON.stringify(authority,null,2)+'\n',{flag:'wx'});
+const file='docs/design/rust-r3hijk-delivery-status.json',status=JSON.parse(fs.readFileSync(file));assert(!status.G3Certified&&!status.G4Certified);status.G3Certified=true;status.phase='G3PassedAwaitCommit';status.G3Review=pin(target);status.G3Authority=pin(base+'/g3-gate-authority01.json');status.closedReviewFindings=['G3-P2-I-UUID-IDENTITY-01','G3-P2-F-EMPTY-REMINDER-STREAM-01'];delete status.resolvedFindingsPendingIndependentReReview;fs.writeFileSync(file,JSON.stringify(status,null,2)+'\n');
+console.log(JSON.stringify({G3:true,commitAllowed:true,G4:false,formalR3:30}));

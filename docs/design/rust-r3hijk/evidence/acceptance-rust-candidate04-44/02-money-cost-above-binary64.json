@@ -1,0 +1,131 @@
+{
+  "label": "money-cost-above-binary64",
+  "startedAt": "2026-11-02T18:17:10.954Z",
+  "completedAt": "2026-11-02T18:17:10.981Z",
+  "value": {
+    "input": {
+      "technicalFeasibilityDecision": "feasible",
+      "technicalConclusionSummary": "HIJK-decimal-44 cost revision 1",
+      "allowNextStage": true,
+      "currencyCode": "CNY",
+      "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+      "taxReviewStatus": "reviewed",
+      "scopeItems": [
+        {
+          "scopeType": "in-scope",
+          "label": "HIJK-decimal-44 equipment scope",
+          "description": "包含一项设备供货。",
+          "sortOrder": 1
+        }
+      ],
+      "riskItems": [
+        {
+          "riskCategory": "HIJK-decimal-44 supply",
+          "riskLevel": "R1",
+          "riskDescription": "HIJK-decimal-44 reviewed delivery risk",
+          "impactScope": "设备供货范围。",
+          "mitigationPlan": "按已核实周期交付。",
+          "ownerRole": "售前",
+          "riskStatus": "closed",
+          "blocksNextStage": false,
+          "sortOrder": 1
+        }
+      ],
+      "costItems": [
+        {
+          "costCategory": "equipment",
+          "costDescription": "HIJK-decimal-44 equipment",
+          "estimationBasis": "G1 已确认询价。",
+          "amountExcludingTax": "9007199254740993.01",
+          "taxCostAmount": "0.00",
+          "amountIncludingTax": "9007199254740993.01",
+          "currencyCode": "CNY",
+          "confidenceLevel": "high",
+          "highUncertainty": false,
+          "sortOrder": 0,
+          "quantity": "1.0000",
+          "unit": "套",
+          "unitPrice": "1.0000"
+        }
+      ]
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "allowNextStage": true,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T18:17:10.967Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "currencyCode": "CNY",
+        "effectiveAt": "2026-11-02T18:17:10.967Z",
+        "highestRiskLevel": "R1",
+        "id": "c01487cc-7d0b-4b4b-8a41-818fca96c6dd",
+        "isCurrent": true,
+        "projectId": "92b416cd-d557-43c2-95d4-447d06346f54",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "technicalConclusionSummary": "HIJK-decimal-44 cost revision 1",
+        "technicalFeasibilityDecision": "feasible",
+        "totalEstimatedAmountExcludingTax": "9007199254740993.01",
+        "totalEstimatedAmountIncludingTax": "9007199254740993.01",
+        "totalTaxCostAmount": "0.00",
+        "updatedAt": "2026-11-02T18:17:10.967Z",
+        "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "version": 1
+      },
+      "requestId": "621352a7-cb87-41f2-8996-82586b39ddea",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "881",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-118",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:17:10 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1534,
+        "requestSha256": "067822b5fc46708cc1449c852e5b8c7becda0b0651b6e95b62ab923407a64a4e",
+        "responseBytes": 1165,
+        "responseSha256": "f307235dd2e226c7aac0de63bf804984e76c9e61467523c67c2d2be4ab4eec6d",
+        "entityBodyBytes": 881,
+        "entityBodySha256": "b243489d56199a3d87da0c51a96e594469682179c119b835ad87e84e491809ad",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase44/raw-wire/admin-b16e5fb6-5455-4e47-b109-bb5ce0fb4eb2",
+        "originalRawRetained": true
+      }
+    },
+    "actual": {
+      "excluding": "9007199254740993.01",
+      "tax": "0.00",
+      "including": "9007199254740993.01"
+    },
+    "sums": {
+      "excluding": "9007199254740993.01",
+      "tax": "0.00",
+      "including": "9007199254740993.01"
+    },
+    "children": [
+      {
+        "id": "62c3bc77-cb7c-486a-af99-350a43c151de",
+        "excluding": "9007199254740993.01",
+        "tax": "0.00",
+        "including": "9007199254740993.01",
+        "quantity": "1.0000",
+        "unit_price": "1.0000"
+      }
+    ],
+    "exactParentChildAndSQLSum": true
+  }
+}

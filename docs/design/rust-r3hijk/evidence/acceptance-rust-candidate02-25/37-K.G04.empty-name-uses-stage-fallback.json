@@ -1,0 +1,352 @@
+{
+  "label": "K.G04.empty-name-uses-stage-fallback",
+  "startedAt": "2026-11-02T16:53:51.666Z",
+  "completedAt": "2026-11-02T16:53:51.697Z",
+  "value": {
+    "definition": {
+      "id": "K.G04.empty-name-uses-stage-fallback",
+      "covers": [
+        "K-G04",
+        "K-G08"
+      ],
+      "prepare": [
+        {
+          "role": "J-K-live-or-empty-user-name",
+          "table": "platform_user",
+          "sql": "UPDATE poms.platform_user SET display_name=$2 WHERE id=$1::uuid RETURNING id,display_name,row_version,updated_at",
+          "params": [
+            "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+            ""
+          ],
+          "classification": "owned-identity-read-projection-compatibility-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "dedicated current-run owned user; capture and restore original display_name"
+        },
+        {
+          "role": "K.G04.empty-name-uses-stage-fallback",
+          "table": "project",
+          "sql": "UPDATE poms.project SET status=$2,current_stage=$3,closed_at=$4::timestamptz,closed_reason=$5,customer_id=$6::uuid,customer_name=$7,owner_user_id=$8::uuid,owner_org_id=$9::uuid,created_at=$10::timestamptz,created_by=$11::uuid,updated_by=$12::uuid WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "active",
+            "execution",
+            null,
+            null,
+            "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+            null,
+            "2026-11-03T00:34:33.067+08:00",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "Root captured original owned project row; restore exact original row fields after this case group"
+        }
+      ],
+      "requests": [
+        {
+          "id": "K.G04.empty-name-uses-stage-fallback",
+          "method": "GET",
+          "path": "/api/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace-guidance",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "ownerLabel": "项目负责人 / 财务",
+            "ownerLabelMustBeNonblank": true
+          },
+          "actual": null,
+          "capture": [
+            "full 14-field payload",
+            "entry array and all 7 fields",
+            "basis all 4 fields",
+            "before/after owned domain rows and row versions",
+            "request-clock window"
+          ]
+        }
+      ],
+      "restore": "Root restores the dedicated empty user name and original project fields after this group; owner IDs are nullable UUID columns without user/org FK"
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "J-K-live-or-empty-user-name",
+          "table": "platform_user",
+          "sql": "UPDATE poms.platform_user SET display_name=$2 WHERE id=$1::uuid RETURNING id,display_name,row_version,updated_at",
+          "params": [
+            "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+            ""
+          ],
+          "classification": "owned-identity-read-projection-compatibility-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "dedicated current-run owned user; capture and restore original display_name"
+        },
+        "before": {
+          "id": "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+          "email": null,
+          "phone": null,
+          "username": "hijk_6872abb512af486fada602e484421d1f_5f45a80b",
+          "is_active": true,
+          "avatar_url": null,
+          "created_at": "2026-11-03T00:34:33.52846+08:00",
+          "created_by": null,
+          "updated_at": "2026-11-03T00:34:33.52846+08:00",
+          "updated_by": null,
+          "row_version": 1,
+          "display_name": "HIJK emptyReadContext",
+          "last_login_at": null,
+          "email_verified": false,
+          "phone_verified": false,
+          "primary_org_unit_id": "1cd218df-4fcc-4a72-9392-d6e8d7c1f66c"
+        },
+        "after": [
+          {
+            "id": "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+            "display_name": "",
+            "row_version": 1,
+            "updated_at": "2026-11-02T16:34:33.528Z"
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "K.G04.empty-name-uses-stage-fallback",
+          "table": "project",
+          "sql": "UPDATE poms.project SET status=$2,current_stage=$3,closed_at=$4::timestamptz,closed_reason=$5,customer_id=$6::uuid,customer_name=$7,owner_user_id=$8::uuid,owner_org_id=$9::uuid,created_at=$10::timestamptz,created_by=$11::uuid,updated_by=$12::uuid WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "active",
+            "execution",
+            null,
+            null,
+            "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+            null,
+            "2026-11-03T00:34:33.067+08:00",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "Root captured original owned project row; restore exact original row fields after this case group"
+        },
+        "before": {
+          "id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+          "status": "completed",
+          "closed_at": null,
+          "created_at": "2026-11-03T00:34:33.067+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "project_no": "PRJ-2026-000017",
+          "updated_at": "2026-11-03T00:34:33.067+08:00",
+          "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "row_version": 1,
+          "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "project_name": "HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f",
+          "closed_reason": null,
+          "current_stage": "completed",
+          "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "source_lead_id": null,
+          "planned_sign_at": null,
+          "customer_project_no": null
+        },
+        "after": [
+          {
+            "id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project_no": "PRJ-2026-000017",
+            "project_name": "HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "status": "active",
+            "current_stage": "execution",
+            "owner_org_id": null,
+            "owner_user_id": "9c34c0f3-79bc-4acb-b040-2b774b0b79e1",
+            "planned_sign_at": null,
+            "closed_at": null,
+            "closed_reason": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T16:34:33.067Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T16:34:33.067Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "source_lead_id": null,
+            "customer_project_no": null
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "跟进经营总览、偏差风险和阶段解释。",
+          "currentGap": "若缺少经营快照、回款或成本事实，相关页面会提示待补条件。",
+          "currentStage": "execution",
+          "currentStageLabel": "正式执行",
+          "generatedAt": "2026-11-02T16:53:51.686Z",
+          "headline": "围绕经营、回款、成本和提成条件持续推进",
+          "nextStep": "优先查看经营总览、偏差风险和阶段解释。",
+          "ownerLabel": "项目负责人 / 财务",
+          "projectId": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "需要项目查看和提成角色冻结权限。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "需要项目查看和提成发放权限。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "需要完整的提成治理操作权限。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/operations"
+            }
+          ],
+          "status": "active",
+          "statusLabel": "进行中"
+        },
+        "requestId": "bf4cdd33-6fb9-4867-acf0-2590a3e370f1",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "3559",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-495",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:51 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "7e76ae9adb6f55f6cb53699defd1a74c6f05061dd1ca153e3b480fbc45700d9a",
+          "responseBytes": 3839,
+          "responseSha256": "7b7baaf3c09807ad5f97eab0a2b36ebc0806db5464d159613a2fb10645ce25aa",
+          "entityBodyBytes": 3559,
+          "entityBodySha256": "220edc701822392f8b29626ff64d3a6654d542f73e9a44f9b36c90bf996ce317",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_projectRead-4892d26e-1962-44b6-80c9-b6a488c3fb58",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.067+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-03T00:34:33.067+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": null, \"project_name\": \"HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f\", \"closed_reason\": null, \"current_stage\": \"execution\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"9c34c0f3-79bc-4acb-b040-2b774b0b79e1\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.067+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-03T00:34:33.067+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": null, \"project_name\": \"HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f\", \"closed_reason\": null, \"current_stage\": \"execution\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"9c34c0f3-79bc-4acb-b040-2b774b0b79e1\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

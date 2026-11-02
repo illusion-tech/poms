@@ -1,0 +1,74 @@
+{
+  "label": "B.project.lookup",
+  "startedAt": "2026-11-02T17:05:48.344Z",
+  "completedAt": "2026-11-02T17:05:48.357Z",
+  "value": {
+    "operationId": "ProjectController_getByCode",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects:lookup",
+      "query": {
+        "projectNo": "PRJ-2026-000030"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "closedAt": null,
+        "closedReason": null,
+        "createdAt": "2026-11-02T17:05:48.320Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "currentStage": "assessment",
+        "customerId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+        "customerName": "R3HK-6872abb5-27 customer revised",
+        "customerProjectNo": "R3HK-6872abb5-27-external",
+        "id": "5c657d42-2447-4446-86b2-0f5f4022a426",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "plannedSignAt": "2027-02-01T00:00:00.000Z",
+        "projectName": "R3HK-6872abb5-27 project",
+        "projectNo": "PRJ-2026-000030",
+        "rowVersion": 1,
+        "sourceLeadId": null,
+        "status": "active",
+        "updatedAt": "2026-11-02T17:05:48.320Z",
+        "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      },
+      "requestId": "12fe8595-dc0f-4b4f-ae7d-dce5dcd9ce14",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "712",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-76822-649",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:05:48 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 324,
+        "requestSha256": "5db949264b72b1487686ec691c0c56a6ea0cf5c2d0e3352d85374eced44534f2",
+        "responseBytes": 991,
+        "responseSha256": "239d78fbfd302de72c0bf40a0fc6a6212ecf3833e79e1c95e80fbfd174e2bf5c",
+        "entityBodyBytes": 712,
+        "entityBodySha256": "2cf357d13c7f4d37a5b7d7552a1ba903760a0651ed33c56dc10d1931e5a6f2b3",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase27/raw-wire/admin-67e8a71e-8d77-45bf-8c31-78533639be76",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

@@ -1,0 +1,364 @@
+{
+  "kind": "R3HIJK-exact-owned-cohort-cleanup",
+  "createdAt": "2026-11-02T17:52:25.385Z",
+  "backend": "nest",
+  "runId": "b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+  "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+  "database": "poms_r3hijk_nest",
+  "source": {
+    "file": "tools/rust-r3hijk/cohort-terminal01.mjs",
+    "bytes": 10413,
+    "rawBytesSha256": "d7c624598c3ee17a38edabfe7c797b2de8556eade56613f2ab46b6cfe1e1a5d8"
+  },
+  "privateBeforeSnapshot": {
+    "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/terminal-cleanup01-before.json",
+    "bytes": 2445837,
+    "rawBytesSha256": "4fcded1d5c3182316ce7dd85ecd0c141ae39aa50dfaf4af26307dfbd644fcbee"
+  },
+  "baselinePin": {
+    "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/baseline-before.json",
+    "bytes": 246895,
+    "rawBytesSha256": "0667ce134bbc7f60d36ea02251770c837160ae8b51ab62e2cc077f03aac5ba7e"
+  },
+  "deltaTables": [
+    {
+      "table": "attachment",
+      "count": 8,
+      "rawRowSetSha256": "7517b89c37975c15383a0f80dc23f608fe815854e8fe3f63f6e6d129caa696bf"
+    },
+    {
+      "table": "attachment_link",
+      "count": 10,
+      "rawRowSetSha256": "a46d73301a601bda4cce6546eaab1fef9c73fa925705c85939c168316d932afc"
+    },
+    {
+      "table": "attachment_upload_session",
+      "count": 9,
+      "rawRowSetSha256": "cb338d089e8623171b0b31fab43992dd86da2ce42482b97f4ebbd842fbb6b0ae"
+    },
+    {
+      "table": "audit_log",
+      "count": 90,
+      "rawRowSetSha256": "a3bc869dd07a1750234148db8280c1f1915493c211d6c2198ab0feda5d29925d"
+    },
+    {
+      "table": "auth_session",
+      "count": 199,
+      "rawRowSetSha256": "84b4a8daea5c236b8a4308a8f42816b34f745e6fd045094ca18fb02d6151cc39"
+    },
+    {
+      "table": "business_discussion_comment",
+      "count": 27,
+      "rawRowSetSha256": "8ed03bcdc7e8da149f5116dc2920bd361c1be06aa49ddb17de293d26a333324c"
+    },
+    {
+      "table": "business_discussion_thread",
+      "count": 16,
+      "rawRowSetSha256": "eb7bd6212e552627b5248486354de3baa87d5e23822f1fd1454415927dc882d6"
+    },
+    {
+      "table": "business_number_sequence",
+      "count": 2,
+      "rawRowSetSha256": "d6b2d7237284b07d41a5645ca4982a849cace750fb5e30e58083aed722ba6a7e"
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "count": 23,
+      "rawRowSetSha256": "cf7de922708ed6c41905fbc86a5c14c809577e1377d9317578105b2f5903f32d"
+    },
+    {
+      "table": "customer",
+      "count": 10,
+      "rawRowSetSha256": "56b49677ff1ec4b366a980d2017aeb968b9ebf751e955660eea9e18a5b69ee4f"
+    },
+    {
+      "table": "customer_alias",
+      "count": 10,
+      "rawRowSetSha256": "fb2697b44158a075f012f0813499a6215143d42091e5db4f37f85d07e59f4da2"
+    },
+    {
+      "table": "customer_contact",
+      "count": 18,
+      "rawRowSetSha256": "23778fb83ae0838356964f3d6cfc412341e67da1313867ac9c0b1f5b28e0ee2f"
+    },
+    {
+      "table": "dictionary_item",
+      "count": 1,
+      "rawRowSetSha256": "290a19b6e40c6fcee45c9b1ca52f1f90e7fc4d041e2212018290de007cff3edc"
+    },
+    {
+      "table": "lead",
+      "count": 71,
+      "rawRowSetSha256": "818c75fa8fe5e7e37505abb6f4223698dcb239e0bc0a6dfb36dbd695b7a2db69"
+    },
+    {
+      "table": "lead_owner_assignment_record",
+      "count": 4,
+      "rawRowSetSha256": "862f93cbb567f5b2a8cacaf93f08fd34d57082023b335c10f516b4ecbac910a6"
+    },
+    {
+      "table": "lead_score_override",
+      "count": 22,
+      "rawRowSetSha256": "b5151475b7505e808545db6bff3fb2eb74587dcadfc7779c3c951e14ae59ae33"
+    },
+    {
+      "table": "lead_score_snapshot",
+      "count": 123,
+      "rawRowSetSha256": "c14c9411250a6049fff04d23950dcb581204fb359f54b67fba43937b9617e760"
+    },
+    {
+      "table": "local_credential",
+      "count": 27,
+      "rawRowSetSha256": "2d18d50b40be873d2770b9a29d0581d4818821d521a9cbac17643bda39ade8d3"
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "count": 24,
+      "rawRowSetSha256": "c94b852089907cf5c484cd131b27d203a247bad8ec831053d5da78052545429e"
+    },
+    {
+      "table": "org_unit",
+      "count": 27,
+      "rawRowSetSha256": "a2e07cf2246d6a45114a966425b48279b674864869c954b31199a3641ab2a714"
+    },
+    {
+      "table": "platform_user",
+      "count": 27,
+      "rawRowSetSha256": "a6c45cc12f4f67b7ce17ea546f0b45e5e94a1dac0797611dfb408876394d2502"
+    },
+    {
+      "table": "project",
+      "count": 29,
+      "rawRowSetSha256": "18fda2329d7015402f1ed447353d520faa2b5ab0a221a022ee5b81793b294e28"
+    },
+    {
+      "table": "role",
+      "count": 27,
+      "rawRowSetSha256": "c11504d301ce5111e66e79934a68a2806cdfbb9e689200f02fb827547ae36ca0"
+    },
+    {
+      "table": "role_permission_assignment",
+      "count": 269,
+      "rawRowSetSha256": "f7929171010c74e27c0cd4953431a21f3fbb168a1bc9fb044a8bbe9555728fd8"
+    },
+    {
+      "table": "sales_discovery_record",
+      "count": 19,
+      "rawRowSetSha256": "2bcbca74d43c1a4536d13f2efd0b61fd65b1075fff6a02566bc097cc1490c229"
+    },
+    {
+      "table": "sales_follow_up_record",
+      "count": 10,
+      "rawRowSetSha256": "0aa19f6e20e3b9a4ee004528948a61094f10105d9e58bc82a7ea34dbf438e628"
+    },
+    {
+      "table": "security_event",
+      "count": 106,
+      "rawRowSetSha256": "13e6596ad7e2216da705de7cf03d571fc41dde811fca4450dc5b91eda1d8570e"
+    },
+    {
+      "table": "todo_item",
+      "count": 3,
+      "rawRowSetSha256": "9cb61cce0d7fbb79a5155ed1c10c6d4ac38ce1661505e761a2af62036fd41d94"
+    },
+    {
+      "table": "user_org_membership",
+      "count": 27,
+      "rawRowSetSha256": "def687ba47794a546f3232e4fd3fd1f81f186430fda0088ac9effc8b0da8794c"
+    },
+    {
+      "table": "user_role_assignment",
+      "count": 27,
+      "rawRowSetSha256": "657bb21f9a7de36994aa97b8626033bcb2b1263e81d9d5a666a4667073e9d711"
+    }
+  ],
+  "changedSeedRows": [
+    {
+      "table": "business_number_sequence",
+      "pk": [
+        "id"
+      ]
+    }
+  ],
+  "removed": [
+    {
+      "table": "business_discussion_comment",
+      "count": 27
+    },
+    {
+      "table": "business_discussion_thread",
+      "count": 16
+    },
+    {
+      "table": "todo_item",
+      "count": 3
+    },
+    {
+      "table": "sales_follow_up_record",
+      "count": 10
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "count": 24
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "count": 23
+    },
+    {
+      "table": "sales_discovery_record",
+      "count": 19
+    },
+    {
+      "table": "lead_score_snapshot",
+      "count": 123
+    },
+    {
+      "table": "lead_score_override",
+      "count": 22
+    },
+    {
+      "table": "lead_owner_assignment_record",
+      "count": 4
+    },
+    {
+      "table": "attachment_upload_session",
+      "count": 9
+    },
+    {
+      "table": "attachment_link",
+      "count": 10
+    },
+    {
+      "table": "attachment",
+      "count": 8
+    },
+    {
+      "table": "project",
+      "count": 29
+    },
+    {
+      "table": "lead",
+      "count": 71
+    },
+    {
+      "table": "customer_contact",
+      "count": 18
+    },
+    {
+      "table": "customer_alias",
+      "count": 10
+    },
+    {
+      "table": "customer",
+      "count": 10
+    },
+    {
+      "table": "dictionary_item",
+      "count": 1
+    },
+    {
+      "table": "audit_log",
+      "count": 90
+    },
+    {
+      "table": "security_event",
+      "count": 106
+    },
+    {
+      "table": "auth_session",
+      "count": 199
+    },
+    {
+      "table": "role_permission_assignment",
+      "count": 269
+    },
+    {
+      "table": "user_role_assignment",
+      "count": 27
+    },
+    {
+      "table": "user_org_membership",
+      "count": 27
+    },
+    {
+      "table": "local_credential",
+      "count": 27
+    },
+    {
+      "table": "platform_user",
+      "count": 27
+    },
+    {
+      "table": "org_unit",
+      "count": 27
+    },
+    {
+      "table": "role",
+      "count": 27
+    },
+    {
+      "table": "business_number_sequence",
+      "count": 2
+    }
+  ],
+  "removedRows": 1265,
+  "fullSeedTables": 107,
+  "all107SeedRawJSONRowsExact": true,
+  "individualPrivileges": 428,
+  "allPrivilegesRestored": true,
+  "controlledCountersRestored": 1,
+  "localObjectsRetained": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/246de7be-d013-401b-b813-422831c04285/original.txt",
+      "bytes": 37,
+      "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/5276da75-9803-460a-b17e-e8415cb0298b/original.txt",
+      "bytes": 39,
+      "rawBytesSha256": "903a86f1a67d9fea33d138df729857fca36ff2636eeb19d3cc04d76b26afb7c2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+      "bytes": 36,
+      "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+      "bytes": 37,
+      "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+      "bytes": 47,
+      "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/e7ea8672-f5d9-4e8b-9146-fb97654147a8/original.txt",
+      "bytes": 35,
+      "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/e7ffc239-b8ff-4967-8d6d-8b4424f8a0db/original.txt",
+      "bytes": 47,
+      "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/ea99b18e-586e-44f8-b7e8-bf50afb51da3/original.txt",
+      "bytes": 36,
+      "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+      "bytes": 35,
+      "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db"
+    }
+  ],
+  "privateAndVolumeRetained": true,
+  "oldPrivateOrPG17Touched": false,
+  "credentialsPublished": false,
+  "completed": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

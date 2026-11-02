@@ -1,0 +1,279 @@
+{
+  "label": "K.G02.stage.completed",
+  "startedAt": "2026-11-02T16:53:51.010Z",
+  "completedAt": "2026-11-02T16:53:51.035Z",
+  "value": {
+    "definition": {
+      "id": "K.G02.stage.completed",
+      "covers": [
+        "K-G01",
+        "K-G02",
+        "K-G07",
+        "K-G08"
+      ],
+      "prepare": [
+        {
+          "role": "stage-fallback-owner-null.completed",
+          "table": "project",
+          "sql": "UPDATE poms.project SET owner_user_id=NULL,owner_org_id=NULL WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "4e297c3b-4223-4848-8f31-1cbc65cbdadf"
+          ],
+          "classification": "owned-real-project-owner-read-projection-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        }
+      ],
+      "requests": [
+        {
+          "id": "K.G02.stage.completed",
+          "method": "GET",
+          "path": "/api/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/workspace-guidance",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "currentStage": "completed",
+            "currentStageLabel": "已完成",
+            "entryCount": 9,
+            "ownerLabel": "项目负责人 / 财务",
+            "absentBasisAllNull": true,
+            "noTopLevelAllowedActions": true,
+            "literalTextAuthority": "apps/poms-api/src/app/features/project/project-query.service.ts PROJECT_WORKSPACE_STAGE_GUIDANCE",
+            "disabledReasonPriority": "closed > stage > permission"
+          },
+          "actual": null,
+          "capture": [
+            "full 14-field payload",
+            "entry array and all 7 fields",
+            "basis all 4 fields",
+            "before/after owned domain rows and row versions",
+            "request-clock window"
+          ]
+        }
+      ],
+      "restore": "Root captures and restores these two owned owner IDs after the stage read; NULL projection makes every stage-specific fallback observable without claiming a R4 write."
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "stage-fallback-owner-null.completed",
+          "table": "project",
+          "sql": "UPDATE poms.project SET owner_user_id=NULL,owner_org_id=NULL WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "4e297c3b-4223-4848-8f31-1cbc65cbdadf"
+          ],
+          "classification": "owned-real-project-owner-read-projection-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        "before": {
+          "id": "4e297c3b-4223-4848-8f31-1cbc65cbdadf",
+          "status": "active",
+          "closed_at": null,
+          "created_at": "2026-11-03T00:34:33.484+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "project_no": "PRJ-2026-000026",
+          "updated_at": "2026-11-03T00:34:33.484+08:00",
+          "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "row_version": 1,
+          "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "project_name": "D G2 completed 6872abb5-12af-486f",
+          "closed_reason": null,
+          "current_stage": "completed",
+          "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "source_lead_id": null,
+          "planned_sign_at": null,
+          "customer_project_no": null
+        },
+        "after": [
+          {
+            "id": "4e297c3b-4223-4848-8f31-1cbc65cbdadf",
+            "project_no": "PRJ-2026-000026",
+            "project_name": "D G2 completed 6872abb5-12af-486f",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "status": "active",
+            "current_stage": "completed",
+            "owner_org_id": null,
+            "owner_user_id": null,
+            "planned_sign_at": null,
+            "closed_at": null,
+            "closed_reason": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T16:34:33.484Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T16:34:33.484Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "source_lead_id": null,
+            "customer_project_no": null
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "查看最终结算、规则解释和归档结果。",
+          "currentGap": "如仍有质保金或结算事项，请进入提成相关页面处理。",
+          "currentStage": "completed",
+          "currentStageLabel": "已完成",
+          "generatedAt": "2026-11-02T16:53:51.024Z",
+          "headline": "项目主线已完成，重点看归档和结算",
+          "nextStep": "按归档结果处理后续复核或质保金事项。",
+          "ownerLabel": "项目负责人 / 财务",
+          "projectId": "4e297c3b-4223-4848-8f31-1cbc65cbdadf",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/workspace"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "需要项目查看和提成角色冻结权限。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "需要项目查看和提成发放权限。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "需要项目查看和提成发放权限。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "需要完整的提成治理操作权限。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/commission/operations"
+            }
+          ],
+          "status": "active",
+          "statusLabel": "进行中"
+        },
+        "requestId": "072e5a2b-1cbf-4aa6-a85a-1d8a4a46f219",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "3514",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-469",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:51 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "d0ddf77b316720c0880525f0474a88645b5dab012644d62acf33734dfe0f5939",
+          "responseBytes": 3794,
+          "responseSha256": "1e7a28bafd376f36938da7ca9bcf527f973b8d8cf8f86df19140f585616c9637",
+          "entityBodyBytes": 3514,
+          "entityBodySha256": "85ab5ec18dc13f24aac5c9d378a05994cdd66d351c32f1435bceb77fd7c66728",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_projectRead-82a1bb8d-0d3d-479b-87a3-7ffa61dddc25",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"4e297c3b-4223-4848-8f31-1cbc65cbdadf\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.484+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000026\", \"updated_at\": \"2026-11-03T00:34:33.484+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": null, \"project_name\": \"D G2 completed 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"completed\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": null, \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"4e297c3b-4223-4848-8f31-1cbc65cbdadf\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.484+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000026\", \"updated_at\": \"2026-11-03T00:34:33.484+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": null, \"project_name\": \"D G2 completed 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"completed\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": null, \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

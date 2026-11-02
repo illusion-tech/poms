@@ -1,0 +1,128 @@
+{
+  "label": "J.association-delete-after-lookup",
+  "startedAt": "2026-11-02T16:53:50.757Z",
+  "completedAt": "2026-11-02T16:53:50.802Z",
+  "value": {
+    "definition": {
+      "id": "J.association-delete-after-lookup",
+      "covers": [
+        "J-C08"
+      ],
+      "requests": [
+        {
+          "id": "J.FK-deleted-contact",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "34574dce-ab51-474d-ae19-221ae016b923",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedContactId": "3ed3f260-8600-4d5c-b6aa-3296e3f30745"
+          },
+          "expect": {
+            "status": 500
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "kind": "Root-controlled-FK-failure-definition",
+      "precondition": "Fresh real target and disposable same-customer real contact; no existing thread, stakeholder or other restrict consumers",
+      "schedule": [
+        {
+          "owner": "Root lock connection",
+          "sql": "BEGIN"
+        },
+        {
+          "owner": "Root lock connection",
+          "sql": "LOCK TABLE poms.business_discussion_thread IN SHARE MODE"
+        },
+        {
+          "owner": "Root HTTP client",
+          "action": "Dispatch request; wait until its thread INSERT is blocked, proving target/contact lookups have completed"
+        },
+        {
+          "owner": "Root control connection",
+          "sql": "DELETE FROM poms.customer_contact WHERE id=$1::uuid RETURNING id",
+          "params": [
+            "3ed3f260-8600-4d5c-b6aa-3296e3f30745"
+          ],
+          "classification": "owned-fault-injection-after-real-producer-not-business-delete-command"
+        },
+        {
+          "owner": "Root lock connection",
+          "sql": "COMMIT"
+        }
+      ],
+      "expectations": {
+        "status": 500,
+        "failureBody": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "terminalThreadCount": 0,
+        "terminalCommentCount": 0,
+        "sessionBusinessFlushRolledBack": true,
+        "SQLSTATE": "23503"
+      },
+      "capture": [
+        "producer receipt",
+        "confirmed blocked INSERT",
+        "contact delete receipt",
+        "raw HTTP vs SQL separately",
+        "all affected domain/session before-after state"
+      ]
+    },
+    "prepared": [],
+    "waiting": 1,
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "message": "Internal server error",
+          "statusCode": 500
+        },
+        "requestId": "d4797050-e7f8-4a49-beea-746ab6af3c6e",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "52",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-461",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:50 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 621,
+          "requestSha256": "9b9c33d651ef618b36a403deee69ded0e647b8b4859abf6cb46983ef2fae72c5",
+          "responseBytes": 349,
+          "responseSha256": "bd6896968c7c761477e4ed002ab0516d0b0a10c1c58c60ec819e660c47d00c29",
+          "entityBodyBytes": 52,
+          "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/admin-bf55365d-631d-4375-b93a-43d915388961",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "removed": [
+      {
+        "id": "3ed3f260-8600-4d5c-b6aa-3296e3f30745"
+      }
+    ],
+    "threads": [],
+    "comments": []
+  }
+}

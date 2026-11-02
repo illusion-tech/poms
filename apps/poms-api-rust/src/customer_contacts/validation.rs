@@ -1,5 +1,4 @@
-//! Original schema validation. Only the create controller's gender projection
-//! is intentionally absent from the resulting command.
+//! Public contact DTO validation and command projection.
 
 use serde_json::{Value, json};
 
@@ -163,7 +162,7 @@ pub fn validate_create(raw: Option<&str>) -> Result<Create, ValidationError> {
         .iter()
         .map(|value| value.as_str())
         .collect::<Vec<_>>();
-    let _gender = enumeration(&object, "gender", false, &genders, &mut errors);
+    let gender = enumeration(&object, "gender", false, &genders, &mut errors);
     let department = nullable_text(&object, "department", 1, 128, &mut errors)?;
     let title = nullable_text(&object, "title", 1, 128, &mut errors)?;
     let work_phone = nullable_text(&object, "workPhone", 1, 64, &mut errors)?;
@@ -178,6 +177,7 @@ pub fn validate_create(raw: Option<&str>) -> Result<Create, ValidationError> {
         (Field::Value(customer_id), Some(name)) => Ok(Create {
             customer_id,
             name,
+            gender,
             department,
             title,
             work_phone,
@@ -261,4 +261,36 @@ pub fn validate_query(raw: Option<&str>) -> Result<Query, ValidationError> {
 
 pub fn query_raw(query: Option<&str>) -> String {
     crate::dictionary::validation::query_raw(query)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const ID: &str = "123e4567-e89b-42d3-a456-426614174000";
+
+    #[test]
+    fn create_keeps_the_public_gender_field_in_the_command() {
+        for gender in ["female", "male", "unknown"] {
+            let raw =
+                format!("{{\"customerId\":\"{ID}\",\"name\":\"Contact\",\"gender\":\"{gender}\"}}");
+            let input = validate_create(Some(&raw))
+                .unwrap_or_else(|_| panic!("valid public contact Create"));
+            assert_eq!(input.gender.as_deref(), Some(gender));
+        }
+        let input = validate_create(Some(&format!(
+            "{{\"customerId\":\"{ID}\",\"name\":\"Contact\"}}"
+        )))
+        .unwrap_or_else(|_| panic!("valid contact Create without optional gender"));
+        assert_eq!(input.gender, None);
+    }
+
+    #[test]
+    fn create_gender_remains_nonnullable_and_enum_validated() {
+        for gender in ["null", "false", "\"not-a-gender\""] {
+            let raw =
+                format!("{{\"customerId\":\"{ID}\",\"name\":\"Contact\",\"gender\":{gender}}}");
+            assert!(validate_create(Some(&raw)).is_err());
+        }
+    }
 }

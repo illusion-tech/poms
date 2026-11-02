@@ -1,0 +1,679 @@
+{
+  "kind": "C-complete-independent-R3HIJK-G3-review01",
+  "createdAt": "2026-11-02T19:00:57.103Z",
+  "reviewCompleted": true,
+  "reviewMode": "Complete independent G3, not incremental/preaudit",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Sole independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified",
+    "didNotAuthorProductOrRootExecutors": true
+  },
+  "verdict": "Needs-correction",
+  "G3Certified": false,
+  "G4Certified": false,
+  "commitAllowed": false,
+  "mainIntegrationAllowed": false,
+  "trackerDoneAllowed": false,
+  "fixedCommitCertified": false,
+  "activeManifest": {
+    "file": "docs/design/rust-r3hijk/g3-input-manifest02.json",
+    "bytes": 784134,
+    "rawBytesSha256": "301bf6ce2231a4d60775293ef8f9e2bdaa559ac93d017f93c8f6f012fe6e34b5"
+  },
+  "scopeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "scope": {
+    "kind": "cross-layer-high-risk",
+    "mode": "solo worktree checkpoint",
+    "operations": 28,
+    "groups": {
+      "H": 14,
+      "I": 10,
+      "J": 2,
+      "K": 2
+    },
+    "formalR3Delivered": 30,
+    "totalR3HTTP": 58,
+    "currentRuntimeRustOperations": 173,
+    "parentsRemainOpen": [
+      85,
+      57
+    ],
+    "fullR3StageCertified": false,
+    "noR4WritesOrStageApprovalHandlerDelivery": true
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "candidate04": {
+    "file": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+    "bytes": 43654928,
+    "rawBytesSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa"
+  },
+  "candidateIsArtifactHashNotGitCommit": true,
+  "signingBoundary": "This first complete review signs only immutable manifest02 and candidate04. I/F subsequent source corrections and candidates05/06 are neither accepted nor certified by this original. The one candidate05 F diagnostic is explicitly supplemental and bound to identical reviewed F source.",
+  "inputs": {
+    "groups": {
+      "productCargoOpenAPI": 235,
+      "protectedNativeUIContractClient": 1373,
+      "formalInputs": 1811,
+      "tools": 108
+    },
+    "publicEvidence": {
+      "map": {
+        "file": "docs/design/rust-r3hijk/public-evidence-origin-map.json",
+        "bytes": 725310,
+        "rawBytesSha256": "f99d122140008b8fcd6c279b57cffd46c550a1780a284986ea45ad06c99b5dd3"
+      },
+      "files": 1473,
+      "bytes": 180442225,
+      "allOriginalFormalPairsRawExactAtIntake": true
+    },
+    "frozenGovernanceOriginalPairs": 6,
+    "intakeInputByteAudit": {
+      "file": "tmp/rust-r3hijk/c-review/g3-input-byte-audit01.json",
+      "bytes": 2391,
+      "rawBytesSha256": "3e1de95a784b9d35e4f512d6d53902bd600c3909670471fded7487cf1a1dbd20"
+    },
+    "oldG1ManifestSHA": "979ecf83a801bc3b373014c308c2ec096acb18fa715c04abd3467b18de776d08",
+    "newIndependentOriginalISourceSnapshots": 6,
+    "reviewedFOldSourceSnapshotsMatch04": true
+  },
+  "findingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 2
+  },
+  "findings": [
+    {
+      "id": "G3-P2-I-UUID-IDENTITY-01",
+      "priority": "P2",
+      "classification": "existing-baseline-drift",
+      "status": "Open in reviewed candidate04",
+      "domain": "I sales intelligence anchor validation",
+      "problem": "Valid alternate-case spellings of the same internal UUID are rejected as a different Customer. The current business-correctness policy supersedes copying the Native textual-comparison defect.",
+      "source": {
+        "originalSource": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+        "candidate04Pin": {
+          "file": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+          "bytes": 41748,
+          "rawBytesSha256": "38bbf3179c79ce8c8546bf67bd3cc8ef634c154af3de13d0d1a7220442afca14"
+        },
+        "independentOriginalSnapshot": {
+          "file": "tmp/rust-r3hijk/c-review/g3-candidate04-source-originals/apps/poms-api-rust/src/sales_intelligence/service.rs",
+          "bytes": 41748,
+          "rawBytesSha256": "38bbf3179c79ce8c8546bf67bd3cc8ef634c154af3de13d0d1a7220442afca14"
+        }
+      },
+      "sourceLines": [
+        {
+          "line": 268,
+          "meaning": "Contact ownership compares UUID display text to raw caller text."
+        },
+        {
+          "line": 592,
+          "meaning": "Lead ownership compares UUID display text to raw caller text."
+        },
+        {
+          "line": 600,
+          "meaning": "Project ownership compares UUID display text to raw caller text."
+        }
+      ],
+      "actualEvidence": {
+        "report": {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate03-38/report01.json",
+          "bytes": 15630086,
+          "rawBytesSha256": "2712c06bd3c81e6bcbf1914cde3d1494ee050c00023d5b9845bd3f3993ed6cf9"
+        },
+        "runtime": {
+          "kind": "R3HIJK-owned-Linux-runtime",
+          "backend": "rust",
+          "tag": "candidate03",
+          "pid": 88686,
+          "startTime": "2243560",
+          "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+          "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+          "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+          "artifactBytes": 43630808,
+          "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+          "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+          "port": 12500,
+          "database": "poms_r3hijk_rust",
+          "createdAt": "2026-11-02T17:35:09.653Z"
+        },
+        "cases": [
+          {
+            "caseName": "I-boundary.uuid.uppercase-customer-is-not-canonicalized",
+            "caseOriginal": {
+              "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate03-38/44-I-boundary.uuid.uppercase-customer-is-not-canonicalized.json",
+              "bytes": 201092,
+              "rawBytesSha256": "56b2711929c321d7e2da383cf629167e329bd20146c6362815be11ae6cf40109"
+            },
+            "operationId": "CompetitorIntelligenceRecordController_create",
+            "method": "POST",
+            "path": "/api/competitor-intelligence-records",
+            "request": {
+              "leadId": "119cca93-1759-4253-af44-3b34bcf0d94c",
+              "projectId": "5c4495ef-56b6-47be-90ec-245c0f07d164",
+              "customerId": "A1BE5F15-B2EE-4B1C-96CB-36697A872308",
+              "competitorName": "I supplemental competitor"
+            },
+            "originalSchemaAccepted": true,
+            "actualLeadProducer": {
+              "id": "119cca93-1759-4253-af44-3b34bcf0d94c",
+              "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308"
+            },
+            "requestedAndActualCustomerUuidAreSame": true,
+            "actualHTTP": 400,
+            "actualBody": {
+              "error": "Bad Request",
+              "message": "Lead 119cca93-1759-4253-af44-3b34bcf0d94c does not belong to customer A1BE5F15-B2EE-4B1C-96CB-36697A872308",
+              "statusCode": 400
+            },
+            "expectedBusinessOutcome": "Successful create for these valid same-customer anchors; spelling alone cannot change UUID identity."
+          },
+          {
+            "caseName": "I-boundary.uuid.uppercase-inputs-remain-original-strings",
+            "caseOriginal": {
+              "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate03-38/45-I-boundary.uuid.uppercase-inputs-remain-original-strings.json",
+              "bytes": 201102,
+              "rawBytesSha256": "edc39360f6dc0a13d744ba31730f0ec4619ac679b07fb75668245d9355cef701"
+            },
+            "operationId": "OpportunityStakeholderController_create",
+            "method": "POST",
+            "path": "/api/opportunity-stakeholders",
+            "request": {
+              "leadId": "119CCA93-1759-4253-AF44-3B34BCF0D94C",
+              "projectId": "5c4495ef-56b6-47be-90ec-245c0f07d164",
+              "customerId": "A1BE5F15-B2EE-4B1C-96CB-36697A872308",
+              "contactId": "50E1F539-A5C1-40DB-A8B4-D34E9AEE663E",
+              "role": "unknown"
+            },
+            "originalSchemaAccepted": true,
+            "actualLeadProducer": {
+              "id": "119cca93-1759-4253-af44-3b34bcf0d94c",
+              "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308"
+            },
+            "requestedAndActualCustomerUuidAreSame": true,
+            "actualHTTP": 400,
+            "actualBody": {
+              "error": "Bad Request",
+              "message": "Lead 119cca93-1759-4253-af44-3b34bcf0d94c does not belong to customer A1BE5F15-B2EE-4B1C-96CB-36697A872308",
+              "statusCode": 400
+            },
+            "expectedBusinessOutcome": "Successful create for these valid same-customer anchors; spelling alone cannot change UUID identity."
+          }
+        ]
+      },
+      "businessAuthority": [
+        {
+          "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+          "meaning": "UUID schema accepts both hex cases; internal identity is UUID, not its input spelling."
+        },
+        {
+          "file": "docs/design/rust-r3hijk-business-semantics-corrective-checkpoint01.md",
+          "meaning": "Direct user policy: business correctness and reasonable public contract outrank Native bug observations."
+        }
+      ],
+      "minimalCorrection": "Compare the parsed UUID identities inside I Customer/Lead/Project/Contact membership validation. Retain raw input for display/error text where needed; do not change global UUID serialization, public DTO/route/DDL or add new anchor rules.",
+      "requiredDirectedRevalidation": [
+        "Three I POST kinds using real same-Customer uppercase/mixed-case customer/lead/project UUIDs; stakeholder also Contact. Verify201, canonical persisted foreign keys and readable rows.",
+        "Three list views and gaps under lower/uppercase identities return the same actual record sets.",
+        "Real cross-Customer Lead/Project/Contact remain400, valid absent refs404, malformed UUID400, with no business write.",
+        "Normal PATCH, semantic no-op and typed focusAreas remain stable; registered changed-PATCH required-audit fault rolls back.",
+        "Actual new I fact consumed by H refresh/gates and J relatedContact/relatedCompetitor; wider unchanged H/J/K/UI may only be reused after exact new source-causality review."
+      ],
+      "RootAcknowledged": true,
+      "noUserDecisionRequiringCaseSensitiveUUIDIdentityFound": true
+    },
+    {
+      "id": "G3-P2-F-EMPTY-REMINDER-STREAM-01",
+      "priority": "P2",
+      "classification": "existing-baseline-drift",
+      "status": "Open in reviewed candidate04; later candidate05 actual probe confirms unchanged F code",
+      "domain": "Old30 FollowUp necessary dependency / Todo reminder stream",
+      "problem": "Two different FollowUp creates can both read an empty owner+target stream, insert independently, and commit two open reminders for one stream. The existing source-record lock covers replace/void of one source but does not serialize creation when no source or Todo row exists.",
+      "sourceSnapshots": [
+        {
+          "originalSource": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+          "candidate04Pin": {
+            "file": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+            "bytes": 35337,
+            "rawBytesSha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+          },
+          "independentOriginalSnapshot": {
+            "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/service.rs",
+            "bytes": 35337,
+            "rawBytesSha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+          }
+        },
+        {
+          "originalSource": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+          "candidate04Pin": {
+            "file": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+            "bytes": 19058,
+            "rawBytesSha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+          },
+          "independentOriginalSnapshot": {
+            "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/store.rs",
+            "bytes": 19058,
+            "rawBytesSha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+          }
+        },
+        {
+          "originalSource": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+          "candidate04Pin": {
+            "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+            "bytes": 5417,
+            "rawBytesSha256": "ae06165669c57152924322ae7f272df33bb56b4458835cb345dfad147fac1d2d"
+          },
+          "independentOriginalSnapshot": {
+            "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+            "bytes": 5417,
+            "rawBytesSha256": "ae06165669c57152924322ae7f272df33bb56b4458835cb345dfad147fac1d2d"
+          }
+        }
+      ],
+      "sourceLines": [
+        {
+          "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+          "line": 59,
+          "meaning": "Plain empty-stream read precedes new reminder planning."
+        },
+        {
+          "file": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+          "line": 437,
+          "meaning": "Stream query has no common serialization or empty-key lock."
+        }
+      ],
+      "actualSupplement": {
+        "reportOriginal": {
+          "file": "tmp/rust-r3hijk/acceptance-rust-candidate05-50/report01.json",
+          "bytes": 27748,
+          "rawBytesSha256": "860e8df40ae6946a09ca84032f50b71fb128452263fe3cde14c0c0cff4f69caf",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tmp/rust-r3hijk/acceptance-rust-candidate05-50/report01.json"
+        },
+        "independentRetainedPublicCopy": {
+          "file": "tmp/rust-r3hijk/c-review/g3-F-empty-stream-candidate05-original.json",
+          "bytes": 27748,
+          "rawBytesSha256": "860e8df40ae6946a09ca84032f50b71fb128452263fe3cde14c0c0cff4f69caf"
+        },
+        "outsideActiveManifest02": true,
+        "runtime": {
+          "kind": "R3HIJK-owned-Linux-runtime",
+          "backend": "rust",
+          "tag": "candidate05",
+          "pid": 103190,
+          "startTime": "2647156",
+          "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+          "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+          "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+          "artifactBytes": 43695144,
+          "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+          "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+          "port": 12500,
+          "database": "poms_r3hijk_rust",
+          "createdAt": "2026-11-02T18:42:25.611Z"
+        },
+        "runId": "cc20b1df-63f7-40db-b558-521474f53fb5",
+        "completed": false,
+        "groups": 0,
+        "HTTP": 3,
+        "observedInsertWaiters": 2,
+        "actualHTTP": [
+          201,
+          201
+        ],
+        "newFollowUpRecords": 2,
+        "activeTodosForSameOwnerAndProject": 2,
+        "sourceToTodoLinksAndOwnerTargetVerified": true,
+        "error": {
+          "name": "AssertionError",
+          "message": "An owner/target stream must have exactly one current reminder"
+        },
+        "appliesToCandidate04": {
+          "candidate05Build": {
+            "file": "tmp/rust-r3hijk/rust-check10/report01.json",
+            "bytes": 89524,
+            "rawBytesSha256": "a3b31fd3b0e7a34719798e8ac6c004c94eaf51c25ac80b6bab45ea625896e498"
+          },
+          "candidate05DiffersFrom04OnlyInIService": true,
+          "allFollowUpSourcePinsCandidate04And05Exact": true
+        }
+      },
+      "businessAuthority": [
+        {
+          "file": "docs/design/archive/slices/ex-49-sales-follow-up-reminder-todo-governance-baseline.md",
+          "lines": [
+            75,
+            79,
+            92,
+            95,
+            125,
+            213
+          ],
+          "meaning": "One personal reminder stream per owner and target; newer fact closes the previous open reminder; unique source constraint is per-record, not stream serialization."
+        },
+        {
+          "file": "docs/design/archive/slices/ex-49a-sales-follow-up-reminder-todo-runtime-baseline.md",
+          "lines": [
+            63
+          ],
+          "meaning": "Create closes other open/processing source reminders in the same owner+target stream."
+        }
+      ],
+      "minimalCorrection": "Acquire a transaction-owned common target/stream serialization lock before reminder cancel/source/stream reads, including empty stream and no-owner paths, while preserving source version locking and the existing create/replace/void rules. Keep the required writes in the same business transaction; no new DDL or audit event.",
+      "requiredDirectedRevalidation": [
+        "Real empty-stream two-create barrier must demonstrate actual lock serialization and two201 with only one open reminder and two valid FollowUp facts.",
+        "Cover Customer/Lead/Project targets, same-owner and different-owner streams, no-next/no-owner and owner-change branches without changing reminder semantics.",
+        "Preserve the three same-source replace/replace, void/void, replace/void200/409 and winner-only record/Todo/audit graphs.",
+        "Inject necessary Todo/record write failures, verify whole business rollback and transaction lock release.",
+        "Repeat affected foundation/full producer path and reconcile all later diagnostic rows/ACL/object/runtime terminal."
+      ],
+      "RootAcknowledged": true
+    }
+  ],
+  "allCurrentlyIdentifiedP1P2Reported": true,
+  "noOtherP1P2FoundInCompletedReview": true,
+  "completedNonblockingReview": {
+    "documentCodeAndScope": "Original G1/online freeze, direct user business policy, EX54/EX61/EX63B and scoped old30/money corrections reviewed. No new route, DTO, DDL, client or operation count is authorized by this review.",
+    "routeCommandContractGuard": {
+      "compiledActual": {
+        "operations": 173,
+        "paths": 138,
+        "schemas": 585
+      },
+      "newCanonicalOperationsDeepMatchNative": 28,
+      "all585SchemasDeepMatchNative": true,
+      "guardActualOperations": 28,
+      "guardHTTP": 149,
+      "anonymous401": 28,
+      "writeCSRF403": 18,
+      "threeRolePoliciesEachOperation": true,
+      "normalSurfaceAndErrorBodiesNotNodeByteParity": true
+    },
+    "typesMoneyDatesUnicode": "Date/date-time, numeric18,2 amount strings, four-place quantity/unitPrice, signed8-place rates, Missing/Null/Value, early NUL/unpaired-surrogate rejection and typed I string[] read/no-op reviewed. Candidate04 exact-money P2 previously closed remains closed; the UUID relationship failure is a distinct open issue.",
+    "finalActual": {
+      "check09": {
+        "passed": 288,
+        "failed": 0,
+        "ignored": 54,
+        "fourCommandExitCodes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "ignoredNotPGAcceptance": true
+      },
+      "money43_44": {
+        "rawHTTP": 20,
+        "boundaryGroups": 17,
+        "rejectedSevenTableRawNoWriteCases": 10,
+        "independentReview": {
+          "file": "tmp/rust-r3hijk/c-review/candidate04-money-correction-preaudit01.json",
+          "bytes": 27639,
+          "rawBytesSha256": "cb4b0f305499e5040a2b9b2cb96e0fa1df60ca3aca7a54f43c17d75f8a52aa10"
+        }
+      },
+      "version45": {
+        "groups": 17,
+        "HTTP": 29,
+        "threeRealTwoWaiterProjectLocks": true,
+        "two201EachVersions1To3AndUniqueCurrent": true,
+        "nineParentAndEveryDeclaredChildWriteFaultGraphsExact": true,
+        "twoStaleReference400GraphsExact": true
+      },
+      "foundation46": {
+        "groups": 56,
+        "HTTP": 56,
+        "distinctOldOperations": 30,
+        "auxiliaryTodoReadNotExtraR3Operation": true,
+        "ContactGenderAndFollowUpHistoryReminderAuditReviewed": true
+      },
+      "businessCore47": {
+        "groups": 14,
+        "HTTP": 65,
+        "wholeBusinessRollbackAndSnapshotSemanticNoopAndTwoCASWinnerGraphsChecked": true,
+        "numberBurst16Unique201": true
+      }
+    },
+    "HI": {
+      "HDefinitionGroups": 80,
+      "IDefinitionGroups": 68,
+      "originalZodOraclesPresent": [
+        77,
+        68
+      ],
+      "fullExecutionCountIsNotBusinessPass": true,
+      "ITwoUppercaseCasesBlocked": true,
+      "beforeRowsAreCountsNotInventedRawRows": true
+    },
+    "JKAndProductionChain": {
+      "combinedBusinessGroupsExecuted": 95,
+      "phase24StillPartial": true,
+      "phase25ExecutionDoesNotRetroactivelyCertifyMissingTargetAssertion": true,
+      "preciseCleanupTargetGapClosedBy31": true,
+      "allFourTieCleanupRowsDeletedAndFourReinsertedTiesCleaned": true,
+      "all14AlternativesNoRetainedTies": true,
+      "KT05ExpectedCompletionAndLabelChecked": true,
+      "fullStoredTimeSortAndNineRawTableReadsChecked": true,
+      "phase34RealLocalUploads": 4,
+      "eligibleProjectCopies": 2,
+      "excludedCopies": 2,
+      "realCustomerLeadIContactFollowUpTodoToJK": true,
+      "threeConvertMandatoryWriteFaultBusinessGraphsExact": true,
+      "independentNumberReservationGapsPermitted": true,
+      "phase42ThreeSameSourceFCompetitionsPass": true,
+      "phase42DoesNotCoverOpenEmptyStreamP2": true
+    },
+    "causalReuse": {
+      "candidate03To04ChangesExactly": [
+        "apps/poms-api-rust/src/project_technical_cost/service.rs",
+        "apps/poms-api-rust/src/project_technical_cost/store.rs",
+        "apps/poms-api-rust/src/project_pricing_margin/service.rs"
+      ],
+      "otherRustSourcePinsExact": 228,
+      "fiveSharedHelpersByteExact": true,
+      "unchangedHJKAndUIOriginalEvidenceUsableWithinTheirSpecificCoverage": true,
+      "IOriginalExecutionIncludesBlockingBusinessFindings": true,
+      "noOriginalReportRelabelledAsCandidate04Rerun": true,
+      "newCandidate05_06NeedsSeparateExactInputsAndCausalReview": true
+    },
+    "UI": {
+      "cells": 4,
+      "axes": "Linux/Windows browser host × Native/Rust implementation",
+      "observationsEach": 79,
+      "HTTP": [
+        259,
+        259,
+        259,
+        261
+      ],
+      "browserAndProxyClosedEach": true,
+      "WindowsNativeHost": "win32",
+      "WindowsRustAPIHost": "linux",
+      "WindowsRustNativeServerCertified": false,
+      "originalRustArtifact": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+      "optionalNonemptyConversionDateNotExercised": true,
+      "IUpdateDeleteAndJRelationSelectorAbsentUIControlsNotClaimed": true,
+      "sourceScopeReview": {
+        "file": "tmp/rust-r3hijk/c-review/ui-platform-scope-review01.json",
+        "bytes": 16573,
+        "rawBytesSha256": "750dfdef47cbc67ab4fde668a9ddec45fd8e62c2c331dfd7fb26160bfa8c60f3"
+      }
+    },
+    "integrityAndCleanup": {
+      "client579Protected": true,
+      "migration92Protected": true,
+      "twoActualSchemasRawExact": true,
+      "schema": {
+        "columns": 1778,
+        "constraints": 515,
+        "indexes": 504,
+        "privileges": 428,
+        "migrations": 92
+      },
+      "G1OwnedRowsRestored": 382,
+      "G2NativeOwnedRowsRestored": 1265,
+      "G2RustOwnedRowsRestored": 2371,
+      "seedTablesEachRawExact": 107,
+      "privilegesEachRestored": 428,
+      "objectsRetained": 17,
+      "sixLinuxAndOneWindowsNativeRuntimeStopped": true,
+      "fivePortsFreeAndPG15StoppedAtOriginalTerminal": true,
+      "privateVolumeOriginalSQLAndCandidateArtifactsRetainedByRoot": true,
+      "oldPG17OrPriorPrivateNotReadByC": true,
+      "subsequentCorrectionCohortNotCertifiedAsAlreadyTerminal": true
+    },
+    "privacyAndCommonChecks": {
+      "independentPublicJSONCredentialKeyScanFiles": 1262,
+      "findings": 0,
+      "private21Excluded": true,
+      "public21ExplicitPartialDerivative": true,
+      "common03AllThreeExit0": true,
+      "MarkdownDenoEntrypointMatchesPackageScript": true,
+      "scopedQuotedEvidenceWhitespaceAndVerificationBinaryAttributesPreserveOriginals": true,
+      "noProductSourceWhitespaceExemption": true,
+      "manifest01AndEarlierFailedCheckReceiptsRemainUncertified": true
+    }
+  },
+  "IRequiredAuditBoundary": {
+    "authority": {
+      "file": "docs/design/archive/slices/ex-63b-crm-sales-fact-field-audit-baseline.md",
+      "lines": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        44,
+        56,
+        57,
+        58,
+        59,
+        67
+      ]
+    },
+    "registeredChangedPATCHAuditsOnly": true,
+    "existingCreateHasNoRegisteredNecessaryAuditEvent": true,
+    "denyAuditInsertDoesNotMakeSuccessfulICreateABusinessFailure": true,
+    "noOpHasNoRequiredSuccessAudit": true,
+    "laterPhase49CreateAuditExpectation": "Outside manifest02 and not certified here; Root incorrect expected500 is tool-noise, actual201 and created row must remain recorded and cleaned. It does not authorize adding an unregisteredcreated event."
+  },
+  "E1": {
+    "freshCurrentConsumerReview": {
+      "file": "tmp/rust-r3hijk/c-review/e1-consumer-incremental02.json",
+      "bytes": 19570,
+      "rawBytesSha256": "7da47901cfc72e30309a81ec7f9a14140adacdbae15ffba2e15d54387fedc50f"
+    },
+    "currentDirectConsumers": 23,
+    "oldG1": 22,
+    "aliases": 5,
+    "totalBytes": 419264,
+    "allActiveArchiveBytesExact": true,
+    "newUse": "One immutable pure old30 regression builder consumer",
+    "owner": "Root /root",
+    "originalDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "continuedBoundedApprovalRetained": true,
+    "removeAfterExistingExitConditionNoNewMirrorTree": true,
+    "finalRevisionAndG4MustReconcileAgain": true
+  },
+  "governance": {
+    "currentStatusStillG3FalseG4False": true,
+    "only93to96MayEventuallyClose": true,
+    "parents85And57RemainOpen": true,
+    "formalCountNotAdvancedByThisReview": true,
+    "fullStageNonHTTPEndToEndAndDomainHandlersNotDeclaredComplete": true,
+    "laterDedicatedTrackerUpdate": "docs/design/rust-migration-execution-tracker.md currently describes actualmain145/formal30. Root plans main173/new four rows in later integration/archive governance; fixed-commit/G4 must inspect that real update without rewritingmanifest02.",
+    "ordinaryArchiveOnlineAndFixedCommitRemainSeparate": true
+  },
+  "requiredForRevision02": [
+    "Fix both realP2 issues within the already authorized I identity and F reminder dependency boundary; preserve all old source/candidate/failed originals.",
+    "Bind new exact product/Cargo/OpenAPI/tool/formal evidence manifest and final artifact; prove source differences and unchanged inputs.",
+    "Provide actual directed I UUID/context/read/PATCH audit/no-op and H/J consumer results, evaluating business outcomes rather than Native expected labels.",
+    "Provide actual F empty-stream serialization, owner/target cases, required-write rollback/lock release, same-source races and affected foundation/producer regression.",
+    "Reconcile all newcohort rows, counters,seed107,privileges428,objects,runtimes,ports,SQL logging and PG15 terminal.",
+    "Reconcile causal reuse, originalfourUI platforms, E1 consumers, common checks and current status; then request complete independentG3 revision02."
+  ],
+  "auditRecords": [
+    {
+      "file": "tmp/rust-r3hijk/c-review/g3-input-byte-audit01.json",
+      "bytes": 2391,
+      "rawBytesSha256": "3e1de95a784b9d35e4f512d6d53902bd600c3909670471fded7487cf1a1dbd20"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/g3-business-actual-audit01.json",
+      "bytes": 20453,
+      "rawBytesSha256": "f507dec4c1da494e7e84847dec8a0d5cfffb5af5d3c3ba3b08ff3316e0d0a6b6"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/g3-terminal-governance-audit01.json",
+      "bytes": 17348,
+      "rawBytesSha256": "ca9a7b3156ccea0f6c51db72613d1ed2055434b926c7b3141ffd5f214774602a"
+    }
+  ],
+  "priorIndependentReviewOriginalsUsed": [
+    {
+      "file": "tmp/rust-r3hijk/c-review/g1-independent-review01.json",
+      "bytes": 40795,
+      "rawBytesSha256": "1a4bbd53b7445d0b1b22a7e219c4163a9ad9763284dea6f6951c6bf5c367ab4b"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/business-semantics-reclassification02.json",
+      "bytes": 16462,
+      "rawBytesSha256": "628c50c0a06e3ccb90703d1163cee3467dbf10705fa207fbffe11fa5d36cf53d"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/corrective-policy-review01.json",
+      "bytes": 6580,
+      "rawBytesSha256": "1b0c503642857ea5a30d1e360a1c3928f8c926cdafd0306c7d99fd60209874ff"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/candidate02-business-preaudit01.json",
+      "bytes": 20748,
+      "rawBytesSha256": "6d9a717cb198a5f5842cc11651d37b8d31e0beb079decc17b05c7b8c0070815e"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/candidate02-jk-ui-preaudit02.json",
+      "bytes": 22588,
+      "rawBytesSha256": "aa5862088ed35b7d2e7b410fa01407f573f09dda7aa39290d91f7f5bd47f83e0"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/candidate03-foundation-timeline-ui-preaudit01.json",
+      "bytes": 75808,
+      "rawBytesSha256": "1efd702c79ed5e80f6bafa28734e744b86f31ef6b668e7df6779cb3c5b701815"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/money-corrective-policy-static-review01.json",
+      "bytes": 11354,
+      "rawBytesSha256": "6cd1dd0a82624deb03c5dfbac4527d35b756c9a6fa620126d4f9ce46a4ac55fe"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/candidate04-money-correction-preaudit01.json",
+      "bytes": 27639,
+      "rawBytesSha256": "cb4b0f305499e5040a2b9b2cb96e0fa1df60ca3aca7a54f43c17d75f8a52aa10"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/ui-platform-scope-review01.json",
+      "bytes": 16573,
+      "rawBytesSha256": "750dfdef47cbc67ab4fde668a9ddec45fd8e62c2c331dfd7fb26160bfa8c60f3"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/e1-consumer-incremental02.json",
+      "bytes": 19570,
+      "rawBytesSha256": "7da47901cfc72e30309a81ec7f9a14140adacdbae15ffba2e15d54387fedc50f"
+    }
+  ],
+  "noProductOrRootExecutorWriting": true,
+  "noProductOrAuthorRootDefinitionExecution": true,
+  "noInstallBuildTestDBHTTPBrowserOrServiceExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true,
+  "onlyOwnCStaticArtifactsWritten": true
+}

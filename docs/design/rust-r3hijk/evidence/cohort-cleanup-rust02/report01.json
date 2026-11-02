@@ -1,0 +1,451 @@
+{
+  "kind": "R3HIJK-UUID-correction-exact-owned-cohort-cleanup",
+  "createdAt": "2026-11-02T19:04:37.770Z",
+  "backend": "rust",
+  "runId": "cc20b1df-63f7-40db-b558-521474f53fb5",
+  "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+  "database": "poms_r3hijk_rust",
+  "source": {
+    "file": "tools/rust-r3hijk/cohort-terminal02.mjs",
+    "bytes": 10440,
+    "rawBytesSha256": "bc3513f32337e869ae3c66e95994a288d78cca15afd02dcb538d27b7b75272bc"
+  },
+  "privateBeforeSnapshot": {
+    "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/terminal-cleanup02-before.json",
+    "bytes": 972318,
+    "rawBytesSha256": "d51017e394124bbca901965fb97fb6311d0ad43585dff3c372deb4c84073504f"
+  },
+  "baselinePin": {
+    "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/baseline-before.json",
+    "bytes": 246919,
+    "rawBytesSha256": "af590f6830fbc09dab5280184158784a5f04be36d71238e54ea8263f5b33732a"
+  },
+  "deltaTables": [
+    {
+      "table": "attachment",
+      "count": 4,
+      "rawRowSetSha256": "418d7bf2fd1da58e31eb0d68ff91da8383bd4e6a37db2d1c3c96052ef11b094f"
+    },
+    {
+      "table": "attachment_link",
+      "count": 6,
+      "rawRowSetSha256": "8222d0dc10ddebc38ab47cc509372e13bad376d76114e412e09e13a2b49f2f84"
+    },
+    {
+      "table": "attachment_upload_session",
+      "count": 4,
+      "rawRowSetSha256": "b7dbba20ce31314415b341b701bf5152134657051071de552c09ba2d10598c99"
+    },
+    {
+      "table": "audit_log",
+      "count": 44,
+      "rawRowSetSha256": "c55263067f31b7687588547d1642ac13b7db7a902765d1fa308aa7ac5bc08089"
+    },
+    {
+      "table": "auth_session",
+      "count": 22,
+      "rawRowSetSha256": "96aad3e1f95830de89fd0314b396aafdb23049fd2e35bbb9aae9e0b9a6843e64"
+    },
+    {
+      "table": "business_discussion_comment",
+      "count": 5,
+      "rawRowSetSha256": "a1960296a77d6f268dbf70f7d7f014011911145d287932e8a04c83add225151d"
+    },
+    {
+      "table": "business_discussion_thread",
+      "count": 4,
+      "rawRowSetSha256": "7b4fa6ebac6e9ffe231536cca7e9f9125880f65533cc23fd79f64146df15c916"
+    },
+    {
+      "table": "business_number_sequence",
+      "count": 2,
+      "rawRowSetSha256": "2fea5d60a23ae9f050fa63bbf4d4b1f330fd21ec308b19aa4f97b88d60369e61"
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "count": 9,
+      "rawRowSetSha256": "8c2af870ea47a0973f85824c34af3d0ea90e575b53e693e7b26692aae1c1cfb7"
+    },
+    {
+      "table": "customer",
+      "count": 5,
+      "rawRowSetSha256": "0d3d84fafa6d00e14ed5ddc3f1d1216542d892cf44e3af3294e02d42edfa6ce7"
+    },
+    {
+      "table": "customer_alias",
+      "count": 5,
+      "rawRowSetSha256": "114f7d6ff1646e1ff28429fab34bbda75b897a4bcf8096e069dcfbfabdfa9eac"
+    },
+    {
+      "table": "customer_contact",
+      "count": 10,
+      "rawRowSetSha256": "648e7c237efb3860ee689e59f7ea90339c350a827d341af3b9ed4edcd4ab6303"
+    },
+    {
+      "table": "dictionary_item",
+      "count": 1,
+      "rawRowSetSha256": "974fa64d4dc20de33eacff0f6095af0451a7600a1628fb6fba677220cc609120"
+    },
+    {
+      "table": "lead",
+      "count": 35,
+      "rawRowSetSha256": "21b1860429797d8d576a2826aaddad12cd3be942a0392feb9c18386c019a5992"
+    },
+    {
+      "table": "lead_score_override",
+      "count": 5,
+      "rawRowSetSha256": "4b3973538b23abf8184ba6ceeab4050c75bc726db47076f41ad407b9cc0d0e30"
+    },
+    {
+      "table": "lead_score_snapshot",
+      "count": 43,
+      "rawRowSetSha256": "2c17c133ebff67ec4d5790ad18fe3dfec1605f287d66fbad12c58128205a9439"
+    },
+    {
+      "table": "local_credential",
+      "count": 2,
+      "rawRowSetSha256": "ca047be7c8ffbe8a92fec24e9433d581bfe6209bccb9b323fab44e425ac20f15"
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "count": 11,
+      "rawRowSetSha256": "334a7e53e67f9dede30e417ee3be992f278cc97484d7124a74cb4de0717e83e1"
+    },
+    {
+      "table": "org_unit",
+      "count": 2,
+      "rawRowSetSha256": "46a191883be344f1a043851b0ceea149e543bcab396af6818d3f66725b1da172"
+    },
+    {
+      "table": "platform_user",
+      "count": 2,
+      "rawRowSetSha256": "21f1bc536a893a3d7090169cdf432d66a1385d06c1e9d34a25ded95cfd489579"
+    },
+    {
+      "table": "project",
+      "count": 12,
+      "rawRowSetSha256": "a20566c5935192dcdb311678833bebf47b8ce9e6a2cbd2b3ae227e0d0fce7d6e"
+    },
+    {
+      "table": "project_bid_commercial_material_item",
+      "count": 4,
+      "rawRowSetSha256": "39591568c5801359459923e08a3106e35897916563b5c8f6ba43a1277117c027"
+    },
+    {
+      "table": "project_bid_commercial_process",
+      "count": 2,
+      "rawRowSetSha256": "9f017f3e5ada980e46ac18bcf3bda43db1700c4c12aad321997951213160a64c"
+    },
+    {
+      "table": "project_bid_commercial_timeline_item",
+      "count": 4,
+      "rawRowSetSha256": "8d92749bf37a031480a8cbcd21fbeb232c7d689206180ff7d00aef78fc2b61e4"
+    },
+    {
+      "table": "project_owner_reassignment_record",
+      "count": 1,
+      "rawRowSetSha256": "e5587fa749dc11b856fabb2f58724ec00ec7b5cb37252c354f98744287367218"
+    },
+    {
+      "table": "project_pricing_margin_condition_item",
+      "count": 2,
+      "rawRowSetSha256": "ad6b8548023040d5cf15ed87cfe8fd943e0e2581629aefa17fe5f16b5daf87b8"
+    },
+    {
+      "table": "project_pricing_margin_review",
+      "count": 2,
+      "rawRowSetSha256": "7847e1088ff2b8036414b451bf2daec85eaeb514d66727e2124f6bad6493628b"
+    },
+    {
+      "table": "project_technical_cost_item",
+      "count": 4,
+      "rawRowSetSha256": "80ae8a17814e9c640072fa5f56cb5b270dac0132933466d27f9ed27ce4dafed9"
+    },
+    {
+      "table": "project_technical_cost_package",
+      "count": 2,
+      "rawRowSetSha256": "95ccf44fe8fa8dbff363250b7d0acf76792448c21c3f79dc3bcd0c7990167081"
+    },
+    {
+      "table": "project_technical_risk_item",
+      "count": 2,
+      "rawRowSetSha256": "774f2fa5c26e055668b2f8c0e247fa20887d9d4ac3f23fd262485109da11b99c"
+    },
+    {
+      "table": "project_technical_scope_item",
+      "count": 2,
+      "rawRowSetSha256": "446334c5f28947bf0351b85ec0fb812ce0e5fc9b0e3f57e245f480a31a5a9e30"
+    },
+    {
+      "table": "role",
+      "count": 2,
+      "rawRowSetSha256": "97516c5133079d8fb72cde16055dd87ff67333fb83d92c1bc8224b7eb0ae753e"
+    },
+    {
+      "table": "role_permission_assignment",
+      "count": 74,
+      "rawRowSetSha256": "b9b1ae2fda5c4793a06a0d09f58d969749cd286111a3b63411ac26c2de80fc5b"
+    },
+    {
+      "table": "sales_discovery_record",
+      "count": 9,
+      "rawRowSetSha256": "0589f07ab48cf7e844a358424dce77c169f98d26934eda7899e269aeb2f8d41d"
+    },
+    {
+      "table": "sales_follow_up_record",
+      "count": 21,
+      "rawRowSetSha256": "0cb5b4d4f0870099f0c79d3a99fa79acdfdac7ffc909a34ccce35dfe791e7aaf"
+    },
+    {
+      "table": "todo_item",
+      "count": 21,
+      "rawRowSetSha256": "e0324648822b84b0afb6c13ee0b5837e1dbd8acb4945e7637a9e01c6b5389038"
+    },
+    {
+      "table": "user_org_membership",
+      "count": 2,
+      "rawRowSetSha256": "74f5f80235b2ee3bfb2cde2d160e24e1636acdf50af06034f8903b95feec6da2"
+    },
+    {
+      "table": "user_role_assignment",
+      "count": 2,
+      "rawRowSetSha256": "67d50a11dfd55af98308dc4235465b14b468e4f942137658838a264ab89c91e3"
+    }
+  ],
+  "changedSeedRows": [
+    {
+      "table": "business_number_sequence",
+      "pk": [
+        "id"
+      ]
+    }
+  ],
+  "removed": [
+    {
+      "table": "business_discussion_comment",
+      "count": 5
+    },
+    {
+      "table": "business_discussion_thread",
+      "count": 4
+    },
+    {
+      "table": "todo_item",
+      "count": 21
+    },
+    {
+      "table": "sales_follow_up_record",
+      "count": 21
+    },
+    {
+      "table": "project_pricing_margin_condition_item",
+      "count": 2
+    },
+    {
+      "table": "project_pricing_margin_review",
+      "count": 2
+    },
+    {
+      "table": "project_bid_commercial_material_item",
+      "count": 4
+    },
+    {
+      "table": "project_bid_commercial_timeline_item",
+      "count": 4
+    },
+    {
+      "table": "project_bid_commercial_process",
+      "count": 2
+    },
+    {
+      "table": "project_technical_scope_item",
+      "count": 2
+    },
+    {
+      "table": "project_technical_risk_item",
+      "count": 2
+    },
+    {
+      "table": "project_technical_cost_item",
+      "count": 4
+    },
+    {
+      "table": "project_technical_cost_package",
+      "count": 2
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "count": 11
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "count": 9
+    },
+    {
+      "table": "sales_discovery_record",
+      "count": 9
+    },
+    {
+      "table": "lead_score_snapshot",
+      "count": 43
+    },
+    {
+      "table": "lead_score_override",
+      "count": 5
+    },
+    {
+      "table": "attachment_upload_session",
+      "count": 4
+    },
+    {
+      "table": "attachment_link",
+      "count": 6
+    },
+    {
+      "table": "attachment",
+      "count": 4
+    },
+    {
+      "table": "project_owner_reassignment_record",
+      "count": 1
+    },
+    {
+      "table": "project",
+      "count": 12
+    },
+    {
+      "table": "lead",
+      "count": 35
+    },
+    {
+      "table": "customer_contact",
+      "count": 10
+    },
+    {
+      "table": "customer_alias",
+      "count": 5
+    },
+    {
+      "table": "customer",
+      "count": 5
+    },
+    {
+      "table": "dictionary_item",
+      "count": 1
+    },
+    {
+      "table": "audit_log",
+      "count": 44
+    },
+    {
+      "table": "auth_session",
+      "count": 22
+    },
+    {
+      "table": "role_permission_assignment",
+      "count": 74
+    },
+    {
+      "table": "user_role_assignment",
+      "count": 2
+    },
+    {
+      "table": "user_org_membership",
+      "count": 2
+    },
+    {
+      "table": "local_credential",
+      "count": 2
+    },
+    {
+      "table": "platform_user",
+      "count": 2
+    },
+    {
+      "table": "org_unit",
+      "count": 2
+    },
+    {
+      "table": "role",
+      "count": 2
+    },
+    {
+      "table": "business_number_sequence",
+      "count": 2
+    }
+  ],
+  "removedRows": 389,
+  "fullSeedTables": 107,
+  "all107SeedRawJSONRowsExact": true,
+  "individualPrivileges": 428,
+  "allPrivilegesRestored": true,
+  "controlledCountersRestored": 1,
+  "localObjectsRetained": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/0c968a28-e210-402b-9b00-4befdb21bafb/original.txt",
+      "bytes": 35,
+      "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/13624300-db72-4908-9a84-eddb81ed5336/original.txt",
+      "bytes": 36,
+      "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/335b7b0e-773c-444e-9944-0f54f46c154c/original.txt",
+      "bytes": 47,
+      "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/48ce5049-9d0e-448a-bc0b-d14c63a5fe5d/original.txt",
+      "bytes": 47,
+      "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/578ed6f7-2585-415e-be39-7c04b8b967d9/original.txt",
+      "bytes": 36,
+      "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/59f0e54c-1a6d-4e59-8f7f-24fc19532915/original.txt",
+      "bytes": 35,
+      "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/80734f6f-5e50-4725-afec-eb5863b1c3a9/original.txt",
+      "bytes": 37,
+      "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/8507e369-8f3a-4e3c-9ac5-7917a1bf6923/original.txt",
+      "bytes": 35,
+      "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/b6ab561c-6074-43fb-8b30-8ddbc1f23936/original.txt",
+      "bytes": 37,
+      "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/cff19e76-fcf6-4d7a-be85-05b277cdc148/original.txt",
+      "bytes": 47,
+      "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/db0e8c9f-de06-4fc3-aa9d-99186e5d0c67/original.txt",
+      "bytes": 36,
+      "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/e2acff1d-1515-4afc-bae7-d2f15279ec21/original.txt",
+      "bytes": 37,
+      "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504"
+    }
+  ],
+  "privateAndVolumeRetained": true,
+  "oldPrivateOrPG17Touched": false,
+  "credentialsPublished": false,
+  "completed": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

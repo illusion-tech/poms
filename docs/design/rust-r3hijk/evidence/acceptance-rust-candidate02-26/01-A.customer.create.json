@@ -1,0 +1,95 @@
+{
+  "label": "A.customer.create",
+  "startedAt": "2026-11-02T17:00:34.264Z",
+  "completedAt": "2026-11-02T17:00:34.290Z",
+  "value": {
+    "operationId": "CustomerController_create",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/customers",
+      "json": {
+        "displayName": "R3HK-6872abb5-26 customer",
+        "legalName": "R3HK-6872abb5-26 legal",
+        "shortName": "R3HK-6872abb5-26 short",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-6872abb5-26 original customer"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "id": "89c757c2-a80e-498b-ab55-e92004e18fac",
+        "customerNo": "CUST-2026-000009",
+        "displayName": "R3HK-6872abb5-26 customer",
+        "legalName": "R3HK-6872abb5-26 legal",
+        "shortName": "R3HK-6872abb5-26 short",
+        "status": "active",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-6872abb5-26 original customer",
+        "mergedIntoCustomerId": null,
+        "rowVersion": 1,
+        "createdAt": "2026-11-02T17:00:34.277Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "updatedAt": "2026-11-02T17:00:34.277Z",
+        "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      },
+      "requestId": "d6228957-673c-4de5-80db-3b098e888da5",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "618",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-76822-578",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:00:34 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 706,
+        "requestSha256": "bec50874277c1219685d42940bf22ab98c294b96a01caa83d249adafaf9cb0eb",
+        "responseBytes": 902,
+        "responseSha256": "b7519f3601bd35e25a724a73e4364423201040d474024e536ec554975a8567c9",
+        "entityBodyBytes": 618,
+        "entityBodySha256": "5677217b95ae04f1eb86517d9064cb591aded0225ebd6e1031e4144655b5cb0a",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase26/raw-wire/admin-b9335bf2-0aac-4040-8447-76213f20bc67",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "89c757c2-a80e-498b-ab55-e92004e18fac",
+        "customer_no": "CUST-2026-000009",
+        "display_name": "R3HK-6872abb5-26 customer",
+        "legal_name": "R3HK-6872abb5-26 legal",
+        "short_name": "R3HK-6872abb5-26 short",
+        "status": "active",
+        "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+        "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "source_channel": "customer-visit",
+        "remark": "R3HK-6872abb5-26 original customer",
+        "merged_into_customer_id": null,
+        "row_version": 1,
+        "created_at": "2026-11-02T17:00:34.277Z",
+        "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "updated_at": "2026-11-02T17:00:34.277Z",
+        "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

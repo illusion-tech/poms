@@ -1,0 +1,2441 @@
+{
+  "kind": "R3HIJK-current-28-ownership-before-issue-registration",
+  "createdAt": "2026-11-02T08:29:54.207Z",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "parent": 85,
+  "overall": 57,
+  "formalDelivered": 30,
+  "currentRustOperations": 145,
+  "currentRuntimeOpenAPI": {
+    "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/rust-candidate-raw-errors02/openapi.json",
+    "bytes": 978495,
+    "rawBytesSha256": "57a2a1a54a53811b0a41929c8943a926f7a190fa09932a13e84ac667b0041d46"
+  },
+  "scope": 28,
+  "groups": [
+    {
+      "slice": "RUST-R3H",
+      "title": "线索管理与评分十四操作",
+      "owner": "future:lead",
+      "author": "A",
+      "expected": 14,
+      "operations": [
+        {
+          "operationId": "LeadScoreOverrideController_approve",
+          "module": "lead",
+          "controller": "LeadScoreOverrideController",
+          "controllerMethod": "approve",
+          "method": "POST",
+          "path": "/api/lead-score-overrides/{id}:approve",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 259
+          },
+          "permissions": {
+            "all": [
+              "lead:score:override"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "ApproveLeadScoreOverrideRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 414,
+            "domain": "lead-scoring",
+            "capability": "approveLeadScoreOverride",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/lead-score-overrides/{id}:approve",
+            "operationId": "LeadScoreOverrideController_approve",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ApproveLeadScoreOverrideRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/lead-score-overrides/{id}:approve",
+            "implementedPath": "/api/lead-score-overrides/{id}:approve",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadScoreOverrideController_reject",
+          "module": "lead",
+          "controller": "LeadScoreOverrideController",
+          "controllerMethod": "reject",
+          "method": "POST",
+          "path": "/api/lead-score-overrides/{id}:reject",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 276
+          },
+          "permissions": {
+            "all": [
+              "lead:score:override"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "RejectLeadScoreOverrideRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 415,
+            "domain": "lead-scoring",
+            "capability": "rejectLeadScoreOverride",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/lead-score-overrides/{id}:reject",
+            "operationId": "LeadScoreOverrideController_reject",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RejectLeadScoreOverrideRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/lead-score-overrides/{id}:reject",
+            "implementedPath": "/api/lead-score-overrides/{id}:reject",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadScoreOverrideController_revoke",
+          "module": "lead",
+          "controller": "LeadScoreOverrideController",
+          "controllerMethod": "revoke",
+          "method": "POST",
+          "path": "/api/lead-score-overrides/{id}:revoke",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 293
+          },
+          "permissions": {
+            "all": [
+              "lead:score:override"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "RevokeLeadScoreOverrideRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 416,
+            "domain": "lead-scoring",
+            "capability": "revokeLeadScoreOverride",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/lead-score-overrides/{id}:revoke",
+            "operationId": "LeadScoreOverrideController_revoke",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RevokeLeadScoreOverrideRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/lead-score-overrides/{id}:revoke",
+            "implementedPath": "/api/lead-score-overrides/{id}:revoke",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_list",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "list",
+          "method": "GET",
+          "path": "/api/leads",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 57
+          },
+          "permissions": {
+            "all": [
+              "lead:read"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "query",
+              "type": "LeadListQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 299,
+            "domain": "lead",
+            "capability": "listLeads",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/leads",
+            "operationId": "LeadController_list",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "scope",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "$ref": "#/components/schemas/LeadWorkbenchScope"
+                }
+              },
+              {
+                "name": "sourceCode",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "$ref": "#/components/schemas/DictionaryCode"
+                }
+              },
+              {
+                "name": "budgetStatus",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "$ref": "#/components/schemas/LeadBudgetStatus"
+                }
+              },
+              {
+                "name": "urgency",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "$ref": "#/components/schemas/LeadUrgency"
+                }
+              },
+              {
+                "name": "rating",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "$ref": "#/components/schemas/LeadRating"
+                }
+              },
+              {
+                "name": "ownerOrgId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "ownerUserId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "ownershipScope",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "$ref": "#/components/schemas/LeadOwnershipScope"
+                }
+              },
+              {
+                "name": "keyword",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "type": "string"
+                }
+              },
+              {
+                "name": "page",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "minimum": 1,
+                  "maximum": 9007199254740991,
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "pageSize",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "minimum": 1,
+                  "maximum": 500,
+                  "type": "integer"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/leads",
+            "implementedPath": "/api/leads",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_create",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "create",
+          "method": "POST",
+          "path": "/api/leads",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 95
+          },
+          "permissions": {
+            "all": [
+              "lead:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "type": "CreateLeadRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 201,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 298,
+            "domain": "lead",
+            "capability": "createLead",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads",
+            "operationId": "LeadController_create",
+            "responses": [
+              "201"
+            ],
+            "parameters": [],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateLeadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads",
+            "implementedPath": "/api/leads",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_getById",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "getById",
+          "method": "GET",
+          "path": "/api/leads/{id}",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 79
+          },
+          "permissions": {
+            "all": [
+              "lead:read"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 300,
+            "domain": "lead",
+            "capability": "getLead",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/leads/{id}",
+            "operationId": "LeadController_getById",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}",
+            "implementedPath": "/api/leads/{id}",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_update",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "update",
+          "method": "PATCH",
+          "path": "/api/leads/{id}",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 169
+          },
+          "permissions": {
+            "all": [
+              "lead:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "UpdateLeadRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 301,
+            "domain": "lead",
+            "capability": "updateLead",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "PATCH",
+            "path": "/api/leads/{id}",
+            "operationId": "LeadController_update",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateLeadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}",
+            "implementedPath": "/api/leads/{id}",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_assignOwner",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "assignOwner",
+          "method": "POST",
+          "path": "/api/leads/{id}:assignOwner",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 151
+          },
+          "permissions": {
+            "all": [
+              "lead:assign"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "AssignLeadOwnerRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 303,
+            "domain": "lead",
+            "capability": "assignLeadOwner",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads/{id}:assignOwner",
+            "operationId": "LeadController_assignOwner",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AssignLeadOwnerRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}:assignOwner",
+            "implementedPath": "/api/leads/{id}:assignOwner",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_claimOwner",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "claimOwner",
+          "method": "POST",
+          "path": "/api/leads/{id}:claim",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 136
+          },
+          "permissions": {
+            "all": [
+              "lead:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "ClaimLeadOwnerRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 302,
+            "domain": "lead",
+            "capability": "claimLeadOwner",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads/{id}:claim",
+            "operationId": "LeadController_claimOwner",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ClaimLeadOwnerRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}:claim",
+            "implementedPath": "/api/leads/{id}:claim",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_close",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "close",
+          "method": "POST",
+          "path": "/api/leads/{id}:close",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 211
+          },
+          "permissions": {
+            "all": [
+              "lead:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "CloseLeadRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 305,
+            "domain": "lead",
+            "capability": "closeLead",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads/{id}:close",
+            "operationId": "LeadController_close",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CloseLeadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}:close",
+            "implementedPath": "/api/leads/{id}:close",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_convertToProject",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "convertToProject",
+          "method": "POST",
+          "path": "/api/leads/{id}:convertToProject",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 228
+          },
+          "permissions": {
+            "all": [
+              "lead:write",
+              "project:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "ConvertLeadToProjectRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 306,
+            "domain": "lead",
+            "capability": "convertLeadToProject",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads/{id}:convertToProject",
+            "operationId": "LeadController_convertToProject",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConvertLeadToProjectRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}:convertToProject",
+            "implementedPath": "/api/leads/{id}:convertToProject",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_qualify",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "qualify",
+          "method": "POST",
+          "path": "/api/leads/{id}:qualify",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 194
+          },
+          "permissions": {
+            "all": [
+              "lead:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "QualifyLeadRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 304,
+            "domain": "lead",
+            "capability": "qualifyLead",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads/{id}:qualify",
+            "operationId": "LeadController_qualify",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/QualifyLeadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}:qualify",
+            "implementedPath": "/api/leads/{id}:qualify",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_getScoreHistory",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "getScoreHistory",
+          "method": "GET",
+          "path": "/api/leads/{id}/score-history",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 87
+          },
+          "permissions": {
+            "all": [
+              "lead:read"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 412,
+            "domain": "lead-scoring",
+            "capability": "listLeadScoreHistory",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/leads/{id}/score-history",
+            "operationId": "LeadController_getScoreHistory",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}/score-history",
+            "implementedPath": "/api/leads/{id}/score-history",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "LeadController_submitScoreOverride",
+          "module": "lead",
+          "controller": "LeadController",
+          "controllerMethod": "submitScoreOverride",
+          "method": "POST",
+          "path": "/api/leads/{id}/score-overrides",
+          "source": {
+            "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+            "line": 119
+          },
+          "permissions": {
+            "all": [
+              "lead:write"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "SubmitLeadScoreOverrideRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 201,
+          "migrationPhase": "R3",
+          "owner": "future:lead",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 413,
+            "domain": "lead-scoring",
+            "capability": "submitLeadScoreOverride",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/leads/{id}/score-overrides",
+            "operationId": "LeadController_submitScoreOverride",
+            "responses": [
+              "201"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SubmitLeadScoreOverrideRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/leads/{id}/score-overrides",
+            "implementedPath": "/api/leads/{id}/score-overrides",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3I",
+      "title": "销售情报十操作",
+      "owner": "future:sales-intelligence",
+      "author": "B",
+      "expected": 10,
+      "operations": [
+        {
+          "operationId": "CompetitorIntelligenceRecordController_list",
+          "module": "sales-intelligence",
+          "controller": "CompetitorIntelligenceRecordController",
+          "controllerMethod": "list",
+          "method": "GET",
+          "path": "/api/competitor-intelligence-records",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 129
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:read",
+              "project:read"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "query",
+              "type": "OpportunityContextQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 358,
+            "domain": "sales-intelligence",
+            "capability": "listCompetitorIntelligenceRecords",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/competitor-intelligence-records",
+            "operationId": "CompetitorIntelligenceRecordController_list",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "leadId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "projectId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/competitor-intelligence-records",
+            "implementedPath": "/api/competitor-intelligence-records",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "CompetitorIntelligenceRecordController_create",
+          "module": "sales-intelligence",
+          "controller": "CompetitorIntelligenceRecordController",
+          "controllerMethod": "create",
+          "method": "POST",
+          "path": "/api/competitor-intelligence-records",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 140
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "type": "CreateCompetitorIntelligenceRecordRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 201,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 359,
+            "domain": "sales-intelligence",
+            "capability": "createCompetitorIntelligenceRecord",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/competitor-intelligence-records",
+            "operationId": "CompetitorIntelligenceRecordController_create",
+            "responses": [
+              "201"
+            ],
+            "parameters": [],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateCompetitorIntelligenceRecordRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/competitor-intelligence-records",
+            "implementedPath": "/api/competitor-intelligence-records",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "CompetitorIntelligenceRecordController_update",
+          "module": "sales-intelligence",
+          "controller": "CompetitorIntelligenceRecordController",
+          "controllerMethod": "update",
+          "method": "PATCH",
+          "path": "/api/competitor-intelligence-records/{id}",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 164
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "UpdateCompetitorIntelligenceRecordRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 360,
+            "domain": "sales-intelligence",
+            "capability": "updateCompetitorIntelligenceRecord",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "PATCH",
+            "path": "/api/competitor-intelligence-records/{id}",
+            "operationId": "CompetitorIntelligenceRecordController_update",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateCompetitorIntelligenceRecordRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/competitor-intelligence-records/{id}",
+            "implementedPath": "/api/competitor-intelligence-records/{id}",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "OpportunityStakeholderController_list",
+          "module": "sales-intelligence",
+          "controller": "OpportunityStakeholderController",
+          "controllerMethod": "list",
+          "method": "GET",
+          "path": "/api/opportunity-stakeholders",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 80
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:read",
+              "project:read"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "query",
+              "type": "OpportunityContextQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 355,
+            "domain": "sales-intelligence",
+            "capability": "listOpportunityStakeholders",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/opportunity-stakeholders",
+            "operationId": "OpportunityStakeholderController_list",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "leadId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "projectId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/opportunity-stakeholders",
+            "implementedPath": "/api/opportunity-stakeholders",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "OpportunityStakeholderController_create",
+          "module": "sales-intelligence",
+          "controller": "OpportunityStakeholderController",
+          "controllerMethod": "create",
+          "method": "POST",
+          "path": "/api/opportunity-stakeholders",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 91
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "type": "CreateOpportunityStakeholderRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 201,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 356,
+            "domain": "sales-intelligence",
+            "capability": "createOpportunityStakeholder",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/opportunity-stakeholders",
+            "operationId": "OpportunityStakeholderController_create",
+            "responses": [
+              "201"
+            ],
+            "parameters": [],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateOpportunityStakeholderRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/opportunity-stakeholders",
+            "implementedPath": "/api/opportunity-stakeholders",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "OpportunityStakeholderController_update",
+          "module": "sales-intelligence",
+          "controller": "OpportunityStakeholderController",
+          "controllerMethod": "update",
+          "method": "PATCH",
+          "path": "/api/opportunity-stakeholders/{id}",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 114
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "UpdateOpportunityStakeholderRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 357,
+            "domain": "sales-intelligence",
+            "capability": "updateOpportunityStakeholder",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "PATCH",
+            "path": "/api/opportunity-stakeholders/{id}",
+            "operationId": "OpportunityStakeholderController_update",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateOpportunityStakeholderRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/opportunity-stakeholders/{id}",
+            "implementedPath": "/api/opportunity-stakeholders/{id}",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "SalesDiscoveryRecordController_list",
+          "module": "sales-intelligence",
+          "controller": "SalesDiscoveryRecordController",
+          "controllerMethod": "list",
+          "method": "GET",
+          "path": "/api/sales-discovery-records",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 179
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:read",
+              "project:read"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "query",
+              "type": "OpportunityContextQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 361,
+            "domain": "sales-intelligence",
+            "capability": "listSalesDiscoveryRecords",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/sales-discovery-records",
+            "operationId": "SalesDiscoveryRecordController_list",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "leadId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "projectId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/sales-discovery-records",
+            "implementedPath": "/api/sales-discovery-records",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "SalesDiscoveryRecordController_create",
+          "module": "sales-intelligence",
+          "controller": "SalesDiscoveryRecordController",
+          "controllerMethod": "create",
+          "method": "POST",
+          "path": "/api/sales-discovery-records",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 190
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "type": "CreateSalesDiscoveryRecordRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 201,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 362,
+            "domain": "sales-intelligence",
+            "capability": "createSalesDiscoveryRecord",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/sales-discovery-records",
+            "operationId": "SalesDiscoveryRecordController_create",
+            "responses": [
+              "201"
+            ],
+            "parameters": [],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateSalesDiscoveryRecordRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/sales-discovery-records",
+            "implementedPath": "/api/sales-discovery-records",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "SalesDiscoveryRecordController_update",
+          "module": "sales-intelligence",
+          "controller": "SalesDiscoveryRecordController",
+          "controllerMethod": "update",
+          "method": "PATCH",
+          "path": "/api/sales-discovery-records/{id}",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 211
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string",
+              "decorators": [
+                "@Param('id')"
+              ]
+            },
+            {
+              "name": "body",
+              "type": "UpdateSalesDiscoveryRecordRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 363,
+            "domain": "sales-intelligence",
+            "capability": "updateSalesDiscoveryRecord",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "PATCH",
+            "path": "/api/sales-discovery-records/{id}",
+            "operationId": "SalesDiscoveryRecordController_update",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateSalesDiscoveryRecordRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/sales-discovery-records/{id}",
+            "implementedPath": "/api/sales-discovery-records/{id}",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "SalesIntelligenceGapController_list",
+          "module": "sales-intelligence",
+          "controller": "SalesIntelligenceGapController",
+          "controllerMethod": "list",
+          "method": "GET",
+          "path": "/api/sales-intelligence-gaps",
+          "source": {
+            "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+            "line": 226
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "lead:read",
+              "project:read"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "query",
+              "type": "OpportunityContextQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:sales-intelligence",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 364,
+            "domain": "sales-intelligence",
+            "capability": "getSalesIntelligenceGaps",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/sales-intelligence-gaps",
+            "operationId": "SalesIntelligenceGapController_list",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "leadId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "projectId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/sales-intelligence-gaps",
+            "implementedPath": "/api/sales-intelligence-gaps",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3J",
+      "title": "业务讨论两操作",
+      "owner": "future:business-discussion",
+      "author": "D",
+      "expected": 2,
+      "operations": [
+        {
+          "operationId": "BusinessDiscussionController_list",
+          "module": "business-discussion",
+          "controller": "BusinessDiscussionController",
+          "controllerMethod": "list",
+          "method": "GET",
+          "path": "/api/business-discussions",
+          "source": {
+            "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+            "line": 14
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "customer:read",
+              "lead:read",
+              "project:read"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "query",
+              "type": "BusinessDiscussionListQueryDto",
+              "decorators": [
+                "@Query()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:business-discussion",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 365,
+            "domain": "business-discussion",
+            "capability": "listBusinessDiscussionComments",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/business-discussions",
+            "operationId": "BusinessDiscussionController_list",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "customerId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "leadId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              },
+              {
+                "name": "projectId",
+                "required": false,
+                "in": "query",
+                "schema": {
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/business-discussions",
+            "implementedPath": "/api/business-discussions",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "BusinessDiscussionController_create",
+          "module": "business-discussion",
+          "controller": "BusinessDiscussionController",
+          "controllerMethod": "create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "source": {
+            "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+            "line": 27
+          },
+          "permissions": {
+            "all": [],
+            "any": [
+              "customer:write",
+              "lead:write",
+              "project:write"
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "type": "CreateBusinessDiscussionCommentRequestDto",
+              "decorators": [
+                "@Body()"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 201,
+          "migrationPhase": "R3",
+          "owner": "future:business-discussion",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 366,
+            "domain": "business-discussion",
+            "capability": "createBusinessDiscussionComment",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "POST",
+            "path": "/api/business-discussions",
+            "operationId": "BusinessDiscussionController_create",
+            "responses": [
+              "201"
+            ],
+            "parameters": [],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateBusinessDiscussionCommentRequest"
+                  }
+                }
+              }
+            }
+          },
+          "historicalR0": {
+            "path": "/api/business-discussions",
+            "implementedPath": "/api/business-discussions",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        }
+      ]
+    },
+    {
+      "slice": "RUST-R3K",
+      "title": "项目工作区引导与时间线两操作",
+      "owner": "future:project-workspace",
+      "author": "D",
+      "expected": 2,
+      "operations": [
+        {
+          "operationId": "ProjectController_getTimeline",
+          "module": "project",
+          "controller": "ProjectController",
+          "controllerMethod": "getTimeline",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/timeline",
+          "source": {
+            "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+            "line": 106
+          },
+          "permissions": {
+            "all": [
+              "project:read"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "projectId",
+              "type": "string",
+              "decorators": [
+                "@Param('projectId')"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:project-workspace",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 241,
+            "domain": "project",
+            "capability": "getProjectTimeline",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/projects/{projectId}/timeline",
+            "operationId": "ProjectController_getTimeline",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "projectId",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/projects/{projectId}/timeline",
+            "implementedPath": "/api/projects/{projectId}/timeline",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        },
+        {
+          "operationId": "ProjectController_getWorkspaceGuidance",
+          "module": "project",
+          "controller": "ProjectController",
+          "controllerMethod": "getWorkspaceGuidance",
+          "method": "GET",
+          "path": "/api/projects/{projectId}/workspace-guidance",
+          "source": {
+            "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+            "line": 98
+          },
+          "permissions": {
+            "all": [
+              "project:read"
+            ],
+            "any": []
+          },
+          "parameters": [
+            {
+              "name": "projectId",
+              "type": "string",
+              "decorators": [
+                "@Param('projectId')"
+              ]
+            },
+            {
+              "name": "req",
+              "type": "{ user: UserPayload }",
+              "decorators": [
+                "@Request()"
+              ]
+            }
+          ],
+          "nativeStatusSourceExpectation": 200,
+          "migrationPhase": "R3",
+          "owner": "future:project-workspace",
+          "issue": null,
+          "scopeFrozen": false,
+          "canonical": {
+            "file": "docs/design/api-route-canonical-inventory.md",
+            "line": 231,
+            "domain": "project",
+            "capability": "getProjectWorkspaceGuidance",
+            "status": "aligned"
+          },
+          "currentOpenApi": {
+            "file": "libs/shared/api-spec/openapi.json",
+            "method": "GET",
+            "path": "/api/projects/{projectId}/workspace-guidance",
+            "operationId": "ProjectController_getWorkspaceGuidance",
+            "responses": [
+              "200"
+            ],
+            "parameters": [
+              {
+                "name": "projectId",
+                "required": true,
+                "in": "path",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null
+          },
+          "historicalR0": {
+            "path": "/api/projects/{projectId}/workspace-guidance",
+            "implementedPath": "/api/projects/{projectId}/workspace-guidance",
+            "status": "canonical-match"
+          },
+          "nativeStatusActual": "Pending-root-original-Native-witness",
+          "rustDelivered": false
+        }
+      ]
+    }
+  ],
+  "expectedRustAfterBatch": {
+    "operations": 173,
+    "paths": 138,
+    "schemas": 585
+  },
+  "publicRouteSemanticChange": false,
+  "previousAttempt": "The initial unnumbered catalog used a scoped16-operation spec as if it were full runtime. Original erroneous33-path forecast is retained as tool-preparation failure, never frozen or accepted.",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

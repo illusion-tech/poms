@@ -1,0 +1,1733 @@
+{
+  "kind": "R3I-G1-static-source-and-input-manifest",
+  "state": "G1-Pending-root-joint-freeze-and-independent-Pass",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "actualHeadAtAdmission": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "branch": "codex/poms-r3hijk-next28",
+  "checkout": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "issue": null,
+  "issueNote": "Actual I Issue ID to be supplied/resolved by Root; author did not guess or access GitHub.",
+  "parentIssue": 85,
+  "overallIssue": 57,
+  "slice": {
+    "name": "RUST-R3I",
+    "operations": 10,
+    "type": "cross-layer-high-risk",
+    "priorContactsExcluded": 3,
+    "contactsCompletedIssue": 90,
+    "currentR3Delivered": 30,
+    "totalR3PublicOperations": 58,
+    "fullStageAcceptance": "separate later slice; parent remains open"
+  },
+  "ownership": {
+    "authorFuture": "apps/poms-api-rust/src/sales_intelligence/** except http.rs, only after actual joint G1",
+    "authorCurrent": "tmp/rust-r3hijk/b-input/**",
+    "root": "all http.rs/public bridges/Cargo/lib/router/generated protection/governance/real execution",
+    "noOtherDomainImplementation": [
+      "lead",
+      "customer_contacts",
+      "sales_follow_up",
+      "discussion",
+      "prior completed slices"
+    ]
+  },
+  "agentConfiguration": {
+    "target": "gpt-6.1-sol/max per Root",
+    "Fast": "not-verified",
+    "proof": "Target declaration only, not a runtime-mode attestation"
+  },
+  "operations": [
+    {
+      "operationId": "OpportunityStakeholderController_list",
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders",
+      "controllerLine": 80,
+      "canonicalLine": 355,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    },
+    {
+      "operationId": "OpportunityStakeholderController_create",
+      "method": "POST",
+      "path": "/api/opportunity-stakeholders",
+      "controllerLine": 91,
+      "canonicalLine": 356,
+      "sourceSuccessStatus": 201,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "OpportunityStakeholderController_update",
+      "method": "PATCH",
+      "path": "/api/opportunity-stakeholders/{id}",
+      "controllerLine": 114,
+      "canonicalLine": 357,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_list",
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records",
+      "controllerLine": 129,
+      "canonicalLine": 358,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_create",
+      "method": "POST",
+      "path": "/api/competitor-intelligence-records",
+      "controllerLine": 140,
+      "canonicalLine": 359,
+      "sourceSuccessStatus": 201,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_update",
+      "method": "PATCH",
+      "path": "/api/competitor-intelligence-records/{id}",
+      "controllerLine": 164,
+      "canonicalLine": 360,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_list",
+      "method": "GET",
+      "path": "/api/sales-discovery-records",
+      "controllerLine": 179,
+      "canonicalLine": 361,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_create",
+      "method": "POST",
+      "path": "/api/sales-discovery-records",
+      "controllerLine": 190,
+      "canonicalLine": 362,
+      "sourceSuccessStatus": 201,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_update",
+      "method": "PATCH",
+      "path": "/api/sales-discovery-records/{id}",
+      "controllerLine": 211,
+      "canonicalLine": 363,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "SalesIntelligenceGapController_list",
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps",
+      "controllerLine": 226,
+      "canonicalLine": 364,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    }
+  ],
+  "sharedInterfaces": {
+    "state": "proposal-only; A has confirmed its candidate in agent messages; final Root joint freeze still required",
+    "consumesLead": {
+      "byId": "leads::store::by_id(&mut PgConnection,&str)->Result<Option<LeadRef>,sqlx::Error>",
+      "byIds": "leads::store::by_ids(&mut PgConnection,&[Uuid])->Result<Vec<LeadRef>,sqlx::Error>",
+      "fields": [
+        "id:Uuid",
+        "customer_id:Uuid",
+        "lead_name:String"
+      ],
+      "noExtraPredicate": "No active/status/owner/scope/lock; retain raw UUID separately for strict JS business comparisons"
+    },
+    "providesH": {
+      "function": "sales_intelligence::store::collect_lead_score_facts(&mut PgConnection,&str)->Result<sales_intelligence::model::SalesIntelligenceFacts,sqlx::Error>",
+      "fields": [
+        "decision_maker_known",
+        "technical_evaluator_known",
+        "procurement_process_known",
+        "budget_source_known",
+        "competitor_known",
+        "pain_point_known",
+        "next_contact_known"
+      ],
+      "predicate": "lead_id only",
+      "discoveryOrder": "updated_at DESC only LIMIT1; no created_at tie-breaker",
+      "effects": "No BEGIN/flush/commit/audit/session, no automatic Lead score refresh"
+    },
+    "providesJ": {
+      "function": "sales_intelligence::store::competitor_by_id(&mut PgConnection,&str)->Result<Option<sales_intelligence::model::CompetitorRef>,sqlx::Error>",
+      "fields": [
+        "id",
+        "customer_id",
+        "lead_id:Option<Uuid>",
+        "project_id:Option<Uuid>"
+      ],
+      "predicate": "id only; J owns its original target checks",
+      "producer": "Root actual I POST supplies real competitor IDs; no prepared CRUD success"
+    },
+    "needsRootContactBridge": {
+      "reason": "Existing customer_contacts::store types/find are pub(super)",
+      "fields": [
+        "id",
+        "customer_id",
+        "name",
+        "department",
+        "title"
+      ],
+      "semantics": "Existence only, no active check, no phone/email/remark, no contacts CRUD reimplementation"
+    }
+  },
+  "sourceAuthorityNote": "Current Native implementation/DTO/schema/DDL/spec is authoritative; mock tests are source inputs, not runtime proof. Root-owned governance metadata may advance after this read and must be frozen/resolved explicitly rather than silently changing these raw pins.",
+  "sourceFileCount": 60,
+  "sourceBytes": 3453096,
+  "sources": [
+    {
+      "file": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "role": "governance",
+      "bytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "symbols": [
+        {
+          "symbol": "### G1",
+          "line": 49,
+          "text": "### G1"
+        },
+        {
+          "symbol": "### G2",
+          "line": 62,
+          "text": "### G2"
+        },
+        {
+          "symbol": "### G3",
+          "line": 72,
+          "text": "### G3"
+        }
+      ]
+    },
+    {
+      "file": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "role": "governance",
+      "bytes": 9479,
+      "rawBytesSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "symbols": [
+        {
+          "symbol": "### G1",
+          "line": 27,
+          "text": "### G1"
+        },
+        {
+          "symbol": "## High-Risk Alignment Points",
+          "line": 168,
+          "text": "## High-Risk Alignment Points"
+        }
+      ]
+    },
+    {
+      "file": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "role": "governance",
+      "bytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "symbols": [
+        {
+          "symbol": "## Phase 1 Rule",
+          "line": 10,
+          "text": "## Phase 1 Rule"
+        },
+        {
+          "symbol": "## Guardrails",
+          "line": 81,
+          "text": "## Guardrails"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3-scope-and-dependencies.md",
+      "role": "Root-owned-current-scope",
+      "bytes": 4525,
+      "rawBytesSha256": "25d8cf7acdeb3387547568a4d7347e8af72e92ed525534aab74c09d70e5adbfa",
+      "symbols": [
+        {
+          "symbol": "## 后续真实依赖",
+          "line": 25,
+          "text": "## 后续真实依赖"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "role": "Root-owned-current-operation-inventory",
+      "bytes": 164534,
+      "rawBytesSha256": "5d73698e17fe8d346e902c55380f14bc2eae8b76b891e8b17dc5cd34fb5ccda8",
+      "symbols": [
+        {
+          "symbol": "\"operationId\": \"OpportunityStakeholderController_list\"",
+          "line": 3024,
+          "text": "\"operationId\": \"OpportunityStakeholderController_list\","
+        },
+        {
+          "symbol": "\"operationId\": \"CompetitorIntelligenceRecordController_create\"",
+          "line": 636,
+          "text": "\"operationId\": \"CompetitorIntelligenceRecordController_create\","
+        },
+        {
+          "symbol": "\"operationId\": \"SalesDiscoveryRecordController_update\"",
+          "line": 4905,
+          "text": "\"operationId\": \"SalesDiscoveryRecordController_update\","
+        },
+        {
+          "symbol": "\"operationId\": \"SalesIntelligenceGapController_list\"",
+          "line": 5402,
+          "text": "\"operationId\": \"SalesIntelligenceGapController_list\","
+        }
+      ]
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "role": "route-authority",
+      "bytes": 172058,
+      "rawBytesSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4",
+      "symbols": [
+        {
+          "symbol": "`listOpportunityStakeholders`",
+          "line": 355,
+          "text": "| `sales-intelligence`  | `listOpportunityStakeholders`        | `GET /opportunity-stakeholders`               | `GET /opportunity-stakeholders`               | `GET /opportunity-stakeholders`               | `ADR-015` + `EX-61A` G1 baseline | `N/A`      | 新增 Lead / Project 关系人集合查询，至少使用 `leadId` 或 `projectId` 过滤。          | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`createOpportunityStakeholder`",
+          "line": 356,
+          "text": "| `sales-intelligence`  | `createOpportunityStakeholder`       | `POST /opportunity-stakeholders`              | `POST /opportunity-stakeholders`              | `POST /opportunity-stakeholders`              | `ADR-015` + `EX-61A` G1 baseline | `N/A`      | 新增机会关系人创建，表达联系人当前机会中的决策链角色、态度、影响力和可接触程度。     | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`updateOpportunityStakeholder`",
+          "line": 357,
+          "text": "| `sales-intelligence`  | `updateOpportunityStakeholder`       | `PATCH /opportunity-stakeholders/{id}`        | `PATCH /opportunity-stakeholders/{id}`        | `PATCH /opportunity-stakeholders/{id}`        | `ADR-015` + `EX-61A` G1 baseline | `N/A`      | 新增机会关系人维护；不改变联系人基础资料归属。                                       | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`listCompetitorIntelligenceRecords`",
+          "line": 358,
+          "text": "| `sales-intelligence`  | `listCompetitorIntelligenceRecords`  | `GET /competitor-intelligence-records`        | `GET /competitor-intelligence-records`        | `GET /competitor-intelligence-records`        | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增竞争态势集合查询，至少使用 `leadId` 或 `projectId` 过滤。                        | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`createCompetitorIntelligenceRecord`",
+          "line": 359,
+          "text": "| `sales-intelligence`  | `createCompetitorIntelligenceRecord` | `POST /competitor-intelligence-records`       | `POST /competitor-intelligence-records`       | `POST /competitor-intelligence-records`       | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增竞争态势记录创建，覆盖竞争对手、既有供应商、客户倾向、我方优势和风险。           | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`updateCompetitorIntelligenceRecord`",
+          "line": 360,
+          "text": "| `sales-intelligence`  | `updateCompetitorIntelligenceRecord` | `PATCH /competitor-intelligence-records/{id}` | `PATCH /competitor-intelligence-records/{id}` | `PATCH /competitor-intelligence-records/{id}` | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增竞争态势记录维护；不提供物理删除公共 API。                                       | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`listSalesDiscoveryRecords`",
+          "line": 361,
+          "text": "| `sales-intelligence`  | `listSalesDiscoveryRecords`          | `GET /sales-discovery-records`                | `GET /sales-discovery-records`                | `GET /sales-discovery-records`                | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增销售情报记录查询，至少使用 `leadId` 或 `projectId` 过滤。                        | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`createSalesDiscoveryRecord`",
+          "line": 362,
+          "text": "| `sales-intelligence`  | `createSalesDiscoveryRecord`         | `POST /sales-discovery-records`               | `POST /sales-discovery-records`               | `POST /sales-discovery-records`               | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增采购流程、预算来源、客户痛点、决策周期和下一步接触计划记录。                     | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`updateSalesDiscoveryRecord`",
+          "line": 363,
+          "text": "| `sales-intelligence`  | `updateSalesDiscoveryRecord`         | `PATCH /sales-discovery-records/{id}`         | `PATCH /sales-discovery-records/{id}`         | `PATCH /sales-discovery-records/{id}`         | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增销售情报记录维护；不作为评分硬闸口。                                             | `B10` | `aligned` |"
+        },
+        {
+          "symbol": "`getSalesIntelligenceGaps`",
+          "line": 364,
+          "text": "| `sales-intelligence`  | `getSalesIntelligenceGaps`           | `GET /sales-intelligence-gaps`                | `GET /sales-intelligence-gaps`                | `GET /sales-intelligence-gaps`                | `ADR-015` + `EX-61B` G1 baseline | `N/A`      | 新增轻量情报缺口读取，基于关系人、竞争态势和销售情报事实计算，不保存单独缺口主表。   | `B10` | `aligned` |"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+      "role": "Native10-route-controller",
+      "bytes": 10784,
+      "rawBytesSha256": "15200de0708477e334907c592b327ccbcdff9a980f9628942510de2030b643dd",
+      "symbols": [
+        {
+          "symbol": "@Controller('opportunity-stakeholders')",
+          "line": 76,
+          "text": "@Controller('opportunity-stakeholders')"
+        },
+        {
+          "symbol": "@Controller('competitor-intelligence-records')",
+          "line": 125,
+          "text": "@Controller('competitor-intelligence-records')"
+        },
+        {
+          "symbol": "@Controller('sales-discovery-records')",
+          "line": 175,
+          "text": "@Controller('sales-discovery-records')"
+        },
+        {
+          "symbol": "@Controller('sales-intelligence-gaps')",
+          "line": 222,
+          "text": "@Controller('sales-intelligence-gaps')"
+        },
+        {
+          "symbol": "    update(@Param('id') id: string, @Body() body: UpdateOpportunityStakeholderRequestDto",
+          "line": 118,
+          "text": "update(@Param('id') id: string, @Body() body: UpdateOpportunityStakeholderRequestDto, @Request() req: { user: UserPayload } & RuntimeAuditRequestLike): Promise<OpportunityStakeholderSummary> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.ts",
+      "role": "Native-business-audit-gap-authority",
+      "bytes": 40540,
+      "rawBytesSha256": "ed6daeec4a727dbb8d81f4c59e4ba078e654c309fc483854112cd050e5c6ad01",
+      "symbols": [
+        {
+          "symbol": "const STAKEHOLDER_AUDIT_FIELDS",
+          "line": 48,
+          "text": "const STAKEHOLDER_AUDIT_FIELDS = ['role', 'attitude', 'influenceLevel', 'accessLevel', 'focusAreas', 'communicationNotes', 'isPrimary'] as const;"
+        },
+        {
+          "symbol": "const STAKEHOLDER_AUDIT_REDACTED_FIELDS",
+          "line": 50,
+          "text": "const STAKEHOLDER_AUDIT_REDACTED_FIELDS: ReadonlySet<string> = new Set<StakeholderAuditField>(['focusAreas', 'communicationNotes']);"
+        },
+        {
+          "symbol": "const COMPETITOR_AUDIT_FIELDS",
+          "line": 52,
+          "text": "const COMPETITOR_AUDIT_FIELDS = ['competitorName', 'position', 'customerPreference', 'competitorStrengths', 'competitorWeaknesses', 'ourAdvantages', 'ourRisks', 'winProbability', 'evidence'] as const;"
+        },
+        {
+          "symbol": "const COMPETITOR_AUDIT_REDACTED_FIELDS",
+          "line": 54,
+          "text": "const COMPETITOR_AUDIT_REDACTED_FIELDS: ReadonlySet<string> = new Set<CompetitorAuditField>(['competitorStrengths', 'competitorWeaknesses', 'ourAdvantages', 'ourRisks', 'evidence']);"
+        },
+        {
+          "symbol": "const DISCOVERY_AUDIT_FIELDS",
+          "line": 56,
+          "text": "const DISCOVERY_AUDIT_FIELDS = ['procurementProcess', 'budgetSource', 'customerPainPoints', 'decisionCycle', 'nextContactPlan', 'remark'] as const;"
+        },
+        {
+          "symbol": "    async listOpportunityStakeholders(",
+          "line": 162,
+          "text": "async listOpportunityStakeholders(query: OpportunityContextQuery): Promise<OpportunityStakeholderSummary[]> {"
+        },
+        {
+          "symbol": "    async createOpportunityStakeholder(",
+          "line": 169,
+          "text": "async createOpportunityStakeholder(input: CreateOpportunityStakeholderRequest, operatorUserId: string): Promise<OpportunityStakeholderSummary> {"
+        },
+        {
+          "symbol": "    async updateOpportunityStakeholder(",
+          "line": 202,
+          "text": "async updateOpportunityStakeholder(id: string, input: UpdateOpportunityStakeholderRequest, operatorUserId: string, requestId?: string | null): Promise<OpportunityStakeholderSummary> {"
+        },
+        {
+          "symbol": "    async listCompetitorIntelligenceRecords(",
+          "line": 262,
+          "text": "async listCompetitorIntelligenceRecords(query: OpportunityContextQuery): Promise<CompetitorIntelligenceRecordSummary[]> {"
+        },
+        {
+          "symbol": "    async createCompetitorIntelligenceRecord(",
+          "line": 269,
+          "text": "async createCompetitorIntelligenceRecord(input: CreateCompetitorIntelligenceRecordRequest, operatorUserId: string): Promise<CompetitorIntelligenceRecordSummary> {"
+        },
+        {
+          "symbol": "    async updateCompetitorIntelligenceRecord(",
+          "line": 293,
+          "text": "async updateCompetitorIntelligenceRecord(id: string, input: UpdateCompetitorIntelligenceRecordRequest, operatorUserId: string, requestId?: string | null): Promise<CompetitorIntelligenceRecordSummary> {"
+        },
+        {
+          "symbol": "    async listSalesDiscoveryRecords(",
+          "line": 357,
+          "text": "async listSalesDiscoveryRecords(query: OpportunityContextQuery): Promise<SalesDiscoveryRecordSummary[]> {"
+        },
+        {
+          "symbol": "    async createSalesDiscoveryRecord(",
+          "line": 364,
+          "text": "async createSalesDiscoveryRecord(input: CreateSalesDiscoveryRecordRequest, operatorUserId: string): Promise<SalesDiscoveryRecordSummary> {"
+        },
+        {
+          "symbol": "    async updateSalesDiscoveryRecord(",
+          "line": 385,
+          "text": "async updateSalesDiscoveryRecord(id: string, input: UpdateSalesDiscoveryRecordRequest, operatorUserId: string, requestId?: string | null): Promise<SalesDiscoveryRecordSummary> {"
+        },
+        {
+          "symbol": "    async getSalesIntelligenceGaps(",
+          "line": 440,
+          "text": "async getSalesIntelligenceGaps(query: OpportunityContextQuery): Promise<SalesIntelligenceGapSummary[]> {"
+        },
+        {
+          "symbol": "    private async requireOpportunityContext(",
+          "line": 515,
+          "text": "private async requireOpportunityContext(input: OpportunityContextQuery & { customerId?: string }): Promise<{ customer: Customer; lead: Lead | null; project: Project | null }> {"
+        },
+        {
+          "symbol": "    private async loadContext(",
+          "line": 539,
+          "text": "private async loadContext(records: Array<{ customerId: string; leadId?: string | null; projectId?: string | null; contactId?: string | null }>): Promise<{"
+        },
+        {
+          "symbol": "    private async recordSalesFactFieldAudit",
+          "line": 634,
+          "text": "private async recordSalesFactFieldAudit<T extends string>(input: {"
+        },
+        {
+          "symbol": "    private summarizeAuditValue(",
+          "line": 676,
+          "text": "private summarizeAuditValue(value: unknown): AuditSnapshot {"
+        },
+        {
+          "symbol": "    private auditValuesEqual(",
+          "line": 691,
+          "text": "private auditValuesEqual(left: unknown, right: unknown): boolean {"
+        },
+        {
+          "symbol": "    private mapStakeholder(",
+          "line": 718,
+          "text": "private mapStakeholder(stakeholder: OpportunityStakeholder, context: { customerMap: Map<string, Customer>; leadMap: Map<string, Lead>; projectMap: Map<string, Project>; contactMap: Map<string, CustomerContact> }): OpportunityStakeholderSummary {"
+        },
+        {
+          "symbol": "    private mapCompetitorRecord(",
+          "line": 747,
+          "text": "private mapCompetitorRecord(record: CompetitorIntelligenceRecord, context: { customerMap: Map<string, Customer>; leadMap: Map<string, Lead>; projectMap: Map<string, Project> }): CompetitorIntelligenceRecordSummary {"
+        },
+        {
+          "symbol": "    private mapDiscoveryRecord(",
+          "line": 773,
+          "text": "private mapDiscoveryRecord(record: SalesDiscoveryRecord, context: { customerMap: Map<string, Customer>; leadMap: Map<string, Lead>; projectMap: Map<string, Project> }): SalesDiscoveryRecordSummary {"
+        },
+        {
+          "symbol": "    private buildGap(",
+          "line": 796,
+          "text": "private buildGap(item: SalesIntelligenceGapItem): SalesIntelligenceGapSummary {"
+        },
+        {
+          "symbol": "    private optionalText(",
+          "line": 810,
+          "text": "private optionalText(value: string | null | undefined): string | null {"
+        },
+        {
+          "symbol": "    private hasText(",
+          "line": 815,
+          "text": "private hasText(value: string | null | undefined): boolean {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.repository.ts",
+      "role": "Native-read-sort-OR-and-flush",
+      "bytes": 6878,
+      "rawBytesSha256": "b2252506ff96b5202eda2acc84f22d31bd162001c4914b43a92b1d71b0a5de6e",
+      "symbols": [
+        {
+          "symbol": "    async findCustomerById(",
+          "line": 33,
+          "text": "async findCustomerById(id: string, entityManager?: EntityManager): Promise<Customer | null> {"
+        },
+        {
+          "symbol": "    async findLeadById(",
+          "line": 44,
+          "text": "async findLeadById(id: string, entityManager?: EntityManager): Promise<Lead | null> {"
+        },
+        {
+          "symbol": "    async findProjectById(",
+          "line": 55,
+          "text": "async findProjectById(id: string, entityManager?: EntityManager): Promise<Project | null> {"
+        },
+        {
+          "symbol": "    async findCustomerContactById(",
+          "line": 70,
+          "text": "async findCustomerContactById(id: string, entityManager?: EntityManager): Promise<CustomerContact | null> {"
+        },
+        {
+          "symbol": "    async listOpportunityStakeholders(",
+          "line": 82,
+          "text": "async listOpportunityStakeholders(query: OpportunityContextQuery): Promise<OpportunityStakeholder[]> {"
+        },
+        {
+          "symbol": "    async saveOpportunityStakeholder(",
+          "line": 96,
+          "text": "async saveOpportunityStakeholder(stakeholder: OpportunityStakeholder): Promise<void> {"
+        },
+        {
+          "symbol": "    async listCompetitorRecords(",
+          "line": 100,
+          "text": "async listCompetitorRecords(query: OpportunityContextQuery): Promise<CompetitorIntelligenceRecord[]> {"
+        },
+        {
+          "symbol": "    async saveCompetitorRecord(",
+          "line": 114,
+          "text": "async saveCompetitorRecord(record: CompetitorIntelligenceRecord): Promise<void> {"
+        },
+        {
+          "symbol": "    async listDiscoveryRecords(",
+          "line": 118,
+          "text": "async listDiscoveryRecords(query: OpportunityContextQuery): Promise<SalesDiscoveryRecord[]> {"
+        },
+        {
+          "symbol": "    async saveDiscoveryRecord(",
+          "line": 132,
+          "text": "async saveDiscoveryRecord(record: SalesDiscoveryRecord): Promise<void> {"
+        },
+        {
+          "symbol": "    private buildOpportunityWhere",
+          "line": 136,
+          "text": "private buildOpportunityWhere<T extends { leadId?: string | null; projectId?: string | null }>(query: OpportunityContextQuery): FilterQuery<T> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.entity.ts",
+      "role": "Native-entity-and-DDL-alignment",
+      "bytes": 15585,
+      "rawBytesSha256": "aa192da1f2557ff08cc062f4244af57f2125826a660ce50a1a62b310e5ed482e",
+      "symbols": [
+        {
+          "symbol": "export const CustomerContactSchema",
+          "line": 38,
+          "text": "export const CustomerContactSchema = defineEntity({"
+        },
+        {
+          "symbol": "export const OpportunityStakeholderSchema",
+          "line": 83,
+          "text": "export const OpportunityStakeholderSchema = defineEntity({"
+        },
+        {
+          "symbol": "export const CompetitorIntelligenceRecordSchema",
+          "line": 129,
+          "text": "export const CompetitorIntelligenceRecordSchema = defineEntity({"
+        },
+        {
+          "symbol": "export const SalesDiscoveryRecordSchema",
+          "line": 174,
+          "text": "export const SalesDiscoveryRecordSchema = defineEntity({"
+        },
+        {
+          "symbol": "        focusAreas: p.json<string[]>()",
+          "line": 118,
+          "text": "focusAreas: p.json<string[]>().default([]).fieldName('focus_areas_json').comment('关注重点标签'),"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.module.ts",
+      "role": "Native-wiring-and-existing-contact-scope",
+      "bytes": 1417,
+      "rawBytesSha256": "977cdd09e1a8926dbb1ca4f55731ceb4e05396133cfed0687de094d4076370eb",
+      "symbols": [
+        {
+          "symbol": "export class SalesIntelligenceModule",
+          "line": 24,
+          "text": "export class SalesIntelligenceModule {}"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.spec.ts",
+      "role": "original-mock-tests-not-runtime-proof",
+      "bytes": 20347,
+      "rawBytesSha256": "610df0d46215c917382b696c15e4fdb0167a7868fbec7f3fbe529fd1bbc99a68",
+      "symbols": [
+        {
+          "symbol": "    it('returns sales intelligence gaps",
+          "line": 56,
+          "text": "it('returns sales intelligence gaps for missing opportunity facts', async () => {"
+        },
+        {
+          "symbol": "    it('rejects stakeholder contact",
+          "line": 114,
+          "text": "it('rejects stakeholder contact from another customer', async () => {"
+        },
+        {
+          "symbol": "    it('creates competitor records",
+          "line": 134,
+          "text": "it('creates competitor records with safe defaults', async () => {"
+        },
+        {
+          "symbol": "    it('updates opportunity stakeholders",
+          "line": 289,
+          "text": "it('updates opportunity stakeholders and writes summarized relationship audit', async () => {"
+        },
+        {
+          "symbol": "    it('updates competitor intelligence",
+          "line": 347,
+          "text": "it('updates competitor intelligence and writes summarized competition audit', async () => {"
+        },
+        {
+          "symbol": "    it('updates sales discovery records",
+          "line": 404,
+          "text": "it('updates sales discovery records and writes summarized discovery audit', async () => {"
+        }
+      ]
+    },
+    {
+      "file": "libs/api/contracts/src/lib/sales-intelligence/sales-intelligence.dto.ts",
+      "role": "Native-DTO-binding",
+      "bytes": 2924,
+      "rawBytesSha256": "f77a701abc36f52d7c3d10ed8709522795884614fbb2fe9545b44afccb1bc5ca",
+      "symbols": [
+        {
+          "symbol": "export class OpportunityContextQueryDto",
+          "line": 34,
+          "text": "export class OpportunityContextQueryDto extends createZodDto(OpportunityContextQuerySchema) {}"
+        },
+        {
+          "symbol": "export class CreateOpportunityStakeholderRequestDto",
+          "line": 40,
+          "text": "export class CreateOpportunityStakeholderRequestDto extends createZodDto(CreateOpportunityStakeholderRequestSchema) {}"
+        },
+        {
+          "symbol": "export class UpdateOpportunityStakeholderRequestDto",
+          "line": 42,
+          "text": "export class UpdateOpportunityStakeholderRequestDto extends createZodDto(UpdateOpportunityStakeholderRequestSchema) {}"
+        },
+        {
+          "symbol": "export class CreateCompetitorIntelligenceRecordRequestDto",
+          "line": 48,
+          "text": "export class CreateCompetitorIntelligenceRecordRequestDto extends createZodDto(CreateCompetitorIntelligenceRecordRequestSchema) {}"
+        },
+        {
+          "symbol": "export class UpdateCompetitorIntelligenceRecordRequestDto",
+          "line": 50,
+          "text": "export class UpdateCompetitorIntelligenceRecordRequestDto extends createZodDto(UpdateCompetitorIntelligenceRecordRequestSchema) {}"
+        },
+        {
+          "symbol": "export class CreateSalesDiscoveryRecordRequestDto",
+          "line": 56,
+          "text": "export class CreateSalesDiscoveryRecordRequestDto extends createZodDto(CreateSalesDiscoveryRecordRequestSchema) {}"
+        },
+        {
+          "symbol": "export class UpdateSalesDiscoveryRecordRequestDto",
+          "line": 58,
+          "text": "export class UpdateSalesDiscoveryRecordRequestDto extends createZodDto(UpdateSalesDiscoveryRecordRequestSchema) {}"
+        },
+        {
+          "symbol": "export class SalesIntelligenceGapListDto",
+          "line": 60,
+          "text": "export class SalesIntelligenceGapListDto extends createZodDto(SalesIntelligenceGapListSchema) {}"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "role": "schema-enum-contract-authority",
+      "bytes": 435823,
+      "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+      "symbols": [
+        {
+          "symbol": "export const OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS",
+          "line": 2909,
+          "text": "export const OPPORTUNITY_STAKEHOLDER_ROLE_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS",
+          "line": 2929,
+          "text": "export const OPPORTUNITY_STAKEHOLDER_ATTITUDE_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS",
+          "line": 2944,
+          "text": "export const OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS",
+          "line": 2959,
+          "text": "export const OPPORTUNITY_STAKEHOLDER_ACCESS_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const COMPETITOR_POSITION_DEFINITIONS",
+          "line": 2974,
+          "text": "export const COMPETITOR_POSITION_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const CUSTOMER_PREFERENCE_DEFINITIONS",
+          "line": 2988,
+          "text": "export const CUSTOMER_PREFERENCE_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const WIN_PROBABILITY_LEVEL_DEFINITIONS",
+          "line": 3003,
+          "text": "export const WIN_PROBABILITY_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "export const SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS",
+          "line": 3018,
+          "text": "export const SALES_INTELLIGENCE_GAP_ITEM_DEFINITIONS = defineEnumDefinitions(["
+        },
+        {
+          "symbol": "export const SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS",
+          "line": 3035,
+          "text": "export const SALES_INTELLIGENCE_GAP_SEVERITY_DEFINITIONS = defineSeverityEnumDefinitions(["
+        },
+        {
+          "symbol": "const OpportunityContextQueryBaseSchema",
+          "line": 3077,
+          "text": "const OpportunityContextQueryBaseSchema = z"
+        },
+        {
+          "symbol": "export const OpportunityContextQuerySchema",
+          "line": 3086,
+          "text": "export const OpportunityContextQuerySchema = OpportunityContextQueryBaseSchema.meta({ id: 'OpportunityContextQuery' });"
+        },
+        {
+          "symbol": "export const OpportunityStakeholderSummarySchema",
+          "line": 3169,
+          "text": "export const OpportunityStakeholderSummarySchema = z"
+        },
+        {
+          "symbol": "export const CreateOpportunityStakeholderRequestSchema",
+          "line": 3201,
+          "text": "export const CreateOpportunityStakeholderRequestSchema = OpportunityContextQueryBaseSchema.extend({"
+        },
+        {
+          "symbol": "export const UpdateOpportunityStakeholderRequestSchema",
+          "line": 3215,
+          "text": "export const UpdateOpportunityStakeholderRequestSchema = z"
+        },
+        {
+          "symbol": "export const CompetitorIntelligenceRecordSummarySchema",
+          "line": 3240,
+          "text": "export const CompetitorIntelligenceRecordSummarySchema = z"
+        },
+        {
+          "symbol": "export const CreateCompetitorIntelligenceRecordRequestSchema",
+          "line": 3270,
+          "text": "export const CreateCompetitorIntelligenceRecordRequestSchema = OpportunityContextQueryBaseSchema.extend({"
+        },
+        {
+          "symbol": "export const UpdateCompetitorIntelligenceRecordRequestSchema",
+          "line": 3285,
+          "text": "export const UpdateCompetitorIntelligenceRecordRequestSchema = z"
+        },
+        {
+          "symbol": "export const SalesDiscoveryRecordSummarySchema",
+          "line": 3314,
+          "text": "export const SalesDiscoveryRecordSummarySchema = z"
+        },
+        {
+          "symbol": "export const CreateSalesDiscoveryRecordRequestSchema",
+          "line": 3341,
+          "text": "export const CreateSalesDiscoveryRecordRequestSchema = OpportunityContextQueryBaseSchema.extend({"
+        },
+        {
+          "symbol": "export const UpdateSalesDiscoveryRecordRequestSchema",
+          "line": 3353,
+          "text": "export const UpdateSalesDiscoveryRecordRequestSchema = z"
+        },
+        {
+          "symbol": "export const SalesIntelligenceGapSummarySchema",
+          "line": 3369,
+          "text": "export const SalesIntelligenceGapSummarySchema = z"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "role": "protected-full-Native-spec",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+      "symbols": [
+        {
+          "symbol": "\"/api/opportunity-stakeholders\"",
+          "line": 10372,
+          "text": "\"/api/opportunity-stakeholders\": {"
+        },
+        {
+          "symbol": "\"/api/competitor-intelligence-records\"",
+          "line": 10501,
+          "text": "\"/api/competitor-intelligence-records\": {"
+        },
+        {
+          "symbol": "\"/api/sales-discovery-records\"",
+          "line": 10630,
+          "text": "\"/api/sales-discovery-records\": {"
+        },
+        {
+          "symbol": "\"/api/sales-intelligence-gaps\"",
+          "line": 10759,
+          "text": "\"/api/sales-intelligence-gaps\": {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/api/sales-intelligence.service.ts",
+      "role": "protected-original-generated-client",
+      "bytes": 59661,
+      "rawBytesSha256": "e6fd7d0bfbced9bba102847ca17f428a5a4201824872af66a699eec0702afccd",
+      "symbols": [
+        {
+          "symbol": "    public opportunityStakeholderControllerList(",
+          "line": 632,
+          "text": "public opportunityStakeholderControllerList(requestParameters?: OpportunityStakeholderControllerListRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<OpportunityStakeholderSummary>>;"
+        },
+        {
+          "symbol": "    public competitorIntelligenceRecordControllerCreate(",
+          "line": 130,
+          "text": "public competitorIntelligenceRecordControllerCreate(requestParameters: CompetitorIntelligenceRecordControllerCreateRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CompetitorIntelligenceRecordSummary>;"
+        },
+        {
+          "symbol": "    public salesDiscoveryRecordControllerUpdate(",
+          "line": 930,
+          "text": "public salesDiscoveryRecordControllerUpdate(requestParameters: SalesDiscoveryRecordControllerUpdateRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SalesDiscoveryRecordSummary>;"
+        },
+        {
+          "symbol": "    public salesIntelligenceGapControllerList(",
+          "line": 1003,
+          "text": "public salesIntelligenceGapControllerList(requestParameters?: SalesIntelligenceGapControllerListRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<SalesIntelligenceGapSummary>>;"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/create-opportunity-stakeholder-request.ts",
+      "role": "protected-generated-request",
+      "bytes": 988,
+      "rawBytesSha256": "2451457ecd91414a00685876d596decae2a06f954f9e5ba9967b711eef22da11",
+      "symbols": [
+        {
+          "symbol": "export interface CreateOpportunityStakeholderRequest",
+          "line": 16,
+          "text": "export interface CreateOpportunityStakeholderRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/update-opportunity-stakeholder-request.ts",
+      "role": "protected-generated-request",
+      "bytes": 897,
+      "rawBytesSha256": "8307275dd48e73365549bb7d0424cebffe1a22f55f8fc16ed42b543565b0769c",
+      "symbols": [
+        {
+          "symbol": "export interface UpdateOpportunityStakeholderRequest",
+          "line": 16,
+          "text": "export interface UpdateOpportunityStakeholderRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/create-competitor-intelligence-record-request.ts",
+      "role": "protected-generated-request",
+      "bytes": 836,
+      "rawBytesSha256": "ddf76f47c781d23b8a3de7e3e3d0dc32d5dc536811c1d278663d7d28f2db2f26",
+      "symbols": [
+        {
+          "symbol": "export interface CreateCompetitorIntelligenceRecordRequest",
+          "line": 15,
+          "text": "export interface CreateCompetitorIntelligenceRecordRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/update-competitor-intelligence-record-request.ts",
+      "role": "protected-generated-request",
+      "bytes": 768,
+      "rawBytesSha256": "a760e31533571d6c60ac8ccf6a44297e79990b0cff711156807cbf9c005a195a",
+      "symbols": [
+        {
+          "symbol": "export interface UpdateCompetitorIntelligenceRecordRequest",
+          "line": 15,
+          "text": "export interface UpdateCompetitorIntelligenceRecordRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/create-sales-discovery-record-request.ts",
+      "role": "protected-generated-request",
+      "bytes": 531,
+      "rawBytesSha256": "f6bc94dedc97203b7589f2d14a65d3949c875aa60c2537f32264795ff847afc6",
+      "symbols": [
+        {
+          "symbol": "export interface CreateSalesDiscoveryRecordRequest",
+          "line": 12,
+          "text": "export interface CreateSalesDiscoveryRecordRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/update-sales-discovery-record-request.ts",
+      "role": "protected-generated-request",
+      "bytes": 462,
+      "rawBytesSha256": "08bd13521c47ec94c6cb048a4b8c33072b6e8867a7f4d9431e844ce4cb38dfd7",
+      "symbols": [
+        {
+          "symbol": "export interface UpdateSalesDiscoveryRecordRequest",
+          "line": 12,
+          "text": "export interface UpdateSalesDiscoveryRecordRequest {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/opportunity-stakeholder-summary.ts",
+      "role": "protected-generated-summary",
+      "bytes": 1317,
+      "rawBytesSha256": "104ccdb50e28322542278522a79b5aa081ddd975ff6011847ca9c8c30dca2bd7",
+      "symbols": [
+        {
+          "symbol": "export interface OpportunityStakeholderSummary",
+          "line": 16,
+          "text": "export interface OpportunityStakeholderSummary {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/competitor-intelligence-record-summary.ts",
+      "role": "protected-generated-summary",
+      "bytes": 1067,
+      "rawBytesSha256": "dc9962572fff118188bf80162a61022c2b04482bdece79e4ed447005bd3d4c41",
+      "symbols": [
+        {
+          "symbol": "export interface CompetitorIntelligenceRecordSummary",
+          "line": 15,
+          "text": "export interface CompetitorIntelligenceRecordSummary {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/sales-discovery-record-summary.ts",
+      "role": "protected-generated-summary",
+      "bytes": 764,
+      "rawBytesSha256": "81abb64814484c23701f2e75b000136edf631d4b80f7d63844262d8546d8f1ac",
+      "symbols": [
+        {
+          "symbol": "export interface SalesDiscoveryRecordSummary",
+          "line": 12,
+          "text": "export interface SalesDiscoveryRecordSummary {"
+        }
+      ]
+    },
+    {
+      "file": "libs/shared/api-client/model/sales-intelligence-gap-summary.ts",
+      "role": "protected-generated-summary",
+      "bytes": 546,
+      "rawBytesSha256": "38f968ef4ac908473a1b6de1d53081186b42b9e765a65c316b116aedeec37c30",
+      "symbols": [
+        {
+          "symbol": "export interface SalesIntelligenceGapSummary",
+          "line": 14,
+          "text": "export interface SalesIntelligenceGapSummary {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+      "role": "original-DDL-authority-no-new-migration",
+      "bytes": 25599,
+      "rawBytesSha256": "c8642a90e9ecf622f1a2c80a8c6908e36ea19774a7ea4e605acf3e930f1947f1",
+      "symbols": [
+        {
+          "symbol": "            create table \"poms\".\"opportunity_stakeholder\"",
+          "line": 28,
+          "text": "create table \"poms\".\"opportunity_stakeholder\" ("
+        },
+        {
+          "symbol": "            create table \"poms\".\"competitor_intelligence_record\"",
+          "line": 51,
+          "text": "create table \"poms\".\"competitor_intelligence_record\" ("
+        },
+        {
+          "symbol": "            create table \"poms\".\"sales_discovery_record\"",
+          "line": 75,
+          "text": "create table \"poms\".\"sales_discovery_record\" ("
+        },
+        {
+          "symbol": "        this.addSql(`alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_anchor\"",
+          "line": 134,
+          "text": "this.addSql(`alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);`);"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts",
+      "role": "original-audit-DDL",
+      "bytes": 2928,
+      "rawBytesSha256": "5d45f17a8abfeafe7cec0ce92c5b6fa1b2f8d096c07e2a8ca59d9b47564d9e08",
+      "symbols": [
+        {
+          "symbol": "create table \"poms\".\"audit_log\"",
+          "line": 6,
+          "text": "`create table \"poms\".\"audit_log\" ("
+        },
+        {
+          "symbol": "                \"request_id\" varchar(64)",
+          "line": 12,
+          "text": "\"request_id\" varchar(64) null,"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-score-facts.service.ts",
+      "role": "H-original-fact-consumer-authority",
+      "bytes": 8625,
+      "rawBytesSha256": "0292fbab6c16cf71ee26d3cbf5b4a87159fc901b0547fe83304b5e3430f76964",
+      "symbols": [
+        {
+          "symbol": "    private async collectSalesIntelligenceFacts(",
+          "line": 48,
+          "text": "private async collectSalesIntelligenceFacts(leadId: string, entityManager?: EntityManager): Promise<LeadScoreV2FactSummary['salesIntelligence']> {"
+        },
+        {
+          "symbol": "            decisionMakerKnown:",
+          "line": 62,
+          "text": "decisionMakerKnown: stakeholders.some((stakeholder) => stakeholder.role === OpportunityStakeholderRoleValue.DecisionMaker),"
+        },
+        {
+          "symbol": "            procurementProcessKnown:",
+          "line": 64,
+          "text": "procurementProcessKnown: hasText(discovery?.procurementProcess),"
+        },
+        {
+          "symbol": "            nextContactKnown:",
+          "line": 68,
+          "text": "nextContactKnown: hasText(discovery?.nextContactPlan) || stakeholders.some((stakeholder) => stakeholder.isPrimary)"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-scoring.ts",
+      "role": "H-original-seven-fact-type",
+      "bytes": 10762,
+      "rawBytesSha256": "08822054495c1e6d1aa68fca89fc6d5228e1193f1382af07ee101f331efb53f1",
+      "symbols": [
+        {
+          "symbol": "export interface LeadScoreSalesIntelligenceFactSummary",
+          "line": 57,
+          "text": "export interface LeadScoreSalesIntelligenceFactSummary {"
+        },
+        {
+          "symbol": "export const EMPTY_LEAD_SCORE_V2_FACT_SUMMARY",
+          "line": 93,
+          "text": "export const EMPTY_LEAD_SCORE_V2_FACT_SUMMARY: LeadScoreV2FactSummary = {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "role": "LeadRef-original-persistence-type",
+      "bytes": 6261,
+      "rawBytesSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef",
+      "symbols": [
+        {
+          "symbol": "export const LeadSchema",
+          "line": 22,
+          "text": "export const LeadSchema = defineEntity({"
+        },
+        {
+          "symbol": "        customerId:",
+          "line": 68,
+          "text": "customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('lead_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "symbol": "        leadName:",
+          "line": 67,
+          "text": "leadName: p.string().length(255).fieldName('lead_name').comment('线索标题/机会名称'),"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "role": "ProjectRef-nullable-customer-type",
+      "bytes": 4183,
+      "rawBytesSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "symbols": [
+        {
+          "symbol": "export const ProjectSchema",
+          "line": 10,
+          "text": "export const ProjectSchema = defineEntity({"
+        },
+        {
+          "symbol": "        customerId:",
+          "line": 37,
+          "text": "customerId: () => p.manyToOne(Customer).mapToPk().nullable().fieldName('customer_id').foreignKeyName('project_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "symbol": "        projectName:",
+          "line": 35,
+          "text": "projectName: p.string().length(255).fieldName('project_name').comment('项目名称'),"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "role": "customer-existence-and-name-source",
+      "bytes": 6042,
+      "rawBytesSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea",
+      "symbols": [
+        {
+          "symbol": "export const CustomerSchema",
+          "line": 10,
+          "text": "export const CustomerSchema = defineEntity({"
+        },
+        {
+          "symbol": "        displayName:",
+          "line": 30,
+          "text": "displayName: p.string().length(255).fieldName('display_name').comment('客户显示名称'),"
+        },
+        {
+          "symbol": "        status:",
+          "line": 33,
+          "text": "status: p.string().$type<CustomerStatus>().length(32).default(CustomerStatusValue.Active).comment('客户状态'),"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+      "role": "audit-explicit-EM-no-separate-commit",
+      "bytes": 8958,
+      "rawBytesSha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4",
+      "symbols": [
+        {
+          "symbol": "    async recordAuditLog(",
+          "line": 55,
+          "text": "async recordAuditLog(input: RecordAuditLogInput, entityManager?: EntityManager): Promise<void> {"
+        },
+        {
+          "symbol": "        if (entityManager)",
+          "line": 70,
+          "text": "if (entityManager) {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+      "role": "audit-persistence-source",
+      "bytes": 1890,
+      "rawBytesSha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d",
+      "symbols": [
+        {
+          "symbol": "    async saveAll(",
+          "line": 24,
+          "text": "async saveAll(entities: object[]): Promise<void> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts",
+      "role": "audit-row-fields-and-requestId64",
+      "bytes": 1559,
+      "rawBytesSha256": "8cf897ef5c9bd365708dbefbb88158b12e29e18b5881cdbe6dd95aff986f7789",
+      "symbols": [
+        {
+          "symbol": "export const AuditLogSchema",
+          "line": 7,
+          "text": "export const AuditLogSchema = defineEntity({"
+        },
+        {
+          "symbol": "        requestId: p.string().length(64)",
+          "line": 23,
+          "text": "requestId: p.string().length(64).nullable().fieldName('request_id'),"
+        },
+        {
+          "symbol": "        beforeSnapshot:",
+          "line": 26,
+          "text": "beforeSnapshot: p.json<AuditSnapshot>().nullable().fieldName('before_snapshot'),"
+        },
+        {
+          "symbol": "        metadata:",
+          "line": 28,
+          "text": "metadata: p.json<AuditSnapshot>().nullable(),"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts",
+      "role": "request-id-nullish-header-authority",
+      "bytes": 1480,
+      "rawBytesSha256": "c6db32b268247deb198a0763c2330a8c341f7ec55c40ca271b84e84da13ca3ed",
+      "symbols": [
+        {
+          "symbol": "export function getRequestId(",
+          "line": 20,
+          "text": "export function getRequestId(request: RuntimeAuditRequestLike | undefined): string | null {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/auth.module.ts",
+      "role": "original-global-guard-order",
+      "bytes": 1439,
+      "rawBytesSha256": "ae71dd28c959449e4dea26a7f745ad2bbeb522be169cbb69e0e3382b8de24766",
+      "symbols": [
+        {
+          "symbol": "        { provide: APP_GUARD, useClass: SessionAuthGuard }",
+          "line": 28,
+          "text": "{ provide: APP_GUARD, useClass: SessionAuthGuard },"
+        },
+        {
+          "symbol": "        { provide: APP_GUARD, useClass: AuthCsrfGuard }",
+          "line": 29,
+          "text": "{ provide: APP_GUARD, useClass: AuthCsrfGuard },"
+        },
+        {
+          "symbol": "        { provide: APP_GUARD, useClass: PermissionsGuard }",
+          "line": 30,
+          "text": "{ provide: APP_GUARD, useClass: PermissionsGuard }"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "role": "original-session-and-security-behavior",
+      "bytes": 3613,
+      "rawBytesSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+      "symbols": [
+        {
+          "symbol": "    async canActivate(",
+          "line": 26,
+          "text": "async canActivate(context: ExecutionContext): Promise<boolean> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "role": "original-CSRF-behavior",
+      "bytes": 4389,
+      "rawBytesSha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+      "symbols": [
+        {
+          "symbol": "    async canActivate(",
+          "line": 29,
+          "text": "async canActivate(context: ExecutionContext): Promise<boolean> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "role": "original-OR-permission-behavior",
+      "bytes": 4036,
+      "rawBytesSha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306",
+      "symbols": [
+        {
+          "symbol": "    async canActivate(",
+          "line": 21,
+          "text": "async canActivate(context: ExecutionContext): Promise<boolean> {"
+        },
+        {
+          "symbol": "        const hasAny =",
+          "line": 45,
+          "text": "const hasAny = requiredAnyPermissions.length === 0 || requiredAnyPermissions.some((p) => userPermissions.includes(p));"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/core/auth/decorators/has-any-permissions.decorator.ts",
+      "role": "original-OR-metadata",
+      "bytes": 279,
+      "rawBytesSha256": "761be292873cc8b0185db299a90d25c5f8faf7854821fcb5de30550c7aba2c65",
+      "symbols": [
+        {
+          "symbol": "export const ANY_PERMISSIONS_KEY",
+          "line": 4,
+          "text": "export const ANY_PERMISSIONS_KEY = 'anyPermissions';"
+        },
+        {
+          "symbol": "export const HasAnyPermissions",
+          "line": 6,
+          "text": "export const HasAnyPermissions = (...permissions: PermissionKey[]) => SetMetadata(ANY_PERMISSIONS_KEY, permissions);"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/app.module.ts",
+      "role": "original-global-DTO-and-serializer-wiring",
+      "bytes": 3560,
+      "rawBytesSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "symbols": [
+        {
+          "symbol": "            useClass: ZodValidationPipe",
+          "line": 69,
+          "text": "useClass: ZodValidationPipe"
+        },
+        {
+          "symbol": "            useClass: ZodSerializerInterceptor",
+          "line": 73,
+          "text": "useClass: ZodSerializerInterceptor"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "role": "original-DTO-pipe",
+      "bytes": 1877,
+      "rawBytesSha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd",
+      "symbols": [
+        {
+          "symbol": "    public transform(",
+          "line": 47,
+          "text": "public transform(value: unknown, metadata: ArgumentMetadata) {"
+        },
+        {
+          "symbol": "export const ZodValidationPipe",
+          "line": 68,
+          "text": "export const ZodValidationPipe = createZodValidationPipe();"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/validate.ts",
+      "role": "original-schema-parse",
+      "bytes": 742,
+      "rawBytesSha256": "6fb5056e500c9650e9056fd6e5043940ce7be3565aef608dd86fda708be356b5",
+      "symbols": [
+        {
+          "symbol": "    return schema.parse(",
+          "line": 17,
+          "text": "return schema.parse(value) as ReturnType<TSchema['parse']>;"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/exception.ts",
+      "role": "original-error-body-shape",
+      "bytes": 1004,
+      "rawBytesSha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14",
+      "symbols": [
+        {
+          "symbol": "export class ZodValidationException",
+          "line": 7,
+          "text": "export class ZodValidationException extends BadRequestException {"
+        }
+      ]
+    },
+    {
+      "file": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "role": "original-response-metadata-boundary",
+      "bytes": 5144,
+      "rawBytesSha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a",
+      "symbols": [
+        {
+          "symbol": "          if (!responseSchema) return res;",
+          "line": 61,
+          "text": "if (!responseSchema) return res;"
+        },
+        {
+          "symbol": "    protected getContextResponseSchema(",
+          "line": 151,
+          "text": "protected getContextResponseSchema("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/customers/store.rs",
+      "role": "existing-public-customer-read-bridge",
+      "bytes": 22461,
+      "rawBytesSha256": "cc6ed0a14e5d514bfb6dc8fe5e98cc16398922df9cf07d4ce7fe936f56949495",
+      "symbols": [
+        {
+          "symbol": "pub struct CustomerRow",
+          "line": 20,
+          "text": "pub struct CustomerRow {"
+        },
+        {
+          "symbol": "pub async fn find_customer(",
+          "line": 95,
+          "text": "pub async fn find_customer("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/customer_contacts/store.rs",
+      "role": "Root-owned-private-contact-bridge-gap",
+      "bytes": 5398,
+      "rawBytesSha256": "dec1ff65841d3564d75ff9ad0d168a04996dcf845f0971608ebff0a3fac835ba",
+      "symbols": [
+        {
+          "symbol": "pub(super) struct Contact",
+          "line": 16,
+          "text": "pub(super) struct Contact {"
+        },
+        {
+          "symbol": "pub(super) async fn find(",
+          "line": 75,
+          "text": "pub(super) async fn find("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/store.rs",
+      "role": "existing-public-project-read-bridge",
+      "bytes": 15141,
+      "rawBytesSha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef",
+      "symbols": [
+        {
+          "symbol": "pub struct ProjectRow",
+          "line": 13,
+          "text": "pub struct ProjectRow {"
+        },
+        {
+          "symbol": "pub async fn find(",
+          "line": 67,
+          "text": "pub async fn find("
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/model.rs",
+      "role": "existing-Wire-and-ECMAScript-trim-context",
+      "bytes": 2674,
+      "rawBytesSha256": "e33a1ef1c78b83b109fd72ae90a750167e2848aef968c5a8bae6bb2b800680e4",
+      "symbols": [
+        {
+          "symbol": "pub struct Wire(",
+          "line": 49,
+          "text": "pub struct Wire(pub String);"
+        },
+        {
+          "symbol": "pub fn trim_js(",
+          "line": 80,
+          "text": "pub fn trim_js(value: JsString) -> JsString {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/js_json.rs",
+      "role": "existing-UTF16-preserving-input-mechanics",
+      "bytes": 6503,
+      "rawBytesSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "symbols": [
+        {
+          "symbol": "pub struct JsString",
+          "line": 14,
+          "text": "pub struct JsString(Vec<u16>);"
+        },
+        {
+          "symbol": "pub struct JsObject",
+          "line": 121,
+          "text": "pub struct JsObject<'a> {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/compat/json.rs",
+      "role": "existing-presence-strip-mechanics",
+      "bytes": 4995,
+      "rawBytesSha256": "928c5d82adb43ff9f2c40e9d2da90d2e95464a2069c6d42ea4c68d9668f731ed",
+      "symbols": [
+        {
+          "symbol": "pub enum Field",
+          "line": 13,
+          "text": "pub enum Field<T> {"
+        },
+        {
+          "symbol": "pub enum UnknownKeyPolicy",
+          "line": 130,
+          "text": "pub enum UnknownKeyPolicy {"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/dictionary/validation.rs",
+      "role": "existing-codepoint-string-helper-context",
+      "bytes": 20888,
+      "rawBytesSha256": "0f24ff4baa2011b4921336381c72b256d0e5e58b454810d437d9b901355bdef6",
+      "symbols": [
+        {
+          "symbol": "pub(crate) fn text(",
+          "line": 153,
+          "text": "pub(crate) fn text("
+        },
+        {
+          "symbol": "    let length = char::decode_utf16",
+          "line": 183,
+          "text": "let length = char::decode_utf16(value.as_code_units().iter().copied()).count();"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/audit.rs",
+      "role": "existing-shared-audit-context-only",
+      "bytes": 4747,
+      "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+      "symbols": []
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/guards.rs",
+      "role": "existing-shared-guard-request-metadata",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+      "symbols": [
+        {
+          "symbol": "pub struct RequestMetadata",
+          "line": 78,
+          "text": "pub struct RequestMetadata {"
+        },
+        {
+          "symbol": "            request_id: combined_header",
+          "line": 97,
+          "text": "request_id: combined_header(&parts.headers, \"x-request-id\")"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api-rust/src/shared/generated.rs",
+      "role": "protected-mechanical-enum-source",
+      "bytes": 315819,
+      "rawBytesSha256": "0925c488d0c54b8641c195bb3e40abc282ffdd5ae64b612c3aec03e1ed54e245",
+      "symbols": [
+        {
+          "symbol": "    pub enum OpportunityStakeholderRole",
+          "line": 2183,
+          "text": "pub enum OpportunityStakeholderRole {"
+        },
+        {
+          "symbol": "    pub enum OpportunityStakeholderAttitude",
+          "line": 2244,
+          "text": "pub enum OpportunityStakeholderAttitude {"
+        },
+        {
+          "symbol": "    pub enum OpportunityStakeholderInfluenceLevel",
+          "line": 2281,
+          "text": "pub enum OpportunityStakeholderInfluenceLevel {"
+        },
+        {
+          "symbol": "    pub enum OpportunityStakeholderAccessLevel",
+          "line": 2318,
+          "text": "pub enum OpportunityStakeholderAccessLevel {"
+        },
+        {
+          "symbol": "    pub enum CompetitorPosition",
+          "line": 2355,
+          "text": "pub enum CompetitorPosition {"
+        },
+        {
+          "symbol": "    pub enum CustomerPreference",
+          "line": 2392,
+          "text": "pub enum CustomerPreference {"
+        },
+        {
+          "symbol": "    pub enum WinProbabilityLevel",
+          "line": 2429,
+          "text": "pub enum WinProbabilityLevel {"
+        },
+        {
+          "symbol": "    pub enum SalesIntelligenceGapItem",
+          "line": 2466,
+          "text": "pub enum SalesIntelligenceGapItem {"
+        },
+        {
+          "symbol": "    pub enum SalesIntelligenceGapSeverity",
+          "line": 2515,
+          "text": "pub enum SalesIntelligenceGapSeverity {"
+        }
+      ]
+    },
+    {
+      "file": "package.json",
+      "role": "dependency-pin-context",
+      "bytes": 4286,
+      "rawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "symbols": [
+        {
+          "symbol": "\"@mikro-orm/core\"",
+          "line": 27,
+          "text": "\"@mikro-orm/core\": \"7.0.11\","
+        },
+        {
+          "symbol": "\"zod\"",
+          "line": 58,
+          "text": "\"zod\": \"^4.6.1\""
+        }
+      ]
+    },
+    {
+      "file": "pnpm-lock.yaml",
+      "role": "protected-dependency-lock",
+      "bytes": 837627,
+      "rawBytesSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+      "symbols": []
+    },
+    {
+      "file": "libs/shared/contracts/package.json",
+      "role": "contract-zod-resolution-context",
+      "bytes": 245,
+      "rawBytesSha256": "a2e1ccab5c0310a523d3653cc5d44a401c9f26196753104bde3b54da06dd3ba6",
+      "symbols": [
+        {
+          "symbol": "\"zod\"",
+          "line": 10,
+          "text": "\"zod\": \"^4.3.6\""
+        }
+      ]
+    }
+  ],
+  "inputArtifacts": [
+    {
+      "file": "tmp/rust-r3hijk/b-input/input-review.txt",
+      "bytes": 18879,
+      "rawBytesSha256": "ae12660309ff602bb8ef7caff812884ca0a62e4022c0831e02dcd1e3db7a754d"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-input/interfaces-proposal.txt",
+      "bytes": 5974,
+      "rawBytesSha256": "c566fbe38039cf27439ae9495fd9952d766482af4731f4736be69b411f7e25b2"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-input/acceptance-matrix.json",
+      "bytes": 65994,
+      "rawBytesSha256": "58686b832ed52b7f0d7dad051627ebd53e163679d6f9506f5ae1846c872858f2"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    }
+  ],
+  "acceptanceDefinitionCount": 89,
+  "actualExecutionEvidence": "none",
+  "preG1NativeRisks": [
+    "N1 refinedbase.extend and missingcreateanchor",
+    "N2 rawUUID/mergedanchor/errorprecedence",
+    "N3 singleTXaudit/record/sessionSQL+no-op",
+    "N4 managedCAScontrolledcompetition",
+    "N5 UnicodeUTF16/JSONBDBfailure",
+    "N6 I-latest versus score-latest",
+    "N7 legalpersistedfocusJSONshape",
+    "N8 requestId nullish semantics and varchar64 audit failure"
+  ],
+  "preservation": {
+    "NativeSpec": {
+      "paths": 237,
+      "operations": 291,
+      "schemas": 585
+    },
+    "originalDDL": "EX61 and existing audit DDL; no new migration",
+    "oldNamespacesAndPrivate": "not-read-or-operated",
+    "noGateSignature": true
+  },
+  "checks": {
+    "gitIdentity": "read and matched",
+    "rawHashes": "completed",
+    "ownMatrixJSON": "parsed,10operations/89not-run definitions",
+    "installedSchema": "not-executed; new checkout node_modules observed absent during source pass",
+    "productInstallFmtBuildTestLint": "not-run",
+    "DBHTTPBrowserHost": "not-run",
+    "GitHub": "not-accessed",
+    "commitPush": "not-performed"
+  }
+}

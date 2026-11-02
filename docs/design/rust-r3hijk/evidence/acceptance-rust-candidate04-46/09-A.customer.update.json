@@ -1,0 +1,110 @@
+{
+  "label": "A.customer.update",
+  "startedAt": "2026-11-02T18:19:03.251Z",
+  "completedAt": "2026-11-02T18:19:03.278Z",
+  "value": {
+    "operationId": "CustomerController_update",
+    "request": {
+      "actor": "admin",
+      "method": "PATCH",
+      "path": "/api/customers/537dee9c-f7a3-48ba-9de2-d9d8963b39bd",
+      "json": {
+        "displayName": "R3HK-6872abb5-46 customer revised",
+        "legalName": null,
+        "ownerUserId": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+        "ownerOrgId": "234391e6-c263-409d-805a-fdec017770ea",
+        "remark": "R3HK-6872abb5-46 customer revised remark"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "id": "537dee9c-f7a3-48ba-9de2-d9d8963b39bd",
+        "customerNo": "CUST-2026-000020",
+        "displayName": "R3HK-6872abb5-46 customer revised",
+        "legalName": null,
+        "shortName": "R3HK-6872abb5-46 short",
+        "status": "active",
+        "ownerOrgId": "234391e6-c263-409d-805a-fdec017770ea",
+        "ownerUserId": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-6872abb5-46 customer revised remark",
+        "mergedIntoCustomerId": null,
+        "rowVersion": 2,
+        "createdAt": "2026-11-02T18:19:03.124Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "updatedAt": "2026-11-02T18:19:03.263Z",
+        "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerName": "HIJK other",
+        "ownerOrgName": "HIJK other",
+        "leadCount": 0,
+        "projectCount": 0,
+        "contractCount": 0,
+        "aliases": [
+          {
+            "id": "d0ff770e-862d-4a54-bcfc-ed38e7631bb0",
+            "customerId": "537dee9c-f7a3-48ba-9de2-d9d8963b39bd",
+            "aliasName": "R3HK-6872abb5-46 customer",
+            "aliasType": "alias",
+            "normalizedName": "r3hk-6872abb5-46 customer",
+            "isPrimary": true,
+            "createdAt": "2026-11-02T18:19:03.124Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          }
+        ]
+      },
+      "requestId": "8e50fbd5-be52-47c3-a3ba-5913878b5ec5",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1036",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-283",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:19:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 668,
+        "requestSha256": "d08a80dd71b4ce1abcbf1d7bb72d0b649a033cf0571d82e47c9dbd407a8304f8",
+        "responseBytes": 1316,
+        "responseSha256": "6fb366d94b57acdb67f2fd4de68495c0670726931da7c70e47a6a2c9c9597eb5",
+        "entityBodyBytes": 1036,
+        "entityBodySha256": "830e3c39d7b1b25424a2221d6f12c1310da06ac75587dac345f38fdbc8610f2d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase46/raw-wire/admin-46672326-0d43-43d2-9012-e4e241ce817d",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "537dee9c-f7a3-48ba-9de2-d9d8963b39bd",
+        "customer_no": "CUST-2026-000020",
+        "display_name": "R3HK-6872abb5-46 customer revised",
+        "legal_name": null,
+        "short_name": "R3HK-6872abb5-46 short",
+        "status": "active",
+        "owner_org_id": "234391e6-c263-409d-805a-fdec017770ea",
+        "owner_user_id": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+        "source_channel": "customer-visit",
+        "remark": "R3HK-6872abb5-46 customer revised remark",
+        "merged_into_customer_id": null,
+        "row_version": 2,
+        "created_at": "2026-11-02T18:19:03.124Z",
+        "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "updated_at": "2026-11-02T18:19:03.263Z",
+        "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

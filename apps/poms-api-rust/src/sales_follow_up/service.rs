@@ -1,9 +1,8 @@
-//! Original follow-up commands, request-local reminder graph, and the separate
-//! post-business audit flush. Persistence failures remain unknown HTTP500.
+//! Append-only follow-up commands with atomic record, reminder and required audit.
 
 use std::collections::{BTreeMap, HashSet};
 
-use sqlx::Connection;
+use sqlx::{Connection, PgConnection};
 use uuid::Uuid;
 
 use super::{
@@ -30,6 +29,58 @@ pub use crate::customer_contacts::service::Error;
 pub struct Service {
     database: Database,
 }
+
+#[derive(Clone, Copy)]
+enum AuditKind {
+    Replacement,
+    Void,
+}
+
+impl AuditKind {
+    fn event(self) -> &'static str {
+        match self {
+            Self::Replacement => "sales-follow-up.replaced",
+            Self::Void => "sales-follow-up.voided",
+        }
+    }
+}
+
+struct RequiredAudit {
+    kind: AuditKind,
+    source_id: Uuid,
+    expected_version: i64,
+    operator_id: Uuid,
+    request_id: Option<String>,
+    reason: JsString,
+    raw: BTreeMap<String, JsString>,
+}
+
+impl RequiredAudit {
+    fn metadata(&self, before: &Record, after: &Record) -> Result<String, Error> {
+        if self.source_id != before.id {
+            return Err(Error::Internal);
+        }
+        let before = snapshot(before, &BTreeMap::new())?;
+        let after_snapshot = snapshot(after, &self.raw)?;
+        Ok(match self.kind {
+            AuditKind::Replacement => format!(
+                "{{\"replacementId\":{},\"replacementReason\":{},\"before\":{},\"after\":{}}}",
+                js(&after.id.to_string()).json(),
+                self.reason.json(),
+                before.0,
+                after_snapshot.0
+            ),
+            AuditKind::Void => format!(
+                "{{\"reason\":{},\"before\":{},\"after\":{}}}",
+                self.reason.json(),
+                before.0,
+                after_snapshot.0
+            ),
+        })
+    }
+}
+
+type FlushedRecords = (Option<Record>, Option<Record>);
 
 impl Service {
     pub fn new(database: Database) -> Self {
@@ -126,6 +177,7 @@ impl Service {
                 &context,
                 &input.fields.summary,
                 session.pending_flush.as_ref(),
+                None,
             )
             .await?
             .0
@@ -166,7 +218,6 @@ impl Service {
         replacement.project_id = before.project_id;
         replacement.supersedes_record_id = Some(before.id);
         replacement.replacement_reason = Some(input.replacement_reason.to_utf8_lossy());
-        let before_snapshot = snapshot(&before, &BTreeMap::new())?;
         let mut superseded = before.clone();
         superseded.status = "superseded".to_owned();
         superseded.replaced_by_record_id = Some(replacement.id);
@@ -176,6 +227,15 @@ impl Service {
             "replacementReason".to_owned(),
             input.replacement_reason.clone(),
         );
+        let audit = RequiredAudit {
+            kind: AuditKind::Replacement,
+            source_id: before.id,
+            expected_version: input.expected_version,
+            operator_id: operator.id,
+            request_id: metadata.request_id.clone(),
+            reason: input.replacement_reason.clone(),
+            raw: raw.clone(),
+        };
         replacement = self
             .flush(
                 Some(replacement),
@@ -183,28 +243,11 @@ impl Service {
                 &context,
                 &input.fields.summary,
                 session.pending_flush.as_ref(),
+                Some(audit),
             )
             .await?
             .0
             .ok_or(Error::Internal)?;
-        let after_snapshot = snapshot(&replacement, &raw)?;
-        let audit_metadata = format!(
-            "{{\"replacementId\":{},\"replacementReason\":{},\"before\":{},\"after\":{}}}",
-            js(&replacement.id.to_string()).json(),
-            input.replacement_reason.json(),
-            before_snapshot.0,
-            after_snapshot.0
-        );
-        // G1 Native: business and reminder rows have already COMMITted. This
-        // audit transaction can fail with500 without undoing those rows.
-        self.audit(
-            "sales-follow-up.replaced",
-            before.id,
-            operator.id,
-            metadata.request_id.clone(),
-            audit_metadata,
-        )
-        .await?;
         Ok(Wire::object(summary(&replacement, &context)?, &raw))
     }
 
@@ -234,7 +277,6 @@ impl Service {
             None => None,
         };
         context.voided_by_user = Some(operator.clone());
-        let before_snapshot = snapshot(&before, &BTreeMap::new())?;
         let reason = append_comment(input.reason, &input.comment);
         let mut after = before.clone();
         after.status = "voided".to_owned();
@@ -244,6 +286,15 @@ impl Service {
         after.updated_by = Some(operator.id);
         let raw = BTreeMap::from([("voidReason".to_owned(), reason.clone())]);
         let summary_text = js(&after.summary);
+        let audit = RequiredAudit {
+            kind: AuditKind::Void,
+            source_id: before.id,
+            expected_version: input.expected_version,
+            operator_id: operator.id,
+            request_id: metadata.request_id.clone(),
+            reason,
+            raw: raw.clone(),
+        };
         after = self
             .flush(
                 None,
@@ -251,25 +302,11 @@ impl Service {
                 &context,
                 &summary_text,
                 session.pending_flush.as_ref(),
+                Some(audit),
             )
             .await?
             .1
             .ok_or(Error::Internal)?;
-        let after_snapshot = snapshot(&after, &raw)?;
-        let audit_metadata = format!(
-            "{{\"reason\":{},\"before\":{},\"after\":{}}}",
-            reason.json(),
-            before_snapshot.0,
-            after_snapshot.0
-        );
-        self.audit(
-            "sales-follow-up.voided",
-            before.id,
-            operator.id,
-            metadata.request_id.clone(),
-            audit_metadata,
-        )
-        .await?;
         Ok(Wire::object(summary(&after, &context)?, &raw))
     }
 
@@ -459,33 +496,57 @@ impl Service {
         context: &Context,
         summary: &JsString,
         pending: Option<&SessionFlush>,
-    ) -> Result<(Option<Record>, Option<Record>), Error> {
+        audit: Option<RequiredAudit>,
+    ) -> Result<FlushedRecords, Error> {
         let context = context.clone();
         let summary = summary.clone();
         let pending = pending.cloned();
-        Ok(self
-            .database
+        self.database
             .with_connection(move |connection| {
                 Box::pin(async move {
-                    let current = new
-                        .as_ref()
-                        .or_else(|| old.as_ref().map(|(_, after)| after))
-                        .ok_or_else(|| {
-                            sqlx::Error::Protocol("missing follow-up flush record".into())
-                        })?;
-                    let cancel_source = old.as_ref().map(|(before, _)| before.id);
-                    // These SELECTs precede BEGIN, as the original repository has
-                    // no explicit surrounding transaction. Managed cancellations
-                    // remain pending until all reminder queries have finished.
-                    let mut todos =
-                        reminder::prepare(connection, current, &context, &summary, cancel_source)
-                            .await?;
                     let mut transaction = connection.begin().await?;
-                    let result: Result<(), sqlx::Error> = async {
-                        // Native new-row paths: CREATE Todo, CREATE new F,
-                        // UPDATE session, UPDATE old Todos, UPDATE old F (CAS).
-                        // Void has no new row: UPDATE old Todos precedes the
-                        // pending session UPDATE, then UPDATE old F (CAS).
+                    let result: Result<Result<FlushedRecords, Error>, sqlx::Error> = async {
+                        // Lock order is source F first, then reminder work. A
+                        // same-source loser rechecks the committed version/state
+                        // before it reads or changes any Todo or required audit.
+                        if let Some((before, _)) = old.as_mut() {
+                            let Some(required) = audit.as_ref() else {
+                                return Ok(Err(Error::Internal));
+                            };
+                            if required.source_id != before.id {
+                                return Ok(Err(Error::Internal));
+                            }
+                            let Some(locked) =
+                                store::lock_source(&mut transaction, before.id).await?
+                            else {
+                                return Ok(Err(Error::NotFound(format!(
+                                    "SalesFollowUpRecord {} not found",
+                                    before.id
+                                ))));
+                            };
+                            if let Err(error) = locked_source(&locked, required.expected_version) {
+                                return Ok(Err(error));
+                            }
+                            *before = locked;
+                        }
+                        let Some(current) = new
+                            .as_ref()
+                            .or_else(|| old.as_ref().map(|(_, after)| after))
+                        else {
+                            return Ok(Err(Error::Internal));
+                        };
+                        let cancel_source = old.as_ref().map(|(before, _)| before.id);
+                        let mut todos = reminder::prepare(
+                            &mut transaction,
+                            current,
+                            &context,
+                            &summary,
+                            cancel_source,
+                        )
+                        .await?;
+
+                        // Preserve the existing record/reminder write graph,
+                        // with all writes and the necessary audit in this TX.
                         if let Some(todo) = todos.new_todo.as_mut() {
                             todo.row_version = store::insert_todo(&mut transaction, todo).await?;
                         }
@@ -494,7 +555,12 @@ impl Service {
                         }
                         if new.is_none() {
                             for (before, after) in &mut todos.changed {
-                                store::update_todo(&mut transaction, before, after).await?;
+                                if !store::update_todo(&mut transaction, before, after).await? {
+                                    return Ok(Err(managed_conflict(
+                                        "sales-follow-up reminder",
+                                        before.id,
+                                    )));
+                                }
                             }
                         }
                         if let Some(pending) = pending.as_ref() {
@@ -502,21 +568,48 @@ impl Service {
                         }
                         if new.is_some() {
                             for (before, after) in &mut todos.changed {
-                                store::update_todo(&mut transaction, before, after).await?;
+                                if !store::update_todo(&mut transaction, before, after).await? {
+                                    return Ok(Err(managed_conflict(
+                                        "sales-follow-up reminder",
+                                        before.id,
+                                    )));
+                                }
                             }
                         }
                         if let Some((before, after)) = old.as_mut() {
                             after.updated_at = clock_now();
-                            after.row_version =
-                                store::update(&mut transaction, before, after).await?;
+                            let Some(version) =
+                                store::update(&mut transaction, before, after).await?
+                            else {
+                                return Ok(Err(managed_conflict(
+                                    "sales-follow-up-record",
+                                    before.id,
+                                )));
+                            };
+                            after.row_version = version;
                         }
-                        Ok(())
+                        if let Some(required) = audit.as_ref() {
+                            let Some((before, changed)) = old.as_ref() else {
+                                return Ok(Err(Error::Internal));
+                            };
+                            let after = new.as_ref().unwrap_or(changed);
+                            let metadata = match required.metadata(before, after) {
+                                Ok(metadata) => metadata,
+                                Err(error) => return Ok(Err(error)),
+                            };
+                            insert_required_audit(&mut transaction, required, &metadata).await?;
+                        }
+                        Ok(Ok((new, old.map(|(_, after)| after))))
                     }
                     .await;
                     match result {
-                        Ok(()) => {
+                        Ok(Ok(rows)) => {
                             transaction.commit().await?;
-                            Ok((new, old.map(|(_, after)| after)))
+                            Ok(Ok(rows))
+                        }
+                        Ok(Err(error)) => {
+                            transaction.rollback().await?;
+                            Ok(Err(error))
                         }
                         Err(error) => {
                             transaction.rollback().await?;
@@ -525,32 +618,32 @@ impl Service {
                     }
                 })
             })
-            .await?)
+            .await?
     }
+}
 
-    async fn audit(
-        &self,
-        event: &str,
-        target: Uuid,
-        operator: Uuid,
-        request_id: Option<String>,
-        metadata: String,
-    ) -> Result<(), Error> {
-        let event = event.to_owned();
-        self.database.with_connection(move |connection| {
-            Box::pin(async move {
-                let mut transaction = connection.begin().await?;
-                let result = sqlx::query("INSERT INTO poms.audit_log (event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES ($1,'sales-follow-up-record',$2,$3,$4,'success',NULL,NULL,NULL,$5::text::jsonb,$6)")
-                    .bind(event).bind(target.to_string()).bind(operator).bind(request_id).bind(metadata).bind(clock_now())
-                    .execute(&mut *transaction).await;
-                match result {
-                    Ok(_) => { transaction.commit().await?; Ok(()) }
-                    Err(error) => { transaction.rollback().await?; Err(error) }
-                }
-            })
-        }).await?;
-        Ok(())
+async fn insert_required_audit(
+    connection: &mut PgConnection,
+    audit: &RequiredAudit,
+    metadata: &str,
+) -> Result<(), sqlx::Error> {
+    sqlx::query("INSERT INTO poms.audit_log (event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES ($1,'sales-follow-up-record',$2,$3,$4,'success',NULL,NULL,NULL,$5::text::jsonb,$6)")
+        .bind(audit.kind.event()).bind(audit.source_id.to_string()).bind(audit.operator_id)
+        .bind(audit.request_id.clone()).bind(metadata).bind(clock_now())
+        .execute(connection).await?;
+    Ok(())
+}
+
+fn managed_conflict(kind: &str, id: Uuid) -> Error {
+    Error::Conflict(format!("{kind} {id} has been modified; refresh and retry"))
+}
+
+fn locked_source(row: &Record, version: i64) -> Result<(), Error> {
+    expected(row, version)?;
+    if row.status != "active" {
+        return Err(managed_conflict("sales-follow-up-record", row.id));
     }
+    Ok(())
 }
 
 fn unique(ids: impl Iterator<Item = Uuid>) -> Vec<Uuid> {
@@ -668,4 +761,132 @@ fn snapshot(row: &Record, raw: &BTreeMap<String, JsString>) -> Result<Wire, Erro
         }),
         raw,
     ))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use axum::{http::StatusCode, response::IntoResponse};
+    use serde_json::{Value, json};
+
+    fn source() -> Record {
+        let at = chrono::DateTime::<chrono::Utc>::UNIX_EPOCH;
+        Record {
+            id: Uuid::from_u128(1),
+            customer_id: Uuid::from_u128(2),
+            lead_id: Some(Uuid::from_u128(3)),
+            project_id: None,
+            status: "active".to_owned(),
+            follow_up_type: "phone".to_owned(),
+            occurred_at: at,
+            summary: "Original follow-up".to_owned(),
+            detail: None,
+            outcome: "pending".to_owned(),
+            next_follow_up_at: Some(at),
+            owner_org_id: None,
+            owner_user_id: Some(Uuid::from_u128(4)),
+            supersedes_record_id: None,
+            replaced_by_record_id: None,
+            replacement_reason: None,
+            voided_at: None,
+            voided_by: None,
+            void_reason: None,
+            row_version: 3,
+            created_at: at,
+            created_by: Some(Uuid::from_u128(4)),
+            updated_at: at,
+            updated_by: Some(Uuid::from_u128(4)),
+        }
+    }
+
+    fn required(kind: AuditKind, row: &Record, reason: JsString) -> RequiredAudit {
+        RequiredAudit {
+            kind,
+            source_id: row.id,
+            expected_version: i64::from(row.row_version),
+            operator_id: Uuid::from_u128(5),
+            request_id: Some("request-42".to_owned()),
+            reason,
+            raw: BTreeMap::new(),
+        }
+    }
+
+    #[test]
+    fn locked_source_requires_the_current_active_version() {
+        let mut row = source();
+        assert!(locked_source(&row, 3).is_ok());
+        let stale = locked_source(&row, 2)
+            .err()
+            .unwrap_or_else(|| panic!("a stale version must conflict"));
+        assert_eq!(
+            stale.into_api_error().into_response().status(),
+            StatusCode::CONFLICT,
+        );
+        for status in ["superseded", "voided"] {
+            row.status = status.to_owned();
+            let terminal = locked_source(&row, 3)
+                .err()
+                .unwrap_or_else(|| panic!("a terminal source must conflict under the lock"));
+            assert_eq!(
+                terminal.into_api_error().into_response().status(),
+                StatusCode::CONFLICT,
+            );
+        }
+    }
+
+    #[test]
+    fn replacement_audit_preserves_source_and_new_record_versions() {
+        let before = source();
+        let reason = js("Correct the meeting outcome");
+        let audit = required(AuditKind::Replacement, &before, reason.clone());
+        let mut after = before.clone();
+        after.id = Uuid::from_u128(6);
+        after.row_version = 1;
+        after.supersedes_record_id = Some(before.id);
+        after.replacement_reason = Some(reason.to_utf8_lossy());
+        after.summary = "Corrected follow-up".to_owned();
+        let metadata: Value = serde_json::from_str(
+            &audit
+                .metadata(&before, &after)
+                .unwrap_or_else(|_| panic!("valid replacement audit snapshots")),
+        )
+        .unwrap_or_else(|_| panic!("valid audit JSON"));
+        assert_eq!(audit.kind.event(), "sales-follow-up.replaced");
+        assert_eq!(audit.source_id, before.id);
+        assert_eq!(audit.request_id.as_deref(), Some("request-42"));
+        assert_eq!(metadata["replacementId"], json!(after.id));
+        assert_eq!(metadata["replacementReason"], json!(reason.to_utf8_lossy()));
+        assert_eq!(metadata["before"]["rowVersion"], json!(3));
+        assert_eq!(metadata["before"]["status"], json!("active"));
+        assert_eq!(metadata["after"]["rowVersion"], json!(1));
+        assert_eq!(metadata["after"]["supersedesId"], json!(before.id));
+        assert_eq!(metadata["after"]["summary"], json!("Corrected follow-up"));
+    }
+
+    #[test]
+    fn void_audit_records_the_final_lifecycle_and_reason() {
+        let before = source();
+        let reason = append_comment(js("Entered in error"), &Field::Value(js("Duplicate")));
+        let audit = required(AuditKind::Void, &before, reason.clone());
+        let mut after = before.clone();
+        after.row_version = 4;
+        after.status = "voided".to_owned();
+        after.void_reason = Some(reason.to_utf8_lossy());
+        after.voided_at = Some(before.occurred_at);
+        after.voided_by = Some(audit.operator_id);
+        let metadata: Value = serde_json::from_str(
+            &audit
+                .metadata(&before, &after)
+                .unwrap_or_else(|_| panic!("valid void audit snapshots")),
+        )
+        .unwrap_or_else(|_| panic!("valid audit JSON"));
+        assert_eq!(audit.kind.event(), "sales-follow-up.voided");
+        assert_eq!(metadata["reason"], json!("Entered in error: Duplicate"));
+        assert_eq!(metadata["before"]["rowVersion"], json!(3));
+        assert_eq!(metadata["before"]["status"], json!("active"));
+        assert_eq!(metadata["after"]["rowVersion"], json!(4));
+        assert_eq!(metadata["after"]["status"], json!("voided"));
+        assert_eq!(metadata["after"]["voidReason"], metadata["reason"]);
+        assert_eq!(metadata["after"]["voidedBy"], json!(audit.operator_id));
+    }
 }

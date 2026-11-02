@@ -1,0 +1,2983 @@
+{
+  "coverage": {
+    "phase24": 34,
+    "phase25": 62,
+    "businessCases": 95,
+    "unique": 95,
+    "groups": {
+      "J-K": 2,
+      "J.": 34,
+      "K.G": 38,
+      "K.E": 1,
+      "K.T": 20
+    },
+    "expectedKeys": [
+      {
+        "key": "exactNativeAuthError",
+        "count": 17,
+        "exampleGroup": "J-K.auth-and-transport",
+        "example": true
+      },
+      {
+        "key": "guardPrecedesInvalidDtoAndDatabase",
+        "count": 16,
+        "exampleGroup": "J-K.auth-and-transport",
+        "example": true
+      },
+      {
+        "key": "status",
+        "count": 193,
+        "exampleGroup": "J-K.auth-and-transport",
+        "example": 200
+      },
+      {
+        "key": "code",
+        "count": 9,
+        "exampleGroup": "J-K.auth-and-transport",
+        "example": "permission_denied"
+      },
+      {
+        "key": "exactNativeStatusAndHeaders",
+        "count": 3,
+        "exampleGroup": "J-K.shared-transport",
+        "example": true
+      },
+      {
+        "key": "headBodyEmpty",
+        "count": 3,
+        "exampleGroup": "J-K.shared-transport",
+        "example": true
+      },
+      {
+        "key": "exactNativeStatusHeadersAndBody",
+        "count": 3,
+        "exampleGroup": "J-K.shared-transport",
+        "example": true
+      },
+      {
+        "key": "clearErrorResponse",
+        "count": 1,
+        "exampleGroup": "J-K.shared-transport",
+        "example": true
+      },
+      {
+        "key": "nativeHTMLBodyIsNotAnAcceptanceRequirement",
+        "count": 1,
+        "exampleGroup": "J-K.shared-transport",
+        "example": true
+      },
+      {
+        "key": "exactNativeStatusAndBody",
+        "count": 1,
+        "exampleGroup": "J-K.shared-transport",
+        "example": true
+      },
+      {
+        "key": "exactBody",
+        "count": 1,
+        "exampleGroup": "J.empty-and-scope",
+        "example": []
+      },
+      {
+        "key": "forbiddenCommentIds",
+        "count": 2,
+        "exampleGroup": "J.empty-and-scope",
+        "example": [
+          "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+          "e080b015-39fc-42cc-8aac-543458309eb2"
+        ]
+      },
+      {
+        "key": "containsCommentIds",
+        "count": 2,
+        "exampleGroup": "J.empty-and-scope",
+        "example": [
+          "2d51de43-2bec-4df8-88ea-2e8cd8b2685a"
+        ]
+      },
+      {
+        "key": "containsEachExactlyOnce",
+        "count": 1,
+        "exampleGroup": "J.empty-and-scope",
+        "example": [
+          "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+          "e080b015-39fc-42cc-8aac-543458309eb2"
+        ]
+      },
+      {
+        "key": "message",
+        "count": 23,
+        "exampleGroup": "J.anchor-resolution-priority",
+        "example": "Customer 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+      },
+      {
+        "key": "customIssue",
+        "count": 1,
+        "exampleGroup": "J.query-validation",
+        "example": {
+          "code": "custom",
+          "path": [],
+          "message": "At least one discussion target anchor is required"
+        }
+      },
+      {
+        "key": "format",
+        "count": 3,
+        "exampleGroup": "J.query-validation",
+        "example": "uuid"
+      },
+      {
+        "key": "expected",
+        "count": 7,
+        "exampleGroup": "J.query-validation",
+        "example": "string"
+      },
+      {
+        "key": "received",
+        "count": 1,
+        "exampleGroup": "J.query-validation",
+        "example": "array"
+      },
+      {
+        "key": "issuePath",
+        "count": 14,
+        "exampleGroup": "J.create-boundaries",
+        "example": [
+          "targetObjectType"
+        ]
+      },
+      {
+        "key": "issuePathOrder",
+        "count": 1,
+        "exampleGroup": "J.create-boundaries",
+        "example": [
+          [
+            "targetObjectType"
+          ],
+          [
+            "targetObjectId"
+          ],
+          [
+            "discussionType"
+          ],
+          [
+            "body"
+          ]
+        ]
+      },
+      {
+        "key": "forbiddenOutputKeys",
+        "count": 2,
+        "exampleGroup": "J.create-boundaries",
+        "example": [
+          "unknownField"
+        ]
+      },
+      {
+        "key": "allRelatedIdsNull",
+        "count": 1,
+        "exampleGroup": "J.create-boundaries",
+        "example": true
+      },
+      {
+        "key": "isPinned",
+        "count": 4,
+        "exampleGroup": "J.create-boundaries",
+        "example": false
+      },
+      {
+        "key": "isKeyConclusion",
+        "count": 4,
+        "exampleGroup": "J.create-boundaries",
+        "example": false
+      },
+      {
+        "key": "discussionType",
+        "count": 6,
+        "exampleGroup": "J.create-boundaries",
+        "example": "intelligence-supplement"
+      },
+      {
+        "key": "targetObjectType",
+        "count": 3,
+        "exampleGroup": "J.create-boundaries",
+        "example": "customer"
+      },
+      {
+        "key": "bodyExact",
+        "count": 8,
+        "exampleGroup": "J.create-boundaries",
+        "example": "正文 \"引号\" \\ 路径\n第二行\té 😀"
+      },
+      {
+        "key": "clearValidationError",
+        "count": 7,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "noDomainPersistence",
+        "count": 7,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "threadAndCommentCountsUnchanged",
+        "count": 5,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "noLossyReplacementAccepted",
+        "count": 5,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "codePointCount",
+        "count": 2,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": 8000
+      },
+      {
+        "key": "codePointLimit",
+        "count": 2,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": 8000
+      },
+      {
+        "key": "UTF16Count",
+        "count": 1,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": 16000
+      },
+      {
+        "key": "knownPersistentFieldsOnly",
+        "count": 1,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "everyAcceptedBodyMatchesStoredTextAndImmediateResponse",
+        "count": 1,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "rejectedBodiesCreatedNoComment",
+        "count": 1,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "allOriginalCommentFieldsPresent",
+        "count": 1,
+        "exampleGroup": "J.persistent-text.business-roundtrip",
+        "example": true
+      },
+      {
+        "key": "targetTitle",
+        "count": 2,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "HIJK D-projectRename 6872abb5-12af-486f-ada6-02e484421d1f"
+      },
+      {
+        "key": "customerId",
+        "count": 3,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "a1be5f15-b2ee-4b1c-96cb-36697a872308"
+      },
+      {
+        "key": "projectName",
+        "count": 1,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "D renamed current title"
+      },
+      {
+        "key": "sameThreadAs",
+        "count": 1,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "J.old-title.first"
+      },
+      {
+        "key": "relationValidatedAgainstCurrentCustomer",
+        "count": 1,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "53395311-2cf1-427c-9175-4fad7fb1b30d"
+      },
+      {
+        "key": "allThreadTitles",
+        "count": 1,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "HIJK D-projectRename 6872abb5-12af-486f-ada6-02e484421d1f"
+      },
+      {
+        "key": "allThreadCustomerIds",
+        "count": 1,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "a1be5f15-b2ee-4b1c-96cb-36697a872308"
+      },
+      {
+        "key": "secondContactName",
+        "count": 1,
+        "exampleGroup": "J.old-thread-snapshot-and-live-contact",
+        "example": "D live contact renamed"
+      },
+      {
+        "key": "bodyOrder",
+        "count": 1,
+        "exampleGroup": "J.comment-order.microseconds",
+        "example": [
+          "D order 1",
+          "D order 0",
+          "D order 2",
+          "D order 3"
+        ]
+      },
+      {
+        "key": "firstTwoCreatedAt",
+        "count": 1,
+        "exampleGroup": "J.comment-order.microseconds",
+        "example": "2020-01-01T00:00:00.123Z"
+      },
+      {
+        "key": "missingUserCommentIndex",
+        "count": 1,
+        "exampleGroup": "J.comment-order.microseconds",
+        "example": 3
+      },
+      {
+        "key": "createdByPreserved",
+        "count": 1,
+        "exampleGroup": "J.comment-order.microseconds",
+        "example": "36fc96fe-613b-4b08-9f2c-71fd824beb23"
+      },
+      {
+        "key": "createdByName",
+        "count": 1,
+        "exampleGroup": "J.comment-order.microseconds",
+        "example": null
+      },
+      {
+        "key": "prefixBodies",
+        "count": 1,
+        "exampleGroup": "J.comment-order.exact-tie",
+        "example": [
+          "D order 1",
+          "D order 0"
+        ]
+      },
+      {
+        "key": "unorderedTailBodies",
+        "count": 1,
+        "exampleGroup": "J.comment-order.exact-tie",
+        "example": [
+          "D order 2",
+          "D order 3"
+        ]
+      },
+      {
+        "key": "noUuidTieClaim",
+        "count": 1,
+        "exampleGroup": "J.comment-order.exact-tie",
+        "example": true
+      },
+      {
+        "key": "createdByDisplayNameForKnownActor",
+        "count": 1,
+        "exampleGroup": "J.comment-live-user-name",
+        "example": "D read-context name"
+      },
+      {
+        "key": "coordinatedRace",
+        "count": 2,
+        "exampleGroup": "J.first-thread-conflict",
+        "example": true
+      },
+      {
+        "key": "currentStage",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": "assessment"
+      },
+      {
+        "key": "currentStageLabel",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": "立项评估"
+      },
+      {
+        "key": "entryCount",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": 13
+      },
+      {
+        "key": "ownerLabel",
+        "count": 18,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": "销售负责人"
+      },
+      {
+        "key": "absentBasisAllNull",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": true
+      },
+      {
+        "key": "noTopLevelAllowedActions",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": true
+      },
+      {
+        "key": "literalTextAuthority",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": "apps/poms-api/src/app/features/project/project-query.service.ts PROJECT_WORKSPACE_STAGE_GUIDANCE"
+      },
+      {
+        "key": "disabledReasonPriority",
+        "count": 10,
+        "exampleGroup": "K.G02.stage.assessment",
+        "example": "closed > stage > permission"
+      },
+      {
+        "key": "headline",
+        "count": 5,
+        "exampleGroup": "K.G03.blocked-and-closed",
+        "example": "已丢单存在阻断，先处理卡点。"
+      },
+      {
+        "key": "blockingReasonCount",
+        "count": 5,
+        "exampleGroup": "K.G03.blocked-and-closed",
+        "example": 2
+      },
+      {
+        "key": "stage",
+        "count": 5,
+        "exampleGroup": "K.G03.blocked-and-closed",
+        "example": "closed-lost"
+      },
+      {
+        "key": "statusField",
+        "count": 5,
+        "exampleGroup": "K.G03.blocked-and-closed",
+        "example": "blocked"
+      },
+      {
+        "key": "financeEnabled",
+        "count": 10,
+        "exampleGroup": "K.G06.execution.projectRead",
+        "example": false
+      },
+      {
+        "key": "freezeEnabled",
+        "count": 10,
+        "exampleGroup": "K.G06.execution.projectRead",
+        "example": false
+      },
+      {
+        "key": "ruleExplanationEnabled",
+        "count": 11,
+        "exampleGroup": "K.G06.execution.projectRead",
+        "example": false
+      },
+      {
+        "key": "finalSettlementEnabled",
+        "count": 11,
+        "exampleGroup": "K.G06.execution.projectRead",
+        "example": false
+      },
+      {
+        "key": "commissionOperationsEnabled",
+        "count": 10,
+        "exampleGroup": "K.G06.execution.projectRead",
+        "example": false
+      },
+      {
+        "key": "internalSomeActionObservable",
+        "count": 10,
+        "exampleGroup": "K.G06.execution.projectRead",
+        "example": "operationsPartial grants internal manage action, but entry remains false because four operation permissions are not all present"
+      },
+      {
+        "key": "operatingOverviewEnabled",
+        "count": 1,
+        "exampleGroup": "K.G06.handover-finance",
+        "example": false
+      },
+      {
+        "key": "operatingDisabledReason",
+        "count": 1,
+        "exampleGroup": "K.G06.handover-finance",
+        "example": "项目进入正式执行后再查看经营总览。"
+      },
+      {
+        "key": "commissionGateEnabled",
+        "count": 1,
+        "exampleGroup": "K.G06.handover-finance",
+        "example": true
+      },
+      {
+        "key": "ownerLabelMustBeNonblank",
+        "count": 8,
+        "exampleGroup": "K.G04.both",
+        "example": true
+      },
+      {
+        "key": "basis",
+        "count": 2,
+        "exampleGroup": "K.G05.no-summary",
+        "example": {
+          "summarySnapshotId": null,
+          "projectionLevel": null,
+          "exportPolicy": null,
+          "generatedAt": null
+        }
+      },
+      {
+        "key": "basisAllFourNull",
+        "count": 1,
+        "exampleGroup": "K.G05.only-ineligible-decoys",
+        "example": true
+      },
+      {
+        "key": "proof",
+        "count": 1,
+        "exampleGroup": "K.G05.exact-active-and-inactive-package",
+        "example": "Exact older active snapshot remains selected despite newer wrong-selector/status rows and inactive package definition; query has no package-status/export-policy gate"
+      },
+      {
+        "key": "noDomainWrites",
+        "count": 2,
+        "exampleGroup": "K.E01.path-format-and-absence",
+        "example": true
+      },
+      {
+        "key": "rawInputSpellingPreserved",
+        "count": 4,
+        "exampleGroup": "K.E01.path-format-and-absence",
+        "example": true
+      },
+      {
+        "key": "eventCount",
+        "count": 2,
+        "exampleGroup": "K.T01.no-inferred-stages",
+        "example": 1
+      },
+      {
+        "key": "eventKeys",
+        "count": 2,
+        "exampleGroup": "K.T01.no-inferred-stages",
+        "example": [
+          "project-created"
+        ]
+      },
+      {
+        "key": "createdEventStage",
+        "count": 1,
+        "exampleGroup": "K.T01.no-inferred-stages",
+        "example": "assessment"
+      },
+      {
+        "key": "currentStageDoesNotSynthesizeFacts",
+        "count": 1,
+        "exampleGroup": "K.T01.no-inferred-stages",
+        "example": true
+      },
+      {
+        "key": "facts",
+        "count": 1,
+        "exampleGroup": "K.T02-T08.full-legal-facts",
+        "example": {
+          "contract": {
+            "id": "a7582908-f21e-44cf-af48-c1f2a9edfd52",
+            "reason": "all statuses considered; null excluded; earliest complete stored signed_at; only identical instants retain repo updated DESC / created DESC order"
+          },
+          "handover": {
+            "id": "a0acff90-0ca5-4388-bde7-396520203607",
+            "reason": "confirmed nonnull only; full confirmed_at DESC,updated_at DESC,created_at DESC"
+          },
+          "acceptance": {
+            "id": "ab70d13e-d00e-433e-b14f-332a8093985c",
+            "resultLabel": "最终验收有条件通过",
+            "actorUserId": null,
+            "actorName": null
+          },
+          "completion": {
+            "id": "475cc170-fae9-4ed2-bbc8-df5e872715ef",
+            "resultLabel": "项目有条件完成",
+            "actorUserId": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "actorName": null
+          },
+          "archive": {
+            "id": "812ea09d-ea9f-4d64-b3ba-0b72f3dc52a2",
+            "stage": "closed-terminated",
+            "resultLabel": "项目归档：D summary rRecorded",
+            "evidenceLabel": "D evidence rRecorded"
+          },
+          "close": {
+            "stage": "execution",
+            "statusMayBeActive": true,
+            "resultLabel": "项目关闭",
+            "evidenceLabel": ""
+          }
+        }
+      },
+      {
+        "key": "acceptanceAndCompletionSameWireMillisecond",
+        "count": 1,
+        "exampleGroup": "K.T02-T08.full-legal-facts",
+        "example": "2020-03-01T00:00:00.123Z"
+      },
+      {
+        "key": "tieSort",
+        "count": 1,
+        "exampleGroup": "K.T02-T08.full-legal-facts",
+        "example": "completed_at .123100 precedes confirmed_at .123900 despite identical displayed milliseconds; eventKey orders only completely equal stored instants"
+      },
+      {
+        "key": "everyEventFieldCount",
+        "count": 1,
+        "exampleGroup": "K.T02-T08.full-legal-facts",
+        "example": 12
+      },
+      {
+        "key": "noUuidAsMissingActorName",
+        "count": 1,
+        "exampleGroup": "K.T02-T08.full-legal-facts",
+        "example": true
+      },
+      {
+        "key": "allAuthoritative",
+        "count": 1,
+        "exampleGroup": "K.T02-T08.full-legal-facts",
+        "example": true
+      },
+      {
+        "key": "selectedSourceIdMemberOf",
+        "count": 4,
+        "exampleGroup": "K.T09.equal-all-keys.contract",
+        "example": [
+          "a7582908-f21e-44cf-af48-c1f2a9edfd52",
+          "13058ccf-dbee-48b7-b311-ce5578902e1f"
+        ]
+      },
+      {
+        "key": "undefinedOriginalTie",
+        "count": 4,
+        "exampleGroup": "K.T09.equal-all-keys.contract",
+        "example": true
+      },
+      {
+        "key": "retainedCompleteCandidateSet",
+        "count": 4,
+        "exampleGroup": "K.T09.equal-all-keys.contract",
+        "example": true
+      },
+      {
+        "key": "noFixedUuidTie",
+        "count": 4,
+        "exampleGroup": "K.T09.equal-all-keys.contract",
+        "example": true
+      },
+      {
+        "key": "sourceId",
+        "count": 7,
+        "exampleGroup": "K.T04.label.stage-outcome.accepted",
+        "example": "ab70d13e-d00e-433e-b14f-332a8093985c"
+      },
+      {
+        "key": "resultLabel",
+        "count": 11,
+        "exampleGroup": "K.T04.label.stage-outcome.accepted",
+        "example": "阶段成果确认已通过"
+      },
+      {
+        "key": "contractSourceId",
+        "count": 1,
+        "exampleGroup": "K.T02.contract-createdBy-fallback",
+        "example": "a7582908-f21e-44cf-af48-c1f2a9edfd52"
+      },
+      {
+        "key": "contractActorUserId",
+        "count": 1,
+        "exampleGroup": "K.T02.contract-createdBy-fallback",
+        "example": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      },
+      {
+        "key": "archiveSourceId",
+        "count": 2,
+        "exampleGroup": "K.T06.anchor.completed",
+        "example": "812ea09d-ea9f-4d64-b3ba-0b72f3dc52a2"
+      },
+      {
+        "key": "archiveStage",
+        "count": 2,
+        "exampleGroup": "K.T06.anchor.completed",
+        "example": "completed"
+      },
+      {
+        "key": "closeEventPresent",
+        "count": 4,
+        "exampleGroup": "K.T07.null-reason",
+        "example": true
+      },
+      {
+        "key": "evidenceLabel",
+        "count": 4,
+        "exampleGroup": "K.T07.null-reason",
+        "example": "项目关闭"
+      },
+      {
+        "key": "statusDoesNotGateClose",
+        "count": 4,
+        "exampleGroup": "K.T07.null-reason",
+        "example": true
+      }
+    ],
+    "caseSummaries": [
+      {
+        "id": "J-K.auth-and-transport",
+        "requests": 39,
+        "responses": 39,
+        "expectedFields": [
+          "exactNativeAuthError",
+          "guardPrecedesInvalidDtoAndDatabase"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J-K.shared-transport",
+        "requests": 9,
+        "responses": 9,
+        "expectedFields": [
+          "exactNativeStatusAndHeaders",
+          "headBodyEmpty"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.empty-and-scope",
+        "requests": 5,
+        "responses": 5,
+        "expectedFields": [
+          "status",
+          "exactBody"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.anchor-resolution-priority",
+        "requests": 6,
+        "responses": 6,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.anchor-alignment",
+        "requests": 3,
+        "responses": 3,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.query-validation",
+        "requests": 9,
+        "responses": 9,
+        "expectedFields": [
+          "status",
+          "customIssue"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.active-contact",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.inactive-contact",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.cross-customer-contact",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.nullable-project-contact",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.real-competitor-and-followup",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.voided-followup",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.superseded-followup",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.followup-null-both-opportunities",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.project-ignores-other-lead",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.lead-ignores-other-project",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.customer-ignores-opportunities",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedCompetitorRecordId.project-mismatch",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedCompetitorRecordId.lead-mismatch",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedCompetitorRecordId.customer-mismatch",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedCompetitorRecordId.nullable-project-no-customer-check",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedFollowUpRecordId.project-mismatch",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedFollowUpRecordId.lead-mismatch",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedFollowUpRecordId.customer-mismatch",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedFollowUpRecordId.nullable-project-no-customer-check",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedContactId.missing-only",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedCompetitorRecordId.missing-only",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association.relatedFollowUpRecordId.missing-only",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "message"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.create-boundaries",
+        "requests": 34,
+        "responses": 34,
+        "expectedFields": [
+          "status",
+          "issuePath"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.persistent-text.business-roundtrip",
+        "requests": 15,
+        "responses": 15,
+        "expectedFields": [
+          "status",
+          "clearValidationError",
+          "issuePath",
+          "noDomainPersistence",
+          "threadAndCommentCountsUnchanged",
+          "noLossyReplacementAccepted"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.old-thread-snapshot-and-live-contact",
+        "requests": 5,
+        "responses": 5,
+        "expectedFields": [
+          "status",
+          "targetTitle",
+          "customerId"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.comment-order.microseconds",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "bodyOrder",
+          "firstTwoCreatedAt",
+          "missingUserCommentIndex",
+          "createdByPreserved",
+          "createdByName"
+        ],
+        "prepared": 4,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.comment-order.exact-tie",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "prefixBodies",
+          "unorderedTailBodies",
+          "noUuidTieClaim"
+        ],
+        "prepared": 2,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.comment-live-user-name",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "createdByDisplayNameForKnownActor"
+        ],
+        "prepared": 1,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.first-thread-conflict",
+        "requests": 2,
+        "responses": 2,
+        "expectedFields": [
+          "status",
+          "coordinatedRace"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "J.association-delete-after-lookup",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "K.G02.stage.assessment",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.scope-confirmation",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.commercial-closure",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.contracting",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.handover",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.execution",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.acceptance",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.completed",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.closed-lost",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G02.stage.closed-terminated",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "currentStage",
+          "currentStageLabel",
+          "entryCount",
+          "ownerLabel",
+          "absentBasisAllNull",
+          "noTopLevelAllowedActions",
+          "literalTextAuthority",
+          "disabledReasonPriority"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G03.blocked-and-closed",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "headline",
+          "blockingReasonCount",
+          "stage",
+          "statusField"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G03.pending-and-closed",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "headline",
+          "blockingReasonCount",
+          "stage",
+          "statusField"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G03.hold-and-closed",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "headline",
+          "blockingReasonCount",
+          "stage",
+          "statusField"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G03.closed-status-execution",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "headline",
+          "blockingReasonCount",
+          "stage",
+          "statusField"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G03.completed-remains-open",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "headline",
+          "blockingReasonCount",
+          "stage",
+          "statusField"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.projectRead",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.finance",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.assignment",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.payout",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.operationsPartial",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.operationsAll",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.operationsNoRules",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.operationsNoCalculations",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.operationsNoPayouts",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.execution.operationsNoAdjustments",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "financeEnabled",
+          "freezeEnabled",
+          "ruleExplanationEnabled",
+          "finalSettlementEnabled",
+          "commissionOperationsEnabled",
+          "internalSomeActionObservable"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.handover-finance",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "operatingOverviewEnabled",
+          "operatingDisabledReason",
+          "commissionGateEnabled"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G06.acceptance-payout",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "finalSettlementEnabled",
+          "ruleExplanationEnabled"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.both",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.name-only",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.org-only",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.neither",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.missing-identities",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.empty-name-uses-org",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 2,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.empty-name-uses-stage-fallback",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 2,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G04.trim-blank-name-uses-org",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "ownerLabel",
+          "ownerLabelMustBeNonblank"
+        ],
+        "prepared": 2,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G05.no-summary",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "basis"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G05.only-ineligible-decoys",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "basisAllFourNull"
+        ],
+        "prepared": 9,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.G05.exact-active-and-inactive-package",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "basis",
+          "proof"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.E01.path-format-and-absence",
+        "requests": 6,
+        "responses": 6,
+        "expectedFields": [
+          "status",
+          "clearValidationError",
+          "noDomainWrites"
+        ],
+        "prepared": 0,
+        "beforePresent": false,
+        "afterPresent": false
+      },
+      {
+        "id": "K.T01.no-inferred-stages",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "eventCount",
+          "eventKeys",
+          "createdEventStage",
+          "currentStageDoesNotSynthesizeFacts"
+        ],
+        "prepared": 0,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T02-T08.full-legal-facts",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "eventCount",
+          "eventKeys",
+          "facts",
+          "acceptanceAndCompletionSameWireMillisecond",
+          "tieSort",
+          "everyEventFieldCount",
+          "noUuidAsMissingActorName",
+          "allAuthoritative"
+        ],
+        "prepared": 32,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T09.equal-all-keys.contract",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "selectedSourceIdMemberOf",
+          "undefinedOriginalTie",
+          "retainedCompleteCandidateSet",
+          "noFixedUuidTie"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T09.equal-all-keys.handover",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "selectedSourceIdMemberOf",
+          "undefinedOriginalTie",
+          "retainedCompleteCandidateSet",
+          "noFixedUuidTie"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T09.equal-all-keys.acceptance",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "selectedSourceIdMemberOf",
+          "undefinedOriginalTie",
+          "retainedCompleteCandidateSet",
+          "noFixedUuidTie"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T09.equal-all-keys.completion",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "selectedSourceIdMemberOf",
+          "undefinedOriginalTie",
+          "retainedCompleteCandidateSet",
+          "noFixedUuidTie"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T04.label.stage-outcome.accepted",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T04.label.stage-outcome.conditional",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T04.label.stage-acceptance.accepted",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T04.label.stage-acceptance.conditional",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T04.label.final-acceptance.accepted",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T04.label.final-acceptance.conditional",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T02.contract-createdBy-fallback",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "contractSourceId",
+          "contractActorUserId"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T05.completed-label",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "sourceId",
+          "resultLabel"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T06.anchor.completed",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "archiveSourceId",
+          "archiveStage"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T06.anchor.closed-lost",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "archiveSourceId",
+          "archiveStage"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T07.null-reason",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "closeEventPresent",
+          "resultLabel",
+          "evidenceLabel",
+          "statusDoesNotGateClose"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T07.empty-reason",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "closeEventPresent",
+          "resultLabel",
+          "evidenceLabel",
+          "statusDoesNotGateClose"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T07.nonempty-reason",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "closeEventPresent",
+          "resultLabel",
+          "evidenceLabel",
+          "statusDoesNotGateClose"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      },
+      {
+        "id": "K.T07.no-close-time",
+        "requests": 1,
+        "responses": 1,
+        "expectedFields": [
+          "status",
+          "closeEventPresent",
+          "resultLabel",
+          "evidenceLabel",
+          "statusDoesNotGateClose"
+        ],
+        "prepared": 1,
+        "beforePresent": true,
+        "afterPresent": true
+      }
+    ]
+  },
+  "UI": {
+    "result": "Pass",
+    "completed": true,
+    "backend": "nest",
+    "browserPlatform": "linux",
+    "serverPlatform": "linux",
+    "inputKeys": [
+      "file",
+      "bytes",
+      "rawBytesSha256"
+    ],
+    "leadResultKeys": [
+      "preparedLeadId",
+      "preparedProjectId",
+      "uiCreatedLeadId",
+      "editedLeadId",
+      "convertedProjectId",
+      "executed",
+      "omitted"
+    ],
+    "intelligenceResultKeys": [
+      "status",
+      "customerId",
+      "leadId",
+      "projectId",
+      "sourceLeadId",
+      "created",
+      "sourceLeadDiscussionReadId",
+      "unavailable",
+      "coveredIThroughUI",
+      "coveredJThroughUI",
+      "coveredKThroughUI",
+      "IUpdateOrDeleteUIAcceptance",
+      "R4WriteAcceptance"
+    ],
+    "storedKeys": [
+      "leads",
+      "project",
+      "stakeholders",
+      "competitors",
+      "discovery",
+      "comments"
+    ],
+    "closure": {
+      "browserClosed": true,
+      "serverClosed": true,
+      "pending": 0,
+      "allRawExchangesRetained": true
+    },
+    "observations": [
+      {
+        "name": "lead.ui.locator-source-anchors",
+        "valueKeys": [
+          "definition",
+          "labelledButtons",
+          "route",
+          "workbench",
+          "row",
+          "create",
+          "edit",
+          "detail",
+          "score",
+          "qualify",
+          "convert",
+          "project"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.initial",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.registered-scope",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.my-ownership",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.public-pool",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.all-ownership",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.rating-filter",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.rating-reset",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.customer-search",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.workbench.visible-fixture-row",
+        "valueKeys": [
+          "leadId",
+          "leadNo",
+          "leadName",
+          "customerId",
+          "filteredItems",
+          "scope",
+          "summary",
+          "facets"
+        ]
+      },
+      {
+        "name": "lead.ui.create.real-ui-submit",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.create.actual-product-id",
+        "valueKeys": [
+          "leadId",
+          "origin",
+          "uiCreateObserved"
+        ]
+      },
+      {
+        "name": "lead.ui.detail.open-from-visible-row",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.detail.rendered",
+        "valueKeys": [
+          "id",
+          "text"
+        ]
+      },
+      {
+        "name": "lead.ui.edit.real-ui-save",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.edit.refreshed-detail",
+        "valueKeys": [
+          "id",
+          "text"
+        ]
+      },
+      {
+        "name": "lead.ui.score.history-open",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.history-rendered",
+        "valueKeys": [
+          "id",
+          "text"
+        ]
+      },
+      {
+        "name": "lead.ui.score.submit-first",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.submit-first.history-refresh",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.approve",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.approve.history-refresh",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.approved-overlay-rendered",
+        "valueKeys": [
+          "overrideId",
+          "text"
+        ]
+      },
+      {
+        "name": "lead.ui.score.revoke",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.revoke.history-refresh",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.submit-second",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.submit-second.history-refresh",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.reject",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.reject.history-refresh",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.score.rejected-rendered",
+        "valueKeys": [
+          "overrideId",
+          "text"
+        ]
+      },
+      {
+        "name": "lead.ui.qualify.real-ui-submit",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.convert.optional-date-left-empty",
+        "valueKeys": [
+          "source",
+          "datePickerInputExercised",
+          "sourceInference",
+          "reason"
+        ]
+      },
+      {
+        "name": "lead.ui.convert.real-ui-submit",
+        "valueKeys": [
+          "evidence",
+          "method",
+          "url",
+          "status",
+          "request",
+          "body"
+        ]
+      },
+      {
+        "name": "lead.ui.convert.real-project-route",
+        "valueKeys": [
+          "projectId",
+          "sourceLeadId",
+          "url",
+          "heading",
+          "idOrigin"
+        ]
+      },
+      {
+        "name": "lead.ui.completed",
+        "valueKeys": [
+          "preparedLeadId",
+          "preparedProjectId",
+          "uiCreatedLeadId",
+          "editedLeadId",
+          "convertedProjectId",
+          "executed",
+          "omitted"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.entry-boundaries",
+        "valueKeys": [
+          "definition",
+          "classification",
+          "unavailable",
+          "originalContactsIssue",
+          "selectorEvidence"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.customer.initial.detail",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.customer.initial.discussions",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.customer.relations-visible",
+        "valueKeys": [
+          "customerId",
+          "contactId",
+          "contactName",
+          "opportunityWriteControls",
+          "source"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.customer.discussion.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.customer.discussion.listed",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.initial.detail",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.initial.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.initial.discussions",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.registered-lead.gaps-visible",
+        "valueKeys": [
+          "items",
+          "visibleCount",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.stakeholder.decision-maker.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.stakeholder.decision-maker.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.registered-lead.gaps-visible",
+        "valueKeys": [
+          "items",
+          "visibleCount",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.stakeholder.technical-evaluator.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.stakeholder.technical-evaluator.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.registered-lead.gaps-visible",
+        "valueKeys": [
+          "items",
+          "visibleCount",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.competitor.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.competitor.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.registered-lead.gaps-visible",
+        "valueKeys": [
+          "items",
+          "visibleCount",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.discovery-empty-form",
+        "valueKeys": [
+          "classification",
+          "message",
+          "apiEmptyDiscoveryAcceptanceClaim"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.discovery.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.discovery.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.registered-lead.gaps-visible",
+        "valueKeys": [
+          "items",
+          "visibleCount",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.discussion.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.discussion.listed",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.explicit-ui-refresh.stakeholders",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.explicit-ui-refresh.competitors",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.explicit-ui-refresh.discovery",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.explicit-ui-refresh.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.registered-lead.gaps-visible",
+        "valueKeys": [
+          "items",
+          "visibleCount",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.lead.available-ui-delivered",
+        "valueKeys": [
+          "created",
+          "unavailableIUpdates",
+          "url"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.initial.detail",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.initial.timeline",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.initial.discussions",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.initial.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.source-lead-aggregation-visible",
+        "valueKeys": [
+          "sourceLeadId",
+          "projectId",
+          "discussionId",
+          "body",
+          "targetTitle",
+          "evidenceSource",
+          "sourceLeadCommentWriteViaThisJourney"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.competitor.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.competitor.gaps",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.discussion.created",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.discussion.listed",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.project.timeline-visible",
+        "valueKeys": [
+          "projectId",
+          "url",
+          "events",
+          "source",
+          "R4WriteAcceptance"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.workspace.navigation.guidance",
+        "valueKeys": [
+          "method",
+          "url",
+          "status",
+          "requestJson",
+          "body"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.workspace.guidance-visible",
+        "valueKeys": [
+          "projectId",
+          "url",
+          "guidance",
+          "source",
+          "R4WriteAcceptance"
+        ]
+      },
+      {
+        "name": "IJK-original-ui.completed",
+        "valueKeys": [
+          "status",
+          "customerId",
+          "leadId",
+          "projectId",
+          "sourceLeadId",
+          "created",
+          "sourceLeadDiscussionReadId",
+          "unavailable",
+          "coveredIThroughUI",
+          "coveredJThroughUI",
+          "coveredKThroughUI",
+          "IUpdateOrDeleteUIAcceptance",
+          "R4WriteAcceptance"
+        ]
+      }
+    ],
+    "networkCount": 259,
+    "networkSampleKeys": [
+      "index",
+      "method",
+      "path",
+      "backendPort",
+      "status",
+      "startedAt",
+      "privateRaw",
+      "completedAt"
+    ],
+    "networkStatusCounts": {
+      "200": 105,
+      "201": 11,
+      "304": 143
+    },
+    "staticBuild": {
+      "memberCount": 422,
+      "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+    },
+    "browser": {
+      "file": "/home/wangzishi/.local/share/poms-r2m/browser-cache/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+      "bytes": 197422408,
+      "rawBytesSha256": "ded93a9c9a53a1ae040f08124badcca95c938e9d5015ff340c3b5538c41bf39e"
+    },
+    "flags": {
+      "rawAuth": false,
+      "noMocks": true,
+      "fullStage": false,
+      "cleanup": "Pending-whole-owned-cohort"
+    }
+  },
+  "aux": {
+    "freshRealProject": {
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-02T16:53:50.690Z",
+      "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "currentStage": "assessment",
+      "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+      "customerProjectNo": null,
+      "id": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+      "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+      "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "plannedSignAt": null,
+      "projectName": "HIJK J-first-thread-retry 6872abb5-12af-486f-ada6-02e484421d1f",
+      "projectNo": "PRJ-2026-000029",
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "status": "active",
+      "updatedAt": "2026-11-02T16:53:50.690Z",
+      "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+    },
+    "prior34CompletedGroupsRetainedInPhase24": true,
+    "previousFailureWasCachedPgStatisticsInLockTransaction": true
+  }
+}

@@ -1,0 +1,4062 @@
+{
+  "label": "H93.boundary.61.list.defaults",
+  "startedAt": "2026-11-02T13:04:34.481Z",
+  "completedAt": "2026-11-02T13:04:34.512Z",
+  "value": {
+    "definition": {
+      "operationId": "LeadController_list",
+      "name": "H93.boundary.61.list.defaults",
+      "method": "GET",
+      "path": "/api/leads",
+      "query": {},
+      "covers": [
+        "H04",
+        "H21"
+      ],
+      "risk": "Read default active scope/page1/pageSize500 and all ordered zero/nonzero facets.",
+      "schemaExpectation": "accepted-by-original-schema",
+      "requires": [
+        "Real mixed registered/qualified-ready/qualified-blocked/converted/closed Leads, including owned and public-pool rows; capture matching IDs and every facet count."
+      ],
+      "definitionOnly": true
+    },
+    "originalSchema": {
+      "schemaName": "LeadListQuerySchema",
+      "success": true
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "scope": "active",
+        "summary": {
+          "active": 49,
+          "registered": 45,
+          "qualified": 4,
+          "ready-to-convert": 4,
+          "blocked-conversion": 0,
+          "converted": 4,
+          "closed": 2,
+          "all": 55
+        },
+        "facets": [
+          {
+            "scope": "active",
+            "label": "处理中",
+            "hint": "待确认与已有效线索",
+            "severity": "info",
+            "count": 49,
+            "order": 10
+          },
+          {
+            "scope": "registered",
+            "label": "待确认",
+            "hint": "尚未确认有效的线索",
+            "severity": "secondary",
+            "count": 45,
+            "order": 20
+          },
+          {
+            "scope": "qualified",
+            "label": "已有效",
+            "hint": "已确认有效且仍在推进的线索",
+            "severity": "success",
+            "count": 4,
+            "order": 30
+          },
+          {
+            "scope": "ready-to-convert",
+            "label": "可转项目",
+            "hint": "已满足转项目硬闸口的线索",
+            "severity": "success",
+            "count": 4,
+            "order": 40
+          },
+          {
+            "scope": "blocked-conversion",
+            "label": "转化受阻",
+            "hint": "已有效但缺少转项目必填条件的线索",
+            "severity": "warn",
+            "count": 0,
+            "order": 50
+          },
+          {
+            "scope": "converted",
+            "label": "已转项目",
+            "hint": "已完成项目转化的历史线索",
+            "severity": "info",
+            "count": 4,
+            "order": 60
+          },
+          {
+            "scope": "closed",
+            "label": "已关闭",
+            "hint": "已关闭且不再推进的线索",
+            "severity": "contrast",
+            "count": 2,
+            "order": 70
+          },
+          {
+            "scope": "all",
+            "label": "全部线索",
+            "hint": "包含处理中、已转项目和已关闭线索",
+            "severity": "secondary",
+            "count": 55,
+            "order": 80
+          }
+        ],
+        "totalItems": 49,
+        "page": 1,
+        "pageSize": 500,
+        "items": [
+          {
+            "id": "127e33ef-84eb-4a18-8a45-e7e596103c8d",
+            "leadNo": "LD-2026-000060",
+            "leadName": "HIJK H-boundary-fixture-57",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:34.185Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:34.180Z",
+            "updatedAt": "2026-11-02T13:04:34.180Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "a7de265a-9045-40bb-98a5-21ae25682150",
+            "leadNo": "LD-2026-000059",
+            "leadName": "HIJK H-boundary-fixture-55",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:34.001Z",
+            "effectiveScore": 85,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+            "effectiveScoreSource": "manual-override",
+            "activeScoreOverrideId": "3ec7ca4c-4ef8-461e-9d11-f67a047f8027",
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:33.996Z",
+            "updatedAt": "2026-11-02T13:04:33.996Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "8950944e-a8f5-4f19-bf10-671d3838a68d",
+            "leadNo": "LD-2026-000058",
+            "leadName": "HIJK H-boundary-fixture-53",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:33.898Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:33.893Z",
+            "updatedAt": "2026-11-02T13:04:33.893Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "c918b12c-7566-4273-959c-486b68c33083",
+            "leadNo": "LD-2026-000057",
+            "leadName": "HIJK H-boundary-fixture-52",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:33.783Z",
+            "effectiveScore": 85,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+            "effectiveScoreSource": "manual-override",
+            "activeScoreOverrideId": "ee5b0988-fe8a-4794-8411-8081bd00d984",
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:33.779Z",
+            "updatedAt": "2026-11-02T13:04:33.779Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "4e237717-7633-4d4f-9ea6-1d35a7ed04ad",
+            "leadNo": "LD-2026-000056",
+            "leadName": "HIJK H-boundary-fixture-49",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:33.671Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:33.666Z",
+            "updatedAt": "2026-11-02T13:04:33.666Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "a3eeb1d3-d754-4613-85bb-d6933a886446",
+            "leadNo": "LD-2026-000055",
+            "leadName": "HIJK H-boundary-fixture-48",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:33.596Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:33.591Z",
+            "updatedAt": "2026-11-02T13:04:33.591Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "085c57f8-e7c8-4952-9d3a-f68f8f8c0590",
+            "leadNo": "LD-2026-000051",
+            "leadName": "HIJK H-boundary-fixture-38",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "unknown",
+            "estimatedAmount": "0.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 33,
+            "rating": "D",
+            "scoreReason": "基础商务+33",
+            "scoreUpdatedAt": "2026-11-02T13:04:33.056Z",
+            "effectiveScore": 33,
+            "effectiveRating": "D",
+            "effectiveScoreReason": "基础商务+33",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "budget",
+                  "estimated-amount",
+                  "owner",
+                  "owner-org"
+                ],
+                "explanation": "缺少：预算情况、预计金额、销售主责人、销售主责组织"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status",
+                  "budget",
+                  "estimated-amount",
+                  "owner",
+                  "owner-org"
+                ],
+                "explanation": "缺少：已确认有效状态、预算情况、预计金额、销售主责人、销售主责组织"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": null,
+            "ownerUserId": null,
+            "ownerName": null,
+            "ownerOrgName": null,
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:33.052Z",
+            "updatedAt": "2026-11-02T13:04:33.052Z",
+            "allowedActions": [
+              "claim-lead-owner",
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "d02c9d97-94bd-4d9d-86d6-38e55a9e9384",
+            "leadNo": "LD-2026-000050",
+            "leadName": "HIJK H-boundary-fixture-37",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:33.011Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "registered-status"
+                ],
+                "explanation": "缺少：待确认状态"
+              },
+              "conversion": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足转项目硬闸口"
+              }
+            },
+            "status": "qualified",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": "2026-11-02T13:04:33.009Z",
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T13:04:32.971Z",
+            "updatedAt": "2026-11-02T13:04:33.011Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0c7eec56-c342-458c-b4f0-d0cbca81fc97",
+            "leadNo": "LD-2026-000049",
+            "leadName": "HIJK H-boundary-fixture-35",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.892Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:32.888Z",
+            "updatedAt": "2026-11-02T13:04:32.888Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "68a8bf32-7db5-4ccc-9bcd-1c1d5aff206b",
+            "leadNo": "LD-2026-000048",
+            "leadName": "HIJK H-boundary-fixture-34",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.839Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:32.836Z",
+            "updatedAt": "2026-11-02T13:04:32.836Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "5ad43e88-5869-4a90-9345-7abcec72fe1c",
+            "leadNo": "LD-2026-000047",
+            "leadName": "HIJK H-boundary-fixture-33",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.795Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T13:04:32.758Z",
+            "updatedAt": "2026-11-02T13:04:32.795Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "b7fba20e-6af6-4154-9ade-aae430fc9418",
+            "leadNo": "LD-2026-000046",
+            "leadName": "HIJK H-boundary-fixture-30",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.682Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T13:04:32.641Z",
+            "updatedAt": "2026-11-02T13:04:32.682Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "cb087c60-c2ac-48cd-8242-3b6c1b9d0e89",
+            "leadNo": "LD-2026-000045",
+            "leadName": "H93 uppercase customer request",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.598Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T13:04:32.555Z",
+            "updatedAt": "2026-11-02T13:04:32.606Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0d56c584-f1f9-4ee0-85e3-a3e7720646e6",
+            "leadNo": "LD-2026-000044",
+            "leadName": "HIJK H-boundary-fixture-28",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "补充需求�",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 59,
+            "rating": "C",
+            "scoreReason": "基础商务+59",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.513Z",
+            "effectiveScore": 59,
+            "effectiveRating": "C",
+            "effectiveScoreReason": "基础商务+59",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T13:04:32.454Z",
+            "updatedAt": "2026-11-02T13:04:32.520Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0a30101a-2b21-4fb5-90ef-4bc1ae7cd5cb",
+            "leadNo": "LD-2026-000043",
+            "leadName": "HIJK H-boundary-fixture-27",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.386Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:32.381Z",
+            "updatedAt": "2026-11-02T13:04:32.381Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "c86636f4-a606-4392-83a0-459d091c9701",
+            "leadNo": "LD-2026-000042",
+            "leadName": "HIJK H-boundary-fixture-26",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.326Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:32.322Z",
+            "updatedAt": "2026-11-02T13:04:32.322Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "4163b1ee-6bab-41db-969f-293a80bba224",
+            "leadNo": "LD-2026-000041",
+            "leadName": "HIJK H-boundary-fixture-24",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": null,
+            "urgency": "high",
+            "expectedDecisionDate": null,
+            "score": 46,
+            "rating": "C",
+            "scoreReason": "基础商务+46",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.254Z",
+            "effectiveScore": 46,
+            "effectiveRating": "C",
+            "effectiveScoreReason": "基础商务+46",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "estimated-amount"
+                ],
+                "explanation": "缺少：预计金额"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status",
+                  "estimated-amount"
+                ],
+                "explanation": "缺少：已确认有效状态、预计金额"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T13:04:32.200Z",
+            "updatedAt": "2026-11-02T13:04:32.262Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "43acecca-bff4-4b9a-89b3-aaf91d7490bd",
+            "leadNo": "LD-2026-000039",
+            "leadName": "H93 boundary demand-lone-high-surrogate",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "需求�",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 59,
+            "rating": "C",
+            "scoreReason": "基础商务+59",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.087Z",
+            "effectiveScore": 59,
+            "effectiveRating": "C",
+            "effectiveScoreReason": "基础商务+59",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:32.083Z",
+            "updatedAt": "2026-11-02T13:04:32.083Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "3bbff8fd-71a8-4475-b6a6-2b60c4a18dca",
+            "leadNo": "LD-2026-000038",
+            "leadName": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:32.037Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:32.033Z",
+            "updatedAt": "2026-11-02T13:04:32.033Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "649f8be6-8319-48cb-99af-f9ab17c2ff77",
+            "leadNo": "LD-2026-000037",
+            "leadName": "H93 boundary demand-30-utf16-units",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.989Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.984Z",
+            "updatedAt": "2026-11-02T13:04:31.984Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "b085f0d8-87a6-45e5-bc5f-cb4550ffb6b8",
+            "leadNo": "LD-2026-000036",
+            "leadName": "H93 boundary demand-29-utf16-units",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀x",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 59,
+            "rating": "C",
+            "scoreReason": "基础商务+59",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.943Z",
+            "effectiveScore": 59,
+            "effectiveRating": "C",
+            "effectiveScoreReason": "基础商务+59",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.937Z",
+            "updatedAt": "2026-11-02T13:04:31.937Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0340aeb3-0426-49cc-9e95-a4cb86bf9cd2",
+            "leadNo": "LD-2026-000035",
+            "leadName": "H93 boundary date-year9999",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "9999-12-31",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.878Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.872Z",
+            "updatedAt": "2026-11-02T13:04:31.872Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "939cd085-8b5c-4f0b-a711-545985060023",
+            "leadNo": "LD-2026-000034",
+            "leadName": "H93 boundary date-year0099",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "0099-12-31",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.826Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.823Z",
+            "updatedAt": "2026-11-02T13:04:31.823Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "296dcc0c-23b5-407e-b753-5e5d7577800d",
+            "leadNo": "LD-2026-000033",
+            "leadName": "H93 boundary date-year0001",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "0001-01-01",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.780Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.776Z",
+            "updatedAt": "2026-11-02T13:04:31.776Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "bcd86d0a-8867-492f-874d-754b130a3937",
+            "leadNo": "LD-2026-000030",
+            "leadName": "H93 boundary money-above-js-safe-integer-exact-text",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "9007199254740993.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.637Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.633Z",
+            "updatedAt": "2026-11-02T13:04:31.633Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "86a7ff45-8081-4f22-8bfe-016207099fc8",
+            "leadNo": "LD-2026-000029",
+            "leadName": "H93 boundary money-leading-zero-one-decimal",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1.20",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.589Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.584Z",
+            "updatedAt": "2026-11-02T13:04:31.584Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0cf4595c-3163-4bd4-8b53-d13ac1c01cba",
+            "leadNo": "LD-2026-000028",
+            "leadName": "H93 boundary explicit-other-owner-null-org",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 55,
+            "rating": "C",
+            "scoreReason": "基础商务+55",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.513Z",
+            "effectiveScore": 55,
+            "effectiveRating": "C",
+            "effectiveScoreReason": "基础商务+55",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "owner-org"
+                ],
+                "explanation": "缺少：销售主责组织"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status",
+                  "owner-org"
+                ],
+                "explanation": "缺少：已确认有效状态、销售主责组织"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": null,
+            "ownerUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+            "ownerName": "HIJK other",
+            "ownerOrgName": null,
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.507Z",
+            "updatedAt": "2026-11-02T13:04:31.507Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "17d0e644-8639-4745-b451-5731e9a1442b",
+            "leadNo": "LD-2026-000027",
+            "leadName": "H93 boundary null-owner-ignores-missing-org",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 55,
+            "rating": "C",
+            "scoreReason": "基础商务+55",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.461Z",
+            "effectiveScore": 55,
+            "effectiveRating": "C",
+            "effectiveScoreReason": "基础商务+55",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "owner",
+                  "owner-org"
+                ],
+                "explanation": "缺少：销售主责人、销售主责组织"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status",
+                  "owner",
+                  "owner-org"
+                ],
+                "explanation": "缺少：已确认有效状态、销售主责人、销售主责组织"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": null,
+            "ownerUserId": null,
+            "ownerName": null,
+            "ownerOrgName": null,
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.456Z",
+            "updatedAt": "2026-11-02T13:04:31.456Z",
+            "allowedActions": [
+              "claim-lead-owner",
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "252630a9-ffd6-4d06-b621-f98573f78a34",
+            "leadNo": "LD-2026-000026",
+            "leadName": "H93 boundary owner-defaults-and-server-fields-strip",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T13:04:31.401Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T13:04:31.394Z",
+            "updatedAt": "2026-11-02T13:04:31.394Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "d94391c3-0c71-4eab-8304-eb3cb4ea9b18",
+            "leadNo": "LD-2026-000025",
+            "leadName": "HIJK bulk-real",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T12:21:33.160Z",
+            "effectiveScore": 95,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+            "effectiveScoreSource": "manual-override",
+            "activeScoreOverrideId": "7e86a16f-1433-47dc-9cb9-0cf6d9305e47",
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T12:21:33.156Z",
+            "updatedAt": "2026-11-02T12:21:33.156Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "d7679f78-d72b-4298-91f5-5cf4873e17d5",
+            "leadNo": "LD-2026-000023",
+            "leadName": "HIJK real-integration",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T12:19:43.582Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T12:19:43.577Z",
+            "updatedAt": "2026-11-02T12:19:43.577Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+            "leadNo": "LD-2026-000022",
+            "leadName": "HIJK real-integration",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T12:12:35.034Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T12:12:35.028Z",
+            "updatedAt": "2026-11-02T12:12:35.028Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "8fbdbd79-01b2-488a-b58a-f9db04cad7a3",
+            "leadNo": "LD-2026-000021",
+            "leadName": "HIJK real-integration",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T12:07:32.218Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T12:07:32.213Z",
+            "updatedAt": "2026-11-02T12:07:32.213Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "9acdc90c-ae4f-4f7d-b6a1-e58d4e76ec5a",
+            "leadNo": "LD-2026-000020",
+            "leadName": "I94 latest tie-observe",
+            "customerId": "7451082d-31bd-4e85-bcc4-8608473ee043",
+            "customerName": "HIJK I94 latest b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 82,
+            "rating": "A",
+            "scoreReason": "基础商务+62；销售情报+20",
+            "scoreUpdatedAt": "2026-11-02T11:56:57.301Z",
+            "effectiveScore": 82,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "基础商务+62；销售情报+20",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 4,
+            "createdAt": "2026-11-02T11:56:56.960Z",
+            "updatedAt": "2026-11-02T11:56:57.307Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "491d3616-d457-4ad5-ae83-367148ea73a4",
+            "leadNo": "LD-2026-000018",
+            "leadName": "HIJK I94 roundtrip",
+            "customerId": "ae71ab84-2521-4618-8e0c-b19663dbd647",
+            "customerName": "HIJK I94 roundtrip b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:55.836Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:55.831Z",
+            "updatedAt": "2026-11-02T11:56:55.831Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "5db4f297-2ed1-46b4-b759-b98a1bfc9f6f",
+            "leadNo": "LD-2026-000017",
+            "leadName": "H93 Native after-real-I-refresh b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 82,
+            "rating": "A",
+            "scoreReason": "基础商务+62；销售情报+20",
+            "scoreUpdatedAt": "2026-11-02T11:56:55.647Z",
+            "effectiveScore": 82,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "基础商务+62；销售情报+20",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 3,
+            "createdAt": "2026-11-02T11:56:55.375Z",
+            "updatedAt": "2026-11-02T11:56:55.655Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "9b742604-8747-4001-9f8f-014f7970f1d0",
+            "leadNo": "LD-2026-000016",
+            "leadName": "HIJK H93.native-risk.approved-then-pending",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:55.166Z",
+            "effectiveScore": 65,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "人工覆盖评分：Second actual Native pending override",
+            "effectiveScoreSource": "manual-override",
+            "activeScoreOverrideId": "1fa02635-a9e7-4ab4-af41-7d63585ae7aa",
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:55.161Z",
+            "updatedAt": "2026-11-02T11:56:55.161Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "be7cd78c-0670-4ecb-9bde-45bdf4960793",
+            "leadNo": "LD-2026-000015",
+            "leadName": "HIJK H93.native-risk.audit-after-revoke",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:54.971Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:54.967Z",
+            "updatedAt": "2026-11-02T11:56:54.967Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "cfbb35c2-81e9-40c1-b56f-731c0ce596a6",
+            "leadNo": "LD-2026-000014",
+            "leadName": "HIJK H93.native-risk.audit-after-reject",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:54.829Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:54.824Z",
+            "updatedAt": "2026-11-02T11:56:54.824Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0d956cad-3932-4c9b-af74-3d39c1e0ac39",
+            "leadNo": "LD-2026-000013",
+            "leadName": "HIJK H93.native-risk.audit-after-approve",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:54.657Z",
+            "effectiveScore": 85,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+            "effectiveScoreSource": "manual-override",
+            "activeScoreOverrideId": "3b8833af-dc95-4f18-883a-c4f4cf46e1e8",
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:54.652Z",
+            "updatedAt": "2026-11-02T11:56:54.652Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "b636d35f-2ad2-4c12-ba6a-f932a9bc560f",
+            "leadNo": "LD-2026-000012",
+            "leadName": "HIJK H93.native-risk.audit-after-submit",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:54.537Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:54.532Z",
+            "updatedAt": "2026-11-02T11:56:54.532Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "a77b5ec3-f8ac-4a1e-a9fa-984d6be0aa06",
+            "leadNo": "LD-2026-000011",
+            "leadName": "HIJK H93.native-risk.snapshot-after-assignOwner",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:54.431Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+            "ownerUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+            "ownerName": "HIJK other",
+            "ownerOrgName": "HIJK other",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T11:56:54.350Z",
+            "updatedAt": "2026-11-02T11:56:54.432Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "61ef808b-25f4-4df4-a8c3-ba4e9e3279e3",
+            "leadNo": "LD-2026-000010",
+            "leadName": "HIJK H93.native-risk.snapshot-after-claim",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:54.255Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T11:56:54.193Z",
+            "updatedAt": "2026-11-02T11:56:54.256Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "b288d0eb-477b-49af-b95b-ee3949cddfb5",
+            "leadNo": "LD-2026-000008",
+            "leadName": "HIJK H93.native-risk.snapshot-after-qualify",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:53.961Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "registered-status"
+                ],
+                "explanation": "缺少：待确认状态"
+              },
+              "conversion": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足转项目硬闸口"
+              }
+            },
+            "status": "qualified",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": "2026-11-02T11:56:53.958Z",
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T11:56:53.901Z",
+            "updatedAt": "2026-11-02T11:56:53.962Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "194938e1-fdc3-44a1-b95d-34ae1d415716",
+            "leadNo": "LD-2026-000007",
+            "leadName": "HIJK H93.native-risk.override-CAS",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:53.655Z",
+            "effectiveScore": 85,
+            "effectiveRating": "A",
+            "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+            "effectiveScoreSource": "manual-override",
+            "activeScoreOverrideId": "6ae0791c-8332-4648-be95-077b5f1f8c16",
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:53.649Z",
+            "updatedAt": "2026-11-02T11:56:53.649Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "a8b68e0d-9893-451f-b786-1e72b07889a8",
+            "leadNo": "LD-2026-000006",
+            "leadName": "H93 Native CAS-other b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:53.516Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T11:56:53.361Z",
+            "updatedAt": "2026-11-02T11:56:53.536Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "3ef877c2-bdf4-41d5-909d-e5bb0228db68",
+            "leadNo": "LD-2026-000005",
+            "leadName": "HIJK H93.native-risk.convert-denied-lead_score_snapshot",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:53.228Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "registered-status"
+                ],
+                "explanation": "缺少：待确认状态"
+              },
+              "conversion": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足转项目硬闸口"
+              }
+            },
+            "status": "qualified",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": "2026-11-02T11:56:53.225Z",
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T11:56:53.179Z",
+            "updatedAt": "2026-11-02T11:56:53.229Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "0a49b0ad-797c-45e9-b814-e81e0e400659",
+            "leadNo": "LD-2026-000004",
+            "leadName": "HIJK H93.native-risk.convert-denied-project",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:53.045Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "blocked",
+                "missingItems": [
+                  "registered-status"
+                ],
+                "explanation": "缺少：待确认状态"
+              },
+              "conversion": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足转项目硬闸口"
+              }
+            },
+            "status": "qualified",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": "2026-11-02T11:56:53.041Z",
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T11:56:52.994Z",
+            "updatedAt": "2026-11-02T11:56:53.046Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          },
+          {
+            "id": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+            "leadNo": "LD-2026-000001",
+            "leadName": "HIJK foundation",
+            "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+            "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budgetStatus": "budget-confirmed",
+            "estimatedAmount": "1200000.00",
+            "urgency": "high",
+            "expectedDecisionDate": "2026-11-20",
+            "score": 62,
+            "rating": "B",
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T11:56:52.787Z",
+            "effectiveScore": 62,
+            "effectiveRating": "B",
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "activeScoreOverrideId": null,
+            "gateSummary": {
+              "qualification": {
+                "status": "ready",
+                "missingItems": [],
+                "explanation": "已满足确认有效硬闸口"
+              },
+              "conversion": {
+                "status": "blocked",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "explanation": "缺少：已确认有效状态"
+              }
+            },
+            "status": "registered",
+            "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+            "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "ownerName": "HIJK admin",
+            "ownerOrgName": "HIJK admin",
+            "qualifiedAt": null,
+            "convertedProjectId": null,
+            "convertedAt": null,
+            "convertedProjectSummary": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T11:56:52.780Z",
+            "updatedAt": "2026-11-02T11:56:52.780Z",
+            "allowedActions": [
+              "assign-lead-owner"
+            ]
+          }
+        ]
+      },
+      "requestId": "a5dfddbc-d062-4331-8bb1-b9b3eb989d2c",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "72259",
+        "ETag",
+        "W/\"11a43-x7o9aspjz1/CWi0Q3d3peTFmXNU\"",
+        "Date",
+        "Mon, 02 Nov 2026 13:04:34 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 288,
+        "requestSha256": "f54f5ea68ee05124a0f261443baf3ef87602bb6655f9b1f1fc962ff18915a08a",
+        "responseBytes": 72579,
+        "responseSha256": "0395c7102c4fa0b1297c1a9d6d5cf43d90977e97c4f2731d0738f3ecbfddc358",
+        "entityBodyBytes": 72259,
+        "entityBodySha256": "6b3a377a31661409d66a4165a8585428a410f6096ceb1cc439c626bdfacfc2f5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase09/raw-wire/admin-ce5105a2-e23d-4c30-a012-049c1625ce04",
+        "originalRawRetained": true
+      }
+    },
+    "before": {
+      "rows": {
+        "lead": 55,
+        "lead_score_snapshot": 91,
+        "lead_score_override": 16,
+        "lead_owner_assignment_record": 4,
+        "project": 19,
+        "audit_log": 59,
+        "opportunity_stakeholder": 16,
+        "competitor_intelligence_record": 11,
+        "sales_discovery_record": 12,
+        "business_discussion_thread": 5,
+        "business_discussion_comment": 13
+      },
+      "counters": [
+        {
+          "id": "8691eb5f-d95b-4ab5-981f-9ab9d275ef71",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:03.792Z",
+          "updated_at": "2026-11-02T11:56:56.914Z"
+        },
+        {
+          "id": "48d040d5-934e-4be8-a035-242b4854b550",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 61,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.778Z",
+          "updated_at": "2026-11-02T13:04:34.178Z"
+        },
+        {
+          "id": "262c6f65-4dbc-4d62-bff9-7e3c4933b6ce",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 11,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.711Z",
+          "updated_at": "2026-11-02T13:04:33.493Z"
+        }
+      ]
+    },
+    "after": {
+      "rows": {
+        "lead": 55,
+        "lead_score_snapshot": 91,
+        "lead_score_override": 16,
+        "lead_owner_assignment_record": 4,
+        "project": 19,
+        "audit_log": 59,
+        "opportunity_stakeholder": 16,
+        "competitor_intelligence_record": 11,
+        "sales_discovery_record": 12,
+        "business_discussion_thread": 5,
+        "business_discussion_comment": 13
+      },
+      "counters": [
+        {
+          "id": "8691eb5f-d95b-4ab5-981f-9ab9d275ef71",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:03.792Z",
+          "updated_at": "2026-11-02T11:56:56.914Z"
+        },
+        {
+          "id": "48d040d5-934e-4be8-a035-242b4854b550",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 61,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.778Z",
+          "updated_at": "2026-11-02T13:04:34.178Z"
+        },
+        {
+          "id": "262c6f65-4dbc-4d62-bff9-7e3c4933b6ce",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 11,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.711Z",
+          "updated_at": "2026-11-02T13:04:33.493Z"
+        }
+      ]
+    },
+    "stored": null,
+    "fixtureIds": {
+      "adminUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "adminOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "otherUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+      "otherOrgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+      "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+      "sourceCode": "customer-visit",
+      "projectId": "b96be569-1022-47f6-b1e3-5d9c82003f7e",
+      "contactId": "82083aa7-d495-4fec-952a-ede876cab553",
+      "leadId": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+      "integration": {
+        "leadId": "a96edaf1-7098-42c2-8308-dea410158c1e",
+        "projectId": "bb2383c1-3e26-4186-8abc-6b4cf0238d5a",
+        "contactId": "86558637-efcd-442b-921e-32adc0952052",
+        "competitorId": "cbc81b8d-3c8b-443b-a4db-b1c459cd8c63",
+        "followUpId": "386c1284-7a5d-49fe-ad16-caf5d79aa1ab",
+        "leadCommentId": "dc3b78ca-96f6-4dac-bc1d-12c13b8b379c",
+        "projectCommentId": "26ace6bd-2ae3-4047-ba48-b08ed60e0eae",
+        "uploads": [
+          {
+            "sessionId": "5e1126ad-8f4b-48a3-a1af-21b2f708821b",
+            "attachmentId": "1175d8fe-cd42-4214-a1dc-79f958767f74",
+            "storageKey": "attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+              "bytes": 36,
+              "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "6d5196d3-7911-46f1-ab0d-c8c3d841de6b",
+            "attachmentId": "49139079-dc3b-4539-aded-25a1bda1d41e",
+            "storageKey": "attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+              "bytes": 37,
+              "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73",
+            "attachmentId": "d493a36f-abeb-4bf9-ae04-17b09bbd81a6",
+            "storageKey": "attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+              "bytes": 35,
+              "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "9cd4721f-386f-40f6-9956-5bea26bec064",
+            "attachmentId": "ce946aad-04b9-45f8-8e79-2928dbc10a09",
+            "storageKey": "attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+              "bytes": 47,
+              "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          }
+        ]
+      },
+      "readerUserId": "c3aae36e-2e87-461a-85f8-8505abc200e7",
+      "readerOrgId": "5e91e213-7087-4ba6-98bf-b7d204c6af3b",
+      "leadOnlyUserId": "34432be5-614e-4858-87ef-4dfa497933ad",
+      "leadOnlyOrgId": "c63a280c-92c4-4bb0-856d-a32e9359f4e3",
+      "projectOnlyUserId": "d0d2c6c6-4cd1-428e-98dd-98b4e7f77ce8",
+      "projectOnlyOrgId": "0cbe7fc5-b075-4ad5-bb04-c652d700069a",
+      "missingUUID": "a37441cb-6685-4056-b95e-5b4585e55a1b"
+    },
+    "listExistingBaseline": {
+      "name": "H93.boundary.61.list.defaults",
+      "response": {
+        "status": 200,
+        "body": {
+          "scope": "active",
+          "summary": {
+            "active": 20,
+            "registered": 17,
+            "qualified": 3,
+            "ready-to-convert": 3,
+            "blocked-conversion": 0,
+            "converted": 1,
+            "closed": 2,
+            "all": 23
+          },
+          "facets": [
+            {
+              "scope": "active",
+              "label": "处理中",
+              "hint": "待确认与已有效线索",
+              "severity": "info",
+              "count": 20,
+              "order": 10
+            },
+            {
+              "scope": "registered",
+              "label": "待确认",
+              "hint": "尚未确认有效的线索",
+              "severity": "secondary",
+              "count": 17,
+              "order": 20
+            },
+            {
+              "scope": "qualified",
+              "label": "已有效",
+              "hint": "已确认有效且仍在推进的线索",
+              "severity": "success",
+              "count": 3,
+              "order": 30
+            },
+            {
+              "scope": "ready-to-convert",
+              "label": "可转项目",
+              "hint": "已满足转项目硬闸口的线索",
+              "severity": "success",
+              "count": 3,
+              "order": 40
+            },
+            {
+              "scope": "blocked-conversion",
+              "label": "转化受阻",
+              "hint": "已有效但缺少转项目必填条件的线索",
+              "severity": "warn",
+              "count": 0,
+              "order": 50
+            },
+            {
+              "scope": "converted",
+              "label": "已转项目",
+              "hint": "已完成项目转化的历史线索",
+              "severity": "info",
+              "count": 1,
+              "order": 60
+            },
+            {
+              "scope": "closed",
+              "label": "已关闭",
+              "hint": "已关闭且不再推进的线索",
+              "severity": "contrast",
+              "count": 2,
+              "order": 70
+            },
+            {
+              "scope": "all",
+              "label": "全部线索",
+              "hint": "包含处理中、已转项目和已关闭线索",
+              "severity": "secondary",
+              "count": 23,
+              "order": 80
+            }
+          ],
+          "totalItems": 20,
+          "page": 1,
+          "pageSize": 500,
+          "items": [
+            {
+              "id": "d94391c3-0c71-4eab-8304-eb3cb4ea9b18",
+              "leadNo": "LD-2026-000025",
+              "leadName": "HIJK bulk-real",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T12:21:33.160Z",
+              "effectiveScore": 95,
+              "effectiveRating": "A",
+              "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+              "effectiveScoreSource": "manual-override",
+              "activeScoreOverrideId": "7e86a16f-1433-47dc-9cb9-0cf6d9305e47",
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T12:21:33.156Z",
+              "updatedAt": "2026-11-02T12:21:33.156Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "d7679f78-d72b-4298-91f5-5cf4873e17d5",
+              "leadNo": "LD-2026-000023",
+              "leadName": "HIJK real-integration",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T12:19:43.582Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T12:19:43.577Z",
+              "updatedAt": "2026-11-02T12:19:43.577Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+              "leadNo": "LD-2026-000022",
+              "leadName": "HIJK real-integration",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T12:12:35.034Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T12:12:35.028Z",
+              "updatedAt": "2026-11-02T12:12:35.028Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "8fbdbd79-01b2-488a-b58a-f9db04cad7a3",
+              "leadNo": "LD-2026-000021",
+              "leadName": "HIJK real-integration",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T12:07:32.218Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T12:07:32.213Z",
+              "updatedAt": "2026-11-02T12:07:32.213Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "9acdc90c-ae4f-4f7d-b6a1-e58d4e76ec5a",
+              "leadNo": "LD-2026-000020",
+              "leadName": "I94 latest tie-observe",
+              "customerId": "7451082d-31bd-4e85-bcc4-8608473ee043",
+              "customerName": "HIJK I94 latest b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 82,
+              "rating": "A",
+              "scoreReason": "基础商务+62；销售情报+20",
+              "scoreUpdatedAt": "2026-11-02T11:56:57.301Z",
+              "effectiveScore": 82,
+              "effectiveRating": "A",
+              "effectiveScoreReason": "基础商务+62；销售情报+20",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 4,
+              "createdAt": "2026-11-02T11:56:56.960Z",
+              "updatedAt": "2026-11-02T11:56:57.307Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "491d3616-d457-4ad5-ae83-367148ea73a4",
+              "leadNo": "LD-2026-000018",
+              "leadName": "HIJK I94 roundtrip",
+              "customerId": "ae71ab84-2521-4618-8e0c-b19663dbd647",
+              "customerName": "HIJK I94 roundtrip b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:55.836Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:55.831Z",
+              "updatedAt": "2026-11-02T11:56:55.831Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "5db4f297-2ed1-46b4-b759-b98a1bfc9f6f",
+              "leadNo": "LD-2026-000017",
+              "leadName": "H93 Native after-real-I-refresh b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 82,
+              "rating": "A",
+              "scoreReason": "基础商务+62；销售情报+20",
+              "scoreUpdatedAt": "2026-11-02T11:56:55.647Z",
+              "effectiveScore": 82,
+              "effectiveRating": "A",
+              "effectiveScoreReason": "基础商务+62；销售情报+20",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 3,
+              "createdAt": "2026-11-02T11:56:55.375Z",
+              "updatedAt": "2026-11-02T11:56:55.655Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "9b742604-8747-4001-9f8f-014f7970f1d0",
+              "leadNo": "LD-2026-000016",
+              "leadName": "HIJK H93.native-risk.approved-then-pending",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:55.166Z",
+              "effectiveScore": 65,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "人工覆盖评分：Second actual Native pending override",
+              "effectiveScoreSource": "manual-override",
+              "activeScoreOverrideId": "1fa02635-a9e7-4ab4-af41-7d63585ae7aa",
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:55.161Z",
+              "updatedAt": "2026-11-02T11:56:55.161Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "be7cd78c-0670-4ecb-9bde-45bdf4960793",
+              "leadNo": "LD-2026-000015",
+              "leadName": "HIJK H93.native-risk.audit-after-revoke",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:54.971Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:54.967Z",
+              "updatedAt": "2026-11-02T11:56:54.967Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "cfbb35c2-81e9-40c1-b56f-731c0ce596a6",
+              "leadNo": "LD-2026-000014",
+              "leadName": "HIJK H93.native-risk.audit-after-reject",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:54.829Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:54.824Z",
+              "updatedAt": "2026-11-02T11:56:54.824Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "0d956cad-3932-4c9b-af74-3d39c1e0ac39",
+              "leadNo": "LD-2026-000013",
+              "leadName": "HIJK H93.native-risk.audit-after-approve",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:54.657Z",
+              "effectiveScore": 85,
+              "effectiveRating": "A",
+              "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+              "effectiveScoreSource": "manual-override",
+              "activeScoreOverrideId": "3b8833af-dc95-4f18-883a-c4f4cf46e1e8",
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:54.652Z",
+              "updatedAt": "2026-11-02T11:56:54.652Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "b636d35f-2ad2-4c12-ba6a-f932a9bc560f",
+              "leadNo": "LD-2026-000012",
+              "leadName": "HIJK H93.native-risk.audit-after-submit",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:54.537Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:54.532Z",
+              "updatedAt": "2026-11-02T11:56:54.532Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "a77b5ec3-f8ac-4a1e-a9fa-984d6be0aa06",
+              "leadNo": "LD-2026-000011",
+              "leadName": "HIJK H93.native-risk.snapshot-after-assignOwner",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:54.431Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+              "ownerUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+              "ownerName": "HIJK other",
+              "ownerOrgName": "HIJK other",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 2,
+              "createdAt": "2026-11-02T11:56:54.350Z",
+              "updatedAt": "2026-11-02T11:56:54.432Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "61ef808b-25f4-4df4-a8c3-ba4e9e3279e3",
+              "leadNo": "LD-2026-000010",
+              "leadName": "HIJK H93.native-risk.snapshot-after-claim",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:54.255Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 2,
+              "createdAt": "2026-11-02T11:56:54.193Z",
+              "updatedAt": "2026-11-02T11:56:54.256Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "b288d0eb-477b-49af-b95b-ee3949cddfb5",
+              "leadNo": "LD-2026-000008",
+              "leadName": "HIJK H93.native-risk.snapshot-after-qualify",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:53.961Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "registered-status"
+                  ],
+                  "explanation": "缺少：待确认状态"
+                },
+                "conversion": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足转项目硬闸口"
+                }
+              },
+              "status": "qualified",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": "2026-11-02T11:56:53.958Z",
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 2,
+              "createdAt": "2026-11-02T11:56:53.901Z",
+              "updatedAt": "2026-11-02T11:56:53.962Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "194938e1-fdc3-44a1-b95d-34ae1d415716",
+              "leadNo": "LD-2026-000007",
+              "leadName": "HIJK H93.native-risk.override-CAS",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:53.655Z",
+              "effectiveScore": 85,
+              "effectiveRating": "A",
+              "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+              "effectiveScoreSource": "manual-override",
+              "activeScoreOverrideId": "6ae0791c-8332-4648-be95-077b5f1f8c16",
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:53.649Z",
+              "updatedAt": "2026-11-02T11:56:53.649Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "a8b68e0d-9893-451f-b786-1e72b07889a8",
+              "leadNo": "LD-2026-000006",
+              "leadName": "H93 Native CAS-other b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:53.516Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 2,
+              "createdAt": "2026-11-02T11:56:53.361Z",
+              "updatedAt": "2026-11-02T11:56:53.536Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "3ef877c2-bdf4-41d5-909d-e5bb0228db68",
+              "leadNo": "LD-2026-000005",
+              "leadName": "HIJK H93.native-risk.convert-denied-lead_score_snapshot",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:53.228Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "registered-status"
+                  ],
+                  "explanation": "缺少：待确认状态"
+                },
+                "conversion": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足转项目硬闸口"
+                }
+              },
+              "status": "qualified",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": "2026-11-02T11:56:53.225Z",
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 2,
+              "createdAt": "2026-11-02T11:56:53.179Z",
+              "updatedAt": "2026-11-02T11:56:53.229Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "0a49b0ad-797c-45e9-b814-e81e0e400659",
+              "leadNo": "LD-2026-000004",
+              "leadName": "HIJK H93.native-risk.convert-denied-project",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:53.045Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "registered-status"
+                  ],
+                  "explanation": "缺少：待确认状态"
+                },
+                "conversion": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足转项目硬闸口"
+                }
+              },
+              "status": "qualified",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": "2026-11-02T11:56:53.041Z",
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 2,
+              "createdAt": "2026-11-02T11:56:52.994Z",
+              "updatedAt": "2026-11-02T11:56:53.046Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            },
+            {
+              "id": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+              "leadNo": "LD-2026-000001",
+              "leadName": "HIJK foundation",
+              "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+              "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+              "sourceCode": "customer-visit",
+              "sourceName": "客户拜访",
+              "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+              "budgetStatus": "budget-confirmed",
+              "estimatedAmount": "1200000.00",
+              "urgency": "high",
+              "expectedDecisionDate": "2026-11-20",
+              "score": 62,
+              "rating": "B",
+              "scoreReason": "基础商务+62",
+              "scoreUpdatedAt": "2026-11-02T11:56:52.787Z",
+              "effectiveScore": 62,
+              "effectiveRating": "B",
+              "effectiveScoreReason": "基础商务+62",
+              "effectiveScoreSource": "system",
+              "activeScoreOverrideId": null,
+              "gateSummary": {
+                "qualification": {
+                  "status": "ready",
+                  "missingItems": [],
+                  "explanation": "已满足确认有效硬闸口"
+                },
+                "conversion": {
+                  "status": "blocked",
+                  "missingItems": [
+                    "qualified-status"
+                  ],
+                  "explanation": "缺少：已确认有效状态"
+                }
+              },
+              "status": "registered",
+              "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+              "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+              "ownerName": "HIJK admin",
+              "ownerOrgName": "HIJK admin",
+              "qualifiedAt": null,
+              "convertedProjectId": null,
+              "convertedAt": null,
+              "convertedProjectSummary": null,
+              "rowVersion": 1,
+              "createdAt": "2026-11-02T11:56:52.780Z",
+              "updatedAt": "2026-11-02T11:56:52.780Z",
+              "allowedActions": [
+                "assign-lead-owner"
+              ]
+            }
+          ]
+        },
+        "requestId": "b3453a08-7261-42b5-a5ef-988a5f3c8304",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "30129",
+          "ETag",
+          "W/\"75b1-7+KTZs/8G8P1bsTFi/oTtKQ11A0\"",
+          "Date",
+          "Mon, 02 Nov 2026 13:04:31 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 288,
+          "requestSha256": "beaa697e98a5cec92557c7bafde384895fe0d20650fc4af9666b0854a3199d0b",
+          "responseBytes": 30448,
+          "responseSha256": "6d0a2f6be27d0b5a557df43821310a84fffca87a2bfffa6200f8fd3b895865b6",
+          "entityBodyBytes": 30129,
+          "entityBodySha256": "63575d53921e0da79359126d95f7dc1211806fd97f32e10914889c8159f104e3",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase09/raw-wire/admin-54c9c70a-ecbc-416b-895d-8f2989588f2c",
+          "originalRawRetained": true
+        }
+      }
+    },
+    "definitionExpected400": null
+  }
+}

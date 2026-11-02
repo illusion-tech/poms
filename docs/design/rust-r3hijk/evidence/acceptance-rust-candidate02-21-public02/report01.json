@@ -1,0 +1,2636 @@
+{
+  "kind": "R3HIJK-actual-bounded-G2-acceptance",
+  "backend": "rust",
+  "createdAt": "2026-11-02T15:11:38.500Z",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "phase": "21",
+  "tag": "candidate02",
+  "runId": "6872abb5-12af-486f-ada6-02e484421d1f",
+  "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+  "database": "poms_r3hijk_rust",
+  "runtime": {
+    "kind": "R3HIJK-owned-Linux-runtime",
+    "backend": "rust",
+    "tag": "candidate02",
+    "pid": 76822,
+    "startTime": "1336945",
+    "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+    "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+    "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+    "artifactBytes": 43323592,
+    "artifactSha256": "fcf07817ca4068b3cce5d419c49a0ee5617060428f5d5ce30bb1ff32845ccc83",
+    "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+    "port": 12500,
+    "database": "poms_r3hijk_rust",
+    "createdAt": "2026-11-02T15:04:03.493Z"
+  },
+  "completed": false,
+  "failedAt": "atomic.claim",
+  "error": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly deep-equal:"
+  },
+  "actors": [
+    {
+      "label": "admin",
+      "userId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "orgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+      "roleId": "0af368e6-91bc-42f9-9707-a01dc599958f",
+      "username": "hijk_6872abb512af486fada602e484421d1f_admin"
+    },
+    {
+      "label": "other",
+      "userId": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+      "orgId": "234391e6-c263-409d-805a-fdec017770ea",
+      "roleId": "aaeefca4-ff5a-41d0-a563-3acc92ada286",
+      "username": "hijk_6872abb512af486fada602e484421d1f_other"
+    },
+    {
+      "label": "reader",
+      "userId": "45c0e073-9dff-4fd9-9537-7c0fdaa32a26",
+      "orgId": "58823c9b-2344-4775-9189-bc7ee785a994",
+      "roleId": "e07716d2-173b-4bbe-b566-d8ad4a5b87e0",
+      "username": "hijk_6872abb512af486fada602e484421d1f_reader"
+    },
+    {
+      "label": "leadOnly",
+      "userId": "5f198414-b718-4512-ad29-f6e6587a1dd4",
+      "orgId": "9354833b-1a73-4df3-b635-0d76b5c163c5",
+      "roleId": "2956982e-7022-4544-88ab-af475686f7c0",
+      "username": "hijk_6872abb512af486fada602e484421d1f_leadOnly"
+    },
+    {
+      "label": "projectOnly",
+      "userId": "c9d95863-f5f1-498d-9cc1-c6ee6d0f10de",
+      "orgId": "2016882b-2c5b-47d1-aa51-8e86580a979c",
+      "roleId": "fd561270-d125-4f88-875d-2f9feb276786",
+      "username": "hijk_6872abb512af486fada602e484421d1f_projectOnly"
+    }
+  ],
+  "ids": {
+    "adminUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+    "adminOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+    "otherUserId": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+    "otherOrgId": "234391e6-c263-409d-805a-fdec017770ea",
+    "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+    "sourceCode": "customer-visit",
+    "projectId": "5c4495ef-56b6-47be-90ec-245c0f07d164",
+    "contactId": "ecbd0873-9d80-42e7-bd65-1844dd2d257f",
+    "leadId": "6ced5bad-58b2-41e9-a122-44b4163ec3fc",
+    "integration": {
+      "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+      "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+      "contactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+      "competitorId": "305d2d06-504e-46be-bbde-60554f0c6286",
+      "followUpId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+      "leadCommentId": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+      "projectCommentId": "e080b015-39fc-42cc-8aac-543458309eb2",
+      "uploads": [
+        {
+          "sessionId": "db0e8c9f-de06-4fc3-aa9d-99186e5d0c67",
+          "attachmentId": "6700b7c4-c184-4fc8-a2de-6d6a00641071",
+          "storageKey": "attachments/uploads/2026/11/02/db0e8c9f-de06-4fc3-aa9d-99186e5d0c67/original.txt",
+          "object": {
+            "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/db0e8c9f-de06-4fc3-aa9d-99186e5d0c67/original.txt",
+            "bytes": 36,
+            "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+            "actualRegisteredLocalBytes": true,
+            "cloudCertification": false
+          }
+        },
+        {
+          "sessionId": "e2acff1d-1515-4afc-bae7-d2f15279ec21",
+          "attachmentId": "89af83db-7ec5-43f8-9a12-bc00466c0523",
+          "storageKey": "attachments/uploads/2026/11/02/e2acff1d-1515-4afc-bae7-d2f15279ec21/original.txt",
+          "object": {
+            "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/e2acff1d-1515-4afc-bae7-d2f15279ec21/original.txt",
+            "bytes": 37,
+            "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+            "actualRegisteredLocalBytes": true,
+            "cloudCertification": false
+          }
+        },
+        {
+          "sessionId": "59f0e54c-1a6d-4e59-8f7f-24fc19532915",
+          "attachmentId": "c224d8fc-c95e-4cc0-a5f8-0b4fa36bec18",
+          "storageKey": "attachments/uploads/2026/11/02/59f0e54c-1a6d-4e59-8f7f-24fc19532915/original.txt",
+          "object": {
+            "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/59f0e54c-1a6d-4e59-8f7f-24fc19532915/original.txt",
+            "bytes": 35,
+            "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+            "actualRegisteredLocalBytes": true,
+            "cloudCertification": false
+          }
+        },
+        {
+          "sessionId": "48ce5049-9d0e-448a-bc0b-d14c63a5fe5d",
+          "attachmentId": "31ab1f10-090f-4cd4-a560-9e72f83b0a00",
+          "storageKey": "attachments/uploads/2026/11/02/48ce5049-9d0e-448a-bc0b-d14c63a5fe5d/original.txt",
+          "object": {
+            "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/rust/attachments/uploads/2026/11/02/48ce5049-9d0e-448a-bc0b-d14c63a5fe5d/original.txt",
+            "bytes": 47,
+            "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+            "actualRegisteredLocalBytes": true,
+            "cloudCertification": false
+          }
+        }
+      ]
+    },
+    "readerUserId": "45c0e073-9dff-4fd9-9537-7c0fdaa32a26",
+    "readerOrgId": "58823c9b-2344-4775-9189-bc7ee785a994",
+    "leadOnlyUserId": "5f198414-b718-4512-ad29-f6e6587a1dd4",
+    "leadOnlyOrgId": "9354833b-1a73-4df3-b635-0d76b5c163c5",
+    "projectOnlyUserId": "c9d95863-f5f1-498d-9cc1-c6ee6d0f10de",
+    "projectOnlyOrgId": "2016882b-2c5b-47d1-aa51-8e86580a979c"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+      "bytes": 15497,
+      "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db"
+    },
+    {
+      "file": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "file": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "file": "tools/rust-r3hijk/business-core01.mjs",
+      "bytes": 11067,
+      "rawBytesSha256": "58b32f2d755c6e7a9f7bb929b8d0ba04a9ea0ed65ba5ef25ba3d735a227f3dc6"
+    },
+    {
+      "file": "docs/design/rust-r3hijk-business-semantics-corrective-checkpoint01.md",
+      "bytes": 5197,
+      "rawBytesSha256": "c3f26b38f420fbdc73ae1c3faf379fede27c2115962414508adb5c6f90a86052"
+    },
+    {
+      "file": "docs/design/rust-r3hijk/business-read-model-clarifications01.json",
+      "bytes": 1453,
+      "rawBytesSha256": "9ab26decf418b69180c4d903870f52370a86f1233420c9271ba306189a07487f"
+    }
+  ],
+  "cases": [
+    {
+      "label": "business-text-UUID-money-date-inputs",
+      "startedAt": "2026-11-02T15:11:32.446Z",
+      "completedAt": "2026-11-02T15:11:32.532Z",
+      "value": {
+        "before": {
+          "lead": 53,
+          "snapshots": 89,
+          "counter": [
+            {
+              "id": "745f9eab-9b00-4b66-93ae-2c5067f3b6b0",
+              "scope": "lead",
+              "period": "2026",
+              "next_value": 59,
+              "prefix": "LD",
+              "padding": 6,
+              "description": "线索编号",
+              "row_version": 1,
+              "created_at": "2026-11-02T12:15:34.764Z",
+              "updated_at": "2026-11-02T13:14:21.401Z"
+            }
+          ]
+        },
+        "outcomes": [
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Text must not contain a NUL character",
+                  "path": [
+                    "leadName"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "2f3aa666-b1d9-4e14-b80d-5feccd0c2323",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "147",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-22",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 842,
+              "requestSha256": "64577776b4eee89a84273c56ab6b4f3442c512e50965be9d9e14f5ca6e4ffdf4",
+              "responseBytes": 434,
+              "responseSha256": "5950bbc1350c3f3040a1dbfe68b8652bd1dc8e08812adbd9c89d725c0e7a6286",
+              "entityBodyBytes": 147,
+              "entityBodySha256": "2ccefba89efd7c1e4e67c79bb39965c2ccb57a39b66bad84fa900b3ebd6f35aa",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-1dbd396e-824e-4f43-931c-66fa8e9633e2",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Text must contain valid Unicode characters",
+                  "path": [
+                    "leadName"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "2c82e164-76c4-44b6-b509-c1e1452e429c",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "152",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-23",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 842,
+              "requestSha256": "7fc1d1c8df2d8209f9b0d66a8253931c136f7519ff6bfcd6a9f08c90deebfd15",
+              "responseBytes": 439,
+              "responseSha256": "300424fb90f7c90dff63eddc2117dfa329f32c7e86fdfe008e80159d7f68272f",
+              "entityBodyBytes": 152,
+              "entityBodySha256": "a4cb03a6a5b8629b16cd62e6b94c810dc82e8b4b3f507ae9ad601dbd8d7e34a9",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-5b06d354-54f2-4eb3-9539-76139df7b247",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Text must contain valid Unicode characters",
+                  "path": [
+                    "demandDescription"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "24b8f339-5603-4626-8af9-bfeb8a20645c",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "161",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-24",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 776,
+              "requestSha256": "1b5c9ab816275029ff0a646b564930d62a92aa0b8b70d96a00aae089b2f6790c",
+              "responseBytes": 448,
+              "responseSha256": "e32d4edacf3606fce6883934982a1771e72610cc06ca09a49c70878e371841cc",
+              "entityBodyBytes": 161,
+              "entityBodySha256": "5df4d97a6bd6a08312579bee7e5e76ae9c14269a50bb8b0fde86c56dc9585992",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-fb9c1c73-3eae-4912-93ce-9929c2a32052",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Estimated amount must not exceed 9999999999999999.99",
+                  "path": [
+                    "estimatedAmount"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "9c597087-f19c-4b40-b1a7-497e35a5c429",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "169",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-25",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 868,
+              "requestSha256": "697ece50b7a9e39acb3cc07287700b42a79579b05940301dcc0162d6c1caeea1",
+              "responseBytes": 456,
+              "responseSha256": "4b9b7fc88b1095938bfcd5e5c7491cad614c43cd7ea119c9a775d383ecbaba09",
+              "entityBodyBytes": 169,
+              "entityBodySha256": "96ae148ae246153b57cc5a4bdb3b71033cf8e5bdf1f59b0b2063d0a11b079b8f",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-87e54d1e-0f6d-4b50-8030-cf5da9931901",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Business date year must be between 0001 and 9999",
+                  "path": [
+                    "expectedDecisionDate"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "91f07db2-ac86-4197-9aeb-72ba77004ab5",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "170",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-26",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 858,
+              "requestSha256": "596360817d81f33bf556fba66044fdf9fe68207875dd7f19236983c2e3f4f7a0",
+              "responseBytes": 457,
+              "responseSha256": "5fb592b855f3f63c4fbca89e8ddb667dcec1dc5066fc64b099e9e8f135c70f1b",
+              "entityBodyBytes": 170,
+              "entityBodySha256": "df6a9f9fe34403aee74211be9fc36a0c2277d36600a920ac6e202087b6182aa0",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-1d49d91f-6c4c-4e99-b9c0-484ec041db5e",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "error": "Bad Request",
+              "message": "Invalid id: expected a UUID",
+              "statusCode": 400
+            },
+            "requestId": "9cf1e3d7-c856-407a-a394-20308f7712a3",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "80",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-27",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 299,
+              "requestSha256": "4493c83adcc4f6fbca531e6cbd6ac6017c554baa9a3404869e25597f73ddd1ac",
+              "responseBytes": 366,
+              "responseSha256": "b1a9653a1fffa581cc42942425727924e364af5cec05f1b985aa36a2ac806283",
+              "entityBodyBytes": 80,
+              "entityBodySha256": "aa60303ce3758fa15a7052a603d678a88670695a429a1f1fe6a6786a6165784f",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-f37e69dd-911b-4a22-8d53-e17bcb78816f",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "error": "Bad Request",
+              "message": "Invalid projectId: expected a UUID",
+              "statusCode": 400
+            },
+            "requestId": "3b2721fe-d4fb-48ae-8d31-949257842d87",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "87",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-28",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 321,
+              "requestSha256": "fba2d150f845eb9a6a742488d67e782372b4156c5ead4ac3782ab2e6770f190f",
+              "responseBytes": 373,
+              "responseSha256": "11aea26e71a9fc998b6c23593dcfb33b458d5d8070b814472c7a9c6a24ffa74a",
+              "entityBodyBytes": 87,
+              "entityBodySha256": "bbb1be48747e1c9c52ef4b3fd4a58b9b8452f0983e393a1693414bb7a017c2b7",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-b79995b9-8b2b-4d30-8bd6-b5b047671cf9",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "error": "Bad Request",
+              "message": "Invalid projectId: expected a UUID",
+              "statusCode": 400
+            },
+            "requestId": "f225cb20-eb11-4c08-bde9-7811dd2b610e",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "87",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-29",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 311,
+              "requestSha256": "50a7da5c6347b2132486846c8747eead96be4268ac47274a1700a7f7699f9623",
+              "responseBytes": 373,
+              "responseSha256": "68288aed7b099f1f21d75aa355e380b56cda499691a53948a66d1e4a2b1607a9",
+              "entityBodyBytes": 87,
+              "entityBodySha256": "bbb1be48747e1c9c52ef4b3fd4a58b9b8452f0983e393a1693414bb7a017c2b7",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-4e5f391e-1a7b-49d8-8f4b-825b18294973",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Text must contain valid Unicode characters",
+                  "path": [
+                    "body"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "2bc01980-47d2-4bf9-bb1c-2c12717d9912",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "148",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-30",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 548,
+              "requestSha256": "9cf9b6d23cfeecbad8616e6a517bf5621a7747ad16790abe2d9c92c952ae47e5",
+              "responseBytes": 435,
+              "responseSha256": "ddb0bc391a60a601760025f64c9eb947d2dcb3392ba63b0e598df48f73df36a1",
+              "entityBodyBytes": 148,
+              "entityBodySha256": "23eae41dbdf81fe57e0e45250147f2d68fda573fdcb8837126b85e91e66ed329",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-5f55530f-bd6a-4c8e-b5f8-bcaf53fcabc5",
+              "originalRawRetained": true
+            }
+          },
+          {
+            "status": 400,
+            "body": {
+              "errors": [
+                {
+                  "code": "custom",
+                  "message": "Text must not contain a NUL character",
+                  "path": [
+                    "competitorName"
+                  ]
+                }
+              ],
+              "message": "Validation failed",
+              "statusCode": 400
+            },
+            "requestId": "8c7e55b9-f818-4da9-a8c6-549ad89c074a",
+            "headers": [
+              "content-type",
+              "application/json; charset=utf-8",
+              "content-length",
+              "153",
+              "access-control-allow-origin",
+              "http://127.0.0.1:12600",
+              "vary",
+              "Origin",
+              "access-control-allow-credentials",
+              "true",
+              "x-request-id",
+              "r1a-76822-31",
+              "connection",
+              "close",
+              "date",
+              "Mon, 02 Nov 2026 15:11:32 GMT"
+            ],
+            "rawWire": {
+              "requestBytes": 556,
+              "requestSha256": "28cff8cc48e08ebedba2919896686a7a6f00822fccaac84de90a72e7c77e1f4a",
+              "responseBytes": 440,
+              "responseSha256": "412a8643d29fa13102f2b3e9a1c3531dbf1071ef2afd86d885a131d6be9cc87b",
+              "entityBodyBytes": 153,
+              "entityBodySha256": "3cd2c7ce94899429eca6a02339933f58615aa93a7de39376d6120f60d6e54f03",
+              "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-6263c984-de52-4490-b673-9740acbee7ae",
+              "originalRawRetained": true
+            }
+          }
+        ],
+        "after": {
+          "lead": 53,
+          "snapshots": 89,
+          "counter": [
+            {
+              "id": "745f9eab-9b00-4b66-93ae-2c5067f3b6b0",
+              "scope": "lead",
+              "period": "2026",
+              "next_value": 59,
+              "prefix": "LD",
+              "padding": 6,
+              "description": "线索编号",
+              "row_version": 1,
+              "created_at": "2026-11-02T12:15:34.764Z",
+              "updated_at": "2026-11-02T13:14:21.401Z"
+            }
+          ]
+        },
+        "allInvalidInputsRejectedBeforeReservationOrBusinessWrite": true
+      }
+    },
+    {
+      "label": "semantic-system-snapshot-noop-and-real-facts",
+      "startedAt": "2026-11-02T15:11:32.533Z",
+      "completedAt": "2026-11-02T15:11:32.854Z",
+      "value": {
+        "lead": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T15:11:32.746Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "B",
+          "effectiveScore": 62,
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "53439de1-35f2-40f3-874e-5301493147d0",
+          "leadName": "HIJK semantic-dedup",
+          "leadNo": "LD-2026-000059",
+          "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "B",
+          "rowVersion": 1,
+          "score": 62,
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T15:11:32.755Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T15:11:32.746Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "urgency": "high"
+        },
+        "before": {
+          "lead": {
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "lead_no": "LD-2026-000059",
+            "lead_name": "HIJK semantic-dedup",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "status": "registered",
+            "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualification_summary": null,
+            "qualified_at": null,
+            "qualified_by": null,
+            "closed_reason": null,
+            "closed_at": null,
+            "closed_by": null,
+            "converted_project_id": null,
+            "converted_at": null,
+            "converted_by": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T15:11:32.746Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T15:11:32.746Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budget_status": "budget-confirmed",
+            "estimated_amount": "1200000.00",
+            "urgency": "high",
+            "expected_decision_date": "2026-11-19T15:00:00.000Z",
+            "score": 62,
+            "rating": "B",
+            "score_reason": "基础商务+62",
+            "score_updated_at": "2026-11-02T15:11:32.755Z",
+            "source_code": "customer-visit"
+          },
+          "snapshots": [
+            {
+              "id": "2fd7a601-76ea-431f-918a-666670510b80",
+              "lead_id": "53439de1-35f2-40f3-874e-5301493147d0",
+              "snapshot_kind": "system",
+              "override_id": null,
+              "formula_version": "lead-score-v2",
+              "system_score": 62,
+              "system_rating": "B",
+              "effective_score": 62,
+              "effective_rating": "B",
+              "effective_score_source": "system",
+              "score_reason": "基础商务+62",
+              "component_breakdown": {
+                "owner": 10,
+                "total": 62,
+                "amount": 15,
+                "budget": 20,
+                "demand": 15,
+                "source": 10,
+                "urgency": 15,
+                "baseBusiness": 62,
+                "followUpFacts": {
+                  "lastFollowUpAt": null,
+                  "nextFollowUpAt": null,
+                  "followUpCount30d": 0,
+                  "nextFollowUpOverdue": false,
+                  "daysSinceLastFollowUp": null,
+                  "hasPlannedNextFollowUp": false
+                },
+                "formulaVersion": "lead-score-v2",
+                "attachmentFacts": {
+                  "finalAttachmentCount": 0,
+                  "hasProposalAttachment": false,
+                  "latestAttachmentCount": 0,
+                  "hasQuotationAttachment": false,
+                  "evidenceAttachmentCount": 0,
+                  "hasBudgetEvidenceAttachment": false
+                },
+                "followUpActivity": 0,
+                "salesIntelligence": 0,
+                "attachmentEvidence": 0,
+                "expectedDecisionDate": 10,
+                "salesIntelligenceFacts": {
+                  "painPointKnown": false,
+                  "competitorKnown": false,
+                  "nextContactKnown": false,
+                  "budgetSourceKnown": false,
+                  "decisionMakerKnown": false,
+                  "procurementProcessKnown": false,
+                  "technicalEvaluatorKnown": false
+                }
+              },
+              "gate_summary_snapshot": {
+                "conversion": {
+                  "status": "blocked",
+                  "explanation": "缺少：已确认有效状态",
+                  "missingItems": [
+                    "qualified-status"
+                  ]
+                },
+                "qualification": {
+                  "status": "ready",
+                  "explanation": "已满足确认有效硬闸口",
+                  "missingItems": []
+                }
+              },
+              "source_command": "create-lead",
+              "source_record_id": null,
+              "created_at": "2026-11-02T15:11:32.760Z",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+            }
+          ],
+          "overrides": [],
+          "assignments": [],
+          "projects": [],
+          "links": []
+        },
+        "renamed": {
+          "status": 200,
+          "body": {
+            "activeScoreOverrideId": null,
+            "budgetStatus": "budget-confirmed",
+            "closedAt": null,
+            "closedBy": null,
+            "closedReason": null,
+            "convertedAt": null,
+            "convertedBy": null,
+            "convertedProjectId": null,
+            "createdAt": "2026-11-02T15:11:32.746Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "effectiveRating": "B",
+            "effectiveScore": 62,
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "estimatedAmount": "1200000.00",
+            "expectedDecisionDate": "2026-11-20",
+            "gateSummary": {
+              "conversion": {
+                "explanation": "缺少：已确认有效状态",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "status": "blocked"
+              },
+              "qualification": {
+                "explanation": "已满足确认有效硬闸口",
+                "missingItems": [],
+                "status": "ready"
+              }
+            },
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "leadName": "业务名称变更",
+            "leadNo": "LD-2026-000059",
+            "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualificationSummary": null,
+            "qualifiedAt": null,
+            "qualifiedBy": null,
+            "rating": "B",
+            "rowVersion": 2,
+            "score": 62,
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T15:11:32.793Z",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "status": "registered",
+            "updatedAt": "2026-11-02T15:11:32.797Z",
+            "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "urgency": "high"
+          },
+          "requestId": "6883c8b7-0375-496d-bc28-8962a0e9c2fe",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "1525",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-33",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 15:11:32 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 471,
+            "requestSha256": "50798297e6ffaba33d39ba2e1e527d8368a245885219bc3708d8c6ad3c6bf837",
+            "responseBytes": 1804,
+            "responseSha256": "c63842c1595390f143f4921eb66fd7dbd724e88a2eed613fc3f3a647ea2a0009",
+            "entityBodyBytes": 1525,
+            "entityBodySha256": "c58dd7ea6b685129b8429bed261926ce74d26b5cc5f3972765a6be36e83a98ee",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-873873f8-71b2-42e3-853a-bf1ae9e497ed",
+            "originalRawRetained": true
+          }
+        },
+        "afterName": {
+          "lead": {
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "lead_no": "LD-2026-000059",
+            "lead_name": "业务名称变更",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "status": "registered",
+            "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualification_summary": null,
+            "qualified_at": null,
+            "qualified_by": null,
+            "closed_reason": null,
+            "closed_at": null,
+            "closed_by": null,
+            "converted_project_id": null,
+            "converted_at": null,
+            "converted_by": null,
+            "row_version": 2,
+            "created_at": "2026-11-02T15:11:32.746Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T15:11:32.797Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budget_status": "budget-confirmed",
+            "estimated_amount": "1200000.00",
+            "urgency": "high",
+            "expected_decision_date": "2026-11-19T15:00:00.000Z",
+            "score": 62,
+            "rating": "B",
+            "score_reason": "基础商务+62",
+            "score_updated_at": "2026-11-02T15:11:32.793Z",
+            "source_code": "customer-visit"
+          },
+          "snapshots": [
+            {
+              "id": "2fd7a601-76ea-431f-918a-666670510b80",
+              "lead_id": "53439de1-35f2-40f3-874e-5301493147d0",
+              "snapshot_kind": "system",
+              "override_id": null,
+              "formula_version": "lead-score-v2",
+              "system_score": 62,
+              "system_rating": "B",
+              "effective_score": 62,
+              "effective_rating": "B",
+              "effective_score_source": "system",
+              "score_reason": "基础商务+62",
+              "component_breakdown": {
+                "owner": 10,
+                "total": 62,
+                "amount": 15,
+                "budget": 20,
+                "demand": 15,
+                "source": 10,
+                "urgency": 15,
+                "baseBusiness": 62,
+                "followUpFacts": {
+                  "lastFollowUpAt": null,
+                  "nextFollowUpAt": null,
+                  "followUpCount30d": 0,
+                  "nextFollowUpOverdue": false,
+                  "daysSinceLastFollowUp": null,
+                  "hasPlannedNextFollowUp": false
+                },
+                "formulaVersion": "lead-score-v2",
+                "attachmentFacts": {
+                  "finalAttachmentCount": 0,
+                  "hasProposalAttachment": false,
+                  "latestAttachmentCount": 0,
+                  "hasQuotationAttachment": false,
+                  "evidenceAttachmentCount": 0,
+                  "hasBudgetEvidenceAttachment": false
+                },
+                "followUpActivity": 0,
+                "salesIntelligence": 0,
+                "attachmentEvidence": 0,
+                "expectedDecisionDate": 10,
+                "salesIntelligenceFacts": {
+                  "painPointKnown": false,
+                  "competitorKnown": false,
+                  "nextContactKnown": false,
+                  "budgetSourceKnown": false,
+                  "decisionMakerKnown": false,
+                  "procurementProcessKnown": false,
+                  "technicalEvaluatorKnown": false
+                }
+              },
+              "gate_summary_snapshot": {
+                "conversion": {
+                  "status": "blocked",
+                  "explanation": "缺少：已确认有效状态",
+                  "missingItems": [
+                    "qualified-status"
+                  ]
+                },
+                "qualification": {
+                  "status": "ready",
+                  "explanation": "已满足确认有效硬闸口",
+                  "missingItems": []
+                }
+              },
+              "source_command": "create-lead",
+              "source_record_id": null,
+              "created_at": "2026-11-02T15:11:32.760Z",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+            }
+          ],
+          "overrides": [],
+          "assignments": [],
+          "projects": [],
+          "links": []
+        },
+        "noop": {
+          "status": 200,
+          "body": {
+            "activeScoreOverrideId": null,
+            "budgetStatus": "budget-confirmed",
+            "closedAt": null,
+            "closedBy": null,
+            "closedReason": null,
+            "convertedAt": null,
+            "convertedBy": null,
+            "convertedProjectId": null,
+            "createdAt": "2026-11-02T15:11:32.746Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "effectiveRating": "B",
+            "effectiveScore": 62,
+            "effectiveScoreReason": "基础商务+62",
+            "effectiveScoreSource": "system",
+            "estimatedAmount": "1200000.00",
+            "expectedDecisionDate": "2026-11-20",
+            "gateSummary": {
+              "conversion": {
+                "explanation": "缺少：已确认有效状态",
+                "missingItems": [
+                  "qualified-status"
+                ],
+                "status": "blocked"
+              },
+              "qualification": {
+                "explanation": "已满足确认有效硬闸口",
+                "missingItems": [],
+                "status": "ready"
+              }
+            },
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "leadName": "业务名称变更",
+            "leadNo": "LD-2026-000059",
+            "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualificationSummary": null,
+            "qualifiedAt": null,
+            "qualifiedBy": null,
+            "rating": "B",
+            "rowVersion": 2,
+            "score": 62,
+            "scoreReason": "基础商务+62",
+            "scoreUpdatedAt": "2026-11-02T15:11:32.793Z",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "status": "registered",
+            "updatedAt": "2026-11-02T15:11:32.797Z",
+            "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "urgency": "high"
+          },
+          "requestId": "18e04be5-71ac-4d76-a50f-ad3969b89f93",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "1525",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-34",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 15:11:32 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 483,
+            "requestSha256": "c1648a9dd735bfa8ac041c0f59b87bf8fb6a04f549ec3baaa18448cef5322a51",
+            "responseBytes": 1804,
+            "responseSha256": "87a2e1d4ed2238b854b62ffd89a0cf7a6c4939a442e18a6e04753f3145743923",
+            "entityBodyBytes": 1525,
+            "entityBodySha256": "c58dd7ea6b685129b8429bed261926ce74d26b5cc5f3972765a6be36e83a98ee",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-aaef3991-3dbd-46ff-b57f-1906656fc18f",
+            "originalRawRetained": true
+          }
+        },
+        "afterNoop": {
+          "lead": {
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "lead_no": "LD-2026-000059",
+            "lead_name": "业务名称变更",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "status": "registered",
+            "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualification_summary": null,
+            "qualified_at": null,
+            "qualified_by": null,
+            "closed_reason": null,
+            "closed_at": null,
+            "closed_by": null,
+            "converted_project_id": null,
+            "converted_at": null,
+            "converted_by": null,
+            "row_version": 2,
+            "created_at": "2026-11-02T15:11:32.746Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T15:11:32.797Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budget_status": "budget-confirmed",
+            "estimated_amount": "1200000.00",
+            "urgency": "high",
+            "expected_decision_date": "2026-11-19T15:00:00.000Z",
+            "score": 62,
+            "rating": "B",
+            "score_reason": "基础商务+62",
+            "score_updated_at": "2026-11-02T15:11:32.793Z",
+            "source_code": "customer-visit"
+          },
+          "snapshots": [
+            {
+              "id": "2fd7a601-76ea-431f-918a-666670510b80",
+              "lead_id": "53439de1-35f2-40f3-874e-5301493147d0",
+              "snapshot_kind": "system",
+              "override_id": null,
+              "formula_version": "lead-score-v2",
+              "system_score": 62,
+              "system_rating": "B",
+              "effective_score": 62,
+              "effective_rating": "B",
+              "effective_score_source": "system",
+              "score_reason": "基础商务+62",
+              "component_breakdown": {
+                "owner": 10,
+                "total": 62,
+                "amount": 15,
+                "budget": 20,
+                "demand": 15,
+                "source": 10,
+                "urgency": 15,
+                "baseBusiness": 62,
+                "followUpFacts": {
+                  "lastFollowUpAt": null,
+                  "nextFollowUpAt": null,
+                  "followUpCount30d": 0,
+                  "nextFollowUpOverdue": false,
+                  "daysSinceLastFollowUp": null,
+                  "hasPlannedNextFollowUp": false
+                },
+                "formulaVersion": "lead-score-v2",
+                "attachmentFacts": {
+                  "finalAttachmentCount": 0,
+                  "hasProposalAttachment": false,
+                  "latestAttachmentCount": 0,
+                  "hasQuotationAttachment": false,
+                  "evidenceAttachmentCount": 0,
+                  "hasBudgetEvidenceAttachment": false
+                },
+                "followUpActivity": 0,
+                "salesIntelligence": 0,
+                "attachmentEvidence": 0,
+                "expectedDecisionDate": 10,
+                "salesIntelligenceFacts": {
+                  "painPointKnown": false,
+                  "competitorKnown": false,
+                  "nextContactKnown": false,
+                  "budgetSourceKnown": false,
+                  "decisionMakerKnown": false,
+                  "procurementProcessKnown": false,
+                  "technicalEvaluatorKnown": false
+                }
+              },
+              "gate_summary_snapshot": {
+                "conversion": {
+                  "status": "blocked",
+                  "explanation": "缺少：已确认有效状态",
+                  "missingItems": [
+                    "qualified-status"
+                  ]
+                },
+                "qualification": {
+                  "status": "ready",
+                  "explanation": "已满足确认有效硬闸口",
+                  "missingItems": []
+                }
+              },
+              "source_command": "create-lead",
+              "source_record_id": null,
+              "created_at": "2026-11-02T15:11:32.760Z",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+            }
+          ],
+          "overrides": [],
+          "assignments": [],
+          "projects": [],
+          "links": []
+        },
+        "facts": {
+          "status": 200,
+          "body": {
+            "activeScoreOverrideId": null,
+            "budgetStatus": "unknown",
+            "closedAt": null,
+            "closedBy": null,
+            "closedReason": null,
+            "convertedAt": null,
+            "convertedBy": null,
+            "convertedProjectId": null,
+            "createdAt": "2026-11-02T15:11:32.746Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "effectiveRating": "C",
+            "effectiveScore": 49,
+            "effectiveScoreReason": "基础商务+49",
+            "effectiveScoreSource": "system",
+            "estimatedAmount": "1200000.00",
+            "expectedDecisionDate": "2026-11-20",
+            "gateSummary": {
+              "conversion": {
+                "explanation": "缺少：已确认有效状态、预算情况",
+                "missingItems": [
+                  "qualified-status",
+                  "budget"
+                ],
+                "status": "blocked"
+              },
+              "qualification": {
+                "explanation": "缺少：预算情况",
+                "missingItems": [
+                  "budget"
+                ],
+                "status": "blocked"
+              }
+            },
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "leadName": "业务名称变更",
+            "leadNo": "LD-2026-000059",
+            "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualificationSummary": null,
+            "qualifiedAt": null,
+            "qualifiedBy": null,
+            "rating": "C",
+            "rowVersion": 3,
+            "score": 49,
+            "scoreReason": "基础商务+49",
+            "scoreUpdatedAt": "2026-11-02T15:11:32.838Z",
+            "sourceCode": "customer-visit",
+            "sourceName": "客户拜访",
+            "status": "registered",
+            "updatedAt": "2026-11-02T15:11:32.842Z",
+            "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "urgency": "high"
+          },
+          "requestId": "53792fd1-752e-4869-9575-c6f10e6d86f8",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "1523",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-35",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 15:11:32 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 464,
+            "requestSha256": "9ccd6fa8c444da5fd79a9bbfd1282e0526e1597b33f9a7d6a98bf0536f4faa56",
+            "responseBytes": 1802,
+            "responseSha256": "2ca1bab9ad2f5382c779d0764797e720b23e4987bde09ca0d36478d593d1f04c",
+            "entityBodyBytes": 1523,
+            "entityBodySha256": "4cf0168340c9119cd6c6ea768eaae44ae9343fdbb6da92e32bbbeacf8f37dd12",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-c32247a2-0d3b-4b74-b7bb-55d4784e372b",
+            "originalRawRetained": true
+          }
+        },
+        "afterFacts": {
+          "lead": {
+            "id": "53439de1-35f2-40f3-874e-5301493147d0",
+            "lead_no": "LD-2026-000059",
+            "lead_name": "业务名称变更",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "status": "registered",
+            "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "qualification_summary": null,
+            "qualified_at": null,
+            "qualified_by": null,
+            "closed_reason": null,
+            "closed_at": null,
+            "closed_by": null,
+            "converted_project_id": null,
+            "converted_at": null,
+            "converted_by": null,
+            "row_version": 3,
+            "created_at": "2026-11-02T15:11:32.746Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T15:11:32.842Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+            "budget_status": "unknown",
+            "estimated_amount": "1200000.00",
+            "urgency": "high",
+            "expected_decision_date": "2026-11-19T15:00:00.000Z",
+            "score": 49,
+            "rating": "C",
+            "score_reason": "基础商务+49",
+            "score_updated_at": "2026-11-02T15:11:32.838Z",
+            "source_code": "customer-visit"
+          },
+          "snapshots": [
+            {
+              "id": "2fd7a601-76ea-431f-918a-666670510b80",
+              "lead_id": "53439de1-35f2-40f3-874e-5301493147d0",
+              "snapshot_kind": "system",
+              "override_id": null,
+              "formula_version": "lead-score-v2",
+              "system_score": 62,
+              "system_rating": "B",
+              "effective_score": 62,
+              "effective_rating": "B",
+              "effective_score_source": "system",
+              "score_reason": "基础商务+62",
+              "component_breakdown": {
+                "owner": 10,
+                "total": 62,
+                "amount": 15,
+                "budget": 20,
+                "demand": 15,
+                "source": 10,
+                "urgency": 15,
+                "baseBusiness": 62,
+                "followUpFacts": {
+                  "lastFollowUpAt": null,
+                  "nextFollowUpAt": null,
+                  "followUpCount30d": 0,
+                  "nextFollowUpOverdue": false,
+                  "daysSinceLastFollowUp": null,
+                  "hasPlannedNextFollowUp": false
+                },
+                "formulaVersion": "lead-score-v2",
+                "attachmentFacts": {
+                  "finalAttachmentCount": 0,
+                  "hasProposalAttachment": false,
+                  "latestAttachmentCount": 0,
+                  "hasQuotationAttachment": false,
+                  "evidenceAttachmentCount": 0,
+                  "hasBudgetEvidenceAttachment": false
+                },
+                "followUpActivity": 0,
+                "salesIntelligence": 0,
+                "attachmentEvidence": 0,
+                "expectedDecisionDate": 10,
+                "salesIntelligenceFacts": {
+                  "painPointKnown": false,
+                  "competitorKnown": false,
+                  "nextContactKnown": false,
+                  "budgetSourceKnown": false,
+                  "decisionMakerKnown": false,
+                  "procurementProcessKnown": false,
+                  "technicalEvaluatorKnown": false
+                }
+              },
+              "gate_summary_snapshot": {
+                "conversion": {
+                  "status": "blocked",
+                  "explanation": "缺少：已确认有效状态",
+                  "missingItems": [
+                    "qualified-status"
+                  ]
+                },
+                "qualification": {
+                  "status": "ready",
+                  "explanation": "已满足确认有效硬闸口",
+                  "missingItems": []
+                }
+              },
+              "source_command": "create-lead",
+              "source_record_id": null,
+              "created_at": "2026-11-02T15:11:32.760Z",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+            },
+            {
+              "id": "6d4018e0-96ee-441a-ace3-ee99a21113e4",
+              "lead_id": "53439de1-35f2-40f3-874e-5301493147d0",
+              "snapshot_kind": "system",
+              "override_id": null,
+              "formula_version": "lead-score-v2",
+              "system_score": 49,
+              "system_rating": "C",
+              "effective_score": 49,
+              "effective_rating": "C",
+              "effective_score_source": "system",
+              "score_reason": "基础商务+49",
+              "component_breakdown": {
+                "owner": 10,
+                "total": 49,
+                "amount": 15,
+                "budget": 0,
+                "demand": 15,
+                "source": 10,
+                "urgency": 15,
+                "baseBusiness": 49,
+                "followUpFacts": {
+                  "lastFollowUpAt": null,
+                  "nextFollowUpAt": null,
+                  "followUpCount30d": 0,
+                  "nextFollowUpOverdue": false,
+                  "daysSinceLastFollowUp": null,
+                  "hasPlannedNextFollowUp": false
+                },
+                "formulaVersion": "lead-score-v2",
+                "attachmentFacts": {
+                  "finalAttachmentCount": 0,
+                  "hasProposalAttachment": false,
+                  "latestAttachmentCount": 0,
+                  "hasQuotationAttachment": false,
+                  "evidenceAttachmentCount": 0,
+                  "hasBudgetEvidenceAttachment": false
+                },
+                "followUpActivity": 0,
+                "salesIntelligence": 0,
+                "attachmentEvidence": 0,
+                "expectedDecisionDate": 10,
+                "salesIntelligenceFacts": {
+                  "painPointKnown": false,
+                  "competitorKnown": false,
+                  "nextContactKnown": false,
+                  "budgetSourceKnown": false,
+                  "decisionMakerKnown": false,
+                  "procurementProcessKnown": false,
+                  "technicalEvaluatorKnown": false
+                }
+              },
+              "gate_summary_snapshot": {
+                "conversion": {
+                  "status": "blocked",
+                  "explanation": "缺少：已确认有效状态、预算情况",
+                  "missingItems": [
+                    "qualified-status",
+                    "budget"
+                  ]
+                },
+                "qualification": {
+                  "status": "blocked",
+                  "explanation": "缺少：预算情况",
+                  "missingItems": [
+                    "budget"
+                  ]
+                }
+              },
+              "source_command": "update-lead",
+              "source_record_id": null,
+              "created_at": "2026-11-02T15:11:32.841Z",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+            }
+          ],
+          "overrides": [],
+          "assignments": [],
+          "projects": [],
+          "links": []
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "label": "input.NUL",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "A\u0000B",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must not contain a NUL character",
+              "path": [
+                "leadName"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "2f3aa666-b1d9-4e14-b80d-5feccd0c2323",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "147",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-22",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 842,
+          "requestSha256": "64577776b4eee89a84273c56ab6b4f3442c512e50965be9d9e14f5ca6e4ffdf4",
+          "responseBytes": 434,
+          "responseSha256": "5950bbc1350c3f3040a1dbfe68b8652bd1dc8e08812adbd9c89d725c0e7a6286",
+          "entityBodyBytes": 147,
+          "entityBodySha256": "2ccefba89efd7c1e4e67c79bb39965c2ccb57a39b66bad84fa900b3ebd6f35aa",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-1dbd396e-824e-4f43-931c-66fa8e9633e2",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.high-surrogate",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "A\ud800B",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must contain valid Unicode characters",
+              "path": [
+                "leadName"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "2c82e164-76c4-44b6-b509-c1e1452e429c",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "152",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-23",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 842,
+          "requestSha256": "7fc1d1c8df2d8209f9b0d66a8253931c136f7519ff6bfcd6a9f08c90deebfd15",
+          "responseBytes": 439,
+          "responseSha256": "300424fb90f7c90dff63eddc2117dfa329f32c7e86fdfe008e80159d7f68272f",
+          "entityBodyBytes": 152,
+          "entityBodySha256": "a4cb03a6a5b8629b16cd62e6b94c810dc82e8b4b3f507ae9ad601dbd8d7e34a9",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-5b06d354-54f2-4eb3-9539-76139df7b247",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.low-surrogate",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "H Native 可确认线索",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "A\udc00B",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must contain valid Unicode characters",
+              "path": [
+                "demandDescription"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "24b8f339-5603-4626-8af9-bfeb8a20645c",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "161",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-24",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 776,
+          "requestSha256": "1b5c9ab816275029ff0a646b564930d62a92aa0b8b70d96a00aae089b2f6790c",
+          "responseBytes": 448,
+          "responseSha256": "e32d4edacf3606fce6883934982a1771e72610cc06ca09a49c70878e371841cc",
+          "entityBodyBytes": 161,
+          "entityBodySha256": "5df4d97a6bd6a08312579bee7e5e76ae9c14269a50bb8b0fde86c56dc9585992",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-fb9c1c73-3eae-4912-93ce-9929c2a32052",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.money-overflow",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "H Native 可确认线索",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "10000000000000000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Estimated amount must not exceed 9999999999999999.99",
+              "path": [
+                "estimatedAmount"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "9c597087-f19c-4b40-b1a7-497e35a5c429",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "169",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-25",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 868,
+          "requestSha256": "697ece50b7a9e39acb3cc07287700b42a79579b05940301dcc0162d6c1caeea1",
+          "responseBytes": 456,
+          "responseSha256": "4b9b7fc88b1095938bfcd5e5c7491cad614c43cd7ea119c9a775d383ecbaba09",
+          "entityBodyBytes": 169,
+          "entityBodySha256": "96ae148ae246153b57cc5a4bdb3b71033cf8e5bdf1f59b0b2063d0a11b079b8f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-87e54d1e-0f6d-4b50-8030-cf5da9931901",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.year-zero",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "H Native 可确认线索",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "0000-02-29",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Business date year must be between 0001 and 9999",
+              "path": [
+                "expectedDecisionDate"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "91f07db2-ac86-4197-9aeb-72ba77004ab5",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "170",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-26",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 858,
+          "requestSha256": "596360817d81f33bf556fba66044fdf9fe68207875dd7f19236983c2e3f4f7a0",
+          "responseBytes": 457,
+          "responseSha256": "5fb592b855f3f63c4fbca89e8ddb667dcec1dc5066fc64b099e9e8f135c70f1b",
+          "entityBodyBytes": 170,
+          "entityBodySha256": "df6a9f9fe34403aee74211be9fc36a0c2277d36600a920ac6e202087b6182aa0",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-1d49d91f-6c4c-4e99-b9c0-484ec041db5e",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.bad-id./api/leads/not-a-uuid",
+      "actor": "admin",
+      "method": "GET",
+      "route": "/api/leads/not-a-uuid",
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "Invalid id: expected a UUID",
+          "statusCode": 400
+        },
+        "requestId": "9cf1e3d7-c856-407a-a394-20308f7712a3",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "80",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-27",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 299,
+          "requestSha256": "4493c83adcc4f6fbca531e6cbd6ac6017c554baa9a3404869e25597f73ddd1ac",
+          "responseBytes": 366,
+          "responseSha256": "b1a9653a1fffa581cc42942425727924e364af5cec05f1b985aa36a2ac806283",
+          "entityBodyBytes": 80,
+          "entityBodySha256": "aa60303ce3758fa15a7052a603d678a88670695a429a1f1fe6a6786a6165784f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-f37e69dd-911b-4a22-8d53-e17bcb78816f",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.bad-id./api/projects/not-a-uuid/workspace-guidance",
+      "actor": "admin",
+      "method": "GET",
+      "route": "/api/projects/not-a-uuid/workspace-guidance",
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "Invalid projectId: expected a UUID",
+          "statusCode": 400
+        },
+        "requestId": "3b2721fe-d4fb-48ae-8d31-949257842d87",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "87",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-28",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 321,
+          "requestSha256": "fba2d150f845eb9a6a742488d67e782372b4156c5ead4ac3782ab2e6770f190f",
+          "responseBytes": 373,
+          "responseSha256": "11aea26e71a9fc998b6c23593dcfb33b458d5d8070b814472c7a9c6a24ffa74a",
+          "entityBodyBytes": 87,
+          "entityBodySha256": "bbb1be48747e1c9c52ef4b3fd4a58b9b8452f0983e393a1693414bb7a017c2b7",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-b79995b9-8b2b-4d30-8bd6-b5b047671cf9",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.bad-id./api/projects/not-a-uuid/timeline",
+      "actor": "admin",
+      "method": "GET",
+      "route": "/api/projects/not-a-uuid/timeline",
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "Invalid projectId: expected a UUID",
+          "statusCode": 400
+        },
+        "requestId": "f225cb20-eb11-4c08-bde9-7811dd2b610e",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "87",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-29",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 311,
+          "requestSha256": "50a7da5c6347b2132486846c8747eead96be4268ac47274a1700a7f7699f9623",
+          "responseBytes": 373,
+          "responseSha256": "68288aed7b099f1f21d75aa355e380b56cda499691a53948a66d1e4a2b1607a9",
+          "entityBodyBytes": 87,
+          "entityBodySha256": "bbb1be48747e1c9c52ef4b3fd4a58b9b8452f0983e393a1693414bb7a017c2b7",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-4e5f391e-1a7b-49d8-8f4b-825b18294973",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.J-text",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/business-discussions",
+      "request": {
+        "targetObjectType": "customer",
+        "targetObjectId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "discussionType": "general",
+        "body": "A\ud800B"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must contain valid Unicode characters",
+              "path": [
+                "body"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "2bc01980-47d2-4bf9-bb1c-2c12717d9912",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "148",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-30",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 548,
+          "requestSha256": "9cf9b6d23cfeecbad8616e6a517bf5621a7747ad16790abe2d9c92c952ae47e5",
+          "responseBytes": 435,
+          "responseSha256": "ddb0bc391a60a601760025f64c9eb947d2dcb3392ba63b0e598df48f73df36a1",
+          "entityBodyBytes": 148,
+          "entityBodySha256": "23eae41dbdf81fe57e0e45250147f2d68fda573fdcb8837126b85e91e66ed329",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-5f55530f-bd6a-4c8e-b5f8-bcaf53fcabc5",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "input.I-text",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/competitor-intelligence-records",
+      "request": {
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "leadId": "6ced5bad-58b2-41e9-a122-44b4163ec3fc",
+        "competitorName": "A\u0000B"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must not contain a NUL character",
+              "path": [
+                "competitorName"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "8c7e55b9-f818-4da9-a8c6-549ad89c074a",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "153",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-31",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 556,
+          "requestSha256": "28cff8cc48e08ebedba2919896686a7a6f00822fccaac84de90a72e7c77e1f4a",
+          "responseBytes": 440,
+          "responseSha256": "412a8643d29fa13102f2b3e9a1c3531dbf1071ef2afd86d885a131d6be9cc87b",
+          "entityBodyBytes": 153,
+          "entityBodySha256": "3cd2c7ce94899429eca6a02339933f58615aa93a7de39376d6120f60d6e54f03",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-6263c984-de52-4490-b673-9740acbee7ae",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.lead.semantic-dedup",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "HIJK semantic-dedup",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T15:11:32.746Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "B",
+          "effectiveScore": 62,
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "53439de1-35f2-40f3-874e-5301493147d0",
+          "leadName": "HIJK semantic-dedup",
+          "leadNo": "LD-2026-000059",
+          "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "B",
+          "rowVersion": 1,
+          "score": 62,
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T15:11:32.755Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T15:11:32.746Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "urgency": "high"
+        },
+        "requestId": "cf0382b2-6378-41bb-92fa-b1feec183220",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1598",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-32",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 853,
+          "requestSha256": "e2aedba4333d6633ff14a91ea6d64b3a31e0f1c21fd708a7c2e943c8f656b91e",
+          "responseBytes": 1882,
+          "responseSha256": "216631adcf66a9a5c72d8eb66779a9696c47053d36e815f17dcd1362a824a20e",
+          "entityBodyBytes": 1598,
+          "entityBodySha256": "9433d8e23a785af74dba2bf5aff9ea9b24f5e256dc94f5eecffd25871fb45b24",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-b454e22c-2fbb-49dc-bef3-073a6a08530e",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "dedup.rename",
+      "actor": "admin",
+      "method": "PATCH",
+      "route": "/api/leads/53439de1-35f2-40f3-874e-5301493147d0",
+      "request": {
+        "leadName": "业务名称变更"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T15:11:32.746Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "B",
+          "effectiveScore": 62,
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "53439de1-35f2-40f3-874e-5301493147d0",
+          "leadName": "业务名称变更",
+          "leadNo": "LD-2026-000059",
+          "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "B",
+          "rowVersion": 2,
+          "score": 62,
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T15:11:32.793Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T15:11:32.797Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "urgency": "high"
+        },
+        "requestId": "6883c8b7-0375-496d-bc28-8962a0e9c2fe",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1525",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-33",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 471,
+          "requestSha256": "50798297e6ffaba33d39ba2e1e527d8368a245885219bc3708d8c6ad3c6bf837",
+          "responseBytes": 1804,
+          "responseSha256": "c63842c1595390f143f4921eb66fd7dbd724e88a2eed613fc3f3a647ea2a0009",
+          "entityBodyBytes": 1525,
+          "entityBodySha256": "c58dd7ea6b685129b8429bed261926ce74d26b5cc5f3972765a6be36e83a98ee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-873873f8-71b2-42e3-853a-bf1ae9e497ed",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "dedup.noop",
+      "actor": "admin",
+      "method": "PATCH",
+      "route": "/api/leads/53439de1-35f2-40f3-874e-5301493147d0",
+      "request": {
+        "leadName": "业务名称变更",
+        "score": 100
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T15:11:32.746Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "B",
+          "effectiveScore": 62,
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "53439de1-35f2-40f3-874e-5301493147d0",
+          "leadName": "业务名称变更",
+          "leadNo": "LD-2026-000059",
+          "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "B",
+          "rowVersion": 2,
+          "score": 62,
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T15:11:32.793Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T15:11:32.797Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "urgency": "high"
+        },
+        "requestId": "18e04be5-71ac-4d76-a50f-ad3969b89f93",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1525",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-34",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 483,
+          "requestSha256": "c1648a9dd735bfa8ac041c0f59b87bf8fb6a04f549ec3baaa18448cef5322a51",
+          "responseBytes": 1804,
+          "responseSha256": "87a2e1d4ed2238b854b62ffd89a0cf7a6c4939a442e18a6e04753f3145743923",
+          "entityBodyBytes": 1525,
+          "entityBodySha256": "c58dd7ea6b685129b8429bed261926ce74d26b5cc5f3972765a6be36e83a98ee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-aaef3991-3dbd-46ff-b57f-1906656fc18f",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "dedup.real-facts",
+      "actor": "admin",
+      "method": "PATCH",
+      "route": "/api/leads/53439de1-35f2-40f3-874e-5301493147d0",
+      "request": {
+        "budgetStatus": "unknown"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "unknown",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T15:11:32.746Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "C",
+          "effectiveScore": 49,
+          "effectiveScoreReason": "基础商务+49",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态、预算情况",
+              "missingItems": [
+                "qualified-status",
+                "budget"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "缺少：预算情况",
+              "missingItems": [
+                "budget"
+              ],
+              "status": "blocked"
+            }
+          },
+          "id": "53439de1-35f2-40f3-874e-5301493147d0",
+          "leadName": "业务名称变更",
+          "leadNo": "LD-2026-000059",
+          "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "C",
+          "rowVersion": 3,
+          "score": 49,
+          "scoreReason": "基础商务+49",
+          "scoreUpdatedAt": "2026-11-02T15:11:32.838Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T15:11:32.842Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "urgency": "high"
+        },
+        "requestId": "53792fd1-752e-4869-9575-c6f10e6d86f8",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1523",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-35",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 464,
+          "requestSha256": "9ccd6fa8c444da5fd79a9bbfd1282e0526e1597b33f9a7d6a98bf0536f4faa56",
+          "responseBytes": 1802,
+          "responseSha256": "2ca1bab9ad2f5382c779d0764797e720b23e4987bde09ca0d36478d593d1f04c",
+          "entityBodyBytes": 1523,
+          "entityBodySha256": "4cf0168340c9119cd6c6ea768eaae44ae9343fdbb6da92e32bbbeacf8f37dd12",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-c32247a2-0d3b-4b74-b7bb-55d4784e372b",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.lead.atomic-claim",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "HIJK atomic-claim",
+        "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": null,
+        "ownerOrgId": null
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T15:11:32.869Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "C",
+          "effectiveScore": 55,
+          "effectiveScoreReason": "基础商务+55",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态、销售主责人、销售主责组织",
+              "missingItems": [
+                "qualified-status",
+                "owner",
+                "owner-org"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "缺少：销售主责人、销售主责组织",
+              "missingItems": [
+                "owner",
+                "owner-org"
+              ],
+              "status": "blocked"
+            }
+          },
+          "id": "f061d2ca-3b44-45ca-a84f-e73e4a8b0de8",
+          "leadName": "HIJK atomic-claim",
+          "leadNo": "LD-2026-000060",
+          "ownerOrgId": null,
+          "ownerUserId": null,
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "C",
+          "rowVersion": 1,
+          "score": 55,
+          "scoreReason": "基础商务+55",
+          "scoreUpdatedAt": "2026-11-02T15:11:32.875Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T15:11:32.869Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "urgency": "high"
+        },
+        "requestId": "28629f54-56bc-4233-97c3-c9918aed21df",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1623",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-36",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 783,
+          "requestSha256": "6a66229213334b4c2fb887e32062f3bb34e7d35217a3a298e1e1350e3e4b9183",
+          "responseBytes": 1907,
+          "responseSha256": "1fb37dc17b6210164208e10772c0c0bca977b7fc96c9454f36338c49b496e8c8",
+          "entityBodyBytes": 1623,
+          "entityBodySha256": "dc9a86ddb0c31418da3bdcaee4166ec69b0dfe628ca4b643aa3bd6620bed565a",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-f84b6eae-47c8-412d-ac46-c6b57d7facb4",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "atomic.claim",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads/f061d2ca-3b44-45ca-a84f-e73e4a8b0de8:claim",
+      "request": {
+        "expectedVersion": 1
+      },
+      "response": {
+        "status": 500,
+        "body": {
+          "message": "Internal server error",
+          "statusCode": 500
+        },
+        "requestId": "7277227f-14b6-4145-a20b-2da245dc7812",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "52",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-37",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 15:11:32 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 464,
+          "requestSha256": "75c3f5b60f4edc6b1ba0712586cf28b94b73d96f4ea2c69b00bf7ea3ff99aea8",
+          "responseBytes": 348,
+          "responseSha256": "820b9ea3bd7f38689833ef35c64d5f149a88e77c313665f591f59f9121e17724",
+          "entityBodyBytes": 52,
+          "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/raw-wire/admin-f0849c2d-23bb-4235-b6d2-721a74620f5c",
+          "originalRawRetained": true
+        }
+      }
+    }
+  ],
+  "observations": [],
+  "preparedFacts": [],
+  "privateOriginalSQLStreams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/postgres-stdout-original.bin",
+      "bytes": 830,
+      "rawBytesSha256": "f85c69b1fcd0f652a65a769f2f85dfff8198768cb90dac9751113f41ddb9c77a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase21/postgres-stderr-original.bin",
+      "bytes": 9655853,
+      "rawBytesSha256": "88c72523c0380de2392bc0ee34873d81a4d22b2a0544b80628b4312a416d17cb"
+    }
+  ],
+  "rawWireOnlyPrivate": true,
+  "productDDLChanged": false,
+  "cleanup": "Pending-owned-whole-acceptance-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

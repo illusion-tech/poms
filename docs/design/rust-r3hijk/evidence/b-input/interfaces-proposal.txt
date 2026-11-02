@@ -1,0 +1,72 @@
+RUST-R3I 情报10：共享接口候选，仅G1输入，未实现/未冻结
+
+checkout E:/projects/worktrees/poms-r3hijk-next28/poms
+branch codex/poms-r3hijk-next28
+base 7f970c992291c61477eb9bd83a48cec19a769d88
+作者B未来只拥有 apps/poms-api-rust/src/sales_intelligence/** 非http.rs；Root独占旧模块/公共桥/http/Cargo/lib/生成物与实际执行。联系人3已#90交付，不重复实现或计数。
+
+1. 消费A Lead真实读取（A已在代理消息确认，仍待Root联合G1）
+
+leads::store::by_id(&mut PgConnection, &str)
+  -> Result<Option<leads::store::LeadRef>, sqlx::Error>
+leads::store::by_ids(&mut PgConnection, &[Uuid])
+  -> Result<Vec<leads::store::LeadRef>, sqlx::Error>
+pub LeadRef { id: Uuid, customer_id: Uuid, lead_name: String }
+
+按原id精确查，不加active/status/owner/org/merged/converted过滤，无锁、无BEGIN/flush/audit/session。lead.customer_id原DDL非null FK。consumer保留请求UUID字符串用于原JS严格比较；不能把PG等价UUID归一结果先写回输入。
+
+I原requireOpportunityContext需要：先读取lead与project；检查Lead缺失，再Project缺失；customerId=input.customerId ?? project.customerId ?? lead.customerId。Lead/Project.customerId与该选定字符串严格比较，再查Customer存在。query没有显式customerId，create有required customerId。双锚点无需属于同一次转换，只要求原customer条件；读记录是lead_id OR project_id。Project.customer_id允许null，不能把它提前强化为non-null。
+
+2. I提供A的销售情报评分事实（A已确认路径/字段候选）
+
+sales_intelligence::store::collect_lead_score_facts(&mut PgConnection, &str)
+  -> Result<sales_intelligence::model::SalesIntelligenceFacts, sqlx::Error>
+
+pub SalesIntelligenceFacts {
+  decision_maker_known: bool,
+  technical_evaluator_known: bool,
+  procurement_process_known: bool,
+  budget_source_known: bool,
+  competitor_known: bool,
+  pain_point_known: bool,
+  next_contact_known: bool
+}
+
+唯一原权威：LeadScoreFactsService.collectSalesIntelligenceFacts，lead-score-facts.service.ts:48-70；LeadScoreSalesIntelligenceFactSummary在lead-scoring.ts。
+
+- 只按lead_id，不OR project_id，不先requireOpportunityContext/customer，不添owner/status过滤。
+- 全stakeholder中存在role=decision-maker / technical-evaluator即对应known；不要求primary、active contact或其他角色态度。
+- competitor任何行存在即known，不要求position/winProbability/evidence已确认。
+- discovery只ORDER BY updated_at DESC LIMIT1。原评分没有created_at tie-breaker，不能复用I公共列表的updatedAt DESC,createdAt DESC。
+- procurement/budget/pain/next从该一条discovery取ECMAScript trim后hasText；不向旧完整摸排回退/合并。
+- next_contact_known = latest.nextContactPlan有文本 OR 任意stakeholder.isPrimary。
+- 使用调用方提供的连接（可为H的TX连接），不另BEGIN/flush/commit/audit/session。不自动更新Lead.score，不替H组合followUp/attachment或执行刷新命令。
+- H的正式JSON仍由H从snake_case映射成原七个camelCase字段；I不给新公共HTTP endpoint。
+
+3. I提供J讨论的最小竞品关联事实
+
+sales_intelligence::store::competitor_by_id(&mut PgConnection, &str)
+  -> Result<Option<sales_intelligence::model::CompetitorRef>, sqlx::Error>
+
+pub CompetitorRef {
+  id: Uuid, customer_id: Uuid,
+  lead_id: Option<Uuid>, project_id: Option<Uuid>
+}
+
+仅按id查原记录，不追加target/customer/project/lead谓词、不主动404、不新增guard/TX/锁/audit。J自行按原target规则检查：customer真值时检查customer；两侧project都真值时才检查project；两侧lead都真值时才检查lead。项目target.leadId=null，不能额外推为sourceLead等价。若J输出确实需要competitor_name，由Root依原mapper追加最小字段，不能借此开放整行文本。
+
+Root用native-fixture-draft01.mjs里的buildCompetitorRequest，通过真实I Rust POST创建竞品；J夹具消费该真实id/customerId/leadId/projectId，不能把prepared竞品称作I CRUD交付。
+
+4. 消费既有Customer/Project/Contact
+
+- Customer：已有公开customers::store::find_customer(connection,&str)可提供id/display_name。I仅检查存在；不能调用require_active_customer。允许原inactive/merged记录被引用，是否显示新名称按原行读，不追别名/mergedInto。
+- Project：已有projects::store::find(connection,&str)提供id/customer_id:Option<Uuid>/project_name；不加stage/status/owner限制。批量名称读取由Root批准的只读桥或同义查询承接。
+- Contact：现customer_contacts::store::{Customer,Contact,customer,find}都是pub(super)，I不能跨模块直接用。建议Root增加只读桥（最终模块名Root裁决）：by_id(connection,&str)->Option<ContactRef>，ContactRef至少id/customer_id/name/department/title。只检查存在，不检查active/status，不返回phone/mobile/wechat/email/remark。
+- Stakeholder create在全部opportunity/customer检查后才查Contact，随后比较contact.customerId !== input.customerId（原输入字符串），不比较经归一的替代值。
+- 三个PATCH均不改customer/lead/project/contact锚点，不重新验证归属或状态；loadContext只查名字/联系人显示字段。不得把create前置校验倒灌为PATCH新失败路径。
+
+5. I本模块未来HTTP接线建议（未冻结）
+
+Service::new(Database)；list_stakeholders/list_competitors/list_discovery/gaps接收原OpportunityContext；create_*接收各CreateRequest与ResolvedSession；update_*接收原path &str、UpdateRequest、ResolvedSession及RequestMetadata（request_id）。返回Result<projects::model::Wire,模块Error>；Root owns全部http.rs。
+
+请求UUID先保留字符串。Root可裁决命名但不能改变原业务比较、存在性、OR谓词、事务和错误语义。所有写入/评分消费的最终共享协议只有联合基线+独立Pass+Root通知后才允许实现。

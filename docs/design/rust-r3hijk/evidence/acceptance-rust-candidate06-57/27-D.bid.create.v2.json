@@ -1,0 +1,156 @@
+{
+  "label": "D.bid.create.v2",
+  "startedAt": "2026-11-02T19:01:39.354Z",
+  "completedAt": "2026-11-02T19:01:39.378Z",
+  "value": {
+    "operationId": "ProjectController_createProjectBidCommercialProcess",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects/c9d1eceb-6655-40a2-831f-494ba646c714/bid-commercial-processes",
+      "json": {
+        "bidMode": "public-tender",
+        "decision": "participate",
+        "resultStatus": "won",
+        "currentStage": "result-confirmed",
+        "processSummary": "R3HK-cc20b1df-57 B2 process",
+        "decisionSummary": "R3HK-cc20b1df-57 B2 decision",
+        "resultSummary": "R3HK-cc20b1df-57 actual awarded result fixture",
+        "tenderNo": "R3HK-cc20b1df-57 B2 tender",
+        "bidPackageNo": "R3HK-cc20b1df-57 B2 package",
+        "ownerRole": "R3HK-cc20b1df-57 B2 owner",
+        "materialItems": [
+          {
+            "materialKey": "R3HK-cc20b1df-57 B2 material",
+            "label": "R3HK-cc20b1df-57 B2 material label",
+            "materialStatus": "ready",
+            "responsibleRole": "R3HK-cc20b1df-57 B2 material owner",
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "blocksNextStep": false,
+            "navigationHint": "/projects/c9d1eceb-6655-40a2-831f-494ba646c714/workspace/bid-commercial",
+            "sortOrder": 1
+          },
+          {
+            "materialKey": "R3HK-cc20b1df-57 B2 ready material",
+            "label": "R3HK-cc20b1df-57 B2 ready material label",
+            "materialStatus": "ready",
+            "responsibleRole": null,
+            "dueAt": null,
+            "blocksNextStep": false,
+            "navigationHint": null,
+            "sortOrder": 2
+          }
+        ],
+        "timelineItems": [
+          {
+            "eventKey": "R3HK-cc20b1df-57 B2 completed event",
+            "label": "R3HK-cc20b1df-57 B2 completed event label",
+            "summary": "R3HK-cc20b1df-57 B2 completed event summary",
+            "timelineStatus": "done",
+            "occurredAt": "2026-11-02T01:00:00.000Z",
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "responsibleRole": "R3HK-cc20b1df-57 B2 event owner",
+            "sortOrder": 1
+          },
+          {
+            "eventKey": "R3HK-cc20b1df-57 B2 pending event",
+            "label": "R3HK-cc20b1df-57 B2 pending event label",
+            "summary": null,
+            "timelineStatus": "done",
+            "occurredAt": "2026-11-02T01:00:00.000Z",
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "responsibleRole": null,
+            "sortOrder": 2
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "bidMode": "public-tender",
+        "bidPackageNo": "R3HK-cc20b1df-57 B2 package",
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T19:01:39.365Z",
+        "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "currentStage": "result-confirmed",
+        "decision": "participate",
+        "decisionSummary": "R3HK-cc20b1df-57 B2 decision",
+        "effectiveAt": "2026-11-02T19:01:39.365Z",
+        "id": "e879d597-b9eb-4bbc-a492-394bb189cbf9",
+        "isCurrent": true,
+        "ownerRole": "R3HK-cc20b1df-57 B2 owner",
+        "processSummary": "R3HK-cc20b1df-57 B2 process",
+        "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "resultStatus": "won",
+        "resultSummary": "R3HK-cc20b1df-57 actual awarded result fixture",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": "52d42719-367a-4ed5-abbd-03d894ee83c9",
+        "tenderNo": "R3HK-cc20b1df-57 B2 tender",
+        "updatedAt": "2026-11-02T19:01:39.365Z",
+        "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "version": 2
+      },
+      "requestId": "acfa8f16-fd81-4b48-8e8e-a05886819f8e",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "845",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-161",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 2029,
+        "requestSha256": "e5339f5365866b6b998dbcabec11dd6c0f6367e6bbf8256cf2c59227135f5592",
+        "responseBytes": 1130,
+        "responseSha256": "0e229ec8d2c4842725d11a488e00d6aaa016fed34314947cdb6bfa5f21f8df9d",
+        "entityBodyBytes": 845,
+        "entityBodySha256": "487557265f2f86080a92d3052d83bd7b871926edc291e660d92cf39fba04d53d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-ca6f229d-6652-460f-825e-b22ea4482a5f",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "e879d597-b9eb-4bbc-a492-394bb189cbf9",
+        "project_id": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "version": 2,
+        "is_current": true,
+        "supersedes_id": "52d42719-367a-4ed5-abbd-03d894ee83c9",
+        "status": "effective",
+        "bid_mode": "public-tender",
+        "current_stage": "result-confirmed",
+        "decision": "participate",
+        "result_status": "won",
+        "process_summary": "R3HK-cc20b1df-57 B2 process",
+        "decision_summary": "R3HK-cc20b1df-57 B2 decision",
+        "result_summary": "R3HK-cc20b1df-57 actual awarded result fixture",
+        "owner_role": "R3HK-cc20b1df-57 B2 owner",
+        "blocker_count": 0,
+        "effective_at": "2026-11-02T19:01:39.365Z",
+        "created_at": "2026-11-02T19:01:39.365Z",
+        "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "updated_at": "2026-11-02T19:01:39.365Z",
+        "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "row_version": 1,
+        "tender_no": "R3HK-cc20b1df-57 B2 tender",
+        "bid_package_no": "R3HK-cc20b1df-57 B2 package"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

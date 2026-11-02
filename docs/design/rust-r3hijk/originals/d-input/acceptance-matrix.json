@@ -1,0 +1,136 @@
+{
+  "kind": "poms-r3hijk-d-acceptance-matrix-draft01",
+  "status": "source-derived-input-only-not-run",
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "branch": "codex/poms-r3hijk-next28",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "nativeActual": null,
+  "rustActual": null,
+  "runnerOwner": "Root exclusively",
+  "evidenceRule": "Every case below is an unexecuted requirement. Source expectation is not Native actual. Preserve raw requests/status/body/logs plus state receipts as applicable; never fill from the definition itself.",
+  "operations": [
+    {"id": "BusinessDiscussionController_list", "method": "GET", "path": "/api/business-discussions", "statusSourceExpectation": 200, "permissionsAny": ["customer:read", "lead:read", "project:read"]},
+    {"id": "BusinessDiscussionController_create", "method": "POST", "path": "/api/business-discussions", "statusSourceExpectation": 201, "permissionsAny": ["customer:write", "lead:write", "project:write"]},
+    {"id": "ProjectController_getWorkspaceGuidance", "method": "GET", "path": "/api/projects/{projectId}/workspace-guidance", "statusSourceExpectation": 200, "permissionsAll": ["project:read"]},
+    {"id": "ProjectController_getTimeline", "method": "GET", "path": "/api/projects/{projectId}/timeline", "statusSourceExpectation": 200, "permissionsAll": ["project:read"]}
+  ],
+  "originalTests": [
+    {"file": "apps/poms-api/src/app/features/business-discussion/business-discussion.service.spec.ts", "lines": [[46,113],[115,153],[155,159]], "kind": "mock-unit-source-not-run", "scope": "sourceLead aggregation, first thread+trim+defaults, cross-customer rejection"},
+    {"file": "apps/poms-api/src/app/features/project/project.controller.spec.ts", "lines": [[191,228]], "kind": "mock-unit-source-not-run", "scope": "two query delegates"},
+    {"file": "apps/poms-api/src/app/features/project/project-query.service.spec.ts", "lines": [[342,524],[526,639],[1319,1507],[1509,1512]], "kind": "mock-unit-source-not-run", "scope": "guidance, base timeline, acceptance/completion/archive projection, missing timeline project"}
+  ],
+  "beforeG1NativeWitnessGroups": [
+    {"id": "N1", "cases": ["AUTH-01","J-L01","J-C01","J-Q01","J-Q02","K-G01","K-T01","K-E01"], "focus": "four actual happy-path statuses and plain path UUID vs Zod query failures"},
+    {"id": "N2", "cases": ["J-U01","J-U02","J-U03","J-U04","J-U05"], "focus": "JS UTF-16/trim and exact DB-boundary text failures including immediate-vs-reread"},
+    {"id": "N3", "cases": ["J-C01","J-C02","J-C03","J-C04"], "focus": "thread creation, reuse/title snapshot and first-thread race original error"},
+    {"id": "N4", "cases": ["J-L03","J-L04","J-A01","J-A02","J-A03","J-A04"], "focus": "aggregation and original permissive nullable anchor/status behavior"},
+    {"id": "N5", "cases": ["K-G02","K-G03","K-G04","K-G05","K-G06","K-G07"], "focus": "guidance precedence, snapshot metadata and representative full entry permission payloads"},
+    {"id": "N6", "cases": ["J-S01","K-T02","K-T03","K-T04","K-T05","K-T06","K-T08","K-T09"], "focus": "time precision, exact selected facts, complete equality groups and event ordering"}
+  ],
+  "groups": [
+    {
+      "id": "auth-and-transport", "source": ["auth.module.ts:28-30","permissions.guard.ts:27-46,71-75","auth-csrf.guard.ts:29-59,97-101"],
+      "cases": [
+        {"id":"AUTH-01","requirement":"All four operations with missing/expired/disabled/valid session; preserve exact auth status/body and guard precedence before DTO/database.","nativeActual":null},
+        {"id":"AUTH-02","requirement":"POST missing cookie/header, mismatch, bad session token; CSRF source code csrf_failed. GETs do not require CSRF. Keep security audit receipts.","nativeActual":null},
+        {"id":"AUTH-03","requirement":"J list accepts each one of customer:read,lead:read,project:read independently; J create each one write permission; no target-specific additional guard. No permissions -> permission_denied.","nativeActual":null},
+        {"id":"AUTH-04","requirement":"K both require project:read; unrelated customer/lead permission alone is insufficient. Full/read-only permission snapshots yield exact entry payloads.","nativeActual":null},
+        {"id":"AUTH-05","requirement":"HEAD/OPTIONS/unknown methods/trailing slash/query parsing/unknown keys follow shared transport baseline; no new routes, aliases or public surface. Root handles common verification.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"J-list-and-query", "source":["business-discussion.controller.ts:14-24","business-discussion.service.ts:28-35,85-111,196-250","shared-contracts.ts:3427-3436"],
+      "cases":[
+        {"id":"J-L01","requirement":"Valid empty customer target -> array source 200, all 19 fields on nonempty data; actual status/body captured.","nativeActual":null},
+        {"id":"J-Q01","requirement":"No customerId/leadId/projectId -> Zod refine Validation failed with original custom issue path/message. Query only unknown key does not satisfy anchor.","nativeActual":null},
+        {"id":"J-Q02","requirement":"Invalid, empty, null-like, repeated-array UUID query values, uppercase valid UUID, all-zero/all-f UUID and multiple anchor combinations; record exact Native issues instead of guessing generic 400.","nativeActual":null},
+        {"id":"J-L02","requirement":"Missing customer/lead/project -> exact original NotFoundException message; targets are resolved sequentially customer->lead->project.","nativeActual":null},
+        {"id":"J-L03","requirement":"Project list includes its sourceLead historical thread; missing sourceLead row is skipped, no copy/migration. Explicit same source lead plus project is de-duplicated.","nativeActual":null},
+        {"id":"J-L04","requirement":"Multiple same-customer unrelated opportunity anchors are accepted; different nonnull customers -> exact 400 alignment message; null project customer is filtered from alignment set.","nativeActual":null},
+        {"id":"J-L05","requirement":"Customer target alone reads customer-owned thread only; no automatic customer-wide Lead/Project discussion expansion. Lead target alone no converted Project expansion.","nativeActual":null},
+        {"id":"J-L06","requirement":"Live contact/user names projected for existing IDs, unavailable names null, original related IDs kept; targetTitle/customer/lead/project reflect stored thread snapshot.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"J-create-and-persistence", "source":["business-discussion.controller.ts:27-45","business-discussion.service.ts:37-83,113-150,267-296","business-discussion.entity.ts:13-98","business-discussion.repository.ts:104-117"],
+      "cases":[
+        {"id":"J-C01","requirement":"Create first customer/lead/project comment using real target API products: source 201, new thread+comment persisted atomically, server random IDs/time/operator sub, trimmed body and default false flags.","nativeActual":null},
+        {"id":"J-C02","requirement":"Second comment same target reuses thread; no new thread, no old comment rewrite. Both flags true/false independently retained.","nativeActual":null},
+        {"id":"J-C03","requirement":"Rename target after first thread; future comments/list preserve initial stored targetTitle/anchor snapshot. Same request original text vs DB reread handling preserved.","nativeActual":null},
+        {"id":"J-C04","requirement":"Concurrent first comment on same unused target: capture unique-constraint outcome/status/rawSQL/message exactly; no assumed upsert, automatic retry or custom 409.","nativeActual":null},
+        {"id":"J-C05","requirement":"Missing/invalid targetObjectType,targetObjectId,discussionType,body; six discussion enums, three target enums, unknown fields; exact Zod issue order/messages.","nativeActual":null},
+        {"id":"J-C06","requirement":"related IDs absent/null/UUID; optional flags absent versus null/string/number: source strict boolean with absent default false, no coercion.","nativeActual":null},
+        {"id":"J-C07","requirement":"Missing valid target UUID -> exact Customer/Lead/Project not-found source message; no extra lead-status/project-stage restriction.","nativeActual":null},
+        {"id":"J-C08","requirement":"FK deletion after lookup or first-thread conflict preserves Native failure and rollback state. Keep response payload separate from SQL log. No orphan first-thread/comment artifacts.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"J-associations", "source":["business-discussion.service.ts:39-43,153-194"],
+      "cases":[
+        {"id":"J-A01","requirement":"Same-customer real contact and inactive contact accepted; cross-customer contact rejected only with nonnull target.customerId. Null-customer project original acceptance must remain.","nativeActual":null},
+        {"id":"J-A02","requirement":"Real I competitor and delivered followup with matching anchors accepted; voided/superseded followup accepted by existence lookup; no new lifecycle filter.","nativeActual":null},
+        {"id":"J-A03","requirement":"For competitor and followup separately: cross-customer mismatch first; mismatching nonnull project/lead second; null opportunity field accepted; project target never checks sourceLead against record.leadId.","nativeActual":null},
+        {"id":"J-A04","requirement":"Customer target accepts same-customer unrelated lead/project association; Lead target does not constrain record.projectId; Project target does not constrain record.leadId. Do not tighten.","nativeActual":null},
+        {"id":"J-A05","requirement":"Each missing association separately yields its exact type-name NotFoundException; each mismatched association separately yields original message. Multiple Promise.all failures have no asserted fixed order.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"J-unicode-dates-sort", "source":["shared-contracts.ts:3445","business-discussion.service.ts:34,62,293","business-discussion.repository.ts:70-75"],
+      "cases":[
+        {"id":"J-U01","requirement":"8000 BMP and 4000 astral emoji after trim pass length source; 8001 BMP/4001 emoji fail; preserve UTF-16 limit issue metadata.","nativeActual":null},
+        {"id":"J-U02","requirement":"Trim FEFF/NBSP/ideographic-space edges; NEL U+0085 and zero-width U+200B remain; trim-only body fails min1. Preserve actual JS semantics.","nativeActual":null},
+        {"id":"J-U03","requirement":"Lone surrogate body through raw JSON: capture POST immediate raw body, database stored value, and subsequent GET raw body separately; no forced Unicode scalar conversion.","nativeActual":null},
+        {"id":"J-U04","requirement":"NUL body reaches original DB boundary if source validation permits; capture exact response/SQL error/rollback. Do not assume source accepts persistence.","nativeActual":null},
+        {"id":"J-U05","requirement":"Tabs, newline, quotes, backslash, combining and non-ASCII body survive JSON and persistence; no NFC normalization or new byte-length limits.","nativeActual":null},
+        {"id":"J-S01","requirement":"createdAt ascending independent of pinned/conclusion; distinct microseconds in same output millisecond retain repository precision order; output ISO UTC milliseconds.","nativeActual":null},
+        {"id":"J-S02","requirement":"Exact-equal createdAt has no id tie-break in source; compare tie-group content and non-tie ordering, retain original observed sequence without certifying it as stable.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"K-guidance", "source":["project-query.service.ts:51-187,320-357,1218-1229,1305-1327,1342-1674","approval-summary.repository.ts:41-53","shared-contracts.ts:4478-4520"],
+      "cases":[
+        {"id":"K-G01","requirement":"Native actual 200 and all 14 top-level fields plus all entry/basis fields on representative real project. No added top-level allowedActions.","nativeActual":null},
+        {"id":"K-G02","requirement":"10 stage labels, full exact Chinese stage guidance text, owner fallback and stage-specific entry shape; 13 pre-signing/10 handover/9 other entries in exact array order.","nativeActual":null},
+        {"id":"K-G03","requirement":"Status precedence blocked>pending-approval>on-hold>closed>stage default; blocking reasons blocked then closed; completed remains distinct from closed.","nativeActual":null},
+        {"id":"K-G04","requirement":"Owner both/name-only/org-only/missing/empty-string projections preserve truthiness and nullish fallback. Missing user/org must not display raw UUID.","nativeActual":null},
+        {"id":"K-G05","requirement":"Exact active project-detail snapshot selectors/order; absent four null basis fields; exportPolicy preserved with projectionLevel/id/generatedAt, no field removal or new policy filter.","nativeActual":null},
+        {"id":"K-G06","requirement":"Permission subset combinations: finance pair, assignment pair, payout pair, operations all four + project read. Internal commission action some-of and entry every-of remain separate.","nativeActual":null},
+        {"id":"K-G07","requirement":"All route/label/description/actionKey/enabled/disabledReason values and array order retained; disabled reason priority closed>stage>permission. No frontend usage truncation.","nativeActual":null},
+        {"id":"K-G08","requirement":"Read-only proof: project/snapshot/contract/R4 facts and row versions unchanged; generatedAt is valid request-time clock value, basis generatedAt historical snapshot clock.","nativeActual":null},
+        {"id":"K-E01","requirement":"Both K routes malformed raw path UUID with no DTO: exact actual Native response and SQL trace. Missing well-formed UUID separately source 404 Project {raw id} not found. Never substitute Zod UUID 400.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"K-timeline", "source":["project-query.service.ts:590-748","project.repository.ts:171-261","shared-contracts.ts:5351-5384"],
+      "cases":[
+        {"id":"K-T01","requirement":"Native actual 200, all projectId/events/generatedAt fields; creation event always assessment even current stage later; all 12 event fields present and existing facts only.","nativeActual":null},
+        {"id":"K-T02","requirement":"Earliest signed contract among all statuses; exclude null signedAt; equal signedAt retains repo updatedAt DESC,createdAt DESC selection before stable JS sort. No active-only/latest-contract rewrite.","nativeActual":null},
+        {"id":"K-T03","requirement":"Latest confirmed nonnull handover only; confirmedAt DESC,updatedAt DESC,createdAt DESC. Other statuses or null times do not create milestone.","nativeActual":null},
+        {"id":"K-T04","requirement":"Latest confirmed accepted OR conditional acceptance with nonnull confirmedAt; exclude rejected/voided; confirmedAt DESC,createdAt DESC. Exact acceptance type/result labels.","nativeActual":null},
+        {"id":"K-T05","requirement":"Latest confirmed nonnull completion; completedAt DESC,createdAt DESC; completed and conditional-completed exact result labels; do not infer from stage.","nativeActual":null},
+        {"id":"K-T06","requirement":"Latest recorded nonnull archive; archivedAt DESC,createdAt DESC; source/evidence/anchor stage and Chinese full-width colon prefix preserved; no voided/superseded archive event.","nativeActual":null},
+        {"id":"K-T07","requirement":"closedAt alone triggers close event with current stage and updatedBy even status differs; reason truthiness vs evidence nullish behavior preserved; missing actors -> null.","nativeActual":null},
+        {"id":"K-T08","requirement":"Final sort occurredAt ISO ASC then eventKey.localeCompare ASC, including events same millisecond; no stage-order replacement. UTC millisecond strings preserve Native Date behavior.","nativeActual":null},
+        {"id":"K-T09","requirement":"Repository time keys all equal select unspecified original equivalence member; do not add UUID tie key or claim a stable selection. Record observed candidate set and selected row.","nativeActual":null},
+        {"id":"K-T10","requirement":"Read-only proof over R4 fixtures and no synthesized missing stages; SQL-prepared lifecycle rows certify query projection only, never R4 command writes/state machine.","nativeActual":null}
+      ]
+    },
+    {
+      "id":"cross-domain-and-closeout", "source":["joint-slice-boundary","shared-dependency-interface-draft01.json"],
+      "cases":[
+        {"id":"X-01","requirement":"Root captures actual H Lead create/qualify/convert responses and Project.sourceLeadId, then J pre/post conversion continuity; prepared SQL Lead is insufficient for this case.","nativeActual":null,"dependsOn":"A true production API"},
+        {"id":"X-02","requirement":"Root creates real I competitor via API and delivered contacts/followup via API, links all through J create/list; exact output IDs/anchors retained. Prepared competitor is insufficient.","nativeActual":null,"dependsOn":"B true production API"},
+        {"id":"X-03","requirement":"Root applies common build/lint/test/OpenAPI/client/schema/UI/HTTP and route ownership evidence at exact final head; D performs none. No new route/schema drift hidden as parity.","nativeActual":null},
+        {"id":"X-04","requirement":"Independent Gate review after joint G1 and G3; formal issue/tracker/archive alignment by Root. J/K complete cannot imply R4 or parent migration complete.","nativeActual":null}
+      ]
+    }
+  ],
+  "comparisonPolicy": {
+    "exact": ["status and error shape", "all native response field names and nullability", "body UTF-16 wire where applicable", "Chinese labels and routes", "array order except explicitly undefined SQL tie groups", "source IDs and evidence", "query selectors", "permission projection"],
+    "requestLocalGeneratedValues": ["IDs use native UUID shape and relational linkage rather than guessed fixed UUID", "createdAt/generatedAt clock bounded by actual request receipts", "historical fact and snapshot times exact after Native millisecond conversion"],
+    "undefined": ["comment rows with every source SQL ordering key equal", "latest fact candidates with every source SQL ordering key equal", "multiple simultaneous Promise.all failures"],
+    "forbiddenNormalization": ["drop exportPolicy or entries", "force stable UUID ties", "turn malformed K path into new 400", "rewrite SQL failures", "replace JS trim/UTF-16 by Rust scalar semantics", "call SQL-prepared new-domain rows true H/I production"]
+  }
+}

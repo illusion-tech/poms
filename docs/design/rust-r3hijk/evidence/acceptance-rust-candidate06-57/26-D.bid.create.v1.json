@@ -1,0 +1,156 @@
+{
+  "label": "D.bid.create.v1",
+  "startedAt": "2026-11-02T19:01:39.330Z",
+  "completedAt": "2026-11-02T19:01:39.354Z",
+  "value": {
+    "operationId": "ProjectController_createProjectBidCommercialProcess",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects/c9d1eceb-6655-40a2-831f-494ba646c714/bid-commercial-processes",
+      "json": {
+        "bidMode": "public-tender",
+        "decision": "participate",
+        "resultStatus": "pending",
+        "currentStage": "preparation",
+        "processSummary": "R3HK-cc20b1df-57 B1 process",
+        "decisionSummary": "R3HK-cc20b1df-57 B1 decision",
+        "resultSummary": null,
+        "tenderNo": "R3HK-cc20b1df-57 B1 tender",
+        "bidPackageNo": "R3HK-cc20b1df-57 B1 package",
+        "ownerRole": "R3HK-cc20b1df-57 B1 owner",
+        "materialItems": [
+          {
+            "materialKey": "R3HK-cc20b1df-57 B1 material",
+            "label": "R3HK-cc20b1df-57 B1 material label",
+            "materialStatus": "in-progress",
+            "responsibleRole": "R3HK-cc20b1df-57 B1 material owner",
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "blocksNextStep": true,
+            "navigationHint": "/projects/c9d1eceb-6655-40a2-831f-494ba646c714/workspace/bid-commercial",
+            "sortOrder": 1
+          },
+          {
+            "materialKey": "R3HK-cc20b1df-57 B1 ready material",
+            "label": "R3HK-cc20b1df-57 B1 ready material label",
+            "materialStatus": "ready",
+            "responsibleRole": null,
+            "dueAt": null,
+            "blocksNextStep": false,
+            "navigationHint": null,
+            "sortOrder": 2
+          }
+        ],
+        "timelineItems": [
+          {
+            "eventKey": "R3HK-cc20b1df-57 B1 completed event",
+            "label": "R3HK-cc20b1df-57 B1 completed event label",
+            "summary": "R3HK-cc20b1df-57 B1 completed event summary",
+            "timelineStatus": "done",
+            "occurredAt": "2026-11-02T00:00:00.000Z",
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "responsibleRole": "R3HK-cc20b1df-57 B1 event owner",
+            "sortOrder": 1
+          },
+          {
+            "eventKey": "R3HK-cc20b1df-57 B1 pending event",
+            "label": "R3HK-cc20b1df-57 B1 pending event label",
+            "summary": null,
+            "timelineStatus": "pending",
+            "occurredAt": null,
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "responsibleRole": null,
+            "sortOrder": 2
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "bidMode": "public-tender",
+        "bidPackageNo": "R3HK-cc20b1df-57 B1 package",
+        "blockerCount": 1,
+        "createdAt": "2026-11-02T19:01:39.339Z",
+        "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "currentStage": "preparation",
+        "decision": "participate",
+        "decisionSummary": "R3HK-cc20b1df-57 B1 decision",
+        "effectiveAt": "2026-11-02T19:01:39.339Z",
+        "id": "52d42719-367a-4ed5-abbd-03d894ee83c9",
+        "isCurrent": true,
+        "ownerRole": "R3HK-cc20b1df-57 B1 owner",
+        "processSummary": "R3HK-cc20b1df-57 B1 process",
+        "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "resultStatus": "pending",
+        "resultSummary": null,
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "tenderNo": "R3HK-cc20b1df-57 B1 tender",
+        "updatedAt": "2026-11-02T19:01:39.339Z",
+        "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "version": 1
+      },
+      "requestId": "9b9ec864-c71a-4714-9a1a-c74257abc3d0",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "766",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-160",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1970,
+        "requestSha256": "fb37f04151eeea3fcabf5a0b105d568560c09cb978d02aa5fd397ec5d28142da",
+        "responseBytes": 1051,
+        "responseSha256": "a98288d264200a96503b0bd77ae739ec141d39182057f6a48ef876ae5639b72e",
+        "entityBodyBytes": 766,
+        "entityBodySha256": "715c920b85953e99c569442f3a02ddeab38458472c67b18ca1cd00164f56c632",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-753e0b1c-2938-4d21-9b04-4ca52b7eed31",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "52d42719-367a-4ed5-abbd-03d894ee83c9",
+        "project_id": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "version": 1,
+        "is_current": true,
+        "supersedes_id": null,
+        "status": "effective",
+        "bid_mode": "public-tender",
+        "current_stage": "preparation",
+        "decision": "participate",
+        "result_status": "pending",
+        "process_summary": "R3HK-cc20b1df-57 B1 process",
+        "decision_summary": "R3HK-cc20b1df-57 B1 decision",
+        "result_summary": null,
+        "owner_role": "R3HK-cc20b1df-57 B1 owner",
+        "blocker_count": 1,
+        "effective_at": "2026-11-02T19:01:39.339Z",
+        "created_at": "2026-11-02T19:01:39.339Z",
+        "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "updated_at": "2026-11-02T19:01:39.339Z",
+        "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "row_version": 1,
+        "tender_no": "R3HK-cc20b1df-57 B1 tender",
+        "bid_package_no": "R3HK-cc20b1df-57 B1 package"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

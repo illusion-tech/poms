@@ -1,4 +1,4 @@
-//! Native contact reads, controller projection and field audit transaction.
+//! Contact reads, public Create fields and field-audit transactions.
 
 use std::{collections::BTreeMap, error::Error as StdError, fmt};
 
@@ -101,7 +101,11 @@ impl Service {
             id: random_uuid()?,
             customer_id: customer.id,
             name: input.name.to_utf8_lossy(),
-            gender: CustomerContactGender::Unknown.as_str().to_owned(),
+            gender: input
+                .gender
+                .as_deref()
+                .unwrap_or(CustomerContactGender::Unknown.as_str())
+                .to_owned(),
             department: nullable(&input.department),
             title: nullable(&input.title),
             work_phone: nullable(&input.work_phone),

@@ -1,0 +1,101 @@
+{
+  "label": "E.contact.create",
+  "startedAt": "2026-11-02T17:35:14.098Z",
+  "completedAt": "2026-11-02T17:35:14.118Z",
+  "value": {
+    "operationId": "CustomerContactController_create",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/customer-contacts",
+      "json": {
+        "customerId": "5be8a9e5-976d-42d1-b561-2729acdaa834",
+        "name": "R3HK-6872abb5-30 contact",
+        "gender": "female",
+        "department": "业务",
+        "title": "采购负责人",
+        "workPhone": null,
+        "mobile": "01000000000",
+        "wechat": null,
+        "email": "regression@example.com",
+        "remark": "R3HK-6872abb5-30 contact initial"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "createdAt": "2026-11-02T17:35:14.108Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "customerId": "5be8a9e5-976d-42d1-b561-2729acdaa834",
+        "customerName": "R3HK-6872abb5-30 customer revised",
+        "department": "业务",
+        "email": "regression@example.com",
+        "gender": "female",
+        "id": "0c064c0e-3b8b-4360-b7d9-f69096e9494c",
+        "mobile": "01000000000",
+        "name": "R3HK-6872abb5-30 contact",
+        "remark": "R3HK-6872abb5-30 contact initial",
+        "rowVersion": 1,
+        "status": "active",
+        "title": "采购负责人",
+        "updatedAt": "2026-11-02T17:35:14.108Z",
+        "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "wechat": null,
+        "workPhone": null
+      },
+      "requestId": "1dd8b60e-4b75-4718-b637-3ce9b56962cf",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "613",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-88686-87",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:35:14 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 697,
+        "requestSha256": "9118f7d5c500ffb80d2be364484d8b736bfa4d1b17d26d209a6a66b066e3687d",
+        "responseBytes": 896,
+        "responseSha256": "763a077ab5308757d84899ecdc2d2b092a239b27266a5ce7ee4b3a44d6a69901",
+        "entityBodyBytes": 613,
+        "entityBodySha256": "632a9e0c442f12178768cbc98c1569e129de84c1ba1b282d611de7e9499467d2",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase30/raw-wire/admin-e8454317-7090-4231-8369-a5335c90b5f2",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "0c064c0e-3b8b-4360-b7d9-f69096e9494c",
+        "customer_id": "5be8a9e5-976d-42d1-b561-2729acdaa834",
+        "name": "R3HK-6872abb5-30 contact",
+        "department": "业务",
+        "title": "采购负责人",
+        "work_phone": null,
+        "mobile": "01000000000",
+        "wechat": null,
+        "email": "regression@example.com",
+        "remark": "R3HK-6872abb5-30 contact initial",
+        "status": "active",
+        "row_version": 1,
+        "created_at": "2026-11-02T17:35:14.108Z",
+        "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "updated_at": "2026-11-02T17:35:14.108Z",
+        "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "gender": "female"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

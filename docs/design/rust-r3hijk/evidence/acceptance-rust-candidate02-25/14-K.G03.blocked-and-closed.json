@@ -1,0 +1,300 @@
+{
+  "label": "K.G03.blocked-and-closed",
+  "startedAt": "2026-11-02T16:53:51.091Z",
+  "completedAt": "2026-11-02T16:53:51.115Z",
+  "value": {
+    "definition": {
+      "id": "K.G03.blocked-and-closed",
+      "covers": [
+        "K-G03",
+        "K-G07",
+        "K-G08"
+      ],
+      "prepare": [
+        {
+          "role": "K.G03.blocked-and-closed",
+          "table": "project",
+          "sql": "UPDATE poms.project SET status=$2,current_stage=$3,closed_at=$4::timestamptz,closed_reason=$5,customer_id=$6::uuid,customer_name=$7,owner_user_id=$8::uuid,owner_org_id=$9::uuid,created_at=$10::timestamptz,created_by=$11::uuid,updated_by=$12::uuid WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "blocked",
+            "closed-lost",
+            null,
+            "D closed reason",
+            "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "2026-11-03T00:34:33.067+08:00",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "Root captured original owned project row; restore exact original row fields after this case group"
+        }
+      ],
+      "requests": [
+        {
+          "id": "K.G03.blocked-and-closed",
+          "method": "GET",
+          "path": "/api/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace-guidance",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "headline": "已丢单存在阻断，先处理卡点。",
+            "blockingReasonCount": 2,
+            "stage": "closed-lost",
+            "statusField": "blocked"
+          },
+          "actual": null,
+          "capture": [
+            "full 14-field payload",
+            "entry array and all 7 fields",
+            "basis all 4 fields",
+            "before/after owned domain rows and row versions",
+            "request-clock window"
+          ]
+        }
+      ]
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "K.G03.blocked-and-closed",
+          "table": "project",
+          "sql": "UPDATE poms.project SET status=$2,current_stage=$3,closed_at=$4::timestamptz,closed_reason=$5,customer_id=$6::uuid,customer_name=$7,owner_user_id=$8::uuid,owner_org_id=$9::uuid,created_at=$10::timestamptz,created_by=$11::uuid,updated_by=$12::uuid WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "blocked",
+            "closed-lost",
+            null,
+            "D closed reason",
+            "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "2026-11-03T00:34:33.067+08:00",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "Root captured original owned project row; restore exact original row fields after this case group"
+        },
+        "before": {
+          "id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+          "status": "active",
+          "closed_at": null,
+          "created_at": "2026-11-03T00:34:33.067+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "project_no": "PRJ-2026-000017",
+          "updated_at": "2026-11-03T00:34:33.067+08:00",
+          "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "row_version": 1,
+          "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "project_name": "HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f",
+          "closed_reason": null,
+          "current_stage": "assessment",
+          "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "source_lead_id": null,
+          "planned_sign_at": null,
+          "customer_project_no": null
+        },
+        "after": [
+          {
+            "id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project_no": "PRJ-2026-000017",
+            "project_name": "HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "status": "blocked",
+            "current_stage": "closed-lost",
+            "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+            "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "planned_sign_at": null,
+            "closed_at": null,
+            "closed_reason": "D closed reason",
+            "row_version": 1,
+            "created_at": "2026-11-02T16:34:33.067Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T16:34:33.067Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "source_lead_id": null,
+            "customer_project_no": null
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [
+            "项目已标记为阻塞，需要先明确阻断原因和解除责任。",
+            "项目已关闭：D closed reason"
+          ],
+          "currentFocus": "先把阻断原因、责任人和解除条件说清楚。",
+          "currentGap": "项目已标记为阻塞，需要先明确阻断原因和解除责任。；项目已关闭：D closed reason",
+          "currentStage": "closed-lost",
+          "currentStageLabel": "已丢单",
+          "generatedAt": "2026-11-02T16:53:51.108Z",
+          "headline": "已丢单存在阻断，先处理卡点。",
+          "nextStep": "阻断解除后再回到项目主线继续推进。",
+          "ownerLabel": "HIJK admin / HIJK admin",
+          "projectId": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "项目已关闭，只能查看归档信息。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/operations"
+            }
+          ],
+          "status": "blocked",
+          "statusLabel": "阻塞中"
+        },
+        "requestId": "201c5f41-66d4-4e44-b131-0eba8c2663aa",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "3674",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-472",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:51 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "94f0e303fe39084a054957e12c5716d503b06a8d35814ca49b05ec5d35e14fc6",
+          "responseBytes": 3954,
+          "responseSha256": "45a90d6b4c9a01a69ba55976b895ea82c096f08f26773dad8eafe33a23116ea2",
+          "entityBodyBytes": 3674,
+          "entityBodySha256": "69b5cb27316be2706a9b902feb2c65e86e943c862a65ed354611640097c2a647",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_projectRead-665dde42-845a-4d0d-8d3b-b67244382282",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"status\": \"blocked\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.067+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-03T00:34:33.067+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f\", \"closed_reason\": \"D closed reason\", \"current_stage\": \"closed-lost\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"status\": \"blocked\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.067+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-03T00:34:33.067+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f\", \"closed_reason\": \"D closed reason\", \"current_stage\": \"closed-lost\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

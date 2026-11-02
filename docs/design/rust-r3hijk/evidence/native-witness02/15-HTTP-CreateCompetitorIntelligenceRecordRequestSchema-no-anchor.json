@@ -1,0 +1,56 @@
+{
+  "label": "HTTP-CreateCompetitorIntelligenceRecordRequestSchema-no-anchor",
+  "startedAt": "2026-11-02T09:13:40.638Z",
+  "completedAt": "2026-11-02T09:13:40.656Z",
+  "value": {
+    "input": {
+      "customerId": "2dd64735-393c-460a-b491-d333ac565bbb",
+      "competitorName": "Missing anchor"
+    },
+    "response": {
+      "status": 400,
+      "body": {
+        "statusCode": 400,
+        "message": "Validation failed",
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one opportunity anchor is required"
+          }
+        ]
+      },
+      "requestId": "ce161dab-3903-4c93-aef9-3b2abf113be9",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "143",
+        "ETag",
+        "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+        "Date",
+        "Mon, 02 Nov 2026 09:13:40 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 513,
+        "requestSha256": "d9068797db0347b4b26e58a052d8d23d21a9e243a2222003d71e00dd5c1154de",
+        "responseBytes": 467,
+        "responseSha256": "65473c23fd079029ec5b84baccca9402af80af3ff10a1371dace7213d2b4bf56",
+        "entityBodyBytes": 143,
+        "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase02/raw-wire/admin-ce161dab-3903-4c93-aef9-3b2abf113be9",
+        "originalRawRetained": true
+      }
+    }
+  }
+}

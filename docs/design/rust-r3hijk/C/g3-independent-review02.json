@@ -1,0 +1,507 @@
+{
+  "kind": "C-complete-independent-R3HIJK-G3-review02",
+  "createdAt": "2026-11-02T19:26:49.561Z",
+  "reviewCompleted": true,
+  "reviewMode": "Complete independent G3 revision02; current formal inputs and all previously passed unchanged scope reconciled",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Sole independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified",
+    "didNotAuthorProductOrRootExecutors": true
+  },
+  "verdict": "Pass",
+  "G3Certified": true,
+  "G4Certified": false,
+  "commitAllowed": true,
+  "mainIntegrationAllowed": false,
+  "fixedCommitCertified": false,
+  "trackerDoneAllowed": false,
+  "fullStageCertified": false,
+  "activeManifest": {
+    "file": "docs/design/rust-r3hijk/g3-input-manifest03.json",
+    "bytes": 856269,
+    "rawBytesSha256": "20d02317cf3ab6908d36d9a5b4412f90990576e3d7e8fe7cbd42e8f5809d2630"
+  },
+  "scopeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "scope": {
+    "kind": "cross-layer-high-risk",
+    "mode": "solo worktree checkpoint",
+    "operations": 28,
+    "H": 14,
+    "I": 10,
+    "J": 2,
+    "K": 2,
+    "formalR3DeliveredBeforeG4": 30,
+    "totalR3HTTP": 58,
+    "currentImplementedRustOperations": 173,
+    "parentsRemainOpen": [
+      85,
+      57
+    ],
+    "R4WriteAndFullR3StageAcceptanceExcluded": true
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "candidate": {
+    "file": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+    "bytes": 43734144,
+    "rawBytesSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67"
+  },
+  "candidateArtifactHashIsNotGitCommit": true,
+  "previousCompleteReview": {
+    "original": {
+      "file": "tmp/rust-r3hijk/c-review/g3-independent-review01.json",
+      "bytes": 30299,
+      "rawBytesSha256": "4ddb4fa4aa0c4aab8f046aa20d0de566c753ff6752992e459949b41948873f5d"
+    },
+    "formal": {
+      "file": "docs/design/rust-r3hijk/C/g3-independent-review01.json",
+      "bytes": 30299,
+      "rawBytesSha256": "4ddb4fa4aa0c4aab8f046aa20d0de566c753ff6752992e459949b41948873f5d"
+    },
+    "verdict": "Needs-correction",
+    "manifest02SHA": "301bf6ce2231a4d60775293ef8f9e2bdaa559ac93d017f93c8f6f012fe6e34b5",
+    "candidate04": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+    "originalBytesAndOldOutcomeRetained": true,
+    "closedOnlyForNewReviewedCandidate": true
+  },
+  "findingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "newFindings": [],
+  "closedFindings": [
+    {
+      "id": "G3-P2-I-UUID-IDENTITY-01",
+      "priority": "P2",
+      "classification": "existing-baseline-drift",
+      "status": "Closed on candidate06",
+      "reviewedSource": {
+        "file": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+        "bytes": 43218,
+        "rawBytesSha256": "2fbd0bc4533578ad0f5c30628dcd99923998462f1656aeaf26afcb661fd3ab8d"
+      },
+      "locations": {
+        "helper": 551,
+        "contact": 268,
+        "lead": 597,
+        "project": 605
+      },
+      "correction": "Only internal I ownership comparisons use parsed UUID identity. Missing/invalid values do not compare equal; raw input remains available to existing query/error text. No global serialization, DTO, route, permission, DDL or display policy change.",
+      "sourceCausality": "candidate05 I source is byte-identical to final06. The only05-to06 product source change is F reminder.",
+      "actual": {
+        "phase49": {
+          "completedBusinessGroups": 14,
+          "wholeReportStillPartial": true,
+          "wrongCreateAuditExpected500NotAcceptedAsProductRequirement": true
+        },
+        "phase51": {
+          "completedBusinessGroups": 14
+        },
+        "totalBusinessGroups": 28,
+        "uppercaseActualPOSTs": 6,
+        "canonicalPersistedForeignKeys": true,
+        "lowerUpperListBodiesEqual": 12,
+        "gapBodiesEqual": 2,
+        "crossCustomerMissingMalformedNegativeCases": 13,
+        "normalPATCHAndSemanticNoopKinds": 3,
+        "registeredChangedPATCHAuditFaultRollbackKinds": 3,
+        "fullFaultExportedTables": 8,
+        "actualIToHNewFactsAndJContactCompetitorConsumption": true,
+        "I68Rerun": {
+          "groups": 69,
+          "definitions": 68,
+          "HTTP": 73,
+          "twoFormerUppercaseFailuresNow201": true,
+          "oldNativeExpectedNamesNotRewritten": true
+        }
+      },
+      "requiredContractNotExpanded": true
+    },
+    {
+      "id": "G3-P2-F-EMPTY-REMINDER-STREAM-01",
+      "priority": "P2",
+      "classification": "existing-baseline-drift",
+      "status": "Closed on candidate06",
+      "reviewedSource": {
+        "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+        "bytes": 9339,
+        "rawBytesSha256": "da2f93ccd37bb42444d6bead2a1be95514c3eac10c7ba8845896dd5cab7bcd55"
+      },
+      "locations": {
+        "prepare": 36,
+        "lock": 124,
+        "key": 136
+      },
+      "correction": "The existing business TX takes one transaction advisory lock keyed by namespace, most-specific target type and canonical UUID before all Todo cancel/source/stream reads, including empty/no-owner/no-date paths. Source version lock/recheck stays first. Lock key excludes owner, while owner filtering and all original lifecycle rules stay unchanged.",
+      "sourceTransactionAndLockOrderChecked": true,
+      "actual": {
+        "phase58": {
+          "groups": 6,
+          "HTTP": 18,
+          "threeSameOwnerTargets": [
+            "project",
+            "lead",
+            "customer"
+          ],
+          "eachActualInsertWaiters": 1,
+          "eachActualAdvisoryWaiters": 1,
+          "eachSameOwnerHTTP": [
+            201,
+            201
+          ],
+          "eachSameOwnerFollowUpFacts": 2,
+          "eachSameOwnerOpenTodos": 1,
+          "eachSameOwnerCompletedTodos": 1,
+          "differentOwnersEachKeepOneOpen": true,
+          "TodoAndRecordNecessaryWriteFaultsRollbackWholeGraph": true,
+          "sameTargetRecovery201ProvesRollbackLockRelease": true
+        },
+        "phase59": {
+          "groups": 3,
+          "HTTP": 12,
+          "replaceReplaceVoidVoidReplaceVoidAll200409": true,
+          "winnerOnlyVersionRecordTodoAndRequiredAuditGraph": true
+        }
+      },
+      "noDDLReminderRuleAuditOrOperationCountExpansion": true
+    }
+  ],
+  "inputIntegrity": {
+    "independentAudit": {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-input-byte-audit01.json",
+      "bytes": 3034,
+      "rawBytesSha256": "c464b42ee694da455c487f14941fa0a2d4d21c475fda0d0d7ec3b5860bffc8ba"
+    },
+    "productCargoOpenAPIPins": 235,
+    "protectedNativeUIContractClientPins": 1373,
+    "formalPins": 2097,
+    "toolPins": 128,
+    "allAtIntakeAndSigningExact": true,
+    "governanceCurrentAndSnapshotPairs": 6,
+    "publicOriginalFormalPairs": 1731,
+    "prior1473FilesAnd180442225BytesUnchanged": true,
+    "new258FilesAnd13372999BytesExact": true,
+    "oldManifest01_02AndFirstReviewPreserved": true,
+    "quarantine21OriginalNotPublished": true
+  },
+  "sourceReview": {
+    "changesFromFirstCandidate04": [
+      {
+        "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+        "bytes": 9339,
+        "rawBytesSha256": "da2f93ccd37bb42444d6bead2a1be95514c3eac10c7ba8845896dd5cab7bcd55"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+        "bytes": 43218,
+        "rawBytesSha256": "2fbd0bc4533578ad0f5c30628dcd99923998462f1656aeaf26afcb661fd3ab8d"
+      }
+    ],
+    "unchangedProductPins": 233,
+    "unchangedRustSourcePins": 229,
+    "threeExactMoneyFilesUnchanged": true,
+    "allHJKCommonHTTPDTOOpenAPIUIAndCargoInputsUnchanged": true,
+    "fiveSharedHelpersPreviouslyVerifiedRemainUnchanged": true,
+    "ICompareNoneAndInvalidNeverEqual": true,
+    "FKeyNamespaceTypeUUIDWithOwnerFilteringUnchanged": true,
+    "FSourceRowLockThenTargetAdvisoryOnSameCallerTransaction": true,
+    "noNewInputsOrProductChangesDuringThisReview": true
+  },
+  "validation": {
+    "build11": {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/rust-check11/report01.json",
+        "bytes": 89524,
+        "rawBytesSha256": "076005ecbd9832ed81cf0740211822bb3075d5304af7a683f753123f8750c1e0"
+      },
+      "artifact": {
+        "file": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "bytes": 43734144,
+        "rawBytesSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67"
+      },
+      "fmtExit": 0,
+      "clippyDenyWarningsExit": 0,
+      "allTargetsTestExit": 0,
+      "releaseExit": 0,
+      "passed": 294,
+      "failed": 0,
+      "ignored": 54,
+      "ignoredAreNotClaimedAsExecutedPGTests": true
+    },
+    "actualIndependentAudit": {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-business-evidence-audit01.json",
+      "bytes": 77076,
+      "rawBytesSha256": "fd76fc2ff92a07f9e92b8dac9cfa2ed6fca7195214de341260d6c453d29234fe"
+    },
+    "caseCopiesIndependentlyMatched": 182,
+    "newIAndFAcceptanceAsAbove": true,
+    "phase55": {
+      "groups": 4,
+      "HTTP": 18,
+      "IThreeCAS200409WithWinnerFieldActorAndOneAudit": true,
+      "JSharedDueSessionTwo201OneThreadTwoComments": true
+    },
+    "phase56": {
+      "groups": 14,
+      "HTTP": 65,
+      "businessAtomicityRequiredAuditSemanticSnapshotsTypedNoopAnd16NumberBurstChecked": true,
+      "authKeepaliveNotBusinessRollbackOracle": true
+    },
+    "phase57": {
+      "groups": 56,
+      "HTTP": 56,
+      "distinctOldR3Operations": 30,
+      "auxiliaryTodoReadNot31stR3Operation": true,
+      "ContactGenderThreeVersionDomainsFollowUpHistoryReminderAndAuditChecked": true
+    },
+    "phase61": {
+      "groups": 2,
+      "HTTP": 32,
+      "actualLocalUploads": 4,
+      "bytesAndSHA256MetadataChecked": true,
+      "eligibleCopies": 2,
+      "excludedCopies": 2,
+      "sourceLinksUnchanged": true,
+      "LeadIContactFollowUpTodoToProjectJKActualReferencesChecked": true,
+      "threeConvertNecessaryWriteFaultsWholeBusinessGraphExact": true,
+      "numberReservationsIndependentAndMayLeaveGaps": true
+    },
+    "retainedCandidate04": {
+      "exactMoney43_44": {
+        "rawHTTP": 20,
+        "boundaryGroups": 17,
+        "sevenTableRawNoWriteRejections": 10,
+        "independentReview": {
+          "file": "tmp/rust-r3hijk/c-review/candidate04-money-correction-preaudit01.json",
+          "bytes": 27639,
+          "rawBytesSha256": "cb4b0f305499e5040a2b9b2cb96e0fa1df60ca3aca7a54f43c17d75f8a52aa10"
+        }
+      },
+      "version45": {
+        "groups": 17,
+        "HTTP": 29,
+        "threeActualTwoWaiterRacesTwo201ContinuousChainAndOneCurrent": true,
+        "nineParentAndAllDeclaredChildInsertFaultsHistoricalGraphExact": true,
+        "twoStaleReference400NoWrite": true
+      }
+    },
+    "untouchedScopeFromCompleteFirstReview": {
+      "original": {
+        "file": "tmp/rust-r3hijk/c-review/g3-independent-review01.json",
+        "bytes": 30299,
+        "rawBytesSha256": "4ddb4fa4aa0c4aab8f046aa20d0de566c753ff6752992e459949b41948873f5d"
+      },
+      "HIJKCodeAndContractsReviewed": true,
+      "H80FinalOriginalBoundaryAndGuard149Retained": true,
+      "JK95ExecutionAnd31CorrectiveSelectionReadOnlyEvidenceRetained": true,
+      "NativePreparedR4FactsNotCommandDelivery": true,
+      "noByteLevelNodeBugEquivalenceGate": true
+    },
+    "integrity04": {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/final-integrity04/report01.json",
+        "bytes": 26574,
+        "rawBytesSha256": "c28d72802daca772fd43e84efab0261e7807066f1cb5e7dc4def64dde2bd1061"
+      },
+      "actualCompiledOperations": 173,
+      "actualCompiledPaths": 138,
+      "schemas585DeepNativeEqual": true,
+      "all28CanonicalOperationsDeepNativeEqual": true,
+      "client579Protected": true,
+      "migration92Protected": true,
+      "twoActualSchemasRawExactAndEqualPriorBaseline": true,
+      "all428PrivilegesRestoredEach": true,
+      "noDDLChange": true
+    }
+  },
+  "causalReuse": {
+    "explicitIndependentDecision": "Accepted for the specific unchanged behaviours, with exact source/artifact provenance retained; no original report is relabelled as a final06 rerun.",
+    "candidate04MoneyVersionAndHGuardEvidence": "Three money and version-domain source paths, H and common HTTP/permissions/validation unchanged. New I/F outcomes separately rerun and integrated.",
+    "JK95And31": "J/K source and readonly shared interfaces unchanged; I/H facts and F references freshly produced in51/61 and J concurrency freshly exercised55.",
+    "originalFourUICells": {
+      "sourceReview": {
+        "file": "tmp/rust-r3hijk/c-review/ui-platform-scope-review01.json",
+        "bytes": 16573,
+        "rawBytesSha256": "750dfdef47cbc67ab4fde668a9ddec45fd8e62c2c331dfd7fb26160bfa8c60f3"
+      },
+      "browserPlatforms": [
+        "linux",
+        "win32"
+      ],
+      "backendTypes": [
+        "Native",
+        "Rust"
+      ],
+      "observationsEach": 79,
+      "HTTP": [
+        259,
+        259,
+        259,
+        261
+      ],
+      "originalRustArtifact": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+      "allUIAndProtectedNativeSourceBytesUnchanged": true,
+      "IOnlyFixesCaseSpellingIdentityForAlreadyAuthorizedAnchors": true,
+      "FOnlySerializesSameTargetWithoutChangingNormalCommandFieldsOrRules": true,
+      "normalFSourceAndIRealConsumerRegressionsRunOnFixedSources": true,
+      "noNewUIRerunClaimed": true,
+      "WindowsNativeBackendHost": "win32",
+      "WindowsRustCellBackendHost": "linux",
+      "WindowsRustNativeServerCertified": false
+    },
+    "limits": [
+      "Filled optional original UI conversion date picker was not exercised.",
+      "Absent I PATCH/delete UI controls and J relation-selector controls are not invented UI coverage.",
+      "Actual local upload bytes and this conversion copying are accepted; cloud providers and oldNative attachment-version unique failure are not newly certified.",
+      "R4 read facts remain explicitly prepared projections; no R4 write/approval-handler/fullstage or deployment/performance acceptance."
+    ]
+  },
+  "driftAndExceptions": {
+    "IAndFRealDefectsFixedAndClosed": true,
+    "oldMoneyRealDefectRemainsClosedOnUnchangedFinalSource": true,
+    "extraZodIssuesAndHTML404BodiesNotBusinessBlockers": true,
+    "phase49CreateAuditExpectationToolNoise": "EX63B requires changedPATCH *.updated audit, not a newcreated event. Actual201 and its row retained and cleaned; no failure-after-commit claim.",
+    "oldPartialFailedStoppedUncertifiedAndNativeWitnessesUnmodified": true,
+    "rawVerificationAndEvidenceBinaryAttributes": "Four exact current/archive verification/evidence/**/*.bin patterns preserve raw failed command streams; no product source exemption. Failedcommon04 and passedcommon05 both preserved.",
+    "sameScopeCorrectiveCheckpoints": [
+      {
+        "file": "docs/design/rust-r3hijk-uuid-corrective-checkpoint04.md",
+        "bytes": 1389,
+        "rawBytesSha256": "d5c9b0c33a6322e80e720ad5e216db38d1c8c51a3f439a09e0595707c7f2fc69"
+      },
+      {
+        "file": "docs/design/rust-r3hijk-followup-stream-corrective-checkpoint05.md",
+        "bytes": 1929,
+        "rawBytesSha256": "bfab6def03aa769316c9141fe733a845310f671895a3c1b6f0fb955dac128cb5"
+      }
+    ],
+    "E1": {
+      "freshReviewedContinuation": true,
+      "review": {
+        "file": "tmp/rust-r3hijk/c-review/e1-consumer-incremental02.json",
+        "bytes": 19570,
+        "rawBytesSha256": "7da47901cfc72e30309a81ec7f9a14140adacdbae15ffba2e15d54387fedc50f"
+      },
+      "directConsumers": 23,
+      "earlierG1": 22,
+      "aliases": 5,
+      "bytes": 419264,
+      "activeAndArchiveByteExact": true,
+      "owner": "Root /root",
+      "cleanupDeadline": "2026-11-09",
+      "deadlineExtended": false,
+      "exitNotYetClaimed": true,
+      "noNewCompatibilityMirrorApproved": true
+    }
+  },
+  "finalTerminalAndCommon": {
+    "independentAudit": {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-terminal-integrity-audit01.json",
+      "bytes": 7548,
+      "rawBytesSha256": "fb2ece322f5143d71d6edb24915ca7d5bb2d4fa41d8d8f0d5938c8253829ad27"
+    },
+    "newCohort": "cc20b1df-63f7-40db-b558-521474f53fb5",
+    "newOwnedRowsCleaned": 389,
+    "all107SeedRawJSONRowsExact": true,
+    "all428PrivilegesRestored": true,
+    "allWrongProbeRowsIncluded": true,
+    "earlierG1Owned382AndG2Native1265Rust2371TerminalsPreserved": true,
+    "retainedLocalObjects": 21,
+    "originalRust8ObjectsUnchanged": true,
+    "allEightLinuxRuntimesAndWindowsNativeStopped": true,
+    "originalBrowserAndProxyClosuresRetained": true,
+    "portsFree": [
+      12400,
+      12410,
+      12500,
+      12600,
+      22433
+    ],
+    "SQLLogging": "none",
+    "ownedPG15StoppedVolumeAndPrivateRetained": true,
+    "retainedFinalExecutable": {
+      "file": "docs/design/rust-r3hijk/evidence/runtime/artifact-candidate06.json",
+      "bytes": 504,
+      "rawBytesSha256": "32b7ccf175102549a4080545e4890de84ab9eaa749b26f862b9bed7af2a0ac94"
+    },
+    "retainedPreviousExecutable": {
+      "file": "docs/design/rust-r3hijk/evidence/runtime/artifact-candidate05.json",
+      "bytes": 504,
+      "rawBytesSha256": "3609837e355d017ccc570d7ffcb96227c9fe2e0b7238ca7f8a1168a25fcec2e0"
+    },
+    "oldPG17AndPriorPrivateNotReadByC": true,
+    "publicCredentialAudit": {
+      "RootPrivacy03Findings": 0,
+      "CIndependentJSONFiles": 1484,
+      "CIndependentFindings": 0,
+      "noSecretValuesPrinted": true,
+      "private21ExcludedPublic02StillPartial": true
+    },
+    "common05": {
+      "report": {
+        "file": "docs/design/rust-r3hijk/verification/common-checks05/report01.json",
+        "bytes": 2283,
+        "rawBytesSha256": "51e673721bd4a554bb0f5f6ed8d3a624005c72c1863355c66726c864f0386633"
+      },
+      "MarkdownFormatExit": 0,
+      "unstagedDiffExit": 0,
+      "stagedDiffExit": 0
+    },
+    "earlierCommon04FailureStillRetained": true
+  },
+  "decision": {
+    "allow": "Create the scoped implementation commit from these exact reviewed product inputs plus the necessary G3 signature/authority metadata.",
+    "commitAllowed": true,
+    "notYetAllowed": [
+      "Treat any future product/source change as covered by this signature.",
+      "Integrate main before the separate fixed-commit review.",
+      "Mark93–96 Done or issueG4 before actual integration/archive/G4 permission.",
+      "Close85/57 or claim fullR3 stage, WindowsRust native server, deployment or performance."
+    ],
+    "fixedCommitReviewRequired": true,
+    "mainIntegrationReviewRequired": true,
+    "G4Required": true,
+    "finalIssueCloseoutOnly": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "parentsRemainOpen": [
+      85,
+      57
+    ],
+    "dedicatedMigrationExecutionTracker": "Root must update its true main counts and R3/H-K rows in the actual integration/archive metadata stage and present that diff to fixed/G4 review. Existing main145/formal30 historical text and frozeninput03 are not rewritten by this signature.",
+    "formalR3DeliveredRemains30UntilActualG4": true
+  },
+  "auditRecords": [
+    {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-input-byte-audit01.json",
+      "bytes": 3034,
+      "rawBytesSha256": "c464b42ee694da455c487f14941fa0a2d4d21c475fda0d0d7ec3b5860bffc8ba"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-business-evidence-audit01.json",
+      "bytes": 77076,
+      "rawBytesSha256": "fd76fc2ff92a07f9e92b8dac9cfa2ed6fca7195214de341260d6c453d29234fe"
+    },
+    {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-terminal-integrity-audit01.json",
+      "bytes": 7548,
+      "rawBytesSha256": "fb2ece322f5143d71d6edb24915ca7d5bb2d4fa41d8d8f0d5938c8253829ad27"
+    }
+  ],
+  "noProductOrRootExecutorWriting": true,
+  "noProductOrAuthorRootExecutorExecution": true,
+  "noInstallBuildTestDBHTTPBrowserOrServiceExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true,
+  "onlyOwnCReviewArtifactsWritten": true
+}

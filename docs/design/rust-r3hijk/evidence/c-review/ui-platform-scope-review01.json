@@ -1,0 +1,335 @@
+{
+  "kind": "C-independent-current-R3HIJK-four-UI-cell-platform-scope-review01",
+  "createdAt": "2026-11-02T18:14:11.352Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Pass-limited-UI-platform-scope",
+  "G3Certified": false,
+  "G4Certified": false,
+  "fullStageAcceptance": false,
+  "frozenG1Manifest": {
+    "file": "docs/design/rust-r3hijk/g1-input-manifest02.json",
+    "bytes": 54664,
+    "rawBytesSha256": "979ecf83a801bc3b373014c308c2ec096acb18fa715c04abd3467b18de776d08"
+  },
+  "authority": [
+    {
+      "file": "docs/design/rust-r3hijk-next28-baseline.md",
+      "line": 33,
+      "quote": "G2/G3必须完成：Rust fmt/clippy/build/有效单测及真实DB/HTTP；原Native与Rust同义比较全部28操作并回归旧30；原始错误/状态、permission/CSRF/validation、钱/日期/UUID/Unicode、单CAS和weak bulk并发、故障注入下计数器/审计/主状态/快照/附件完整终态；真实Customer→Lead/I情报/Contact/FollowUp/attachment upload→转换→J/K生产链；Linux/Windows Native与Rust四组合UI关键业务路径；OpenAPI/客户端原字节和现有migration/schema、Native保护源复核；受影响lint/构建/测试及docs格式/diff检查。预期检查须记录实际通过、失败、N/A理由或明确阻塞，不用定义/继承预览替代执行。",
+      "sourcePin": {
+        "file": "docs/design/rust-r3hijk-next28-baseline.md",
+        "bytes": 6022,
+        "rawBytesSha256": "31e61d14044c0d9b4c0627d7447af0d6a2aa7e89aa3bbc2f89fe9da062b33ea7"
+      }
+    },
+    {
+      "file": "docs/design/rust-r3hijk-next28-baseline.md",
+      "line": 41,
+      "quote": "环境独占poms-r3hijk：PG15 22433、Native12400/Rust12500/WindowsNative12410/UI12600；双库poms_r3hijk_nest/rust。已清理G1自有382行，107seed表原JSON精确、428权限还原，Native已停止、12400释放，自有PG15和private/volume保留供G2；不触旧PG17或旧批private。密钥/原cookies只在本批private，不进入仓库。",
+      "sourcePin": {
+        "file": "docs/design/rust-r3hijk-next28-baseline.md",
+        "bytes": 6022,
+        "rawBytesSha256": "31e61d14044c0d9b4c0627d7447af0d6a2aa7e89aa3bbc2f89fe9da062b33ea7"
+      }
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "line": 147,
+      "quote": "6. R0F 冻结时 Playwright 默认启动命令使用 PowerShell；R1D 已改为跨平台 Node 入口，R1E 完成 Linux managed Nest/Rust、Windows managed Nest / external Rust 四组合认证 UI 验收。API 端口与前端代理显式配置，Windows external Rust 由独立 Linux owner 持有并核验存活与清理。",
+      "sourcePin": {
+        "file": "docs/design/backend-rust-migration-plan.md",
+        "bytes": 69223,
+        "rawBytesSha256": "a8c131fe597abd7c332f3101fd72792f16273e4eef3b99ffc0c8c3a3883f779f"
+      }
+    },
+    {
+      "file": "docs/design/rust-r3hijk/originals/a-input/acceptance-matrix.json",
+      "line": 80,
+      "quote": "    {\"id\":\"H42\",\"topic\":\"original-UI-lifecycle-four-platforms\",\"operations\":\"basic9\",\"nativeFirst\":false,\"stimulus\":\"Original navigation→lead list/workbench filters→register/public pool/claim/assign→detail edit→qualify/close or convert→real project detail; four Linux/Windows browser/backend combinations.\",\"assertions\":[\"Real generated-client network, no page.route mock/component.evaluate action substitution\",\"Default active scopes and business gaps visible\",\"Version/permission/stale/failure feedback kept\",\"Conversion project/source summary actually persisted and linked\"],\"pg\":[\"UI network IDs correspond actual producers and rows\"]},",
+      "sourcePin": {
+        "file": "docs/design/rust-r3hijk/originals/a-input/acceptance-matrix.json",
+        "bytes": 32554,
+        "rawBytesSha256": "e57c77e3ae2ca1333d3b2b5c9f406c37bb1921362ca534e46536a6fd6653737e"
+      }
+    }
+  ],
+  "interpretation": {
+    "requiredAxes": [
+      "Browser host platform: Linux or Windows",
+      "Backend implementation: original Native or Rust"
+    ],
+    "currentFrozenG1ExplicitlyRequiresFourUIKeyBusinessPathCombinations": true,
+    "currentFrozenG1ExplicitWindowsRustNativeBinaryBuildRequirementFound": false,
+    "reason": "The frozen baseline specifically asks for UI key business paths and declares only the separate WindowsNative port. The migration plan explicitly defines Windows external Rust as a Linux-owner backend, consistent with A H42 browser/backend wording. This record makes the actual host axes explicit; it does not change the frozen requirement.",
+    "independentScopeJudgement": true,
+    "evidenceSubstitutionForUIRequirement": false,
+    "validationExceptionGranted": false
+  },
+  "cells": [
+    {
+      "label": "linux-native03",
+      "report": {
+        "file": "tmp/rust-r3hijk/ui-linux-native03/report01.json",
+        "bytes": 903448,
+        "rawBytesSha256": "8079c1353da2d8e48ecf0d6751ded3aed0cb09654897a45b71f411fb33b8ac88"
+      },
+      "input": {
+        "file": "tmp/rust-r3hijk/ui-input-linux-native03.json",
+        "bytes": 1369,
+        "rawBytesSha256": "e79d58ee18bc70bf23fbdbcc028da013a60dff390062c5a3cdec53f3993c7f61"
+      },
+      "browserHostPlatform": "linux",
+      "actualBackendImplementation": "Native NestJS",
+      "actualBackendHostPlatform": "linux",
+      "actualBackendPort": 12400,
+      "actualRuntime": {
+        "file": "tmp/rust-r3hijk/runtime/nest-g2-native01.json",
+        "bytes": 664,
+        "rawBytesSha256": "d4f507153f93eb654864faad7eb12bee0b61c29ec22e7d5649ce000e456f19c9"
+      },
+      "sourceBoundCandidate": "g2-native01",
+      "observations": 79,
+      "HTTP": 259,
+      "visibleBusinessWriteObservations": 17,
+      "backendHostPlatformIsNotInferredFromBrowserPlatform": true,
+      "closure": {
+        "browserClosed": true,
+        "serverClosed": true,
+        "pending": 0,
+        "allRawExchangesRetained": true
+      }
+    },
+    {
+      "label": "windows-native01",
+      "report": {
+        "file": "tmp/rust-r3hijk/ui-windows-native01/report01.json",
+        "bytes": 924535,
+        "rawBytesSha256": "03eb50f1b7b9ff74a6ff13eb5e7d79c4ff8dc29348b808199aef6d9862990005"
+      },
+      "input": {
+        "file": "tmp/rust-r3hijk/ui-input-windows-native01.json",
+        "bytes": 1383,
+        "rawBytesSha256": "96f2e56803da18cba2b644ae2b4e451f3449c74093f4ba1365254082ae873645"
+      },
+      "browserHostPlatform": "win32",
+      "actualBackendImplementation": "Native NestJS",
+      "actualBackendHostPlatform": "win32",
+      "actualBackendPort": 12410,
+      "actualRuntime": {
+        "file": "tmp/rust-r3hijk/runtime/windows-native01.json",
+        "bytes": 632,
+        "rawBytesSha256": "36b60c4a0cdd498e1c3b4668356eb8cd00e687d16af15815ec917d12ddaccc0e"
+      },
+      "sourceBoundCandidate": "g2-native01",
+      "observations": 79,
+      "HTTP": 259,
+      "visibleBusinessWriteObservations": 17,
+      "backendHostPlatformIsNotInferredFromBrowserPlatform": true,
+      "closure": {
+        "browserClosed": true,
+        "serverClosed": true,
+        "pending": 0,
+        "allRawExchangesRetained": true
+      }
+    },
+    {
+      "label": "linux-rust01",
+      "report": {
+        "file": "tmp/rust-r3hijk/ui-linux-rust01/report01.json",
+        "bytes": 1122024,
+        "rawBytesSha256": "b2349d4769121bbb50e2ca80ebcc40bc79a2618fe7b37a2c64a2c7ad6562b66f"
+      },
+      "input": {
+        "file": "tmp/rust-r3hijk/ui-input-linux-rust01.json",
+        "bytes": 1355,
+        "rawBytesSha256": "638b1a6d09d3ea4f5fa31e444dc1c2e803aad6a64b985b88cf13f91bfb1dafe5"
+      },
+      "browserHostPlatform": "linux",
+      "actualBackendImplementation": "Rust",
+      "actualBackendHostPlatform": "linux",
+      "actualBackendPort": 12500,
+      "actualRuntime": {
+        "file": "tmp/rust-r3hijk/runtime/rust-candidate03.json",
+        "bytes": 668,
+        "rawBytesSha256": "0429da5b0db13d991b925396e6ed265ac62338c179c63b9cdb32535ea8494fd6"
+      },
+      "sourceBoundCandidate": "candidate03",
+      "observations": 79,
+      "HTTP": 259,
+      "visibleBusinessWriteObservations": 17,
+      "backendHostPlatformIsNotInferredFromBrowserPlatform": true,
+      "closure": {
+        "browserClosed": true,
+        "serverClosed": true,
+        "pending": 0,
+        "allRawExchangesRetained": true
+      }
+    },
+    {
+      "label": "windows-rust01",
+      "report": {
+        "file": "tmp/rust-r3hijk/ui-windows-rust01/report01.json",
+        "bytes": 1143174,
+        "rawBytesSha256": "ca52090f200d166f4772f1c91466dbf12ed4a7a63838e05e3d857570e3d00c3e"
+      },
+      "input": {
+        "file": "tmp/rust-r3hijk/ui-input-windows-rust01.json",
+        "bytes": 1369,
+        "rawBytesSha256": "53c2ebc78522033412fbfc908a59e43ababec88d8b000da5a9e4d015ee620257"
+      },
+      "browserHostPlatform": "win32",
+      "actualBackendImplementation": "Rust",
+      "actualBackendHostPlatform": "linux",
+      "actualBackendPort": 12500,
+      "actualRuntime": {
+        "file": "tmp/rust-r3hijk/runtime/rust-candidate03.json",
+        "bytes": 668,
+        "rawBytesSha256": "0429da5b0db13d991b925396e6ed265ac62338c179c63b9cdb32535ea8494fd6"
+      },
+      "sourceBoundCandidate": "candidate03",
+      "observations": 79,
+      "HTTP": 261,
+      "visibleBusinessWriteObservations": 17,
+      "backendHostPlatformIsNotInferredFromBrowserPlatform": true,
+      "closure": {
+        "browserClosed": true,
+        "serverClosed": true,
+        "pending": 0,
+        "allRawExchangesRetained": true
+      }
+    }
+  ],
+  "actualRuntimePins": {
+    "LinuxNative": {
+      "pin": {
+        "file": "tmp/rust-r3hijk/runtime/nest-g2-native01.json",
+        "bytes": 664,
+        "rawBytesSha256": "d4f507153f93eb654864faad7eb12bee0b61c29ec22e7d5649ce000e456f19c9"
+      },
+      "value": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "nest",
+        "tag": "g2-native01",
+        "pid": 8828,
+        "startTime": "174755",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "5c334b043f11d581d527ebb554c7f50ee2391bcdc6e117357d45d6eea6ea3730",
+        "entry": "/home/wangzishi/projects/poms-rust-r3hijk/dist/apps/poms-api/main.js",
+        "artifactBytes": 2958081,
+        "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12400,
+        "database": "poms_r3hijk_nest",
+        "createdAt": "2026-11-02T11:50:21.576Z",
+        "healthStatus": 200,
+        "privateLogRetained": true
+      }
+    },
+    "WindowsNative": {
+      "pin": {
+        "file": "tmp/rust-r3hijk/runtime/windows-native01.json",
+        "bytes": 632,
+        "rawBytesSha256": "36b60c4a0cdd498e1c3b4668356eb8cd00e687d16af15815ec917d12ddaccc0e"
+      },
+      "value": {
+        "kind": "R3HIJK-owned-Windows-Native-runtime",
+        "pid": 10280,
+        "creation": "2026-11-02T17:02:45.0019050Z",
+        "commandLineSha256": "e038147f5caf87cfd756bd71d2a206ff45278f69ba8eb497ea67163e81d92baf",
+        "executable": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+        "entry": "E:/projects/worktrees/poms-r3hijk-next28/poms/dist/apps/poms-api/main.js",
+        "artifactBytes": 2958081,
+        "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+        "port": 12410,
+        "database": "poms_r3hijk_nest",
+        "createdAt": "2026-11-02T17:02:46.354Z",
+        "healthStatus": 200
+      }
+    },
+    "LinuxRust": {
+      "pin": {
+        "file": "tmp/rust-r3hijk/runtime/rust-candidate03.json",
+        "bytes": 668,
+        "rawBytesSha256": "0429da5b0db13d991b925396e6ed265ac62338c179c63b9cdb32535ea8494fd6"
+      },
+      "value": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z",
+        "healthStatus": 200,
+        "privateLogRetained": true
+      }
+    }
+  },
+  "executor": {
+    "pin": {
+      "file": "tools/rust-r3hijk/ui-run03.mjs",
+      "bytes": 8742,
+      "rawBytesSha256": "b44f01d72e90f17a8e5498a45607063084d1e8ecd199a1295e298a4c6a47d21b"
+    },
+    "backendPortSelection": {
+      "file": "tools/rust-r3hijk/ui-run03.mjs",
+      "line": 9,
+      "quote": " stage='static-server';server=await startUiServer({directory:root+'/dist/apps/poms-admin/browser',backendPort:backend==='rust'?12500:linux?12400:12410,privateDirectory:privateDirectory+'/proxy'});"
+    },
+    "reportedServerPlatform": {
+      "file": "tools/rust-r3hijk/ui-run03.mjs",
+      "line": 18,
+      "quote": "if(unhandled.length){completed=false;error=error||{name:'UnhandledUIWaiter',message:'Original waiter errors retained privately'};}guardNative();assert.deepEqual(sources.map(x=>pin(x.file)),sources);const report={kind:'R3HIJK-original-Angular-actual-platform-cell',createdAt:new Date().toISOString(),startedAt,backend,label,browserPlatform:process.platform,serverPlatform:backend==='rust'?'linux':process.platform,apiRunId:input.runId,marker:input.marker,input:pin(inputFile),sources,browser:pin(browserPin.executable),staticBuild:server?{memberCount:server.build.memberCount,manifestSha256:server.build.manifestSha256}:null,completed,result:completed?'Pass':'Failed-partial-retained',failedStage:completed?null:stage,error,leadResult,intelligenceResult,observations,stored,network:server?.exchanges||[],closure,credentialOrRawAuthPublished:false,noMocksOrComponentStateInjection:true,fullStageAcceptance:false,cohortCleanup:'Pending-whole-owned-cohort',G3Certified:false,G4Certified:false};fs.writeFileSync(out+'/report01.json',JSON.stringify(report,null,2)+'\\n',{flag:'wx'});console.log(JSON.stringify({label,completed,observations:observations.length,HTTP:report.network.length,failedStage:report.failedStage,error,closure}));if(!completed)process.exitCode=1;"
+    },
+    "reportFieldAloneNotUsedAsBackendOSProof": true,
+    "actualCurrentRuntimeAndPortEvidenceAlsoChecked": true
+  },
+  "certifiedByThisLimitedReview": {
+    "currentFourUICellBrowserPlatformCoverage": true,
+    "LinuxRustRuntimeUsedByBothRustBrowserCells": true,
+    "currentWindowsNativeServiceUse": true,
+    "WindowsRustServerNativeBinaryBuilt": false,
+    "WindowsRustServerNativeBinaryStarted": false,
+    "WindowsRustServerNativeBinaryRegression": false,
+    "WindowsRustNativeServerCertified": false
+  },
+  "boundaries": [
+    "WindowsRust UI means a Windows browser reaching the current Linux Rust API12500. It is not evidence that a Windows Rust executable was built, started or passed these business commands.",
+    "The R1 reference defines the accepted test shape only. No old R1 browser or server execution is imported as current R3 runtime regression. All four cell reports and current-runtime references are this batch originals.",
+    "Both Rust UI cells remain candidate03; future cost/pricing-only artifacts require explicit source-causality reuse justification and must not relabel these reports as reruns.",
+    "Existing UI limitations remain: no I update/delete controls, no J relation-selector UI, optional conversion date picker left empty, R4 writes/full archive-read implementation unaccepted.",
+    "A future Windows Rust native server portability requirement would need its own actual artifact/startup/business evidence under the responsible phase plan. It is currently unperformed and uncertified, not silently waived or satisfied by Linux/UI/R1 evidence.",
+    "This is not a full G3/G4 signature, whole R3 stage closure, deployment or performance claim."
+  ],
+  "scope": {
+    "issues": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "operations": 28,
+    "formalR3Delivered": 30,
+    "totalR3HTTP": 58,
+    "parentsRemainOpen": [
+      85,
+      57
+    ]
+  },
+  "noProductOrExecutorChanges": true,
+  "noBuildTestHTTPDBBrowserOrRuntimeExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true
+}

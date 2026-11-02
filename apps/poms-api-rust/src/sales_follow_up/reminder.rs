@@ -1,5 +1,4 @@
-//! Request-local managed Todo mutations. The cancel and stream queries run
-//! before the one business flush, so the same old Todo can finish completed.
+//! Transaction-scoped target serialization and managed Todo mutations.
 
 use sqlx::PgConnection;
 use uuid::Uuid;
@@ -41,6 +40,11 @@ pub(super) async fn prepare(
     summary: &JsString,
     cancel_source: Option<Uuid>,
 ) -> Result<Plan, sqlx::Error> {
+    let (target_type, target_id, title, project_id) = target(record, context);
+    // The source record lock/version check, when needed, precedes prepare.
+    // Lock even empty/no-owner/no-date streams before any cancellation or Todo
+    // read. One target lock covers owner changes without taking two owner locks.
+    lock_target(connection, target_type, target_id).await?;
     let mut plan = Plan::default();
     if let Some(source_id) = cancel_source {
         let rows = store::source_todos(connection, source_id).await?;
@@ -54,7 +58,6 @@ pub(super) async fn prepare(
     let Some(owner) = record.owner_user_id.filter(|_| record.status == "active") else {
         return Ok(plan);
     };
-    let (target_type, target_id, title, project_id) = target(record, context);
     let at = clock_now();
     for row in store::stream_todos(connection, owner, target_type, target_id).await? {
         if row.source_id != record.id {
@@ -118,6 +121,22 @@ pub(super) async fn prepare(
     Ok(plan)
 }
 
+async fn lock_target(
+    connection: &mut PgConnection,
+    target_type: &str,
+    target_id: Uuid,
+) -> Result<(), sqlx::Error> {
+    sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1::text,0::bigint))")
+        .bind(target_lock_key(target_type, target_id))
+        .execute(connection)
+        .await?;
+    Ok(())
+}
+
+fn target_lock_key(target_type: &str, target_id: Uuid) -> String {
+    format!("sales-follow-up-reminder:{target_type}:{target_id}")
+}
+
 fn target<'a>(
     record: &Record,
     context: &'a Context,
@@ -165,5 +184,95 @@ fn reminder_summary(summary: &JsString) -> Option<String> {
         Some(JsString::from_code_units(truncated).to_utf8_lossy())
     } else {
         Some(summary.to_utf8_lossy())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn record() -> Record {
+        let at = chrono::DateTime::<chrono::Utc>::UNIX_EPOCH;
+        Record {
+            id: Uuid::from_u128(1),
+            customer_id: Uuid::from_u128(2),
+            lead_id: Some(Uuid::from_u128(3)),
+            project_id: Some(Uuid::from_u128(4)),
+            status: "active".to_owned(),
+            follow_up_type: "phone".to_owned(),
+            occurred_at: at,
+            summary: "Actual follow-up summary".to_owned(),
+            detail: None,
+            outcome: "progress".to_owned(),
+            next_follow_up_at: Some(at),
+            owner_org_id: None,
+            owner_user_id: Some(Uuid::from_u128(5)),
+            supersedes_record_id: None,
+            replaced_by_record_id: None,
+            replacement_reason: None,
+            voided_at: None,
+            voided_by: None,
+            void_reason: None,
+            row_version: 1,
+            created_at: at,
+            created_by: None,
+            updated_at: at,
+            updated_by: None,
+        }
+    }
+
+    fn key_for(record: &Record) -> String {
+        let context = Context::default();
+        let (kind, id, _, _) = target(record, &context);
+        target_lock_key(kind, id)
+    }
+
+    #[test]
+    fn target_lock_identity_is_shared_across_owners_and_lifecycle_paths() {
+        let mut row = record();
+        let key = key_for(&row);
+        row.id = Uuid::from_u128(6);
+        row.owner_user_id = Some(Uuid::from_u128(7));
+        row.supersedes_record_id = Some(Uuid::from_u128(1));
+        assert_eq!(key_for(&row), key);
+        row.owner_user_id = None;
+        row.next_follow_up_at = None;
+        assert_eq!(key_for(&row), key);
+        row.status = "voided".to_owned();
+        assert_eq!(key_for(&row), key);
+    }
+
+    #[test]
+    fn target_lock_keeps_project_lead_customer_priority_and_separates_targets() {
+        let mut row = record();
+        let project_key = key_for(&row);
+        assert_eq!(project_key, target_lock_key("project", Uuid::from_u128(4)));
+        row.project_id = None;
+        assert_eq!(key_for(&row), target_lock_key("lead", Uuid::from_u128(3)));
+        row.lead_id = None;
+        assert_eq!(
+            key_for(&row),
+            target_lock_key("customer", Uuid::from_u128(2))
+        );
+        let shared_id = Uuid::from_u128(4);
+        assert_ne!(project_key, target_lock_key("lead", shared_id));
+        assert_ne!(project_key, target_lock_key("customer", shared_id));
+        assert_ne!(project_key, target_lock_key("project", Uuid::from_u128(8)));
+    }
+
+    #[test]
+    fn target_lock_uses_namespaced_canonical_uuid_identity() {
+        let lower = Uuid::parse_str("123e4567-e89b-42d3-a456-426614174000")
+            .unwrap_or_else(|_| panic!("valid target UUID"));
+        let upper = Uuid::parse_str("123E4567-E89B-42D3-A456-426614174000")
+            .unwrap_or_else(|_| panic!("valid uppercase target UUID"));
+        assert_eq!(
+            target_lock_key("project", lower),
+            target_lock_key("project", upper)
+        );
+        assert_eq!(
+            target_lock_key("project", upper),
+            "sales-follow-up-reminder:project:123e4567-e89b-42d3-a456-426614174000"
+        );
     }
 }

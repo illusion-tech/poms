@@ -1,0 +1,5781 @@
+{
+  "kind": "R3-current-operation-and-candidate-slice-inventory",
+  "base": "a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d",
+  "parentIssue": 85,
+  "sourcePhaseRule": "R0 reviewed project Acceptance/Completion/Archive separation retained; current controller/spec/canonical freshly joined",
+  "typescript": "6.0.3",
+  "summary": {
+    "R3": 58,
+    "firstBatch": 14,
+    "A": 8,
+    "B": 6,
+    "later": 44,
+    "currentRustR3Delivered": 30,
+    "firstBatchImplemented": 14,
+    "authorizedNextBatch": 28,
+    "laterUnstarted": 0,
+    "currentRemaining": 28,
+    "latestClosedBatch": 16
+  },
+  "nonHttpScope": {
+    "businessNumbers": "A/B open the business transaction, then allocate through the independent shared pool next entry; committed counter gaps survive failed entity writes, per corrective4fda3a1a",
+    "activeCustomer": "A real producer and original transaction-external lookup consumed by B",
+    "future": [
+      "lead conversion atomic attachment-copy and score",
+      "domain approval handlers",
+      "complete stage integration"
+    ],
+    "deliveredSalesFollowUpReminderProducer": {
+      "implemented": true,
+      "targets": [
+        "customer",
+        "lead",
+        "project"
+      ],
+      "currentEvidence": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/correction06/consume-targets-raw-errors02-rust-01.json",
+        "bytes": 29187,
+        "rawBytesSha256": "1cb01502b16acd5618859fb24c0960715523603330f89357dd0e80d3061c80a9"
+      },
+      "completeLeadDetailUI": false
+    }
+  },
+  "sources": [
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+      "bytes": 2525,
+      "rawBytesSha256": "74e16707254a6e39c96276ee6f8978253be7897ca377d06b2b0a4bfb43b65337"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.entity.ts",
+      "bytes": 6282,
+      "rawBytesSha256": "2a53e597a5004eff269150d5c45b3850047178c4d5ef9e1fc028b71ded38c35f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.module.ts",
+      "bytes": 1434,
+      "rawBytesSha256": "9d2175d814d9eaada0829e3a5ddac188d8be54965ad541ee73099ad3f91c39ea"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.repository.ts",
+      "bytes": 5044,
+      "rawBytesSha256": "9fad87c994d0f94ccf10b92700f887b615d684f4e378ae82e81d60f51ab4cac3"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.service.spec.ts",
+      "bytes": 7162,
+      "rawBytesSha256": "1d1bcc99bfb59a73ff60d42ee29985911840190ba7c3afb55badcbdc398e7600"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.service.ts",
+      "bytes": 14565,
+      "rawBytesSha256": "bb4f95dfb396263f063a94fd248b5eba4f6b52a17d7909c0fb7e016458a85135"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer-alias.controller.spec.ts",
+      "bytes": 1028,
+      "rawBytesSha256": "598fa01f4994aa1d0b0ed27bc7f9c3369fe9ef57b8713fe45571202331c607cf"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer-alias.controller.ts",
+      "bytes": 1246,
+      "rawBytesSha256": "bcfac9ecfccb77862cfdafb79445a53b928a4ea9b0e66f09ad47309af4a04f30"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.controller.spec.ts",
+      "bytes": 6069,
+      "rawBytesSha256": "98100166cbffc477c63f43f445cf382db094012c18479f3c28b81f959eaedd4c"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+      "bytes": 3633,
+      "rawBytesSha256": "adc343a7118a82dbc1b2f75a67c91b187be24a16efdf3ba2ad0342f819da007d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "bytes": 6042,
+      "rawBytesSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.module.ts",
+      "bytes": 1107,
+      "rawBytesSha256": "cd35caf8dcdd97815715068c582126a8eca0d8d56c2d3c05a97c1179794c2fb3"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.repository.ts",
+      "bytes": 16428,
+      "rawBytesSha256": "08aca0629a495788d6c519bb22812823e7a91e4ca4b732c2e158d71ed370aa03"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.service.spec.ts",
+      "bytes": 19640,
+      "rawBytesSha256": "74711b501ba834e682d368e0fa46f00c48164f2c754240ec5949da05686f61cd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/customer/customer.service.ts",
+      "bytes": 30394,
+      "rawBytesSha256": "56508c395179be2a9772beca36f4ed3cb80854bdc68062e50303b983c3b4cb76"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-owner-assignment-record.entity.ts",
+      "bytes": 2674,
+      "rawBytesSha256": "ee7037bbb70de5b9977e0c176ee6852dd4af73d6e1793ddb2f904628d232292d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-query.service.spec.ts",
+      "bytes": 14254,
+      "rawBytesSha256": "bd658b9b5c5e8defdcc054d141d1d4c800e07cbdd4340e8daf1431e337c30d30"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-query.service.ts",
+      "bytes": 7855,
+      "rawBytesSha256": "89cbee3d8cd2ddfd9e1626cd396ee7e615b047ff22094c6d48ea379dc1d206f2"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-score-facts.service.ts",
+      "bytes": 8625,
+      "rawBytesSha256": "0292fbab6c16cf71ee26d3cbf5b4a87159fc901b0547fe83304b5e3430f76964"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-score-history.entity.ts",
+      "bytes": 9093,
+      "rawBytesSha256": "c9982f417919038db2f1c3250c3230f712d95f2ce8909aea46314a2be3ddb8c4"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-score.service.spec.ts",
+      "bytes": 9165,
+      "rawBytesSha256": "e16747ce54938dbd4ae1dbdee416c97fcb63be0147019f1e02cb22a64df54e03"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-score.service.ts",
+      "bytes": 20813,
+      "rawBytesSha256": "8abd11fa5840895d68467d5d3b6551f3438cde2fceb0ceba737c10c3a88cc27a"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-scoring.spec.ts",
+      "bytes": 3744,
+      "rawBytesSha256": "fefe700a29ee46cef669aca64f87b288bc2052ef6dbb214900a44dd90f1b59c2"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-scoring.ts",
+      "bytes": 10762,
+      "rawBytesSha256": "08822054495c1e6d1aa68fca89fc6d5228e1193f1382af07ee101f331efb53f1"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead-workbench.ts",
+      "bytes": 2690,
+      "rawBytesSha256": "26d7c834a154bd5d261b472eefbab058dc34e9ac18662d02ed88e0dce78cee92"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.controller.spec.ts",
+      "bytes": 15520,
+      "rawBytesSha256": "10df8e7c89188ac2182ad7c4c5e41e951adca2b8f7bf806692a0abc071f58957"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+      "bytes": 13051,
+      "rawBytesSha256": "7a644370fdb139d2b5c07797398f3194eeaa6ace20d8b198709d0505b8180e58"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "bytes": 6261,
+      "rawBytesSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.mapper.ts",
+      "bytes": 6898,
+      "rawBytesSha256": "7d8903046fa5e06a956cc9b7975e57dbced6edcbd116fbf8034c03c1326c4451"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.module.ts",
+      "bytes": 2379,
+      "rawBytesSha256": "b1e7f3bce41672379bf93a407efaeeb4bc904c40232eb3d305eba558588f3c6c"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.repository.ts",
+      "bytes": 5130,
+      "rawBytesSha256": "9c95df00200ffa1c54ab66e0ab3c53b510c02ed5af24f005a6211887d52de7e9"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.service.spec.ts",
+      "bytes": 24494,
+      "rawBytesSha256": "aea2f50e4c5d590ca1ca14f495441ce0e2bdddc1348dbdc3bb7e92404e7fa6dc"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/lead/lead.service.ts",
+      "bytes": 25237,
+      "rawBytesSha256": "379a5bc481148067ac52df9ff930cb61e3133609263bf19adb86fb3882784966"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/acceptance-record.entity.ts",
+      "bytes": 2846,
+      "rawBytesSha256": "be03d67e90b2b87b3a344cacc3ea881de4e0fee361542a985905dc2323c4c204"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/lookup-route.spec.ts",
+      "bytes": 8631,
+      "rawBytesSha256": "35b3c5d9a15bb219fc3f830dd1effc735d734d1224219d6d3cd425a7ee7ab618"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-archive-record.entity.ts",
+      "bytes": 4464,
+      "rawBytesSha256": "d30319f184e2cf958e932583505999d86824bdd1c637968067de2f6b26706f58"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-bid-commercial-process.entity.ts",
+      "bytes": 9141,
+      "rawBytesSha256": "f1626d34c701cbf38be96b34ea85737dea59f0a3f0d324d5cb7b1d0a51fa6b2b"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-completion-record.entity.ts",
+      "bytes": 2975,
+      "rawBytesSha256": "e273441788e66df70eca4b48c8cf122f950ce6e9c26854c5e7b55642a6904942"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-owner-reassignment-record.entity.ts",
+      "bytes": 2092,
+      "rawBytesSha256": "1f402d15cce9287a615bfdf64cabde7061feb3a11bf326b8b76948c57c5282bd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-pricing-margin-review.entity.ts",
+      "bytes": 10691,
+      "rawBytesSha256": "a9989492509e65ea4f994fabfbf8197cb7913f5e090893d72403c84613a2419f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-query.service.spec.ts",
+      "bytes": 78754,
+      "rawBytesSha256": "e316284f909585cf2b5908715c342fad0ecb81ff8e7de38204209a979f8d7ef0"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-query.service.ts",
+      "bytes": 86242,
+      "rawBytesSha256": "f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-technical-cost-package.entity.ts",
+      "bytes": 11488,
+      "rawBytesSha256": "813ba540023e08179c13baa6a37e4d4df9a3787c0baa89c16ff4f8a1ea4bec21"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.spec.ts",
+      "bytes": 23852,
+      "rawBytesSha256": "3d913735f9a57ef0d182d0308e99f56d7a8b1b6f7c5f35fbab21a1f60355e63a"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "bytes": 27547,
+      "rawBytesSha256": "1db2429199b857486385d2f8afcc38aea85ddd103670cf4bdfde07dcc416af68"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "bytes": 4183,
+      "rawBytesSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.module.ts",
+      "bytes": 2774,
+      "rawBytesSha256": "e73ba5353f0db401c69dc0b370ed2eb669e44c889288e82c66c7924b875e8c56"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "bytes": 22209,
+      "rawBytesSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.spec.ts",
+      "bytes": 60959,
+      "rawBytesSha256": "132ef59513574c2f7da2423f514ef23215fe4cdb371ff40f742bcd488af6e904"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.ts",
+      "bytes": 42650,
+      "rawBytesSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up-record.entity.ts",
+      "bytes": 8170,
+      "rawBytesSha256": "f027ca0bf5d53c09530c5cc4841631d06bd2ef932d899a3251828383b554fe6c"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.spec.ts",
+      "bytes": 6527,
+      "rawBytesSha256": "373173bd5fe08799c93d0353a122a8887708704abfd5f10b5814181a62f25a8a"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+      "bytes": 4501,
+      "rawBytesSha256": "0c510166a1f8002a8d72581948841e85964a62cc832d83f761a176b18496755f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.mapper.ts",
+      "bytes": 2266,
+      "rawBytesSha256": "11815fb9e7b35fde09c82bdea764da67567526faac17c206e981b85ff8841d54"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.module.ts",
+      "bytes": 1240,
+      "rawBytesSha256": "f5f89ac20d4b679705b767bcf1874f05995399fee9290b17a4c3692f8b792db9"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.repository.spec.ts",
+      "bytes": 7784,
+      "rawBytesSha256": "c6372274f2707c31f38b484bb7605ac5ad427db5d529e07a27b2c8369b589c98"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.repository.ts",
+      "bytes": 11870,
+      "rawBytesSha256": "bbf595691256c1363be3120a7bfbf31ffce536c4e126d07b0558a6dc56ccf664"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.service.spec.ts",
+      "bytes": 19460,
+      "rawBytesSha256": "52a038c1fe46589f6ee7ac99ca9e91874540eae32ed4b99c479af1aa55d6763d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.service.ts",
+      "bytes": 18440,
+      "rawBytesSha256": "f62d1f512bcafac142ba8fafc8e8df4019b8309f87895aa6b9922dabad29ca96"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+      "bytes": 10784,
+      "rawBytesSha256": "15200de0708477e334907c592b327ccbcdff9a980f9628942510de2030b643dd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.entity.ts",
+      "bytes": 15585,
+      "rawBytesSha256": "aa192da1f2557ff08cc062f4244af57f2125826a660ce50a1a62b310e5ed482e"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.module.ts",
+      "bytes": 1417,
+      "rawBytesSha256": "977cdd09e1a8926dbb1ca4f55731ceb4e05396133cfed0687de094d4076370eb"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.repository.ts",
+      "bytes": 6878,
+      "rawBytesSha256": "b2252506ff96b5202eda2acc84f22d31bd162001c4914b43a92b1d71b0a5de6e"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.spec.ts",
+      "bytes": 20347,
+      "rawBytesSha256": "610df0d46215c917382b696c15e4fdb0167a7868fbec7f3fbe529fd1bbc99a68"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.ts",
+      "bytes": 40540,
+      "rawBytesSha256": "ed6daeec4a727dbb8d81f4c59e4ba078e654c309fc483854112cd050e5c6ad01"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 172058,
+      "rawBytesSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4"
+    },
+    {
+      "file": "docs/design/rust-r0-api-operations.json",
+      "bytes": 2607939,
+      "rawBytesSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 435823,
+      "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "BusinessDiscussionController_list",
+      "module": "business-discussion",
+      "controller": "BusinessDiscussionController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/business-discussions",
+      "source": {
+        "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+        "line": 14
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "BusinessDiscussionListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3J",
+      "issue": 95,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 365,
+        "domain": "business-discussion",
+        "capability": "listBusinessDiscussionComments",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/business-discussions",
+        "operationId": "BusinessDiscussionController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/business-discussions",
+        "implementedPath": "/api/business-discussions",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "BusinessDiscussionController_create",
+      "module": "business-discussion",
+      "controller": "BusinessDiscussionController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/business-discussions",
+      "source": {
+        "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+        "line": 27
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateBusinessDiscussionCommentRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3J",
+      "issue": 95,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 366,
+        "domain": "business-discussion",
+        "capability": "createBusinessDiscussionComment",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/business-discussions",
+        "operationId": "BusinessDiscussionController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBusinessDiscussionCommentRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/business-discussions",
+        "implementedPath": "/api/business-discussions",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_list",
+      "module": "sales-intelligence",
+      "controller": "CompetitorIntelligenceRecordController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 129
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "OpportunityContextQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 358,
+        "domain": "sales-intelligence",
+        "capability": "listCompetitorIntelligenceRecords",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/competitor-intelligence-records",
+        "operationId": "CompetitorIntelligenceRecordController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/competitor-intelligence-records",
+        "implementedPath": "/api/competitor-intelligence-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_create",
+      "module": "sales-intelligence",
+      "controller": "CompetitorIntelligenceRecordController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/competitor-intelligence-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 140
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateCompetitorIntelligenceRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 359,
+        "domain": "sales-intelligence",
+        "capability": "createCompetitorIntelligenceRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/competitor-intelligence-records",
+        "operationId": "CompetitorIntelligenceRecordController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompetitorIntelligenceRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/competitor-intelligence-records",
+        "implementedPath": "/api/competitor-intelligence-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_update",
+      "module": "sales-intelligence",
+      "controller": "CompetitorIntelligenceRecordController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/competitor-intelligence-records/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 164
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateCompetitorIntelligenceRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 360,
+        "domain": "sales-intelligence",
+        "capability": "updateCompetitorIntelligenceRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/competitor-intelligence-records/{id}",
+        "operationId": "CompetitorIntelligenceRecordController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompetitorIntelligenceRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/competitor-intelligence-records/{id}",
+        "implementedPath": "/api/competitor-intelligence-records/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "CustomerAliasController_delete",
+      "module": "customer",
+      "controller": "CustomerAliasController",
+      "controllerMethod": "delete",
+      "method": "DELETE",
+      "path": "/api/customer-aliases/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer-alias.controller.ts",
+        "line": 14
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id', new ParseUUIDPipe())"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 204,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 321,
+        "domain": "customer",
+        "capability": "deleteCustomerAlias",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "DELETE",
+        "path": "/api/customer-aliases/{id}",
+        "operationId": "CustomerAliasController_delete",
+        "responses": [
+          "204"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customer-aliases/{id}",
+        "implementedPath": "/api/customer-aliases/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 204,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.alias.delete-204",
+        "requestId": "6524a8a6-1c82-49a8-a951-ceb3ce7e9096"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerContactController_list",
+      "module": "sales-intelligence",
+      "controller": "CustomerContactController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/customer-contacts",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 36
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "CustomerContactListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 352,
+        "domain": "sales-intelligence",
+        "capability": "listCustomerContacts",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/customer-contacts",
+        "operationId": "CustomerContactController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customer-contacts",
+        "implementedPath": "/api/customer-contacts",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.9",
+        "requestId": "a358e181-ac8f-4fcc-b6eb-13823210aa6c",
+        "method": "GET",
+        "route": "/api/customer-contacts?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "CustomerContactController_create",
+      "module": "sales-intelligence",
+      "controller": "CustomerContactController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/customer-contacts",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 44
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateCustomerContactRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 353,
+        "domain": "sales-intelligence",
+        "capability": "createCustomerContact",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/customer-contacts",
+        "operationId": "CustomerContactController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerContactRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customer-contacts",
+        "implementedPath": "/api/customer-contacts",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.contact",
+        "requestId": "afd439e2-61e0-45d3-a4a4-c4ec71d16b58",
+        "method": "POST",
+        "route": "/api/customer-contacts",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "CustomerContactController_update",
+      "module": "sales-intelligence",
+      "controller": "CustomerContactController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/customer-contacts/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 65
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateCustomerContactRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3E",
+      "issue": 90,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 354,
+        "domain": "sales-intelligence",
+        "capability": "updateCustomerContact",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/customer-contacts/{id}",
+        "operationId": "CustomerContactController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCustomerContactRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customer-contacts/{id}",
+        "implementedPath": "/api/customer-contacts/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "contact.update.gender-null",
+        "requestId": "ecd42442-bb54-4e5c-9c00-d830a6315254",
+        "method": "PATCH",
+        "route": "/api/customer-contacts/2728adb8-ca46-4ffe-af45-45c8ff9eaa1f",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "CustomerController_list",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/customers",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 25
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "CustomerListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 314,
+        "domain": "customer",
+        "capability": "listCustomers",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/customers",
+        "operationId": "CustomerController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/CustomerStatus"
+            }
+          },
+          {
+            "name": "ownerOrgId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 128,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customers",
+        "implementedPath": "/api/customers",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.list",
+        "requestId": "7df48fa8-f41b-441c-af59-04414b7efa29"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerController_create",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/customers",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 39
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateCustomerRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 315,
+        "domain": "customer",
+        "capability": "createCustomer",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/customers",
+        "operationId": "CustomerController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customers",
+        "implementedPath": "/api/customers",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.active.create",
+        "requestId": "d34b1efe-0af9-4c77-89ef-fe52c08d5399"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerController_getById",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "getById",
+      "method": "GET",
+      "path": "/api/customers/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 71
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 316,
+        "domain": "customer",
+        "capability": "getCustomer",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/customers/{id}",
+        "operationId": "CustomerController_getById",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customers/{id}",
+        "implementedPath": "/api/customers/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.active.detail",
+        "requestId": "c0baa74d-ad6a-4fb4-81bb-2419b8c874ed"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerController_update",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/customers/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 79
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateCustomerRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 318,
+        "domain": "customer",
+        "capability": "updateCustomer",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/customers/{id}",
+        "operationId": "CustomerController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCustomerRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customers/{id}",
+        "implementedPath": "/api/customers/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.inactive.disable",
+        "requestId": "06dce74c-bd03-47a3-bd61-e8484b6cfc7b"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerController_listAliases",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "listAliases",
+      "method": "GET",
+      "path": "/api/customers/{id}/aliases",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 47
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 319,
+        "domain": "customer",
+        "capability": "listCustomerAliases",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/customers/{id}/aliases",
+        "operationId": "CustomerController_listAliases",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customers/{id}/aliases",
+        "implementedPath": "/api/customers/{id}/aliases",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.viewer.aliases",
+        "requestId": "6bc50ebf-68f5-414b-8f59-882b529fd6c4"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerController_createAlias",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "createAlias",
+      "method": "POST",
+      "path": "/api/customers/{id}/aliases",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 55
+      },
+      "permissions": {
+        "all": [
+          "customer:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateCustomerAliasRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 320,
+        "domain": "customer",
+        "capability": "createCustomerAlias",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/customers/{id}/aliases",
+        "operationId": "CustomerController_createAlias",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerAliasRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/customers/{id}/aliases",
+        "implementedPath": "/api/customers/{id}/aliases",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.customer.alias.normalized.create",
+        "requestId": "67033d25-3fa8-4a29-a4b6-685c824c15d5"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "CustomerController_getWorkspaceOverview",
+      "module": "customer",
+      "controller": "CustomerController",
+      "controllerMethod": "getWorkspaceOverview",
+      "method": "GET",
+      "path": "/api/customers/{id}/workspace-overview",
+      "source": {
+        "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+        "line": 63
+      },
+      "permissions": {
+        "all": [
+          "customer:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3A",
+      "issue": 86,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 317,
+        "domain": "customer",
+        "capability": "getCustomerWorkspaceOverview",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/customers/{id}/workspace-overview",
+        "operationId": "CustomerController_getWorkspaceOverview",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/customers/{id}/workspace-overview",
+        "implementedPath": "/api/customers/{id}/workspace-overview",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "customers.workspace.empty",
+        "requestId": "334ac04a-dac5-475a-92d3-276a9991a19c"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "LeadScoreOverrideController_approve",
+      "module": "lead",
+      "controller": "LeadScoreOverrideController",
+      "controllerMethod": "approve",
+      "method": "POST",
+      "path": "/api/lead-score-overrides/{id}:approve",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 259
+      },
+      "permissions": {
+        "all": [
+          "lead:score:override"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "ApproveLeadScoreOverrideRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 414,
+        "domain": "lead-scoring",
+        "capability": "approveLeadScoreOverride",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/lead-score-overrides/{id}:approve",
+        "operationId": "LeadScoreOverrideController_approve",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveLeadScoreOverrideRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/lead-score-overrides/{id}:approve",
+        "implementedPath": "/api/lead-score-overrides/{id}:approve",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadScoreOverrideController_reject",
+      "module": "lead",
+      "controller": "LeadScoreOverrideController",
+      "controllerMethod": "reject",
+      "method": "POST",
+      "path": "/api/lead-score-overrides/{id}:reject",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 276
+      },
+      "permissions": {
+        "all": [
+          "lead:score:override"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "RejectLeadScoreOverrideRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 415,
+        "domain": "lead-scoring",
+        "capability": "rejectLeadScoreOverride",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/lead-score-overrides/{id}:reject",
+        "operationId": "LeadScoreOverrideController_reject",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectLeadScoreOverrideRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/lead-score-overrides/{id}:reject",
+        "implementedPath": "/api/lead-score-overrides/{id}:reject",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadScoreOverrideController_revoke",
+      "module": "lead",
+      "controller": "LeadScoreOverrideController",
+      "controllerMethod": "revoke",
+      "method": "POST",
+      "path": "/api/lead-score-overrides/{id}:revoke",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 293
+      },
+      "permissions": {
+        "all": [
+          "lead:score:override"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "RevokeLeadScoreOverrideRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 416,
+        "domain": "lead-scoring",
+        "capability": "revokeLeadScoreOverride",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/lead-score-overrides/{id}:revoke",
+        "operationId": "LeadScoreOverrideController_revoke",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeLeadScoreOverrideRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/lead-score-overrides/{id}:revoke",
+        "implementedPath": "/api/lead-score-overrides/{id}:revoke",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_list",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/leads",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 57
+      },
+      "permissions": {
+        "all": [
+          "lead:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "LeadListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 299,
+        "domain": "lead",
+        "capability": "listLeads",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/leads",
+        "operationId": "LeadController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "scope",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadWorkbenchScope"
+            }
+          },
+          {
+            "name": "sourceCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DictionaryCode"
+            }
+          },
+          {
+            "name": "budgetStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadBudgetStatus"
+            }
+          },
+          {
+            "name": "urgency",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadUrgency"
+            }
+          },
+          {
+            "name": "rating",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadRating"
+            }
+          },
+          {
+            "name": "ownerOrgId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ownerUserId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ownershipScope",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/LeadOwnershipScope"
+            }
+          },
+          {
+            "name": "keyword",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 9007199254740991,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 500,
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/leads",
+        "implementedPath": "/api/leads",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_create",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/leads",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 95
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateLeadRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 298,
+        "domain": "lead",
+        "capability": "createLead",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads",
+        "operationId": "LeadController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLeadRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads",
+        "implementedPath": "/api/leads",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_getById",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "getById",
+      "method": "GET",
+      "path": "/api/leads/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 79
+      },
+      "permissions": {
+        "all": [
+          "lead:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 300,
+        "domain": "lead",
+        "capability": "getLead",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/leads/{id}",
+        "operationId": "LeadController_getById",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}",
+        "implementedPath": "/api/leads/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_update",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/leads/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 169
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateLeadRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 301,
+        "domain": "lead",
+        "capability": "updateLead",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/leads/{id}",
+        "operationId": "LeadController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLeadRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}",
+        "implementedPath": "/api/leads/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_assignOwner",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "assignOwner",
+      "method": "POST",
+      "path": "/api/leads/{id}:assignOwner",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 151
+      },
+      "permissions": {
+        "all": [
+          "lead:assign"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "AssignLeadOwnerRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 303,
+        "domain": "lead",
+        "capability": "assignLeadOwner",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads/{id}:assignOwner",
+        "operationId": "LeadController_assignOwner",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignLeadOwnerRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}:assignOwner",
+        "implementedPath": "/api/leads/{id}:assignOwner",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_claimOwner",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "claimOwner",
+      "method": "POST",
+      "path": "/api/leads/{id}:claim",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 136
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "ClaimLeadOwnerRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 302,
+        "domain": "lead",
+        "capability": "claimLeadOwner",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads/{id}:claim",
+        "operationId": "LeadController_claimOwner",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimLeadOwnerRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}:claim",
+        "implementedPath": "/api/leads/{id}:claim",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_close",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "close",
+      "method": "POST",
+      "path": "/api/leads/{id}:close",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 211
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CloseLeadRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 305,
+        "domain": "lead",
+        "capability": "closeLead",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads/{id}:close",
+        "operationId": "LeadController_close",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseLeadRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}:close",
+        "implementedPath": "/api/leads/{id}:close",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_convertToProject",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "convertToProject",
+      "method": "POST",
+      "path": "/api/leads/{id}:convertToProject",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 228
+      },
+      "permissions": {
+        "all": [
+          "lead:write",
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "ConvertLeadToProjectRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 306,
+        "domain": "lead",
+        "capability": "convertLeadToProject",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads/{id}:convertToProject",
+        "operationId": "LeadController_convertToProject",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvertLeadToProjectRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}:convertToProject",
+        "implementedPath": "/api/leads/{id}:convertToProject",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_qualify",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "qualify",
+      "method": "POST",
+      "path": "/api/leads/{id}:qualify",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 194
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "QualifyLeadRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 304,
+        "domain": "lead",
+        "capability": "qualifyLead",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads/{id}:qualify",
+        "operationId": "LeadController_qualify",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QualifyLeadRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}:qualify",
+        "implementedPath": "/api/leads/{id}:qualify",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_getScoreHistory",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "getScoreHistory",
+      "method": "GET",
+      "path": "/api/leads/{id}/score-history",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 87
+      },
+      "permissions": {
+        "all": [
+          "lead:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 412,
+        "domain": "lead-scoring",
+        "capability": "listLeadScoreHistory",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/leads/{id}/score-history",
+        "operationId": "LeadController_getScoreHistory",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}/score-history",
+        "implementedPath": "/api/leads/{id}/score-history",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "LeadController_submitScoreOverride",
+      "module": "lead",
+      "controller": "LeadController",
+      "controllerMethod": "submitScoreOverride",
+      "method": "POST",
+      "path": "/api/leads/{id}/score-overrides",
+      "source": {
+        "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "line": 119
+      },
+      "permissions": {
+        "all": [
+          "lead:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "SubmitLeadScoreOverrideRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3H",
+      "issue": 93,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 413,
+        "domain": "lead-scoring",
+        "capability": "submitLeadScoreOverride",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/leads/{id}/score-overrides",
+        "operationId": "LeadController_submitScoreOverride",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitLeadScoreOverrideRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/leads/{id}/score-overrides",
+        "implementedPath": "/api/leads/{id}/score-overrides",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "OpportunityStakeholderController_list",
+      "module": "sales-intelligence",
+      "controller": "OpportunityStakeholderController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 80
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "OpportunityContextQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 355,
+        "domain": "sales-intelligence",
+        "capability": "listOpportunityStakeholders",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/opportunity-stakeholders",
+        "operationId": "OpportunityStakeholderController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/opportunity-stakeholders",
+        "implementedPath": "/api/opportunity-stakeholders",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "OpportunityStakeholderController_create",
+      "module": "sales-intelligence",
+      "controller": "OpportunityStakeholderController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/opportunity-stakeholders",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 91
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateOpportunityStakeholderRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 356,
+        "domain": "sales-intelligence",
+        "capability": "createOpportunityStakeholder",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/opportunity-stakeholders",
+        "operationId": "OpportunityStakeholderController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOpportunityStakeholderRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/opportunity-stakeholders",
+        "implementedPath": "/api/opportunity-stakeholders",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "OpportunityStakeholderController_update",
+      "module": "sales-intelligence",
+      "controller": "OpportunityStakeholderController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/opportunity-stakeholders/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 114
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateOpportunityStakeholderRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 357,
+        "domain": "sales-intelligence",
+        "capability": "updateOpportunityStakeholder",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/opportunity-stakeholders/{id}",
+        "operationId": "OpportunityStakeholderController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOpportunityStakeholderRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/opportunity-stakeholders/{id}",
+        "implementedPath": "/api/opportunity-stakeholders/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "ProjectController_list",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/projects",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 83
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "ProjectListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 307,
+        "domain": "project",
+        "capability": "listProjects",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects",
+        "operationId": "ProjectController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ProjectStatus"
+            }
+          },
+          {
+            "name": "currentStage",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ProjectStage"
+            }
+          },
+          {
+            "name": "ownerOrgId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 128,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects",
+        "implementedPath": "/api/projects",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.list.keyword",
+        "requestId": "9c3ba1c2-a4e7-4a18-8deb-d25d2f6c98ba"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "ProjectController_create",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/projects",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 194
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateProjectRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 542,
+        "domain": "project",
+        "capability": "createProject",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects",
+        "operationId": "ProjectController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects",
+        "implementedPath": "/api/projects",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.project.active.create",
+        "requestId": "75b16e95-8df3-4a23-b8a1-21c82b2a80c4"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "ProjectController_getByCode",
+      "module": "project",
+      "controller": "ProjectLookupController",
+      "controllerMethod": "getByCode",
+      "method": "GET",
+      "path": "/api/projects:lookup",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 353
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "ProjectLookupQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 548,
+        "domain": "project",
+        "capability": "getProjectByCode",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects:lookup",
+        "operationId": "ProjectController_getByCode",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectNo",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/code/{projectNo}",
+        "implementedPath": "/api/projects/code/{projectNo}",
+        "status": "canonical-decision-pending"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.lookup.exact",
+        "requestId": "d10c408a-7847-4eb0-9c7a-58f527483a2d"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getById",
+      "method": "GET",
+      "path": "/api/projects/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 186
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 230,
+        "domain": "project",
+        "capability": "getProject",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{id}",
+        "operationId": "ProjectController_getById",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{id}",
+        "implementedPath": "/api/projects/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.detail.empty.admin",
+        "requestId": "41521ab1-37c5-4a15-a523-4e666952395e"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "ProjectController_updateBasicInfo",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "updateBasicInfo",
+      "method": "PATCH",
+      "path": "/api/projects/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 318
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateProjectBasicInfoRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 250,
+        "domain": "project",
+        "capability": "updateProject",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/projects/{id}",
+        "operationId": "ProjectController_updateBasicInfo",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectBasicInfoRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{id}",
+        "implementedPath": "/api/projects/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.patch.noop-known-plus-unknown",
+        "requestId": "c95650e1-2a6d-41ee-8462-167d61ffe9b8"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "ProjectController_reassignOwner",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "reassignOwner",
+      "method": "POST",
+      "path": "/api/projects/{id}:reassignOwner",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 213
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "ReassignProjectOwnerRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3B",
+      "issue": 87,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 308,
+        "domain": "project",
+        "capability": "reassignProjectOwner",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{id}:reassignOwner",
+        "operationId": "ProjectController_reassignOwner",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReassignProjectOwnerRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{id}:reassignOwner",
+        "implementedPath": "/api/projects/{id}:reassignOwner",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3ab/evidence/api-nest-attempt05-original.json",
+        "label": "B.reassign.other-primary",
+        "requestId": "0ddbcdb7-4daf-4958-b0ff-437a6b6a7c1a"
+      },
+      "rustImplemented": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "implementation": "df0d99decffbe974c988e85eea97767331044cbe"
+    },
+    {
+      "operationId": "ProjectController_listProjectBidCommercialProcesses",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "listProjectBidCommercialProcesses",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 138
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 236,
+        "domain": "project",
+        "capability": "listProjectBidCommercialProcesses",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "operationId": "ProjectController_listProjectBidCommercialProcesses",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "implementedPath": "/api/projects/{projectId}/bid-commercial-processes",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.3",
+        "requestId": "71df22e3-5883-4266-850a-b861514ea666",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/bid-commercial-processes",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_createProjectBidCommercialProcess",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "createProjectBidCommercialProcess",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/bid-commercial-processes",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 288
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateProjectBidCommercialProcessRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 235,
+        "domain": "project",
+        "capability": "createProjectBidCommercialProcess",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "operationId": "ProjectController_createProjectBidCommercialProcess",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectBidCommercialProcessRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/bid-commercial-processes",
+        "implementedPath": "/api/projects/{projectId}/bid-commercial-processes",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.path.publicTender",
+        "requestId": "9a159db9-4419-4f3e-af82-fe4556e10422",
+        "method": "POST",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-processes",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getProjectBidCommercialWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/bid-commercial-workspace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 146
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3D",
+      "issue": 89,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 237,
+        "domain": "project",
+        "capability": "getProjectBidCommercialWorkspace",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/bid-commercial-workspace",
+        "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/bid-commercial-workspace",
+        "implementedPath": "/api/projects/{projectId}/bid-commercial-workspace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "bid.workspace.publicTender",
+        "requestId": "a393865e-07c5-43ec-84a4-4eac79c1028c",
+        "method": "GET",
+        "route": "/api/projects/c689bb81-9f40-466a-930e-41bcaf103452/bid-commercial-workspace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_listProjectPricingMarginReviews",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "listProjectPricingMarginReviews",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/pricing-margin-reviews",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 154
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 239,
+        "domain": "project",
+        "capability": "listProjectPricingMarginReviews",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "operationId": "ProjectController_listProjectPricingMarginReviews",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "implementedPath": "/api/projects/{projectId}/pricing-margin-reviews",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.6",
+        "requestId": "9bb811e7-a805-4ea1-8ff6-b492c6be1ed2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/pricing-margin-reviews",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_createProjectPricingMarginReview",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "createProjectPricingMarginReview",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/pricing-margin-reviews",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 298
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateProjectPricingMarginReviewRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 238,
+        "domain": "project",
+        "capability": "createProjectPricingMarginReview",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "operationId": "ProjectController_createProjectPricingMarginReview",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectPricingMarginReviewRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/pricing-margin-reviews",
+        "implementedPath": "/api/projects/{projectId}/pricing-margin-reviews",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.create.direct-commercial",
+        "requestId": "19bb94fc-1ddf-4908-8046-03a6f2d2da55",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-reviews",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getProjectPricingMarginWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/pricing-margin-workspace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 162
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3G",
+      "issue": 92,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 240,
+        "domain": "project",
+        "capability": "getProjectPricingMarginWorkspace",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/pricing-margin-workspace",
+        "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/pricing-margin-workspace",
+        "implementedPath": "/api/projects/{projectId}/pricing-margin-workspace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.workspace.direct-commercial",
+        "requestId": "658415fb-b24c-4253-b817-9dbc41c12845",
+        "method": "GET",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/pricing-margin-workspace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_listProjectTechnicalCostPackages",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "listProjectTechnicalCostPackages",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/technical-cost-packages",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 170
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 233,
+        "domain": "project",
+        "capability": "listProjectTechnicalCostPackages",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "operationId": "ProjectController_listProjectTechnicalCostPackages",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "implementedPath": "/api/projects/{projectId}/technical-cost-packages",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.0",
+        "requestId": "b1ed3582-e4f5-42c0-9e81-edb8a97e678f",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-packages",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_createProjectTechnicalCostPackage",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "createProjectTechnicalCostPackage",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/technical-cost-packages",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 308
+      },
+      "permissions": {
+        "all": [
+          "project:write"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "CreateProjectTechnicalCostPackageRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 232,
+        "domain": "project",
+        "capability": "createProjectTechnicalCostPackage",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "operationId": "ProjectController_createProjectTechnicalCostPackage",
+        "responses": [
+          "201"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTechnicalCostPackageRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/technical-cost-packages",
+        "implementedPath": "/api/projects/{projectId}/technical-cost-packages",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "pricing.cost.direct-commercial",
+        "requestId": "8062026b-c858-45b8-a9c6-235a241af49b",
+        "method": "POST",
+        "route": "/api/projects/4d2f3a1f-4e5a-411a-b557-4863941ba4ec/technical-cost-packages",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getProjectTechnicalCostWorkspace",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/technical-cost-workspace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 178
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3C",
+      "issue": 88,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 234,
+        "domain": "project",
+        "capability": "getProjectTechnicalCostWorkspace",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/technical-cost-workspace",
+        "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/technical-cost-workspace",
+        "implementedPath": "/api/projects/{projectId}/technical-cost-workspace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.2",
+        "requestId": "c9d50a2c-0411-4c88-a94e-0cbaf1f396b2",
+        "method": "GET",
+        "route": "/api/projects/15fb2c26-a402-4a15-9d3b-0bc7d5b3ee9d/technical-cost-workspace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "ProjectController_getTimeline",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getTimeline",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/timeline",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 106
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3K",
+      "issue": 96,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 241,
+        "domain": "project",
+        "capability": "getProjectTimeline",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/timeline",
+        "operationId": "ProjectController_getTimeline",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/timeline",
+        "implementedPath": "/api/projects/{projectId}/timeline",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "ProjectController_getWorkspaceGuidance",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getWorkspaceGuidance",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/workspace-guidance",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 98
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3K",
+      "issue": 96,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 231,
+        "domain": "project",
+        "capability": "getProjectWorkspaceGuidance",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/workspace-guidance",
+        "operationId": "ProjectController_getWorkspaceGuidance",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/workspace-guidance",
+        "implementedPath": "/api/projects/{projectId}/workspace-guidance",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_list",
+      "module": "sales-intelligence",
+      "controller": "SalesDiscoveryRecordController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/sales-discovery-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 179
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "OpportunityContextQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 361,
+        "domain": "sales-intelligence",
+        "capability": "listSalesDiscoveryRecords",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/sales-discovery-records",
+        "operationId": "SalesDiscoveryRecordController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/sales-discovery-records",
+        "implementedPath": "/api/sales-discovery-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_create",
+      "module": "sales-intelligence",
+      "controller": "SalesDiscoveryRecordController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/sales-discovery-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 190
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateSalesDiscoveryRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 362,
+        "domain": "sales-intelligence",
+        "capability": "createSalesDiscoveryRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-discovery-records",
+        "operationId": "SalesDiscoveryRecordController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSalesDiscoveryRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-discovery-records",
+        "implementedPath": "/api/sales-discovery-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_update",
+      "module": "sales-intelligence",
+      "controller": "SalesDiscoveryRecordController",
+      "controllerMethod": "update",
+      "method": "PATCH",
+      "path": "/api/sales-discovery-records/{id}",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 211
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "UpdateSalesDiscoveryRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload } & RuntimeAuditRequestLike",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 363,
+        "domain": "sales-intelligence",
+        "capability": "updateSalesDiscoveryRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "PATCH",
+        "path": "/api/sales-discovery-records/{id}",
+        "operationId": "SalesDiscoveryRecordController_update",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSalesDiscoveryRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-discovery-records/{id}",
+        "implementedPath": "/api/sales-discovery-records/{id}",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    },
+    {
+      "operationId": "SalesFollowUpController_list",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/sales-follow-up-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 15
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "SalesFollowUpRecordListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 343,
+        "domain": "sales-follow-up",
+        "capability": "listSalesFollowUpRecords",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/sales-follow-up-records",
+        "operationId": "SalesFollowUpController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "lifecycleScope",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/SalesFollowUpRecordLifecycleScope"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records",
+        "implementedPath": "/api/sales-follow-up-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/boundaries171/report01.json",
+        "label": "guard.valid-cookie-ignores-bearer.12",
+        "requestId": "abe2335c-2551-4858-baee-37f0dadcdf6b",
+        "method": "GET",
+        "route": "/api/sales-follow-up-records?customerId=99c3d2e2-f4af-4bbe-8c99-d4bf9bc42a2c",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "SalesFollowUpController_create",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 30
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateSalesFollowUpRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 344,
+        "domain": "sales-follow-up",
+        "capability": "createSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records",
+        "operationId": "SalesFollowUpController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records",
+        "implementedPath": "/api/sales-follow-up-records",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 201,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "producer.followup",
+        "requestId": "29031c63-3d36-4f4d-9366-ae1381ba34ed",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records",
+        "status": 201
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "SalesFollowUpController_replace",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "replace",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/{id}:replace",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 53
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "ReplaceSalesFollowUpRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 345,
+        "domain": "sales-follow-up",
+        "capability": "replaceSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records/{id}:replace",
+        "operationId": "SalesFollowUpController_replace",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records/{id}:replace",
+        "implementedPath": "/api/sales-follow-up-records/{id}:replace",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.live-replace",
+        "requestId": "632dd3ef-9114-4ee2-aa2d-cdef0fbacd35",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/cbfb78a1-18ea-40c4-980a-ebb77f4643d8:replace",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "SalesFollowUpController_void",
+      "module": "sales-follow-up",
+      "controller": "SalesFollowUpController",
+      "controllerMethod": "void",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records/{id}:void",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+        "line": 78
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "decorators": [
+            "@Param('id')"
+          ]
+        },
+        {
+          "name": "body",
+          "type": "VoidSalesFollowUpRecordRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "RuntimeAuditRequestLike & { user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3F",
+      "issue": 91,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 346,
+        "domain": "sales-follow-up",
+        "capability": "voidSalesFollowUpRecord",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records/{id}:void",
+        "operationId": "SalesFollowUpController_void",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoidSalesFollowUpRecordRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/sales-follow-up-records/{id}:void",
+        "implementedPath": "/api/sales-follow-up-records/{id}:void",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": true,
+      "G1Certified": true,
+      "G3Certified": true,
+      "G4Certified": true,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/archive/slices/rust-r3cdefg/evidence/actual/native/coverage1124/report01.json",
+        "label": "followup.active-void",
+        "requestId": "4f0b52b6-4f1b-4c63-b729-a72089370267",
+        "method": "POST",
+        "route": "/api/sales-follow-up-records/1c698858-7568-4d9d-ac7c-37a5159d9843:void",
+        "status": 200
+      },
+      "implementation": "fbc5ca10bb232519034437f8ef7406f145cfe34a"
+    },
+    {
+      "operationId": "SalesIntelligenceGapController_list",
+      "module": "sales-intelligence",
+      "controller": "SalesIntelligenceGapController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps",
+      "source": {
+        "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+        "line": 226
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "OpportunityContextQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "RUST-R3I",
+      "issue": 94,
+      "scopeFrozen": true,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 364,
+        "domain": "sales-intelligence",
+        "capability": "getSalesIntelligenceGaps",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/sales-intelligence-gaps",
+        "operationId": "SalesIntelligenceGapController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/sales-intelligence-gaps",
+        "implementedPath": "/api/sales-intelligence-gaps",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": 200,
+      "rustDelivered": false,
+      "G1Certified": true,
+      "G3Certified": false,
+      "G4Certified": false,
+      "rustImplemented": true,
+      "nativeStatusActualReceipt": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-nest-g2-native01-02/report01.json",
+        "bytes": 3284583,
+        "rawBytesSha256": "a4a5bd73bed2154d98a1a42fa57caac145d976eb10581c39af41e0b55946776c"
+      }
+    }
+  ],
+  "dispatchCounting": "R3A-G scoped G4 delivered30/58; H-K implemented28, Rust dispatch173, not counted delivered before scoped G4. Full non-HTTP/approval/stage pending.",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "firstBatchDelivery": {
+    "phase": "Done",
+    "operations": 14,
+    "G1Certified": true,
+    "G3Certified": true,
+    "G4Certified": true,
+    "currentStatusSource": {
+      "file": "docs/design/rust-r3ab-delivery-status.json",
+      "bytes": 6744,
+      "rawBytesSha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+    },
+    "parent85Open": true,
+    "overall57Open": true
+  },
+  "certificationScope": "Only explicit scoped child rows are certified. HTTP58/58 does not complete R3 stage or parent85/57; source producers and full non-HTTP/approval/stage require separate acceptance.",
+  "nextBatchDelivery": {
+    "phase": "Done",
+    "operations": 16,
+    "source": {
+      "file": "docs/design/rust-r3cdefg-delivery-status.json",
+      "bytes": 22800,
+      "rawBytesSha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+    },
+    "G1Certified": true,
+    "G3Certified": true,
+    "G4Certified": true,
+    "parent85Open": true,
+    "overall57Open": true
+  },
+  "finalBatchDelivery": {
+    "phase": "G3Ready",
+    "operations": 28,
+    "source": {
+      "file": "docs/design/rust-r3hijk-delivery-status.json",
+      "bytes": 16456,
+      "rawBytesSha256": "53fffc4b4158ff20586c74e7e2e0089a0ffc0d0a6ca7f7ca7c20fec0d4e5e14d"
+    },
+    "G1Certified": true,
+    "G3Certified": false,
+    "G4Certified": false,
+    "parent85Open": true,
+    "overall57Open": true,
+    "stageIntegrationComplete": false
+  }
+}

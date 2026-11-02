@@ -1,0 +1,88 @@
+{
+  "label": "H93.native-risk.W1.create-denied-lead",
+  "startedAt": "2026-11-02T12:15:34.805Z",
+  "completedAt": "2026-11-02T12:15:34.857Z",
+  "value": {
+    "deniedTable": "lead",
+    "request": {
+      "leadName": "H93 Native create-denied-lead 6ced5bad-58b2-41e9-a122-44b4163ec3fc",
+      "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "sourceCode": "customer-visit",
+      "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+      "budgetStatus": "budget-confirmed",
+      "urgency": "high",
+      "estimatedAmount": "1200000.00",
+      "expectedDecisionDate": "2026-11-20",
+      "ownerUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "ownerOrgId": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+    },
+    "response": {
+      "status": 500,
+      "body": {
+        "message": "Internal server error",
+        "statusCode": 500
+      },
+      "requestId": "b394b4fb-968d-4066-b0fc-4cd096b83110",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "52",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-61068-10",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 12:15:34 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 900,
+        "requestSha256": "e85045ca66b640ddd7705fe487bc442b985c0c9d26a37a409338d89d7457a9e1",
+        "responseBytes": 348,
+        "responseSha256": "cf70ca4a112b3ab5d7491db36c88d33c387efa933a000045d12f827674456d8c",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase01/raw-wire/admin-dc269b32-a8c7-4238-89c4-210ca66ff292",
+        "originalRawRetained": true
+      }
+    },
+    "counterBefore": [
+      {
+        "id": "745f9eab-9b00-4b66-93ae-2c5067f3b6b0",
+        "scope": "lead",
+        "period": "2026",
+        "next_value": 2,
+        "prefix": "LD",
+        "padding": 6,
+        "description": "线索编号",
+        "row_version": 1,
+        "created_at": "2026-11-02T12:15:34.764Z",
+        "updated_at": "2026-11-02T12:15:34.764Z"
+      }
+    ],
+    "counterAfter": [
+      {
+        "id": "745f9eab-9b00-4b66-93ae-2c5067f3b6b0",
+        "scope": "lead",
+        "period": "2026",
+        "next_value": 3,
+        "prefix": "LD",
+        "padding": 6,
+        "description": "线索编号",
+        "row_version": 1,
+        "created_at": "2026-11-02T12:15:34.764Z",
+        "updated_at": "2026-11-02T12:15:34.832Z"
+      }
+    ],
+    "rowsBefore": [],
+    "rowsAfter": [],
+    "graphs": [],
+    "audit": []
+  }
+}

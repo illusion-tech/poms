@@ -1,0 +1,90 @@
+{
+  "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+  "startedAt": "2026-11-02T11:56:52.914Z",
+  "completedAt": "2026-11-02T11:56:52.972Z",
+  "value": {
+    "deniedTable": "lead_score_snapshot",
+    "request": {
+      "leadName": "H93 Native create-denied-lead_score_snapshot b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+      "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+      "sourceCode": "customer-visit",
+      "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+      "budgetStatus": "budget-confirmed",
+      "urgency": "high",
+      "estimatedAmount": "1200000.00",
+      "expectedDecisionDate": "2026-11-20",
+      "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1"
+    },
+    "response": {
+      "status": 500,
+      "body": {
+        "statusCode": 500,
+        "message": "Internal server error"
+      },
+      "requestId": "fc46b583-091b-4028-a15d-f0615c1f0838",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "52",
+        "ETag",
+        "W/\"34-rlKccw1E+/fV8niQk4oFitDfPro\"",
+        "Date",
+        "Mon, 02 Nov 2026 11:56:52 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 915,
+        "requestSha256": "392c0a026f3366ecf81a467d7236b1f415c3f71713a248c6edea0aa16bfe0f58",
+        "responseBytes": 385,
+        "responseSha256": "ca179218e1129717265aa25a34516790418eae7b7721159bd33d71c751a22a05",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "fcbda2e2660dbbff82ba8df76212f3d4ab9ced3b9b9a8b8700621f45fb5ce006",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase02/raw-wire/admin-6ec6c99c-53ac-4fb5-901d-3d1424040916",
+        "originalRawRetained": true
+      }
+    },
+    "counterBefore": [
+      {
+        "id": "48d040d5-934e-4be8-a035-242b4854b550",
+        "scope": "lead",
+        "period": "2026",
+        "next_value": 3,
+        "prefix": "LD",
+        "padding": 6,
+        "description": "线索编号",
+        "row_version": 1,
+        "created_at": "2026-11-02T11:56:52.778Z",
+        "updated_at": "2026-11-02T11:56:52.884Z"
+      }
+    ],
+    "counterAfter": [
+      {
+        "id": "48d040d5-934e-4be8-a035-242b4854b550",
+        "scope": "lead",
+        "period": "2026",
+        "next_value": 4,
+        "prefix": "LD",
+        "padding": 6,
+        "description": "线索编号",
+        "row_version": 1,
+        "created_at": "2026-11-02T11:56:52.778Z",
+        "updated_at": "2026-11-02T11:56:52.944Z"
+      }
+    ],
+    "rowsBefore": [],
+    "rowsAfter": [],
+    "graphs": [],
+    "audit": []
+  }
+}

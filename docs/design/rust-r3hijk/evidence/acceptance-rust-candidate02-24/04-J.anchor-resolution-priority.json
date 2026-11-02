@@ -1,0 +1,338 @@
+{
+  "label": "J.anchor-resolution-priority",
+  "startedAt": "2026-11-02T16:37:23.766Z",
+  "completedAt": "2026-11-02T16:37:23.812Z",
+  "value": {
+    "definition": {
+      "id": "J.anchor-resolution-priority",
+      "covers": [
+        "J-L02",
+        "J-C07"
+      ],
+      "requests": [
+        {
+          "id": "J.priority.customer-first",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=36fc96fe-613b-4b08-9f2c-71fd824beb23&leadId=36fc96fe-613b-4b08-9f2c-71fd824beb23&projectId=36fc96fe-613b-4b08-9f2c-71fd824beb23",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 404,
+            "message": "Customer 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.priority.lead-before-project",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=a1be5f15-b2ee-4b1c-96cb-36697a872308&leadId=36fc96fe-613b-4b08-9f2c-71fd824beb23&projectId=36fc96fe-613b-4b08-9f2c-71fd824beb23",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 404,
+            "message": "Lead 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.priority.project-last",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=a1be5f15-b2ee-4b1c-96cb-36697a872308&leadId=48caef04-59b2-468d-9d81-88dd5cd36f4b&projectId=36fc96fe-613b-4b08-9f2c-71fd824beb23",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 404,
+            "message": "Project 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.target-missing.customer",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "customer",
+            "targetObjectId": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 404,
+            "message": "Customer 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.target-missing.lead",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "lead",
+            "targetObjectId": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 404,
+            "message": "Lead 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.target-missing.project",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 404,
+            "message": "Project 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        }
+      ],
+      "actual": null
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Customer 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "4b4a0a6e-2eaf-4657-9b1e-f3f6afeb4850",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "106",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-307",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 442,
+          "requestSha256": "6abcb288e80b225ad821b4c9e1e0eeaf45d1b184c8d551cde133aac02190c06e",
+          "responseBytes": 392,
+          "responseSha256": "a857ffc80d04fd3844765c23d2722589cec98dfeb61deb21a5cff598e44b56d5",
+          "entityBodyBytes": 106,
+          "entityBodySha256": "ee6c21d67b9d8edf76117675dc73d296c6c47f2bcb2d829f28c47877d5834f62",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectRead-42919598-ba7d-464b-bcb6-41d2d23ab38c",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Lead 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "124dc97e-501b-4131-9847-9d364f257d54",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "102",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-308",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 442,
+          "requestSha256": "72f551949a4c181c80bf50f8819a15151d227d83b210fef5a84b2cfa46eb17c3",
+          "responseBytes": 388,
+          "responseSha256": "eed6e070694ef60b0de33c95afe4e93ce06a75f37dbd13b48b9384f5a7229ac7",
+          "entityBodyBytes": 102,
+          "entityBodySha256": "dda783ade6eec0a3fd62e1de5e2388850049fb9a0fd5e8b42edf4b9485d3c48f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectRead-6bba7c46-8c54-46be-b062-92061875b4a7",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Project 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "67105674-327a-4efe-bdfe-aef131dcdf4c",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "105",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-309",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 442,
+          "requestSha256": "41f8da41e97e029f22a52cf3a425500bad4133f294ffdb962ccb109bca1ef977",
+          "responseBytes": 391,
+          "responseSha256": "1c5d219c796060a06fcf164e8f990887a534d0965670887e313482d43831367c",
+          "entityBodyBytes": 105,
+          "entityBodySha256": "ff9c4a62be8239c2571a6fef6f4ee83965783e456b4a38984b8c4e660bbb7968",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectRead-aae2159a-ba58-426c-a5fe-249f3da52ac2",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Customer 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "938db351-097b-493d-9ab7-0eea77e9c7ce",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "106",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-310",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 564,
+          "requestSha256": "29eadb0df8da528047d15c2a39d3f176939caeb4c001c33fac08094aee98604d",
+          "responseBytes": 392,
+          "responseSha256": "345b6b795bf4ae9a0d29bedaf7d90d2561ce68834926e1a9a865a40787ab6ce0",
+          "entityBodyBytes": 106,
+          "entityBodySha256": "ee6c21d67b9d8edf76117675dc73d296c6c47f2bcb2d829f28c47877d5834f62",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-b8204045-b0d7-4758-951b-5c679571dbb6",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Lead 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "34c896be-363e-4178-8050-fedea6ed039d",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "102",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-311",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 560,
+          "requestSha256": "447f22b0bcb3eb3a64349678152e4586b3aeed39ddf1d3c228d1427359a7b441",
+          "responseBytes": 388,
+          "responseSha256": "a17e38a4c5e554d4c03ea8d65c09147f001da534fb7b2c4b3325210ffad20d32",
+          "entityBodyBytes": 102,
+          "entityBodySha256": "dda783ade6eec0a3fd62e1de5e2388850049fb9a0fd5e8b42edf4b9485d3c48f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-b2b31864-91dc-473a-9cd7-a1c8ad812bef",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "Project 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "635326a0-4014-44f9-8bf3-84c13401ae36",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "105",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-312",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 563,
+          "requestSha256": "7e405b7e657a5ae4072008408f3527243665b468a06680405956ab6b8f302d37",
+          "responseBytes": 391,
+          "responseSha256": "eddb541e3bbdb93f9bb5884915298a18bdb4032fa447e3505431ed3581bb5db4",
+          "entityBodyBytes": 105,
+          "entityBodySha256": "ff9c4a62be8239c2571a6fef6f4ee83965783e456b4a38984b8c4e660bbb7968",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-9fb6ad15-bcde-4704-8225-9c3bba7f4ae7",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

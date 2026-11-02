@@ -1,0 +1,197 @@
+{
+  "label": "I-concurrent-discovery",
+  "startedAt": "2026-11-02T18:58:56.969Z",
+  "completedAt": "2026-11-02T18:58:57.084Z",
+  "value": {
+    "before": {
+      "id": "5e135312-e617-4080-9a64-42d1557ee0ce",
+      "customer_id": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c",
+      "lead_id": "8c5dfe1d-b4d0-47d5-803f-3f555f3b8c35",
+      "project_id": null,
+      "procurement_process": "Native I discovery initial procurement",
+      "budget_source": "Native I discovery initial budget",
+      "customer_pain_points": "Native I discovery initial pain",
+      "decision_cycle": "Native I discovery initial cycle",
+      "next_contact_plan": "Native I discovery initial next contact",
+      "remark": "Native I discovery initial remark",
+      "row_version": 1,
+      "created_at": "2026-11-02T18:58:57.022Z",
+      "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+      "updated_at": "2026-11-02T18:58:57.022Z",
+      "updated_by": "85005c87-2c45-450d-9e07-9417b682459e"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/sales-discovery-records/5e135312-e617-4080-9a64-42d1557ee0ce",
+        "json": {
+          "remark": "concurrent admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/sales-discovery-records/5e135312-e617-4080-9a64-42d1557ee0ce",
+        "json": {
+          "remark": "concurrent other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "5e135312-e617-4080-9a64-42d1557ee0ce",
+            "customerId": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c",
+            "customerName": "HIJK UUID-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5",
+            "leadId": "8c5dfe1d-b4d0-47d5-803f-3f555f3b8c35",
+            "leadName": "HIJK I-concurrent-discovery",
+            "projectId": null,
+            "projectName": null,
+            "procurementProcess": "Native I discovery initial procurement",
+            "budgetSource": "Native I discovery initial budget",
+            "customerPainPoints": "Native I discovery initial pain",
+            "decisionCycle": "Native I discovery initial cycle",
+            "nextContactPlan": "Native I discovery initial next contact",
+            "remark": "concurrent admin",
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T18:58:57.022Z",
+            "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+            "updatedAt": "2026-11-02T18:58:57.049Z",
+            "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e"
+          },
+          "requestId": "8e542ccd-8d92-4719-9de4-25fe22683f91",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "799",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-111189-57",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 18:58:57 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 485,
+            "requestSha256": "efc9a8ef8b1766ffe8932c01323fff0e136565b7c4fdfc25004b9d89316716b8",
+            "responseBytes": 1078,
+            "responseSha256": "30e728f3697f3672dd364e8ceedbba8603a6dd8127da1639dd8da9f2f2227a9b",
+            "entityBodyBytes": 799,
+            "entityBodySha256": "3a88706d40f99156f16dc4ad19213e9da35b15772c0eb5355fc932695833b875",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase55/raw-wire/admin-70783c8f-e9a7-4c53-ac69-8707f8345125",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "SalesDiscoveryRecord 5e135312-e617-4080-9a64-42d1557ee0ce has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "02347ac0-46d4-45ba-a5d9-408c8ef82959",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "144",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-111189-58",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 18:58:57 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 485,
+            "requestSha256": "8b2945bb36daf41ba8152630820a5322aca7f41be1174c14513f30163a87cf59",
+            "responseBytes": 429,
+            "responseSha256": "108a60c150765f805a9be51791dcb95ee58a3be735474e2020c291713ebd3218",
+            "entityBodyBytes": 144,
+            "entityBodySha256": "c3545e9dde553e1b10dd8102e1bd25614175240049b32723cee5b6fb93492494",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase55/raw-wire/other-97a7f582-9d50-4a02-8093-0cf4354056e6",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "5e135312-e617-4080-9a64-42d1557ee0ce",
+      "customer_id": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c",
+      "lead_id": "8c5dfe1d-b4d0-47d5-803f-3f555f3b8c35",
+      "project_id": null,
+      "procurement_process": "Native I discovery initial procurement",
+      "budget_source": "Native I discovery initial budget",
+      "customer_pain_points": "Native I discovery initial pain",
+      "decision_cycle": "Native I discovery initial cycle",
+      "next_contact_plan": "Native I discovery initial next contact",
+      "remark": "concurrent admin",
+      "row_version": 2,
+      "created_at": "2026-11-02T18:58:57.022Z",
+      "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+      "updated_at": "2026-11-02T18:58:57.049Z",
+      "updated_by": "85005c87-2c45-450d-9e07-9417b682459e"
+    },
+    "audits": [
+      [
+        {
+          "id": "7ec1aec8-a6fa-4128-a619-90f02cb3e9a5",
+          "event_type": "sales-discovery-record.updated",
+          "target_type": "sales-discovery-record",
+          "target_id": "5e135312-e617-4080-9a64-42d1557ee0ce",
+          "operator_id": "85005c87-2c45-450d-9e07-9417b682459e",
+          "request_id": "8e542ccd-8d92-4719-9de4-25fe22683f91",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "remark": {
+              "length": 33,
+              "changed": true,
+              "present": true
+            }
+          },
+          "after_snapshot": {
+            "remark": {
+              "length": 16,
+              "changed": true,
+              "present": true
+            }
+          },
+          "metadata": {
+            "changedFields": [
+              "remark"
+            ],
+            "sourceCommand": "update-sales-discovery-record",
+            "redactedFields": [
+              "remark"
+            ],
+            "businessContext": {
+              "leadId": "8c5dfe1d-b4d0-47d5-803f-3f555f3b8c35",
+              "projectId": null,
+              "customerId": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c"
+            }
+          },
+          "occurred_at": "2026-11-02T18:58:57.048Z"
+        }
+      ],
+      []
+    ]
+  }
+}

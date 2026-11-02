@@ -1,5 +1,5 @@
-//! Original tables and predicates only. Parent INSERT deliberately precedes
-//! old-current UPDATE, as witnessed Native SQL-order-authority02 requires.
+//! Existing version tables. The caller owns the project lock and transaction
+//! and supersedes the old current before inserting its replacement.
 
 use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
@@ -7,7 +7,7 @@ use sqlx::{PgConnection, Postgres, QueryBuilder, Row as SqlxRow, postgres::PgRow
 use uuid::Uuid;
 
 use super::model::CreateRequest;
-use crate::compat::scalars::{NumberInput, js_iso_string, js_to_fixed, legacy_number};
+use crate::compat::scalars::js_iso_string;
 
 #[derive(Clone, Debug)]
 pub struct Row<V = i32> {
@@ -36,9 +36,33 @@ pub struct Row<V = i32> {
     pub row_version: i32,
 }
 
-/// JS increments the int4 source version as a Number before PostgreSQL checks
-/// the new int4 value. Keep that candidate wide until its parent INSERT.
+/// Keep the next version wide until PostgreSQL applies its existing int4 bound.
 pub type NewPackage = Row<i64>;
+
+/// Shared by the three presigning version writers. A project-row lock also
+/// serializes pricing reference checks with cost/bid version replacement.
+pub(crate) async fn lock_project(
+    connection: &mut PgConnection,
+    id: &str,
+) -> Result<Option<crate::projects::store::ProjectRow>, sqlx::Error> {
+    let project: Option<Uuid> =
+        sqlx::query_scalar("SELECT id FROM poms.project WHERE id=$1::text::uuid FOR UPDATE")
+            .bind(id)
+            .fetch_optional(&mut *connection)
+            .await?;
+    match project {
+        Some(_) => crate::projects::store::find(connection, id).await,
+        None => Ok(None),
+    }
+}
+
+pub(crate) async fn next_version(
+    connection: &mut PgConnection,
+    project_id: Uuid,
+) -> Result<i64, sqlx::Error> {
+    sqlx::query_scalar("SELECT COALESCE(MAX(version)::bigint,0)+1 FROM poms.project_technical_cost_package WHERE project_id=$1")
+        .bind(project_id).fetch_one(connection).await
+}
 
 macro_rules! columns {
     () => { "id,project_id,version,is_current,supersedes_id,status,technical_feasibility_decision,technical_conclusion_summary,allow_next_stage,currency_code,total_estimated_amount_excluding_tax::text,total_tax_cost_amount::text,total_estimated_amount_including_tax::text,tax_assumption_summary,tax_review_status,highest_risk_level,blocker_count,effective_at,created_at,created_by,updated_at,updated_by,row_version" };
@@ -132,10 +156,6 @@ pub async fn insert(connection: &mut PgConnection, value: &NewPackage) -> Result
         .fetch_one(connection).await.and_then(row)
 }
 
-fn money(value: &str) -> String {
-    js_to_fixed(legacy_number(NumberInput::Text(value)), 2).unwrap_or_default()
-}
-
 /// Native's ORM orders dependent INSERT groups as cost -> risk -> scope,
 /// independently of the persist graph's original [scope,risk,cost] array.
 pub async fn insert_children(
@@ -160,11 +180,11 @@ pub async fn insert_children(
                     .push_bind(item.unit.as_ref().map(|v| v.to_utf8_lossy()))
                     .push_bind(item.unit_price.clone())
                     .push_unseparated("::text::numeric")
-                    .push_bind(money(&item.amount_excluding_tax))
+                    .push_bind(item.amount_excluding_tax.clone())
                     .push_unseparated("::text::numeric")
-                    .push_bind(money(&item.tax_cost_amount))
+                    .push_bind(item.tax_cost_amount.clone())
                     .push_unseparated("::text::numeric")
-                    .push_bind(money(&item.amount_including_tax))
+                    .push_bind(item.amount_including_tax.clone())
                     .push_unseparated("::text::numeric")
                     .push_bind(item.currency_code.to_utf8_lossy())
                     .push_bind(item.confidence_level.clone())
@@ -223,15 +243,10 @@ pub async fn supersede(
     previous: &Row,
     actor: Uuid,
     now: DateTime<Utc>,
-) -> Result<(), sqlx::Error> {
-    let result=sqlx::query("UPDATE poms.project_technical_cost_package SET is_current=false,status='superseded',updated_by=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 RETURNING id")
+) -> Result<bool, sqlx::Error> {
+    let result=sqlx::query("UPDATE poms.project_technical_cost_package SET is_current=false,status='superseded',updated_by=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 AND is_current=true AND status='effective' RETURNING id")
         .bind(actor).bind(now).bind(previous.id).bind(previous.row_version).fetch_optional(connection).await?;
-    if result.is_none() {
-        return Err(sqlx::Error::Protocol(
-            "technical cost managed version conflict".into(),
-        ));
-    }
-    Ok(())
+    Ok(result.is_some())
 }
 
 #[derive(Clone)]

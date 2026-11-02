@@ -1,0 +1,3805 @@
+{
+  "kind": "poms-r3hijk-d-source-manifest-draft01",
+  "status": "G1-input-source-capture-only-not-formal-freeze",
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "branch": "codex/poms-r3hijk-next28",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "observedHead": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "captureUtc": "2026-11-02T08:36:06.7323666Z",
+  "actualSourceCount": 53,
+  "actualSourceBytes": 2429526.0,
+  "rawShaAlgorithm": "SHA-256 over actual filesystem bytes; no normalized text hashing",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "nativeRunCount": 0,
+  "nativeActual": null,
+  "productFilesWritten": [],
+  "prohibitedRunsPerformed": [],
+  "ownership": "D input preparation only; Root owns all actual product/fixture/check/runtime runs",
+  "sources": [
+    {
+      "path": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+      "role": "Native J HTTP delegation and permissions",
+      "wholeFileFrozen": true,
+      "actualBytes": 2525,
+      "rawSha256": "74e16707254a6e39c96276ee6f8978253be7897ca377d06b2b0a4bfb43b65337",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 47,
+      "keyLineRanges": [
+        [
+          8,
+          45
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "@Get",
+          "line": 14,
+          "text": "    @Get()"
+        },
+        {
+          "pattern": "@Post",
+          "line": 27,
+          "text": "    @Post()"
+        },
+        {
+          "pattern": "HasAnyPermissions",
+          "line": 5,
+          "text": "import { HasAnyPermissions } from '../../core/auth/decorators/has-any-permissions.decorator';"
+        },
+        {
+          "pattern": "HasAnyPermissions",
+          "line": 15,
+          "text": "    @HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        },
+        {
+          "pattern": "HasAnyPermissions",
+          "line": 28,
+          "text": "    @HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        }
+      ],
+      "baseGitBlobId": "660b7f5de4baa93d4e8584c1890085aeae77aa5b",
+      "baseGitBlobBytes": 2525,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/business-discussion/business-discussion.service.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/business-discussion/business-discussion.service.ts",
+      "role": "Native J sole behavior input",
+      "wholeFileFrozen": true,
+      "actualBytes": 14565,
+      "rawSha256": "bb4f95dfb396263f063a94fd248b5eba4f6b52a17d7909c0fb7e016458a85135",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 298,
+      "keyLineRanges": [
+        [
+          14,
+          111
+        ],
+        [
+          113,
+          250
+        ],
+        [
+          252,
+          296
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "async listBusinessDiscussionComments",
+          "line": 28,
+          "text": "    async listBusinessDiscussionComments(query: BusinessDiscussionListQuery): Promise<BusinessDiscussionCommentSummary[]> {"
+        },
+        {
+          "pattern": "async createBusinessDiscussionComment",
+          "line": 37,
+          "text": "    async createBusinessDiscussionComment(input: CreateBusinessDiscussionCommentRequest, operatorUserId: string): Promise<BusinessDiscussionCommentSummary> {"
+        },
+        {
+          "pattern": "private async resolveListTargets",
+          "line": 85,
+          "text": "    private async resolveListTargets(query: BusinessDiscussionListQuery): Promise<ResolvedDiscussionTarget[]> {"
+        },
+        {
+          "pattern": "private assertRelatedOpportunityAnchor",
+          "line": 182,
+          "text": "    private assertRelatedOpportunityAnchor(typeName: string, id: string, customerId: string, leadId: string | null, projectId: string | null, target: ResolvedDiscussionTarget): void {"
+        },
+        {
+          "pattern": "private mapComment",
+          "line": 267,
+          "text": "    private mapComment(comment: BusinessDiscussionComment, context: { threadMap: Map<string, BusinessDiscussionThread>; contactMap: Map<string, CustomerContact>; userMap: Map<string, PlatformUser> }): BusinessDiscussionCommentSummary {"
+        }
+      ],
+      "baseGitBlobId": "ff2367d66dcf903391e8c78c8df5960e08a74f92",
+      "baseGitBlobBytes": 14565,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/business-discussion/business-discussion.repository.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/business-discussion/business-discussion.repository.ts",
+      "role": "Native J query and flush boundaries",
+      "wholeFileFrozen": true,
+      "actualBytes": 5044,
+      "rawSha256": "9fad87c994d0f94ccf10b92700f887b615d684f4e378ae82e81d60f51ab4cac3",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 119,
+      "keyLineRanges": [
+        [
+          41,
+          117
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "async findThreadByTarget",
+          "line": 53,
+          "text": "    async findThreadByTarget(targetObjectType: BusinessDiscussionTargetObjectType, targetObjectId: string): Promise<BusinessDiscussionThread | null> {"
+        },
+        {
+          "pattern": "async findThreadsByTargets",
+          "line": 57,
+          "text": "    async findThreadsByTargets(targets: BusinessDiscussionTargetRef[]): Promise<BusinessDiscussionThread[]> {"
+        },
+        {
+          "pattern": "async findCommentsByThreadIds",
+          "line": 70,
+          "text": "    async findCommentsByThreadIds(threadIds: string[]): Promise<BusinessDiscussionComment[]> {"
+        },
+        {
+          "pattern": "async saveThreadAndComment",
+          "line": 112,
+          "text": "    async saveThreadAndComment(thread: BusinessDiscussionThread, comment: BusinessDiscussionComment): Promise<void> {"
+        }
+      ],
+      "baseGitBlobId": "c12ea2d8af8812757ca1bea2f9c1241acdaf588d",
+      "baseGitBlobBytes": 5044,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/business-discussion/business-discussion.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/business-discussion/business-discussion.entity.ts",
+      "role": "Native J tables constraints defaults and date types",
+      "wholeFileFrozen": true,
+      "actualBytes": 6282,
+      "rawSha256": "2a53e597a5004eff269150d5c45b3850047178c4d5ef9e1fc028b71ded38c35f",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 106,
+      "keyLineRanges": [
+        [
+          13,
+          98
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 15,
+          "text": "    tableName: 'business_discussion_thread',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 40,
+          "text": "    tableName: 'business_discussion_comment',"
+        },
+        {
+          "pattern": "uniques:",
+          "line": 23,
+          "text": "    uniques: [{ name: 'uq_business_discussion_thread_target', properties: ['targetObjectType', 'targetObjectId'] }],"
+        },
+        {
+          "pattern": "createdAt:",
+          "line": 33,
+          "text": "        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),"
+        },
+        {
+          "pattern": "createdAt:",
+          "line": 96,
+          "text": "        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 29,
+          "text": "        customerId: () => p.manyToOne(Customer).mapToPk().nullable().fieldName('customer_id').foreignKeyName('business_discussion_thread_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 30,
+          "text": "        leadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('lead_id').foreignKeyName('business_discussion_thread_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索标识'),"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 31,
+          "text": "        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName('project_id').foreignKeyName('business_discussion_thread_project_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目标识'),"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 60,
+          "text": "                .deleteRule('restrict')"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 72,
+          "text": "                .deleteRule('set null')"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 82,
+          "text": "                .deleteRule('set null')"
+        },
+        {
+          "pattern": "deleteRule",
+          "line": 92,
+          "text": "                .deleteRule('set null')"
+        }
+      ],
+      "baseGitBlobId": "8d8d527be2499cc6d3d994975e21f3c57f65ff5f",
+      "baseGitBlobBytes": 6282,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/business-discussion/business-discussion.module.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/business-discussion/business-discussion.module.ts",
+      "role": "Native J injected dependency entities",
+      "wholeFileFrozen": true,
+      "actualBytes": 1434,
+      "rawSha256": "9d2175d814d9eaada0829e3a5ddac188d8be54965ad541ee73099ad3f91c39ea",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 32,
+      "keyLineRanges": [
+        [
+          14,
+          30
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "forFeature",
+          "line": 16,
+          "text": "        MikroOrmModule.forFeature(["
+        },
+        {
+          "pattern": "providers:",
+          "line": 29,
+          "text": "    providers: [BusinessDiscussionRepository, BusinessDiscussionService],"
+        }
+      ],
+      "baseGitBlobId": "690aaa1d2c6b908573c053a82648154e71f799d6",
+      "baseGitBlobBytes": 1434,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/business-discussion/business-discussion.service.spec.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/business-discussion/business-discussion.service.spec.ts",
+      "role": "Original J mock-unit test source, not executed",
+      "wholeFileFrozen": true,
+      "actualBytes": 7162,
+      "rawSha256": "1d1bcc99bfb59a73ff60d42ee29985911840190ba7c3afb55badcbdc398e7600",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 160,
+      "keyLineRanges": [
+        [
+          46,
+          113
+        ],
+        [
+          115,
+          153
+        ],
+        [
+          155,
+          159
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "    it(",
+          "line": 46,
+          "text": "    it('lists project discussion together with source lead discussion', async () => {"
+        },
+        {
+          "pattern": "    it(",
+          "line": 115,
+          "text": "    it('creates a discussion thread on first comment', async () => {"
+        },
+        {
+          "pattern": "    it(",
+          "line": 155,
+          "text": "    it('rejects query anchors from different customers', async () => {"
+        }
+      ],
+      "baseGitBlobId": "e66893bc647223b0f914f3df21f320a1ec4d8980",
+      "baseGitBlobBytes": 7162,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project.controller.ts",
+      "role": "Native K HTTP plain path parameter and project read guard",
+      "wholeFileFrozen": true,
+      "actualBytes": 27547,
+      "rawSha256": "1db2429199b857486385d2f8afcc38aea85ddd103670cf4bdfde07dcc416af68",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 612,
+      "keyLineRanges": [
+        [
+          98,
+          112
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "getWorkspaceGuidance",
+          "line": 102,
+          "text": "    async getWorkspaceGuidance(@Param('projectId') projectId: string, @Request() req: { user: UserPayload }): Promise<ProjectWorkspaceGuidanceView> {"
+        },
+        {
+          "pattern": "getTimeline",
+          "line": 110,
+          "text": "    async getTimeline(@Param('projectId') projectId: string): Promise<ProjectTimelineView> {"
+        }
+      ],
+      "baseGitBlobId": "34fcef3ac86946a5e523e2fb3834557cec45626a",
+      "baseGitBlobBytes": 27547,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-query.service.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project-query.service.ts",
+      "role": "Native K sole query behavior input including all text and permission entries",
+      "wholeFileFrozen": true,
+      "actualBytes": 86242,
+      "rawSha256": "f3240e4577cbff7dfb468cc2a288a2f2be7fb7319bb0070461ee4fabb5fe020d",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 1676,
+      "keyLineRanges": [
+        [
+          51,
+          187
+        ],
+        [
+          320,
+          357
+        ],
+        [
+          590,
+          748
+        ],
+        [
+          1218,
+          1229
+        ],
+        [
+          1305,
+          1327
+        ],
+        [
+          1342,
+          1674
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "async getProjectWorkspaceGuidance",
+          "line": 320,
+          "text": "    async getProjectWorkspaceGuidance(projectId: string, user: UserPayload): Promise<ProjectWorkspaceGuidanceView> {"
+        },
+        {
+          "pattern": "async getProjectTimeline",
+          "line": 590,
+          "text": "    async getProjectTimeline(projectId: string): Promise<ProjectTimelineView> {"
+        },
+        {
+          "pattern": "private buildAllowedActions",
+          "line": 1305,
+          "text": "    private buildAllowedActions(project: Project, permissions: PermissionKey[]): string[] {"
+        },
+        {
+          "pattern": "private buildWorkspaceGuidanceText",
+          "line": 1355,
+          "text": "    private buildWorkspaceGuidanceText(project: Project, blockingReasons: string[]): ProjectWorkspaceGuidanceText {"
+        },
+        {
+          "pattern": "private buildWorkspaceEntries",
+          "line": 1409,
+          "text": "    private buildWorkspaceEntries(project: Project, permissions: PermissionKey[], allowedActions: string[]): ProjectWorkspaceGuidanceView['recommendedEntries'] {"
+        },
+        {
+          "pattern": "private isClosedProject",
+          "line": 1673,
+          "text": "    private isClosedProject(project: Project): boolean {"
+        }
+      ],
+      "baseGitBlobId": "2370051e2b4adfa82f44fddf952b04e3d59518e2",
+      "baseGitBlobBytes": 86242,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project.repository.ts",
+      "role": "Native K fact selectors and complete source ordering keys",
+      "wholeFileFrozen": true,
+      "actualBytes": 22209,
+      "rawSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 511,
+      "keyLineRanges": [
+        [
+          97,
+          99
+        ],
+        [
+          124,
+          138
+        ],
+        [
+          171,
+          261
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "async findById",
+          "line": 97,
+          "text": "    async findById(id: string): Promise<Project | null> {"
+        },
+        {
+          "pattern": "async findById",
+          "line": 101,
+          "text": "    async findByIds(ids: string[]): Promise<Project[]> {"
+        },
+        {
+          "pattern": "async findLatestConfirmedHandoverByProjectId",
+          "line": 180,
+          "text": "    async findLatestConfirmedHandoverByProjectId(projectId: string): Promise<ProjectHandover | null> {"
+        },
+        {
+          "pattern": "async findLatestAcceptedAcceptanceRecordByProjectId",
+          "line": 206,
+          "text": "    async findLatestAcceptedAcceptanceRecordByProjectId(projectId: string): Promise<AcceptanceRecord | null> {"
+        },
+        {
+          "pattern": "async findLatestConfirmedProjectCompletionRecordByProjectId",
+          "line": 229,
+          "text": "    async findLatestConfirmedProjectCompletionRecordByProjectId(projectId: string): Promise<ProjectCompletionRecord | null> {"
+        },
+        {
+          "pattern": "async findLatestRecordedProjectArchiveRecordByProjectId",
+          "line": 251,
+          "text": "    async findLatestRecordedProjectArchiveRecordByProjectId(projectId: string): Promise<ProjectArchiveRecord | null> {"
+        }
+      ],
+      "baseGitBlobId": "bb7824dd40d58d5e2a083be81f0c03d7b295395f",
+      "baseGitBlobBytes": 22209,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project.entity.ts",
+      "role": "Shared project nullable anchor datetime and optimistic version fields",
+      "wholeFileFrozen": true,
+      "actualBytes": 4183,
+      "rawSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 80,
+      "keyLineRanges": [
+        [
+          10,
+          64
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "sourceLeadId:",
+          "line": 36,
+          "text": "        sourceLeadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('source_lead_id').foreignKeyName('project_source_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目来源线索标识'),"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 37,
+          "text": "        customerId: () => p.manyToOne(Customer).mapToPk().nullable().fieldName('customer_id').foreignKeyName('project_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "pattern": "closedAt:",
+          "line": 45,
+          "text": "        closedAt: p.datetime().nullable().fieldName('closed_at').comment('项目关闭时间'),"
+        },
+        {
+          "pattern": "currentStage:",
+          "line": 41,
+          "text": "        currentStage: p.string().$type<ProjectStage>().length(64).fieldName('current_stage').comment('项目当前阶段'),"
+        }
+      ],
+      "baseGitBlobId": "af49aad431d7f5d5c8e617ac47e0f28c7bb3ec3a",
+      "baseGitBlobBytes": 4183,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.module.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project.module.ts",
+      "role": "Native K dependency wiring",
+      "wholeFileFrozen": true,
+      "actualBytes": 2774,
+      "rawSha256": "e73ba5353f0db401c69dc0b370ed2eb669e44c889288e82c66c7924b875e8c56",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 55,
+      "keyLineRanges": [
+        [
+          24,
+          54
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "forFeature",
+          "line": 26,
+          "text": "        MikroOrmModule.forFeature(["
+        },
+        {
+          "pattern": "ApprovalSummaryModule",
+          "line": 3,
+          "text": "import { ApprovalSummaryModule } from '../approval-summary/approval-summary.module';"
+        },
+        {
+          "pattern": "ApprovalSummaryModule",
+          "line": 47,
+          "text": "        ApprovalSummaryModule,"
+        },
+        {
+          "pattern": "providers:",
+          "line": 52,
+          "text": "    providers: [ProjectRepository, ProjectQueryService, ProjectService],"
+        }
+      ],
+      "baseGitBlobId": "0ffdd92c6e173ea27a05bf5b8d571ff322aee71b",
+      "baseGitBlobBytes": 2774,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-query.service.spec.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project-query.service.spec.ts",
+      "role": "Original K query mock-unit sources, not executed",
+      "wholeFileFrozen": true,
+      "actualBytes": 78754,
+      "rawSha256": "e316284f909585cf2b5908715c342fad0ecb81ff8e7de38204209a979f8d7ef0",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 1612,
+      "keyLineRanges": [
+        [
+          342,
+          524
+        ],
+        [
+          526,
+          639
+        ],
+        [
+          1319,
+          1507
+        ],
+        [
+          1509,
+          1512
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "workspace guidance",
+          "line": 342,
+          "text": "    it('builds project workspace guidance with business labels, owner hint, snapshot basis and entry guards', async () => {"
+        },
+        {
+          "pattern": "workspace guidance",
+          "line": 417,
+          "text": "    it('enables handover workspace guidance entry when project is in handover stage', async () => {"
+        },
+        {
+          "pattern": "workspace guidance",
+          "line": 467,
+          "text": "    it('keeps blocked pre-signing workspace guidance readable without inventing a missing workspace', async () => {"
+        },
+        {
+          "pattern": "project timeline",
+          "line": 526,
+          "text": "    it('builds project timeline from authoritative project, contract, handover and close facts', async () => {"
+        },
+        {
+          "pattern": "project timeline",
+          "line": 1319,
+          "text": "    it('projects latest accepted acceptance record into project timeline', async () => {"
+        },
+        {
+          "pattern": "project timeline",
+          "line": 1372,
+          "text": "    it('projects latest confirmed completion record into project timeline', async () => {"
+        },
+        {
+          "pattern": "project timeline",
+          "line": 1427,
+          "text": "    it('projects latest archive record into project timeline as terminal milestone', async () => {"
+        },
+        {
+          "pattern": "project timeline",
+          "line": 1509,
+          "text": "    it('rejects project timeline when project does not exist', async () => {"
+        },
+        {
+          "pattern": "into project timeline",
+          "line": 1319,
+          "text": "    it('projects latest accepted acceptance record into project timeline', async () => {"
+        },
+        {
+          "pattern": "into project timeline",
+          "line": 1372,
+          "text": "    it('projects latest confirmed completion record into project timeline', async () => {"
+        },
+        {
+          "pattern": "into project timeline",
+          "line": 1427,
+          "text": "    it('projects latest archive record into project timeline as terminal milestone', async () => {"
+        }
+      ],
+      "baseGitBlobId": "35ca7adbf698f8e6515aac0e9aff1929abd61800",
+      "baseGitBlobBytes": 78754,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.controller.spec.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project.controller.spec.ts",
+      "role": "Original K HTTP delegation mock-unit sources, not executed",
+      "wholeFileFrozen": true,
+      "actualBytes": 23852,
+      "rawSha256": "3d913735f9a57ef0d182d0308e99f56d7a8b1b6f7c5f35fbab21a1f60355e63a",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 593,
+      "keyLineRanges": [
+        [
+          191,
+          228
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "returns project workspace guidance",
+          "line": 191,
+          "text": "    it('returns project workspace guidance through the query service', async () => {"
+        },
+        {
+          "pattern": "returns project timeline",
+          "line": 204,
+          "text": "    it('returns project timeline through the query service', async () => {"
+        }
+      ],
+      "baseGitBlobId": "717b3ca79cc184a5ad5786af5a53b52f29f7b8aa",
+      "baseGitBlobBytes": 23852,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/api/contracts/src/lib/business-discussion/business-discussion.dto.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/api/contracts/src/lib/business-discussion/business-discussion.dto.ts",
+      "role": "Native J DTO wrappers over shared Zod schemas",
+      "wholeFileFrozen": true,
+      "actualBytes": 716,
+      "rawSha256": "a57292403a62b8689b62399b9f0da590a55642335f26fa2a795673f1558194fb",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 15,
+      "keyLineRanges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "createZodDto",
+          "line": 7,
+          "text": "import { createZodDto } from '@poms/vendor-nestjs-zod';"
+        },
+        {
+          "pattern": "createZodDto",
+          "line": 9,
+          "text": "export class BusinessDiscussionCommentDto extends createZodDto(BusinessDiscussionCommentSummarySchema) {}"
+        },
+        {
+          "pattern": "createZodDto",
+          "line": 11,
+          "text": "export class BusinessDiscussionCommentListDto extends createZodDto(BusinessDiscussionCommentListSchema) {}"
+        },
+        {
+          "pattern": "createZodDto",
+          "line": 13,
+          "text": "export class BusinessDiscussionListQueryDto extends createZodDto(BusinessDiscussionListQuerySchema) {}"
+        },
+        {
+          "pattern": "createZodDto",
+          "line": 15,
+          "text": "export class CreateBusinessDiscussionCommentRequestDto extends createZodDto(CreateBusinessDiscussionCommentRequestSchema) {}"
+        }
+      ],
+      "baseGitBlobId": "ac86ef215789ce16669af29dc98ab558bca15951",
+      "baseGitBlobBytes": 716,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/api/contracts/src/lib/project/project.dto.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/api/contracts/src/lib/project/project.dto.ts",
+      "role": "Native K DTO wrappers",
+      "wholeFileFrozen": true,
+      "actualBytes": 5018,
+      "rawSha256": "c4357aef2244df45cf0348a8a22943321911e28d48d15a85030931a5ce72e114",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 105,
+      "keyLineRanges": [
+        [
+          89,
+          91
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "ProjectWorkspaceGuidanceViewDto",
+          "line": 89,
+          "text": "export class ProjectWorkspaceGuidanceViewDto extends createZodDto(ProjectWorkspaceGuidanceViewSchema) {}"
+        },
+        {
+          "pattern": "ProjectTimelineViewDto",
+          "line": 91,
+          "text": "export class ProjectTimelineViewDto extends createZodDto(ProjectTimelineViewSchema) {}"
+        }
+      ],
+      "baseGitBlobId": "e6946f5b47be6ba31d1cd2def43c06a35981401f",
+      "baseGitBlobBytes": 5018,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/shared/contracts/src/lib/shared-contracts.ts",
+      "role": "Public types enums naming UUID/date/nullability and request limits SSOT",
+      "wholeFileFrozen": true,
+      "actualBytes": 435823,
+      "rawSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 9255,
+      "keyLineRanges": [
+        [
+          2193,
+          2241
+        ],
+        [
+          3048,
+          3075
+        ],
+        [
+          3383,
+          3454
+        ],
+        [
+          4478,
+          4522
+        ],
+        [
+          5351,
+          5386
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "export const BusinessDiscussionCommentSummarySchema",
+          "line": 3399,
+          "text": "export const BusinessDiscussionCommentSummarySchema = z"
+        },
+        {
+          "pattern": "export const BusinessDiscussionListQuerySchema",
+          "line": 3427,
+          "text": "export const BusinessDiscussionListQuerySchema = z"
+        },
+        {
+          "pattern": "export const CreateBusinessDiscussionCommentRequestSchema",
+          "line": 3440,
+          "text": "export const CreateBusinessDiscussionCommentRequestSchema = z"
+        },
+        {
+          "pattern": "export const ProjectWorkspaceGuidanceViewSchema",
+          "line": 4503,
+          "text": "export const ProjectWorkspaceGuidanceViewSchema = z"
+        },
+        {
+          "pattern": "export const ProjectTimelineEventSchema",
+          "line": 5359,
+          "text": "export const ProjectTimelineEventSchema = z"
+        },
+        {
+          "pattern": "export const ProjectTimelineViewSchema",
+          "line": 5378,
+          "text": "export const ProjectTimelineViewSchema = z"
+        }
+      ],
+      "baseGitBlobId": "ffa42baa1fd856a0280802cb6325b83a1d237184",
+      "baseGitBlobBytes": 435823,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/shared/api-spec/openapi.json",
+      "role": "Current generated public contract original, not regenerated",
+      "wholeFileFrozen": true,
+      "actualBytes": 1129410,
+      "rawSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 35554,
+      "keyLineRanges": [
+        [
+          5765,
+          5838
+        ],
+        [
+          10807,
+          10899
+        ],
+        [
+          20837,
+          21084
+        ],
+        [
+          33248,
+          33449
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "\"operationId\": \"BusinessDiscussionController",
+          "line": 10809,
+          "text": "        \"operationId\": \"BusinessDiscussionController_list\","
+        },
+        {
+          "pattern": "\"operationId\": \"BusinessDiscussionController",
+          "line": 10865,
+          "text": "        \"operationId\": \"BusinessDiscussionController_create\","
+        },
+        {
+          "pattern": "\"operationId\": \"ProjectController_getWorkspaceGuidance\"",
+          "line": 5767,
+          "text": "        \"operationId\": \"ProjectController_getWorkspaceGuidance\","
+        },
+        {
+          "pattern": "\"operationId\": \"ProjectController_getTimeline\"",
+          "line": 5803,
+          "text": "        \"operationId\": \"ProjectController_getTimeline\","
+        }
+      ],
+      "baseGitBlobId": "85e73fa1b3859f716098bb279aa035611249175b",
+      "baseGitBlobBytes": 1129410,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/api-route-canonical-inventory.md",
+      "role": "Authoritative canonical public route rows",
+      "wholeFileFrozen": true,
+      "actualBytes": 172058,
+      "rawSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 563,
+      "keyLineRanges": [
+        [
+          231,
+          231
+        ],
+        [
+          241,
+          241
+        ],
+        [
+          365,
+          366
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "getProjectWorkspaceGuidance",
+          "line": 231,
+          "text": "| `project`          | `getProjectWorkspaceGuidance`       | `GET /projects/{projectId}/workspace-guidance`        | `GET /projects/{projectId}/workspace-guidance`        | `GET /projects/{projectId}/workspace-guidance`        | `ADR-015` + `EX-19`                         | `N/A`      | `EX-19` 新增项目工作区连续工作引导事实源，作为项目下名词型子资源                                                         | `B2`  | `aligned` |"
+        },
+        {
+          "pattern": "getProjectTimeline",
+          "line": 241,
+          "text": "| `project`          | `getProjectTimeline`                | `GET /projects/{projectId}/timeline`                  | `GET /projects/{projectId}/timeline`                  | `GET /projects/{projectId}/timeline`                  | `ADR-015` + `EX-22`                         | `N/A`      | `EX-22` 新增项目阶段里程碑追溯事实源，作为项目下名词型子资源                                                             | `B2`  | `aligned` |"
+        },
+        {
+          "pattern": "listBusinessDiscussionComments",
+          "line": 365,
+          "text": "| `business-discussion` | `listBusinessDiscussionComments`     | `GET /business-discussions`                   | `GET /business-discussions`                   | `GET /business-discussions`                   | `ADR-015` + `EX-61C` G1 baseline | `N/A`      | 新增客户 / 线索 / 项目业务讨论查询；Project 可聚合来源 Lead 历史讨论。               | `B10` | `aligned` |"
+        },
+        {
+          "pattern": "createBusinessDiscussionComment",
+          "line": 366,
+          "text": "| `business-discussion` | `createBusinessDiscussionComment`    | `POST /business-discussions`                  | `POST /business-discussions`                  | `POST /business-discussions`                  | `ADR-015` + `EX-61C` G1 baseline | `N/A`      | 新增业务讨论评论创建；转项目后新讨论默认绑定 Project，历史 Lead 讨论不复制、不迁移。 | `B10` | `aligned` |"
+        }
+      ],
+      "baseGitBlobId": "b032ca061d0a736baae070defd9ac70a7f97f6c2",
+      "baseGitBlobBytes": 172058,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "docs/design/rust-r3-operation-slices.json",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r3-operation-slices.json",
+      "role": "Current R3 operation inventory pending rows before formal Root G1",
+      "wholeFileFrozen": true,
+      "actualBytes": 164534,
+      "rawSha256": "5d73698e17fe8d346e902c55380f14bc2eae8b76b891e8b17dc5cd34fb5ccda8",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 5514,
+      "keyLineRanges": [
+        [
+          391,
+          576
+        ],
+        [
+          4612,
+          4749
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "\"operationId\": \"BusinessDiscussionController_list\"",
+          "line": 392,
+          "text": "      \"operationId\": \"BusinessDiscussionController_list\","
+        },
+        {
+          "pattern": "\"operationId\": \"BusinessDiscussionController_list\"",
+          "line": 435,
+          "text": "        \"operationId\": \"BusinessDiscussionController_list\","
+        },
+        {
+          "pattern": "\"operationId\": \"BusinessDiscussionController_create\"",
+          "line": 482,
+          "text": "      \"operationId\": \"BusinessDiscussionController_create\","
+        },
+        {
+          "pattern": "\"operationId\": \"BusinessDiscussionController_create\"",
+          "line": 532,
+          "text": "        \"operationId\": \"BusinessDiscussionController_create\","
+        },
+        {
+          "pattern": "\"operationId\": \"ProjectController_getTimeline\"",
+          "line": 4613,
+          "text": "      \"operationId\": \"ProjectController_getTimeline\","
+        },
+        {
+          "pattern": "\"operationId\": \"ProjectController_getTimeline\"",
+          "line": 4654,
+          "text": "        \"operationId\": \"ProjectController_getTimeline\","
+        },
+        {
+          "pattern": "\"operationId\": \"ProjectController_getWorkspaceGuidance\"",
+          "line": 4679,
+          "text": "      \"operationId\": \"ProjectController_getWorkspaceGuidance\","
+        },
+        {
+          "pattern": "\"operationId\": \"ProjectController_getWorkspaceGuidance\"",
+          "line": 4727,
+          "text": "        \"operationId\": \"ProjectController_getWorkspaceGuidance\","
+        }
+      ],
+      "baseGitBlobId": "a068d8db6994b829582f284c19437365333b7862",
+      "baseGitBlobBytes": 164534,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/lead/lead.entity.ts",
+      "role": "A dependency raw Lead schema",
+      "wholeFileFrozen": true,
+      "actualBytes": 6261,
+      "rawSha256": "7c020fc6e5ae3374819d797c7f02061bd693109b83f667ad230391635182d3ef",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 118,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 24,
+          "text": "    tableName: 'lead',"
+        },
+        {
+          "pattern": "leadName:",
+          "line": 67,
+          "text": "        leadName: p.string().length(255).fieldName('lead_name').comment('线索标题/机会名称'),"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 68,
+          "text": "        customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('lead_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "pattern": "convertedProjectId:",
+          "line": 94,
+          "text": "        convertedProjectId: p.uuid().nullable().fieldName('converted_project_id').comment('已转项目标识'),"
+        }
+      ],
+      "baseGitBlobId": "c24bdb15964e7d067817fa615cabbc9ae263d823",
+      "baseGitBlobBytes": 6261,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/customer/customer.entity.ts",
+      "role": "Delivered customer dependency raw schema",
+      "wholeFileFrozen": true,
+      "actualBytes": 6042,
+      "rawSha256": "bd126eb69609c64be7ad40df0f1375b28f3ec5cfabd87263156f845a74a233ea",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 126,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 12,
+          "text": "    tableName: 'customer',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 86,
+          "text": "    tableName: 'customer_alias',"
+        },
+        {
+          "pattern": "displayName:",
+          "line": 30,
+          "text": "        displayName: p.string().length(255).fieldName('display_name').comment('客户显示名称'),"
+        },
+        {
+          "pattern": "status:",
+          "line": 33,
+          "text": "        status: p.string().$type<CustomerStatus>().length(32).default(CustomerStatusValue.Active).comment('客户状态'),"
+        }
+      ],
+      "baseGitBlobId": "8c937cf214f29f71c20a9e43215124a845b292dd",
+      "baseGitBlobBytes": 6042,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.entity.ts",
+      "role": "B competitor and delivered contact dependency raw schemas",
+      "wholeFileFrozen": true,
+      "actualBytes": 15585,
+      "rawSha256": "aa192da1f2557ff08cc062f4244af57f2125826a660ce50a1a62b310e5ed482e",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 222,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 40,
+          "text": "    tableName: 'customer_contact',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 85,
+          "text": "    tableName: 'opportunity_stakeholder',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 131,
+          "text": "    tableName: 'competitor_intelligence_record',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 176,
+          "text": "    tableName: 'sales_discovery_record',"
+        },
+        {
+          "pattern": "CompetitorIntelligenceRecordSchema",
+          "line": 129,
+          "text": "export const CompetitorIntelligenceRecordSchema = defineEntity({"
+        },
+        {
+          "pattern": "CompetitorIntelligenceRecordSchema",
+          "line": 215,
+          "text": "export class CompetitorIntelligenceRecord extends CompetitorIntelligenceRecordSchema.class {}"
+        },
+        {
+          "pattern": "CompetitorIntelligenceRecordSchema",
+          "line": 221,
+          "text": "CompetitorIntelligenceRecordSchema.setClass(CompetitorIntelligenceRecord);"
+        },
+        {
+          "pattern": "CustomerContactSchema",
+          "line": 38,
+          "text": "export const CustomerContactSchema = defineEntity({"
+        },
+        {
+          "pattern": "CustomerContactSchema",
+          "line": 211,
+          "text": "export class CustomerContact extends CustomerContactSchema.class {}"
+        },
+        {
+          "pattern": "CustomerContactSchema",
+          "line": 219,
+          "text": "CustomerContactSchema.setClass(CustomerContact);"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 56,
+          "text": "        customerId: () =>"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 110,
+          "text": "        customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('opportunity_stakeholder_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 154,
+          "text": "        customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('competitor_intelligence_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 194,
+          "text": "        customerId: () => p.manyToOne(Customer).mapToPk().fieldName('customer_id').foreignKeyName('sales_discovery_customer_id_foreign').updateRule('cascade').deleteRule('restrict').comment('客户主数据标识'),"
+        },
+        {
+          "pattern": "leadId:",
+          "line": 111,
+          "text": "        leadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('lead_id').foreignKeyName('opportunity_stakeholder_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索上下文标识'),"
+        },
+        {
+          "pattern": "leadId:",
+          "line": 155,
+          "text": "        leadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('lead_id').foreignKeyName('competitor_intelligence_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索上下文标识'),"
+        },
+        {
+          "pattern": "leadId:",
+          "line": 195,
+          "text": "        leadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('lead_id').foreignKeyName('sales_discovery_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('线索上下文标识'),"
+        },
+        {
+          "pattern": "projectId:",
+          "line": 112,
+          "text": "        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName('project_id').foreignKeyName('opportunity_stakeholder_project_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目上下文标识'),"
+        },
+        {
+          "pattern": "projectId:",
+          "line": 156,
+          "text": "        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName('project_id').foreignKeyName('competitor_intelligence_project_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目上下文标识'),"
+        },
+        {
+          "pattern": "projectId:",
+          "line": 196,
+          "text": "        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName('project_id').foreignKeyName('sales_discovery_project_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目上下文标识'),"
+        }
+      ],
+      "baseGitBlobId": "cc406705c4bcc311c8bcaa33052bf57c03ffd087",
+      "baseGitBlobBytes": 15585,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up-record.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/sales-follow-up/sales-follow-up-record.entity.ts",
+      "role": "Delivered followup dependency including lifecycle statuses",
+      "wholeFileFrozen": true,
+      "actualBytes": 8170,
+      "rawSha256": "f027ca0bf5d53c09530c5cc4841631d06bd2ef932d899a3251828383b554fe6c",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 171,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 22,
+          "text": "    tableName: 'sales_follow_up_record',"
+        },
+        {
+          "pattern": "customerId:",
+          "line": 75,
+          "text": "        customerId: () =>"
+        },
+        {
+          "pattern": "leadId:",
+          "line": 84,
+          "text": "        leadId: () =>"
+        },
+        {
+          "pattern": "projectId:",
+          "line": 94,
+          "text": "        projectId: () =>"
+        },
+        {
+          "pattern": "status:",
+          "line": 105,
+          "text": "        status: p.string().$type<SalesFollowUpRecordStatus>().length(32).default(SalesFollowUpRecordStatusValue.Active).comment('状态：active/superseded/voided'),"
+        }
+      ],
+      "baseGitBlobId": "4c8579b6ad807f02ec75d66b429ad5c356bedc90",
+      "baseGitBlobBytes": 8170,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/platform-user.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/platform/platform-user.entity.ts",
+      "role": "Actor/owner display lookup raw schema",
+      "wholeFileFrozen": true,
+      "actualBytes": 2144,
+      "rawSha256": "9a51224004ab08a42f130612c82f4a5cd523d6611bff5e57df7f4108e6e80ef0",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 53,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 8,
+          "text": "    tableName: 'platform_user',"
+        },
+        {
+          "pattern": "displayName:",
+          "line": 17,
+          "text": "        displayName: p.string().length(128).fieldName('display_name'),"
+        }
+      ],
+      "baseGitBlobId": "b8d57bc7798589e4617040101dee5f6438c3760a",
+      "baseGitBlobBytes": 2144,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/org-unit.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/platform/org-unit.entity.ts",
+      "role": "Owner organization lookup raw schema",
+      "wholeFileFrozen": true,
+      "actualBytes": 2409,
+      "rawSha256": "e1e45d41fe21759f3605a92eebce06ef1d4a278fc1c57740e292a34e4b7ba6d3",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 61,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 7,
+          "text": "    tableName: 'org_unit',"
+        },
+        {
+          "pattern": "name:",
+          "line": 6,
+          "text": "    name: 'OrgUnit',"
+        },
+        {
+          "pattern": "name:",
+          "line": 10,
+          "text": "        { name: 'idx_org_unit_parent_id', properties: ['parentId'] },"
+        },
+        {
+          "pattern": "name:",
+          "line": 11,
+          "text": "        { name: 'idx_org_unit_is_active', properties: ['isActive'] },"
+        },
+        {
+          "pattern": "name:",
+          "line": 13,
+          "text": "            name: 'idx_org_unit_parent_display_order',"
+        },
+        {
+          "pattern": "name:",
+          "line": 20,
+          "text": "            name: 'uq_org_unit_parent_name_ci',"
+        },
+        {
+          "pattern": "name:",
+          "line": 25,
+          "text": "    checks: [{ name: 'chk_org_unit_parent_not_self', expression: '(\"parent_id\" is null or \"parent_id\" <> \"id\")' }],"
+        },
+        {
+          "pattern": "name:",
+          "line": 28,
+          "text": "        name: p.string().length(128),"
+        }
+      ],
+      "baseGitBlobId": "6756e4c72e0d2138c36c10cf1f6b35b4335f180d",
+      "baseGitBlobBytes": 2409,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "role": "R4 contract read dependency only",
+      "wholeFileFrozen": true,
+      "actualBytes": 9907,
+      "rawSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 165,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 14,
+          "text": "    tableName: 'contract',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 63,
+          "text": "    tableName: 'contract_term_snapshot',"
+        },
+        {
+          "pattern": "tableName:",
+          "line": 122,
+          "text": "    tableName: 'contract_amendment',"
+        },
+        {
+          "pattern": "signedAt:",
+          "line": 36,
+          "text": "        signedAt: p.datetime().nullable().fieldName('signed_at').comment('签约时间'),"
+        },
+        {
+          "pattern": "updatedBy:",
+          "line": 53,
+          "text": "        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')"
+        },
+        {
+          "pattern": "updatedBy:",
+          "line": 158,
+          "text": "        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),"
+        },
+        {
+          "pattern": "createdBy:",
+          "line": 45,
+          "text": "        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人标识'),"
+        },
+        {
+          "pattern": "createdBy:",
+          "line": 111,
+          "text": "        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),"
+        },
+        {
+          "pattern": "createdBy:",
+          "line": 150,
+          "text": "        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),"
+        }
+      ],
+      "baseGitBlobId": "0667a1a6eaf82346e62cfcedae1ed4a0aa27fc11",
+      "baseGitBlobBytes": 9907,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "role": "R4 confirmed handover read dependency only",
+      "wholeFileFrozen": true,
+      "actualBytes": 15789,
+      "rawSha256": "a20265a409ce164fa66e84b6e9d6890d7f5db1214acf4a79fbf1249dffeeaa4a",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 300,
+      "keyLineRanges": [
+        [
+          100,
+          175
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "export const ProjectHandoverSchema",
+          "line": 100,
+          "text": "export const ProjectHandoverSchema = defineEntity({"
+        },
+        {
+          "pattern": "confirmedAt:",
+          "line": 164,
+          "text": "        confirmedAt: p.datetime().nullable().fieldName('confirmed_at').comment('确认时间'),"
+        },
+        {
+          "pattern": "confirmedBy:",
+          "line": 165,
+          "text": "        confirmedBy: p.uuid().nullable().fieldName('confirmed_by').comment('确认人'),"
+        }
+      ],
+      "baseGitBlobId": "cdb3f5c79c2e6cea147287ec54f38f0b64732289",
+      "baseGitBlobBytes": 15789,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/acceptance-record.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/acceptance-record.entity.ts",
+      "role": "R4 acceptance read dependency only",
+      "wholeFileFrozen": true,
+      "actualBytes": 2846,
+      "rawSha256": "be03d67e90b2b87b3a344cacc3ea881de4e0fee361542a985905dc2323c4c204",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 49,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 12,
+          "text": "    tableName: 'acceptance_record',"
+        },
+        {
+          "pattern": "acceptanceResult:",
+          "line": 31,
+          "text": "        acceptanceResult: p.string().length(32).fieldName('acceptance_result').$type<AcceptanceRecordResult>().comment('验收结论'),"
+        },
+        {
+          "pattern": "confirmedAt:",
+          "line": 37,
+          "text": "        confirmedAt: p.datetime().fieldName('confirmed_at').comment('确认时间'),"
+        },
+        {
+          "pattern": "confirmedBy:",
+          "line": 38,
+          "text": "        confirmedBy: p.uuid().nullable().fieldName('confirmed_by').comment('确认人'),"
+        }
+      ],
+      "baseGitBlobId": "5b7fb2c1eacc7909bd7230d217e3e87b3ee00e0b",
+      "baseGitBlobBytes": 2846,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-completion-record.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project-completion-record.entity.ts",
+      "role": "R4 completion read dependency only",
+      "wholeFileFrozen": true,
+      "actualBytes": 2975,
+      "rawSha256": "e273441788e66df70eca4b48c8cf122f950ce6e9c26854c5e7b55642a6904942",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 55,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 12,
+          "text": "    tableName: 'project_completion_record',"
+        },
+        {
+          "pattern": "completionResult:",
+          "line": 39,
+          "text": "        completionResult: p.string().length(32).fieldName('completion_result').$type<ProjectCompletionRecordResult>().comment('完成结论'),"
+        },
+        {
+          "pattern": "completedAt:",
+          "line": 41,
+          "text": "        completedAt: p.datetime().fieldName('completed_at').comment('完成确认时间'),"
+        },
+        {
+          "pattern": "completedBy:",
+          "line": 42,
+          "text": "        completedBy: p.uuid().nullable().fieldName('completed_by').comment('确认人'),"
+        }
+      ],
+      "baseGitBlobId": "3baf6d3bef139a3d5199c288a44c3e8e851fd64f",
+      "baseGitBlobBytes": 2975,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-archive-record.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project/project-archive-record.entity.ts",
+      "role": "R4 archive read dependency only",
+      "wholeFileFrozen": true,
+      "actualBytes": 4464,
+      "rawSha256": "d30319f184e2cf958e932583505999d86824bdd1c637968067de2f6b26706f58",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 86,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "tableName:",
+          "line": 12,
+          "text": "    tableName: 'project_archive_record',"
+        },
+        {
+          "pattern": "archiveAnchorStage:",
+          "line": 44,
+          "text": "        archiveAnchorStage: p"
+        },
+        {
+          "pattern": "status:",
+          "line": 57,
+          "text": "        status: p.string().length(32).default('recorded').$type<ProjectArchiveRecordStatus>().comment('状态：recorded/voided/superseded'),"
+        },
+        {
+          "pattern": "archivedAt:",
+          "line": 58,
+          "text": "        archivedAt: p.datetime().fieldName('archived_at').comment('归档时间'),"
+        },
+        {
+          "pattern": "archivedBy:",
+          "line": 59,
+          "text": "        archivedBy: p.uuid().nullable().fieldName('archived_by').comment('归档操作人'),"
+        }
+      ],
+      "baseGitBlobId": "970a56710531722a34c319335f661a4a7ba17b4b",
+      "baseGitBlobBytes": 4464,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.repository.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/approval-summary/approval-summary.repository.ts",
+      "role": "Exact active snapshot selector and date ordering",
+      "wholeFileFrozen": true,
+      "actualBytes": 3524,
+      "rawSha256": "70ad012fa88f9dcb46584885e35044cd77db2e33411c127853f857219590f1de",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 94,
+      "keyLineRanges": [
+        [
+          30,
+          53
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "async findActiveByTarget",
+          "line": 41,
+          "text": "    async findActiveByTarget(targetType: string, targetId: string, approvalScenarioKey: string, projectionLevel: string): Promise<ApprovalSummarySnapshot | null> {"
+        },
+        {
+          "pattern": "orderBy:",
+          "line": 50,
+          "text": "            { orderBy: { generatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }"
+        },
+        {
+          "pattern": "orderBy:",
+          "line": 57,
+          "text": "            { orderBy: { generatedAt: QueryOrder.DESC, createdAt: QueryOrder.DESC } }"
+        },
+        {
+          "pattern": "orderBy:",
+          "line": 80,
+          "text": "            { orderBy: { fieldOrder: QueryOrder.ASC, createdAt: QueryOrder.ASC } }"
+        }
+      ],
+      "baseGitBlobId": "aafb48c30bb08320a1550b9d15c302179728578f",
+      "baseGitBlobBytes": 3524,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval-summary/approval-summary.entity.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/approval-summary/approval-summary.entity.ts",
+      "role": "Workspace snapshot read dependency and export policy",
+      "wholeFileFrozen": true,
+      "actualBytes": 7976,
+      "rawSha256": "12153557a98534d9fc2910e47b169607ac97df2f5369dbefbb4837ce77a41c39",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 132,
+      "keyLineRanges": [
+        [
+          38,
+          98
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "export const ApprovalSummarySnapshotSchema",
+          "line": 38,
+          "text": "export const ApprovalSummarySnapshotSchema = defineEntity({"
+        },
+        {
+          "pattern": "exportPolicy:",
+          "line": 23,
+          "text": "        exportPolicy: p.string().length(32).fieldName('export_policy').comment('导出策略'),"
+        },
+        {
+          "pattern": "exportPolicy:",
+          "line": 75,
+          "text": "        exportPolicy: p.string().length(32).fieldName('export_policy').comment('导出策略'),"
+        },
+        {
+          "pattern": "exportPolicy:",
+          "line": 122,
+          "text": "        exportPolicy: p.string().length(32).fieldName('export_policy').comment('导出策略'),"
+        },
+        {
+          "pattern": "generatedAt:",
+          "line": 77,
+          "text": "        generatedAt: p.datetime().defaultRaw('now()').fieldName('generated_at').comment('生成时间'),"
+        }
+      ],
+      "baseGitBlobId": "1496c52d4b96b12c8ddb4f158e96e93da8b57f87",
+      "baseGitBlobBytes": 7976,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+      "role": "Original J/contact/competitor DDL, not executed",
+      "wholeFileFrozen": true,
+      "actualBytes": 25599,
+      "rawSha256": "c8642a90e9ecf622f1a2c80a8c6908e36ea19774a7ea4e605acf3e930f1947f1",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 285,
+      "keyLineRanges": [
+        [
+          95,
+          124
+        ],
+        [
+          153,
+          163
+        ],
+        [
+          239,
+          274
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "business_discussion_thread",
+          "line": 96,
+          "text": "            create table \"poms\".\"business_discussion_thread\" ("
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 106,
+          "text": "                constraint \"business_discussion_thread_pkey\" primary key (\"id\")"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 153,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"business_discussion_thread_customer_id_foreign\" foreign key (\"customer_id\") references \"poms\".\"customer\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 154,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"business_discussion_thread_lead_id_foreign\" foreign key (\"lead_id\") references \"poms\".\"lead\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 155,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"business_discussion_thread_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 156,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"chk_business_discussion_thread_target\" check (\"target_object_type\" in ('customer', 'lead', 'project'));`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 157,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"uq_business_discussion_thread_target\" unique (\"target_object_type\", \"target_object_id\");`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 159,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_comment\" add constraint \"business_discussion_comment_thread_id_foreign\" foreign key (\"thread_id\") references \"poms\".\"business_discussion_thread\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 239,
+          "text": "        this.addSql(`comment on table \"poms\".\"business_discussion_thread\" is '业务对象讨论板线程';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 240,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"id\" is '讨论线程主键';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 241,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"target_object_type\" is '目标对象类型';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 242,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"target_object_id\" is '目标对象标识';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 243,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"customer_id\" is '客户主数据标识';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 244,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"lead_id\" is '线索标识';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 245,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"project_id\" is '项目标识';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 246,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"target_title\" is '目标对象标题快照';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 247,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 248,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_thread\".\"created_by\" is '创建人标识';`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 271,
+          "text": "        this.addSql(`create index \"idx_business_discussion_thread_customer\" on \"poms\".\"business_discussion_thread\" (\"customer_id\");`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 272,
+          "text": "        this.addSql(`create index \"idx_business_discussion_thread_lead\" on \"poms\".\"business_discussion_thread\" (\"lead_id\");`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 273,
+          "text": "        this.addSql(`create index \"idx_business_discussion_thread_project\" on \"poms\".\"business_discussion_thread\" (\"project_id\");`);"
+        },
+        {
+          "pattern": "business_discussion_thread",
+          "line": 279,
+          "text": "        this.addSql(`drop table if exists \"poms\".\"business_discussion_thread\" cascade;`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 111,
+          "text": "            create table \"poms\".\"business_discussion_comment\" ("
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 123,
+          "text": "                constraint \"business_discussion_comment_pkey\" primary key (\"id\")"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 159,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_comment\" add constraint \"business_discussion_comment_thread_id_foreign\" foreign key (\"thread_id\") references \"poms\".\"business_discussion_thread\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 160,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_comment\" add constraint \"business_discussion_comment_contact_id_foreign\" foreign key (\"related_contact_id\") references \"poms\".\"customer_contact\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 161,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_comment\" add constraint \"business_discussion_comment_competitor_id_foreign\" foreign key (\"related_competitor_record_id\") references \"poms\".\"competitor_intelligence_record\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 162,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_comment\" add constraint \"business_discussion_comment_follow_up_id_foreign\" foreign key (\"related_follow_up_record_id\") references \"poms\".\"sales_follow_up_record\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 163,
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_comment\" add constraint \"chk_business_discussion_type\" check (\"discussion_type\" in ('intelligence-supplement', 'decision-chain', 'competition', 'strategy', 'risk', 'general'));`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 250,
+          "text": "        this.addSql(`comment on table \"poms\".\"business_discussion_comment\" is '业务对象讨论评论';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 251,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"id\" is '讨论评论主键';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 252,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"thread_id\" is '讨论线程标识';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 253,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"discussion_type\" is '讨论类型';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 254,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"body\" is '讨论正文';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 255,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"related_contact_id\" is '关联客户联系人标识';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 256,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"related_competitor_record_id\" is '关联竞争态势记录标识';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 257,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"related_follow_up_record_id\" is '关联销售跟进记录标识';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 258,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"is_pinned\" is '是否置顶';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 259,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"is_key_conclusion\" is '是否关键结论';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 260,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 261,
+          "text": "        this.addSql(`comment on column \"poms\".\"business_discussion_comment\".\"created_by\" is '创建人标识';`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 274,
+          "text": "        this.addSql(`create index \"idx_business_discussion_comment_thread_created\" on \"poms\".\"business_discussion_comment\" (\"thread_id\", \"created_at\" asc);`);"
+        },
+        {
+          "pattern": "business_discussion_comment",
+          "line": 278,
+          "text": "        this.addSql(`drop table if exists \"poms\".\"business_discussion_comment\" cascade;`);"
+        }
+      ],
+      "baseGitBlobId": "1fed502168e455c3a72a1ed0e5325b277278cef5",
+      "baseGitBlobBytes": 25599,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/auth.module.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/auth/auth.module.ts",
+      "role": "Global session->CSRF->permission guard order",
+      "wholeFileFrozen": true,
+      "actualBytes": 1439,
+      "rawSha256": "ae71dd28c959449e4dea26a7f745ad2bbeb522be169cbb69e0e3382b8de24766",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 34,
+      "keyLineRanges": [
+        [
+          28,
+          30
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "APP_GUARD",
+          "line": 3,
+          "text": "import { APP_GUARD } from '@nestjs/core';"
+        },
+        {
+          "pattern": "APP_GUARD",
+          "line": 28,
+          "text": "        { provide: APP_GUARD, useClass: SessionAuthGuard },"
+        },
+        {
+          "pattern": "APP_GUARD",
+          "line": 29,
+          "text": "        { provide: APP_GUARD, useClass: AuthCsrfGuard },"
+        },
+        {
+          "pattern": "APP_GUARD",
+          "line": 30,
+          "text": "        { provide: APP_GUARD, useClass: PermissionsGuard }"
+        }
+      ],
+      "baseGitBlobId": "5280910879e88759123a422856964f1715c270aa",
+      "baseGitBlobBytes": 1439,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+      "role": "Shared exact session guard source",
+      "wholeFileFrozen": true,
+      "actualBytes": 3613,
+      "rawSha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 78,
+      "keyLineRanges": [
+        [
+          26,
+          53
+        ],
+        [
+          72,
+          77
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "function createUnauthorized",
+          "line": 72,
+          "text": "function createUnauthorized(code: AuthSessionErrorCode): UnauthorizedException {"
+        }
+      ],
+      "baseGitBlobId": "8497d1ddfffaf7f62159c3c2b96342c11597e44c",
+      "baseGitBlobBytes": 3613,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+      "role": "Shared exact unsafe-method CSRF source",
+      "wholeFileFrozen": true,
+      "actualBytes": 4389,
+      "rawSha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 103,
+      "keyLineRanges": [
+        [
+          29,
+          59
+        ],
+        [
+          97,
+          101
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "UNSAFE_METHODS",
+          "line": 11,
+          "text": "const UNSAFE_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);"
+        },
+        {
+          "pattern": "UNSAFE_METHODS",
+          "line": 32,
+          "text": "        if (!UNSAFE_METHODS.has(method)) {"
+        },
+        {
+          "pattern": "csrf_failed",
+          "line": 99,
+          "text": "            code: 'csrf_failed',"
+        }
+      ],
+      "baseGitBlobId": "988790de6d9254f1fa0080cd68e46c08e88f87ae",
+      "baseGitBlobBytes": 4389,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+      "role": "Shared all/any permissions source and original denial object",
+      "wholeFileFrozen": true,
+      "actualBytes": 4036,
+      "rawSha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 77,
+      "keyLineRanges": [
+        [
+          27,
+          46
+        ],
+        [
+          71,
+          75
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "hasAll",
+          "line": 44,
+          "text": "        const hasAll = requiredPermissions.length === 0 || requiredPermissions.every((p) => userPermissions.includes(p));"
+        },
+        {
+          "pattern": "hasAll",
+          "line": 46,
+          "text": "        if (hasAll && hasAny) return true;"
+        },
+        {
+          "pattern": "hasAny",
+          "line": 45,
+          "text": "        const hasAny = requiredAnyPermissions.length === 0 || requiredAnyPermissions.some((p) => userPermissions.includes(p));"
+        },
+        {
+          "pattern": "hasAny",
+          "line": 46,
+          "text": "        if (hasAll && hasAny) return true;"
+        },
+        {
+          "pattern": "permission_denied",
+          "line": 73,
+          "text": "            code: 'permission_denied',"
+        }
+      ],
+      "baseGitBlobId": "7ba5eb786803eee01f61d0eceb6b37e2914d8620",
+      "baseGitBlobBytes": 4036,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/decorators/has-any-permissions.decorator.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/auth/decorators/has-any-permissions.decorator.ts",
+      "role": "Native any permission metadata",
+      "wholeFileFrozen": true,
+      "actualBytes": 279,
+      "rawSha256": "761be292873cc8b0185db299a90d25c5f8faf7854821fcb5de30550c7aba2c65",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 6,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "HasAnyPermissions",
+          "line": 6,
+          "text": "export const HasAnyPermissions = (...permissions: PermissionKey[]) => SetMetadata(ANY_PERMISSIONS_KEY, permissions);"
+        }
+      ],
+      "baseGitBlobId": "ca40f27d0ff1dd9a9be344d7adaa7a95f26aa62e",
+      "baseGitBlobBytes": 279,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/core/auth/decorators/has-permissions.decorator.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/auth/decorators/has-permissions.decorator.ts",
+      "role": "Native all permission metadata",
+      "wholeFileFrozen": true,
+      "actualBytes": 265,
+      "rawSha256": "78079649972a417dc9582b8604d48b452ba08316dbdf32299760a33c08acdbf3",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 6,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "HasPermissions",
+          "line": 6,
+          "text": "export const HasPermissions = (...permissions: PermissionKey[]) => SetMetadata(PERMISSIONS_KEY, permissions);"
+        }
+      ],
+      "baseGitBlobId": "6c7154e0655c02314884c9d98834d287aee7689e",
+      "baseGitBlobBytes": 265,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/app/app.module.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/app.module.ts",
+      "role": "Global Zod pipe and serializer provider",
+      "wholeFileFrozen": true,
+      "actualBytes": 3560,
+      "rawSha256": "a699b9e0196cc5a75024d10c7e49e8cde6c644d595af67a3503742b613922c5c",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 77,
+      "keyLineRanges": [
+        [
+          65,
+          74
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "ZodValidationPipe",
+          "line": 3,
+          "text": "import { ZodSerializerInterceptor, ZodValidationPipe } from '@poms/vendor-nestjs-zod';"
+        },
+        {
+          "pattern": "ZodValidationPipe",
+          "line": 69,
+          "text": "            useClass: ZodValidationPipe"
+        },
+        {
+          "pattern": "ZodSerializerInterceptor",
+          "line": 3,
+          "text": "import { ZodSerializerInterceptor, ZodValidationPipe } from '@poms/vendor-nestjs-zod';"
+        },
+        {
+          "pattern": "ZodSerializerInterceptor",
+          "line": 73,
+          "text": "            useClass: ZodSerializerInterceptor"
+        }
+      ],
+      "baseGitBlobId": "91a263941cbca026a9174f830826504a389ab945",
+      "baseGitBlobBytes": 3560,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/main.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/main.ts",
+      "role": "Native runtime prefix/bootstrap context",
+      "wholeFileFrozen": true,
+      "actualBytes": 1789,
+      "rawSha256": "396fb58af4558de82089bd842149a5040e29088314f6e6cd7921f771b5a0a8a0",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 50,
+      "keyLineRanges": [
+        [
+          17,
+          29
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "setGlobalPrefix",
+          "line": 20,
+          "text": "    app.setGlobalPrefix(GLOBAL_PREFIX);"
+        }
+      ],
+      "baseGitBlobId": "2dd09f5c5bb7b2aa5ce03ed1bb83e48b4fb88ac6",
+      "baseGitBlobBytes": 1789,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api/src/config/openapi.config.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/config/openapi.config.ts",
+      "role": "api prefix and auth schemes",
+      "wholeFileFrozen": true,
+      "actualBytes": 560,
+      "rawSha256": "7d51ed82c06a552a972d5e8488642fc1ef46c33c157f046065ab395e54f5561f",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 14,
+      "keyLineRanges": [
+        [
+          4,
+          13
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "GLOBAL_PREFIX",
+          "line": 4,
+          "text": "export const GLOBAL_PREFIX = 'api';"
+        },
+        {
+          "pattern": "addCookieAuth",
+          "line": 11,
+          "text": "        .addCookieAuth('poms_session', { type: 'apiKey' }, 'pomsSession')"
+        }
+      ],
+      "baseGitBlobId": "97f2c6e555b91eb250c299f39ee1db72f9300fdd",
+      "baseGitBlobBytes": 560,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/pipe.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/vendor/nestjs-zod/src/pipe.ts",
+      "role": "Plain string path not Zod DTO; strict declaration default false",
+      "wholeFileFrozen": true,
+      "actualBytes": 1877,
+      "rawSha256": "51d5919dd7ef9230cb788dd0ab62fdcd879cb4cfae5159963699a5ecc6a874cd",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 68,
+      "keyLineRanges": [
+        [
+          39,
+          68
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "strictSchemaDeclaration = false",
+          "line": 41,
+          "text": "  strictSchemaDeclaration = false,"
+        },
+        {
+          "pattern": "!isZodDto",
+          "line": 54,
+          "text": "      if (!isZodDto(metatype)) {"
+        }
+      ],
+      "baseGitBlobId": "47bb79fca8af9db01be7c40edeae739425ef52b4",
+      "baseGitBlobBytes": 1877,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/exception.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/vendor/nestjs-zod/src/exception.ts",
+      "role": "Original validation and serialization error object shapes",
+      "wholeFileFrozen": true,
+      "actualBytes": 1004,
+      "rawSha256": "aabefa918d62f6595bd2de4f86be3d5bd33c4391f126ce5a9ce0ddbe4dff1c14",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 42,
+      "keyLineRanges": [
+        [
+          7,
+          31
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "Validation failed",
+          "line": 11,
+          "text": "      message: 'Validation failed',"
+        },
+        {
+          "pattern": "class ZodSerializationException",
+          "line": 24,
+          "text": "export class ZodSerializationException extends InternalServerErrorException {"
+        }
+      ],
+      "baseGitBlobId": "f607c660fa21fb8741b3a7ac32de89fdf1960957",
+      "baseGitBlobBytes": 1004,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "libs/vendor/nestjs-zod/src/serializer.ts",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/vendor/nestjs-zod/src/serializer.ts",
+      "role": "Response serializer requires explicit response schema metadata; ApiOk alone not assumed runtime parse",
+      "wholeFileFrozen": true,
+      "actualBytes": 5144,
+      "rawSha256": "daa2138a0fa1fee339903ea8e1be432df388615d6bac49a45c6041aae206350a",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 164,
+      "keyLineRanges": [
+        [
+          57,
+          62
+        ],
+        [
+          151,
+          157
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "getContextResponseSchema",
+          "line": 57,
+          "text": "      const responseSchema = this.getContextResponseSchema(context);"
+        },
+        {
+          "pattern": "getContextResponseSchema",
+          "line": 151,
+          "text": "    protected getContextResponseSchema("
+        },
+        {
+          "pattern": "ZodSerializerDtoOptions",
+          "line": 22,
+          "text": "export const ZodSerializerDtoOptions = 'ZOD_SERIALIZER_DTO_OPTIONS' as const;"
+        },
+        {
+          "pattern": "ZodSerializerDtoOptions",
+          "line": 35,
+          "text": "  return SetMetadata(ZodSerializerDtoOptions, dto);"
+        },
+        {
+          "pattern": "ZodSerializerDtoOptions",
+          "line": 154,
+          "text": "      return this.reflector.getAllAndOverride(ZodSerializerDtoOptions, ["
+        }
+      ],
+      "baseGitBlobId": "b6fc37c2158d913237592a12540ffae6106fdbb0",
+      "baseGitBlobBytes": 5144,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/model.rs",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/projects/model.rs",
+      "role": "Existing JS text/wire/trim compatibility reference read only",
+      "wholeFileFrozen": true,
+      "actualBytes": 2674,
+      "rawSha256": "e33a1ef1c78b83b109fd72ae90a750167e2848aef968c5a8bae6bb2b800680e4",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 92,
+      "keyLineRanges": [
+        [
+          45,
+          92
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "pub struct Wire",
+          "line": 49,
+          "text": "pub struct Wire(pub String);"
+        },
+        {
+          "pattern": "pub fn trim_js",
+          "line": 80,
+          "text": "pub fn trim_js(value: JsString) -> JsString {"
+        }
+      ],
+      "baseGitBlobId": "f11f6988c9942bf71a49c40ebecb9812aba90e5e",
+      "baseGitBlobBytes": 2674,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api-rust/src/error.rs",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/error.rs",
+      "role": "Existing transport error reference; rawSQL behavior still needs Native actual",
+      "wholeFileFrozen": true,
+      "actualBytes": 2564,
+      "rawSha256": "3f1635e06b84144fb2d13ca03207cf715693bca17712acfcf68f87264cd3bd84",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 82,
+      "keyLineRanges": [
+        [
+          18,
+          63
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "pub fn raw_json",
+          "line": 44,
+          "text": "    pub fn raw_json(status: StatusCode, raw: String) -> Self {"
+        },
+        {
+          "pattern": "pub fn http_like",
+          "line": 53,
+          "text": "    pub fn http_like(status: StatusCode, message: impl Into<String>) -> Self {"
+        },
+        {
+          "pattern": "pub fn internal",
+          "line": 61,
+          "text": "    pub fn internal() -> Self {"
+        }
+      ],
+      "baseGitBlobId": "bf3c9ad6efb517fb067b0261f460a62fad67bbfa",
+      "baseGitBlobBytes": 2564,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api-rust/src/compat/scalars.rs",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/compat/scalars.rs",
+      "role": "Existing date/scalar compatibility reference read only",
+      "wholeFileFrozen": true,
+      "actualBytes": 18815,
+      "rawSha256": "6467e59981c2dd6d63ff4f15836ab8093d0a9cfee570da3491fc764b304dcd7d",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 549,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "pub fn ",
+          "line": 53,
+          "text": "pub fn legacy_number(value: NumberInput<'_>) -> f64 {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 168,
+          "text": "pub fn finite_number(value: NumberInput<'_>) -> Result<f64, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 177,
+          "text": "pub fn positive_number(value: NumberInput<'_>) -> Result<f64, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 186,
+          "text": "pub fn nonnegative_number(value: NumberInput<'_>) -> Result<f64, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 195,
+          "text": "pub fn js_number_string(value: f64) -> String {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 199,
+          "text": "pub fn js_to_fixed(value: f64, digits: u8) -> Result<String, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 213,
+          "text": "pub fn decimal_text(value: NumberInput<'_>) -> DecimalText {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 220,
+          "text": "pub fn nullable_decimal_text(value: Field<NumberInput<'_>>) -> Option<DecimalText> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 248,
+          "text": "pub fn contract_date_only(value: Field<&str>) -> Result<Field<String>, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 256,
+          "text": "pub fn business_date_only("
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 285,
+          "text": "pub fn parse_legacy_timestamp_utc(value: &str) -> Result<DateTime<Utc>, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 413,
+          "text": "pub fn nullable_timestamp_utc(value: Field<DateInput<'_>>) -> Result<Option<String>, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 423,
+          "text": "pub fn js_iso_string(instant: DateTime<Utc>) -> Result<String, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 443,
+          "text": "pub fn valid_wire_date(text: &str) -> bool {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 455,
+          "text": "pub fn valid_wire_utc_datetime(text: &str) -> bool {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 489,
+          "text": "    pub fn parse(text: &str) -> Result<Self, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 512,
+          "text": "    pub fn as_str(&self) -> &str {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 515,
+          "text": "    pub fn to_uuid(&self) -> Result<Uuid, ScalarError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 538,
+          "text": "pub fn external_id(text: &str, max_code_points: usize) -> Result<ExternalId, ScalarError> {"
+        }
+      ],
+      "baseGitBlobId": "f4031855360e5234218a10d2f73174830ca929a4",
+      "baseGitBlobBytes": 18815,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/js_json.rs",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/js_json.rs",
+      "role": "Existing UTF-16 code-unit wire reference read only",
+      "wholeFileFrozen": true,
+      "actualBytes": 6503,
+      "rawSha256": "60ba86c4a95605e957f7b8d64e4b99b54507bc4ecdde9aada7cb6d545a479162",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 192,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "pub struct JsString",
+          "line": 14,
+          "text": "pub struct JsString(Vec<u16>);"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 23,
+          "text": "    pub fn from_code_units(units: Vec<u16>) -> Self {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 26,
+          "text": "    pub fn as_code_units(&self) -> &[u16] {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 29,
+          "text": "    pub fn is_empty(&self) -> bool {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 32,
+          "text": "    pub fn eq_ascii(&self, value: &str) -> bool {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 37,
+          "text": "    pub fn to_utf8_lossy(&self) -> String {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 40,
+          "text": "    pub fn json(&self) -> String {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 78,
+          "text": "pub fn decode_string(raw: &str) -> Result<JsString, JsonInputError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 126,
+          "text": "    pub fn entries(&self) -> impl Iterator<Item = (&JsString, &'a RawValue)> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 129,
+          "text": "    pub fn parse(raw: &'a str) -> Result<Self, JsonInputError> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 136,
+          "text": "    pub fn get(&self, name: &str) -> Option<&'a RawValue> {"
+        },
+        {
+          "pattern": "pub fn ",
+          "line": 142,
+          "text": "    pub fn keys(&self) -> Vec<&JsString> {"
+        }
+      ],
+      "baseGitBlobId": "5cf55309ea724a16ed9a752148203737429a3c14",
+      "baseGitBlobBytes": 6503,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "docs/design/archive/slices/ex-61-sales-intelligence-business-discussion-baseline.md",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/archive/slices/ex-61-sales-intelligence-business-discussion-baseline.md",
+      "role": "Historical business context; current source/Native supersedes cutoff specifics",
+      "wholeFileFrozen": true,
+      "actualBytes": 16904,
+      "rawSha256": "6b08931b8ae34936b8fdd954d65a203e36e62cf6281c268b2fadc2e130bd5cbb",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 148,
+      "keyLineRanges": [
+        [
+          11,
+          32
+        ],
+        [
+          47,
+          79
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "Project",
+          "line": 16,
+          "text": "  3. Project 查询讨论时聚合来源 Lead 历史讨论；转项目时不复制、不迁移、不改历史讨论归属。"
+        },
+        {
+          "pattern": "Project",
+          "line": 26,
+          "text": "  - 决策链关系、竞争态势、采购流程和情报缺口归 Lead / Project opportunity context。"
+        },
+        {
+          "pattern": "Project",
+          "line": 27,
+          "text": "  - 业务讨论支持 Customer / Lead / Project 三类 target。"
+        },
+        {
+          "pattern": "Project",
+          "line": 28,
+          "text": "  - Project 讨论读侧可连续展示来源 Lead 讨论。"
+        },
+        {
+          "pattern": "Project",
+          "line": 42,
+          "text": "| Query boundary            | This baseline                                  | Section 5                                | Frozen | Lead / Project 至少一个锚点；联系人按客户锚点。           |"
+        },
+        {
+          "pattern": "Project",
+          "line": 57,
+          "text": "| Identifier semantics        | Existing entity IDs     | Customer / Lead / Project / Contact / User 均为内部 UUID。     |"
+        },
+        {
+          "pattern": "Project",
+          "line": 94,
+          "text": "| `CustomerContactList`              | Customer / Lead / Project pages            | contact identity, work contact fields, status      | `customerId`; updated desc                         | `customer:read`              | This baseline | Done   |"
+        },
+        {
+          "pattern": "Project",
+          "line": 95,
+          "text": "| `OpportunityStakeholderList`       | Lead / Project sales intelligence          | role, attitude, influence, access, focus areas     | `leadId` / `projectId`; primary then updated desc  | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Project",
+          "line": 96,
+          "text": "| `CompetitorIntelligenceRecordList` | Lead / Project sales intelligence          | competitor, position, preference, strengths, risks | `leadId` / `projectId`; updated desc               | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Project",
+          "line": 97,
+          "text": "| `SalesDiscoveryRecordList`         | Lead / Project sales intelligence          | procurement, budget, pain point, decision cycle    | `leadId` / `projectId`; updated desc               | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Project",
+          "line": 98,
+          "text": "| `SalesIntelligenceGapList`         | Lead / Project sales intelligence          | missing item, explanation, severity                | computed from current facts                        | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Project",
+          "line": 99,
+          "text": "| `BusinessDiscussionCommentList`    | Customer / Lead / Project discussion panel | discussion type, body, author, stage source        | `customerId` / `leadId` / `projectId`; created asc | target read permissions      | This baseline | Done   |"
+        },
+        {
+          "pattern": "Project",
+          "line": 119,
+          "text": "- Query -> view: focused service tests cover intelligence gaps and Project -> source Lead discussion continuity."
+        },
+        {
+          "pattern": "Lead",
+          "line": 16,
+          "text": "  3. Project 查询讨论时聚合来源 Lead 历史讨论；转项目时不复制、不迁移、不改历史讨论归属。"
+        },
+        {
+          "pattern": "Lead",
+          "line": 26,
+          "text": "  - 决策链关系、竞争态势、采购流程和情报缺口归 Lead / Project opportunity context。"
+        },
+        {
+          "pattern": "Lead",
+          "line": 27,
+          "text": "  - 业务讨论支持 Customer / Lead / Project 三类 target。"
+        },
+        {
+          "pattern": "Lead",
+          "line": 28,
+          "text": "  - Project 讨论读侧可连续展示来源 Lead 讨论。"
+        },
+        {
+          "pattern": "Lead",
+          "line": 42,
+          "text": "| Query boundary            | This baseline                                  | Section 5                                | Frozen | Lead / Project 至少一个锚点；联系人按客户锚点。           |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 57,
+          "text": "| Identifier semantics        | Existing entity IDs     | Customer / Lead / Project / Contact / User 均为内部 UUID。     |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 94,
+          "text": "| `CustomerContactList`              | Customer / Lead / Project pages            | contact identity, work contact fields, status      | `customerId`; updated desc                         | `customer:read`              | This baseline | Done   |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 95,
+          "text": "| `OpportunityStakeholderList`       | Lead / Project sales intelligence          | role, attitude, influence, access, focus areas     | `leadId` / `projectId`; primary then updated desc  | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 96,
+          "text": "| `CompetitorIntelligenceRecordList` | Lead / Project sales intelligence          | competitor, position, preference, strengths, risks | `leadId` / `projectId`; updated desc               | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 97,
+          "text": "| `SalesDiscoveryRecordList`         | Lead / Project sales intelligence          | procurement, budget, pain point, decision cycle    | `leadId` / `projectId`; updated desc               | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 98,
+          "text": "| `SalesIntelligenceGapList`         | Lead / Project sales intelligence          | missing item, explanation, severity                | computed from current facts                        | `lead:read` / `project:read` | This baseline | Done   |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 99,
+          "text": "| `BusinessDiscussionCommentList`    | Customer / Lead / Project discussion panel | discussion type, body, author, stage source        | `customerId` / `leadId` / `projectId`; created asc | target read permissions      | This baseline | Done   |"
+        },
+        {
+          "pattern": "Lead",
+          "line": 119,
+          "text": "- Query -> view: focused service tests cover intelligence gaps and Project -> source Lead discussion continuity."
+        }
+      ],
+      "baseGitBlobId": "edece1262beb20b802aaaa502ce1e649e0b51e3a",
+      "baseGitBlobBytes": 16904,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "docs/design/archive/slices/ex-19-project-workspace-guidance-baseline.md",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/archive/slices/ex-19-project-workspace-guidance-baseline.md",
+      "role": "Historical guidance background, not replacement for current entries implementation",
+      "wholeFileFrozen": true,
+      "actualBytes": 15983,
+      "rawSha256": "980fc3073a678e04eed00e2d58367254356d87f37928deb09de43cb2aab827ca",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 161,
+      "keyLineRanges": [
+        [
+          46,
+          86
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "Response contract",
+          "line": 51,
+          "text": "| Response contract           | `ProjectWorkspaceGuidanceView`                                 | 不扩展 `ProjectDetailView`，避免详情页与工作区引导职责混合                         |"
+        },
+        {
+          "pattern": "Recommended entries",
+          "line": 55,
+          "text": "| Recommended entries         | 后端 `recommendedEntries`                                      | 前端按 entries 渲染，不再按权限本地拼入口可用性                                    |"
+        }
+      ],
+      "baseGitBlobId": "3952e923c0056c1f501a4858562f8142a1fd1390",
+      "baseGitBlobBytes": 15983,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "docs/design/archive/slices/ex-22-project-timeline-view-baseline.md",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/archive/slices/ex-22-project-timeline-view-baseline.md",
+      "role": "Historical timeline no-synthetic-fact boundary",
+      "wholeFileFrozen": true,
+      "actualBytes": 15249,
+      "rawSha256": "0d0162d1e9823e0ed2c277cb65713cae8aa2a612a58983fe0ca94d08a97fd9ff",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 146,
+      "keyLineRanges": [
+        [
+          48,
+          86
+        ],
+        [
+          137,
+          145
+        ]
+      ],
+      "keyLines": [
+        {
+          "pattern": "不输出",
+          "line": 54,
+          "text": "| Date / time semantics       | `occurredAt: datetime`                          | 所有里程碑时间统一为 ISO datetime，不输出 date-only 阶段完成时间。                 |"
+        },
+        {
+          "pattern": "不输出",
+          "line": 112,
+          "text": "  - controller 使用 `project:read`；不输出敏感金额、内部审批 payload 或权限矩阵以外字段。"
+        },
+        {
+          "pattern": "不输出",
+          "line": 145,
+          "text": "  3. 只输出真实动作事实；缺失阶段不返回事件，不输出推断完成时间。"
+        },
+        {
+          "pattern": "真实",
+          "line": 16,
+          "text": "  3. 只从既有真实动作事实源输出可追溯阶段时间：项目创建、合同签约、移交确认、项目关闭。"
+        },
+        {
+          "pattern": "真实",
+          "line": 36,
+          "text": "| Frontend blocker          | `docs/design/fe-21-project-lifecycle-timeline-responsive-baseline.md` | `FE21-E1-COMPLETION-TIME-SOURCE`         | active  | 前端已经具备展示能力，但明确缺少真实完成时间事实源。                        |"
+        },
+        {
+          "pattern": "真实",
+          "line": 49,
+          "text": "| Business semantics          | `query-view-boundary-design.md` + runtime facts | 只输出真实动作事件；没有事实源的阶段不生成事件。                                   |"
+        },
+        {
+          "pattern": "真实",
+          "line": 134,
+          "text": "| `EX22-E1-PARTIAL-STAGE-COVERAGE`        | Low   | 不是所有生命周期阶段都有完成时间 | Codex       | Future query owner | 后续阶段事实源切片 | 当前只输出既有真实动作事实，不伪造验收 / 完成 / 归档时间。 |"
+        },
+        {
+          "pattern": "真实",
+          "line": 145,
+          "text": "  3. 只输出真实动作事实；缺失阶段不返回事件，不输出推断完成时间。"
+        }
+      ],
+      "baseGitBlobId": "99a53a43415fb3d461864166b364be3fc601915b",
+      "baseGitBlobBytes": 15249,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    },
+    {
+      "path": "docs/design/archive/slices/ex-24-project-completion-fact-source-timeline-baseline.md",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/archive/slices/ex-24-project-completion-fact-source-timeline-baseline.md",
+      "role": "Historical completion fact projection boundary",
+      "wholeFileFrozen": true,
+      "actualBytes": 19056,
+      "rawSha256": "8ad0d7781e35c0791ec5b644d68e013da69f08cfda78846ce9b11b1855de9a28",
+      "encodingForLineReading": "UTF-8; hash always computed from raw bytes",
+      "lineCount": 179,
+      "keyLineRanges": [],
+      "keyLines": [
+        {
+          "pattern": "Timeline",
+          "line": 16,
+          "text": "  - 将最新有效完成记录投影到既有 `ProjectTimelineView.events`，供项目详情生命周期组件展示真实完成时间。"
+        },
+        {
+          "pattern": "Timeline",
+          "line": 24,
+          "text": "  - 后续前端可继续通过 `ProjectTimelineView` 消费 `stage='completed'`、`eventType='stage-completed'`、`sourceType='project-completion-record'` 的真实完成事件。"
+        },
+        {
+          "pattern": "Timeline",
+          "line": 36,
+          "text": "| Query boundary            | `query-view-boundary-design.md`、`EX-22`、`EX-23` | `ProjectTimelineView`                | aligned        | 继续复用既有 timeline query，只扩展事实来源。                          |"
+        },
+        {
+          "pattern": "Timeline",
+          "line": 62,
+          "text": "| `GET /projects/{projectId}/timeline`            | `ProjectQueryService.getProjectTimeline`           | N/A                                    | `ProjectTimelineView`              | `project:read`     | `EX-22`、`EX-23`                                                    | extend  |"
+        },
+        {
+          "pattern": "Timeline",
+          "line": 86,
+          "text": "- `ProjectTimelineEvent.sourceType`: add `project-completion-record`."
+        },
+        {
+          "pattern": "Timeline",
+          "line": 94,
+          "text": "| `ProjectTimelineView`         | `ProjectDetail` / lifecycle timeline | `stage='completed'`、`eventType='stage-completed'`、`sourceType='project-completion-record'` | latest `confirmed` completion record | `project:read`      | `EX-22`、`project-lifecycle-design.md` | planned |"
+        },
+        {
+          "pattern": "Timeline",
+          "line": 97,
+          "text": "Timeline projection rules:"
+        },
+        {
+          "pattern": "timeline",
+          "line": 36,
+          "text": "| Query boundary            | `query-view-boundary-design.md`、`EX-22`、`EX-23` | `ProjectTimelineView`                | aligned        | 继续复用既有 timeline query，只扩展事实来源。                          |"
+        },
+        {
+          "pattern": "timeline",
+          "line": 51,
+          "text": "| Identifier semantics        | `ProjectCompletionRecord.id`                 | 系统内 UUID；timeline `sourceId` 指向该记录。                              |"
+        },
+        {
+          "pattern": "timeline",
+          "line": 62,
+          "text": "| `GET /projects/{projectId}/timeline`            | `ProjectQueryService.getProjectTimeline`           | N/A                                    | `ProjectTimelineView`              | `project:read`     | `EX-22`、`EX-23`                                                    | extend  |"
+        },
+        {
+          "pattern": "timeline",
+          "line": 81,
+          "text": "| `ProjectCompletionRecordSummary`       | `id`、`projectId`、`acceptanceRecordId`、`completionResult`、`status`、`completedAt`、`completedBy`、`completedByName`、`completionSummary`、`evidenceSummary`、`createdAt` | full acceptance detail、settlement detail、archive detail       | Summary is sufficient for list and timeline projection.                 |"
+        },
+        {
+          "pattern": "timeline",
+          "line": 94,
+          "text": "| `ProjectTimelineView`         | `ProjectDetail` / lifecycle timeline | `stage='completed'`、`eventType='stage-completed'`、`sourceType='project-completion-record'` | latest `confirmed` completion record | `project:read`      | `EX-22`、`project-lifecycle-design.md` | planned |"
+        },
+        {
+          "pattern": "timeline",
+          "line": 102,
+          "text": "- If no confirmed completion record exists, the timeline must omit the `completed` stage event rather than infer one."
+        },
+        {
+          "pattern": "timeline",
+          "line": 124,
+          "text": "- The first implementation may allow multiple historical records but the timeline must select the newest confirmed record by `completed_at`, then creation time as a deterministic tie-breaker."
+        },
+        {
+          "pattern": "timeline",
+          "line": 132,
+          "text": "| List / timeline permission   | `project:read`                                                                                                         |"
+        },
+        {
+          "pattern": "timeline",
+          "line": 158,
+          "text": "| API unit tests                   | yes      | `corepack pnpm nx test poms-api --runInBand --testPathPatterns=project`                          | pending | must cover create/list/timeline projection guards |"
+        }
+      ],
+      "baseGitBlobId": "f89de392a4d24060708d16c33c366e2179669055",
+      "baseGitBlobBytes": 19056,
+      "note": "Actual raw hash/bytes and Git blob identity are distinct; checkout line endings are not normalized for raw capture."
+    }
+  ],
+  "originalOperationInventoryRows": [
+    {
+      "operationId": "BusinessDiscussionController_list",
+      "module": "business-discussion",
+      "controller": "BusinessDiscussionController",
+      "controllerMethod": "list",
+      "method": "GET",
+      "path": "/api/business-discussions",
+      "source": {
+        "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+        "line": 14
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "query",
+          "type": "BusinessDiscussionListQueryDto",
+          "decorators": [
+            "@Query()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "future:business-discussion",
+      "issue": null,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 365,
+        "domain": "business-discussion",
+        "capability": "listBusinessDiscussionComments",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/business-discussions",
+        "operationId": "BusinessDiscussionController_list",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/business-discussions",
+        "implementedPath": "/api/business-discussions",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false
+    },
+    {
+      "operationId": "BusinessDiscussionController_create",
+      "module": "business-discussion",
+      "controller": "BusinessDiscussionController",
+      "controllerMethod": "create",
+      "method": "POST",
+      "path": "/api/business-discussions",
+      "source": {
+        "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+        "line": 27
+      },
+      "permissions": {
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "body",
+          "type": "CreateBusinessDiscussionCommentRequestDto",
+          "decorators": [
+            "@Body()"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 201,
+      "migrationPhase": "R3",
+      "owner": "future:business-discussion",
+      "issue": null,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 366,
+        "domain": "business-discussion",
+        "capability": "createBusinessDiscussionComment",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "POST",
+        "path": "/api/business-discussions",
+        "operationId": "BusinessDiscussionController_create",
+        "responses": [
+          "201"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBusinessDiscussionCommentRequest"
+              }
+            }
+          }
+        }
+      },
+      "historicalR0": {
+        "path": "/api/business-discussions",
+        "implementedPath": "/api/business-discussions",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_getTimeline",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getTimeline",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/timeline",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 106
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "future:project-workspace",
+      "issue": null,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 241,
+        "domain": "project",
+        "capability": "getProjectTimeline",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/timeline",
+        "operationId": "ProjectController_getTimeline",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/timeline",
+        "implementedPath": "/api/projects/{projectId}/timeline",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false
+    },
+    {
+      "operationId": "ProjectController_getWorkspaceGuidance",
+      "module": "project",
+      "controller": "ProjectController",
+      "controllerMethod": "getWorkspaceGuidance",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/workspace-guidance",
+      "source": {
+        "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+        "line": 98
+      },
+      "permissions": {
+        "all": [
+          "project:read"
+        ],
+        "any": []
+      },
+      "parameters": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "decorators": [
+            "@Param('projectId')"
+          ]
+        },
+        {
+          "name": "req",
+          "type": "{ user: UserPayload }",
+          "decorators": [
+            "@Request()"
+          ]
+        }
+      ],
+      "nativeStatusSourceExpectation": 200,
+      "migrationPhase": "R3",
+      "owner": "future:project-workspace",
+      "issue": null,
+      "scopeFrozen": false,
+      "canonical": {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "line": 231,
+        "domain": "project",
+        "capability": "getProjectWorkspaceGuidance",
+        "status": "aligned"
+      },
+      "currentOpenApi": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "method": "GET",
+        "path": "/api/projects/{projectId}/workspace-guidance",
+        "operationId": "ProjectController_getWorkspaceGuidance",
+        "responses": [
+          "200"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": null
+      },
+      "historicalR0": {
+        "path": "/api/projects/{projectId}/workspace-guidance",
+        "implementedPath": "/api/projects/{projectId}/workspace-guidance",
+        "status": "canonical-match"
+      },
+      "nativeStatusActual": "Pending-root-original-Native-witness",
+      "rustDelivered": false
+    }
+  ],
+  "originalOpenApiPaths": {
+    "/api/business-discussions": {
+      "get": {
+        "operationId": "BusinessDiscussionController_list",
+        "parameters": [
+          {
+            "name": "customerId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "leadId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessDiscussionCommentList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取业务对象讨论列表",
+        "tags": [
+          "BusinessDiscussion"
+        ]
+      },
+      "post": {
+        "operationId": "BusinessDiscussionController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBusinessDiscussionCommentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessDiscussionCommentSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建业务对象讨论",
+        "tags": [
+          "BusinessDiscussion"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/workspace-guidance": {
+      "get": {
+        "operationId": "ProjectController_getWorkspaceGuidance",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectWorkspaceGuidanceView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目工作区引导",
+        "tags": [
+          "project"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/timeline": {
+      "get": {
+        "operationId": "ProjectController_getTimeline",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectTimelineView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取项目生命周期里程碑",
+        "tags": [
+          "project"
+        ]
+      }
+    }
+  },
+  "originalOpenApiSchemas": {
+    "BusinessDiscussionCommentList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/BusinessDiscussionCommentSummary"
+      }
+    },
+    "BusinessDiscussionCommentSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "threadId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetObjectType": {
+          "$ref": "#/components/schemas/BusinessDiscussionTargetObjectType"
+        },
+        "targetObjectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetTitle": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "leadId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "discussionType": {
+          "$ref": "#/components/schemas/BusinessDiscussionType"
+        },
+        "body": {
+          "type": "string"
+        },
+        "relatedContactId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "relatedContactName": {
+          "type": "string",
+          "nullable": true
+        },
+        "relatedCompetitorRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "relatedFollowUpRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "isPinned": {
+          "type": "boolean"
+        },
+        "isKeyConclusion": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "createdByName": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "threadId",
+        "targetObjectType",
+        "targetObjectId",
+        "targetTitle",
+        "customerId",
+        "leadId",
+        "projectId",
+        "discussionType",
+        "body",
+        "relatedContactId",
+        "relatedContactName",
+        "relatedCompetitorRecordId",
+        "relatedFollowUpRecordId",
+        "isPinned",
+        "isKeyConclusion",
+        "createdAt",
+        "createdBy",
+        "createdByName"
+      ]
+    },
+    "BusinessDiscussionTargetObjectType": {
+      "type": "string",
+      "enum": [
+        "customer",
+        "lead",
+        "project"
+      ]
+    },
+    "BusinessDiscussionType": {
+      "type": "string",
+      "enum": [
+        "intelligence-supplement",
+        "decision-chain",
+        "competition",
+        "strategy",
+        "risk",
+        "general"
+      ]
+    },
+    "CreateBusinessDiscussionCommentRequest": {
+      "type": "object",
+      "properties": {
+        "targetObjectType": {
+          "$ref": "#/components/schemas/BusinessDiscussionTargetObjectType"
+        },
+        "targetObjectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "discussionType": {
+          "$ref": "#/components/schemas/BusinessDiscussionType"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "relatedContactId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "relatedCompetitorRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "relatedFollowUpRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "isPinned": {
+          "type": "boolean"
+        },
+        "isKeyConclusion": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "targetObjectType",
+        "targetObjectId",
+        "discussionType",
+        "body"
+      ]
+    },
+    "ProjectWorkspaceGuidanceView": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "currentStage": {
+          "$ref": "#/components/schemas/ProjectStage"
+        },
+        "status": {
+          "$ref": "#/components/schemas/ProjectStatus"
+        },
+        "currentStageLabel": {
+          "type": "string"
+        },
+        "statusLabel": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "currentFocus": {
+          "type": "string"
+        },
+        "currentGap": {
+          "type": "string"
+        },
+        "nextStep": {
+          "type": "string"
+        },
+        "ownerLabel": {
+          "type": "string"
+        },
+        "blockingReasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "basisSummary": {
+          "$ref": "#/components/schemas/ProjectWorkspaceBasisSummary"
+        },
+        "recommendedEntries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectWorkspaceEntryView"
+          }
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "projectId",
+        "currentStage",
+        "status",
+        "currentStageLabel",
+        "statusLabel",
+        "headline",
+        "currentFocus",
+        "currentGap",
+        "nextStep",
+        "ownerLabel",
+        "blockingReasons",
+        "basisSummary",
+        "recommendedEntries",
+        "generatedAt"
+      ]
+    },
+    "ProjectWorkspaceBasisSummary": {
+      "type": "object",
+      "properties": {
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "projectionLevel": {
+          "type": "string",
+          "nullable": true
+        },
+        "exportPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "summarySnapshotId",
+        "projectionLevel",
+        "exportPolicy",
+        "generatedAt"
+      ]
+    },
+    "ProjectWorkspaceEntryView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "route": {
+          "type": "string",
+          "nullable": true
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "disabledReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "actionKey": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "required": [
+        "key",
+        "label",
+        "description",
+        "route",
+        "enabled",
+        "disabledReason",
+        "actionKey"
+      ]
+    },
+    "ProjectTimelineView": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectTimelineEvent"
+          }
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "projectId",
+        "events",
+        "generatedAt"
+      ]
+    },
+    "ProjectTimelineEvent": {
+      "type": "object",
+      "properties": {
+        "eventKey": {
+          "type": "string"
+        },
+        "stage": {
+          "$ref": "#/components/schemas/ProjectStage"
+        },
+        "stageLabel": {
+          "type": "string"
+        },
+        "eventType": {
+          "type": "string",
+          "enum": [
+            "stage-entered",
+            "stage-completed",
+            "milestone"
+          ]
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "actorUserId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "actorName": {
+          "type": "string",
+          "nullable": true
+        },
+        "resultLabel": {
+          "type": "string"
+        },
+        "sourceType": {
+          "type": "string",
+          "enum": [
+            "project",
+            "contract",
+            "project-handover",
+            "acceptance-record",
+            "project-completion-record",
+            "project-archive-record"
+          ]
+        },
+        "sourceId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "evidenceLabel": {
+          "type": "string",
+          "nullable": true
+        },
+        "isAuthoritative": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "eventKey",
+        "stage",
+        "stageLabel",
+        "eventType",
+        "occurredAt",
+        "actorUserId",
+        "actorName",
+        "resultLabel",
+        "sourceType",
+        "sourceId",
+        "evidenceLabel",
+        "isAuthoritative"
+      ]
+    },
+    "ProjectStage": {
+      "type": "string",
+      "enum": [
+        "assessment",
+        "scope-confirmation",
+        "commercial-closure",
+        "contracting",
+        "handover",
+        "execution",
+        "acceptance",
+        "completed",
+        "closed-lost",
+        "closed-terminated"
+      ]
+    },
+    "ProjectStatus": {
+      "type": "string",
+      "enum": [
+        "active",
+        "pending-approval",
+        "blocked",
+        "on-hold",
+        "completed",
+        "closed"
+      ]
+    }
+  },
+  "originalTestsMissing": [
+    "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.spec.ts",
+    "apps/poms-api/src/app/features/business-discussion/business-discussion.repository.spec.ts"
+  ],
+  "unresolvedBeforeFormalG1": [
+    "Root original Native N1-N6 witness groups",
+    "final shared interfaces and wire/error signatures",
+    "formal baseline and issue/task freeze",
+    "independent Gate verdict"
+  ],
+  "captureTool": "tmp/rust-r3hijk/d-input/capture-source-manifest.ps1; hashes/Git/source parsing only; no product/test/fixture execution"
+}

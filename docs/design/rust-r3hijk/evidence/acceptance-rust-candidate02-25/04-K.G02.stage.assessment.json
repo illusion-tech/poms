@@ -1,0 +1,315 @@
+{
+  "label": "K.G02.stage.assessment",
+  "startedAt": "2026-11-02T16:53:50.803Z",
+  "completedAt": "2026-11-02T16:53:50.834Z",
+  "value": {
+    "definition": {
+      "id": "K.G02.stage.assessment",
+      "covers": [
+        "K-G01",
+        "K-G02",
+        "K-G07",
+        "K-G08"
+      ],
+      "prepare": [
+        {
+          "role": "stage-fallback-owner-null.assessment",
+          "table": "project",
+          "sql": "UPDATE poms.project SET owner_user_id=NULL,owner_org_id=NULL WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "4b30ecf6-985e-4180-9df0-554cdd9004c4"
+          ],
+          "classification": "owned-real-project-owner-read-projection-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        }
+      ],
+      "requests": [
+        {
+          "id": "K.G02.stage.assessment",
+          "method": "GET",
+          "path": "/api/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace-guidance",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "currentStage": "assessment",
+            "currentStageLabel": "立项评估",
+            "entryCount": 13,
+            "ownerLabel": "销售负责人",
+            "absentBasisAllNull": true,
+            "noTopLevelAllowedActions": true,
+            "literalTextAuthority": "apps/poms-api/src/app/features/project/project-query.service.ts PROJECT_WORKSPACE_STAGE_GUIDANCE",
+            "disabledReasonPriority": "closed > stage > permission"
+          },
+          "actual": null,
+          "capture": [
+            "full 14-field payload",
+            "entry array and all 7 fields",
+            "basis all 4 fields",
+            "before/after owned domain rows and row versions",
+            "request-clock window"
+          ]
+        }
+      ],
+      "restore": "Root captures and restores these two owned owner IDs after the stage read; NULL projection makes every stage-specific fallback observable without claiming a R4 write."
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "stage-fallback-owner-null.assessment",
+          "table": "project",
+          "sql": "UPDATE poms.project SET owner_user_id=NULL,owner_org_id=NULL WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "4b30ecf6-985e-4180-9df0-554cdd9004c4"
+          ],
+          "classification": "owned-real-project-owner-read-projection-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        "before": {
+          "id": "4b30ecf6-985e-4180-9df0-554cdd9004c4",
+          "status": "active",
+          "closed_at": null,
+          "created_at": "2026-11-03T00:34:33.376+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "project_no": "PRJ-2026-000019",
+          "updated_at": "2026-11-03T00:34:33.376+08:00",
+          "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "row_version": 1,
+          "owner_org_id": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+          "project_name": "D G2 assessment 6872abb5-12af-486f",
+          "closed_reason": null,
+          "current_stage": "assessment",
+          "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+          "owner_user_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "source_lead_id": null,
+          "planned_sign_at": null,
+          "customer_project_no": null
+        },
+        "after": [
+          {
+            "id": "4b30ecf6-985e-4180-9df0-554cdd9004c4",
+            "project_no": "PRJ-2026-000019",
+            "project_name": "D G2 assessment 6872abb5-12af-486f",
+            "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "status": "active",
+            "current_stage": "assessment",
+            "owner_org_id": null,
+            "owner_user_id": null,
+            "planned_sign_at": null,
+            "closed_at": null,
+            "closed_reason": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T16:34:33.376Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2026-11-02T16:34:33.376Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "customer_name": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "source_lead_id": null,
+            "customer_project_no": null
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "完成立项评估与机会判断。",
+          "currentGap": "需要补齐客户背景、关键风险和是否继续投入的判断。",
+          "currentStage": "assessment",
+          "currentStageLabel": "立项评估",
+          "generatedAt": "2026-11-02T16:53:50.823Z",
+          "headline": "先判断这个项目是否值得继续推进",
+          "nextStep": "确认范围后进入范围确认。",
+          "ownerLabel": "销售负责人",
+          "projectId": "4b30ecf6-985e-4180-9df0-554cdd9004c4",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看签约前当前阶段、阻断原因、下一步和责任归口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "pre-signing-workspace",
+              "label": "签约前主线",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace/pre-signing"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看技术可行性、范围边界、风险保留和前期成本估算。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "technical-cost-workspace",
+              "label": "技术与成本",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace/technical-cost"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看竞标形态、阶段、决策、材料齐备度、结果和下一步。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "bid-commercial-workspace",
+              "label": "招投标 / 商务竞标",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace/bid-commercial"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看报价、成本引用、税务回款条件、毛利判断、放行结论和签约承接。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "pricing-margin-workspace",
+              "label": "报价与毛利评审",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace/pricing-margin"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "项目进入正式执行后再查看经营总览。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "项目进入正式执行后再查看偏差与风险。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "项目进入移交或执行阶段后再查看冻结与责任边界。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "项目进入移交或执行阶段后再查看提成阶段解释。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "项目进入移交或执行阶段后再查看规则解释。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "项目进入移交或执行阶段后再处理提成操作。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/4b30ecf6-985e-4180-9df0-554cdd9004c4/commission/operations"
+            }
+          ],
+          "status": "active",
+          "statusLabel": "进行中"
+        },
+        "requestId": "6e2aa6e5-765d-4d7c-9f52-b3e16e9d4c52",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "4859",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-462",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:50 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "8e0eb3f46c07b5c83107bf54b30a4924fd1c960ed11d117ad47bb8cc2ba8f508",
+          "responseBytes": 5139,
+          "responseSha256": "06f0b4b5dc23e2267ae443f1d0d75f3132eed237859e21c457c0017a5775cca0",
+          "entityBodyBytes": 4859,
+          "entityBodySha256": "f903c70a7a2e8feac44d32d09e4f98e5561689a8acbf469c0aad7ce60a5d6981",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_projectRead-27f47fed-2522-4e3d-bf05-d474cb02f9fc",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"4b30ecf6-985e-4180-9df0-554cdd9004c4\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.376+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000019\", \"updated_at\": \"2026-11-03T00:34:33.376+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": null, \"project_name\": \"D G2 assessment 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": null, \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"4b30ecf6-985e-4180-9df0-554cdd9004c4\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.376+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000019\", \"updated_at\": \"2026-11-03T00:34:33.376+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": null, \"project_name\": \"D G2 assessment 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"assessment\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": null, \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

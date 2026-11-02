@@ -1,0 +1,1816 @@
+{
+  "kind": "R3I-static-G1-input-acceptance-definitions",
+  "state": "G1-Pending-root-joint-freeze-and-independent-Pass",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "branch": "codex/poms-r3hijk-next28",
+  "checkout": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "issue": null,
+  "issueNote": "Root has not supplied the real I Issue ID; author did not access GitHub.",
+  "operationCount": 10,
+  "operations": [
+    {
+      "operationId": "OpportunityStakeholderController_list",
+      "method": "GET",
+      "path": "/api/opportunity-stakeholders",
+      "controllerLine": 80,
+      "canonicalLine": 355,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    },
+    {
+      "operationId": "OpportunityStakeholderController_create",
+      "method": "POST",
+      "path": "/api/opportunity-stakeholders",
+      "controllerLine": 91,
+      "canonicalLine": 356,
+      "sourceSuccessStatus": 201,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "OpportunityStakeholderController_update",
+      "method": "PATCH",
+      "path": "/api/opportunity-stakeholders/{id}",
+      "controllerLine": 114,
+      "canonicalLine": 357,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_list",
+      "method": "GET",
+      "path": "/api/competitor-intelligence-records",
+      "controllerLine": 129,
+      "canonicalLine": 358,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_create",
+      "method": "POST",
+      "path": "/api/competitor-intelligence-records",
+      "controllerLine": 140,
+      "canonicalLine": 359,
+      "sourceSuccessStatus": 201,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "CompetitorIntelligenceRecordController_update",
+      "method": "PATCH",
+      "path": "/api/competitor-intelligence-records/{id}",
+      "controllerLine": 164,
+      "canonicalLine": 360,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_list",
+      "method": "GET",
+      "path": "/api/sales-discovery-records",
+      "controllerLine": 179,
+      "canonicalLine": 361,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_create",
+      "method": "POST",
+      "path": "/api/sales-discovery-records",
+      "controllerLine": 190,
+      "canonicalLine": 362,
+      "sourceSuccessStatus": 201,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "SalesDiscoveryRecordController_update",
+      "method": "PATCH",
+      "path": "/api/sales-discovery-records/{id}",
+      "controllerLine": 211,
+      "canonicalLine": 363,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:write",
+        "project:write"
+      ]
+    },
+    {
+      "operationId": "SalesIntelligenceGapController_list",
+      "method": "GET",
+      "path": "/api/sales-intelligence-gaps",
+      "controllerLine": 226,
+      "canonicalLine": 364,
+      "sourceSuccessStatus": 200,
+      "permissionsAny": [
+        "lead:read",
+        "project:read"
+      ]
+    }
+  ],
+  "excluded": {
+    "contactsOperations": 3,
+    "completedIssue": 90,
+    "productImplementation": "not-authorized-before-joint-G1",
+    "priorNamespacesAndPrivate": "not-read-or-operated"
+  },
+  "sourceTypes": [
+    "current Native controller/service/repository/entity",
+    "shared DTO/schema/enums",
+    "original OpenAPI/canonical inventory",
+    "static mock unit tests",
+    "Lead score-fact consumer",
+    "existing Root-owned public bridges"
+  ],
+  "expectedStatusMeaning": "All expected numbers are source assertions or pending original witness, never actual observations.",
+  "requiredPerExecutedCase": [
+    "exact source/artifact SHA",
+    "raw original Native and Rust HTTP status/body/error arrays",
+    "actual isolated DB before/after and audit/session rows",
+    "source-derived normalization boundaries",
+    "case outcome and immutable public evidence pin"
+  ],
+  "nativePreG1Risks": [
+    "N1 refinedbase.extend and missingcreateanchor",
+    "N2 rawUUID/mergedanchor/errorprecedence",
+    "N3 singleTXaudit/record/sessionSQL+no-op",
+    "N4 managedCAScontrolledcompetition",
+    "N5 UnicodeUTF16/JSONBDBfailure",
+    "N6 I-latest versus score-latest",
+    "N7 legalpersistedfocusJSONshape",
+    "N8 requestId nullish semantics and varchar64 audit failure"
+  ],
+  "auditContracts": {
+    "stakeholder": {
+      "event": "opportunity-stakeholder.updated",
+      "target": "opportunity-stakeholder",
+      "command": "update-opportunity-stakeholder",
+      "fields": [
+        "role",
+        "attitude",
+        "influenceLevel",
+        "accessLevel",
+        "focusAreas",
+        "communicationNotes",
+        "isPrimary"
+      ],
+      "redacted": [
+        "focusAreas",
+        "communicationNotes"
+      ]
+    },
+    "competitor": {
+      "event": "competitor-intelligence.updated",
+      "target": "competitor-intelligence",
+      "command": "update-competitor-intelligence-record",
+      "fields": [
+        "competitorName",
+        "position",
+        "customerPreference",
+        "competitorStrengths",
+        "competitorWeaknesses",
+        "ourAdvantages",
+        "ourRisks",
+        "winProbability",
+        "evidence"
+      ],
+      "redacted": [
+        "competitorStrengths",
+        "competitorWeaknesses",
+        "ourAdvantages",
+        "ourRisks",
+        "evidence"
+      ]
+    },
+    "discovery": {
+      "event": "sales-discovery-record.updated",
+      "target": "sales-discovery-record",
+      "command": "update-sales-discovery-record",
+      "fields": [
+        "procurementProcess",
+        "budgetSource",
+        "customerPainPoints",
+        "decisionCycle",
+        "nextContactPlan",
+        "remark"
+      ],
+      "redacted": [
+        "procurementProcess",
+        "budgetSource",
+        "customerPainPoints",
+        "decisionCycle",
+        "nextContactPlan",
+        "remark"
+      ]
+    }
+  },
+  "gapOrder": [
+    {
+      "item": "decision-maker",
+      "label": "决策人未知",
+      "severity": "soft-blocker"
+    },
+    {
+      "item": "technical-evaluator",
+      "label": "技术把关人未知",
+      "severity": "attention"
+    },
+    {
+      "item": "procurement-process",
+      "label": "采购流程未知",
+      "severity": "soft-blocker"
+    },
+    {
+      "item": "budget-source",
+      "label": "预算来源未知",
+      "severity": "soft-blocker"
+    },
+    {
+      "item": "competitor",
+      "label": "竞争对手未知",
+      "severity": "attention"
+    },
+    {
+      "item": "pain-point",
+      "label": "客户核心痛点不明确",
+      "severity": "attention"
+    },
+    {
+      "item": "next-contact",
+      "label": "下一步接触对象不明确",
+      "severity": "attention"
+    }
+  ],
+  "caseDefinitionCount": 89,
+  "cases": [
+    {
+      "id": "I-IDENTITY-01",
+      "group": "identity",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Exact base/branch and ten-only ownership",
+      "sourceAssertions": [
+        "Base7f970c992291c61477eb9bd83a48cec19a769d88,branchcodex/poms-r3hijk-next28.",
+        "Contacts3/#90 excluded; I10 only; currentR3 remains30/58 until own actualG4; parent85/57Open."
+      ],
+      "nativeWitnessRequired": false,
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ROUTE-01",
+      "group": "route",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Canonical current routes and original spec",
+      "sourceAssertions": [
+        "All10 current/canonical aligned at355-364; no new endpoint/schema.",
+        "Success numbers are source expectations, never executed status evidence. Preserve full Native237/291/585 and generated client."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ROUTE-02",
+      "group": "route",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "HEAD, method mismatch, route case and single trailing slash",
+      "sourceAssertions": [
+        "Actual original Express behavior/body/headers precedes Rust routing decisions.",
+        "Do not claim compatibility from static route grammar alone."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ROUTE-03",
+      "group": "route",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Malformed/encoded path, valid missing UUID and PostgreSQL-accepted UUID forms",
+      "sourceAssertions": [
+        "Pathid is plainstring without UUIDpipe.",
+        "Capture exact decode/guard/DTO/DB error order; no new path400 validation."
+      ],
+      "expectedStatus": "Pending-original-Native-by-variant",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ROUTE-04",
+      "group": "route",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Malformed JSON/content type/duplicate keys versus invalid guards",
+      "sourceAssertions": [
+        "Parser and guard precedence from real raw HTTP; unknown field stripping must not decode/persist arbitrary keys."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-01",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "No session / missing cookie",
+      "sourceAssertions": [
+        "Original401 code/body; missing token is distinct from invalid session audit.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-02",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Revoked/expired/disabled-user session",
+      "sourceAssertions": [
+        "Original401 plus original expire/revoke state/security event; no product DML.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-03",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "POST/PATCH missing CSRF header/cookie, mismatch or invalid token",
+      "sourceAssertions": [
+        "Original403 csrf_failed + auth.csrf.failed before permission/DTO; GET bypasses CSRF.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-04",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "lead:read only against project anchor and project:read only against lead anchor",
+      "sourceAssertions": [
+        "OR permission is independent of anchor type; no added customer:read or cross-anchor permission restriction.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-05",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "lead:write only and project:write only on all three writes",
+      "sourceAssertions": [
+        "Either existing write permission sufficient; no requirement for both or customer:write.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-06",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Read-only actor write; write-only actor read",
+      "sourceAssertions": [
+        "Originalpermission_denied + security event; operation-specific OR set retained.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-07",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Foreign owner/org actor with existing required permission",
+      "sourceAssertions": [
+        "No owner/org/scope filter or admin-only gate.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-08",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Session touch force-due on list/gaps/create/update/no-op/error",
+      "sourceAssertions": [
+        "Observe raw touch and any later managed flush separately; do not assert noDML from no-op.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GUARD-09",
+      "group": "guard",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Guard security-event persistence rejection",
+      "sourceAssertions": [
+        "Capture original response/transaction residuals; product methods not reached.",
+        "Root records actual session/security rows and request IDs without public credentials."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-INFO-01",
+      "group": "minimum-output",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list",
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Stakeholder contact field boundary",
+      "sourceAssertions": [
+        "Contact only name/department/title,id; no workPhone/mobile/wechat/email/contactRemark in stakeholder summary.",
+        "Own communicationNotes and competitor/discovery text remain original plain output; no new sensitive permission/mask/read audit."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-INFO-02",
+      "group": "minimum-output",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "No new successful read audit/security/projection event",
+      "sourceAssertions": [
+        "Original methods only query/map; guard failures remain separate security events.",
+        "Do not add read projection or call customer_contacts HTTP as an authorization proxy."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-01",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "No anchors, unknown-only query and customerId-only query",
+      "sourceAssertions": [
+        "OpportunityContextQuery root refine:At least one opportunity anchor is required.",
+        "Unknown customerId is stripped; not a supported list filter."
+      ],
+      "expectedStatusSource": 400,
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-02",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Each anchor missing/null/blank/invalid/valid UUID",
+      "sourceAssertions": [
+        "leadId/projectId optional nonnullable z.uuid; no trim/coerce.",
+        "Capture original issue paths/order, nil/max/version/variant/case acceptance."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-03",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Repeated and structured query parameters",
+      "sourceAssertions": [
+        "OriginalExpress parsing plus Zod type behavior; do not select a preferred duplicate or stringify arrays/objects."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-04",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Single lead, single project and both anchors same customer",
+      "sourceAssertions": [
+        "Lookup both when present, then list WHERElead_id ORproject_id.",
+        "A row matching both appears once; no AND/customer filter/sourceLead expansion."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-05",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Both anchors different customers and missing combinations",
+      "sourceAssertions": [
+        "Customer selection query project??lead; Leadmissing check beforeProjectmissing; Lead mismatch beforeProject mismatch.",
+        "A DB rejection inside Promise.all may precede logicalif; original witness required."
+      ],
+      "expectedStatus": "Pending-exact-original-precedence",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-06",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Inactive/closed/merged contexts and nullable project.customer_id",
+      "sourceAssertions": [
+        "Only original existence/customer consistency checks; no status/stage/alias/merged redirect/owner gates.",
+        "Customerless project-only context cannot resolve; projectnull+leadcustomer still Project mismatch after fallback."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-QUERY-07",
+      "group": "query",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Empty valid anchored collections",
+      "sourceAssertions": [
+        "Three lists return[],gap returns source ordered missing facts; not404/pagination wrapper."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-01",
+      "group": "create-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Body missing/null/scalar/array and required fields",
+      "sourceAssertions": [
+        "Rootobject type and required UUID fields/enums/name use original issue shape/order.",
+        "RequiredcustomerId for all; stakeholdercontactId/role; competitorcompetitorName."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-02",
+      "group": "create-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Both create anchors omitted from refined base.extend",
+      "sourceAssertions": [
+        "Determine actual installed schema inheritance first; if schema accepts, service explicitcustomer can proceed to original DB anchorCHECK.",
+        "Do not statically label400or500 as observed."
+      ],
+      "expectedStatus": "Pending-root-original-schema-and-HTTP",
+      "nativePreG1Risk": "N1",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-03",
+      "group": "create-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Anchor UUID spelling/cases and nulls",
+      "sourceAssertions": [
+        "Preserve raw request UUIDs for strict business comparisons; no blanketUuidcanonicalization.",
+        "BodyUUIDgrammar from originalz.uuid; explicitnull anchors reject."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-04",
+      "group": "create-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Top-level unknown and server-owned fields",
+      "sourceAssertions": [
+        "Unknown id/rowVersion/expectedVersion/created*/updated*/status fields strip.",
+        "No caller-supplied optimistic version or ownership fields become persisted inputs."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-05",
+      "group": "stakeholder-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "All exact role/attitude/influence/access enums",
+      "sourceAssertions": [
+        "Role required onlycreate; other enumsmissing defaultunknown onlycreate; PATCHmissing unchanged.",
+        "Enum null/wrongcase/whitespace/numbers reject; do not trim enum values."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-06",
+      "group": "stakeholder-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "focusAreas missing/[]/null/type/max12/items1..64",
+      "sourceAssertions": [
+        "Create missing->[]; PATCHmissing unchanged,[] clears; null rejects.",
+        "Itemtrim/codepoint bounds,duplicate/order preserved; no uniqueness/sort/new cap."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-07",
+      "group": "stakeholder-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "communicationNotes missing/null/empty/blank/type/1..2000",
+      "sourceAssertions": [
+        "Nullable optional text; explicitblankstring rejects atDTO, missing/null persistnull oncreate or clear viaPATCHnull."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-08",
+      "group": "stakeholder-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "isPrimary missing,false,true,null,0,'false'",
+      "sourceAssertions": [
+        "Create missingfalse; PATCHfalse is meaningful; no coerce; null/numeric/string reject.",
+        "No unique/single-primary requirement."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-09",
+      "group": "competitor-dto",
+      "operations": [
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "competitorName min1/max255 and all optional enums",
+      "sourceAssertions": [
+        "Name trimrequiredcreate/optionalPATCH; cannotnullclear.",
+        "position/customerPreference/winProbability exact enums,create missingunknown,not null."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-10",
+      "group": "competitor-dto",
+      "operations": [
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "Every nullable competitor text1..2000",
+      "sourceAssertions": [
+        "Strengths/weaknesses/ourAdvantages/ourRisks/evidence each missing/null/blank/type/length boundaries; no extra content rule."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-11",
+      "group": "discovery-dto",
+      "operations": [
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "All six nullable text fields",
+      "sourceAssertions": [
+        "procurementProcess/customerPainPoints/remark trim1..2000; budgetSource/decisionCycle/nextContactPlan1..1000.",
+        "Allmissing allowedcreate; null clears PATCH; no facts-completeness gate."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-DTO-12",
+      "group": "unicode-dto",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Unicode trim/codepoint/UTF16 and DB boundary separation",
+      "sourceAssertions": [
+        "BMP/astral/combining/NBSP/BOM/U+200B/lone surrogate/NUL; no normalization or UTF8-byte limit.",
+        "JSONBfocusAreas and nonredacted name audit may fail atDB; do not add request bans or relabel500as400."
+      ],
+      "nativePreG1Risk": "N5",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-PATCH-01",
+      "group": "patch-dto",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Empty and unknown-only PATCH",
+      "sourceAssertions": [
+        "Afterstrip rootrefine At least one field is required for update.",
+        "An invalid body may fail before missing record; preserve actual order."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-PATCH-02",
+      "group": "patch-dto",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Unknown anchors/server fields combined with valid update",
+      "sourceAssertions": [
+        "customerId/leadId/projectId/contactId/id/expectedVersion/rowVersion ignored; anchors immutable.",
+        "No new expectedVersion409 semantics."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-PATCH-03",
+      "group": "patch-dto",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Each mutable field alone and full update",
+      "sourceAssertions": [
+        "Everyallowedfield can trigger meaningful PATCH; enum/text/array/booleanpresence respected.",
+        "Rootcompares full summary/DB and audit rather than status only."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-PATCH-04",
+      "group": "patch-dto",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "All nullable fields explicitlynull,arrays[],booleanfalse",
+      "sourceAssertions": [
+        "Clearonlyallowednullabletypes; no accidental missing/null collapse onPATCH.",
+        "Samevalueafteroriginaltrim is no-op; preserve actor/update metadata accordingly."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-01",
+      "group": "anchor",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Lead missing,project missing,both missing",
+      "sourceAssertions": [
+        "NotFound original names/raw requestID spelling.",
+        "Lead404 beforeProject404 after successfulPromise.all; do not infer DB-error race fromiforder."
+      ],
+      "nativePreG1Risk": "N2",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-02",
+      "group": "anchor",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Explicit customer priority and mismatch before customer lookup",
+      "sourceAssertions": [
+        "input.customerId outranksproject/lead.",
+        "Lead.customerId !== chosen first,thenProject; mismatched absentcustomer can400beforeCustomer404."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-03",
+      "group": "anchor",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Uppercase customer UUID versus PG-equivalent canonical ID",
+      "sourceAssertions": [
+        "OriginalJS strict string comparison,not SQL UUID equality.",
+        "Keep lookup canonicalrows but rawcustomerId input until comparison."
+      ],
+      "nativePreG1Risk": "N2",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-04",
+      "group": "anchor",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Same customer unrelated lead/project",
+      "sourceAssertions": [
+        "No sourceLead/convertedProject relation requirement; both can anchor one record.",
+        "No automatic related-anchor expansion on single-anchor reads."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-05",
+      "group": "anchor",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create",
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Customer existence with inactive/merged row",
+      "sourceAssertions": [
+        "requireCustomer onlyexists,not requireActiveCustomer/alias/mergedInto resolution.",
+        "Preserve name from original referenced row."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-06",
+      "group": "contact",
+      "operations": [
+        "OpportunityStakeholderController_create"
+      ],
+      "scenario": "Contact missing and mismatched customer after opportunity checks",
+      "sourceAssertions": [
+        "CustomerContact404 onlyafterallcontext/customerpreflight; then Contact{id}doesnotbelongtocustomer{rawinput}.",
+        "No contact active/status gate."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-07",
+      "group": "contact",
+      "operations": [
+        "OpportunityStakeholderController_create"
+      ],
+      "scenario": "Inactive contact samecustomer",
+      "sourceAssertions": [
+        "Existence and originalcustomer string comparison only; preserve original acceptance if DTO/context pass."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-ANCHOR-08",
+      "group": "contact",
+      "operations": [
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "Existing legal row and contact/customer relation changed after create",
+      "sourceAssertions": [
+        "PATCHdoesnotreruncreatecontactownership/contextgates; loadContextmapsnames.",
+        "OnlyRootcontrolled validFKpreparedfacts; no constraints disabled."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-CREATE-01",
+      "group": "create-persistence",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Minimal requests/defaults",
+      "sourceAssertions": [
+        "Actual Customer→HLead/#90Contact→I producers; no synthetic ID success.",
+        "ServerUUID/actor/times/rowVersion1 and canonical loaded anchor IDs; normal create has no business audit."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-CREATE-02",
+      "group": "create-persistence",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Full requests and explicit nulls",
+      "sourceAssertions": [
+        "Everypublic field persisted/re-read; optionalText trims strings andnullish->null.",
+        "No data silently omitted by controller; contactsPOSTgender bug is out of I scope."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-CREATE-03",
+      "group": "create-persistence",
+      "operations": [
+        "OpportunityStakeholderController_create",
+        "CompetitorIntelligenceRecordController_create",
+        "SalesDiscoveryRecordController_create"
+      ],
+      "scenario": "Duplicates and multiple primary/role/contact combinations",
+      "sourceAssertions": [
+        "No introducedunique role/contact/primary constraint or update-existing-instead-of-create.",
+        "Eachsuccessfulcreate own row; readonlymaps correct shared names."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-LIST-01",
+      "group": "list",
+      "operations": [
+        "OpportunityStakeholderController_list"
+      ],
+      "scenario": "Stakeholder stable declared sort",
+      "sourceAssertions": [
+        "isPrimaryDESC thenupdatedAtDESC thencreatedAtDESC; noidtie-breaker.",
+        "Duplicates in selected OR context not deduplicated by role/contact."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-LIST-02",
+      "group": "list",
+      "operations": [
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list"
+      ],
+      "scenario": "Record sort and nullable/name mappings",
+      "sourceAssertions": [
+        "updatedAtDESC thencreatedAtDESC only.",
+        "Full nullable/key shape,timeISO,plain text and relevant names; missing FK defensive fallback not invented invalid fixture."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-LIST-03",
+      "group": "list",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "CompetitorIntelligenceRecordController_list",
+        "SalesDiscoveryRecordController_list",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Legal persisted focus JSON shapes beyond request contract",
+      "sourceAssertions": [
+        "No responseZodmetadata; Native mapper focusAreas??[] may retain non-array JSONB.",
+        "Root witness legalowned JSONnull/object/oversize arrays; do not strictenDBread withrequestVec/caps."
+      ],
+      "nativePreG1Risk": "N7",
+      "evidenceClass": "prepared-source-read-only",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-stakeholder-01",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "Each mutable field and full update audits",
+      "sourceAssertions": [
+        "opportunity-stakeholder.updated/opportunity-stakeholder/update-opportunity-stakeholder; changedFields fixed source order: role,attitude,influenceLevel,accessLevel,focusAreas,communicationNotes,isPrimary.",
+        "Only changed fields in before/after; redacted subset=focusAreas,communicationNotes; raw sensitive values absent from businessaudit, normal CRUD stillreturns originalfield."
+      ],
+      "auditContract": {
+        "event": "opportunity-stakeholder.updated",
+        "target": "opportunity-stakeholder",
+        "command": "update-opportunity-stakeholder",
+        "fields": [
+          "role",
+          "attitude",
+          "influenceLevel",
+          "accessLevel",
+          "focusAreas",
+          "communicationNotes",
+          "isPrimary"
+        ],
+        "redacted": [
+          "focusAreas",
+          "communicationNotes"
+        ]
+      },
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-stakeholder-02",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "Same value, same trimmed value, different actor",
+      "sourceAssertions": [
+        "No changedfields=>no businessaudit,no explicitupdatedBy/rowVersion change; response maps current row.",
+        "Due-session may stillflush attransactionalfinish; captureseparately."
+      ],
+      "nativePreG1Risk": "N3",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-stakeholder-03",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "Audit INSERT failure, business UPDATE failure and pending-session failure",
+      "sourceAssertions": [
+        "SameexplicitEntityManager.transactional; audit.persist(em) notseparatepostbusinesscommit.",
+        "Capture actual SQL order,residual rows and entirebusiness/auditrollback,never copy F two-TX behavior."
+      ],
+      "nativePreG1Risk": "N3",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-stakeholder-04",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "Two readers same managed version and external version change",
+      "sourceAssertions": [
+        "Original.versionCAS; no clientexpectedVersion,lock,retry or stronger isolation.",
+        "Record actualwinner/loserstatus and audit/session/row versions; no409 assumption."
+      ],
+      "nativePreG1Risk": "N4",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-competitor-01",
+      "group": "audit",
+      "operations": [
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "Each mutable field and full update audits",
+      "sourceAssertions": [
+        "competitor-intelligence.updated/competitor-intelligence/update-competitor-intelligence-record; changedFields fixed source order: competitorName,position,customerPreference,competitorStrengths,competitorWeaknesses,ourAdvantages,ourRisks,winProbability,evidence.",
+        "Only changed fields in before/after; redacted subset=competitorStrengths,competitorWeaknesses,ourAdvantages,ourRisks,evidence; raw sensitive values absent from businessaudit, normal CRUD stillreturns originalfield."
+      ],
+      "auditContract": {
+        "event": "competitor-intelligence.updated",
+        "target": "competitor-intelligence",
+        "command": "update-competitor-intelligence-record",
+        "fields": [
+          "competitorName",
+          "position",
+          "customerPreference",
+          "competitorStrengths",
+          "competitorWeaknesses",
+          "ourAdvantages",
+          "ourRisks",
+          "winProbability",
+          "evidence"
+        ],
+        "redacted": [
+          "competitorStrengths",
+          "competitorWeaknesses",
+          "ourAdvantages",
+          "ourRisks",
+          "evidence"
+        ]
+      },
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-competitor-02",
+      "group": "audit",
+      "operations": [
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "Same value, same trimmed value, different actor",
+      "sourceAssertions": [
+        "No changedfields=>no businessaudit,no explicitupdatedBy/rowVersion change; response maps current row.",
+        "Due-session may stillflush attransactionalfinish; captureseparately."
+      ],
+      "nativePreG1Risk": "N3",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-competitor-03",
+      "group": "audit",
+      "operations": [
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "Audit INSERT failure, business UPDATE failure and pending-session failure",
+      "sourceAssertions": [
+        "SameexplicitEntityManager.transactional; audit.persist(em) notseparatepostbusinesscommit.",
+        "Capture actual SQL order,residual rows and entirebusiness/auditrollback,never copy F two-TX behavior."
+      ],
+      "nativePreG1Risk": "N3",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-competitor-04",
+      "group": "audit",
+      "operations": [
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "Two readers same managed version and external version change",
+      "sourceAssertions": [
+        "Original.versionCAS; no clientexpectedVersion,lock,retry or stronger isolation.",
+        "Record actualwinner/loserstatus and audit/session/row versions; no409 assumption."
+      ],
+      "nativePreG1Risk": "N4",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-discovery-01",
+      "group": "audit",
+      "operations": [
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Each mutable field and full update audits",
+      "sourceAssertions": [
+        "sales-discovery-record.updated/sales-discovery-record/update-sales-discovery-record; changedFields fixed source order: procurementProcess,budgetSource,customerPainPoints,decisionCycle,nextContactPlan,remark.",
+        "Only changed fields in before/after; redacted subset=procurementProcess,budgetSource,customerPainPoints,decisionCycle,nextContactPlan,remark; raw sensitive values absent from businessaudit, normal CRUD stillreturns originalfield."
+      ],
+      "auditContract": {
+        "event": "sales-discovery-record.updated",
+        "target": "sales-discovery-record",
+        "command": "update-sales-discovery-record",
+        "fields": [
+          "procurementProcess",
+          "budgetSource",
+          "customerPainPoints",
+          "decisionCycle",
+          "nextContactPlan",
+          "remark"
+        ],
+        "redacted": [
+          "procurementProcess",
+          "budgetSource",
+          "customerPainPoints",
+          "decisionCycle",
+          "nextContactPlan",
+          "remark"
+        ]
+      },
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-discovery-02",
+      "group": "audit",
+      "operations": [
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Same value, same trimmed value, different actor",
+      "sourceAssertions": [
+        "No changedfields=>no businessaudit,no explicitupdatedBy/rowVersion change; response maps current row.",
+        "Due-session may stillflush attransactionalfinish; captureseparately."
+      ],
+      "nativePreG1Risk": "N3",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-discovery-03",
+      "group": "audit",
+      "operations": [
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Audit INSERT failure, business UPDATE failure and pending-session failure",
+      "sourceAssertions": [
+        "SameexplicitEntityManager.transactional; audit.persist(em) notseparatepostbusinesscommit.",
+        "Capture actual SQL order,residual rows and entirebusiness/auditrollback,never copy F two-TX behavior."
+      ],
+      "nativePreG1Risk": "N3",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-discovery-04",
+      "group": "audit",
+      "operations": [
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Two readers same managed version and external version change",
+      "sourceAssertions": [
+        "Original.versionCAS; no clientexpectedVersion,lock,retry or stronger isolation.",
+        "Record actualwinner/loserstatus and audit/session/row versions; no409 assumption."
+      ],
+      "nativePreG1Risk": "N4",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-UTF16-01",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Astral/combining/lone surrogate length summary",
+      "sourceAssertions": [
+        "Redacted text summaries changed/present/length useJSUTF16 units,not codepoint limit.",
+        "Explicitnull yieldspresentfalse,length0; focusAreas usescount includingduplicates."
+      ],
+      "nativePreG1Risk": "N5",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-ARRAY-01",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update"
+      ],
+      "scenario": "focusAreas reordered,duplicated,same count,[] clear",
+      "sourceAssertions": [
+        "JSON.stringify equality is order-sensitive; same count can stillchangeaudit.",
+        "Before/after countonly may equal whilechangedFields includesfocusAreas; no set equality or sort."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-REQUEST-01",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "Request ID and businessContext shape",
+      "sourceAssertions": [
+        "x-request-id beforex-correlation-id,arraysfirst,nullfallback; actorreq.user.sub.",
+        "Stakeholder contextincludescontactId; allincludeoriginalcustomer/nullablelead/project."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-NONREDACTED-01",
+      "group": "audit",
+      "operations": [
+        "CompetitorIntelligenceRecordController_update"
+      ],
+      "scenario": "Raw competitorName audit versus redacted texts",
+      "sourceAssertions": [
+        "Name is notredacted; normal name max255codepoints remainsrawsnapshot.",
+        "NUL/lone-surrogate may failJSONBaudit orrecord atactualDBpoint; retainoriginalrollbackand500."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-01",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "No rows and full stable gap list",
+      "sourceAssertions": [
+        "decision-maker,technical-evaluator,procurement-process,budget-source,competitor,pain-point,next-contact exactorder.",
+        "Labels=explanation,isMissingtrue; onlydecision/procurement/budgetsoft-blocker,othersattention."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-02",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Every role independently and duplicate roles",
+      "sourceAssertions": [
+        "Anydecision-maker/technical-evaluator closes correspondinggap; otherrolesdo not.",
+        "No contactstatus/attitude/influence/access/primary condition added."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-03",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Competitor unknown defaults and any row",
+      "sourceAssertions": [
+        "Anycompetitorrowclosescompetitorgap; no evidence/position/winProbability readiness gate."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-04",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Every discovery fact individually and irrelevant fields",
+      "sourceAssertions": [
+        "procurement,budget,pain,next use latesthasText; decisionCycle/remark do notaffectgap.",
+        "No fallbackmerge from earlierdiscovery."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-05",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Latest empty record after older complete record",
+      "sourceAssertions": [
+        "LatestbyupdatedAtDESC,createdAtDESC controls fourtextfacts.",
+        "Emptylatestreopens relevantgaps; stakeholderprimarycanstillclose next-contact."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-06",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "isPrimary true versus nextContactPlan",
+      "sourceAssertions": [
+        "OR semantics: eitherclosesnextcontact; falsewithnotextdoesnot.",
+        "Multipleprimaryallowed; no role restriction."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-07",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Dual-anchor OR union latest discovery and row matching both",
+      "sourceAssertions": [
+        "MostrecentacrossORunion controlsfacts; no duplicate row.",
+        "Do not select separatebestrecordperanchor or merge fields."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-08",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Updated time versus created time and true ties",
+      "sourceAssertions": [
+        "DeclaredupdatedDESCthencreatedDESC; nopublicidtie.",
+        "Use controlled non-tie facts fordeterministicproof; retainreal true-tie selectionwithout strongerorder."
+      ],
+      "nativePreG1Risk": "N6",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-09",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "hasText Unicode whitespace and legal legacy empty text",
+      "sourceAssertions": [
+        "ECMAScripttrim; NBSP/BOMwhitespace versusU+200B preserved.",
+        "Preparedlegacytextfacts clearlylabeled; no new SQLtrim policy."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-GAP-10",
+      "group": "gap",
+      "operations": [
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "All facts completed via actual APIs",
+      "sourceAssertions": [
+        "RootactualHLead/#90Contact andI writescreate completefacts; gap[].",
+        "No synthetic sevenbool payload is a substitute forAPIproducedrows."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-FACTS-01",
+      "group": "H-internal",
+      "operations": [],
+      "scenario": "H consumes I sevenbool public facts",
+      "sourceAssertions": [
+        "sales_intelligence::store::collect_lead_score_facts(connection,&str)->model::SalesIntelligenceFacts.",
+        "Onlylead_id; suppliedTXconnection; no newBEGIN/flush/audit/session/requireContext."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-FACTS-02",
+      "group": "H-internal",
+      "operations": [],
+      "scenario": "Scoring latest discovery differs from I public list",
+      "sourceAssertions": [
+        "ORDERBYupdated_atDESC ONLYLIMIT1 forscore; no created_at tie-breaker.",
+        "Do not reuse I list helper or cross-project OR."
+      ],
+      "nativePreG1Risk": "N6",
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-FACTS-03",
+      "group": "H-internal",
+      "operations": [],
+      "scenario": "Only project-linked facts do not become lead facts",
+      "sourceAssertions": [
+        "A recordwithonlyproject_id,evenproject.sourceLeadId sameHlead,doesnotmatch lead_id-onlyquery."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-FACTS-04",
+      "group": "H-internal",
+      "operations": [],
+      "scenario": "Real I mutation followed by H explicit refresh/snapshot",
+      "sourceAssertions": [
+        "Iwrite doesnotautorefreshlead.score; Howns explicitcommand and scoringcalculation.",
+        "Actualsnapshot/facts mustconsumecommittedrealIrows; inputbooleanstubsnotcertification."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-FACTS-05",
+      "group": "H-internal",
+      "operations": [],
+      "scenario": "Shared LeadRef existence and batch names",
+      "sourceAssertions": [
+        "Aby_id/by_ids fieldsid/customer_id/nonnullable/lead_name,notstatusfiltered.",
+        "PreserveoriginalUUIDinput outsideDBUuid values forbusinesscomparison."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-J-01",
+      "group": "J-internal",
+      "operations": [],
+      "scenario": "Discussion references actual I competitor producer",
+      "sourceAssertions": [
+        "RootrealI POSTid/4anchors consumedbyJ,notpreparedcompetitor asCRUDsuccess.",
+        "competitor_by_id onlyid no targetscope/authorization/TX; J ownsoriginaltargetchecks."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-J-02",
+      "group": "J-internal",
+      "operations": [],
+      "scenario": "Nullable lead/project relation semantics",
+      "sourceAssertions": [
+        "IRef keepsbothnullable; no inferredsourceLead anchor.",
+        "Jprojecttargetleadnull mustnotmakeI row validationstronger."
+      ],
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-PRESERVE-01",
+      "group": "preservation",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Protected original source and prior slices",
+      "sourceAssertions": [
+        "No Native/shared/spec/generated client/DDL/old Rust mutations byauthorB.",
+        "Contacts3/#90 and followUp remainpreviousactualG4 scope."
+      ],
+      "nativeWitnessRequired": false,
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-PRESERVE-02",
+      "group": "preservation",
+      "operations": [
+        "OpportunityStakeholderController_list",
+        "OpportunityStakeholderController_create",
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_list",
+        "CompetitorIntelligenceRecordController_create",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_list",
+        "SalesDiscoveryRecordController_create",
+        "SalesDiscoveryRecordController_update",
+        "SalesIntelligenceGapController_list"
+      ],
+      "scenario": "Stage evidence and current counters",
+      "sourceAssertions": [
+        "Allcasesremainnot-rununtilRootactualcaptures.",
+        "NoG1selfpass/noG3/noG4signature; public58/58afterall28ownG4isnotfullR3stageacceptance."
+      ],
+      "nativeWitnessRequired": false,
+      "actualState": "not-run",
+      "actualEvidence": []
+    },
+    {
+      "id": "I-AUDIT-HEADER-01",
+      "group": "audit",
+      "operations": [
+        "OpportunityStakeholderController_update",
+        "CompetitorIntelligenceRecordController_update",
+        "SalesDiscoveryRecordController_update"
+      ],
+      "scenario": "requestId64/65char,empty/multiple headers and changed/no-op branches",
+      "sourceAssertions": [
+        "getRequestId is nullish fallback,not trim/UUID validation; empty first header need not fall back.",
+        "audit_log.request_id varchar64: capture actual changedPATCH DB500/rollback versus no-op/noaudit branches; do not new400 or truncate."
+      ],
+      "nativePreG1Risk": "N8",
+      "actualState": "not-run",
+      "actualEvidence": []
+    }
+  ]
+}

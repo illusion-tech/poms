@@ -1,5 +1,5 @@
 //! The three original pricing/margin operations, consuming the real cost and
-//! bid modules. Native's observed INSERT-first version failure is preserved.
+//! bid modules. Current versions and their history commit atomically.
 
 pub mod http;
 pub mod model;

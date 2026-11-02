@@ -609,12 +609,12 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_has_one_hundred_forty_five_operations_and_preserves_existing_health_schemas()
+fn openapi_has_one_hundred_seventy_three_operations_and_preserves_existing_health_schemas()
 -> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 116);
+    assert_eq!(paths.len(), 138);
     assert_eq!(
         paths
             .values()
@@ -626,7 +626,7 @@ fn openapi_has_one_hundred_forty_five_operations_and_preserves_existing_health_s
                 .contains(&method.as_str()))
                 .count()))
             .sum::<usize>(),
-        145
+        173
     );
     // Preserve all delivered R3 operations against the independent Native spec.
     for (path, method) in [
@@ -667,6 +667,40 @@ fn openapi_has_one_hundred_forty_five_operations_and_preserves_existing_health_s
         );
     }
     assert!(public_security_matches(&document, &existing));
+    let mut final_batch = 0;
+    for (path, methods) in existing["paths"]
+        .as_object()
+        .ok_or("missing Native paths")?
+    {
+        for (method, operation) in methods.as_object().ok_or("invalid Native path")? {
+            let Some(id) = operation["operationId"].as_str() else {
+                continue;
+            };
+            if [
+                "LeadController_",
+                "LeadScoreOverrideController_",
+                "OpportunityStakeholderController_",
+                "CompetitorIntelligenceRecordController_",
+                "SalesDiscoveryRecordController_",
+                "SalesIntelligenceGapController_",
+                "BusinessDiscussionController_",
+            ]
+            .iter()
+            .any(|prefix| id.starts_with(prefix))
+                || matches!(
+                    id,
+                    "ProjectController_getWorkspaceGuidance" | "ProjectController_getTimeline"
+                )
+            {
+                assert_eq!(
+                    &document["paths"][path][method], operation,
+                    "Native operation {id}"
+                );
+                final_batch += 1;
+            }
+        }
+    }
+    assert_eq!(final_batch, 28);
     for path in ["/api", "/api/health", "/api/health/readiness"] {
         let operation = &document["paths"][path]["get"];
         let frozen = &existing["paths"][path]["get"];

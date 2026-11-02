@@ -1,0 +1,56 @@
+{
+  "kind": "poms-r3hijk-d-shared-dependency-interface-draft01",
+  "status": "proposal-only-await-joint-G1",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "g1Certified": false,
+  "productImplemented": false,
+  "owners": {
+    "D": ["business_discussions/** excluding http.rs", "project_workspace/** excluding http.rs"],
+    "Root": ["all http.rs", "public routes", "Cargo/lib", "shared bridges", "formal governance", "all actual runs and fixtures"],
+    "A": ["Lead production operations and narrow Lead reference candidate"],
+    "B": ["sales intelligence production operations and narrow Competitor reference candidate"]
+  },
+  "transportBoundary": {
+    "businessDiscussionList": {"input": "customerId?,leadId?,projectId? as validated source UUID strings", "sessionRequiredByRoot": true, "permissionsAny": ["customer:read", "lead:read", "project:read"], "output": "all native comment summary fields, wire retaining JS text where needed"},
+    "businessDiscussionCreate": {"input": "CreateBusinessDiscussionCommentRequest source fields", "operator": "resolved session sub", "permissionsAny": ["customer:write", "lead:write", "project:write"], "csrfRequiredByRoot": true, "output": "single native comment summary, 201 source expectation"},
+    "projectWorkspaceGuidance": {"input": "raw path projectId string and resolved session permission snapshot", "permissionsAll": ["project:read"], "output": "ProjectWorkspaceGuidanceView full payload; no top-level allowedActions addition"},
+    "projectTimeline": {"input": "raw path projectId string", "permissionsAll": ["project:read"], "output": "ProjectTimelineView full payload"},
+    "methodNames": "Root and D freeze final Rust service/error/wire signatures at joint G1; no http edits by D"
+  },
+  "references": [
+    {"name": "LeadReference", "owner": "A", "candidateSignature": "lead_by_id(connection, id) -> Result<Option<LeadReference>, DbError>", "fields": {"id": "Uuid", "customer_id": "Uuid", "lead_name": "String"}, "source": "BusinessDiscussionRepository.findLeadById", "semantics": ["lookup by id only", "no status or active filter", "no state transition", "no lock or transaction ownership", "do not copy lead discussions during conversion"], "coordination": "A confirmed narrow fields; concrete function and connection argument remain G1 proposal"},
+    {"name": "CompetitorRef", "owner": "B", "candidateSignature": "sales_intelligence::store::competitor_by_id(&mut PgConnection, &str) -> Result<Option<CompetitorRef>, sqlx::Error>", "fields": {"id": "Uuid", "customer_id": "Uuid", "lead_id": "Option<Uuid>", "project_id": "Option<Uuid>"}, "source": "BusinessDiscussionRepository.findCompetitorRecordById", "semantics": ["lookup by id only", "no added target/status/permission filter", "no lock or transaction ownership", "D applies original relatedOpportunity checks"], "coordination": "B confirmed this as proposal; product not written"},
+    {"name": "CustomerDiscussionRef", "owner": "Root bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "display_name": "String"}, "semantics": ["existing customer existence lookup only", "no active-status filter", "title snapshot uses native displayName"]},
+    {"name": "ProjectDiscussionRef", "owner": "Root existing-project bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "customer_id": "Option<Uuid>", "project_name": "String", "source_lead_id": "Option<Uuid>"}, "semantics": ["project target leadId is null", "source lead used only for list aggregation", "missing source lead is skipped", "do not add R4 write behavior"]},
+    {"name": "ContactDiscussionRef", "owner": "Root existing-contact bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "customer_id": "Uuid", "name": "String"}, "semantics": ["existence only including inactive", "customer equality checked only when target.customerId has value", "missing context name maps null"]},
+    {"name": "FollowUpDiscussionRef", "owner": "Root existing-follow-up bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "customer_id": "Uuid", "lead_id": "Option<Uuid>", "project_id": "Option<Uuid>"}, "semantics": ["existence only including voided and superseded", "do not reuse active-only query", "D applies source nullable anchor checks"]},
+    {"name": "UserDisplayRef", "owner": "Root bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "display_name": "String"}, "semantics": ["batch existence read", "no active-only filter", "not found name is null", "never replace missing name by UUID"]},
+    {"name": "OrgDisplayRef", "owner": "Root bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "name": "String"}, "semantics": ["owner org existence lookup", "no new permission/status filter"]},
+    {"name": "WorkspaceBasisSnapshotRef", "owner": "Root shared snapshot bridge or D-owned read adapter by final G1 agreement", "fields": {"id": "Uuid", "projection_level": "String", "export_policy": "String", "generated_at": "DateTime<Utc>"}, "selection": "target_type=project AND target_id=project.id AND approval_scenario_key=project-detail AND projection_level=project-detail AND status=active ORDER BY generated_at DESC,created_at DESC; no UUID tie", "semantics": ["projection only", "no snapshot mutation", "no frontend-driven field removal", "all four absent-snapshot values are null"]}
+  ],
+  "textAndDate": {
+    "body": "JS trim and UTF-16 1..8000 after trim; raw response wire must preserve lone code units if Native does",
+    "date": "Native Date.toISOString UTC milliseconds; preserve finer DB precision for selection before formatting",
+    "rootMayReuseExisting": ["auth::js_json::JsString", "compat scalar/date helpers", "projects::model::Wire/trim_js or shared bridge"],
+    "noNewGlobalPolicy": true
+  },
+  "evidenceInterfaces": {
+    "rootExportsActualApiReceipts": [
+      "customerA/customerB ids and bodies from delivered customer API",
+      "leadA/leadOtherSameCustomer/leadOtherCustomer ids and bodies from H create",
+      "qualified lead and conversion request/response with project.id/sourceLeadId/customerId and original owner",
+      "competitorLead/competitorProject/competitorOtherProject/competitorOtherCustomer ids and original four anchors from I POST",
+      "contact/followup ids and bodies from delivered domain APIs including inactive/voided variants when used",
+      "J create/list bodies before and after conversion, preserving original thread ownership"
+    ],
+    "sqlPreparedOnly": ["R4 lifecycle/snapshot read projection cases", "isolated missing/error references or precise timestamp equivalence groups"],
+    "notProductionEvidence": ["SQL-prepared H Lead rows", "SQL-prepared I competitor rows", "pure fixture definitions", "mock unit expectations"]
+  },
+  "openDecisionsForRoot": [
+    "Freeze final Rust method/error/wire signatures and whether references use Root bridges or D-owned read adapters",
+    "Provide Native malformed-path/rawSQL/Unicode/thread-conflict originals before G1",
+    "Freeze selection tie-group comparison instead of inventing UUID tie-breaks",
+    "Keep formal governance and all runtime work exclusively with Root"
+  ]
+}

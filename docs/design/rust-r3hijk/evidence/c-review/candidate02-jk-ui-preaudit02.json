@@ -1,0 +1,579 @@
+{
+  "kind": "C-independent-R3HIJK-candidate02-JK-and-current-Native-UI-incremental-preaudit01",
+  "createdAt": "2026-11-02T17:38:18.704Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Execution-coverage95-confirmed-one-material-acceptance-gap-usable-Native-UI-cells-confirmed",
+  "candidateArtifactSha256": "fcf07817ca4068b3cce5d419c49a0ee5617060428f5d5ce30bb1ff32845ccc83",
+  "G3Certified": false,
+  "G4Certified": false,
+  "fullGateSigned": false,
+  "newProductP1P2": [],
+  "evidenceFindings": [
+    {
+      "id": "JK-EVIDENCE-P2-CLEANUP-AND-TARGET-ASSERT-01",
+      "priority": "P2",
+      "classification": "Acceptance-harness/evidence gap; product defect not established",
+      "caseName": "K.T05.completed-label",
+      "case": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-25/56-K.T05.completed-label.json",
+        "bytes": 57270,
+        "rawBytesSha256": "7b08b517513a0edd6e32ada1b09306cffb829f5a1101b956d216174d87803666"
+      },
+      "tieCase": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-25/48-K.T09.equal-all-keys.completion.json",
+        "bytes": 58981,
+        "rawBytesSha256": "23e87682dca2da774c6bf0b004ad1fe3e3aca194b478f184563cf510bb7ffca2"
+      },
+      "plannedTarget": {
+        "status": 200,
+        "sourceId": "475cc170-fae9-4ed2-bbc8-df5e872715ef",
+        "resultLabel": "项目已完成"
+      },
+      "actualSelectedCompletion": {
+        "actorName": null,
+        "actorUserId": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+        "eventKey": "project-completed:bec54bad-ccc9-4b75-8e09-15843ff8f42a",
+        "eventType": "stage-completed",
+        "evidenceLabel": "D evidence mWinner",
+        "isAuthoritative": true,
+        "occurredAt": "2020-03-01T00:00:00.123Z",
+        "resultLabel": "项目有条件完成",
+        "sourceId": "bec54bad-ccc9-4b75-8e09-15843ff8f42a",
+        "sourceType": "project-completion-record",
+        "stage": "completed",
+        "stageLabel": "已完成"
+      },
+      "cause": "The plan declares cleanupAfter DELETE for four exact-key tie rows. jk-business02 consumes prepare/restore but never cleanupAfter, leaving mTie in later deterministic cases. Its check helper does not inspect top-level timeline sourceId/resultLabel and skips missing e.facts events.",
+      "retainedLegalTieNotProductBug": true,
+      "minimalCorrection": "Consume each declared own cleanupAfter with bounded ID/table and affected-row checks, then assert required target event existence/sourceId/resultLabel. Preserve phase25 originals and supplement affected deterministic timeline cases on the final repaired artifact; do not impose UUID tie ordering or change product selection to fit contaminated fixtures.",
+      "RootAcknowledged": true,
+      "RootPlannedSupplementOnCandidate03": true,
+      "status": "Open acceptance supplement; current25 cannot certify this target assertion."
+    }
+  ],
+  "coverage": {
+    "phase24": {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-24/report01.json",
+        "bytes": 2139040,
+        "rawBytesSha256": "bdfb5f66f154610aedba86bcebbac15c58526f62cb1bccd6dbfb6ad9c981b1e3"
+      },
+      "completed": false,
+      "completedBusinessGroups": 34,
+      "HTTP": 152,
+      "lastTwoActualResponses201SameThread": true,
+      "observedTwoWaitersNotEstablished": true,
+      "wholePhaseNotRecertified": true
+    },
+    "phase25": {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-25/report01.json",
+        "bytes": 2456516,
+        "rawBytesSha256": "833e4785968210932627218c936da481c94331d69bbadc09f16294fc301adac7"
+      },
+      "completed": true,
+      "groups": 62,
+      "auxiliaryGroups": 1,
+      "newBusinessGroups": 61,
+      "HTTP": 68
+    },
+    "uniqueBusinessGroupsExecuted": 95,
+    "businessRequestsWithCaseResponses": 217,
+    "rawHTTPAcrossReports": 220,
+    "groupBreakdown": {
+      "shared": 2,
+      "J": 34,
+      "Guidance": 38,
+      "KPath": 1,
+      "Timeline": 20
+    },
+    "sourceDefinitionEntry": "buildRemainingPlan;34 completed groups before first-thread case, then remaining61 from phase25 rebuilt with a fresh actual project",
+    "originalDefinitionMap": {
+      "file": "tmp/rust-r3hijk/d-business-g2-definitions/coverage.json",
+      "bytes": 19868,
+      "rawBytesSha256": "72a41bace9b300839f589bb214399f87d321db032fdd724a03883ae3613dc9a1"
+    },
+    "originalRequirements": 56,
+    "definitionStatusLabelsNotAutoChanged": true,
+    "RootCommonAndIndependentGateRequirementsNotCoveredBy95Alone": true
+  },
+  "provenance": {
+    "caseFileCopies": 96,
+    "all96ExactCopiesOfRetainedReports": true,
+    "definitionAndRuntimeSourcePins": [
+      {
+        "file": "tmp/rust-r3hijk/d-business-g2-definitions/index.mjs",
+        "bytes": 6050,
+        "rawBytesSha256": "ec9ef59a0629d9ce32f278fb69dd02d9fc4d6d787fb695c90bdf2980fe297d2d"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-business-g2-definitions/discussion-plan.mjs",
+        "bytes": 31600,
+        "rawBytesSha256": "d266541ea73e212d4b6069f097217936663403b4472ec00b0ad45c96e216b514"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-business-g2-definitions/guidance-plan.mjs",
+        "bytes": 12421,
+        "rawBytesSha256": "9636496f18d79161d8e7cb9dd240a703756354e06786418331896eb7b30ab85a"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-business-g2-definitions/timeline-plan.mjs",
+        "bytes": 14437,
+        "rawBytesSha256": "0eb2372247194869970b10dcb422b3589fcfdcff9caf9dbe9cceb6c854dde251"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-business-g2-definitions/prepared-facts.mjs",
+        "bytes": 11648,
+        "rawBytesSha256": "4c25c991677ed42add9b324baaf518f768f0d2a8c1dd4524e4b59537c3cca698"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-business-g2-definitions/coverage.json",
+        "bytes": 19868,
+        "rawBytesSha256": "72a41bace9b300839f589bb214399f87d321db032fdd724a03883ae3613dc9a1"
+      },
+      {
+        "file": "tmp/rust-r3hijk/c-review/jk-business02-runtime-source-original.mjs",
+        "bytes": 13160,
+        "rawBytesSha256": "23515e47f944688d7a31505cfc7baab8d85465ded390b8683455b94f0af92df9"
+      }
+    ],
+    "focusedJKCurrentSourceMatchesBuild06": true,
+    "focusedJKSourcePins": [
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/http.rs",
+        "bytes": 3391,
+        "rawBytesSha256": "b8ce00727edd83624c983aec68a3fa79146508c1941438e9d70de84813395e8b"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/mod.rs",
+        "bytes": 171,
+        "rawBytesSha256": "bbff99d4fd9034edf8deb9257bd9f0ddab0505d6785acd9e6dc22164e2a98d56"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/model.rs",
+        "bytes": 616,
+        "rawBytesSha256": "d26023b4e3bd3b70d85c9989fb87e1b399fff24aef37c228178de622d53a9b01"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/service.rs",
+        "bytes": 22466,
+        "rawBytesSha256": "a3d3b21a62b38e856eb4909bc29f13a567b8093b3c781c5c02246db4c23e58b1"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/store.rs",
+        "bytes": 6893,
+        "rawBytesSha256": "10ae711066c507916d1fa9c2b6c34d1c42ab4e78d92eb2711535e596b11b965b"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/validation.rs",
+        "bytes": 7680,
+        "rawBytesSha256": "419a15161571744da11bc32d6786634a5e97bc731a12972695b061c6c47215a7"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/guidance.rs",
+        "bytes": 27744,
+        "rawBytesSha256": "38ac34ca3ec2f24dec684ec4eda1c1c8b0997c5da66b131cc474a7e2866addca"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/http.rs",
+        "bytes": 3373,
+        "rawBytesSha256": "bec86b82e612493fe24575cab11d4c83e5475809478d1a4e111d23b5dbd426cd"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/mod.rs",
+        "bytes": 245,
+        "rawBytesSha256": "31d389ab73aa773d829bf22234f8402af582bf33d8748cbefe19f9e4e80ce86f"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/service.rs",
+        "bytes": 19768,
+        "rawBytesSha256": "63a95b4ae77dcea3b42cbf2082591eaacdcc40831acb1e091b5f6301b8a6a0ee"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/store.rs",
+        "bytes": 6871,
+        "rawBytesSha256": "edff5cd3e24e58047a1fcd606895394e64c92a79811ce7ae9b49922ba7397684"
+      }
+    ],
+    "wholeTreeNotComparedToBuild06": "Old30 dependency modules are being corrected by their assigned authors. Their current working changes do not relabel the already-running fcf J/K evidence.",
+    "NativeUIContractClientProtectedSourcePinsCurrentExact": 1373,
+    "publicSync": {
+      "file": "tmp/rust-r3hijk/root/public-sync11.json",
+      "bytes": 170589,
+      "rawBytesSha256": "467c4cbc30640386851e784b6fe3f83cdd007406b0b5a9c849b4a6180835522d"
+    }
+  },
+  "independentBusinessChecks": {
+    "extraExpectationReport": {
+      "file": "tmp/rust-r3hijk/c-review/jk-extra-expectation-audit01.json",
+      "bytes": 66809,
+      "rawBytesSha256": "1fcd274ce38f2f5c7de8aca46ad178ddd185ca217bf9473d2303aecad39ff738"
+    },
+    "businessChecks": 438,
+    "observedMismatchGroups": 1,
+    "readOnlyProjectGroupComparisons": 58,
+    "allExportedBeforeAfterRawRowsExact": true,
+    "timelineFullStoredTimeCases": [
+      {
+        "caseName": "K.T01.no-inferred-stages",
+        "eventCount": 1,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T02-T08.full-legal-facts",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.contract",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.handover",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.acceptance",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.completion",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T04.label.stage-outcome.accepted",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T04.label.stage-outcome.conditional",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T04.label.stage-acceptance.accepted",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T04.label.stage-acceptance.conditional",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T04.label.final-acceptance.accepted",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T04.label.final-acceptance.conditional",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T02.contract-createdBy-fallback",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T05.completed-label",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T06.anchor.completed",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T06.anchor.closed-lost",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T07.null-reason",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T07.empty-reason",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T07.nonempty-reason",
+        "eventCount": 7,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      },
+      {
+        "caseName": "K.T07.no-close-time",
+        "eventCount": 6,
+        "fullStoredInstantOrder": true,
+        "publicTimestampMillisecondsConsistent": true
+      }
+    ],
+    "projectionPreparationFullFacts": {
+      "all": 32,
+      "INSERT": 31,
+      "UPDATE": 1
+    },
+    "firstThread": {
+      "waiters": 2,
+      "HTTP": [
+        201,
+        201
+      ],
+      "freshActualProjectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+      "threads": 1,
+      "comments": 2,
+      "distinctCommentIds": true,
+      "bothRequestedBodiesStored": true,
+      "threadTargetTitleAndAnchorsPreserved": true
+    },
+    "FKDeletionFault": {
+      "waiters": 1,
+      "HTTP": 500,
+      "removedOwnContact": 1,
+      "threads": 0,
+      "comments": 0,
+      "requiredWriteRollbackObserved": true,
+      "SQLSTATENotIndependentlyReadFromPrivateStream": true
+    },
+    "exactTies": "All four selected IDs are in their lawful complete candidate sets; no UUID result was imposed. The omitted cleanup affects later deterministic coverage and remains the specific open evidence finding."
+  },
+  "assertionLimits": [
+    "The runtime helper compares status early on error responses and does not enforce every declared error/body predicate. The C extra check covers meaningful codes and selected business fields; no Node byte-parity rule is reinstated.",
+    "J invalid-text noDomainPersistence/threadCount expectations do not have public per-request thread/comment before/after rows in these general J groups. Source validation rejects before command service; this review does not invent absent PG observations.",
+    "K snapshot basis and timeline fact presence/source/label were partly omitted by the Root helper. C independently checked the retained actual values; only K.T05 was observed unsatisfied.",
+    "Stored timestamp ordering is independently checked at full precision for each20 timeline payloads; an equal public millisecond does not make different stored instants a tie.",
+    "The before/after K snapshot covers the exported business tables; preparation/restore/cleanup are separate owner actions, not attributed to GET.",
+    "95 executed business groups is not a claim that every56 original/common/closure requirement has completed."
+  ],
+  "usableOriginalUICells": [
+    {
+      "label": "linux-native03",
+      "report": {
+        "file": "tmp/rust-r3hijk/ui-linux-native03/report01.json",
+        "bytes": 903448,
+        "rawBytesSha256": "8079c1353da2d8e48ecf0d6751ded3aed0cb09654897a45b71f411fb33b8ac88"
+      },
+      "input": {
+        "file": "tmp/rust-r3hijk/ui-input-linux-native03.json",
+        "bytes": 1369,
+        "rawBytesSha256": "e79d58ee18bc70bf23fbdbcc028da013a60dff390062c5a3cdec53f3993c7f61"
+      },
+      "backend": "Native",
+      "browserPlatform": "linux",
+      "serverPlatform": "linux",
+      "observations": 79,
+      "HTTP": 259,
+      "visibleLeadSteps": 19,
+      "uiBusinessWriteObservations": 17,
+      "all17WritesMatchNetwork": true,
+      "UIActorAndStoredICreatedRowsMatch": true,
+      "actualProjectSourceLeadAndConvertedStateMatch": true,
+      "storedCounts": {
+        "leads": 3,
+        "project": 1,
+        "stakeholders": 2,
+        "competitors": 2,
+        "discovery": 1,
+        "comments": 4
+      },
+      "sourceLeadAggregationRetainsOriginalCommentId": true,
+      "staticBuild": {
+        "memberCount": 422,
+        "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+      },
+      "closure": {
+        "browserClosed": true,
+        "serverClosed": true,
+        "pending": 0,
+        "allRawExchangesRetained": true
+      },
+      "notAcceptedAsUI": [
+        "I PATCH/delete controls absent in original UI",
+        "J related-object selectors absent in original UI",
+        "Filled optional conversion date picker not exercised; source-inferred boundary retained",
+        "R4 writes",
+        "Rust backend or future candidate03 UI cells"
+      ],
+      "dateBoundary": {
+        "source": "lead-list.ts:2173",
+        "datePickerInputExercised": false,
+        "sourceInference": true,
+        "reason": "Original API requires datetime; original UI optional picker serializes a date-only value when filled."
+      },
+      "screenshots": [
+        {
+          "file": "tmp/rust-r3hijk/ui-linux-native03/lead-project.png",
+          "bytes": 174740,
+          "rawBytesSha256": "562a9f3366349acf2dfcb6464ace2b1b0d2561e61febd705254545311984997a"
+        },
+        {
+          "file": "tmp/rust-r3hijk/ui-linux-native03/intelligence-discussion-workspace.png",
+          "bytes": 199654,
+          "rawBytesSha256": "68e52ec82f28f0becd0c855b58106ff90d4b6b3cee6c348b76b2cdfac1bc5b48"
+        }
+      ]
+    },
+    {
+      "label": "windows-native01",
+      "report": {
+        "file": "tmp/rust-r3hijk/ui-windows-native01/report01.json",
+        "bytes": 924535,
+        "rawBytesSha256": "03eb50f1b7b9ff74a6ff13eb5e7d79c4ff8dc29348b808199aef6d9862990005"
+      },
+      "input": {
+        "file": "tmp/rust-r3hijk/ui-input-windows-native01.json",
+        "bytes": 1383,
+        "rawBytesSha256": "96f2e56803da18cba2b644ae2b4e451f3449c74093f4ba1365254082ae873645"
+      },
+      "backend": "Native",
+      "browserPlatform": "win32",
+      "serverPlatform": "win32",
+      "observations": 79,
+      "HTTP": 259,
+      "visibleLeadSteps": 19,
+      "uiBusinessWriteObservations": 17,
+      "all17WritesMatchNetwork": true,
+      "UIActorAndStoredICreatedRowsMatch": true,
+      "actualProjectSourceLeadAndConvertedStateMatch": true,
+      "storedCounts": {
+        "leads": 3,
+        "project": 1,
+        "stakeholders": 2,
+        "competitors": 2,
+        "discovery": 1,
+        "comments": 4
+      },
+      "sourceLeadAggregationRetainsOriginalCommentId": true,
+      "staticBuild": {
+        "memberCount": 422,
+        "manifestSha256": "81c9e93616c795bce54bb191f049d081dee5d15f85a2ee76b398264e9162f2db"
+      },
+      "closure": {
+        "browserClosed": true,
+        "serverClosed": true,
+        "pending": 0,
+        "allRawExchangesRetained": true
+      },
+      "notAcceptedAsUI": [
+        "I PATCH/delete controls absent in original UI",
+        "J related-object selectors absent in original UI",
+        "Filled optional conversion date picker not exercised; source-inferred boundary retained",
+        "R4 writes",
+        "Rust backend or future candidate03 UI cells"
+      ],
+      "dateBoundary": {
+        "source": "lead-list.ts:2173",
+        "datePickerInputExercised": false,
+        "sourceInference": true,
+        "reason": "Original API requires datetime; original UI optional picker serializes a date-only value when filled."
+      },
+      "screenshots": []
+    }
+  ],
+  "UIEvidenceBoundary": {
+    "NativeCells": 2,
+    "RustCellsCertifiedByThisRecord": 0,
+    "onlyExistingVisibleOriginalUIControls": true,
+    "realSetupAPIPrerequisitesSeparatedFromUIJourneyWrites": true,
+    "sourceLeadDiscussionWriteNotMadeByThisIJKJourney": true,
+    "Native03ScreenshotsVisuallyInspected": 2,
+    "noFrontendOrNativeProductModification": true,
+    "partialUIOriginals": [
+      {
+        "report": {
+          "file": "tmp/rust-r3hijk/ui-linux-native01/report01.json",
+          "bytes": 537014,
+          "rawBytesSha256": "0f9925c7d02428d0e393a4638463af6ba030c75c0eca80acf29958084b3c0af2"
+        },
+        "completed": false,
+        "result": "Failed-partial-retained",
+        "failedStage": "Lead-original-UI",
+        "notRecertified": true
+      },
+      {
+        "report": {
+          "file": "tmp/rust-r3hijk/ui-linux-native02/report01.json",
+          "bytes": 750860,
+          "rawBytesSha256": "81cc3e8a0d18d11c4dd77a2a9d83c30e64b909e3b8569b0be4a6dc29cc6a3e87"
+        },
+        "completed": false,
+        "result": "Failed-partial-retained",
+        "failedStage": "intelligence-discussion-workspace-original-UI",
+        "notRecertified": true
+      }
+    ],
+    "wholeOwnedCleanupStillPending": true
+  },
+  "foundationDependencyBoundary": {
+    "checkpoint": {
+      "file": "docs/design/rust-r3hijk-foundation-dependency-corrective-checkpoint02.md",
+      "bytes": 2617,
+      "rawBytesSha256": "de1bf83c02de371b67f33236f9f4ba8f038a89ef5b9b6dfc306185d0056145a1"
+    },
+    "old30StillSubjectToNewBusinessPolicy": true,
+    "knownFailures27And28NotRecertified": true,
+    "old30ModuleFixesNotReviewedAsCompletedHere": true,
+    "candidate03BuildAndActualRegressionStillRequired": true,
+    "noR2R4Expansion": true
+  },
+  "remainingBeforeFullG3": [
+    "Acceptance supplement for the concrete cleanup/target-assertion gap on the final candidate.",
+    "Final repaired candidate build/test/artifact/input binding after old30 dependency corrections.",
+    "Full old30 regression and business fault/concurrency cases.",
+    "Rust UI cells and four-cell final evidence reconciliation; the Native cells remain their original source/backend observations.",
+    "All owned cohort/seed/ACL/object/runtime terminal and final independent G3/fixed-commit/G4 governance."
+  ],
+  "scope": {
+    "issues": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "operations": 28,
+    "formalR3Delivered": 30,
+    "totalR3HTTP": 58,
+    "parentsRemainOpen": [
+      85,
+      57
+    ]
+  },
+  "noProductOrRootExecutorWriting": true,
+  "noAuthorOrRootExecutorRun": true,
+  "noDBHTTPBrowserBuildTestOrHostServiceExecution": true,
+  "localScreenshotsReadOnlyViewed": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true
+}

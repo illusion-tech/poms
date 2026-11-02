@@ -1,0 +1,130 @@
+{
+  "label": "A.customer.workspace",
+  "startedAt": "2026-11-02T17:05:48.465Z",
+  "completedAt": "2026-11-02T17:05:48.479Z",
+  "value": {
+    "operationId": "CustomerController_getWorkspaceOverview",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers/25071e6d-a159-46bf-899d-09cfcb93e8ba/workspace-overview"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "activeLeads": [],
+        "activeProjects": [
+          {
+            "currentStage": "assessment",
+            "id": "5c657d42-2447-4446-86b2-0f5f4022a426",
+            "ownerName": "HIJK other",
+            "plannedSignAt": null,
+            "projectName": "R3HK-6872abb5-27 revised project",
+            "projectNo": "PRJ-2026-000030",
+            "status": "active",
+            "updatedAt": "2026-11-02T17:05:48.407Z"
+          }
+        ],
+        "customerId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+        "generatedAt": "2026-11-02T17:05:48.476Z",
+        "recentContracts": [],
+        "recentDiscussions": [],
+        "recentFollowUps": [],
+        "recommendedActions": [
+          {
+            "description": "当前有 1 个进行中项目，优先处理最近更新的项目。",
+            "intent": "open-project-workspace",
+            "key": "advance-active-projects",
+            "priority": 20,
+            "targetObjectId": "5c657d42-2447-4446-86b2-0f5f4022a426",
+            "targetObjectType": "project",
+            "targetTitle": "R3HK-6872abb5-27 revised project",
+            "title": "推进进行中项目"
+          },
+          {
+            "description": "当前还没有客户级跟进记录，先补齐第一条互动事实。",
+            "intent": "record-follow-up",
+            "key": "record-follow-up",
+            "priority": 40,
+            "targetObjectId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+            "targetObjectType": "customer",
+            "targetTitle": "R3HK-6872abb5-27 customer revised",
+            "title": "补充客户跟进"
+          },
+          {
+            "description": "当前还没有客户级讨论记录，先补齐关键背景和共识。",
+            "intent": "capture-discussion",
+            "key": "capture-discussion",
+            "priority": 50,
+            "targetObjectId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+            "targetObjectType": "customer",
+            "targetTitle": "R3HK-6872abb5-27 customer revised",
+            "title": "补充客户讨论"
+          }
+        ],
+        "summary": {
+          "activeLeadCount": 0,
+          "activeProjectCount": 1,
+          "contractCount": 0,
+          "convertedLeadCount": 0,
+          "latestDiscussionAt": null,
+          "latestFollowUpAt": null,
+          "leadCount": 0,
+          "projectCount": 1,
+          "recentDiscussionCount": 0,
+          "recentFollowUpCount": 0
+        },
+        "timeline": [
+          {
+            "actorName": "HIJK other",
+            "description": "PRJ-2026-000030 · active · assessment",
+            "eventType": "project-updated",
+            "isKey": true,
+            "key": "project:5c657d42-2447-4446-86b2-0f5f4022a426",
+            "occurredAt": "2026-11-02T17:05:48.407Z",
+            "sourceId": "5c657d42-2447-4446-86b2-0f5f4022a426",
+            "sourceType": "project",
+            "targetObjectId": "5c657d42-2447-4446-86b2-0f5f4022a426",
+            "targetObjectType": "project",
+            "targetTitle": "R3HK-6872abb5-27 revised project",
+            "title": "R3HK-6872abb5-27 revised project"
+          }
+        ]
+      },
+      "requestId": "4e36dba2-e9ad-4e4a-be13-479238700503",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2167",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-76822-656",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:05:48 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "9a527d5c2daec858c343d00644aebe0ae65afac7d5583e72695515d18eea6a3c",
+        "responseBytes": 2447,
+        "responseSha256": "37a876e7fbb9ab97319a7b8d66b28d03399d0f73526f83d16eac536b88783362",
+        "entityBodyBytes": 2167,
+        "entityBodySha256": "d9cf28cc68f483f12c7def0403d505fa009b74d26d5ee353d7a3c66896f852ca",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase27/raw-wire/admin-57173f4f-6d09-44df-b63b-8c6e34daa31e",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

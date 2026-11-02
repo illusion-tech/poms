@@ -158,6 +158,18 @@ pub(super) async fn find(
         .transpose()
 }
 
+pub(super) async fn lock_source(
+    connection: &mut PgConnection,
+    id: Uuid,
+) -> Result<Option<Record>, sqlx::Error> {
+    sqlx::query("SELECT * FROM poms.sales_follow_up_record WHERE id=$1 FOR UPDATE")
+        .bind(id)
+        .fetch_optional(connection)
+        .await?
+        .map(record)
+        .transpose()
+}
+
 pub(super) async fn list(
     connection: &mut PgConnection,
     input: &Query,
@@ -334,7 +346,7 @@ pub(super) async fn update(
     connection: &mut PgConnection,
     before: &Record,
     after: &Record,
-) -> Result<i32, sqlx::Error> {
+) -> Result<Option<i32>, sqlx::Error> {
     let mut query = QueryBuilder::<Postgres>::new("UPDATE poms.sales_follow_up_record SET status=");
     query.push_bind(&after.status);
     if before.replaced_by_record_id != after.replaced_by_record_id {
@@ -361,14 +373,12 @@ pub(super) async fn update(
         .push_bind(before.id)
         .push(" AND row_version=")
         .push_bind(before.row_version)
+        .push(" AND status='active'")
         .push(" RETURNING row_version");
     query
         .build_query_scalar::<i32>()
         .fetch_optional(connection)
-        .await?
-        .ok_or_else(|| {
-            sqlx::Error::Protocol("sales-follow-up-record managed version conflict".into())
-        })
+        .await
 }
 
 #[derive(Clone)]
@@ -459,7 +469,7 @@ pub(super) async fn update_todo(
     connection: &mut PgConnection,
     before: &Todo,
     after: &mut Todo,
-) -> Result<(), sqlx::Error> {
+) -> Result<bool, sqlx::Error> {
     let mut query = QueryBuilder::<Postgres>::new("UPDATE poms.todo_item SET ");
     let mut dirty = false;
     macro_rules! field {
@@ -498,7 +508,7 @@ pub(super) async fn update_todo(
     }
     field!(completed_at, "completed_at");
     if !dirty {
-        return Ok(());
+        return Ok(true);
     }
     after.updated_at = crate::auth::model::clock_now();
     query
@@ -509,12 +519,14 @@ pub(super) async fn update_todo(
         .push(" AND row_version=")
         .push_bind(before.row_version)
         .push(" RETURNING row_version");
-    after.row_version = query
+    let version = query
         .build_query_scalar::<i32>()
         .fetch_optional(connection)
-        .await?
-        .ok_or_else(|| {
-            sqlx::Error::Protocol("sales-follow-up reminder managed version conflict".into())
-        })?;
-    Ok(())
+        .await?;
+    if let Some(version) = version {
+        after.row_version = version;
+        Ok(true)
+    } else {
+        Ok(false)
+    }
 }

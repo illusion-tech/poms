@@ -1,0 +1,1767 @@
+{
+  "kind": "C-independent-R3HIJK-original-Native-G1-evidence-preaudit",
+  "createdAt": "2026-11-02T10:06:05.209Z",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "runId": "e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+  "decision": "Needs-correction-on-SQL-CAS-classification-before-joint-G1",
+  "formalJointG1Decision": false,
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "acceptedOriginalReports": [
+    {
+      "phase": "02",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness02/report01.json",
+        "bytes": 3049527,
+        "rawBytesSha256": "d3be31dcd89492445704be145e4c7025fd416cb7e13dfa45cd5fa158a0b3a2f2"
+      },
+      "completedCases": 18,
+      "HTTPEvents": 31
+    },
+    {
+      "phase": "03",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness03/report01.json",
+        "bytes": 686150,
+        "rawBytesSha256": "da93ee91b294c8de111d0ae85726bcaf8ae0d8dd4dc4c91c9971fb30730f94f3"
+      },
+      "completedCases": 16,
+      "HTTPEvents": 63
+    },
+    {
+      "phase": "06",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness06/report01.json",
+        "bytes": 600171,
+        "rawBytesSha256": "ce5c3457ab40ad5505ac4da7209652dab7ab4b9c392f205992c4f598f8c495bf"
+      },
+      "completedCases": 12,
+      "HTTPEvents": 72
+    },
+    {
+      "phase": "08",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness08/report01.json",
+        "bytes": 296710,
+        "rawBytesSha256": "e1be505229c63e5828b328518f955344d89ef543deaa483229d2c4873abdb371"
+      },
+      "completedCases": 5,
+      "HTTPEvents": 15
+    }
+  ],
+  "schemaOracle": {
+    "report": {
+      "file": "tmp/rust-r3hijk/schema-oracle01/report01.json",
+      "bytes": 195699,
+      "rawBytesSha256": "4b64eb23959065d0c369e543489420179d342111a82e63cd28e01e1a669186fe"
+    },
+    "vectors": 18,
+    "installedZod": "4.6.1",
+    "notAnApiRun": true
+  },
+  "actualCompletedGroups": 51,
+  "actualHTTPEvents": 181,
+  "SQL": {
+    "authority": {
+      "file": "tmp/rust-r3hijk/native-authority01/SQL-authority01.json",
+      "bytes": 2359793,
+      "rawBytesSha256": "367f1b3a72ff4ed6609ad744b6e93f05a02f6f2c07c022e0ceab8b81a075b175"
+    },
+    "observedIndex": {
+      "file": "tmp/rust-r3hijk/native-authority01/observed-summary01.json",
+      "bytes": 21293,
+      "rawBytesSha256": "a9ab6e790ae3853a7748565d2088ad5dbbd3f626ec173f0fa4f6eb81f7a84975"
+    },
+    "statements": 3524,
+    "errors": 21,
+    "all51ObservedBeginEnd": true,
+    "SQLSTATEWasNotRecorded": true,
+    "privateRawStreamsNotReadByC": true,
+    "publicShapeAndPGAndHTTPRelationshipsOnly": true
+  },
+  "D02": {
+    "inputs": [
+      {
+        "file": "tmp/rust-r3hijk/d-input/input-review02.txt",
+        "bytes": 21048,
+        "rawBytesSha256": "c249fc7c744129fe308e75f1823ccd3ff2223fbad49bb879ba396bb7a0d52751"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/acceptance-matrix02.json",
+        "bytes": 50233,
+        "rawBytesSha256": "633813e2e46bbb8188dded6f971f286c1c863db75ac8e01bb7137427c6d5c895"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/shared-dependency-interface-draft02.json",
+        "bytes": 13639,
+        "rawBytesSha256": "55819bd4fbc3c70221a3c661cadf0b62653f1d15c8949627fb66dce47f05918f"
+      }
+    ],
+    "originalsPreserved": true,
+    "lengthP2Resolved": true,
+    "rows": [
+      {
+        "label": "bmp8000",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 8000,
+        "characters": 8000
+      },
+      {
+        "label": "bmp8001",
+        "status": 400,
+        "schemaSuccess": false,
+        "UTF16": 8001,
+        "characters": 8001
+      },
+      {
+        "label": "emoji4000",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 8000,
+        "characters": 4000
+      },
+      {
+        "label": "emoji4001",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 8002,
+        "characters": 4001
+      },
+      {
+        "label": "emoji8000",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 16000,
+        "characters": 8000
+      },
+      {
+        "label": "emoji8001",
+        "status": 400,
+        "schemaSuccess": false,
+        "UTF16": 16002,
+        "characters": 8001
+      },
+      {
+        "label": "FEFF-trim",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 5,
+        "characters": 5
+      },
+      {
+        "label": "NEL-not-trim",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 3,
+        "characters": 3
+      },
+      {
+        "label": "zero-width",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 3,
+        "characters": 3
+      },
+      {
+        "label": "nul",
+        "status": 500,
+        "schemaSuccess": true,
+        "UTF16": 3,
+        "characters": 3
+      },
+      {
+        "label": "high-surrogate",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 3,
+        "characters": 3,
+        "POSTUnits": [
+          65,
+          55296,
+          66
+        ],
+        "GETUnits": [
+          65,
+          65533,
+          66
+        ],
+        "PGUnits": [
+          65,
+          65533,
+          66
+        ]
+      },
+      {
+        "label": "low-surrogate",
+        "status": 201,
+        "schemaSuccess": true,
+        "UTF16": 3,
+        "characters": 3,
+        "POSTUnits": [
+          65,
+          56320,
+          66
+        ],
+        "GETUnits": [
+          65,
+          65533,
+          66
+        ],
+        "PGUnits": [
+          65,
+          65533,
+          66
+        ]
+      }
+    ],
+    "originalBusinessJsLengthStillUTF16": true
+  },
+  "H": {
+    "numbering": [
+      {
+        "label": "H93.native-risk.W1.create-denied-lead",
+        "numberPid": "200",
+        "businessPid": "196",
+        "counterDelta": 1,
+        "businessRollback": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.create-denied-lead",
+          "line": 553,
+          "pid": "196",
+          "transactionId": "0",
+          "operation": "ROLLBACK",
+          "table": null,
+          "versionInWhere": false
+        },
+        "numberStatement": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.create-denied-lead",
+          "line": 525,
+          "pid": "200",
+          "transactionId": "0",
+          "operation": "INSERT INTO",
+          "table": "business_number_sequence",
+          "versionInWhere": false
+        }
+      },
+      {
+        "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+        "numberPid": "200",
+        "businessPid": "196",
+        "counterDelta": 1,
+        "businessRollback": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+          "line": 631,
+          "pid": "196",
+          "transactionId": "1331",
+          "operation": "ROLLBACK",
+          "table": null,
+          "versionInWhere": false
+        },
+        "numberStatement": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+          "line": 602,
+          "pid": "200",
+          "transactionId": "0",
+          "operation": "INSERT INTO",
+          "table": "business_number_sequence",
+          "versionInWhere": false
+        }
+      },
+      {
+        "label": "H93.native-risk.W1.convert-denied-project",
+        "numberPid": "202",
+        "businessPid": "203",
+        "counterDelta": 1,
+        "businessRollback": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.convert-denied-project",
+          "line": 795,
+          "pid": "203",
+          "transactionId": "1341",
+          "operation": "ROLLBACK",
+          "table": null,
+          "versionInWhere": false
+        },
+        "numberStatement": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.convert-denied-project",
+          "line": 765,
+          "pid": "202",
+          "transactionId": "0",
+          "operation": "INSERT INTO",
+          "table": "business_number_sequence",
+          "versionInWhere": false
+        }
+      },
+      {
+        "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+        "numberPid": "203",
+        "businessPid": "196",
+        "counterDelta": 1,
+        "businessRollback": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+          "line": 966,
+          "pid": "196",
+          "transactionId": "0",
+          "operation": "ROLLBACK",
+          "table": null,
+          "versionInWhere": false
+        },
+        "numberStatement": {
+          "phase": "03",
+          "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+          "line": 937,
+          "pid": "203",
+          "transactionId": "0",
+          "operation": "INSERT INTO",
+          "table": "business_number_sequence",
+          "versionInWhere": false
+        }
+      }
+    ],
+    "postSnapshotFailureCommitted": [
+      {
+        "action": "qualify",
+        "HTTP": 500,
+        "beforeStatus": "registered",
+        "afterStatus": "qualified",
+        "beforeVersion": 1,
+        "afterVersion": 2,
+        "snapshotsUnchanged": true,
+        "ownerAssignmentsAfter": 0,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+          "line": 1478,
+          "pid": "200",
+          "transactionId": "1378",
+          "operation": "UPDATE",
+          "table": "lead",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+          "line": 1479,
+          "pid": "200",
+          "transactionId": "1378",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 1489
+      },
+      {
+        "action": "close",
+        "HTTP": 500,
+        "beforeStatus": "registered",
+        "afterStatus": "closed",
+        "beforeVersion": 1,
+        "afterVersion": 2,
+        "snapshotsUnchanged": true,
+        "ownerAssignmentsAfter": 0,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+          "line": 1619,
+          "pid": "200",
+          "transactionId": "1385",
+          "operation": "UPDATE",
+          "table": "lead",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+          "line": 1620,
+          "pid": "200",
+          "transactionId": "1385",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 1630
+      },
+      {
+        "action": "claim",
+        "HTTP": 500,
+        "beforeStatus": "registered",
+        "afterStatus": "registered",
+        "beforeVersion": 1,
+        "afterVersion": 2,
+        "snapshotsUnchanged": true,
+        "ownerAssignmentsAfter": 1,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+          "line": 1761,
+          "pid": "207",
+          "transactionId": "1392",
+          "operation": "UPDATE",
+          "table": "lead",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+          "line": 1762,
+          "pid": "207",
+          "transactionId": "1392",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 1772
+      },
+      {
+        "action": "assignOwner",
+        "HTTP": 500,
+        "beforeStatus": "registered",
+        "afterStatus": "registered",
+        "beforeVersion": 1,
+        "afterVersion": 2,
+        "snapshotsUnchanged": true,
+        "ownerAssignmentsAfter": 1,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+          "line": 1905,
+          "pid": "207",
+          "transactionId": "1399",
+          "operation": "UPDATE",
+          "table": "lead",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+          "line": 1906,
+          "pid": "207",
+          "transactionId": "1399",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 1916
+      }
+    ],
+    "postAuditFailureCommitted": [
+      {
+        "action": "submit",
+        "HTTP": 500,
+        "overrideStatus": "pending",
+        "overrideRows": 1,
+        "snapshotDelta": 0,
+        "auditRows": 0,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+          "line": 2042,
+          "pid": "202",
+          "transactionId": "0",
+          "operation": "INSERT INTO",
+          "table": "lead_score_override",
+          "versionInWhere": false
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+          "line": 2044,
+          "pid": "202",
+          "transactionId": "1406",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 2047
+      },
+      {
+        "action": "approve",
+        "HTTP": 500,
+        "overrideStatus": "approved",
+        "overrideRows": 1,
+        "snapshotDelta": 1,
+        "auditRows": 0,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+          "line": 2188,
+          "pid": "198",
+          "transactionId": "1415",
+          "operation": "UPDATE",
+          "table": "lead_score_override",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+          "line": 2189,
+          "pid": "198",
+          "transactionId": "1415",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 2192
+      },
+      {
+        "action": "reject",
+        "HTTP": 500,
+        "overrideStatus": "rejected",
+        "overrideRows": 1,
+        "snapshotDelta": 0,
+        "auditRows": 0,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+          "line": 2325,
+          "pid": "199",
+          "transactionId": "1424",
+          "operation": "UPDATE",
+          "table": "lead_score_override",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+          "line": 2326,
+          "pid": "199",
+          "transactionId": "1424",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 2329
+      },
+      {
+        "action": "revoke",
+        "HTTP": 500,
+        "overrideStatus": "revoked",
+        "overrideRows": 1,
+        "snapshotDelta": 1,
+        "auditRows": 0,
+        "mainWrite": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+          "line": 2491,
+          "pid": "202",
+          "transactionId": "1435",
+          "operation": "UPDATE",
+          "table": "lead_score_override",
+          "versionInWhere": true
+        },
+        "mainCommit": {
+          "phase": "03",
+          "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+          "line": 2492,
+          "pid": "202",
+          "transactionId": "1435",
+          "operation": "COMMIT",
+          "table": null,
+          "versionInWhere": false
+        },
+        "laterErrorLine": 2495
+      }
+    ],
+    "races": [
+      {
+        "target": "lead",
+        "waiters": 2,
+        "statuses": [
+          200,
+          500
+        ],
+        "winnerRequestId": "8c5cb3b9-a5a0-4891-8e0f-611c619c84dd",
+        "winnerAuditRows": 1,
+        "loserAuditRows": 0,
+        "updates": [
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+            "line": 1159,
+            "pid": "201",
+            "transactionId": "1359",
+            "operation": "UPDATE",
+            "table": "lead",
+            "versionInWhere": true
+          },
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+            "line": 1160,
+            "pid": "200",
+            "transactionId": "1360",
+            "operation": "UPDATE",
+            "table": "lead",
+            "versionInWhere": true
+          }
+        ],
+        "terminals": [
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+            "line": 1161,
+            "pid": "201",
+            "transactionId": "1359",
+            "operation": "COMMIT",
+            "table": null,
+            "versionInWhere": false
+          },
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+            "line": 1162,
+            "pid": "200",
+            "transactionId": "1360",
+            "operation": "ROLLBACK",
+            "table": null,
+            "versionInWhere": false
+          }
+        ],
+        "scope": "Observed single-row CAS shape; not the old-approved plus pending bulk shape"
+      },
+      {
+        "target": "lead_score_override",
+        "waiters": 2,
+        "statuses": [
+          200,
+          500
+        ],
+        "winnerRequestId": "f4bb20f6-0194-4e7a-aa1f-c8f346dd0876",
+        "winnerAuditRows": 1,
+        "loserAuditRows": 0,
+        "updates": [
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+            "line": 1357,
+            "pid": "197",
+            "transactionId": "1370",
+            "operation": "UPDATE",
+            "table": "lead_score_override",
+            "versionInWhere": true
+          },
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+            "line": 1358,
+            "pid": "201",
+            "transactionId": "1371",
+            "operation": "UPDATE",
+            "table": "lead_score_override",
+            "versionInWhere": true
+          }
+        ],
+        "terminals": [
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+            "line": 1362,
+            "pid": "197",
+            "transactionId": "1370",
+            "operation": "COMMIT",
+            "table": null,
+            "versionInWhere": false
+          },
+          {
+            "phase": "03",
+            "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+            "line": 1363,
+            "pid": "201",
+            "transactionId": "1371",
+            "operation": "ROLLBACK",
+            "table": null,
+            "versionInWhere": false
+          }
+        ],
+        "scope": "Observed single-row CAS shape; not the old-approved plus pending bulk shape"
+      }
+    ],
+    "oldApprovedAndPending": {
+      "HTTP": 200,
+      "old": "f9702463-dcf4-4ee4-8983-df326a5bcefd",
+      "next": "be35b6b6-ea78-4a08-9ecf-6e9b3e4ca170",
+      "batchStatement": {
+        "phase": "03",
+        "label": "H93.native-risk.W4.approved-then-new-pending-approval-order",
+        "line": 2671,
+        "pid": "197",
+        "transactionId": "1447",
+        "operation": "UPDATE",
+        "table": "lead_score_override",
+        "versionInWhere": false
+      },
+      "where": "\"id\" in ('?', '?')",
+      "hasVersionPredicate": false,
+      "oneBatchCaseUpdateNotTwoSequentialStatements": true,
+      "concurrencyInThisBulkShapeNotYetObserved": true
+    },
+    "W5": {
+      "snapshots": [
+        1,
+        2,
+        2,
+        2,
+        3
+      ],
+      "storedScores": [
+        62,
+        62,
+        62,
+        62,
+        82
+      ],
+      "persistedBreakdownBeforeAndNameChangedEqual": true,
+      "noOpGraphExact": true,
+      "realIWriteDoesNotRefreshLead": true,
+      "propertyOrderSensitiveSourceComparisonMustNotBecomeStructuralEquality": true
+    }
+  },
+  "I": {
+    "sourceManifest": {
+      "file": "tmp/rust-r3hijk/b-input/source-manifest.json",
+      "bytes": 69062,
+      "rawBytesSha256": "eddb1343b9f75af45dbaaf8a6a9a708c402160fbd8f45deadd6926c33a0c9eca"
+    },
+    "all60SourcePinsExact": true,
+    "roundtrips": [
+      {
+        "domain": "stakeholder",
+        "create": 201,
+        "changed": 200,
+        "audits": 1,
+        "anchorFieldsUnchanged": true
+      },
+      {
+        "domain": "competitor",
+        "create": 201,
+        "changed": 200,
+        "audits": 1,
+        "anchorFieldsUnchanged": true
+      },
+      {
+        "domain": "discovery",
+        "create": 201,
+        "changed": 200,
+        "audits": 1,
+        "anchorFieldsUnchanged": true
+      }
+    ],
+    "missingAnchorAndQuery400": true,
+    "ORAcrossUnrelatedSameCustomerAnchors": true,
+    "explicitUpperCustomer400ButUpperLeadQuery200": true,
+    "inactiveExistingInputsAccepted": true,
+    "denialBusinessAndAuditRollbacks": true,
+    "requestId65": {
+      "changed": 500,
+      "noop": 200,
+      "create": 201,
+      "businessBeforeAfterNoopExact": true
+    },
+    "unicode": {
+      "maxCharacters": 2000,
+      "auditUTF16Length": 4000,
+      "accepted200": true,
+      "overCap400": true
+    },
+    "legacy": [
+      {
+        "name": "json-null",
+        "inputWasPrepared": true,
+        "focusShape": "array",
+        "items": 0,
+        "changedStatus": null
+      },
+      {
+        "name": "json-object",
+        "inputWasPrepared": true,
+        "focusShape": "object",
+        "changedStatus": 200
+      },
+      {
+        "name": "over-request-cap",
+        "inputWasPrepared": true,
+        "focusShape": "array",
+        "items": 13,
+        "changedStatus": null
+      }
+    ],
+    "latestSelectors": {
+      "gap": [
+        "updated_at DESC",
+        "created_at DESC"
+      ],
+      "scoreFacts": [
+        "updated_at DESC"
+      ],
+      "scores": [
+        82,
+        71,
+        82
+      ],
+      "trueTieChoiceObservedNotStableNewContract": true
+    },
+    "discoveryRace": {
+      "waiters": 2,
+      "statuses": [
+        200,
+        500
+      ],
+      "winnerMatchesStoredRemarkAndUniqueAudit": true,
+      "updates": [
+        {
+          "phase": "06",
+          "label": "I94.N4.two-reader-managed-CAS",
+          "line": 5190,
+          "pid": "276",
+          "transactionId": "1598",
+          "operation": "UPDATE",
+          "table": "sales_discovery_record",
+          "versionInWhere": true
+        },
+        {
+          "phase": "06",
+          "label": "I94.N4.two-reader-managed-CAS",
+          "line": 5191,
+          "pid": "270",
+          "transactionId": "1599",
+          "operation": "UPDATE",
+          "table": "sales_discovery_record",
+          "versionInWhere": true
+        }
+      ]
+    }
+  },
+  "attachments": {
+    "cases": [
+      {
+        "label": "H-attachment-success",
+        "status": 200,
+        "sourceLinks": 5,
+        "targetLinks": 2,
+        "projects": 1,
+        "snapshotDelta": 1,
+        "numberDelta": 1,
+        "copiedAudit": [
+          {
+            "event": "attachment.link_copied_to_project",
+            "copiedCount": 2
+          }
+        ],
+        "preparedSourceMetadataNotUploadCertification": true
+      },
+      {
+        "label": "H-attachment-deny-link",
+        "status": 500,
+        "sourceLinks": 5,
+        "targetLinks": 0,
+        "projects": 0,
+        "snapshotDelta": 0,
+        "numberDelta": 1,
+        "copiedAudit": [],
+        "preparedSourceMetadataNotUploadCertification": true
+      },
+      {
+        "label": "H-attachment-deny-copy-audit",
+        "status": 500,
+        "sourceLinks": 5,
+        "targetLinks": 0,
+        "projects": 0,
+        "snapshotDelta": 0,
+        "numberDelta": 1,
+        "copiedAudit": [],
+        "preparedSourceMetadataNotUploadCertification": true
+      },
+      {
+        "label": "H-attachment-deny-final-snapshot",
+        "status": 500,
+        "sourceLinks": 5,
+        "targetLinks": 0,
+        "projects": 0,
+        "snapshotDelta": 0,
+        "numberDelta": 1,
+        "copiedAudit": [],
+        "preparedSourceMetadataNotUploadCertification": true
+      },
+      {
+        "label": "H-attachment-no-eligible-copy-audit-denied",
+        "status": 200,
+        "sourceLinks": 0,
+        "targetLinks": 0,
+        "projects": 1,
+        "snapshotDelta": 1,
+        "numberDelta": 1,
+        "copiedAudit": [],
+        "preparedSourceMetadataNotUploadCertification": true
+      }
+    ],
+    "dualEligibleWriteOrder": [
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5620,
+        "pid": "326",
+        "transactionId": "0",
+        "operation": "INSERT INTO",
+        "table": "attachment_link",
+        "versionInWhere": false
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5621,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "INSERT INTO",
+        "table": "project",
+        "versionInWhere": false
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5622,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5623,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "UPDATE",
+        "table": "lead",
+        "versionInWhere": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5625,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "INSERT INTO",
+        "table": "audit_log",
+        "versionInWhere": false
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5626,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "INSERT INTO",
+        "table": "attachment_link",
+        "versionInWhere": false
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5635,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "INSERT INTO",
+        "table": "lead_score_snapshot",
+        "versionInWhere": false
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5636,
+        "pid": "326",
+        "transactionId": "1640",
+        "operation": "COMMIT",
+        "table": null,
+        "versionInWhere": false
+      }
+    ],
+    "singleEligibleBranchPendingRootSupplement": true
+  },
+  "finding": {
+    "id": "G1-P2-02",
+    "priority": "P2",
+    "title": "SQL rowVersionPredicate scans RETURNING and misclassifies 27 UPDATEs as version predicates",
+    "authorityLineage": "Keep SQL-authority01 unchanged and add a corrected numbered extraction/classification; no Native/auth product change.",
+    "extractorReadAtAudit": {
+      "file": "tools/rust-r3hijk/extract-native-authority.mjs",
+      "bytes": 4998,
+      "rawBytesSha256": "604a7e2ab14c7bba9c2b1d1dc4a2bf5ed27c2feaa09bce97caa8b12f579717f1"
+    },
+    "falsePositiveCount": 27,
+    "authRawTouchFalsePositives": 26,
+    "overrideBatchFalsePositives": 1,
+    "rows": [
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.create-denied-lead",
+        "line": 500,
+        "pid": "196",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+        "line": 577,
+        "pid": "196",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.convert-denied-project",
+        "line": 742,
+        "pid": "203",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+        "line": 914,
+        "pid": "196",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+        "line": 1078,
+        "pid": "201",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+        "line": 1099,
+        "pid": "200",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+        "line": 1293,
+        "pid": "197",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+        "line": 1314,
+        "pid": "201",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+        "line": 1449,
+        "pid": "202",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+        "line": 1590,
+        "pid": "197",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+        "line": 1730,
+        "pid": "207",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+        "line": 1873,
+        "pid": "201",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+        "line": 2018,
+        "pid": "202",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+        "line": 2156,
+        "pid": "198",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+        "line": 2301,
+        "pid": "199",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+        "line": 2460,
+        "pid": "202",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W4.approved-then-new-pending-approval-order",
+        "line": 2638,
+        "pid": "197",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W4.approved-then-new-pending-approval-order",
+        "line": 2671,
+        "pid": "197",
+        "transactionId": "1447",
+        "operation": "UPDATE",
+        "table": "lead_score_override",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" in ('?', '?')"
+      },
+      {
+        "phase": "06",
+        "label": "I94.N3.audit-and-business-denial-rollback",
+        "line": 4474,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "06",
+        "label": "I94.N3.audit-and-business-denial-rollback",
+        "line": 4521,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "06",
+        "label": "I94.N8.requestId65-changed-noop-and-create",
+        "line": 4569,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "06",
+        "label": "I94.N8.requestId65-changed-noop-and-create",
+        "line": 4610,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5574,
+        "pid": "326",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-deny-link",
+        "line": 5792,
+        "pid": "329",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-deny-copy-audit",
+        "line": 5996,
+        "pid": "323",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-deny-final-snapshot",
+        "line": 6205,
+        "pid": "327",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-no-eligible-copy-audit-denied",
+        "line": 6384,
+        "pid": "327",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "versionInWhere": false,
+        "reported": true,
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'"
+      }
+    ],
+    "requiredSemanticSettlement": "Existing W2 single-row override race has a version WHERE and200/500. W4 bulk old-approved+pending has only WHERE id IN, so do not generalize that race result or add CAS in Rust silently. Observe this bulk concurrency shape before its implementation semantics are frozen."
+  },
+  "sourceVersionOrigins": [
+    {
+      "phase": "02",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "02",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tmp/rust-r3hijk/root/wire-client-before-capture-nonce01.mjs",
+      "bytes": 4060,
+      "rawBytesSha256": "14a5c5302515721b20a8a73182886f40bbc76c2fdef7eeaa1b9d0d9b3c1627d9"
+    },
+    {
+      "phase": "02",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "02",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "02",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "02",
+      "logical": "tools/rust-r3hijk/native-witness01.mjs",
+      "resolved": "tools/rust-r3hijk/native-witness01.mjs",
+      "bytes": 3508,
+      "rawBytesSha256": "974bd0a6465087e22728969f1920dd67eb5859adce0eb3843830d59e999b455c"
+    },
+    {
+      "phase": "03",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "03",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tmp/rust-r3hijk/root/wire-client-before-capture-nonce01.mjs",
+      "bytes": 4060,
+      "rawBytesSha256": "14a5c5302515721b20a8a73182886f40bbc76c2fdef7eeaa1b9d0d9b3c1627d9"
+    },
+    {
+      "phase": "03",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "03",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "03",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "03",
+      "logical": "tools/rust-r3hijk/native-risks-run.mjs",
+      "resolved": "tmp/rust-r3hijk/root/native-risks-run-before-isolated-reference01.mjs",
+      "bytes": 945,
+      "rawBytesSha256": "c8499fe53407f78b58bc022cb8e7d4f29f53233becbef50176b595009f49104b"
+    },
+    {
+      "phase": "03",
+      "logical": "tmp/rust-r3hijk/a-native-risks/native-lead-risks01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-native-risks/native-lead-risks01.mjs",
+      "bytes": 20132,
+      "rawBytesSha256": "23fa191c2f443ffa022be87678a18227c73a936a5da6974d983e84981804fe70"
+    },
+    {
+      "phase": "06",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "06",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "phase": "06",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "06",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "06",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "06",
+      "logical": "tools/rust-r3hijk/native-risks-run.mjs",
+      "resolved": "tools/rust-r3hijk/native-risks-run.mjs",
+      "bytes": 1559,
+      "rawBytesSha256": "07c4ccbcf014636747d981ab0eadc5dfabf61affb8c2388620d5946f25705b4e"
+    },
+    {
+      "phase": "06",
+      "logical": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "bytes": 31991,
+      "rawBytesSha256": "a20ca4a5fc6d13b00b16273a501d714b3afcc4ef19a5c13dc15360064b6f50bf"
+    },
+    {
+      "phase": "08",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "08",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "phase": "08",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "08",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "08",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "08",
+      "logical": "tools/rust-r3hijk/native-attachment-cuts.mjs",
+      "resolved": "tools/rust-r3hijk/native-attachment-cuts.mjs",
+      "bytes": 4300,
+      "rawBytesSha256": "1de138a71fd5e4938e93d278c82ae2bd944e6c0d9e338b88ccbef06dcc18b8ee"
+    },
+    {
+      "phase": "01",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tmp/rust-r3hijk/root/native-context-attempt01-original.mjs",
+      "bytes": 14915,
+      "rawBytesSha256": "5d1d04585b93b6a4b07edf4e3dffc95eb2fa57b47b91764c422a9e25ec1cb64e"
+    },
+    {
+      "phase": "01",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tmp/rust-r3hijk/root/wire-client-before-capture-nonce01.mjs",
+      "bytes": 4060,
+      "rawBytesSha256": "14a5c5302515721b20a8a73182886f40bbc76c2fdef7eeaa1b9d0d9b3c1627d9"
+    },
+    {
+      "phase": "01",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "01",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "01",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "04",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "04",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tmp/rust-r3hijk/root/wire-client-before-capture-nonce01.mjs",
+      "bytes": 4060,
+      "rawBytesSha256": "14a5c5302515721b20a8a73182886f40bbc76c2fdef7eeaa1b9d0d9b3c1627d9"
+    },
+    {
+      "phase": "04",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "04",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "04",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "04",
+      "logical": "tools/rust-r3hijk/native-risks-run.mjs",
+      "resolved": "tmp/rust-r3hijk/root/native-risks-run-before-isolated-reference01.mjs",
+      "bytes": 945,
+      "rawBytesSha256": "c8499fe53407f78b58bc022cb8e7d4f29f53233becbef50176b595009f49104b"
+    },
+    {
+      "phase": "04",
+      "logical": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "bytes": 31991,
+      "rawBytesSha256": "a20ca4a5fc6d13b00b16273a501d714b3afcc4ef19a5c13dc15360064b6f50bf"
+    },
+    {
+      "phase": "05",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "05",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "phase": "05",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "05",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "05",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "05",
+      "logical": "tools/rust-r3hijk/native-risks-run.mjs",
+      "resolved": "tmp/rust-r3hijk/root/native-risks-run-before-isolated-reference01.mjs",
+      "bytes": 945,
+      "rawBytesSha256": "c8499fe53407f78b58bc022cb8e7d4f29f53233becbef50176b595009f49104b"
+    },
+    {
+      "phase": "05",
+      "logical": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "bytes": 31991,
+      "rawBytesSha256": "a20ca4a5fc6d13b00b16273a501d714b3afcc4ef19a5c13dc15360064b6f50bf"
+    },
+    {
+      "phase": "07",
+      "logical": "tools/rust-r3hijk/native-context.mjs",
+      "resolved": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "phase": "07",
+      "logical": "tools/rust-r3hijk/wire-client.mjs",
+      "resolved": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "phase": "07",
+      "logical": "tools/rust-r3hijk/source-guard.mjs",
+      "resolved": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "phase": "07",
+      "logical": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "phase": "07",
+      "logical": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "resolved": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "phase": "07",
+      "logical": "tools/rust-r3hijk/native-attachment-cuts.mjs",
+      "resolved": "tmp/rust-r3hijk/root/native-attachment-cuts-attempt07-original.mjs",
+      "bytes": 4241,
+      "rawBytesSha256": "12e16b0427ea6395ae9c76a2890f2ee551630db578225f8dced6cccdac5f31d1"
+    }
+  ],
+  "failedOrPartialOriginals": [
+    {
+      "phase": "01",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness01/report01.json",
+        "bytes": 20282,
+        "rawBytesSha256": "cc95256367074d49a6a6e3cd433967c5f3dacfbcd4f55b66729a30ed423d0dee"
+      },
+      "completed": false,
+      "failedAt": "foundation.lead-history",
+      "error": {
+        "name": "error",
+        "message": "column \"year\" does not exist"
+      },
+      "successfulRecordedEvents": 5,
+      "notIncludedIn51Or181": true
+    },
+    {
+      "phase": "04",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness04/report01.json",
+        "bytes": 220428,
+        "rawBytesSha256": "61db5401a0f3e86fb9d4f428a7c5d2a4a0033bcfa51e8f0aa4d1800cfd63846e"
+      },
+      "completed": false,
+      "failedAt": "I94.requestId65.create",
+      "error": {
+        "name": "Error",
+        "message": "EEXIST: file already exists, open '/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase04/raw-wire/admin-i94-2dd64735-25-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr-request.bin'"
+      },
+      "successfulRecordedEvents": 36,
+      "notIncludedIn51Or181": true
+    },
+    {
+      "phase": "05",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness05/report01.json",
+        "bytes": 40460,
+        "rawBytesSha256": "f0852a2380512b8c2388eab166feec3971858331b94083d6d67968e63268e5f8"
+      },
+      "completed": false,
+      "failedAt": "I94.roundtrip.stakeholder.update",
+      "error": {
+        "name": "Error",
+        "message": "stakeholder: one changed-field audit"
+      },
+      "successfulRecordedEvents": 11,
+      "notIncludedIn51Or181": true
+    },
+    {
+      "phase": "07",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness07/report01.json",
+        "bytes": 23980,
+        "rawBytesSha256": "f82c7c26928b02e10f4fea3c99a65246ce77cf27c8206a1bcc8ed2812f292c0b"
+      },
+      "completed": false,
+      "failedAt": "attachment.success.convert",
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly equal:\n\n200 !== 201\n"
+      },
+      "successfulRecordedEvents": 3,
+      "notIncludedIn51Or181": true
+    }
+  ],
+  "remainingBoundaries": [
+    "Root formal master/manifest/shared interfaces not yet frozen",
+    "Current SQL01 version-predicate false flags need corrected numbered authority",
+    "Single-eligible attachment auto-flush branch and bulk override concurrency pending actual witness",
+    "Owned Native runtime and cohort cleanup/seed/ACL terminal evidence not yet produced",
+    "This51-group witness is not all A/B/D matrix runtime acceptance; unobserved J thread/association and nondefault K projections must retain source-only/planned status",
+    "No per-case exact session-version delta has been independently established from public before/after session rows here; raw touch versus managed updates are visible in SQL and must remain distinct"
+  ],
+  "noIndependentProductBuildTestFmtLintDbHttpBrowserOrHostExecution": true,
+  "noAuthorRootToolExecuted": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true
+}

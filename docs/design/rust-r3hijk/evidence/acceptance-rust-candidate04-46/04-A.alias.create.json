@@ -1,0 +1,74 @@
+{
+  "label": "A.alias.create",
+  "startedAt": "2026-11-02T18:19:03.175Z",
+  "completedAt": "2026-11-02T18:19:03.190Z",
+  "value": {
+    "operationId": "CustomerController_createAlias",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/customers/537dee9c-f7a3-48ba-9de2-d9d8963b39bd/aliases",
+      "json": {
+        "aliasName": "R3HK-6872abb5-46 procurement alias",
+        "aliasType": "alias"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "id": "54d86a04-5f83-4aa5-b525-c128feeb2004",
+        "customerId": "537dee9c-f7a3-48ba-9de2-d9d8963b39bd",
+        "aliasName": "R3HK-6872abb5-46 procurement alias",
+        "aliasType": "alias",
+        "normalizedName": "r3hk-6872abb5-46 procurement alias",
+        "isPrimary": false,
+        "createdAt": "2026-11-02T18:19:03.182Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      },
+      "requestId": "198a917f-8765-437c-a075-a8aded3ad580",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "328",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-278",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:19:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 519,
+        "requestSha256": "ca7d94cc95a38d0f143ad8e5630a4368f63a8c2547669fdf00b3e6266f6983d7",
+        "responseBytes": 612,
+        "responseSha256": "6290ca802e7516f8b71c02168ecbc265c60cfe9d6efee746797880596682b7dd",
+        "entityBodyBytes": 328,
+        "entityBodySha256": "233d7415ed6ff866430a3fcc5cd2d20d3499141c2c6885443e1654ea9584f95a",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase46/raw-wire/admin-5eaa05a1-94f2-47bb-a189-99a1d0130c60",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "54d86a04-5f83-4aa5-b525-c128feeb2004",
+        "customer_id": "537dee9c-f7a3-48ba-9de2-d9d8963b39bd",
+        "alias_name": "R3HK-6872abb5-46 procurement alias",
+        "alias_type": "alias",
+        "normalized_name": "r3hk-6872abb5-46 procurement alias",
+        "is_primary": false,
+        "created_at": "2026-11-02T18:19:03.182Z",
+        "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "kind": "R3HIJK-business-read-model-and-supported-input-clarifications",
+  "authority": "User business correctness policy and approved corrective checkpoint01",
+  "sourceBusiness": [
+    "EX19 responsibility and usable owner labels",
+    "EX22 real fact occurredAt and chronological ordering",
+    "EX24 completedAt is business occurrence time",
+    "Original Lead numeric(18,2) and declared business date fields"
+  ],
+  "rules": {
+    "ownerLabel": "Use nonblank user/org names; combine both, use the available one, otherwise stage fallback. Preserve meaningful original text; never a blank label or raw UUID.",
+    "timeline": "Choose earliest signed_at and sort events by complete stored DateTime. Only exact instants tie; then stable existing eventKey rule. ISO output precision stays consistent with public contract.",
+    "money": "Reject values beyond numeric(18,2) before persistence with400; exact valid monetary strings above JS safe integer remain valid and exact.",
+    "date": "Business calendar years0001-9999; reject0000 early with400; do not fold0001/0099 into1900s.",
+    "pool": "Release preflight connections, reserve unique business number independently, then open business TX and recheck. Do not hold all main pool connections while waiting on an inner acquisition."
+  },
+  "noNativeUiDdlChange": true,
+  "noR4Write": true,
+  "scopeIssues": [
+    93,
+    94,
+    95,
+    96
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

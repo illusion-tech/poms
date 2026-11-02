@@ -1,0 +1,55 @@
+{
+  "label": "HTTP-CreateSalesDiscoveryRecordRequestSchema-no-anchor",
+  "startedAt": "2026-11-02T09:13:40.657Z",
+  "completedAt": "2026-11-02T09:13:40.678Z",
+  "value": {
+    "input": {
+      "customerId": "2dd64735-393c-460a-b491-d333ac565bbb"
+    },
+    "response": {
+      "status": 400,
+      "body": {
+        "statusCode": 400,
+        "message": "Validation failed",
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one opportunity anchor is required"
+          }
+        ]
+      },
+      "requestId": "fab124d9-dd92-4ded-863f-264e268d3cd8",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "143",
+        "ETag",
+        "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+        "Date",
+        "Mon, 02 Nov 2026 09:13:40 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 471,
+        "requestSha256": "52b7e081d489767667e96999fc03fad2b3b49ae6c1162b5f9503712fd240750c",
+        "responseBytes": 467,
+        "responseSha256": "65473c23fd079029ec5b84baccca9402af80af3ff10a1371dace7213d2b4bf56",
+        "entityBodyBytes": 143,
+        "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase02/raw-wire/admin-fab124d9-dd92-4ded-863f-264e268d3cd8",
+        "originalRawRetained": true
+      }
+    }
+  }
+}

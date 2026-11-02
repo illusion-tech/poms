@@ -1,0 +1,75 @@
+{
+  "label": "aux.todo.other.replaced",
+  "startedAt": "2026-11-02T17:35:14.333Z",
+  "completedAt": "2026-11-02T17:35:14.347Z",
+  "value": {
+    "operationId": "ApprovalController_getMyTodos",
+    "request": {
+      "actor": "other",
+      "method": "GET",
+      "path": "/api/me/todos"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "allowedActions": [],
+          "assigneeUserId": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+          "businessDomain": "sales",
+          "completedAt": null,
+          "createdAt": "2026-11-02T17:35:14.253Z",
+          "currentNodeName": "下次跟进：2027-02-02 08:00",
+          "dueAt": "2027-02-02T00:00:00.000Z",
+          "id": "73bd1244-94f0-4a92-80ab-f3c3ca024807",
+          "priority": "normal",
+          "projectId": "0b982f0c-b234-45bf-984e-b4f293546346",
+          "rowVersion": 1,
+          "sourceId": "f1816678-f587-4678-8dee-28970def16ef",
+          "sourceType": "sales-follow-up-record",
+          "status": "open",
+          "summary": "R3HK-6872abb5-30 corrected follow-up",
+          "targetObjectId": "0b982f0c-b234-45bf-984e-b4f293546346",
+          "targetObjectType": "project",
+          "targetTitle": "R3HK-6872abb5-30 revised project",
+          "title": "销售跟进提醒：R3HK-6872abb5-30 revised project",
+          "todoType": "sales-follow-up-reminder",
+          "updatedAt": "2026-11-02T17:35:14.253Z"
+        }
+      ],
+      "requestId": "e3f30e68-dee9-425d-8381-b642108f8852",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "843",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-88686-99",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:35:14 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 291,
+        "requestSha256": "d6b2a1bea72abb82ae2206c21da6052c78ec0cdb204b065716d4241cd8c602cc",
+        "responseBytes": 1121,
+        "responseSha256": "46f4ab12e176287907939e8b16662235fda772a0707ec9bf84a61e28a829c148",
+        "entityBodyBytes": 843,
+        "entityBodySha256": "b12c100ccb5bcfaa002aada2bf1f52be35d057f2cb82471eb5eeaf85e46b2ef1",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase30/raw-wire/other-da6b73cc-b4ba-4036-9d10-6e95a8fc4b20",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

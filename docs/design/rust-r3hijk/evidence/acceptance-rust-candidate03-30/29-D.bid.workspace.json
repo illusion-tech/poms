@@ -1,0 +1,140 @@
+{
+  "label": "D.bid.workspace",
+  "startedAt": "2026-11-02T17:35:14.000Z",
+  "completedAt": "2026-11-02T17:35:14.015Z",
+  "value": {
+    "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/0b982f0c-b234-45bf-984e-b4f293546346/bid-commercial-workspace"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-bid-commercial-workspace",
+          "create-bid-commercial-process"
+        ],
+        "blockingReasons": [],
+        "currentProcess": {
+          "bidMode": "public-tender",
+          "bidPackageNo": "R3HK-6872abb5-30 B2 package",
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T17:35:13.972Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "currentStage": "result-confirmed",
+          "decision": "participate",
+          "decisionSummary": "R3HK-6872abb5-30 B2 decision",
+          "effectiveAt": "2026-11-02T17:35:13.972Z",
+          "id": "26b6d7b4-536f-4189-9c86-88557ffb37ae",
+          "isCurrent": true,
+          "ownerRole": "R3HK-6872abb5-30 B2 owner",
+          "processSummary": "R3HK-6872abb5-30 B2 process",
+          "projectId": "0b982f0c-b234-45bf-984e-b4f293546346",
+          "resultStatus": "won",
+          "resultSummary": "R3HK-6872abb5-30 actual awarded result fixture",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "9122cbc3-f152-47bf-8516-826c5e6aeb9e",
+          "tenderNo": "R3HK-6872abb5-30 B2 tender",
+          "updatedAt": "2026-11-02T17:35:13.972Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "version": 2
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T17:35:14.012Z",
+        "materialItems": [
+          {
+            "blocksNextStep": false,
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "id": "b89a0bc6-b13a-425d-a48a-0bb196eef19b",
+            "label": "R3HK-6872abb5-30 B2 material label",
+            "materialKey": "R3HK-6872abb5-30 B2 material",
+            "materialStatus": "ready",
+            "navigationHint": "/projects/0b982f0c-b234-45bf-984e-b4f293546346/workspace/bid-commercial",
+            "processId": "26b6d7b4-536f-4189-9c86-88557ffb37ae",
+            "responsibleRole": "R3HK-6872abb5-30 B2 material owner",
+            "sortOrder": 1
+          },
+          {
+            "blocksNextStep": false,
+            "dueAt": null,
+            "id": "feb1230d-ae8a-484b-8198-07bf9883463a",
+            "label": "R3HK-6872abb5-30 B2 ready material label",
+            "materialKey": "R3HK-6872abb5-30 B2 ready material",
+            "materialStatus": "ready",
+            "navigationHint": null,
+            "processId": "26b6d7b4-536f-4189-9c86-88557ffb37ae",
+            "responsibleRole": null,
+            "sortOrder": 2
+          }
+        ],
+        "nextStep": "将中标 / 竞标结果带入报价与毛利评审或签约就绪判断。",
+        "ownerLabel": "HIJK other / HIJK other",
+        "projectId": "0b982f0c-b234-45bf-984e-b4f293546346",
+        "status": "active",
+        "timelineItems": [
+          {
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "eventKey": "R3HK-6872abb5-30 B2 completed event",
+            "id": "ce451f10-f8f3-4a5b-8b68-57ec9e688829",
+            "label": "R3HK-6872abb5-30 B2 completed event label",
+            "occurredAt": "2026-11-02T01:00:00.000Z",
+            "processId": "26b6d7b4-536f-4189-9c86-88557ffb37ae",
+            "responsibleRole": "R3HK-6872abb5-30 B2 event owner",
+            "sortOrder": 1,
+            "summary": "R3HK-6872abb5-30 B2 completed event summary",
+            "timelineStatus": "done"
+          },
+          {
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "eventKey": "R3HK-6872abb5-30 B2 pending event",
+            "id": "8c908dad-44fd-4f43-9b74-dee78378393d",
+            "label": "R3HK-6872abb5-30 B2 pending event label",
+            "occurredAt": "2026-11-02T01:00:00.000Z",
+            "processId": "26b6d7b4-536f-4189-9c86-88557ffb37ae",
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "summary": null,
+            "timelineStatus": "done"
+          }
+        ]
+      },
+      "requestId": "cb34c6b1-cb7a-495e-b38a-3fba0e7a4d83",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2783",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-88686-82",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:35:14 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 353,
+        "requestSha256": "d0668c4f4e22fd8618d6da1c7c72cfa9f6e9585157e8350cd89d45746e8f173e",
+        "responseBytes": 3062,
+        "responseSha256": "077d505f7c1f599b8625e1a01de3f3c1c78e598c7120df7e5c73965709472f6f",
+        "entityBodyBytes": 2783,
+        "entityBodySha256": "48c045128cb36405a37e60105beca9a1e7a93636539f00b4994f07d0c1bc019d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase30/raw-wire/admin-2d1c0e65-5161-46d8-9594-3b978372cadb",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

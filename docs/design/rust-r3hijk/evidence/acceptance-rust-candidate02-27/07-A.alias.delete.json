@@ -1,0 +1,75 @@
+{
+  "label": "A.alias.delete",
+  "startedAt": "2026-11-02T17:05:48.232Z",
+  "completedAt": "2026-11-02T17:05:48.253Z",
+  "value": {
+    "operationId": "CustomerAliasController_delete",
+    "request": {
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/customer-aliases/d050ba0f-5117-46cb-b37b-085d45b7d6fb"
+    },
+    "response": {
+      "status": 204,
+      "body": null,
+      "requestId": "d28ca103-f09e-4932-b02a-e488177727b3",
+      "headers": [
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-76822-643",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:05:48 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 398,
+        "requestSha256": "f64f72220cc7a85bbe79a5ecbaec9798336b5d850355bd208989ab2055c6ee44",
+        "responseBytes": 219,
+        "responseSha256": "9b1bce80cf3fee5bdfb07e247cc953832403d6b44367585f6093b31e0a783a19",
+        "entityBodyBytes": 0,
+        "entityBodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase27/raw-wire/admin-003d8f5b-9dae-45ef-84d7-3b692f88403e",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "deletedRow": null,
+      "deletedRowAbsent": true,
+      "auditRows": [
+        {
+          "id": "791285b1-66ce-4f3a-8d39-b36888c5e9a8",
+          "event_type": "customer.alias.deleted",
+          "target_type": "customer",
+          "target_id": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+          "operator_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "request_id": "d28ca103-f09e-4932-b02a-e488177727b3",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "aliasId": "d050ba0f-5117-46cb-b37b-085d45b7d6fb",
+            "aliasName": "R3HK-6872abb5-27 procurement alias",
+            "aliasType": "alias",
+            "createdAt": "2026-11-02T17:05:48.197Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "isPrimary": false,
+            "normalizedName": "r3hk-6872abb5-27 procurement alias"
+          },
+          "after_snapshot": null,
+          "metadata": {
+            "sourceCommand": "delete-customer-alias"
+          },
+          "occurred_at": "2026-11-02T17:05:48.241Z"
+        }
+      ]
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

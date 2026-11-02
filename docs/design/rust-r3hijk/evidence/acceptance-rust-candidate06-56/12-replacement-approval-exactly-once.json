@@ -1,0 +1,693 @@
+{
+  "label": "replacement-approval-exactly-once",
+  "startedAt": "2026-11-02T19:00:22.025Z",
+  "completedAt": "2026-11-02T19:00:22.170Z",
+  "value": {
+    "before": {
+      "lead": {
+        "id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+        "lead_no": "LD-2026-000017",
+        "lead_name": "HIJK replacement-race",
+        "customer_name": "HIJK UUID-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5",
+        "status": "registered",
+        "owner_org_id": "8e5b2125-63ce-4d38-85c8-1481cf11c296",
+        "owner_user_id": "85005c87-2c45-450d-9e07-9417b682459e",
+        "qualification_summary": null,
+        "qualified_at": null,
+        "qualified_by": null,
+        "closed_reason": null,
+        "closed_at": null,
+        "closed_by": null,
+        "converted_project_id": null,
+        "converted_at": null,
+        "converted_by": null,
+        "row_version": 1,
+        "created_at": "2026-11-02T19:00:22.040Z",
+        "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "updated_at": "2026-11-02T19:00:22.040Z",
+        "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "customer_id": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c",
+        "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budget_status": "budget-confirmed",
+        "estimated_amount": "1200000.00",
+        "urgency": "high",
+        "expected_decision_date": "2026-11-19T15:00:00.000Z",
+        "score": 62,
+        "rating": "B",
+        "score_reason": "基础商务+62",
+        "score_updated_at": "2026-11-02T19:00:22.042Z",
+        "source_code": "customer-visit"
+      },
+      "snapshots": [
+        {
+          "id": "3cf07093-6f8e-49ba-b902-ba9749d2b363",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "snapshot_kind": "system",
+          "override_id": null,
+          "formula_version": "lead-score-v2",
+          "system_score": 62,
+          "system_rating": "B",
+          "effective_score": 62,
+          "effective_rating": "B",
+          "effective_score_source": "system",
+          "score_reason": "基础商务+62",
+          "component_breakdown": {
+            "owner": 10,
+            "total": 62,
+            "amount": 15,
+            "budget": 20,
+            "demand": 15,
+            "source": 10,
+            "urgency": 15,
+            "baseBusiness": 62,
+            "followUpFacts": {
+              "lastFollowUpAt": null,
+              "nextFollowUpAt": null,
+              "followUpCount30d": 0,
+              "nextFollowUpOverdue": false,
+              "daysSinceLastFollowUp": null,
+              "hasPlannedNextFollowUp": false
+            },
+            "formulaVersion": "lead-score-v2",
+            "attachmentFacts": {
+              "finalAttachmentCount": 0,
+              "hasProposalAttachment": false,
+              "latestAttachmentCount": 0,
+              "hasQuotationAttachment": false,
+              "evidenceAttachmentCount": 0,
+              "hasBudgetEvidenceAttachment": false
+            },
+            "followUpActivity": 0,
+            "salesIntelligence": 0,
+            "attachmentEvidence": 0,
+            "expectedDecisionDate": 10,
+            "salesIntelligenceFacts": {
+              "painPointKnown": false,
+              "competitorKnown": false,
+              "nextContactKnown": false,
+              "budgetSourceKnown": false,
+              "decisionMakerKnown": false,
+              "procurementProcessKnown": false,
+              "technicalEvaluatorKnown": false
+            }
+          },
+          "gate_summary_snapshot": {
+            "conversion": {
+              "status": "blocked",
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ]
+            },
+            "qualification": {
+              "status": "ready",
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": []
+            }
+          },
+          "source_command": "create-lead",
+          "source_record_id": null,
+          "created_at": "2026-11-02T19:00:22.045Z",
+          "created_by": "85005c87-2c45-450d-9e07-9417b682459e"
+        },
+        {
+          "id": "b29a20c2-02aa-4e4d-820e-94b2c8986204",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "snapshot_kind": "manual-override",
+          "override_id": "b187777a-fca4-4d93-ab46-dd763aa283f9",
+          "formula_version": "lead-score-v2",
+          "system_score": 62,
+          "system_rating": "B",
+          "effective_score": 85,
+          "effective_rating": "A",
+          "effective_score_source": "manual-override",
+          "score_reason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+          "component_breakdown": {
+            "owner": 10,
+            "total": 62,
+            "amount": 15,
+            "budget": 20,
+            "demand": 15,
+            "source": 10,
+            "urgency": 15,
+            "baseBusiness": 62,
+            "followUpFacts": {
+              "lastFollowUpAt": null,
+              "nextFollowUpAt": null,
+              "followUpCount30d": 0,
+              "nextFollowUpOverdue": false,
+              "daysSinceLastFollowUp": null,
+              "hasPlannedNextFollowUp": false
+            },
+            "formulaVersion": "lead-score-v2",
+            "attachmentFacts": {
+              "finalAttachmentCount": 0,
+              "hasProposalAttachment": false,
+              "latestAttachmentCount": 0,
+              "hasQuotationAttachment": false,
+              "evidenceAttachmentCount": 0,
+              "hasBudgetEvidenceAttachment": false
+            },
+            "followUpActivity": 0,
+            "salesIntelligence": 0,
+            "attachmentEvidence": 0,
+            "expectedDecisionDate": 10,
+            "salesIntelligenceFacts": {
+              "painPointKnown": false,
+              "competitorKnown": false,
+              "nextContactKnown": false,
+              "budgetSourceKnown": false,
+              "decisionMakerKnown": false,
+              "procurementProcessKnown": false,
+              "technicalEvaluatorKnown": false
+            }
+          },
+          "gate_summary_snapshot": {
+            "conversion": {
+              "status": "blocked",
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ]
+            },
+            "qualification": {
+              "status": "ready",
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": []
+            }
+          },
+          "source_command": "approve-score-override",
+          "source_record_id": "b187777a-fca4-4d93-ab46-dd763aa283f9",
+          "created_at": "2026-11-02T19:00:22.077Z",
+          "created_by": "85005c87-2c45-450d-9e07-9417b682459e"
+        }
+      ],
+      "overrides": [
+        {
+          "id": "b187777a-fca4-4d93-ab46-dd763aa283f9",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "requested_score": 85,
+          "requested_rating": "A",
+          "reason": "客户已确认新增关键事实，申请人工评估。",
+          "status": "approved",
+          "system_score_at_request": 62,
+          "system_rating_at_request": "B",
+          "requested_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "requested_at": "2026-11-02T19:00:22.059Z",
+          "approved_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "approved_at": "2026-11-02T19:00:22.073Z",
+          "approval_note": "已核实人工评估依据。",
+          "rejected_by": null,
+          "rejected_at": null,
+          "reject_reason": null,
+          "revoked_by": null,
+          "revoked_at": null,
+          "revoke_reason": null,
+          "superseded_by_id": null,
+          "created_at": "2026-11-02T19:00:22.059Z",
+          "updated_at": "2026-11-02T19:00:22.073Z",
+          "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "row_version": 2
+        },
+        {
+          "id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "requested_score": 95,
+          "requested_rating": "A",
+          "reason": "客户已确认新增关键事实，申请人工评估。",
+          "status": "pending",
+          "system_score_at_request": 62,
+          "system_rating_at_request": "B",
+          "requested_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "requested_at": "2026-11-02T19:00:22.091Z",
+          "approved_by": null,
+          "approved_at": null,
+          "approval_note": null,
+          "rejected_by": null,
+          "rejected_at": null,
+          "reject_reason": null,
+          "revoked_by": null,
+          "revoked_at": null,
+          "revoke_reason": null,
+          "superseded_by_id": null,
+          "created_at": "2026-11-02T19:00:22.091Z",
+          "updated_at": "2026-11-02T19:00:22.091Z",
+          "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "row_version": 1
+        }
+      ],
+      "assignments": [],
+      "projects": [],
+      "links": []
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "POST",
+        "path": "/api/lead-score-overrides/cfb4d313-b026-4ef1-b626-4be062febd61:approve",
+        "json": {
+          "expectedOverrideRowVersion": 1,
+          "note": "业务并发审批 admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "POST",
+        "path": "/api/lead-score-overrides/cfb4d313-b026-4ef1-b626-4be062febd61:approve",
+        "json": {
+          "expectedOverrideRowVersion": 1,
+          "note": "业务并发审批 other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "Lead score override b187777a-fca4-4d93-ab46-dd763aa283f9 changed concurrently; reload and retry",
+            "statusCode": 409
+          },
+          "requestId": "b733b1ae-fd85-45e3-bf7a-816e4cfab2e7",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "145",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-111189-108",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 19:00:22 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 526,
+            "requestSha256": "e37cfa6886d011579540a98a3020ef3ff94911d28dd6de0dfd6e53f783908e03",
+            "responseBytes": 431,
+            "responseSha256": "8c5b8d8e0fae953ca15ac58ae931b5b4c1366b60785a8689c139795269aafcac",
+            "entityBodyBytes": 145,
+            "entityBodySha256": "538140f335358a6a4596a9bc767ac4a47818cd7ae19a4a52921e1b0c6359dba2",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase56/raw-wire/admin-56d34bc9-b2ef-4bec-8848-40bfc2f2685e",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 200,
+          "body": {
+            "approvalNote": "业务并发审批 other",
+            "approvedAt": "2026-11-02T19:00:22.131Z",
+            "approvedBy": "455cd0c1-31a2-461b-8088-cb962754d259",
+            "id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+            "leadId": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+            "reason": "客户已确认新增关键事实，申请人工评估。",
+            "rejectReason": null,
+            "rejectedAt": null,
+            "rejectedBy": null,
+            "requestedAt": "2026-11-02T19:00:22.091Z",
+            "requestedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+            "requestedRating": "A",
+            "requestedScore": 95,
+            "revokeReason": null,
+            "revokedAt": null,
+            "revokedBy": null,
+            "rowVersion": 2,
+            "status": "approved",
+            "supersededById": null,
+            "systemRatingAtRequest": "B",
+            "systemScoreAtRequest": 62
+          },
+          "requestId": "4910fb0f-4bfa-46a7-a9ee-5b30128e75fd",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "671",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-111189-107",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 19:00:22 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 526,
+            "requestSha256": "2d0dcccfd68e1b4192524db0e7b00093bb511cb70dd13748d6b4e497bc5f5b62",
+            "responseBytes": 951,
+            "responseSha256": "e9ac0289ea42db879e58026d5aebab0a0746bf60bf26d5e577afee2bacf0136a",
+            "entityBodyBytes": 671,
+            "entityBodySha256": "02c74238b6c22764ad99bd11fbc1f3f9b7f32b147eda3434ebac61f96dc65075",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase56/raw-wire/other-73e07c83-ece2-4874-b651-fe16aa4fb724",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "lead": {
+        "id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+        "lead_no": "LD-2026-000017",
+        "lead_name": "HIJK replacement-race",
+        "customer_name": "HIJK UUID-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5",
+        "status": "registered",
+        "owner_org_id": "8e5b2125-63ce-4d38-85c8-1481cf11c296",
+        "owner_user_id": "85005c87-2c45-450d-9e07-9417b682459e",
+        "qualification_summary": null,
+        "qualified_at": null,
+        "qualified_by": null,
+        "closed_reason": null,
+        "closed_at": null,
+        "closed_by": null,
+        "converted_project_id": null,
+        "converted_at": null,
+        "converted_by": null,
+        "row_version": 1,
+        "created_at": "2026-11-02T19:00:22.040Z",
+        "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "updated_at": "2026-11-02T19:00:22.040Z",
+        "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "customer_id": "19fdc810-ac51-462e-ac7f-7d85b8d55b9c",
+        "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budget_status": "budget-confirmed",
+        "estimated_amount": "1200000.00",
+        "urgency": "high",
+        "expected_decision_date": "2026-11-19T15:00:00.000Z",
+        "score": 62,
+        "rating": "B",
+        "score_reason": "基础商务+62",
+        "score_updated_at": "2026-11-02T19:00:22.042Z",
+        "source_code": "customer-visit"
+      },
+      "snapshots": [
+        {
+          "id": "3cf07093-6f8e-49ba-b902-ba9749d2b363",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "snapshot_kind": "system",
+          "override_id": null,
+          "formula_version": "lead-score-v2",
+          "system_score": 62,
+          "system_rating": "B",
+          "effective_score": 62,
+          "effective_rating": "B",
+          "effective_score_source": "system",
+          "score_reason": "基础商务+62",
+          "component_breakdown": {
+            "owner": 10,
+            "total": 62,
+            "amount": 15,
+            "budget": 20,
+            "demand": 15,
+            "source": 10,
+            "urgency": 15,
+            "baseBusiness": 62,
+            "followUpFacts": {
+              "lastFollowUpAt": null,
+              "nextFollowUpAt": null,
+              "followUpCount30d": 0,
+              "nextFollowUpOverdue": false,
+              "daysSinceLastFollowUp": null,
+              "hasPlannedNextFollowUp": false
+            },
+            "formulaVersion": "lead-score-v2",
+            "attachmentFacts": {
+              "finalAttachmentCount": 0,
+              "hasProposalAttachment": false,
+              "latestAttachmentCount": 0,
+              "hasQuotationAttachment": false,
+              "evidenceAttachmentCount": 0,
+              "hasBudgetEvidenceAttachment": false
+            },
+            "followUpActivity": 0,
+            "salesIntelligence": 0,
+            "attachmentEvidence": 0,
+            "expectedDecisionDate": 10,
+            "salesIntelligenceFacts": {
+              "painPointKnown": false,
+              "competitorKnown": false,
+              "nextContactKnown": false,
+              "budgetSourceKnown": false,
+              "decisionMakerKnown": false,
+              "procurementProcessKnown": false,
+              "technicalEvaluatorKnown": false
+            }
+          },
+          "gate_summary_snapshot": {
+            "conversion": {
+              "status": "blocked",
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ]
+            },
+            "qualification": {
+              "status": "ready",
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": []
+            }
+          },
+          "source_command": "create-lead",
+          "source_record_id": null,
+          "created_at": "2026-11-02T19:00:22.045Z",
+          "created_by": "85005c87-2c45-450d-9e07-9417b682459e"
+        },
+        {
+          "id": "a340456c-ecb8-4a45-b0b1-f5af69f0ba5f",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "snapshot_kind": "manual-override",
+          "override_id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+          "formula_version": "lead-score-v2",
+          "system_score": 62,
+          "system_rating": "B",
+          "effective_score": 95,
+          "effective_rating": "A",
+          "effective_score_source": "manual-override",
+          "score_reason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+          "component_breakdown": {
+            "owner": 10,
+            "total": 62,
+            "amount": 15,
+            "budget": 20,
+            "demand": 15,
+            "source": 10,
+            "urgency": 15,
+            "baseBusiness": 62,
+            "followUpFacts": {
+              "lastFollowUpAt": null,
+              "nextFollowUpAt": null,
+              "followUpCount30d": 0,
+              "nextFollowUpOverdue": false,
+              "daysSinceLastFollowUp": null,
+              "hasPlannedNextFollowUp": false
+            },
+            "formulaVersion": "lead-score-v2",
+            "attachmentFacts": {
+              "finalAttachmentCount": 0,
+              "hasProposalAttachment": false,
+              "latestAttachmentCount": 0,
+              "hasQuotationAttachment": false,
+              "evidenceAttachmentCount": 0,
+              "hasBudgetEvidenceAttachment": false
+            },
+            "followUpActivity": 0,
+            "salesIntelligence": 0,
+            "attachmentEvidence": 0,
+            "expectedDecisionDate": 10,
+            "salesIntelligenceFacts": {
+              "painPointKnown": false,
+              "competitorKnown": false,
+              "nextContactKnown": false,
+              "budgetSourceKnown": false,
+              "decisionMakerKnown": false,
+              "procurementProcessKnown": false,
+              "technicalEvaluatorKnown": false
+            }
+          },
+          "gate_summary_snapshot": {
+            "conversion": {
+              "status": "blocked",
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ]
+            },
+            "qualification": {
+              "status": "ready",
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": []
+            }
+          },
+          "source_command": "approve-score-override",
+          "source_record_id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+          "created_at": "2026-11-02T19:00:22.155Z",
+          "created_by": "455cd0c1-31a2-461b-8088-cb962754d259"
+        },
+        {
+          "id": "b29a20c2-02aa-4e4d-820e-94b2c8986204",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "snapshot_kind": "manual-override",
+          "override_id": "b187777a-fca4-4d93-ab46-dd763aa283f9",
+          "formula_version": "lead-score-v2",
+          "system_score": 62,
+          "system_rating": "B",
+          "effective_score": 85,
+          "effective_rating": "A",
+          "effective_score_source": "manual-override",
+          "score_reason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+          "component_breakdown": {
+            "owner": 10,
+            "total": 62,
+            "amount": 15,
+            "budget": 20,
+            "demand": 15,
+            "source": 10,
+            "urgency": 15,
+            "baseBusiness": 62,
+            "followUpFacts": {
+              "lastFollowUpAt": null,
+              "nextFollowUpAt": null,
+              "followUpCount30d": 0,
+              "nextFollowUpOverdue": false,
+              "daysSinceLastFollowUp": null,
+              "hasPlannedNextFollowUp": false
+            },
+            "formulaVersion": "lead-score-v2",
+            "attachmentFacts": {
+              "finalAttachmentCount": 0,
+              "hasProposalAttachment": false,
+              "latestAttachmentCount": 0,
+              "hasQuotationAttachment": false,
+              "evidenceAttachmentCount": 0,
+              "hasBudgetEvidenceAttachment": false
+            },
+            "followUpActivity": 0,
+            "salesIntelligence": 0,
+            "attachmentEvidence": 0,
+            "expectedDecisionDate": 10,
+            "salesIntelligenceFacts": {
+              "painPointKnown": false,
+              "competitorKnown": false,
+              "nextContactKnown": false,
+              "budgetSourceKnown": false,
+              "decisionMakerKnown": false,
+              "procurementProcessKnown": false,
+              "technicalEvaluatorKnown": false
+            }
+          },
+          "gate_summary_snapshot": {
+            "conversion": {
+              "status": "blocked",
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ]
+            },
+            "qualification": {
+              "status": "ready",
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": []
+            }
+          },
+          "source_command": "approve-score-override",
+          "source_record_id": "b187777a-fca4-4d93-ab46-dd763aa283f9",
+          "created_at": "2026-11-02T19:00:22.077Z",
+          "created_by": "85005c87-2c45-450d-9e07-9417b682459e"
+        }
+      ],
+      "overrides": [
+        {
+          "id": "b187777a-fca4-4d93-ab46-dd763aa283f9",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "requested_score": 85,
+          "requested_rating": "A",
+          "reason": "客户已确认新增关键事实，申请人工评估。",
+          "status": "superseded",
+          "system_score_at_request": 62,
+          "system_rating_at_request": "B",
+          "requested_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "requested_at": "2026-11-02T19:00:22.059Z",
+          "approved_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "approved_at": "2026-11-02T19:00:22.073Z",
+          "approval_note": "已核实人工评估依据。",
+          "rejected_by": null,
+          "rejected_at": null,
+          "reject_reason": null,
+          "revoked_by": null,
+          "revoked_at": null,
+          "revoke_reason": null,
+          "superseded_by_id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+          "created_at": "2026-11-02T19:00:22.059Z",
+          "updated_at": "2026-11-02T19:00:22.131Z",
+          "updated_by": "455cd0c1-31a2-461b-8088-cb962754d259",
+          "row_version": 3
+        },
+        {
+          "id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+          "lead_id": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+          "requested_score": 95,
+          "requested_rating": "A",
+          "reason": "客户已确认新增关键事实，申请人工评估。",
+          "status": "approved",
+          "system_score_at_request": 62,
+          "system_rating_at_request": "B",
+          "requested_by": "85005c87-2c45-450d-9e07-9417b682459e",
+          "requested_at": "2026-11-02T19:00:22.091Z",
+          "approved_by": "455cd0c1-31a2-461b-8088-cb962754d259",
+          "approved_at": "2026-11-02T19:00:22.131Z",
+          "approval_note": "业务并发审批 other",
+          "rejected_by": null,
+          "rejected_at": null,
+          "reject_reason": null,
+          "revoked_by": null,
+          "revoked_at": null,
+          "revoke_reason": null,
+          "superseded_by_id": null,
+          "created_at": "2026-11-02T19:00:22.091Z",
+          "updated_at": "2026-11-02T19:00:22.132Z",
+          "updated_by": "455cd0c1-31a2-461b-8088-cb962754d259",
+          "row_version": 2
+        }
+      ],
+      "assignments": [],
+      "projects": [],
+      "links": []
+    },
+    "audits": [
+      [],
+      [
+        {
+          "id": "196dfedd-7973-40ac-a780-b4a0c2bd77d1",
+          "event_type": "lead-score-override.approved",
+          "target_type": "lead-score-override",
+          "target_id": "cfb4d313-b026-4ef1-b626-4be062febd61",
+          "operator_id": "455cd0c1-31a2-461b-8088-cb962754d259",
+          "request_id": "4910fb0f-4bfa-46a7-a9ee-5b30128e75fd",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": null,
+          "after_snapshot": null,
+          "metadata": {
+            "leadId": "77ae114c-4a74-44e8-bcc8-1e1ee8d2cb1e",
+            "approvalNote": "业务并发审批 other",
+            "requestedScore": 95,
+            "requestedRating": "A"
+          },
+          "occurred_at": "2026-11-02T19:00:22.156Z"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+    Checking poms-api-rust v0.1.0 (/home/wangzishi/projects/poms-rust-r3hijk/apps/poms-api-rust)
+error: this `if` statement can be collapsed
+   --> src/leads/http.rs:216:5
+    |
+216 | /     if !matches!(op, Operation::List | Operation::Create) {
+217 | |         if let Err(error) = validate_uuid_parameter(&id, "id") {
+218 | |             return error.into_response();
+219 | |         }
+220 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+    = note: `-D clippy::collapsible-if` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+    |
+216 ~     if !matches!(op, Operation::List | Operation::Create)
+217 ~         && let Err(error) = validate_uuid_parameter(&id, "id") {
+218 |             return error.into_response();
+219 ~         }
+    |
+
+error: this `if` statement can be collapsed
+  --> src/project_workspace/http.rs:91:5
+   |
+91 | /     if true {
+92 | |         if let Err(error) = validate_uuid_parameter(&id, "projectId") {
+93 | |             return error.into_response();
+94 | |         }
+95 | |     }
+   | |_____^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+   |
+91 ~     if true
+92 ~         && let Err(error) = validate_uuid_parameter(&id, "projectId") {
+93 |             return error.into_response();
+94 ~         }
+   |
+
+error: this `if` statement can be collapsed
+   --> src/sales_intelligence/http.rs:154:5
+    |
+154 | /     if matches!(kind, Kind::Update) {
+155 | |         if let Err(error) = validate_uuid_parameter(&id, "id") {
+156 | |             return error.into_response();
+157 | |         }
+158 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+154 ~     if matches!(kind, Kind::Update)
+155 ~         && let Err(error) = validate_uuid_parameter(&id, "id") {
+156 |             return error.into_response();
+157 ~         }
+    |
+
+error: could not compile `poms-api-rust` (lib) due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `poms-api-rust` (lib test) due to 3 previous errors

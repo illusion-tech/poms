@@ -1,0 +1,72 @@
+{
+  "label": "A.aliases.after-create",
+  "startedAt": "2026-11-02T17:05:48.207Z",
+  "completedAt": "2026-11-02T17:05:48.217Z",
+  "value": {
+    "operationId": "CustomerController_listAliases",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers/25071e6d-a159-46bf-899d-09cfcb93e8ba/aliases"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "id": "efc468cf-5aef-44e2-9d81-ba6c8f0802d5",
+          "customerId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+          "aliasName": "R3HK-6872abb5-27 customer",
+          "aliasType": "alias",
+          "normalizedName": "r3hk-6872abb5-27 customer",
+          "isPrimary": true,
+          "createdAt": "2026-11-02T17:05:48.136Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+        },
+        {
+          "id": "d050ba0f-5117-46cb-b37b-085d45b7d6fb",
+          "customerId": "25071e6d-a159-46bf-899d-09cfcb93e8ba",
+          "aliasName": "R3HK-6872abb5-27 procurement alias",
+          "aliasType": "alias",
+          "normalizedName": "r3hk-6872abb5-27 procurement alias",
+          "isPrimary": false,
+          "createdAt": "2026-11-02T17:05:48.197Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+        }
+      ],
+      "requestId": "ccaa35bb-43f0-41c3-9036-7eb9db30429f",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "640",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-76822-641",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 17:05:48 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 337,
+        "requestSha256": "35b0d01dcafd488480e496d7f692da1f3c4eeaffd96ea870f3c86041646bdc73",
+        "responseBytes": 919,
+        "responseSha256": "9ba1cc24121d1cfcacbe0fb518edb7586d3bc9ca19a45319c9d952d7bbc70ca8",
+        "entityBodyBytes": 640,
+        "entityBodySha256": "dabc7598f9e5d0cbce1f56ac4c6430670493d6918cb2b0e706f7cf8591c1f04d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase27/raw-wire/admin-2c74a1b0-ea5e-4cb8-af99-79b5665af2fd",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

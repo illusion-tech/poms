@@ -1,0 +1,252 @@
+{
+  "label": "J.first-thread-conflict",
+  "startedAt": "2026-11-02T16:53:50.697Z",
+  "completedAt": "2026-11-02T16:53:50.756Z",
+  "value": {
+    "definition": {
+      "id": "J.first-thread-conflict",
+      "covers": [
+        "J-C04",
+        "J-C08"
+      ],
+      "requests": [
+        {
+          "id": "J.first-thread.racer-A",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+            "discussionType": "general",
+            "body": "D first race A"
+          },
+          "expect": {
+            "status": 201,
+            "coordinatedRace": true
+          },
+          "actual": null
+        },
+        {
+          "id": "J.first-thread.racer-B",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "other",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+            "discussionType": "general",
+            "body": "D first race B"
+          },
+          "expect": {
+            "status": 201,
+            "coordinatedRace": true
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "kind": "Root-controlled-concurrent-schedule-definition",
+      "precondition": "Dedicated real API target, zero thread rows, two independent valid sessions; Root has exclusive use of this cohort database",
+      "schedule": [
+        {
+          "owner": "Root lock connection",
+          "sql": "BEGIN"
+        },
+        {
+          "owner": "Root lock connection",
+          "sql": "LOCK TABLE poms.business_discussion_thread IN SHARE MODE",
+          "reason": "Allows preflight SELECT, blocks both INSERT RowExclusive acquisitions"
+        },
+        {
+          "owner": "Root HTTP clients",
+          "action": "Dispatch the two requests concurrently and do not release the lock until both application backends are observed waiting on INSERT into business_discussion_thread"
+        },
+        {
+          "owner": "Root lock connection",
+          "sql": "COMMIT"
+        }
+      ],
+      "expectations": {
+        "afterObservedTwoInsertWaiters": true,
+        "statusMultiset": [
+          201,
+          201
+        ],
+        "sameReturnedThreadId": true,
+        "distinctReturnedCommentIds": true,
+        "bothRequestedBodiesPersisted": true,
+        "noCustom409": true,
+        "terminalThreadCount": 1,
+        "terminalCommentCount": 2,
+        "noOrphans": true,
+        "firstThreadSnapshotNotRewritten": true,
+        "threadCreator": "not specified"
+      },
+      "invalidRunIf": "Both requests did not reach the intended INSERT wait. Keep the actual attempt as partial rather than labeling a sequential second comment a unique race.",
+      "capture": [
+        "before target/thread absence",
+        "two in-flight pg_stat_activity receipts",
+        "both raw201 responses and their identical threadId/distinct comment IDs",
+        "internal unique-target reuse trace without a surfaced23505 failure",
+        "thread/comment/session terminal state"
+      ]
+    },
+    "prepared": [],
+    "waiting": 2,
+    "responses": [
+      {
+        "status": 201,
+        "body": {
+          "body": "D first race A",
+          "createdAt": "2026-11-02T16:53:50.709Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "createdByName": "HIJK admin",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "4229cb0b-22a1-498c-9305-de67d05f3de5",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+          "targetObjectType": "project",
+          "targetTitle": "HIJK J-first-thread-retry 6872abb5-12af-486f-ada6-02e484421d1f",
+          "threadId": "b6129576-0aaa-43b1-8bbe-057098614cbb"
+        },
+        "requestId": "03f3ff05-c10b-4f24-bbc7-05076f6aa2e3",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "701",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-460",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:50 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 553,
+          "requestSha256": "686f96e33320786fc2b182593d74c9266271e265617ccbbb03577f862c673f9a",
+          "responseBytes": 985,
+          "responseSha256": "4acf2fbf0383f7168cbbcd318c8ae0d5d9f6fcc1b2dfb11e0b6209d967939499",
+          "entityBodyBytes": 701,
+          "entityBodySha256": "22ed2f365e10c035e9eb88e0fb93a85a71c020a0b14811fe1fe2802b8889722a",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/admin-93be475e-3bda-456e-a904-196971a2fba8",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 201,
+        "body": {
+          "body": "D first race B",
+          "createdAt": "2026-11-02T16:53:50.708Z",
+          "createdBy": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+          "createdByName": "HIJK other",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "e43a2303-671a-4362-a40d-7ec111b5f25f",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+          "targetObjectType": "project",
+          "targetTitle": "HIJK J-first-thread-retry 6872abb5-12af-486f-ada6-02e484421d1f",
+          "threadId": "b6129576-0aaa-43b1-8bbe-057098614cbb"
+        },
+        "requestId": "7892b1fa-4534-4a60-85ee-ef25dc0998fd",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "701",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-459",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:50 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 553,
+          "requestSha256": "0164e95c7486cbd9bd4f296111a1a2b2f90218918702af3b5e486ee3ed168c4f",
+          "responseBytes": 985,
+          "responseSha256": "a1701953da2b1a4f36dcc09e43d6e6d5152f04d9a9176760d1b6c51e25e2ac4f",
+          "entityBodyBytes": 701,
+          "entityBodySha256": "149bb32b064f8996ba2a317bb0c568f1fed33c601e3ff6d598b1647dd7f467e0",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/other-f1ba7abe-baef-47d0-a9c8-fecb06e9c1d6",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "removed": null,
+    "threads": [
+      {
+        "id": "b6129576-0aaa-43b1-8bbe-057098614cbb",
+        "target_object_type": "project",
+        "target_object_id": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+        "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+        "lead_id": null,
+        "project_id": "ab766c1d-ca5e-4a71-aa29-0c796d520098",
+        "target_title": "HIJK J-first-thread-retry 6872abb5-12af-486f-ada6-02e484421d1f",
+        "created_at": "2026-11-02T16:53:50.708Z",
+        "created_by": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8"
+      }
+    ],
+    "comments": [
+      {
+        "id": "4229cb0b-22a1-498c-9305-de67d05f3de5",
+        "thread_id": "b6129576-0aaa-43b1-8bbe-057098614cbb",
+        "discussion_type": "general",
+        "body": "D first race A",
+        "related_contact_id": null,
+        "related_competitor_record_id": null,
+        "related_follow_up_record_id": null,
+        "is_pinned": false,
+        "is_key_conclusion": false,
+        "created_at": "2026-11-02T16:53:50.709Z",
+        "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+      },
+      {
+        "id": "e43a2303-671a-4362-a40d-7ec111b5f25f",
+        "thread_id": "b6129576-0aaa-43b1-8bbe-057098614cbb",
+        "discussion_type": "general",
+        "body": "D first race B",
+        "related_contact_id": null,
+        "related_competitor_record_id": null,
+        "related_follow_up_record_id": null,
+        "is_pinned": false,
+        "is_key_conclusion": false,
+        "created_at": "2026-11-02T16:53:50.708Z",
+        "created_by": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8"
+      }
+    ]
+  }
+}

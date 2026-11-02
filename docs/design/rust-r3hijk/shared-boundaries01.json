@@ -1,0 +1,103 @@
+{
+  "kind": "R3HIJK-joint-G1-shared-boundaries",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "status": "Root-final-proposal-await-independent-joint-G1",
+  "ownership": {
+    "A": [
+      "apps/poms-api-rust/src/leads/** except http.rs"
+    ],
+    "B": [
+      "apps/poms-api-rust/src/sales_intelligence/** except http.rs"
+    ],
+    "D": [
+      "apps/poms-api-rust/src/business_discussions/** except http.rs",
+      "apps/poms-api-rust/src/project_workspace/** except http.rs"
+    ],
+    "Root": [
+      "all http.rs",
+      "Cargo and lock",
+      "lib and global dispatch",
+      "old modules and common bridges",
+      "all install/build/test/lint/DB/HTTP/browser execution",
+      "formal governance, Git/GitHub and evidence"
+    ],
+    "C": [
+      "non-author independent G1/G3/fixed-commit/G4 review"
+    ]
+  },
+  "functions": [
+    {
+      "owner": "A",
+      "signature": "leads::store::by_id(&mut PgConnection,&str)->Result<Option<LeadRef>,sqlx::Error>",
+      "type": "LeadRef { id:Uuid, customer_id:Uuid, lead_name:String }",
+      "rule": "id only, no status/owner/active filter, no independent transaction/session/audit flush"
+    },
+    {
+      "owner": "A",
+      "signature": "leads::store::by_ids(&mut PgConnection,&[Uuid])->Result<Vec<LeadRef>,sqlx::Error>",
+      "rule": "id set only; no added order guarantee or eligibility filter"
+    },
+    {
+      "owner": "B",
+      "signature": "sales_intelligence::store::collect_lead_score_facts(&mut PgConnection,&str)->Result<sales_intelligence::model::SalesIntelligenceFacts,sqlx::Error>",
+      "type": "pub SalesIntelligenceFacts { pub decision_maker_known:bool, pub technical_evaluator_known:bool, pub procurement_process_known:bool, pub budget_source_known:bool, pub competitor_known:bool, pub pain_point_known:bool, pub next_contact_known:bool }",
+      "rule": "exact lead_id; score latest discovery ORDER updated_at DESC ONLY; no status/project/customer predicates or independent transaction/session/audit flush; I writes do not automatically recompute H stored score"
+    },
+    {
+      "owner": "B",
+      "signature": "sales_intelligence::store::competitor_by_id(&mut PgConnection,&str)->Result<Option<sales_intelligence::model::CompetitorRef>,sqlx::Error>",
+      "type": "pub CompetitorRef { pub id:Uuid, pub customer_id:Uuid, pub lead_id:Option<Uuid>, pub project_id:Option<Uuid> }",
+      "rule": "id only; D applies original nullable anchor comparisons"
+    },
+    {
+      "owner": "Root",
+      "signature": "opportunity_context::store::contact_by_id(&mut PgConnection,&str)->Result<Option<ContactRef>,sqlx::Error>",
+      "type": "pub ContactRef { pub id:Uuid, pub customer_id:Uuid, pub name:String, pub department:Option<String>, pub title:Option<String> }",
+      "rule": "existence only including inactive; no phone/mobile/wechat/email/remark exposed"
+    },
+    {
+      "owner": "Root",
+      "signature": "opportunity_context::store::follow_up_by_id(&mut PgConnection,&str)->Result<Option<FollowUpRef>,sqlx::Error>",
+      "type": "pub FollowUpRef { pub id:Uuid, pub customer_id:Uuid, pub lead_id:Option<Uuid>, pub project_id:Option<Uuid> }",
+      "rule": "existence only, including voided and superseded; D applies original anchors"
+    },
+    {
+      "owner": "existing",
+      "signature": "customers::store::find_customer(&mut PgConnection,&str)",
+      "rule": "reuse existence/name lookup without require_active_customer for I/J"
+    },
+    {
+      "owner": "existing",
+      "signature": "projects::store::find(&mut PgConnection,&str)",
+      "rule": "reuse id/customer_id nullable/source_lead_id/project_name; no new status/stage gate"
+    }
+  ],
+  "privateDomainQueries": {
+    "H": "A may implement only Native-equivalent attachment metadata read/copy SQL inside leads/store with caller transaction; preserve original autoflush graph; never alter old public attachment API",
+    "D": "D owns read-only user/org/snapshot/workspace projections in its own stores; preserve original fields/order and missing values, no R4 mutation"
+  },
+  "wire": {
+    "root": "Root owns all HTTP validation/permissions/CSRF/error/wire dispatch. Domain services return source-equivalent errors and raw JS text where required; retain presence Missing/Null/Value.",
+    "strings": "Zod4.6.1 min/max counts Unicode code points (lone surrogate one); explicit source business .length remains UTF16 code units. No global Unicode normalization; PostgreSQL replacement vs immediate response remains separate.",
+    "identifiers": "Original request UUID spelling retained for JS strict comparisons; raw non-validated path id reaches PostgreSQL, preserving original 500 rather than extra 400.",
+    "datesMoney": "Original source date/datetime, JS number and decimal conversions control; no added rounding/clock calls."
+  },
+  "consumerPrerequisites": {
+    "H": "real delivered Customer, dictionary and identity producers; R2 business numbers use independent pool allocation, not caller transaction",
+    "I": "real H HTTP Lead producer and delivered Project/Contact/Customer producers",
+    "J": "real H Lead/conversion and I competitor producer plus delivered FollowUp/Contact",
+    "K": "real Project and H conversion; R4 snapshot history may be explicitly SQL-prepared projection only"
+  },
+  "runtimeExpectation": {
+    "beforeOperations": 145,
+    "beforePaths": 116,
+    "afterOperations": 173,
+    "afterPaths": 138,
+    "schemas": 585,
+    "nativePaths": 237,
+    "nativeOperations": 291,
+    "generatedClient": 579,
+    "migrations": 92
+  },
+  "stageBoundary": "Only #93-96 scoped children may close after independent G4. #85/#57 remain OPEN even when HTTP58/58; full non-HTTP, approval and stage integration remain separate."
+}

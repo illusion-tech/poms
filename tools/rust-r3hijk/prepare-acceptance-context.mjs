@@ -1,0 +1,21 @@
+// Root derives a new G2 context without rewriting any G1 producer original.
+import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const source='tools/rust-r3hijk/native-context.mjs',target='tools/rust-r3hijk/acceptance-context01.mjs',original=fs.readFileSync(source);let text=original.toString('utf8');
+const replace=(a,b)=>{assert(text.includes(a),'Missing derivation anchor: '+a.slice(0,100));text=text.replaceAll(a,b)};
+replace('// Root-only actual Native witness context; authors may supply pure case definitions.','// Root-only actual G2 Native/Rust acceptance context; old G1 context remains immutable.');
+replace('guardNative,guardRustBaseline,base,sha','guardNative,base,sha');
+replace("export async function openNativeContext({tag='g1-native01',phase='01',runId=null}={}){","export async function openAcceptanceContext({backend='nest',tag='g2-native01',phase='01',runId=null}={}){\n assert(['nest','rust'].includes(backend));assert(JSON.parse(fs.readFileSync('docs/design/rust-r3hijk/g1-gate-authority01.json')).G2Authorized);const port=backend==='nest'?12400:12500;");
+replace('guardNative();guardRustBaseline();','guardNative();');
+replace("priv+'/nest-'+tag+'.json'","priv+'/'+backend+'-'+tag+'.json'");
+replace("assert.equal(runtime.backend,'nest')","assert.equal(runtime.backend,backend)");
+replace("priv+'/witness-'+runId","priv+'/acceptance-'+backend+'-'+runId");
+replace("out='tmp/rust-r3hijk/native-witness'+phase","out='tmp/rust-r3hijk/acceptance-'+backend+'-'+tag+'-'+phase");
+replace("database:'poms_r3hijk_nest'","database:'poms_r3hijk_'+backend");
+replace("application_name:'poms-r3hijk-Root-Native-witness'","application_name:'poms-r3hijk-Root-acceptance-'+backend");
+replace("sources=['tools/rust-r3hijk/native-context.mjs'","sources=['tools/rust-r3hijk/acceptance-context01.mjs'");
+replace("r3hijk-native:","r3hijk-acceptance:");
+replace("new HttpSession('http://127.0.0.1:12400'","new HttpSession('http://127.0.0.1:'+port");
+replace("kind:'R3HIJK-original-Native-actual-G1-witness'","kind:'R3HIJK-actual-bounded-G2-acceptance',backend");
+replace("cleanup:'Pending-owned-whole-witness-terminal'","cleanup:'Pending-owned-whole-acceptance-terminal'");
+replace("await db.query('select pg_reload_conf()');\n ctx.finish", "await db.query('select pg_reload_conf()');for(let attempt=0;attempt<50;attempt++){await new Promise(r=>setTimeout(r,40));if((await db.query('show log_statement')).rows[0].log_statement==='all')break;if(attempt===49)throw new Error('Owned SQL logging did not become active');}\n ctx.finish");
+fs.writeFileSync(target,text,{flag:'wx'});const pin=(file,b)=>({file,bytes:b.length,rawBytesSha256:createHash('sha256').update(b).digest('hex')});fs.writeFileSync('tmp/rust-r3hijk/root/acceptance-context-derivation01.json',JSON.stringify({kind:'R3HIJK-G2-context-derived-from-own-public-G1-context',source:pin(source,original),target:pin(target,Buffer.from(text)),G1OriginalOverwritten:false,RustBaselineGuardRemovedOnlyAfterJointG1:true,newBackendRunLineages:true,privateOldBatchRead:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({target,bytes:Buffer.byteLength(text),oldProducerUnchanged:true}));

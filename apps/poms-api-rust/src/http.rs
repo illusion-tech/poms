@@ -192,6 +192,8 @@ pub fn openapi() -> serde_json::Value {
         crate::projects::http::openapi(),
         serde_json::from_str(include_str!("../../../tools/rust-r3cdefg/openapi.json"))
             .unwrap_or_else(|_| panic!("invalid original next16 OpenAPI subset")),
+        serde_json::from_str(include_str!("../../../tools/rust-r3hijk/openapi.json"))
+            .unwrap_or_else(|_| panic!("invalid original final28 OpenAPI subset")),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -316,6 +318,21 @@ pub fn router_with_runtime_settings(
     ));
     let follow_up =
         std::sync::Arc::new(crate::sales_follow_up::Service::new(state.database.clone()));
+    let leads = std::sync::Arc::new(crate::leads::LeadsService::new(
+        state.database.clone(),
+        customers.clone(),
+        dictionary.clone(),
+        auth.service.clone(),
+    ));
+    let intelligence = std::sync::Arc::new(crate::sales_intelligence::Service::new(
+        state.database.clone(),
+    ));
+    let discussions = std::sync::Arc::new(crate::business_discussions::Service::new(
+        state.database.clone(),
+    ));
+    let workspace = std::sync::Arc::new(crate::project_workspace::Service::new(
+        state.database.clone(),
+    ));
     wrap_router(
         health_routes(state)
             .merge(crate::auth::http::router(auth.clone()))
@@ -369,6 +386,19 @@ pub fn router_with_runtime_settings(
             .merge(crate::sales_follow_up::http::router(
                 auth.clone(),
                 follow_up,
+            ))
+            .merge(crate::leads::http::router(auth.clone(), leads))
+            .merge(crate::sales_intelligence::http::router(
+                auth.clone(),
+                intelligence,
+            ))
+            .merge(crate::business_discussions::http::router(
+                auth.clone(),
+                discussions,
+            ))
+            .merge(crate::project_workspace::http::router(
+                auth.clone(),
+                workspace,
             ))
             .merge(crate::approval::http::router(auth, approval)),
         cors_origins,
@@ -436,6 +466,16 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         ))
         .layer(middleware::from_fn(
             crate::sales_follow_up::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(crate::leads::http::normalize_uri))
+        .layer(middleware::from_fn(
+            crate::sales_intelligence::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::business_discussions::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::project_workspace::http::normalize_uri,
         ))
         .layer(middleware::from_fn(decode_path_segments))
         .layer(middleware::from_fn(crate::auth::http::body_parser))

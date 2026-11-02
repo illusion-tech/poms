@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {pin} from './source-guard.mjs';
+const [buildTag,label]=process.argv.slice(2);assert(/^\d{2}$/.test(buildTag)&&/^[a-z0-9-]+$/.test(label));
+const state='/home/wangzishi/.local/share/poms-r3hijk',build=JSON.parse(fs.readFileSync('tmp/rust-r3hijk/rust-check'+buildTag+'/report01.json'));
+assert(build.allExecutedChecksPassed);assert.deepEqual(pin(build.artifact.file),build.artifact);
+const directory=state+'/artifacts';fs.mkdirSync(directory,{recursive:true});const file=directory+'/poms-api-rust-'+build.artifact.rawBytesSha256;
+if(fs.existsSync(file))assert.equal(pin(file).rawBytesSha256,build.artifact.rawBytesSha256);else fs.copyFileSync(build.artifact.file,file,fs.constants.COPYFILE_EXCL);
+const receipt={kind:'R3HIJK-actual-executable-byte-preservation',createdAt:new Date().toISOString(),label,buildTag,artifact:pin(file),matchesExecutedBuildArtifact:true,credentialValuesPublished:false};
+fs.writeFileSync('tmp/rust-r3hijk/runtime/artifact-'+label+'.json',JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({label,artifactSha256:build.artifact.rawBytesSha256,bytes:build.artifact.bytes,preserved:true}));

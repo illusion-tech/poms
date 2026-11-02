@@ -9,7 +9,7 @@ pub struct Query {
 pub struct Create {
     pub customer_id: String,
     pub name: JsString,
-    // The HTTP DTO validates gender, but the original controller omits it.
+    pub gender: Option<String>,
     pub department: Field<JsString>,
     pub title: Field<JsString>,
     pub work_phone: Field<JsString>,

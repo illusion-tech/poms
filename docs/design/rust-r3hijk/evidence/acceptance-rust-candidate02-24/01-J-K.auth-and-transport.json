@@ -1,0 +1,2802 @@
+{
+  "label": "J-K.auth-and-transport",
+  "startedAt": "2026-11-02T16:37:23.085Z",
+  "completedAt": "2026-11-02T16:37:23.635Z",
+  "value": {
+    "definition": {
+      "id": "J-K.auth-and-transport",
+      "covers": [
+        "AUTH-01",
+        "AUTH-02",
+        "AUTH-03",
+        "AUTH-04"
+      ],
+      "requests": [
+        {
+          "id": "J.auth.list.missing-session",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=not-a-uuid",
+          "sessionRole": "admin",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "missing-session"
+        },
+        {
+          "id": "J.auth.create.missing-session",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "unknown",
+            "targetObjectId": "not-a-uuid",
+            "discussionType": "unknown",
+            "body": 1
+          },
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "missing-session"
+        },
+        {
+          "id": "K.auth.guidance.missing-session",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/workspace-guidance",
+          "sessionRole": "admin",
+          "transportProfile": "missing-session",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.missing-session",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/timeline",
+          "sessionRole": "admin",
+          "transportProfile": "missing-session",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.list.expired-session",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=not-a-uuid",
+          "sessionRole": "admin",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "expired-session"
+        },
+        {
+          "id": "J.auth.create.expired-session",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "unknown",
+            "targetObjectId": "not-a-uuid",
+            "discussionType": "unknown",
+            "body": 1
+          },
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "expired-session"
+        },
+        {
+          "id": "K.auth.guidance.expired-session",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/workspace-guidance",
+          "sessionRole": "admin",
+          "transportProfile": "expired-session",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.expired-session",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/timeline",
+          "sessionRole": "admin",
+          "transportProfile": "expired-session",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.list.revoked-session",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=not-a-uuid",
+          "sessionRole": "admin",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "revoked-session"
+        },
+        {
+          "id": "J.auth.create.revoked-session",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "unknown",
+            "targetObjectId": "not-a-uuid",
+            "discussionType": "unknown",
+            "body": 1
+          },
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "revoked-session"
+        },
+        {
+          "id": "K.auth.guidance.revoked-session",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/workspace-guidance",
+          "sessionRole": "admin",
+          "transportProfile": "revoked-session",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.revoked-session",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/timeline",
+          "sessionRole": "admin",
+          "transportProfile": "revoked-session",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.list.disabled-user",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?customerId=not-a-uuid",
+          "sessionRole": "admin",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "disabled-user"
+        },
+        {
+          "id": "J.auth.create.disabled-user",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "unknown",
+            "targetObjectId": "not-a-uuid",
+            "discussionType": "unknown",
+            "body": 1
+          },
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null,
+          "transportProfile": "disabled-user"
+        },
+        {
+          "id": "K.auth.guidance.disabled-user",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/workspace-guidance",
+          "sessionRole": "admin",
+          "transportProfile": "disabled-user",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.disabled-user",
+          "method": "GET",
+          "path": "/api/projects/not-a-uuid/timeline",
+          "sessionRole": "admin",
+          "transportProfile": "disabled-user",
+          "expect": {
+            "exactNativeAuthError": true,
+            "guardPrecedesInvalidDtoAndDatabase": true
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.list.valid-session",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=a41ce59d-aa56-476a-b002-8554af2ae638",
+          "sessionRole": "admin",
+          "expect": {
+            "status": 200
+          },
+          "actual": null,
+          "transportProfile": "valid-session"
+        },
+        {
+          "id": "J.auth.create.valid-session",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 201
+          },
+          "actual": null,
+          "transportProfile": "valid-session"
+        },
+        {
+          "id": "K.auth.guidance.valid-session",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace-guidance",
+          "sessionRole": "admin",
+          "transportProfile": "valid-session",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.valid-session",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/timeline",
+          "sessionRole": "admin",
+          "transportProfile": "valid-session",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.any-read.customerRead",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=a41ce59d-aa56-476a-b002-8554af2ae638",
+          "sessionRole": "customerRead",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.any-read.leadRead",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=a41ce59d-aa56-476a-b002-8554af2ae638",
+          "sessionRole": "leadRead",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.any-read.projectRead",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=a41ce59d-aa56-476a-b002-8554af2ae638",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.any-write.customerWrite",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "customerWrite",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 201
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.any-write.leadWrite",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "leadWrite",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 201
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.any-write.projectWrite",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "projectWrite",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 201
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.no-permissions.list",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=a41ce59d-aa56-476a-b002-8554af2ae638",
+          "sessionRole": "noPermissions",
+          "expect": {
+            "status": 403,
+            "code": "permission_denied"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.no-permissions.create",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "noPermissions",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 403,
+            "code": "permission_denied"
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.guidance.unrelated-permission.customerRead",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace-guidance",
+          "sessionRole": "customerRead",
+          "expect": {
+            "status": 403,
+            "code": "permission_denied"
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.unrelated-permission.customerRead",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/timeline",
+          "sessionRole": "customerRead",
+          "expect": {
+            "status": 403,
+            "code": "permission_denied"
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.guidance.unrelated-permission.leadRead",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace-guidance",
+          "sessionRole": "leadRead",
+          "expect": {
+            "status": 403,
+            "code": "permission_denied"
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.unrelated-permission.leadRead",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/timeline",
+          "sessionRole": "leadRead",
+          "expect": {
+            "status": 403,
+            "code": "permission_denied"
+          },
+          "actual": null
+        },
+        {
+          "id": "J.auth.csrf-missing-cookie",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 403,
+            "code": "csrf_failed"
+          },
+          "actual": null,
+          "transportProfile": "csrf-missing-cookie"
+        },
+        {
+          "id": "J.auth.csrf-missing-header",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 403,
+            "code": "csrf_failed"
+          },
+          "actual": null,
+          "transportProfile": "csrf-missing-header"
+        },
+        {
+          "id": "J.auth.csrf-mismatch",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "status": 403,
+            "code": "csrf_failed"
+          },
+          "actual": null,
+          "transportProfile": "csrf-mismatch"
+        },
+        {
+          "id": "J.auth.bad-session-token",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  "
+          },
+          "expect": {
+            "exactNativeAuthError": true
+          },
+          "actual": null,
+          "transportProfile": "bad-session-token"
+        },
+        {
+          "id": "J.auth.list.GET-no-CSRF",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=a41ce59d-aa56-476a-b002-8554af2ae638",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200
+          },
+          "actual": null,
+          "transportProfile": "no-csrf-cookie-or-header"
+        },
+        {
+          "id": "K.auth.guidance.GET-no-CSRF",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace-guidance",
+          "sessionRole": "projectRead",
+          "transportProfile": "no-csrf-cookie-or-header",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        },
+        {
+          "id": "K.auth.timeline.GET-no-CSRF",
+          "method": "GET",
+          "path": "/api/projects/a41ce59d-aa56-476a-b002-8554af2ae638/timeline",
+          "sessionRole": "projectRead",
+          "transportProfile": "no-csrf-cookie-or-header",
+          "expect": {
+            "status": 200
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "transportInheritance": "AUTH-05 HEAD/OPTIONS/method/trailing-slash baseline remains Root common transport evidence; unknown J query/body keys are explicitly covered above",
+      "outputFieldAuthority": {
+        "comment": [
+          "id",
+          "threadId",
+          "targetObjectType",
+          "targetObjectId",
+          "targetTitle",
+          "customerId",
+          "leadId",
+          "projectId",
+          "discussionType",
+          "body",
+          "relatedContactId",
+          "relatedContactName",
+          "relatedCompetitorRecordId",
+          "relatedFollowUpRecordId",
+          "isPinned",
+          "isKeyConclusion",
+          "createdAt",
+          "createdBy",
+          "createdByName"
+        ],
+        "guidance": [
+          "projectId",
+          "currentStage",
+          "status",
+          "currentStageLabel",
+          "statusLabel",
+          "headline",
+          "currentFocus",
+          "currentGap",
+          "nextStep",
+          "ownerLabel",
+          "blockingReasons",
+          "basisSummary",
+          "recommendedEntries",
+          "generatedAt"
+        ],
+        "basis": [
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "generatedAt"
+        ],
+        "entry": [
+          "key",
+          "label",
+          "description",
+          "route",
+          "enabled",
+          "disabledReason",
+          "actionKey"
+        ],
+        "timeline": [
+          "projectId",
+          "events",
+          "generatedAt"
+        ],
+        "event": [
+          "eventKey",
+          "stage",
+          "stageLabel",
+          "eventType",
+          "occurredAt",
+          "actorUserId",
+          "actorName",
+          "resultLabel",
+          "sourceType",
+          "sourceId",
+          "evidenceLabel",
+          "isAuthoritative"
+        ]
+      }
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 401,
+        "body": {
+          "code": "session_missing",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "774a3921-3018-4ac3-9cc5-e11c80dbcde1",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-248",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 204,
+          "requestSha256": "6640c9236303d0d47ccb876fbd9ed0b25c46067c82534e48dd325b184ccc9593",
+          "responseBytes": 367,
+          "responseSha256": "d85c4c2d8c2bbed5196c4842a4c92e4e987a051c308eeb42e914cad3982e0f97",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "76b686b39178e04771093d92970f9989cbad0a40274d1f8389deea26e2ba0af4",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_missing-session_admin-05558dfb-3bfc-41bb-8df1-3ac717bb72e8",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_missing",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "f598fdb2-3c71-49e6-b6cd-e287445e8eac",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-249",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 331,
+          "requestSha256": "3ea7bf103ec06a76062d72c9defe7fa721265e4a9d2312f205f2322ac7ecfc7d",
+          "responseBytes": 367,
+          "responseSha256": "7a255f6649a1ac5117a2a834870a24186dc8bfaf91bd03c1312f19e340c88723",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "76b686b39178e04771093d92970f9989cbad0a40274d1f8389deea26e2ba0af4",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_missing-session_admin-23f2cc02-b79a-478c-8499-16468b315891",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_missing",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "c425876e-d4d7-41de-97c7-5acf42fe04a7",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-250",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 200,
+          "requestSha256": "58a2b38a44dbc13580f07af11c590c7135d3213ca06583276f4173d69707b24a",
+          "responseBytes": 367,
+          "responseSha256": "2ce23344d5fc9f0b58d0876459e991016532475459feaae5e84f4ded2ca1dfc6",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "76b686b39178e04771093d92970f9989cbad0a40274d1f8389deea26e2ba0af4",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_missing-session_admin-eee8740b-413a-4e06-9612-c30eaec5b1be",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_missing",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "51abbb62-9b07-4d39-bab9-d504616d5730",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-251",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 190,
+          "requestSha256": "4c56ad9a233a1d50804ccbc41b070a8ead8f99e30371cc0fb672662b1ca17b89",
+          "responseBytes": 367,
+          "responseSha256": "9b39764e944366ee57744d676b21cffc48dc1c68049fe0d1d9e9def6bbfe268a",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "76b686b39178e04771093d92970f9989cbad0a40274d1f8389deea26e2ba0af4",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_missing-session_admin-0883614c-c5a4-4b48-93c9-df008febd0c5",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_expired",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "6a7ad143-83b7-402c-b3d3-b601e27ecd14",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-254",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 325,
+          "requestSha256": "079efc88ade9b7b11010cbbd5ae7074467b9ea028f2342c7643fa72a29244a8b",
+          "responseBytes": 367,
+          "responseSha256": "285a4540cd137ae91e4e8c3746a846a3411ee1c5d57b4450d782f2455f6dbe5d",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_expired_session-f32cc0f6-cfbb-442e-a276-b8cf2cdce235",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_expired",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "3a68b91e-5fd9-4d73-b2f4-796116015e95",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-255",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 511,
+          "requestSha256": "7fe4d081b3a2dda7c3d1671a261b71383a061f5f512310165af8bcd61fae0caf",
+          "responseBytes": 367,
+          "responseSha256": "e373c582dee8d51b41dd21f94d77eb0cedd7031203c2dfdaae452cd2b5b47bcc",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_expired_session-b7c64619-ba2a-423b-b9cf-6089f63e7445",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_expired",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "7fc624e6-75d6-44ae-9ca2-ee76101b205a",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-256",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 321,
+          "requestSha256": "20a706130220124de915729f8cb260f28bd9461c996fa69acae4ee1edbb99257",
+          "responseBytes": 367,
+          "responseSha256": "ec815008db51038b5d239162f18b532962f92150f4bdcf391401ffcec6daf216",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_expired_session-69fa8190-ba85-4296-a8ea-c60d3131f790",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_expired",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "3346fb23-90bd-4a04-85aa-9694ddf90351",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-257",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 311,
+          "requestSha256": "caeca81816116b04e27b90da09cbf345f51cd07d765eabeaaa7ade752346ad05",
+          "responseBytes": 367,
+          "responseSha256": "11491bbf5e433f78f463792a95c15ae426cfc98161bcc6da8d73d0fae26fe4a2",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_expired_session-a1f03a47-5b69-4f30-9648-0df319df030c",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "a7a925ac-96d8-48a7-9ba9-8603f1144129",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-260",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 325,
+          "requestSha256": "abb409d6759b002cb5e8862fbbf318f609c7d5ed1ab7d716ac9da73b88647cd5",
+          "responseBytes": 367,
+          "responseSha256": "ea73d47c803236d328d324c8baf4f5fb1f38b345df1ffaeb2edef66a43388aeb",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_revoked_session-52712359-4a3d-4c3d-86f2-f57f66bdb14a",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "1dc79ab6-d209-4acd-b292-900ca2e61f13",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-261",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 511,
+          "requestSha256": "c197911d5dbc336b4088e97cd3837ba594a0385d9b1658d70b06063e0e65dfdd",
+          "responseBytes": 367,
+          "responseSha256": "3de62488efe8f94844e076c28ebdd7bd1e3d91b2fe214d8fa9e8684fcbf546a2",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_revoked_session-4e4bb5db-7550-4fcd-9eb6-319f3900a9c7",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "1a711aac-91dd-407a-a34c-819924049a77",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-262",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 321,
+          "requestSha256": "9a676f6f945b92d8191df56cfebd0f50d2ef54827c167acefce9ab54f84f64b0",
+          "responseBytes": 367,
+          "responseSha256": "40ed16ab79bf809297fad2746b7169e5fe41ad9aa93d1c8e73686aaa984df971",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_revoked_session-0de23851-d3ed-4cf2-99ea-cb888c8cfa22",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "28e9e89b-7ba7-4d77-9daa-3c931e755f78",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-263",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 311,
+          "requestSha256": "ee33def77cf3d8dbad78c1f137b8d16bbd634b06b990457c3469878db4088fb1",
+          "responseBytes": 367,
+          "responseSha256": "7958c3f525c73a93d643ba58853e2a32ffbe0f756ea0bd268b36b32741177e25",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_revoked_session-68774881-12ac-4a6c-9030-cef8cb131c1a",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "account_disabled",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "0832cdf4-e0fb-424f-a324-c843234a2e03",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "80",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-266",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 325,
+          "requestSha256": "ee4cacd9ab4e2b1f26adada19047e1063c4170f42ba3063568935bd97e7c28d1",
+          "responseBytes": 368,
+          "responseSha256": "c67469908a8bba3458d8129ed8521988cb4a209c1a8a781e3d8d0031039791d6",
+          "entityBodyBytes": 80,
+          "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_disabled_user-8b234cf4-e4ce-4cf0-968a-d60c0bea3f96",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "ce9d6de3-7965-4b63-bc94-8d885bf20ef1",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-267",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 511,
+          "requestSha256": "69e448c6c0be6bfed7b3d3dfd51830654435d513971790328b6ff830ba01d0ab",
+          "responseBytes": 367,
+          "responseSha256": "b27c51dd2fd595b50ffa472afd24987b28a6f01486c1ab9582a830be2e55c896",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_disabled_user-9eb32b6d-6c09-4ede-b596-0c6c0dd4f911",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "e6544169-5f69-4f10-aa7c-bb3a6e532d51",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-268",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 321,
+          "requestSha256": "ebfa55350b6885ba77c58c342ebde1dbf9325b048d4206924529684911ad552c",
+          "responseBytes": 367,
+          "responseSha256": "89c7a8cb3d45172094b30841bbc65bfcbf4c671b344e32eaf85e0785c323c807",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_disabled_user-ef36a533-c18b-4097-a661-06bf814e83cc",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_revoked",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "95e2ab27-1d86-4092-8590-875b0ba0cb38",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-269",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 311,
+          "requestSha256": "3ad8f8ae2c2367b42890c58574c3bcc6b9b9ff82ccff09e75250d66d4245e2a3",
+          "responseBytes": 367,
+          "responseSha256": "b0fe4502a088b04fad3cb36d84f0c33bf7e49a73eaecbac350f743779ff142a3",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/auth_disabled_user-6ac9e2a7-e061-4d9f-bc75-3adffdc41e74",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "真实线索讨论😀",
+            "createdAt": "2026-11-02T12:22:17.130Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "projectId": null,
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "targetObjectType": "lead",
+            "targetTitle": "HIJK real-integration",
+            "threadId": "b82be345-5844-49d2-ad16-71f0891f711b"
+          },
+          {
+            "body": "转换后的项目讨论",
+            "createdAt": "2026-11-02T12:22:17.554Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "e080b015-39fc-42cc-8aac-543458309eb2",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          }
+        ],
+        "requestId": "0088a23e-27b2-47fc-a07d-b5c9a20762f0",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1580",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-270",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "41fcf6e4f3e324fbc31340f48c01214ee8523ba6a71f5bdd9d2b2d2b08fcfbf6",
+          "responseBytes": 1860,
+          "responseSha256": "033fe98b751c883ce4e2a0c29c4f122fc9edd171ad535cd9baca6eb249301a33",
+          "entityBodyBytes": 1580,
+          "entityBodySha256": "b22681489c70b861953d08a55210a95b12e625f7e43b1739cc32cafec36a0ef9",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-106c5835-95d9-491f-9a8d-85c4dad5dbb9",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 201,
+        "body": {
+          "body": "R3 J 讨论原语义",
+          "createdAt": "2026-11-02T16:37:23.388Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "createdByName": "HIJK admin",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "0e6a14e7-8b36-4112-b7a2-e7805b2500e4",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "targetObjectType": "project",
+          "targetTitle": "真实联合集成项目😀",
+          "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+        },
+        "requestId": "8384b9d3-b9da-44c1-8ab3-fae6e72218f3",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "688",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-271",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 563,
+          "requestSha256": "62a62c58af9b1843851d8f0d056b1e5631133db92862510943e1ad0693f8ab4d",
+          "responseBytes": 972,
+          "responseSha256": "f77bd1fe3e93926e8a621b7f3d41b7dd2eefe20ef8093ebd32b6522dcd748ded",
+          "entityBodyBytes": 688,
+          "entityBodySha256": "a8c3fe5223cf1bba2437372b2fd4e0efc09651711143ddd155bb79a008379f6f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-d40a47dc-4936-4ba9-8583-ac7c7c8e3202",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "完成立项评估与机会判断。",
+          "currentGap": "需要补齐客户背景、关键风险和是否继续投入的判断。",
+          "currentStage": "assessment",
+          "currentStageLabel": "立项评估",
+          "generatedAt": "2026-11-02T16:37:23.405Z",
+          "headline": "先判断这个项目是否值得继续推进",
+          "nextStep": "确认范围后进入范围确认。",
+          "ownerLabel": "HIJK admin / HIJK admin",
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看签约前当前阶段、阻断原因、下一步和责任归口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "pre-signing-workspace",
+              "label": "签约前主线",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/pre-signing"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看技术可行性、范围边界、风险保留和前期成本估算。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "technical-cost-workspace",
+              "label": "技术与成本",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/technical-cost"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看竞标形态、阶段、决策、材料齐备度、结果和下一步。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "bid-commercial-workspace",
+              "label": "招投标 / 商务竞标",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/bid-commercial"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看报价、成本引用、税务回款条件、毛利判断、放行结论和签约承接。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "pricing-margin-workspace",
+              "label": "报价与毛利评审",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/pricing-margin"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "项目进入正式执行后再查看经营总览。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "项目进入正式执行后再查看偏差与风险。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "项目进入移交或执行阶段后再查看冻结与责任边界。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "项目进入移交或执行阶段后再查看提成阶段解释。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "项目进入移交或执行阶段后再查看规则解释。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "项目进入移交或执行阶段后再处理提成操作。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/operations"
+            }
+          ],
+          "status": "active",
+          "statusLabel": "进行中"
+        },
+        "requestId": "cff19824-3547-4f37-8e5e-dc0e3f094af2",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "4867",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-272",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "1e2f8955111bac6702af6ab1bca2cbfe9312251f06fd9a66f4590a4d82021899",
+          "responseBytes": 5147,
+          "responseSha256": "a6708fe0b3d18a8dc16a9cbcdf866dcdca4bd1cce7298d0ce4218e6acb5e4379",
+          "entityBodyBytes": 4867,
+          "entityBodySha256": "d9d75ba4bf0ec20db4a6dc712998b72620e3e466c093c2cecf2ffbc6b3ce613a",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-fcce6fe2-0d98-411e-9f3d-22a1b7b9bf67",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "events": [
+            {
+              "actorName": "HIJK admin",
+              "actorUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "eventKey": "project-created",
+              "eventType": "stage-entered",
+              "evidenceLabel": "PRJ-2026-000007",
+              "isAuthoritative": true,
+              "occurredAt": "2026-11-02T12:22:17.515Z",
+              "resultLabel": "项目创建",
+              "sourceId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+              "sourceType": "project",
+              "stage": "assessment",
+              "stageLabel": "立项评估"
+            }
+          ],
+          "generatedAt": "2026-11-02T16:37:23.424Z",
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638"
+        },
+        "requestId": "7aaf7220-2aa3-43a5-b05f-3c5d9e1bc49f",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "489",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-273",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 337,
+          "requestSha256": "1f941ea3d5c88b15c7c3456b16e0bf441232561755f9348a12ec9ea8bfc8dd1f",
+          "responseBytes": 768,
+          "responseSha256": "af60f941440aea9ee2a0ff5a71c34d77776b61301385874fa1819e411b267196",
+          "entityBodyBytes": 489,
+          "entityBodySha256": "0554587107dbe289d3ed336bab26d84e35c1a2ad2cd22ac45e9d19ce182c2191",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-f369a1d3-7edd-4060-af58-3c7efd58bb4e",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "真实线索讨论😀",
+            "createdAt": "2026-11-02T12:22:17.130Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "projectId": null,
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "targetObjectType": "lead",
+            "targetTitle": "HIJK real-integration",
+            "threadId": "b82be345-5844-49d2-ad16-71f0891f711b"
+          },
+          {
+            "body": "转换后的项目讨论",
+            "createdAt": "2026-11-02T12:22:17.554Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "e080b015-39fc-42cc-8aac-543458309eb2",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.388Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "0e6a14e7-8b36-4112-b7a2-e7805b2500e4",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          }
+        ],
+        "requestId": "30498912-5914-4c6b-b30b-2b46b290baae",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "2254",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-274",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "77d70d861356c968270bbecc5f89756114d09d09feff85a0d97dbd81eb0d4007",
+          "responseBytes": 2534,
+          "responseSha256": "565cc069235e43095672613b5af4b71aeef3737e463c7e0828d2fec567b79d81",
+          "entityBodyBytes": 2254,
+          "entityBodySha256": "31b9f6b226c498e5b9a93a19050ea08aef3b6a7b8756279baf1cf45027042d27",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_customerRead-35a7391c-b73e-4335-9608-ef37d5304ed0",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "真实线索讨论😀",
+            "createdAt": "2026-11-02T12:22:17.130Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "projectId": null,
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "targetObjectType": "lead",
+            "targetTitle": "HIJK real-integration",
+            "threadId": "b82be345-5844-49d2-ad16-71f0891f711b"
+          },
+          {
+            "body": "转换后的项目讨论",
+            "createdAt": "2026-11-02T12:22:17.554Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "e080b015-39fc-42cc-8aac-543458309eb2",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.388Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "0e6a14e7-8b36-4112-b7a2-e7805b2500e4",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          }
+        ],
+        "requestId": "b863e2cf-33b4-4ee7-ae2c-3463e8458fc9",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "2254",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-275",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "fbd6c9e403cbb5d41d46169867666e7b3e786cbbd58f1167d8a799235a1190eb",
+          "responseBytes": 2534,
+          "responseSha256": "3af44ebef24a332cc7ae318b018662b50a1f0506fa9f563cb77401f0132f16c4",
+          "entityBodyBytes": 2254,
+          "entityBodySha256": "31b9f6b226c498e5b9a93a19050ea08aef3b6a7b8756279baf1cf45027042d27",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_leadRead-7ca3af2f-55c1-4866-9399-9764f884b619",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "真实线索讨论😀",
+            "createdAt": "2026-11-02T12:22:17.130Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "projectId": null,
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "targetObjectType": "lead",
+            "targetTitle": "HIJK real-integration",
+            "threadId": "b82be345-5844-49d2-ad16-71f0891f711b"
+          },
+          {
+            "body": "转换后的项目讨论",
+            "createdAt": "2026-11-02T12:22:17.554Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "e080b015-39fc-42cc-8aac-543458309eb2",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.388Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "0e6a14e7-8b36-4112-b7a2-e7805b2500e4",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          }
+        ],
+        "requestId": "e6e18a74-c84e-4e42-920b-dbd59f8da3f8",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "2254",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-276",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "8e1bf12fcbdb4cca674f97d3274e32ca68b90552df8350f759266b995abdc2e1",
+          "responseBytes": 2534,
+          "responseSha256": "d17bc2e89b4a6e648ecfc66577603325c3715e62dfe80453452f8855983534c2",
+          "entityBodyBytes": 2254,
+          "entityBodySha256": "31b9f6b226c498e5b9a93a19050ea08aef3b6a7b8756279baf1cf45027042d27",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectRead-e13a4308-f17f-4c1f-978a-76f946df08d5",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 201,
+        "body": {
+          "body": "R3 J 讨论原语义",
+          "createdAt": "2026-11-02T16:37:23.469Z",
+          "createdBy": "8a72d1b5-5420-415d-9872-67c66256ef4c",
+          "createdByName": "HIJK d_customerWrite",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "9f3235a2-b88a-4f7d-941a-483c72d6dfcf",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "targetObjectType": "project",
+          "targetTitle": "真实联合集成项目😀",
+          "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+        },
+        "requestId": "1f43b21f-ff25-44b3-9514-2b0d52b35838",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "698",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-277",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 563,
+          "requestSha256": "276821588906f1b1ff11dc2d8bc48f5d94dffc1c8afdfcbd920293d67c7c399a",
+          "responseBytes": 982,
+          "responseSha256": "1d39a1c314b881967a092e3a9fb3d7ab59b34df1693a71d3f7f09fabc4dc1124",
+          "entityBodyBytes": 698,
+          "entityBodySha256": "4c03bcc759317309b4904882cc6e21c7896a1c5dbbda95b3bc85985096485510",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_customerWrite-b61c17a6-026a-42c5-b632-c94375827233",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 201,
+        "body": {
+          "body": "R3 J 讨论原语义",
+          "createdAt": "2026-11-02T16:37:23.482Z",
+          "createdBy": "90943697-bb3b-4c13-9564-2427664368be",
+          "createdByName": "HIJK d_leadWrite",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "59e79d5b-6a85-440d-aefb-2f4839727425",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "targetObjectType": "project",
+          "targetTitle": "真实联合集成项目😀",
+          "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+        },
+        "requestId": "dc5ccb9d-4eb9-47c7-b0f8-2db822f99e16",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "694",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-278",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 563,
+          "requestSha256": "fb220a52719dfb251c54f1f1129ed8c1b1e787c4486ef755fb84fc56bb986f29",
+          "responseBytes": 978,
+          "responseSha256": "296713adc921229c6fb720e10d4227df848b2dca55760458d33555edcb9871ca",
+          "entityBodyBytes": 694,
+          "entityBodySha256": "2f3236ab5b77b9330ed34fd7e9afe604a22eb4d889a9bf91c9970d5d78f3b2b6",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_leadWrite-dab5243c-ed60-4ff0-bc41-6f67e4201a8d",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 201,
+        "body": {
+          "body": "R3 J 讨论原语义",
+          "createdAt": "2026-11-02T16:37:23.497Z",
+          "createdBy": "36cfc140-3e82-4b06-9700-c998df87853e",
+          "createdByName": "HIJK d_projectWrite",
+          "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "discussionType": "general",
+          "id": "419c2664-530c-44ad-b591-06ff8d8b9a03",
+          "isKeyConclusion": false,
+          "isPinned": false,
+          "leadId": null,
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "relatedCompetitorRecordId": null,
+          "relatedContactId": null,
+          "relatedContactName": null,
+          "relatedFollowUpRecordId": null,
+          "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "targetObjectType": "project",
+          "targetTitle": "真实联合集成项目😀",
+          "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+        },
+        "requestId": "320f49be-bb24-4873-926d-439dcead972d",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "697",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-279",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 563,
+          "requestSha256": "3f75a8899af213a0951aef151265535d93dd07cfcbf1ef8261cc2dc277a7ec87",
+          "responseBytes": 981,
+          "responseSha256": "5ef40313a21f07976f7add742546ec8ea5ac5aea67fbcb1ab758dee484e5bd93",
+          "entityBodyBytes": 697,
+          "entityBodySha256": "7d5181806a81d7f4fe48ed5345f718a796cc398fb2fc03489ac472de66f8d9da",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectWrite-7253d200-275c-41c9-b550-e688f6c5d12b",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "permission_denied",
+          "message": "Insufficient permissions",
+          "statusCode": 403
+        },
+        "requestId": "ba80db01-b6f9-435b-ae5e-c5f032174988",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "82",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-280",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "ac6de24caf63e4ff16a19b82c6b31f5532fc5b4046718ea9688ecec4808ada14",
+          "responseBytes": 367,
+          "responseSha256": "ff58071d8c75b2384c4a251ce9db70b7469207db18c268fda2be497979abde34",
+          "entityBodyBytes": 82,
+          "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_noPermissions-08f85072-700b-4429-886e-056eb42d95c3",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "permission_denied",
+          "message": "Insufficient permissions",
+          "statusCode": 403
+        },
+        "requestId": "cd8afc24-aad9-4aae-89a7-35118373b9ea",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "82",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-281",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 563,
+          "requestSha256": "38ef21572fbf6a8630b19b8b45fb8fc28858681e8ccb10e93a565cd4654db0fe",
+          "responseBytes": 367,
+          "responseSha256": "8bfdbd7b58ab67ad71b0d942b37a299a37baef5cb8d5be6ec902163ecc1ff5dd",
+          "entityBodyBytes": 82,
+          "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_noPermissions-d14e03b6-47b4-4518-a273-874628784e6b",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "permission_denied",
+          "message": "Insufficient permissions",
+          "statusCode": 403
+        },
+        "requestId": "113e2180-5a3c-4755-8e99-e390051aa2ae",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "82",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-282",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "915824e98e98ee5b44d13d52cff4c7918cf40299a355bf77d7934a1e922d75b4",
+          "responseBytes": 367,
+          "responseSha256": "10076d41451a02e39fa90837a0b3132e097fd36ab534b57b20e5f196bcd2a617",
+          "entityBodyBytes": 82,
+          "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_customerRead-6902c946-61f3-4ca4-92c9-f96911b5b5e2",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "permission_denied",
+          "message": "Insufficient permissions",
+          "statusCode": 403
+        },
+        "requestId": "71e6061b-15e7-4af0-a025-7233cc218790",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "82",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-283",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 337,
+          "requestSha256": "f8fe3b47a9ed2d1788748cb6c8b36e27c76e8b5a5548da989800096ec2fcaccb",
+          "responseBytes": 367,
+          "responseSha256": "7d929cb4c1add8a7c6b6507f9882202fc1f2100b75dec161e50f502495b38b34",
+          "entityBodyBytes": 82,
+          "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_customerRead-d2df978c-db4a-4b95-8c7f-1e752b155d90",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "permission_denied",
+          "message": "Insufficient permissions",
+          "statusCode": 403
+        },
+        "requestId": "a16212a0-3139-48e9-85a7-eab91f544b53",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "82",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-284",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "6fd3bed2c6019c634d52990cf2fb266675c8e620e1e9ac5ae175203abcebae3e",
+          "responseBytes": 367,
+          "responseSha256": "e26dbe77fa25424564da5d2289cd35c8bdbd68b4a5f039b20b2a7518a841301d",
+          "entityBodyBytes": 82,
+          "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_leadRead-c5b6c355-b253-43e6-b20c-ae330d4b8f0c",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "permission_denied",
+          "message": "Insufficient permissions",
+          "statusCode": 403
+        },
+        "requestId": "0a32519d-c176-4def-80cb-a30efd0388c6",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "82",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-285",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 337,
+          "requestSha256": "2a4cb56223aa81dd531f28a2d7cadb82855ab8bce60f61ce5afc8e12254e9337",
+          "responseBytes": 367,
+          "responseSha256": "938a5ca3834c31525fb4de883c563cfcdcf44fee47114c193a2a507ce696fc67",
+          "entityBodyBytes": 82,
+          "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_leadRead-67931428-56b9-48da-81b3-cdec473f8209",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "csrf_failed",
+          "message": "CSRF token validation failed",
+          "statusCode": 403
+        },
+        "requestId": "d330eca7-45e8-4f51-91e3-6503d0658c87",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "80",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-286",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 508,
+          "requestSha256": "861e173d75c3cca43e94a679cfcec24ed542645cadace6f99387f999c1c0e1e8",
+          "responseBytes": 365,
+          "responseSha256": "dd6264bd12cbbadcc5a895ca13124410482695f481237d15dfe85bb565d7894b",
+          "entityBodyBytes": 80,
+          "entityBodySha256": "90f9fca7da389a6d3adabcc38d0acabdf16124304912240679c2fb221bd70f24",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_csrf-missing-cookie_admin-36b7d1f9-d4ba-4da2-af46-b483399c13de",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "csrf_failed",
+          "message": "CSRF token validation failed",
+          "statusCode": 403
+        },
+        "requestId": "538bc4e7-f6bb-4dee-9ab2-684d80487c0c",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "80",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-287",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 504,
+          "requestSha256": "86a8c3f76740efb0ba1fe55b183f2e6652975b8415a73376f8cefff8716e151d",
+          "responseBytes": 365,
+          "responseSha256": "652df2046ac502710d2f782edea7329d3fa09bd2ba21e057c5ca9046c7d6b68b",
+          "entityBodyBytes": 80,
+          "entityBodySha256": "90f9fca7da389a6d3adabcc38d0acabdf16124304912240679c2fb221bd70f24",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_csrf-missing-header_admin-99458c25-2b30-4d01-a059-f09aecad4eb5",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 403,
+        "body": {
+          "code": "csrf_failed",
+          "message": "CSRF token validation failed",
+          "statusCode": 403
+        },
+        "requestId": "524a2872-48d7-4920-b89d-8a7bbe7a4755",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "80",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-288",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 552,
+          "requestSha256": "d7cc6bb0396a1a84c00a27e9ee51f65987c52cdcfb6dbeae26116656a6c74a7b",
+          "responseBytes": 365,
+          "responseSha256": "05202ef40d9cd46d7e97f2071bde496869a45ae3644fdafb4ad98c70f909e38c",
+          "entityBodyBytes": 80,
+          "entityBodySha256": "90f9fca7da389a6d3adabcc38d0acabdf16124304912240679c2fb221bd70f24",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_csrf-mismatch_admin-f92d876a-c220-4804-bce3-ac10764cf353",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "code": "session_missing",
+          "message": "Authentication required",
+          "statusCode": 401
+        },
+        "requestId": "7032856b-32be-475a-8d26-750601f0b250",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "79",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-289",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 539,
+          "requestSha256": "e790142fc8752865ef652007346c407cd3effe79921da00176a11c5793719f32",
+          "responseBytes": 367,
+          "responseSha256": "6b24c01a9eb62542650cfbdda297c7583ef57930408c6bcee98af661319a962b",
+          "entityBodyBytes": 79,
+          "entityBodySha256": "76b686b39178e04771093d92970f9989cbad0a40274d1f8389deea26e2ba0af4",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_bad-session-token_admin-e5a0b19a-4a65-4687-9a1f-b0e68628a2b8",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "真实线索讨论😀",
+            "createdAt": "2026-11-02T12:22:17.130Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2d51de43-2bec-4df8-88ea-2e8cd8b2685a",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "projectId": null,
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "targetObjectType": "lead",
+            "targetTitle": "HIJK real-integration",
+            "threadId": "b82be345-5844-49d2-ad16-71f0891f711b"
+          },
+          {
+            "body": "转换后的项目讨论",
+            "createdAt": "2026-11-02T12:22:17.554Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "e080b015-39fc-42cc-8aac-543458309eb2",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": "305d2d06-504e-46be-bbde-60554f0c6286",
+            "relatedContactId": "f31d02fc-3e39-477f-a8e2-c56416ffc0f0",
+            "relatedContactName": "HIJK chain-contact",
+            "relatedFollowUpRecordId": "8cd2f0da-59fd-4eab-ab11-560111a63289",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.388Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "0e6a14e7-8b36-4112-b7a2-e7805b2500e4",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.469Z",
+            "createdBy": "8a72d1b5-5420-415d-9872-67c66256ef4c",
+            "createdByName": "HIJK d_customerWrite",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "9f3235a2-b88a-4f7d-941a-483c72d6dfcf",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.482Z",
+            "createdBy": "90943697-bb3b-4c13-9564-2427664368be",
+            "createdByName": "HIJK d_leadWrite",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "59e79d5b-6a85-440d-aefb-2f4839727425",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          },
+          {
+            "body": "R3 J 讨论原语义",
+            "createdAt": "2026-11-02T16:37:23.497Z",
+            "createdBy": "36cfc140-3e82-4b06-9700-c998df87853e",
+            "createdByName": "HIJK d_projectWrite",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "419c2664-530c-44ad-b591-06ff8d8b9a03",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "targetObjectType": "project",
+            "targetTitle": "真实联合集成项目😀",
+            "threadId": "035e5d26-1703-4564-bb19-8b1733c5f4bb"
+          }
+        ],
+        "requestId": "cc7a2462-e055-431b-a794-74c323175cea",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "4301",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-290",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 295,
+          "requestSha256": "261e57115baf7882885a06d7a36f870ba25db12008e75c37fafa167cab8f6919",
+          "responseBytes": 4581,
+          "responseSha256": "a9d2ae9f463da814e0756e611f66e484e606cf80213ba7e15760b2b6b1e6290b",
+          "entityBodyBytes": 4301,
+          "entityBodySha256": "45b29b9b736d64d9269736a21f9349d8d9026f718b71de33623f500df1c2cfea",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_no-csrf-cookie-or-header_projectRead-efa8854f-c759-408f-8952-2c6bfe01eef6",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "完成立项评估与机会判断。",
+          "currentGap": "需要补齐客户背景、关键风险和是否继续投入的判断。",
+          "currentStage": "assessment",
+          "currentStageLabel": "立项评估",
+          "generatedAt": "2026-11-02T16:37:23.617Z",
+          "headline": "先判断这个项目是否值得继续推进",
+          "nextStep": "确认范围后进入范围确认。",
+          "ownerLabel": "HIJK admin / HIJK admin",
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看签约前当前阶段、阻断原因、下一步和责任归口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "pre-signing-workspace",
+              "label": "签约前主线",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/pre-signing"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看技术可行性、范围边界、风险保留和前期成本估算。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "technical-cost-workspace",
+              "label": "技术与成本",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/technical-cost"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看竞标形态、阶段、决策、材料齐备度、结果和下一步。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "bid-commercial-workspace",
+              "label": "招投标 / 商务竞标",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/bid-commercial"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看报价、成本引用、税务回款条件、毛利判断、放行结论和签约承接。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "pricing-margin-workspace",
+              "label": "报价与毛利评审",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/pricing-margin"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "项目进入正式执行后再查看经营总览。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "项目进入正式执行后再查看偏差与风险。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "项目进入移交或执行阶段后再查看冻结与责任边界。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "项目进入移交或执行阶段后再查看提成阶段解释。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "项目进入移交或执行阶段后再查看规则解释。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "项目进入移交或执行阶段后再处理提成操作。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/a41ce59d-aa56-476a-b002-8554af2ae638/commission/operations"
+            }
+          ],
+          "status": "active",
+          "statusLabel": "进行中"
+        },
+        "requestId": "b5f28f97-c3b9-43e5-835d-4e206015f9c0",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "4867",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-291",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 292,
+          "requestSha256": "780aa5cc1a3f84f547e57761288fad073abe9c7458a35998cdb5e59afcf88494",
+          "responseBytes": 5147,
+          "responseSha256": "51f0eb484933b5ec89d283483987a4565682bb05930e8544ec776bb0673d49c1",
+          "entityBodyBytes": 4867,
+          "entityBodySha256": "fa33bffe9cbd33f6b64922111653fc42290a2c0095b5a6d7885c23ac2b4bd846",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_no-csrf-cookie-or-header_projectRead-4050d577-c12e-4319-a78e-0e35d42b5ed3",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "events": [
+            {
+              "actorName": "HIJK admin",
+              "actorUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "eventKey": "project-created",
+              "eventType": "stage-entered",
+              "evidenceLabel": "PRJ-2026-000007",
+              "isAuthoritative": true,
+              "occurredAt": "2026-11-02T12:22:17.515Z",
+              "resultLabel": "项目创建",
+              "sourceId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+              "sourceType": "project",
+              "stage": "assessment",
+              "stageLabel": "立项评估"
+            }
+          ],
+          "generatedAt": "2026-11-02T16:37:23.633Z",
+          "projectId": "a41ce59d-aa56-476a-b002-8554af2ae638"
+        },
+        "requestId": "2854816c-2f9f-4bc2-a7af-09a218fd2fa0",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "489",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-292",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 282,
+          "requestSha256": "2f7a4625bf251aae1c02565da1b747e03ee4e7d1ddad3e2a88f6d535aff3b54e",
+          "responseBytes": 768,
+          "responseSha256": "4c3d71df2bd050c331c43b3952a013409f326b6c1881dcb3c4237f035e5dd945",
+          "entityBodyBytes": 489,
+          "entityBodySha256": "63a92edac040115078ccc33142410d3434f3c42e90008db3eabe3955aa25e732",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/profile_no-csrf-cookie-or-header_projectRead-b36ae461-4575-4ab7-9ca1-3895c5dab398",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

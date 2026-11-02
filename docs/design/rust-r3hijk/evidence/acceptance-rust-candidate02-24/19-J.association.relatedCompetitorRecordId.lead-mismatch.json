@@ -1,0 +1,81 @@
+{
+  "label": "J.association.relatedCompetitorRecordId.lead-mismatch",
+  "startedAt": "2026-11-02T16:37:24.099Z",
+  "completedAt": "2026-11-02T16:37:24.109Z",
+  "value": {
+    "definition": {
+      "id": "J.association.relatedCompetitorRecordId.lead-mismatch",
+      "covers": [
+        "J-A03",
+        "J-A05"
+      ],
+      "requests": [
+        {
+          "id": "J.association.relatedCompetitorRecordId.lead-mismatch",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "lead",
+            "targetObjectId": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedCompetitorRecordId": "e544d858-d337-4e2f-ad57-771f2705639a"
+          },
+          "expect": {
+            "status": 400,
+            "message": "CompetitorIntelligenceRecord e544d858-d337-4e2f-ad57-771f2705639a does not belong to lead 48caef04-59b2-468d-9d81-88dd5cd36f4b"
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "compare": "All 19 comment fields; original canonical anchor snapshots; each error probe changes only one association. Simultaneous Promise.all failures have no fixed priority claim."
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "CompetitorIntelligenceRecord e544d858-d337-4e2f-ad57-771f2705639a does not belong to lead 48caef04-59b2-468d-9d81-88dd5cd36f4b",
+          "statusCode": 400
+        },
+        "requestId": "0191ad17-5cc1-4d7f-a898-fff69711f7cf",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "179",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-337",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 627,
+          "requestSha256": "164e435bf5ca60fd1459f88895fd12bb44948159231f0667b3957a2fa26c1d7e",
+          "responseBytes": 467,
+          "responseSha256": "66d9a79f94ef686db7f6a3b4345f45310855370bde14a8279f0d85fbfa122949",
+          "entityBodyBytes": 179,
+          "entityBodySha256": "916439bd01c5ce77dd5d9e393b98074518d98b83e33640f44eaf5cdc6e4222fb",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-10c5ebb9-1ae0-42bf-87c7-c0570b5b8362",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

@@ -1,0 +1,22 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {pin} from './source-guard.mjs';
+const directory='docs/design/rust-r3hijk',file=directory+'/g3-input-manifest01.json';assert(!fs.existsSync(file));
+const walk=p=>fs.readdirSync(p,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(p+'/'+e.name):[p+'/'+e.name]).sort();
+for(const attempt of ['01','02'])fs.cpSync('tmp/rust-r3hijk/common-checks'+attempt,directory+'/verification/common-checks'+attempt,{recursive:true,errorOnExist:true,force:false});
+assert(JSON.parse(fs.readFileSync(directory+'/verification/common-checks02/report01.json')).allChecksPassed);
+const governance=['.gitattributes','docs/design/backend-rust-migration-plan.md','docs/design/phase2-development-execution-tracker.md','docs/design/rust-r3-operation-slices.json','docs/design/rust-r3hijk-delivery-status.json','tools/rust-r3ab/inventory.mjs'];
+const governanceOriginals=[];
+for(const original of governance){const target=directory+'/submission-governance-originals/'+original;fs.mkdirSync(path.dirname(target),{recursive:true});fs.copyFileSync(original,target,fs.constants.COPYFILE_EXCL);governanceOriginals.push({originalPath:original,original:pin(original),snapshot:pin(target)});}
+const build=JSON.parse(fs.readFileSync(directory+'/evidence/rust-check09/report01.json'));
+for(const input of build.after)assert.deepEqual(pin(input.file),input);
+const admission=JSON.parse(fs.readFileSync(directory+'/preflight-native-source-manifest01.json'));
+for(const input of admission.nativeFiles)assert.deepEqual(pin(input.file),input);
+const productInputs=[...build.after,...['Cargo.toml','Cargo.lock','rust-toolchain.toml'].filter(name=>fs.existsSync('apps/poms-api-rust/'+name)).map(name=>pin('apps/poms-api-rust/'+name)),pin('tools/rust-r3hijk/openapi.json')];
+const lifecycle=['next28-baseline','scope-and-dependencies','business-semantics-corrective-checkpoint01','foundation-dependency-corrective-checkpoint02','money-corrective-checkpoint03'].map(name=>pin('docs/design/rust-r3hijk-'+name+'.md'));
+const tools=walk('tools/rust-r3hijk').map(pin),formalInputs=walk(directory).map(pin);
+const testLog=fs.readFileSync(directory+'/evidence/rust-check09/cargo-test.log','utf8'),matches=[...testLog.matchAll(/test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored/g)];
+const tests={passed:matches.reduce((n,m)=>n+Number(m[1]),0),failed:matches.reduce((n,m)=>n+Number(m[2]),0),ignored:matches.reduce((n,m)=>n+Number(m[3]),0)};assert.deepEqual(tests,{passed:288,failed:0,ignored:54});
+const manifest={kind:'R3HIJK-complete-independent-G3-input',createdAt:new Date().toISOString(),base:'7f970c992291c61477eb9bd83a48cec19a769d88',scope:{issues:[93,94,95,96],operations:28,parentsRemainOpen:[85,57],formalR3Delivered:30,fullStageCertified:false},candidate:build.artifact,tests,productInputs,protectedNativeInputs:admission.nativeFiles,lifecycleInputs:lifecycle,tools,formalInputs,governanceOriginals,G3Certified:false,G4Certified:false};
+fs.writeFileSync(file,JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({manifest:pin(file),productInputs:productInputs.length,protectedNativeInputs:admission.nativeFiles.length,formalInputs:formalInputs.length,tools:tools.length,tests,G3:false}));

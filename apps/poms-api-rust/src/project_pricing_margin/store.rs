@@ -46,8 +46,7 @@ pub struct Row<V = i32> {
     pub row_version: i32,
 }
 
-/// Preserve Number(int4_version) + 1 without a Rust int4 overflow. PostgreSQL
-/// applies the original range and uniqueness checks at the first INSERT.
+/// Keep the next version wide until PostgreSQL applies its existing int4 bound.
 pub type NewReview = Row<i64>;
 
 macro_rules! columns {
@@ -109,6 +108,14 @@ pub async fn current(
 ) -> Result<Option<Row>, sqlx::Error> {
     sqlx::query(concat!("SELECT ",columns!()," FROM poms.project_pricing_margin_review WHERE project_id=$1::text::uuid AND is_current=true AND status='effective' ORDER BY version DESC,effective_at DESC,created_at DESC LIMIT 1"))
         .bind(project_id).fetch_optional(connection).await?.map(row).transpose()
+}
+
+pub(crate) async fn next_version(
+    connection: &mut PgConnection,
+    project_id: Uuid,
+) -> Result<i64, sqlx::Error> {
+    sqlx::query_scalar("SELECT COALESCE(MAX(version)::bigint,0)+1 FROM poms.project_pricing_margin_review WHERE project_id=$1")
+        .bind(project_id).fetch_one(connection).await
 }
 
 pub async fn by_id(connection: &mut PgConnection, id: Uuid) -> Result<Option<Row>, sqlx::Error> {
@@ -199,15 +206,10 @@ pub async fn supersede(
     previous: &Row,
     actor: Uuid,
     now: DateTime<Utc>,
-) -> Result<(), sqlx::Error> {
-    let value=sqlx::query("UPDATE poms.project_pricing_margin_review SET is_current=false,status='superseded',updated_by=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 RETURNING id")
+) -> Result<bool, sqlx::Error> {
+    let value=sqlx::query("UPDATE poms.project_pricing_margin_review SET is_current=false,status='superseded',updated_by=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 AND is_current=true AND status='effective' RETURNING id")
         .bind(actor).bind(now).bind(previous.id).bind(previous.row_version).fetch_optional(connection).await?;
-    if value.is_none() {
-        return Err(sqlx::Error::Protocol(
-            "pricing margin managed version conflict".into(),
-        ));
-    }
-    Ok(())
+    Ok(value.is_some())
 }
 
 pub struct ConditionRow {

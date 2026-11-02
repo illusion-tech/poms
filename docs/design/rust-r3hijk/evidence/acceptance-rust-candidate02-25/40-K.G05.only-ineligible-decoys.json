@@ -1,0 +1,832 @@
+{
+  "label": "K.G05.only-ineligible-decoys",
+  "startedAt": "2026-11-02T16:53:51.754Z",
+  "completedAt": "2026-11-02T16:53:51.802Z",
+  "value": {
+    "definition": {
+      "id": "K.G05.only-ineligible-decoys",
+      "covers": [
+        "K-G05",
+        "K-G08"
+      ],
+      "prepare": [
+        {
+          "role": "guide",
+          "table": "approval_summary_package_definition",
+          "sql": "INSERT INTO poms.approval_summary_package_definition (id,approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version,status,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3,$4,$5,$6,$7,$8::timestamptz,$8::timestamptz,$9::uuid,$9::uuid) RETURNING *",
+          "params": [
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "project-detail",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "allow",
+            "d-g2-projection-only",
+            "inactive",
+            "2020-01-01T00:00:00.123456Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null
+        },
+        {
+          "role": "scenario",
+          "table": "approval_summary_package_definition",
+          "sql": "INSERT INTO poms.approval_summary_package_definition (id,approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version,status,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3,$4,$5,$6,$7,$8::timestamptz,$8::timestamptz,$9::uuid,$9::uuid) RETURNING *",
+          "params": [
+            "123c926f-84f1-4244-9a3b-e6f3c13efdb5",
+            "d-g2-other-scenario",
+            "d-g2-6872abb5-12af-486f-scenario",
+            "project-detail",
+            "allow",
+            "d-g2-projection-only",
+            "active",
+            "2020-01-01T00:00:00.123456Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null
+        },
+        {
+          "role": "projection",
+          "table": "approval_summary_package_definition",
+          "sql": "INSERT INTO poms.approval_summary_package_definition (id,approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version,status,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3,$4,$5,$6,$7,$8::timestamptz,$8::timestamptz,$9::uuid,$9::uuid) RETURNING *",
+          "params": [
+            "971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d",
+            "project-detail",
+            "d-g2-6872abb5-12af-486f-projection",
+            "d-g2-other-projection",
+            "allow",
+            "d-g2-projection-only",
+            "active",
+            "2020-01-01T00:00:00.123456Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null
+        },
+        {
+          "role": "superseded-exact",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "9288407f-fa82-446c-bf28-c8895da296aa",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "superseded",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        {
+          "role": "voided-exact",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "52ffd6b6-41bb-4bcd-9ca6-293855c01410",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "voided",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        {
+          "role": "other-scenario",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "38f7df16-ef67-47cc-a589-bc942c3ae732",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "d-g2-other-scenario",
+            "123c926f-84f1-4244-9a3b-e6f3c13efdb5",
+            "d-g2-6872abb5-12af-486f-scenario",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        {
+          "role": "other-projection",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "5c80593b-3670-4b44-abf8-3ee46abbd213",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project-detail",
+            "971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d",
+            "d-g2-6872abb5-12af-486f-projection",
+            "d-g2-other-projection",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        {
+          "role": "other-type",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "b76c1ca0-185a-44a7-a9e0-e424dd52678b",
+            "lead",
+            "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        {
+          "role": "other-target",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "52388a44-b472-4eb7-b522-e43e970b346d",
+            "project",
+            "3909d1ff-4809-47fd-b453-055a3c69551e",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        }
+      ],
+      "requests": [
+        {
+          "id": "K.G05.only-ineligible-decoys",
+          "method": "GET",
+          "path": "/api/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace-guidance",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "basisAllFourNull": true
+          },
+          "actual": null,
+          "capture": [
+            "full 14-field payload",
+            "entry array and all 7 fields",
+            "basis all 4 fields",
+            "before/after owned domain rows and row versions",
+            "request-clock window"
+          ]
+        }
+      ]
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "guide",
+          "table": "approval_summary_package_definition",
+          "sql": "INSERT INTO poms.approval_summary_package_definition (id,approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version,status,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3,$4,$5,$6,$7,$8::timestamptz,$8::timestamptz,$9::uuid,$9::uuid) RETURNING *",
+          "params": [
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "project-detail",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "allow",
+            "d-g2-projection-only",
+            "inactive",
+            "2020-01-01T00:00:00.123456Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "3943c4af-5577-4028-a15e-90130e028863",
+            "approval_scenario_key": "project-detail",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-guide",
+            "projection_level": "project-detail",
+            "export_policy": "allow",
+            "field_rule_version": "d-g2-projection-only",
+            "status": "inactive",
+            "created_at": "2020-01-01T00:00:00.123Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2020-01-01T00:00:00.123Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "scenario",
+          "table": "approval_summary_package_definition",
+          "sql": "INSERT INTO poms.approval_summary_package_definition (id,approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version,status,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3,$4,$5,$6,$7,$8::timestamptz,$8::timestamptz,$9::uuid,$9::uuid) RETURNING *",
+          "params": [
+            "123c926f-84f1-4244-9a3b-e6f3c13efdb5",
+            "d-g2-other-scenario",
+            "d-g2-6872abb5-12af-486f-scenario",
+            "project-detail",
+            "allow",
+            "d-g2-projection-only",
+            "active",
+            "2020-01-01T00:00:00.123456Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "123c926f-84f1-4244-9a3b-e6f3c13efdb5",
+            "approval_scenario_key": "d-g2-other-scenario",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-scenario",
+            "projection_level": "project-detail",
+            "export_policy": "allow",
+            "field_rule_version": "d-g2-projection-only",
+            "status": "active",
+            "created_at": "2020-01-01T00:00:00.123Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2020-01-01T00:00:00.123Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "projection",
+          "table": "approval_summary_package_definition",
+          "sql": "INSERT INTO poms.approval_summary_package_definition (id,approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version,status,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3,$4,$5,$6,$7,$8::timestamptz,$8::timestamptz,$9::uuid,$9::uuid) RETURNING *",
+          "params": [
+            "971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d",
+            "project-detail",
+            "d-g2-6872abb5-12af-486f-projection",
+            "d-g2-other-projection",
+            "allow",
+            "d-g2-projection-only",
+            "active",
+            "2020-01-01T00:00:00.123456Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d",
+            "approval_scenario_key": "project-detail",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-projection",
+            "projection_level": "d-g2-other-projection",
+            "export_policy": "allow",
+            "field_rule_version": "d-g2-projection-only",
+            "status": "active",
+            "created_at": "2020-01-01T00:00:00.123Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2020-01-01T00:00:00.123Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "superseded-exact",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "9288407f-fa82-446c-bf28-c8895da296aa",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "superseded",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "9288407f-fa82-446c-bf28-c8895da296aa",
+            "target_type": "project",
+            "target_id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "approval_scenario_key": "project-detail",
+            "summary_package_id": "3943c4af-5577-4028-a15e-90130e028863",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-guide",
+            "projection_level": "project-detail",
+            "export_policy": "deny",
+            "business_status_at_snapshot": "active",
+            "generated_at": "2025-01-01T00:00:00.999Z",
+            "status": "superseded",
+            "supersedes_id": null,
+            "created_at": "2025-01-01T00:00:00.999Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2025-01-01T00:00:00.999Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "voided-exact",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "52ffd6b6-41bb-4bcd-9ca6-293855c01410",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "voided",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "52ffd6b6-41bb-4bcd-9ca6-293855c01410",
+            "target_type": "project",
+            "target_id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "approval_scenario_key": "project-detail",
+            "summary_package_id": "3943c4af-5577-4028-a15e-90130e028863",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-guide",
+            "projection_level": "project-detail",
+            "export_policy": "deny",
+            "business_status_at_snapshot": "active",
+            "generated_at": "2025-01-01T00:00:00.999Z",
+            "status": "voided",
+            "supersedes_id": null,
+            "created_at": "2025-01-01T00:00:00.999Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2025-01-01T00:00:00.999Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "other-scenario",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "38f7df16-ef67-47cc-a589-bc942c3ae732",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "d-g2-other-scenario",
+            "123c926f-84f1-4244-9a3b-e6f3c13efdb5",
+            "d-g2-6872abb5-12af-486f-scenario",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "38f7df16-ef67-47cc-a589-bc942c3ae732",
+            "target_type": "project",
+            "target_id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "approval_scenario_key": "d-g2-other-scenario",
+            "summary_package_id": "123c926f-84f1-4244-9a3b-e6f3c13efdb5",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-scenario",
+            "projection_level": "project-detail",
+            "export_policy": "deny",
+            "business_status_at_snapshot": "active",
+            "generated_at": "2025-01-01T00:00:00.999Z",
+            "status": "active",
+            "supersedes_id": null,
+            "created_at": "2025-01-01T00:00:00.999Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2025-01-01T00:00:00.999Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "other-projection",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "5c80593b-3670-4b44-abf8-3ee46abbd213",
+            "project",
+            "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "project-detail",
+            "971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d",
+            "d-g2-6872abb5-12af-486f-projection",
+            "d-g2-other-projection",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "5c80593b-3670-4b44-abf8-3ee46abbd213",
+            "target_type": "project",
+            "target_id": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+            "approval_scenario_key": "project-detail",
+            "summary_package_id": "971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-projection",
+            "projection_level": "d-g2-other-projection",
+            "export_policy": "deny",
+            "business_status_at_snapshot": "active",
+            "generated_at": "2025-01-01T00:00:00.999Z",
+            "status": "active",
+            "supersedes_id": null,
+            "created_at": "2025-01-01T00:00:00.999Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2025-01-01T00:00:00.999Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "other-type",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "b76c1ca0-185a-44a7-a9e0-e424dd52678b",
+            "lead",
+            "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "b76c1ca0-185a-44a7-a9e0-e424dd52678b",
+            "target_type": "lead",
+            "target_id": "48caef04-59b2-468d-9d81-88dd5cd36f4b",
+            "approval_scenario_key": "project-detail",
+            "summary_package_id": "3943c4af-5577-4028-a15e-90130e028863",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-guide",
+            "projection_level": "project-detail",
+            "export_policy": "deny",
+            "business_status_at_snapshot": "active",
+            "generated_at": "2025-01-01T00:00:00.999Z",
+            "status": "active",
+            "supersedes_id": null,
+            "created_at": "2025-01-01T00:00:00.999Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2025-01-01T00:00:00.999Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "other-target",
+          "table": "approval_summary_snapshot",
+          "sql": "INSERT INTO poms.approval_summary_snapshot (id,target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot,generated_at,status,supersedes_id,created_at,updated_at,created_by,updated_by) VALUES ($1::uuid,$2,$3::uuid,$4,$5::uuid,$6,$7,$8,$9,$10::timestamptz,$11,$12::uuid,$13::timestamptz,$13::timestamptz,$14::uuid,$14::uuid) RETURNING *",
+          "params": [
+            "52388a44-b472-4eb7-b522-e43e970b346d",
+            "project",
+            "3909d1ff-4809-47fd-b453-055a3c69551e",
+            "project-detail",
+            "3943c4af-5577-4028-a15e-90130e028863",
+            "d-g2-6872abb5-12af-486f-guide",
+            "project-detail",
+            "deny",
+            "active",
+            "2025-01-01T00:00:00.999999Z",
+            "active",
+            null,
+            "2025-01-01T00:00:00.999999Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "executionOwner": "Root",
+          "actual": null,
+          "uniqueBoundary": "At most one active row for each target_type,target_id,approval_scenario_key,projection_level"
+        },
+        "before": null,
+        "after": [
+          {
+            "id": "52388a44-b472-4eb7-b522-e43e970b346d",
+            "target_type": "project",
+            "target_id": "3909d1ff-4809-47fd-b453-055a3c69551e",
+            "approval_scenario_key": "project-detail",
+            "summary_package_id": "3943c4af-5577-4028-a15e-90130e028863",
+            "summary_package_key": "d-g2-6872abb5-12af-486f-guide",
+            "projection_level": "project-detail",
+            "export_policy": "deny",
+            "business_status_at_snapshot": "active",
+            "generated_at": "2025-01-01T00:00:00.999Z",
+            "status": "active",
+            "supersedes_id": null,
+            "created_at": "2025-01-01T00:00:00.999Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updated_at": "2025-01-01T00:00:00.999Z",
+            "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "row_version": 1
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "basisSummary": {
+            "exportPolicy": null,
+            "generatedAt": null,
+            "projectionLevel": null,
+            "summarySnapshotId": null
+          },
+          "blockingReasons": [],
+          "currentFocus": "查看最终结算、规则解释和归档结果。",
+          "currentGap": "如仍有质保金或结算事项，请进入提成相关页面处理。",
+          "currentStage": "completed",
+          "currentStageLabel": "已完成",
+          "generatedAt": "2026-11-02T16:53:51.796Z",
+          "headline": "项目主线已完成，重点看归档和结算",
+          "nextStep": "按归档结果处理后续复核或质保金事项。",
+          "ownerLabel": "HIJK admin / HIJK admin",
+          "projectId": "19cbb869-fee4-48d0-8e1f-8c02431a9608",
+          "recommendedEntries": [
+            {
+              "actionKey": "project:read",
+              "description": "查看项目主体、负责人、合同、审批和确认情况。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "project-detail",
+              "label": "项目详情",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608"
+            },
+            {
+              "actionKey": "view-project-workspace",
+              "description": "查看当前阶段、缺口、下一步和推荐入口。",
+              "disabledReason": null,
+              "enabled": true,
+              "key": "workspace-home",
+              "label": "工作区总览",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看收入、成本、回款和经营口径。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "operating-overview",
+              "label": "经营总览",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace/operating-overview"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看经营偏差、风险等级和建议动作。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "variance-risk",
+              "label": "偏差与风险",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/workspace/variance-risk"
+            },
+            {
+              "actionKey": "commission:assignments:manage",
+              "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+              "disabledReason": "需要项目查看和提成角色冻结权限。",
+              "enabled": false,
+              "key": "commission-freeze-binding",
+              "label": "冻结与责任边界",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/freeze-binding"
+            },
+            {
+              "actionKey": "contract:finance:manage",
+              "description": "查看当前阶段是否满足提成闸口条件。",
+              "disabledReason": "需要项目查看和合同资金权限。",
+              "enabled": false,
+              "key": "commission-gate-overview",
+              "label": "提成阶段解释",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/gate-overview"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看最终结算、质保金和发放条件。",
+              "disabledReason": "需要项目查看和提成发放权限。",
+              "enabled": false,
+              "key": "commission-final-settlement",
+              "label": "最终结算",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/final-settlement"
+            },
+            {
+              "actionKey": "commission:payouts:manage",
+              "description": "查看当前项目适用的提成规则和解释口径。",
+              "disabledReason": "需要项目查看和提成发放权限。",
+              "enabled": false,
+              "key": "commission-rule-explanation",
+              "label": "规则解释",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/rule-explanation"
+            },
+            {
+              "actionKey": "manage-project-commission",
+              "description": "处理提成规则、计算、发放和调整。",
+              "disabledReason": "需要完整的提成治理操作权限。",
+              "enabled": false,
+              "key": "commission-operations",
+              "label": "提成操作",
+              "route": "/projects/19cbb869-fee4-48d0-8e1f-8c02431a9608/commission/operations"
+            }
+          ],
+          "status": "completed",
+          "statusLabel": "已完成"
+        },
+        "requestId": "fa83641a-489f-49cc-a0f6-9652812c79bc",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "3516",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-498",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:51 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 347,
+          "requestSha256": "568b06bb654776d288a09fec2942d5a46bb138a7150696b66e80cbaf01847214",
+          "responseBytes": 3796,
+          "responseSha256": "1081dee023c1fc9c9fe07bce626a1246601deea955c012f6c5b902c60c7a2c7e",
+          "entityBodyBytes": 3516,
+          "entityBodySha256": "a075500fe646e162d27e393a33242fa9d2a7e65401cfb7b97a0b8de827664f83",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_projectRead-07155fda-10da-4f73-8dc5-07e26e4055d5",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"status\": \"completed\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.067+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-03T00:34:33.067+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f\", \"closed_reason\": null, \"current_stage\": \"completed\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": [
+        "{\"id\": \"38f7df16-ef67-47cc-a589-bc942c3ae732\", \"status\": \"active\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"project-detail\", \"summary_package_id\": \"123c926f-84f1-4244-9a3b-e6f3c13efdb5\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-scenario\", \"approval_scenario_key\": \"d-g2-other-scenario\", \"business_status_at_snapshot\": \"active\"}",
+        "{\"id\": \"52ffd6b6-41bb-4bcd-9ca6-293855c01410\", \"status\": \"voided\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"project-detail\", \"summary_package_id\": \"3943c4af-5577-4028-a15e-90130e028863\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-guide\", \"approval_scenario_key\": \"project-detail\", \"business_status_at_snapshot\": \"active\"}",
+        "{\"id\": \"5c80593b-3670-4b44-abf8-3ee46abbd213\", \"status\": \"active\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"d-g2-other-projection\", \"summary_package_id\": \"971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-projection\", \"approval_scenario_key\": \"project-detail\", \"business_status_at_snapshot\": \"active\"}",
+        "{\"id\": \"9288407f-fa82-446c-bf28-c8895da296aa\", \"status\": \"superseded\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"project-detail\", \"summary_package_id\": \"3943c4af-5577-4028-a15e-90130e028863\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-guide\", \"approval_scenario_key\": \"project-detail\", \"business_status_at_snapshot\": \"active\"}"
+      ]
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"status\": \"completed\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.067+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000017\", \"updated_at\": \"2026-11-03T00:34:33.067+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"HIJK D-projectGuidance 6872abb5-12af-486f-ada6-02e484421d1f\", \"closed_reason\": null, \"current_stage\": \"completed\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": [
+        "{\"id\": \"38f7df16-ef67-47cc-a589-bc942c3ae732\", \"status\": \"active\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"project-detail\", \"summary_package_id\": \"123c926f-84f1-4244-9a3b-e6f3c13efdb5\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-scenario\", \"approval_scenario_key\": \"d-g2-other-scenario\", \"business_status_at_snapshot\": \"active\"}",
+        "{\"id\": \"52ffd6b6-41bb-4bcd-9ca6-293855c01410\", \"status\": \"voided\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"project-detail\", \"summary_package_id\": \"3943c4af-5577-4028-a15e-90130e028863\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-guide\", \"approval_scenario_key\": \"project-detail\", \"business_status_at_snapshot\": \"active\"}",
+        "{\"id\": \"5c80593b-3670-4b44-abf8-3ee46abbd213\", \"status\": \"active\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"d-g2-other-projection\", \"summary_package_id\": \"971d2d3f-2a6a-4706-9a0f-94c1e46f1d2d\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-projection\", \"approval_scenario_key\": \"project-detail\", \"business_status_at_snapshot\": \"active\"}",
+        "{\"id\": \"9288407f-fa82-446c-bf28-c8895da296aa\", \"status\": \"superseded\", \"target_id\": \"19cbb869-fee4-48d0-8e1f-8c02431a9608\", \"created_at\": \"2025-01-01T08:00:00.999999+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"updated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"row_version\": 1, \"target_type\": \"project\", \"generated_at\": \"2025-01-01T08:00:00.999999+08:00\", \"export_policy\": \"deny\", \"supersedes_id\": null, \"projection_level\": \"project-detail\", \"summary_package_id\": \"3943c4af-5577-4028-a15e-90130e028863\", \"summary_package_key\": \"d-g2-6872abb5-12af-486f-guide\", \"approval_scenario_key\": \"project-detail\", \"business_status_at_snapshot\": \"active\"}"
+      ]
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

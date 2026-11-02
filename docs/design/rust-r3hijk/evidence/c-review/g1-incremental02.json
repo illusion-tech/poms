@@ -1,0 +1,859 @@
+{
+  "kind": "C-independent-R3HIJK-G1-incremental-Native-evidence-preaudit02",
+  "createdAt": "2026-11-02T11:23:03.008Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "method": "Static public JSON/source/hash review; own read-only validator; no Root executors imported or run",
+    "modelTarget": "gpt-6.1-sol/max",
+    "actualModelAndEffortNotIndependentlyVisible": true,
+    "Fast": "unverified"
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "branch": "codex/poms-r3hijk-next28",
+  "runId": "e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+  "decision": "Incremental-evidence-accepted-P2-02-resolved-formal-joint-G1-pending",
+  "formalJointG1Decision": false,
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "incrementalUnresolvedP1P2": [],
+  "priorReview": {
+    "file": "tmp/rust-r3hijk/c-review/g1-native-evidence-preaudit01.json",
+    "bytes": 60040,
+    "rawBytesSha256": "e18d314aa0cca212b2e6fc25507f88a4e00edd55f71a785ad7c98fb1b184e123"
+  },
+  "findingResolution": {
+    "id": "G1-P2-02",
+    "priority": "P2",
+    "status": "Resolved-in-current-numbered-safe-SQL-authority",
+    "corrected01FalsePositives": 27,
+    "authRawTouchFalsePositives": 26,
+    "bulkOverrideFalsePositives": 1,
+    "corrected02FalsePositives": 29,
+    "independentWhereExtraction": "Only WHERE text before RETURNING; UPDATE row_version predicate checked independently",
+    "all3737StatementClassificationsMatch": true,
+    "old01PinnedBytesUnchanged": true,
+    "old02CurrentPin": {
+      "file": "tmp/rust-r3hijk/native-authority02/SQL-authority01.json",
+      "bytes": 2502432,
+      "rawBytesSha256": "664fadc015c7dd6662892c63c6f59d21b9bbcd0c13e77dccac8766edf07d18b9"
+    },
+    "old02EntryLineageExact": true,
+    "old02HistoricalBytePinNotAvailableInPriorCRecord": true,
+    "old01And02NotReplacedByThisReview": true,
+    "correctedRows": [
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.create-denied-lead",
+        "line": 500,
+        "pid": "196",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.create-denied-lead_score_snapshot",
+        "line": 577,
+        "pid": "196",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.convert-denied-project",
+        "line": 742,
+        "pid": "203",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W1.convert-denied-lead_score_snapshot",
+        "line": 914,
+        "pid": "196",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+        "line": 1078,
+        "pid": "201",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.lead-explicit-stale-versus-CAS",
+        "line": 1099,
+        "pid": "200",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+        "line": 1293,
+        "pid": "197",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W2.override-explicit-stale-versus-CAS",
+        "line": 1314,
+        "pid": "201",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.qualify",
+        "line": 1449,
+        "pid": "202",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.close",
+        "line": 1590,
+        "pid": "197",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.claim",
+        "line": 1730,
+        "pid": "207",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.main-save-then-denied-snapshot.assignOwner",
+        "line": 1873,
+        "pid": "201",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.submit",
+        "line": 2018,
+        "pid": "202",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.approve",
+        "line": 2156,
+        "pid": "198",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.reject",
+        "line": 2301,
+        "pid": "199",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W3.override-denied-post-audit.revoke",
+        "line": 2460,
+        "pid": "202",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W4.approved-then-new-pending-approval-order",
+        "line": 2638,
+        "pid": "197",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "03",
+        "label": "H93.native-risk.W4.approved-then-new-pending-approval-order",
+        "line": 2671,
+        "pid": "197",
+        "transactionId": "1447",
+        "operation": "UPDATE",
+        "table": "lead_score_override",
+        "where": "\"id\" in ('?', '?')",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "06",
+        "label": "I94.N3.audit-and-business-denial-rollback",
+        "line": 4474,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "06",
+        "label": "I94.N3.audit-and-business-denial-rollback",
+        "line": 4521,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "06",
+        "label": "I94.N8.requestId65-changed-noop-and-create",
+        "line": 4569,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "06",
+        "label": "I94.N8.requestId65-changed-noop-and-create",
+        "line": 4610,
+        "pid": "271",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-success",
+        "line": 5574,
+        "pid": "326",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-deny-link",
+        "line": 5792,
+        "pid": "329",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-deny-copy-audit",
+        "line": 5996,
+        "pid": "323",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-deny-final-snapshot",
+        "line": 6205,
+        "pid": "327",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      },
+      {
+        "phase": "08",
+        "label": "H-attachment-no-eligible-copy-audit-denied",
+        "line": 6384,
+        "pid": "327",
+        "transactionId": "0",
+        "operation": "UPDATE",
+        "table": "auth_session",
+        "where": "\"id\" = '?'\n\t                    and \"status\" = '?'\n\t                    and \"last_seen_at\" <= '?'\n\t                    and \"idle_expires_at\" > '?'\n\t                    and \"absolute_expires_at\" > '?'",
+        "versionPredicate": false,
+        "oldReported": true
+      }
+    ]
+  },
+  "sources": {
+    "SQL": {
+      "file": "tmp/rust-r3hijk/native-authority03/SQL-authority01.json",
+      "bytes": 2897126,
+      "rawBytesSha256": "92c1aa316f19a5b258a5b5afcde804086e36c4975ddcd997a24186a988455cbf"
+    },
+    "summary": {
+      "file": "tmp/rust-r3hijk/native-authority03/observed-summary01.json",
+      "bytes": 22687,
+      "rawBytesSha256": "8cfe32bc637cb1efd4c2fad9a27553ba3e7dbb06337b3f24dca19f18840332ea"
+    },
+    "temporal": {
+      "file": "tmp/rust-r3hijk/native-authority03/bulk-original-SQL-timewindow01.json",
+      "bytes": 77328,
+      "rawBytesSha256": "32ddcacf6cfb532c8a9fa84f90a5cc4c546a7853823f6b84889fcf5d37ef0797"
+    },
+    "extractor": {
+      "file": "tools/rust-r3hijk/extract-native-authority.mjs",
+      "bytes": 5281,
+      "rawBytesSha256": "e4f607b4448075cc54a74b32474470fbf3ebfe109480a6898a017f3e96af1d33"
+    },
+    "temporalExtractor": {
+      "file": "tools/rust-r3hijk/extract-bulk-timewindow.mjs",
+      "bytes": 3715,
+      "rawBytesSha256": "7c4060aa11bd8a79108b4fec24599f5d09e1d0215d14add708ace49ece151667"
+    },
+    "newReports": [
+      {
+        "phase": "09",
+        "report": {
+          "file": "tmp/rust-r3hijk/native-witness09/report01.json",
+          "bytes": 57573,
+          "rawBytesSha256": "bed050dce7a2bfd65b17747d49d1cbedcd31edd928cedb5b8a0145f46c75b468"
+        },
+        "allSourcePinsExact": true,
+        "cases": 2,
+        "HTTP": 6
+      },
+      {
+        "phase": "10",
+        "report": {
+          "file": "tmp/rust-r3hijk/native-witness10/report01.json",
+          "bytes": 64282,
+          "rawBytesSha256": "1117382161b02c32324be949d4e557b9a2632bc66da523d1851c56c75fa2a6f2"
+        },
+        "allSourcePinsExact": true,
+        "cases": 1,
+        "HTTP": 6
+      }
+    ],
+    "oldOriginalReportPinsUnchanged": true,
+    "priorSourceVersionOriginPinsUnchanged": true
+  },
+  "observedCoverage": {
+    "completedCaseGroups": 54,
+    "HTTPEvents": 193,
+    "markerBoundSQLStatements": 3737,
+    "markerBoundErrors": 22,
+    "fullyObservedBeginEndGroups": 53,
+    "phase10MarkerBoundSQLStatements": 0,
+    "phase10BeginObserved": false,
+    "phase10EndObserved": true,
+    "temporalSupplementStatements": 126,
+    "allTemporalSourceLineReferencesUnique": true,
+    "temporalWindow": {
+      "RootOriginalCaseStartedAt": "2026-11-02T10:08:44.893Z",
+      "originalObservedEndMarkerTime": "2026-11-02 10:08:45.145 UTC",
+      "RootOriginalCaseCompletedAt": "2026-11-02T10:08:45.145Z",
+      "selection": "This one-case phase has no parallel Root product work. Include only actual poms_r3hijk_app records between original Root case start and observed owner end marker."
+    },
+    "temporalSupplementMustRemainSeparatelyLabelled": true,
+    "SQLSTATEWasNotRecorded": true,
+    "privateRawStreamsNotReadByC": true,
+    "RootSafeDerivationAndPublicHTTPPGRelationshipsReviewed": true,
+    "all54GroupsMustNotBeClaimedAsBothMarkersObserved": true
+  },
+  "bulkOverride": {
+    "existingApprovedId": "750e1afb-17d5-4d17-9946-e84a4c5217e6",
+    "pendingId": "e9d05d4f-475c-4e1f-87b2-c83620141bb8",
+    "actualWaiters": 2,
+    "responses": [
+      {
+        "requestId": "1f1d3c72-95b4-4a94-aa63-92c5758802e4",
+        "status": 200,
+        "responseVersion": 2,
+        "auditRows": 1,
+        "operatorId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+      },
+      {
+        "requestId": "f32ea400-f0d0-44af-8da9-4ab6cbb1ef0a",
+        "status": 200,
+        "responseVersion": 3,
+        "auditRows": 1,
+        "operatorId": "d1a62d70-286b-43f0-956e-ec6e51fb643b"
+      }
+    ],
+    "oldVersion": [
+      2,
+      4
+    ],
+    "pendingVersion": [
+      1,
+      3
+    ],
+    "oldStatus": "superseded",
+    "pendingStatus": "approved",
+    "newSnapshots": 2,
+    "eachRequestAuditRows": 1,
+    "bulkWHERE": "id IN; no row_version predicate",
+    "bulkUpdates": [
+      {
+        "phase": "10-temporal",
+        "label": "H-bulk-override-competing-approvals",
+        "line": 6994,
+        "pid": "466",
+        "transactionId": "1752",
+        "operation": "UPDATE",
+        "table": "lead_score_override",
+        "where": "\"id\" in ('?', '?')",
+        "versionPredicate": false
+      },
+      {
+        "phase": "10-temporal",
+        "label": "H-bulk-override-competing-approvals",
+        "line": 7000,
+        "pid": "467",
+        "transactionId": "1753",
+        "operation": "UPDATE",
+        "table": "lead_score_override",
+        "where": "\"id\" in ('?', '?')",
+        "versionPredicate": false
+      }
+    ],
+    "bulkCommits": [
+      {
+        "phase": "10-temporal",
+        "label": "H-bulk-override-competing-approvals",
+        "line": 7004,
+        "pid": "466",
+        "transactionId": "1752",
+        "operation": "COMMIT",
+        "table": null,
+        "where": "",
+        "versionPredicate": false
+      },
+      {
+        "phase": "10-temporal",
+        "label": "H-bulk-override-competing-approvals",
+        "line": 7006,
+        "pid": "467",
+        "transactionId": "1753",
+        "operation": "COMMIT",
+        "table": null,
+        "where": "",
+        "versionPredicate": false
+      }
+    ],
+    "singleRowPriorCASResult": [
+      200,
+      500
+    ],
+    "bulkObservedResult": [
+      200,
+      200
+    ],
+    "mustFreezeObservedBulkSemanticsWithoutSilentlyAddingCAS": true,
+    "markerOmission": "Root attributes omitted first begin marker to asynchronous PG logging reload; public authority explicitly preserves the omission rather than inventing a marker",
+    "rawLogCausalExplanationNotIndependentlyReproduced": true
+  },
+  "singleEligibleAttachment": {
+    "cases": [
+      {
+        "label": "H-single-link-success",
+        "HTTP": 200,
+        "leadBefore": "qualified",
+        "leadAfter": "converted",
+        "versionBefore": 2,
+        "versionAfter": 3,
+        "projects": 1,
+        "targetLinks": 1,
+        "numberDelta": 1,
+        "conversionOrder": [
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6610,
+            "pid": "396",
+            "transactionId": "0",
+            "operation": "INSERT INTO",
+            "table": "audit_log",
+            "where": "",
+            "versionPredicate": false
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6611,
+            "pid": "396",
+            "transactionId": "1725",
+            "operation": "INSERT INTO",
+            "table": "attachment_link",
+            "where": "",
+            "versionPredicate": false
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6612,
+            "pid": "396",
+            "transactionId": "1725",
+            "operation": "INSERT INTO",
+            "table": "project",
+            "where": "",
+            "versionPredicate": false
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6613,
+            "pid": "396",
+            "transactionId": "1725",
+            "operation": "UPDATE",
+            "table": "auth_session",
+            "where": "\"id\" = '?' and \"row_version\" = 2",
+            "versionPredicate": true
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6614,
+            "pid": "396",
+            "transactionId": "1725",
+            "operation": "UPDATE",
+            "table": "lead",
+            "where": "\"id\" = '?' and \"row_version\" = 2",
+            "versionPredicate": true
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6623,
+            "pid": "396",
+            "transactionId": "1725",
+            "operation": "INSERT INTO",
+            "table": "lead_score_snapshot",
+            "where": "",
+            "versionPredicate": false
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-success",
+            "line": 6624,
+            "pid": "396",
+            "transactionId": "1725",
+            "operation": "COMMIT",
+            "table": null,
+            "where": "",
+            "versionPredicate": false
+          }
+        ],
+        "metadataOnlyNotRealUpload": true
+      },
+      {
+        "label": "H-single-link-deny-audit",
+        "HTTP": 500,
+        "leadBefore": "qualified",
+        "leadAfter": "qualified",
+        "versionBefore": 2,
+        "versionAfter": 2,
+        "projects": 0,
+        "targetLinks": 0,
+        "numberDelta": 1,
+        "conversionOrder": [
+          {
+            "phase": "09",
+            "label": "H-single-link-deny-audit",
+            "line": 6784,
+            "pid": "395",
+            "transactionId": "0",
+            "operation": "INSERT INTO",
+            "table": "audit_log",
+            "where": "",
+            "versionPredicate": false
+          },
+          {
+            "phase": "09",
+            "label": "H-single-link-deny-audit",
+            "line": 6787,
+            "pid": "395",
+            "transactionId": "0",
+            "operation": "ROLLBACK",
+            "table": null,
+            "where": "",
+            "versionPredicate": false
+          }
+        ],
+        "metadataOnlyNotRealUpload": true
+      }
+    ],
+    "successWriteOrder": "audit_log -> attachment_link -> project -> managed auth_session -> lead -> lead_score_snapshot -> COMMIT",
+    "deniedAuditBeforeProjectOrLinkFlush": true,
+    "existingDualEligibleOrderRetainedFromPriorReview": true,
+    "preparedMetadataIsNotUploadProducerAcceptance": true,
+    "G2RequiresRealUploadProducer": true
+  },
+  "terminal": {
+    "report": {
+      "file": "tmp/rust-r3hijk/native-cohort-terminal01.json",
+      "bytes": 2479,
+      "rawBytesSha256": "94aa67dd155b51416dd1692dd52d5829f5a0b6ade1fd7d28042a5991da1e7737"
+    },
+    "ownedBeforeTerminal": {
+      "file": "tmp/rust-r3hijk/owned-observation-before-terminal-native01.json",
+      "bytes": 347526,
+      "rawBytesSha256": "99a80ee7171f70fe3a6796ffad31f39c4c84257f2ca6fcec6fcd3df895280a9c"
+    },
+    "cleanupSource": {
+      "file": "tools/rust-r3hijk/cleanup-native-cohort.mjs",
+      "bytes": 8441,
+      "rawBytesSha256": "77261570e8e305333e54f46aa542a2dbc1fbc4dbdd094e3dfc0d26d6848b18ab"
+    },
+    "ownedRowsRemoved": 382,
+    "fullSeedTables": 107,
+    "rawJSONSeedRowsExact": true,
+    "privilegesRestored": 428,
+    "NativeRuntimeStopped": true,
+    "port12400Free": true,
+    "PG15VolumeAndPrivateOriginalsRetained": true,
+    "oldPG17Untouched": true,
+    "publicOwnedBusinessCountsMatchRemovalCounts": true,
+    "methodLimit": "Root-produced terminal report and source invariant chain reviewed statically; C did not reconnect to DB, inspect private seed or credentials, or execute cleanup"
+  },
+  "D02": {
+    "activeInputs": [
+      {
+        "file": "tmp/rust-r3hijk/d-input/input-review02.txt",
+        "bytes": 21048,
+        "rawBytesSha256": "c249fc7c744129fe308e75f1823ccd3ff2223fbad49bb879ba396bb7a0d52751"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/acceptance-matrix02.json",
+        "bytes": 50233,
+        "rawBytesSha256": "633813e2e46bbb8188dded6f971f286c1c863db75ac8e01bb7137427c6d5c895"
+      },
+      {
+        "file": "tmp/rust-r3hijk/d-input/shared-dependency-interface-draft02.json",
+        "bytes": 13639,
+        "rawBytesSha256": "55819bd4fbc3c70221a3c661cadf0b62653f1d15c8949627fb66dce47f05918f"
+      }
+    ],
+    "lengthP2ResolvedRetained": true,
+    "originalsPinsUnchanged": true,
+    "schema": "Zod 4.6.1 trimmed 1..8000 code points / unicodeScalarsOrLoneUnits",
+    "explicitBusinessLength": "Original service JS .length remains UTF-16 code units",
+    "priorNativeThreeWayWireEvidenceRetained": true
+  },
+  "E1": {
+    "authority": {
+      "file": "tmp/rust-r3hijk/c-review/e1-compatibility-rereview01.json",
+      "bytes": 7006,
+      "rawBytesSha256": "540022255e05bc470cfe5b7e0acaab7eee4aa447768e34585313a27168d66415"
+    },
+    "decision": "Reuse-current-triggered-independent-approval-without-expanding-or-extending",
+    "files": 5,
+    "totalBytes": 419264,
+    "allFiveActiveArchivePinsExact": true,
+    "all22RecordedDirectConsumerPinsExact": true,
+    "consumerDetectionScope": "Direct literal references in this batch tool namespace only. Dynamic or external consumers may exist; no execution performed.",
+    "RootOwnerRetained": true,
+    "calendarDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "exitConditionSatisfied": false
+  },
+  "protectedSourcePins": {
+    "preflight": {
+      "file": "docs/design/rust-r3hijk/preflight-native-source-manifest01.json",
+      "bytes": 324402,
+      "rawBytesSha256": "38756a2f21f818ada19b65a51134f94a8e5197217dcd424c0d9e10ab809f833d"
+    },
+    "Native": 1373,
+    "RustBaseline": 206,
+    "allCurrentBytesExact": true
+  },
+  "failedOrPartialOriginals": [
+    {
+      "phase": "01",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness01/report01.json",
+        "bytes": 20282,
+        "rawBytesSha256": "cc95256367074d49a6a6e3cd433967c5f3dacfbcd4f55b66729a30ed423d0dee"
+      },
+      "completed": false,
+      "failedAt": "foundation.lead-history",
+      "error": {
+        "name": "error",
+        "message": "column \"year\" does not exist"
+      },
+      "successfulRecordedEvents": 5,
+      "notIncludedIn51Or181": true,
+      "stillPinnedExact": true,
+      "excludedFrom54And193": true
+    },
+    {
+      "phase": "04",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness04/report01.json",
+        "bytes": 220428,
+        "rawBytesSha256": "61db5401a0f3e86fb9d4f428a7c5d2a4a0033bcfa51e8f0aa4d1800cfd63846e"
+      },
+      "completed": false,
+      "failedAt": "I94.requestId65.create",
+      "error": {
+        "name": "Error",
+        "message": "EEXIST: file already exists, open '/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase04/raw-wire/admin-i94-2dd64735-25-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr-request.bin'"
+      },
+      "successfulRecordedEvents": 36,
+      "notIncludedIn51Or181": true,
+      "stillPinnedExact": true,
+      "excludedFrom54And193": true
+    },
+    {
+      "phase": "05",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness05/report01.json",
+        "bytes": 40460,
+        "rawBytesSha256": "f0852a2380512b8c2388eab166feec3971858331b94083d6d67968e63268e5f8"
+      },
+      "completed": false,
+      "failedAt": "I94.roundtrip.stakeholder.update",
+      "error": {
+        "name": "Error",
+        "message": "stakeholder: one changed-field audit"
+      },
+      "successfulRecordedEvents": 11,
+      "notIncludedIn51Or181": true,
+      "stillPinnedExact": true,
+      "excludedFrom54And193": true
+    },
+    {
+      "phase": "07",
+      "report": {
+        "file": "tmp/rust-r3hijk/native-witness07/report01.json",
+        "bytes": 23980,
+        "rawBytesSha256": "f82c7c26928b02e10f4fea3c99a65246ce77cf27c8206a1bcc8ed2812f292c0b"
+      },
+      "completed": false,
+      "failedAt": "attachment.success.convert",
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly equal:\n\n200 !== 201\n"
+      },
+      "successfulRecordedEvents": 3,
+      "notIncludedIn51Or181": true,
+      "stillPinnedExact": true,
+      "excludedFrom54And193": true
+    }
+  ],
+  "remainingBeforeFormalJointG1": [
+    "Root must provide final baseline/shared-interface/master/manifest for independent C review and exact pins.",
+    "Freeze both single-row CAS and two-row bulk approval behavior; freeze zero/one/two eligible attachment flush order and numbering/rollback boundaries.",
+    "Keep phase10 temporal SQL separate from fully marker-bounded evidence; do not assert an observed begin marker.",
+    "Freeze the 28-operation H14/I10/J2/K2 boundary; existing delivered count remains30/58 and #85/#57 stay open.",
+    "Keep unobserved matrix cases source-only/planned; no full Native, Rust, UI or all-matrix acceptance follows from54groups/193HTTP.",
+    "G2 requires real upload/attachment producer cases rather than metadata preparation alone.",
+    "Per-case exact session-version deltas have not been independently established in this static incremental review."
+  ],
+  "scopeBoundary": {
+    "operations": 28,
+    "groups": {
+      "H": 14,
+      "I": 10,
+      "J": 2,
+      "K": 2
+    },
+    "alreadyDelivered": 30,
+    "R3Total": 58,
+    "parentsMustRemainOpen": [
+      85,
+      57
+    ],
+    "noLiveGitHubStateReadInThisStaticIncrementalReview": true
+  },
+  "noIndependentProductBuildTestFmtLintDBHTTPBrowserOrHostExecution": true,
+  "noAuthorOrRootExecutorRun": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true
+}

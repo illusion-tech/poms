@@ -1,0 +1,216 @@
+{
+  "label": "I-concurrent-stakeholder",
+  "startedAt": "2026-11-02T17:25:56.264Z",
+  "completedAt": "2026-11-02T17:25:56.397Z",
+  "value": {
+    "before": {
+      "id": "d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0",
+      "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "lead_id": "c8fc5eb8-5062-47b0-8d57-40b92d27b77f",
+      "project_id": null,
+      "contact_id": "97b1ab20-0cbe-476e-bf94-e382ec812632",
+      "role": "decision-maker",
+      "attitude": "neutral",
+      "influence_level": "medium",
+      "access_level": "indirect",
+      "focus_areas_json": [
+        "预算",
+        "交付"
+      ],
+      "communication_notes": "Native I stakeholder initial communication",
+      "is_primary": false,
+      "row_version": 1,
+      "created_at": "2026-11-02T17:25:56.328Z",
+      "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "updated_at": "2026-11-02T17:25:56.328Z",
+      "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/opportunity-stakeholders/d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0",
+        "json": {
+          "communicationNotes": "concurrent admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/opportunity-stakeholders/d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0",
+        "json": {
+          "communicationNotes": "concurrent other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "customerName": "HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f",
+            "leadId": "c8fc5eb8-5062-47b0-8d57-40b92d27b77f",
+            "leadName": "HIJK I-concurrent-stakeholder",
+            "projectId": null,
+            "projectName": null,
+            "contactId": "97b1ab20-0cbe-476e-bf94-e382ec812632",
+            "contactName": "HIJK I-concurrent-stakeholder",
+            "contactDepartment": null,
+            "contactTitle": null,
+            "role": "decision-maker",
+            "attitude": "neutral",
+            "influenceLevel": "medium",
+            "accessLevel": "indirect",
+            "focusAreas": [
+              "预算",
+              "交付"
+            ],
+            "communicationNotes": "concurrent admin",
+            "isPrimary": false,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T17:25:56.328Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "updatedAt": "2026-11-02T17:25:56.372Z",
+            "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          },
+          "requestId": "883dbf9d-567d-4585-b4ad-70ce0975c601",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "818",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-777",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 17:25:56 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 498,
+            "requestSha256": "9ea3b58faffe0a482bea6dbba8320453a59abf986e72a9fa9bad098cd92935b8",
+            "responseBytes": 1097,
+            "responseSha256": "7174fa2df8b10a9c3c56a47523b4ac45f85b21f6ca3ff07d6831edd3e3a88c4f",
+            "entityBodyBytes": 818,
+            "entityBodySha256": "45f3fae47112f174361b963d046bce0b65098debebc9caf1ea3681d1693d41e0",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase29/raw-wire/admin-7a086c51-e1ca-456d-92ec-f144288de653",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "OpportunityStakeholder d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0 has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "9e9321c7-7793-41ba-9991-d6c2ddba14ba",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "146",
+            "access-control-allow-origin",
+            "http://127.0.0.1:12600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-76822-778",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 17:25:56 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 498,
+            "requestSha256": "7351f3912d266b1fbf75580fd26fd841393e1bcd73ac43696c813487c2df62f1",
+            "responseBytes": 431,
+            "responseSha256": "1c0273550af5a72e557f535ecf03e8f691589597bf46eaef3c11e35dc3f8d3ca",
+            "entityBodyBytes": 146,
+            "entityBodySha256": "d1066fc451f36e6ad8179b213b9915ecf05288023c5d4edfe7614d681030f8f2",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase29/raw-wire/other-045fe585-06e8-478f-9063-4e0c83fd4004",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0",
+      "customer_id": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+      "lead_id": "c8fc5eb8-5062-47b0-8d57-40b92d27b77f",
+      "project_id": null,
+      "contact_id": "97b1ab20-0cbe-476e-bf94-e382ec812632",
+      "role": "decision-maker",
+      "attitude": "neutral",
+      "influence_level": "medium",
+      "access_level": "indirect",
+      "focus_areas_json": [
+        "预算",
+        "交付"
+      ],
+      "communication_notes": "concurrent admin",
+      "is_primary": false,
+      "row_version": 2,
+      "created_at": "2026-11-02T17:25:56.328Z",
+      "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "updated_at": "2026-11-02T17:25:56.372Z",
+      "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+    },
+    "audits": [
+      [
+        {
+          "id": "061cff5d-7db8-4f20-85fe-6fae6bb6f76e",
+          "event_type": "opportunity-stakeholder.updated",
+          "target_type": "opportunity-stakeholder",
+          "target_id": "d7b7ba94-b9b7-46b4-a7c1-30efe580b7f0",
+          "operator_id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "request_id": "883dbf9d-567d-4585-b4ad-70ce0975c601",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "communicationNotes": {
+              "length": 42,
+              "changed": true,
+              "present": true
+            }
+          },
+          "after_snapshot": {
+            "communicationNotes": {
+              "length": 16,
+              "changed": true,
+              "present": true
+            }
+          },
+          "metadata": {
+            "changedFields": [
+              "communicationNotes"
+            ],
+            "sourceCommand": "update-opportunity-stakeholder",
+            "redactedFields": [
+              "communicationNotes"
+            ],
+            "businessContext": {
+              "leadId": "c8fc5eb8-5062-47b0-8d57-40b92d27b77f",
+              "contactId": "97b1ab20-0cbe-476e-bf94-e382ec812632",
+              "projectId": null,
+              "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308"
+            }
+          },
+          "occurred_at": "2026-11-02T17:25:56.370Z"
+        }
+      ],
+      []
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+RUST-R3I 情报10：G1作者静态输入候选
+
+状态：G1 Pending，产品实施未开始，无作者自评Gate。仅Root联合G1、非作者独立Pass与同源冻结后才可进入G2。
+
+一、身份与边界
+
+checkout E:/projects/worktrees/poms-r3hijk-next28/poms；branch codex/poms-r3hijk-next28；实读HEAD/base 7f970c992291c61477eb9bd83a48cec19a769d88；初始工作树clean。类型cross-layer-high-risk，迁移既有行为，不新增公开路由/DTO/DDL/更强校验。Issue ID待Root提供，不猜号、不访问GitHub。
+
+I严格10操作：OpportunityStakeholder list/create/update 3，CompetitorIntelligenceRecord list/create/update 3，SalesDiscoveryRecord list/create/update 3，SalesIntelligenceGaps list 1。customer-contacts 3已#90交付，虽在同一个Native文件中出现也不重复实现/计数；旧联系人/跟进/前批完成原件不改。当前R3累计30/58，H/I/J/K本批28自身G4后才可公共操作58/58；全阶段/非HTTP/域审批验收另片，父#85/#57持续Open。
+
+未来作者B只拥有 apps/poms-api-rust/src/sales_intelligence/** 非http.rs。Root owns所有http.rs、旧公共桥/Cargo/lib/router/生成保护、治理和全部真实环境/构建/测试/DB/HTTP/UI/收尾。本次只写tmp/rust-r3hijk/b-input/。目标配置沿Root明确的gpt-6.1-sol/max，Fast未核实，不把目标写成实跑模式证明。
+
+本输入实际只做静态读取、git身份和raw hash；未install/fmt/build/test/lint/schema执行/DB/HTTP/browser/host操作，未读private/旧namespace/PG17，未commit/push。原service.spec是mock证据，不是事务/并发实证。
+
+二、入口、权限和输出
+
+所有canonical inventory行355–364已aligned，当前controller与原OpenAPI一一对应。原完整spec静态读取为237 paths/291 operations/585 schemas；不改原spec/client/shared enum/92 migration。逐文件bytes/SHA/关键symbol和行号见source-manifest.json。
+
+- GET /api/opportunity-stakeholders：OpportunityStakeholderController_list，controller80/canonical355，源状态200。
+- POST /api/opportunity-stakeholders：..._create，controller91/canonical356，源状态201。
+- PATCH /api/opportunity-stakeholders/{id}：..._update，controller114/canonical357，源状态200。
+- GET /api/competitor-intelligence-records：CompetitorIntelligenceRecordController_list，controller129/canonical358，200。
+- POST同集合：..._create，controller140/canonical359，201。
+- PATCH同集合/{id}：..._update，controller164/canonical360，200。
+- GET /api/sales-discovery-records：SalesDiscoveryRecordController_list，controller179/canonical361，200。
+- POST同集合：..._create，controller190/canonical362，201。
+- PATCH同集合/{id}：..._update，controller211/canonical363，200。
+- GET /api/sales-intelligence-gaps：SalesIntelligenceGapController_list，controller226/canonical364，200。
+
+读取均HasAnyPermissions(lead:read,project:read)，写入均HasAnyPermissions(lead:write,project:write)，是OR，不能要求两者，也不能将权限与anchor类型捆绑增加限制。没有customer:read/write额外要求、owner/org/scope/stage/status门槛。沿已交付Session→CSRF→Permissions→DTO顺序；unsafe POST/PATCH需原CSRF，失败安全事件仍由公共guard拥有。源码状态不是实际Native HTTP裁决，HEAD/大小写/尾斜杠/方法/编码与错误body需Root原HTTP比较。path id普通string，无ParseUUIDPipe；不能加新400 UUID path校验。
+
+列表直接返回数组，没有items包装或分页。stakeholder summary完整23字段：id/customerId/customerName/leadId/leadName/projectId/projectName/contactId/contactName/contactDepartment/contactTitle/role/attitude/influenceLevel/accessLevel/focusAreas/communicationNotes/isPrimary/rowVersion/createdAt/createdBy/updatedAt/updatedBy。
+competitor summary完整21字段：id/customerId/customerName/leadId/leadName/projectId/projectName/competitorName/position/customerPreference/competitorStrengths/competitorWeaknesses/ourAdvantages/ourRisks/winProbability/evidence/rowVersion/createdAt/createdBy/updatedAt/updatedBy。
+discovery summary完整18字段：id/customerId/customerName/leadId/leadName/projectId/projectName/procurementProcess/budgetSource/customerPainPoints/decisionCycle/nextContactPlan/remark/rowVersion/createdAt/createdBy/updatedAt/updatedBy。
+gap每项5字段：item/label/isMissing/explanation/severity。
+
+关系名称按记录中的FK批量加载。customerName missing fallback空串；lead/project名称missing→null；stakeholder contactName missing→空串、contactDepartment/title→null。正常FK restrict不允许凭空制造悬空引用；这些是mapper防御语义，不以禁用FK造fixture。没有读敏感投影、成功读安全事件或领域读audit。关系人只附联系人姓名/部门/职务，不带联系人电话、mobile/wechat/email/remark；其自身communicationNotes和竞品/摸排正文则按原lead/project读取权限返回普通文本，不能新增mask或敏感权限。
+
+三个controller没有ZodSerializerDto；全局serializer只在该metadata存在时parse响应。不能将请求DTO限制、enum/数组max约束追加到已存行的输出读取。
+
+三、请求schema与presence
+
+SSOT为shared-contracts.ts的OpportunityContextQueryBaseSchema及3201–3367，API DTO均createZodDto；全局pipe调用schema.parse。所有对象按原z.object未知键strip，不coerce字符串/数值/boolean。未知字段在PATCH strip后不能使“至少一项”成立。
+
+公共query：leadId/projectId均z.uuid().optional()，不nullable；至少一个!==undefined的root refine，message='At least one opportunity anchor is required'。customerId及其他query未知键strip。create三schema由refined base.extend(...): Root必须原schema实际核对extend继承检查的行为，不能仅静态宣称缺双anchor一定DTO400；若通过schema，service显式customer存在后原DB anchor CHECK可500。当前新worktree无node_modules，本作者不安装/不执行schema。
+
+create公共customerId是required z.uuid；stakeholder另contactId required z.uuid。UUID不trim，保留合法大小写/原拼写供业务严格字符串比较；nil/max等接受范围按原z.uuid与实际Native，不强行全部转Uuid后改业务结果。
+
+关系人create：role必填；attitude/influenceLevel/accessLevel optional非null，service missing→unknown；focusAreas optional array，元素trim后1..64、数组max12，service missing→[]，null拒绝；communicationNotes optional+nullable，trim1..2000，missing/null→null，空白string拒绝；isPrimary optional boolean，missing→false，null/数字/string拒绝。focusAreas重复标签/顺序保留，不新增唯一性或排序。
+
+关系人enum：
+role=decision-maker/influencer/end-user/technical-evaluator/procurement-contact/finance-legal/sponsor/blocker/unknown/other；
+attitude=supportive/neutral/resistant/unknown；influenceLevel=high/medium/low/unknown；accessLevel=direct/indirect/unknown/blocked。
+
+竞品create：competitorName required trim1..255；position/customerPreference/winProbability optional非null，missing→unknown；competitorStrengths/competitorWeaknesses/ourAdvantages/ourRisks/evidence均optional+nullable trim1..2000，missing/null→null。enum position=incumbent/active-competitor/potential-competitor/unknown；customerPreference=toward-us/neutral/toward-competitor/unknown；winProbability=high/medium/low/unknown。
+
+摸排create：procurementProcess/customerPainPoints/remark optional+nullable trim1..2000；budgetSource/decisionCycle/nextContactPlan optional+nullable trim1..1000；全部missing/null可形成空摸排记录，不能补必填事实门槛。service optionalText再ECMAScript trim、空值→null。
+
+三PATCH只有各域上述可编辑字段，全optional，nullable仅限原文本；各自refine至少一项!==undefined，message='At least one field is required for update'。customerId/leadId/projectId/contactId/id/rowVersion/expectedVersion/created*/updated*不可编辑，按未知字段strip；仅提供这些会在strip后触发空PATCH400，带合法可编辑字段时这些额外键不生效。nullable文本显式null使字段清空；focusAreas=[]使标签清空；isPrimary=false有意义；enum null、focusAreas null拒绝。没有客户端expectedVersion字段，不加409 stale-request协议。
+
+所有文本按当前原Zod字符计量（code point）和ECMAScript trim，不用UTF8 byte长度或Rust默认trim替换，不Unicode normalize。audit的显式JS text.length却是UTF16 code unit，两者不同。lone surrogate、NUL、emoji边界、BOM/NBSP/U+200B、JSONB focusAreas必须Root原Native验证；能进DTO不代表DB/JSONB会接受。不要加新的DTO NUL/孤立surrogate ban，也不要把DB500改400。
+
+四、合并锚点、归属与错误优先序
+
+requireOpportunityContext源码次序：Promise.all读取给定lead/project→Lead缺失404→Project缺失404→customerId=input.customerId ?? project.customerId ?? lead.customerId→不能解析customer时400→Lead.customerId严格比较→Project.customerId严格比较→requireCustomer存在。没有active customer/lead/project状态校验，不追mergedInto，不读alias，不验证project.sourceLeadId等于lead。
+
+两个锚点都提供且同customer即可，不要求原始转换关联；两个锚点不同customer时，显式customer选择与Lead→Project检查顺序决定先错哪一条。查询没有显式customerId，project.customerId优先于lead.customerId；project.customerId允许null，不能自造non-null约束。项目无customer且无lead时不能resolve customer；项目customer=null但lead有customer时，仍会在Project严格比较时失败，不能自动修复。
+
+error原字符串：Lead {input.leadId} not found；Project {input.projectId} not found；Opportunity context must resolve a customer；Lead {lead.id} does not belong to customer {customerId}；Project {project.id} does not belong to customer {customerId}；Customer {id} not found。
+
+stakeholder create在opportunity/customer全部成功后才requireContact：不存在为CustomerContact {id} not found，再比较contact.customerId !== input.customerId，不是比较context.customer.id。不同客户时400 Contact {contact.id} does not belong to customer {input.customerId}。contact只查存在，inactive也不拒绝，不增加客户/联系人状态门槛。显式customerId大写但PG查到同一行仍可能在原JS严格比较处400；leadId/contactId请求大小写不等于可提前canonicalize customerId。
+
+成功create各锚点取context.customer/lead/project及contact的真实row.id，因此POST关联ID由实际读取结果产生；不机械照搬上一批竞标route UUID回显策略。
+
+列表先requireOpportunityContext，再repo query。单anchor按该列；双anchor WHERE lead_id=... OR project_id=...，匹配两边同一行只出现一次。禁止改成AND、按customer加filter或自动扩展project.sourceLeadId。stakeholder order=isPrimary DESC,updatedAt DESC,createdAt DESC；competitor/discovery order=updatedAt DESC,createdAt DESC；没有id tie-breaker。
+
+PATCH先开始transaction→按原path id读记录（404名分别OpportunityStakeholder/CompetitorIntelligenceRecord/SalesDiscoveryRecord）→before values→按provided字段修改→after values→固定字段次序算变化→loadContext名称→no-op返回或persist+audit+flush。PATCH不重新requireOpportunityContext/Customer/Contact归属，不把create校验倒灌；不能借contacts3已交付去重实现其写链。
+
+畸形path/UUID、两Promise里一个DB错误与另一个missing的先后，不能只从逻辑if顺序推成全部确定HTTP优先级；Root做原HTTP/SQL反例。
+
+五、持久化、版本与字段audit
+
+EX-61 migration创建3表并加FK与CHECK：customer_id非null FK，lead/project至少一非null，stakeholder contact_id非null FK；所有FKrestrict，合法enum CHECK；focus_areas_json JSONB非null default[]（没有JSON数组类型CHECK）。3表row_version default1且ORM .version()；没有版本链/status/enable/delete/唯一primary/每contact-role唯一约束。本片不增加migration/DDL/额外唯一性。
+
+create为randomUUID+server created/updated actor，repo.persist(entity).flush()，无显式service transaction、无业务audit、无自动刷新Lead评分。实际隐式flush图及pending session由Root见证。
+
+三个PATCH各有一个显式EntityManager.transactional；RuntimeAuditService.recordAuditLog(...,em)仅em.persist(audit)，不自开/提交第二事务，随后em.flush且transactional收尾。因此领域记录与该audit意图处于同一TX，不能复制跟进F“业务提交后另audit”的二事务模型。实际SQL insert/update/CAS/managed-session顺序与失败残留仍需Root原Native实证。
+
+固定changedFields顺序：
+- stakeholder：role,attitude,influenceLevel,accessLevel,focusAreas,communicationNotes,isPrimary；redacted=focusAreas,communicationNotes；event=opportunity-stakeholder.updated；targetType=opportunity-stakeholder；sourceCommand=update-opportunity-stakeholder；businessContext含customerId/leadId|null/projectId|null/contactId。
+- competitor：competitorName,position,customerPreference,competitorStrengths,competitorWeaknesses,ourAdvantages,ourRisks,winProbability,evidence；redacted=五项文本strengths/weaknesses/ourAdvantages/ourRisks/evidence；event=competitor-intelligence.updated；targetType=competitor-intelligence；sourceCommand=update-competitor-intelligence-record；businessContext含customerId/leadId|null/projectId|null。
+- discovery：procurementProcess,budgetSource,customerPainPoints,decisionCycle,nextContactPlan,remark；全部redacted；event=sales-discovery-record.updated；targetType=sales-discovery-record；sourceCommand=update-sales-discovery-record；businessContext同竞品。
+
+audit.beforeSnapshot/afterSnapshot仅含变化字段；非redacted原值（nullish→null），redacted array为{changed:true,count:value.length}，其他为{changed:true,present:text.length>0,length:text.length}，显式UTF16长度，不是Zod code point。null清空给present:false,length:0。metadata=changedFields/sourceCommand/redactedFields(仅变化的redacted子集)/businessContext；operatorId=req.user.sub；requestId=getRequestId，x-request-id优先x-correlation-id、数组取first、没有则null；使用nullish回退，无主动trim/UUID校验，空字符串不会自动回退；result=success。原AuditLog.request_id是varchar(64)，没有命令DTO限制或截断；64/65字符、有变化/NoOp PATCH与安全事件失败分支须Root见证，不先加header400或静默截断。
+
+auditValuesEqual是JSON.stringify(left??null)===JSON.stringify(right??null)：数组顺序/重复保留，重排即变化；同样标签数也能有变化但前后redacted count相同。只有actor不同、提交同值不构成字段变化，不主动updatedBy或写business audit。no-op仍在transactional且loadContext已执行；不能据此宣称整个请求无DML，due session是否额外flush须Root见证。
+
+真实竞争没有expectedVersion，ORM managed rowVersion CAS失败应按原未知异常分类，不擅改成409。不得新增表锁/重试/更强隔离。单测只mock transactional/flush，未证明CAS胜负、audit先后或rollback；audit INSERT失败/记录UPDATE失败/session flush失败要分别真实捕获。
+
+合法DB JSONB旧事实可能不符合请求focusAreas数组/长度约束；mapper仅focusAreas??[]，没有response metadata校验。Root应少量验证JSON null/object或超请求数组长度的合法owned旧事实；不能通过严格Vec反序列化/再次DTO验证擅自使原GET失败。此类prepared事实不得冒HTTP写入成功，不禁用FK/CHECK。
+
+六、gap稳定序与评分facts区别
+
+GET gaps按原opportunity context取三个列表，再只用discoveryRecords[0]。Set插入稳定序：decision-maker,technical-evaluator,procurement-process,budget-source,competitor,pain-point,next-contact。对应label/explanation同值：决策人未知；技术把关人未知；采购流程未知；预算来源未知；竞争对手未知；客户核心痛点不明确；下一步接触对象不明确。每项isMissing=true；decision-maker/procurement-process/budget-source severity=soft-blocker，其余attention。
+
+缺口谓词：任意stakeholder.role命中决策人/技术把关人即known，不要求primary或态度；competitor任意行存在即known；procurement/budget/pain看最新摸排hasText；nextContactPlan有文本 OR 任意stakeholder.isPrimary即可known。decisionCycle/remark不影响gap。新空摸排覆盖老完整摸排，不能回退合并旧值。双anchor OR下也是整组最新摸排；没有current/status新筛选。
+
+A评分facts的七bool业务谓词一致但context不同：仅lead_id；最新摸排只updatedAt DESC，无createdAt tie-breaker。完整协议见interfaces-proposal.txt，A已确认LeadRef by_id/by_ids与I facts函数路径候选；不自动从I写操作刷新Lead.score。Root应先真实H Lead→I创建/更新→H显式刷新/读取快照并核持久化，不用纯合成facts冒真实消费。J讨论将消费I真实竞品POST的id及4锚点，I提供只读by_id Ref；不移植J自己的target条件到I。
+
+七、Root先Native见证的少数风险
+
+N1 refined base.extend的create缺双anchor真实DTO/DB结果，与query oneAnchor错误/unknown-strip/refine issue顺序。
+N2 大写UUID、双anchor不同customer、Lead/Project同时缺失及一个DB错误时的真实优先序；contact查找在context后，inactive存在性边界。
+N3 三个PATCH实际单TX SQL：audit INSERT、pending session、业务CAS UPDATE与commit次序；no-op force-due session；audit/记录/session拒绝的各自rollback。
+N4 两读者同rowVersion竞争、外部改rowVersion及无expectedVersion；分清正常NoOp、单次200与flush竞争未知异常。
+N5 UTF16 audit length vs Zod code point、focusAreas重排/重复、孤立surrogate/NUL穿过JSONB与非redacted竞品名的真实失败点；不要提前400。
+N6 gaps最新(updated,created)与评分最新(updated only)的区别；非tie固定输入先验证，真tie只保留原SQL与实际选择，不发明id顺序或静默normalize不同facts。
+N7 合法旧focus_areas_json形态读取，不用不合法FK/关闭约束造数据；记录prepared-source与真正I API写入分开。
+N8 requestId原nullish/重复header/空值与audit varchar(64)边界；changed PATCH写audit失败应按原单TX捕获，NoOp/无audit create不能机械套同一结论。
+
+acceptance-matrix.json全部是定义/静态预期，actual未运行。Native及Rust双端、guard/CSRF/请求错误、真实持久化/并发/故障/audit、H评分消费/J竞品消费和原UI适用路径由Root统一执行并保存原字节、failed/partial/stopped/ignored分类。I本作者不签G1/G3/G4。

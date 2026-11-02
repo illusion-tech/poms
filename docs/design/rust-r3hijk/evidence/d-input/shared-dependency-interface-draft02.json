@@ -1,0 +1,357 @@
+{
+  "kind": "poms-r3hijk-d-shared-dependency-interface-draft02",
+  "status": "proposal-input-corrected-with-Root-evidence-await-joint-G1",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "g1Certified": false,
+  "productImplemented": false,
+  "owners": {
+    "D": [
+      "business_discussions/** excluding http.rs",
+      "project_workspace/** excluding http.rs"
+    ],
+    "Root": [
+      "all http.rs",
+      "public routes",
+      "Cargo/lib",
+      "shared bridges",
+      "formal governance",
+      "all actual runs and fixtures"
+    ],
+    "A": [
+      "Lead production operations and narrow Lead reference candidate"
+    ],
+    "B": [
+      "sales intelligence production operations and narrow Competitor reference candidate"
+    ]
+  },
+  "transportBoundary": {
+    "businessDiscussionList": {
+      "input": "customerId?,leadId?,projectId? as validated source UUID strings",
+      "sessionRequiredByRoot": true,
+      "permissionsAny": [
+        "customer:read",
+        "lead:read",
+        "project:read"
+      ],
+      "output": "all native comment summary fields, wire retaining JS text where needed"
+    },
+    "businessDiscussionCreate": {
+      "input": "CreateBusinessDiscussionCommentRequest source fields",
+      "operator": "resolved session sub",
+      "permissionsAny": [
+        "customer:write",
+        "lead:write",
+        "project:write"
+      ],
+      "csrfRequiredByRoot": true,
+      "output": "single native comment summary, 201 source expectation"
+    },
+    "projectWorkspaceGuidance": {
+      "input": "raw path projectId string and resolved session permission snapshot",
+      "permissionsAll": [
+        "project:read"
+      ],
+      "output": "ProjectWorkspaceGuidanceView full payload; no top-level allowedActions addition"
+    },
+    "projectTimeline": {
+      "input": "raw path projectId string",
+      "permissionsAll": [
+        "project:read"
+      ],
+      "output": "ProjectTimelineView full payload"
+    },
+    "methodNames": "Root and D freeze final Rust service/error/wire signatures at joint G1; no http edits by D"
+  },
+  "references": [
+    {
+      "name": "LeadReference",
+      "owner": "A",
+      "candidateSignature": "lead_by_id(connection, id) -> Result<Option<LeadReference>, DbError>",
+      "fields": {
+        "id": "Uuid",
+        "customer_id": "Uuid",
+        "lead_name": "String"
+      },
+      "source": "BusinessDiscussionRepository.findLeadById",
+      "semantics": [
+        "lookup by id only",
+        "no status or active filter",
+        "no state transition",
+        "no lock or transaction ownership",
+        "do not copy lead discussions during conversion"
+      ],
+      "coordination": "A confirmed narrow fields; concrete function and connection argument remain G1 proposal"
+    },
+    {
+      "name": "CompetitorRef",
+      "owner": "B",
+      "candidateSignature": "sales_intelligence::store::competitor_by_id(&mut PgConnection, &str) -> Result<Option<CompetitorRef>, sqlx::Error>",
+      "fields": {
+        "id": "Uuid",
+        "customer_id": "Uuid",
+        "lead_id": "Option<Uuid>",
+        "project_id": "Option<Uuid>"
+      },
+      "source": "BusinessDiscussionRepository.findCompetitorRecordById",
+      "semantics": [
+        "lookup by id only",
+        "no added target/status/permission filter",
+        "no lock or transaction ownership",
+        "D applies original relatedOpportunity checks"
+      ],
+      "coordination": "B confirmed this as proposal; product not written"
+    },
+    {
+      "name": "CustomerDiscussionRef",
+      "owner": "Root bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "display_name": "String"
+      },
+      "semantics": [
+        "existing customer existence lookup only",
+        "no active-status filter",
+        "title snapshot uses native displayName"
+      ]
+    },
+    {
+      "name": "ProjectDiscussionRef",
+      "owner": "Root existing-project bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "customer_id": "Option<Uuid>",
+        "project_name": "String",
+        "source_lead_id": "Option<Uuid>"
+      },
+      "semantics": [
+        "project target leadId is null",
+        "source lead used only for list aggregation",
+        "missing source lead is skipped",
+        "do not add R4 write behavior"
+      ]
+    },
+    {
+      "name": "ContactDiscussionRef",
+      "owner": "Root existing-contact bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "customer_id": "Uuid",
+        "name": "String"
+      },
+      "semantics": [
+        "existence only including inactive",
+        "customer equality checked only when target.customerId has value",
+        "missing context name maps null"
+      ]
+    },
+    {
+      "name": "FollowUpDiscussionRef",
+      "owner": "Root existing-follow-up bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "customer_id": "Uuid",
+        "lead_id": "Option<Uuid>",
+        "project_id": "Option<Uuid>"
+      },
+      "semantics": [
+        "existence only including voided and superseded",
+        "do not reuse active-only query",
+        "D applies source nullable anchor checks"
+      ]
+    },
+    {
+      "name": "UserDisplayRef",
+      "owner": "Root bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "display_name": "String"
+      },
+      "semantics": [
+        "batch existence read",
+        "no active-only filter",
+        "not found name is null",
+        "never replace missing name by UUID"
+      ]
+    },
+    {
+      "name": "OrgDisplayRef",
+      "owner": "Root bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "name": "String"
+      },
+      "semantics": [
+        "owner org existence lookup",
+        "no new permission/status filter"
+      ]
+    },
+    {
+      "name": "WorkspaceBasisSnapshotRef",
+      "owner": "Root shared snapshot bridge or D-owned read adapter by final G1 agreement",
+      "fields": {
+        "id": "Uuid",
+        "projection_level": "String",
+        "export_policy": "String",
+        "generated_at": "DateTime<Utc>"
+      },
+      "selection": "target_type=project AND target_id=project.id AND approval_scenario_key=project-detail AND projection_level=project-detail AND status=active ORDER BY generated_at DESC,created_at DESC; no UUID tie",
+      "semantics": [
+        "projection only",
+        "no snapshot mutation",
+        "no frontend-driven field removal",
+        "all four absent-snapshot values are null"
+      ]
+    }
+  ],
+  "textAndDate": {
+    "body": "Apply JS trim, then original Zod 4.6.1 1..8000 code points / unicodeScalarsOrLoneUnits; complete surrogate pair counts one, lone unit counts one. No 8000-UTF16-unit DTO maximum.",
+    "date": "Native Date.toISOString UTC milliseconds; preserve finer DB precision for selection before formatting",
+    "rootMayReuseExisting": [
+      "auth::js_json::JsString",
+      "compat scalar/date helpers",
+      "projects::model::Wire/trim_js or shared bridge"
+    ],
+    "noNewGlobalPolicy": true,
+    "businessStringLength": "Any explicit original service JS .length remains UTF-16 units. J body service has no such maximum; do not impose an additional one or change unrelated business checks.",
+    "wire": "UTF-16 code-unit-preserving raw response wire remains required; POST/GET/stored originals for high/low surrogate must be compared separately, without a lossy decoder rewrite.",
+    "knownNativeBoundary": {
+      "BMP8000": 201,
+      "BMP8001": 400,
+      "emoji4000": 201,
+      "emoji4001": 201,
+      "emoji8000": 201,
+      "emoji8001": 400,
+      "NUL": {
+        "schemaSuccess": true,
+        "NativePost": 500
+      },
+      "surrogate": {
+        "schemaSuccess": true,
+        "NativePost": 201,
+        "NativeGet": 200,
+        "threeWayComparison": "pending"
+      },
+      "KMalformedPath": {
+        "guidance": 500,
+        "timeline": 500
+      }
+    }
+  },
+  "evidenceInterfaces": {
+    "rootExportsActualApiReceipts": [
+      "customerA/customerB ids and bodies from delivered customer API",
+      "leadA/leadOtherSameCustomer/leadOtherCustomer ids and bodies from H create",
+      "qualified lead and conversion request/response with project.id/sourceLeadId/customerId and original owner",
+      "competitorLead/competitorProject/competitorOtherProject/competitorOtherCustomer ids and original four anchors from I POST",
+      "contact/followup ids and bodies from delivered domain APIs including inactive/voided variants when used",
+      "J create/list bodies before and after conversion, preserving original thread ownership"
+    ],
+    "sqlPreparedOnly": [
+      "R4 lifecycle/snapshot read projection cases",
+      "isolated missing/error references or precise timestamp equivalence groups"
+    ],
+    "notProductionEvidence": [
+      "SQL-prepared H Lead rows",
+      "SQL-prepared I competitor rows",
+      "pure fixture definitions",
+      "mock unit expectations"
+    ]
+  },
+  "openDecisionsForRoot": [
+    "Freeze final Rust method/error/wire signatures and whether references use Root bridges or D-owned read adapters",
+    "Consume Root phase02 malformed-path/Unicode originals and retain exact failures; complete unobserved thread-conflict and raw code-unit comparisons before final gate conclusion",
+    "Freeze selection tie-group comparison instead of inventing UUID tie-breaks",
+    "Keep formal governance and all runtime work exclusively with Root"
+  ],
+  "revision": {
+    "number": "D02",
+    "reason": "Independent C found D01 conflated Zod 4.6.1 body character-count limit with JS UTF-16 business string length",
+    "authority": "Root input-only revision instruction",
+    "originalsPreserved": [
+      {
+        "file": "source-manifest.json",
+        "bytes": 154019,
+        "rawSha256": "4bdff1f9bcb2f15b3d5460814168d397d10f753b0273c09900b0c0823cbf3cb9"
+      },
+      {
+        "file": "input-review.txt",
+        "bytes": 16134,
+        "rawSha256": "cc04d234be0aff64f318ec2e0b30be62b6c652b7803f6c1a8e9761beceb02a24"
+      },
+      {
+        "file": "acceptance-matrix.json",
+        "bytes": 18508,
+        "rawSha256": "e3c112b9ac5cafdced1e5d587e8391878a50aae875143e93d36ae09f716008e7"
+      },
+      {
+        "file": "native-fixture-draft01.mjs",
+        "bytes": 21356,
+        "rawSha256": "48a97ade973b882a678d99d760dcb9a3491e57f7138fe21536b9a69e14472bbb"
+      },
+      {
+        "file": "shared-dependency-interface-draft01.json",
+        "bytes": 7294,
+        "rawSha256": "0ab071d5e9d2f5ae7bc8f8f28e47287e3d7906e4782a5a4c81a82a5c1010e997"
+      }
+    ],
+    "newProductOrSchemaChanges": false,
+    "authorRuntimeExecutions": 0,
+    "fixture01": "Pure constructors contain no predicted length/status result; retained byte-for-byte, no draft02 needed",
+    "doesNotAuthorizeG2": true
+  },
+  "formalIssues": {
+    "J": {
+      "issue": 95,
+      "operations": [
+        "BusinessDiscussionController_list",
+        "BusinessDiscussionController_create"
+      ]
+    },
+    "K": {
+      "issue": 96,
+      "operations": [
+        "ProjectController_getWorkspaceGuidance",
+        "ProjectController_getTimeline"
+      ]
+    },
+    "authority": "Root supplied formal Issue mapping; D did not mutate or independently query online state"
+  },
+  "nativeEvidenceReferences": {
+    "schemaOracle": {
+      "path": "tmp/rust-r3hijk/schema-oracle01/report01.json",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r3hijk/schema-oracle01/report01.json",
+      "bytes": 195699,
+      "rawSha256": "4b64eb23959065d0c369e543489420179d342111a82e63cd28e01e1a669186fe",
+      "kind": "R3HIJK-actual-original-shared-Zod-schema-oracle",
+      "createdAt": "2026-11-02T08:52:27.321Z",
+      "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+      "Node": "v24.19.0",
+      "zod": "4.6.1",
+      "typescript": "6.0.3",
+      "resultCount": 18,
+      "runner": "Root; D read-only existing artifact reference"
+    },
+    "Native": {
+      "path": "tmp/rust-r3hijk/native-witness02/report01.json",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r3hijk/native-witness02/report01.json",
+      "bytes": 3049527,
+      "rawSha256": "d3be31dcd89492445704be145e4c7025fd416cb7e13dfa45cd5fa158a0b3a2f2",
+      "kind": "R3HIJK-original-Native-actual-G1-witness",
+      "createdAt": "2026-11-02T09:13:43.908Z",
+      "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+      "phase": "02",
+      "runId": "e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+      "caseCount": 18,
+      "eventCount": 31,
+      "runtimeArtifactBytes": 2958081,
+      "runtimeArtifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+      "productDDLChanged": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "runner": "Root; D read-only existing artifact reference"
+    },
+    "limitedActual": "J body character validation, text edge status observations, K malformed UUID 500 and real-project 200, I missing-anchor create 400; no complete domain acceptance"
+  }
+}

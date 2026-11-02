@@ -1,0 +1,75 @@
+{
+  "label": "E.contact.list-updated",
+  "startedAt": "2026-11-02T19:01:39.510Z",
+  "completedAt": "2026-11-02T19:01:39.520Z",
+  "value": {
+    "operationId": "CustomerContactController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customer-contacts",
+      "query": {
+        "customerId": "7da8d1ef-1285-4556-8bf6-72d759084484"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-11-02T19:01:39.476Z",
+          "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+          "customerId": "7da8d1ef-1285-4556-8bf6-72d759084484",
+          "customerName": "R3HK-cc20b1df-57 customer revised",
+          "department": null,
+          "email": "regression@example.com",
+          "gender": "male",
+          "id": "cc91373c-8e0e-49d1-ae7c-509a0704c696",
+          "mobile": "01000000000",
+          "name": "R3HK-cc20b1df-57 contact",
+          "remark": "R3HK-cc20b1df-57 updated contact",
+          "rowVersion": 2,
+          "status": "active",
+          "title": "项目采购",
+          "updatedAt": "2026-11-02T19:01:39.502Z",
+          "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+          "wechat": null,
+          "workPhone": null
+        }
+      ],
+      "requestId": "b692c71e-2db4-415d-8088-ab61983372ba",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "585",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-171",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "d8871ae7f338317a11b1d47e7d29c6cc0d6e807b7cbf3cfc47a66708d2089225",
+        "responseBytes": 865,
+        "responseSha256": "7902e7795e3c53b87bc0b09384d5a6d983aaa521035edfb756115cc2a40296cb",
+        "entityBodyBytes": 585,
+        "entityBodySha256": "2286f5a56569258d0c7dc132df49f7e7caacf872b9581551db4e792cb501478d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-478cb89c-c72a-4592-884e-106d9802eb6c",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "label": "F.followup.active-replaced",
+  "startedAt": "2026-11-02T19:01:39.609Z",
+  "completedAt": "2026-11-02T19:01:39.618Z",
+  "value": {
+    "operationId": "SalesFollowUpController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/sales-follow-up-records",
+      "query": {
+        "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-11-02T19:01:39.581Z",
+          "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+          "customerId": "7da8d1ef-1285-4556-8bf6-72d759084484",
+          "customerName": "R3HK-cc20b1df-57 customer revised",
+          "detail": null,
+          "followUpType": "phone",
+          "id": "855690cd-860e-4be2-8d42-6c8239b65491",
+          "leadId": null,
+          "leadName": null,
+          "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+          "occurredAt": "2026-11-02T01:00:00.000Z",
+          "outcome": "waiting-customer",
+          "ownerName": "HIJK other",
+          "ownerOrgId": "4edab6e6-91aa-4a51-8eff-8cab0f273b93",
+          "ownerOrgName": "HIJK other",
+          "ownerUserId": "455cd0c1-31a2-461b-8088-cb962754d259",
+          "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714",
+          "projectName": "R3HK-cc20b1df-57 revised project",
+          "replacedById": null,
+          "replacementReason": "R3HK-cc20b1df-57 correction reason",
+          "rowVersion": 1,
+          "status": "active",
+          "summary": "R3HK-cc20b1df-57 corrected follow-up",
+          "supersedesId": "9d4ef41d-55c3-4bc3-b549-f5b005468b79",
+          "updatedAt": "2026-11-02T19:01:39.581Z",
+          "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+          "voidReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null
+        }
+      ],
+      "requestId": "85757611-9c2b-4ecb-b442-0751414b4c3b",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1051",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-177",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 353,
+        "requestSha256": "26cc510c09331fdcb196c407229e6ba1ad3c15db61d0ff2c87f933ee56632d3d",
+        "responseBytes": 1332,
+        "responseSha256": "f0573b8718a5dc1ad325ae301176fd33bdfae49765d8ff2ee90f532f16539b55",
+        "entityBodyBytes": 1051,
+        "entityBodySha256": "1a648458409e7e4a13340404cc917aedf9f15acb960cd7875f44ddd10e39f7ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-df4e7235-be6f-43d5-8e29-d97b9be41e14",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

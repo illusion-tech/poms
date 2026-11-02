@@ -1,0 +1,1892 @@
+{
+  "kind": "C-independent-R3HIJK-candidate03-foundation-timeline-UI-and-business-defect-incremental-preaudit01",
+  "createdAt": "2026-11-02T18:06:44.719Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Needs-correction",
+  "candidateArtifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+  "G1Recertified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "fullGateSigned": false,
+  "newProductP1P2": [
+    {
+      "id": "OLD30-BUSINESS-P2-EXACT-DECIMAL-01",
+      "priority": "P2",
+      "classification": "existing-baseline-drift; real business amount corruption, not Node-byte-parity",
+      "status": "Open on candidate03; assigned author correction and a new candidate required",
+      "domains": [
+        "project_technical_cost",
+        "project_pricing_margin"
+      ],
+      "evidence": [
+        {
+          "phase": "40",
+          "report": {
+            "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-40/report01.json",
+            "bytes": 218474,
+            "rawBytesSha256": "c65b7ad2ea9887991e6df8713fbe5a5d41c703eedb3bd1ab6419c6d80e8e650d"
+          },
+          "completed": false,
+          "expectedLegalAmount": "9007199254740993.01",
+          "costStatus": 201,
+          "storedParent": "9007199254740994.00",
+          "storedChild": "9007199254740994.00",
+          "unitPrice": "1.0000",
+          "pricingStatus": 400,
+          "grossMarginBand": "low",
+          "actualAmountChangedByCents": 99,
+          "pricingDefectProven": false
+        },
+        {
+          "phase": "41",
+          "report": {
+            "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-41/report01.json",
+            "bytes": 222494,
+            "rawBytesSha256": "19859c4390b9d369a78bad4902078933ffa78d2afcbd12b1c6d67b36a713c934"
+          },
+          "completed": false,
+          "expectedLegalAmount": "9007199254740993.01",
+          "costStatus": 201,
+          "storedParent": "9007199254740994.00",
+          "storedChild": "9007199254740994.00",
+          "unitPrice": "1.0000",
+          "pricingStatus": 201,
+          "grossMarginBand": "target",
+          "storedQuoteExclusive": "9007199254740994.00",
+          "storedQuoteInclusive": "9007199254740994.00",
+          "actualAmountChangedByCents": 99,
+          "pricingDefectProven": true
+        }
+      ],
+      "trigger": "Legal numeric(18,2) input 9007199254740993.01 yields HTTP201 but both cost parent/child and valid pricing values persist 9007199254740994.00.",
+      "impact": "Successful business commands silently change valid cents by 0.99, and both equality comparison and aggregate values pass through binary64.",
+      "sourceReferences": [
+        {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "line": 105,
+          "purpose": "binary64 decimal parsing and toFixed helper"
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "line": 298,
+          "purpose": "binary64 aggregate"
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+          "line": 159,
+          "purpose": "child monetary inputs also binary64 formatted"
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "line": 154,
+          "purpose": "binary64 quote comparisons"
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "line": 412,
+          "purpose": "binary64 quote formatting"
+        }
+      ],
+      "minimalBoundary": "Exact decimal parsing, item relation comparison, total summing and two-place formatting in these existing cost/pricing modules; preflight actual existing numeric column limits and total overflow. Retain current locks/atomic business graph, signed grossMarginRate and existing public route/DTO/DDL semantics. No Native bug-compatibility exception.",
+      "requiredDirectedEvidence": [
+        "Legal high amount preserves parent and child cents plus pricing response/PG/read values.",
+        "Ordinary cents sum and legal max boundary; reject per-field and aggregate overflow with400 and no business writes.",
+        "Reject unequal cost tax sum and inclusive quote below exclusive using exact decimal comparisons.",
+        "numeric(18,4) quantity/unitPrice legal values retain decimals and invalid width fails early; do not invent quantity*unitPrice=amount rule.",
+        "Retain signed grossMarginRate scale8 and string quoteVersion semantics; no new0..1 constraint.",
+        "New fmt/clippy/test/release artifact, old30 actual regression and three-version-domain faults/concurrency under corrected candidate."
+      ]
+    }
+  ],
+  "candidateBuild": {
+    "report": {
+      "file": "tmp/rust-r3hijk/rust-check08/report01.json",
+      "bytes": 89524,
+      "rawBytesSha256": "729d3048d9e952e2043791978ba5a26733b62d89c32c27a484b1079af75b335c"
+    },
+    "allFourCommandsExit0": true,
+    "testCounts": {
+      "passed": 283,
+      "failed": 0,
+      "ignored": 54
+    },
+    "ignoredTestsAreNotPGAcceptance": true,
+    "artifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+      "bytes": 43630808,
+      "rawBytesSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af"
+    },
+    "sourcePins": 231,
+    "currentSourceMatches": 228,
+    "currentSourceDrift": [
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+        "bytes": 24308,
+        "rawBytesSha256": "0d3a02227da6d396020a0931e517d69baad795222c04b0c57ddf5a269cd12b9c",
+        "matchesCandidate03": false,
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "bytes": 24609,
+          "rawBytesSha256": "a330781695978d34024e913ede6102e678576498119edbf50b65146951f00172"
+        }
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+        "bytes": 20959,
+        "rawBytesSha256": "2c75039d9a824e59e8d00e9050b829a4e417a9821ae256585e1802ccea369694",
+        "matchesCandidate03": false,
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 19066,
+          "rawBytesSha256": "42223b45c90fa13846b8db24446499feceb8bd3b0aa314d25a39dd27f0bb24ea"
+        }
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+        "bytes": 16817,
+        "rawBytesSha256": "ee6e79427858f7d375a7b9fa77aba5954322d6f432a0a79daf20a81ac3e5aa16",
+        "matchesCandidate03": false,
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+          "bytes": 16977,
+          "rawBytesSha256": "9d6812e1149eebc6a412bf6ed130b78c4180b26e1466ce1e28223c13ad5d0c37"
+        }
+      }
+    ],
+    "sourceDriftNotRelabelledAsRunningArtifact": "Any current author correction belongs to its next build; these retained HTTP/UI observations stay candidate03.",
+    "focusedCandidateSourceOriginalCopies": [
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/customer_contacts/http.rs",
+          "bytes": 6112,
+          "rawBytesSha256": "132a87fa2abc40d564e505ae165cf269b2a258d092521aa1bbeb8a8d3efd4926"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/customer_contacts/http.rs",
+          "bytes": 6112,
+          "rawBytesSha256": "132a87fa2abc40d564e505ae165cf269b2a258d092521aa1bbeb8a8d3efd4926"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/customer_contacts/mod.rs",
+          "bytes": 191,
+          "rawBytesSha256": "8596a19c1d3d7d5ceffacba47231a70f15a35820524ad30fa3b6e842cc8b3340"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/customer_contacts/mod.rs",
+          "bytes": 191,
+          "rawBytesSha256": "8596a19c1d3d7d5ceffacba47231a70f15a35820524ad30fa3b6e842cc8b3340"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/customer_contacts/model.rs",
+          "bytes": 883,
+          "rawBytesSha256": "4b6b6c1467ee630295f7a7b7e22fd3b2d94e84b96d297e3e39627003dac6375e"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/customer_contacts/model.rs",
+          "bytes": 883,
+          "rawBytesSha256": "4b6b6c1467ee630295f7a7b7e22fd3b2d94e84b96d297e3e39627003dac6375e"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/customer_contacts/service.rs",
+          "bytes": 14594,
+          "rawBytesSha256": "d50c63f5a0a198e6cda23097bb161558bedccbac50c0cc028f7516d2511ef39f"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/customer_contacts/service.rs",
+          "bytes": 14594,
+          "rawBytesSha256": "d50c63f5a0a198e6cda23097bb161558bedccbac50c0cc028f7516d2511ef39f"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/customer_contacts/store.rs",
+          "bytes": 5398,
+          "rawBytesSha256": "dec1ff65841d3564d75ff9ad0d168a04996dcf845f0971608ebff0a3fac835ba"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/customer_contacts/store.rs",
+          "bytes": 5398,
+          "rawBytesSha256": "dec1ff65841d3564d75ff9ad0d168a04996dcf845f0971608ebff0a3fac835ba"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/customer_contacts/validation.rs",
+          "bytes": 10018,
+          "rawBytesSha256": "7b891f12e35ddec401d0753eabcc7bd63f32240eccae90ee8d449ac338feb9fd"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/customer_contacts/validation.rs",
+          "bytes": 10018,
+          "rawBytesSha256": "7b891f12e35ddec401d0753eabcc7bd63f32240eccae90ee8d449ac338feb9fd"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_bid_commercial/http.rs",
+          "bytes": 6375,
+          "rawBytesSha256": "da8be0746953b10b4dbaf8f792eef389663f445d1d05591c46c9ed4294e834d9"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_bid_commercial/http.rs",
+          "bytes": 6375,
+          "rawBytesSha256": "da8be0746953b10b4dbaf8f792eef389663f445d1d05591c46c9ed4294e834d9"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_bid_commercial/mod.rs",
+          "bytes": 293,
+          "rawBytesSha256": "ff01cf8e1b175e5a1729a39e67bf5974a1a93a934433933b8cb8477d74a05bbb"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_bid_commercial/mod.rs",
+          "bytes": 293,
+          "rawBytesSha256": "ff01cf8e1b175e5a1729a39e67bf5974a1a93a934433933b8cb8477d74a05bbb"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_bid_commercial/model.rs",
+          "bytes": 1292,
+          "rawBytesSha256": "d8c45bff85f58334d31f646f852faea0a188d65a1d0e15958d1b7d2b391ecb63"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_bid_commercial/model.rs",
+          "bytes": 1292,
+          "rawBytesSha256": "d8c45bff85f58334d31f646f852faea0a188d65a1d0e15958d1b7d2b391ecb63"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_bid_commercial/service.rs",
+          "bytes": 16294,
+          "rawBytesSha256": "134d85d3be8bb169705455ffc92c19145e5f8757652460d22675cc4e8f5ade00"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_bid_commercial/service.rs",
+          "bytes": 16294,
+          "rawBytesSha256": "134d85d3be8bb169705455ffc92c19145e5f8757652460d22675cc4e8f5ade00"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_bid_commercial/store.rs",
+          "bytes": 14883,
+          "rawBytesSha256": "ea2a37b7e673a929a4d1f3f9a018663d821869a86b98b194b8db79c119d23d17"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_bid_commercial/store.rs",
+          "bytes": 14883,
+          "rawBytesSha256": "ea2a37b7e673a929a4d1f3f9a018663d821869a86b98b194b8db79c119d23d17"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_bid_commercial/validation.rs",
+          "bytes": 11290,
+          "rawBytesSha256": "75b57a103da9971c9ad4bdef63bcf2d917993dc2e8eba609fbb3cd50c57c9bf3"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_bid_commercial/validation.rs",
+          "bytes": 11290,
+          "rawBytesSha256": "75b57a103da9971c9ad4bdef63bcf2d917993dc2e8eba609fbb3cd50c57c9bf3"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/http.rs",
+          "bytes": 6365,
+          "rawBytesSha256": "13c0a3d5abd7dc08c0e70a1ccd8dfc05c52e1d2df733fd6fd7fe7770c265f941"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_pricing_margin/http.rs",
+          "bytes": 6365,
+          "rawBytesSha256": "13c0a3d5abd7dc08c0e70a1ccd8dfc05c52e1d2df733fd6fd7fe7770c265f941"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/mod.rs",
+          "bytes": 291,
+          "rawBytesSha256": "5af2a2b99377e727dac400012055bbe5dae6a5dded0591a4c3b8736601cd1fcc"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_pricing_margin/mod.rs",
+          "bytes": 291,
+          "rawBytesSha256": "5af2a2b99377e727dac400012055bbe5dae6a5dded0591a4c3b8736601cd1fcc"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/model.rs",
+          "bytes": 1454,
+          "rawBytesSha256": "e719c3c215a1e0fd05d5a2b6ee3ba67e0bf6bbc9fb1f68b41991b92913b54f45"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_pricing_margin/model.rs",
+          "bytes": 1454,
+          "rawBytesSha256": "e719c3c215a1e0fd05d5a2b6ee3ba67e0bf6bbc9fb1f68b41991b92913b54f45"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "bytes": 24609,
+          "rawBytesSha256": "a330781695978d34024e913ede6102e678576498119edbf50b65146951f00172"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "bytes": 24609,
+          "rawBytesSha256": "a330781695978d34024e913ede6102e678576498119edbf50b65146951f00172"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/store.rs",
+          "bytes": 13444,
+          "rawBytesSha256": "887824eb9c171cf00e2b6de9d9fa9f8be681c9d49949b7fe4e52de898223943a"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_pricing_margin/store.rs",
+          "bytes": 13444,
+          "rawBytesSha256": "887824eb9c171cf00e2b6de9d9fa9f8be681c9d49949b7fe4e52de898223943a"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_pricing_margin/validation.rs",
+          "bytes": 4697,
+          "rawBytesSha256": "ca959099458785ec4f41b7d079be0b4a6016087819ef9ab913fce172eaf541df"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_pricing_margin/validation.rs",
+          "bytes": 4697,
+          "rawBytesSha256": "ca959099458785ec4f41b7d079be0b4a6016087819ef9ab913fce172eaf541df"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6679,
+          "rawBytesSha256": "250ded8424626344ca2c04299b284ba315cbf8b19511792bf992aa3227afc83e"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_technical_cost/http.rs",
+          "bytes": 6679,
+          "rawBytesSha256": "250ded8424626344ca2c04299b284ba315cbf8b19511792bf992aa3227afc83e"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/mod.rs",
+          "bytes": 304,
+          "rawBytesSha256": "ba59e72c4f98a13b3044b4b91f0b219a8161d666546f1921f479fc7eb77b1d1e"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_technical_cost/mod.rs",
+          "bytes": 304,
+          "rawBytesSha256": "ba59e72c4f98a13b3044b4b91f0b219a8161d666546f1921f479fc7eb77b1d1e"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/model.rs",
+          "bytes": 1497,
+          "rawBytesSha256": "20702d110cfb52757f16988e1c4e1b5b983a66b4c7dc2d8d6af5606d5aaf1cb0"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_technical_cost/model.rs",
+          "bytes": 1497,
+          "rawBytesSha256": "20702d110cfb52757f16988e1c4e1b5b983a66b4c7dc2d8d6af5606d5aaf1cb0"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 19066,
+          "rawBytesSha256": "42223b45c90fa13846b8db24446499feceb8bd3b0aa314d25a39dd27f0bb24ea"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "bytes": 19066,
+          "rawBytesSha256": "42223b45c90fa13846b8db24446499feceb8bd3b0aa314d25a39dd27f0bb24ea"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+          "bytes": 16977,
+          "rawBytesSha256": "9d6812e1149eebc6a412bf6ed130b78c4180b26e1466ce1e28223c13ad5d0c37"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_technical_cost/store.rs",
+          "bytes": 16977,
+          "rawBytesSha256": "9d6812e1149eebc6a412bf6ed130b78c4180b26e1466ce1e28223c13ad5d0c37"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/project_technical_cost/validation.rs",
+          "bytes": 22012,
+          "rawBytesSha256": "9a86fb82a6b98da38cea57ae8d31795c43d5af99dcf83cf82d7a1680633ca639"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/project_technical_cost/validation.rs",
+          "bytes": 22012,
+          "rawBytesSha256": "9a86fb82a6b98da38cea57ae8d31795c43d5af99dcf83cf82d7a1680633ca639"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/http.rs",
+          "bytes": 7447,
+          "rawBytesSha256": "eef374d2e9b8565a2eb7fcc00e013966baa8bbf52ff1f52eb34eb46ece727208"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/http.rs",
+          "bytes": 7447,
+          "rawBytesSha256": "eef374d2e9b8565a2eb7fcc00e013966baa8bbf52ff1f52eb34eb46ece727208"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/mod.rs",
+          "bytes": 202,
+          "rawBytesSha256": "9051488a6625bfc767424c8d041aac810f8348f68faf032cdceb7a28f4e72dba"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/mod.rs",
+          "bytes": 202,
+          "rawBytesSha256": "9051488a6625bfc767424c8d041aac810f8348f68faf032cdceb7a28f4e72dba"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/model.rs",
+          "bytes": 1050,
+          "rawBytesSha256": "c845f968cf43b7fa4c64388f50ca835c6556f4791f63b8329efad8ac4260bf86"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/model.rs",
+          "bytes": 1050,
+          "rawBytesSha256": "c845f968cf43b7fa4c64388f50ca835c6556f4791f63b8329efad8ac4260bf86"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+          "bytes": 5417,
+          "rawBytesSha256": "ae06165669c57152924322ae7f272df33bb56b4458835cb345dfad147fac1d2d"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+          "bytes": 5417,
+          "rawBytesSha256": "ae06165669c57152924322ae7f272df33bb56b4458835cb345dfad147fac1d2d"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+          "bytes": 35337,
+          "rawBytesSha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/service.rs",
+          "bytes": 35337,
+          "rawBytesSha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+          "bytes": 19058,
+          "rawBytesSha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/store.rs",
+          "bytes": 19058,
+          "rawBytesSha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+        }
+      },
+      {
+        "candidate03": {
+          "file": "apps/poms-api-rust/src/sales_follow_up/validation.rs",
+          "bytes": 8741,
+          "rawBytesSha256": "ad25199c391d8290813e4f2e6ace53e7c1f73db1cc341710a1898c6026ed59ca"
+        },
+        "copy": {
+          "file": "tmp/rust-r3hijk/c-review/candidate03-source-originals/apps/poms-api-rust/src/sales_follow_up/validation.rs",
+          "bytes": 8741,
+          "rawBytesSha256": "ad25199c391d8290813e4f2e6ace53e7c1f73db1cc341710a1898c6026ed59ca"
+        }
+      }
+    ],
+    "focusedSnapshotCompleteness": {
+      "project_technical_cost/": true,
+      "project_bid_commercial/": true,
+      "project_pricing_margin/": true,
+      "customer_contacts/": true,
+      "sales_follow_up/": true
+    }
+  },
+  "actualReports": [
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-30/report01.json",
+        "bytes": 2824317,
+        "rawBytesSha256": "889711b1e70a3b380bbf80465658fd53a47022d46e0ca68519f98cf964ef8ba2"
+      },
+      "completed": true,
+      "groups": 56,
+      "HTTP": 56,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/foundation-business02.mjs",
+          "bytes": 4011,
+          "rawBytesSha256": "b05201fd550d6e808c49fc9bf33b6b06827979fdd0d83c0d6eaee1efdd9ba47d",
+          "resolvedReadPath": "tools/rust-r3hijk/foundation-business02.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715",
+          "resolvedReadPath": "tmp/rust-r3hijk/foundation-business-regression01.mjs"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-31/report01.json",
+        "bytes": 1571753,
+        "rawBytesSha256": "9019fa45621324e57af0199f7816aae306eb7fc884057d749826ee0612ccf431"
+      },
+      "completed": true,
+      "groups": 19,
+      "HTTP": 18,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/timeline-business-correction01.mjs",
+          "bytes": 5143,
+          "rawBytesSha256": "a55bf3cbe8b362ac68677693a6d83b2355d11f52e98f338d6b849b8bc19c6542",
+          "resolvedReadPath": "tools/rust-r3hijk/timeline-business-correction01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/d-business-g2-definitions/timeline-plan.mjs",
+          "bytes": 14437,
+          "rawBytesSha256": "0eb2372247194869970b10dcb422b3589fcfdcff9caf9dbe9cceb6c854dde251",
+          "resolvedReadPath": "tmp/rust-r3hijk/d-business-g2-definitions/timeline-plan.mjs"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-34/report01.json",
+        "bytes": 559306,
+        "rawBytesSha256": "82ecd0fdd480b2fc8ad7e90de5978f48dab931111d1b4190c05278b660d74d3a"
+      },
+      "completed": true,
+      "groups": 2,
+      "HTTP": 31,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/acceptance-chain06.mjs",
+          "bytes": 9172,
+          "rawBytesSha256": "0e87f91fa4f4e1659bcd7238167cc6e61acdeee5e38e55602886d0a33b2303e3",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tools/rust-r3hijk/acceptance-chain06.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/d-input/native-fixture-draft01.mjs",
+          "bytes": 21356,
+          "rawBytesSha256": "48a97ade973b882a678d99d760dcb9a3491e57f7138fe21536b9a69e14472bbb",
+          "resolvedReadPath": "tmp/rust-r3hijk/d-input/native-fixture-draft01.mjs"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-35/report01.json",
+        "bytes": 245444,
+        "rawBytesSha256": "416d7ff7bb651075a61c96f6af19a72ea719d205a2e127a906c62f37ec8bbc4d"
+      },
+      "completed": true,
+      "groups": 3,
+      "HTTP": 11,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/legacy-producer-probes01.mjs",
+          "bytes": 3422,
+          "rawBytesSha256": "4318ca32dbac764d585fad74f1429fed0c6aebe0c4c2f7a0b92e7cdc423af309",
+          "resolvedReadPath": "tools/rust-r3hijk/legacy-producer-probes01.mjs"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-40/report01.json",
+        "bytes": 218474,
+        "rawBytesSha256": "c65b7ad2ea9887991e6df8713fbe5a5d41c703eedb3bd1ab6419c6d80e8e650d"
+      },
+      "completed": false,
+      "groups": 0,
+      "HTTP": 3,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/money-business-probe02.mjs",
+          "bytes": 2688,
+          "rawBytesSha256": "f11574dab93175e8027e6efc51ec8fcbf1c3f9e016b8d53f98fbb08a04f63d31",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tools/rust-r3hijk/money-business-probe02.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715",
+          "resolvedReadPath": "tmp/rust-r3hijk/foundation-business-regression01.mjs"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-41/report01.json",
+        "bytes": 222494,
+        "rawBytesSha256": "19859c4390b9d369a78bad4902078933ffa78d2afcbd12b1c6d67b36a713c934"
+      },
+      "completed": false,
+      "groups": 0,
+      "HTTP": 3,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/money-business-probe03.mjs",
+          "bytes": 2691,
+          "rawBytesSha256": "269ba409c1ff9d315cf801d754e667dd829392ad1519b168e5dd58ed1dfa17da",
+          "resolvedReadPath": "//wsl.localhost/Debian/home/wangzishi/projects/poms-rust-r3hijk/tools/rust-r3hijk/money-business-probe03.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715",
+          "resolvedReadPath": "tmp/rust-r3hijk/foundation-business-regression01.mjs"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate03-42/report01.json",
+        "bytes": 342449,
+        "rawBytesSha256": "6d2b4a265580fc27c4d7508894414e2e9ba5c01379452974c015ed8fa033c0c1"
+      },
+      "completed": true,
+      "groups": 3,
+      "HTTP": 12,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate03",
+        "pid": 88686,
+        "startTime": "2243560",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43630808,
+        "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T17:35:09.653Z"
+      },
+      "sources": [
+        {
+          "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+          "bytes": 15497,
+          "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db",
+          "resolvedReadPath": "tools/rust-r3hijk/acceptance-context01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/wire-client.mjs",
+          "bytes": 4221,
+          "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3",
+          "resolvedReadPath": "tools/rust-r3hijk/wire-client.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/source-guard.mjs",
+          "bytes": 883,
+          "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3",
+          "resolvedReadPath": "tools/rust-r3hijk/source-guard.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+          "bytes": 3504,
+          "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e",
+          "resolvedReadPath": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+          "bytes": 6253,
+          "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0",
+          "resolvedReadPath": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs"
+        },
+        {
+          "file": "tools/rust-r3hijk/followup-concurrency-business01.mjs",
+          "bytes": 4243,
+          "rawBytesSha256": "bcb8e520a07501cd67a07d0ca1603e5cae93e7b5fba81e4f147d3806b3df6faa",
+          "resolvedReadPath": "tools/rust-r3hijk/followup-concurrency-business01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/followup-concurrency-business01.mjs",
+          "bytes": 24617,
+          "rawBytesSha256": "87ed29dc5bef816b4262a62fde9187c65d188c50cdda537116d157522fb24d33",
+          "resolvedReadPath": "tmp/rust-r3hijk/followup-concurrency-business01.mjs"
+        },
+        {
+          "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+          "bytes": 58522,
+          "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715",
+          "resolvedReadPath": "tmp/rust-r3hijk/foundation-business-regression01.mjs"
+        }
+      ]
+    }
+  ],
+  "foundation": {
+    "executedGroups": 56,
+    "HTTP": 56,
+    "distinctOldR3Operations": 30,
+    "auxiliaryDistinctOperation": "ApprovalController_getMyTodos",
+    "operationIds": [
+      "CustomerAliasController_delete",
+      "CustomerContactController_create",
+      "CustomerContactController_list",
+      "CustomerContactController_update",
+      "CustomerController_create",
+      "CustomerController_createAlias",
+      "CustomerController_getById",
+      "CustomerController_getWorkspaceOverview",
+      "CustomerController_list",
+      "CustomerController_listAliases",
+      "CustomerController_update",
+      "ProjectController_create",
+      "ProjectController_createProjectBidCommercialProcess",
+      "ProjectController_createProjectPricingMarginReview",
+      "ProjectController_createProjectTechnicalCostPackage",
+      "ProjectController_getByCode",
+      "ProjectController_getById",
+      "ProjectController_getProjectBidCommercialWorkspace",
+      "ProjectController_getProjectPricingMarginWorkspace",
+      "ProjectController_getProjectTechnicalCostWorkspace",
+      "ProjectController_list",
+      "ProjectController_listProjectBidCommercialProcesses",
+      "ProjectController_listProjectPricingMarginReviews",
+      "ProjectController_listProjectTechnicalCostPackages",
+      "ProjectController_reassignOwner",
+      "ProjectController_updateBasicInfo",
+      "SalesFollowUpController_create",
+      "SalesFollowUpController_list",
+      "SalesFollowUpController_replace",
+      "SalesFollowUpController_void"
+    ],
+    "preassertOriginalsMatch55CompletedCases": true,
+    "threeVersionDomains": [
+      {
+        "domain": "cost",
+        "versions": [
+          1,
+          2
+        ],
+        "supersededRowVersion": 2,
+        "currentRowVersion": 1,
+        "oneEffectiveCurrent": true,
+        "linkedCurrentChildren": true
+      },
+      {
+        "domain": "bid",
+        "versions": [
+          1,
+          2
+        ],
+        "supersededRowVersion": 2,
+        "currentRowVersion": 1,
+        "oneEffectiveCurrent": true,
+        "linkedCurrentChildren": true
+      },
+      {
+        "domain": "pricing",
+        "versions": [
+          1,
+          2
+        ],
+        "supersededRowVersion": 2,
+        "currentRowVersion": 1,
+        "oneEffectiveCurrent": true,
+        "linkedCurrentChildren": true
+      }
+    ],
+    "ordinaryCostParentSumAndPricingRatesPGDecimalsChecked": true,
+    "currentCostBidReferencesAndChildOwnershipChecked": true,
+    "contactCreateAndUpdatePublicAndStoredGenderCorrect": true,
+    "followUpCreateReplaceVoidHistoryReminderAndAuditChecked": true,
+    "completeExportedRawNoWriteCases": [
+      {
+        "caseName": "A.alias.delete-primary-denied",
+        "status": 409,
+        "businessTables": [
+          "customer_alias"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "B.project.stale-owner-command",
+        "status": 409,
+        "businessTables": [
+          "project",
+          "project_owner_reassignment_record",
+          "audit_log"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "G.pricing.stale-cost-rejected",
+        "status": 400,
+        "businessTables": [
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "F.followup.replace-stale",
+        "status": 409,
+        "businessTables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "F.followup.void-version-mismatch",
+        "status": 409,
+        "businessTables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "F.required-audit.replace-rollback",
+        "status": 500,
+        "businessTables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ],
+        "completeExportedRawRowsEqual": true
+      },
+      {
+        "caseName": "F.required-audit.void-rollback",
+        "status": 500,
+        "businessTables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ],
+        "completeExportedRawRowsEqual": true
+      }
+    ],
+    "limits": [
+      "Sequential v1/v2 API and parent-row checks do not alone establish concurrent version creation or required child-write fault rollback.",
+      "Ordinary small fixture money success in phase30 does not cover phase40/41 legal precision failure.",
+      "Parent PG rows and public child workspace readback are recorded; absent per-child raw PG export is not invented."
+    ]
+  },
+  "staticImplementation": {
+    "versionDomains": [
+      {
+        "domain": "cost",
+        "service": "project_technical_cost/service.rs",
+        "store": "project_technical_cost/store.rs",
+        "commonProjectLockBeforeSupersedeBeforeInsert": true,
+        "nextVersionAcrossAllHistory": true,
+        "supersedeCASCurrentVersionState": true,
+        "transactionRollbackAndCommitPresent": true,
+        "staticReviewOnlyNotConcurrentProof": true
+      },
+      {
+        "domain": "bid",
+        "service": "project_bid_commercial/service.rs",
+        "store": "project_bid_commercial/store.rs",
+        "commonProjectLockBeforeSupersedeBeforeInsert": true,
+        "nextVersionAcrossAllHistory": true,
+        "supersedeCASCurrentVersionState": true,
+        "transactionRollbackAndCommitPresent": true,
+        "staticReviewOnlyNotConcurrentProof": true
+      },
+      {
+        "domain": "pricing",
+        "service": "project_pricing_margin/service.rs",
+        "store": "project_pricing_margin/store.rs",
+        "commonProjectLockBeforeSupersedeBeforeInsert": true,
+        "nextVersionAcrossAllHistory": true,
+        "supersedeCASCurrentVersionState": true,
+        "transactionRollbackAndCommitPresent": true,
+        "staticReviewOnlyNotConcurrentProof": true
+      }
+    ],
+    "commonProjectLockReference": {
+      "file": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+      "line": 44
+    },
+    "pricingReferencesRecheckedUnderProjectLock": true,
+    "followUp": {
+      "source": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+      "sourceLockLine": 520,
+      "requiredAuditLine": 600,
+      "sourceLockThenVersionStateCheckBeforeTodo": true,
+      "recordReminderAndRequiredAuditInOneTransaction": true,
+      "zeroCASMapsConflict409": true,
+      "observedSameSourceRaces": [
+        {
+          "caseName": "F.concurrent.replace-replace",
+          "actualWaiters": 2,
+          "statuses": [
+            409,
+            200
+          ],
+          "winnerActor": "other",
+          "winningOperation": "replace",
+          "sourceVersionAdvance": 1,
+          "requiredAuditRows": 1,
+          "sourceReplacementTodoAuditGraphChecked": true,
+          "noLoserAuditOrReplacement": true
+        },
+        {
+          "caseName": "F.concurrent.void-void",
+          "actualWaiters": 2,
+          "statuses": [
+            409,
+            200
+          ],
+          "winnerActor": "other",
+          "winningOperation": "void",
+          "sourceVersionAdvance": 1,
+          "requiredAuditRows": 1,
+          "sourceReplacementTodoAuditGraphChecked": true,
+          "noLoserAuditOrReplacement": true
+        },
+        {
+          "caseName": "F.concurrent.replace-void",
+          "actualWaiters": 2,
+          "statuses": [
+            409,
+            200
+          ],
+          "winnerActor": "other",
+          "winningOperation": "void",
+          "sourceVersionAdvance": 1,
+          "requiredAuditRows": 1,
+          "sourceReplacementTodoAuditGraphChecked": true,
+          "noLoserAuditOrReplacement": true
+        }
+      ]
+    },
+    "contact": {
+      "source": "apps/poms-api-rust/src/customer_contacts/service.rs",
+      "explicitCreateGenderRetained": true
+    },
+    "moneyFieldContract": {
+      "authority": {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 435823,
+        "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+      },
+      "amounts": {
+        "public": "nonnegative decimal strings, at most2 fraction digits",
+        "PG": "numeric(18,2); up to16 integer digits"
+      },
+      "quantityUnitPrice": {
+        "public": "nullable optional nonnegative decimal strings, at most4 fraction digits",
+        "PG": "numeric(18,4); up to14 integer digits",
+        "currentBind": "input string directly to PostgreSQL numeric",
+        "noNewMultiplicationRule": true
+      },
+      "grossMarginRate": {
+        "public": "nullable optional signed decimal string, at most8 fraction digits",
+        "PG": "numeric(18,8); up to10 integer digits",
+        "existingRustSignedParameter": true,
+        "noNewNonnegativeOrZeroToOneConstraint": true
+      },
+      "quoteVersion": "Trimmed nonempty text max64; do not reinterpret as a numeric version",
+      "grossMarginBand": [
+        "below-redline",
+        "watch",
+        "target",
+        "not-calculated"
+      ]
+    },
+    "moneyCorrectivePolicy": {
+      "file": "docs/design/rust-r3hijk-money-corrective-checkpoint03.md",
+      "bytes": 1982,
+      "rawBytesSha256": "168077b7a8eb895cebaa743aca6c379455057bf60af9ecfa8b209f18b95b0b3b"
+    },
+    "moneyPolicyWithinExistingAuthorizedDependencyBoundary": true
+  },
+  "closedEvidenceFinding": {
+    "id": "JK-EVIDENCE-P2-CLEANUP-AND-TARGET-ASSERT-01",
+    "previousReview": {
+      "file": "tmp/rust-r3hijk/c-review/candidate02-jk-ui-preaudit02.json",
+      "bytes": 22588,
+      "rawBytesSha256": "aa5862088ed35b7d2e7b410fa01407f573f09dda7aa39290d91f7f5bd47f83e0"
+    },
+    "status": "Closed by new candidate03 phase31 actual supplement for this precise gap",
+    "oldPhase25PinsVerifiedUnchanged": true,
+    "initialRetainedTieRowsActuallyDeleted": [
+      {
+        "table": "contract",
+        "id": "13058ccf-dbee-48b7-b311-ce5578902e1f",
+        "beforeRows": 1,
+        "deletedRows": 1
+      },
+      {
+        "table": "project_handover",
+        "id": "36dd3431-9f07-4aea-b5da-ab290facd0dc",
+        "beforeRows": 1,
+        "deletedRows": 1
+      },
+      {
+        "table": "acceptance_record",
+        "id": "c8272f94-8bf0-4351-a5f3-77f226364eb5",
+        "beforeRows": 1,
+        "deletedRows": 1
+      },
+      {
+        "table": "project_completion_record",
+        "id": "bec54bad-ccc9-4b75-8e09-15843ff8f42a",
+        "beforeRows": 1,
+        "deletedRows": 1
+      }
+    ],
+    "allFourDeclaredCleanupAfterActuallyDeletedOneOwnRow": true,
+    "deterministicAlternativeCases": 14,
+    "noRetainedTieRowsInTheirBeforeAfter": true,
+    "correctedKT05": {
+      "caseName": "K.T05.completed-label.selection-verified",
+      "sourceId": "475cc170-fae9-4ed2-bbc8-df5e872715ef",
+      "resultLabel": "项目已完成"
+    },
+    "independentTimelineChecks": [
+      {
+        "caseName": "K.T09.equal-all-keys.contract.cleanup-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.handover.cleanup-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.acceptance.cleanup-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T09.equal-all-keys.completion.cleanup-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T04.label.stage-outcome.accepted.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T04.label.stage-outcome.conditional.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T04.label.stage-acceptance.accepted.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T04.label.stage-acceptance.conditional.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T04.label.final-acceptance.accepted.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T04.label.final-acceptance.conditional.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T02.contract-createdBy-fallback.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T05.completed-label.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T06.anchor.completed.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T06.anchor.closed-lost.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      },
+      {
+        "caseName": "K.T07.null-reason.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 7
+      },
+      {
+        "caseName": "K.T07.empty-reason.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 7
+      },
+      {
+        "caseName": "K.T07.nonempty-reason.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 7
+      },
+      {
+        "caseName": "K.T07.no-close-time.selection-verified",
+        "expectedTargetAndLabelChecked": true,
+        "completeExportedNineTableRowsEqual": true,
+        "fullStoredInstantOrderChecked": true,
+        "eventCount": 6
+      }
+    ],
+    "fullStoredInstantOrderAndPublicMillisecondsChecked": true,
+    "completeNineTableReadOnlyRawRowsChecked": true,
+    "exactTiesUseLegalCandidateMembershipNoUUIDOrder": true,
+    "old25NotRetroactivelyPassed": true,
+    "R4FactsRemainPreparedReadOnlyProjectionFacts": true
+  },
+  "realChain": {
+    "groups": 2,
+    "HTTP": 31,
+    "uploads": [
+      {
+        "category": "proposal",
+        "attachmentId": "4ffe6607-b8aa-497b-b3e4-1967c1c05dbe",
+        "bytes": 36,
+        "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+        "realPOSTPUTComplete": true
+      },
+      {
+        "category": "quotation",
+        "attachmentId": "3a2f31c0-e893-4b13-8671-b1f99b88b38e",
+        "bytes": 37,
+        "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+        "realPOSTPUTComplete": true
+      },
+      {
+        "category": "finance",
+        "attachmentId": "6fd3c2c6-a5dc-4db7-b09b-e164c0441aae",
+        "bytes": 35,
+        "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+        "realPOSTPUTComplete": true
+      },
+      {
+        "category": "internal-assessment",
+        "attachmentId": "f554e669-8c87-4543-bc0d-d44da143a4b4",
+        "bytes": 47,
+        "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+        "realPOSTPUTComplete": true
+      }
+    ],
+    "localOnly": true,
+    "attachmentVersionOperationNotCertified": true,
+    "eligibleCopiedCategories": [
+      "proposal",
+      "quotation"
+    ],
+    "excludedCopyCategories": [
+      "finance",
+      "internal-assessment"
+    ],
+    "sourceLinksUnchanged": 4,
+    "targetProjectLinks": 2,
+    "oneLeadVersionAdvance": true,
+    "oneAdditionalSnapshot": true,
+    "actualCustomerLeadIContactFollowupTodoAndJKRelationsChecked": true,
+    "sourceLeadDiscussionRetainsOriginalId": true,
+    "conversionRequiredWriteFaults": [
+      {
+        "table": "attachment_link",
+        "HTTP": 500,
+        "exportedBusinessGraphKeys": [
+          "lead",
+          "projects",
+          "links",
+          "snapshots",
+          "auditIds"
+        ],
+        "wholeBusinessGraphEqual": true,
+        "independentNumberReservationDelta": 1
+      },
+      {
+        "table": "audit_log",
+        "HTTP": 500,
+        "exportedBusinessGraphKeys": [
+          "lead",
+          "projects",
+          "links",
+          "snapshots",
+          "auditIds"
+        ],
+        "wholeBusinessGraphEqual": true,
+        "independentNumberReservationDelta": 1
+      },
+      {
+        "table": "lead_score_snapshot",
+        "HTTP": 500,
+        "exportedBusinessGraphKeys": [
+          "lead",
+          "projects",
+          "links",
+          "snapshots",
+          "auditIds"
+        ],
+        "wholeBusinessGraphEqual": true,
+        "independentNumberReservationDelta": 1
+      }
+    ],
+    "numberGapsDoNotCountAsCommittedBusiness": true
+  },
+  "legacyActualProbes": {
+    "groups": 3,
+    "HTTP": 11,
+    "contactFemaleResponsePGReadCorrect": true,
+    "followUpReplaceAndVoidAuditDenial500WholeRecordTodoGraphRollback": true,
+    "noNewAuditRows": true
+  },
+  "usableOriginalUICells": {
+    "NativePriorIndependentCells": [
+      {
+        "label": "linux-native03",
+        "report": {
+          "file": "tmp/rust-r3hijk/ui-linux-native03/report01.json",
+          "bytes": 903448,
+          "rawBytesSha256": "8079c1353da2d8e48ecf0d6751ded3aed0cb09654897a45b71f411fb33b8ac88",
+          "resolvedReadPath": "tmp/rust-r3hijk/ui-linux-native03/report01.json"
+        },
+        "backend": "Native",
+        "previousIndependentReview": {
+          "file": "tmp/rust-r3hijk/c-review/candidate02-jk-ui-preaudit02.json",
+          "bytes": 22588,
+          "rawBytesSha256": "aa5862088ed35b7d2e7b410fa01407f573f09dda7aa39290d91f7f5bd47f83e0"
+        }
+      },
+      {
+        "label": "windows-native01",
+        "report": {
+          "file": "tmp/rust-r3hijk/ui-windows-native01/report01.json",
+          "bytes": 924535,
+          "rawBytesSha256": "03eb50f1b7b9ff74a6ff13eb5e7d79c4ff8dc29348b808199aef6d9862990005",
+          "resolvedReadPath": "tmp/rust-r3hijk/ui-windows-native01/report01.json"
+        },
+        "backend": "Native",
+        "previousIndependentReview": {
+          "file": "tmp/rust-r3hijk/c-review/candidate02-jk-ui-preaudit02.json",
+          "bytes": 22588,
+          "rawBytesSha256": "aa5862088ed35b7d2e7b410fa01407f573f09dda7aa39290d91f7f5bd47f83e0"
+        }
+      }
+    ],
+    "RustCandidate03Cells": [
+      {
+        "label": "linux-rust01",
+        "report": {
+          "file": "tmp/rust-r3hijk/ui-linux-rust01/report01.json",
+          "bytes": 1122024,
+          "rawBytesSha256": "b2349d4769121bbb50e2ca80ebcc40bc79a2618fe7b37a2c64a2c7ad6562b66f"
+        },
+        "input": {
+          "file": "tmp/rust-r3hijk/ui-input-linux-rust01.json",
+          "bytes": 1355,
+          "rawBytesSha256": "638b1a6d09d3ea4f5fa31e444dc1c2e803aad6a64b985b88cf13f91bfb1dafe5",
+          "resolvedReadPath": "tmp/rust-r3hijk/ui-input-linux-rust01.json"
+        },
+        "sources": [
+          {
+            "file": "tools/rust-r3hijk/ui-run03.mjs",
+            "bytes": 8742,
+            "rawBytesSha256": "b44f01d72e90f17a8e5498a45607063084d1e8ecd199a1295e298a4c6a47d21b"
+          },
+          {
+            "file": "tools/rust-r3hijk/ui-server01.mjs",
+            "bytes": 4455,
+            "rawBytesSha256": "1e4bca4e2ec9bf4c49df2ee43f9b7d920c780fa9fafb0676fa447283690ebc61"
+          },
+          {
+            "file": "tmp/rust-r3hijk/a-ui-definitions/lead-journey02.mjs",
+            "bytes": 22328,
+            "rawBytesSha256": "6219e45e909ec4a01ae3078a5eab99cfee659738a8462c15da422e27f4207a65"
+          },
+          {
+            "file": "tmp/rust-r3hijk/b-ui-definitions/intelligence-discussion-journey02.mjs",
+            "bytes": 31946,
+            "rawBytesSha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+          }
+        ],
+        "backend": "Rust",
+        "candidateTag": "candidate03",
+        "candidateArtifactBinding": {
+          "runId": "6872abb5-12af-486f-ada6-02e484421d1f",
+          "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+          "allNetworkBackendPort": 12500,
+          "runtime": {
+            "kind": "R3HIJK-owned-Linux-runtime",
+            "backend": "rust",
+            "tag": "candidate03",
+            "pid": 88686,
+            "startTime": "2243560",
+            "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+            "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+            "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+            "artifactBytes": 43630808,
+            "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+            "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+            "port": 12500,
+            "database": "poms_r3hijk_rust",
+            "createdAt": "2026-11-02T17:35:09.653Z"
+          },
+          "reportDoesNotContainItsOwnArtifactHash": true
+        },
+        "observations": 79,
+        "HTTP": 259,
+        "statusCounts": {
+          "200": 246,
+          "201": 11,
+          "404": 2
+        },
+        "visibleLeadSteps": 19,
+        "visibleBusinessWrites": 17,
+        "all17NetworkMatched": true,
+        "createdIntelligenceCounts": {
+          "stakeholders": 2,
+          "competitors": 2,
+          "discoveries": 1,
+          "discussions": 3
+        },
+        "allCreatedIntelligenceRowsAndActorMatched": true,
+        "sourceLeadAndConvertedProjectMatched": true,
+        "sourceLeadAggregationRetainsCommentId": true,
+        "unimplementedR4ArchiveReads": [
+          {
+            "index": 149,
+            "path": "/api/projects/06f25e88-7207-4168-a716-2897c4b03fed/archive-records",
+            "status": 404
+          },
+          {
+            "index": 239,
+            "path": "/api/projects/06f25e88-7207-4168-a716-2897c4b03fed/archive-records",
+            "status": 404
+          }
+        ],
+        "closure": {
+          "browserClosed": true,
+          "serverClosed": true,
+          "pending": 0,
+          "allRawExchangesRetained": true
+        },
+        "notUIAccepted": [
+          "I update/delete controls absent in the original UI",
+          "J related-object selector UI absent",
+          "Filled optional conversion date picker not exercised",
+          "R4 command/read routes beyond frozen K projection"
+        ]
+      },
+      {
+        "label": "windows-rust01",
+        "report": {
+          "file": "tmp/rust-r3hijk/ui-windows-rust01/report01.json",
+          "bytes": 1143174,
+          "rawBytesSha256": "ca52090f200d166f4772f1c91466dbf12ed4a7a63838e05e3d857570e3d00c3e"
+        },
+        "input": {
+          "file": "tmp/rust-r3hijk/ui-input-windows-rust01.json",
+          "bytes": 1369,
+          "rawBytesSha256": "53c2ebc78522033412fbfc908a59e43ababec88d8b000da5a9e4d015ee620257",
+          "resolvedReadPath": "tmp/rust-r3hijk/ui-input-windows-rust01.json"
+        },
+        "sources": [
+          {
+            "file": "tools/rust-r3hijk/ui-run03.mjs",
+            "bytes": 8742,
+            "rawBytesSha256": "b44f01d72e90f17a8e5498a45607063084d1e8ecd199a1295e298a4c6a47d21b"
+          },
+          {
+            "file": "tools/rust-r3hijk/ui-server01.mjs",
+            "bytes": 4455,
+            "rawBytesSha256": "1e4bca4e2ec9bf4c49df2ee43f9b7d920c780fa9fafb0676fa447283690ebc61"
+          },
+          {
+            "file": "tmp/rust-r3hijk/a-ui-definitions/lead-journey02.mjs",
+            "bytes": 22328,
+            "rawBytesSha256": "6219e45e909ec4a01ae3078a5eab99cfee659738a8462c15da422e27f4207a65"
+          },
+          {
+            "file": "tmp/rust-r3hijk/b-ui-definitions/intelligence-discussion-journey02.mjs",
+            "bytes": 31946,
+            "rawBytesSha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+          }
+        ],
+        "backend": "Rust",
+        "candidateTag": "candidate03",
+        "candidateArtifactBinding": {
+          "runId": "6872abb5-12af-486f-ada6-02e484421d1f",
+          "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+          "allNetworkBackendPort": 12500,
+          "runtime": {
+            "kind": "R3HIJK-owned-Linux-runtime",
+            "backend": "rust",
+            "tag": "candidate03",
+            "pid": 88686,
+            "startTime": "2243560",
+            "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+            "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+            "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+            "artifactBytes": 43630808,
+            "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+            "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+            "port": 12500,
+            "database": "poms_r3hijk_rust",
+            "createdAt": "2026-11-02T17:35:09.653Z"
+          },
+          "reportDoesNotContainItsOwnArtifactHash": true
+        },
+        "observations": 79,
+        "HTTP": 261,
+        "statusCounts": {
+          "200": 248,
+          "201": 11,
+          "404": 2
+        },
+        "visibleLeadSteps": 19,
+        "visibleBusinessWrites": 17,
+        "all17NetworkMatched": true,
+        "createdIntelligenceCounts": {
+          "stakeholders": 2,
+          "competitors": 2,
+          "discoveries": 1,
+          "discussions": 3
+        },
+        "allCreatedIntelligenceRowsAndActorMatched": true,
+        "sourceLeadAndConvertedProjectMatched": true,
+        "sourceLeadAggregationRetainsCommentId": true,
+        "unimplementedR4ArchiveReads": [
+          {
+            "index": 151,
+            "path": "/api/projects/5ed84675-ac36-4a8f-8ab9-278de08c7fd3/archive-records",
+            "status": 404
+          },
+          {
+            "index": 241,
+            "path": "/api/projects/5ed84675-ac36-4a8f-8ab9-278de08c7fd3/archive-records",
+            "status": 404
+          }
+        ],
+        "closure": {
+          "browserClosed": true,
+          "serverClosed": true,
+          "pending": 0,
+          "allRawExchangesRetained": true
+        },
+        "notUIAccepted": [
+          "I update/delete controls absent in the original UI",
+          "J related-object selector UI absent",
+          "Filled optional conversion date picker not exercised",
+          "R4 command/read routes beyond frozen K projection"
+        ]
+      }
+    ],
+    "totalCellsObserved": 4,
+    "futureArtifactNotClaimedAsRerun": true,
+    "reuseNeedsExplicitSourceCausalityBoundary": true,
+    "WindowsTwoExtraSuccessfulPageRequestsRetained": true,
+    "sourceProtectedNativeCountCurrentExact": 1373
+  },
+  "e1": {
+    "freshIncrementalReview": {
+      "file": "tmp/rust-r3hijk/c-review/e1-consumer-incremental02.json",
+      "bytes": 19570,
+      "rawBytesSha256": "7da47901cfc72e30309a81ec7f9a14140adacdbae15ffba2e15d54387fedc50f"
+    },
+    "directConsumers": 23,
+    "previous": 22,
+    "aliases": 5,
+    "bytes": 419264,
+    "owner": "Root /root",
+    "deadline": "2026-11-09",
+    "deadlineExtended": false,
+    "finalG3ReconciliationStillRequired": true
+  },
+  "remainingBeforeFullG3": [
+    "Resolve the confirmed precise money P2 on a new artifact and directed actual response/PG/no-write cases.",
+    "Three old version-domain real lock/waiter concurrency and mandatory parent/child write failure rollback on final corrected candidate.",
+    "Any same-reminder-stream cross-source concurrency or non-audit F write-fault coverage must be evaluated against actual final evidence rather than assumed from source locking.",
+    "Final exact source/artifact and evidence reuse causality reconciliation; four UI cells remain tied to original candidate03/Native observations.",
+    "Owned Rust terminal cleanup/seed/ACL/object/runtime proof and independent complete G3, fixed commit and G4 remain pending."
+  ],
+  "scope": {
+    "issues": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "operations": 28,
+    "formalR3Delivered": 30,
+    "totalR3HTTP": 58,
+    "parentsRemainOpen": [
+      85,
+      57
+    ]
+  },
+  "policy": "Business correctness and direct user whole-command atomicity; no Node bug-level or exact error-byte equivalence gate.",
+  "evidenceProtection": {
+    "oldFailedPartialLabelsUnchanged": true,
+    "phase39InvalidUnitPriceFixtureNotUsedAsProductDefectProof": true,
+    "phase40InvalidGrossMarginBandOnlyBlocksItsPricingProbe": true,
+    "phase41LegalBothDomainActualFailure": true,
+    "privatePhase21NotReadOrCopied": true,
+    "noPrivateReads": true
+  },
+  "noProductOrRootExecutorWriting": true,
+  "noAuthorOrRootExecutorExecution": true,
+  "noBuildTestHTTPDBBrowserOrServiceExecution": true,
+  "noGitHubWrite": true
+}

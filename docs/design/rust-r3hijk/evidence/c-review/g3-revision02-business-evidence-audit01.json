@@ -1,0 +1,1772 @@
+{
+  "kind": "C-complete-G3-revision02-business-evidence-audit01",
+  "createdAt": "2026-11-02T19:18:58.188Z",
+  "G3Certified": false,
+  "G4Certified": false,
+  "candidateArtifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+  "build": {
+    "report": {
+      "file": "docs/design/rust-r3hijk/evidence/rust-check11/report01.json",
+      "bytes": 89524,
+      "rawBytesSha256": "076005ecbd9832ed81cf0740211822bb3075d5304af7a683f753123f8750c1e0"
+    },
+    "artifact": {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+      "bytes": 43734144,
+      "rawBytesSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67"
+    },
+    "all231SourcePinsCurrentExact": true,
+    "fourCommandsExit0": true,
+    "testCounts": {
+      "passed": 294,
+      "failed": 0,
+      "ignored": 54
+    },
+    "ignored54NotPGAcceptance": true
+  },
+  "caseCopiesChecked": 182,
+  "reports": [
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/report01.json",
+        "bytes": 375204,
+        "rawBytesSha256": "492d0da3bc34ff8293477bde6971011cb98a2424e84a94c98bdcf06591ccf3d8"
+      },
+      "completed": false,
+      "groups": 14,
+      "HTTP": 32,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate05",
+        "pid": 103190,
+        "startTime": "2647156",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43695144,
+        "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:42:25.611Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/01-uuid.same-identity.lead.stakeholder.json",
+          "bytes": 8572,
+          "rawBytesSha256": "f10b56ba199a1ef748652c20d89b8fef0715d300fe43d32aea9d9f08ad011be8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/02-uuid.same-identity.lead.competitor.json",
+          "bytes": 9079,
+          "rawBytesSha256": "7bc54f80f65d83281ce04dbe5d2f0c40f0b2cbf7639e8cd54a37b2a1921a080b"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/03-uuid.same-identity.lead.discovery.json",
+          "bytes": 8513,
+          "rawBytesSha256": "756d2018e8f12ee475c28d2aa40e324c11cd3e38d42f8c952226663a6e796661"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/04-uuid.same-identity.project.stakeholder.json",
+          "bytes": 8704,
+          "rawBytesSha256": "224a0400f2694030ccf2c95d61e04cf7b93779a13dda6ee7bc53b15a6e0dd767"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/05-uuid.same-identity.project.competitor.json",
+          "bytes": 9293,
+          "rawBytesSha256": "7793daccbd1a68d0ba0fe96235f8b7e537a7ce84b48c8c0f5c1301022749bbd4"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/06-uuid.same-identity.project.discovery.json",
+          "bytes": 8720,
+          "rawBytesSha256": "8311820cc0f64c95df6449c6cf74dcb6c36e334251eb6437ee65691c3aa1efe7"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/07-uuid.same-gap-collection.lead.json",
+          "bytes": 2990,
+          "rawBytesSha256": "e5569d27a24ed0a7a3faab11aabb472772acb614cb80362343646c9f2becc275"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/08-uuid.same-gap-collection.project.json",
+          "bytes": 2993,
+          "rawBytesSha256": "e44310d3738a04a318c375136714f81cd5aa04be739644f81d070ba874a0f80e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/09-uuid.reject.stakeholder.different-lead-customer.json",
+          "bytes": 42627,
+          "rawBytesSha256": "d373d87660d2aeb5df3ac0aace77b61150a070ef6790e0d087e509227b8f286b"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/10-uuid.reject.stakeholder.different-project-customer.json",
+          "bytes": 42639,
+          "rawBytesSha256": "6abc0d3d3a7398c69d17b31c21b78e4f93057d4a8c0525a53efec4457ce2e887"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/11-uuid.reject.stakeholder.missing-lead.json",
+          "bytes": 42559,
+          "rawBytesSha256": "42ff1bfd93d0b6ec14d6b1acfdcda3fedeb6c1e88b73164a26317bc49220df1d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/12-uuid.reject.stakeholder.invalid-lead.json",
+          "bytes": 42917,
+          "rawBytesSha256": "0267f4a1203d78e13f8918df231122304466a5fa9cb1fc2a54d784c7f6055344"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/13-uuid.reject.stakeholder.different-contact-customer.json",
+          "bytes": 42633,
+          "rawBytesSha256": "3be7ec60853a7369406d84e245f1903d1e43d5c53e340e995ff3deac571c2044"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-49/14-uuid.normal-patch-noop.stakeholder.json",
+          "bytes": 6373,
+          "rawBytesSha256": "792eb9326a4584d571cafb624f2214a8f0db1f32ba69732dbedaa2cefbae9901"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/report01.json",
+        "bytes": 655981,
+        "rawBytesSha256": "fd7be6b98c3118da3ae88d6dad0c2b1def5b2da583ac943d6f68fdc6fc29162a"
+      },
+      "completed": true,
+      "groups": 14,
+      "HTTP": 19,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate05",
+        "pid": 103190,
+        "startTime": "2647156",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43695144,
+        "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:42:25.611Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/01-uuid.required-audit-rollback.stakeholder.PATCH.json",
+          "bytes": 50024,
+          "rawBytesSha256": "f6e8d966e077cd9c033ddccf2add0168d4c06977d22987c85288fbb5fa7ca9a6"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/02-uuid.reject.competitor.different-lead-customer.json",
+          "bytes": 50626,
+          "rawBytesSha256": "741936afb0f4e8a9dde07f5541a18cafc18c32a5c655967fd63770e6a4171c19"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/03-uuid.reject.competitor.different-project-customer.json",
+          "bytes": 50654,
+          "rawBytesSha256": "f93b5ac0c768dd72dfabee6b5556a46ccc09dec9be13d2a48c979323921c3498"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/04-uuid.reject.competitor.missing-lead.json",
+          "bytes": 50558,
+          "rawBytesSha256": "a8b473328fefc607f8e0a5fdd9962c6fa77740edd79682c231b49a4c7fb5b889"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/05-uuid.reject.competitor.invalid-lead.json",
+          "bytes": 50916,
+          "rawBytesSha256": "d6f2620f898f72e90cdcdc07e1c7f5d7bf931ecd638268188892abbf00dfbd11"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/06-uuid.normal-patch-noop.competitor.json",
+          "bytes": 6860,
+          "rawBytesSha256": "755fb471ceddbcad33cef6480800963ff8797eee359a0e7f245f8e53be9f1c47"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/07-uuid.required-audit-rollback.competitor.PATCH.json",
+          "bytes": 51846,
+          "rawBytesSha256": "b0dfdad66a4fb91789892863d4e6e9f2e791db8081e35d161522f04627d32626"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/08-uuid.reject.discovery.different-lead-customer.json",
+          "bytes": 52344,
+          "rawBytesSha256": "c00625790a49ca50b09957a5035d59c39988225d32dbc6bebedfa0d1886822d8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/09-uuid.reject.discovery.different-project-customer.json",
+          "bytes": 52371,
+          "rawBytesSha256": "ea1c6f4392772ca55fdab1c2c7c83c26d6e3b1e6f6eed1da874baaa2344a7375"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/10-uuid.reject.discovery.missing-lead.json",
+          "bytes": 52276,
+          "rawBytesSha256": "ad6ab081f46d9c37c65692b809165f0896b185079e0da0f237010031ffad4673"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/11-uuid.reject.discovery.invalid-lead.json",
+          "bytes": 52634,
+          "rawBytesSha256": "f9151abe10b4f85ba04882dc3a9f8747b0128c1f7c2a9d117495558fa454ade1"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/12-uuid.normal-patch-noop.discovery.json",
+          "bytes": 6431,
+          "rawBytesSha256": "580e31ad8391f0a874a798e3e60d9db594dc9f1c49f0dfa6c53b0c8167b98c6d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/13-uuid.required-audit-rollback.discovery.PATCH.json",
+          "bytes": 53631,
+          "rawBytesSha256": "34f473925450ba6b85229fd2aec96a821331143387a515db3eb8d1b4e96a7ff2"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-51/14-uuid.true-I-to-H-score-and-J-reference-consumers.json",
+          "bytes": 14691,
+          "rawBytesSha256": "037300f857e53e87403d2f594eb4d75985df02af217e38a8f2f0a7ab0003e085"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/report01.json",
+        "bytes": 829539,
+        "rawBytesSha256": "099c755bd44c1b87b31c7239891813153812d089741667860df99697e2b0e535"
+      },
+      "completed": true,
+      "groups": 69,
+      "HTTP": 73,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate05",
+        "pid": 103190,
+        "startTime": "2647156",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43695144,
+        "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:42:25.611Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/01-I-boundary-real-mutable-fixtures.json",
+          "bytes": 957,
+          "rawBytesSha256": "d12196a22c22f1a43b85cb0aac255b223697e00cd4979981ad2cb98188e3efc7"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/02-I-boundary.query.no-anchor.json",
+          "bytes": 6422,
+          "rawBytesSha256": "3bfd7950e36def98ff5f0c28c4082dab80a1fd72aa925de9f5d1f09a4c1e438e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/03-I-boundary.query.unknown-only.json",
+          "bytes": 6496,
+          "rawBytesSha256": "9bd99927e8af6820bc3f28015dc82b38aecc167c933757e335fa68c2494e1f9e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/04-I-boundary.query.customer-only.json",
+          "bytes": 6495,
+          "rawBytesSha256": "476f810d546ab1b7751fed964d6b96cd2675aba8017f70ef76a46f73c3ba1bff"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/05-I-boundary.query.blank-lead.json",
+          "bytes": 6979,
+          "rawBytesSha256": "126039d5f633e05a83f7d62c0d159ead644dfee4b1eabe104998b9edac0e429e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/06-I-boundary.query.invalid-project.json",
+          "bytes": 7011,
+          "rawBytesSha256": "7c3ebc4b7ab0b579e0d810151f751462c514e93e3b31e80de14e0a8b93b2c3f9"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/07-I-boundary.query.uuid-no-trim.json",
+          "bytes": 7037,
+          "rawBytesSha256": "7cc4560ad2fd6f04c0ebd7563e93908422b4546a10d0eb55bae51ded6831a2f8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/08-I-boundary.query.uuid-version-zero.json",
+          "bytes": 7029,
+          "rawBytesSha256": "1eb237a18837e31d2c843a6e6156d6299ea091341e3f4d6916bf4a661de411dc"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/09-I-boundary.query.uuid-invalid-variant.json",
+          "bytes": 7044,
+          "rawBytesSha256": "65838cce7198c3c96ccb883fbb288a01c1929ba7679f00a3e65cb0bf00a26e92"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/10-I-boundary.query.repeated-lead.json",
+          "bytes": 6767,
+          "rawBytesSha256": "8986c5fab51b96054758933ce501b8f23d254eb5d8fbb6e2c67aa293a483e6b0"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/11-I-boundary.query.bracket-project.json",
+          "bytes": 6618,
+          "rawBytesSha256": "9ce6b6771b8af3d5253eb94db8fd740ec9a220be1bf584aea6feb76d6a9d74cc"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/12-I-boundary.query.project-plus-unknown.json",
+          "bytes": 8461,
+          "rawBytesSha256": "a47e109516c6a5e7c28b8b2148794afb52a38c7691f25bf75bf3cee857584f73"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/13-I-boundary.query.uppercase-two-anchors.json",
+          "bytes": 6371,
+          "rawBytesSha256": "76f993fb3e69841ffaa3cf68db617a203538c4803b1c5ba3f0d29e6ab24b5573"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/14-I-boundary.stakeholder.body-null.json",
+          "bytes": 6389,
+          "rawBytesSha256": "d2bc5936bfaf866003c05282c1a416e09430cf153db425c30537f5886bd15a72"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/15-I-boundary.stakeholder.missing-contact.json",
+          "bytes": 6854,
+          "rawBytesSha256": "81236dfa05fb5cd2185d326527f95b3b3513e346e608fd63ad31ad9c60312019"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/16-I-boundary.stakeholder.role-null.json",
+          "bytes": 7734,
+          "rawBytesSha256": "c110e2e9ceebabb200aaa33708ee3c813974fdabe8795f4acf201da5b7221d86"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/17-I-boundary.stakeholder.optional-enums-and-boolean-not-nullable.json",
+          "bytes": 9230,
+          "rawBytesSha256": "4913f34a3ef52fb77ca699672eb0b41017a7733accdc5f70c034dbb6a810a5e7"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/18-I-boundary.stakeholder.focus-null.json",
+          "bytes": 6922,
+          "rawBytesSha256": "eb84a4e823ca3b56e477fdba32c0e2a742cf33051094b8e25a58334d21fbe576"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/19-I-boundary.stakeholder.focus-object-length-property.json",
+          "bytes": 7271,
+          "rawBytesSha256": "88feaab655e3ba5042ccdff1c46effe189e73d8cec88c9ed9dc7136fc89c18f2"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/20-I-boundary.stakeholder.focus-thirteen-items.json",
+          "bytes": 7292,
+          "rawBytesSha256": "14c523756e51ddff91bfb76de99786cbd66bf2564e43d6e51649a27f31198b7e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/21-I-boundary.stakeholder.focus-twelve-items.json",
+          "bytes": 8855,
+          "rawBytesSha256": "f8afd9d81259ff40901089a8c8c404216b01d175c3cc02e5cba4ffcec9e2050d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/22-I-boundary.stakeholder.focus-empty-item.json",
+          "bytes": 7098,
+          "rawBytesSha256": "5950cf8c7c2fe3018cbed17aa66849a789cb70ea312da66d30e9c0d16bca242e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/23-I-boundary.stakeholder.focus-emoji64.json",
+          "bytes": 9009,
+          "rawBytesSha256": "6e8d1795139f7f398816a71abd107d3bf8e17f53203d645417149f0188a90c06"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/24-I-boundary.stakeholder.focus-emoji65.json",
+          "bytes": 7368,
+          "rawBytesSha256": "063dbbf52fffcc637b2318c8db6e5e6a994c3208e622b0ec62ae03cfedd7d2c8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/25-I-boundary.stakeholder.focus-trim-duplicates-order.json",
+          "bytes": 8413,
+          "rawBytesSha256": "8abcf28261a7aef3c1fa1d9086b27ec4baccafdcd6bf9592c9d0774bf9a2d62d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/26-I-boundary.competitor.body-array.json",
+          "bytes": 6572,
+          "rawBytesSha256": "3a48171e39bea8f9fcb1e869720eedc575bba2ea64d36d7df93247ed8b73f3b0"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/27-I-boundary.competitor.missing-name.json",
+          "bytes": 6875,
+          "rawBytesSha256": "c6d1449666d9ff7e2da83ba659480ba45880a7262cb62d59caccdb4818222b68"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/28-I-boundary.competitor.name-trim-to-empty.json",
+          "bytes": 7021,
+          "rawBytesSha256": "cbcd3a9a61ab348d2f0d4a8e1cd1d1c0de1464e059efb95c7bf0aa3c09228a92"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/29-I-boundary.competitor.name-emoji255.json",
+          "bytes": 11100,
+          "rawBytesSha256": "4a7fff39eb91e53226b2c820e803da98e297b5a38794b906d9e898271fc05c41"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/30-I-boundary.competitor.name-emoji256.json",
+          "bytes": 8030,
+          "rawBytesSha256": "34b3a6764068ed86cbc184d36be925e4a8ceb420475814ffcaddb5d766bae610"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/31-I-boundary.competitor.optional-enums-null.json",
+          "bytes": 8828,
+          "rawBytesSha256": "721d681528cf27b4581fb1755e64805570aaa9bfdcca49bcd51ca6c75a9c4f73"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/32-I-boundary.competitor.all-nullable-texts-null.json",
+          "bytes": 8293,
+          "rawBytesSha256": "523c4b959d4fee77eefb563db793003369aca4b699c9224056006be2ba990483"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/33-I-boundary.competitor.unknown-server-fields-strip.json",
+          "bytes": 8397,
+          "rawBytesSha256": "ead0d013011bda26c2cdd06ac9747d5d9b4044158991720226b5cd7904efa758"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/34-I-boundary.competitor.evidence-bmp2001.json",
+          "bytes": 9034,
+          "rawBytesSha256": "37d43ddcc9291b776399b3953537a4da4980622ff5dd27cea53bb346b1a8034c"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/35-I-boundary.discovery.body-number.json",
+          "bytes": 6377,
+          "rawBytesSha256": "2483f29681975388ec0f5c9e998d4b55ec3088e296b87c7bceef1929c354ef85"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/36-I-boundary.discovery.customer-null.json",
+          "bytes": 6791,
+          "rawBytesSha256": "d4d5765cf7f2dacee67f82e2d84ecfb2a3bb316c8e1bbc98547187150b52ddda"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/37-I-boundary.discovery.all-six-texts-null.json",
+          "bytes": 7967,
+          "rawBytesSha256": "d6192bca373488692088ea4495eedc2475c2d812b381ea2820212f4635dd2c15"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/38-I-boundary.discovery.budget-emoji1000.json",
+          "bytes": 19801,
+          "rawBytesSha256": "31f908e4537db08142cf5fe453e353515dacbc51205b22a226bbbe89fd5d9405"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/39-I-boundary.discovery.budget-emoji1001.json",
+          "bytes": 10980,
+          "rawBytesSha256": "d1300cc975982121b1e953369d8b750a569a068101aef07d260f4d424d264a97"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/40-I-boundary.discovery.procurement-bmp2001.json",
+          "bytes": 8981,
+          "rawBytesSha256": "2fc7b52ba2da42a2eb3c5a084197757fe9e5a216e66b4ccd0f5ff80b0732e91c"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/41-I-boundary.discovery.remark-bom-and-nbsp-trim.json",
+          "bytes": 7838,
+          "rawBytesSha256": "80a8897c57966b455eb6129f0b5807cf5ba5bea3fd7518b242aeaf308d612617"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/42-I-boundary.discovery.remark-nel-and-zero-width-not-trim.json",
+          "bytes": 7839,
+          "rawBytesSha256": "03d2c447011c4e0b9eab16b1d4339f965afeb8c1adf60277ed16aad77393b4da"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/43-I-boundary.discovery.six-wrong-text-types.json",
+          "bytes": 10448,
+          "rawBytesSha256": "43320733295645ed551f8247e682341fb133412a77241369d1691be320e88299"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/44-I-boundary.uuid.uppercase-customer-is-not-canonicalized.json",
+          "bytes": 8155,
+          "rawBytesSha256": "3048db59676c5663fa514bada83991d88ef7859c532b2ab57abc6e52d5b366fe"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/45-I-boundary.uuid.uppercase-inputs-remain-original-strings.json",
+          "bytes": 8194,
+          "rawBytesSha256": "074a3dffa6e4c4a81a93cfd57411d3d73b0b45e40f6c7a2481aac341fcb5f0d1"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/46-I-boundary.jsonb.focus-lone-surrogate-schema-versus-storage.json",
+          "bytes": 6840,
+          "rawBytesSha256": "3cda90b68324586047f3ab9330c7a5c69157426dcd6ba7694b4a851ec9741572"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/47-I-boundary.jsonb.focus-nul-schema-versus-storage.json",
+          "bytes": 6777,
+          "rawBytesSha256": "a45fbda2adf9b1f91f1eff83b524e068529eb07e842087106dd3efc1ae7c2d96"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/48-I-boundary.text.name-lone-surrogate-immediate-versus-reread.json",
+          "bytes": 6747,
+          "rawBytesSha256": "0a30dc7cc46d2eaf3b34d52eb7b5765dbfcd13b11a69708247d30be66a566981"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/49-I-boundary.text.remark-nul-schema-versus-storage.json",
+          "bytes": 6666,
+          "rawBytesSha256": "1a6d4cb9ead0c5b7f66b601c377279595f179f9882cfcaea0094b20a1195d6a5"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/50-I-boundary.context.both-anchors-verified-missing.json",
+          "bytes": 6412,
+          "rawBytesSha256": "9fb25748f73f4ccc240ff09376530ec665694df85ad3c14ced6094a796c53368"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/51-I-boundary.context.verified-missing-contact-after-opportunity.json",
+          "bytes": 6631,
+          "rawBytesSha256": "5591ea7ba5b0944ec24e63933ca66b498ac86b7d63838e12a5d951349a3781c8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/52-I-boundary.patch.stakeholder.empty.json",
+          "bytes": 6549,
+          "rawBytesSha256": "d0e48205815a07ca9717e03310945250ddaa7e6629af3c540ae9da812b914132"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/53-I-boundary.patch.stakeholder.unknown-only.json",
+          "bytes": 6898,
+          "rawBytesSha256": "7fbbc7168a92704e7a8111185d9d1e609957acf9efcf8a7052e2d659787541ae"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/54-I-boundary.patch.stakeholder.null-false-empty-array.json",
+          "bytes": 8082,
+          "rawBytesSha256": "d0fd612dbec56d6095cbc542c02db1857e94117a014a68618da32663f116eeb6"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/55-I-boundary.patch.stakeholder.valid-plus-immutable-fields.json",
+          "bytes": 8252,
+          "rawBytesSha256": "fb1f8920516b0ad0fa4c165eb1e108b4b76a159096538495d4c54feb7898fda3"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/56-I-boundary.patch.stakeholder.focus-string-is-not-array.json",
+          "bytes": 6831,
+          "rawBytesSha256": "d22759e83b0eb792d8c24e80e50704a2aee158b1d5ae4ce95b9a328ee41656ab"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/57-I-boundary.patch.stakeholder.redacted-lone-surrogate-text.json",
+          "bytes": 6641,
+          "rawBytesSha256": "a0d4f932a88c3fadce8a6bf676ee5078460e47e75ec7ce742b912d13d111a6f9"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/58-I-boundary.patch.stakeholder.focus-order-and-duplicates.json",
+          "bytes": 8317,
+          "rawBytesSha256": "d6e4c9546df0c99a02d148f7956ef58d7a8706a00064a3b80aef73c24f3551aa"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/59-I-boundary.patch.competitor.empty.json",
+          "bytes": 6571,
+          "rawBytesSha256": "c39e25738a898343191cb46775f92fdcd29b315c7d2c30f667d18a8a21e831ea"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/60-I-boundary.patch.competitor.unknown-only.json",
+          "bytes": 6854,
+          "rawBytesSha256": "872186ea098007ff827d87aa2a54dde632d6fccce7e3fe4d029ca93aa44fb5ed"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/61-I-boundary.patch.competitor.all-five-nullable-texts-clear.json",
+          "bytes": 8149,
+          "rawBytesSha256": "17814e0bd60fb2b91def369627e6ad49efc7aafe712e4f7bede1087214b9f876"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/62-I-boundary.patch.competitor.valid-plus-immutable-fields.json",
+          "bytes": 8189,
+          "rawBytesSha256": "6e104f0a5b0aeb9d8ab0d315dfb2c72f90f861419862762afbaad2a111a998f3"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/63-I-boundary.patch.competitor.evidence-bmp2000.json",
+          "bytes": 14015,
+          "rawBytesSha256": "1d0b7a50c4b86d88255ece6499e51835a98ab4d8016cc83ff2a2f0f2cc7c7bf3"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/64-I-boundary.patch.competitor.nonredacted-name-lone-surrogate.json",
+          "bytes": 6704,
+          "rawBytesSha256": "d057c28cf85f214f9647772a489ba7be001348f3859ef158a4a850e4bba022c5"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/65-I-boundary.patch.discovery.empty.json",
+          "bytes": 6538,
+          "rawBytesSha256": "b083cd7b8b10890fec501c327d14bc4ed0f5769556c29ba477cc7d132c127623"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/66-I-boundary.patch.discovery.unknown-only.json",
+          "bytes": 6821,
+          "rawBytesSha256": "fc55e568b185f1d579f04608c9c71dfc3250c3926a82c549c5c0ceede48840c2"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/67-I-boundary.patch.discovery.all-six-nullable-texts-clear.json",
+          "bytes": 7881,
+          "rawBytesSha256": "f6c89588da34b720fc9cd0a0fadb806cb4b4c500fd037cc1187b8115a0b4a111"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/68-I-boundary.patch.discovery.valid-plus-immutable-fields.json",
+          "bytes": 7910,
+          "rawBytesSha256": "18f81cd58b40f6e361ddf1c2e24d3857aded163600cce9624aca7b15c27d3237"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate05-52/69-I-boundary.patch.discovery.mixed-null-and-codepoint-boundaries.json",
+          "bytes": 29039,
+          "rawBytesSha256": "568b58821e681078079a329e6f3b4149fe071e71bf93f43d63f778c421907ab3"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-55/report01.json",
+        "bytes": 95066,
+        "rawBytesSha256": "faf3209d9d6b51120152175b949762a7ea5efacf7446d8bacffd533e2b8c9661"
+      },
+      "completed": true,
+      "groups": 4,
+      "HTTP": 18,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate06",
+        "pid": 111189,
+        "startTime": "2728358",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43734144,
+        "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:55:57.630Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-55/01-I-concurrent-stakeholder.json",
+          "bytes": 7812,
+          "rawBytesSha256": "8bd26e98985fd37564dbe3cf908b5a0a738dffe2b2ae035af6816b9b60a20bdc"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-55/02-I-concurrent-competitor.json",
+          "bytes": 7947,
+          "rawBytesSha256": "0e64e9e86594097203abd42b144d66cec6f225290d46284a7319ec38ea800a6c"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-55/03-I-concurrent-discovery.json",
+          "bytes": 7566,
+          "rawBytesSha256": "026433df8ad17d4e2dcde7232859b49e724d7eb7fed29837c1d9a622ae25b51e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-55/04-J-two-comments-shared-session-due-maintenance.json",
+          "bytes": 7092,
+          "rawBytesSha256": "5b377fcca9481bb5531099188c8edc15f44475975fa214affdea9c264fbcbab0"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/report01.json",
+        "bytes": 587217,
+        "rawBytesSha256": "64b2c88a63c3e70af37e023e758032dedab05219ecbb1d6c6266bf22ffe51035"
+      },
+      "completed": true,
+      "groups": 14,
+      "HTTP": 65,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate06",
+        "pid": 111189,
+        "startTime": "2728358",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43734144,
+        "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:55:57.630Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/01-business-text-UUID-money-date-inputs.json",
+          "bytes": 16297,
+          "rawBytesSha256": "2cc20e7a2c84f757cad3a6cb4f500ba91bbaaff67a7130480d59291b3df80b23"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/02-semantic-system-snapshot-noop-and-real-facts.json",
+          "bytes": 31238,
+          "rawBytesSha256": "48b0a3424298e3d5a8b6d4268299a23654a122e6adc8dd70827346b9afd0dc62"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/03-atomic-main-snapshot-claim.json",
+          "bytes": 21614,
+          "rawBytesSha256": "ee40abe738b892d62b4479679e73057bbc7534c98b00becc296c83f1e8b06014"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/04-atomic-main-snapshot-assign.json",
+          "bytes": 21617,
+          "rawBytesSha256": "262a44aa7c10959a81271b30d3f660288aa313fcd8dac1fc46900c4d947e2b1f"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/05-atomic-main-snapshot-qualify.json",
+          "bytes": 21402,
+          "rawBytesSha256": "de6cf8a9aa48285061fc4e378b85cf1556a09b68d1d286ebbff7e7e66b61afa1"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/06-atomic-main-snapshot-close.json",
+          "bytes": 21396,
+          "rawBytesSha256": "749562c6f145d17f4b7155fc99265eff4e37fb6bf09bbe7465cd8b2e24482ae0"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/07-atomic-required-audit-submit.json",
+          "bytes": 21394,
+          "rawBytesSha256": "f6324c9af1ee09699b57029e493684a3ff55a8a50f58c011212729df910f49db"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/08-atomic-required-audit-approve.json",
+          "bytes": 23481,
+          "rawBytesSha256": "8ccfcb178672c0ed8150a04f9eca233d6f31d21bd9428e011a248b9836e0d76d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/09-atomic-required-audit-reject.json",
+          "bytes": 23478,
+          "rawBytesSha256": "48ea070e55e99416e81caffb77c1854e439182a3125216630d853f359c642511"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/10-atomic-required-audit-revoke.json",
+          "bytes": 29044,
+          "rawBytesSha256": "a2b67da775e098d0957e1fbb9ba07930255f83431cb787059eb5c36c61ee3412"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/11-single-optimistic-write-exactly-one-success.json",
+          "bytes": 15159,
+          "rawBytesSha256": "176a2e4b6a4be186d7f95f0ca854f1a293b9e4c9ee3cd8c62df1bdfb85cb7185"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/12-replacement-approval-exactly-once.json",
+          "bytes": 26287,
+          "rawBytesSha256": "4b6dc660810c67a3f27045d6c8fecc4acd481d30acb7eade44248425c50d554b"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/13-I-typed-projection-and-semantic-noop.json",
+          "bytes": 13605,
+          "rawBytesSha256": "f941a5178c6227aea88ae30915e25fe622ea41fe40d4a7d7ad7ed70741fc127f"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-56/14-number-reservation-no-pool-self-deadlock.json",
+          "bytes": 54926,
+          "rawBytesSha256": "511dbe6a7e37bd828fb00f339c736c13195e9c8bec94cd606179018b64420055"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+        "bytes": 2299954,
+        "rawBytesSha256": "3ed482c5b663889ad4e049c4b9e04afa471eb98b06fc25ae380b20b5bf2955d4"
+      },
+      "completed": true,
+      "groups": 56,
+      "HTTP": 56,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate06",
+        "pid": 111189,
+        "startTime": "2728358",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43734144,
+        "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:55:57.630Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/01-A.customer.create.json",
+          "bytes": 3595,
+          "rawBytesSha256": "6ed544a53fae2b7585f7546e60dbdbfbe548231b869ce58fb46a54900dfa6673"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/02-A.customer.detail.initial.json",
+          "bytes": 3059,
+          "rawBytesSha256": "56e06dee94222c881e4153133e59ba99a37c03048a2301ed85d24f474c0ca9c5"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/03-A.aliases.initial.json",
+          "bytes": 2080,
+          "rawBytesSha256": "3a0f73ca9c3fd2cdf9edf990a318b70689a0b6d73c1a6d990453912f0c19601e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/04-A.alias.create.json",
+          "bytes": 2611,
+          "rawBytesSha256": "84dace0a52220659c49fb6dead2f33009a60d4dc89ef7301032470655cd9a5f8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/05-A.aliases.after-create.json",
+          "bytes": 2528,
+          "rawBytesSha256": "217b700f2a241a97d4dedc80dc72634228caa52030642aef86f2c55967844a36"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/06-A.alias.delete-primary-denied.json",
+          "bytes": 8538,
+          "rawBytesSha256": "f452a4cdbb0d502b33d12d348f0e1a16441b1d1badeebe9e9325acd3c3147459"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/07-A.alias.delete.json",
+          "bytes": 2638,
+          "rawBytesSha256": "8418d766da51ca87903ad75fca987bba12220fcb8f3222ae79a0a8301a2b5b17"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/08-A.aliases.after-delete.json",
+          "bytes": 2085,
+          "rawBytesSha256": "0018f605a85753cb71a17678950b40b15b9013e603ef63417430d38a698d3e1e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/09-A.customer.update.json",
+          "bytes": 4155,
+          "rawBytesSha256": "d095a8022bd4e051fb31eae1e78dca61b14d5c1a6a0668f5691029f44828cfb4"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/10-A.customer.list.json",
+          "bytes": 2741,
+          "rawBytesSha256": "110fc006a92885e8b11608fd074577bb6fb7366c794b5fe15d387e6ca3b359d1"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/11-B.project.create.json",
+          "bytes": 3737,
+          "rawBytesSha256": "e2975e7e2bdeba97101df1226054147683a22dc4c84a03990a9c0a855babb212"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/12-B.project.list.json",
+          "bytes": 2322,
+          "rawBytesSha256": "7eb8cc35954e4929c4eaf2a2498b2b7ffccc0512d0d1a9fb1a84ba51d2ae6283"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/13-B.project.lookup.json",
+          "bytes": 2579,
+          "rawBytesSha256": "a787a6ce9b813388802266095703518e774ffc4360bd5c21832fb2baa70c5eea"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/14-B.project.detail.json",
+          "bytes": 4440,
+          "rawBytesSha256": "1394818a7588aee2ba65387dd3cc589e047109b7d82afa855d1952eec3cc1c5e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/15-B.project.update.json",
+          "bytes": 3573,
+          "rawBytesSha256": "7e69fb351bfa4b8d92bf4e8f9c4705b2754585c97fa342c5a8e205eabc3dc588"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/16-B.project.reassign.json",
+          "bytes": 3275,
+          "rawBytesSha256": "3c54a0a358b9f83e9b808c8bf8a8732ec1bd7e2dbcc864cf1eaf744a1be5b9f5"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/17-B.project.owner-detail.json",
+          "bytes": 4387,
+          "rawBytesSha256": "328fe4e5476a4f4895d4239b60b364f167d0e4207fbc044e52e426d7ba8f45e4"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/18-B.project.stale-owner-command.json",
+          "bytes": 103079,
+          "rawBytesSha256": "49c7181607c372c8c54ea4418c27998aaac11e6585202afcc47247e877d67787"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/19-A.customer.aggregate-detail.json",
+          "bytes": 3055,
+          "rawBytesSha256": "9919ba59664df9ea20d08ff1638ff1babda18caaa388f5eb667d8311be3ad964"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/20-A.customer.workspace.json",
+          "bytes": 4830,
+          "rawBytesSha256": "9475e4f715b33446b8434a3e530a0a1bf3d0b52b499f88d1c65b7c05501a6147"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/21-C.cost.create.v1.json",
+          "bytes": 5991,
+          "rawBytesSha256": "369469273cdab3f17455223c3172d903363ce7978a67527596c0324212f4c268"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/22-C.cost.create.v2.json",
+          "bytes": 6059,
+          "rawBytesSha256": "1c17004b0cf577cad61bc6d349bc5dbe6ae022ba09853bf0e224ae502a8b4fef"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/23-C.cost.list.json",
+          "bytes": 3938,
+          "rawBytesSha256": "864f57bce630e559e5e9e750f85175d9b79eabf33cb725f9fe431815da82ff66"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/24-C.cost.workspace.json",
+          "bytes": 5805,
+          "rawBytesSha256": "4ac243fb5347da43e76ee5c9e32c1e72a673627ba5ba56d6245f2d0ecb96805f"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/25-G.pricing.create.direct.json",
+          "bytes": 6181,
+          "rawBytesSha256": "1b29225c2b64fda87b27c8a46306e1f923f27e6e8c13a7240dd98db3c16b646f"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/26-D.bid.create.v1.json",
+          "bytes": 5927,
+          "rawBytesSha256": "439a9425efa3873c69b3ccb9c40aa1f93654dca85205bba112c364ec0d27f014"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/27-D.bid.create.v2.json",
+          "bytes": 6144,
+          "rawBytesSha256": "6a38ef612d9568506b58f2af80274ec5938e783146b822641d823782fb5bb9e8"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/28-D.bid.list.json",
+          "bytes": 3892,
+          "rawBytesSha256": "2a814266b335b1babf53d1a5db3e77596a72b3f671580de2f5f6286467d0a70f"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/29-D.bid.workspace.json",
+          "bytes": 5567,
+          "rawBytesSha256": "89dcf311fe11768ae2d6f9ed5fc0ca09e8c51db2239d4c05648143e0a06be478"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/30-G.pricing.create.bid.json",
+          "bytes": 6306,
+          "rawBytesSha256": "4f5c873864bc3e5a05ee817e791e981a7fc629215060c0b8df219f96ebaac0e3"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/31-G.pricing.list.json",
+          "bytes": 5073,
+          "rawBytesSha256": "728e84e108e38e458cb25d9fce6d8fe691778d1b78acc2c9df3372979b912d1e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/32-G.pricing.workspace.json",
+          "bytes": 6994,
+          "rawBytesSha256": "5ddf526da5f24882889ae664bf19ed8a5c44b892251869d61f4d7ccb25aef5cf"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/33-G.pricing.stale-cost-rejected.json",
+          "bytes": 11364,
+          "rawBytesSha256": "61f36c92b2e404d0645e7b4d67234cfd4d61947f1f89e8ebaa554b0299f5bdeb"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/34-E.contact.create.json",
+          "bytes": 3539,
+          "rawBytesSha256": "5e6b43ffcab588f9a91714524b5bc9ee4c8e283ac822dfd6a452d96d2f3d57a2"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/35-E.contact.list-created.json",
+          "bytes": 2538,
+          "rawBytesSha256": "3758b97b9f78d5efae23401c4063e1e7c2a45665498d721d5ada5a64d192ff07"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/36-E.contact.update.json",
+          "bytes": 4790,
+          "rawBytesSha256": "acf82b10d5baa1684d2722fb5b9841a0aa0406720fee74cc7b7dbff1e7fca8a6"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/37-E.contact.list-updated.json",
+          "bytes": 2529,
+          "rawBytesSha256": "dd63b48e5f4348f88e15311c41db6ef509313b458adbe79bf01e801cd30897bc"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/38-F.followup.create.json",
+          "bytes": 4687,
+          "rawBytesSha256": "7ee466b77ce96f79e581121856a1d0a512cff16be81d74d7d555b1b9ce8e0b9f"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/39-F.followup.list-created.json",
+          "bytes": 3122,
+          "rawBytesSha256": "9e70f88129ce1766e0aade5477982e66eafa021f22c216fb6fe29f469e58394c"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/40-aux.todo.writer.created.json",
+          "bytes": 11543,
+          "rawBytesSha256": "70078a410960949b8ea14c8a82d814db717d1dc0e8b7764b0530199da3feaf92"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/41-F.followup.replace.json",
+          "bytes": 7263,
+          "rawBytesSha256": "e3dc08d251f9d405d97d000c1ae2edf6daff654090b7a5a4448f60364cf9f961"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/42-F.followup.history-replaced.json",
+          "bytes": 4625,
+          "rawBytesSha256": "3aad6e6913cd3149f131a0fe321e50a90a10c08f99856e29a587f9d3d5a08fb2"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/43-F.followup.active-replaced.json",
+          "bytes": 3149,
+          "rawBytesSha256": "0e383a9ca0e83de736d2082bace42bad07ca18f52aff2ec361d8d774376c7b29"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/44-A.workspace.active-followup.json",
+          "bytes": 5869,
+          "rawBytesSha256": "6020e4533a9bf900380db9c290df5e6584b5085618694174eeb11205a7b47a15"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/45-aux.todo.writer.replaced.json",
+          "bytes": 10469,
+          "rawBytesSha256": "75a1834fab3dd1efa1caa7532d5a79114064477fc8c41b37e638ceca822332ce"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/46-aux.todo.other.replaced.json",
+          "bytes": 6098,
+          "rawBytesSha256": "602344260cf2a3d0fe6fb39acccb28fc2f725556e0ba0e270b09b2507a694bd9"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/47-F.followup.replace-stale.json",
+          "bytes": 142466,
+          "rawBytesSha256": "f506ff5d117c429dfe1ebc0b7ec87327429d443dea1ebb0bf15670090d5f1551"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/48-F.followup.void-version-mismatch.json",
+          "bytes": 142103,
+          "rawBytesSha256": "2a602d3477b8f200a043a0b54327a06e7fc724dbf0754126a8ec9f0daa26d78b"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/49-F.followup.void.json",
+          "bytes": 7154,
+          "rawBytesSha256": "25caa21a7352a2144ee8f4b87b21439defd14fc662dfd3d362fc5d5834b5a47d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/50-F.followup.active-voided.json",
+          "bytes": 1706,
+          "rawBytesSha256": "30116a0a6d2503cd6fc2613a9db05b3d71521d41ff0aa4f89d1c4de180a13614"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/51-F.followup.history-voided.json",
+          "bytes": 4720,
+          "rawBytesSha256": "ef7b104447bbeee0a7e03a236f5b138a74158a06593d662aa1adf079821a7cf3"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/52-aux.todo.other.voided.json",
+          "bytes": 5020,
+          "rawBytesSha256": "4450982ad6a54dcf1ece423afd234fbd6e446f1565b0705183fcf43bd6c2ee46"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/53-A.workspace.voided-followups.json",
+          "bytes": 4838,
+          "rawBytesSha256": "acb9c8f3ad871fea27eab18accd9ca2b67f16adb5afacbc1e125d4398d23ee3a"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/54-F-required-audit-real-independent-producer.json",
+          "bytes": 1474,
+          "rawBytesSha256": "3af8f6fe0dbd1a014069e620158cbcc464032a7873cd54178ac6df787c586807"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/55-F.required-audit.replace-rollback.json",
+          "bytes": 150568,
+          "rawBytesSha256": "67414a20d53704b825693a87162bc2e27b220a4e55ef07e9397a8da7ca2af29d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-57/56-F.required-audit.void-rollback.json",
+          "bytes": 150190,
+          "rawBytesSha256": "e027787df80d45e4f6f4d3cbebb67253318c65a00645984d7eb1dfc02f329ede"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/report01.json",
+        "bytes": 319514,
+        "rawBytesSha256": "6ba0305f51c78d778c0495268de858dbb5830d5f8e9a9d5defcb6b1bd3005b70"
+      },
+      "completed": true,
+      "groups": 6,
+      "HTTP": 18,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate06",
+        "pid": 111189,
+        "startTime": "2728358",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43734144,
+        "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:55:57.630Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/01-F-empty-serialized.project.same-owner.json",
+          "bytes": 12867,
+          "rawBytesSha256": "a998cbb760a77237dc7e6af00b3c189dc923da8241b8bafaf506d79859219306"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/02-F-empty-serialized.lead.same-owner.json",
+          "bytes": 13593,
+          "rawBytesSha256": "49f28a7d3cc1de25945d70fe3ee24a81794ef7338a256fdcbc3092ab3bc2df53"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/03-F-empty-serialized.customer.same-owner.json",
+          "bytes": 12873,
+          "rawBytesSha256": "61f91d02d9d71b5643dd663fa105cfd02c262967882ac87770c8135c8ac08f8c"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/04-F-empty-serialized.project.different-owners.json",
+          "bytes": 12842,
+          "rawBytesSha256": "596b115e495a09f04d2a32804c0ef58813bb107a7d4c31edf3dfc2c6a796fe47"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/05-F-stream-necessary-write-fault.todo_item.json",
+          "bytes": 70292,
+          "rawBytesSha256": "a56836d7b47b8e01d06d702a9a712bbc19c3bbe099af6cb6e2e13ed61019d63e"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-58/06-F-stream-necessary-write-fault.sales_follow_up_record.json",
+          "bytes": 74086,
+          "rawBytesSha256": "ed99a2a77beac66ce3e34123f29ba7c7b4058a679287dfd2d0909c466b04c882"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-59/report01.json",
+        "bytes": 153886,
+        "rawBytesSha256": "c26db6578c43eabaa7976bee2c32d5cb38b71b3882dafc7598f81f1a1e9f8cbb"
+      },
+      "completed": true,
+      "groups": 3,
+      "HTTP": 12,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate06",
+        "pid": 111189,
+        "startTime": "2728358",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43734144,
+        "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:55:57.630Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-59/01-F.concurrent.replace-replace.json",
+          "bytes": 20327,
+          "rawBytesSha256": "23e7ecc345691a17d5fb5be82c3c6737f558f4a2ea2ec1dcdf0974d1beeef377"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-59/02-F.concurrent.void-void.json",
+          "bytes": 17071,
+          "rawBytesSha256": "4c017487096d3de015b25b469c63b9740b3a4b668291f63b91aa391438b3d819"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-59/03-F.concurrent.replace-void.json",
+          "bytes": 19824,
+          "rawBytesSha256": "37fe5d90b438050618f5a7aca1ec1dc210ff117ff819dab21632740350afbd9f"
+        }
+      ]
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json",
+        "bytes": 532741,
+        "rawBytesSha256": "82ca54730ba02adb013ab70ab73ddee2ba26aa1b61b1119cdb477c3d48f6d00f"
+      },
+      "completed": true,
+      "groups": 2,
+      "HTTP": 32,
+      "runtime": {
+        "kind": "R3HIJK-owned-Linux-runtime",
+        "backend": "rust",
+        "tag": "candidate06",
+        "pid": 111189,
+        "startTime": "2728358",
+        "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+        "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+        "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+        "artifactBytes": 43734144,
+        "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+        "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+        "port": 12500,
+        "database": "poms_r3hijk_rust",
+        "createdAt": "2026-11-02T18:55:57.630Z"
+      },
+      "caseOriginalPins": [
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-61/01-real-active-attachment-category-producers.json",
+          "bytes": 2382,
+          "rawBytesSha256": "a0666d6867c453610b424c4018376909571a005d5c390e385c66f5a710c76b1d"
+        },
+        {
+          "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate06-61/02-chain-real-Lead-intelligence-followup-upload-producers.json",
+          "bytes": 115808,
+          "rawBytesSha256": "23056e4ada4c61bf0f3edc8a8c3281b68a267454e3f6e46a7d6a36323ea10fd4"
+        }
+      ]
+    }
+  ],
+  "I_UUID_FindingClosure": {
+    "candidate05To06IServiceExact": true,
+    "positiveSix": [
+      {
+        "caseName": "uuid.same-identity.lead.stakeholder",
+        "HTTP": 201,
+        "storedId": "e9a30737-ab7d-411f-b174-3087012f78c6",
+        "actualCanonicalForeignKeys": true,
+        "lowerUpperListBodiesEqual": true
+      },
+      {
+        "caseName": "uuid.same-identity.lead.competitor",
+        "HTTP": 201,
+        "storedId": "c1a1dbf7-362f-48ca-843a-46c355efbb8f",
+        "actualCanonicalForeignKeys": true,
+        "lowerUpperListBodiesEqual": true
+      },
+      {
+        "caseName": "uuid.same-identity.lead.discovery",
+        "HTTP": 201,
+        "storedId": "07227baf-acaa-4980-89d4-0d9489ad29f4",
+        "actualCanonicalForeignKeys": true,
+        "lowerUpperListBodiesEqual": true
+      },
+      {
+        "caseName": "uuid.same-identity.project.stakeholder",
+        "HTTP": 201,
+        "storedId": "13d3b3e8-aa47-4fdb-a893-20a2c68e0146",
+        "actualCanonicalForeignKeys": true,
+        "lowerUpperListBodiesEqual": true
+      },
+      {
+        "caseName": "uuid.same-identity.project.competitor",
+        "HTTP": 201,
+        "storedId": "2ff12bd1-8e0c-4e5b-ad39-ec139b89214d",
+        "actualCanonicalForeignKeys": true,
+        "lowerUpperListBodiesEqual": true
+      },
+      {
+        "caseName": "uuid.same-identity.project.discovery",
+        "HTTP": 201,
+        "storedId": "6a9d4605-842f-49a7-b823-eabd1f6dc8ad",
+        "actualCanonicalForeignKeys": true,
+        "lowerUpperListBodiesEqual": true
+      }
+    ],
+    "sameListCollections": 12,
+    "sameGapCollections": 2,
+    "realNegatives": [
+      {
+        "caseName": "uuid.reject.stakeholder.different-lead-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.stakeholder.different-project-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.stakeholder.missing-lead",
+        "HTTP": 404,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.stakeholder.invalid-lead",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.stakeholder.different-contact-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.competitor.different-lead-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.competitor.different-project-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.competitor.missing-lead",
+        "HTTP": 404,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.competitor.invalid-lead",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.discovery.different-lead-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.discovery.different-project-customer",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.discovery.missing-lead",
+        "HTTP": 404,
+        "exportedBusinessGraphUnchanged": true
+      },
+      {
+        "caseName": "uuid.reject.discovery.invalid-lead",
+        "HTTP": 400,
+        "exportedBusinessGraphUnchanged": true
+      }
+    ],
+    "normalPatchNoops": [
+      {
+        "caseName": "uuid.normal-patch-noop.stakeholder",
+        "normalPATCH200": true,
+        "noop200AndRawRowVersionTimeActorExact": true
+      },
+      {
+        "caseName": "uuid.normal-patch-noop.competitor",
+        "normalPATCH200": true,
+        "noop200AndRawRowVersionTimeActorExact": true
+      },
+      {
+        "caseName": "uuid.normal-patch-noop.discovery",
+        "normalPATCH200": true,
+        "noop200AndRawRowVersionTimeActorExact": true
+      }
+    ],
+    "requiredChangedPATCHAuditFaults": [
+      {
+        "caseName": "uuid.required-audit-rollback.stakeholder.PATCH",
+        "HTTP": 500,
+        "eightBusinessTablesRawExact": true
+      },
+      {
+        "caseName": "uuid.required-audit-rollback.competitor.PATCH",
+        "HTTP": 500,
+        "eightBusinessTablesRawExact": true
+      },
+      {
+        "caseName": "uuid.required-audit-rollback.discovery.PATCH",
+        "HTTP": 500,
+        "eightBusinessTablesRawExact": true
+      }
+    ],
+    "consumer": {
+      "oneNewSystemSnapshot": true,
+      "positiveSalesIntelligenceFacts": true,
+      "actualHRefresh200": true,
+      "actualJComment201AndPersistedContactCompetitorFK": true
+    },
+    "oldI68": {
+      "definitionGroups": 68,
+      "originalSchemaOracles": 68,
+      "schemaRejectedAll400": 37,
+      "rejectedCountsCountersUnchanged": 45,
+      "oldUppercaseDefinitionNamesRetained": true,
+      "twoFormerFailCasesNow201WithCanonicalFK": true
+    },
+    "phase49WholePartialNotRecertified": true,
+    "unsupportedCreateAuditProbe201IsNormalAndWrongExpected500ToolNoise": true,
+    "actualCreateRowIncludedInWholeCohortTerminalRequired": true
+  },
+  "F_EmptyStream_FindingClosure": {
+    "serializedEmptyStreams": [
+      {
+        "caseName": "F-empty-serialized.project.same-owner",
+        "type": "project",
+        "differentOwners": false,
+        "actualInsertWaiters": 1,
+        "actualAdvisoryWaiters": 1,
+        "HTTP": [
+          201,
+          201
+        ],
+        "FollowUpFacts": 2,
+        "openTodos": 1,
+        "recordToTodoOwnerTargetSummaryDueAndVersionGraphChecked": true
+      },
+      {
+        "caseName": "F-empty-serialized.lead.same-owner",
+        "type": "lead",
+        "differentOwners": false,
+        "actualInsertWaiters": 1,
+        "actualAdvisoryWaiters": 1,
+        "HTTP": [
+          201,
+          201
+        ],
+        "FollowUpFacts": 2,
+        "openTodos": 1,
+        "recordToTodoOwnerTargetSummaryDueAndVersionGraphChecked": true
+      },
+      {
+        "caseName": "F-empty-serialized.customer.same-owner",
+        "type": "customer",
+        "differentOwners": false,
+        "actualInsertWaiters": 1,
+        "actualAdvisoryWaiters": 1,
+        "HTTP": [
+          201,
+          201
+        ],
+        "FollowUpFacts": 2,
+        "openTodos": 1,
+        "recordToTodoOwnerTargetSummaryDueAndVersionGraphChecked": true
+      },
+      {
+        "caseName": "F-empty-serialized.project.different-owners",
+        "type": "project",
+        "differentOwners": true,
+        "actualInsertWaiters": 1,
+        "actualAdvisoryWaiters": 1,
+        "HTTP": [
+          201,
+          201
+        ],
+        "FollowUpFacts": 2,
+        "openTodos": 2,
+        "recordToTodoOwnerTargetSummaryDueAndVersionGraphChecked": true
+      }
+    ],
+    "requiredWriteFaultAndLockRelease": [
+      {
+        "caseName": "F-stream-necessary-write-fault.todo_item",
+        "table": "todo_item",
+        "failedHTTP": 500,
+        "wholeExportedBusinessGraphRollback": true,
+        "recoveryHTTP": 201,
+        "sameTargetLockReleasedAndOneOpen": true
+      },
+      {
+        "caseName": "F-stream-necessary-write-fault.sales_follow_up_record",
+        "table": "sales_follow_up_record",
+        "failedHTTP": 500,
+        "wholeExportedBusinessGraphRollback": true,
+        "recoveryHTTP": 201,
+        "sameTargetLockReleasedAndOneOpen": true
+      }
+    ],
+    "originalThreeSourceCompetitions": [
+      {
+        "caseName": "F.concurrent.replace-replace",
+        "actualWaiters": 2,
+        "statuses": [
+          409,
+          200
+        ],
+        "winnerActor": "other",
+        "winningOperation": "replace",
+        "sourceVersionAdvance": 1,
+        "requiredAuditRows": 1,
+        "sourceReplacementTodoAuditGraphChecked": true,
+        "noLoserAuditOrReplacement": true
+      },
+      {
+        "caseName": "F.concurrent.void-void",
+        "actualWaiters": 2,
+        "statuses": [
+          200,
+          409
+        ],
+        "winnerActor": "admin",
+        "winningOperation": "void",
+        "sourceVersionAdvance": 1,
+        "requiredAuditRows": 1,
+        "sourceReplacementTodoAuditGraphChecked": true,
+        "noLoserAuditOrReplacement": true
+      },
+      {
+        "caseName": "F.concurrent.replace-void",
+        "actualWaiters": 2,
+        "statuses": [
+          200,
+          409
+        ],
+        "winnerActor": "admin",
+        "winningOperation": "replace",
+        "sourceVersionAdvance": 1,
+        "requiredAuditRows": 1,
+        "sourceReplacementTodoAuditGraphChecked": true,
+        "noLoserAuditOrReplacement": true
+      }
+    ],
+    "sourceLockThenTargetLockInCallerBusinessTX": true,
+    "targetKeyIsNamespaceTypeCanonicalUUIDNotOwner": true,
+    "ownerNoDateNoOwnerVoidPathsTakeTargetLockBeforeAnyTodoRead": true,
+    "noDDLOrReminderLifecycleRuleChange": true
+  },
+  "IAndJConcurrency": {
+    "I": [
+      {
+        "caseName": "I-concurrent-stakeholder",
+        "waiters": 2,
+        "HTTP": [
+          200,
+          409
+        ],
+        "sourceVersionAdvance": 1,
+        "winnerFieldActorAndSingleRequiredAuditChecked": true,
+        "noLoserAudit": true
+      },
+      {
+        "caseName": "I-concurrent-competitor",
+        "waiters": 2,
+        "HTTP": [
+          200,
+          409
+        ],
+        "sourceVersionAdvance": 1,
+        "winnerFieldActorAndSingleRequiredAuditChecked": true,
+        "noLoserAudit": true
+      },
+      {
+        "caseName": "I-concurrent-discovery",
+        "waiters": 2,
+        "HTTP": [
+          200,
+          409
+        ],
+        "sourceVersionAdvance": 1,
+        "winnerFieldActorAndSingleRequiredAuditChecked": true,
+        "noLoserAudit": true
+      }
+    ],
+    "JSharedSession": {
+      "waiters": 2,
+      "HTTP": [
+        201,
+        201
+      ],
+      "threads": 1,
+      "comments": 2,
+      "dueSessionMaintenanceNotCorruptingBusiness": true
+    }
+  },
+  "businessCore56": [
+    {
+      "caseName": "business-text-UUID-money-date-inputs",
+      "invalidResponses400": 10,
+      "leadSnapshotCountsAndLeadCounterUnchanged": true,
+      "notEveryDomainRawTableExported": true
+    },
+    {
+      "caseName": "semantic-system-snapshot-noop-and-real-facts",
+      "renameSnapshotDelta": 0,
+      "renameVersionDelta": 1,
+      "noopGraphExact": true,
+      "realFactsSnapshotDelta": 1
+    },
+    {
+      "caseName": "atomic-main-snapshot-claim",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-main-snapshot-assign",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-main-snapshot-qualify",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-main-snapshot-close",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-required-audit-submit",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-required-audit-approve",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-required-audit-reject",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "atomic-required-audit-revoke",
+      "HTTP": 500,
+      "completeExportedBusinessGraphExact": true,
+      "authKeepaliveNotRollbackOracle": true,
+      "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+    },
+    {
+      "caseName": "single-optimistic-write-exactly-one-success",
+      "waiters": 2,
+      "statuses": [
+        200,
+        409
+      ],
+      "winnerActor": "admin",
+      "exactlyOneCommandGraphAndRequiredAudit": true
+    },
+    {
+      "caseName": "replacement-approval-exactly-once",
+      "waiters": 2,
+      "statuses": [
+        200,
+        409
+      ],
+      "winnerActor": "other",
+      "exactlyOneCommandGraphAndRequiredAudit": true
+    },
+    {
+      "caseName": "I-typed-projection-and-semantic-noop",
+      "rawNoopVersionTimeActorExact": true,
+      "validLegacy13Preserved": true,
+      "invalidObjectProjectsArray": true,
+      "GETNoRepair": true
+    },
+    {
+      "caseName": "number-reservation-no-pool-self-deadlock",
+      "concurrent201": 16,
+      "uniqueIds": 16,
+      "uniqueNumbers": 16,
+      "notPerformanceBenchmark": true,
+      "noSeparatePG16RowSnapshotClaimed": true
+    }
+  ],
+  "foundation57": {
+    "distinctOldOperations": 30,
+    "unchangedFailures": [
+      {
+        "caseName": "A.alias.delete-primary-denied",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "customer_alias"
+        ]
+      },
+      {
+        "caseName": "B.project.stale-owner-command",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "project",
+          "project_owner_reassignment_record",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "G.pricing.stale-cost-rejected",
+        "status": 400,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ]
+      },
+      {
+        "caseName": "F.followup.replace-stale",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "F.followup.void-version-mismatch",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "F.required-audit.replace-rollback",
+        "status": 500,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "F.required-audit.void-rollback",
+        "status": 500,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      }
+    ],
+    "preassertCases": 55
+  },
+  "productionChain61": {
+    "uploads": [
+      {
+        "category": "proposal",
+        "id": "2ad3f38b-929b-47d1-8bf0-9234f5da3001",
+        "bytes": 36,
+        "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e"
+      },
+      {
+        "category": "quotation",
+        "id": "caf95ce0-73e0-4954-938f-f5c560840d50",
+        "bytes": 37,
+        "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504"
+      },
+      {
+        "category": "finance",
+        "id": "2c46ad90-5a97-4bf5-a8d8-7fd63ab21f07",
+        "bytes": 35,
+        "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db"
+      },
+      {
+        "category": "internal-assessment",
+        "id": "19c329d6-6c74-4ec8-9c40-36e3f59e2f69",
+        "bytes": 47,
+        "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2"
+      }
+    ],
+    "onlyLocalStorageCertified": true,
+    "realIContactFollowUpTodoAndJKReferencesChecked": true,
+    "eligibleCopies": 2,
+    "excludedCopies": 2,
+    "sourceLinksExact": true,
+    "conversionLeadVersionAndSnapshotDelta1": true,
+    "threeRequiredWriteFaultBusinessGraphsExact": true,
+    "independentReservationsMayLeaveGaps": true
+  },
+  "ownPriorAssertionReuse": {
+    "helper": {
+      "file": "tmp/rust-r3hijk/c-review/g3-revision02-reused-assertions.mjs",
+      "bytes": 11244,
+      "rawBytesSha256": "3556752bb8a10a5839f32c5ac16e8ae15d3260efee0e7b44514881a7b24e83a9"
+    },
+    "sources": [
+      {
+        "file": "tmp/rust-r3hijk/c-review/g3-business-static-audit01.mjs",
+        "bytes": 17440,
+        "rawBytesSha256": "e297f06edcc00b1ac445c025729add9a462ee6f22bb2f19bb03fc6a3f51a7bc0"
+      },
+      {
+        "file": "tmp/rust-r3hijk/c-review/candidate03-static-preaudit01.mjs",
+        "bytes": 39153,
+        "rawBytesSha256": "cc05ba83a5e1b2a78277c2933eb6c016d3f507f38cc375a11d8e540f79066f5f"
+      }
+    ],
+    "onlyOwnStaticEvidenceValidatorsExecuted": true,
+    "productOrAuthorRootExecutorsNotImported": true
+  },
+  "newP1P2": [],
+  "noPrivateRead": true,
+  "noProductOrExecutorChanges": true,
+  "noBuildTestHTTPDBBrowserOrServiceExecution": true
+}

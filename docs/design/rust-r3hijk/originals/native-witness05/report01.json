@@ -1,0 +1,1078 @@
+{
+  "kind": "R3HIJK-original-Native-actual-G1-witness",
+  "createdAt": "2026-11-02T09:25:36.090Z",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "phase": "05",
+  "tag": "g1-native01",
+  "runId": "e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+  "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+  "database": "poms_r3hijk_nest",
+  "runtime": {
+    "kind": "R3HIJK-owned-Linux-runtime",
+    "backend": "nest",
+    "tag": "g1-native01",
+    "pid": 121307,
+    "startTime": "2831360",
+    "bootId": "98ff89c0-32e8-44ba-a549-b7bdbef4fc1d",
+    "argvSha256": "5c334b043f11d581d527ebb554c7f50ee2391bcdc6e117357d45d6eea6ea3730",
+    "entry": "/home/wangzishi/projects/poms-rust-r3hijk/dist/apps/poms-api/main.js",
+    "artifactBytes": 2958081,
+    "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+    "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+    "port": 12400,
+    "database": "poms_r3hijk_nest",
+    "createdAt": "2026-11-02T08:52:29.784Z"
+  },
+  "completed": false,
+  "failedAt": "I94.roundtrip.stakeholder.update",
+  "error": {
+    "name": "Error",
+    "message": "stakeholder: one changed-field audit"
+  },
+  "actors": [
+    {
+      "label": "admin",
+      "userId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+      "orgId": "51dd4655-4a5f-4cc9-85fe-bf9d8842a475",
+      "roleId": "681091e3-aa04-4cfa-b9e8-b593b806c0c4",
+      "username": "hijk_e4b1e70495564e808efdf5ad4f0e1411_admin"
+    },
+    {
+      "label": "other",
+      "userId": "d1a62d70-286b-43f0-956e-ec6e51fb643b",
+      "orgId": "be1a797b-b9b5-4685-8f7f-8b43b6d48d23",
+      "roleId": "ec1c32ef-cda6-4ec0-ac43-e72705b967fd",
+      "username": "hijk_e4b1e70495564e808efdf5ad4f0e1411_other"
+    }
+  ],
+  "ids": {
+    "adminUserId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+    "adminOrgId": "51dd4655-4a5f-4cc9-85fe-bf9d8842a475",
+    "otherUserId": "d1a62d70-286b-43f0-956e-ec6e51fb643b",
+    "otherOrgId": "be1a797b-b9b5-4685-8f7f-8b43b6d48d23",
+    "customerId": "2dd64735-393c-460a-b491-d333ac565bbb",
+    "sourceCode": "customer-visit",
+    "projectId": "1f6adb25-346b-472b-a92c-af4f7417cae7",
+    "contactId": "01063cf5-a921-4373-8b8a-4729e5db9975",
+    "leadId": "5f8a5b37-366e-4b13-ade0-8f60895ba548"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3hijk/native-context.mjs",
+      "bytes": 15046,
+      "rawBytesSha256": "86e81be6f444f734afeb2debb39a4b56b48e52917cb397916ad5416b16106b71"
+    },
+    {
+      "file": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "file": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "file": "tools/rust-r3hijk/native-risks-run.mjs",
+      "bytes": 945,
+      "rawBytesSha256": "c8499fe53407f78b58bc022cb8e7d4f29f53233becbef50176b595009f49104b"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-native-risks/native-intelligence-risks01.mjs",
+      "bytes": 31991,
+      "rawBytesSha256": "a20ca4a5fc6d13b00b16273a501d714b3afcc4ef19a5c13dc15360064b6f50bf"
+    }
+  ],
+  "cases": [
+    {
+      "label": "I94.N1.missing-anchor-custom400",
+      "startedAt": "2026-11-02T09:25:32.869Z",
+      "completedAt": "2026-11-02T09:25:32.927Z"
+    }
+  ],
+  "events": [
+    {
+      "label": "I94.N1.stakeholder.create",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/opportunity-stakeholders",
+      "request": {
+        "customerId": "2dd64735-393c-460a-b491-d333ac565bbb",
+        "contactId": "01063cf5-a921-4373-8b8a-4729e5db9975",
+        "role": "decision-maker"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "requestId": "i94-2dd64735-1",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "143",
+          "ETag",
+          "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:32 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 526,
+          "requestSha256": "14665994a4cbb1603c4f32f975f568e5d5cdb8676501fa8f3bca9588d87c1f25",
+          "responseBytes": 467,
+          "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+          "entityBodyBytes": 143,
+          "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-4fccf2c4-d599-473f-a686-ade8f2867d2b",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.N1.competitor.create",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/competitor-intelligence-records",
+      "request": {
+        "customerId": "2dd64735-393c-460a-b491-d333ac565bbb",
+        "competitorName": "I94 anchorless competitor"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "requestId": "i94-2dd64735-2",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "143",
+          "ETag",
+          "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:32 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 502,
+          "requestSha256": "57f61d9ddfea5dcaaca3689ac46ab07574c2d7dd8b86a41f4dee85bb69031555",
+          "responseBytes": 467,
+          "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+          "entityBodyBytes": 143,
+          "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-7533065b-e671-4f99-b124-bfe9dd4a31f3",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.N1.discovery.create",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/sales-discovery-records",
+      "request": {
+        "customerId": "2dd64735-393c-460a-b491-d333ac565bbb"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "requestId": "i94-2dd64735-3",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "143",
+          "ETag",
+          "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:32 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 449,
+          "requestSha256": "b11496cf32c87790e42ad6f503d05d9e7924b2f2505153e09c71e0e06edfcac0",
+          "responseBytes": 467,
+          "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+          "entityBodyBytes": 143,
+          "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-9ec41a56-e2db-484f-a52d-b2276eb1c9da",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.N1.unknown-only-query",
+      "actor": "admin",
+      "method": "GET",
+      "route": "/api/opportunity-stakeholders?customerId=2dd64735-393c-460a-b491-d333ac565bbb",
+      "response": {
+        "status": 400,
+        "body": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "requestId": "5a2d82f7-cfbf-4218-ab40-e7110740c26f",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "143",
+          "ETag",
+          "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:32 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 355,
+          "requestSha256": "956242c6e6b1fa39470ead6396cba35fa85c3f22e9dc3ca572f09bf5a6f92314",
+          "responseBytes": 467,
+          "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+          "entityBodyBytes": 143,
+          "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-f194a76f-17d1-4820-90b6-6af18fbf11a7",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.customer.I94 roundtrip",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/customers",
+      "request": {
+        "displayName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "acf1351d-3aee-4073-a597-54c0d7a69301",
+          "customerNo": "CUST-2026-000006",
+          "displayName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "51dd4655-4a5f-4cc9-85fe-bf9d8842a475",
+          "ownerUserId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T09:25:32.945Z",
+          "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "updatedAt": "2026-11-02T09:25:32.945Z",
+          "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+        },
+        "requestId": "0c04c0b5-d0c6-4a55-8029-6cdca5cfd35e",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "564",
+          "ETag",
+          "W/\"234-6z6NVvu7pJTAXSvN3RBcDsMRhwg\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:32 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 477,
+          "requestSha256": "770a1cfadf138673920dafd0b9169c208ec58b96a617055911801b9c96cb1ecc",
+          "responseBytes": 885,
+          "responseSha256": "4fe12377376e9f9a9ab71636903fa9786d5c78493b956f3b75e9eac0e3768cd7",
+          "entityBodyBytes": 564,
+          "entityBodySha256": "82b90039cea0c22306dceb41d00b58a87ffedf0600116ed504eb16d6eff56974",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-1232624f-48b8-4b75-98aa-c50a7e154514",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.contact.I94 roundtrip",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/customer-contacts",
+      "request": {
+        "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+        "name": "HIJK I94 roundtrip"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "8a996ae9-f748-4899-ad12-d77ad4d9f2ac",
+          "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+          "customerName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+          "name": "HIJK I94 roundtrip",
+          "gender": "unknown",
+          "department": null,
+          "title": null,
+          "workPhone": null,
+          "mobile": null,
+          "wechat": null,
+          "email": null,
+          "remark": null,
+          "status": "active",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T09:25:32.965Z",
+          "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "updatedAt": "2026-11-02T09:25:32.965Z",
+          "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+        },
+        "requestId": "21621458-d2cf-4b3b-aedf-0f2e2438749c",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "533",
+          "ETag",
+          "W/\"215-bEVWdocOLX0Hhho1mR37AJoJ7Ow\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:32 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 493,
+          "requestSha256": "4c41a6acffa6a98fef61a1b62a2a7a9619265a416ce3239fd80835d8d0309267",
+          "responseBytes": 854,
+          "responseSha256": "3c3545bac19777790ba6f8dae472e7c82b055d9f6ab39841b4140d4a6a3d717f",
+          "entityBodyBytes": 533,
+          "entityBodySha256": "4cd6248ee9b4028d0032b844bdf58b1dc90d0cfc40b03f62f3f9e6e6590cd213",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-0db7c185-bf6d-454c-a872-c5f08aef5741",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.lead.I94 roundtrip",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "HIJK I94 roundtrip",
+        "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+        "ownerOrgId": "51dd4655-4a5f-4cc9-85fe-bf9d8842a475"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "c3095dd9-0c99-45b7-9fe6-6fa43ec11666",
+          "leadNo": "LD-2026-000020",
+          "leadName": "HIJK I94 roundtrip",
+          "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+          "customerName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "budgetStatus": "budget-confirmed",
+          "estimatedAmount": "1200000.00",
+          "urgency": "high",
+          "expectedDecisionDate": "2026-11-20",
+          "score": 62,
+          "rating": "B",
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T09:25:32.992Z",
+          "effectiveScore": 62,
+          "effectiveRating": "B",
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "activeScoreOverrideId": null,
+          "gateSummary": {
+            "qualification": {
+              "status": "ready",
+              "missingItems": [],
+              "explanation": "已满足确认有效硬闸口"
+            },
+            "conversion": {
+              "status": "blocked",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "explanation": "缺少：已确认有效状态"
+            }
+          },
+          "status": "registered",
+          "ownerOrgId": "51dd4655-4a5f-4cc9-85fe-bf9d8842a475",
+          "ownerUserId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "closedReason": null,
+          "closedAt": null,
+          "closedBy": null,
+          "convertedProjectId": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T09:25:32.988Z",
+          "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "updatedAt": "2026-11-02T09:25:32.988Z",
+          "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+        },
+        "requestId": "54a9bb46-52a7-4458-ba57-a4d4ff58a1cd",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "1498",
+          "ETag",
+          "W/\"5da-o6zEI226jcHFx6JWMh1qvtNJO6M\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:33 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 852,
+          "requestSha256": "cb93b9dae7345d43ae77b5dda1c0c3c6995c2aaed16e98552fb7ce8a8c927607",
+          "responseBytes": 1820,
+          "responseSha256": "777d436438e294a206605e8eb113a1dc4b09040a5ceea5a951ec1da7d890a2a7",
+          "entityBodyBytes": 1498,
+          "entityBodySha256": "730f763af1e0ac097f66ea4e7c697ae55babe985055bdfb0341f3d9a8f61939e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-aeecbdf0-14ae-4f60-beaa-9472d370116b",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.roundtrip.producer.project",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/projects",
+      "request": {
+        "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+        "projectName": "I94 roundtrip project"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "a8a3b860-b541-4239-8901-984ae80f9460",
+          "projectNo": "PRJ-2026-000006",
+          "projectName": "I94 roundtrip project",
+          "sourceLeadId": null,
+          "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+          "customerName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+          "customerProjectNo": null,
+          "status": "active",
+          "currentStage": "assessment",
+          "ownerOrgId": "51dd4655-4a5f-4cc9-85fe-bf9d8842a475",
+          "ownerUserId": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "plannedSignAt": null,
+          "closedAt": null,
+          "closedReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T09:25:33.036Z",
+          "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "updatedAt": "2026-11-02T09:25:33.036Z",
+          "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+        },
+        "requestId": "i94-2dd64735-4",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "686",
+          "ETag",
+          "W/\"2ae-xaEQUv4EE15t5OfTGdKi81qZCPM\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:33 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 472,
+          "requestSha256": "53fbd6af14fa1da41ddccfcb2aa648077a4a4f39dee6c27eb5bf2a723d8df857",
+          "responseBytes": 1007,
+          "responseSha256": "f57abf0c1534d7c69ba200651b23246447dcf5a5818947d7211037a6f3edf67f",
+          "entityBodyBytes": 686,
+          "entityBodySha256": "9e35abccd4e32cdc5d1c0bcf4ef8fb171927bd7b9a816caff6f89c302bbc93e8",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-56e6df33-e3ec-4dbf-82f9-cb859ee04c7e",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.roundtrip.stakeholder.create",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/opportunity-stakeholders",
+      "request": {
+        "leadId": "c3095dd9-0c99-45b7-9fe6-6fa43ec11666",
+        "projectId": "a8a3b860-b541-4239-8901-984ae80f9460",
+        "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+        "contactId": "8a996ae9-f748-4899-ad12-d77ad4d9f2ac",
+        "role": "decision-maker",
+        "attitude": "neutral",
+        "influenceLevel": "medium",
+        "accessLevel": "indirect",
+        "focusAreas": [
+          "预算",
+          "交付"
+        ],
+        "communicationNotes": "I94 stakeholder initial communication",
+        "isPrimary": false
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "c29645cf-c6c1-464a-b6e5-fb18be3df365",
+          "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+          "customerName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+          "leadId": "c3095dd9-0c99-45b7-9fe6-6fa43ec11666",
+          "leadName": "HIJK I94 roundtrip",
+          "projectId": "a8a3b860-b541-4239-8901-984ae80f9460",
+          "projectName": "I94 roundtrip project",
+          "contactId": "8a996ae9-f748-4899-ad12-d77ad4d9f2ac",
+          "contactName": "HIJK I94 roundtrip",
+          "contactDepartment": null,
+          "contactTitle": null,
+          "role": "decision-maker",
+          "attitude": "neutral",
+          "influenceLevel": "medium",
+          "accessLevel": "indirect",
+          "focusAreas": [
+            "预算",
+            "交付"
+          ],
+          "communicationNotes": "I94 stakeholder initial communication",
+          "isPrimary": false,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T09:25:33.056Z",
+          "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "updatedAt": "2026-11-02T09:25:33.056Z",
+          "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+        },
+        "requestId": "i94-2dd64735-5",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "873",
+          "ETag",
+          "W/\"369-nijEDydW8AoP2N/EixQxA2sa7xc\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:33 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 809,
+          "requestSha256": "6117f8ef64a1a3a4fc52a7e3eda2e5b2fc146e4339d38eb93bc61f8647d7a4f5",
+          "responseBytes": 1194,
+          "responseSha256": "36a4102f6ae2e4850317d730ef56cff7ad8ef3b3b253cdd2961837c2accbcd06",
+          "entityBodyBytes": 873,
+          "entityBodySha256": "f162ed02d690eb5901cd1be3b584a878cc0ef19c2d3e75c3c0c7602329710fef",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-ecea45df-31e8-4834-b413-e54c9d4f212e",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.roundtrip.stakeholder.list",
+      "actor": "admin",
+      "method": "GET",
+      "route": "/api/opportunity-stakeholders?leadId=c3095dd9-0c99-45b7-9fe6-6fa43ec11666&projectId=a8a3b860-b541-4239-8901-984ae80f9460",
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "id": "c29645cf-c6c1-464a-b6e5-fb18be3df365",
+            "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+            "customerName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+            "leadId": "c3095dd9-0c99-45b7-9fe6-6fa43ec11666",
+            "leadName": "HIJK I94 roundtrip",
+            "projectId": "a8a3b860-b541-4239-8901-984ae80f9460",
+            "projectName": "I94 roundtrip project",
+            "contactId": "8a996ae9-f748-4899-ad12-d77ad4d9f2ac",
+            "contactName": "HIJK I94 roundtrip",
+            "contactDepartment": null,
+            "contactTitle": null,
+            "role": "decision-maker",
+            "attitude": "neutral",
+            "influenceLevel": "medium",
+            "accessLevel": "indirect",
+            "focusAreas": [
+              "预算",
+              "交付"
+            ],
+            "communicationNotes": "I94 stakeholder initial communication",
+            "isPrimary": false,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T09:25:33.056Z",
+            "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+            "updatedAt": "2026-11-02T09:25:33.056Z",
+            "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+          }
+        ],
+        "requestId": "807a40ea-b762-49c1-b969-618f4ba93730",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "875",
+          "ETag",
+          "W/\"36b-00d6I/ukpM2X7cPdRRm7V1D/SNc\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:33 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 398,
+          "requestSha256": "235b62922d500a9fd2471da442258240a2ddc4b6be8931981e031cc5aba65e6d",
+          "responseBytes": 1191,
+          "responseSha256": "c5a4649cc3f8bf52bb11b64d9b3ceb63d1d0f3200d502ca4a2049b6aabf915fa",
+          "entityBodyBytes": 875,
+          "entityBodySha256": "c51764e25493fee2bcf66987a3d00f4d6bf025ee26b0a05803edba5ef31136d6",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-f2744d86-d26b-4fd2-8c86-d1d32bd2efad",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "I94.roundtrip.stakeholder.update",
+      "actor": "admin",
+      "method": "PATCH",
+      "route": "/api/opportunity-stakeholders/c29645cf-c6c1-464a-b6e5-fb18be3df365",
+      "request": {
+        "role": "technical-evaluator",
+        "attitude": "supportive",
+        "influenceLevel": "high",
+        "accessLevel": "direct",
+        "focusAreas": [
+          "采购",
+          "预算"
+        ],
+        "communicationNotes": "I94 stakeholder revised communication",
+        "isPrimary": true
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "c29645cf-c6c1-464a-b6e5-fb18be3df365",
+          "customerId": "acf1351d-3aee-4073-a597-54c0d7a69301",
+          "customerName": "HIJK I94 roundtrip e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+          "leadId": "c3095dd9-0c99-45b7-9fe6-6fa43ec11666",
+          "leadName": "HIJK I94 roundtrip",
+          "projectId": "a8a3b860-b541-4239-8901-984ae80f9460",
+          "projectName": "I94 roundtrip project",
+          "contactId": "8a996ae9-f748-4899-ad12-d77ad4d9f2ac",
+          "contactName": "HIJK I94 roundtrip",
+          "contactDepartment": null,
+          "contactTitle": null,
+          "role": "technical-evaluator",
+          "attitude": "supportive",
+          "influenceLevel": "high",
+          "accessLevel": "direct",
+          "focusAreas": [
+            "采购",
+            "预算"
+          ],
+          "communicationNotes": "I94 stakeholder revised communication",
+          "isPrimary": true,
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T09:25:33.056Z",
+          "createdBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931",
+          "updatedAt": "2026-11-02T09:25:33.101Z",
+          "updatedBy": "3b4fd5d6-b4b5-43c0-87e8-f446b666d931"
+        },
+        "requestId": "i94-2dd64735-6",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "876",
+          "ETag",
+          "W/\"36c-71sv1M1gM78s+VuVW7l+04ccEU8\"",
+          "Date",
+          "Mon, 02 Nov 2026 09:25:33 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 648,
+          "requestSha256": "f0e3f54c671478026025a51628f4179e284f7ae28146750a1600a6c8ba131109",
+          "responseBytes": 1192,
+          "responseSha256": "128bc4b4cff9957b2a44cf9c3565ce82a0270ab2a3b3a07a518aa076d0a3ad9e",
+          "entityBodyBytes": 876,
+          "entityBodySha256": "47f0e39f7c6e6c2f6ebbfc6cb1097e94bc16e196684466a28672f90c9e526bfc",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-846db914-16bc-46a0-a8a5-1c3e41f4d7a4",
+          "originalRawRetained": true
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "label": "I94.N1.missing-anchor-custom400",
+      "value": {
+        "outcomes": {
+          "stakeholder": {
+            "request": {
+              "customerId": "2dd64735-393c-460a-b491-d333ac565bbb",
+              "contactId": "01063cf5-a921-4373-8b8a-4729e5db9975",
+              "role": "decision-maker"
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "statusCode": 400,
+                "message": "Validation failed",
+                "errors": [
+                  {
+                    "code": "custom",
+                    "path": [],
+                    "message": "At least one opportunity anchor is required"
+                  }
+                ]
+              },
+              "requestId": "i94-2dd64735-1",
+              "headers": [
+                "X-Powered-By",
+                "Express",
+                "Access-Control-Allow-Origin",
+                "http://127.0.0.1:12600",
+                "Vary",
+                "Origin",
+                "Access-Control-Allow-Credentials",
+                "true",
+                "Content-Type",
+                "application/json; charset=utf-8",
+                "Content-Length",
+                "143",
+                "ETag",
+                "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+                "Date",
+                "Mon, 02 Nov 2026 09:25:32 GMT",
+                "Connection",
+                "close"
+              ],
+              "rawWire": {
+                "requestBytes": 526,
+                "requestSha256": "14665994a4cbb1603c4f32f975f568e5d5cdb8676501fa8f3bca9588d87c1f25",
+                "responseBytes": 467,
+                "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+                "entityBodyBytes": 143,
+                "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+                "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-4fccf2c4-d599-473f-a686-ade8f2867d2b",
+                "originalRawRetained": true
+              }
+            }
+          },
+          "competitor": {
+            "request": {
+              "customerId": "2dd64735-393c-460a-b491-d333ac565bbb",
+              "competitorName": "I94 anchorless competitor"
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "statusCode": 400,
+                "message": "Validation failed",
+                "errors": [
+                  {
+                    "code": "custom",
+                    "path": [],
+                    "message": "At least one opportunity anchor is required"
+                  }
+                ]
+              },
+              "requestId": "i94-2dd64735-2",
+              "headers": [
+                "X-Powered-By",
+                "Express",
+                "Access-Control-Allow-Origin",
+                "http://127.0.0.1:12600",
+                "Vary",
+                "Origin",
+                "Access-Control-Allow-Credentials",
+                "true",
+                "Content-Type",
+                "application/json; charset=utf-8",
+                "Content-Length",
+                "143",
+                "ETag",
+                "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+                "Date",
+                "Mon, 02 Nov 2026 09:25:32 GMT",
+                "Connection",
+                "close"
+              ],
+              "rawWire": {
+                "requestBytes": 502,
+                "requestSha256": "57f61d9ddfea5dcaaca3689ac46ab07574c2d7dd8b86a41f4dee85bb69031555",
+                "responseBytes": 467,
+                "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+                "entityBodyBytes": 143,
+                "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+                "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-7533065b-e671-4f99-b124-bfe9dd4a31f3",
+                "originalRawRetained": true
+              }
+            }
+          },
+          "discovery": {
+            "request": {
+              "customerId": "2dd64735-393c-460a-b491-d333ac565bbb"
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "statusCode": 400,
+                "message": "Validation failed",
+                "errors": [
+                  {
+                    "code": "custom",
+                    "path": [],
+                    "message": "At least one opportunity anchor is required"
+                  }
+                ]
+              },
+              "requestId": "i94-2dd64735-3",
+              "headers": [
+                "X-Powered-By",
+                "Express",
+                "Access-Control-Allow-Origin",
+                "http://127.0.0.1:12600",
+                "Vary",
+                "Origin",
+                "Access-Control-Allow-Credentials",
+                "true",
+                "Content-Type",
+                "application/json; charset=utf-8",
+                "Content-Length",
+                "143",
+                "ETag",
+                "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+                "Date",
+                "Mon, 02 Nov 2026 09:25:32 GMT",
+                "Connection",
+                "close"
+              ],
+              "rawWire": {
+                "requestBytes": 449,
+                "requestSha256": "b11496cf32c87790e42ad6f503d05d9e7924b2f2505153e09c71e0e06edfcac0",
+                "responseBytes": 467,
+                "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+                "entityBodyBytes": 143,
+                "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+                "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-9ec41a56-e2db-484f-a52d-b2276eb1c9da",
+                "originalRawRetained": true
+              }
+            }
+          }
+        },
+        "queryResponse": {
+          "status": 400,
+          "body": {
+            "statusCode": 400,
+            "message": "Validation failed",
+            "errors": [
+              {
+                "code": "custom",
+                "path": [],
+                "message": "At least one opportunity anchor is required"
+              }
+            ]
+          },
+          "requestId": "5a2d82f7-cfbf-4218-ab40-e7110740c26f",
+          "headers": [
+            "X-Powered-By",
+            "Express",
+            "Access-Control-Allow-Origin",
+            "http://127.0.0.1:12600",
+            "Vary",
+            "Origin",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Content-Length",
+            "143",
+            "ETag",
+            "W/\"8f-KnRD7zqPZCKUEdKoNIusfJwoPlE\"",
+            "Date",
+            "Mon, 02 Nov 2026 09:25:32 GMT",
+            "Connection",
+            "close"
+          ],
+          "rawWire": {
+            "requestBytes": 355,
+            "requestSha256": "956242c6e6b1fa39470ead6396cba35fa85c3f22e9dc3ca572f09bf5a6f92314",
+            "responseBytes": 467,
+            "responseSha256": "003459bcf00529bc0e6732bb3168fc8728e3294c8c9601ba8c3d9306ea0538a1",
+            "entityBodyBytes": 143,
+            "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/raw-wire/admin-f194a76f-17d1-4820-90b6-6af18fbf11a7",
+            "originalRawRetained": true
+          }
+        },
+        "basis": "Root oracle already observed custom400; these are the separate actual HTTP vectors, not a claim that this definition was executed by its author"
+      }
+    }
+  ],
+  "preparedFacts": [],
+  "privateOriginalSQLStreams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/postgres-stdout-original.bin",
+      "bytes": 830,
+      "rawBytesSha256": "f85c69b1fcd0f652a65a769f2f85dfff8198768cb90dac9751113f41ddb9c77a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/private/witness-e4b1e704-9556-4e80-8efd-f5ad4f0e1411/phase05/postgres-stderr-original.bin",
+      "bytes": 920526,
+      "rawBytesSha256": "ef752d3987e6a1b06fd5f7407ef2d1015b0e19c961fa71c5e5f764a487b5e490"
+    }
+  ],
+  "rawWireOnlyPrivate": true,
+  "productDDLChanged": false,
+  "cleanup": "Pending-owned-whole-witness-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

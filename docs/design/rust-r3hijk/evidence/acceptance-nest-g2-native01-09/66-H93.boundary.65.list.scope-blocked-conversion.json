@@ -1,0 +1,453 @@
+{
+  "label": "H93.boundary.65.list.scope-blocked-conversion",
+  "startedAt": "2026-11-02T13:04:34.589Z",
+  "completedAt": "2026-11-02T13:04:34.607Z",
+  "value": {
+    "definition": {
+      "operationId": "LeadController_list",
+      "name": "H93.boundary.65.list.scope-blocked-conversion",
+      "method": "GET",
+      "path": "/api/leads",
+      "query": {
+        "scope": "blocked-conversion",
+        "page": "1",
+        "pageSize": "2"
+      },
+      "covers": [
+        "H21"
+      ],
+      "risk": "Compare exact scoped IDs, totalItems and scope-independent repository summary/facets before pagination.",
+      "schemaExpectation": "accepted-by-original-schema",
+      "requires": [
+        "Real mixed registered/qualified-ready/qualified-blocked/converted/closed Leads, including owned and public-pool rows; capture matching IDs and every facet count."
+      ],
+      "definitionOnly": true
+    },
+    "originalSchema": {
+      "schemaName": "LeadListQuerySchema",
+      "success": true
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "scope": "blocked-conversion",
+        "summary": {
+          "active": 49,
+          "registered": 45,
+          "qualified": 4,
+          "ready-to-convert": 4,
+          "blocked-conversion": 0,
+          "converted": 4,
+          "closed": 2,
+          "all": 55
+        },
+        "facets": [
+          {
+            "scope": "active",
+            "label": "处理中",
+            "hint": "待确认与已有效线索",
+            "severity": "info",
+            "count": 49,
+            "order": 10
+          },
+          {
+            "scope": "registered",
+            "label": "待确认",
+            "hint": "尚未确认有效的线索",
+            "severity": "secondary",
+            "count": 45,
+            "order": 20
+          },
+          {
+            "scope": "qualified",
+            "label": "已有效",
+            "hint": "已确认有效且仍在推进的线索",
+            "severity": "success",
+            "count": 4,
+            "order": 30
+          },
+          {
+            "scope": "ready-to-convert",
+            "label": "可转项目",
+            "hint": "已满足转项目硬闸口的线索",
+            "severity": "success",
+            "count": 4,
+            "order": 40
+          },
+          {
+            "scope": "blocked-conversion",
+            "label": "转化受阻",
+            "hint": "已有效但缺少转项目必填条件的线索",
+            "severity": "warn",
+            "count": 0,
+            "order": 50
+          },
+          {
+            "scope": "converted",
+            "label": "已转项目",
+            "hint": "已完成项目转化的历史线索",
+            "severity": "info",
+            "count": 4,
+            "order": 60
+          },
+          {
+            "scope": "closed",
+            "label": "已关闭",
+            "hint": "已关闭且不再推进的线索",
+            "severity": "contrast",
+            "count": 2,
+            "order": 70
+          },
+          {
+            "scope": "all",
+            "label": "全部线索",
+            "hint": "包含处理中、已转项目和已关闭线索",
+            "severity": "secondary",
+            "count": 55,
+            "order": 80
+          }
+        ],
+        "totalItems": 0,
+        "page": 1,
+        "pageSize": 2,
+        "items": []
+      },
+      "requestId": "2c44a011-e29b-45b2-9e07-c5c846646083",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "1283",
+        "ETag",
+        "W/\"503-ei3h5XWyHE3918ZEhFyWQ7Wypkk\"",
+        "Date",
+        "Mon, 02 Nov 2026 13:04:34 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 331,
+        "requestSha256": "680c0db8b42ec76cbf017a26b97c5c95f685f6ca06e9a1057e56a213391b0961",
+        "responseBytes": 1600,
+        "responseSha256": "da4959bd577bdaa8e2ad437169a9da103607efb7409fa641671de349f5efc3de",
+        "entityBodyBytes": 1283,
+        "entityBodySha256": "95801ce3ff2c456e59ddf3cec11fdfde157a24c44e486aeea7e25f78c3f98510",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase09/raw-wire/admin-b511f7db-99dc-439e-810c-7a51f955ed5e",
+        "originalRawRetained": true
+      }
+    },
+    "before": {
+      "rows": {
+        "lead": 55,
+        "lead_score_snapshot": 91,
+        "lead_score_override": 16,
+        "lead_owner_assignment_record": 4,
+        "project": 19,
+        "audit_log": 59,
+        "opportunity_stakeholder": 16,
+        "competitor_intelligence_record": 11,
+        "sales_discovery_record": 12,
+        "business_discussion_thread": 5,
+        "business_discussion_comment": 13
+      },
+      "counters": [
+        {
+          "id": "8691eb5f-d95b-4ab5-981f-9ab9d275ef71",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:03.792Z",
+          "updated_at": "2026-11-02T11:56:56.914Z"
+        },
+        {
+          "id": "48d040d5-934e-4be8-a035-242b4854b550",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 61,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.778Z",
+          "updated_at": "2026-11-02T13:04:34.178Z"
+        },
+        {
+          "id": "262c6f65-4dbc-4d62-bff9-7e3c4933b6ce",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 11,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.711Z",
+          "updated_at": "2026-11-02T13:04:33.493Z"
+        }
+      ]
+    },
+    "after": {
+      "rows": {
+        "lead": 55,
+        "lead_score_snapshot": 91,
+        "lead_score_override": 16,
+        "lead_owner_assignment_record": 4,
+        "project": 19,
+        "audit_log": 59,
+        "opportunity_stakeholder": 16,
+        "competitor_intelligence_record": 11,
+        "sales_discovery_record": 12,
+        "business_discussion_thread": 5,
+        "business_discussion_comment": 13
+      },
+      "counters": [
+        {
+          "id": "8691eb5f-d95b-4ab5-981f-9ab9d275ef71",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:03.792Z",
+          "updated_at": "2026-11-02T11:56:56.914Z"
+        },
+        {
+          "id": "48d040d5-934e-4be8-a035-242b4854b550",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 61,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.778Z",
+          "updated_at": "2026-11-02T13:04:34.178Z"
+        },
+        {
+          "id": "262c6f65-4dbc-4d62-bff9-7e3c4933b6ce",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 11,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.711Z",
+          "updated_at": "2026-11-02T13:04:33.493Z"
+        }
+      ]
+    },
+    "stored": null,
+    "fixtureIds": {
+      "adminUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "adminOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "otherUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+      "otherOrgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+      "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+      "sourceCode": "customer-visit",
+      "projectId": "b96be569-1022-47f6-b1e3-5d9c82003f7e",
+      "contactId": "82083aa7-d495-4fec-952a-ede876cab553",
+      "leadId": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+      "integration": {
+        "leadId": "a96edaf1-7098-42c2-8308-dea410158c1e",
+        "projectId": "bb2383c1-3e26-4186-8abc-6b4cf0238d5a",
+        "contactId": "86558637-efcd-442b-921e-32adc0952052",
+        "competitorId": "cbc81b8d-3c8b-443b-a4db-b1c459cd8c63",
+        "followUpId": "386c1284-7a5d-49fe-ad16-caf5d79aa1ab",
+        "leadCommentId": "dc3b78ca-96f6-4dac-bc1d-12c13b8b379c",
+        "projectCommentId": "26ace6bd-2ae3-4047-ba48-b08ed60e0eae",
+        "uploads": [
+          {
+            "sessionId": "5e1126ad-8f4b-48a3-a1af-21b2f708821b",
+            "attachmentId": "1175d8fe-cd42-4214-a1dc-79f958767f74",
+            "storageKey": "attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+              "bytes": 36,
+              "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "6d5196d3-7911-46f1-ab0d-c8c3d841de6b",
+            "attachmentId": "49139079-dc3b-4539-aded-25a1bda1d41e",
+            "storageKey": "attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+              "bytes": 37,
+              "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73",
+            "attachmentId": "d493a36f-abeb-4bf9-ae04-17b09bbd81a6",
+            "storageKey": "attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+              "bytes": 35,
+              "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "9cd4721f-386f-40f6-9956-5bea26bec064",
+            "attachmentId": "ce946aad-04b9-45f8-8e79-2928dbc10a09",
+            "storageKey": "attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+              "bytes": 47,
+              "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          }
+        ]
+      },
+      "readerUserId": "c3aae36e-2e87-461a-85f8-8505abc200e7",
+      "readerOrgId": "5e91e213-7087-4ba6-98bf-b7d204c6af3b",
+      "leadOnlyUserId": "34432be5-614e-4858-87ef-4dfa497933ad",
+      "leadOnlyOrgId": "c63a280c-92c4-4bb0-856d-a32e9359f4e3",
+      "projectOnlyUserId": "d0d2c6c6-4cd1-428e-98dd-98b4e7f77ce8",
+      "projectOnlyOrgId": "0cbe7fc5-b075-4ad5-bb04-c652d700069a",
+      "missingUUID": "a37441cb-6685-4056-b95e-5b4585e55a1b"
+    },
+    "listExistingBaseline": {
+      "name": "H93.boundary.65.list.scope-blocked-conversion",
+      "response": {
+        "status": 200,
+        "body": {
+          "scope": "blocked-conversion",
+          "summary": {
+            "active": 20,
+            "registered": 17,
+            "qualified": 3,
+            "ready-to-convert": 3,
+            "blocked-conversion": 0,
+            "converted": 1,
+            "closed": 2,
+            "all": 23
+          },
+          "facets": [
+            {
+              "scope": "active",
+              "label": "处理中",
+              "hint": "待确认与已有效线索",
+              "severity": "info",
+              "count": 20,
+              "order": 10
+            },
+            {
+              "scope": "registered",
+              "label": "待确认",
+              "hint": "尚未确认有效的线索",
+              "severity": "secondary",
+              "count": 17,
+              "order": 20
+            },
+            {
+              "scope": "qualified",
+              "label": "已有效",
+              "hint": "已确认有效且仍在推进的线索",
+              "severity": "success",
+              "count": 3,
+              "order": 30
+            },
+            {
+              "scope": "ready-to-convert",
+              "label": "可转项目",
+              "hint": "已满足转项目硬闸口的线索",
+              "severity": "success",
+              "count": 3,
+              "order": 40
+            },
+            {
+              "scope": "blocked-conversion",
+              "label": "转化受阻",
+              "hint": "已有效但缺少转项目必填条件的线索",
+              "severity": "warn",
+              "count": 0,
+              "order": 50
+            },
+            {
+              "scope": "converted",
+              "label": "已转项目",
+              "hint": "已完成项目转化的历史线索",
+              "severity": "info",
+              "count": 1,
+              "order": 60
+            },
+            {
+              "scope": "closed",
+              "label": "已关闭",
+              "hint": "已关闭且不再推进的线索",
+              "severity": "contrast",
+              "count": 2,
+              "order": 70
+            },
+            {
+              "scope": "all",
+              "label": "全部线索",
+              "hint": "包含处理中、已转项目和已关闭线索",
+              "severity": "secondary",
+              "count": 23,
+              "order": 80
+            }
+          ],
+          "totalItems": 0,
+          "page": 1,
+          "pageSize": 2,
+          "items": []
+        },
+        "requestId": "6181aa77-9d20-445b-9e53-7f7aa0d27254",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "1283",
+          "ETag",
+          "W/\"503-qX4dqXKfTlgp2uAK0VqQuSZMu1U\"",
+          "Date",
+          "Mon, 02 Nov 2026 13:04:31 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 331,
+          "requestSha256": "d4de81fc7a1dc12f440970d16eff21d6b154a786fc5353fa8a2c7a650c9ef764",
+          "responseBytes": 1600,
+          "responseSha256": "6aa17a9bd8296cc98872588e6cc1ae6e8594aad07383393a5e32c577ad72933d",
+          "entityBodyBytes": 1283,
+          "entityBodySha256": "d0d28682ed6697b202c56a945c64c90459596b0b5b3e9e16f8edeeb59655b944",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase09/raw-wire/admin-bcb4a94b-ceba-4a68-8833-601ed3c192f8",
+          "originalRawRetained": true
+        }
+      }
+    },
+    "definitionExpected400": null
+  }
+}

@@ -1,0 +1,623 @@
+{
+  "kind": "C-independent-complete-G3-business-actual-audit01",
+  "createdAt": "2026-11-02T18:52:50.245Z",
+  "candidateArtifactSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+  "G3Certified": false,
+  "G4Certified": false,
+  "version": {
+    "report": {
+      "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate04-45/report01.json",
+      "bytes": 4898928,
+      "rawBytesSha256": "fe4cd310e62e1f7eafba783387a2d375f6b2cadc09bcd557268493710184216a"
+    },
+    "groups": 17,
+    "HTTP": 29,
+    "threeDomains": [
+      {
+        "caseName": "V.cost.concurrent-create",
+        "waiters": 2,
+        "statuses": [
+          201,
+          201
+        ],
+        "versions": [
+          1,
+          2,
+          3
+        ],
+        "uniqueCurrentVersion": 3,
+        "completeHistoricalPredecessorAndVersionActorChain": true,
+        "allDeclaredChildrenForBothNewParentsChecked": true,
+        "projectRawUnchanged": true
+      },
+      {
+        "caseName": "V.bid.concurrent-create",
+        "waiters": 2,
+        "statuses": [
+          201,
+          201
+        ],
+        "versions": [
+          1,
+          2,
+          3
+        ],
+        "uniqueCurrentVersion": 3,
+        "completeHistoricalPredecessorAndVersionActorChain": true,
+        "allDeclaredChildrenForBothNewParentsChecked": true,
+        "projectRawUnchanged": true
+      },
+      {
+        "caseName": "V.pricing.concurrent-create",
+        "waiters": 2,
+        "statuses": [
+          201,
+          201
+        ],
+        "versions": [
+          1,
+          2,
+          3
+        ],
+        "uniqueCurrentVersion": 3,
+        "completeHistoricalPredecessorAndVersionActorChain": true,
+        "allDeclaredChildrenForBothNewParentsChecked": true,
+        "projectRawUnchanged": true
+      }
+    ],
+    "allNineWriteFaultAndTwoStaleReferenceGraphs": [
+      {
+        "caseName": "V.cost.deny-insert.project_technical_cost_package",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.cost.deny-insert.project_technical_cost_item",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.cost.deny-insert.project_technical_risk_item",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.cost.deny-insert.project_technical_scope_item",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.bid.deny-insert.project_bid_commercial_process",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_bid_commercial_process",
+          "project_bid_commercial_timeline_item",
+          "project_bid_commercial_material_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.bid.deny-insert.project_bid_commercial_timeline_item",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_bid_commercial_process",
+          "project_bid_commercial_timeline_item",
+          "project_bid_commercial_material_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.bid.deny-insert.project_bid_commercial_material_item",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_bid_commercial_process",
+          "project_bid_commercial_timeline_item",
+          "project_bid_commercial_material_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.pricing.deny-insert.project_pricing_margin_review",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.pricing.deny-insert.project_pricing_margin_condition_item",
+        "status": 500,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.pricing.stale-cost-reference",
+        "status": 400,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_bid_commercial_process",
+          "project_bid_commercial_timeline_item",
+          "project_bid_commercial_material_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "allRowsExactUnchanged": true
+      },
+      {
+        "caseName": "V.pricing.stale-bid-reference",
+        "status": 400,
+        "completeHistoricalRawTables": [
+          "project",
+          "project_technical_cost_package",
+          "project_technical_cost_item",
+          "project_technical_risk_item",
+          "project_technical_scope_item",
+          "project_bid_commercial_process",
+          "project_bid_commercial_timeline_item",
+          "project_bid_commercial_material_item",
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ],
+        "allRowsExactUnchanged": true
+      }
+    ],
+    "currentCostAndBidReferencesAfterLockMatch": true
+  },
+  "foundation": {
+    "report": {
+      "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate04-46/report01.json",
+      "bytes": 4257723,
+      "rawBytesSha256": "a069afcb43a1c0f7a26889a732f02a0920d5c9cb5a9531e3bff78d1c4ecb9310"
+    },
+    "groups": 56,
+    "HTTP": 56,
+    "oldDistinctOperations": 30,
+    "auxiliaryOperation": "ApprovalController_getMyTodos",
+    "publicResponseAndParentIdVersionAssertionsChecked": true,
+    "threeSequentialVersionChainsOneCurrentChecked": true,
+    "ContactGenderCreateUpdateChecked": true,
+    "FollowUpReplacementVoidHistoryReminderAndRequiredAuditChecked": true,
+    "allRejectedFullRawGraphComparisons": [
+      {
+        "caseName": "A.alias.delete-primary-denied",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "customer_alias"
+        ]
+      },
+      {
+        "caseName": "B.project.stale-owner-command",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "project",
+          "project_owner_reassignment_record",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "G.pricing.stale-cost-rejected",
+        "status": 400,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "project_pricing_margin_review",
+          "project_pricing_margin_condition_item"
+        ]
+      },
+      {
+        "caseName": "F.followup.replace-stale",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "F.followup.void-version-mismatch",
+        "status": 409,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "F.required-audit.replace-rollback",
+        "status": 500,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      },
+      {
+        "caseName": "F.required-audit.void-rollback",
+        "status": 500,
+        "fullExportedRowsUnchanged": true,
+        "tables": [
+          "sales_follow_up_record",
+          "todo_item",
+          "audit_log"
+        ]
+      }
+    ]
+  },
+  "businessCore": {
+    "report": {
+      "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate04-47/report01.json",
+      "bytes": 1074537,
+      "rawBytesSha256": "0ccbc393561cbdc318c54d663961006eb0ff8cf9b5f8048e11e1e64b188bc9a7"
+    },
+    "groups": 14,
+    "HTTP": 65,
+    "checks": [
+      {
+        "caseName": "business-text-UUID-money-date-inputs",
+        "invalidResponses400": 10,
+        "leadSnapshotCountsAndLeadCounterUnchanged": true,
+        "notEveryDomainRawTableExported": true
+      },
+      {
+        "caseName": "semantic-system-snapshot-noop-and-real-facts",
+        "renameSnapshotDelta": 0,
+        "renameVersionDelta": 1,
+        "noopGraphExact": true,
+        "realFactsSnapshotDelta": 1
+      },
+      {
+        "caseName": "atomic-main-snapshot-claim",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-main-snapshot-assign",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-main-snapshot-qualify",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-main-snapshot-close",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-required-audit-submit",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-required-audit-approve",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-required-audit-reject",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "atomic-required-audit-revoke",
+        "HTTP": 500,
+        "completeExportedBusinessGraphExact": true,
+        "authKeepaliveNotRollbackOracle": true,
+        "auditAbsenceAssertedByRootButSeparateAuditRowsNotExported": true
+      },
+      {
+        "caseName": "single-optimistic-write-exactly-one-success",
+        "waiters": 2,
+        "statuses": [
+          200,
+          409
+        ],
+        "winnerActor": "other",
+        "exactlyOneCommandGraphAndRequiredAudit": true
+      },
+      {
+        "caseName": "replacement-approval-exactly-once",
+        "waiters": 2,
+        "statuses": [
+          200,
+          409
+        ],
+        "winnerActor": "other",
+        "exactlyOneCommandGraphAndRequiredAudit": true
+      },
+      {
+        "caseName": "I-typed-projection-and-semantic-noop",
+        "rawNoopVersionTimeActorExact": true,
+        "validLegacy13Preserved": true,
+        "invalidObjectProjectsArray": true,
+        "GETNoRepair": true
+      },
+      {
+        "caseName": "number-reservation-no-pool-self-deadlock",
+        "concurrent201": 16,
+        "uniqueIds": 16,
+        "uniqueNumbers": 16,
+        "notPerformanceBenchmark": true,
+        "noSeparatePG16RowSnapshotClaimed": true
+      }
+    ]
+  },
+  "HIOriginalBoundaryVectors": [
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate03-37/report01.json",
+        "bytes": 23234862,
+        "rawBytesSha256": "2a9e166e5678413e15a9f7076bc35b2e88439d1f36e903df92f806de567e40d2"
+      },
+      "definitionGroups": 80,
+      "oracleCases": 77,
+      "schemaRejectedAll400": 26,
+      "rejectedCountAndCountersUnchanged": 36,
+      "publicAndStoredIdsVersionsMatched": 21,
+      "schemaAccepted400": [
+        "H93.boundary.10.create.money-legal-syntax-db-overflow",
+        "H93.boundary.12.create.date-year0000-leap",
+        "H93.boundary.20.create.demand-lone-high-surrogate",
+        "H93.boundary.21.create.lead-name-nul-reaches-pg",
+        "H93.boundary.27.update.lead-name-lone-unit-raw-audit",
+        "H93.boundary.28.update.demand-lone-unit-redacted-audit",
+        "H93.boundary.38.qualify.ordered-missing-hard-facts",
+        "H93.boundary.52.approve.lone-note-post-commit-audit",
+        "H93.boundary.57.revoke.lone-reason-stored-system"
+      ],
+      "fullRawBusinessTableNoWriteNotClaimed": "before.rows are counts, not every raw business row",
+      "candidate03NotAutomaticallyBusinessPass": "Known invalidUnicode/year/capacity and missing-facts rejections evaluated by business rules."
+    },
+    {
+      "report": {
+        "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate03-38/report01.json",
+        "bytes": 15630086,
+        "rawBytesSha256": "2712c06bd3c81e6bcbf1914cde3d1494ee050c00023d5b9845bd3f3993ed6cf9"
+      },
+      "definitionGroups": 68,
+      "oracleCases": 68,
+      "schemaRejectedAll400": 37,
+      "rejectedCountAndCountersUnchanged": 45,
+      "publicAndStoredIdsVersionsMatched": 19,
+      "schemaAccepted400": [
+        "I-boundary.uuid.uppercase-customer-is-not-canonicalized",
+        "I-boundary.uuid.uppercase-inputs-remain-original-strings",
+        "I-boundary.jsonb.focus-lone-surrogate-schema-versus-storage",
+        "I-boundary.jsonb.focus-nul-schema-versus-storage",
+        "I-boundary.text.name-lone-surrogate-immediate-versus-reread",
+        "I-boundary.text.remark-nul-schema-versus-storage",
+        "I-boundary.patch.stakeholder.redacted-lone-surrogate-text",
+        "I-boundary.patch.competitor.nonredacted-name-lone-surrogate"
+      ],
+      "fullRawBusinessTableNoWriteNotClaimed": "before.rows are counts, not every raw business row",
+      "candidate03NotAutomaticallyBusinessPass": "Two uppercase identity cases are actual P2, not accepted parity."
+    }
+  ],
+  "guards": {
+    "report": {
+      "file": "docs/design/rust-r3hijk/evidence/acceptance-rust-candidate03-36/report01.json",
+      "bytes": 722841,
+      "rawBytesSha256": "d576798ccaa2c4c1f9ef9d493d54824f0c872575eb0c6d903953a19c2c576ce4"
+    },
+    "operations": 28,
+    "HTTP": 149,
+    "anonymous401": 28,
+    "writeCSRF403": 18,
+    "threeRolePoliciesCheckedAgainstEachOperation": true,
+    "allowsDoNotClaimBusinessSuccessForFakeMissingFixture": true,
+    "malformedJSONBeforeAuthentication400": 3,
+    "otherRawRouteCases": [
+      {
+        "label": "route.0",
+        "method": "GET",
+        "route": "/API/LEADS/?page=invalid",
+        "status": 400
+      },
+      {
+        "label": "route.1",
+        "method": "GET",
+        "route": "/api/leads//",
+        "status": 404
+      },
+      {
+        "label": "route.2",
+        "method": "GET",
+        "route": "/api/leads/not-a-uuid",
+        "status": 400
+      },
+      {
+        "label": "route.3",
+        "method": "GET",
+        "route": "/api/leads/not-a-uuid:qualify",
+        "status": 400
+      },
+      {
+        "label": "route.4",
+        "method": "POST",
+        "route": "/api/leads/not-a-uuid:unknown",
+        "status": 404
+      },
+      {
+        "label": "route.5",
+        "method": "POST",
+        "route": "/api/leads/60b65bd1-d920-4ce7-a01e-38be23d7d9f6%3Aclaim",
+        "status": 404
+      },
+      {
+        "label": "route.6",
+        "method": "GET",
+        "route": "/api/leads/bad%ZZ",
+        "status": 400
+      },
+      {
+        "label": "route.7",
+        "method": "PUT",
+        "route": "/api/leads/bad%ZZ",
+        "status": 400
+      },
+      {
+        "label": "route.8",
+        "method": "POST",
+        "route": "/api/leads/bad%ZZ:qualify",
+        "status": 400
+      },
+      {
+        "label": "route.9",
+        "method": "GET",
+        "route": "/api/lead-score-overrides/bad%ZZ:approve",
+        "status": 400
+      },
+      {
+        "label": "route.10",
+        "method": "PATCH",
+        "route": "/API/OPPORTUNITY-STAKEHOLDERS/60b65bd1-d920-4ce7-a01e-38be23d7d9f6/",
+        "status": 400
+      },
+      {
+        "label": "route.11",
+        "method": "PUT",
+        "route": "/api/opportunity-stakeholders/bad%ZZ",
+        "status": 400
+      },
+      {
+        "label": "route.12",
+        "method": "GET",
+        "route": "/API/PROJECTS/60b65bd1-d920-4ce7-a01e-38be23d7d9f6/WORKSPACE-GUIDANCE/",
+        "status": 404
+      },
+      {
+        "label": "route.13",
+        "method": "PUT",
+        "route": "/api/projects/bad%ZZ/timeline",
+        "status": 400
+      },
+      {
+        "label": "route.14",
+        "method": "GET",
+        "route": "/api/projects/60b65bd1-d920-4ce7-a01e-38be23d7d9f6/timeline//",
+        "status": 404
+      },
+      {
+        "label": "route.15",
+        "method": "GET",
+        "route": "/api/business-discussions/extra",
+        "status": 404
+      }
+    ],
+    "HTMLVsJSONBodyParityNotARequirement": true
+  },
+  "contracts": {
+    "compiledExport": {
+      "file": "docs/design/rust-r3hijk/evidence/final-integrity02/rust-openapi-original.json",
+      "bytes": 1011717,
+      "rawBytesSha256": "0e31ba312e3a939a6513d0dbf6f44a66394d54b5ff8fabb9c1ba0c86231b5adc"
+    },
+    "operations": 173,
+    "paths": 138,
+    "schemas": 585,
+    "all585SchemasNativeDeepExact": true,
+    "all28CanonicalFrozenOperationsDeepExact": true,
+    "scopeOperationIds": [
+      "LeadScoreOverrideController_approve",
+      "LeadScoreOverrideController_reject",
+      "LeadScoreOverrideController_revoke",
+      "LeadController_list",
+      "LeadController_create",
+      "LeadController_getById",
+      "LeadController_update",
+      "LeadController_assignOwner",
+      "LeadController_claimOwner",
+      "LeadController_close",
+      "LeadController_convertToProject",
+      "LeadController_qualify",
+      "LeadController_getScoreHistory",
+      "LeadController_submitScoreOverride",
+      "CompetitorIntelligenceRecordController_list",
+      "CompetitorIntelligenceRecordController_create",
+      "CompetitorIntelligenceRecordController_update",
+      "OpportunityStakeholderController_list",
+      "OpportunityStakeholderController_create",
+      "OpportunityStakeholderController_update",
+      "SalesDiscoveryRecordController_list",
+      "SalesDiscoveryRecordController_create",
+      "SalesDiscoveryRecordController_update",
+      "SalesIntelligenceGapController_list",
+      "BusinessDiscussionController_list",
+      "BusinessDiscussionController_create",
+      "ProjectController_getTimeline",
+      "ProjectController_getWorkspaceGuidance"
+    ]
+  },
+  "knownActualBlockingIIdentityCases": [
+    "I-boundary.uuid.uppercase-customer-is-not-canonicalized",
+    "I-boundary.uuid.uppercase-inputs-remain-original-strings"
+  ],
+  "sourceAndScopeLimits": [
+    "This is part of a complete G3 that must be Needs-correction while actual I UUID identity and the F empty-stream race remain unresolved.",
+    "Boundary vector completed flags only prove execution; I uppercase outcomes are not business passes.",
+    "No product/author/Root executor, build/test, DB/HTTP/browser/service was executed by C."
+  ],
+  "noPrivateRead": true,
+  "noProductOrExecutorChanges": true
+}

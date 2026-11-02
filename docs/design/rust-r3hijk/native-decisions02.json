@@ -1,0 +1,95 @@
+{
+  "kind": "R3HIJK-original-Native-G1-decisions02",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "cohortRun": "e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+  "actualScope": {
+    "completedCaseGroups": 54,
+    "actualHTTPEvents": 193,
+    "completedPhases": [
+      "02",
+      "03",
+      "06",
+      "08",
+      "09",
+      "10"
+    ],
+    "schemaOracleVectors": 18,
+    "rustOrFullUIAcceptance": false
+  },
+  "authorities": [
+    "originals/native-authority03/SQL-authority01.json",
+    "originals/native-authority03/bulk-original-SQL-timewindow01.json",
+    "originals/native-authority03/observed-summary01.json",
+    "originals/native-cohort-terminal01.json"
+  ],
+  "H": [
+    "Lead creation/conversion independent business-number transaction survives business rollback; counter gap is Native behavior.",
+    "Single lead and single override stale version:409; held-row two-reader native CAS race:200/500, one commit/rollback.",
+    "Existing approved + pending approval uses one CASE bulk update WHERE id IN, no row_version predicate. True two-waiter Native race both200, +2 snapshots, one audit each; existing approved version2→4 superseded and pending1→3 approved. Do not strengthen bulk CAS.",
+    "Claim/assign/qualify/close may commit main state before denied snapshot reports500; override commands may commit business before denied audit reports500. Preserve each source flush boundary.",
+    "Stored score is read-only on GET/list/history. I writes do not refresh it; changed H update/qualify records source score/snapshot; no-op comparison follows original JSON.stringify including key order.",
+    "Convert returns200. Latest active attachments exclude finance/internal-assessment. Copy is same transaction, preserves source links and exact Native link/project/session/lead/audit/snapshot autoflush order, including single-link special graph; denial rolls back business but counter survives.",
+    "Attachment cut witnesses use explicitly prepared metadata, not actual upload acceptance; G3 must use real delivered attachment producer.",
+    "Actual single-eligible link conversion flush order: copy audit_log INSERT → attachment_link INSERT → project INSERT → auth_session UPDATE → lead CAS UPDATE → snapshot INSERT → COMMIT. Deny copy audit rolls back before project/link flush; independent counter already incremented.",
+    "Actual two-eligible link conversion order: first attachment_link INSERT → project INSERT → auth_session UPDATE → lead CAS UPDATE → copy audit_log INSERT → second attachment_link INSERT → snapshot INSERT → COMMIT. Preserve query-induced autoflush scheduling, not a generic all-links-at-end transaction."
+  ],
+  "I": [
+    "Three creates preserve missing-both-anchors custom400. Context lookup checks lead then project, fallback customerId from input/project/lead, exact original string comparison; dual anchors list by OR and no invented conversion relation.",
+    "Inactive customer/contact, closed/converted lead and existing project eligibility are not strengthened beyond original existence checks.",
+    "Changed PATCH business/session/audit is one transaction; denied audit or requestId65 storage error rolls back business. No-op with requestId65 may200, creates non-audit may201.",
+    "Discovery update held-row race200/500. Gaps preserve seven-item fixed order and newest discovery updated_at DESC,created_at DESC; score facts use updated_at DESC only. No UUID tie-breaker.",
+    "Original text audit .length is UTF16. JSONB null/object/array probes are controlled prepared rows, not DDL or real producer evidence."
+  ],
+  "JK": [
+    "Discussion max8000 is Zod Unicode code points: emoji8000 accepted201, emoji8001 rejected400; BMP8000/8001 likewise.",
+    "FEFF trims; NEL and zero-width do not. NUL passes schema then PostgreSQL500. Lone surrogate POST201 preserves unit; actual storage/GET replaces with U+FFFD, kept as distinct observations.",
+    "Guidance and timeline raw malformed path reaches PostgreSQL500; real project responses200. Thread conflict and full read projections remain required G2 comparison."
+  ],
+  "correctedToolNoise": {
+    "SQL": "Old authority01 marked27 and authority02 marked29 RETURNING-row_version occurrences as WHERE CAS. authority03 limits predicates to real WHERE before RETURNING; original sources remain unchanged.",
+    "bulkMarker": "Phase10 async PostgreSQL logging reload omitted its begin marker. Supplement binds126 actual app SQL to original recorded case timestamps and observed end marker, one isolated case; no marker invented.",
+    "catalog": "Initial catalog incorrectly used previous scoped16 OpenAPI. Active02 uses complete prior Rust runtime145/116 and expects173/138; original forecast retained as tool error."
+  },
+  "incompleteHistoricalAttempts": [
+    {
+      "phase": "01",
+      "label": "partial-tool-error",
+      "actualEvents": 5,
+      "reason": "Observer guessed counter year column instead of period; foundation calls actually succeeded and real IDs reused in02."
+    },
+    {
+      "phase": "04",
+      "label": "partial-uncertified-exchange",
+      "actualEvents": 36,
+      "reason": "Repeated actual requestId65 caused capture prefix EEXIST after an actual call. Filename nonce fixed without changing request headers."
+    },
+    {
+      "phase": "05",
+      "label": "partial-test-assumption",
+      "actualEvents": 11,
+      "reason": "Earlier repeated request IDs made full audit query multiple rows;06 fresh real references reran all groups, no filtering to hide rows."
+    },
+    {
+      "phase": "07",
+      "label": "partial-tool-expectation-error",
+      "actualEvents": 3,
+      "reason": "Convert actually200; runner incorrectly expected201. Full08 uses original source200."
+    }
+  ],
+  "terminal": {
+    "removedOwnedRows": 382,
+    "exactSeedTables": 107,
+    "restoredPrivileges": 428,
+    "runtimeStopped": true,
+    "ownPG15AvailableForG2": true,
+    "privateAndVolumeRetained": true
+  },
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "supersedes": {
+    "file": "docs/design/rust-r3hijk/native-decisions01.json",
+    "bytes": 5388,
+    "rawBytesSha256": "159d20685db7287641f74567e7d4788d06efbe74528a8445893ff0c42c070c3d"
+  }
+}

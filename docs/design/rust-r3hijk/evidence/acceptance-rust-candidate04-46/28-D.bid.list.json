@@ -1,0 +1,102 @@
+{
+  "label": "D.bid.list",
+  "startedAt": "2026-11-02T18:19:03.595Z",
+  "completedAt": "2026-11-02T18:19:03.605Z",
+  "value": {
+    "operationId": "ProjectController_listProjectBidCommercialProcesses",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/eb93755a-e923-4d99-aba1-9cb27b366243/bid-commercial-processes"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "bidMode": "public-tender",
+          "bidPackageNo": "R3HK-6872abb5-46 B2 package",
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T18:19:03.582Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "currentStage": "result-confirmed",
+          "decision": "participate",
+          "decisionSummary": "R3HK-6872abb5-46 B2 decision",
+          "effectiveAt": "2026-11-02T18:19:03.582Z",
+          "id": "b457302f-c869-4bcb-be47-742a87d2ceca",
+          "isCurrent": true,
+          "ownerRole": "R3HK-6872abb5-46 B2 owner",
+          "processSummary": "R3HK-6872abb5-46 B2 process",
+          "projectId": "eb93755a-e923-4d99-aba1-9cb27b366243",
+          "resultStatus": "won",
+          "resultSummary": "R3HK-6872abb5-46 actual awarded result fixture",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "fadba298-7a73-45c5-8c78-cce76179e93b",
+          "tenderNo": "R3HK-6872abb5-46 B2 tender",
+          "updatedAt": "2026-11-02T18:19:03.582Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "version": 2
+        },
+        {
+          "bidMode": "public-tender",
+          "bidPackageNo": "R3HK-6872abb5-46 B1 package",
+          "blockerCount": 1,
+          "createdAt": "2026-11-02T18:19:03.559Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "decisionSummary": "R3HK-6872abb5-46 B1 decision",
+          "effectiveAt": "2026-11-02T18:19:03.559Z",
+          "id": "fadba298-7a73-45c5-8c78-cce76179e93b",
+          "isCurrent": false,
+          "ownerRole": "R3HK-6872abb5-46 B1 owner",
+          "processSummary": "R3HK-6872abb5-46 B1 process",
+          "projectId": "eb93755a-e923-4d99-aba1-9cb27b366243",
+          "resultStatus": "pending",
+          "resultSummary": null,
+          "rowVersion": 2,
+          "status": "superseded",
+          "supersedesId": null,
+          "tenderNo": "R3HK-6872abb5-46 B1 tender",
+          "updatedAt": "2026-11-02T18:19:03.582Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "version": 1
+        }
+      ],
+      "requestId": "1d047c30-b43c-47a3-a6e7-13937e80940f",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1616",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-302",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:19:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 353,
+        "requestSha256": "000bcadca66b3bf5bbfa48754662d245ec748e8d29782af50135ea6c1e45384a",
+        "responseBytes": 1896,
+        "responseSha256": "0d96da86503817836fe973933c2ddb418a7ed87047798903101044e1e2eb3f51",
+        "entityBodyBytes": 1616,
+        "entityBodySha256": "48ea8e916620f0a63bb63ea5b5882d0ca3889baf4e93f4b0973f3b8cf88215d5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase46/raw-wire/admin-630c559d-5bd0-4174-8670-93c2665e03f5",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

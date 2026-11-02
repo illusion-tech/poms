@@ -1,5 +1,6 @@
 use std::{collections::BTreeMap, error, fmt};
 
+use rust_decimal::Decimal;
 use serde_json::{Value, json};
 use sqlx::Connection;
 use uuid::Uuid;
@@ -11,7 +12,7 @@ use crate::{
         model::{ResolvedSession, clock_now},
         store::flush_managed_session,
     },
-    compat::scalars::{NumberInput, js_iso_string, js_to_fixed, legacy_number},
+    compat::scalars::js_iso_string,
     database::{Database, DbError},
     projects::{
         model::{Wire, js},
@@ -23,6 +24,7 @@ use crate::{
 pub enum Error {
     NotFound(String),
     BadRequest(String),
+    Conflict(String),
     BadRequestJs(JsString),
     Database(DbError),
     Internal,
@@ -31,6 +33,11 @@ pub enum Error {
 impl From<DbError> for Error {
     fn from(value: DbError) -> Self {
         Self::Database(value)
+    }
+}
+impl From<sqlx::Error> for Error {
+    fn from(_: sqlx::Error) -> Self {
+        Self::Internal
     }
 }
 impl fmt::Display for Error {
@@ -50,6 +57,16 @@ pub fn presigning(stage: &str) -> bool {
         stage,
         "assessment" | "scope-confirmation" | "commercial-closure" | "contracting"
     )
+}
+
+fn assert_project_stage(project: &projects::ProjectRow, id: &str) -> Result<(), Error> {
+    if project.status == "closed" || !presigning(&project.current_stage) {
+        return Err(Error::BadRequest(format!(
+            "Project {id} cannot record technical cost package in stage {}",
+            project.current_stage
+        )));
+    }
+    Ok(())
 }
 
 pub fn owner_label(name: Option<String>, org: Option<String>, fallback: &str) -> String {
@@ -86,18 +103,70 @@ pub fn allowed(
     actions
 }
 
-pub fn number(value: &str, field: &str) -> Result<f64, Error> {
-    let value = legacy_number(NumberInput::Text(value));
-    if !value.is_finite() || value < 0.0 {
-        return Err(Error::BadRequest(format!(
-            "{field} must be a non-negative decimal"
-        )));
+/// Exact public decimal syntax and the existing numeric(18,scale) storage
+/// capability. Leading zeros do not consume precision; no binary64 is used.
+pub(crate) fn decimal_input(
+    value: &str,
+    field: &str,
+    scale: u32,
+    signed: bool,
+) -> Result<Decimal, String> {
+    let (negative, digits) = if let Some(digits) = value.strip_prefix('-') {
+        if !signed {
+            return Err(format!("{field} must be a non-negative decimal"));
+        }
+        (true, digits)
+    } else {
+        (false, value)
+    };
+    let mut parts = digits.split('.');
+    let whole = parts.next().unwrap_or("");
+    let fraction = parts.next();
+    if whole.is_empty()
+        || !whole.bytes().all(|byte| byte.is_ascii_digit())
+        || fraction.is_some_and(|part| {
+            part.is_empty()
+                || part.len() > scale as usize
+                || !part.bytes().all(|byte| byte.is_ascii_digit())
+        })
+        || parts.next().is_some()
+    {
+        return Err(format!(
+            "{field} must be a decimal with at most {scale} fractional digits"
+        ));
     }
-    Ok(value)
+    let whole = whole.trim_start_matches('0');
+    let integer_places = 18_u32
+        .checked_sub(scale)
+        .ok_or_else(|| "Unsupported decimal scale".to_owned())?;
+    if whole.len() > integer_places as usize {
+        let maximum = format!(
+            "{}.{}",
+            "9".repeat(integer_places as usize),
+            "9".repeat(scale as usize)
+        );
+        return Err(format!(
+            "{field} must fit numeric(18,{scale}); maximum magnitude is {maximum}"
+        ));
+    }
+    let normalized = format!(
+        "{}{}{}",
+        if negative { "-" } else { "" },
+        if whole.is_empty() { "0" } else { whole },
+        fraction.map_or(String::new(), |part| format!(".{part}"))
+    );
+    normalized
+        .parse::<Decimal>()
+        .map_err(|_| format!("{field} must fit numeric(18,{scale})"))
 }
 
-pub fn money(value: f64) -> Result<String, Error> {
-    js_to_fixed(value, 2).map_err(|_| Error::Internal)
+fn quantity_input(value: &str, field: &str) -> Result<Decimal, String> {
+    decimal_input(value, field, 4, false)
+}
+
+pub(crate) fn decimal_text(mut value: Decimal, scale: u32) -> String {
+    value.rescale(scale);
+    value.to_string()
 }
 
 fn random_uuid() -> Result<Uuid, Error> {
@@ -108,27 +177,74 @@ fn random_uuid() -> Result<Uuid, Error> {
     Ok(Uuid::from_bytes(bytes))
 }
 
-fn validate_amounts(input: &CreateRequest) -> Result<(), Error> {
+fn validate_amounts(input: &CreateRequest) -> Result<[Decimal; 3], Error> {
+    let mut totals = [Decimal::ZERO; 3];
+    let total_names = [
+        "totalEstimatedAmountExcludingTax",
+        "totalTaxCostAmount",
+        "totalEstimatedAmountIncludingTax",
+    ];
     for (index, item) in input.cost_items.iter().enumerate() {
         if item.currency_code != input.currency_code {
             return Err(currency_mismatch(index, &input.currency_code));
         }
-        let excluding = number(
+        let excluding = decimal_input(
             &item.amount_excluding_tax,
             &format!("costItems[{index}].amountExcludingTax"),
-        )?;
-        let tax = number(
+            2,
+            false,
+        )
+        .map_err(Error::BadRequest)?;
+        let tax = decimal_input(
             &item.tax_cost_amount,
             &format!("costItems[{index}].taxCostAmount"),
-        )?;
-        let including = number(
+            2,
+            false,
+        )
+        .map_err(Error::BadRequest)?;
+        let including = decimal_input(
             &item.amount_including_tax,
             &format!("costItems[{index}].amountIncludingTax"),
-        )?;
-        if (including - (excluding + tax)).abs() > 0.0001 {
+            2,
+            false,
+        )
+        .map_err(Error::BadRequest)?;
+        for (field, value) in [
+            ("quantity", item.quantity.as_deref()),
+            ("unitPrice", item.unit_price.as_deref()),
+        ] {
+            if let Some(value) = value {
+                quantity_input(value, &format!("costItems[{index}].{field}"))
+                    .map_err(Error::BadRequest)?;
+            }
+        }
+        if excluding.checked_add(tax) != Some(including) {
             return Err(Error::BadRequest(format!(
                 "costItems[{index}].amountIncludingTax must equal amountExcludingTax + taxCostAmount"
             )));
+        }
+        for (slot, value) in [excluding, tax, including].into_iter().enumerate() {
+            let total = totals[slot].checked_add(value).ok_or_else(|| {
+                Error::BadRequest(format!("{} exceeds numeric(18,2)", total_names[slot]))
+            })?;
+            totals[slot] = decimal_input(&total.to_string(), total_names[slot], 2, false)
+                .map_err(Error::BadRequest)?;
+        }
+    }
+    Ok(totals)
+}
+
+fn normalize_quantities(input: &mut CreateRequest) -> Result<(), Error> {
+    for (index, item) in input.cost_items.iter_mut().enumerate() {
+        for (field, slot) in [
+            ("quantity", &mut item.quantity),
+            ("unitPrice", &mut item.unit_price),
+        ] {
+            if let Some(value) = slot.as_deref() {
+                let value = quantity_input(value, &format!("costItems[{index}].{field}"))
+                    .map_err(Error::BadRequest)?;
+                *slot = Some(decimal_text(value, 4));
+            }
         }
     }
     Ok(())
@@ -258,37 +374,31 @@ impl Service {
     pub async fn create(
         &self,
         project_id: &str,
-        input: CreateRequest,
+        mut input: CreateRequest,
         session: &ResolvedSession,
     ) -> Result<Wire, Error> {
         let id = project_id.to_owned();
-        let (project, previous, input) = self
+        let (project, input, totals) = self
             .database
             .with_connection(move |connection| {
                 Box::pin(async move {
                     let Some(project) = projects::find(connection, &id).await? else {
                         return Ok(Err(Error::NotFound(format!("Project {id} not found"))));
                     };
-                    if project.status == "closed" || !presigning(&project.current_stage) {
-                        return Ok(Err(Error::BadRequest(format!(
-                            "Project {id} cannot record technical cost package in stage {}",
-                            project.current_stage
-                        ))));
-                    }
-                    if let Err(error) = validate_amounts(&input) {
+                    if let Err(error) = assert_project_stage(&project, &id) {
                         return Ok(Err(error));
                     }
-                    let previous = store::current(connection, &id).await?;
-                    Ok(Ok((project, previous, input)))
+                    let totals = match validate_amounts(&input) {
+                        Ok(totals) => totals,
+                        Err(error) => return Ok(Err(error)),
+                    };
+                    if let Err(error) = normalize_quantities(&mut input) {
+                        return Ok(Err(error));
+                    }
+                    Ok(Ok((project, input, totals)))
                 })
             })
             .await??;
-        let mut totals = [0.0; 3];
-        for item in &input.cost_items {
-            totals[0] += number(&item.amount_excluding_tax, "amountExcludingTax")?;
-            totals[1] += number(&item.tax_cost_amount, "taxCostAmount")?;
-            totals[2] += number(&item.amount_including_tax, "amountIncludingTax")?;
-        }
         let highest = input
             .risk_items
             .iter()
@@ -305,19 +415,17 @@ impl Service {
         let record = store::NewPackage {
             id,
             project_id: project.id,
-            version: previous
-                .as_ref()
-                .map_or(1, |row| i64::from(row.version) + 1),
+            version: 1,
             is_current: true,
-            supersedes_id: previous.as_ref().map(|row| row.id),
+            supersedes_id: None,
             status: "effective".into(),
             technical_feasibility_decision: input.technical_feasibility_decision.clone(),
             technical_conclusion_summary: input.technical_conclusion_summary.to_utf8_lossy(),
             allow_next_stage: input.allow_next_stage,
             currency_code: input.currency_code.to_utf8_lossy(),
-            total_estimated_amount_excluding_tax: money(totals[0])?,
-            total_tax_cost_amount: money(totals[1])?,
-            total_estimated_amount_including_tax: money(totals[2])?,
+            total_estimated_amount_excluding_tax: decimal_text(totals[0], 2),
+            total_tax_cost_amount: decimal_text(totals[1], 2),
+            total_estimated_amount_including_tax: decimal_text(totals[2], 2),
             tax_assumption_summary: input.tax_assumption_summary.to_utf8_lossy(),
             tax_review_status: input.tax_review_status.clone(),
             highest_risk_level: highest,
@@ -341,7 +449,8 @@ impl Service {
                 input.tax_assumption_summary.clone(),
             ),
         ]);
-        let persisted = record.clone();
+        let mut persisted = record;
+        let project_key = project_id.to_owned();
         let pending = session.pending_flush.clone();
         let actor = session.user.user_id;
         let record = self
@@ -349,17 +458,33 @@ impl Service {
             .with_connection(move |connection| {
                 Box::pin(async move {
                     let mut transaction = connection.begin().await?;
-                    let result: Result<store::Row, sqlx::Error> = async {
-                        // Do not disable the original partial unique or move this
-                        // INSERT after supersede: Native second-version is 500.
+                    let result: Result<store::Row, Error> = async {
+                        let project = store::lock_project(&mut transaction, &project_key)
+                            .await?
+                            .ok_or_else(|| {
+                                Error::NotFound(format!("Project {project_key} not found"))
+                            })?;
+                        assert_project_stage(&project, &project_key)?;
+                        let previous = store::current(&mut transaction, &project_key).await?;
+                        persisted.version =
+                            store::next_version(&mut transaction, project.id).await?;
+                        persisted.supersedes_id = previous.as_ref().map(|row| row.id);
+                        let effective_at = clock_now();
+                        persisted.effective_at = effective_at;
+                        persisted.created_at = effective_at;
+                        persisted.updated_at = effective_at;
+                        if let Some(previous) = previous.as_ref()
+                            && !store::supersede(&mut transaction, previous, actor, effective_at)
+                                .await?
+                        {
+                            return Err(Error::Conflict(
+                                "Current technical cost package changed; reload and retry".into(),
+                            ));
+                        }
                         let current = store::insert(&mut transaction, &persisted).await?;
                         store::insert_children(&mut transaction, persisted.id, &input).await?;
                         if let Some(pending) = pending.as_ref() {
                             flush_managed_session(&mut transaction, pending).await?;
-                        }
-                        if let Some(previous) = previous.as_ref() {
-                            store::supersede(&mut transaction, previous, actor, clock_now())
-                                .await?;
                         }
                         Ok(current)
                     }
@@ -367,23 +492,25 @@ impl Service {
                     match result {
                         Ok(current) => {
                             transaction.commit().await?;
-                            Ok(current)
+                            Ok(Ok(current))
                         }
                         Err(error) => {
                             transaction.rollback().await?;
-                            Err(error)
+                            Ok(Err(error))
                         }
                     }
                 })
             })
-            .await?;
+            .await??;
         Ok(Wire::object(store::summary(&record), &original))
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{Error, validate_amounts};
+    use super::{
+        Error, decimal_input, decimal_text, normalize_quantities, quantity_input, validate_amounts,
+    };
     use crate::{
         error::ApiError,
         project_technical_cost::{model::CreateRequest, validation::validate_create},
@@ -454,6 +581,81 @@ mod tests {
             ),
             other => panic!("expected unchanged money preflight error, got {other:?}"),
         }
+        Ok(())
+    }
+
+    #[test]
+    fn costs_keep_large_cents_and_exact_fractional_totals() -> Result<(), ApiError> {
+        let mut request = mismatch_request(r#""USD""#)?;
+        request.cost_items[0].amount_excluding_tax = "9007199254740993.01".into();
+        request.cost_items[0].tax_cost_amount = "0.00".into();
+        request.cost_items[0].amount_including_tax = "9007199254740993.01".into();
+        let totals = validate_amounts(&request).unwrap_or_else(|error| panic!("{error}"));
+        assert_eq!(decimal_text(totals[0], 2), "9007199254740993.01");
+        assert_eq!(decimal_text(totals[2], 2), "9007199254740993.01");
+        request.cost_items[0].amount_excluding_tax = "0.10".into();
+        request.cost_items[0].tax_cost_amount = "0.01".into();
+        request.cost_items[0].amount_including_tax = "0.11".into();
+        let mut second = request.cost_items[0].clone();
+        second.amount_excluding_tax = "0.20".into();
+        second.tax_cost_amount = "0.02".into();
+        second.amount_including_tax = "0.22".into();
+        request.cost_items.push(second);
+        let totals = validate_amounts(&request).unwrap_or_else(|error| panic!("{error}"));
+        assert_eq!(
+            totals.map(|value| decimal_text(value, 2)),
+            ["0.30", "0.03", "0.33"]
+        );
+        request.cost_items[0].amount_including_tax = "0.10".into();
+        assert!(matches!(
+            validate_amounts(&request),
+            Err(Error::BadRequest(_))
+        ));
+        Ok(())
+    }
+
+    #[test]
+    fn decimal_capacity_and_aggregate_overflow_reject_before_writes() -> Result<(), ApiError> {
+        assert_eq!(
+            decimal_input("00009007199254740993.01", "amount", 2, false)
+                .map(|value| decimal_text(value, 2))
+                .ok()
+                .as_deref(),
+            Some("9007199254740993.01")
+        );
+        assert!(decimal_input("9999999999999999.99", "amount", 2, false).is_ok());
+        assert!(decimal_input("10000000000000000.00", "amount", 2, false).is_err());
+        assert!(quantity_input("99999999999999.9999", "quantity").is_ok());
+        assert!(quantity_input("100000000000000.0000", "unitPrice").is_err());
+        assert!(quantity_input("0.00001", "quantity").is_err());
+        let mut request = mismatch_request(r#""USD""#)?;
+        request.cost_items[0].amount_excluding_tax = "9999999999999999.99".into();
+        request.cost_items[0].amount_including_tax = "9999999999999999.99".into();
+        let mut second = request.cost_items[0].clone();
+        second.amount_excluding_tax = "0.01".into();
+        second.amount_including_tax = "0.01".into();
+        request.cost_items.push(second);
+        assert!(
+            matches!(validate_amounts(&request),Err(Error::BadRequest(message)) if message.contains("totalEstimatedAmountExcludingTax"))
+        );
+        request.cost_items.pop();
+        request.cost_items[0].quantity = Some("100000000000000.0000".into());
+        assert!(
+            matches!(validate_amounts(&request),Err(Error::BadRequest(message)) if message.contains("quantity"))
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn quantity_and_unit_price_keep_the_public_four_place_contract() -> Result<(), ApiError> {
+        let raw=serde_json::json!({"technicalFeasibilityDecision":"feasible","technicalConclusionSummary":"ok","allowNextStage":true,"currencyCode":"USD","taxAssumptionSummary":"ok","taxReviewStatus":"reviewed", "costItems":[{"costCategory":"equipment","costDescription":"item","estimationBasis":"quote","quantity":"0.1234","unitPrice":"0.0001","amountExcludingTax":"1.00","taxCostAmount":"0.00","amountIncludingTax":"1.00","currencyCode":"USD","confidenceLevel":"high","highUncertainty":false}]}).to_string();
+        let mut request = validate_create(Some(&raw))?;
+        assert!(validate_amounts(&request).is_ok());
+        normalize_quantities(&mut request).unwrap_or_else(|error| panic!("{error}"));
+        assert_eq!(request.cost_items[0].quantity.as_deref(), Some("0.1234"));
+        assert_eq!(request.cost_items[0].unit_price.as_deref(), Some("0.0001"));
+        assert!(validate_create(Some(&raw.replace("0.1234", "0.12345"))).is_err());
+        assert!(validate_create(Some(&raw.replace("0.1234", "0.12345678"))).is_err());
         Ok(())
     }
 }

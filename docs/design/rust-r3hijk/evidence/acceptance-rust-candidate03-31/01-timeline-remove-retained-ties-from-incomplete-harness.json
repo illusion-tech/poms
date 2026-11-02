@@ -1,0 +1,167 @@
+{
+  "label": "timeline-remove-retained-ties-from-incomplete-harness",
+  "startedAt": "2026-11-02T17:37:35.852Z",
+  "completedAt": "2026-11-02T17:37:35.880Z",
+  "value": {
+    "deletions": [
+      {
+        "before": [
+          {
+            "row": {
+              "id": "13058ccf-dbee-48b7-b311-ce5578902e1f",
+              "status": "active",
+              "signed_at": "2020-01-02T08:00:00.1231+08:00",
+              "created_at": "2020-01-01T08:00:00+08:00",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "project_id": "a5363b5f-5cb8-4fc4-966b-7fabf6216af7",
+              "updated_at": "2029-01-01T08:00:00+08:00",
+              "updated_by": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+              "contract_no": "D-6872abb5-12af-486f-cTie",
+              "row_version": 1,
+              "currency_code": "CNY",
+              "signed_amount": 0,
+              "retention_due_date": null,
+              "current_snapshot_id": null,
+              "customer_contract_no": null
+            }
+          }
+        ],
+        "definition": {
+          "role": "remove-cTie-before-next-case",
+          "table": "contract",
+          "sql": "DELETE FROM poms.contract WHERE id=$1::uuid RETURNING id",
+          "params": [
+            "13058ccf-dbee-48b7-b311-ce5578902e1f"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "affectedRows": 1
+        },
+        "rowCount": 1,
+        "rows": [
+          {
+            "id": "13058ccf-dbee-48b7-b311-ce5578902e1f"
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "row": {
+              "id": "36dd3431-9f07-4aea-b5da-ab290facd0dc",
+              "status": "confirmed",
+              "comment": null,
+              "created_at": "2020-02-03T08:00:00+08:00",
+              "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "project_id": "a5363b5f-5cb8-4fc4-966b-7fabf6216af7",
+              "updated_at": "2020-02-04T08:00:00+08:00",
+              "updated_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "row_version": 1,
+              "confirmed_at": "2020-02-01T08:00:00.1119+08:00",
+              "confirmed_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "summary_snapshot_id": "1ed39cc3-49ae-44b3-a2d2-d35619e14214",
+              "contract_summary_snapshot_id": "db94285d-9523-4eac-9427-38b5c6e2e204",
+              "handover_rebaseline_record_id": null,
+              "effective_handover_baseline_snapshot_id": "3fb96dce-ca36-444b-a6c1-8ff3f375005f"
+            }
+          }
+        ],
+        "definition": {
+          "role": "remove-hTie-before-next-case",
+          "table": "project_handover",
+          "sql": "DELETE FROM poms.project_handover WHERE id=$1::uuid RETURNING id",
+          "params": [
+            "36dd3431-9f07-4aea-b5da-ab290facd0dc"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "affectedRows": 1
+        },
+        "rowCount": 1,
+        "rows": [
+          {
+            "id": "36dd3431-9f07-4aea-b5da-ab290facd0dc"
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "row": {
+              "id": "c8272f94-8bf0-4351-a5f3-77f226364eb5",
+              "status": "confirmed",
+              "comment": null,
+              "created_at": "2020-03-02T08:00:00+08:00",
+              "created_by": null,
+              "project_id": "a5363b5f-5cb8-4fc4-966b-7fabf6216af7",
+              "updated_at": "2020-03-02T08:00:00+08:00",
+              "updated_by": null,
+              "row_version": 1,
+              "confirmed_at": "2020-03-01T08:00:00.1239+08:00",
+              "confirmed_by": null,
+              "scope_summary": "D G2 prepared acceptance scope",
+              "acceptance_type": "final-acceptance",
+              "evidence_summary": "D evidence aWinner",
+              "acceptance_result": "conditional",
+              "confirmation_record_id": null
+            }
+          }
+        ],
+        "definition": {
+          "role": "remove-aTie-before-next-case",
+          "table": "acceptance_record",
+          "sql": "DELETE FROM poms.acceptance_record WHERE id=$1::uuid RETURNING id",
+          "params": [
+            "c8272f94-8bf0-4351-a5f3-77f226364eb5"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "affectedRows": 1
+        },
+        "rowCount": 1,
+        "rows": [
+          {
+            "id": "c8272f94-8bf0-4351-a5f3-77f226364eb5"
+          }
+        ]
+      },
+      {
+        "before": [
+          {
+            "row": {
+              "id": "bec54bad-ccc9-4b75-8e09-15843ff8f42a",
+              "status": "confirmed",
+              "created_at": "2020-03-03T08:00:00+08:00",
+              "created_by": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+              "project_id": "a5363b5f-5cb8-4fc4-966b-7fabf6216af7",
+              "updated_at": "2020-03-03T08:00:00+08:00",
+              "updated_by": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+              "row_version": 1,
+              "completed_at": "2020-03-01T08:00:00.1231+08:00",
+              "completed_by": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+              "evidence_summary": "D evidence mWinner",
+              "completion_result": "conditional-completed",
+              "completion_summary": "D G2 prepared completion summary",
+              "acceptance_record_id": "ab70d13e-d00e-433e-b14f-332a8093985c"
+            }
+          }
+        ],
+        "definition": {
+          "role": "remove-mTie-before-next-case",
+          "table": "project_completion_record",
+          "sql": "DELETE FROM poms.project_completion_record WHERE id=$1::uuid RETURNING id",
+          "params": [
+            "bec54bad-ccc9-4b75-8e09-15843ff8f42a"
+          ],
+          "classification": "R4-read-projection-prepared-fact-only-not-command-producer",
+          "affectedRows": 1
+        },
+        "rowCount": 1,
+        "rows": [
+          {
+            "id": "bec54bad-ccc9-4b75-8e09-15843ff8f42a"
+          }
+        ]
+      }
+    ],
+    "previousPhase25RetainedUnchanged": true,
+    "notProductMutationByGET": true
+  }
+}

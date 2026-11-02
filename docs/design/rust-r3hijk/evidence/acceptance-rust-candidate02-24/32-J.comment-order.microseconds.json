@@ -1,0 +1,417 @@
+{
+  "label": "J.comment-order.microseconds",
+  "startedAt": "2026-11-02T16:37:24.785Z",
+  "completedAt": "2026-11-02T16:37:24.811Z",
+  "value": {
+    "definition": {
+      "id": "J.comment-order.microseconds",
+      "covers": [
+        "J-S01",
+        "J-L06"
+      ],
+      "requests": [
+        {
+          "id": "J.order.microseconds",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=f4027d5c-69ac-424a-9c74-8b6ba9503231",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "bodyOrder": [
+              "D order 1",
+              "D order 0",
+              "D order 2",
+              "D order 3"
+            ],
+            "firstTwoCreatedAt": "2020-01-01T00:00:00.123Z",
+            "missingUserCommentIndex": 3,
+            "createdByPreserved": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "createdByName": null
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "prepare": [
+        {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "b5176a46-ab5a-4032-8119-3ddcf585a1d4",
+            "2020-01-01T00:00:00.123900Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            false,
+            false
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "2119cec3-71af-4ba6-bb72-06018eb52658",
+            "2020-01-01T00:00:00.123100Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            false,
+            false
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "f5df445a-dd77-42a6-b6db-8bced0b12d55",
+            "2020-01-01T00:00:00.124000Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            false,
+            true
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "f68b89ec-9670-47b4-b0e7-f1f8b008e58c",
+            "2020-01-01T00:00:00.125000Z",
+            "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            true,
+            false
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        }
+      ]
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "b5176a46-ab5a-4032-8119-3ddcf585a1d4",
+            "2020-01-01T00:00:00.123900Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            false,
+            false
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        "before": {
+          "id": "b5176a46-ab5a-4032-8119-3ddcf585a1d4",
+          "body": "D order 0",
+          "is_pinned": false,
+          "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+          "created_at": "2026-11-03T00:34:34.238+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "discussion_type": "general",
+          "is_key_conclusion": false,
+          "related_contact_id": null,
+          "related_follow_up_record_id": null,
+          "related_competitor_record_id": null
+        },
+        "after": [
+          {
+            "id": "b5176a46-ab5a-4032-8119-3ddcf585a1d4",
+            "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+            "discussion_type": "general",
+            "body": "D order 0",
+            "related_contact_id": null,
+            "related_competitor_record_id": null,
+            "related_follow_up_record_id": null,
+            "is_pinned": false,
+            "is_key_conclusion": false,
+            "created_at": "2020-01-01T00:00:00.123Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "2119cec3-71af-4ba6-bb72-06018eb52658",
+            "2020-01-01T00:00:00.123100Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            false,
+            false
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        "before": {
+          "id": "2119cec3-71af-4ba6-bb72-06018eb52658",
+          "body": "D order 1",
+          "is_pinned": false,
+          "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+          "created_at": "2026-11-03T00:34:34.258+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "discussion_type": "general",
+          "is_key_conclusion": false,
+          "related_contact_id": null,
+          "related_follow_up_record_id": null,
+          "related_competitor_record_id": null
+        },
+        "after": [
+          {
+            "id": "2119cec3-71af-4ba6-bb72-06018eb52658",
+            "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+            "discussion_type": "general",
+            "body": "D order 1",
+            "related_contact_id": null,
+            "related_competitor_record_id": null,
+            "related_follow_up_record_id": null,
+            "is_pinned": false,
+            "is_key_conclusion": false,
+            "created_at": "2020-01-01T00:00:00.123Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "f5df445a-dd77-42a6-b6db-8bced0b12d55",
+            "2020-01-01T00:00:00.124000Z",
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            false,
+            true
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        "before": {
+          "id": "f5df445a-dd77-42a6-b6db-8bced0b12d55",
+          "body": "D order 2",
+          "is_pinned": false,
+          "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+          "created_at": "2026-11-03T00:34:34.275+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "discussion_type": "general",
+          "is_key_conclusion": true,
+          "related_contact_id": null,
+          "related_follow_up_record_id": null,
+          "related_competitor_record_id": null
+        },
+        "after": [
+          {
+            "id": "f5df445a-dd77-42a6-b6db-8bced0b12d55",
+            "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+            "discussion_type": "general",
+            "body": "D order 2",
+            "related_contact_id": null,
+            "related_competitor_record_id": null,
+            "related_follow_up_record_id": null,
+            "is_pinned": false,
+            "is_key_conclusion": true,
+            "created_at": "2020-01-01T00:00:00.124Z",
+            "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d"
+          }
+        ],
+        "rowCount": 1
+      },
+      {
+        "definition": {
+          "role": "J-comment-time-and-missing-user-context",
+          "table": "business_discussion_comment",
+          "sql": "UPDATE poms.business_discussion_comment SET created_at=$2::timestamptz,created_by=$3::uuid,is_pinned=$4,is_key_conclusion=$5 WHERE id=$1::uuid RETURNING *",
+          "params": [
+            "f68b89ec-9670-47b4-b0e7-f1f8b008e58c",
+            "2020-01-01T00:00:00.125000Z",
+            "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            true,
+            false
+          ],
+          "classification": "owned-real-comment-controlled-read-order-fixture-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1
+        },
+        "before": {
+          "id": "f68b89ec-9670-47b4-b0e7-f1f8b008e58c",
+          "body": "D order 3",
+          "is_pinned": true,
+          "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+          "created_at": "2026-11-03T00:34:34.292+08:00",
+          "created_by": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "discussion_type": "general",
+          "is_key_conclusion": false,
+          "related_contact_id": null,
+          "related_follow_up_record_id": null,
+          "related_competitor_record_id": null
+        },
+        "after": [
+          {
+            "id": "f68b89ec-9670-47b4-b0e7-f1f8b008e58c",
+            "thread_id": "246b20ca-691f-469d-999c-26a18f8d9067",
+            "discussion_type": "general",
+            "body": "D order 3",
+            "related_contact_id": null,
+            "related_competitor_record_id": null,
+            "related_follow_up_record_id": null,
+            "is_pinned": true,
+            "is_key_conclusion": false,
+            "created_at": "2020-01-01T00:00:00.125Z",
+            "created_by": "36fc96fe-613b-4b08-9f2c-71fd824beb23"
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "D order 1",
+            "createdAt": "2020-01-01T00:00:00.123Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2119cec3-71af-4ba6-bb72-06018eb52658",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          },
+          {
+            "body": "D order 0",
+            "createdAt": "2020-01-01T00:00:00.123Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "b5176a46-ab5a-4032-8119-3ddcf585a1d4",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          },
+          {
+            "body": "D order 2",
+            "createdAt": "2020-01-01T00:00:00.124Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "HIJK admin",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "f5df445a-dd77-42a6-b6db-8bced0b12d55",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          },
+          {
+            "body": "D order 3",
+            "createdAt": "2020-01-01T00:00:00.125Z",
+            "createdBy": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "createdByName": null,
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "f68b89ec-9670-47b4-b0e7-f1f8b008e58c",
+            "isKeyConclusion": false,
+            "isPinned": true,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          }
+        ],
+        "requestId": "b4f252a7-02f6-4cbd-ad6d-6fa4a3ae95bf",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "2755",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-401",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "6b77df8b1bcc6c3fdf7148bebde3afa7a4312ffafe05a7a2e68a0b56e4afcd77",
+          "responseBytes": 3035,
+          "responseSha256": "eb6be2852e19b8ebb9972a1a99ace5beab5ba6c7dda55f4eaaa2782a081d347a",
+          "entityBodyBytes": 2755,
+          "entityBodySha256": "50e8e4172852b4acf0a41b5fd18ca7e7a13370288f2f44bf079765f81d9269d2",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectRead-223a403c-1589-4513-bf51-7cfe9e29c965",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

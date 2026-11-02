@@ -1,0 +1,130 @@
+{
+  "label": "V.pricing.current-cost",
+  "startedAt": "2026-11-02T18:17:56.785Z",
+  "completedAt": "2026-11-02T18:17:56.802Z",
+  "value": {
+    "kind": "read",
+    "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+    "exchange": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-technical-cost-workspace",
+          "create-technical-cost-package"
+        ],
+        "blockingReasons": [],
+        "costItems": [
+          {
+            "amountExcludingTax": "100.00",
+            "amountIncludingTax": "113.00",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "hijkV-45-cost-1 cost",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "已确认询价",
+            "highUncertainty": false,
+            "id": "523dc41d-c308-4909-8063-3268c1b00ac6",
+            "packageId": "53b7b69b-7469-459d-99ad-e3c71691d55b",
+            "quantity": null,
+            "responsibleRole": null,
+            "sortOrder": 1,
+            "taxCostAmount": "13.00",
+            "unit": null,
+            "unitPrice": null
+          }
+        ],
+        "currentPackage": {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T18:17:56.619Z",
+          "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T18:17:56.619Z",
+          "highestRiskLevel": "R1",
+          "id": "53b7b69b-7469-459d-99ad-e3c71691d55b",
+          "isCurrent": true,
+          "projectId": "ee73aa56-c894-4c84-b407-6439ad13119d",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "e1f544e4-c5c9-4c0c-a759-65d548e16cce",
+          "taxAssumptionSummary": "hijkV-45-cost-1 reviewed tax",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "hijkV-45-cost-1 technical conclusion",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.00",
+          "totalEstimatedAmountIncludingTax": "113.00",
+          "totalTaxCostAmount": "13.00",
+          "updatedAt": "2026-11-02T18:17:56.619Z",
+          "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "version": 3
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T18:17:56.800Z",
+        "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+        "ownerLabel": "HIJK admin / HIJK admin",
+        "projectId": "ee73aa56-c894-4c84-b407-6439ad13119d",
+        "riskItems": [
+          {
+            "blocksNextStage": false,
+            "id": "d9c1d635-c53b-4523-9b9f-d0ad397ad288",
+            "impactScope": "设备交付",
+            "mitigationPlan": "已核实交期",
+            "ownerRole": "售前",
+            "packageId": "53b7b69b-7469-459d-99ad-e3c71691d55b",
+            "riskCategory": "hijkV-45-cost-1 supply",
+            "riskDescription": "hijkV-45-cost-1 reviewed risk",
+            "riskLevel": "R1",
+            "riskStatus": "closed",
+            "sortOrder": 1
+          }
+        ],
+        "scopeItems": [
+          {
+            "description": "hijkV-45-cost-1 equipment delivery",
+            "id": "094db851-ca49-4b39-89a9-2979d573cc04",
+            "label": "hijkV-45-cost-1 scope",
+            "packageId": "53b7b69b-7469-459d-99ad-e3c71691d55b",
+            "scopeType": "in-scope",
+            "sortOrder": 1
+          }
+        ],
+        "status": "active"
+      },
+      "requestId": "f956492d-de1b-47cf-bddd-bc730181e939",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2297",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-202",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:17:56 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 353,
+        "requestSha256": "97098281ef8d95ab6637b56d9b33f914a292bda38e4cee726f0308ade9611434",
+        "responseBytes": 2577,
+        "responseSha256": "3655ed2833241d1d24a42945a13f493a7e2f8cefec5f845f4a4416c52740d33d",
+        "entityBodyBytes": 2297,
+        "entityBodySha256": "4a01f3cb3819a5c62cf37ea7eeea05f847cd6977d9c2e3b3553809fc26535229",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase45/raw-wire/admin-093ed84c-a82c-44c0-8789-30ef8597ebe2",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

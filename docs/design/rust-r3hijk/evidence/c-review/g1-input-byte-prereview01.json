@@ -1,0 +1,640 @@
+{
+  "kind": "C-independent-R3HIJK-static-input-and-prior-E1-byte-audit",
+  "createdAt": "2026-11-02T08:44:10.922Z",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "branch": "codex/poms-r3hijk-next28",
+  "catalog": {
+    "file": "tmp/rust-r3hijk/root/g0-current28-catalog02.json",
+    "bytes": 78240,
+    "rawBytesSha256": "c19dde600ad3526edcbca1b45764b0737c3945d2ce4d57aec112b342cdc45cda"
+  },
+  "preflight": {
+    "file": "tmp/rust-r3hijk/root/preflight-source-manifest02.json",
+    "bytes": 324402,
+    "rawBytesSha256": "38756a2f21f818ada19b65a51134f94a8e5197217dcd424c0d9e10ab809f833d"
+  },
+  "operationCounts": {
+    "scoped": 28,
+    "groups": [
+      14,
+      10,
+      2,
+      2
+    ],
+    "current": {
+      "paths": 116,
+      "operations": 145,
+      "schemas": 585
+    },
+    "expectedAfterStaticUnion": {
+      "paths": 138,
+      "operations": 173,
+      "schemas": 585
+    },
+    "staticForecastNotRuntimeAttestation": true
+  },
+  "sourceGroups": [
+    {
+      "kind": "RootNativeUIContractClient",
+      "count": 1373,
+      "allCurrentBytesExact": true,
+      "baseEqual": 1373,
+      "notInBase": []
+    },
+    {
+      "kind": "RootRustBaseline",
+      "count": 206,
+      "allCurrentBytesExact": true,
+      "baseEqual": 206,
+      "notInBase": []
+    },
+    {
+      "kind": "ASource",
+      "manifest": {
+        "file": "tmp/rust-r3hijk/a-input/source-manifest.json",
+        "bytes": 182812,
+        "rawBytesSha256": "0a461737d485055b9a56ce214210a660ed0ae3d964efd75be10636eea43b5b4d"
+      },
+      "count": 172,
+      "allCurrentBytesExact": true,
+      "baseEqual": 172,
+      "notInBase": []
+    },
+    {
+      "kind": "DSource",
+      "manifest": {
+        "file": "tmp/rust-r3hijk/d-input/source-manifest.json",
+        "bytes": 154019,
+        "rawBytesSha256": "4bdff1f9bcb2f15b3d5460814168d397d10f753b0273c09900b0c0823cbf3cb9"
+      },
+      "count": 53,
+      "allCurrentBytesExact": true,
+      "baseEqual": 53,
+      "notInBase": []
+    }
+  ],
+  "AArtifactReceipt": {
+    "file": "tmp/rust-r3hijk/a-input/artifact-receipt.json",
+    "bytes": 2356,
+    "rawBytesSha256": "db2cc7ef0fc121cda04a30340105e1adbe14d0ec7f298013055f1ae19d7568b2"
+  },
+  "AReceiptAllNineBytesExact": true,
+  "authorDefinitionCounts": {
+    "A": 44,
+    "D": 56,
+    "meaning": "Unexecuted risk/assertion definitions; not HTTP counts or passed cases"
+  },
+  "inputs": [
+    {
+      "file": "tmp/rust-r3hijk/a-input/input-review.txt",
+      "bytes": 24352,
+      "rawBytesSha256": "9dad97c415868439dd2a35b8ef271cf06d1f3b6019033b5caf9c29b06bcfd060"
+    },
+    {
+      "file": "tmp/rust-r3hijk/a-input/interfaces-proposal.txt",
+      "bytes": 4286,
+      "rawBytesSha256": "4f2eb06e8d2658452215239e64fbcf125ba7d17f2c0847be1a21ca3e94693127"
+    },
+    {
+      "file": "tmp/rust-r3hijk/a-input/acceptance-matrix.json",
+      "bytes": 32554,
+      "rawBytesSha256": "e57c77e3ae2ca1333d3b2b5c9f406c37bb1921362ca534e46536a6fd6653737e"
+    },
+    {
+      "file": "tmp/rust-r3hijk/d-input/input-review.txt",
+      "bytes": 16134,
+      "rawBytesSha256": "cc04d234be0aff64f318ec2e0b30be62b6c652b7803f6c1a8e9761beceb02a24"
+    },
+    {
+      "file": "tmp/rust-r3hijk/d-input/shared-dependency-interface-draft01.json",
+      "bytes": 7294,
+      "rawBytesSha256": "0ab071d5e9d2f5ae7bc8f8f28e47287e3d7906e4782a5a4c81a82a5c1010e997"
+    },
+    {
+      "file": "tmp/rust-r3hijk/d-input/acceptance-matrix.json",
+      "bytes": 18508,
+      "rawBytesSha256": "e3c112b9ac5cafdced1e5d587e8391878a50aae875143e93d36ae09f716008e7"
+    }
+  ],
+  "E1": {
+    "originMap": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+      "bytes": 355382,
+      "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+    },
+    "priorAuthority": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-closeout-preflight01.json",
+      "bytes": 17009,
+      "rawBytesSha256": "8f7819db986f96f3e66ab2a76a44ed3b38d2e6cffea8ccd4ee6ad23df42a43db"
+    },
+    "priorActualG4": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/C/g4-independent-actual-review01.json",
+      "bytes": 19326,
+      "rawBytesSha256": "a1ff4225809188920f7290b4b106beca35f8f8030319b7b0fd5c20bcb5791fee"
+    },
+    "files": [
+      {
+        "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+        "bytes": 190930,
+        "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+        "bytes": 180482,
+        "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+        "bytes": 38863,
+        "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+        "bytes": 4774,
+        "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs"
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+        "bytes": 4215,
+        "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946",
+        "archiveFile": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs"
+      }
+    ],
+    "regularFiles": 5,
+    "bytes": 419264,
+    "allActiveArchiveAndBaseGitBytesExact": true,
+    "allActiveFilesAreOnlyTheseFive": true,
+    "owner": "Root /root",
+    "originalReviewDue": "Next R3 G1 or 2026-11-09, whichever is earlier",
+    "sourceFilesScanned": 75,
+    "directLiteralConsumerCount": 22,
+    "consumers": [
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/attest-rust.mjs",
+          "bytes": 3611,
+          "rawBytesSha256": "3b23bec6e39c5fc5fe1657c035c5465ada74841f6549507ce76d93fc1eacb880"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+            "lineNumbers": [
+              4
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+          "bytes": 2515,
+          "rawBytesSha256": "ab6b7652adc286db8e43bedcb7e53d1508ac94e87954481b096a70db24fa5594"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "lineNumbers": [
+              5
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/boundaries.mjs",
+          "bytes": 24363,
+          "rawBytesSha256": "5457405b48964d177c09b9eb8f9c9e59004835b6c4ce014384e89ea6a0aaa1b3"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              3
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              2
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              2
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/business-branches01.mjs",
+          "bytes": 40691,
+          "rawBytesSha256": "80713d60314972cf611038c124805dc6fbbe0b87049a245ca15b02765b08d1e3"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              54
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              57
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/business-run.mjs",
+          "bytes": 12262,
+          "rawBytesSha256": "263707c70d4de1b28c039b082f75fb19011f7fa7cb0c4e4a5cb8451853d8b8c6"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              3
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/coverage.mjs",
+          "bytes": 15589,
+          "rawBytesSha256": "3f326de2dc0b3f87904a3fe7c31aa8cb79eceb7b8249ab6d1d8c76a579850daf"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              5
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              3
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              3
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+          "bytes": 5174,
+          "rawBytesSha256": "6fdcdca0943d8cd16ae9b4662a8ad7b4c9c1132e635f99357d61cfc152345989"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              33
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              10,
+              22
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              11,
+              23
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/edge-run.mjs",
+          "bytes": 7444,
+          "rawBytesSha256": "a09a15f8fd235556b7e0956d344c28a1960a2bd0d58e7beaa131b332cefaa39a"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              3
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/environment.mjs",
+          "bytes": 12044,
+          "rawBytesSha256": "3ee7cb95d54a0a660524a407968889c0f18c7826b991f07315e7e1b474eeb33b"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "lineNumbers": [
+              18
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+          "bytes": 20627,
+          "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "lineNumbers": [
+              9
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/native-witness.mjs",
+          "bytes": 23714,
+          "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "lineNumbers": [
+              9
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+          "bytes": 4117,
+          "rawBytesSha256": "0e3f7a7bec7a375737f6161be69fb378952637bef653db7fae662943ac8c0b34"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              2
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              2
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/project-edges01.mjs",
+          "bytes": 23434,
+          "rawBytesSha256": "e31a97c7270798b4ae99144d2354b4153495336c25ea63097a74be2960b67e46"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              12
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              15
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/raw-errors.mjs",
+          "bytes": 5518,
+          "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              7
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+          "bytes": 21311,
+          "rawBytesSha256": "24bfe129acccb685b87150234ddbad7fa74307237ad4fd38ae30e894d4d6f760"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              9
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "lineNumbers": [
+              9
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              4,
+              9
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              5,
+              9
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/semantics01.mjs",
+          "bytes": 24753,
+          "rawBytesSha256": "f645a5b221ad70f3369f9ee566f59c393592abe8ccde0384b4d2858890082f25"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              9
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "lineNumbers": [
+              9
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              4,
+              9
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              5,
+              9
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+          "bytes": 3162,
+          "rawBytesSha256": "63d6260367301406944b1a84ac708d8fa5114643715f78d7d17c0b50793195ce"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              6
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/shared-checks.mjs",
+          "bytes": 3382,
+          "rawBytesSha256": "d00fac17e7223baa0a77e2ff2b6c35ae1f3f6f0feae901f0dc2d2da3c69b686e"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              6
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/temporal.mjs",
+          "bytes": 6292,
+          "rawBytesSha256": "7d9e685a4bf9c7146c23061d3bd062e0a59f98069ab2ea50d49deff13e44804b"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              2
+            ]
+          },
+          {
+            "alias": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "lineNumbers": [
+              2
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+          "bytes": 10312,
+          "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              4
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/ui-run.mjs",
+          "bytes": 9095,
+          "rawBytesSha256": "fd67881ead6df4c431250d642901e53af5e0181ffe8dac1ecd484f2e8e3ce30d"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "lineNumbers": [
+              4
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      },
+      {
+        "source": {
+          "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+          "bytes": 12858,
+          "rawBytesSha256": "6a5e589c599fdba955e4a53236917b03d27aae5688ddba07663e529490cc3903"
+        },
+        "hits": [
+          {
+            "alias": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+            "lineNumbers": [
+              36
+            ]
+          }
+        ],
+        "archiveAwareResolverReferenced": false
+      }
+    ],
+    "consumerDetectionLimit": "Direct literal references in this batch tool namespace only. Dynamic or external consumers may exist; no execution performed.",
+    "exitConditionSatisfied": false,
+    "reason": "Supported replay/source guards and fixture imports still read active paths without archive-aware resolution. Existing resolver verifies pins but has not replaced all such readers."
+  },
+  "noProductEnvironmentOrHostExecution": true,
+  "noPrivateRead": true,
+  "noAuthorOrRootCodeExecuted": true,
+  "G1Certified": false,
+  "G2Authorized": false
+}

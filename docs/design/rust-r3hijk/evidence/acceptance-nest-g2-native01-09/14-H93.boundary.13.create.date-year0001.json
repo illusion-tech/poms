@@ -1,0 +1,343 @@
+{
+  "label": "H93.boundary.13.create.date-year0001",
+  "startedAt": "2026-11-02T13:04:31.758Z",
+  "completedAt": "2026-11-02T13:04:31.802Z",
+  "value": {
+    "definition": {
+      "operationId": "LeadController_create",
+      "name": "H93.boundary.13.create.date-year0001",
+      "method": "POST",
+      "path": "/api/leads",
+      "json": {
+        "leadName": "H93 boundary date-year0001",
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "estimatedAmount": "1200000.00",
+        "urgency": "high",
+        "expectedDecisionDate": "0001-01-01",
+        "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+        "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1"
+      },
+      "covers": [
+        "H39"
+      ],
+      "risk": "Source schema accepts this Gregorian date; record immediate value, PG date::text/rejection, GET projection and real rollback surface without assuming its outcome.",
+      "schemaExpectation": "accepted-by-original-schema",
+      "requires": [],
+      "definitionOnly": true
+    },
+    "originalSchema": {
+      "schemaName": "CreateLeadRequestSchema",
+      "success": true
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "id": "296dcc0c-23b5-407e-b753-5e5d7577800d",
+        "leadNo": "LD-2026-000033",
+        "leadName": "H93 boundary date-year0001",
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+        "sourceCode": "customer-visit",
+        "sourceName": "客户拜访",
+        "demandDescription": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "estimatedAmount": "1200000.00",
+        "urgency": "high",
+        "expectedDecisionDate": "0001-01-01",
+        "score": 62,
+        "rating": "B",
+        "scoreReason": "基础商务+62",
+        "scoreUpdatedAt": "2026-11-02T13:04:31.780Z",
+        "effectiveScore": 62,
+        "effectiveRating": "B",
+        "effectiveScoreReason": "基础商务+62",
+        "effectiveScoreSource": "system",
+        "activeScoreOverrideId": null,
+        "gateSummary": {
+          "qualification": {
+            "status": "ready",
+            "missingItems": [],
+            "explanation": "已满足确认有效硬闸口"
+          },
+          "conversion": {
+            "status": "blocked",
+            "missingItems": [
+              "qualified-status"
+            ],
+            "explanation": "缺少：已确认有效状态"
+          }
+        },
+        "status": "registered",
+        "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+        "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+        "qualificationSummary": null,
+        "qualifiedAt": null,
+        "qualifiedBy": null,
+        "closedReason": null,
+        "closedAt": null,
+        "closedBy": null,
+        "convertedProjectId": null,
+        "convertedAt": null,
+        "convertedBy": null,
+        "rowVersion": 1,
+        "createdAt": "2026-11-02T13:04:31.776Z",
+        "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+        "updatedAt": "2026-11-02T13:04:31.776Z",
+        "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+      },
+      "requestId": "f930a79b-2cee-4c2f-9402-1651ea37fc7d",
+      "headers": [
+        "X-Powered-By",
+        "Express",
+        "Access-Control-Allow-Origin",
+        "http://127.0.0.1:12600",
+        "Vary",
+        "Origin",
+        "Access-Control-Allow-Credentials",
+        "true",
+        "Content-Type",
+        "application/json; charset=utf-8",
+        "Content-Length",
+        "1503",
+        "ETag",
+        "W/\"5df-TqU0BIDHxVG0H7NfjKot4T9cdTU\"",
+        "Date",
+        "Mon, 02 Nov 2026 13:04:31 GMT",
+        "Connection",
+        "close"
+      ],
+      "rawWire": {
+        "requestBytes": 860,
+        "requestSha256": "f1f9fc56fbdef609920d54a1c39fa488068b7240a81b871214221424f812b537",
+        "responseBytes": 1825,
+        "responseSha256": "931c744d6881af3ef9f270d11df1aa54e3aacddbd8d43727a1c1ce3211f0d88a",
+        "entityBodyBytes": 1503,
+        "entityBodySha256": "e233bd25e0cb65c11b1ec419addf25ce2c776eeaecb825565ea10a6cfdd6e007",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase09/raw-wire/admin-347b3ad3-b703-43af-b1e7-9fbccaed5258",
+        "originalRawRetained": true
+      }
+    },
+    "before": {
+      "rows": {
+        "lead": 28,
+        "lead_score_snapshot": 48,
+        "lead_score_override": 9,
+        "lead_owner_assignment_record": 2,
+        "project": 16,
+        "audit_log": 46,
+        "opportunity_stakeholder": 14,
+        "competitor_intelligence_record": 10,
+        "sales_discovery_record": 11,
+        "business_discussion_thread": 5,
+        "business_discussion_comment": 13
+      },
+      "counters": [
+        {
+          "id": "8691eb5f-d95b-4ab5-981f-9ab9d275ef71",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:03.792Z",
+          "updated_at": "2026-11-02T11:56:56.914Z"
+        },
+        {
+          "id": "48d040d5-934e-4be8-a035-242b4854b550",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 33,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.778Z",
+          "updated_at": "2026-11-02T13:04:31.738Z"
+        },
+        {
+          "id": "262c6f65-4dbc-4d62-bff9-7e3c4933b6ce",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 8,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.711Z",
+          "updated_at": "2026-11-02T12:21:32.995Z"
+        }
+      ]
+    },
+    "after": {
+      "rows": {
+        "lead": 29,
+        "lead_score_snapshot": 49,
+        "lead_score_override": 9,
+        "lead_owner_assignment_record": 2,
+        "project": 16,
+        "audit_log": 46,
+        "opportunity_stakeholder": 14,
+        "competitor_intelligence_record": 10,
+        "sales_discovery_record": 11,
+        "business_discussion_thread": 5,
+        "business_discussion_comment": 13
+      },
+      "counters": [
+        {
+          "id": "8691eb5f-d95b-4ab5-981f-9ab9d275ef71",
+          "scope": "customer",
+          "period": "2026",
+          "next_value": 7,
+          "prefix": "CUST",
+          "padding": 6,
+          "description": "客户编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T08:50:03.792Z",
+          "updated_at": "2026-11-02T11:56:56.914Z"
+        },
+        {
+          "id": "48d040d5-934e-4be8-a035-242b4854b550",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 34,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.778Z",
+          "updated_at": "2026-11-02T13:04:31.774Z"
+        },
+        {
+          "id": "262c6f65-4dbc-4d62-bff9-7e3c4933b6ce",
+          "scope": "project",
+          "period": "2026",
+          "next_value": 8,
+          "prefix": "PRJ",
+          "padding": 6,
+          "description": "项目编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T11:56:52.711Z",
+          "updated_at": "2026-11-02T12:21:32.995Z"
+        }
+      ]
+    },
+    "stored": {
+      "id": "296dcc0c-23b5-407e-b753-5e5d7577800d",
+      "lead_no": "LD-2026-000033",
+      "lead_name": "H93 boundary date-year0001",
+      "customer_name": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+      "status": "registered",
+      "owner_org_id": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "owner_user_id": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "qualification_summary": null,
+      "qualified_at": null,
+      "qualified_by": null,
+      "closed_reason": null,
+      "closed_at": null,
+      "closed_by": null,
+      "converted_project_id": null,
+      "converted_at": null,
+      "converted_by": null,
+      "row_version": 1,
+      "created_at": "2026-11-02T13:04:31.776Z",
+      "created_by": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "updated_at": "2026-11-02T13:04:31.776Z",
+      "updated_by": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "customer_id": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+      "demand_description": "客户已确认设备建设目标、采购范围、预算来源以及后续沟通安排。",
+      "budget_status": "budget-confirmed",
+      "estimated_amount": "1200000.00",
+      "urgency": "high",
+      "expected_decision_date": "0000-12-31T14:41:01.000Z",
+      "score": 62,
+      "rating": "B",
+      "score_reason": "基础商务+62",
+      "score_updated_at": "2026-11-02T13:04:31.780Z",
+      "source_code": "customer-visit"
+    },
+    "fixtureIds": {
+      "adminUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "adminOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "otherUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+      "otherOrgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+      "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+      "sourceCode": "customer-visit",
+      "projectId": "b96be569-1022-47f6-b1e3-5d9c82003f7e",
+      "contactId": "82083aa7-d495-4fec-952a-ede876cab553",
+      "leadId": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882",
+      "integration": {
+        "leadId": "a96edaf1-7098-42c2-8308-dea410158c1e",
+        "projectId": "bb2383c1-3e26-4186-8abc-6b4cf0238d5a",
+        "contactId": "86558637-efcd-442b-921e-32adc0952052",
+        "competitorId": "cbc81b8d-3c8b-443b-a4db-b1c459cd8c63",
+        "followUpId": "386c1284-7a5d-49fe-ad16-caf5d79aa1ab",
+        "leadCommentId": "dc3b78ca-96f6-4dac-bc1d-12c13b8b379c",
+        "projectCommentId": "26ace6bd-2ae3-4047-ba48-b08ed60e0eae",
+        "uploads": [
+          {
+            "sessionId": "5e1126ad-8f4b-48a3-a1af-21b2f708821b",
+            "attachmentId": "1175d8fe-cd42-4214-a1dc-79f958767f74",
+            "storageKey": "attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/5e1126ad-8f4b-48a3-a1af-21b2f708821b/original.txt",
+              "bytes": 36,
+              "rawBytesSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "6d5196d3-7911-46f1-ab0d-c8c3d841de6b",
+            "attachmentId": "49139079-dc3b-4539-aded-25a1bda1d41e",
+            "storageKey": "attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/6d5196d3-7911-46f1-ab0d-c8c3d841de6b/original.txt",
+              "bytes": 37,
+              "rawBytesSha256": "6bcdd29d5903ed64a15e5399d87c89a2dcd7111981189d2f4f68d146e4e0e504",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73",
+            "attachmentId": "d493a36f-abeb-4bf9-ae04-17b09bbd81a6",
+            "storageKey": "attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/ef4ddcf8-6999-4cd1-bf2a-5ea55e99dc73/original.txt",
+              "bytes": 35,
+              "rawBytesSha256": "1f383390a118a1ef73c32705a9f50b28e86ab061c863df4328b57c411ed112db",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          },
+          {
+            "sessionId": "9cd4721f-386f-40f6-9956-5bea26bec064",
+            "attachmentId": "ce946aad-04b9-45f8-8e79-2928dbc10a09",
+            "storageKey": "attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+            "object": {
+              "file": "/home/wangzishi/.local/share/poms-r3hijk/objects/nest/attachments/uploads/2026/11/02/9cd4721f-386f-40f6-9956-5bea26bec064/original.txt",
+              "bytes": 47,
+              "rawBytesSha256": "64345776a1733c5104717f8403e1bdec017393f01b8e433416a0f7f4dc264ac2",
+              "actualRegisteredLocalBytes": true,
+              "cloudCertification": false
+            }
+          }
+        ]
+      },
+      "readerUserId": "c3aae36e-2e87-461a-85f8-8505abc200e7",
+      "readerOrgId": "5e91e213-7087-4ba6-98bf-b7d204c6af3b",
+      "leadOnlyUserId": "34432be5-614e-4858-87ef-4dfa497933ad",
+      "leadOnlyOrgId": "c63a280c-92c4-4bb0-856d-a32e9359f4e3",
+      "projectOnlyUserId": "d0d2c6c6-4cd1-428e-98dd-98b4e7f77ce8",
+      "projectOnlyOrgId": "0cbe7fc5-b075-4ad5-bb04-c652d700069a",
+      "missingUUID": "a37441cb-6685-4056-b95e-5b4585e55a1b"
+    },
+    "listExistingBaseline": null,
+    "definitionExpected400": null
+  }
+}

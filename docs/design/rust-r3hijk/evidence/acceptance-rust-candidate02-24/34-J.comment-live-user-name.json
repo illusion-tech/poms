@@ -1,0 +1,213 @@
+{
+  "label": "J.comment-live-user-name",
+  "startedAt": "2026-11-02T16:37:24.831Z",
+  "completedAt": "2026-11-02T16:37:24.847Z",
+  "value": {
+    "definition": {
+      "id": "J.comment-live-user-name",
+      "covers": [
+        "J-L06"
+      ],
+      "requests": [
+        {
+          "id": "J.live-user.GET",
+          "operationId": "BusinessDiscussionController_list",
+          "method": "GET",
+          "path": "/api/business-discussions?projectId=f4027d5c-69ac-424a-9c74-8b6ba9503231",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "createdByDisplayNameForKnownActor": "D read-context name"
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "prepare": [
+        {
+          "role": "J-K-live-or-empty-user-name",
+          "table": "platform_user",
+          "sql": "UPDATE poms.platform_user SET display_name=$2 WHERE id=$1::uuid RETURNING id,display_name,row_version,updated_at",
+          "params": [
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "D read-context name"
+          ],
+          "classification": "owned-identity-read-projection-compatibility-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "dedicated current-run owned user; capture and restore original display_name"
+        }
+      ],
+      "restore": "Root restores original owned user display_name immediately after this read group; ordinary auth reads use that same stored user consistently"
+    },
+    "prepared": [
+      {
+        "definition": {
+          "role": "J-K-live-or-empty-user-name",
+          "table": "platform_user",
+          "sql": "UPDATE poms.platform_user SET display_name=$2 WHERE id=$1::uuid RETURNING id,display_name,row_version,updated_at",
+          "params": [
+            "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "D read-context name"
+          ],
+          "classification": "owned-identity-read-projection-compatibility-only",
+          "executionOwner": "Root",
+          "actual": null,
+          "affectedRows": 1,
+          "requires": "dedicated current-run owned user; capture and restore original display_name"
+        },
+        "before": {
+          "id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+          "email": null,
+          "phone": null,
+          "username": "hijk_6872abb512af486fada602e484421d1f_admin",
+          "is_active": true,
+          "avatar_url": null,
+          "created_at": "2026-11-02T20:15:34.360083+08:00",
+          "created_by": null,
+          "updated_at": "2026-11-02T20:15:34.360083+08:00",
+          "updated_by": null,
+          "row_version": 1,
+          "display_name": "HIJK admin",
+          "last_login_at": null,
+          "email_verified": false,
+          "phone_verified": false,
+          "primary_org_unit_id": "ed113cf6-0a45-4042-a7d2-88246dd378de"
+        },
+        "after": [
+          {
+            "id": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "display_name": "D read-context name",
+            "row_version": 1,
+            "updated_at": "2026-11-02T12:15:34.360Z"
+          }
+        ],
+        "rowCount": 1
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": [
+          {
+            "body": "D order 1",
+            "createdAt": "2020-01-01T00:00:00.123Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "D read-context name",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "2119cec3-71af-4ba6-bb72-06018eb52658",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          },
+          {
+            "body": "D order 0",
+            "createdAt": "2020-01-01T00:00:00.123Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "D read-context name",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "b5176a46-ab5a-4032-8119-3ddcf585a1d4",
+            "isKeyConclusion": false,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          },
+          {
+            "body": "D order 2",
+            "createdAt": "2020-01-01T00:00:00.126Z",
+            "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+            "createdByName": "D read-context name",
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "f5df445a-dd77-42a6-b6db-8bced0b12d55",
+            "isKeyConclusion": true,
+            "isPinned": false,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          },
+          {
+            "body": "D order 3",
+            "createdAt": "2020-01-01T00:00:00.126Z",
+            "createdBy": "36fc96fe-613b-4b08-9f2c-71fd824beb23",
+            "createdByName": null,
+            "customerId": "a1be5f15-b2ee-4b1c-96cb-36697a872308",
+            "discussionType": "general",
+            "id": "f68b89ec-9670-47b4-b0e7-f1f8b008e58c",
+            "isKeyConclusion": false,
+            "isPinned": true,
+            "leadId": null,
+            "projectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "relatedCompetitorRecordId": null,
+            "relatedContactId": null,
+            "relatedContactName": null,
+            "relatedFollowUpRecordId": null,
+            "targetObjectId": "f4027d5c-69ac-424a-9c74-8b6ba9503231",
+            "targetObjectType": "project",
+            "targetTitle": "HIJK D-projectOrder 6872abb5-12af-486f-ada6-02e484421d1f",
+            "threadId": "246b20ca-691f-469d-999c-26a18f8d9067"
+          }
+        ],
+        "requestId": "427247bf-cbaa-4683-b134-373df68331b2",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "2782",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-403",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 350,
+          "requestSha256": "70bb335b4c81273455dd53aed3c700ed14256593b6f00af26e73b23c8581bdd8",
+          "responseBytes": 3062,
+          "responseSha256": "e776e39f4b0da129ec664438220e3a6781d16908ec68f301c5b607ace0376ecd",
+          "entityBodyBytes": 2782,
+          "entityBodySha256": "88629757b7b84d0b1ad709d624a55552cb1ab4e1bd511fa613d90fd14ee28295",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/d_projectRead-82a130ba-6ec9-427c-98f3-d1f40070cb1a",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

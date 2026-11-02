@@ -1,0 +1,116 @@
+H / future:lead 14操作：作者A的G1静态输入候选
+
+身份与证据边界
+base=7f970c992291c61477eb9bd83a48cec19a769d88
+workspace=E:/projects/worktrees/poms-r3hijk-next28/poms
+branch=codex/poms-r3hijk-next28
+风险=cross-layer-high-risk。父#85/总体#57仍Open；本批剩余28各自G4后公共操作才58/58，完整阶段/非HTTP验收另片。
+本作者目标gpt-6.1-sol/max；Fast未核实。当前仅G1材料，不是G1 Pass、实现或运行认证。子Issue由Root登记，不猜号。
+只写tmp/rust-r3hijk/a-input/；未来leads/**非http由A，http/Cargo/lib/公共桥/正式治理/所有运行由Root。前批原件不改。
+本包依据当前Native实际controller/service/query/mapper/scoring/facts/schema/entity/migrations；source-manifest.json绑定实际原字节与来源行。历史设计和测试仅补充线索，不覆盖实现/真实Native见证。
+完整Native spec/client、原shared-contracts/机械枚举、TS/Angular产品、原92迁移/DDL保持保护；不加强验证、权限、状态或修复已有行为。
+
+一、14操作清单、成功状态、权限
+01 GET /api/leads -> LeadController_list -> LeadListResponse /200 /lead:read
+02 POST /api/leads -> LeadController_create -> LeadSummary /201 /lead:write
+03 GET /api/leads/{id} -> LeadController_getById -> LeadDetailView /200 /lead:read
+04 PATCH /api/leads/{id} -> LeadController_update -> LeadSummary /200 /lead:write
+05 POST /api/leads/{id}:claim -> LeadController_claimOwner -> LeadOwnerAssignmentResult /200 /lead:write
+06 POST /api/leads/{id}:assignOwner -> LeadController_assignOwner -> LeadOwnerAssignmentResult /200 /lead:assign
+07 POST /api/leads/{id}:qualify -> LeadController_qualify -> LeadSummary /200 /lead:write
+08 POST /api/leads/{id}:close -> LeadController_close -> LeadSummary /200 /lead:write
+09 POST /api/leads/{id}:convertToProject -> LeadController_convertToProject -> ProjectSummary /200 /ALL(lead:write,project:write)
+10 GET /api/leads/{id}/score-history -> LeadController_getScoreHistory -> LeadScoreHistoryView /200 /lead:read
+11 POST /api/leads/{id}/score-overrides -> LeadController_submitScoreOverride -> LeadScoreOverrideSummary /201 /lead:write
+12 POST /api/lead-score-overrides/{id}:approve -> LeadScoreOverrideController_approve -> LeadScoreOverrideSummary /200 /lead:score:override
+13 POST /api/lead-score-overrides/{id}:reject -> LeadScoreOverrideController_reject -> LeadScoreOverrideSummary /200 /lead:score:override
+14 POST /api/lead-score-overrides/{id}:revoke -> LeadScoreOverrideController_revoke -> LeadScoreOverrideSummary /200 /lead:score:override
+canonical inventory的lead九行及lead-scoring五行均既有aligned；保留operationId，不新增lookup/approve通用API。
+14条全局顺序沿SessionAuth→CSRF→Permissions→DTO pipe。@Param只是string，没有UUID pipe；malformed path的SQL/URI/parser/HEAD/大小写方法顺序由Root实际双端核，不先补400。读取不要求用户是owner；mine/public-pool是显式query，不强制数据范围。
+没有本14读侧敏感mask/read audit；安全拒绝由共同auth框架。人工覆盖独立权限不暗含lead:read。converted/closed的override命令无lead状态禁令，不能倒灌UI隐藏条件。
+
+二、DTO字段、缺省、null、strip与精度
+SSOT shared-contracts.ts:2559-2790；原DTO类仅createZodDto。未知key默认strip，不能借传status/score/leadNo/actor/owner update字段等改服务字段。
+文本trim为ECMAScript，Zod4.6.1 min/max按codepoint；业务demand.length和audit length按UTF16 code unit。ID不trim，保留请求UUID拼写到原JS严格比较；DB canonical不等于可提前归一。
+z.number().int()只接JSON数字，safeint/positive/range错误顺序原样；query page/pageSize用coerce Number，保留空值、重复query、数组、NaN/Infinity、safeint边界原issue。
+Create：required leadName trim1..255, customerId UUID, sourceCode DictionaryCode(trim1..64 /^[a-z][a-z0-9-]*$/ 自定义message), demandDescription trim1..4000, budgetStatus, urgency；estimatedAmount money-string/null/缺省，expectedDecisionDate iso.date/null/缺省，ownerOrgId/ownerUserId UUID/null/缺省。没有数组/default状态输入；服务registered。
+Budget=unknown/no-budget/rough-budget/budget-confirmed/budget-approved；urgency=low/normal/high/critical。金额=/^\d+(\.\d{1,2})?$/、无整数位上限；不是成本域Number→toFixed规则：lead estimatedAmount只trim/空→null，原text交numeric(18,2)，评分另用Number(text)>0，不检查finite。
+Update：leadName/customerId/sourceCode/demand/budget/estimatedAmount/urgency/date全部optional，nullable仅amount/date；expectedVersion optional positive int。refine至少一个业务字段非undefined，expectedVersion-only/unknown-only失败；null amount/date算有业务字段，空字符串不算null而是schema失败。
+Claim：仅expectedVersion optional positive int，{}合法。Assign：ownerUserId required UUID、ownerOrgId optional nullable UUID、reason trim1..1000、expectedVersion optional positive int。
+Qualify：qualificationSummary trim1..2000；Close：closedReason trim1..1000。无expectedVersion DTO，额外传它strip。
+Convert：projectName optional trim1..255、customerProjectNo optional nullable trim1..128、plannedSignAt optional nullable iso.datetime；{}合法。controller missing/null plannedSignAt都传null，非空new Date；不能将datetime改date-only。
+Submit override：score required int0..100、reason trim1..1000、expectedLeadRowVersion required positive int。
+Approve：expectedOverrideRowVersion required positive int、note optional nullable trim1..1000。Reject/Revoke：reason required trim1..1000、expectedOverrideRowVersion required positive int。
+List：scope enum optional默认active；sourceCode可校验格式但不要求active字典存在；budget/urgency/rating可选枚举；ownerOrgId/ownerUserId UUID可选不nullable；ownershipScope可选all/mine/public-pool；keyword trim1..128 optional；page coerce int>=1 default1，pageSize coerce int1..500 default500。
+日期：expectedDecisionDate是date字符串，service trim.slice(0,10)，mapper string.slice或Date经Asia/Hong_Kong Intl年月日。plannedSignAt是UTC Date、任意fraction截毫秒。year0000/小年/Unicode/lone surrogate/NUL/PG拒绝与POST/GET即时差异必须Native实际见证；不能沿前批经验一概判同。
+
+三、基本命令的源顺序与错误优先序
+create lead.service101-145：查operator不存在404→resolveOwner→active customer→active lead-source dictionary→transactional→next('lead',new Date(),em)→explicitUUID create registered lead→collect v2 facts→calculate score/scoreUpdatedAt→persist lead→recordSystemSnapshot(...,em)→flush。返回后controller再list lead-source dictionary并map summary。
+resolveOwner485-513：ownerUserId缺失→operator.id，org缺失回退operator.primaryOrg/null、显式org(含null)保留，并只查org存在；ownerUserId=null→owner/org两者null，忽略输入org；显式user只查存在，不检查active；org缺省回退该user主org，只查存在。create并未调用assign的active规则。
+update148-230：若提供customer先requireActiveCustomer；若source提供再requireActiveItem，二者在查lead前。随后transactional查lead404→editable状态(registered/qualified)400→可选expectedVersion409。变更九字段；before/after比较是JS !==原值；无变化直接return不刷新score、不snapshot、不audit。amount leading-zero/PG scale、date Date/string、Unicode identity均可能影响实际是否no-op，须以Native为准。
+update有变化：updatedBy→refresh v2 score→persist lead→recordSystemSnapshot(...,em)→recordAuditLog('lead.updated',em)→flush。changedFields顺序固定leadName,customerId,customerName,sourceCode,demandDescription,budgetStatus,estimatedAmount,urgency,expectedDecisionDate。demand before/after只{changed:true,length:UTF16.length}；其他改字段原值；metadata sourceCommand/update expectedVersion|null/redactedFields/businessContext leadId。audit与业务同em参与原flush。
+claim233-261：require lead404→expectedVersion409→assignable状态400→已有owner409→operator存在404/active400→其主org存在404/active400→apply。assign263-291：require→expectedVersion→status→target user存在/active→显式org或目标主org，存在/active→同user+同org400→apply（existing owner truthy则reassigned，否则assigned），reason trim。
+apply541-571：显式UUID owner assignment record、assignedAt/createdAt同now；旧owner fields→新owner→updatedBy→refresh facts→save lead+record.flush→recordSystemSnapshot不传em（sourceCommand claimed/assigned/reassigned-lead-owner、sourceRecordId=record.id）。没有业务audit调用，不能凭治理偏好加。
+qualify293-311：require→status必须registered400→qualification硬闸→status qualified/summary/at/by/updatedBy→refresh facts→save.flush→recordSystemSnapshot不传em。close314-331：require→registered/qualified400→status closed/reason/at/by/updatedBy→refresh→save.flush→snapshot不传em。
+显式expectedVersion错误message为 'lead version X does not match current version Y'；业务版本CAS竞争是ORM实际flush错误，不能全映射409。qualify/close/convert不新增预期版本参数。
+
+四、转换项目、编号、附件与事务
+convert334-393：operator先查存在404（不额外active检查）→transactional→lead404→status converted或convertedProjectId truthy先409→status非qualified400→conversion硬闸→next('project',new Date(),em)→create Project explicitUUID/active/assessment/customer snapshot/原owner。projectName trim truthy或leadName，customerProjectNo trim truthy或null，plannedSignAt controller Date|null。
+随后lead converted字段和score刷新→persist([lead,project])→copyActiveLinksToTarget from Lead.id to Project.id,relation=source,excludeCategories精确['finance','internal-assessment'],operator,em→recordSystemSnapshot('convert-to-project',project.id,em)→flush。不迁移情报/跟进/讨论，不更新这些source anchor。
+附件copy Native repository：active Lead links，按linkedAt DESC去重attachmentId；仅active attachment且默认isLatest=true，attachment uploadedAt DESC；不是复制所有历史/final-only。排除category精确等于finance/internal-assessment，不是substring或权限标签。已存在相同attachmentId/targetType/targetId/relationType且active的link则skip；其他新source link linkedAt各new Date，em.persist。
+有copied links时，AttachmentService在最终lead em.flush前调用recordAudit('attachment.link_copied_to_project')，未显式传em；没有links直接return、不写copy audit。RuntimeAudit默认repository.persist.flush可能触发当前事务上下文/managed graph。Root需见证实际flush位置、source查询auto-flush、audit与snapshot失败的回滚面，不能静态宣布独立或完全最后提交。
+编号传em并不等于getConnection.execute显式使用TX。原BusinessNumberService取UTC年份、LD/PRJ padding6，SQL upsert RETURNING next_value-1再Number/String.padStart。Root须实际看物理connection/BEGIN、失败next_value及并发；不得照搬旧Project bootstrap独立编号结论，也不得擅改成transaction-aware编号。
+project.source_lead_id FK restrict、索引；无source_lead_id唯一约束。lead.converted_project_id为nullable裸uuid，converted并发是否两个项目/一失败/编号gap完全靠Native实测，不加新unique/lock。
+
+五、评分v2、空事实与硬闸（lead-scoring.ts）
+运行公式SSOT=lead-scoring.ts的lead-score-v2。entity lead-score-history.entity.ts中的默认'lead-score-v1'仅既有默认/旧数据，不据此降级运行公式或改DDL。
+base源分：source truthy10；trim demand.length>=30为15，>0为10（UTF16）；budget rough15/confirmed20/approved25其余0；Number(amount)>0为15；urgency low5/normal10/high|critical15其余0；expectedDecisionDate truthy10；ownerUserId与ownerOrgId均truthy10。baseBusiness=Math.round(min(baseRaw,100)*0.65)。JS Math.round与浮点顺序保留。
+salesIntelligence上限20：decisionMaker4,technicalEvaluator3,procurement3,budgetSource3,competitor2,painPoint3,nextContact2。
+followUp上限10：30d count>=3给4、>0给2；daysSince null0/<=7给3/<=14给2/<=30给1；plannedNext且不overdue给3。attachment上限5：proposal2/quotation2/budget1。总=min(base+intel+follow+attachment,100)，rating>=80 A/>=60 B/>=40 C/其他D。
+scoreReason按正分组顺序'基础商务+N；销售情报+N；跟进活跃+N；附件证据+N'；全0为'暂无有效评分事实'。breakdown保留七base分、四组/total/formulaVersion及三facts对象。默认空facts为所有七bool false、follow last/days/next=null,count0/planned/overdue=false、attachment count0及bool false。
+硬闸不按score/rating/manual override或intel分检查。missing顺序：closed时not-closed；qualification非registered加registered-status；conversion converted/id时not-converted，非qualified加qualified-status；随后source,demand-description,budget(unknown/no-budget),estimated-amount(!Number>0),urgency,owner,owner-org；Set去重。ready missing[]，解释'已满足确认有效硬闸口'/'已满足转项目硬闸口'，否则blocked解释'缺少：'+原中文label以'、'连接。
+refresh只在明确命令调用；list/detail/history读存储lead.score/rating，不读取三facts重算。情报/跟进/附件变化不会在本方法外自动刷新lead.score；真实集成需通过有变化PATCH或qualify/assign等触发，不能用no-op PATCH冒刷新。
+
+六、评分事实范围与B/I公共接口
+LeadScoreFactsService.collectLeadScoreFacts同时收集三组；有em沿调用TX查询，没有em用各repository。不额外customer/project/active条件。
+I facts：stakeholder所有leadId行，无role/status/primary过滤；decision-maker/technical-evaluator任一角色存在；nextContact=latest discovery.nextContactPlan.trim truthy或任一stakeholder.isPrimary。competitor任一leadId行即known。discovery findOne({leadId},ORDER updatedAt DESC ONLY)，不添createdAt/id tie-break，不要求projectId为空。procurementProcess/budgetSource/customerPainPoints/nextContactPlan都hasText(trim)。
+Follow facts：leadId+status active，occurredAt DESC ONLY；last=首条occurredAt（无id tiebreak），days=max(floor((now-last)/86400000),0)，count30d=occurredAt>=now-30days（含future），next从所有active的Date值选最早（含已过期），有即planned，strict next<now才overdue，未限定最新记录/owner/next未来。now单独new Date，不把事实clock误当scoreUpdatedAt。
+Attachment facts：lead active links，不按relation/category过滤；去重attachmentId→active附件；evidence只在isLatest||isFinal集合按category.toLowerCase包含proposal/solution/plan/方案、quotation/quote/报价、budget/预算分别判定；evidenceAttachmentCount是满足任一类的附件数量（不是加三类次数）；latest/finalCount各独立统计active集合，一个附件可双计latest/final，非latest但final参与证据。
+已与I作者明确候选：leads::store::by_id(&mut PgConnection,&str)->Result<Option<LeadRef>,sqlx::Error>；LeadRef{id:Uuid,customer_id:Uuid,lead_name:String}，by_ids(&[Uuid])->Vec<LeadRef>，仅id谓词无status/owner/active/锁/新TX/audit/session。H内部完整Row另名find，不向I/J泄漏整个写模型。
+I→H：sales_intelligence::store::collect_lead_score_facts(&mut PgConnection,&str)->Result<sales_intelligence::model::SalesIntelligenceFacts,sqlx::Error>；公开snake_case七bool decision_maker_known,technical_evaluator_known,procurement_process_known,budget_source_known,competitor_known,pain_point_known,next_contact_known。无anchor guard、新BEGIN/flush/audit/session；调用方传TX连接。尚需Root联合G1冻结后才能实现。
+J/D只用同LeadRef和真实转换Project.id/sourceLeadId/customerId；历史讨论仍Lead anchor，不迁移复制。H不为J推导新sourceLead一致性条件。
+
+七、人工覆盖、快照、审计与实际审批边界
+History：lead存在404；snapshots createdAt DESC ONLY，overrides requestedAt DESC ONLY；第一approved为active、第一pending为pending；effective来自approved requestedScore/requestedRating、reason='人工覆盖评分：'+stored reason，否则系统score/rating/reason。不现场重算事实，不制造旧历史v2迁移。
+Submit transactional：lead404→required expectedLeadRowVersion409→已有pending409→create override pending(新UUID、requestedRating按80/60/40、system score/rating at request、reason.trim、requestedAt/updatedAt同now)→flush/commit→另recordAudit('lead-score-override.submitted')→map。无status/同分/自批/owner限制。
+Approve transactional：override404→expectedOverrideRowVersion409→必须pending400→lead404→找existing approved→旧status superseded/supersededById=newId/updatedBy→新approved/at/by/note normalized/updatedBy→recordManualOverrideSnapshot(kind manual-override,source approve-score-override,overrideId=newId,sourceRecordId=newId,em)→persist新override→flush/commit→另approved audit。旧approved和新pending UPDATE顺序、snapshot INSERT触发auto-flush和partial unique失败不能静态断言。
+Reject：override404→expectedVersion409→status pending400→rejected at/by/reason/updatedBy→flush/commit→另rejected audit，不加score snapshot、不影响active override。
+Revoke：override404→expectedVersion409→status approved400→lead404→status revoked/at/by/reason→recordManualOverrideSnapshot(kind override-revoked,active=null,overrideId=null,sourceRecordId=撤销entity.id,em)→flush/commit→另revoked audit。系统lead.score/rating不被manual改变；有效读回当前已存系统score（可能相对最新事实未刷新）。
+四后置audit targetType='lead-score-override', result success,requestId|null；提交metadata无reason，approve有approvalNote|null，reject/revoke有对应reason。audit失败可能HTTP500而业务已提交，禁止合并为回滚整个业务。与通用ApprovalService/审批实例/待办/handler均无调用；不能把direct approve宣称已接generic审批handler。
+SystemSnapshot：先读approved override→build input（再collect facts、componentBreakdown、gateSummary、stored system score与effective分）→读latest snapshot createdAt DESC；去重比较kind/formula/system+effective score/rating/source/reason/sourceRecordId和JSON.stringify两个JSON对象；不比较sourceCommand/createdBy/overrideId。JSONB重读键序 vs 同EM对象插入顺序可能导致预期以外去重结果，需Native见证，Rust不可换成深结构相等。
+snapshot有em只persist，无em会另flush；qualify/close/assign/claim主save之后的snapshot故障必须分开观测。create/update/convert传em，可能共享transaction，实际SQL/auto-flush与session pending由Root见证后决定SQLx写入顺序。
+
+八、读取、响应shape、列表工作台与UI
+原full字段以snapshots/native-source-excerpts.txt的schema/mappers及openapi-lead14.json为精确输入；不得只按简化界面字段做DTO。所有null/数组/日期/金额字符串即时vs重读均比较。
+LeadSummary含id/no/name/customer snapshot/sourceCode/sourceName/demand/budget/estimatedAmount/urgency/date/system score/rating/reason/scoreUpdatedAt/effective五字段/gateSummary/status/owners/qualification/close/convert事实/version/created+updated审计字段。命令controller.mapLeadCommandSummary只加载字典并mapLeadToSummary(lead,source)，未传activeOverride，故即使有approved override，命令响应可能仍报告system effective；detail/list/history显式读approved则manual effective。保留这种差异，不偷加activeOverride查询。
+ListView是独立较小shape，含ownerName/ownerOrgName、convertedProjectSummary和allowedActions，不透出全部summary审计/close原因；Detail在Summary扩展name/sourceSummary/convertedProjectSummary/actions。sourceSummary只有source.name truthy才'来源：name'。Source字典读取包括inactive历史项，不要求记录当前active才有name。
+list先repository过滤source/budget/urgency/rating(系统rating列)/ownerOrg/ownerUser/keyword四字段ILIKE(no/name/customerName/sourceCode)，order updatedAt DESC,createdAt DESC。mine覆盖ownerUserId=user.sub；public-pool清空user筛选、ownerUser IS NULL，但ownerOrg筛选保留；all/缺失保持显式过滤。
+summary/facets先按repository过滤后的全量leads计算，再按scope筛选、totalItems、slice分页，最后仅pageLeads加载contexts和approved override；不能SQL limit提前导致summary只一页，也不能按effectiveRating替代系统rating过滤。
+Scopes优先converted(status或projectId truthy)→closed→registered(active+registered)→qualified(active+qualified+ready-to-convert|blocked-conversion)，都含all。全部facet按shared enum顺序含0count。默认active,page1,pageSize500。
+allowedActions只有claimLeadOwner(registered/qualified且无owner+lead:write)、assignLeadOwner(registered/qualified+lead:assign)，顺序claim后assign；不要凭UI补edit/qualify/convert actions到wire数组。
+原Angular lead-list是真实复合页：从导航线索→筛选/登记/详情→申领/分派→编辑/资格/关闭/转换；详情score history抽屉→submit/approve/reject/revoke，store reload当前detail/history/list。UI转项目检查canWriteLead与qualified+gate，并不代替backend双权限；UI禁止closed/converted submit，但API无此限制。
+Root必须实际四平台组合原UI旅程并保留network/真实数据，原journey中的mock仅locator线索。真实Lead→I情报→有变化PATCH刷新v2→override历史→qualify→convert→项目sourceLeadSummary/附件source links→J上下文读取，不能fixture-only冒全链。
+
+九、持久化与G1前少数必须Native实证的风险
+lead/customer FK restrict、lead_no unique、enum/非负amount/score0..100 CHECK、row_version version()。owner及converted uuid无新FK/unique；owner record lead FK restrict，previous/new owner裸uuid；snapshot/override lead FK cascade，snapshot override/sourceRecord裸uuid，jsonb components/gate。override pending/approved各partial unique lead_id；supersededById无FK。不改原迁移。
+Native最小风险W1：create/convert编号物理连接与失败gap；成功、parent/snapshot/attachment故障及同lead并发转换，不能猜同em意味着同TX。
+W2：create/update/convert实际SQL及query-triggered auto-flush，带附件copy时audit flush是否提前写project/lead/link；强制链接/snapshot/audit失败，逐个分列已写/未写与回滚。
+W3：qualify/close/assignment主flush成功后的snapshot失败；四override后置audit失败；成功业务、后置500、session pending的真实终态必须分别保全。
+W4：已有approved再approve pending、pending并发提交/并发批准/撤销、显式stale vs flush竞争；partial unique与ORM CAS错误类型及状态变化，不能预写409或替代成功。
+W5：JSON.stringify去重与v2 facts时钟：cross-request score不变但字段变更、同em与重读component key序；最近7/14/30天/正好now/未来followup、latest/final附件、仅project情报不应混入lead。
+W6：lead numeric文本即时/GET与更新no-op、UTF16 trim/29→30长度评分和audit长度、lone surrogate text/JSONB审计、date/converted plannedSignAt year0000/0001/0099/9999与fraction→PG错误；沿原真实写入位置，不提早400。
+以上都是待Native原件的候选，作者没有执行；Root用当前原源码/清洁隔离run冻结实际结果后，主基线裁决优先于本静态预测。
+
+十、不做及G1完成条件
+不新增Lead lookup、公用审批handler、性能/部署/切流、DDL、数据范围/RBAC加强、评分规则变更、客户跨域新规则、销售情报/讨论迁移复制、closed自动放宽。前批30公共操作只作为真实依赖，不重复认证计数。
+本包不是G1 Pass：待真Issue、Root联合输入/接口/Native见证/非作者独审及线上freeze绑定，之后另授权G2。作者不安装/格式/build/test/DB/HTTP/browser/host/private、不commit/push。运行矩阵、异常保全和最终G3/G4由Root集中。

@@ -1,0 +1,3 @@
+// Copy only this batch's public author definitions; execution remains Root's.
+import fs from'node:fs';import assert from'node:assert/strict';
+const root='/home/wangzishi/projects/poms-rust-r3hijk',win='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';assert.equal(process.cwd(),root);const copied=[];for(const name of['a-g2-definitions','b-g2-definitions','d-g2-definitions','a-ui-definitions','b-ui-definitions']){const p='tmp/rust-r3hijk/'+name;if(fs.existsSync(win+'/'+p)){fs.cpSync(win+'/'+p,root+'/'+p,{recursive:true});copied.push(p);}}console.log(JSON.stringify({copied,privateCopied:false,productChanged:false}));

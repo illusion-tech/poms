@@ -1,0 +1,1284 @@
+{
+  "kind": "poms-r3hijk-d-acceptance-matrix-draft02",
+  "status": "input-revision-only-with-Root-native-report-references-no-author-rerun",
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "branch": "codex/poms-r3hijk-next28",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "nativeActual": {
+    "scope": "partial actual cases from Root phase02; not all matrix requirements passed",
+    "schemaOracle": {
+      "path": "tmp/rust-r3hijk/schema-oracle01/report01.json",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r3hijk/schema-oracle01/report01.json",
+      "bytes": 195699,
+      "rawSha256": "4b64eb23959065d0c369e543489420179d342111a82e63cd28e01e1a669186fe",
+      "kind": "R3HIJK-actual-original-shared-Zod-schema-oracle",
+      "createdAt": "2026-11-02T08:52:27.321Z",
+      "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+      "Node": "v24.19.0",
+      "zod": "4.6.1",
+      "typescript": "6.0.3",
+      "resultCount": 18,
+      "runner": "Root; D read-only existing artifact reference"
+    },
+    "Native": {
+      "path": "tmp/rust-r3hijk/native-witness02/report01.json",
+      "absolutePath": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r3hijk/native-witness02/report01.json",
+      "bytes": 3049527,
+      "rawSha256": "d3be31dcd89492445704be145e4c7025fd416cb7e13dfa45cd5fa158a0b3a2f2",
+      "kind": "R3HIJK-original-Native-actual-G1-witness",
+      "createdAt": "2026-11-02T09:13:43.908Z",
+      "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+      "phase": "02",
+      "runId": "e4b1e704-9556-4e80-8efd-f5ad4f0e1411",
+      "caseCount": 18,
+      "eventCount": 31,
+      "runtimeArtifactBytes": 2958081,
+      "runtimeArtifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+      "productDDLChanged": false,
+      "G1Certified": false,
+      "G3Certified": false,
+      "G4Certified": false,
+      "runner": "Root; D read-only existing artifact reference"
+    },
+    "observations": [
+      {
+        "label": "discussion.bmp8000",
+        "httpStatus": 201,
+        "requestId": "5809d298-293d-4354-8db2-aa6be746cb03",
+        "entityBodyBytes": 8644,
+        "entityBodySha256": "e3a4456595e47d7d8aa2e4aa6259c9cc3fe662303268353acee5be613a9055fe",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.bmp8000].response"
+      },
+      {
+        "label": "discussion.bmp8001",
+        "httpStatus": 400,
+        "requestId": "3eb5b02f-595f-4922-b27f-6cef914f4860",
+        "entityBodyBytes": 207,
+        "entityBodySha256": "fb39f0073cacc8a9615d6f9f8e5d537f078ae515ce46a17e19e381d2950db174",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 8000,
+              "inclusive": true,
+              "path": [
+                "body"
+              ],
+              "message": "Too big: expected string to have <=8000 characters"
+            }
+          ]
+        },
+        "reportSelector": "events[label=discussion.bmp8001].response"
+      },
+      {
+        "label": "discussion.emoji4000",
+        "httpStatus": 201,
+        "requestId": "db795750-3f95-4a05-a858-bc1ffef8a73d",
+        "entityBodyBytes": 16644,
+        "entityBodySha256": "47a66446982a47a1efd4dcc2f3ce778b7910af38d937cb0ff70e3dd3e83760f3",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.emoji4000].response"
+      },
+      {
+        "label": "discussion.emoji4001",
+        "httpStatus": 201,
+        "requestId": "a0b4990f-7a09-4871-bf09-3a5b82706cb0",
+        "entityBodyBytes": 16648,
+        "entityBodySha256": "bf2c5269e34b013745c20a9a34487918784f7e6935442aa177f01da0576a4dcd",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.emoji4001].response"
+      },
+      {
+        "label": "discussion.emoji8000",
+        "httpStatus": 201,
+        "requestId": "a9b6c6c5-02a8-436e-a734-03083bd3bfbc",
+        "entityBodyBytes": 32644,
+        "entityBodySha256": "156f8be0546d8291aeef99f67598c5ce1aaabca0156a6b201893ac39dc31a313",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.emoji8000].response"
+      },
+      {
+        "label": "discussion.emoji8001",
+        "httpStatus": 400,
+        "requestId": "b7d16312-2a1e-479a-b80c-ee41ea729cc9",
+        "entityBodyBytes": 207,
+        "entityBodySha256": "fb39f0073cacc8a9615d6f9f8e5d537f078ae515ce46a17e19e381d2950db174",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 8000,
+              "inclusive": true,
+              "path": [
+                "body"
+              ],
+              "message": "Too big: expected string to have <=8000 characters"
+            }
+          ]
+        },
+        "reportSelector": "events[label=discussion.emoji8001].response"
+      },
+      {
+        "label": "discussion.FEFF-trim",
+        "httpStatus": 201,
+        "requestId": "fa075879-99c0-4cb6-90b0-19e55aacc9cc",
+        "entityBodyBytes": 645,
+        "entityBodySha256": "859e2ce0409ff341e828674b984e6cc562db2b027e028ac293a19432904de39a",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.FEFF-trim].response"
+      },
+      {
+        "label": "discussion.NEL-not-trim",
+        "httpStatus": 201,
+        "requestId": "959f2205-15f8-462a-8e1e-1174ac13c7c1",
+        "entityBodyBytes": 649,
+        "entityBodySha256": "c3e60fcffee91471c770ecf5bc8a8e1581279755496339a2f639af720093e024",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.NEL-not-trim].response"
+      },
+      {
+        "label": "discussion.zero-width",
+        "httpStatus": 201,
+        "requestId": "87729a3a-b7e4-4f87-a06f-bd3190ae38af",
+        "entityBodyBytes": 651,
+        "entityBodySha256": "aa22f24b4f0738af37dacdb59864a5e605115382f05df6e881cc4a47abe6e800",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.zero-width].response"
+      },
+      {
+        "label": "discussion.nul",
+        "httpStatus": 500,
+        "requestId": "c258e226-e9d0-4049-9953-91414c446726",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "fcbda2e2660dbbff82ba8df76212f3d4ab9ced3b9b9a8b8700621f45fb5ce006",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "reportSelector": "events[label=discussion.nul].response"
+      },
+      {
+        "label": "discussion.high-surrogate",
+        "httpStatus": 201,
+        "requestId": "b428b211-e180-46e7-acbe-5cdb16c1a93f",
+        "entityBodyBytes": 652,
+        "entityBodySha256": "9521a587de9dae7c22ea5af28aa9f64603ff5b718a21be02c19bac11ab3e8b44",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.high-surrogate].response"
+      },
+      {
+        "label": "discussion.low-surrogate",
+        "httpStatus": 201,
+        "requestId": "bfeabd3c-7534-4571-a700-7e9d7aa3b6f3",
+        "entityBodyBytes": 652,
+        "entityBodySha256": "2adfb1b39d5f080f7aeb071a99c76d2ea7a24d9ee19792c82dd50455eaa07984",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=discussion.low-surrogate].response"
+      },
+      {
+        "label": "CreateOpportunityStakeholderRequestSchema",
+        "httpStatus": 400,
+        "requestId": "9eefceaa-3264-4798-aff9-25f4ce9a781e",
+        "entityBodyBytes": 143,
+        "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "reportSelector": "events[label=CreateOpportunityStakeholderRequestSchema].response"
+      },
+      {
+        "label": "CreateCompetitorIntelligenceRecordRequestSchema",
+        "httpStatus": 400,
+        "requestId": "ce161dab-3903-4c93-aef9-3b2abf113be9",
+        "entityBodyBytes": 143,
+        "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "reportSelector": "events[label=CreateCompetitorIntelligenceRecordRequestSchema].response"
+      },
+      {
+        "label": "CreateSalesDiscoveryRecordRequestSchema",
+        "httpStatus": 400,
+        "requestId": "fab124d9-dd92-4ded-863f-264e268d3cd8",
+        "entityBodyBytes": 143,
+        "entityBodySha256": "9fed4eaf18c725c937c97685ac4b643c8c0f3d8e08f5609ddf2d44628cef5b83",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "custom",
+              "path": [],
+              "message": "At least one opportunity anchor is required"
+            }
+          ]
+        },
+        "reportSelector": "events[label=CreateSalesDiscoveryRecordRequestSchema].response"
+      },
+      {
+        "label": "K.workspace-guidance",
+        "httpStatus": 200,
+        "requestId": "43cba81b-626b-4116-8e1d-26bad7f7ea8f",
+        "entityBodyBytes": 4867,
+        "entityBodySha256": "2668819e5a518c2529a781281e478447120280606be00b3b484f68021b4e4a0e",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=K.workspace-guidance].response"
+      },
+      {
+        "label": "K.workspace-guidance.invalid",
+        "httpStatus": 500,
+        "requestId": "2ef6dfa2-e863-4004-9070-45afdd27f156",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "fcbda2e2660dbbff82ba8df76212f3d4ab9ced3b9b9a8b8700621f45fb5ce006",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "reportSelector": "events[label=K.workspace-guidance.invalid].response"
+      },
+      {
+        "label": "K.timeline",
+        "httpStatus": 200,
+        "requestId": "db1ecfb7-30fe-4ad5-a045-1283ee8d34e8",
+        "entityBodyBytes": 489,
+        "entityBodySha256": "1adbb90ac075e0e474e7df4fb1248e1387acd16916dbc5f7d86b10fe044e47d8",
+        "originalRawRetained": true,
+        "errorBody": null,
+        "reportSelector": "events[label=K.timeline].response"
+      },
+      {
+        "label": "K.timeline.invalid",
+        "httpStatus": 500,
+        "requestId": "2503afc8-0b34-47c3-8dc5-8e45f7659e01",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "fcbda2e2660dbbff82ba8df76212f3d4ab9ced3b9b9a8b8700621f45fb5ce006",
+        "originalRawRetained": true,
+        "errorBody": {
+          "statusCode": 500,
+          "message": "Internal server error"
+        },
+        "reportSelector": "events[label=K.timeline.invalid].response"
+      }
+    ],
+    "schemaObservations": [
+      {
+        "label": "discussion.bmp8000",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 8000,
+          "unicodeScalarsOrLoneUnits": 8000
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.bmp8000]"
+      },
+      {
+        "label": "discussion.bmp8001",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 8001,
+          "unicodeScalarsOrLoneUnits": 8001
+        },
+        "success": false,
+        "issues": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 8000,
+            "inclusive": true,
+            "path": [
+              "body"
+            ],
+            "message": "Too big: expected string to have <=8000 characters"
+          }
+        ],
+        "reportSelector": "results[label=discussion.bmp8001]"
+      },
+      {
+        "label": "discussion.emoji4000",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 8000,
+          "unicodeScalarsOrLoneUnits": 4000
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.emoji4000]"
+      },
+      {
+        "label": "discussion.emoji4001",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 8002,
+          "unicodeScalarsOrLoneUnits": 4001
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.emoji4001]"
+      },
+      {
+        "label": "discussion.emoji8000",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 16000,
+          "unicodeScalarsOrLoneUnits": 8000
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.emoji8000]"
+      },
+      {
+        "label": "discussion.emoji8001",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 16002,
+          "unicodeScalarsOrLoneUnits": 8001
+        },
+        "success": false,
+        "issues": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 8000,
+            "inclusive": true,
+            "path": [
+              "body"
+            ],
+            "message": "Too big: expected string to have <=8000 characters"
+          }
+        ],
+        "reportSelector": "results[label=discussion.emoji8001]"
+      },
+      {
+        "label": "discussion.FEFF-trim",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 5,
+          "unicodeScalarsOrLoneUnits": 5
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.FEFF-trim]"
+      },
+      {
+        "label": "discussion.NEL-not-trim",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 3,
+          "unicodeScalarsOrLoneUnits": 3
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.NEL-not-trim]"
+      },
+      {
+        "label": "discussion.zero-width",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 3,
+          "unicodeScalarsOrLoneUnits": 3
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.zero-width]"
+      },
+      {
+        "label": "discussion.nul",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 3,
+          "unicodeScalarsOrLoneUnits": 3
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.nul]"
+      },
+      {
+        "label": "discussion.high-surrogate",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 3,
+          "unicodeScalarsOrLoneUnits": 3
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.high-surrogate]"
+      },
+      {
+        "label": "discussion.low-surrogate",
+        "schema": "CreateBusinessDiscussionCommentRequestSchema",
+        "metrics": {
+          "UTF16": 3,
+          "unicodeScalarsOrLoneUnits": 3
+        },
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=discussion.low-surrogate]"
+      },
+      {
+        "label": "CreateOpportunityStakeholderRequestSchema.missing-both-anchors",
+        "schema": "CreateOpportunityStakeholderRequestSchema",
+        "metrics": null,
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one opportunity anchor is required"
+          }
+        ],
+        "reportSelector": "results[label=CreateOpportunityStakeholderRequestSchema.missing-both-anchors]"
+      },
+      {
+        "label": "CreateOpportunityStakeholderRequestSchema.lead-anchor",
+        "schema": "CreateOpportunityStakeholderRequestSchema",
+        "metrics": null,
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=CreateOpportunityStakeholderRequestSchema.lead-anchor]"
+      },
+      {
+        "label": "CreateCompetitorIntelligenceRecordRequestSchema.missing-both-anchors",
+        "schema": "CreateCompetitorIntelligenceRecordRequestSchema",
+        "metrics": null,
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one opportunity anchor is required"
+          }
+        ],
+        "reportSelector": "results[label=CreateCompetitorIntelligenceRecordRequestSchema.missing-both-anchors]"
+      },
+      {
+        "label": "CreateCompetitorIntelligenceRecordRequestSchema.lead-anchor",
+        "schema": "CreateCompetitorIntelligenceRecordRequestSchema",
+        "metrics": null,
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=CreateCompetitorIntelligenceRecordRequestSchema.lead-anchor]"
+      },
+      {
+        "label": "CreateSalesDiscoveryRecordRequestSchema.missing-both-anchors",
+        "schema": "CreateSalesDiscoveryRecordRequestSchema",
+        "metrics": null,
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one opportunity anchor is required"
+          }
+        ],
+        "reportSelector": "results[label=CreateSalesDiscoveryRecordRequestSchema.missing-both-anchors]"
+      },
+      {
+        "label": "CreateSalesDiscoveryRecordRequestSchema.lead-anchor",
+        "schema": "CreateSalesDiscoveryRecordRequestSchema",
+        "metrics": null,
+        "success": true,
+        "issues": null,
+        "reportSelector": "results[label=CreateSalesDiscoveryRecordRequestSchema.lead-anchor]"
+      }
+    ],
+    "rawCodeUnitRule": "Do not reserialize source POST/GET/stored bodies via a decoder that replaces unpaired surrogate units. Original raw references remain authority."
+  },
+  "rustActual": null,
+  "runnerOwner": "Root exclusively",
+  "evidenceRule": "D02 corrects input analysis and references Root fresh Native artifacts. No author product/schema/Node/DB/HTTP execution. Unobserved case requirements stay pending; original D01 artifacts remain immutable.",
+  "operations": [
+    {
+      "id": "BusinessDiscussionController_list",
+      "method": "GET",
+      "path": "/api/business-discussions",
+      "statusSourceExpectation": 200,
+      "permissionsAny": [
+        "customer:read",
+        "lead:read",
+        "project:read"
+      ],
+      "issue": 95
+    },
+    {
+      "id": "BusinessDiscussionController_create",
+      "method": "POST",
+      "path": "/api/business-discussions",
+      "statusSourceExpectation": 201,
+      "permissionsAny": [
+        "customer:write",
+        "lead:write",
+        "project:write"
+      ],
+      "issue": 95
+    },
+    {
+      "id": "ProjectController_getWorkspaceGuidance",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/workspace-guidance",
+      "statusSourceExpectation": 200,
+      "permissionsAll": [
+        "project:read"
+      ],
+      "issue": 96
+    },
+    {
+      "id": "ProjectController_getTimeline",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/timeline",
+      "statusSourceExpectation": 200,
+      "permissionsAll": [
+        "project:read"
+      ],
+      "issue": 96
+    }
+  ],
+  "originalTests": [
+    {
+      "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.service.spec.ts",
+      "lines": [
+        [
+          46,
+          113
+        ],
+        [
+          115,
+          153
+        ],
+        [
+          155,
+          159
+        ]
+      ],
+      "kind": "mock-unit-source-not-run",
+      "scope": "sourceLead aggregation, first thread+trim+defaults, cross-customer rejection"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.controller.spec.ts",
+      "lines": [
+        [
+          191,
+          228
+        ]
+      ],
+      "kind": "mock-unit-source-not-run",
+      "scope": "two query delegates"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project-query.service.spec.ts",
+      "lines": [
+        [
+          342,
+          524
+        ],
+        [
+          526,
+          639
+        ],
+        [
+          1319,
+          1507
+        ],
+        [
+          1509,
+          1512
+        ]
+      ],
+      "kind": "mock-unit-source-not-run",
+      "scope": "guidance, base timeline, acceptance/completion/archive projection, missing timeline project"
+    }
+  ],
+  "beforeG1NativeWitnessGroups": [
+    {
+      "id": "N1",
+      "cases": [
+        "AUTH-01",
+        "J-L01",
+        "J-C01",
+        "J-Q01",
+        "J-Q02",
+        "K-G01",
+        "K-T01",
+        "K-E01"
+      ],
+      "focus": "four actual happy-path statuses and plain path UUID vs Zod query failures"
+    },
+    {
+      "id": "N2",
+      "cases": [
+        "J-U01",
+        "J-U02",
+        "J-U03",
+        "J-U04",
+        "J-U05"
+      ],
+      "focus": "Zod code-point limit, JS trim and UTF-16 wire; exact DB-boundary text failures including immediate-vs-reread"
+    },
+    {
+      "id": "N3",
+      "cases": [
+        "J-C01",
+        "J-C02",
+        "J-C03",
+        "J-C04"
+      ],
+      "focus": "thread creation, reuse/title snapshot and first-thread race original error"
+    },
+    {
+      "id": "N4",
+      "cases": [
+        "J-L03",
+        "J-L04",
+        "J-A01",
+        "J-A02",
+        "J-A03",
+        "J-A04"
+      ],
+      "focus": "aggregation and original permissive nullable anchor/status behavior"
+    },
+    {
+      "id": "N5",
+      "cases": [
+        "K-G02",
+        "K-G03",
+        "K-G04",
+        "K-G05",
+        "K-G06",
+        "K-G07"
+      ],
+      "focus": "guidance precedence, snapshot metadata and representative full entry permission payloads"
+    },
+    {
+      "id": "N6",
+      "cases": [
+        "J-S01",
+        "K-T02",
+        "K-T03",
+        "K-T04",
+        "K-T05",
+        "K-T06",
+        "K-T08",
+        "K-T09"
+      ],
+      "focus": "time precision, exact selected facts, complete equality groups and event ordering"
+    }
+  ],
+  "groups": [
+    {
+      "id": "auth-and-transport",
+      "source": [
+        "auth.module.ts:28-30",
+        "permissions.guard.ts:27-46,71-75",
+        "auth-csrf.guard.ts:29-59,97-101"
+      ],
+      "cases": [
+        {
+          "id": "AUTH-01",
+          "requirement": "All four operations with missing/expired/disabled/valid session; preserve exact auth status/body and guard precedence before DTO/database.",
+          "nativeActual": null
+        },
+        {
+          "id": "AUTH-02",
+          "requirement": "POST missing cookie/header, mismatch, bad session token; CSRF source code csrf_failed. GETs do not require CSRF. Keep security audit receipts.",
+          "nativeActual": null
+        },
+        {
+          "id": "AUTH-03",
+          "requirement": "J list accepts each one of customer:read,lead:read,project:read independently; J create each one write permission; no target-specific additional guard. No permissions -> permission_denied.",
+          "nativeActual": null
+        },
+        {
+          "id": "AUTH-04",
+          "requirement": "K both require project:read; unrelated customer/lead permission alone is insufficient. Full/read-only permission snapshots yield exact entry payloads.",
+          "nativeActual": null
+        },
+        {
+          "id": "AUTH-05",
+          "requirement": "HEAD/OPTIONS/unknown methods/trailing slash/query parsing/unknown keys follow shared transport baseline; no new routes, aliases or public surface. Root handles common verification.",
+          "nativeActual": null
+        }
+      ]
+    },
+    {
+      "id": "J-list-and-query",
+      "source": [
+        "business-discussion.controller.ts:14-24",
+        "business-discussion.service.ts:28-35,85-111,196-250",
+        "shared-contracts.ts:3427-3436"
+      ],
+      "cases": [
+        {
+          "id": "J-L01",
+          "requirement": "Valid empty customer target -> array source 200, all 19 fields on nonempty data; actual status/body captured.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "labels": "discussion.*.GET",
+            "httpStatus": 200,
+            "scope": "Native list receipts after text-case POSTs; other empty/anchor/projection assertions remain separate"
+          }
+        },
+        {
+          "id": "J-Q01",
+          "requirement": "No customerId/leadId/projectId -> Zod refine Validation failed with original custom issue path/message. Query only unknown key does not satisfy anchor.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-Q02",
+          "requirement": "Invalid, empty, null-like, repeated-array UUID query values, uppercase valid UUID, all-zero/all-f UUID and multiple anchor combinations; record exact Native issues instead of guessing generic 400.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-L02",
+          "requirement": "Missing customer/lead/project -> exact original NotFoundException message; targets are resolved sequentially customer->lead->project.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-L03",
+          "requirement": "Project list includes its sourceLead historical thread; missing sourceLead row is skipped, no copy/migration. Explicit same source lead plus project is de-duplicated.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-L04",
+          "requirement": "Multiple same-customer unrelated opportunity anchors are accepted; different nonnull customers -> exact 400 alignment message; null project customer is filtered from alignment set.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-L05",
+          "requirement": "Customer target alone reads customer-owned thread only; no automatic customer-wide Lead/Project discussion expansion. Lead target alone no converted Project expansion.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-L06",
+          "requirement": "Live contact/user names projected for existing IDs, unavailable names null, original related IDs kept; targetTitle/customer/lead/project reflect stored thread snapshot.",
+          "nativeActual": null
+        }
+      ]
+    },
+    {
+      "id": "J-create-and-persistence",
+      "source": [
+        "business-discussion.controller.ts:27-45",
+        "business-discussion.service.ts:37-83,113-150,267-296",
+        "business-discussion.entity.ts:13-98",
+        "business-discussion.repository.ts:104-117"
+      ],
+      "cases": [
+        {
+          "id": "J-C01",
+          "requirement": "Create first customer/lead/project comment using real target API products: source 201, new thread+comment persisted atomically, server random IDs/time/operator sub, trimmed body and default false flags.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "labels": "HTTP-discussion positive text cases",
+            "httpStatus": 201,
+            "scope": "real customer target POST subset only; Lead/Project creation and complete related-domain sequence still separate requirements"
+          }
+        },
+        {
+          "id": "J-C02",
+          "requirement": "Second comment same target reuses thread; no new thread, no old comment rewrite. Both flags true/false independently retained.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-C03",
+          "requirement": "Rename target after first thread; future comments/list preserve initial stored targetTitle/anchor snapshot. Same request original text vs DB reread handling preserved.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-C04",
+          "requirement": "Concurrent first comment on same unused target: capture unique-constraint outcome/status/rawSQL/message exactly; no assumed upsert, automatic retry or custom 409.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-C05",
+          "requirement": "Missing/invalid targetObjectType,targetObjectId,discussionType,body; six discussion enums, three target enums, unknown fields; exact Zod issue order/messages.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-C06",
+          "requirement": "related IDs absent/null/UUID; optional flags absent versus null/string/number: source strict boolean with absent default false, no coercion.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-C07",
+          "requirement": "Missing valid target UUID -> exact Customer/Lead/Project not-found source message; no extra lead-status/project-stage restriction.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-C08",
+          "requirement": "FK deletion after lookup or first-thread conflict preserves Native failure and rollback state. Keep response payload separate from SQL log. No orphan first-thread/comment artifacts.",
+          "nativeActual": null
+        }
+      ]
+    },
+    {
+      "id": "J-associations",
+      "source": [
+        "business-discussion.service.ts:39-43,153-194"
+      ],
+      "cases": [
+        {
+          "id": "J-A01",
+          "requirement": "Same-customer real contact and inactive contact accepted; cross-customer contact rejected only with nonnull target.customerId. Null-customer project original acceptance must remain.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-A02",
+          "requirement": "Real I competitor and delivered followup with matching anchors accepted; voided/superseded followup accepted by existence lookup; no new lifecycle filter.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-A03",
+          "requirement": "For competitor and followup separately: cross-customer mismatch first; mismatching nonnull project/lead second; null opportunity field accepted; project target never checks sourceLead against record.leadId.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-A04",
+          "requirement": "Customer target accepts same-customer unrelated lead/project association; Lead target does not constrain record.projectId; Project target does not constrain record.leadId. Do not tighten.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-A05",
+          "requirement": "Each missing association separately yields its exact type-name NotFoundException; each mismatched association separately yields original message. Multiple Promise.all failures have no asserted fixed order.",
+          "nativeActual": null
+        }
+      ]
+    },
+    {
+      "id": "J-unicode-dates-sort",
+      "source": [
+        "shared-contracts.ts:3445",
+        "business-discussion.service.ts:34,62,293",
+        "business-discussion.repository.ts:70-75"
+      ],
+      "cases": [
+        {
+          "id": "J-U01",
+          "requirement": "After JS trim, Zod 4.6.1 counts code points / unicodeScalarsOrLoneUnits: 8000 BMP and 4000/4001/8000 complete emoji pass; 8001 BMP and 8001 emoji fail. UTF-16 lengths are separate metrics, not the DTO maximum.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "labels": [
+              "discussion.bmp8000",
+              "discussion.bmp8001",
+              "discussion.emoji4000",
+              "discussion.emoji4001",
+              "discussion.emoji8000",
+              "discussion.emoji8001"
+            ],
+            "postStatuses": [
+              201,
+              400,
+              201,
+              201,
+              201,
+              400
+            ],
+            "schemaOracle": "tmp/rust-r3hijk/schema-oracle01/report01.json",
+            "limitIssue": "origin=string, code=too_big, maximum=8000, inclusive=true, path=[body]",
+            "scope": "Observed original schema and Native HTTP+PG cases; no Rust assertion"
+          }
+        },
+        {
+          "id": "J-U02",
+          "requirement": "Trim FEFF/NBSP/ideographic-space edges; NEL U+0085 and zero-width U+200B remain; trim-only body fails min1. Preserve actual JS semantics.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "labels": [
+              "discussion.FEFF-trim",
+              "discussion.NEL-not-trim",
+              "discussion.zero-width"
+            ],
+            "postStatuses": [
+              201,
+              201,
+              201
+            ],
+            "observed": "FEFF trim gives a; U+0085/U+200B edges retained",
+            "remaining": "NBSP/ideographic-space and trim-only min1 not covered by these phase02 labels"
+          }
+        },
+        {
+          "id": "J-U03",
+          "requirement": "Lone high/low surrogate raw JSON: preserve POST immediate response, subsequent GET and stored DB body as separate originals. Root phase02 has POST 201/GET 200; compare their original code units independently before concluding equivalence or DB conversion behavior.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "labels": [
+              "HTTP-discussion.high-surrogate",
+              "HTTP-discussion.low-surrogate"
+            ],
+            "postStatuses": [
+              201,
+              201
+            ],
+            "getStatuses": [
+              200,
+              200
+            ],
+            "inputCodeUnits": [
+              [
+                65,
+                55296,
+                66
+              ],
+              [
+                65,
+                56320,
+                66
+              ]
+            ],
+            "selectors": [
+              "cases[label=HTTP-discussion.high-surrogate].value.response/GET/stored",
+              "cases[label=HTTP-discussion.low-surrogate].value.response/GET/stored"
+            ],
+            "comparisonStatus": "three-way raw code-unit comparison pending; D02 does not infer from replacement glyphs"
+          }
+        },
+        {
+          "id": "J-U04",
+          "requirement": "NUL body is accepted by original schema but fails at Native PG boundary: preserve actual HTTP 500 internal-error shape, separate original SQL stream and rollback/stored-null receipt. Schema acceptance does not imply successful persistence.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "label": "HTTP-discussion.nul",
+            "schemaSuccess": true,
+            "postStatus": 500,
+            "getStatus": 200,
+            "stored": null,
+            "httpBody": {
+              "statusCode": 500,
+              "message": "Internal server error"
+            },
+            "sqlReference": "privateOriginalSQLStreams retained in Root report; D did not open or modify private paths"
+          }
+        },
+        {
+          "id": "J-U05",
+          "requirement": "Tabs, newline, quotes, backslash, combining and non-ASCII body survive JSON and persistence; no NFC normalization or new byte-length limits.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-S01",
+          "requirement": "createdAt ascending independent of pinned/conclusion; distinct microseconds in same output millisecond retain repository precision order; output ISO UTC milliseconds.",
+          "nativeActual": null
+        },
+        {
+          "id": "J-S02",
+          "requirement": "Exact-equal createdAt has no id tie-break in source; compare tie-group content and non-tie ordering, retain original observed sequence without certifying it as stable.",
+          "nativeActual": null
+        }
+      ]
+    },
+    {
+      "id": "K-guidance",
+      "source": [
+        "project-query.service.ts:51-187,320-357,1218-1229,1305-1327,1342-1674",
+        "approval-summary.repository.ts:41-53",
+        "shared-contracts.ts:4478-4520"
+      ],
+      "cases": [
+        {
+          "id": "K-G01",
+          "requirement": "Native actual 200 and all 14 top-level fields plus all entry/basis fields on representative real project. No added top-level allowedActions.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "label": "K.workspace-guidance",
+            "httpStatus": 200,
+            "scope": "real project original payload retained; full stage/status/permission matrix not certified"
+          }
+        },
+        {
+          "id": "K-G02",
+          "requirement": "10 stage labels, full exact Chinese stage guidance text, owner fallback and stage-specific entry shape; 13 pre-signing/10 handover/9 other entries in exact array order.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-G03",
+          "requirement": "Status precedence blocked>pending-approval>on-hold>closed>stage default; blocking reasons blocked then closed; completed remains distinct from closed.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-G04",
+          "requirement": "Owner both/name-only/org-only/missing/empty-string projections preserve truthiness and nullish fallback. Missing user/org must not display raw UUID.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-G05",
+          "requirement": "Exact active project-detail snapshot selectors/order; absent four null basis fields; exportPolicy preserved with projectionLevel/id/generatedAt, no field removal or new policy filter.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-G06",
+          "requirement": "Permission subset combinations: finance pair, assignment pair, payout pair, operations all four + project read. Internal commission action some-of and entry every-of remain separate.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-G07",
+          "requirement": "All route/label/description/actionKey/enabled/disabledReason values and array order retained; disabled reason priority closed>stage>permission. No frontend usage truncation.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-G08",
+          "requirement": "Read-only proof: project/snapshot/contract/R4 facts and row versions unchanged; generatedAt is valid request-time clock value, basis generatedAt historical snapshot clock.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-E01",
+          "requirement": "Both K routes malformed raw path UUID with no DTO: exact actual Native response and SQL trace. Missing well-formed UUID separately source 404 Project {raw id} not found. Never substitute Zod UUID 400.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "labels": [
+              "K.workspace-guidance.invalid",
+              "K.timeline.invalid"
+            ],
+            "rawPath": "not-a-uuid",
+            "httpStatuses": [
+              500,
+              500
+            ],
+            "httpBody": {
+              "statusCode": 500,
+              "message": "Internal server error"
+            },
+            "remaining": "well-formed missing UUID 404 and other malformed path variants remain separate requirements"
+          }
+        }
+      ]
+    },
+    {
+      "id": "K-timeline",
+      "source": [
+        "project-query.service.ts:590-748",
+        "project.repository.ts:171-261",
+        "shared-contracts.ts:5351-5384"
+      ],
+      "cases": [
+        {
+          "id": "K-T01",
+          "requirement": "Native actual 200, all projectId/events/generatedAt fields; creation event always assessment even current stage later; all 12 event fields present and existing facts only.",
+          "nativeActual": {
+            "runner": "Root",
+            "report": "tmp/rust-r3hijk/native-witness02/report01.json",
+            "label": "K.timeline",
+            "httpStatus": 200,
+            "scope": "real project creation event original payload retained; R4 projection selectors not certified by this one case"
+          }
+        },
+        {
+          "id": "K-T02",
+          "requirement": "Earliest signed contract among all statuses; exclude null signedAt; equal signedAt retains repo updatedAt DESC,createdAt DESC selection before stable JS sort. No active-only/latest-contract rewrite.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T03",
+          "requirement": "Latest confirmed nonnull handover only; confirmedAt DESC,updatedAt DESC,createdAt DESC. Other statuses or null times do not create milestone.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T04",
+          "requirement": "Latest confirmed accepted OR conditional acceptance with nonnull confirmedAt; exclude rejected/voided; confirmedAt DESC,createdAt DESC. Exact acceptance type/result labels.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T05",
+          "requirement": "Latest confirmed nonnull completion; completedAt DESC,createdAt DESC; completed and conditional-completed exact result labels; do not infer from stage.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T06",
+          "requirement": "Latest recorded nonnull archive; archivedAt DESC,createdAt DESC; source/evidence/anchor stage and Chinese full-width colon prefix preserved; no voided/superseded archive event.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T07",
+          "requirement": "closedAt alone triggers close event with current stage and updatedBy even status differs; reason truthiness vs evidence nullish behavior preserved; missing actors -> null.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T08",
+          "requirement": "Final sort occurredAt ISO ASC then eventKey.localeCompare ASC, including events same millisecond; no stage-order replacement. UTC millisecond strings preserve Native Date behavior.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T09",
+          "requirement": "Repository time keys all equal select unspecified original equivalence member; do not add UUID tie key or claim a stable selection. Record observed candidate set and selected row.",
+          "nativeActual": null
+        },
+        {
+          "id": "K-T10",
+          "requirement": "Read-only proof over R4 fixtures and no synthesized missing stages; SQL-prepared lifecycle rows certify query projection only, never R4 command writes/state machine.",
+          "nativeActual": null
+        }
+      ]
+    },
+    {
+      "id": "cross-domain-and-closeout",
+      "source": [
+        "joint-slice-boundary",
+        "shared-dependency-interface-draft01.json"
+      ],
+      "cases": [
+        {
+          "id": "X-01",
+          "requirement": "Root captures actual H Lead create/qualify/convert responses and Project.sourceLeadId, then J pre/post conversion continuity; prepared SQL Lead is insufficient for this case.",
+          "nativeActual": null,
+          "dependsOn": "A true production API"
+        },
+        {
+          "id": "X-02",
+          "requirement": "Root creates real I competitor via API and delivered contacts/followup via API, links all through J create/list; exact output IDs/anchors retained. Prepared competitor is insufficient.",
+          "nativeActual": null,
+          "dependsOn": "B true production API"
+        },
+        {
+          "id": "X-03",
+          "requirement": "Root applies common build/lint/test/OpenAPI/client/schema/UI/HTTP and route ownership evidence at exact final head; D performs none. No new route/schema drift hidden as parity.",
+          "nativeActual": null
+        },
+        {
+          "id": "X-04",
+          "requirement": "Independent Gate review after joint G1 and G3; formal issue/tracker/archive alignment by Root. J/K complete cannot imply R4 or parent migration complete.",
+          "nativeActual": null
+        }
+      ]
+    }
+  ],
+  "comparisonPolicy": {
+    "exact": [
+      "status and error shape",
+      "all native response field names and nullability",
+      "body UTF-16 wire where applicable",
+      "Chinese labels and routes",
+      "array order except explicitly undefined SQL tie groups",
+      "source IDs and evidence",
+      "query selectors",
+      "permission projection"
+    ],
+    "requestLocalGeneratedValues": [
+      "IDs use native UUID shape and relational linkage rather than guessed fixed UUID",
+      "createdAt/generatedAt clock bounded by actual request receipts",
+      "historical fact and snapshot times exact after Native millisecond conversion"
+    ],
+    "undefined": [
+      "comment rows with every source SQL ordering key equal",
+      "latest fact candidates with every source SQL ordering key equal",
+      "multiple simultaneous Promise.all failures"
+    ],
+    "forbiddenNormalization": [
+      "drop exportPolicy or entries",
+      "force stable UUID ties",
+      "turn malformed K path into new 400",
+      "rewrite SQL failures",
+      "conflate Zod code-point character limit with JS UTF-16 business length, or lose original JS trim and lone-unit wire semantics",
+      "call SQL-prepared new-domain rows true H/I production"
+    ]
+  },
+  "revision": {
+    "number": "D02",
+    "reason": "Independent C found D01 conflated Zod 4.6.1 body character-count limit with JS UTF-16 business string length",
+    "authority": "Root input-only revision instruction",
+    "originalsPreserved": [
+      {
+        "file": "source-manifest.json",
+        "bytes": 154019,
+        "rawSha256": "4bdff1f9bcb2f15b3d5460814168d397d10f753b0273c09900b0c0823cbf3cb9"
+      },
+      {
+        "file": "input-review.txt",
+        "bytes": 16134,
+        "rawSha256": "cc04d234be0aff64f318ec2e0b30be62b6c652b7803f6c1a8e9761beceb02a24"
+      },
+      {
+        "file": "acceptance-matrix.json",
+        "bytes": 18508,
+        "rawSha256": "e3c112b9ac5cafdced1e5d587e8391878a50aae875143e93d36ae09f716008e7"
+      },
+      {
+        "file": "native-fixture-draft01.mjs",
+        "bytes": 21356,
+        "rawSha256": "48a97ade973b882a678d99d760dcb9a3491e57f7138fe21536b9a69e14472bbb"
+      },
+      {
+        "file": "shared-dependency-interface-draft01.json",
+        "bytes": 7294,
+        "rawSha256": "0ab071d5e9d2f5ae7bc8f8f28e47287e3d7906e4782a5a4c81a82a5c1010e997"
+      }
+    ],
+    "newProductOrSchemaChanges": false,
+    "authorRuntimeExecutions": 0,
+    "fixture01": "Pure constructors contain no predicted length/status result; retained byte-for-byte, no draft02 needed",
+    "doesNotAuthorizeG2": true
+  },
+  "formalIssues": {
+    "J": {
+      "issue": 95,
+      "operations": [
+        "BusinessDiscussionController_list",
+        "BusinessDiscussionController_create"
+      ]
+    },
+    "K": {
+      "issue": 96,
+      "operations": [
+        "ProjectController_getWorkspaceGuidance",
+        "ProjectController_getTimeline"
+      ]
+    },
+    "authority": "Root supplied formal Issue mapping; D did not mutate or independently query online state"
+  },
+  "textLengthContract": {
+    "schema": "Zod 4.6.1 code points / unicodeScalarsOrLoneUnits after JS trim: 1..8000",
+    "businessStringLength": "Explicit native JS .length checks remain UTF-16 code units; do not globally replace with code points",
+    "JService": "body.trim() only, no additional business .length maximum",
+    "wire": "Retain original UTF-16 units and compare POST/GET/DB separately",
+    "sourceUnchanged": true
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "label": "C.cost.create.v2",
+  "startedAt": "2026-11-02T19:01:39.254Z",
+  "completedAt": "2026-11-02T19:01:39.273Z",
+  "value": {
+    "operationId": "ProjectController_createProjectTechnicalCostPackage",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects/c9d1eceb-6655-40a2-831f-494ba646c714/technical-cost-packages",
+      "json": {
+        "technicalFeasibilityDecision": "feasible",
+        "technicalConclusionSummary": "R3HK-cc20b1df-57 cost revision 2",
+        "allowNextStage": true,
+        "currencyCode": "CNY",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "scopeItems": [
+          {
+            "scopeType": "in-scope",
+            "label": "R3HK-cc20b1df-57 equipment scope",
+            "description": "包含一项设备供货。",
+            "sortOrder": 1
+          }
+        ],
+        "riskItems": [
+          {
+            "riskCategory": "R3HK-cc20b1df-57 supply",
+            "riskLevel": "R1",
+            "riskDescription": "R3HK-cc20b1df-57 reviewed delivery risk",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "riskStatus": "closed",
+            "blocksNextStage": false,
+            "sortOrder": 1
+          }
+        ],
+        "costItems": [
+          {
+            "costCategory": "equipment",
+            "costDescription": "R3HK-cc20b1df-57 equipment",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "100.10",
+            "taxCostAmount": "13.01",
+            "amountIncludingTax": "113.11",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 1,
+            "quantity": "1.2500",
+            "unit": "套",
+            "unitPrice": "80.0800"
+          },
+          {
+            "costCategory": "equipment",
+            "costDescription": "R3HK-cc20b1df-57 accessory",
+            "estimationBasis": "G1 已确认询价。",
+            "amountExcludingTax": "0.20",
+            "taxCostAmount": "0.03",
+            "amountIncludingTax": "0.23",
+            "currencyCode": "CNY",
+            "confidenceLevel": "high",
+            "highUncertainty": false,
+            "sortOrder": 2,
+            "quantity": "0.2000",
+            "unit": "套",
+            "unitPrice": "1.0000"
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "allowNextStage": true,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T19:01:39.263Z",
+        "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "currencyCode": "CNY",
+        "effectiveAt": "2026-11-02T19:01:39.263Z",
+        "highestRiskLevel": "R1",
+        "id": "e8c736c5-a322-444f-8334-44ba500d612d",
+        "isCurrent": true,
+        "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": "b2b9f0dd-bc00-499d-9e2d-1c549e414113",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "technicalConclusionSummary": "R3HK-cc20b1df-57 cost revision 2",
+        "technicalFeasibilityDecision": "feasible",
+        "totalEstimatedAmountExcludingTax": "100.30",
+        "totalEstimatedAmountIncludingTax": "113.34",
+        "totalTaxCostAmount": "13.04",
+        "updatedAt": "2026-11-02T19:01:39.263Z",
+        "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "version": 2
+      },
+      "requestId": "dc4d8b7d-d2a3-4811-a0f1-7acc9a54973c",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "891",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-156",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1850,
+        "requestSha256": "7180bf16507454b5fd42c7cf5920f752d7f5054b23f73df1dc94e01c9fc674a7",
+        "responseBytes": 1176,
+        "responseSha256": "d6e84383ce7b13a4ad3228842f937e06f6bf3b148c59992177319a5bb5d0a81e",
+        "entityBodyBytes": 891,
+        "entityBodySha256": "a2ef36cc3e9744359662447a52bc64755e1a5316de9acfa5a0ac14fc5c0644b3",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-a6e3b4f4-d063-4199-9eb3-e247fbb24f39",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "e8c736c5-a322-444f-8334-44ba500d612d",
+        "project_id": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "version": 2,
+        "is_current": true,
+        "supersedes_id": "b2b9f0dd-bc00-499d-9e2d-1c549e414113",
+        "status": "effective",
+        "technical_feasibility_decision": "feasible",
+        "technical_conclusion_summary": "R3HK-cc20b1df-57 cost revision 2",
+        "allow_next_stage": true,
+        "currency_code": "CNY",
+        "total_estimated_amount_excluding_tax": "100.30",
+        "total_tax_cost_amount": "13.04",
+        "total_estimated_amount_including_tax": "113.34",
+        "tax_assumption_summary": "G1 设备成本含税测算，税务已复核。",
+        "tax_review_status": "reviewed",
+        "highest_risk_level": "R1",
+        "blocker_count": 0,
+        "effective_at": "2026-11-02T19:01:39.263Z",
+        "created_at": "2026-11-02T19:01:39.263Z",
+        "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "updated_at": "2026-11-02T19:01:39.263Z",
+        "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "row_version": 1
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

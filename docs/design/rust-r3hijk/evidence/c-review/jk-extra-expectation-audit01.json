@@ -1,0 +1,2644 @@
+{
+  "kind": "C-extra-JK-business-expectation-checks",
+  "groups": 95,
+  "requests": 217,
+  "checks": 438,
+  "errors": [
+    {
+      "group": "K.T05.completed-label",
+      "id": "K.T05.completed-label",
+      "key": "sourceId",
+      "expected": "475cc170-fae9-4ed2-bbc8-df5e872715ef"
+    }
+  ],
+  "checkedFields": [
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.list.valid-session",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.create.valid-session",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.guidance.valid-session",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.timeline.valid-session",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.any-read.customerRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.any-read.leadRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.any-read.projectRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.any-write.customerWrite",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.any-write.leadWrite",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.any-write.projectWrite",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.no-permissions.list",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.no-permissions.list",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.no-permissions.create",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.no-permissions.create",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.guidance.unrelated-permission.customerRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.guidance.unrelated-permission.customerRead",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.timeline.unrelated-permission.customerRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.timeline.unrelated-permission.customerRead",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.guidance.unrelated-permission.leadRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.guidance.unrelated-permission.leadRead",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.timeline.unrelated-permission.leadRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.timeline.unrelated-permission.leadRead",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.csrf-missing-cookie",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.csrf-missing-cookie",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.csrf-missing-header",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.csrf-missing-header",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.csrf-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.csrf-mismatch",
+      "key": "error-code",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "J.auth.list.GET-no-CSRF",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.guidance.GET-no-CSRF",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.auth-and-transport",
+      "id": "K.auth.timeline.GET-no-CSRF",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.shared-transport",
+      "id": "J.transport.unknown-method",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J-K.shared-transport",
+      "id": "J.transport.unknown-query-retains-anchor",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.empty.customer",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.empty.customer",
+      "key": "exactBody",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.customer-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.customer-only",
+      "key": "forbiddenComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.customer-only",
+      "key": "forbiddenComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.lead-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.lead-only",
+      "key": "containsComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.lead-only",
+      "key": "forbiddenComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.project-plus-source",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.project-plus-source",
+      "key": "containsComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.project-plus-source",
+      "key": "containsComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.explicit-source-deduplicated",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.explicit-source-deduplicated",
+      "key": "uniqueComment",
+      "passed": true
+    },
+    {
+      "group": "J.empty-and-scope",
+      "id": "J.scope.explicit-source-deduplicated",
+      "key": "uniqueComment",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-resolution-priority",
+      "id": "J.priority.customer-first",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-resolution-priority",
+      "id": "J.priority.lead-before-project",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-resolution-priority",
+      "id": "J.priority.project-last",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-resolution-priority",
+      "id": "J.target-missing.customer",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-resolution-priority",
+      "id": "J.target-missing.lead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-resolution-priority",
+      "id": "J.target-missing.project",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-alignment",
+      "id": "J.same-customer-unrelated",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-alignment",
+      "id": "J.cross-customer",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.anchor-alignment",
+      "id": "J.null-project-customer-filtered",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.none",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.unknown-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.invalid.0",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.invalid.1",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.invalid.2",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.repeated",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.uppercase-valid",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.nil-valid-absent",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.query-validation",
+      "id": "J.query.max-valid-absent",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.active-contact",
+      "id": "J.association.active-contact",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.inactive-contact",
+      "id": "J.association.inactive-contact",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.cross-customer-contact",
+      "id": "J.association.cross-customer-contact",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.nullable-project-contact",
+      "id": "J.association.nullable-project-contact",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.real-competitor-and-followup",
+      "id": "J.association.real-competitor-and-followup",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.voided-followup",
+      "id": "J.association.voided-followup",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.superseded-followup",
+      "id": "J.association.superseded-followup",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.followup-null-both-opportunities",
+      "id": "J.association.followup-null-both-opportunities",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.project-ignores-other-lead",
+      "id": "J.association.project-ignores-other-lead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.lead-ignores-other-project",
+      "id": "J.association.lead-ignores-other-project",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.customer-ignores-opportunities",
+      "id": "J.association.customer-ignores-opportunities",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedCompetitorRecordId.project-mismatch",
+      "id": "J.association.relatedCompetitorRecordId.project-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedCompetitorRecordId.lead-mismatch",
+      "id": "J.association.relatedCompetitorRecordId.lead-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedCompetitorRecordId.customer-mismatch",
+      "id": "J.association.relatedCompetitorRecordId.customer-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedCompetitorRecordId.nullable-project-no-customer-check",
+      "id": "J.association.relatedCompetitorRecordId.nullable-project-no-customer-check",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedFollowUpRecordId.project-mismatch",
+      "id": "J.association.relatedFollowUpRecordId.project-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedFollowUpRecordId.lead-mismatch",
+      "id": "J.association.relatedFollowUpRecordId.lead-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedFollowUpRecordId.customer-mismatch",
+      "id": "J.association.relatedFollowUpRecordId.customer-mismatch",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedFollowUpRecordId.nullable-project-no-customer-check",
+      "id": "J.association.relatedFollowUpRecordId.nullable-project-no-customer-check",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedContactId.missing-only",
+      "id": "J.association.relatedContactId.missing-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedCompetitorRecordId.missing-only",
+      "id": "J.association.relatedCompetitorRecordId.missing-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association.relatedFollowUpRecordId.missing-only",
+      "id": "J.association.relatedFollowUpRecordId.missing-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.missing.targetObjectType",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.missing.targetObjectId",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.missing.discussionType",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.missing.body",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.invalid.targetObjectType.4",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.invalid.targetObjectId.5",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.invalid.discussionType.6",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.invalid.body.7",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.invalid.body.8",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.all-invalid-issue-order",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.unknown-stripped",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.unknown-stripped",
+      "key": "forbiddenOutput.unknownField",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.all-related-null",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.all-related-null",
+      "key": "relatedContactId",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.all-related-null",
+      "key": "relatedCompetitorRecordId",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.all-related-null",
+      "key": "relatedFollowUpRecordId",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flag-type.isPinned.null",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flag-type.isPinned.true",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flag-type.isPinned.1",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flag-type.isKeyConclusion.null",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flag-type.isKeyConclusion.true",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flag-type.isKeyConclusion.1",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.false.false",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.false.false",
+      "key": "isPinned",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.false.false",
+      "key": "isKeyConclusion",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.false.true",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.false.true",
+      "key": "isPinned",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.false.true",
+      "key": "isKeyConclusion",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.true.false",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.true.false",
+      "key": "isPinned",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.true.false",
+      "key": "isKeyConclusion",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.true.true",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.true.true",
+      "key": "isPinned",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.flags.true.true",
+      "key": "isKeyConclusion",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.intelligence-supplement",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.intelligence-supplement",
+      "key": "discussionType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.decision-chain",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.decision-chain",
+      "key": "discussionType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.competition",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.competition",
+      "key": "discussionType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.strategy",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.strategy",
+      "key": "discussionType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.risk",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.risk",
+      "key": "discussionType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.general",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.enum.general",
+      "key": "discussionType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.target-enum.customer",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.target-enum.customer",
+      "key": "targetObjectType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.target-enum.lead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.target-enum.lead",
+      "key": "targetObjectType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.target-enum.project",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.target-enum.project",
+      "key": "targetObjectType",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.no-added-closed-lead-gate",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.no-added-closed-project-stage-gate",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.control-characters",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.create-boundaries",
+      "id": "J.create.control-characters",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.NUL",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.NUL",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.lone-high",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.lone-high",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.lone-low",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.lone-low",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.embedded-lone-high",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.embedded-lone-high",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.embedded-lone-low",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.reject.embedded-lone-low",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.bmp8000",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.bmp8000",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.bmp8001",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.emoji8000",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.emoji8000",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.emoji8001",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.trim-valid",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.trim-valid",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.NEL-valid",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.NEL-valid",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.zero-width-valid",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.zero-width-valid",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.controls-and-combining-valid",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.controls-and-combining-valid",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.unknown-stripped",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.unknown-stripped",
+      "key": "business-text",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.unknown-stripped",
+      "key": "forbiddenOutput.unknownText",
+      "passed": true
+    },
+    {
+      "group": "J.persistent-text.business-roundtrip",
+      "id": "J.text.GET-after-business-cases",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.first",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.first",
+      "key": "targetTitle",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.first",
+      "key": "customerId",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.rename-and-change-customer",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.rename-and-change-customer",
+      "key": "customerId",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.rename-and-change-customer",
+      "key": "projectName",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.second",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.second",
+      "key": "targetTitle",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.second",
+      "key": "customerId",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.second",
+      "key": "sameThreadAs",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.contact-live-rename",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.GET",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.GET",
+      "key": "live-contact-name",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.GET",
+      "key": "storedThreadTitles",
+      "passed": true
+    },
+    {
+      "group": "J.old-thread-snapshot-and-live-contact",
+      "id": "J.old-title.GET",
+      "key": "storedThreadCustomers",
+      "passed": true
+    },
+    {
+      "group": "J.comment-order.microseconds",
+      "id": "J.order.microseconds",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.comment-order.microseconds",
+      "id": "J.order.microseconds",
+      "key": "comment-order",
+      "passed": true
+    },
+    {
+      "group": "J.comment-order.microseconds",
+      "id": "J.order.microseconds",
+      "key": "same-wire-millisecond",
+      "passed": true
+    },
+    {
+      "group": "J.comment-order.exact-tie",
+      "id": "J.order.exact-tie",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.comment-order.exact-tie",
+      "id": "J.order.exact-tie",
+      "key": "exact-tie-prefix",
+      "passed": true
+    },
+    {
+      "group": "J.comment-order.exact-tie",
+      "id": "J.order.exact-tie",
+      "key": "exact-tie-tail-membership",
+      "passed": true
+    },
+    {
+      "group": "J.comment-live-user-name",
+      "id": "J.live-user.GET",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.first-thread-conflict",
+      "id": "J.first-thread.racer-A",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.first-thread-conflict",
+      "id": "J.first-thread.racer-B",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "J.association-delete-after-lookup",
+      "id": "J.FK-deleted-contact",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.assessment",
+      "id": "K.G02.stage.assessment",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.assessment",
+      "id": "K.G02.stage.assessment",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.assessment",
+      "id": "K.G02.stage.assessment",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.assessment",
+      "id": "K.G02.stage.assessment",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.assessment",
+      "id": "K.G02.stage.assessment",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.scope-confirmation",
+      "id": "K.G02.stage.scope-confirmation",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.scope-confirmation",
+      "id": "K.G02.stage.scope-confirmation",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.scope-confirmation",
+      "id": "K.G02.stage.scope-confirmation",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.scope-confirmation",
+      "id": "K.G02.stage.scope-confirmation",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.scope-confirmation",
+      "id": "K.G02.stage.scope-confirmation",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.commercial-closure",
+      "id": "K.G02.stage.commercial-closure",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.commercial-closure",
+      "id": "K.G02.stage.commercial-closure",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.commercial-closure",
+      "id": "K.G02.stage.commercial-closure",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.commercial-closure",
+      "id": "K.G02.stage.commercial-closure",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.commercial-closure",
+      "id": "K.G02.stage.commercial-closure",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.contracting",
+      "id": "K.G02.stage.contracting",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.contracting",
+      "id": "K.G02.stage.contracting",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.contracting",
+      "id": "K.G02.stage.contracting",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.contracting",
+      "id": "K.G02.stage.contracting",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.contracting",
+      "id": "K.G02.stage.contracting",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.handover",
+      "id": "K.G02.stage.handover",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.handover",
+      "id": "K.G02.stage.handover",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.handover",
+      "id": "K.G02.stage.handover",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.handover",
+      "id": "K.G02.stage.handover",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.handover",
+      "id": "K.G02.stage.handover",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.execution",
+      "id": "K.G02.stage.execution",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.execution",
+      "id": "K.G02.stage.execution",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.execution",
+      "id": "K.G02.stage.execution",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.execution",
+      "id": "K.G02.stage.execution",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.execution",
+      "id": "K.G02.stage.execution",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.acceptance",
+      "id": "K.G02.stage.acceptance",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.acceptance",
+      "id": "K.G02.stage.acceptance",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.acceptance",
+      "id": "K.G02.stage.acceptance",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.acceptance",
+      "id": "K.G02.stage.acceptance",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.acceptance",
+      "id": "K.G02.stage.acceptance",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.completed",
+      "id": "K.G02.stage.completed",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.completed",
+      "id": "K.G02.stage.completed",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.completed",
+      "id": "K.G02.stage.completed",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.completed",
+      "id": "K.G02.stage.completed",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.completed",
+      "id": "K.G02.stage.completed",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-lost",
+      "id": "K.G02.stage.closed-lost",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-lost",
+      "id": "K.G02.stage.closed-lost",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-lost",
+      "id": "K.G02.stage.closed-lost",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-lost",
+      "id": "K.G02.stage.closed-lost",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-lost",
+      "id": "K.G02.stage.closed-lost",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-terminated",
+      "id": "K.G02.stage.closed-terminated",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-terminated",
+      "id": "K.G02.stage.closed-terminated",
+      "key": "currentStage",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-terminated",
+      "id": "K.G02.stage.closed-terminated",
+      "key": "currentStageLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-terminated",
+      "id": "K.G02.stage.closed-terminated",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G02.stage.closed-terminated",
+      "id": "K.G02.stage.closed-terminated",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G03.blocked-and-closed",
+      "id": "K.G03.blocked-and-closed",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G03.blocked-and-closed",
+      "id": "K.G03.blocked-and-closed",
+      "key": "headline",
+      "passed": true
+    },
+    {
+      "group": "K.G03.pending-and-closed",
+      "id": "K.G03.pending-and-closed",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G03.pending-and-closed",
+      "id": "K.G03.pending-and-closed",
+      "key": "headline",
+      "passed": true
+    },
+    {
+      "group": "K.G03.hold-and-closed",
+      "id": "K.G03.hold-and-closed",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G03.hold-and-closed",
+      "id": "K.G03.hold-and-closed",
+      "key": "headline",
+      "passed": true
+    },
+    {
+      "group": "K.G03.closed-status-execution",
+      "id": "K.G03.closed-status-execution",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G03.closed-status-execution",
+      "id": "K.G03.closed-status-execution",
+      "key": "headline",
+      "passed": true
+    },
+    {
+      "group": "K.G03.completed-remains-open",
+      "id": "K.G03.completed-remains-open",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G03.completed-remains-open",
+      "id": "K.G03.completed-remains-open",
+      "key": "headline",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.projectRead",
+      "id": "K.G06.execution.projectRead",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.projectRead",
+      "id": "K.G06.execution.projectRead",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.projectRead",
+      "id": "K.G06.execution.projectRead",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.projectRead",
+      "id": "K.G06.execution.projectRead",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.projectRead",
+      "id": "K.G06.execution.projectRead",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.projectRead",
+      "id": "K.G06.execution.projectRead",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.finance",
+      "id": "K.G06.execution.finance",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.finance",
+      "id": "K.G06.execution.finance",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.finance",
+      "id": "K.G06.execution.finance",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.finance",
+      "id": "K.G06.execution.finance",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.finance",
+      "id": "K.G06.execution.finance",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.finance",
+      "id": "K.G06.execution.finance",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.assignment",
+      "id": "K.G06.execution.assignment",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.assignment",
+      "id": "K.G06.execution.assignment",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.assignment",
+      "id": "K.G06.execution.assignment",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.assignment",
+      "id": "K.G06.execution.assignment",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.assignment",
+      "id": "K.G06.execution.assignment",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.assignment",
+      "id": "K.G06.execution.assignment",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.payout",
+      "id": "K.G06.execution.payout",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.payout",
+      "id": "K.G06.execution.payout",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.payout",
+      "id": "K.G06.execution.payout",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.payout",
+      "id": "K.G06.execution.payout",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.payout",
+      "id": "K.G06.execution.payout",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.payout",
+      "id": "K.G06.execution.payout",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsPartial",
+      "id": "K.G06.execution.operationsPartial",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsPartial",
+      "id": "K.G06.execution.operationsPartial",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsPartial",
+      "id": "K.G06.execution.operationsPartial",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsPartial",
+      "id": "K.G06.execution.operationsPartial",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsPartial",
+      "id": "K.G06.execution.operationsPartial",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsPartial",
+      "id": "K.G06.execution.operationsPartial",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsAll",
+      "id": "K.G06.execution.operationsAll",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsAll",
+      "id": "K.G06.execution.operationsAll",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsAll",
+      "id": "K.G06.execution.operationsAll",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsAll",
+      "id": "K.G06.execution.operationsAll",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsAll",
+      "id": "K.G06.execution.operationsAll",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsAll",
+      "id": "K.G06.execution.operationsAll",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoRules",
+      "id": "K.G06.execution.operationsNoRules",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoRules",
+      "id": "K.G06.execution.operationsNoRules",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoRules",
+      "id": "K.G06.execution.operationsNoRules",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoRules",
+      "id": "K.G06.execution.operationsNoRules",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoRules",
+      "id": "K.G06.execution.operationsNoRules",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoRules",
+      "id": "K.G06.execution.operationsNoRules",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoCalculations",
+      "id": "K.G06.execution.operationsNoCalculations",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoCalculations",
+      "id": "K.G06.execution.operationsNoCalculations",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoCalculations",
+      "id": "K.G06.execution.operationsNoCalculations",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoCalculations",
+      "id": "K.G06.execution.operationsNoCalculations",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoCalculations",
+      "id": "K.G06.execution.operationsNoCalculations",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoCalculations",
+      "id": "K.G06.execution.operationsNoCalculations",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoPayouts",
+      "id": "K.G06.execution.operationsNoPayouts",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoPayouts",
+      "id": "K.G06.execution.operationsNoPayouts",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoPayouts",
+      "id": "K.G06.execution.operationsNoPayouts",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoPayouts",
+      "id": "K.G06.execution.operationsNoPayouts",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoPayouts",
+      "id": "K.G06.execution.operationsNoPayouts",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoPayouts",
+      "id": "K.G06.execution.operationsNoPayouts",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoAdjustments",
+      "id": "K.G06.execution.operationsNoAdjustments",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoAdjustments",
+      "id": "K.G06.execution.operationsNoAdjustments",
+      "key": "financeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoAdjustments",
+      "id": "K.G06.execution.operationsNoAdjustments",
+      "key": "freezeEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoAdjustments",
+      "id": "K.G06.execution.operationsNoAdjustments",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoAdjustments",
+      "id": "K.G06.execution.operationsNoAdjustments",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.execution.operationsNoAdjustments",
+      "id": "K.G06.execution.operationsNoAdjustments",
+      "key": "commissionOperationsEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.handover-finance",
+      "id": "K.G06.handover-finance",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.handover-finance",
+      "id": "K.G06.handover-finance",
+      "key": "operatingOverviewEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.handover-finance",
+      "id": "K.G06.handover-finance",
+      "key": "commissionGateEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.acceptance-payout",
+      "id": "K.G06.acceptance-payout",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G06.acceptance-payout",
+      "id": "K.G06.acceptance-payout",
+      "key": "ruleExplanationEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G06.acceptance-payout",
+      "id": "K.G06.acceptance-payout",
+      "key": "finalSettlementEnabled",
+      "passed": true
+    },
+    {
+      "group": "K.G04.both",
+      "id": "K.G04.both",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.both",
+      "id": "K.G04.both",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.both",
+      "id": "K.G04.both",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.name-only",
+      "id": "K.G04.name-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.name-only",
+      "id": "K.G04.name-only",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.name-only",
+      "id": "K.G04.name-only",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.org-only",
+      "id": "K.G04.org-only",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.org-only",
+      "id": "K.G04.org-only",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.org-only",
+      "id": "K.G04.org-only",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.neither",
+      "id": "K.G04.neither",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.neither",
+      "id": "K.G04.neither",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.neither",
+      "id": "K.G04.neither",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.missing-identities",
+      "id": "K.G04.missing-identities",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.missing-identities",
+      "id": "K.G04.missing-identities",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.missing-identities",
+      "id": "K.G04.missing-identities",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.empty-name-uses-org",
+      "id": "K.G04.empty-name-uses-org",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.empty-name-uses-org",
+      "id": "K.G04.empty-name-uses-org",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.empty-name-uses-org",
+      "id": "K.G04.empty-name-uses-org",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.empty-name-uses-stage-fallback",
+      "id": "K.G04.empty-name-uses-stage-fallback",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.empty-name-uses-stage-fallback",
+      "id": "K.G04.empty-name-uses-stage-fallback",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.empty-name-uses-stage-fallback",
+      "id": "K.G04.empty-name-uses-stage-fallback",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G04.trim-blank-name-uses-org",
+      "id": "K.G04.trim-blank-name-uses-org",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G04.trim-blank-name-uses-org",
+      "id": "K.G04.trim-blank-name-uses-org",
+      "key": "ownerLabel",
+      "passed": true
+    },
+    {
+      "group": "K.G04.trim-blank-name-uses-org",
+      "id": "K.G04.trim-blank-name-uses-org",
+      "key": "usable-owner-label",
+      "passed": true
+    },
+    {
+      "group": "K.G05.no-summary",
+      "id": "K.G05.no-summary",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G05.no-summary",
+      "id": "K.G05.no-summary",
+      "key": "basis-summary-selector",
+      "passed": true
+    },
+    {
+      "group": "K.G05.only-ineligible-decoys",
+      "id": "K.G05.only-ineligible-decoys",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G05.only-ineligible-decoys",
+      "id": "K.G05.only-ineligible-decoys",
+      "key": "basis-all-four-null",
+      "passed": true
+    },
+    {
+      "group": "K.G05.exact-active-and-inactive-package",
+      "id": "K.G05.exact-active-and-inactive-package",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.G05.exact-active-and-inactive-package",
+      "id": "K.G05.exact-active-and-inactive-package",
+      "key": "basis-summary-selector",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.invalid-path.workspace-guidance",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.invalid-path.workspace-guidance",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.invalid-path.timeline",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.invalid-path.timeline",
+      "key": "clearValidationError",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.absent.workspace-guidance.0",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.absent.workspace-guidance.1",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.absent.timeline.0",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.E01.path-format-and-absence",
+      "id": "K.E01.absent.timeline.1",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T01.no-inferred-stages",
+      "id": "K.T01.no-inferred-stages",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T01.no-inferred-stages",
+      "id": "K.T01.no-inferred-stages",
+      "key": "eventCount",
+      "passed": true
+    },
+    {
+      "group": "K.T01.no-inferred-stages",
+      "id": "K.T01.no-inferred-stages",
+      "key": "complete-event-order",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "eventCount",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "complete-event-order",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "required-fact-contract",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "required-fact-handover",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "required-fact-acceptance",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "acceptance.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "acceptance.actorUserId",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "acceptance.actorName",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "required-fact-completion",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "completion.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "completion.actorUserId",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "completion.actorName",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "required-fact-archive",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "archive.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "archive.evidenceLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "archive.stage",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "required-fact-close",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "close.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "close.evidenceLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "close.stage",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "completion-wire-time",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "acceptance-wire-time",
+      "passed": true
+    },
+    {
+      "group": "K.T02-T08.full-legal-facts",
+      "id": "K.T02-T08.full-legal-facts",
+      "key": "complete-stored-time-order",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.contract",
+      "id": "K.T09.equal-all-keys.contract",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.contract",
+      "id": "K.T09.equal-all-keys.contract",
+      "key": "lawful-tie-member",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.handover",
+      "id": "K.T09.equal-all-keys.handover",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.handover",
+      "id": "K.T09.equal-all-keys.handover",
+      "key": "lawful-tie-member",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.acceptance",
+      "id": "K.T09.equal-all-keys.acceptance",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.acceptance",
+      "id": "K.T09.equal-all-keys.acceptance",
+      "key": "lawful-tie-member",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.completion",
+      "id": "K.T09.equal-all-keys.completion",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T09.equal-all-keys.completion",
+      "id": "K.T09.equal-all-keys.completion",
+      "key": "lawful-tie-member",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-outcome.accepted",
+      "id": "K.T04.label.stage-outcome.accepted",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-outcome.accepted",
+      "id": "K.T04.label.stage-outcome.accepted",
+      "key": "sourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-outcome.accepted",
+      "id": "K.T04.label.stage-outcome.accepted",
+      "key": "resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-outcome.conditional",
+      "id": "K.T04.label.stage-outcome.conditional",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-outcome.conditional",
+      "id": "K.T04.label.stage-outcome.conditional",
+      "key": "sourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-outcome.conditional",
+      "id": "K.T04.label.stage-outcome.conditional",
+      "key": "resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-acceptance.accepted",
+      "id": "K.T04.label.stage-acceptance.accepted",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-acceptance.accepted",
+      "id": "K.T04.label.stage-acceptance.accepted",
+      "key": "sourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-acceptance.accepted",
+      "id": "K.T04.label.stage-acceptance.accepted",
+      "key": "resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-acceptance.conditional",
+      "id": "K.T04.label.stage-acceptance.conditional",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-acceptance.conditional",
+      "id": "K.T04.label.stage-acceptance.conditional",
+      "key": "sourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.stage-acceptance.conditional",
+      "id": "K.T04.label.stage-acceptance.conditional",
+      "key": "resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.final-acceptance.accepted",
+      "id": "K.T04.label.final-acceptance.accepted",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.final-acceptance.accepted",
+      "id": "K.T04.label.final-acceptance.accepted",
+      "key": "sourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.final-acceptance.accepted",
+      "id": "K.T04.label.final-acceptance.accepted",
+      "key": "resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.final-acceptance.conditional",
+      "id": "K.T04.label.final-acceptance.conditional",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.final-acceptance.conditional",
+      "id": "K.T04.label.final-acceptance.conditional",
+      "key": "sourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T04.label.final-acceptance.conditional",
+      "id": "K.T04.label.final-acceptance.conditional",
+      "key": "resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T02.contract-createdBy-fallback",
+      "id": "K.T02.contract-createdBy-fallback",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T02.contract-createdBy-fallback",
+      "id": "K.T02.contract-createdBy-fallback",
+      "key": "contractSourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T02.contract-createdBy-fallback",
+      "id": "K.T02.contract-createdBy-fallback",
+      "key": "contractActorUserId",
+      "passed": true
+    },
+    {
+      "group": "K.T05.completed-label",
+      "id": "K.T05.completed-label",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T05.completed-label",
+      "id": "K.T05.completed-label",
+      "key": "sourceId",
+      "passed": false
+    },
+    {
+      "group": "K.T06.anchor.completed",
+      "id": "K.T06.anchor.completed",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T06.anchor.completed",
+      "id": "K.T06.anchor.completed",
+      "key": "archiveSourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T06.anchor.completed",
+      "id": "K.T06.anchor.completed",
+      "key": "archiveStage",
+      "passed": true
+    },
+    {
+      "group": "K.T06.anchor.closed-lost",
+      "id": "K.T06.anchor.closed-lost",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T06.anchor.closed-lost",
+      "id": "K.T06.anchor.closed-lost",
+      "key": "archiveSourceId",
+      "passed": true
+    },
+    {
+      "group": "K.T06.anchor.closed-lost",
+      "id": "K.T06.anchor.closed-lost",
+      "key": "archiveStage",
+      "passed": true
+    },
+    {
+      "group": "K.T07.null-reason",
+      "id": "K.T07.null-reason",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T07.null-reason",
+      "id": "K.T07.null-reason",
+      "key": "closeEventPresent",
+      "passed": true
+    },
+    {
+      "group": "K.T07.null-reason",
+      "id": "K.T07.null-reason",
+      "key": "close.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T07.null-reason",
+      "id": "K.T07.null-reason",
+      "key": "close.evidenceLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T07.empty-reason",
+      "id": "K.T07.empty-reason",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T07.empty-reason",
+      "id": "K.T07.empty-reason",
+      "key": "closeEventPresent",
+      "passed": true
+    },
+    {
+      "group": "K.T07.empty-reason",
+      "id": "K.T07.empty-reason",
+      "key": "close.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T07.empty-reason",
+      "id": "K.T07.empty-reason",
+      "key": "close.evidenceLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T07.nonempty-reason",
+      "id": "K.T07.nonempty-reason",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T07.nonempty-reason",
+      "id": "K.T07.nonempty-reason",
+      "key": "closeEventPresent",
+      "passed": true
+    },
+    {
+      "group": "K.T07.nonempty-reason",
+      "id": "K.T07.nonempty-reason",
+      "key": "close.resultLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T07.nonempty-reason",
+      "id": "K.T07.nonempty-reason",
+      "key": "close.evidenceLabel",
+      "passed": true
+    },
+    {
+      "group": "K.T07.no-close-time",
+      "id": "K.T07.no-close-time",
+      "key": "status",
+      "passed": true
+    },
+    {
+      "group": "K.T07.no-close-time",
+      "id": "K.T07.no-close-time",
+      "key": "closeEventPresent",
+      "passed": true
+    }
+  ]
+}

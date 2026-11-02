@@ -1,0 +1,792 @@
+{
+  "kind": "R3HIJK-actual-bounded-G2-acceptance",
+  "backend": "nest",
+  "createdAt": "2026-11-02T12:12:39.549Z",
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "phase": "04",
+  "tag": "g2-native01",
+  "runId": "b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+  "marker": "3e225e17-88de-4880-92ea-4dad45646963",
+  "database": "poms_r3hijk_nest",
+  "runtime": {
+    "kind": "R3HIJK-owned-Linux-runtime",
+    "backend": "nest",
+    "tag": "g2-native01",
+    "pid": 8828,
+    "startTime": "174755",
+    "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+    "argvSha256": "5c334b043f11d581d527ebb554c7f50ee2391bcdc6e117357d45d6eea6ea3730",
+    "entry": "/home/wangzishi/projects/poms-rust-r3hijk/dist/apps/poms-api/main.js",
+    "artifactBytes": 2958081,
+    "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4",
+    "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+    "port": 12400,
+    "database": "poms_r3hijk_nest",
+    "createdAt": "2026-11-02T11:50:21.576Z"
+  },
+  "completed": false,
+  "failedAt": "upload.proposal.create",
+  "error": {
+    "name": "AssertionError",
+    "message": "upload.proposal.create\n\n400 !== 201\n"
+  },
+  "actors": [
+    {
+      "label": "admin",
+      "userId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "orgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "roleId": "2abfae41-882f-47df-8cf8-4868f9402191",
+      "username": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_admin"
+    },
+    {
+      "label": "other",
+      "userId": "125e8556-1b6a-4843-a051-ff53c496744e",
+      "orgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+      "roleId": "8f48e384-9c99-4d2f-81ea-3a069a705821",
+      "username": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_other"
+    }
+  ],
+  "ids": {
+    "adminUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+    "adminOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+    "otherUserId": "125e8556-1b6a-4843-a051-ff53c496744e",
+    "otherOrgId": "57d89883-d119-42b0-9761-02f8af6e797d",
+    "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+    "sourceCode": "customer-visit",
+    "projectId": "b96be569-1022-47f6-b1e3-5d9c82003f7e",
+    "contactId": "82083aa7-d495-4fec-952a-ede876cab553",
+    "leadId": "b6260fe1-afa6-4ed0-ab7f-6ed1bbf9d882"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+      "bytes": 15497,
+      "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db"
+    },
+    {
+      "file": "tools/rust-r3hijk/wire-client.mjs",
+      "bytes": 4221,
+      "rawBytesSha256": "6c437effa6133e6b236654eff94f06e8d4b2d7bc52f72ccb370c58c4496278a3"
+    },
+    {
+      "file": "tools/rust-r3hijk/source-guard.mjs",
+      "bytes": 883,
+      "rawBytesSha256": "7514ae404a27db77a795e7979849c23c2deeadd79e640bfacaa4a4f62d50dbe3"
+    },
+    {
+      "file": "tmp/rust-r3hijk/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "file": "tmp/rust-r3hijk/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "file": "tools/rust-r3hijk/acceptance-chain02.mjs",
+      "bytes": 8741,
+      "rawBytesSha256": "ee67beb086d2566db3822e1c55d6f9b9fd6377166a8a37eab05490bb43c899a8"
+    },
+    {
+      "file": "tmp/rust-r3hijk/d-input/native-fixture-draft01.mjs",
+      "bytes": 21356,
+      "rawBytesSha256": "48a97ade973b882a678d99d760dcb9a3491e57f7138fe21536b9a69e14472bbb"
+    }
+  ],
+  "cases": [],
+  "events": [
+    {
+      "label": "producer.lead.real-integration",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "HIJK real-integration",
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+        "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "leadNo": "LD-2026-000022",
+          "leadName": "HIJK real-integration",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "budgetStatus": "budget-confirmed",
+          "estimatedAmount": "1200000.00",
+          "urgency": "high",
+          "expectedDecisionDate": "2026-11-20",
+          "score": 62,
+          "rating": "B",
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T12:12:35.034Z",
+          "effectiveScore": 62,
+          "effectiveRating": "B",
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "activeScoreOverrideId": null,
+          "gateSummary": {
+            "qualification": {
+              "status": "ready",
+              "missingItems": [],
+              "explanation": "已满足确认有效硬闸口"
+            },
+            "conversion": {
+              "status": "blocked",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "explanation": "缺少：已确认有效状态"
+            }
+          },
+          "status": "registered",
+          "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+          "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "closedReason": null,
+          "closedAt": null,
+          "closedBy": null,
+          "convertedProjectId": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T12:12:35.028Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "updatedAt": "2026-11-02T12:12:35.028Z",
+          "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+        },
+        "requestId": "2b994764-8def-49f0-9440-d6d621594e41",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "1498",
+          "ETag",
+          "W/\"5da-6S61QSL45OV8bSmWtE8Pi00JCsg\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 855,
+          "requestSha256": "443d1f66fb6654cc49ce69c3d9d34d7bec32de6f223b6b8ff2fa4c76440ca7e6",
+          "responseBytes": 1820,
+          "responseSha256": "2f7532f999cc18234694f7ecf4e37ccdc68a267e39ebafab357f94051bdeeb25",
+          "entityBodyBytes": 1498,
+          "entityBodySha256": "c050c33888f9d966338c71a580d4b382acbb2becb4035737185a88b26088265a",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-568bfef3-4f29-4925-8860-92ffd82b82cd",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.contact.chain-contact",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/customer-contacts",
+      "request": {
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "name": "HIJK chain-contact"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "ff54be28-43c7-4312-b86f-61133e3c9249",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+          "name": "HIJK chain-contact",
+          "gender": "unknown",
+          "department": null,
+          "title": null,
+          "workPhone": null,
+          "mobile": null,
+          "wechat": null,
+          "email": null,
+          "remark": null,
+          "status": "active",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T12:12:35.080Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "updatedAt": "2026-11-02T12:12:35.080Z",
+          "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+        },
+        "requestId": "2083f226-9d5e-4a57-ae97-e82940bf48f4",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "530",
+          "ETag",
+          "W/\"212-tiQIWTQWOS51nmbaOSjPDokiRLg\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 493,
+          "requestSha256": "152e73a26412e583d19cf8d333d9412df170ad61db86c2d635a7229ec9198214",
+          "responseBytes": 851,
+          "responseSha256": "5c3d337a52a49451a9f24baabb13d8d46b7137b10bd3e7b1cfe2104bd85831ff",
+          "entityBodyBytes": 530,
+          "entityBodySha256": "028b9ff975dd08312a66e58c1d21ab976bf05d173998ef81da2b2936ba3f8696",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-3c7ddc31-d530-4ede-aa21-64479a09d889",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "chain.stakeholder",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/opportunity-stakeholders",
+      "request": {
+        "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "contactId": "ff54be28-43c7-4312-b86f-61133e3c9249",
+        "role": "decision-maker",
+        "attitude": "neutral",
+        "influenceLevel": "medium",
+        "accessLevel": "indirect",
+        "focusAreas": [
+          "预算",
+          "交付"
+        ],
+        "communicationNotes": "Native I stakeholder initial communication",
+        "isPrimary": false
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "064d6969-76ab-4da6-874a-2e0c25ad8bdb",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+          "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "leadName": "HIJK real-integration",
+          "projectId": null,
+          "projectName": null,
+          "contactId": "ff54be28-43c7-4312-b86f-61133e3c9249",
+          "contactName": "HIJK chain-contact",
+          "contactDepartment": null,
+          "contactTitle": null,
+          "role": "decision-maker",
+          "attitude": "neutral",
+          "influenceLevel": "medium",
+          "accessLevel": "indirect",
+          "focusAreas": [
+            "预算",
+            "交付"
+          ],
+          "communicationNotes": "Native I stakeholder initial communication",
+          "isPrimary": false,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T12:12:35.103Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "updatedAt": "2026-11-02T12:12:35.103Z",
+          "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+        },
+        "requestId": "88951da5-5b12-4d4d-bfa2-dcf742c94bee",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "825",
+          "ETag",
+          "W/\"339-riaJF00CpePbDtza3qyaFOKSjuA\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 785,
+          "requestSha256": "3ac9f6f51ee005bc8f96299971cfc4c1986d756e70a3461cd2e371954a8c2376",
+          "responseBytes": 1146,
+          "responseSha256": "0206c8a97b7273cad6b39a62b908ebc9eab1bf5e96acce5567559f482d716d44",
+          "entityBodyBytes": 825,
+          "entityBodySha256": "6dca6563860ed782caf64131ff7714fd93b293efea09d82a1348fd4e7441fe27",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-284ae5f0-c5bc-4726-8a2e-9a8daa36e489",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "chain.competitor",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/competitor-intelligence-records",
+      "request": {
+        "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "competitorName": "Actual competitor",
+        "position": "active-competitor",
+        "customerPreference": "neutral",
+        "competitorStrengths": "Actual competitor initial strengths",
+        "competitorWeaknesses": "Actual competitor initial weaknesses",
+        "ourAdvantages": "Actual competitor initial advantages",
+        "ourRisks": "Actual competitor initial risks",
+        "winProbability": "medium",
+        "evidence": "Actual competitor initial evidence"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "57d52b0c-5f36-467f-82d2-7ecc11ca6c04",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+          "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "leadName": "HIJK real-integration",
+          "projectId": null,
+          "projectName": null,
+          "competitorName": "Actual competitor",
+          "position": "active-competitor",
+          "customerPreference": "neutral",
+          "competitorStrengths": "Actual competitor initial strengths",
+          "competitorWeaknesses": "Actual competitor initial weaknesses",
+          "ourAdvantages": "Actual competitor initial advantages",
+          "ourRisks": "Actual competitor initial risks",
+          "winProbability": "medium",
+          "evidence": "Actual competitor initial evidence",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T12:12:35.127Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "updatedAt": "2026-11-02T12:12:35.127Z",
+          "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+        },
+        "requestId": "bcb751d0-c338-4314-84ed-473c4688fcfc",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "876",
+          "ETag",
+          "W/\"36c-dFv8JalVhQtwBRO7rmDnOQ0ONIM\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 923,
+          "requestSha256": "b5c0235cd4495159dfe270a25d6fd619b00cc7f757b8743101eec65451986477",
+          "responseBytes": 1197,
+          "responseSha256": "cd0955fc49d9bb788d2b08341f6b4eead3246773dff6c77389115c5103a758c9",
+          "entityBodyBytes": 876,
+          "entityBodySha256": "415030d8122f90a6066e4c62b25c951286843565b597777531a43e57f7b361d5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-a869b05e-fc7f-4a17-9062-52c23cfd1ea5",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "chain.discovery",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/sales-discovery-records",
+      "request": {
+        "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "procurementProcess": "Actual discovery initial procurement",
+        "budgetSource": "Actual discovery initial budget",
+        "customerPainPoints": "Actual discovery initial pain",
+        "decisionCycle": "Actual discovery initial cycle",
+        "nextContactPlan": "Actual discovery initial next contact",
+        "remark": "Actual discovery initial remark"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "8d3513e3-dc1e-4b7e-8494-e4ee7899b313",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+          "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "leadName": "HIJK real-integration",
+          "projectId": null,
+          "projectName": null,
+          "procurementProcess": "Actual discovery initial procurement",
+          "budgetSource": "Actual discovery initial budget",
+          "customerPainPoints": "Actual discovery initial pain",
+          "decisionCycle": "Actual discovery initial cycle",
+          "nextContactPlan": "Actual discovery initial next contact",
+          "remark": "Actual discovery initial remark",
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T12:12:35.149Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "updatedAt": "2026-11-02T12:12:35.149Z",
+          "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+        },
+        "requestId": "238c3450-5c94-447d-ab5c-ce2e20090ca7",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "793",
+          "ETag",
+          "W/\"319-A5rCz6zuyjuG8cpwAKt4QuZYsvM\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 832,
+          "requestSha256": "0af66b209872969c9bd7592a3c53814f55b046745e5f0fd00ec4251e145a2187",
+          "responseBytes": 1114,
+          "responseSha256": "e68e2514ad826a15427c32489236ac05a317f76d0ac48841cc293e3ab58cd780",
+          "entityBodyBytes": 793,
+          "entityBodySha256": "bec1457131a4fd52a6928af38dadcbab0ec6b2ba4a8e48ccf24851d28d0fd774",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-84fff092-b89a-4bdd-8ae5-6503bb5f09dd",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "chain.followup",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/sales-follow-up-records",
+      "request": {
+        "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+        "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+        "followUpType": "phone",
+        "occurredAt": "2026-11-02T00:00:00.000Z",
+        "summary": "真实跟进生产者",
+        "outcome": "progress",
+        "nextFollowUpAt": "2027-01-02T00:00:00.000Z"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "c06b5f77-067d-4761-b749-cd4174ed4af9",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "customerName": "HIJK foundation b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+          "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "leadName": "HIJK real-integration",
+          "projectId": null,
+          "projectName": null,
+          "followUpType": "phone",
+          "status": "active",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "summary": "真实跟进生产者",
+          "detail": null,
+          "outcome": "progress",
+          "nextFollowUpAt": "2027-01-02T00:00:00.000Z",
+          "ownerOrgId": "1802427e-bd47-4cad-912b-f980eb3468f1",
+          "ownerOrgName": "HIJK admin",
+          "ownerUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "ownerName": "HIJK admin",
+          "supersedesId": null,
+          "replacedById": null,
+          "replacementReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null,
+          "voidReason": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T12:12:35.173Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "updatedAt": "2026-11-02T12:12:35.173Z",
+          "updatedBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e"
+        },
+        "requestId": "42a06418-8ba7-47c7-8deb-200acfb836d8",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "968",
+          "ETag",
+          "W/\"3c8-3EJ/s3BWgbBGwKU8v7zNOLWRB50\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 682,
+          "requestSha256": "a5839b3223eabf40f1abd1b45e88b5c30ed66ee3aefceb8a0351795c0cc7032a",
+          "responseBytes": 1289,
+          "responseSha256": "09638faf190c64e3cdbf6487aa504864e89bc7d67261c7c5bb1625ae31f65b6b",
+          "entityBodyBytes": 968,
+          "entityBodySha256": "991518fe0bd97ca282186979931ec1a6ccef3d2c9b7aa42ec24c8316e54a3d1e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-d0b67233-92fb-47f7-a557-861d076e9913",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "chain.todos",
+      "actor": "admin",
+      "method": "GET",
+      "route": "/api/me/todos",
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "id": "2dac19d7-08d4-4a78-b1e4-cc290be354c9",
+            "sourceType": "sales-follow-up-record",
+            "sourceId": "c06b5f77-067d-4761-b749-cd4174ed4af9",
+            "todoType": "sales-follow-up-reminder",
+            "businessDomain": "sales",
+            "targetObjectType": "lead",
+            "targetObjectId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+            "projectId": null,
+            "title": "销售跟进提醒：HIJK real-integration",
+            "summary": "真实跟进生产者",
+            "targetTitle": "HIJK real-integration",
+            "currentNodeName": "下次跟进：2027-01-02 08:00",
+            "allowedActions": [],
+            "assigneeUserId": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+            "status": "open",
+            "priority": "normal",
+            "dueAt": "2027-01-02T00:00:00.000Z",
+            "completedAt": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T12:12:35.177Z",
+            "updatedAt": "2026-11-02T12:12:35.177Z"
+          }
+        ],
+        "requestId": "d20660f0-859b-4d18-b716-3aaebcb32b41",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "733",
+          "ETag",
+          "W/\"2dd-ID4nvEkVlY6XP1Gom4EcYq3hQ2w\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 291,
+          "requestSha256": "6b31c9d6ddbda013d2ebe6bd7cc89bf6a89fe2909e6d76b172293843943438c9",
+          "responseBytes": 1049,
+          "responseSha256": "47e900804ffe1ac000069806338b3461fd70e1ea0991194326f7e44a0f38ecfc",
+          "entityBodyBytes": 733,
+          "entityBodySha256": "924f5974058d75225dac7013052bde6a15c742641ef875ed3156a29a7bda36eb",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-c367aedb-71df-4436-b604-5c873d3ada40",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "chain.discussion-before-conversion",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/business-discussions",
+      "request": {
+        "targetObjectType": "lead",
+        "targetObjectId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+        "discussionType": "general",
+        "body": "真实线索讨论😀",
+        "relatedContactId": "ff54be28-43c7-4312-b86f-61133e3c9249",
+        "relatedCompetitorRecordId": "57d52b0c-5f36-467f-82d2-7ecc11ca6c04",
+        "relatedSalesFollowUpRecordId": "c06b5f77-067d-4761-b749-cd4174ed4af9",
+        "isKeyConclusion": true
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "2d3868ed-7e97-4662-9f5d-51aa6b4848aa",
+          "threadId": "f4c40ee8-d998-43fb-8430-b9c90895e9f2",
+          "targetObjectType": "lead",
+          "targetObjectId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "targetTitle": "HIJK real-integration",
+          "customerId": "3812e8ea-4385-4e30-9b70-9a1dd4e53c65",
+          "leadId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+          "projectId": null,
+          "discussionType": "general",
+          "body": "真实线索讨论😀",
+          "relatedContactId": "ff54be28-43c7-4312-b86f-61133e3c9249",
+          "relatedContactName": "HIJK chain-contact",
+          "relatedCompetitorRecordId": "57d52b0c-5f36-467f-82d2-7ecc11ca6c04",
+          "relatedFollowUpRecordId": null,
+          "isPinned": false,
+          "isKeyConclusion": true,
+          "createdAt": "2026-11-02T12:12:35.217Z",
+          "createdBy": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+          "createdByName": "HIJK admin"
+        },
+        "requestId": "c08833a4-224f-4508-b2b6-dc960b31fe2b",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "748",
+          "ETag",
+          "W/\"2ec-7jjR2xZkiVemFZRGTOF3eUuewoY\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 776,
+          "requestSha256": "d76cb28f7014efbb7b49a54e56909189b6bf37e6ee015eb5b3277cf079aafbef",
+          "responseBytes": 1069,
+          "responseSha256": "d589c9d895583295a19260b6e06ce6f50e95cf913993a9c4a84fb68a21a00e7c",
+          "entityBodyBytes": 748,
+          "entityBodySha256": "9fd67771ebe8c4e1ab95de975cc7041f08426dd48ae062ad458dc2ab51f585b5",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-f9a1a1a0-02dd-4475-96c8-c52c61f72613",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "upload.proposal.create",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/attachment-upload-sessions",
+      "request": {
+        "operationType": "create-attachment",
+        "originalName": "HIJK-proposal.txt",
+        "mimeType": "text/plain",
+        "sizeBytes": 36,
+        "checksumSha256": "4e1e47f54a931ec4772ebdd5d3616e2b1559b681733f34abb50cc21422f6401e",
+        "targetType": "lead",
+        "targetId": "8bbe0a77-95c3-4eea-930c-2cb0b8ad2116",
+        "category": "proposal",
+        "relationType": "source"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "message": "Dictionary item not found: attachment-category/proposal",
+          "error": "Bad Request",
+          "statusCode": 400
+        },
+        "requestId": "d64fd55f-0713-417e-8fe5-8193d73f6e8e",
+        "headers": [
+          "X-Powered-By",
+          "Express",
+          "Access-Control-Allow-Origin",
+          "http://127.0.0.1:12600",
+          "Vary",
+          "Origin",
+          "Access-Control-Allow-Credentials",
+          "true",
+          "Content-Type",
+          "application/json; charset=utf-8",
+          "Content-Length",
+          "108",
+          "ETag",
+          "W/\"6c-P7DWT3CGrWUxjE8Byw8uvT8NYBM\"",
+          "Date",
+          "Mon, 02 Nov 2026 12:12:35 GMT",
+          "Connection",
+          "close"
+        ],
+        "rawWire": {
+          "requestBytes": 733,
+          "requestSha256": "59ea27fd42464d6f22b064a1b851e8b6ec5cfab658904fa028ee9a244784de7a",
+          "responseBytes": 432,
+          "responseSha256": "b07dc1ee9725d38d69f14004d6c6f0d424e9fc427d480e34a7b50733206fa389",
+          "entityBodyBytes": 108,
+          "entityBodySha256": "1b1900eea47878067988f91fd22a951d4511595ecf49c3f1cfbd192908822553",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/raw-wire/admin-f06242ef-e29e-4a3c-8de1-d56a40acd45c",
+          "originalRawRetained": true
+        }
+      }
+    }
+  ],
+  "observations": [],
+  "preparedFacts": [],
+  "privateOriginalSQLStreams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/postgres-stdout-original.bin",
+      "bytes": 830,
+      "rawBytesSha256": "f85c69b1fcd0f652a65a769f2f85dfff8198768cb90dac9751113f41ddb9c77a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-nest-b5eae6cf-26ab-4f78-8010-aa6997f9ce8d/phase04/postgres-stderr-original.bin",
+      "bytes": 2740832,
+      "rawBytesSha256": "e895f5f3c1e3b074480fe56def971f634dfe422a548523fc8320ce06efddfe79"
+    }
+  ],
+  "rawWireOnlyPrivate": true,
+  "productDDLChanged": false,
+  "cleanup": "Pending-owned-whole-acceptance-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

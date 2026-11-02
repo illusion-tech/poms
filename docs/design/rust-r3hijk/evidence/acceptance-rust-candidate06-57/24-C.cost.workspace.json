@@ -1,0 +1,153 @@
+{
+  "label": "C.cost.workspace",
+  "startedAt": "2026-11-02T19:01:39.284Z",
+  "completedAt": "2026-11-02T19:01:39.298Z",
+  "value": {
+    "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/c9d1eceb-6655-40a2-831f-494ba646c714/technical-cost-workspace"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-technical-cost-workspace",
+          "create-technical-cost-package"
+        ],
+        "blockingReasons": [],
+        "costItems": [
+          {
+            "amountExcludingTax": "100.10",
+            "amountIncludingTax": "113.11",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "R3HK-cc20b1df-57 equipment",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "G1 已确认询价。",
+            "highUncertainty": false,
+            "id": "feac43f7-fe1d-44bf-b914-2ff544d59c61",
+            "packageId": "e8c736c5-a322-444f-8334-44ba500d612d",
+            "quantity": "1.2500",
+            "responsibleRole": null,
+            "sortOrder": 1,
+            "taxCostAmount": "13.01",
+            "unit": "套",
+            "unitPrice": "80.0800"
+          },
+          {
+            "amountExcludingTax": "0.20",
+            "amountIncludingTax": "0.23",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "R3HK-cc20b1df-57 accessory",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "G1 已确认询价。",
+            "highUncertainty": false,
+            "id": "6673e233-06dc-468a-8cb4-701f32ae1c39",
+            "packageId": "e8c736c5-a322-444f-8334-44ba500d612d",
+            "quantity": "0.2000",
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "taxCostAmount": "0.03",
+            "unit": "套",
+            "unitPrice": "1.0000"
+          }
+        ],
+        "currentPackage": {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T19:01:39.263Z",
+          "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T19:01:39.263Z",
+          "highestRiskLevel": "R1",
+          "id": "e8c736c5-a322-444f-8334-44ba500d612d",
+          "isCurrent": true,
+          "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "b2b9f0dd-bc00-499d-9e2d-1c549e414113",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3HK-cc20b1df-57 cost revision 2",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T19:01:39.263Z",
+          "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e",
+          "version": 2
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T19:01:39.296Z",
+        "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+        "ownerLabel": "HIJK other / HIJK other",
+        "projectId": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "riskItems": [
+          {
+            "blocksNextStage": false,
+            "id": "e985cf70-cda4-4020-ab40-a9e325f826f2",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "packageId": "e8c736c5-a322-444f-8334-44ba500d612d",
+            "riskCategory": "R3HK-cc20b1df-57 supply",
+            "riskDescription": "R3HK-cc20b1df-57 reviewed delivery risk",
+            "riskLevel": "R1",
+            "riskStatus": "closed",
+            "sortOrder": 1
+          }
+        ],
+        "scopeItems": [
+          {
+            "description": "包含一项设备供货。",
+            "id": "12351e43-976a-48cc-a728-03a205018f35",
+            "label": "R3HK-cc20b1df-57 equipment scope",
+            "packageId": "e8c736c5-a322-444f-8334-44ba500d612d",
+            "scopeType": "in-scope",
+            "sortOrder": 1
+          }
+        ],
+        "status": "active"
+      },
+      "requestId": "d6c3affb-9583-425b-ae62-7089d2ddc8a4",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2847",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-158",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 353,
+        "requestSha256": "535a92800b9df1d9852cf5e0e72dc5630cd8587456ae3a58990c8db795a34047",
+        "responseBytes": 3128,
+        "responseSha256": "da000e7a720bdb4afc4abf537b9cfd73a4856e69940626aeaef161ccd0e747e5",
+        "entityBodyBytes": 2847,
+        "entityBodySha256": "c3ee4068420c54d4c427b68bc8b8ace181e86d8f8028d4eb08f87efa3d510437",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-1f9252f7-445c-44dc-93fd-b5eedadd0ba9",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

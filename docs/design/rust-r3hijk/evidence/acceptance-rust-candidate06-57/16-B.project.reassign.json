@@ -1,0 +1,86 @@
+{
+  "label": "B.project.reassign",
+  "startedAt": "2026-11-02T19:01:39.150Z",
+  "completedAt": "2026-11-02T19:01:39.169Z",
+  "value": {
+    "operationId": "ProjectController_reassignOwner",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects/c9d1eceb-6655-40a2-831f-494ba646c714:reassignOwner",
+      "json": {
+        "ownerUserId": "455cd0c1-31a2-461b-8088-cb962754d259",
+        "ownerOrgId": "4edab6e6-91aa-4a51-8eff-8cab0f273b93",
+        "reason": "R3HK-cc20b1df-57 business ownership transfer",
+        "expectedVersion": 2
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "businessStatusAfter": "active",
+        "newOwnerOrgId": "4edab6e6-91aa-4a51-8eff-8cab0f273b93",
+        "newOwnerUserId": "455cd0c1-31a2-461b-8088-cb962754d259",
+        "previousOwnerOrgId": "8e5b2125-63ce-4d38-85c8-1481cf11c296",
+        "previousOwnerUserId": "85005c87-2c45-450d-9e07-9417b682459e",
+        "projectOwnerReassignmentRecordId": "801d91b2-9f08-4c30-98f2-947a67204a48",
+        "targetId": "c9d1eceb-6655-40a2-831f-494ba646c714"
+      },
+      "requestId": "d04445f3-6c19-4025-b720-860637c50190",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "388",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-150",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 637,
+        "requestSha256": "246bb69021b547b6772f597a9a810c7927adbd5a880b35605860a2160895614c",
+        "responseBytes": 673,
+        "responseSha256": "4150e4edef35c7f6e789ae2bc9d8a7f6b1275e9c14e6648d225460eb828e9e31",
+        "entityBodyBytes": 388,
+        "entityBodySha256": "8f74c7efffdf7e91e524ac6af8330f9f876bf4893569f304ed82fbc378e810cf",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-b3b46752-f6f3-488b-951f-02aaa00c65b5",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "project_no": "PRJ-2026-000011",
+        "project_name": "R3HK-cc20b1df-57 revised project",
+        "customer_id": "7da8d1ef-1285-4556-8bf6-72d759084484",
+        "status": "active",
+        "current_stage": "assessment",
+        "owner_org_id": "4edab6e6-91aa-4a51-8eff-8cab0f273b93",
+        "owner_user_id": "455cd0c1-31a2-461b-8088-cb962754d259",
+        "planned_sign_at": null,
+        "closed_at": null,
+        "closed_reason": null,
+        "row_version": 3,
+        "created_at": "2026-11-02T19:01:39.085Z",
+        "created_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "updated_at": "2026-11-02T19:01:39.159Z",
+        "updated_by": "85005c87-2c45-450d-9e07-9417b682459e",
+        "customer_name": "R3HK-cc20b1df-57 customer revised",
+        "source_lead_id": null,
+        "customer_project_no": null
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

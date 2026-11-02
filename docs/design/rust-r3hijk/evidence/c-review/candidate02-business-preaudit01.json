@@ -1,0 +1,524 @@
+{
+  "kind": "C-independent-R3HIJK-candidate02-business-preaudit01",
+  "createdAt": "2026-11-02T15:31:26.003Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "base": "7f970c992291c61477eb9bd83a48cec19a769d88",
+  "policy": "Business correctness; no Node defect/byte-parity oracle",
+  "verdict": "No-substantive-P1-P2-found-in-reviewed-candidate02-business-corrections",
+  "findings": [],
+  "P1": 0,
+  "P2": 0,
+  "G3Certified": false,
+  "G4Certified": false,
+  "fullGateSigned": false,
+  "candidateArtifactSha256": "fcf07817ca4068b3cce5d419c49a0ee5617060428f5d5ce30bb1ff32845ccc83",
+  "artifactIsNotCommitSHA": true,
+  "scope": {
+    "phase": "22",
+    "groups": 14,
+    "HTTPEvents": 65,
+    "onlyExistingActualAndFocusedSourceReviewed": true,
+    "fullJKMatrixUIOld30AndTerminalStillPending": true
+  },
+  "provenance": {
+    "actual": {
+      "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/report01.json",
+      "bytes": 590994,
+      "rawBytesSha256": "93ec31a9dd81bb4ba91388694fbad921c2db153b4e06f31bdb52e8faa1d2ed1e"
+    },
+    "runtime": {
+      "kind": "R3HIJK-owned-Linux-runtime",
+      "backend": "rust",
+      "tag": "candidate02",
+      "pid": 76822,
+      "startTime": "1336945",
+      "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+      "argvSha256": "f533acb1e0a0dc1963aae48a39c00beae4ea837fbcdb7f080e908dd14f78332a",
+      "entry": "/home/wangzishi/.local/share/poms-r3hijk/target/release/poms-api-rust",
+      "artifactBytes": 43323592,
+      "artifactSha256": "fcf07817ca4068b3cce5d419c49a0ee5617060428f5d5ce30bb1ff32845ccc83",
+      "cwd": "/home/wangzishi/projects/poms-rust-r3hijk",
+      "port": 12500,
+      "database": "poms_r3hijk_rust",
+      "createdAt": "2026-11-02T15:04:03.493Z"
+    },
+    "casePins": [
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/01-business-text-UUID-money-date-inputs.json",
+        "bytes": 16293,
+        "rawBytesSha256": "25cf2ab6819a5d91312c824f44cb0ec23348db90dff42d618c3d9cb81c1a53c4"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/02-semantic-system-snapshot-noop-and-real-facts.json",
+        "bytes": 31195,
+        "rawBytesSha256": "fa716175525f25180352d73e38976b149308549a5893ac0335959d77150738f2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/03-atomic-main-snapshot-claim.json",
+        "bytes": 21605,
+        "rawBytesSha256": "56ec7646703fe286b31645a2a2b8966d9a7cd694af1a457e9293f2ab5566ed6c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/04-atomic-main-snapshot-assign.json",
+        "bytes": 21608,
+        "rawBytesSha256": "1ad60429165266cc53082c8c353f7903cd48b1792679505b190d8a3e8f164c41"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/05-atomic-main-snapshot-qualify.json",
+        "bytes": 21393,
+        "rawBytesSha256": "1c9c4871fc4b9fe8a076c4c9933090224ed6cc71d947afc4b4db173871fde0a4"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/06-atomic-main-snapshot-close.json",
+        "bytes": 21387,
+        "rawBytesSha256": "dc7f59b945a294391125c3e66ee887a4a9ca5101bf3504d31fbae3fbe68cd09f"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/07-atomic-required-audit-submit.json",
+        "bytes": 21385,
+        "rawBytesSha256": "f3229098a19b5efd268f6bda3acf1a11535c4a9c7046a69f681ad78ec871f6fe"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/08-atomic-required-audit-approve.json",
+        "bytes": 23472,
+        "rawBytesSha256": "47bdc8983c3557d9a07b194ae49083ebdc594bd5092f764ce131a1ee67c93e5b"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/09-atomic-required-audit-reject.json",
+        "bytes": 23469,
+        "rawBytesSha256": "333c8eb45e666e7754dbc451b026f44671e3b13de004acc3b98ea41a17a2711c"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/10-atomic-required-audit-revoke.json",
+        "bytes": 29035,
+        "rawBytesSha256": "8ce21bf541ae364235c5544e9c3655263926a1c489fd07b58e53e17d5cc962b2"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/11-single-optimistic-write-exactly-one-success.json",
+        "bytes": 15140,
+        "rawBytesSha256": "068c76d9c404ac16cf86eb5281cc4f1197e6b6ddc91d5b83dcb07751c1d05003"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/12-replacement-approval-exactly-once.json",
+        "bytes": 26273,
+        "rawBytesSha256": "b2242c48c846c309178283a6e92809234704b6eb458c3d926b63519d8469669a"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/13-I-typed-projection-and-semantic-noop.json",
+        "bytes": 13584,
+        "rawBytesSha256": "04841b1e3186aa0c0228c1f7fc1a5de53c012dcfce410c494417b171d87485fa"
+      },
+      {
+        "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-22/14-number-reservation-no-pool-self-deadlock.json",
+        "bytes": 54827,
+        "rawBytesSha256": "08a3c41d5031a1c3f231c67d2a26681a7846dcf39e1613e1aa442f70fb409611"
+      }
+    ],
+    "all14CaseCopiesExact": true,
+    "allActualSourcePinsCurrentExact": true,
+    "build": {
+      "file": "tmp/rust-r3hijk/rust-check06/report01.json",
+      "bytes": 89522,
+      "rawBytesSha256": "bf3b46ac52bb2733c95365b47b4eb321a4a85dbd01aafee4f105c93aaa7724c9"
+    },
+    "all231BuildAfterSourcePinsCurrentExact": true,
+    "RootChecks": [
+      {
+        "name": "cargo-fmt",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check06/cargo-fmt.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "name": "cargo-clippy",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check06/cargo-clippy.log",
+          "bytes": 169,
+          "rawBytesSha256": "93816518d9678d33348670db1219843e71d574a76def4572124ae6fba9f35966"
+        }
+      },
+      {
+        "name": "cargo-test",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check06/cargo-test.log",
+          "bytes": 49548,
+          "rawBytesSha256": "f0c4316f7e51ea913e37bd4c2dadb3c0f6d67673141aa84d9776d2b10899e315"
+        }
+      },
+      {
+        "name": "cargo-release",
+        "exitCode": 0,
+        "log": {
+          "file": "tmp/rust-r3hijk/rust-check06/cargo-release.log",
+          "bytes": 160,
+          "rawBytesSha256": "cfdeef297ecc9670a4fc05ab81ee6875c5309913cb0573fc110fe85909846eb8"
+        }
+      }
+    ],
+    "tests": {
+      "passed": 277,
+      "ignored": 54,
+      "logsReadNotTestsReexecuted": true
+    },
+    "NativeProtectedInputsUnchanged": 1373,
+    "policyAuthority": {
+      "file": "docs/design/rust-r3hijk/business-policy-authority01.json",
+      "bytes": 1117,
+      "rawBytesSha256": "7cac384b568f41a4cf357754536d7f3dee943a6e13ab82c1bbe3678d4ffb813b"
+    },
+    "publicSync": {
+      "file": "tmp/rust-r3hijk/root/public-sync10.json",
+      "bytes": 135020,
+      "rawBytesSha256": "e2f7b91f399b6a56182cfb70745c5188fdfeff5f10c3feebbab8140fd3a82d26"
+    },
+    "focusedSources": [
+      {
+        "file": "apps/poms-api-rust/src/leads/service.rs",
+        "bytes": 65162,
+        "rawBytesSha256": "92337cccccbef402f6d9207d684fb57ad017cca7baf7686239e187a4b51de755"
+      },
+      {
+        "file": "apps/poms-api-rust/src/leads/store.rs",
+        "bytes": 37867,
+        "rawBytesSha256": "c5c27b3bd9a8643cca3cc78a53ead47e04aae7d484a1ddfeb8b8e517a0ecd5a7"
+      },
+      {
+        "file": "apps/poms-api-rust/src/leads/scoring.rs",
+        "bytes": 16293,
+        "rawBytesSha256": "7394ca2707330814f13442d4dd8a917ecc4aa39fba59920f99d14f6ff05239fe"
+      },
+      {
+        "file": "apps/poms-api-rust/src/leads/validation.rs",
+        "bytes": 30662,
+        "rawBytesSha256": "b73f6d20bbff8095b0abf1d197bed272acb40c6fa34d70cd82584ee04f7fd85b"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+        "bytes": 41748,
+        "rawBytesSha256": "38bbf3179c79ce8c8546bf67bd3cc8ef634c154af3de13d0d1a7220442afca14"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_intelligence/store.rs",
+        "bytes": 15672,
+        "rawBytesSha256": "be0b547ddf6108813a34d99d6076898d1efa2e47fcc009a5630ea00975d75e4d"
+      },
+      {
+        "file": "apps/poms-api-rust/src/sales_intelligence/validation.rs",
+        "bytes": 23391,
+        "rawBytesSha256": "fda88e422a29e0b751435e422224ca7972c12b168330735586c5dc777bf6da8d"
+      },
+      {
+        "file": "apps/poms-api-rust/src/business_discussions/validation.rs",
+        "bytes": 7680,
+        "rawBytesSha256": "419a15161571744da11bc32d6786634a5e97bc731a12972695b061c6c47215a7"
+      },
+      {
+        "file": "apps/poms-api-rust/src/opportunity_context/validation.rs",
+        "bytes": 1156,
+        "rawBytesSha256": "b3b47b9d0919678742acb45d18a348ec78973e24fcdad8fa2ada1f199e647311"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/service.rs",
+        "bytes": 19768,
+        "rawBytesSha256": "63a95b4ae77dcea3b42cbf2082591eaacdcc40831acb1e091b5f6301b8a6a0ee"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/guidance.rs",
+        "bytes": 27744,
+        "rawBytesSha256": "38ac34ca3ec2f24dec684ec4eda1c1c8b0997c5da66b131cc474a7e2866addca"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_workspace/store.rs",
+        "bytes": 6871,
+        "rawBytesSha256": "edff5cd3e24e58047a1fcd606895394e64c92a79811ce7ae9b49922ba7397684"
+      }
+    ]
+  },
+  "independentActualChecks": [
+    {
+      "caseName": "business-text-UUID-money-date-inputs",
+      "HTTPs": [
+        400,
+        400,
+        400,
+        400,
+        400,
+        400,
+        400,
+        400,
+        400,
+        400
+      ],
+      "leadAndSnapshotCountsUnchanged": true,
+      "leadNumberCounterExactUnchanged": true,
+      "limit": "Public before/after here covers Lead counts, snapshots and Lead reservation counter. I/J responses400 are retained and source validation precedes service writes, but this case does not export I/J table counts."
+    },
+    {
+      "caseName": "semantic-system-snapshot-noop-and-real-facts",
+      "renameVersionDelta": 1,
+      "renameSnapshotDelta": 0,
+      "semanticNoopGraphExact": true,
+      "realFactSnapshotDelta": 1
+    },
+    {
+      "caseName": "atomic-main-snapshot-claim",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "publicBusinessTables": [
+        "lead",
+        "lead_score_snapshot",
+        "lead_score_override",
+        "lead_owner_assignment_record",
+        "project",
+        "lead attachment_link"
+      ],
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; audit result rows are not separately exported in this case value"
+    },
+    {
+      "caseName": "atomic-main-snapshot-assign",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "publicBusinessTables": [
+        "lead",
+        "lead_score_snapshot",
+        "lead_score_override",
+        "lead_owner_assignment_record",
+        "project",
+        "lead attachment_link"
+      ],
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; audit result rows are not separately exported in this case value"
+    },
+    {
+      "caseName": "atomic-main-snapshot-qualify",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "publicBusinessTables": [
+        "lead",
+        "lead_score_snapshot",
+        "lead_score_override",
+        "lead_owner_assignment_record",
+        "project",
+        "lead attachment_link"
+      ],
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; audit result rows are not separately exported in this case value"
+    },
+    {
+      "caseName": "atomic-main-snapshot-close",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "publicBusinessTables": [
+        "lead",
+        "lead_score_snapshot",
+        "lead_score_override",
+        "lead_owner_assignment_record",
+        "project",
+        "lead attachment_link"
+      ],
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; audit result rows are not separately exported in this case value"
+    },
+    {
+      "caseName": "atomic-required-audit-submit",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; failure injection denies the required audit insert in the same business transaction"
+    },
+    {
+      "caseName": "atomic-required-audit-approve",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; failure injection denies the required audit insert in the same business transaction"
+    },
+    {
+      "caseName": "atomic-required-audit-reject",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; failure injection denies the required audit insert in the same business transaction"
+    },
+    {
+      "caseName": "atomic-required-audit-revoke",
+      "HTTP": 500,
+      "businessGraphExact": true,
+      "sessionBeforeAfterEqual": false,
+      "sessionCounts": [
+        9,
+        9
+      ],
+      "authSessionEqualityNotBusinessRollbackRequirement": true,
+      "noAuditRows": "Root executor explicitly queried and asserted0; failure injection denies the required audit insert in the same business transaction"
+    },
+    {
+      "caseName": "single-optimistic-write-exactly-one-success",
+      "waiters": 2,
+      "statuses": [
+        200,
+        409
+      ],
+      "winner": "admin",
+      "versionDelta": 1,
+      "snapshotDelta": 0,
+      "auditRows": [
+        1,
+        0
+      ],
+      "storedValueActorRequestAuditAllMatchWinner": true
+    },
+    {
+      "caseName": "replacement-approval-exactly-once",
+      "waiters": 2,
+      "statuses": [
+        200,
+        409
+      ],
+      "winner": "admin",
+      "oldVersion": [
+        2,
+        3
+      ],
+      "pendingVersion": [
+        1,
+        2
+      ],
+      "uniqueApproved": 1,
+      "snapshotDelta": 1,
+      "auditRows": [
+        1,
+        0
+      ],
+      "storedValueActorRequestSnapshotAuditAllMatchWinner": true
+    },
+    {
+      "caseName": "I-typed-projection-and-semantic-noop",
+      "JSONNullRawRowVersionTimeActorExactUnchanged": true,
+      "responseVersionMatchesStored": true,
+      "objectView": "[]",
+      "validLegacyStringArrayLength": 13,
+      "readsDoNotWriteRawRows": true
+    },
+    {
+      "caseName": "number-reservation-no-pool-self-deadlock",
+      "concurrent": 16,
+      "HTTP": 201,
+      "uniqueIds": 16,
+      "uniqueNumbers": 16,
+      "completed": true,
+      "noPerformanceBenchmarkConclusion": true,
+      "limit": "Public case exports the16 committed HTTP results, not a separate16-row database/counter after-snapshot. Source commit precedes returned201; final owned terminal remains pending."
+    }
+  ],
+  "sourceReview": {
+    "atomicity": "Lead transaction wrapper rolls required-write errors back. Override state/snapshot/audit all use that wrapper and caller connection. Convert project/Lead/links/copy audit/system snapshot also share a transaction, but convert fault cases are not among these14 actual groups.",
+    "concurrency": "Lead and override store updates retain version predicates and zero-row results become Conflict409. Replacement updates old and pending records by separate CAS within one transaction, so the old weak-bulk path is removed.",
+    "snapshots": "Latest system snapshot and semantic JSON comparison use formula/system score/rating and complete facts/gates; property order does not manufacture a system snapshot. Manual transition history remains independent.",
+    "textAndDates": "Storable text check is applied to named persisted text fields, not arbitrary unknown fields/binary bytes. NUL/unpaired UTF16 reject400. Numeric18,2 precision is compared as text; business years1..9999 are explicit. This phase covers invalid inputs; complete positive boundary runtime cases remain outside these14.",
+    "IProjection": "Summary emits a dedicated string[] view. Semantic no-op returns the existing record and performs no domain store update; session maintenance is separately handled.",
+    "numberPool": "Create completes independent number reservation before acquiring the business TX; convert short preflight releases its connection, reserves, then rechecks convertibility in TX. This removes the observed nested pool acquisition shape.",
+    "KClarifications": "Source now selects earliest full stored signed_at and sorts events by complete DateTime before ISO serialization; owner labels use available nonblank responsibility names/fallback. This is static coverage only, not certification of the pending full K matrix."
+  },
+  "readModelClarifications": {
+    "input": {
+      "file": "docs/design/rust-r3hijk/business-read-model-clarifications01.json",
+      "bytes": 1453,
+      "rawBytesSha256": "9ab26decf418b69180c4d903870f52370a86f1233420c9271ba306189a07487f"
+    },
+    "boundedMeaning": "Usable responsibility labels, full stored business-time ordering, supported numeric/date bounds and pool-safe reservation are within the28-operation correction; no new Native/UI/DDL/R4 writes.",
+    "noNodeAnomalyMirroring": true,
+    "actualKCoverageInThisRun": false
+  },
+  "privacyAndPhase21": {
+    "publicPhase22SensitiveSessionHashKeysFound": 0,
+    "phase21PublicDerivative": {
+      "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-21-public02/report01.json",
+      "bytes": 102504,
+      "rawBytesSha256": "65cf2f85c4cb497aad36e19946a7a6f217243bd423da045b6576580467bf63a3"
+    },
+    "redactionProvenance": {
+      "file": "tmp/rust-r3hijk/acceptance-rust-candidate02-21-public02/redaction-provenance01.json",
+      "bytes": 1592,
+      "rawBytesSha256": "02487c46f4730bfab4c0d90b6f3eff211e751cd46c5f9e2a753374536176a211"
+    },
+    "partialNotRecertified": true,
+    "unredactedPhase21OriginalsReadByC": false,
+    "unredactedPhase21ListedInPublicSync10": false,
+    "rawQuarantineNotAnArchivalInput": true,
+    "authSessionKeepaliveIsNotBusinessRollbackOracle": true
+  },
+  "practicalLimits": [
+    "This preaudit covers the14 retained business groups and focused source. It does not certify all28 operation/validation/permission combinations.",
+    "Normal K projections/ordering and the full J/K matrix require their own retained actual results; source inspection alone is not acceptance.",
+    "Full old30 regression, four UI combinations, final candidate binding and complete owned seed/ACL/object/runtime terminal remain required before overall G3/G4.",
+    "For8 rollback cases the public business graph is independently exact; the Root executor also asserts zero request audit rows but does not export those audit queries as separate case data.",
+    "The invalid-input case exports Lead/snapshot counts and Lead counter; it does not export every I/J table count. No broader no-write claim is inferred solely from those counts."
+  ],
+  "scopeBoundary": {
+    "issues": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "operations": 28,
+    "formalR3Delivered": 30,
+    "totalR3HTTP": 58,
+    "parentIssuesRemainOpen": [
+      85,
+      57
+    ]
+  },
+  "noProductOrRootExecutorWriting": true,
+  "noInstallBuildTestHTTPDBBrowserHostServiceExecution": true,
+  "noPrivateRead": true,
+  "noGitHubWrite": true,
+  "onlyCReviewStaticArtifactsWritten": true
+}

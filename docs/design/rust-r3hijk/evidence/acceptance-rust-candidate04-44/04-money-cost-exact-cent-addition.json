@@ -1,0 +1,154 @@
+{
+  "label": "money-cost-exact-cent-addition",
+  "startedAt": "2026-11-02T18:17:11.005Z",
+  "completedAt": "2026-11-02T18:17:11.026Z",
+  "value": {
+    "input": {
+      "technicalFeasibilityDecision": "feasible",
+      "technicalConclusionSummary": "HIJK-decimal-44 cost revision 1",
+      "allowNextStage": true,
+      "currencyCode": "CNY",
+      "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+      "taxReviewStatus": "reviewed",
+      "scopeItems": [
+        {
+          "scopeType": "in-scope",
+          "label": "HIJK-decimal-44 equipment scope",
+          "description": "包含一项设备供货。",
+          "sortOrder": 1
+        }
+      ],
+      "riskItems": [
+        {
+          "riskCategory": "HIJK-decimal-44 supply",
+          "riskLevel": "R1",
+          "riskDescription": "HIJK-decimal-44 reviewed delivery risk",
+          "impactScope": "设备供货范围。",
+          "mitigationPlan": "按已核实周期交付。",
+          "ownerRole": "售前",
+          "riskStatus": "closed",
+          "blocksNextStage": false,
+          "sortOrder": 1
+        }
+      ],
+      "costItems": [
+        {
+          "costCategory": "equipment",
+          "costDescription": "HIJK-decimal-44 equipment",
+          "estimationBasis": "G1 已确认询价。",
+          "amountExcludingTax": "0.10",
+          "taxCostAmount": "0.00",
+          "amountIncludingTax": "0.10",
+          "currencyCode": "CNY",
+          "confidenceLevel": "high",
+          "highUncertainty": false,
+          "sortOrder": 0,
+          "quantity": "1.0000",
+          "unit": "套",
+          "unitPrice": "1.0000"
+        },
+        {
+          "costCategory": "equipment",
+          "costDescription": "HIJK-decimal-44 equipment",
+          "estimationBasis": "G1 已确认询价。",
+          "amountExcludingTax": "0.20",
+          "taxCostAmount": "0.00",
+          "amountIncludingTax": "0.20",
+          "currencyCode": "CNY",
+          "confidenceLevel": "high",
+          "highUncertainty": false,
+          "sortOrder": 1,
+          "quantity": "1.0000",
+          "unit": "套",
+          "unitPrice": "1.0000"
+        }
+      ]
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "allowNextStage": true,
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T18:17:11.015Z",
+        "createdBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "currencyCode": "CNY",
+        "effectiveAt": "2026-11-02T18:17:11.015Z",
+        "highestRiskLevel": "R1",
+        "id": "eaef8bf4-4a06-4650-a133-6f8aeb8943ac",
+        "isCurrent": true,
+        "projectId": "92b416cd-d557-43c2-95d4-447d06346f54",
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": "92a2514a-929d-453f-81a1-3771f9018e5c",
+        "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+        "taxReviewStatus": "reviewed",
+        "technicalConclusionSummary": "HIJK-decimal-44 cost revision 1",
+        "technicalFeasibilityDecision": "feasible",
+        "totalEstimatedAmountExcludingTax": "0.30",
+        "totalEstimatedAmountIncludingTax": "0.30",
+        "totalTaxCostAmount": "0.00",
+        "updatedAt": "2026-11-02T18:17:11.015Z",
+        "updatedBy": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+        "version": 3
+      },
+      "requestId": "d1eb1c96-2062-4bc4-88d6-df02bae3a12a",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "885",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-96618-120",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 18:17:11 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1838,
+        "requestSha256": "d2528d9fc76ed102f28f311587367e7cd2e93d3ff9cc300ac4363c085394896b",
+        "responseBytes": 1169,
+        "responseSha256": "cf464c96d363377ecff2959800d626a6ad7d35c0fa78380dfc684fecc2e4fc43",
+        "entityBodyBytes": 885,
+        "entityBodySha256": "5136384e4191bae849146a3a8d4137b64e66473474c6ab39d2795266d279ed0d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase44/raw-wire/admin-ba47d91e-799c-4903-a745-9be93e3a62a8",
+        "originalRawRetained": true
+      }
+    },
+    "actual": {
+      "excluding": "0.30",
+      "tax": "0.00",
+      "including": "0.30"
+    },
+    "sums": {
+      "excluding": "0.30",
+      "tax": "0.00",
+      "including": "0.30"
+    },
+    "children": [
+      {
+        "id": "f7f9c2c6-6b27-4ba2-9411-64912f973b69",
+        "excluding": "0.10",
+        "tax": "0.00",
+        "including": "0.10",
+        "quantity": "1.0000",
+        "unit_price": "1.0000"
+      },
+      {
+        "id": "85530e43-2edd-4a52-9a18-2c85e8ccbc5b",
+        "excluding": "0.20",
+        "tax": "0.00",
+        "including": "0.20",
+        "quantity": "1.0000",
+        "unit_price": "1.0000"
+      }
+    ],
+    "exactParentChildAndSQLSum": true
+  }
+}

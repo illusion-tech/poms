@@ -1,0 +1,80 @@
+{
+  "label": "J.association.relatedContactId.missing-only",
+  "startedAt": "2026-11-02T16:37:24.187Z",
+  "completedAt": "2026-11-02T16:37:24.196Z",
+  "value": {
+    "definition": {
+      "id": "J.association.relatedContactId.missing-only",
+      "covers": [
+        "J-A05"
+      ],
+      "requests": [
+        {
+          "id": "J.association.relatedContactId.missing-only",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedContactId": "36fc96fe-613b-4b08-9f2c-71fd824beb23"
+          },
+          "expect": {
+            "status": 404,
+            "message": "CustomerContact 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found"
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "compare": "All 19 comment fields; original canonical anchor snapshots; each error probe changes only one association. Simultaneous Promise.all failures have no fixed priority claim."
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 404,
+        "body": {
+          "error": "Not Found",
+          "message": "CustomerContact 36fc96fe-613b-4b08-9f2c-71fd824beb23 not found",
+          "statusCode": 404
+        },
+        "requestId": "5bc1d1ba-6b66-4e3b-8c34-1c9487aedb9b",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "113",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-344",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:24 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 621,
+          "requestSha256": "7b17ab0646450576ecd4d5069dc8099990cc588ab28cf954b27432b8b01a2024",
+          "responseBytes": 399,
+          "responseSha256": "20f0763d8a150f054133e4d8581fa63362d3b7b0f0d2a02941367fa476cd3e96",
+          "entityBodyBytes": 113,
+          "entityBodySha256": "47dcad5c67d359bcee8675600bafade231a94cd47fa5d7c0ab13120f35fffc64",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-62de7074-6946-450d-853b-efcd3b9db6df",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

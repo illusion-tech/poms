@@ -1,0 +1,71 @@
+{
+  "label": "B.project.list",
+  "startedAt": "2026-11-02T19:01:39.094Z",
+  "completedAt": "2026-11-02T19:01:39.105Z",
+  "value": {
+    "operationId": "ProjectController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects",
+      "query": {
+        "keyword": "R3HK-cc20b1df-57",
+        "currentStage": "assessment",
+        "status": "active"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-11-02T19:01:39.085Z",
+          "currentStage": "assessment",
+          "customerId": "7da8d1ef-1285-4556-8bf6-72d759084484",
+          "customerName": "R3HK-cc20b1df-57 customer revised",
+          "customerProjectNo": "R3HK-cc20b1df-57-external",
+          "id": "c9d1eceb-6655-40a2-831f-494ba646c714",
+          "latestMilestoneAt": null,
+          "ownerName": "HIJK admin",
+          "ownerOrgName": "HIJK admin",
+          "projectName": "R3HK-cc20b1df-57 project",
+          "projectNo": "PRJ-2026-000011",
+          "status": "active"
+        }
+      ],
+      "requestId": "f978077f-bdc6-4480-b91a-8abdf78ae123",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "432",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-146",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 354,
+        "requestSha256": "6cc211764bf5e66897d7a4bbe94204c20383fd5968ea1cbc6033550ec2d5e48c",
+        "responseBytes": 712,
+        "responseSha256": "52fe4a01f5bf54aa43ba4c5cbe1ab17c1a9c0ea13bf5be9708eca757d2ff2edc",
+        "entityBodyBytes": 432,
+        "entityBodySha256": "702a75be1523fdddc412b71afbac76728b91548b6352f2ef5e9b453b3725b3fe",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-5757d747-cbb5-4631-88a0-923bcf9dcf0b",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

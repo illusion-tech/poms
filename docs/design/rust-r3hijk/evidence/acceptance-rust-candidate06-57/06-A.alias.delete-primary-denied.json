@@ -1,0 +1,77 @@
+{
+  "label": "A.alias.delete-primary-denied",
+  "startedAt": "2026-11-02T19:01:39.000Z",
+  "completedAt": "2026-11-02T19:01:39.011Z",
+  "value": {
+    "operationId": "CustomerAliasController_delete",
+    "request": {
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/customer-aliases/9ff8ec6f-0c95-40f4-9b5b-188d38b5abc2"
+    },
+    "response": {
+      "status": 409,
+      "body": {
+        "error": "Conflict",
+        "message": "Primary customer alias 9ff8ec6f-0c95-40f4-9b5b-188d38b5abc2 cannot be deleted",
+        "statusCode": 409
+      },
+      "requestId": "c0ded58c-0328-4cc9-9f66-4f2a01aa7d48",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "127",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-140",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 398,
+        "requestSha256": "59ae5221251bf5f144dc19d77a8c5558922ddba8658f00b98e355d4aff45423e",
+        "responseBytes": 413,
+        "responseSha256": "ca40edbfe847f47301124fed2790d3b1aeb8c7c07513f042e1cbb2e13c81e40e",
+        "entityBodyBytes": 127,
+        "entityBodySha256": "a693b3617d77a3d0133397572dd8ae1984222cc93472cd92461dd12e208a6a73",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-83e389e4-9bc8-4481-a69f-509a15235e45",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {
+        "customer_alias": [
+          "{\"id\": \"19ebef64-b0b4-4ea5-88a2-de028c50320c\", \"alias_name\": \"R3HK-cc20b1df-57 procurement alias\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T03:01:38.983+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": false, \"customer_id\": \"7da8d1ef-1285-4556-8bf6-72d759084484\", \"normalized_name\": \"r3hk-cc20b1df-57 procurement alias\"}",
+          "{\"id\": \"3d7130e9-dfc3-4b00-8a68-bc3a0f339700\", \"alias_name\": \"HIJK empty-customer-58 cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:55:58.187+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"3dbb2c6e-be23-44b3-b139-ad6a88fc3962\", \"normalized_name\": \"hijk empty-customer-58 cc20b1df-63f7-40db-b558-521474f53fb5\"}",
+          "{\"id\": \"42220920-7290-4401-a724-0d7e4c555a47\", \"alias_name\": \"HIJK UUID-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:44:14.824+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"51872ae4-e194-44b1-b6c8-ebe66a12f9ee\", \"normalized_name\": \"hijk uuid-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\"}",
+          "{\"id\": \"577aaefb-fee5-4fde-8dc1-214b082463e1\", \"alias_name\": \"HIJK UUID-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:42:27.266+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"19fdc810-ac51-462e-ac7f-7d85b8d55b9c\", \"normalized_name\": \"hijk uuid-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5\"}",
+          "{\"id\": \"9316aa46-2b95-4316-ba6e-a39f258fdf2a\", \"alias_name\": \"华南地铁集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.737462+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000003\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000001\", \"normalized_name\": \"华南地铁集团\"}",
+          "{\"id\": \"9ff8ec6f-0c95-40f4-9b5b-188d38b5abc2\", \"alias_name\": \"R3HK-cc20b1df-57 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T03:01:38.94+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"7da8d1ef-1285-4556-8bf6-72d759084484\", \"normalized_name\": \"r3hk-cc20b1df-57 customer\"}",
+          "{\"id\": \"bdc67851-8153-4a51-8630-81cc9671a94a\", \"alias_name\": \"北城建设集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.742433+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000004\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000002\", \"normalized_name\": \"北城建设集团\"}",
+          "{\"id\": \"bffdba5d-ff3a-4dd0-a018-3cea7c8c4dd1\", \"alias_name\": \"HIJK UUID-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:49:00.989+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"7708bf30-b9f6-4298-9ca4-af221028686e\", \"normalized_name\": \"hijk uuid-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\"}"
+        ]
+      },
+      "afterRows": {
+        "customer_alias": [
+          "{\"id\": \"19ebef64-b0b4-4ea5-88a2-de028c50320c\", \"alias_name\": \"R3HK-cc20b1df-57 procurement alias\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T03:01:38.983+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": false, \"customer_id\": \"7da8d1ef-1285-4556-8bf6-72d759084484\", \"normalized_name\": \"r3hk-cc20b1df-57 procurement alias\"}",
+          "{\"id\": \"3d7130e9-dfc3-4b00-8a68-bc3a0f339700\", \"alias_name\": \"HIJK empty-customer-58 cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:55:58.187+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"3dbb2c6e-be23-44b3-b139-ad6a88fc3962\", \"normalized_name\": \"hijk empty-customer-58 cc20b1df-63f7-40db-b558-521474f53fb5\"}",
+          "{\"id\": \"42220920-7290-4401-a724-0d7e4c555a47\", \"alias_name\": \"HIJK UUID-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:44:14.824+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"51872ae4-e194-44b1-b6c8-ebe66a12f9ee\", \"normalized_name\": \"hijk uuid-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\"}",
+          "{\"id\": \"577aaefb-fee5-4fde-8dc1-214b082463e1\", \"alias_name\": \"HIJK UUID-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:42:27.266+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"19fdc810-ac51-462e-ac7f-7d85b8d55b9c\", \"normalized_name\": \"hijk uuid-new-cohort cc20b1df-63f7-40db-b558-521474f53fb5\"}",
+          "{\"id\": \"9316aa46-2b95-4316-ba6e-a39f258fdf2a\", \"alias_name\": \"华南地铁集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.737462+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000003\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000001\", \"normalized_name\": \"华南地铁集团\"}",
+          "{\"id\": \"9ff8ec6f-0c95-40f4-9b5b-188d38b5abc2\", \"alias_name\": \"R3HK-cc20b1df-57 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T03:01:38.94+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"7da8d1ef-1285-4556-8bf6-72d759084484\", \"normalized_name\": \"r3hk-cc20b1df-57 customer\"}",
+          "{\"id\": \"bdc67851-8153-4a51-8630-81cc9671a94a\", \"alias_name\": \"北城建设集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-02T16:50:05.742433+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000004\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000002\", \"normalized_name\": \"北城建设集团\"}",
+          "{\"id\": \"bffdba5d-ff3a-4dd0-a018-3cea7c8c4dd1\", \"alias_name\": \"HIJK UUID-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T02:49:00.989+08:00\", \"created_by\": \"85005c87-2c45-450d-9e07-9417b682459e\", \"is_primary\": true, \"customer_id\": \"7708bf30-b9f6-4298-9ca4-af221028686e\", \"normalized_name\": \"hijk uuid-other-customer cc20b1df-63f7-40db-b558-521474f53fb5\"}"
+        ]
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}

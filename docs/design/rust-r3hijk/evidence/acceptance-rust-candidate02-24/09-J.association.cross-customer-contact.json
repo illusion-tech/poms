@@ -1,0 +1,81 @@
+{
+  "label": "J.association.cross-customer-contact",
+  "startedAt": "2026-11-02T16:37:23.942Z",
+  "completedAt": "2026-11-02T16:37:23.951Z",
+  "value": {
+    "definition": {
+      "id": "J.association.cross-customer-contact",
+      "covers": [
+        "J-A01",
+        "J-A05"
+      ],
+      "requests": [
+        {
+          "id": "J.association.cross-customer-contact",
+          "operationId": "BusinessDiscussionController_create",
+          "method": "POST",
+          "path": "/api/business-discussions",
+          "sessionRole": "admin",
+          "csrf": "valid-session-double-submit",
+          "body": {
+            "targetObjectType": "project",
+            "targetObjectId": "a41ce59d-aa56-476a-b002-8554af2ae638",
+            "discussionType": "general",
+            "body": "  R3 J 讨论原语义  ",
+            "relatedContactId": "0d4da123-f343-42ec-971b-ffb2054ad130"
+          },
+          "expect": {
+            "status": 400,
+            "message": "CustomerContact 0d4da123-f343-42ec-971b-ffb2054ad130 does not belong to customer a1be5f15-b2ee-4b1c-96cb-36697a872308"
+          },
+          "actual": null
+        }
+      ],
+      "actual": null,
+      "compare": "All 19 comment fields; original canonical anchor snapshots; each error probe changes only one association. Simultaneous Promise.all failures have no fixed priority claim."
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "CustomerContact 0d4da123-f343-42ec-971b-ffb2054ad130 does not belong to customer a1be5f15-b2ee-4b1c-96cb-36697a872308",
+          "statusCode": 400
+        },
+        "requestId": "8bb06b2f-10c1-4000-8e3c-b28742af5698",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "170",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-327",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:37:23 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 621,
+          "requestSha256": "d73c873255c9776852d2bc6b691bfccc57e3ed60d07671442e4702579d55272a",
+          "responseBytes": 458,
+          "responseSha256": "6223a539f14ab2b5c166d43791482dcd9f4f6f6bd66378976a1274b5f1ac83bb",
+          "entityBodyBytes": 170,
+          "entityBodySha256": "2bdf8a0591499445b7a92fb283f704bb73781348876231b694b590dd63f9eeff",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase24/raw-wire/admin-0fa9325f-22ee-41b3-9746-7cdac0760302",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": null,
+    "after": null,
+    "readOnlyBusinessStateUnchanged": null
+  }
+}

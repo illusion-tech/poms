@@ -1,0 +1,119 @@
+{
+  "label": "K.T01.no-inferred-stages",
+  "startedAt": "2026-11-02T16:53:51.869Z",
+  "completedAt": "2026-11-02T16:53:51.891Z",
+  "value": {
+    "definition": {
+      "id": "K.T01.no-inferred-stages",
+      "covers": [
+        "K-T01",
+        "K-T10"
+      ],
+      "prepare": [],
+      "requests": [
+        {
+          "id": "K.T01.no-inferred-stages",
+          "method": "GET",
+          "path": "/api/projects/4e297c3b-4223-4848-8f31-1cbc65cbdadf/timeline",
+          "sessionRole": "projectRead",
+          "expect": {
+            "status": 200,
+            "eventCount": 1,
+            "eventKeys": [
+              "project-created"
+            ],
+            "createdEventStage": "assessment",
+            "currentStageDoesNotSynthesizeFacts": true
+          },
+          "actual": null,
+          "capture": [
+            "all 12 event fields and source/evidence IDs",
+            "projectId/events/generatedAt top-level",
+            "raw precise SQL facts and selected candidates",
+            "before/after all domain rows and versions",
+            "request clock"
+          ]
+        }
+      ],
+      "precondition": "Fresh real API project created with currentStage=completed; zero contract/handover/acceptance/completion/archive facts"
+    },
+    "prepared": [],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "events": [
+            {
+              "actorName": "HIJK admin",
+              "actorUserId": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+              "eventKey": "project-created",
+              "eventType": "stage-entered",
+              "evidenceLabel": "PRJ-2026-000026",
+              "isAuthoritative": true,
+              "occurredAt": "2026-11-02T16:34:33.484Z",
+              "resultLabel": "项目创建",
+              "sourceId": "4e297c3b-4223-4848-8f31-1cbc65cbdadf",
+              "sourceType": "project",
+              "stage": "assessment",
+              "stageLabel": "立项评估"
+            }
+          ],
+          "generatedAt": "2026-11-02T16:53:51.885Z",
+          "projectId": "4e297c3b-4223-4848-8f31-1cbc65cbdadf"
+        },
+        "requestId": "6f54768b-98a6-4303-9f04-147221d50b91",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "489",
+          "access-control-allow-origin",
+          "http://127.0.0.1:12600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-76822-506",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 16:53:51 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 337,
+          "requestSha256": "b26047cb29b31f731b09ea72d997878211ba739c0d7e7cb4f6508d7c2a083f3f",
+          "responseBytes": 768,
+          "responseSha256": "97940bc1751d98c292203c4ba524dfa8f66fc96d6b7feb7af9ed8e9e5356ed95",
+          "entityBodyBytes": 489,
+          "entityBodySha256": "02fb1c04c91bba10fb86fe8e9c501bbfc00d31f6410364ee635c9118bd83f415",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase25/raw-wire/d_projectRead-0d8f9358-ef96-40c2-94ae-53bd885724f2",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "before": {
+      "project": [
+        "{\"id\": \"4e297c3b-4223-4848-8f31-1cbc65cbdadf\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.484+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000026\", \"updated_at\": \"2026-11-03T00:34:33.484+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"D G2 completed 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"completed\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "after": {
+      "project": [
+        "{\"id\": \"4e297c3b-4223-4848-8f31-1cbc65cbdadf\", \"status\": \"active\", \"closed_at\": null, \"created_at\": \"2026-11-03T00:34:33.484+08:00\", \"created_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"project_no\": \"PRJ-2026-000026\", \"updated_at\": \"2026-11-03T00:34:33.484+08:00\", \"updated_by\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"customer_id\": \"a1be5f15-b2ee-4b1c-96cb-36697a872308\", \"row_version\": 1, \"owner_org_id\": \"ed113cf6-0a45-4042-a7d2-88246dd378de\", \"project_name\": \"D G2 completed 6872abb5-12af-486f\", \"closed_reason\": null, \"current_stage\": \"completed\", \"customer_name\": \"HIJK foundation 6872abb5-12af-486f-ada6-02e484421d1f\", \"owner_user_id\": \"71530d53-7c1c-4fff-a913-dfd06aaa0c1d\", \"source_lead_id\": null, \"planned_sign_at\": null, \"customer_project_no\": null}"
+      ],
+      "contract": [],
+      "project_handover": [],
+      "acceptance_record": [],
+      "project_completion_record": [],
+      "project_archive_record": [],
+      "approval_summary_snapshot": []
+    },
+    "readOnlyBusinessStateUnchanged": true
+  }
+}

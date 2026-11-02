@@ -1,0 +1,386 @@
+{
+  "kind": "C-independent-R3HIJK-business-semantics-reclassification01",
+  "createdAt": "2026-11-02T13:47:11.280Z",
+  "authority": {
+    "source": "Latest direct human instruction relayed by Root in the current coordination turn",
+    "priority": "Overrides the earlier Node behavior compatibility objective",
+    "rule": "Rust acceptance follows business meaning, correctness and reasonableness. Observed Node bugs are evidence of defects, not behavior that Rust must reproduce. Unresolved business choices go to the user through Root."
+  },
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "modelTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "decision": "Business-semantics-first-review-policy-now-applied",
+  "newGateSigned": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "historicalReviews": {
+    "originals": [
+      {
+        "file": "tmp/rust-r3hijk/c-review/g1-independent-review01.json",
+        "bytes": 40795,
+        "rawBytesSha256": "1a4bbd53b7445d0b1b22a7e219c4163a9ad9763284dea6f6951c6bf5c367ab4b"
+      },
+      {
+        "file": "tmp/rust-r3hijk/c-review/g1-native-evidence-preaudit01.json",
+        "bytes": 60040,
+        "rawBytesSha256": "e18d314aa0cca212b2e6fc25507f88a4e00edd55f71a785ad7c98fb1b184e123"
+      },
+      {
+        "file": "tmp/rust-r3hijk/c-review/g1-incremental02.json",
+        "bytes": 33224,
+        "rawBytesSha256": "7b92109d36ce17cc6916802b0388b86a0a67311ccf8df3ad784c041d04f7554b"
+      },
+      {
+        "file": "tmp/rust-r3hijk/c-review/g2-parity-preaudit01.json",
+        "bytes": 49164,
+        "rawBytesSha256": "4c57ff01acd84527d887d745ef921482e465085337a2c91fb2778fcbab12b8f3"
+      },
+      {
+        "file": "tmp/rust-r3hijk/c-review/g2-boundary-preaudit02.json",
+        "bytes": 711364,
+        "rawBytesSha256": "3dace031cd75cda4d9d731423547aa1756b92e0e2a135b14a2c42911c62a21c8"
+      },
+      {
+        "file": "tmp/rust-r3hijk/core-comparison04/report01.json",
+        "bytes": 64504,
+        "rawBytesSha256": "0cb1825cb15f527b163323f84ee8bb8e676c81a28353ae4c07dbc35c21fc828e"
+      },
+      {
+        "file": "docs/design/rust-r3hijk/g1-input-manifest02.json",
+        "bytes": 54664,
+        "rawBytesSha256": "979ecf83a801bc3b373014c308c2ec096acb18fa715c04abd3467b18de776d08"
+      },
+      {
+        "file": "docs/design/rust-r3hijk/native-decisions02.json",
+        "bytes": 6236,
+        "rawBytesSha256": "030c98753a6a523325408bd933d23674df7cf51097cbbc0681c1a085c46d7bb9"
+      }
+    ],
+    "allPreservedUnchanged": true,
+    "factsStillUsable": "Actual requests, responses, database observations and source pins remain historical facts. Old conclusions were made under the earlier compatibility objective.",
+    "currentInterpretation": "Old Node-byte-parity findings and Pass statements do not independently certify a new business-semantics candidate. Root must append the bounded corrective G1 inputs and obtain the appropriate subsequent review; do not rewrite the old signed files."
+  },
+  "classificationOverrides": [
+    {
+      "previousId": "G2-P2-I-FOCUS-LENGTH-01",
+      "previousReview": "tmp/rust-r3hijk/c-review/g2-boundary-preaudit02.json",
+      "caseName": "I-boundary.stakeholder.focus-object-length-property",
+      "oldAssessment": "Missing the extra original Zod too_big issue was classified P2 for exact error parity.",
+      "newClassification": "Implementation-difference-only; not a business blocker",
+      "businessBlocking": false,
+      "retain": "A non-array focusAreas is rejected as400 and leaves business state unchanged; genuine array item/type/size business constraints remain enforced.",
+      "doNotRequire": "Do not add an origin:unknown too_big issue merely because a wrong-type object has length13, or because a wrong-type astral string has UTF16 length14.",
+      "RustMustMirrorNode": false,
+      "actionBoundary": "Root/B withdrawal of the compatibility-only patch is consistent with the new instruction. C neither modified the product nor independently certified a rollback/build."
+    },
+    {
+      "previousId": "Known-surface-HTML404-body-difference",
+      "previousReview": "tmp/rust-r3hijk/core-comparison04/report01.json",
+      "oldObservations": [
+        "route.4",
+        "route.5"
+      ],
+      "oldAssessment": "Two404 responses differed between Express HTML and Rust JSON.",
+      "newClassification": "Implementation-difference-only; not a business blocker",
+      "businessBlocking": false,
+      "retain": "Unrecognized commands/routes remain404 with no business side effects and a usable error response.",
+      "doNotRequire": "HTML template, content type, punctuation and exact Cannot POST wording need not mirror Express solely for Node equivalence.",
+      "RustMustMirrorNode": false,
+      "actionBoundary": "Root withdrawal of the HTML-mirroring source edits is consistent with the new instruction. The old149-event comparison and its two recorded body differences remain intact."
+    }
+  ],
+  "knownNodeAnomalies": [
+    {
+      "topic": "Concurrent approval accepts the same expected version twice",
+      "observed": "Existing approved plus pending override, two held waiters, both200; pending version1→3, old approved2→4, two snapshots and two success audits.",
+      "classification": "应修",
+      "reason": "expectedOverrideRowVersion is intended optimistic concurrency control. Two requests based on the same pending version must not both create a successful approval transition.",
+      "designBasis": [
+        {
+          "file": "docs/design/archive/slices/ex-54-lead-scoring-history-override-governance-baseline.md",
+          "lines": [
+            129,
+            147,
+            218
+          ],
+          "meaning": "Expected lead/override versions and optimistic concurrency are explicit business safeguards."
+        }
+      ],
+      "targetBusinessOutcome": "One valid transition succeeds; the other detects stale version/state and returns409 without an extra successful snapshot/audit or second approval.",
+      "retain": "The successful new approval supersedes the previous active override and retains historical records; no hard-gate bypass.",
+      "implementationChoice": "Root/authors choose the atomic concurrency mechanism in the corrective G1. C grants no defect-compatibility exception.",
+      "evidence": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/03-bulk-override-competing-approvals.json",
+        "bytes": 33017,
+        "rawBytesSha256": "5cf3536d44d4581ec61e54de618f715c2c5aca277130ac504c6779c5fc672e99"
+      }
+    },
+    {
+      "topic": "Single-row CAS loser is surfaced as500",
+      "observed": "A two-reader version race gives200/500, with only one committed winner.",
+      "classification": "应修",
+      "reason": "An expected version conflict is an actionable business conflict, not an unexpected server failure.",
+      "targetBusinessOutcome": "Map the losing stale write to409 and make the response tell the client to refresh/retry. Do not indiscriminately map unrelated database failures to409.",
+      "retain": "Only one request commits; the losing request leaves no business side effects and no success audit.",
+      "userBusinessDecisionNeeded": false,
+      "evidence": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/06-H93.native-risk.W2.lead-explicit-stale-versus-CAS.json",
+        "bytes": 23499,
+        "rawBytesSha256": "054817aad87b3a2275b985e8900d5aad19dfccf16248e9e97c5c7c38cf4b860a"
+      }
+    },
+    {
+      "topic": "Main state, snapshot and audit are committed in separate phases",
+      "observed": "Claim/assign/qualify/close can report500 after main state commits; override commands can report500 after override/snapshot commits but required audit fails.",
+      "classification": "应修错误结果语义；失败原子性策略需冻结，设计仍无法裁定时请用户决策",
+      "reason": "A client must not receive an undifferentiated failure that hides a completed business transition. Required state/snapshot/audit facts must remain consistent and recoverable.",
+      "designBasis": [
+        {
+          "file": "docs/design/archive/slices/ex-54-lead-scoring-history-override-governance-baseline.md",
+          "lines": [
+            95,
+            98,
+            138,
+            142,
+            228,
+            233
+          ],
+          "meaning": "Snapshots and audit are required for the corresponding business actions; these reviewed sections do not explicitly prescribe rollback-versus-durable-compensation on write failure."
+        }
+      ],
+      "recommendedBoundary": "Prefer a single transaction for the business state plus its required snapshot and mandatory audit record. Independent allocated number gaps may remain; they do not authorize partial business success.",
+      "alternativeRequiringExplicitBusinessAcceptance": "If a business action is allowed to complete while derived records are delayed, it needs a durable recovery mechanism and an explicit successful/pending outcome, not committed state hidden behind generic500. No reliable compensation mechanism is approved by this record.",
+      "RootQuestionIfUnresolved": "当评分历史或必须审计写入失败时，是否整笔业务回滚？建议业务状态、必须快照和审计同事务；若必须保留主业务成功，则要明确待补偿状态与可靠补偿方案。",
+      "retain": "Completed facts are never silently deleted to make an error look clean; preserve all old Native observations as evidence of the defect.",
+      "evidence": [
+        {
+          "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/08-H93.native-risk.W3.main-save-then-denied-snapshot.qualify.json",
+          "bytes": 13794,
+          "rawBytesSha256": "d06725aefdd2f81440296300727fcb12badffb68fef053fab28cc27eb657e85d"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/13-H93.native-risk.W3.override-denied-post-audit.approve.json",
+          "bytes": 26310,
+          "rawBytesSha256": "9325e06da81ab3fedb28405f7fc23f9faa922f23ea987dd7261b22158e7665e1"
+        }
+      ]
+    },
+    {
+      "topic": "JSON.stringify object key order creates an extra system snapshot",
+      "observed": "A semantically unchanged persisted JSONB object can serialize in a different key order and defeat de-duplication.",
+      "classification": "应修",
+      "reason": "History should reflect meaningful score/fact/gate changes, not JSON property insertion order.",
+      "designBasis": [
+        {
+          "file": "docs/design/archive/slices/ex-54-lead-scoring-history-override-governance-baseline.md",
+          "lines": [
+            95,
+            101
+          ],
+          "meaning": "The explicit design uses formula version, componentFactsHash, gateSummaryHash and score/rating; an unchanged tuple should not append a system snapshot."
+        }
+      ],
+      "targetBusinessOutcome": "Compare/hash the declared business tuple with object-key order ignored. Keep null/presence, numeric meaning and domain-significant array order distinct. Do not remove real manual-approval/revocation/transition history.",
+      "retain": "Formula version, effective/system score separation and meaningful source/fact changes remain auditable.",
+      "userBusinessDecisionNeeded": false,
+      "evidence": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/17-H93.native-risk.W5.cross-request-dedup-noop-and-real-I-refresh.json",
+        "bytes": 99564,
+        "rawBytesSha256": "4e463a8f785b6c8470fa11a4d5fee5c769209c37543e2f3e44fc291b2e1145c0"
+      }
+    },
+    {
+      "topic": "NUL reaches the database and produces500",
+      "observed": "The original schema accepts NUL-containing discussion text, then PostgreSQL rejects it.",
+      "classification": "应修原始DB500；可存储文本输入策略由纠偏G1明确",
+      "reason": "A deterministic unsupported input is a client validation problem; it must not look like an unexpected server failure.",
+      "recommendedBoundary": "Reject NUL at the relevant Rust text boundary with a clear400 before any business write. Preserve valid Unicode text and existing business length semantics.",
+      "needsUserOnlyIf": "A business owner actually requires storing U+0000 or another representation; that would require an explicit product/storage policy rather than accidental Node compatibility.",
+      "retain": "No partial discussion/thread or other business write on rejected text; do not leak raw database errors.",
+      "evidence": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/39-HTTP-discussion.nul.json",
+        "bytes": 81230,
+        "rawBytesSha256": "1cea8324f1d13c511ff4c3e84ee85eb7ced68b9c76602f8dc8645ae4c3cef298"
+      }
+    },
+    {
+      "topic": "Lone UTF16 surrogate is accepted then silently replaced on reread",
+      "observed": "Immediate POST retains a lone surrogate, but stored/GET text contains U+FFFD.",
+      "classification": "应修不一致与静默有损写入；拒绝还是显式替换需有明确输入策略",
+      "reason": "The user should not be told that one text was saved while another text was persisted.",
+      "recommendedBoundary": "Prefer rejecting unpaired surrogates with a clear400, while accepting all valid scalar Unicode, astral characters, combining sequences and meaningful whitespace without silent normalization.",
+      "alternativeRequiringExplicitBusinessAcceptance": "If replacement is chosen, it must be explicit, consistent between response/storage/readback and documented as a product text policy. This record does not choose or authorize lossy normalization.",
+      "retain": "Business text limits remain meaningful; implementation should not preserve invalid UTF16 solely because JavaScript can represent it.",
+      "evidence": [
+        {
+          "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/40-HTTP-discussion.high-surrogate.json",
+          "bytes": 83371,
+          "rawBytesSha256": "f76c41a4d3cede3b12267ac44d21b0196fdc0785279d10ed7a83d28c1b5e580c"
+        },
+        {
+          "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/41-HTTP-discussion.low-surrogate.json",
+          "bytes": 84266,
+          "rawBytesSha256": "5558ac4ff031ab1f8bd81125d89baa7a9f4e42340c49cfd2b530c21988d62471"
+        }
+      ]
+    },
+    {
+      "topic": "Malformed UUID in a recognized resource route becomes500",
+      "observed": "Known Lead/Project resource routes can pass malformed IDs to PostgreSQL and return500.",
+      "classification": "应修",
+      "reason": "Invalid identifier syntax is invalid client input; a syntactically valid but absent object is a different404 case.",
+      "targetBusinessOutcome": "For an already recognized UUID resource route, validate the identifier and return400 for malformed syntax. Keep valid absent resources404 and unknown command/route shapes404.",
+      "retain": "Route recognition and authentication/permission ordering remain deliberately defined; do not add hidden business status restrictions or change unknown routes into UUID errors.",
+      "userBusinessDecisionNeeded": false,
+      "evidence": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/42-K-workspace-guidance.json",
+        "bytes": 9369,
+        "rawBytesSha256": "b15049fa88c69d6f6d671d95046ad7bfda79e966fa037e11e9f46a5a54c0f240"
+      }
+    }
+  ],
+  "shouldRetainBusinessSemantics": [
+    "Real permissions, customer/lead/project association rules, state transitions and conversion hard gates remain business requirements; manual score override does not fill missing conversion facts.",
+    "Optimistic version intent, one active manual override, superseded/revoked history and actor/reason provenance remain required.",
+    "Successful required business facts, meaningful snapshots and mandatory audits must agree; the corrective G1 determines the failure transaction policy.",
+    "Money precision, business dates versus datetimes, valid text and meaningful field presence remain exact business data requirements. Runtime UUIDs, clock readings, framework error templates and redundant validation issue counts are not business parity goals.",
+    "Business numbers remain unique and non-reused. A failed operation consuming an independently allocated number is not, by itself, a defect requiring serials to be made gapless.",
+    "Prepared metadata, actual local uploads, retained partial attempts, uncertified operations and actual runtime evidence retain their real labels."
+  ],
+  "needsExplicitDecision": [
+    {
+      "id": "BUSINESS-ATOMICITY",
+      "owner": "Root to resolve from design; user if still unclear",
+      "question": "Must main state plus its required snapshot and audit all roll back together, or may business success be durable with an explicitly recoverable pending record?",
+      "recommendation": "Single transaction for mandatory facts",
+      "status": "Not decided by C"
+    },
+    {
+      "id": "BUSINESS-TEXT-VALIDITY",
+      "owner": "Root corrective G1; user if a real business requirement needs otherwise",
+      "question": "Reject non-storable NUL/unpaired UTF16 or apply an explicitly visible replacement policy?",
+      "recommendation": "Reject unsupported text clearly before persistence; preserve all valid Unicode",
+      "status": "Recommendation only; no product policy changed by C"
+    }
+  ],
+  "futureAcceptance": {
+    "criterion": "Business correctness and reasonableness against the corrected formal requirements, with explicit documented intentional differences from defective Node behavior.",
+    "mustNotUse": "Do not fail a Gate solely because Rust omits Node/Zod redundant errors, formats a404 differently, fixes expected-version races, maps conflicts to409, or removes an observed Node defect.",
+    "requiredMethod": "For each correction, assert the desired business result, state transition, concurrency outcome, transaction residuals and necessary UI behavior. Native observations remain a reference and defect ledger, not a mandatory bug oracle.",
+    "oldBaselineEffect": "Only the changed compatibility assumptions are superseded by the latest user instruction. Root prepares a minimal corrective G1 boundary before implementation/acceptance changes; existing scope/ownership/evidence preservation stay in force.",
+    "noNewBugCompatibilityE1": true,
+    "noAutomaticCodeTestOrOnlineChanges": true,
+    "noNewGateSignature": true
+  },
+  "scope": {
+    "issues": [
+      93,
+      94,
+      95,
+      96
+    ],
+    "operations": 28,
+    "alreadyFormallyDelivered": 30,
+    "totalR3HTTP": 58,
+    "parentIssuesRemainOpen": [
+      85,
+      57
+    ],
+    "noUnrelatedOldR2OrOtherSliceRepairAuthorizedHere": true
+  },
+  "sources": {
+    "businessDesign": [
+      {
+        "file": "docs/design/archive/slices/ex-54-lead-scoring-history-override-governance-baseline.md",
+        "bytes": 21465,
+        "rawBytesSha256": "d470acce91ef61abea0e0ea1b0b11c81edc090befb88f6dfa60e037308533cb7"
+      },
+      {
+        "file": "docs/design/archive/slices/ex-54a-lead-scoring-history-override-runtime-baseline.md",
+        "bytes": 14505,
+        "rawBytesSha256": "94f7d7e3d1f05856a6bf40dd1f5148312f20bff6416c60f5f942a1d9cfb30bb4"
+      },
+      {
+        "file": "docs/design/archive/slices/ex-55a-lead-score-v2-structured-facts-governance-baseline.md",
+        "bytes": 7692,
+        "rawBytesSha256": "d156bc569bc977bc21e3fec160b0b2b425571333f9fe1d94ebca4cc9a3e7389c"
+      },
+      {
+        "file": "docs/design/archive/slices/ex-32-lead-to-project-conversion-baseline.md",
+        "bytes": 16090,
+        "rawBytesSha256": "f33a9aa62c08a0e9c44c7d6d3dbdc0af19cd2888a82c8d4f6551de6c11bd4ca3"
+      },
+      {
+        "file": "docs/design/runtime-audit-and-security-event-design.md",
+        "bytes": 9531,
+        "rawBytesSha256": "34e47223a260ee469bf757ffa6ea679a8bf7fffb6c461d7f116ab3d394510893"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 435823,
+        "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+      }
+    ],
+    "actualNodeEvidence": {
+      "bulkApproval": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-06/03-bulk-override-competing-approvals.json",
+        "bytes": 33017,
+        "rawBytesSha256": "5cf3536d44d4581ec61e54de618f715c2c5aca277130ac504c6779c5fc672e99"
+      },
+      "singleCAS": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/06-H93.native-risk.W2.lead-explicit-stale-versus-CAS.json",
+        "bytes": 23499,
+        "rawBytesSha256": "054817aad87b3a2275b985e8900d5aad19dfccf16248e9e97c5c7c38cf4b860a"
+      },
+      "mainCommittedBeforeSnapshotFailure": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/08-H93.native-risk.W3.main-save-then-denied-snapshot.qualify.json",
+        "bytes": 13794,
+        "rawBytesSha256": "d06725aefdd2f81440296300727fcb12badffb68fef053fab28cc27eb657e85d"
+      },
+      "overrideCommittedBeforeAuditFailure": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/13-H93.native-risk.W3.override-denied-post-audit.approve.json",
+        "bytes": 26310,
+        "rawBytesSha256": "9325e06da81ab3fedb28405f7fc23f9faa922f23ea987dd7261b22158e7665e1"
+      },
+      "snapshotDedup": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/17-H93.native-risk.W5.cross-request-dedup-noop-and-real-I-refresh.json",
+        "bytes": 99564,
+        "rawBytesSha256": "4e463a8f785b6c8470fa11a4d5fee5c769209c37543e2f3e44fc291b2e1145c0"
+      },
+      "NUL": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/39-HTTP-discussion.nul.json",
+        "bytes": 81230,
+        "rawBytesSha256": "1cea8324f1d13c511ff4c3e84ee85eb7ced68b9c76602f8dc8645ae4c3cef298"
+      },
+      "loneHighSurrogate": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/40-HTTP-discussion.high-surrogate.json",
+        "bytes": 83371,
+        "rawBytesSha256": "f76c41a4d3cede3b12267ac44d21b0196fdc0785279d10ed7a83d28c1b5e580c"
+      },
+      "loneLowSurrogate": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/41-HTTP-discussion.low-surrogate.json",
+        "bytes": 84266,
+        "rawBytesSha256": "5558ac4ff031ab1f8bd81125d89baa7a9f4e42340c49cfd2b530c21988d62471"
+      },
+      "malformedUUID": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-02/42-K-workspace-guidance.json",
+        "bytes": 9369,
+        "rawBytesSha256": "b15049fa88c69d6f6d671d95046ad7bfda79e966fa037e11e9f46a5a54c0f240"
+      },
+      "focusObject": {
+        "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-10/19-I-boundary.stakeholder.focus-object-length-property.json",
+        "bytes": 11246,
+        "rawBytesSha256": "eb9afa8331886228203e9d1e1bed403971f84e9733783af07c00c2e6fced0ae1"
+      }
+    }
+  },
+  "noProductCodeWritten": true,
+  "noTestsOrExecutorsModified": true,
+  "noBuildTestDBHTTPBrowserRun": true,
+  "noOnlineMutation": true,
+  "noPrivateRead": true,
+  "onlyAppendOnlyCReviewRecordsWritten": true
+}

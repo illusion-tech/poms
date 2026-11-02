@@ -1,0 +1,2124 @@
+{
+  "kind": "R3HIJK-original-HTTP-body-comparison",
+  "createdAt": "2026-11-02T13:13:50.485Z",
+  "sources": [
+    {
+      "file": "tmp/rust-r3hijk/acceptance-nest-g2-native01-08/report01.json",
+      "bytes": 553769,
+      "rawBytesSha256": "99d57e787b1a6bc80cc3ae78d54130aad18483521ddd573d54d5966266441a77"
+    },
+    {
+      "file": "tmp/rust-r3hijk/acceptance-rust-candidate01-04/report01.json",
+      "bytes": 533274,
+      "rawBytesSha256": "dac5bd0f8b8862ddcc7fe1e065f2e8bc37608a2612721d58678a52d99ecee975"
+    }
+  ],
+  "events": {
+    "native": 149,
+    "rust": 149,
+    "paired": 149,
+    "exactNonRace": 149,
+    "raceHTTP": 0
+  },
+  "policy": {
+    "identity": "Consistent bijective primary/reference UUID renaming; any alias conflict retained",
+    "time": "Only explicit runtime creation/update/decision keys with exact ISO millisecond shape renamed; business date/planned/expiry strings retained",
+    "objectOrder": "JSON response objects compared by fields; string content/array order/null/presence/numeric values retained",
+    "races": "Three controlled two-reader races require2 heldwaiters,200/500,version+1,one audit and one snapshot as applicable, then compare full success bodies under validated winner request/actor substitution; original literal differences retained in comparison01",
+    "businessNumbers": "Not normalized by this core comparator",
+    "SQLOrTerminalAcceptance": false
+  },
+  "bindings": [
+    {
+      "native": "b5eae6cf-26ab-4f78-8010-aa6997f9ce8d",
+      "rust": "6872abb5-12af-486f-ada6-02e484421d1f",
+      "alias": "<run>"
+    },
+    {
+      "native": "e5729bf7-39d4-4c70-9937-756f2c8b6c6e",
+      "rust": "71530d53-7c1c-4fff-a913-dfd06aaa0c1d",
+      "alias": "<actor.admin.userId>"
+    },
+    {
+      "native": "1802427e-bd47-4cad-912b-f980eb3468f1",
+      "rust": "ed113cf6-0a45-4042-a7d2-88246dd378de",
+      "alias": "<actor.admin.orgId>"
+    },
+    {
+      "native": "2abfae41-882f-47df-8cf8-4868f9402191",
+      "rust": "0af368e6-91bc-42f9-9707-a01dc599958f",
+      "alias": "<actor.admin.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_admin",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_admin",
+      "alias": "<actor.admin.username>"
+    },
+    {
+      "native": "125e8556-1b6a-4843-a051-ff53c496744e",
+      "rust": "3c99a1c1-4804-4ea6-b70b-9599a664a5a8",
+      "alias": "<actor.other.userId>"
+    },
+    {
+      "native": "57d89883-d119-42b0-9761-02f8af6e797d",
+      "rust": "234391e6-c263-409d-805a-fdec017770ea",
+      "alias": "<actor.other.orgId>"
+    },
+    {
+      "native": "8f48e384-9c99-4d2f-81ea-3a069a705821",
+      "rust": "aaeefca4-ff5a-41d0-a563-3acc92ada286",
+      "alias": "<actor.other.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_other",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_other",
+      "alias": "<actor.other.username>"
+    },
+    {
+      "native": "c3aae36e-2e87-461a-85f8-8505abc200e7",
+      "rust": "45c0e073-9dff-4fd9-9537-7c0fdaa32a26",
+      "alias": "<actor.reader.userId>"
+    },
+    {
+      "native": "5e91e213-7087-4ba6-98bf-b7d204c6af3b",
+      "rust": "58823c9b-2344-4775-9189-bc7ee785a994",
+      "alias": "<actor.reader.orgId>"
+    },
+    {
+      "native": "d890b26c-9f59-461a-bed5-1a94e0d85d2a",
+      "rust": "e07716d2-173b-4bbe-b566-d8ad4a5b87e0",
+      "alias": "<actor.reader.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_reader",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_reader",
+      "alias": "<actor.reader.username>"
+    },
+    {
+      "native": "34432be5-614e-4858-87ef-4dfa497933ad",
+      "rust": "5f198414-b718-4512-ad29-f6e6587a1dd4",
+      "alias": "<actor.leadOnly.userId>"
+    },
+    {
+      "native": "c63a280c-92c4-4bb0-856d-a32e9359f4e3",
+      "rust": "9354833b-1a73-4df3-b635-0d76b5c163c5",
+      "alias": "<actor.leadOnly.orgId>"
+    },
+    {
+      "native": "de7547cf-5512-4856-9d3d-2c4694574b2e",
+      "rust": "2956982e-7022-4544-88ab-af475686f7c0",
+      "alias": "<actor.leadOnly.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_leadOnly",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_leadOnly",
+      "alias": "<actor.leadOnly.username>"
+    },
+    {
+      "native": "d0d2c6c6-4cd1-428e-98dd-98b4e7f77ce8",
+      "rust": "c9d95863-f5f1-498d-9cc1-c6ee6d0f10de",
+      "alias": "<actor.projectOnly.userId>"
+    },
+    {
+      "native": "0cbe7fc5-b075-4ad5-bb04-c652d700069a",
+      "rust": "2016882b-2c5b-47d1-aa51-8e86580a979c",
+      "alias": "<actor.projectOnly.orgId>"
+    },
+    {
+      "native": "c1ed4ae6-a0b5-4b45-82f7-fcfa9339ae7e",
+      "rust": "fd561270-d125-4f88-875d-2f9feb276786",
+      "alias": "<actor.projectOnly.roleId>"
+    },
+    {
+      "native": "hijk_b5eae6cf26ab4f788010aa6997f9ce8d_projectOnly",
+      "rust": "hijk_6872abb512af486fada602e484421d1f_projectOnly",
+      "alias": "<actor.projectOnly.username>"
+    },
+    {
+      "native": "5b47b812-e7e3-4c13-ac00-294ad521134c",
+      "rust": "22d6866b-9907-4041-be3a-7d0f88ba7a7a",
+      "alias": "<guard.anonymous.LeadScoreOverrideController_approve.route.0>"
+    },
+    {
+      "native": "52dd1311-0cdd-498c-9f3e-2451d310c0ee",
+      "rust": "bbf95cf2-5449-4f3b-8444-4a1d1fb6052f",
+      "alias": "<request.guard.anonymous.LeadScoreOverrideController_approve.0>"
+    },
+    {
+      "native": "89567cf1-6a9e-4e6f-9913-25012e7ea71d",
+      "rust": "d8cab217-fd43-402f-9233-c197c1b7fd59",
+      "alias": "<request.guard.csrf.LeadScoreOverrideController_approve.0>"
+    },
+    {
+      "native": "87a894de-26f1-4d06-983f-2238afeafa72",
+      "rust": "206c236f-90c3-433b-ba4e-e630efd5463b",
+      "alias": "<request.guard.reader.LeadScoreOverrideController_approve.0>"
+    },
+    {
+      "native": "09e21834-7149-495c-b78c-95b49bbf0a75",
+      "rust": "0e855be9-3c2a-418a-8c09-735a352f5610",
+      "alias": "<request.guard.leadOnly.LeadScoreOverrideController_approve.0>"
+    },
+    {
+      "native": "16ac7d98-6ec3-4c06-9472-11f8dd3afd1c",
+      "rust": "83ee01b6-6ca3-45c0-bb22-249a4472dd70",
+      "alias": "<request.guard.projectOnly.LeadScoreOverrideController_approve.0>"
+    },
+    {
+      "native": "2152a119-e35c-4912-bab8-7115cb5b6811",
+      "rust": "8700fe28-3938-4a45-af40-502d42bca278",
+      "alias": "<request.guard.anonymous.LeadScoreOverrideController_reject.0>"
+    },
+    {
+      "native": "9c8e0722-c07f-4521-a74c-741fa91163ac",
+      "rust": "59c1ed5b-b0cc-49bf-bdac-08e31c408f2f",
+      "alias": "<request.guard.csrf.LeadScoreOverrideController_reject.0>"
+    },
+    {
+      "native": "22111261-18ce-467e-92d6-a45572584568",
+      "rust": "4b5c9265-8622-4521-ac78-bf32d480f245",
+      "alias": "<request.guard.reader.LeadScoreOverrideController_reject.0>"
+    },
+    {
+      "native": "ae4f74bb-48d7-408b-ae9d-a1d3f7edfb2f",
+      "rust": "b0b0da1d-c341-4cf2-924f-1e3dbcd7b35c",
+      "alias": "<request.guard.leadOnly.LeadScoreOverrideController_reject.0>"
+    },
+    {
+      "native": "29467cac-4ae0-4afe-b265-51eb7aaf4980",
+      "rust": "23c08caa-9db1-4913-8e63-38e76b4de7a3",
+      "alias": "<request.guard.projectOnly.LeadScoreOverrideController_reject.0>"
+    },
+    {
+      "native": "cd93cb51-dd71-4dbf-94fa-14bd9fb6ba55",
+      "rust": "2778a5a7-b8ac-491d-b915-b04e61840c6a",
+      "alias": "<request.guard.anonymous.LeadScoreOverrideController_revoke.0>"
+    },
+    {
+      "native": "58b5264b-5288-48aa-ba3a-faf3cfb67287",
+      "rust": "2f54ea05-c352-4b77-94cc-8db9acae53e2",
+      "alias": "<request.guard.csrf.LeadScoreOverrideController_revoke.0>"
+    },
+    {
+      "native": "f16add5c-c188-4e4e-8102-9f0c4c3359dc",
+      "rust": "e7d370e8-443a-49b6-a8f5-025c2b6d581b",
+      "alias": "<request.guard.reader.LeadScoreOverrideController_revoke.0>"
+    },
+    {
+      "native": "0fd8474c-5c9c-4b94-9a19-08dc8b7ae59e",
+      "rust": "76cfee74-1821-46c8-95cc-a71f2029bd0d",
+      "alias": "<request.guard.leadOnly.LeadScoreOverrideController_revoke.0>"
+    },
+    {
+      "native": "00cce9f4-04bf-483f-b1fa-46d00cf33857",
+      "rust": "f99b2c70-0364-4b86-9b3b-a9054b1ad0b9",
+      "alias": "<request.guard.projectOnly.LeadScoreOverrideController_revoke.0>"
+    },
+    {
+      "native": "691afcbc-252f-41c3-94b0-6b46d63cd411",
+      "rust": "bd626270-3c9a-4f70-8cc5-d6e73d94fb2a",
+      "alias": "<request.guard.anonymous.LeadController_list.0>"
+    },
+    {
+      "native": "7e9e257d-6160-4a9d-a805-5ad84b239a4a",
+      "rust": "f38a6f7b-66da-4956-9378-d573a1d8f808",
+      "alias": "<request.guard.reader.LeadController_list.0>"
+    },
+    {
+      "native": "77371452-e385-489e-bf17-232f9de7d60d",
+      "rust": "df5691a2-ff82-467f-85de-972127e76972",
+      "alias": "<request.guard.leadOnly.LeadController_list.0>"
+    },
+    {
+      "native": "2e5beaf8-c143-4019-9d0d-e7ecaa6f619c",
+      "rust": "d1523035-309b-4172-ace2-97d886795422",
+      "alias": "<request.guard.projectOnly.LeadController_list.0>"
+    },
+    {
+      "native": "f63b1bad-ad28-47d5-9996-d78afaef01ec",
+      "rust": "0557a0f2-7946-4ed1-a236-52995049eb03",
+      "alias": "<request.guard.anonymous.LeadController_create.0>"
+    },
+    {
+      "native": "5ef204bb-cf50-41bb-9040-0bf2913d17e2",
+      "rust": "2042e99d-9ba6-46ac-85f7-2d3f8ae6d9d3",
+      "alias": "<request.guard.csrf.LeadController_create.0>"
+    },
+    {
+      "native": "377da438-7052-45f5-9464-1a9e8ff9656d",
+      "rust": "37aae260-a7a5-4860-b359-5ae17c9d8b24",
+      "alias": "<request.guard.reader.LeadController_create.0>"
+    },
+    {
+      "native": "acbfd6dc-ac7b-4e56-9d52-349b1f8fc4fe",
+      "rust": "449823d6-cc68-4bd5-beff-5159cd621c76",
+      "alias": "<request.guard.leadOnly.LeadController_create.0>"
+    },
+    {
+      "native": "a8689b33-08b1-45b4-8ef8-f0adee312213",
+      "rust": "2e00d13a-d473-446e-beda-eea9ea612de0",
+      "alias": "<request.guard.projectOnly.LeadController_create.0>"
+    },
+    {
+      "native": "f5fd6609-6b71-43ac-ad24-85c99d0cec35",
+      "rust": "db627c48-7dbc-4016-806a-b66bbe6e8d12",
+      "alias": "<request.guard.anonymous.LeadController_getById.0>"
+    },
+    {
+      "native": "11de86b6-6938-4811-bc93-f750b973bb39",
+      "rust": "4ef928ea-6174-487e-ad9d-625723ee3cc0",
+      "alias": "<request.guard.reader.LeadController_getById.0>"
+    },
+    {
+      "native": "2de816d3-c923-4132-aaf2-35ec9a6036b6",
+      "rust": "56425deb-6135-4eeb-9929-76101f59f1d5",
+      "alias": "<request.guard.leadOnly.LeadController_getById.0>"
+    },
+    {
+      "native": "abf0382d-ca66-4c3d-ad85-cc6aab9629d6",
+      "rust": "e7036c1d-ae33-4a55-83d7-64c231ef9b66",
+      "alias": "<request.guard.projectOnly.LeadController_getById.0>"
+    },
+    {
+      "native": "8934ec6e-c11d-486e-9b70-87461a1f2170",
+      "rust": "0e4fce2d-47d6-4468-b5c7-ab6afec0f7a5",
+      "alias": "<request.guard.anonymous.LeadController_update.0>"
+    },
+    {
+      "native": "1d9864df-0de3-4abb-b46d-21d588f91a8f",
+      "rust": "29a76e10-8913-44a4-af1f-f5ba0ea574b6",
+      "alias": "<request.guard.csrf.LeadController_update.0>"
+    },
+    {
+      "native": "0dbb855c-8249-4d38-8e81-90aed454473e",
+      "rust": "8c5c7c15-0076-47a6-aa03-169b02764896",
+      "alias": "<request.guard.reader.LeadController_update.0>"
+    },
+    {
+      "native": "7cb49d27-6155-4a06-a4bb-7e1bd0dba8df",
+      "rust": "dd38c75b-fb2a-495d-b125-aa23775524b9",
+      "alias": "<request.guard.leadOnly.LeadController_update.0>"
+    },
+    {
+      "native": "07948c3a-f8d7-43b2-baef-de2995d8e4bc",
+      "rust": "7715e2ee-623e-4221-8cd8-3b597b8951ad",
+      "alias": "<request.guard.projectOnly.LeadController_update.0>"
+    },
+    {
+      "native": "6ce5ebb9-5698-4fff-a443-f43674930821",
+      "rust": "b3193d67-d30d-4d8c-a4e4-097482c8d189",
+      "alias": "<request.guard.anonymous.LeadController_assignOwner.0>"
+    },
+    {
+      "native": "fa291754-01b9-4e28-9457-a9f94d010fb6",
+      "rust": "5703454b-74df-4d3f-a3de-a8281f9fd7c1",
+      "alias": "<request.guard.csrf.LeadController_assignOwner.0>"
+    },
+    {
+      "native": "aafd5ca4-c3a5-4530-b317-f77bb253753b",
+      "rust": "815b9757-1ce0-4003-a54b-668e1472b893",
+      "alias": "<request.guard.reader.LeadController_assignOwner.0>"
+    },
+    {
+      "native": "6715100d-67ef-4609-9b41-5ad8855bfdf1",
+      "rust": "9062d20d-5f0e-4b44-9420-b107e0666a57",
+      "alias": "<request.guard.leadOnly.LeadController_assignOwner.0>"
+    },
+    {
+      "native": "48c614c6-e3df-47ba-b600-1cfac495da09",
+      "rust": "8f6d62ef-fcbd-40c7-90a4-f2a20c9d7142",
+      "alias": "<request.guard.projectOnly.LeadController_assignOwner.0>"
+    },
+    {
+      "native": "e81014eb-ad27-49f9-8839-f9a7605177a3",
+      "rust": "3fb18d63-3ea8-482f-9fa2-b6c3949c5d7d",
+      "alias": "<request.guard.anonymous.LeadController_claimOwner.0>"
+    },
+    {
+      "native": "c53242fe-6132-44ca-83af-ebe1958bac74",
+      "rust": "9ea5e8b9-76d9-490b-a9bf-204fa5398f1d",
+      "alias": "<request.guard.csrf.LeadController_claimOwner.0>"
+    },
+    {
+      "native": "04faebd0-1e45-4fca-8523-fa8cfba3bee0",
+      "rust": "f2737e6d-5639-4a9c-81c9-ffcc28b1427a",
+      "alias": "<request.guard.reader.LeadController_claimOwner.0>"
+    },
+    {
+      "native": "ade106b5-5f2b-4bd4-9170-bb6bbb4f4ce0",
+      "rust": "580e3a9a-ddad-49e9-8326-adcbc63204f5",
+      "alias": "<request.guard.leadOnly.LeadController_claimOwner.0>"
+    },
+    {
+      "native": "38288aba-6481-45dd-93d8-ffaa2792c226",
+      "rust": "66c5233d-0d5e-4369-81b6-771a8617704e",
+      "alias": "<request.guard.projectOnly.LeadController_claimOwner.0>"
+    },
+    {
+      "native": "ff5b3078-89cc-4e88-a03d-297b8109365f",
+      "rust": "fc745e4a-d967-4f4c-9099-e2fd6024b565",
+      "alias": "<request.guard.anonymous.LeadController_close.0>"
+    },
+    {
+      "native": "ffd9fb02-5f47-418b-baf1-ac0b69720f43",
+      "rust": "1144587c-72f0-4653-93af-cb9eb64b44d7",
+      "alias": "<request.guard.csrf.LeadController_close.0>"
+    },
+    {
+      "native": "dcedadcc-3bf8-4839-b77f-6f2d712f40ec",
+      "rust": "d41740f1-352c-4176-9290-53804e3ef35e",
+      "alias": "<request.guard.reader.LeadController_close.0>"
+    },
+    {
+      "native": "b8255ecf-f5fb-4572-860e-6736194c15d0",
+      "rust": "23470ba6-2356-4642-858b-5007ca2e7b69",
+      "alias": "<request.guard.leadOnly.LeadController_close.0>"
+    },
+    {
+      "native": "a50cd2a6-1d17-46da-8079-11ce7990d97d",
+      "rust": "4d8269d9-bad8-419c-9918-49dd228bc46d",
+      "alias": "<request.guard.projectOnly.LeadController_close.0>"
+    },
+    {
+      "native": "ec4e16e2-a5bf-439f-b594-116d3b3a4443",
+      "rust": "1a1abbec-bfb7-456b-9000-4263cd561792",
+      "alias": "<request.guard.anonymous.LeadController_convertToProject.0>"
+    },
+    {
+      "native": "9ddf5ca6-f557-4561-8c0d-29c0867a2706",
+      "rust": "c13167bd-012f-4c37-aa90-ab4738c2098a",
+      "alias": "<request.guard.csrf.LeadController_convertToProject.0>"
+    },
+    {
+      "native": "285e3552-cb54-4fd5-bbfe-3121173d1aa2",
+      "rust": "3c9d8054-3b5f-4462-b925-f7dfd2dbba0c",
+      "alias": "<request.guard.reader.LeadController_convertToProject.0>"
+    },
+    {
+      "native": "9312b152-502e-41fa-a376-943cbee642fb",
+      "rust": "09cb5f2a-cd03-48cd-a00a-3fac129c79e1",
+      "alias": "<request.guard.leadOnly.LeadController_convertToProject.0>"
+    },
+    {
+      "native": "ea5665d2-0cb4-4b5d-8b81-9e942b7bf0b7",
+      "rust": "dba8085a-f4be-45cc-bd69-963c1d291039",
+      "alias": "<request.guard.projectOnly.LeadController_convertToProject.0>"
+    },
+    {
+      "native": "83f0a4da-cf14-4613-b5d3-95abca70f147",
+      "rust": "c598d143-1037-4d5a-bc68-50a0113612e0",
+      "alias": "<request.guard.anonymous.LeadController_qualify.0>"
+    },
+    {
+      "native": "4bd11930-a6cd-4e15-990f-ae70ee4272d1",
+      "rust": "96f1ae12-16b6-4951-9763-7be9c8a996a8",
+      "alias": "<request.guard.csrf.LeadController_qualify.0>"
+    },
+    {
+      "native": "35534688-14fa-4c27-a060-c7849e205848",
+      "rust": "a0abe896-8edc-479f-a9c7-c5116fe66577",
+      "alias": "<request.guard.reader.LeadController_qualify.0>"
+    },
+    {
+      "native": "e5a25de8-57e4-4579-8090-ad902dd3388f",
+      "rust": "0774d7d7-8cc8-4246-9e56-b06a92ebc49d",
+      "alias": "<request.guard.leadOnly.LeadController_qualify.0>"
+    },
+    {
+      "native": "7de6a637-8a1f-45d8-ad3a-638c618e7036",
+      "rust": "efe3da6a-5a2f-4fef-90d9-cd895d8c6cab",
+      "alias": "<request.guard.projectOnly.LeadController_qualify.0>"
+    },
+    {
+      "native": "d7ed46e5-d4e4-4539-b784-b620c95624a4",
+      "rust": "be4ad4db-05ff-44d7-94b5-beb3e7ecac28",
+      "alias": "<request.guard.anonymous.LeadController_getScoreHistory.0>"
+    },
+    {
+      "native": "74d4db1c-7f11-42ff-ab06-7a16ec2aef16",
+      "rust": "f6657944-444c-483d-9ec8-6d3aefe23660",
+      "alias": "<request.guard.reader.LeadController_getScoreHistory.0>"
+    },
+    {
+      "native": "f31c0eb5-05b1-4582-bef0-95c43410d422",
+      "rust": "3acb4709-15e9-4b0b-92a6-d3ed49393c88",
+      "alias": "<request.guard.leadOnly.LeadController_getScoreHistory.0>"
+    },
+    {
+      "native": "7eb5b579-b622-4aeb-949f-46b65bda4390",
+      "rust": "43ab5ec7-0722-45c1-9eec-12722301c5da",
+      "alias": "<request.guard.projectOnly.LeadController_getScoreHistory.0>"
+    },
+    {
+      "native": "71cdf67c-3677-4232-9c31-433a38719f2e",
+      "rust": "dbafbf85-b7ce-4b4e-874a-f469bc56febe",
+      "alias": "<request.guard.anonymous.LeadController_submitScoreOverride.0>"
+    },
+    {
+      "native": "430ed5b3-56dd-4db0-b021-362fb6174c0a",
+      "rust": "f7bb5c41-a824-4021-aee4-c0f8937a0a14",
+      "alias": "<request.guard.csrf.LeadController_submitScoreOverride.0>"
+    },
+    {
+      "native": "0ce20281-5448-47b7-a9d2-ec2ad1ef2fe2",
+      "rust": "28c2f1af-5d4d-49f6-a182-5d1b7d4e06d8",
+      "alias": "<request.guard.reader.LeadController_submitScoreOverride.0>"
+    },
+    {
+      "native": "04c8b2d0-b2ec-4ac0-a3f9-9ee8d6b8ea19",
+      "rust": "ad729060-4ba4-48e8-99f1-58070f91f241",
+      "alias": "<request.guard.leadOnly.LeadController_submitScoreOverride.0>"
+    },
+    {
+      "native": "31c7458b-ec63-4704-87d4-a9d6614bd1a9",
+      "rust": "6c7cb041-d3c1-4b3d-8464-6457d939ef3c",
+      "alias": "<request.guard.projectOnly.LeadController_submitScoreOverride.0>"
+    },
+    {
+      "native": "15b0924f-7b2b-4d9f-a7bf-84e8f5dd561a",
+      "rust": "8d09b24e-be1f-46d5-8ca5-095c26112362",
+      "alias": "<request.guard.anonymous.CompetitorIntelligenceRecordController_list.0>"
+    },
+    {
+      "native": "fc13d87f-549a-4b92-bc76-ff7f1111c8b8",
+      "rust": "5041dd93-85d1-4a77-bcba-cc23efd90c06",
+      "alias": "<request.guard.reader.CompetitorIntelligenceRecordController_list.0>"
+    },
+    {
+      "native": "e68be879-6511-483d-b649-51516a48b645",
+      "rust": "542250bc-2b5c-45ce-9521-3aee31c9dce1",
+      "alias": "<request.guard.leadOnly.CompetitorIntelligenceRecordController_list.0>"
+    },
+    {
+      "native": "61825e09-f22c-4a29-90e5-982230567f48",
+      "rust": "0a342e71-9e81-4d59-9bcd-c181c03d2578",
+      "alias": "<request.guard.projectOnly.CompetitorIntelligenceRecordController_list.0>"
+    },
+    {
+      "native": "8c3ad203-ea72-48d9-868e-ea6e8c1dea77",
+      "rust": "f82cb1da-6950-4501-bb8d-820b635e2a15",
+      "alias": "<request.guard.anonymous.CompetitorIntelligenceRecordController_create.0>"
+    },
+    {
+      "native": "1aca4737-6656-46b4-9d59-8882bd4f5ac5",
+      "rust": "7e2b9a22-b2ae-4449-b668-be7ea8e15024",
+      "alias": "<request.guard.csrf.CompetitorIntelligenceRecordController_create.0>"
+    },
+    {
+      "native": "3c3e96f6-0c54-4c68-ae26-89bfb9e2be20",
+      "rust": "68a17887-53d0-451c-adcb-9a8d9de9a2b2",
+      "alias": "<request.guard.reader.CompetitorIntelligenceRecordController_create.0>"
+    },
+    {
+      "native": "01424e60-fe00-496a-ae46-ce140faa0142",
+      "rust": "740ba6bd-e015-4047-9c07-d76ef346979c",
+      "alias": "<request.guard.leadOnly.CompetitorIntelligenceRecordController_create.0>"
+    },
+    {
+      "native": "7b9bbfc4-e969-4d98-acbf-927ee688a6a3",
+      "rust": "41479dba-b5c7-4d6a-a6fa-4805ba1d0f9f",
+      "alias": "<request.guard.projectOnly.CompetitorIntelligenceRecordController_create.0>"
+    },
+    {
+      "native": "8feac744-5247-4c4f-ae9b-9a4cd2067d63",
+      "rust": "0198d305-30aa-424d-b94c-abfb62f65bc8",
+      "alias": "<request.guard.anonymous.CompetitorIntelligenceRecordController_update.0>"
+    },
+    {
+      "native": "3803ddea-bfa2-461d-9345-20ba9490c989",
+      "rust": "9a90c7ac-74fa-47b3-9d49-aad8fb641c54",
+      "alias": "<request.guard.csrf.CompetitorIntelligenceRecordController_update.0>"
+    },
+    {
+      "native": "0e227bb5-c07c-44fc-8395-82a4a38f5337",
+      "rust": "86166502-a2b7-4da2-81ac-42dc74908731",
+      "alias": "<request.guard.reader.CompetitorIntelligenceRecordController_update.0>"
+    },
+    {
+      "native": "596a22a2-5549-4e6e-a550-6c3dea3adc34",
+      "rust": "fd5c8204-fbbf-4ab9-8309-492dd1c077f8",
+      "alias": "<request.guard.leadOnly.CompetitorIntelligenceRecordController_update.0>"
+    },
+    {
+      "native": "5d6606e7-962e-4d0a-8878-3797efe45b9d",
+      "rust": "ed259363-5dce-4ee6-8d96-1062d225b93b",
+      "alias": "<request.guard.projectOnly.CompetitorIntelligenceRecordController_update.0>"
+    },
+    {
+      "native": "a4b66be0-7071-4cd1-a7b2-8d9e0ed9db1b",
+      "rust": "62b4f437-53eb-4ac2-b63b-797538fdfadd",
+      "alias": "<request.guard.anonymous.OpportunityStakeholderController_list.0>"
+    },
+    {
+      "native": "85ecebba-2d51-455e-8a3e-c0e1503489db",
+      "rust": "67fa1b2b-f935-4753-a9bb-0fbca117381e",
+      "alias": "<request.guard.reader.OpportunityStakeholderController_list.0>"
+    },
+    {
+      "native": "f59aed38-ad7b-4520-b530-52b7edad4bdc",
+      "rust": "9efd3be9-ba1c-4c85-a687-f2ae53ceadec",
+      "alias": "<request.guard.leadOnly.OpportunityStakeholderController_list.0>"
+    },
+    {
+      "native": "dd27843a-b918-4343-823b-aa19ab7b9bd0",
+      "rust": "374b343d-1aad-4070-9088-4dbb795407e7",
+      "alias": "<request.guard.projectOnly.OpportunityStakeholderController_list.0>"
+    },
+    {
+      "native": "a1ed62fb-6299-4207-ba91-ee34e21afe6a",
+      "rust": "e41d1a2d-3395-458e-9104-6c6ff4f69ea9",
+      "alias": "<request.guard.anonymous.OpportunityStakeholderController_create.0>"
+    },
+    {
+      "native": "1eca2ee7-c286-4002-9eb9-e7ff4cc0198a",
+      "rust": "08cb563f-72cb-471a-bd20-8d330ae8517a",
+      "alias": "<request.guard.csrf.OpportunityStakeholderController_create.0>"
+    },
+    {
+      "native": "f6a7d794-5cbc-4dc0-a733-b57cce7dc3d7",
+      "rust": "72c8a6c6-c0d3-44af-8189-093f98824a0d",
+      "alias": "<request.guard.reader.OpportunityStakeholderController_create.0>"
+    },
+    {
+      "native": "dda687a4-e0bd-4f34-a8b1-fc569cc26376",
+      "rust": "3360d205-d32b-4291-b4ef-6c0d51be0e2d",
+      "alias": "<request.guard.leadOnly.OpportunityStakeholderController_create.0>"
+    },
+    {
+      "native": "894fe3a8-eb4e-4477-9812-15b84304a0a5",
+      "rust": "1b134764-5e08-472a-a7c5-aa3d69edb2ee",
+      "alias": "<request.guard.projectOnly.OpportunityStakeholderController_create.0>"
+    },
+    {
+      "native": "f60c1d8b-2518-4454-9473-e285e173d9a7",
+      "rust": "2d52308b-5681-43d9-bd16-b84b9c6ac4a4",
+      "alias": "<request.guard.anonymous.OpportunityStakeholderController_update.0>"
+    },
+    {
+      "native": "27010e11-b71a-47fd-af23-ea518ff40210",
+      "rust": "a275f2e8-4371-4b2d-a4ec-34d42811a5e1",
+      "alias": "<request.guard.csrf.OpportunityStakeholderController_update.0>"
+    },
+    {
+      "native": "a6590078-4ca5-4a5c-9281-05dd130f4df0",
+      "rust": "461bed78-e0f4-4ee6-8062-4caf6faa8ef5",
+      "alias": "<request.guard.reader.OpportunityStakeholderController_update.0>"
+    },
+    {
+      "native": "c1cf70ab-ebd6-433b-a354-de6bbea3b5a2",
+      "rust": "0de4338a-c6b8-4197-bc24-91bfca5df956",
+      "alias": "<request.guard.leadOnly.OpportunityStakeholderController_update.0>"
+    },
+    {
+      "native": "9754e5f5-938b-4805-b009-33d699dc6e08",
+      "rust": "0cde8c61-f6ab-4cf3-ade3-851aa03ef41a",
+      "alias": "<request.guard.projectOnly.OpportunityStakeholderController_update.0>"
+    },
+    {
+      "native": "c5452110-7613-456b-bfa8-958c4ec215ee",
+      "rust": "8f65115e-d1e0-4eaf-8ee5-4f3c6684de43",
+      "alias": "<request.guard.anonymous.SalesDiscoveryRecordController_list.0>"
+    },
+    {
+      "native": "d94a4684-5964-4139-8035-70d8a02ae21e",
+      "rust": "ea3386eb-bd07-4de6-944e-f6717a35a70e",
+      "alias": "<request.guard.reader.SalesDiscoveryRecordController_list.0>"
+    },
+    {
+      "native": "29c70609-b928-4649-81af-05d5893ddd91",
+      "rust": "03d25f5e-f57d-4c80-addc-9ce4f7ea2629",
+      "alias": "<request.guard.leadOnly.SalesDiscoveryRecordController_list.0>"
+    },
+    {
+      "native": "191e0766-5d13-472d-93ed-4fdae8634db2",
+      "rust": "50c9613f-e6ab-4b30-889a-c686ed70d746",
+      "alias": "<request.guard.projectOnly.SalesDiscoveryRecordController_list.0>"
+    },
+    {
+      "native": "78ce4301-9a51-4fa1-bd89-7293ddb46cde",
+      "rust": "e4f4fd0e-87bd-417c-8354-b450fb53cf46",
+      "alias": "<request.guard.anonymous.SalesDiscoveryRecordController_create.0>"
+    },
+    {
+      "native": "0699da4e-d48a-4e87-bb2f-13b3f8cc88e5",
+      "rust": "1e7ffd2d-28fe-4ae5-8cfe-61f9f041aed0",
+      "alias": "<request.guard.csrf.SalesDiscoveryRecordController_create.0>"
+    },
+    {
+      "native": "181c2ba3-1832-4e05-8896-eafccf562d46",
+      "rust": "0a461a26-0883-4fa1-94f9-85a99bee0253",
+      "alias": "<request.guard.reader.SalesDiscoveryRecordController_create.0>"
+    },
+    {
+      "native": "45f888ca-862b-415a-9f55-045be5b970cf",
+      "rust": "e584837c-baf8-4708-95d3-2c0197118698",
+      "alias": "<request.guard.leadOnly.SalesDiscoveryRecordController_create.0>"
+    },
+    {
+      "native": "6f43271d-f11a-49d2-9f37-8d21828cf8f8",
+      "rust": "3cb19151-d811-41ca-b3e0-68ab3525131a",
+      "alias": "<request.guard.projectOnly.SalesDiscoveryRecordController_create.0>"
+    },
+    {
+      "native": "3f5e3ffa-6cf2-4d87-8199-00486cf9cd9e",
+      "rust": "694d1698-ef11-4d57-8f3f-c3728e451bf2",
+      "alias": "<request.guard.anonymous.SalesDiscoveryRecordController_update.0>"
+    },
+    {
+      "native": "7f6a6fe1-ee46-444b-af2b-2a56d98f980b",
+      "rust": "5c53f098-575b-4e91-9fd8-c62982f14d5f",
+      "alias": "<request.guard.csrf.SalesDiscoveryRecordController_update.0>"
+    },
+    {
+      "native": "a8bb1a75-7462-49dd-950e-4d0e4674552b",
+      "rust": "fe7fefd9-2ebc-4a17-b0b5-ce399bf742df",
+      "alias": "<request.guard.reader.SalesDiscoveryRecordController_update.0>"
+    },
+    {
+      "native": "91664d13-32f9-4472-b253-e3337e7fca35",
+      "rust": "3d4faa73-88a1-447d-a747-85fa0c8166bb",
+      "alias": "<request.guard.leadOnly.SalesDiscoveryRecordController_update.0>"
+    },
+    {
+      "native": "7d7dea30-75b1-4195-b2ca-b0e1230c1e3f",
+      "rust": "8f66dcb6-e4a4-4280-9701-ddec7475c512",
+      "alias": "<request.guard.projectOnly.SalesDiscoveryRecordController_update.0>"
+    },
+    {
+      "native": "81b352e7-4531-48ca-b1b1-ac40ed7dba5d",
+      "rust": "ccabeaec-1e56-4e66-9870-e50d6df38e7f",
+      "alias": "<request.guard.anonymous.SalesIntelligenceGapController_list.0>"
+    },
+    {
+      "native": "ad259b0a-cfd7-44f5-888e-60611a403782",
+      "rust": "535e0a2a-ef6b-4f5a-9f13-c6a5fbe1ced2",
+      "alias": "<request.guard.reader.SalesIntelligenceGapController_list.0>"
+    },
+    {
+      "native": "3751e4db-4e0e-4909-9bd9-2e34c9c9d902",
+      "rust": "a34dd196-bd1e-4e45-a4aa-1998b0b93fb6",
+      "alias": "<request.guard.leadOnly.SalesIntelligenceGapController_list.0>"
+    },
+    {
+      "native": "f464578b-7947-4bd2-9f1e-35e460c8cb4e",
+      "rust": "9e8015b1-8749-4a8c-9c71-700d0faa1506",
+      "alias": "<request.guard.projectOnly.SalesIntelligenceGapController_list.0>"
+    },
+    {
+      "native": "023ee0f9-0356-4382-8b6c-c6408f566dfd",
+      "rust": "e6c25b67-498a-4085-9b7c-f2542b6e3d33",
+      "alias": "<request.guard.anonymous.BusinessDiscussionController_list.0>"
+    },
+    {
+      "native": "98db6805-c5a6-4a6c-b3df-8c2a9496e6c5",
+      "rust": "84aaad81-e859-4e50-bbde-632c3ac4f760",
+      "alias": "<request.guard.reader.BusinessDiscussionController_list.0>"
+    },
+    {
+      "native": "ee1dfdf5-30e9-49b1-a765-e6c0aafebddb",
+      "rust": "c3731ea9-4285-461c-9dbe-b6668d2bc742",
+      "alias": "<request.guard.leadOnly.BusinessDiscussionController_list.0>"
+    },
+    {
+      "native": "4cd17efc-5afc-44bf-a5d5-0442ea63598d",
+      "rust": "8d97a676-27ac-45b2-8604-c937fe12b220",
+      "alias": "<request.guard.projectOnly.BusinessDiscussionController_list.0>"
+    },
+    {
+      "native": "5a474938-f588-4fe5-8deb-c065b2459a29",
+      "rust": "4baa5355-a61c-4603-8c28-0f2cf953620b",
+      "alias": "<request.guard.anonymous.BusinessDiscussionController_create.0>"
+    },
+    {
+      "native": "4ff3c057-313d-468a-b799-fff34ca70ce8",
+      "rust": "8b3abf2d-6900-4c7e-94cf-854567307565",
+      "alias": "<request.guard.csrf.BusinessDiscussionController_create.0>"
+    },
+    {
+      "native": "646e7c8e-b304-4f44-9b33-04c5f02b5a7c",
+      "rust": "b4f9544c-dcde-4874-896e-9b9b7f2f2720",
+      "alias": "<request.guard.reader.BusinessDiscussionController_create.0>"
+    },
+    {
+      "native": "a2e9dbf5-2549-40c7-b550-03588afe743f",
+      "rust": "a54b2eff-4fd4-4719-ae7b-1847ed4835e1",
+      "alias": "<request.guard.leadOnly.BusinessDiscussionController_create.0>"
+    },
+    {
+      "native": "4f4ca2b7-a162-4569-9b8d-512dc7eba657",
+      "rust": "78a34144-c238-4416-8cad-a3c8b84d054b",
+      "alias": "<request.guard.projectOnly.BusinessDiscussionController_create.0>"
+    },
+    {
+      "native": "340a2e0c-05ba-421c-bec6-3522b426567a",
+      "rust": "11f37202-34b3-40d3-a7ab-753b985095aa",
+      "alias": "<request.guard.anonymous.ProjectController_getTimeline.0>"
+    },
+    {
+      "native": "98da5246-dadd-460b-8527-5f5d1cf0914e",
+      "rust": "b9204579-e852-425a-b286-715511d844a5",
+      "alias": "<request.guard.reader.ProjectController_getTimeline.0>"
+    },
+    {
+      "native": "1f72fb75-22a2-45f6-8e3a-17d6da33ad63",
+      "rust": "3cce50b0-d398-4f8e-9cc2-7c83904bb43a",
+      "alias": "<request.guard.leadOnly.ProjectController_getTimeline.0>"
+    },
+    {
+      "native": "3fe92f06-9685-4ff5-bad6-3ca145d77073",
+      "rust": "dd22a73e-815b-4f68-8e6f-2f9882c101bb",
+      "alias": "<request.guard.projectOnly.ProjectController_getTimeline.0>"
+    },
+    {
+      "native": "3b498cf9-bc96-4730-b73d-999419fd104d",
+      "rust": "0ba65b6d-ca55-48f6-a69c-d53e33be5a45",
+      "alias": "<request.guard.anonymous.ProjectController_getWorkspaceGuidance.0>"
+    },
+    {
+      "native": "ea90ce0d-e75d-4192-90cd-2aa9e48ed943",
+      "rust": "c6532a77-6fc6-472b-813c-c3c4f8879287",
+      "alias": "<request.guard.reader.ProjectController_getWorkspaceGuidance.0>"
+    },
+    {
+      "native": "a56bf569-71f3-4d95-98b9-5338ff9cc149",
+      "rust": "6b0209c8-1276-4945-b5bd-7ba03b648066",
+      "alias": "<request.guard.leadOnly.ProjectController_getWorkspaceGuidance.0>"
+    },
+    {
+      "native": "6fee36cf-36a4-439a-b70c-4a831089ec49",
+      "rust": "70fbe666-d193-4193-8d6b-b77870c3d8a7",
+      "alias": "<request.guard.projectOnly.ProjectController_getWorkspaceGuidance.0>"
+    },
+    {
+      "native": "5e00471c-e0e5-4fc4-b6e8-286d8d596d62",
+      "rust": "cc99f287-3c4c-450e-be1a-d9391d6e3571",
+      "alias": "<request.route.0.0>"
+    },
+    {
+      "native": "d25a513f-6c62-4a7f-9807-1458ebfc7ecb",
+      "rust": "95c9ec9e-eab7-4125-a4de-192658e217fc",
+      "alias": "<request.route.1.0>"
+    },
+    {
+      "native": "1b40ab3f-ca73-46d5-aea1-6b575b22ac80",
+      "rust": "da2d92bd-b15c-4f6a-a80f-6972425bd234",
+      "alias": "<request.route.2.0>"
+    },
+    {
+      "native": "e02ec219-78df-42a7-b152-b8ccbe3ca603",
+      "rust": "ba63db8b-8ee4-4c33-8874-91ea773ff739",
+      "alias": "<request.route.3.0>"
+    },
+    {
+      "native": "b6e810bb-a998-4c1c-affb-3ef540f91618",
+      "rust": "7aba47b4-abd4-462c-8482-1d907d41e014",
+      "alias": "<request.route.4.0>"
+    },
+    {
+      "native": "3e61c6fd-5e69-4036-af81-78984a1ad0cc",
+      "rust": "2f50e182-c0ad-44f7-8543-09adf460f93d",
+      "alias": "<request.route.5.0>"
+    },
+    {
+      "native": "fee2db74-7602-494c-85d3-c8728d40d675",
+      "rust": "c7577800-08d7-4186-b6d3-6cb92e23bd8a",
+      "alias": "<request.route.6.0>"
+    },
+    {
+      "native": "0c6eb0d1-5bad-4341-aa67-35c6b9414438",
+      "rust": "c1093f5a-9e7c-4f3f-a4f6-20528da7edb7",
+      "alias": "<request.route.7.0>"
+    },
+    {
+      "native": "1ca1a874-f908-4313-ac83-0486578257d6",
+      "rust": "36fb8cc8-9bd6-4711-985a-bb5f6fd7a5bd",
+      "alias": "<request.route.8.0>"
+    },
+    {
+      "native": "15108433-99a1-465a-acf0-ed8144722a84",
+      "rust": "c5539bac-f91b-49b9-a717-453fb8363ca9",
+      "alias": "<request.route.9.0>"
+    },
+    {
+      "native": "bf288682-b6cd-4171-886f-7af6c1af41fa",
+      "rust": "e6d4669f-6671-4696-89fb-c7006ca02f15",
+      "alias": "<request.route.10.0>"
+    },
+    {
+      "native": "6c44c148-005d-45a7-8c18-f6488e122e6a",
+      "rust": "de69bfaf-e298-4890-a57d-26c1bb4f6a53",
+      "alias": "<request.route.11.0>"
+    },
+    {
+      "native": "eecc46e1-4eae-4456-a982-e1bce5f297a2",
+      "rust": "3c67866a-6363-44f7-9658-ad88bb33bfc0",
+      "alias": "<request.route.12.0>"
+    },
+    {
+      "native": "457f5ae1-5bf4-459c-bb73-07f75b9be9e8",
+      "rust": "7abe4740-92e3-4faf-a492-e5d87d188c59",
+      "alias": "<request.route.13.0>"
+    },
+    {
+      "native": "239e0ad9-a65e-4b0c-b191-aae319e1f375",
+      "rust": "c2f5dff3-df5a-47a4-9c91-1ffa801f9f70",
+      "alias": "<request.route.14.0>"
+    },
+    {
+      "native": "8854c5eb-1dc2-40fb-95c7-b2dfdb9b8e4b",
+      "rust": "c2b91a91-57ed-41a0-a540-8298b19a5b05",
+      "alias": "<request.route.15.0>"
+    },
+    {
+      "native": "08e0e3e9-d769-4561-8f60-2cf126923330",
+      "rust": "c1f6af9c-be1c-4425-b3b9-0417723bd329",
+      "alias": "<request.parser.invalid./api/leads.0>"
+    },
+    {
+      "native": "bb458f1a-ced3-40af-93af-729dfd4ac172",
+      "rust": "1893cc8d-b9c9-41bf-9b02-9ae6c8840268",
+      "alias": "<request.parser.invalid./api/opportunity-stakeholders.0>"
+    },
+    {
+      "native": "8e681fa9-f1c4-4312-ac43-0711d18289df",
+      "rust": "bb182adb-b7d8-4054-bf12-25fb1f3fda57",
+      "alias": "<request.parser.invalid./api/business-discussions.0>"
+    }
+  ],
+  "conflicts": [],
+  "comparisons": [
+    {
+      "label": "guard.anonymous.LeadScoreOverrideController_approve",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadScoreOverrideController_approve",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadScoreOverrideController_approve",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadScoreOverrideController_approve",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadScoreOverrideController_approve",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadScoreOverrideController_reject",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadScoreOverrideController_reject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadScoreOverrideController_reject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadScoreOverrideController_reject",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadScoreOverrideController_reject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadScoreOverrideController_revoke",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadScoreOverrideController_revoke",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadScoreOverrideController_revoke",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadScoreOverrideController_revoke",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadScoreOverrideController_revoke",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_list",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_list",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_list",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_list",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_create",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_getById",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_getById",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_getById",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_getById",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_update",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_assignOwner",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_assignOwner",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_assignOwner",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_assignOwner",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_assignOwner",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_claimOwner",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_claimOwner",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_claimOwner",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_claimOwner",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_claimOwner",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_close",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_close",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_close",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_close",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_close",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_convertToProject",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_convertToProject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_convertToProject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_convertToProject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_convertToProject",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_qualify",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_qualify",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_qualify",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_qualify",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_qualify",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_getScoreHistory",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_getScoreHistory",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_getScoreHistory",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_getScoreHistory",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.LeadController_submitScoreOverride",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.LeadController_submitScoreOverride",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.LeadController_submitScoreOverride",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.LeadController_submitScoreOverride",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.LeadController_submitScoreOverride",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.CompetitorIntelligenceRecordController_list",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.CompetitorIntelligenceRecordController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.CompetitorIntelligenceRecordController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.CompetitorIntelligenceRecordController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.CompetitorIntelligenceRecordController_create",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.CompetitorIntelligenceRecordController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.CompetitorIntelligenceRecordController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.CompetitorIntelligenceRecordController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.CompetitorIntelligenceRecordController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.CompetitorIntelligenceRecordController_update",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.CompetitorIntelligenceRecordController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.CompetitorIntelligenceRecordController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.CompetitorIntelligenceRecordController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.CompetitorIntelligenceRecordController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.OpportunityStakeholderController_list",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.OpportunityStakeholderController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.OpportunityStakeholderController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.OpportunityStakeholderController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.OpportunityStakeholderController_create",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.OpportunityStakeholderController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.OpportunityStakeholderController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.OpportunityStakeholderController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.OpportunityStakeholderController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.OpportunityStakeholderController_update",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.OpportunityStakeholderController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.OpportunityStakeholderController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.OpportunityStakeholderController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.OpportunityStakeholderController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.SalesDiscoveryRecordController_list",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.SalesDiscoveryRecordController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.SalesDiscoveryRecordController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.SalesDiscoveryRecordController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.SalesDiscoveryRecordController_create",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.SalesDiscoveryRecordController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.SalesDiscoveryRecordController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.SalesDiscoveryRecordController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.SalesDiscoveryRecordController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.SalesDiscoveryRecordController_update",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.SalesDiscoveryRecordController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.SalesDiscoveryRecordController_update",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.SalesDiscoveryRecordController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.SalesDiscoveryRecordController_update",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.SalesIntelligenceGapController_list",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.SalesIntelligenceGapController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.SalesIntelligenceGapController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.SalesIntelligenceGapController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.BusinessDiscussionController_list",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.BusinessDiscussionController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.BusinessDiscussionController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.BusinessDiscussionController_list",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.BusinessDiscussionController_create",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.csrf.BusinessDiscussionController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.BusinessDiscussionController_create",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.BusinessDiscussionController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.BusinessDiscussionController_create",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.ProjectController_getTimeline",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.ProjectController_getTimeline",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.ProjectController_getTimeline",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.ProjectController_getTimeline",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.anonymous.ProjectController_getWorkspaceGuidance",
+      "index": 0,
+      "nativeStatus": 401,
+      "rustStatus": 401,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.reader.ProjectController_getWorkspaceGuidance",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.leadOnly.ProjectController_getWorkspaceGuidance",
+      "index": 0,
+      "nativeStatus": 403,
+      "rustStatus": 403,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "guard.projectOnly.ProjectController_getWorkspaceGuidance",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.0",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.1",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.2",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.3",
+      "index": 0,
+      "nativeStatus": 500,
+      "rustStatus": 500,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.4",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "route.5",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": false,
+      "changedPaths": 1
+    },
+    {
+      "label": "route.6",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.7",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.8",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.9",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.10",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.11",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.12",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.13",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.14",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "route.15",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "parser.invalid./api/leads",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "parser.invalid./api/opportunity-stakeholders",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    },
+    {
+      "label": "parser.invalid./api/business-discussions",
+      "index": 0,
+      "nativeStatus": 400,
+      "rustStatus": 400,
+      "bodyEqual": true,
+      "changedPaths": 0
+    }
+  ],
+  "raceComparisons": [],
+  "differences": [
+    {
+      "kind": "HTTP",
+      "label": "route.4",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "delta": [
+        {
+          "path": "",
+          "native": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/leads/not-a-uuid:unknown</pre>\n</body>\n</html>\n",
+          "rust": {
+            "error": "Not Found",
+            "message": "Cannot POST /api/leads/not-a-uuid:unknown",
+            "statusCode": 404
+          }
+        }
+      ]
+    },
+    {
+      "kind": "HTTP",
+      "label": "route.5",
+      "index": 0,
+      "nativeStatus": 404,
+      "rustStatus": 404,
+      "delta": [
+        {
+          "path": "",
+          "native": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/leads/<guard.anonymous.LeadScoreOverrideController_approve.route.0>%3Aclaim</pre>\n</body>\n</html>\n",
+          "rust": {
+            "error": "Not Found",
+            "message": "Cannot POST /api/leads/<guard.anonymous.LeadScoreOverrideController_approve.route.0>%3Aclaim",
+            "statusCode": 404
+          }
+        }
+      ]
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

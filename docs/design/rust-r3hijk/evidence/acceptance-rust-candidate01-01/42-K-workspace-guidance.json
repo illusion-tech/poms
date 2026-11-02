@@ -1,0 +1,214 @@
+{
+  "label": "K-workspace-guidance",
+  "startedAt": "2026-11-02T12:15:38.026Z",
+  "completedAt": "2026-11-02T12:15:38.043Z",
+  "value": {
+    "success": {
+      "status": 200,
+      "body": {
+        "basisSummary": {
+          "exportPolicy": null,
+          "generatedAt": null,
+          "projectionLevel": null,
+          "summarySnapshotId": null
+        },
+        "blockingReasons": [],
+        "currentFocus": "完成立项评估与机会判断。",
+        "currentGap": "需要补齐客户背景、关键风险和是否继续投入的判断。",
+        "currentStage": "assessment",
+        "currentStageLabel": "立项评估",
+        "generatedAt": "2026-11-02T12:15:38.036Z",
+        "headline": "先判断这个项目是否值得继续推进",
+        "nextStep": "确认范围后进入范围确认。",
+        "ownerLabel": "HIJK admin / HIJK admin",
+        "projectId": "5c4495ef-56b6-47be-90ec-245c0f07d164",
+        "recommendedEntries": [
+          {
+            "actionKey": "project:read",
+            "description": "查看项目主体、负责人、合同、审批和确认情况。",
+            "disabledReason": null,
+            "enabled": true,
+            "key": "project-detail",
+            "label": "项目详情",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164"
+          },
+          {
+            "actionKey": "view-project-workspace",
+            "description": "查看当前阶段、缺口、下一步和推荐入口。",
+            "disabledReason": null,
+            "enabled": true,
+            "key": "workspace-home",
+            "label": "工作区总览",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace"
+          },
+          {
+            "actionKey": "view-project-workspace",
+            "description": "查看签约前当前阶段、阻断原因、下一步和责任归口。",
+            "disabledReason": null,
+            "enabled": true,
+            "key": "pre-signing-workspace",
+            "label": "签约前主线",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace/pre-signing"
+          },
+          {
+            "actionKey": "view-project-workspace",
+            "description": "查看技术可行性、范围边界、风险保留和前期成本估算。",
+            "disabledReason": null,
+            "enabled": true,
+            "key": "technical-cost-workspace",
+            "label": "技术与成本",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace/technical-cost"
+          },
+          {
+            "actionKey": "view-project-workspace",
+            "description": "查看竞标形态、阶段、决策、材料齐备度、结果和下一步。",
+            "disabledReason": null,
+            "enabled": true,
+            "key": "bid-commercial-workspace",
+            "label": "招投标 / 商务竞标",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace/bid-commercial"
+          },
+          {
+            "actionKey": "view-project-workspace",
+            "description": "查看报价、成本引用、税务回款条件、毛利判断、放行结论和签约承接。",
+            "disabledReason": null,
+            "enabled": true,
+            "key": "pricing-margin-workspace",
+            "label": "报价与毛利评审",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace/pricing-margin"
+          },
+          {
+            "actionKey": "contract:finance:manage",
+            "description": "查看收入、成本、回款和经营口径。",
+            "disabledReason": "项目进入正式执行后再查看经营总览。",
+            "enabled": false,
+            "key": "operating-overview",
+            "label": "经营总览",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace/operating-overview"
+          },
+          {
+            "actionKey": "contract:finance:manage",
+            "description": "查看经营偏差、风险等级和建议动作。",
+            "disabledReason": "项目进入正式执行后再查看偏差与风险。",
+            "enabled": false,
+            "key": "variance-risk",
+            "label": "偏差与风险",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/workspace/variance-risk"
+          },
+          {
+            "actionKey": "commission:assignments:manage",
+            "description": "查看提成冻结版本、责任边界、参与人权重和移交收口关系。",
+            "disabledReason": "项目进入移交或执行阶段后再查看冻结与责任边界。",
+            "enabled": false,
+            "key": "commission-freeze-binding",
+            "label": "冻结与责任边界",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/commission/freeze-binding"
+          },
+          {
+            "actionKey": "contract:finance:manage",
+            "description": "查看当前阶段是否满足提成闸口条件。",
+            "disabledReason": "项目进入移交或执行阶段后再查看提成阶段解释。",
+            "enabled": false,
+            "key": "commission-gate-overview",
+            "label": "提成阶段解释",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/commission/gate-overview"
+          },
+          {
+            "actionKey": "commission:payouts:manage",
+            "description": "查看最终结算、质保金和发放条件。",
+            "disabledReason": "项目进入验收或完成阶段后再查看最终结算。",
+            "enabled": false,
+            "key": "commission-final-settlement",
+            "label": "最终结算",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/commission/final-settlement"
+          },
+          {
+            "actionKey": "commission:payouts:manage",
+            "description": "查看当前项目适用的提成规则和解释口径。",
+            "disabledReason": "项目进入移交或执行阶段后再查看规则解释。",
+            "enabled": false,
+            "key": "commission-rule-explanation",
+            "label": "规则解释",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/commission/rule-explanation"
+          },
+          {
+            "actionKey": "manage-project-commission",
+            "description": "处理提成规则、计算、发放和调整。",
+            "disabledReason": "项目进入移交或执行阶段后再处理提成操作。",
+            "enabled": false,
+            "key": "commission-operations",
+            "label": "提成操作",
+            "route": "/projects/5c4495ef-56b6-47be-90ec-245c0f07d164/commission/operations"
+          }
+        ],
+        "status": "active",
+        "statusLabel": "进行中"
+      },
+      "requestId": "72d5cefe-2a21-4d13-a0c3-733fa83ba790",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "4867",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-61068-167",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 12:15:38 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 347,
+        "requestSha256": "4a5458d7cff494493324539edb8e12f7d83f917b866e5a675934096c22ae4abb",
+        "responseBytes": 5147,
+        "responseSha256": "47191b06ea5fd1311ce2a9d1f24f4c51639c752877a71f3da7fe093ff9370ad6",
+        "entityBodyBytes": 4867,
+        "entityBodySha256": "6512c760b6f863c3d4a171710c8f258659cfa3793f55ad76d050e8f107dc5429",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase01/raw-wire/admin-f06229ec-233d-4617-811d-82244c84579e",
+        "originalRawRetained": true
+      }
+    },
+    "invalid": {
+      "status": 500,
+      "body": {
+        "message": "Internal server error",
+        "statusCode": 500
+      },
+      "requestId": "9c6ecce8-1ac1-4865-b387-4ee23af4c5fd",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "52",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-61068-168",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 12:15:38 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 321,
+        "requestSha256": "b2c2686d0d08a4be357c49f79c187fbb786c563eaea017394eb5bf604921a44f",
+        "responseBytes": 349,
+        "responseSha256": "d99b13a78654e92b1e2cd2caf479c6500b2c9e90beb2b6075ba87701b9889664",
+        "entityBodyBytes": 52,
+        "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-6872abb5-12af-486f-ada6-02e484421d1f/phase01/raw-wire/admin-d4161ca0-3ea2-4ee8-9110-ccdb03847d81",
+        "originalRawRetained": true
+      }
+    }
+  }
+}

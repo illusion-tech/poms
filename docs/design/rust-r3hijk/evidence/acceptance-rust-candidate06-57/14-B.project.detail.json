@@ -1,0 +1,130 @@
+{
+  "label": "B.project.detail",
+  "startedAt": "2026-11-02T19:01:39.115Z",
+  "completedAt": "2026-11-02T19:01:39.132Z",
+  "value": {
+    "operationId": "ProjectController_getById",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/c9d1eceb-6655-40a2-831f-494ba646c714"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-project-workspace",
+          "edit-project-basic-info",
+          "reassign-project-owner"
+        ],
+        "closedAt": null,
+        "closedReason": null,
+        "createdAt": "2026-11-02T19:01:39.085Z",
+        "createdBy": "85005c87-2c45-450d-9e07-9417b682459e",
+        "currentApprovalSummary": {
+          "exportPolicy": null,
+          "generatedAt": null,
+          "projectionLevel": null,
+          "summaryPackageKey": null,
+          "summarySnapshotId": null
+        },
+        "currentBidSummary": {
+          "bidPackageNo": null,
+          "bidProcessId": null,
+          "bidStatus": "not_configured",
+          "resultStatus": null,
+          "summary": null,
+          "tenderNo": null
+        },
+        "currentConfirmationSummary": {
+          "confirmationRecordId": null,
+          "confirmedAt": null,
+          "confirmedCount": 0,
+          "pendingCount": 0,
+          "requiredCount": 0,
+          "status": "not_configured"
+        },
+        "currentContractSummary": {
+          "activeContractCount": 0,
+          "currencyCode": null,
+          "currentSnapshotId": null,
+          "latestContractId": null,
+          "latestContractNo": null,
+          "latestContractStatus": null,
+          "signedAmountProjection": {
+            "displayText": "-",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "field-package-not-applicable",
+            "value": null
+          },
+          "signedAt": null
+        },
+        "currentStage": "assessment",
+        "customerId": "7da8d1ef-1285-4556-8bf6-72d759084484",
+        "customerName": "R3HK-cc20b1df-57 customer revised",
+        "customerProjectNo": "R3HK-cc20b1df-57-external",
+        "exportPolicy": null,
+        "generatedAt": "2026-11-02T19:01:39.130Z",
+        "id": "c9d1eceb-6655-40a2-831f-494ba646c714",
+        "ownerName": "HIJK admin",
+        "ownerOrgId": "8e5b2125-63ce-4d38-85c8-1481cf11c296",
+        "ownerOrgName": "HIJK admin",
+        "ownerUserId": "85005c87-2c45-450d-9e07-9417b682459e",
+        "plannedSignAt": "2027-02-01T00:00:00.000Z",
+        "projectName": "R3HK-cc20b1df-57 project",
+        "projectNo": "PRJ-2026-000011",
+        "projectionLevel": null,
+        "rowVersion": 1,
+        "sourceLeadId": null,
+        "sourceLeadSummary": null,
+        "stageSummary": {
+          "blockingReasons": [],
+          "closedAt": null,
+          "closedReason": null,
+          "currentStage": "assessment",
+          "plannedSignAt": "2027-02-01T00:00:00.000Z",
+          "status": "active"
+        },
+        "status": "active",
+        "summarySnapshotId": null,
+        "updatedAt": "2026-11-02T19:01:39.085Z",
+        "updatedBy": "85005c87-2c45-450d-9e07-9417b682459e"
+      },
+      "requestId": "189ffa45-a169-46eb-a301-1bc351c97258",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1937",
+        "access-control-allow-origin",
+        "http://127.0.0.1:12600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-111189-148",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 19:01:39 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 328,
+        "requestSha256": "800852080d8432e025df61cd81bee69f5eea90f2c50ddb16a408d67db4cd65b5",
+        "responseBytes": 2218,
+        "responseSha256": "fce058b18b47a6011d1c62322d000c2668a29d05ef593c2327dce3e52c3878e1",
+        "entityBodyBytes": 1937,
+        "entityBodySha256": "3982eb1b4760a7e12f9dab7c3f9e0717e49cab122e6a3ceacd7750f0e2f4d464",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3hijk/private/acceptance-rust-cc20b1df-63f7-40db-b558-521474f53fb5/phase57/raw-wire/admin-0d54250b-f1e3-462c-ad53-ac60200d2ef5",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  }
+}
