@@ -1,6 +1,6 @@
 # R4 首批收口索引
 
-当前：G4OnlineApplied，最终独立实际签署待附。实现 `a2995dfb187a70064d2e54ce336a72c24974721a` 已通过独立G3、固定提交和main实际读回复核。仅本批#103/#104/#105/#102可在独立关闭许可和线上读回后关闭；#101/#57保持Open。
+当前：本批独立实际 G4 终审 Pass，仅首批37入口；#101/#57保持Open。实现 `a2995dfb187a70064d2e54ce336a72c24974721a` 已通过独立G3、固定提交和main实际读回复核。仅本批#103/#104/#105/#102可在独立关闭许可和线上读回后关闭；#101/#57保持Open。
 
 - [联合G1](rust-r4abc-first37-baseline.md)与[冻结来源](rust-r4abc/g1-candidate-manifest01.json)保留原时点。
 - [真实验收及边界](rust-r4abc/validation-checkpoint57.md)、[最终输入](rust-r4abc/final-source53.json)、[验证数据](rust-r4abc/final-validation57.json)。
@@ -15,3 +15,8 @@
 ## 线上实际读回
 
 仅#103/#104/#105/#102已关闭，#101/#57保持Open。[具体方案](rust-r4abc/g4-plan65/plan65.json)、[关闭许可](rust-r4abc/g4-preclose11.json.bin)、[六项原始线上读回](rust-r4abc/g4-online66/receipt66.json)逐字一致；最终实际签署另附。
+
+
+## 最终实际签署
+
+[非作者实际G4终审](rust-r4abc/g4-actual12.json.bin) Pass，SHA256 `824789cbc79c7c27ecf7e3a05f687403763006979b5dc06eae4fda04ceefd4d8`。正文、评论、状态、native树、固定提交/main及所有边界已核；只完成#103/#104/#105/#102。949产品与既有原件不变，完整R4及后续阶段保持开放。

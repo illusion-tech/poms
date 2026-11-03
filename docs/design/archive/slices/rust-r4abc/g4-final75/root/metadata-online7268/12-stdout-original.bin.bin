@@ -1,0 +1,285 @@
+Updating 34bc9ffb..8ebd8596
+Fast-forward
+ docs/design/README.md                              |   7 +
+ docs/design/archive/slices/rust-r4abc-closeout.md  |   7 +-
+ .../executors/adopt-preclose71.mjs.bin             | Bin 0 -> 1167 bytes
+ .../g4-derived72/executors/apply-g4-66.mjs.bin     | Bin 0 -> 5607 bytes
+ .../g4-derived72/executors/doc-links67.mjs.bin     | Bin 0 -> 2860 bytes
+ .../executors/online-writeback69.mjs.bin           | Bin 0 -> 4076 bytes
+ .../executors/preserve-prearchive66.mjs.bin        | Bin 0 -> 2789 bytes
+ .../executors/publish-metadata68.mjs.bin           | Bin 0 -> 3369 bytes
+ .../rust-r4abc/g4-derived72/origin-map72.json      | 548 +++++++++++++++
+ .../archive-writeback63/before/README.md.bin.bin   | Bin 0 -> 48178 bytes
+ .../before/backend-rust-migration-plan.md.bin.bin  | Bin 0 -> 77201 bytes
+ ...phase2-development-execution-tracker.md.bin.bin | Bin 0 -> 409111 bytes
+ .../before/poms-design-progress.md.bin.bin         | Bin 0 -> 231809 bytes
+ .../rust-migration-execution-tracker.md.bin.bin    | Bin 0 -> 58618 bytes
+ .../root/archive-writeback63/receipt63.json.bin    | Bin 0 -> 1225 bytes
+ ...api-route-canonical-inventory.md.before.bin.bin | Bin 0 -> 172403 bytes
+ .../contract-finance-design.md.before.bin.bin      | Bin 0 -> 21716 bytes
+ .../interface-command-design.md.before.bin.bin     | Bin 0 -> 57398 bytes
+ .../root/doc-links67/receipt67.json.bin            | Bin 0 -> 460 bytes
+ .../schema-ddl-design.md.before.bin.bin            | Bin 0 -> 59904 bytes
+ ...table-structure-freeze-design.md.before.bin.bin | Bin 0 -> 64504 bytes
+ .../metadata-archive6868/1-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/1-stdout-original.bin.bin | Bin 0 -> 123303 bytes
+ .../10-stderr-original.bin.bin                     | Bin 0 -> 121 bytes
+ .../10-stdout-original.bin.bin                     | Bin
+ .../11-stderr-original.bin.bin                     | Bin
+ .../11-stdout-original.bin.bin                     | Bin
+ .../12-stderr-original.bin.bin                     | Bin
+ .../12-stdout-original.bin.bin                     | Bin 0 -> 268085 bytes
+ .../13-stderr-original.bin.bin                     | Bin
+ .../13-stdout-original.bin.bin                     | Bin
+ .../14-stderr-original.bin.bin                     | Bin 0 -> 81 bytes
+ .../14-stdout-original.bin.bin                     | Bin
+ .../15-stderr-original.bin.bin                     | Bin
+ .../15-stdout-original.bin.bin                     | Bin 0 -> 57 bytes
+ .../16-stderr-original.bin.bin                     | Bin
+ .../16-stdout-original.bin.bin                     | Bin
+ .../metadata-archive6868/2-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/2-stdout-original.bin.bin | Bin
+ .../metadata-archive6868/3-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/3-stdout-original.bin.bin | Bin 0 -> 41 bytes
+ .../metadata-archive6868/4-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/4-stdout-original.bin.bin | Bin 0 -> 57 bytes
+ .../metadata-archive6868/5-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/5-stdout-original.bin.bin | Bin
+ .../metadata-archive6868/6-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/6-stdout-original.bin.bin | Bin 0 -> 154746 bytes
+ .../metadata-archive6868/7-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/7-stdout-original.bin.bin | Bin
+ .../metadata-archive6868/8-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/8-stdout-original.bin.bin | Bin
+ .../metadata-archive6868/9-stderr-original.bin.bin | Bin
+ .../metadata-archive6868/9-stdout-original.bin.bin | Bin 0 -> 41 bytes
+ .../root/metadata-archive6868/receipt68.json.bin   | Bin 0 -> 3277 bytes
+ .../metadata-permit7168/1-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/1-stdout-original.bin.bin  | Bin
+ .../metadata-permit7168/10-stderr-original.bin.bin | Bin 0 -> 121 bytes
+ .../metadata-permit7168/10-stdout-original.bin.bin | Bin
+ .../metadata-permit7168/11-stderr-original.bin.bin | Bin
+ .../metadata-permit7168/11-stdout-original.bin.bin | Bin
+ .../metadata-permit7168/12-stderr-original.bin.bin | Bin
+ .../metadata-permit7168/12-stdout-original.bin.bin | Bin 0 -> 1184 bytes
+ .../metadata-permit7168/13-stderr-original.bin.bin | Bin
+ .../metadata-permit7168/13-stdout-original.bin.bin | Bin
+ .../metadata-permit7168/14-stderr-original.bin.bin | Bin 0 -> 81 bytes
+ .../metadata-permit7168/14-stdout-original.bin.bin | Bin
+ .../metadata-permit7168/15-stderr-original.bin.bin | Bin
+ .../metadata-permit7168/15-stdout-original.bin.bin | Bin 0 -> 57 bytes
+ .../metadata-permit7168/16-stderr-original.bin.bin | Bin
+ .../metadata-permit7168/16-stdout-original.bin.bin | Bin
+ .../metadata-permit7168/2-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/2-stdout-original.bin.bin  | Bin
+ .../metadata-permit7168/3-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/3-stdout-original.bin.bin  | Bin 0 -> 41 bytes
+ .../metadata-permit7168/4-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/4-stdout-original.bin.bin  | Bin 0 -> 57 bytes
+ .../metadata-permit7168/5-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/5-stdout-original.bin.bin  | Bin
+ .../metadata-permit7168/6-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/6-stdout-original.bin.bin  | Bin 0 -> 468 bytes
+ .../metadata-permit7168/7-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/7-stdout-original.bin.bin  | Bin
+ .../metadata-permit7168/8-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/8-stdout-original.bin.bin  | Bin
+ .../metadata-permit7168/9-stderr-original.bin.bin  | Bin
+ .../metadata-permit7168/9-stdout-original.bin.bin  | Bin 0 -> 41 bytes
+ .../root/metadata-permit7168/receipt68.json.bin    | Bin 0 -> 3275 bytes
+ .../online-writeback69/README.md.before.bin.bin    | Bin 0 -> 49445 bytes
+ .../backend-rust-migration-plan.md.before.bin.bin  | Bin 0 -> 78494 bytes
+ ...development-execution-tracker.md.before.bin.bin | Bin 0 -> 410393 bytes
+ .../poms-design-progress.md.before.bin.bin         | Bin 0 -> 233076 bytes
+ .../root/online-writeback69/receipt69.json.bin     | Bin 0 -> 422 bytes
+ ...t-migration-execution-tracker.md.before.bin.bin | Bin 0 -> 59927 bytes
+ .../g4-online66/01-before-input.json.bin           | Bin 0 -> 877 bytes
+ .../g4-online66/01-before-stderr-original.bin.bin  | Bin
+ .../g4-online66/01-before-stdout-original.bin.bin  | Bin 0 -> 45088 bytes
+ .../g4-online66/02-issue-103-input.json.bin        | Bin 0 -> 2433 bytes
+ .../02-issue-103-stderr-original.bin.bin           | Bin
+ .../02-issue-103-stdout-original.bin.bin           | Bin 0 -> 5759 bytes
+ .../g4-online66/03-comment-103-input.json.bin      | Bin 0 -> 1724 bytes
+ .../03-comment-103-stderr-original.bin.bin         | Bin
+ .../03-comment-103-stdout-original.bin.bin         | Bin 0 -> 3371 bytes
+ .../g4-online66/04-issue-104-input.json.bin        | Bin 0 -> 2445 bytes
+ .../04-issue-104-stderr-original.bin.bin           | Bin
+ .../04-issue-104-stdout-original.bin.bin           | Bin 0 -> 5774 bytes
+ .../g4-online66/05-comment-104-input.json.bin      | Bin 0 -> 1724 bytes
+ .../05-comment-104-stderr-original.bin.bin         | Bin
+ .../05-comment-104-stdout-original.bin.bin         | Bin 0 -> 3371 bytes
+ .../g4-online66/06-issue-105-input.json.bin        | Bin 0 -> 2496 bytes
+ .../06-issue-105-stderr-original.bin.bin           | Bin
+ .../06-issue-105-stdout-original.bin.bin           | Bin 0 -> 5831 bytes
+ .../g4-online66/07-comment-105-input.json.bin      | Bin 0 -> 1724 bytes
+ .../07-comment-105-stderr-original.bin.bin         | Bin
+ .../07-comment-105-stdout-original.bin.bin         | Bin 0 -> 3371 bytes
+ ...h-children-before-close-stderr-original.bin.bin | Bin
+ ...h-children-before-close-stdout-original.bin.bin | Bin 0 -> 30196 bytes
+ .../g4-online66/09-issue-102-input.json.bin        | Bin 0 -> 2543 bytes
+ .../09-issue-102-stderr-original.bin.bin           | Bin
+ .../09-issue-102-stdout-original.bin.bin           | Bin 0 -> 5892 bytes
+ .../g4-online66/10-comment-102-input.json.bin      | Bin 0 -> 1724 bytes
+ .../10-comment-102-stderr-original.bin.bin         | Bin
+ .../10-comment-102-stdout-original.bin.bin         | Bin 0 -> 3371 bytes
+ .../g4-online66/11-issue-101-input.json.bin        | Bin 0 -> 2360 bytes
+ .../11-issue-101-stderr-original.bin.bin           | Bin
+ .../11-issue-101-stdout-original.bin.bin           | Bin 0 -> 4756 bytes
+ .../g4-online66/12-comment-101-input.json.bin      | Bin 0 -> 1681 bytes
+ .../12-comment-101-stderr-original.bin.bin         | Bin
+ .../12-comment-101-stdout-original.bin.bin         | Bin 0 -> 3328 bytes
+ .../g4-online66/13-issue-57-input.json.bin         | Bin 0 -> 2741 bytes
+ .../13-issue-57-stderr-original.bin.bin            | Bin
+ .../13-issue-57-stdout-original.bin.bin            | Bin 0 -> 8891 bytes
+ .../g4-online66/14-comment-57-input.json.bin       | Bin 0 -> 1690 bytes
+ .../14-comment-57-stderr-original.bin.bin          | Bin
+ .../14-comment-57-stdout-original.bin.bin          | Bin 0 -> 3335 bytes
+ .../rust-r4abc/g4-online66/15-after-input.json.bin | Bin 0 -> 877 bytes
+ .../g4-online66/15-after-stderr-original.bin.bin   | Bin
+ .../g4-online66/15-after-stdout-original.bin.bin   | Bin 0 -> 54953 bytes
+ .../rust-r4abc/g4-online66/progress.json.bin       | Bin 0 -> 29955 bytes
+ .../slices/rust-r4abc/g4-online66/receipt66.json   | 735 +++++++++++++++++++++
+ docs/design/backend-rust-migration-plan.md         |   9 +-
+ .../design/phase2-development-execution-tracker.md |   7 +
+ docs/design/poms-design-progress.md                |   7 +
+ docs/design/rust-migration-execution-tracker.md    |   9 +-
+ docs/design/rust-r4-scope-and-dependencies.md      |   2 +-
+ docs/design/rust-r4abc-delivery-status.json        |  16 +-
+ 145 files changed, 1336 insertions(+), 11 deletions(-)
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/executors/adopt-preclose71.mjs.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/executors/apply-g4-66.mjs.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/executors/doc-links67.mjs.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/executors/online-writeback69.mjs.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/executors/preserve-prearchive66.mjs.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/executors/publish-metadata68.mjs.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/origin-map72.json
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/archive-writeback63/before/README.md.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/archive-writeback63/before/backend-rust-migration-plan.md.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/archive-writeback63/before/phase2-development-execution-tracker.md.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/archive-writeback63/before/poms-design-progress.md.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/archive-writeback63/before/rust-migration-execution-tracker.md.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/archive-writeback63/receipt63.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/doc-links67/api-route-canonical-inventory.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/doc-links67/contract-finance-design.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/doc-links67/interface-command-design.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/doc-links67/receipt67.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/doc-links67/schema-ddl-design.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/doc-links67/table-structure-freeze-design.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/1-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/1-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/10-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/10-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/11-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/11-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/12-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/12-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/13-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/13-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/14-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/14-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/15-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/15-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/16-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/16-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/2-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/2-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/3-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/3-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/4-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/4-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/5-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/5-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/6-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/6-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/7-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/7-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/8-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/8-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/9-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/9-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-archive6868/receipt68.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/1-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/1-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/10-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/10-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/11-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/11-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/12-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/12-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/13-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/13-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/14-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/14-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/15-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/15-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/16-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/16-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/2-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/2-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/3-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/3-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/4-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/4-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/5-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/5-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/6-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/6-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/7-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/7-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/8-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/8-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/9-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/9-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/metadata-permit7168/receipt68.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/online-writeback69/README.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/online-writeback69/backend-rust-migration-plan.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/online-writeback69/phase2-development-execution-tracker.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/online-writeback69/poms-design-progress.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/online-writeback69/receipt69.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-derived72/root/online-writeback69/rust-migration-execution-tracker.md.before.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/01-before-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/01-before-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/01-before-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/02-issue-103-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/02-issue-103-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/02-issue-103-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/03-comment-103-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/03-comment-103-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/03-comment-103-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/04-issue-104-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/04-issue-104-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/04-issue-104-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/05-comment-104-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/05-comment-104-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/05-comment-104-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/06-issue-105-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/06-issue-105-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/06-issue-105-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/07-comment-105-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/07-comment-105-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/07-comment-105-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/08-batch-children-before-close-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/08-batch-children-before-close-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/09-issue-102-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/09-issue-102-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/09-issue-102-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/10-comment-102-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/10-comment-102-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/10-comment-102-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/11-issue-101-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/11-issue-101-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/11-issue-101-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/12-comment-101-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/12-comment-101-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/12-comment-101-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/13-issue-57-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/13-issue-57-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/13-issue-57-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/14-comment-57-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/14-comment-57-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/14-comment-57-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/15-after-input.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/15-after-stderr-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/15-after-stdout-original.bin.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/progress.json.bin
+ create mode 100644 docs/design/archive/slices/rust-r4abc/g4-online66/receipt66.json

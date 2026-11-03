@@ -784,3 +784,10 @@ R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#1
 [#103](https://github.com/illusion-tech/poms/issues/103#issuecomment-6611130540)、[#104](https://github.com/illusion-tech/poms/issues/104#issuecomment-6611132265)、[#105](https://github.com/illusion-tech/poms/issues/105#issuecomment-6611134210)、[#102](https://github.com/illusion-tech/poms/issues/102#issuecomment-6611138006)、[#101](https://github.com/illusion-tech/poms/issues/101#issuecomment-6611139708)、[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6611141270) 已按[具体六Issue方案](archive/slices/rust-r4abc/g4-plan65/plan65.json)与[独立关闭许可](archive/slices/rust-r4abc/g4-preclose11.json.bin)实际执行，仅#103/#104/#105/#102关闭，#101/#57持续Open。[原始线上读回](archive/slices/rust-r4abc/g4-online66/receipt66.json)逐字核正文/评论及原生父子关系。当前为 **G4OnlineApplied，最终非作者实际终审待附**；本条覆盖旧G4Ready候选时点，不把完整R4或总体标Done。
 
 源码、936实际构建输入及949生产文件均未因纯元数据操作改变；原163负例仅有界复用、54ignored和Linux41/42 partial及Native参考仍保留原标签。后续移交/成本40/经营验收完工归档及R5–R7尚未完成。
+
+
+### 2026-11-04 R4 首批独立实际 G4 终审 Pass
+
+[最终非作者实际G4签署](archive/slices/rust-r4abc/g4-actual12.json.bin) Pass，仅认证A9/B9/C19首批37入口；#103/#104/#105/#102 Closed，#101/#57持续Open，完整R4和R5–R7仍未完成。实际实现a2995dfb、永久S3、固定提交/main、原字节归档和六Issue正文/comment/state/native tree读回一致，949产品原字节无变。
+
+当前正式新增交付37，Rust公开surface累计210。最终签署与当前状态的普通metadata写回不改任何产品、Issue正文/状态或既有1390原件；54历史ignored、163有界复用、失败/partial/Native参考与未认领范围保留原标签。

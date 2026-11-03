@@ -1,0 +1,335 @@
+{
+  "schema": "poms-r4abc-independent-actual-g4/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "role": "Non-author independent reviewer throughout G1, implementation, G3, fixed commit, main and G4",
+  "reviewedAtUtc": "2026-11-03T17:52:37.0358916Z",
+  "gate": "G4",
+  "decision": "Pass",
+  "G4Certified": true,
+  "actualG4AppliedAndIndependentlyReadBack": true,
+  "certificationScope": {
+    "slice": "R4 first37 only",
+    "publicOperations": {
+      "AReadiness": 9,
+      "BContracts": 9,
+      "CFinance": 19,
+      "total": 37
+    },
+    "completedIssues": [
+      103,
+      104,
+      105,
+      102
+    ],
+    "parentIssuesRemainOpen": [
+      101,
+      57
+    ],
+    "wholeR4Complete": false,
+    "overallRustMigrationComplete": false,
+    "subsequentR5R6R7Complete": false,
+    "deploymentCutoverPerformanceCertified": false
+  },
+  "exactAuthorityAndOutcome": {
+    "approvedPlan": {
+      "file": "docs/design/archive/slices/rust-r4abc/g4-plan65/plan65.json",
+      "bytes": 43481,
+      "sha256": "062404d37afe1f6c490a86720d1faea76f0cba97d08c4e800b759ab46ffd3ef0"
+    },
+    "independentPreclosePermission": {
+      "file": "docs/design/archive/slices/rust-r4abc/g4-preclose11.json.bin",
+      "bytes": 15085,
+      "sha256": "5cdc471980b0c1610147c33ea2a60cdec6f15785b80e7a62c02f35a4e5701386"
+    },
+    "actualOriginalApiReceipt": {
+      "file": "docs/design/archive/slices/rust-r4abc/g4-online66/receipt66.json",
+      "bytes": 102439,
+      "sha256": "755d3c0c95fd61f1535843e5659cb4194357c2d369f35ca5ccefc18927f2258c"
+    },
+    "planSha256": "062404d37afe1f6c490a86720d1faea76f0cba97d08c4e800b759ab46ffd3ef0",
+    "permissionSha256": "5cdc471980b0c1610147c33ea2a60cdec6f15785b80e7a62c02f35a4e5701386",
+    "originalReceiptSha256": "755d3c0c95fd61f1535843e5659cb4194357c2d369f35ca5ccefc18927f2258c",
+    "actualOrder": [
+      103,
+      104,
+      105,
+      102,
+      101,
+      57
+    ],
+    "actualCalls": 15,
+    "allRecordedCallsExitZero": true,
+    "onlySixApprovedIssueTargetsMutated": true,
+    "close102Precondition": {
+      "actualGetBeforePatch": true,
+      "children": [
+        103,
+        104,
+        105
+      ],
+      "allThreeActuallyClosed": true
+    },
+    "parent101And57ExplicitlyPatchedOpen": true,
+    "noUnapprovedScopeOrIssueClosure": true
+  },
+  "freshIndependentLiveReadback": {
+    "method": "Read-only GitHub connector fetch_issue and fetch_issue_comments for all six, plus read-only GitHub GraphQL native subIssues tree.",
+    "originalIndependentCapture": {
+      "file": "tmp/rust-r4abc/independent/g4-actual12-live-readback.json",
+      "bytes": 57411,
+      "sha256": "b931ff289f1cf007e0b2241ca485eb8a517ec469e4982dcbbf3c014972e79235"
+    },
+    "statesBodiesAndCommentIds": [
+      {
+        "issue": 103,
+        "state": "closed",
+        "closedAt": "2026-11-03T17:38:29Z",
+        "bodyExactPlanAndActualReceipt": true,
+        "bodySha256": "08c44ae7b4786be9478672ce4d87f238b19c0eada1a69678b898ed8fc838ec54",
+        "commentId": 6611130540,
+        "commentUrl": "https://github.com/illusion-tech/poms/issues/103#issuecomment-6611130540",
+        "exactPlannedCommentOccurrences": 1,
+        "recordedCommentIdExistsExactlyOnce": true,
+        "commentBodyExactPlanAndReceipt": true,
+        "commentSha256": "b3393660ad46626617eea758d8a11185d8bb189159a85927179e22f9313cea9e"
+      },
+      {
+        "issue": 104,
+        "state": "closed",
+        "closedAt": "2026-11-03T17:38:36Z",
+        "bodyExactPlanAndActualReceipt": true,
+        "bodySha256": "b5f0b598f9d47410505782265b63d367f4420112ab314adf4c35739847d56cd0",
+        "commentId": 6611132265,
+        "commentUrl": "https://github.com/illusion-tech/poms/issues/104#issuecomment-6611132265",
+        "exactPlannedCommentOccurrences": 1,
+        "recordedCommentIdExistsExactlyOnce": true,
+        "commentBodyExactPlanAndReceipt": true,
+        "commentSha256": "77af29cf5200d98c80f73b2bcebb7d045540bdfd9ecdb7e5affef4039c0b8e47"
+      },
+      {
+        "issue": 105,
+        "state": "closed",
+        "closedAt": "2026-11-03T17:38:42Z",
+        "bodyExactPlanAndActualReceipt": true,
+        "bodySha256": "00bdd27ecac194e670d2cececf90690f35bfca29c66f099b035b125aacc9567c",
+        "commentId": 6611134210,
+        "commentUrl": "https://github.com/illusion-tech/poms/issues/105#issuecomment-6611134210",
+        "exactPlannedCommentOccurrences": 1,
+        "recordedCommentIdExistsExactlyOnce": true,
+        "commentBodyExactPlanAndReceipt": true,
+        "commentSha256": "c714b97e09cd37825262a44eb671462f27c2b421c9f2256dc110000594d56582"
+      },
+      {
+        "issue": 102,
+        "state": "closed",
+        "closedAt": "2026-11-03T17:38:52Z",
+        "bodyExactPlanAndActualReceipt": true,
+        "bodySha256": "a1a6089801d7eb0880026559e394a293cb371c20b848d5163505ffb8b6d4054a",
+        "commentId": 6611138006,
+        "commentUrl": "https://github.com/illusion-tech/poms/issues/102#issuecomment-6611138006",
+        "exactPlannedCommentOccurrences": 1,
+        "recordedCommentIdExistsExactlyOnce": true,
+        "commentBodyExactPlanAndReceipt": true,
+        "commentSha256": "235ec29017f9f8dfd0dfe8282cce442185b40c75356371406647391c9757c76a"
+      },
+      {
+        "issue": 101,
+        "state": "open",
+        "closedAt": null,
+        "bodyExactPlanAndActualReceipt": true,
+        "bodySha256": "c5f2fc4984926c0bfa5906d6adc6b56cf2bd6c47dbd3b39aec799f3c78d058ff",
+        "commentId": 6611139708,
+        "commentUrl": "https://github.com/illusion-tech/poms/issues/101#issuecomment-6611139708",
+        "exactPlannedCommentOccurrences": 1,
+        "recordedCommentIdExistsExactlyOnce": true,
+        "commentBodyExactPlanAndReceipt": true,
+        "commentSha256": "24edf118ce4042b0665524fcf3817f123c3f40e5a945f3f3d84b1516a35f4587"
+      },
+      {
+        "issue": 57,
+        "state": "open",
+        "closedAt": null,
+        "bodyExactPlanAndActualReceipt": true,
+        "bodySha256": "ecf2751886e2e000d994de78f48174d6117649fb4be098b5048b555978308738",
+        "commentId": 6611141270,
+        "commentUrl": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6611141270",
+        "exactPlannedCommentOccurrences": 1,
+        "recordedCommentIdExistsExactlyOnce": true,
+        "commentBodyExactPlanAndReceipt": true,
+        "commentSha256": "a0de5289fc755e50c3c3368e0de5118e46acc9c30ea2d118801174c8203e8263"
+      }
+    ],
+    "allSixBodiesExactApprovedText": true,
+    "allSixCommentsExactApprovedTextAndRecordedIds": true,
+    "liveHierarchyObservedAtUtc": "2026-11-03T17:49:22.9756972Z",
+    "nativeHierarchy": {
+      "overall57": "OPEN",
+      "R4stage101": "OPEN",
+      "firstBatch102": "CLOSED",
+      "A103": "CLOSED",
+      "B104": "CLOSED",
+      "C105": "CLOSED"
+    },
+    "earlierClosedParentChildren": "R0/R1/R2/R3 and #61 remain as before; only the approved first batch transitions.",
+    "beforeClose102RawGuardAlsoIndependentlyParsed": true,
+    "actualPatchAndCommentInputBodiesIndependentlyCompared": 6,
+    "actualInputBodyStateCommentDifferences": []
+  },
+  "implementationAndMain": {
+    "productImplementation": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "permanentS3": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "G1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "immutableArchiveCommit": "17c71bac90bbeb7686fbdee5c043e58684bcb6b7",
+    "publishedPrecloseAuthorityHead": "34bc9ffb8776681ab0ec4582cc349ce04e11d512",
+    "actualOnlineMirrorMain": "8ebd85966fcdb5e0b23111af42502f7acd95b21c",
+    "independentLiveRemoteMain": [
+      "8ebd85966fcdb5e0b23111af42502f7acd95b21c\trefs/heads/main"
+    ],
+    "RootHead": "8ebd85966fcdb5e0b23111af42502f7acd95b21c",
+    "primaryHead": "8ebd85966fcdb5e0b23111af42502f7acd95b21c",
+    "RootClean": true,
+    "primaryClean": true,
+    "implementationAndS3RemainAncestors": true,
+    "allPostImplementationChangesOutsideDocs": [],
+    "productsReadBackOnRootAndPrimary": 949,
+    "exactRawProductDifferences": [],
+    "preservedOriginalPrimaryRepresentations": 17,
+    "preservedRepresentationDifferences": [],
+    "all17Outside949PreviouslyVerified": true,
+    "fullClientAndCompiledResourceContinuity": "The unchanged949 product set retains the complete586 client and326 recursive compilation-resource inventory already certified in fixed/main reviews; no repeat build or runtime acceptance is invented."
+  },
+  "localGitHubFirstMirror": {
+    "currentDeliveryIndex": {
+      "file": "docs/design/rust-r4abc-delivery-status.json",
+      "bytes": 688,
+      "sha256": "a017f886e799828bf5feb7ddcf8a1d75661478add99ea1f30930dc3c4ad3a229"
+    },
+    "currentStageBeforeThisSignature": "G4OnlineApplied",
+    "currentIndexIssueStatesMatchFreshLive": true,
+    "currentIndexExplicitlyAwaitsFinalIndependentSignature": true,
+    "currentCloseoutIndex": {
+      "file": "docs/design/archive/slices/rust-r4abc-closeout.md",
+      "bytes": 1770,
+      "sha256": "3affc3ef06064c3137c1899aa62b1b9970e00ca6d702f5ba6c4e41c4d938f82f"
+    },
+    "currentScopeAndFiveLongTrackersRead": true,
+    "allCurrentReferencesBindExactSixCommentsAndOriginalApiReceipt": true,
+    "first37OnlyAndParentsOpenConsistent": true,
+    "finalSignatureWritebackOnlyRemains": true
+  },
+  "archivalIntegrity": {
+    "originalApiRequestArtifacts": 45,
+    "all45StoredRawBytesMatchOnRootAndPrimary": true,
+    "derivedAndExecutorEvidenceMap": {
+      "file": "docs/design/archive/slices/rust-r4abc/g4-derived72/origin-map72.json",
+      "bytes": 30474,
+      "sha256": "3a99a7dd43f9a2468fea967ea53d123ec9df598273887810fc10a456eb943276"
+    },
+    "derivedAndExecutorOriginals": 90,
+    "all90StoredRawBytesMatchOnRootAndPrimary": true,
+    "reportedSecretScanHits": 0,
+    "historicalLifecycleMap": {
+      "file": "docs/design/archive/slices/rust-r4abc/archive-origin-map63.json",
+      "bytes": 526278,
+      "sha256": "dd33ac759b137161e59fc365c4be6ec8327d62f42d072231d21f940e73ae5f15"
+    },
+    "historicalLaterEvidenceMap": {
+      "file": "docs/design/archive/slices/rust-r4abc/g4-evidence66/origin-map66.json",
+      "bytes": 36279,
+      "sha256": "9829a1ce9ae32fa75c462dbbc14028ada1c2212412973cb17cf850b3b3473176"
+    },
+    "existing1390LifecycleAnd107LaterArchivePathsChangedSincePreclose": [],
+    "earlier592And12OriginalsRetainedWithinVerifiedHistoricalArchive": true,
+    "historicalOriginalsRewritten": false,
+    "logicalPathMappingsAndProductionCompilationPathsPreserved": true,
+    "reviewerPrivateContentsRead": false
+  },
+  "validatedEvidenceAndTerminalScopeRetained": {
+    "source": "Exact G3 report08, fixed commit09, main10 and preclose11 bound originals; historical and technical evidence keeps its original classification.",
+    "Rust": {
+      "passed": 310,
+      "ignored": 54,
+      "ignoredPromoted": false
+    },
+    "Native": {
+      "suites": 74,
+      "tests": 863,
+      "newLifecycleConformanceClaim": false
+    },
+    "admin": {
+      "suites": 59,
+      "tests": 411
+    },
+    "actualNecessaryWriteFaults": 59,
+    "actualProjectLockBarriers": 6,
+    "foreignProjectLockNegative": 1,
+    "businessNoopAndIndependentContractSourceRules": "Previously actually verified; product bytes have not changed.",
+    "originalNegative09": {
+      "cases": 163,
+      "remainsPrefinal": true,
+      "onlyPreviouslyApprovedBoundedEquivalenceReuse": true
+    },
+    "UI": "Linux41/42 partial labels remain; Linux43 completed continuation and Windows complete original UI stay within the actual previously reviewed scope.",
+    "acceptedFiniteOrmDifferences": {
+      "strongCompositeFks": 16,
+      "equivalentCheckDeparse": 3,
+      "appRoleCheckVisibility": 192,
+      "rawMigrationCheckExit": 1,
+      "newRealDrift": 0,
+      "blanketWaiver": false
+    },
+    "terminal": {
+      "ownedRowsDeleted": 1004,
+      "borrowedOriginalRowsRestored": 3,
+      "databases": 2,
+      "tablesEach": 113,
+      "seedRowsEach": 529,
+      "twoIndependentNoopReadbacks": true,
+      "objectsPreserved": 2,
+      "objectOriginalBytes": 86,
+      "runtimeObjectsRemaining": 0,
+      "ownedApiNativeBrowserPgStopped": true,
+      "volumeAndPrivateRetained": true,
+      "authorManagedWorktreesRecoverablyArchived": 3
+    },
+    "terminalEvidenceReclassifiedOrRuntimeReopenedForThisReview": false,
+    "noNewRuntimeReexecutionClaim": true
+  },
+  "findings": {
+    "open": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    },
+    "blockers": []
+  },
+  "finalMetadataWritebackAuthorization": {
+    "granted": true,
+    "authorizedActor": "Root",
+    "ordinaryMetadataOnly": true,
+    "actions": [
+      "Archive the exact original bytes of this final12 signature and preserve its hash/path mapping.",
+      "Update the mutable current status to G4Certified and count exactly37 newly delivered public operations; retain wholeR4Complete=false and #101/#57 Open.",
+      "Append this final signature/reference to the long current indices, scope/closeout pointers and README without rewriting historical original evidence or old failed/partial/ignored/provisional labels.",
+      "Commit/fast-forward/push the bounded documentation-only result and perform Root's ordinary exact readback."
+    ],
+    "product949MustRemainByteIdentical": true,
+    "sixIssueBodiesStatesAndExistingCommentsMustRemainUnchanged": true,
+    "existingImmutableOriginalsPlansPermissionsReceiptsAndPriorSignaturesMustRemainUnchanged": true,
+    "additionalIssueMutationAuthorized": false,
+    "implementationOrRuntimeChangeAuthorized": false,
+    "separateTinyGateForThisSignatureSelfReferenceRequired": false,
+    "furtherIndependentReviewForOnlyThisAuthorizedMetadataWritebackRequired": false,
+    "boundary": "This permission completes the final signature publication mechanics. It does not authorize any new product, Issue, deployment or later-stage scope."
+  },
+  "independence": {
+    "productOrExecutorAuthor": false,
+    "GitWrites": false,
+    "GitHubWrites": false,
+    "productWrites": false,
+    "DBBusinessHttpBrowserWslBuildTestGeneratorExecuted": false,
+    "readOnlyLiveGitHubAndGitReadbacks": true,
+    "writesOnly": "tmp/rust-r4abc/independent/"
+  },
+  "finalConclusion": "R4 first37 actual G4 Pass. Only103/104/105/102 are certified complete;101/57 remain Open and full R4/R5-R7 are not completed. Root may finish the single bounded metadata signature writeback without another self-referential Gate."
+}

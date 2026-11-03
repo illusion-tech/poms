@@ -1,0 +1,157 @@
+{
+  "kind": "metadata-only-main-publication",
+  "label": "online72",
+  "beforeMain": "34bc9ffb8776681ab0ec4582cc349ce04e11d512",
+  "commit": "8ebd85966fcdb5e0b23111af42502f7acd95b21c",
+  "commands": [
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "diff",
+        "--name-only"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain",
+        "--untracked-files=no"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "add",
+        "-A",
+        "--",
+        "docs/design"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "commit",
+        "--quiet",
+        "--file",
+        "tmp/rust-r4abc/online-commit72.txt"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "push",
+        "origin",
+        "codex/poms-r4abc-first37"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "merge-base",
+        "--is-ancestor",
+        "34bc9ffb8776681ab0ec4582cc349ce04e11d512",
+        "8ebd85966fcdb5e0b23111af42502f7acd95b21c"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "merge",
+        "--ff-only",
+        "8ebd85966fcdb5e0b23111af42502f7acd95b21c"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain",
+        "--untracked-files=no"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "push",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exitCode": 0
+    },
+    {
+      "cwd": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "args": [
+        "status",
+        "--porcelain"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "all949ProductsRawUnchanged": true,
+  "all17PrimaryRepresentationsPreserved": true,
+  "primaryClean": true,
+  "RootClean": true,
+  "remoteMainExact": "8ebd85966fcdb5e0b23111af42502f7acd95b21c",
+  "permanentS3AncestorPreserved": true
+}
