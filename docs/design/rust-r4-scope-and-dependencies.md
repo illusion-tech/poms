@@ -1,6 +1,6 @@
 # R4 范围与后续依赖
 
-最后更新：2026-11-04。阶段父 [#101](https://github.com/illusion-tech/poms/issues/101)、总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。当前首批 #102 为 G4Ready，正式关闭许可和线上读回待完成。
+最后更新：2026-11-04。阶段父 [#101](https://github.com/illusion-tech/poms/issues/101)、总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。当前首批 #102/#103/#104/#105 已按许可实际线上关闭，最终独立实际签署待附；完整 R4 仍未完成。
 
 ## 首批边界
 

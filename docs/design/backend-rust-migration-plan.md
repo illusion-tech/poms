@@ -1,6 +1,6 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0/R1/R2/R3已完成，R3独立实际G4终审Pass，#85及本批子项Closed；#57继续Open；R4首批37入口已集成/G4Ready，R5–R7待推进
+**文档状态**: Active — R0/R1/R2/R3已完成，R3独立实际G4终审Pass，#85及本批子项Closed；#57继续Open；R4首批37入口线上收口/最终独立签署待附，R5–R7待推进
 **最后更新**: 2026-11-04
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
@@ -566,3 +566,10 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#104/C#105 共37入口已完成真实实现及验收，[独立 G3](archive/slices/rust-r4abc/g3-independent08.json.bin) Pass、固定提交复核和main集成已完成；实现为 `a2995dfb187a70064d2e54ce336a72c24974721a`，S3 `4f78bd48` 永久祖先保留。当前为 **G4Ready，尚不标Done或关闭**，仅具体四项G4方案可在独立许可和实际读回后收口，#101/#57维持Open。
 
 [验收索引](archive/slices/rust-r4abc/validation-checkpoint57.md)、[原字节归档](archive/slices/rust-r4abc/archive-origin-map63.json)和[后续范围](rust-r4-scope-and-dependencies.md)分别保留真实边界：Rust310/54历史ignored，Native863，Angular411，59真实写故障、6屏障并发及跨项目锁负例、Linux续跑链与Windows完整原UI；1004自有行及借用原件恢复、两次noop、对象原字节和卷/private保留，运行态已停止。整体Rust技术surface210，本批37尚待正式G4计交付；完整R4、成本40、移交经营验收完工归档、R5–R7及部署切流不因此完成。旧G1/Pending/失败/partial文句只保留原时点，当前进度以本条及GitHub为准。
+
+
+### 2026-11-04 R4 首批实际线上 G4 收口
+
+[#103](https://github.com/illusion-tech/poms/issues/103#issuecomment-6611130540)、[#104](https://github.com/illusion-tech/poms/issues/104#issuecomment-6611132265)、[#105](https://github.com/illusion-tech/poms/issues/105#issuecomment-6611134210)、[#102](https://github.com/illusion-tech/poms/issues/102#issuecomment-6611138006)、[#101](https://github.com/illusion-tech/poms/issues/101#issuecomment-6611139708)、[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6611141270) 已按[具体六Issue方案](archive/slices/rust-r4abc/g4-plan65/plan65.json)与[独立关闭许可](archive/slices/rust-r4abc/g4-preclose11.json.bin)实际执行，仅#103/#104/#105/#102关闭，#101/#57持续Open。[原始线上读回](archive/slices/rust-r4abc/g4-online66/receipt66.json)逐字核正文/评论及原生父子关系。当前为 **G4OnlineApplied，最终非作者实际终审待附**；本条覆盖旧G4Ready候选时点，不把完整R4或总体标Done。
+
+源码、936实际构建输入及949生产文件均未因纯元数据操作改变；原163负例仅有界复用、54ignored和Linux41/42 partial及Native参考仍保留原标签。后续移交/成本40/经营验收完工归档及R5–R7尚未完成。

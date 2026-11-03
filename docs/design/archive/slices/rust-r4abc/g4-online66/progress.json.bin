@@ -1,0 +1,223 @@
+{
+  "calls": [
+    {
+      "label": "before",
+      "args": [
+        "graphql",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/01-before-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "issue-103",
+      "args": [
+        "repos/illusion-tech/poms/issues/103",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/02-issue-103-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "comment-103",
+      "args": [
+        "repos/illusion-tech/poms/issues/103/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/03-comment-103-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "issue-104",
+      "args": [
+        "repos/illusion-tech/poms/issues/104",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/04-issue-104-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "comment-104",
+      "args": [
+        "repos/illusion-tech/poms/issues/104/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/05-comment-104-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "issue-105",
+      "args": [
+        "repos/illusion-tech/poms/issues/105",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/06-issue-105-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "comment-105",
+      "args": [
+        "repos/illusion-tech/poms/issues/105/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/07-comment-105-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "batch-children-before-close",
+      "args": [
+        "repos/illusion-tech/poms/issues/102/sub_issues"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "issue-102",
+      "args": [
+        "repos/illusion-tech/poms/issues/102",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/09-issue-102-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "comment-102",
+      "args": [
+        "repos/illusion-tech/poms/issues/102/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/10-comment-102-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "issue-101",
+      "args": [
+        "repos/illusion-tech/poms/issues/101",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/11-issue-101-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "comment-101",
+      "args": [
+        "repos/illusion-tech/poms/issues/101/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/12-comment-101-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "issue-57",
+      "args": [
+        "repos/illusion-tech/poms/issues/57",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/13-issue-57-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "comment-57",
+      "args": [
+        "repos/illusion-tech/poms/issues/57/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/14-comment-57-input.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "label": "after",
+      "args": [
+        "graphql",
+        "--input",
+        "tmp/rust-r4abc/root/g4-online66/15-after-input.json"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "applied": [
+    {
+      "issue": 103,
+      "state": "closed",
+      "body": "状态：Done / 本批独立G4线上收口，完整R4与总体保持开放。\n\n父#102，上级#101，总体#57。\n\n交付：签约就绪9入口，真实R3成本/竞标/报价来源，合同级baseline/diff/readiness与prepared真实产物；A09只消费Active有效快照。\n\n- [x] G0：原生父子Issue及明确边界\n- [x] 联合G1：canonical/DTO/DDL/同事务协议及四项用户裁决冻结\n- [x] 实现与独占文件交付\n- [x] 统一候选真实生产者、故障/并发/权限/原UI验收与自有环境终态\n- [x] 非作者G3、固定提交和main实际集成复核\n- [x] 独立G4关闭许可、归档及线上本地读回（最终实际签署另附）\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n不包含完整R4、项目移交、实际成本40、经营验收完工归档、R5–R7、上游作者UI/财务19UI、新机制Native符合性、部署切流或性能。#101/#57保持Open。\n",
+      "comment": {
+        "id": 6611130540,
+        "url": "https://github.com/illusion-tech/poms/issues/103#issuecomment-6611130540",
+        "body": "G4 线上收口已执行，按本批独立关闭许可关闭 #103；最终独立实际读回签署随收口索引另附。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n仅认证本Issue交付边界，#101/#57继续Open；未认领完整R4或后续阶段。\n"
+      }
+    },
+    {
+      "issue": 104,
+      "state": "closed",
+      "body": "状态：Done / 本批独立G4线上收口，完整R4与总体保持开放。\n\n父#102，上级#101，总体#57。\n\n交付：合同9入口，草稿/基本信息/查询、精确准备版本送审、R2真实指定审批人批准与原子Active快照；没有bug级复刻Node假初始化。\n\n- [x] G0：原生父子Issue及明确边界\n- [x] 联合G1：canonical/DTO/DDL/同事务协议及四项用户裁决冻结\n- [x] 实现与独占文件交付\n- [x] 统一候选真实生产者、故障/并发/权限/原UI验收与自有环境终态\n- [x] 非作者G3、固定提交和main实际集成复核\n- [x] 独立G4关闭许可、归档及线上本地读回（最终实际签署另附）\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n不包含完整R4、项目移交、实际成本40、经营验收完工归档、R5–R7、上游作者UI/财务19UI、新机制Native符合性、部署切流或性能。#101/#57保持Open。\n",
+      "comment": {
+        "id": 6611132265,
+        "url": "https://github.com/illusion-tech/poms/issues/104#issuecomment-6611132265",
+        "body": "G4 线上收口已执行，按本批独立关闭许可关闭 #104；最终独立实际读回签署随收口索引另附。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n仅认证本Issue交付边界，#101/#57继续Open；未认领完整R4或后续阶段。\n"
+      }
+    },
+    {
+      "issue": 105,
+      "state": "closed",
+      "body": "状态：Done / 本批独立G4线上收口，完整R4与总体保持开放。\n\n父#102，上级#101，总体#57。\n\n交付：合同资金19入口，正数两位金额/容量、同项目Active合同及应付归属、累计/allowedActions、可变Payable/Invoice的typedUUID成本映射读取约束；不生产成本40或财务19项新UI。\n\n- [x] G0：原生父子Issue及明确边界\n- [x] 联合G1：canonical/DTO/DDL/同事务协议及四项用户裁决冻结\n- [x] 实现与独占文件交付\n- [x] 统一候选真实生产者、故障/并发/权限/原UI验收与自有环境终态\n- [x] 非作者G3、固定提交和main实际集成复核\n- [x] 独立G4关闭许可、归档及线上本地读回（最终实际签署另附）\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n不包含完整R4、项目移交、实际成本40、经营验收完工归档、R5–R7、上游作者UI/财务19UI、新机制Native符合性、部署切流或性能。#101/#57保持Open。\n",
+      "comment": {
+        "id": 6611134210,
+        "url": "https://github.com/illusion-tech/poms/issues/105#issuecomment-6611134210",
+        "body": "G4 线上收口已执行，按本批独立关闭许可关闭 #105；最终独立实际读回签署随收口索引另附。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n仅认证本Issue交付边界，#101/#57继续Open；未认领完整R4或后续阶段。\n"
+      }
+    },
+    {
+      "issue": 102,
+      "state": "closed",
+      "body": "状态：Done / 本批独立G4线上收口，完整R4与总体保持开放。\n\n父#101，总体#57；原生子项#103/#104/#105。\n\n交付：A9+B9+C19联合37入口，真实准备→精确审核绑定→原子有效快照→正式应收计划及资金事实。每合同独立金额/条款/节点，不把项目报价复制或自动分摊、不强制合计，来源与差异可审计。\n\n- [x] G0：原生父子Issue及明确边界\n- [x] 联合G1：canonical/DTO/DDL/同事务协议及四项用户裁决冻结\n- [x] 实现与独占文件交付\n- [x] 统一候选真实生产者、故障/并发/权限/原UI验收与自有环境终态\n- [x] 非作者G3、固定提交和main实际集成复核\n- [x] 独立G4关闭许可、归档及线上本地读回（最终实际签署另附）\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n不包含完整R4、项目移交、实际成本40、经营验收完工归档、R5–R7、上游作者UI/财务19UI、新机制Native符合性、部署切流或性能。#101/#57保持Open。\n",
+      "comment": {
+        "id": 6611138006,
+        "url": "https://github.com/illusion-tech/poms/issues/102#issuecomment-6611138006",
+        "body": "G4 线上收口已执行，按本批独立关闭许可关闭 #102；最终独立实际读回签署随收口索引另附。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n仅认证本Issue交付边界，#101/#57继续Open；未认领完整R4或后续阶段。\n"
+      }
+    },
+    {
+      "issue": 101,
+      "state": "open",
+      "body": "状态：Doing / OPEN。首批37入口及#102/#103/#104/#105已收口，完整R4尚未完成。最后核验2026-11-04（Asia/Tokyo）。\n\n总体#57；依赖R3 #85已完成。R4完整范围包括合同签约与资金、项目移交/回款判断冻结、实际成本与经营、验收/完工/归档及相应内部/审批消费。90项历史阶段映射尚须在后续切片对当前controller/spec/canonical与既有Rust去重重核，不能由本批推导完整交付。\n\n- [x] R3阶段G4已交付\n- [x] 首批#102：A#103/B#104/C#105联合37入口及必要真实内部消费G4\n- [ ] 其余移交/实际成本40/经营/验收完工归档子片G4\n- [ ] R4真实生产者完整阶段闭环及独立G3/G4\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n本阶段和#57保持Open；后续切片必须复核归属并冻结自己的G1，再推进实现及实际消费验收。\n",
+      "comment": {
+        "id": 6611139708,
+        "url": "https://github.com/illusion-tech/poms/issues/101#issuecomment-6611139708",
+        "body": "R4首批 #102/#103/#104/#105已按各自独立G4收口；本阶段维持Open。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n剩余移交、实际成本40、经营验收完工归档及完整R4集成不计完成。\n"
+      }
+    },
+    {
+      "issue": 57,
+      "state": "open",
+      "body": "状态：**Doing / OPEN**。R0/R1/R2/R3已完成；R4进行中，首批37入口已G4收口；R5–R7继续Todo。最后核验2026-11-04（Asia/Tokyo）。\n\n- [x] R0 #58：迁移基线、契约、数据和环境\n- [x] R1 #60：应用、认证、SQLx与跨平台基础\n- [x] R2 #67：108/108操作及R2M阶段验收；#61裁决已收口\n- [x] R3 #85：58/58公共HTTP及#97非HTTP/审批/完整阶段集成G4\n- [ ] R4 #101：合同、资金、移交、成本与执行；首批#102及#103/#104/#105共37入口已收口，完整阶段保持Doing\n- [ ] R5：提成全链路，依赖完整R4\n- [ ] R6：迁移/发布接管与回滚演练，依赖R5\n- [ ] R7：统一切换、观察和旧后端退出，依赖R6与正式切换授权\n\n当前Rust公开surface累计210（既有173+本批37），共享契约完整291 operations/595 schemas、client586文件；不把共享schema或已有最小只读适配计作尚未迁移的业务producer。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n后续仍为R4移交、实际成本40、经营核算/验收完工归档及完整阶段验收，再推进R5–R7。新Rust以业务语义、正确性和合理性为准，不追Node缺陷级对齐。无生产部署、切流或性能结论；总体Issue继续Open。\n",
+      "comment": {
+        "id": 6611141270,
+        "url": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6611141270",
+        "body": "已维护总体状态：仅新增本批37入口正式收口，R4仍Doing，R5–R7仍Todo，本Issue保持Open。\n\n实施提交 [a2995dfb](https://github.com/illusion-tech/poms/commit/a2995dfb187a70064d2e54ce336a72c24974721a)，归档候选提交 [17c71bac](https://github.com/illusion-tech/poms/commit/17c71bac90bbeb7686fbdee5c043e58684bcb6b7)；永久S3 4f78bd48保留。[实际验收](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/validation-checkpoint57.md)、[独立G3](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin)、[固定提交](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin)、[main复核](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/main-integration10.json.bin)、[原字节归档](https://github.com/illusion-tech/poms/blob/main/docs/design/archive/slices/rust-r4abc/archive-origin-map63.json)。\n\n验收：Rust310通过/54历史ignored，Native74套863项，Angular59套411项；必要写故障59项实命中并完整113表回滚/重试，6锁屏障及跨项目锁负例，Linux同构建续跑链/Windows完整原UI。163早期负例仅有界等价复用，原失败/partial/ignored/Native参考不升格。\n\n清理：1004自有行精确清理，3借用原件恢复；两库113表/各529原seed及catalog/ACL精确恢复、两次noop，2对象86B原字节保留、运行副本0；自有API/浏览器/Native/PG停止，卷/private保留，3作者工作树可恢复归档。\n\n累计技术surface210不代表完整R4或整体迁移完成。\n"
+      }
+    }
+  ]
+}
