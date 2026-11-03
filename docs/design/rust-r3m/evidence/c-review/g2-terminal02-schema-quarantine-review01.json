@@ -1,0 +1,189 @@
+{
+  "kind": "C-independent-terminal02-method-schema-quarantine-review01",
+  "createdAt": "2026-11-03T01:35:09.748Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3_closeout_independent",
+    "role": "independent non-author C",
+    "configuredModel": "inherited; exact configuration not exposed",
+    "Fast": "unverified"
+  },
+  "terminal02": {
+    "methodExplanationApproved": true,
+    "sources": [
+      {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-plan02.mjs",
+        "bytes": 16399,
+        "rawBytesSha256": "9672bf4d6f489ddf9e09120dfa2b89007d4baf69d6400652d22ec36ec8614383"
+      },
+      {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-run02.mjs",
+        "bytes": 31880,
+        "rawBytesSha256": "3a6e42cb420db296ccc0911bf32a997feaa33810efa5585da73433cc1e36b141"
+      },
+      {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-plan-cases02.test.mjs",
+        "bytes": 8702,
+        "rawBytesSha256": "da28efa1de2d3431834a7149194015c89030f0734fd5eafbb8604db787dddfb6"
+      },
+      {
+        "file": "tools/rust-r3m/fixture-actor03.mjs",
+        "bytes": 1967,
+        "rawBytesSha256": "93beaff3ac57ce75a215e33503df0a07024074d8592ddcfcc25afdcd83de902c"
+      },
+      {
+        "file": "tmp/rust-r3m/terminal-draft/derivation02.json",
+        "bytes": 2768,
+        "rawBytesSha256": "47d61132a74d191718e38e8fb338b65e78001f504fa1e031c8239af127110db1"
+      }
+    ],
+    "namingCorrection": "Exact current-private actor registration still required. Existing fixture helper uses runId+lowercase8hex username; org/role code must exactly match its own registered UUID8. No prefix-only or guessed actor root.",
+    "previous01Inspect": "Failed at naming assumption before deletion; original retained, not terminal pass.",
+    "syntheticDefinitions": 19,
+    "RootActualTestReceiptRequired": true,
+    "actualCleanupAccepted": false
+  },
+  "schema": {
+    "report": {
+      "file": "tmp/rust-r3m/schema-check01/report01.json",
+      "bytes": 11490,
+      "rawBytesSha256": "99a0d49f6160083b27c5a0ce3227c240ce86536f768a92167cbcf7e17f7a06e1"
+    },
+    "oldAuthority": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/original/schema-classification01.json",
+      "bytes": 92834,
+      "rawBytesSha256": "9bac378c378a47a9ca371c5aaaca9948884aa9d16cc08aff6e4fa0600697558c"
+    },
+    "receipts": [
+      {
+        "backend": "nest",
+        "checkExit1ClassifiedNotPass": true,
+        "dumpExit0": true,
+        "originalReadOnlyInstalledCli": true,
+        "catalog107columns1778FK207migrations92ACL428Exact": true,
+        "all107RowHashesEqual": "bc0bc94a668a0c355a2320f5499123fbbab46a78dea53f4f1c13164d044284c0",
+        "oldCHECKs168ActualExpressionsExact": true,
+        "unknownStatements": 0,
+        "fixtureTriggersAbsent": true,
+        "proposedDDLExecuted": false,
+        "beforeCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/nest-before-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        },
+        "afterCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/nest-after-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        }
+      },
+      {
+        "backend": "rust",
+        "checkExit1ClassifiedNotPass": true,
+        "dumpExit0": true,
+        "originalReadOnlyInstalledCli": true,
+        "catalog107columns1778FK207migrations92ACL428Exact": true,
+        "all107RowHashesEqual": "9ebffcae6e7b46f2dd3afb317164eed46ccad1e0bb407762e8fc5c34b616baf5",
+        "oldCHECKs168ActualExpressionsExact": true,
+        "unknownStatements": 0,
+        "fixtureTriggersAbsent": true,
+        "proposedDDLExecuted": false,
+        "beforeCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/rust-before-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        },
+        "afterCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/rust-after-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        }
+      }
+    ],
+    "bothProductSchemasExact": true,
+    "zeroProductDDL": true,
+    "noMigrationCheckExit0Claim": true
+  },
+  "quarantine": [
+    {
+      "metadata": {
+        "file": "tmp/rust-r3m/acceptance-rust-final02-27/quarantine01.json",
+        "bytes": 2372,
+        "rawBytesSha256": "9dfd667eb101f65cbd664a85987541134e9392ca4cc96c5a417238986112e152"
+      },
+      "phase": "27",
+      "actualCompleted": false,
+      "actualCases": 2,
+      "actualEvents": 689,
+      "preservedOriginals": 3,
+      "declaredRawPinsByteExact": true,
+      "unsafeFilesAbsentWindowsAndLinuxPublic": true,
+      "privateContentsNotRead": true,
+      "acceptedAsBusinessOrGuardPass": false
+    },
+    {
+      "metadata": {
+        "file": "tmp/rust-r3m/acceptance-rust-final02-28/quarantine01.json",
+        "bytes": 3661,
+        "rawBytesSha256": "59e9faf780fc1de4fc323710e5fd023d8eb7a77ef967ea1f16a32ce408c7f158"
+      },
+      "phase": "28",
+      "actualCompleted": true,
+      "actualCases": 4,
+      "actualEvents": 743,
+      "preservedOriginals": 5,
+      "declaredRawPinsByteExact": true,
+      "unsafeFilesAbsentWindowsAndLinuxPublic": true,
+      "privateContentsNotRead": true,
+      "acceptedAsBusinessOrGuardPass": false
+    }
+  ],
+  "input03": {
+    "pin": {
+      "file": "tmp/rust-r3m/root/whole-batch-terminal-input03.json",
+      "bytes": 4608,
+      "rawBytesSha256": "52061edd2d3f9b7e02e91e8c8750db4c3ff0e244e5e830d593d7025e11a3f593"
+    },
+    "allNineCurrentCohortPinsVerified": true,
+    "allSixLinuxAndOneWindowsJournalPinsVerified": true,
+    "registryCounts": [
+      {
+        "registration": {
+          "file": "tmp/rust-r3m/root/cleanup-guard-request-registration28-02.json",
+          "bytes": 43386,
+          "rawBytesSha256": "168d9ac0752fd2dcd3044ebbb83d0966e5206a2470920a18694a1079e54bbbb3"
+        },
+        "entries": 51,
+        "cleanupOnly": true
+      },
+      {
+        "registration": {
+          "file": "tmp/rust-r3m/root/cleanup-guard-request-registration29-02.json",
+          "bytes": 43386,
+          "rawBytesSha256": "62ff5854f4414f6fbc800c10d36538a23e40a8e51473af0fe6e88f665c17f003"
+        },
+        "entries": 51,
+        "cleanupOnly": true
+      }
+    ],
+    "totalCleanupOnlyRequestRoots": 102,
+    "originalLogging": {
+      "file": "tmp/rust-r3m/root/original-log-settings03.json",
+      "bytes": 2270,
+      "rawBytesSha256": "7e888de65dd031ba234c30b285914757dc2ff4ac60103514d53ccda0ef2d8269"
+    },
+    "actualFirstUIRestorationStatementsBoundToOriginalStreamPins": true,
+    "privateOriginalsNotRead": true,
+    "actualInspectCleanupAcceptancePending": true
+  },
+  "previousPublicPrivacyScan": {
+    "file": "tmp/rust-r3m/c-review/public-json-scan02.json",
+    "bytes": 111417,
+    "rawBytesSha256": "57a387a6068de88e97bd542ad705c256793b5fe0a506287f9b6916a5627fc69e"
+  },
+  "openProductFindings": [],
+  "G3Certified": false,
+  "G4Certified": false,
+  "stageIntegrationComplete": false,
+  "issuesMayClose": []
+}

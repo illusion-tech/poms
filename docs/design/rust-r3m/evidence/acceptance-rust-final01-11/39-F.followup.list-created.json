@@ -1,0 +1,105 @@
+{
+  "label": "F.followup.list-created",
+  "name": "F.followup.list-created",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.218Z",
+  "completedAt": "2026-11-02T23:01:04.230Z",
+  "validatedEventRange": {
+    "start": 38,
+    "end": 39,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "SalesFollowUpController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/sales-follow-up-records",
+      "query": {
+        "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-11-02T23:01:04.201Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+          "customerName": "R3HK-5fb76d1a-11 customer revised",
+          "detail": "R3HK-5fb76d1a-11 detail must not leak to global todos",
+          "followUpType": "phone",
+          "id": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+          "leadId": null,
+          "leadName": null,
+          "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+          "occurredAt": "2026-11-02T00:00:00.000Z",
+          "outcome": "progress",
+          "ownerName": "R3CO admin",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerOrgName": "R3CO admin",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "projectName": "R3HK-5fb76d1a-11 revised project",
+          "replacedById": null,
+          "replacementReason": null,
+          "rowVersion": 1,
+          "status": "active",
+          "summary": "R3HK-5fb76d1a-11 original follow-up",
+          "supersedesId": null,
+          "updatedAt": "2026-11-02T23:01:04.201Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "voidReason": null,
+          "voidedAt": null,
+          "voidedBy": null,
+          "voidedByName": null
+        }
+      ],
+      "requestId": "ab2c6ab5-552f-4f62-bf31-890d3c929f3a",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1027",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-52",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "8dc4cfc9cb1ccca2dac2792a853e9565029c90b62e1d4105b77df740fce5d0ee",
+        "responseBytes": 1307,
+        "responseSha256": "b9110f2040e302ce3334dd689e94e43ab9964da01f7966562f166da3dba64331",
+        "entityBodyBytes": 1027,
+        "entityBodySha256": "e1e976a50a40773680c95f3b3140be1e2dd8b4ccb2074741a7c019074682e17b",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-64325087-f082-47fd-b8c7-bbc09ac58a51",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-39-F.followup.list-created.json",
+      "bytes": 3284,
+      "rawBytesSha256": "138c682f3e491ca0f16745db33e8c89c099df00029d4985c1b8a32332cb60b98"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

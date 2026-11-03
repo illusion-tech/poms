@@ -1,0 +1,203 @@
+{
+  "kind": "R3-closeout-G2-acceptance-definition-correction02",
+  "date": "2026-11-03",
+  "owner": "B #99; Root owns execution and governance",
+  "productStatus": "paused; no product source changed by this task",
+  "RootReportedCandidate": {
+    "sha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+    "ordinaryTestsPassed": 306,
+    "ignored": 54,
+    "authorDidNotRebuildOrRun": true
+  },
+  "authority": "Root explicitly authorized deriving business-correct02 and retaining Native originals01 as known-defect reference; independent C confirmation of the final classification remains required",
+  "oldSourcesUnchanged": true,
+  "oldG1AndG2BUnchanged": true,
+  "sourcePins": [
+    {
+      "path": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "bytes": 26295,
+      "sha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+    },
+    {
+      "path": "tools/rust-r3cdefg/project-journey01.mjs",
+      "bytes": 23214,
+      "sha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs",
+      "bytes": 31946,
+      "sha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+    },
+    {
+      "path": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/ui-a/lead-journey03.mjs",
+      "bytes": 26008,
+      "sha256": "df62bbb0f89bb0562fe713f4e4e50d94a8901b0c922a37f7d8f191924a830262"
+    }
+  ],
+  "definitionPins": [
+    {
+      "path": "tmp/rust-r3m/ui-b/customer-journey02.mjs",
+      "bytes": 26498,
+      "sha256": "733cc75cf37fd2411c408916e646938d8d95adc79fa69f3af675ef6109005144"
+    },
+    {
+      "path": "tmp/rust-r3m/ui-b/project-journey02.mjs",
+      "bytes": 27750,
+      "sha256": "d088e556900a1028183ecb9f6c381d2230c9d3db799eed5f94a6f0c61aff48c1"
+    },
+    {
+      "path": "tmp/rust-r3m/ui-b/four-journey-cell01.mjs",
+      "bytes": 13790,
+      "sha256": "fa718a994f9dc8f19d9497a0f29ac53dd1da7b0efd635317b41a634b06c5ebed"
+    }
+  ],
+  "deltas": [
+    {
+      "source": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "derived": "tmp/rust-r3m/ui-b/customer-journey02.mjs",
+      "changes": "Only three Create.gender response/reload/PG expectations unknown→female, plus provenance header; all original UI actions, PG readers and remaining business assertions retained",
+      "requiredBusiness": "User-selected female public Create.gender persists and round-trips; later PATCH remains real title/nullable changes, not invented gender normalization"
+    },
+    {
+      "source": "tools/rust-r3cdefg/project-journey01.mjs",
+      "derived": "tmp/rust-r3m/ui-b/project-journey02.mjs",
+      "changes": "Two second-version blocks now collect real POST201 + workspace/history200, assert v2/current/unique historical predecessor and PG supersede, retain old children and read upstream immutable rows. Add parameterized version/history helper and explicit actual-ID return. Original forms/selectors and first-version flow retained.",
+      "requiredBusiness": "Legal second bid/pricing versions commit201 and become unique current; v1 remains superseded. No Node500/currentV1 parity target."
+    }
+  ],
+  "modePolicy": {
+    "selection": "Root supplies all four function objects explicitly; wrapper never imports/selects/rewrites a function or expected status based on backend",
+    "rustBusiness": {
+      "customer": "ui-b/customer-journey02.mjs",
+      "project": "ui-b/project-journey02.mjs",
+      "lead": "A ui-a/lead-journey03.mjs",
+      "intelligence": "canonical archived intelligence-discussion-journey02.mjs",
+      "plannedJourneys": 8
+    },
+    "nativeReference": {
+      "customer": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "project": "tools/rust-r3cdefg/project-journey01.mjs",
+      "lead": "A ui-a/lead-journey03.mjs",
+      "intelligence": "canonical archived intelligence-discussion-journey02.mjs",
+      "NativeBusinessAcceptance": false,
+      "plannedJourneys": 8,
+      "observations": "Wrapper records actual selected-female→unknown and two real second-version500 observations as observedKnownBusinessFailures, never a business pass"
+    },
+    "matrix": "4 actual platform/backend cells ×4 journeys=16 planned completions; final accounting separates8 Rust business journeys from8 Native references. No execution by B; plan counts are not results.",
+    "gates": "No G1 history rewritten, no Native product repair or extra route/DTO; C must confirm interpretation and Root must bind actual UI/source/runtime receipts before G3."
+  },
+  "coverageBoundaries": {
+    "customer": "Existing customer workspace; UI Contact create/update and FollowUp create/replace/void. Does not certify Customer POST/PATCH/no-op/alias UI. Those repairs are Root API/PG evidence.",
+    "project": "Technical-cost readonly projection and bid/pricing UI; not project-basic6. Root M0/API covers six basic project operations separately. No technical-cost UI write entry invented.",
+    "intelligence": "Original I create/list/gaps controls only; no I update/delete or J related-object selectors; K read only, no R4 write acceptance.",
+    "upstream": "Actual Lead03 convertedProjectId is the only Project handed to IJK. Registered IJK L_I remains separate from converted L_A. No synthetic ID, prepared Project or silent fallback."
+  },
+  "contexts": {
+    "common": [
+      "actual logged-in page and same UI/proxy origin per cell",
+      "Root actual full permission actor",
+      "observe(name,data)",
+      "fresh fixture namespace per cell/retry",
+      "actual timezoneId Asia/Tokyo",
+      "Root actual loader {file,sha256} for every function"
+    ],
+    "customer": {
+      "ids": [
+        "customer=C1"
+      ],
+      "callbacks": [
+        "row(table,id)",
+        "todosFor(sourceId)"
+      ],
+      "precondition": "C1 actual active Customer, zero Contacts and zero active FollowUps across its Customer scope",
+      "returns": [
+        "customerId",
+        "contactId",
+        "followUpId",
+        "replacementId",
+        "todoIds",
+        "statuses",
+        "Todo terminal states"
+      ]
+    },
+    "project": {
+      "ids": [
+        "costProject=P_cost",
+        "bidProject=P_bid",
+        "pricingProject=P_pricing",
+        "costPackage=actual current cost under P_pricing",
+        "bidProcess?=actual current suitable bid under P_pricing"
+      ],
+      "callbacks": [
+        "row(table,id), object or one-row array"
+      ],
+      "precondition": "Three separate actual presigning Projects. P_cost has real cost producer for readonly UI; P_bid has no bid; P_pricing has current cost+supported bid but no pricing review.",
+      "returns": "Derived02 explicit version/child IDs and201 statuses; Native01 void is adapted only from its actual projectJourney.complete observation after normal return."
+    },
+    "lead": {
+      "ids": [
+        "customerId=C2",
+        "customerDisplayName",
+        "leadId=L_A",
+        "sourceCode",
+        "sourceName"
+      ],
+      "options": {
+        "plannedSignDate": "2026-12-01",
+        "createLead": true,
+        "scoreOverrides": true,
+        "qualifyAndConvert": true
+      },
+      "precondition": "Real registered, editable eligible L_A; actual owner/org and active source, no pending/approved override. True I/F/upload facts/system score sufficient for qualification after revoke, all via actual API. Browser timezone Asia/Tokyo.",
+      "returns": [
+        "preparedLeadId",
+        "uiCreatedLeadId",
+        "editedLeadId",
+        "convertedProjectId",
+        "convertedLocalSignDate",
+        "convertedPlannedSignAt",
+        "executed",
+        "omitted=[]"
+      ]
+    },
+    "intelligence": {
+      "ids": [
+        "customer=C2",
+        "customerDisplayName",
+        "lead=L_I",
+        "contact=actual active C2 Contact",
+        "contactName",
+        "sourceLeadDiscussionId or sourceLeadDiscussionBody"
+      ],
+      "project": "Omit before call; wrapper explicitly sets it from Lead03 convertedProjectId. A supplied project/projectId must equal that actual returned ID.",
+      "precondition": "Separate real registered unconverted L_I underC2 with no I rows/gaps7. Pre-produce a real L_A-target discussion before A conversion. Root C2 Contact name and source/discussion text uniquely visible.",
+      "returns": [
+        "created I/J IDs",
+        "actual C2/L_I/convertedProject/sourceL_A",
+        "sourceLeadDiscussionReadId",
+        "unavailable UI boundaries"
+      ]
+    }
+  },
+  "interferenceRules": [
+    "C1 != C2: Customer journey requires empty Contacts/activeF, whereas L_A eligibility uses real I/F/attachment seeds.",
+    "L_A != L_I; A converts L_A and IJK must keep its registered L_I. Passing L_A as IJK.lead would fail real registered-state precondition.",
+    "Do not merge the four ids objects; do not copy C1-created Contact into C2 IJK. Root supplies separate C2 Contact.",
+    "P_cost/P_bid/P_pricing pairwise distinct and distinct from actual convertedProject; costPackage belongs to P_pricing, not P_cost.",
+    "Root pre-conversion L_A discussion enables actual sourceLead aggregation; after conversion the original Lead UI writes to Project and cannot create that historical lead-target entry.",
+    "Observe records are role/cell prefixed; completion/adaptation never swallows rejected UI/HTTP or substitutes prepared state."
+  ],
+  "execution": {
+    "browser": false,
+    "Node": false,
+    "HTTP": false,
+    "DB": false,
+    "environment": false,
+    "productEdits": false,
+    "oldSourceEdits": false,
+    "g2BEdits": false,
+    "privateReads": false,
+    "formatting": false,
+    "onlyStaticReadHashAndOwnedDefinitions": true
+  }
+}

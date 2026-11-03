@@ -1,0 +1,373 @@
+{
+  "kind": "R3M-independent-final-G3-review",
+  "createdAt": "2026-11-03T02:21:10.0909868Z",
+  "reviewer": "/root/r3_final_gate_review",
+  "independentNonAuthor": true,
+  "modelConfiguration": {
+    "registeredExplicitSpawnTarget": "gpt-6.1-sol",
+    "registeredReasoningEffort": "max",
+    "source": "Frozen batch and Root explicit-spawn declaration",
+    "runtimeModelIntrospection": "unavailable",
+    "Fast": "unverified; no independent control"
+  },
+  "reviewBoundary": {
+    "authoredProduct": false,
+    "authoredRootExecutors": false,
+    "authoredFormalGovernance": false,
+    "writesOnly": "tmp/rust-r3m/final-review/",
+    "privateFilesRead": false,
+    "GitOrGitHubExecuted": false,
+    "environmentDBBrowserOrBuildExecuted": false,
+    "actualGitState": "HEAD/branch/staged status supplied by Root. Fixed commit and main are not certified here.",
+    "method": "Read actual frozen source and public raw evidence; independently hash bytes and reconstruct public proof relationships. Author metadata certification flags do not substitute for independent review."
+  },
+  "frozenInput": {
+    "file": "docs/design/rust-r3m/g3-input-manifest01.json",
+    "bytes": 371569,
+    "rawBytesSha256": "c5df058d4a2365d8f64c6676ef5e1907b852d8818cedda9858238586dcdd970d"
+  },
+  "frozenPackage": {
+    "file": "docs/design/rust-r3m/g3-package-manifest01.json",
+    "bytes": 421510,
+    "rawBytesSha256": "c670d02966f3f506dfc096db5cb2588900a016fbc432ae0a7b2dec4c94a5e7e6"
+  },
+  "candidate": {
+    "file": "tmp/rust-r3m/root/candidate-final01.json",
+    "bytes": 59115,
+    "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+  },
+  "artifact": {
+    "bytes": 43775864,
+    "rawBytesSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747"
+  },
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "branchAsDeclared": "codex/poms-r3-closeout",
+  "HEADAsDeclared": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "decision": "Pass",
+  "summary": "正式冻结候选源码、M0-M5实际公开证据、原字节保全和有界治理一致；无未闭 P0/P1/P2，仅准许提交本冻结候选。",
+  "findings": [],
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "byteVerification": {
+    "productInputsActuallyRehashed": 311,
+    "productInputMismatches": 0,
+    "protectedInputsActuallyRehashed": 1373,
+    "allowedProtectedDeltas": 2,
+    "unexpectedProtectedMismatches": 0,
+    "controlsActuallyRehashed": 19,
+    "controlMismatches": 0,
+    "toolsActuallyRehashed": 126,
+    "toolMismatches": 0,
+    "archivedMembersActuallyRehashed": 782,
+    "logicalOriginalsActuallyRehashed": 782,
+    "missingOriginals": 0,
+    "uniqueLogicalOriginals": 782,
+    "uniqueArchivedPaths": 782,
+    "packageBytes": 120139652,
+    "memberMismatches": 0,
+    "mappingMismatches": 0,
+    "frozenManifestHashUnchangedAtEnd": true,
+    "current58OperationRowsDeepEqualOriginal": true
+  },
+  "approvedProductBoundary": {
+    "changedFiles": 9,
+    "RustChangedFiles": 7,
+    "UIChangedFiles": 2,
+    "exactProductDeltaPaths": [
+      "apps/poms-api-rust/src/leads/service.rs",
+      "apps/poms-api-rust/src/leads/store.rs",
+      "apps/poms-api-rust/src/leads/scoring.rs",
+      "apps/poms-api-rust/src/customers/service.rs",
+      "apps/poms-api-rust/src/customers/store.rs",
+      "apps/poms-api-rust/src/customer_contacts/service.rs",
+      "apps/poms-api-rust/src/customer_contacts/store.rs",
+      "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+    ],
+    "exactDeltaBytePins": "source-evidence-preaudit01.json sourceAudit.changedProductFiles; all revalidated through the frozen 311 inputs",
+    "newPublicHTTPOperations": 0,
+    "newPublicHTTPPaths": 0,
+    "newDTO": 0,
+    "newSchema": 0,
+    "newGeneratedClient": 0,
+    "newMigration": 0,
+    "sourceReviewed": [
+      "Same materialized SystemScoreTuple supplies Lead score and snapshot explanation.",
+      "Normal approve/revoke reuses validated stored system tuple without unconditional live refresh.",
+      "Historical absent/invalid tuple: repair score and system snapshot before decision snapshot in the caller transaction; any necessary write failure rolls back state, snapshots, registered audit and pending session.",
+      "Lead-before-override lock ordering and CAS; typed Customer/Contact CAS0 conflict and transaction rollback.",
+      "Customer business no-op ignores actor-only and UUID spelling differences; typed organization identity returns its name immediately.",
+      "Only UI product behavior delta is plannedSignAt Date.toISOString under unchanged datetime contract."
+    ]
+  },
+  "checks": {
+    "Rust": {
+      "actual": "fmt; clippy --locked --offline --all-targets -- -D warnings; test --locked --offline --all-targets; release --locked --offline",
+      "allExitCodes": 0,
+      "passed": 306,
+      "failed": 0,
+      "ignored": 54,
+      "stdoutResultLinesActuallySummed": 31,
+      "ignoredMeaning": "53 inherited DB opt-in and 1 explicit child fixture. Non-ignored parent launches child; ignored are not added to passed."
+    },
+    "admin": {
+      "lintExit": 0,
+      "focusedUnitExit": 0,
+      "focusedUnitPassed": 23,
+      "productionBuildExit": 0,
+      "newProductLintWarnings": 0,
+      "existingToolNotice": "Unchanged @nx/eslint:lint executor deprecation notice, not an ESLint product warning."
+    },
+    "common": {
+      "MarkdownWholeDocsExit": 0,
+      "stagedWhitespaceExit": 0,
+      "worktreeWhitespaceExit": 0,
+      "rawCommandStreamsActuallyHashed": 6,
+      "streamMismatches": 0,
+      "source": "docs/design/rust-r3m/verification/common-checks01/report01.json"
+    },
+    "unaffectedNativeFullLintTest": "Not required: protected backend unchanged; protected-source Native build and all real UI/reference axes are separate actual evidence.",
+    "schema": {
+      "status": "ran and failed with classification",
+      "migrationCheckExit": 1,
+      "schemaDumpExit": 0,
+      "existingValidatedCHECKs": 168,
+      "unchangedStatusComment": true,
+      "ownMarkerToolNoise": true,
+      "newUnclassifiedStatements": 0,
+      "DDLExecuted": false,
+      "launcher": "Locked installed MikroORM 7.0.11 CLI. Original Nx launcher is not claimed."
+    },
+    "client": {
+      "unchangedRawFiles": 579,
+      "regenerationPerformed": false,
+      "regenerationPassClaimed": false
+    }
+  },
+  "stageAcceptance": {
+    "M0": {
+      "required": 58,
+      "proven": 58,
+      "acceptedReportPinsActuallyHashed": 14,
+      "independentlyRejoinedMethodCanonicalUUIDSuccessBusinessCaseRangeArtifact": 58,
+      "badProvenance": 0,
+      "guardsNotBusinessSuccess": true
+    },
+    "M1M2M3": "Actual customer/contact/alias, Lead/I/F/Todo/discussion/upload/conversion and resulting Project cost/bid/pricing chains, precision/current versions, read/no-op, CAS/concurrency and necessary-write rollback receipts accepted with unchanged-source impact boundaries.",
+    "scoreRepair": {
+      "fullNewPhase": "final02-24",
+      "cases": 14,
+      "events": 107,
+      "fullNineTableFaultGraphsRecompared": 5,
+      "graphMismatches": 0,
+      "namedP0001AndNormalNoUPDATEControl": true,
+      "fixtureCatalogACLRestoredAndRetries": true
+    },
+    "guards": {
+      "phase29Events": 743,
+      "anonymous": 58,
+      "CSRF": 33,
+      "permissionPolicies": 580,
+      "rawRouteMethodParser": 18,
+      "lifecycle": 51,
+      "existingSessionRefresh": [
+        403,
+        200,
+        403
+      ],
+      "businessTableSummariesRecompared": 104,
+      "summariesAndRequiredSafeRowsEqual": true,
+      "DBOptInTestsExecuted": 0
+    },
+    "M4": {
+      "capturedJourneys": 16,
+      "RustBusinessPassed": 8,
+      "NativeReferenceCaptured": 8,
+      "NativeBusinessAcceptance": false,
+      "WindowsNativeRustRuntimeCertified": false,
+      "HTTPCounts": [
+        358,
+        354,
+        354,
+        360
+      ],
+      "PGCounts": [
+        31,
+        27,
+        27,
+        31
+      ],
+      "screenshotsActuallyViewedByReviewer": 16,
+      "dateRequestResponseGETStagePGPageAligned": true,
+      "NativeKnownFailures": "Each Native axis: create female request -> unknown response/PG; valid second bid/pricing 500/current v1, bound to actual HTTP/PG and exact 23505 constraint/projectId. Reference capture only.",
+      "NativeCausePinsActuallyHashed": 4,
+      "NativeCausePinMismatches": 0
+    },
+    "M5": {
+      "accepted": true,
+      "pureActualPass": 33,
+      "pureFail": 0,
+      "RustAddedOwnedRemoved": 3727,
+      "NativeAddedOwnedRemoved": 744,
+      "publicOwnershipProofsCrossChecked": 4471,
+      "proofFailures": 0,
+      "tableRemovalCountMismatches": 0,
+      "guardRequestRootsJoined": 102,
+      "exactSafeRegistrations": 2,
+      "actualDatabaseFKs": 207,
+      "logicalTodoSourceEdges": 37,
+      "logicalEdgesExplicitlyNotDatabaseFKs": true,
+      "allFourCleanupReports107SeedCatalog428ACLLogPostCommitExact": true,
+      "bothSecondCleanupsZeroChanges": true,
+      "objectOriginals": 11,
+      "objectBytes": 486,
+      "cleanupPartialResumeVerifyObjectPinsEqual": true,
+      "resumeAndVerifyAdditionalUnlinks": 0,
+      "runtimeObjectsRemaining": 0,
+      "LinuxOwnedBrowserProcesses": 0,
+      "WindowsOwnedBrowserProcesses": 0,
+      "sameProvisionContainerStopped": true,
+      "containerId": "4559772fc21fd4f109d4d4567dbf3a43f7901ef422fe696f58a4b895e3f6471c",
+      "volumeAndCurrentPrivateRetained": true,
+      "allOwnedAPIsPGKeepaliveStopped": true,
+      "closedPorts": [
+        23433,
+        13400,
+        13410,
+        13500,
+        13600
+      ],
+      "privateBoundary": "Root actual private-original pins and executable assertions inspected; public ownership/lineage/preservation relationships independently checked. Reviewer did not open private row, SQL or credential content."
+    }
+  },
+  "contractIntegrity": {
+    "RustOperations": 173,
+    "RustPaths": 138,
+    "RustSchemas": 585,
+    "NativeOperations": 291,
+    "NativePaths": 237,
+    "NativeSchemas": 585,
+    "entireRustOpenAPIExportRawEqualsArchived": true,
+    "fullCanonicalOperationJoins": 58,
+    "clientRawFiles": 579,
+    "migrationRawFiles": 92,
+    "bothPublicCatalogBeforeAfterRawEqual": true,
+    "tables": 107,
+    "columns": 1778,
+    "foreignKeys": 207,
+    "ACLRows": 428
+  },
+  "E1Exit": {
+    "accepted": true,
+    "removedFiles": 5,
+    "removedBytes": 419264,
+    "WindowsAliasAbsenceActuallyReadByReviewer": true,
+    "canonicalAnd23LegacyPinsUnchanged": true,
+    "WindowsBeforeAfterCases": [
+      22,
+      21
+    ],
+    "LinuxBeforeAfterCases": [
+      22,
+      21
+    ],
+    "allActualCasesPass": true,
+    "allFourReplayDigest": "211e0f25ea901ed51b13cf5aed56453ac3fa259fcd4b9d918bc48aecea926403",
+    "supportedCanonicalResolverReplaySourcesReviewed": true,
+    "oldHardcodeToolsNotClaimedDirectlyRunnable": true,
+    "mainIntegrationStillSeparate": true
+  },
+  "preservationAndPrivacy": {
+    "publicOriginalByteMembers": 782,
+    "bytes": 120139652,
+    "privateCopied": false,
+    "testedRustBinaryAnd311Sources": "Public actual terminal verification receipt rebinds preserved f6 binary and compile-source capsule. State/private files not opened by reviewer.",
+    "NativeUIArtifactsPreserved": 423,
+    "NativeUIOriginalPreservedMappingMismatches": 0,
+    "compiledArtifactsExplicitlyExcludedFromGit": true,
+    "originalTextLogMDSourceRawBin": "Original bytes retained; no formatting of archived originals.",
+    "RootPrivacyScanFiles": 547,
+    "all547SourcePinsActuallyRehashedUnchanged": true,
+    "RootPrivacyFindings": 0,
+    "embeddedJSONStringScannerSourceReviewed": true,
+    "earlierCStrongerJSONScanFiles": 527,
+    "earlierCScanIsSupportingOnly": true,
+    "quarantine27And28Public": "Only quarantine01.json metadata; unsafe original graphs absent from package.",
+    "generalSecretScannerCertification": false
+  },
+  "retainedLabels": [
+    "Baseline and old candidates remain historical.",
+    "phase15/18/25 partial remain incomplete.",
+    "phase19 graph-retention defect remains; phase24 is new complete evidence.",
+    "phase27/28 unsafe originals remain private/quarantine, never recounted as acceptance.",
+    "Old partial UI cells remain partial.",
+    "Object terminal01 partial remains completed=false, exit1; resume03 and verify04 are separate actual outcomes.",
+    "Ignored DB tests remain ignored.",
+    "Native reference is not Native business pass."
+  ],
+  "governance": {
+    "G2RawReadbackIssues": [
+      97,
+      98,
+      99,
+      100,
+      85,
+      57
+    ],
+    "allSixReadbackOpen": true,
+    "currentEightDocsAlignWithG2ExecutedAwaitingIndependentG3": true,
+    "all58OperationRowsUnchanged": true,
+    "oldEightGovernanceRawBytesPreserved": true,
+    "overall57MustRemainOpen": true,
+    "stageIssueDoneBeforeG4": false,
+    "futureR4R5R6R7Certified": false
+  },
+  "supportingReports": [
+    {
+      "file": "tmp/rust-r3m/final-review/source-evidence-preaudit01.json",
+      "bytes": 23363,
+      "rawBytesSha256": "02056aba3c51e7481b590047a1cd1efead95a4cfaad7ee29c63b76002d8c9834"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/terminal-method-preaudit01.json",
+      "bytes": 3516,
+      "rawBytesSha256": "d8acfb670d5b2397a21d524bc258acbe0ad666a2fbfadcd46ba6295bdb4a8c0f"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g3-hash-audit01.json",
+      "bytes": 1123,
+      "rawBytesSha256": "a13f88499facdfe933029470a28ab35efe78dac2a159a558287b96447fa00d5d"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g3-m5-audit01.json",
+      "bytes": 7057,
+      "rawBytesSha256": "e32f517a873fc14b4d3477210b240eeebe3c66ef5e7540d92d1413d453929c37"
+    }
+  ],
+  "commitAuthorization": {
+    "allowed": true,
+    "scope": "Only this frozen candidate: exact existing 9 product changes, zero new public HTTP/DTO/schema/client/migration, frozen controls/tools/public byte package and exact E1 exit; append independent Gate evidence as unchanged raw bytes.",
+    "frozenInputChangesRequireImpactReview": true,
+    "GateEvidenceMayBeCopiedToFormalCWithRawByteMapping": true,
+    "fixedCommitReviewRequiredAfterCommitAndBranchPush": true,
+    "primaryFastForwardMainPushAndReadbackRequireLaterReview": true,
+    "G4AndIssueClosureNotAuthorized": true
+  },
+  "G3Certified": true,
+  "commitAllowed": true,
+  "E1ExitCertified": true,
+  "fixedCommitCertified": false,
+  "mainCertified": false,
+  "G4Certified": false,
+  "issueClosureAllowed": false,
+  "issueClosureAuthorized": false,
+  "overall57MustRemainOpen": true,
+  "remainingRequiredWork": [
+    "Root commit/branch push of approved frozen candidate and raw independent Gate authority.",
+    "Independent fixed-commit exact content review.",
+    "Clean primary fast-forward/main push and exact integration/remote readback.",
+    "Lifecycle archive and complete raw-byte preservation/remote checks.",
+    "Independent actual G4 closeout permission; only then close #98/#99/#100/#97/#85 while #57 stays open."
+  ]
+}

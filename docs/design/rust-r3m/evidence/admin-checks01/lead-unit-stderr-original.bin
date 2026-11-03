@@ -1,0 +1,31 @@
+[1m[33mThe `@nx/jest:jest` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/jest:convert-to-inferred` to migrate to the `@nx/jest/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.[39m[22m
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [0m[7m[37m poms-admin [39m[27m[0m [2mapps/poms-admin/src/app/features/lead/[22m[1mlead-list.spec.ts[22m ([0m[1m[41m23.036 s[49m[22m[0m)
+  LeadList
+    [32m✓[39m [2mrenders lead list facts from LeadListView (1779 ms)[22m
+    [32m✓[39m [2mhighlights effective score without hiding the system score source (720 ms)[22m
+    [32m✓[39m [2mfalls back to system score fields when the running API has not returned effective score fields (798 ms)[22m
+    [32m✓[39m [2mloads score history and submits an override request with the lead row version (651 ms)[22m
+    [32m✓[39m [2mapproves, rejects and revokes score overrides with override row versions (569 ms)[22m
+    [32m✓[39m [2mguides users into the lead-to-project conversion path from project entry (657 ms)[22m
+    [32m✓[39m [2mloads the selected lead workbench scope when clicking a distribution segment (682 ms)[22m
+    [32m✓[39m [2mrenders converted leads as archived conversion results instead of conversion gaps (541 ms)[22m
+    [32m✓[39m [2mloads shared sales follow-up records when opening a lead detail (683 ms)[22m
+    [32m✓[39m [2mkeeps customer contact permission independent from lead write permission (769 ms)[22m
+    [32m✓[39m [2mopens lead detail from a sales follow-up reminder query (686 ms)[22m
+    [32m✓[39m [2mincludes the converted project anchor when loading follow-ups for converted leads (702 ms)[22m
+    [32m✓[39m [2mcreates a lead with the generated request shape (517 ms)[22m
+    [32m✓[39m [2mcan create a lead into public pool when owner is cleared (481 ms)[22m
+    [32m✓[39m [2mupdates editable lead basic fields through the generated request shape (505 ms)[22m
+    [32m✓[39m [2mloads public pool scope and claims an unassigned lead (480 ms)[22m
+    [32m✓[39m [2massigns lead owner with reason through controlled command (470 ms)[22m
+    [32m✓[39m [2mupdates the selected sales owner and defaults the owner org from the chosen user (487 ms)[22m
+    [32m✓[39m [2mdoes not expose write actions when the user only has read access (474 ms)[22m
+    [32m✓[39m [2mqualifies a registered lead with a business explanation (509 ms)[22m
+    [32m✓[39m [2mconverts a qualified lead into a project and navigates to the created project (563 ms)[22m
+    [32m✓[39m [2mdoes not expose project conversion for registered or converted leads (588 ms)[22m
+    [32m✓[39m [2monly allows editing registered or qualified leads (523 ms)[22m
+[1mTest Suites: [22m[1m[32m1 passed[39m[22m, 1 total
+[1mTests:       [22m[1m[32m23 passed[39m[22m, 23 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        24.407 s
+[2mRan all test suites[22m[2m matching [22mapps/poms-admin/src/app/features/lead/lead-list.spec.ts[2m.[22m

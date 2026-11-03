@@ -1,0 +1,93 @@
+{
+  "label": "E.contact.list-updated",
+  "name": "E.contact.list-updated",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.177Z",
+  "completedAt": "2026-11-02T23:01:04.188Z",
+  "validatedEventRange": {
+    "start": 36,
+    "end": 37,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerContactController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customer-contacts",
+      "query": {
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-11-02T23:01:04.134Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+          "customerName": "R3HK-5fb76d1a-11 customer revised",
+          "department": null,
+          "email": "regression@example.com",
+          "gender": "male",
+          "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+          "mobile": "01000000000",
+          "name": "R3HK-5fb76d1a-11 contact",
+          "remark": "R3HK-5fb76d1a-11 updated contact",
+          "rowVersion": 2,
+          "status": "active",
+          "title": "项目采购",
+          "updatedAt": "2026-11-02T23:01:04.168Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "wechat": null,
+          "workPhone": null
+        }
+      ],
+      "requestId": "b3f20c46-fb77-4ee4-acf0-87e3da601003",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "585",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-50",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 346,
+        "requestSha256": "9dfb9878361e327fc0fcc6dac9d6d66f0109f1f55619fbc19cdf9fa2d6356f6b",
+        "responseBytes": 864,
+        "responseSha256": "b587a79a233125c9846840ec539d0d784837034dc4b40a73cf034628aa6cb80b",
+        "entityBodyBytes": 585,
+        "entityBodySha256": "c76fe1d6c11dc81abe917d6aa920ba80dcfabfde3ed59037635b1493116439ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-7e2571f6-7fa6-42c4-9fce-abe1bbb9f9ab",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-37-E.contact.list-updated.json",
+      "bytes": 2690,
+      "rawBytesSha256": "c980d45bca3ae1080c62bf9a03bfa635490daf1b785c44ac424dd554a230f0ec"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

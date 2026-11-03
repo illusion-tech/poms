@@ -1,0 +1,120 @@
+{
+  "label": "C.cost.list",
+  "name": "C.cost.list",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.927Z",
+  "completedAt": "2026-11-02T23:01:03.937Z",
+  "validatedEventRange": {
+    "start": 22,
+    "end": 23,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_listProjectTechnicalCostPackages",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5/technical-cost-packages"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:01:03.917Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T23:01:03.917Z",
+          "highestRiskLevel": "R1",
+          "id": "26a39d65-56ba-4508-bdc8-bd7a404ea230",
+          "isCurrent": true,
+          "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "5fbed99b-2a6b-438d-a0b9-14383e28dbfd",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3HK-5fb76d1a-11 cost revision 2",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T23:01:03.917Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 2
+        },
+        {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:01:03.891Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T23:01:03.891Z",
+          "highestRiskLevel": "R1",
+          "id": "5fbed99b-2a6b-438d-a0b9-14383e28dbfd",
+          "isCurrent": false,
+          "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "rowVersion": 2,
+          "status": "superseded",
+          "supersedesId": null,
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3HK-5fb76d1a-11 cost revision 1",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T23:01:03.917Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 1
+        }
+      ],
+      "requestId": "0c45bfda-8c49-4cf5-b682-44e2b77152aa",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1663",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-36",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 350,
+        "requestSha256": "5a93dbf7b00aa7e6df02329f12766764f8f6085a64440fa2638be13d94ff27e5",
+        "responseBytes": 1943,
+        "responseSha256": "437881344c6c4c6fb7c39031050f65049b8af662b147e0d8d3d815421dd233e0",
+        "entityBodyBytes": 1663,
+        "entityBodySha256": "ea8c8f2480f2b295b196e6037024cb90c370cf0171d3444acd5ff74bba1096be",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-627f2cea-8a24-49b9-8e4b-400a977f3398",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-23-C.cost.list.json",
+      "bytes": 4088,
+      "rawBytesSha256": "a02f459d5ed9b3deb0cac74b31f24f81b5431d95f9437ca53353f0db3aaf3b6c"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

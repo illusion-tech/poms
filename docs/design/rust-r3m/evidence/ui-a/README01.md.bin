@@ -1,0 +1,17 @@
+# A Lead UI 旅程派生 03
+
+调用入口仍为 `await leadJourney(page, ctx)`，导出自本目录 `lead-journey03.mjs`。只定义，不自运行；本次没有 Node import、浏览器、HTTP、DB、构建或格式化执行。只从 canonical 02 原字节复制派生，02及历史01均未改动；产品三文件也未再修改。
+
+`ctx` 保持02原接口：`baseUrl` 为实际UI origin；`ids` 提供真实 `customerId/customerDisplayName/leadId/sourceCode/sourceName`（或原已支持的 customer/lead对象）；`observe(name,value)` 由Root记录；`timeoutMs` 可选。Root四个BrowserContext必须都固定 `timezoneId: 'Asia/Tokyo'`。
+
+唯一新增选项为 `ctx.options.plannedSignDate`，本地日历字符串 `yyyy-mm-dd`，默认 `2026-12-01`。原 `createLead/scoreOverrides/qualifyAndConvert` 开关和全部原操作不变；禁用转换时仍明确记录遗漏，不宣称非空日期已验收。主Lead须是本UI独立cohort的registered且owner/org完整行，旅程会将其编辑、确认有效并转换。后续IJK若要求registered Lead应另用真实fixture，不能把此时已converted的行当registered。
+
+03通过可见label“预计签约日期”填入真实PrimeNG输入（源码 `lead-list.ts:1308–1315`，`inputId=plannedSignAt`，`dateFormat=yy-mm-dd`），按Tab和真实点击另一输入结束输入。显式Tokyo offset计算预期值，完全不依赖执行Node主机TZ或当前时间。默认日的预期值为 `2026-11-30T15:00:00.000Z`。
+
+既有ui等待/记录函数只额外返回它已观察的Response，供转换分支读取实际 `request().postDataJSON()`；其他调用原行为不变。新增Project GET等待器在点击前注册，立即以then双分支捕获拒绝，避免导航早于POST记录而漏接响应。GET以真实项目UUID路径匹配，之后必须与实际POST返回id相同；无route mock、evaluate/状态注入、HTTP直连或接口替代UI操作。
+
+断言链是：输入可见日 → 实际POST JSON为合法ISO datetime且等于所选Tokyo午夜 → 转换响应同值 → 实际 `/api/projects/{actualId}` GET的plannedSignAt和stageSummary.plannedSignAt同值 → 页面“预计签约”卡仍显示所选日。页面卡定位依据 `project-detail.ts:396–397` 的可见标签和其父卡容器。Root修正后的 `lead-list.ts:2173` 为Date.toISOString，已静态读取并另pin当前Root文件，未修改本独立工作树旧UI文件。
+
+返回的原result仍含 `convertedProjectId`、`uiCreatedLeadId` 等；仅日期分支成功后另有 `convertedLocalSignDate`、`convertedPlannedSignAt`。新增观察名为 `lead.ui.convert.sign-date-filled`、`lead.ui.convert.project-date-get`、`lead.ui.convert.sign-date-request-response-get-page`，原完整请求/响应记录仍为 `lead.ui.convert.real-ui-submit`。
+
+来源与派生精确SHA见 `source-pins01.json`。此文件、pin和旅程均为未执行定义；实际四轴运行、截图审看、PG核对与产物归属由Root完成。

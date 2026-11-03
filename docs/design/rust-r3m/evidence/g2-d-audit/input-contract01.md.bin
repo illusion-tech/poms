@@ -1,0 +1,49 @@
+# 纯证据审核契约 01
+
+`coverage-auditor01.mjs` 只导出纯函数和清单，无 import、IO、env/process、自运行、Node程序执行或 Gate认证。D未导入、解析执行或测试该模块。Root负责读取和校验原始证据字节/签名、显式适配原字段、真实运行及调用审核函数；不覆盖旧报告，不创造成功标志。审核结果的 G3Certified/G4Certified 始终false，rawReportBytesVerifiedHere/签名验证字段亦false。
+
+## 入口及共同参数
+
+导出 `auditM0Coverage(input)`、`auditUICoverage(input)`、`auditCandidateEvidence(input)` 和 `G3_CLOSEOUT_CHECKLIST`。配置损坏抛CoverageInputError；单份缺证/partial/错candidate报告保留exclusion reason，不计覆盖。
+
+- `inventory58`：58个唯一 `{operationId,method,path}`，可用canonicalPath替代path；两个字段同时存在必须相同。method为canonical大写。58项ID和method/UUID模板唯一，不接受两种占位名称造成同路径重复。
+- `finalArtifactSha`：Root当前实际最终Rust binary的小写SHA256；升级候选时换新值，不能沿用旧证据通过数。
+- `immutableCandidatePin`：精确`{file,bytes,rawBytesSha256}`，对应Root只写一次的当前候选来源/产物清单。所有有效API/UI report的sources必须含完全相同三元组；同file冲突pin会排除报告。
+- `apiReports`、`uiReports`：`[{pin:{file,bytes,rawBytesSha256},report:{...实际原报告或Root显式适配视图}}]`。pin须对应Root保留的不可变原报告；Root另记录字段适配映射及来源。纯函数不重读文件、不自行证明pin等于实际bytes。
+- `passedIndependentMatrixClarificationPin`：Root传入已实际Pass的独立M4分层澄清签署pin。UI所有sources必须包含此pin。缺失/非法为hardMissing，不能把尚未签署的corrective draft当成Pass。纯函数检查pin精确引用，实际签署Pass及字节由Root验证。
+
+## API报告
+
+必须具备 `evidenceKind:'candidate-business'`、`completed:true`、`partial!==true`、`backend:'rust'`、`runtime.artifactSha256===finalArtifactSha`、正确sources、events和cases数组。Native/reference/guard/baseline使用其它evidenceKind，不能作为Rust valid。
+
+`cases`每项为`{name,kind:'business',completed:true,validatedEventRange:{start,end,exclusive:true}}`。索引为events数组的0-based `[start,end)`；范围非空、界内，且只在该case所有实际断言完成后生成。guard/setup/reference等case使用其真实kind。无range的setup、不完整case、越界/空range不计；已声明非business范围对重叠business范围有veto，避免guard成功泄漏。
+
+每个event至少`{method,path,status}`，可选operationId、kind、backend、runtimeArtifactSha256。status必须整数2xx；event显式非business、非Rust或错artifact即排除。事件须处于已完成business case范围。存在operationId时必须是已知ID且同时精确匹配method/path，未知/矛盾ID不得回退路径匹配；没有该属性才按canonical匹配，显式null也不是可用ID。
+
+path为以`/`开头的真实请求路径，可带query；去query后先按`/`分段，再每段decode一次。拒绝malformed编码、编码斜线、反斜线、NUL和dot traversal。静态token及colon suffix完全相同，动态部分必须完整UUID（hex大小写均可），不用substring；未知colon命令、UUID后多余字符、其它路由、仅拒绝/guard都不能充valid。成功204删除可计。覆盖报告逐项返回provenance：report pin、eventIndex、completed case及range、原路径、状态、绑定UUID和候选pin；58唯一coverage与missing分开，排除理由保留。
+
+## UI报告的严格分层
+
+四cell精确为linux/native/linux、linux/rust/linux、win32/native/win32、win32/rust/linux（顺序browser/backend/server）。Windows浏览器连Linux Rust不等于Windows原生Rust server。
+
+共同字段为正确sources、非空真实network数组、journeys数组及`validation:{network:true,postgres:true,sourceStable:true,noMocksOrStateInjection:true,noFailureFallback:true}`。这些标志只能来自Root实际网络/PG/源码验证，缺失不按true处理。
+
+Rust两格须`evidenceKind:'candidate-ui'`、`completed:true`、`partial!==true`、实际runtime.artifactSha256等于最终Rust。四函数名精确为customerJourney、projectJourney、leadJourney、intelligenceDiscussionJourney；每项`{name,role:'business',completed:true,businessPass:true}`。每格四项构成8个Rust业务通过；derived02的业务正确性来源、非空plannedSignAt四次转换仍由Root独立完整证据证明。
+
+Native两格须`evidenceKind:'native-reference-ui'`、`captureCompleted:true`、`partial!==true`、`NativeBusinessAcceptance:false`。journeys四项为`{name,role:'reference',captureCompleted:true}`；额外正确场景可另标，不能将整个Native轴改记业务通过。每格knownFailures非空，下面三个具名见证全部实际成立才认可该格参考采集。未知ID、不匹配事件/PG、无特定cause的任意500均排除。
+
+## 已知Native缺陷见证
+
+network事件归一为`{method,path,status,requestBody,responseBody}`。`pgObservations`保持实际读取顺序，每项`{table,rows:[原DB snake_case行]}`；只提供实际保留的观察。索引必须指向本report的真实network/PG数据。
+
+- `contact-female-to-unknown`：`journeyName:'customerJourney'`，networkIndex指POST `/api/customer-contacts`201，实际requestBody.gender=female、responseBody.gender=unknown；afterPgIndex对应customer_contact，包含同response ID且gender=unknown的创建后原观察。不能以最终PATCH后female行替换创建时观察。
+- `bid-second-version-500`：`journeyName:'projectJourney'`，firstNetworkIndex与failedNetworkIndex分别为同真实Project的bid-commercial-processes POST201/v1及后一次500；historyNetworkIndex为失败后该Project同一路由GET200，实际responseBody数组只有同一v1；beforePgIndex<afterPgIndex指project_bid_commercial_process，只有同一current v1行，完整前后rows相等。
+- `pricing-second-version-500`：同上，路由pricing-margin-reviews，表project_pricing_margin_review。
+
+后两项还须`validRequestVerified:true`以及`cause:{sqlState:'23505',constraint:'uq_project_bid_commercial_process_current'或'uq_project_pricing_margin_review_current',evidencePin:{...真实具名错误原件pin}}`。精确constraint来自原Migration/实体；没有实际cause原件就missing，不能只从HTTP500猜测Root实际碰到的错误。Root可以根据独立checkpoint02审查调整后续新版本契约，01不自动放宽。
+
+UI输出只有`coveredJourneyCells/coverageComplete`、`rustBusinessPassed`（需8）、`nativeReferenceCaptured`（需8）、`knownNativeBusinessFailures`、missing/hardMissing/provenance；不输出all16businessPassed。NativeBusinessAcceptance保持false。缺澄清pin、角色缺区分或未完成case不造成功。
+
+## G3还需另行审查
+
+代码内G3_CLOSEOUT_CHECKLIST逐项列最终源码/产物完整保护、M0 guard、M1–M3真实同Project闭环/六缺口/原子性与锁证据、获批M4分层与日期、53 DB opt-in＋1 child真实分类、E1各平台/主区落地、全图/权限/seed/logging恢复及第二次零清理、独立Gate/归档/线上状态。53 ignored不是53 pass；child也仅凭当前父测试实际成功单列证据。纯覆盖结果不能替代这些条件或独立G3/G4。

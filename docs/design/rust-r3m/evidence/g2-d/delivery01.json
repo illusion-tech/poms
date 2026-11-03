@@ -1,0 +1,93 @@
+{
+  "kind": "R3-closeout-D-G2-source-delivery",
+  "version": "01",
+  "baselineCommit": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "createdAt": "2026-11-02T22:03:09.3938922Z",
+  "author": "D / third-line100",
+  "status": "SourceReady-unexecuted",
+  "implementationScope": [
+    "tools/rust-r3m/e1-*",
+    "tmp/rust-r3m/g2-d/pure definitions"
+  ],
+  "files": [
+    {
+      "file": "tools/rust-r3m/e1-cases01.mjs",
+      "bytes": 4926,
+      "rawBytesSha256": "89ee244562ee5d1db349bac3e1579c2f6d4ef12cf0dab7324987250e95d647b1"
+    },
+    {
+      "file": "tools/rust-r3m/e1-fixture-expectations01.mjs",
+      "bytes": 3823,
+      "rawBytesSha256": "a725ea9d646b2817e689cb4e0f05866db0946eccd5f3770a90c85ad3f1f8460b"
+    },
+    {
+      "file": "tools/rust-r3m/e1-README01.md",
+      "bytes": 5524,
+      "rawBytesSha256": "7d9c4177002975326326342129be60d6c4fb9675e0f0a8d158463fa095520070"
+    },
+    {
+      "file": "tools/rust-r3m/e1-registry01.mjs",
+      "bytes": 2407,
+      "rawBytesSha256": "664fe786ba032ed691f51747c254ded84588efefbcd7a6317a481c2bc97c70f0"
+    },
+    {
+      "file": "tools/rust-r3m/e1-replay01.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "e2c9290e8820da167beef216c25c9b5f9b7d15c240204e15eab458db2b0edb39"
+    },
+    {
+      "file": "tools/rust-r3m/e1-resolver01.mjs",
+      "bytes": 10003,
+      "rawBytesSha256": "8b6edfba7f93e5dababf7c849c80ecab86af6d045de1b4d61e4620018bab2f16"
+    }
+  ],
+  "stageMatrix": {
+    "file": "tmp/rust-r3m/g2-d/stage-matrix01.json",
+    "bytes": 117673,
+    "rawBytesSha256": "0ecc5ad5a42daa0db33b305eefcd07c68af31eaead9431863f6d0f92cd02fcac"
+  },
+  "sourceInputs": [
+    {
+      "file": "docs/design/rust-r3m/g1-input-manifest01.json",
+      "bytes": 359370,
+      "rawBytesSha256": "7c41d08b0021ba0c7937948bd61ef990f4b4a7cac7bf4276d736a363a69b749e"
+    },
+    {
+      "file": "docs/design/rust-r3m/C/g1-independent-review01.json",
+      "bytes": 37986,
+      "rawBytesSha256": "2bdc08872f601cd7f14daf30b446a30ec2065b9f5e95fe406d8e0578f0384bfa"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+      "bytes": 355382,
+      "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+    }
+  ],
+  "API": "tools/rust-r3m/e1-README01.md",
+  "entry": "await replayE1({repositoryRoot,nativeOpenAPIRawBytes,requireAliasesAbsent})",
+  "importHasNoSelfRun": true,
+  "canonicalBytesOnly": true,
+  "onlyTwoPinnedPureFixtureModulesLoadedWhenExplicitlyCalled": true,
+  "logicalRegistryNotDirectAliasPayloadConsumer": true,
+  "notExecuted": [
+    "Node parse/import",
+    "replay",
+    "test",
+    "build",
+    "lint",
+    "HTTP",
+    "DB",
+    "browser",
+    "WSL",
+    "environment",
+    "alias removal"
+  ],
+  "noOldPrivateRead": true,
+  "noGitCommitPushOrGithubWrite": true,
+  "oldToolsAndSealedInputsUnmodified": true,
+  "E1Exited": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "independentReviewRequired": true,
+  "RootAction": "Integrate exact files, run syntax/positive/negative/canonical raw validation and controlled actual before/after deletion receipts in Root adapter; retain every failure/partial; complete full current-stage matrix, independent G3/G4."
+}

@@ -1,0 +1,124 @@
+{
+  "kind": "C-independent-terminal03-source-attribution-method-review01",
+  "createdAt": "2026-11-03T01:46:17.178Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3_closeout_independent",
+    "role": "independent non-author C",
+    "configuredModel": "inherited; not exposed",
+    "Fast": "unverified"
+  },
+  "sources": [
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-plan03.mjs",
+      "bytes": 20654,
+      "rawBytesSha256": "01953d25b19d5617b932834e99691a0ad180e5acd1d07318a7fd80e226c04b2c"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-run03.mjs",
+      "bytes": 32424,
+      "rawBytesSha256": "6f175c70548c16d4fd148b66cf9264c6c078d6678741e1801bdb5a102118d1d7"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-plan-cases03.test.mjs",
+      "bytes": 15367,
+      "rawBytesSha256": "d85265a1ca84a3b42d76269ceadd0410ee1e626676abc92b8fe8946436dd1d3e"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/derivation03.json",
+      "bytes": 4647,
+      "rawBytesSha256": "23b50f0ac46e3b12a0e0b98a5f25451906513b3264345a05b61e929c4b291b3b"
+    }
+  ],
+  "writers": [
+    {
+      "file": "apps/poms-api-rust/src/auth/audit.rs",
+      "bytes": 4747,
+      "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 42291,
+      "rawBytesSha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68932,
+      "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/store.rs",
+      "bytes": 40084,
+      "rawBytesSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+      "bytes": 19058,
+      "rawBytesSha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+      "bytes": 9339,
+      "rawBytesSha256": "da2f93ccd37bb42444d6bead2a1be95514c3eac10c7ba8845896dd5cab7bcd55"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+      "bytes": 35337,
+      "rawBytesSha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.repository.ts",
+      "bytes": 11870,
+      "rawBytesSha256": "bbf595691256c1363be3120a7bfbf31ffce536c4e126d07b0558a6dc56ccf664"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.entity.ts",
+      "bytes": 19232,
+      "rawBytesSha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/todo-item.entity.ts",
+      "bytes": 3816,
+      "rawBytesSha256": "74e9796a6c21333118eb4be277fa5ec40d087acbddc6c55f4ab6da580bdbc66c"
+    }
+  ],
+  "methodExplanationApproved": true,
+  "scope": {
+    "namedAttributionColumns": [
+      "attachment.uploaded_by",
+      "attachment_link.linked_by",
+      "audit_log.operator_id",
+      "security_event.actor_id"
+    ],
+    "requiresExactPresentRegisteredNewUser": true,
+    "notActualForeignKeys": true,
+    "unknownSeedValuesDoNotBecomeRoots": true,
+    "todoRule": "Only sales-follow-up-record + sales-follow-up-reminder + sales, pointing to independently-owned newly-added F, with exact registered assignee equal to F owner and target/project context matching F project>lead>customer and actual current target.",
+    "todoNoActorOnlyOrOrdinaryFKFallback": true,
+    "todoCannotRootItsOwnFOrBorrowSeedF": true,
+    "real207FKClosureUnchanged": true,
+    "allSeedAndDeleteRestorationGuardsUnchanged": true
+  },
+  "why": "Actual inspect02 safely performed zero deletion and left1740orphans attributable to these known non-FK source columns/relations. This correction encodes already existing writer semantics; it does not infer arbitrary ownership by prefix or broaden the product scope.",
+  "priorSafeStops": {
+    "inspect01": "naming assumption; no deletion",
+    "inspect02": {
+      "added": 3727,
+      "owned": 1987,
+      "orphans": 1740,
+      "deleted": 0
+    }
+  },
+  "syntheticDefinitionReview": {
+    "cases": 33,
+    "RootActualExecutionStillRequired": true,
+    "reviewerRanNoEnvironmentOrTests": true,
+    "positiveNegativeCoverage": "retained19, explicit4columns, unknown/seed/othercolumn rejection, valid3Ftargets, independentFroot, missing/seed/unrootedF, wrongtype/domain/assignee/target/project and historicalreminder preservation"
+  },
+  "actualInspectAccepted": false,
+  "actualCleanupApplied": false,
+  "actualTerminalAccepted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "issuesMayClose": []
+}

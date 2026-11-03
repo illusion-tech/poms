@@ -1,0 +1,224 @@
+{
+  "label": "I-concurrent-competitor",
+  "name": "I-concurrent-competitor",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-03T00:12:52.443Z",
+  "completedAt": "2026-11-03T00:12:52.569Z",
+  "validatedEventRange": {
+    "start": 5,
+    "end": 10,
+    "exclusive": true
+  },
+  "value": {
+    "before": {
+      "id": "bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "lead_id": "65e27fc4-0b8c-44f6-8be4-36a7dd458aea",
+      "project_id": null,
+      "competitor_name": "Native I competitor",
+      "position": "active-competitor",
+      "customer_preference": "neutral",
+      "competitor_strengths": "Native I competitor initial strengths",
+      "competitor_weaknesses": "Native I competitor initial weaknesses",
+      "our_advantages": "Native I competitor initial advantages",
+      "our_risks": "Native I competitor initial risks",
+      "win_probability": "medium",
+      "evidence": "Native I competitor initial evidence",
+      "row_version": 1,
+      "created_at": "2026-11-03T00:12:52.501Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-03T00:12:52.501Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/competitor-intelligence-records/bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7",
+        "json": {
+          "evidence": "concurrent admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/competitor-intelligence-records/bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7",
+        "json": {
+          "evidence": "concurrent other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "CompetitorIntelligenceRecord bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7 has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "c1666eb8-f5d7-4ebd-af2f-3197133c66c5",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "152",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-504",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:52 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 493,
+            "requestSha256": "8f7d50fc7085d1f528ecf9ed543bccc99b2f1379286abcbf4688de65a59aa4da",
+            "responseBytes": 438,
+            "responseSha256": "b1444dfd8768ea952b87f31eb8b877ed157f31483b58f148772a0be1dae3c378",
+            "entityBodyBytes": 152,
+            "entityBodySha256": "5f668a2c821b5c381a87001a963ef05f0d97a66c8a73ed2a38e39aa16a4bbd53",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/raw-wire/admin-1c523fc6-442a-40c2-b48f-184989ab0df3",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 200,
+          "body": {
+            "id": "bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7",
+            "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "leadId": "65e27fc4-0b8c-44f6-8be4-36a7dd458aea",
+            "leadName": "R3CO I-concurrent-competitor",
+            "projectId": null,
+            "projectName": null,
+            "competitorName": "Native I competitor",
+            "position": "active-competitor",
+            "customerPreference": "neutral",
+            "competitorStrengths": "Native I competitor initial strengths",
+            "competitorWeaknesses": "Native I competitor initial weaknesses",
+            "ourAdvantages": "Native I competitor initial advantages",
+            "ourRisks": "Native I competitor initial risks",
+            "winProbability": "medium",
+            "evidence": "concurrent other",
+            "rowVersion": 2,
+            "createdAt": "2026-11-03T00:12:52.501Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updatedAt": "2026-11-03T00:12:52.534Z",
+            "updatedBy": "97e8f948-bcba-45bf-aabc-757232934bd9"
+          },
+          "requestId": "c16a8045-eb8a-46cb-8b8f-f07286de5e5e",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "877",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-503",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:52 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 493,
+            "requestSha256": "6c690ac8a69bd55aa9bfc90e4675faf2815b80094a68a82ad4917d17747b9ed2",
+            "responseBytes": 1157,
+            "responseSha256": "14d5e514d2d7c4573fa96832134159f3984cf6e14f359da179a8489e8c36f86d",
+            "entityBodyBytes": 877,
+            "entityBodySha256": "54baf0c0ecff207686e4ef2f12e4ddb0769213e167bb22dba96985be101a17b4",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/raw-wire/other-7643ed66-eae3-4917-9a6d-9ccd122a269d",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "lead_id": "65e27fc4-0b8c-44f6-8be4-36a7dd458aea",
+      "project_id": null,
+      "competitor_name": "Native I competitor",
+      "position": "active-competitor",
+      "customer_preference": "neutral",
+      "competitor_strengths": "Native I competitor initial strengths",
+      "competitor_weaknesses": "Native I competitor initial weaknesses",
+      "our_advantages": "Native I competitor initial advantages",
+      "our_risks": "Native I competitor initial risks",
+      "win_probability": "medium",
+      "evidence": "concurrent other",
+      "row_version": 2,
+      "created_at": "2026-11-03T00:12:52.501Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-03T00:12:52.534Z",
+      "updated_by": "97e8f948-bcba-45bf-aabc-757232934bd9"
+    },
+    "audits": [
+      [],
+      [
+        {
+          "id": "cd4ffd07-6f6c-4633-b6dc-0ceb619bdb0d",
+          "event_type": "competitor-intelligence.updated",
+          "target_type": "competitor-intelligence",
+          "target_id": "bb2937d0-c862-4aa7-a70a-8d7c16c0c3f7",
+          "operator_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "request_id": "c16a8045-eb8a-46cb-8b8f-f07286de5e5e",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "evidence": {
+              "length": 36,
+              "changed": true,
+              "present": true
+            }
+          },
+          "after_snapshot": {
+            "evidence": {
+              "length": 16,
+              "changed": true,
+              "present": true
+            }
+          },
+          "metadata": {
+            "changedFields": [
+              "evidence"
+            ],
+            "sourceCommand": "update-competitor-intelligence-record",
+            "redactedFields": [
+              "evidence"
+            ],
+            "businessContext": {
+              "leadId": "65e27fc4-0b8c-44f6-8be4-36a7dd458aea",
+              "projectId": null,
+              "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+            }
+          },
+          "occurred_at": "2026-11-03T00:12:52.532Z"
+        }
+      ]
+    ]
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/structured-original-02-I-concurrent-competitor.json",
+      "bytes": 8105,
+      "rawBytesSha256": "58087fe3d7389b67bd26344d5fd7d4d00d905ec64219521b7efed1fb18a7c3fa"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -742,3 +742,13 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-03 R3H–K 独立实际G4终审 Pass
 
 [非作者最终实际G4签署](archive/slices/rust-r3hijk/C/g4-independent-actual-review01.json)已Pass，只认证本批28项；六项实际正文/评论与批准方案完全相同，四子项6/6且#93–96Closed、#85/#57Open，本地Done58/58及latestClosedBatch28与main一致。最终元数据仅追加签署和增量保全，不改产品、线上方案、旧原件或完整阶段留白；R3父阶段和总体迁移继续未完成。
+
+
+### 2026-11-03 R3 收口批 G2 实际验收完成，等待独立 Gate
+
+#97 / #98 / #99 / #100 的补缺与统一候选实际验收完成；[当前状态](rust-r3-closeout-status.json)、[联合输入](rust-r3-closeout-baseline.md)及[实际证据封包](rust-r3m/g3-package-manifest01.json)承接本次收口。候选 final01/f6a9fded，Rust 306 passed / 54 ignored（53 DB opt-in 和 1 显式 child fixture 分列），Admin lint、23 focused tests、production build 通过。58/58 有效入口与权限/CSRF/会话矩阵、评分一致性与历史审批事务回滚、CAS/版本/唯一提醒流均实测；四浏览器组合为 8 Rust业务通过＋8 Native参考捕获，已知 Native 缺陷不作为 Rust 目标或业务通过。
+
+两库本批 4471 行精确归属清理，107 表 seed/catalog/428 ACL/日志恢复，二次零变化；11 个对象486B原字节保全，运行副本为0，API/浏览器/PG/keepalive已停止，卷/private保留。E1 五别名删除，Windows/Linux 移除前后支持回放一致。原 failed/partial/quarantine/ignored 不改写。当前只是 G2 已执行完成；独立 G3 已Pass，固定提交、main 集成、生命周期归档与独立 G4 尚待完成，#85/#57和本批子项仍Open，R4–R7仍Todo。
+
+
+2026-11-03 [最终非作者 G3](rust-r3m/C/g3-independent-review01.json)已Pass，P0/P1/P2为0，仅准许本候选提交。固定提交、main集成及独立G4尚待完成，本批子项和#85/#57均保持Open。

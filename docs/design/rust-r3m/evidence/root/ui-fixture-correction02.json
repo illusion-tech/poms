@@ -1,0 +1,27 @@
+{
+  "kind": "R3-independent-UI-cohort-identity-fixture-correction",
+  "originalContext": {
+    "file": "tools/rust-r3m/acceptance-context03.mjs",
+    "bytes": 17341,
+    "rawBytesSha256": "900c2b68635712168f6de08e8ef55ac9ad8e2c69cd2c3a9e3e9e9c0a4d6999f6"
+  },
+  "derivedContext": {
+    "file": "tools/rust-r3m/acceptance-context04.mjs",
+    "bytes": 17404,
+    "rawBytesSha256": "a51860cff3664d77621c85db947575aa774fdeac0506e44158b99de58aea4adb"
+  },
+  "originalProducer": {
+    "file": "tools/rust-r3m/ui-prepare01.mjs",
+    "bytes": 8706,
+    "rawBytesSha256": "2089316dc0df7a919b5c91b464bfb209c8b849cbe99853efa61a05796d88aa2c"
+  },
+  "derivedProducer": {
+    "file": "tools/rust-r3m/ui-prepare02.mjs",
+    "bytes": 8706,
+    "rawBytesSha256": "e5a897ea160a04e0f8c7d82872298d9bd18ebd236ab5373bf91b59722b894709"
+  },
+  "retainedOriginalFailure": "Constructor first org INSERT failed with23505 uq_org_unit_parent_name_ci before fixture/actor writes; original source/output and private baseline retained",
+  "correction": "Only default fixture org/user/role display names gain this fresh cohort runId suffix. Unique codes and real application paths unchanged.",
+  "productChanges": false,
+  "actualUIAcceptance": false
+}

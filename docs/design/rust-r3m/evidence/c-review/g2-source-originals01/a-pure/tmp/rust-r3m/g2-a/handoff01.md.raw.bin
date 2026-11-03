@@ -1,0 +1,41 @@
+# A #98 G2 交付 01
+
+独立工作树：`E:/projects/worktrees/poms-r3co-a/poms`。进入时 HEAD 为 `546c6c243ea6162077cb065ced54c5a8188afe23`、git status clean。已读冻结 baseline、manifest、C 独审和 supplement01/02/03；Root 原工作树的 actual gate authority 明确 G1Certified/G2Authorized=true。没有修改 Root 工作树、sealed input-a、HTTP、projects、公共桥、Cargo、DTO、DDL 或正式治理；没有 commit/push。
+
+## 产品文件与策略
+
+- `apps/poms-api-rust/src/leads/service.rs`：`SystemScoreTuple` 持有 formula、score/rating、系统 reason、breakdown、gates。`refresh_score` 只收集一次实时 facts，返回该 tuple 并更新 Lead。快照 builder 是纯消费者，不能再读取实时 facts。所有原 create/update/claim/assign/qualify/close/convert 触发均传递同一结果。
+- `apps/poms-api-rust/src/leads/store.rs`：新增本域 borrowed-connection 的 Lead `FOR UPDATE`、匹配系统快照候选查询、历史补算专用 score CAS UPDATE。score 修复即使数值相同也真实更新 score/rating/reason/scoreUpdatedAt/updatedAt/updatedBy/row_version；CAS0 仍409，实际存储错误仍500。
+- `apps/poms-api-rust/src/leads/scoring.rs`：仅给3个内部 facts 结构增加 Deserialize，以验证已存 v2 facts 的解释。权重、闸口、计算、公开 DTO 均不改变。
+
+正常人工决策不会收集实时 I/F/upload facts：从最新往前寻找可匹配已存系统结果的 system snapshot，核 lead id/kind、系统分与评级、formula、breakdown.total、当前 Lead 的七项基础组件和 gate；v2 使用快照内存储的三类 facts 重新核其组分、总分和系统 reason。额外历史 JSON 元数据保留，整数 JSON 的 `1`/`1.0` 使用精确十进制等价处理，不经过 binary64。可解释且一致的 v1 tuple 保留 v1 原公式、七项基础分和原系统解释，GET 不重写历史。当前已有 unknown/malformed/mismatched tuple 不作为已知事实复用，而进入用户授权的历史缺口分支。
+
+匹配时原样沿用 stored system formula/breakdown/gates；只形成本次 manual/revoked effective/source/actor 快照。Lead 的系统分、时间、actor 和版本不变。快照 `scoreReason` 仍遵循既有有效评分解释语义：有人工覆盖时为人工原因，系统基础 reason 留在 Lead，匹配时按已存 v2 component 复核，不把旧 manual reason 当系统 reason。
+
+缺口时先用一次实时 facts 结果补算并强制 score CAS 写入及 system snapshot，然后原 override CAS、manual/revoked snapshot、registered audit、pending session 在同一事务完成。该 repair system snapshot 使用实际 approve/revoke sourceCommand 和 target override 的 sourceRecordId；故障时没有独立 commit，也没有新增审计类型。正常系统触发继续按既有 semantic tuple 去重；已匹配人工路径不落额外 system snapshot。历史修复分支按用户裁决必留一份新 system evidence。
+
+## 锁与并发边界
+
+approve/revoke 首次只读 override 取得 leadId，直接取 Lead `FOR UPDATE`，锁后重读 override 并重验 expectedVersion/status，之后才可修改 old approved / pending / revoked 行。没有先取 override 写锁后等待 Lead，也没有 `FOR SHARE` 升级。submit 仍是原 FOR SHARE + expectedLeadRowVersion + single-pending 机制；reject 保持原单 override CAS，不新增 Lead 写。
+
+系统写原有 Lead CAS 不改变；update 的 system snapshot 构建移到成功 CAS 之后，因此系统路径取得 Lead 写锁后再读 approved override，与人工决策采用 Lead→override 顺序。assign/qualify/close/convert 原本就在 CAS 后持有 Lead 锁；create 的新ID尚不可被其他决策看见。query / exact business noop 不加业务写。
+
+同一 override 同版本的双approve/双revoke在 Lead锁后重读，正常应一成功一409，历史 repair 只提交一次。不同目标的旧active revoke与新pending approve允许合理串行结果：approve先则旧revoke409；revoke先则两者各200，且共享一次历史系统修复。不能把这个合法不同决策链硬判为两个相同请求的 CAS 测试。
+
+## Root追加的同公开字段投影纠偏
+
+Root 已明确将 command_summary 原来固定传 None 导致即时 effective 回到 system 的 P2 纳入本批具名 corrective checkpoint。现在该 helper 在原调用者 PgConnection 上读取真正 approved override，并传给既有 summary。update/qualify/close/create 及 exact-noop 的即时公开 effective 字段与后续 GET 取同一真实覆盖；不增加连接、资格判断、route、DTO 或状态机。
+
+## 静态用例与必要实际断言
+
+新增6个本域纯单测定义，尚未执行：单次结果一致；新增事实后 manual/revoked 沿用旧系统解释；损坏/自相矛盾的历史不得复用；同总分但不同基础事实不得冒充匹配；JSON数字语义和额外元数据保留；可匹配v1保持原公式。
+
+`lead-correction-cases01.mjs` 导出10组纯 request plan 和6个纯 assertion helper，没有自运行、IO、环境或数据库副作用。Root应使用实际响应/PG图调用，不把定义计为执行证据。重点包括正常 unrefreshed facts、受控事实交错、missing/mismatched/invalid prepared历史、approve和revoke成功/故障、同版本竞争、不同legacy决策串行、Lead writer竞争、即时response/GET/PG、全部系统触发和语义noop。
+
+故障时要核 Lead、system/manual snapshots、old/current override、versions、registered audit、必要 session 全图回滚；必要权限恢复后重试成功。独立号码跳号策略未改，query / I/F/upload 写无自动 H refresh。真实Project/附件转换依赖与GET readonly继续由Root阶段集成证明。
+
+Root adapter特别注意：FOR UPDATE自身需要UPDATE权限，启动前deny Lead UPDATE只会先在锁查询失败。若验证真正fallback UPDATE故障，可先阻塞候选system snapshot SELECT，确认已取Lead锁后撤app UPDATE再释放；若验证第二张snapshot的故障，可预锁target override，待system evidence之后的override CAS waiter出现再撤snapshot INSERT并释放。纯定义详细注明屏障与可观察性，不用sleep替代waiter证据，不新增trigger/DDL，也不通过普通独立SELECT声称观察到了未提交图。
+
+## 检查状态与交接
+
+没有运行任何 build、test、fmt、Node runner、HTTP、DB、browser、WSL，没有读取旧private或写GitHub。只读 git status/diff 和 SHA256 用于源码交接；测试通过数为0项已执行，本文件不作G3/G4声明。所有实际检查、baseline失败见证、统一集成及格式化由Root执行。精确源清单与前后SHA见 `source-manifest01.json`。交付后暂停，等Root诊断再改本域。

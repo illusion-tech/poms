@@ -1,0 +1,490 @@
+{
+  "label": "business-text-UUID-money-date-inputs",
+  "name": "business-text-UUID-money-date-inputs",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:10.327Z",
+  "completedAt": "2026-11-02T23:01:10.403Z",
+  "validatedEventRange": {
+    "start": 0,
+    "end": 10,
+    "exclusive": true
+  },
+  "value": {
+    "before": {
+      "lead": 1,
+      "snapshots": 1,
+      "counter": [
+        {
+          "id": "e33d667e-1f4c-4a8c-8bd3-6a249c346f65",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 2,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T22:57:44.750Z",
+          "updated_at": "2026-11-02T22:57:44.750Z"
+        }
+      ]
+    },
+    "outcomes": [
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must not contain a NUL character",
+              "path": [
+                "leadName"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "c60af3ff-3e06-4c66-adfa-4782a4267f71",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "147",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-74",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 840,
+          "requestSha256": "fb610d22295303763058e9d54eb8eb154ae5356e0c9d164f8b76134feb386544",
+          "responseBytes": 435,
+          "responseSha256": "3a9e2223c5c3b3a002f3124971758326c3286b3572c8b42b372f76e53b22f914",
+          "entityBodyBytes": 147,
+          "entityBodySha256": "2ccefba89efd7c1e4e67c79bb39965c2ccb57a39b66bad84fa900b3ebd6f35aa",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-52e2dfcb-9c85-440c-83a7-fca1d068aa64",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must contain valid Unicode characters",
+              "path": [
+                "leadName"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "50cbca98-c55f-4c72-a268-149e6222fd0a",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "152",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-75",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 840,
+          "requestSha256": "d045c9605dd1a3c2b7525c73787ddb0b419893e582b6df4fa718340efdbffd2e",
+          "responseBytes": 440,
+          "responseSha256": "c02a924a3f04853ec0f962122988455864c1ae06d7948853a11a22b261b35fcb",
+          "entityBodyBytes": 152,
+          "entityBodySha256": "a4cb03a6a5b8629b16cd62e6b94c810dc82e8b4b3f507ae9ad601dbd8d7e34a9",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-6d3e2045-7605-48c3-b75e-2b5c6aa968f7",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must contain valid Unicode characters",
+              "path": [
+                "demandDescription"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "eb650145-be95-4952-a1bf-86ab37264886",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "161",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-76",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 774,
+          "requestSha256": "d572c4e0442026fc6f9cec7b44a75a73721612923bd5c1f2abc604cd6116fa18",
+          "responseBytes": 449,
+          "responseSha256": "a8d82b8bc7430774863b43f91285dd1db739048301a53b68e884e8ac20acc7eb",
+          "entityBodyBytes": 161,
+          "entityBodySha256": "5df4d97a6bd6a08312579bee7e5e76ae9c14269a50bb8b0fde86c56dc9585992",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-fa031471-51d3-46a7-83bd-1ee3888f252c",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Estimated amount must not exceed 9999999999999999.99",
+              "path": [
+                "estimatedAmount"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "88cfe7f7-b618-4510-90b0-be5776adaf4a",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "169",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-77",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 866,
+          "requestSha256": "ff4d1ed0f0425b9f41e6d4a2b51f2b5bdf00a65504d789834124b762287e1baa",
+          "responseBytes": 457,
+          "responseSha256": "5538d7335cb7a273b89d42075e02087c780a2e5a27075d193e9a6b1d8102eb79",
+          "entityBodyBytes": 169,
+          "entityBodySha256": "96ae148ae246153b57cc5a4bdb3b71033cf8e5bdf1f59b0b2063d0a11b079b8f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-a9c6454d-23d7-4574-a7c6-17a3839302c9",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Business date year must be between 0001 and 9999",
+              "path": [
+                "expectedDecisionDate"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "b1f2e0db-ba6f-4e78-94c3-4c5f6d600300",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "170",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-78",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 856,
+          "requestSha256": "851acc07210cbffe682556db7291c17be1d7b3b6685ce417bcaeeaa305991a0d",
+          "responseBytes": 458,
+          "responseSha256": "e5e8488b1a10b721396c5320ad3e361bd70eb534d4bdd89b5eb2ff0d30282e2e",
+          "entityBodyBytes": 170,
+          "entityBodySha256": "df6a9f9fe34403aee74211be9fc36a0c2277d36600a920ac6e202087b6182aa0",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-0ce8449f-8ecb-4ad6-bcff-fc3b0449104e",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "Invalid id: expected a UUID",
+          "statusCode": 400
+        },
+        "requestId": "2eaaaaeb-af6b-45bb-81de-c8202517d01e",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "80",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-79",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 297,
+          "requestSha256": "022f9dd44bfe0cfdb7d4f48a505adeb4d563b764b69b92ff350026b0e33a9afe",
+          "responseBytes": 367,
+          "responseSha256": "43a92422ab667f5dc25894bc1ae6a79ced4b998fba43b175e9b15d1ffd8bc112",
+          "entityBodyBytes": 80,
+          "entityBodySha256": "aa60303ce3758fa15a7052a603d678a88670695a429a1f1fe6a6786a6165784f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-c729bf87-c858-4262-a9a5-85a41e610944",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "Invalid projectId: expected a UUID",
+          "statusCode": 400
+        },
+        "requestId": "c6361e80-3f26-428c-815c-3cdb48c80206",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "87",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-80",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 319,
+          "requestSha256": "61c36ef660fa87d20ace52d9a77e1dae237425f604ac7747cf361eda0265836c",
+          "responseBytes": 374,
+          "responseSha256": "075b8f38cbfb6b31c844c893879b7787814bfee1ebd0d94240427bd46316e86b",
+          "entityBodyBytes": 87,
+          "entityBodySha256": "bbb1be48747e1c9c52ef4b3fd4a58b9b8452f0983e393a1693414bb7a017c2b7",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-3656a548-82b0-4898-b0b9-b927d085040f",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "error": "Bad Request",
+          "message": "Invalid projectId: expected a UUID",
+          "statusCode": 400
+        },
+        "requestId": "b52d79a5-645f-4b90-b46f-e28aa2c88427",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "87",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-81",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 309,
+          "requestSha256": "09268f46d59393924e32958d7af5092e77c2b0525bb38c3b21b150876a66aeb9",
+          "responseBytes": 374,
+          "responseSha256": "8e4c12f2c5ba990a8bea13fbd88e7087eea8aafc8e6e602c8df0fcdcc8fb263c",
+          "entityBodyBytes": 87,
+          "entityBodySha256": "bbb1be48747e1c9c52ef4b3fd4a58b9b8452f0983e393a1693414bb7a017c2b7",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-2afaa1eb-8699-4b7e-bcf1-6adb5afbbb3f",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must contain valid Unicode characters",
+              "path": [
+                "body"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "f6753e46-df6d-42a4-ac2c-b18546e6d9dd",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "148",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-82",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 546,
+          "requestSha256": "34709b12de2edd4fd43306f863ddbd047866ce728e2ec3258e4d340bd87a5645",
+          "responseBytes": 436,
+          "responseSha256": "8fa2b074403ac7188955da1226893cd61b193755e8212b75abb9a5de2f924980",
+          "entityBodyBytes": 148,
+          "entityBodySha256": "23eae41dbdf81fe57e0e45250147f2d68fda573fdcb8837126b85e91e66ed329",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-041e3ce1-d1c7-4ae0-9a9b-7a943055b2d6",
+          "originalRawRetained": true
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "errors": [
+            {
+              "code": "custom",
+              "message": "Text must not contain a NUL character",
+              "path": [
+                "competitorName"
+              ]
+            }
+          ],
+          "message": "Validation failed",
+          "statusCode": 400
+        },
+        "requestId": "9d7c98bc-501a-4c99-a50e-87869d23299a",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "153",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-83",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:01:10 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 554,
+          "requestSha256": "93fa4fde9c8c03400ebf599ea983931bd66e870fb6a487d4e6ef9ed63cdb64ce",
+          "responseBytes": 441,
+          "responseSha256": "6d3befa3711f842955b35ef4bd8afe75ef3b158df4df6620af3e04cefd1a3572",
+          "entityBodyBytes": 153,
+          "entityBodySha256": "3cd2c7ce94899429eca6a02339933f58615aa93a7de39376d6120f60d6e54f03",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/raw-wire/admin-2565fa0a-4145-4622-a87d-0d5bc8bb7ab4",
+          "originalRawRetained": true
+        }
+      }
+    ],
+    "after": {
+      "lead": 1,
+      "snapshots": 1,
+      "counter": [
+        {
+          "id": "e33d667e-1f4c-4a8c-8bd3-6a249c346f65",
+          "scope": "lead",
+          "period": "2026",
+          "next_value": 2,
+          "prefix": "LD",
+          "padding": 6,
+          "description": "线索编号",
+          "row_version": 1,
+          "created_at": "2026-11-02T22:57:44.750Z",
+          "updated_at": "2026-11-02T22:57:44.750Z"
+        }
+      ]
+    },
+    "allInvalidInputsRejectedBeforeReservationOrBusinessWrite": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase12/structured-original-01-business-text-UUID-money-date-inputs.json",
+      "bytes": 16445,
+      "rawBytesSha256": "4c66070a1b7dcf6bab2af0157a17f59128b07a1fb177c235e32a1c1e93f72a1f"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

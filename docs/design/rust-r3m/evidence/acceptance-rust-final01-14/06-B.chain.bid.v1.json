@@ -1,0 +1,157 @@
+{
+  "label": "B.chain.bid.v1",
+  "name": "B.chain.bid.v1",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:05:06.678Z",
+  "completedAt": "2026-11-02T23:05:06.701Z",
+  "validatedEventRange": {
+    "start": 5,
+    "end": 6,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_createProjectBidCommercialProcess",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects/e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853/bid-commercial-processes",
+      "headers": {
+        "x-request-id": "r3b:R3CO-5fb76d1a:bid1"
+      },
+      "json": {
+        "bidMode": "public-tender",
+        "decision": "participate",
+        "resultStatus": "pending",
+        "currentStage": "preparation",
+        "processSummary": "R3CO-5fb76d1a converted bid revision 1",
+        "decisionSummary": "Actual bid participation decision",
+        "resultSummary": null,
+        "tenderNo": "R3CO-5fb76d1a-T1",
+        "bidPackageNo": "R3CO-5fb76d1a-B1",
+        "ownerRole": "商务",
+        "materialItems": [
+          {
+            "materialKey": "R3CO-5fb76d1a-bid-file",
+            "label": "Confirmed bid file",
+            "materialStatus": "ready",
+            "responsibleRole": "商务",
+            "dueAt": "2026-12-15T00:00:00.000Z",
+            "blocksNextStep": false,
+            "navigationHint": "/projects/e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853/workspace/bid-commercial",
+            "sortOrder": 1
+          }
+        ],
+        "timelineItems": [
+          {
+            "eventKey": "R3CO-5fb76d1a-bid-confirmed",
+            "label": "Bid fact confirmed",
+            "summary": "Actual event fact",
+            "timelineStatus": "done",
+            "occurredAt": "2026-11-03T00:00:00.000Z",
+            "dueAt": "2026-12-15T00:00:00.000Z",
+            "responsibleRole": "商务",
+            "sortOrder": 1
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "bidMode": "public-tender",
+        "bidPackageNo": "R3CO-5fb76d1a-B1",
+        "blockerCount": 0,
+        "createdAt": "2026-11-02T23:05:06.687Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "currentStage": "preparation",
+        "decision": "participate",
+        "decisionSummary": "Actual bid participation decision",
+        "effectiveAt": "2026-11-02T23:05:06.687Z",
+        "id": "0f6dc7f2-10e3-4980-b5a7-fd1c6c3dacdb",
+        "isCurrent": true,
+        "ownerRole": "商务",
+        "processSummary": "R3CO-5fb76d1a converted bid revision 1",
+        "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+        "resultStatus": "pending",
+        "resultSummary": null,
+        "rowVersion": 1,
+        "status": "effective",
+        "supersedesId": null,
+        "tenderNo": "R3CO-5fb76d1a-T1",
+        "updatedAt": "2026-11-02T23:05:06.687Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "version": 1
+      },
+      "requestId": "r3b:R3CO-5fb76d1a:bid1",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "748",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-184",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:05:06 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1337,
+        "requestSha256": "f3f7818ddfa576cd0cfe8af76da43ac02dde226e7f05f258ad5a0b97583f2f92",
+        "responseBytes": 1033,
+        "responseSha256": "e50f37a234bb51919aa1c7f4249206abfc2d7332862c507f977a6a537028e5e5",
+        "entityBodyBytes": 748,
+        "entityBodySha256": "94a9e6d722b0c1881e94ba36231cd451fb3c2e72736f7e97946edc56c1df3da6",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/raw-wire/admin-6d9e1829-946d-481c-a11f-17a855c08ed7",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "row": {
+        "id": "0f6dc7f2-10e3-4980-b5a7-fd1c6c3dacdb",
+        "project_id": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+        "version": 1,
+        "is_current": true,
+        "supersedes_id": null,
+        "status": "effective",
+        "bid_mode": "public-tender",
+        "current_stage": "preparation",
+        "decision": "participate",
+        "result_status": "pending",
+        "process_summary": "R3CO-5fb76d1a converted bid revision 1",
+        "decision_summary": "Actual bid participation decision",
+        "result_summary": null,
+        "owner_role": "商务",
+        "blocker_count": 0,
+        "effective_at": "2026-11-02T23:05:06.687Z",
+        "created_at": "2026-11-02T23:05:06.687Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:05:06.687Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "row_version": 1,
+        "tender_no": "R3CO-5fb76d1a-T1",
+        "bid_package_no": "R3CO-5fb76d1a-B1"
+      }
+    },
+    "actualConvertedProjectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+    "allBusinessAssertionsPassed": true,
+    "requiredGraphGuardChecked": false
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/structured-original-06-B.chain.bid.v1.json",
+      "bytes": 5274,
+      "rawBytesSha256": "395589f69e4200b934fe3157c9a33bb8c4ca5c41fa3495528f0741f2038020bc"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

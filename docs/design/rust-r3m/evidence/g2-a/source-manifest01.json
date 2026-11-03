@@ -1,0 +1,85 @@
+{
+  "kind": "RUST-R3-CO-A-G2-author-source-handoff",
+  "revision": "01",
+  "issue": 98,
+  "base": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "worktree": "E:/projects/worktrees/poms-r3co-a/poms",
+  "capturedAtUtc": "2026-11-02T22:10:22.3813296Z",
+  "sourceScope": "leads non-http only",
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/leads/service.rs",
+      "beforeBytes": 65162,
+      "beforeSha256": "92337cccccbef402f6d9207d684fb57ad017cca7baf7686239e187a4b51de755",
+      "afterBytes": 84082,
+      "afterSha256": "398c7da4079b71a6fd74a3d22d3ccaf3f20e9bdc9c0687ef99f721575e3886a8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/store.rs",
+      "beforeBytes": 37867,
+      "beforeSha256": "c5c27b3bd9a8643cca3cc78a53ead47e04aae7d484a1ddfeb8b8e517a0ecd5a7",
+      "afterBytes": 40084,
+      "afterSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/scoring.rs",
+      "beforeBytes": 16293,
+      "beforeSha256": "7394ca2707330814f13442d4dd8a917ecc4aa39fba59920f99d14f6ff05239fe",
+      "afterBytes": 16347,
+      "afterSha256": "62a694e8b2522de687b447a300f0949a87a58e7989c19f178448dd0000e96bfc"
+    }
+  ],
+  "unchangedLeadBoundary": [
+    {
+      "file": "apps/poms-api-rust/src/leads/http.rs",
+      "sha256": "8e600eab9cd552a59e030c71f849050d65cadeee84e45df2a68bba3d81125b4a",
+      "frozenSha256": "8e600eab9cd552a59e030c71f849050d65cadeee84e45df2a68bba3d81125b4a",
+      "rawEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/mod.rs",
+      "sha256": "a6270f4da4e4926955fb180d58497828b95ba11b762b725b848b455b980b1ae6",
+      "frozenSha256": "a6270f4da4e4926955fb180d58497828b95ba11b762b725b848b455b980b1ae6",
+      "rawEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/model.rs",
+      "sha256": "f41e69d88b9a3103f8e5b621a16cd68661ac148e8ef48c2c8b11dcc10c3ec84c",
+      "frozenSha256": "f41e69d88b9a3103f8e5b621a16cd68661ac148e8ef48c2c8b11dcc10c3ec84c",
+      "rawEqual": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/validation.rs",
+      "sha256": "b73f6d20bbff8095b0abf1d197bed272acb40c6fa34d70cd82584ee04f7fd85b",
+      "frozenSha256": "b73f6d20bbff8095b0abf1d197bed272acb40c6fa34d70cd82584ee04f7fd85b",
+      "rawEqual": true
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "tmp/rust-r3m/g2-a/lead-correction-cases01.mjs",
+      "bytes": 13518,
+      "sha256": "15e693a488fb96c019c4957926c159931324385b1ed8c414c3ee71d545111569"
+    },
+    {
+      "file": "tmp/rust-r3m/g2-a/handoff01.md",
+      "bytes": 6796,
+      "sha256": "a7ed2447356e327b3f96123091c560953bc4fcd56508daa955d7e54cabb56b61"
+    }
+  ],
+  "unitTestsAdded": 6,
+  "unitTestsExecuted": 0,
+  "actualProgramOrAPIOrDBAcceptanceExecuted": false,
+  "formatterExecuted": false,
+  "publicSignatureChange": false,
+  "HTTPChange": false,
+  "DTOChange": false,
+  "DDLChange": false,
+  "sharedBridgeChange": false,
+  "oldPrivateRead": false,
+  "gitCommitOrPush": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "rootRequired": "Actual baseline failures then fmt/clippy/tests/build, current candidate HTTP/PG/controlled waiters/required-write faults/recovery/integrity, joint independent review",
+  "pausedAfterHandoff": true
+}

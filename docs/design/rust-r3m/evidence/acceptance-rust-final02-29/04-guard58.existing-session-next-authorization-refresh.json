@@ -1,0 +1,193 @@
+{
+  "label": "guard58.existing-session-next-authorization-refresh",
+  "name": "guard58.existing-session-next-authorization-refresh",
+  "kind": "guard",
+  "completed": true,
+  "startedAt": "2026-11-03T01:18:59.973Z",
+  "completedAt": "2026-11-03T01:19:00.081Z",
+  "validatedEventRange": {
+    "start": 740,
+    "end": 743,
+    "exclusive": true
+  },
+  "value": {
+    "deniedBefore": {
+      "status": 403,
+      "body": {
+        "code": "permission_denied",
+        "message": "Insufficient permissions",
+        "statusCode": 403
+      },
+      "requestId": "2e3de0c5-44c5-43d7-99b4-c12d49a7e3a6",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "82",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-662-3577",
+        "connection",
+        "close",
+        "date",
+        "Tue, 03 Nov 2026 01:18:59 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 323,
+        "requestSha256": "43ecdd46b12397eb74ffadca9c4c019e8bf89aabe8422d775e334f613d3bda5d",
+        "responseBytes": 366,
+        "responseSha256": "900e593fd71691a50c12f416cd0955b71cf6221e4e69a1ac2928cfd8615a08c6",
+        "entityBodyBytes": 82,
+        "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase29/raw-wire/g29_guard_refresh-086fd2da-9161-47f3-8803-9c394a53ea8e",
+        "originalRawRetained": true
+      }
+    },
+    "allowed": {
+      "status": 200,
+      "body": {
+        "activeScoreOverrideId": null,
+        "allowedActions": [],
+        "budgetStatus": "budget-confirmed",
+        "closedAt": null,
+        "closedBy": null,
+        "closedReason": null,
+        "convertedAt": null,
+        "convertedBy": null,
+        "convertedProjectId": null,
+        "convertedProjectSummary": null,
+        "createdAt": "2026-11-02T22:57:44.755Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+        "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "effectiveRating": "B",
+        "effectiveScore": 79,
+        "effectiveScoreReason": "基础商务+62；销售情报+17",
+        "effectiveScoreSource": "system",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "gateSummary": {
+          "conversion": {
+            "explanation": "缺少：已确认有效状态",
+            "missingItems": [
+              "qualified-status"
+            ],
+            "status": "blocked"
+          },
+          "qualification": {
+            "explanation": "已满足确认有效硬闸口",
+            "missingItems": [],
+            "status": "ready"
+          }
+        },
+        "id": "cadecc25-e93e-445b-ad8a-c044c920d63f",
+        "leadName": "UUID identity real downstream facts",
+        "leadNo": "LD-2026-000001",
+        "ownerName": "R3CO admin",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerOrgName": "R3CO admin",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "qualificationSummary": null,
+        "qualifiedAt": null,
+        "qualifiedBy": null,
+        "rating": "B",
+        "rowVersion": 2,
+        "score": 79,
+        "scoreReason": "基础商务+62；销售情报+17",
+        "scoreUpdatedAt": "2026-11-03T00:12:46.872Z",
+        "sourceCode": "customer-visit",
+        "sourceName": "客户拜访",
+        "sourceSummary": "来源：客户拜访",
+        "status": "registered",
+        "updatedAt": "2026-11-03T00:12:46.872Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "urgency": "high"
+      },
+      "requestId": "4c018582-386d-4af5-a50a-6ff3ea386d30",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1694",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-662-3578",
+        "connection",
+        "close",
+        "date",
+        "Tue, 03 Nov 2026 01:18:59 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 323,
+        "requestSha256": "3bf66029d8003f885f91194a44c8717b58d9d6c651677df4c18d1b0ac326a38c",
+        "responseBytes": 1973,
+        "responseSha256": "b652675c0773f6730b78c6d5afd36a26cfecb46622922863a0c9bb00cfbcbf73",
+        "entityBodyBytes": 1694,
+        "entityBodySha256": "4a3c59c7ff28fc95e964e0766c0e8531a467a85652aceaf8027315c23f0c862e",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase29/raw-wire/g29_guard_refresh-ab4b0e71-94dc-44f6-80c2-bf3eb95d4e18",
+        "originalRawRetained": true
+      }
+    },
+    "deniedAfter": {
+      "status": 403,
+      "body": {
+        "code": "permission_denied",
+        "message": "Insufficient permissions",
+        "statusCode": 403
+      },
+      "requestId": "fbba6502-04d7-44ef-bed3-5a4b9759da3e",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "82",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-662-3579",
+        "connection",
+        "close",
+        "date",
+        "Tue, 03 Nov 2026 01:19:00 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 323,
+        "requestSha256": "86f1976c3865ca187647e46f240117db0acdfbc1d2e370479654a5ab9184df3e",
+        "responseBytes": 366,
+        "responseSha256": "a3a0d75e041ca0a25ac041083170fbe9272910b71ff745a347315557c4242703",
+        "entityBodyBytes": 82,
+        "entityBodySha256": "33ef5cdeeddfdc3b9ac7a327274b752d1f171c7cae307bf889a2e30d8fb10125",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase29/raw-wire/g29_guard_refresh-c0090009-fc28-4c3d-8170-d09fc1cc9d0e",
+        "originalRawRetained": true
+      }
+    },
+    "sameHttpSessionObject": true,
+    "permissionsImmediatelyReloaded": true,
+    "businessGraphUnchanged": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase29/structured-original-04-guard58.existing-session-next-authorization-refresh.json",
+      "bytes": 6642,
+      "rawBytesSha256": "1dd7b1afba19fe7eedfab82450ff2fdeef600474010ec2bd3106bb3a42d95f96"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -1,0 +1,26 @@
+// Root verifies B's actual no-op, typed CAS and required-write rollback repairs.
+import fs from 'node:fs';import assert from 'node:assert/strict';
+import {openAcceptanceContext}from'./acceptance-context03.mjs';
+import {captureGraph,requireGraph}from'./graph-assertions01.mjs';
+import {withDenied,sessionProjection,withReadBarrier,raceOnSource}from'./db-controls02.mjs';
+import {buildCustomerRepairCases,buildCustomerCasCases,buildCustomerRequiredWriteFaultCases}from'../../tmp/rust-r3m/g2-b/customer-boundaries01.mjs';
+const[tag,phase,runId]=process.argv.slice(2),ctx=await openAcceptanceContext({backend:'rust',tag,phase,runId});
+for(const file of['tools/rust-r3m/customer-repair01.mjs','tools/rust-r3m/graph-assertions01.mjs','tools/rust-r3m/db-controls01.mjs','tools/rust-r3m/db-controls02.mjs','tmp/rust-r3m/g2-b/customer-boundaries01.mjs','tmp/rust-r3m/g2-b/assertions01.mjs'])ctx.addSource(file);
+let completed=false,error=null,ids,requirements;
+const pendingEvidence=(initial,before,after,requestId)=>{assert(initial&&before&&after);assert(new Date(before.last_seen_at)>new Date(initial.last_seen_at),'Actual independent guard upkeep must have happened');assert.equal(before.row_version,initial.row_version+1,'Isolate one committed auth touch');assert.deepEqual(after,before,'Business-managed session flush must roll back');return{due:true,authKeepaliveSeparated:true,requestId,initialDue:initial,independentTouchObserved:before,before,after};};
+const send=r=>ctx.step(r.path,r.method,r.path,{actor:r.actor||'admin',requestId:r.headers?.['x-request-id'],json:r.json});
+try{
+ await ctx.case('B.repair-real-producers',async()=>{const customer=await ctx.produceCustomer('B-repair'),contact=await ctx.produceContact(customer.id,'B-repair');const org=(await ctx.rows('org_unit',{id:ctx.ids.otherOrgId}))[0];assert(org);ids={customerId:customer.id,contactId:contact.id,actorUserId:ctx.ids.adminUserId,otherUserId:ctx.ids.otherUserId,otherOrgId:ctx.ids.otherOrgId,otherOrgName:org.name,marker:'R3CO-'+runId.slice(0,8)+'-'+phase};requirements={tables:['customer','customer_alias','customer_contact','audit_log'],rows:[{table:'customer',id:customer.id},{table:'customer_contact',id:contact.id}]};return{customer,contact,otherOrg:org,requiredScope:requirements};});
+ for(const c of buildCustomerRepairCases(ids))await ctx.case(c.name,async()=>{const evidence={beforeRows:await captureGraph(ctx,requirements)},request=c.request(evidence),response=await send(request);evidence.afterRows=await captureGraph(ctx,requirements);if(c.name.includes('org'))evidence.readBack=await ctx.step(c.name+'.GET','GET','/api/customers/'+ids.customerId,{},200);requireGraph(evidence.beforeRows,requirements);requireGraph(evidence.afterRows,requirements);c.assert(response,evidence);return{request,response,evidence,requiredScope:requirements,allBusinessAssertionsPassed:true};});
+ for(const c of buildCustomerCasCases(ids))await ctx.case(c.name,async()=>{
+  await ctx.due('admin');await ctx.due('other');const initial={admin:await sessionProjection(ctx,'admin'),other:await sessionProjection(ctx,'other')};for(const value of Object.values(initial))assert(Date.now()-new Date(value.last_seen_at).getTime()>=60000);
+  const evidence={beforeRows:await captureGraph(ctx,requirements),lockSourceId:c.sourceLock.id,lockTable:c.sourceLock.table},requests=c.requests(evidence),table=c.sourceLock.table.slice(5);
+  const race=await raceOnSource(ctx,table,c.sourceLock.id,requests,async()=>({admin:await sessionProjection(ctx,'admin'),other:await sessionProjection(ctx,'other')}));
+  evidence.afterRows=await captureGraph(ctx,requirements);const loser=race.responses.findIndex(x=>x.status===409);assert(loser>=0);const actor=loser===0?'admin':'other';evidence.pendingSession=pendingEvidence(initial[actor],race.observation[actor],await sessionProjection(ctx,actor),requests[loser].headers['x-request-id']);c.assert(race,evidence);return{requests,race,evidence,requiredScope:requirements,allBusinessAssertionsPassed:true};
+ });
+ for(const c of buildCustomerRequiredWriteFaultCases(ids))await ctx.case(c.name,async()=>{
+  await ctx.due();const initial=await sessionProjection(ctx);assert(Date.now()-new Date(initial.last_seen_at).getTime()>=60000);const evidence={beforeRows:await captureGraph(ctx,requirements)},request=c.request(),target=c.name.includes('customer-update')?'customer':'customer_contact',denied=c.name.endsWith('contact-audit')?'audit_log':target,privilege=denied==='audit_log'?'INSERT':'UPDATE';
+  const result=await withDenied(ctx,denied,privilege,()=>withReadBarrier(ctx,target,()=>send(request),async()=>await sessionProjection(ctx)));
+  evidence.afterRows=await captureGraph(ctx,requirements);evidence.pendingSession=pendingEvidence(initial,result.observation,await sessionProjection(ctx),request.headers['x-request-id']);c.assert(result.response,evidence);return{request,response:result.response,waiters:result.waiters,evidence,requiredScope:requirements,allBusinessAssertionsPassed:true,privilegeRestored:true};
+ });completed=true;
+}catch(e){error={name:e.name,message:e.message.split('\n')[0]};fs.writeFileSync(ctx.directory+'/original-error.json',JSON.stringify({name:e.name,message:e.message,stack:e.stack},null,2)+'\n',{flag:'wx',mode:0o600});process.exitCode=1;}finally{await ctx.finish(completed,error)}

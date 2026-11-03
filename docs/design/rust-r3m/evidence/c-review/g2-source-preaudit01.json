@@ -1,0 +1,747 @@
+{
+  "kind": "C-independent-R3-closeout-G2-incremental-source-preaudit01",
+  "createdAt": "2026-11-02T22:30:30.127Z",
+  "reviewCompleted": true,
+  "reviewMode": "Source-only incremental preaudit; not complete G3/G4",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "configuredTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Source-preaudit-complete-no-new-product-blocker-found",
+  "sourcePreauditCompleted": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "implementationAccepted": false,
+  "commitAllowed": false,
+  "stageIntegrationComplete": false,
+  "baselineCommit": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "batchIssue": 97,
+  "scopeIssues": [
+    98,
+    99,
+    100
+  ],
+  "parents85And57RemainOpen": true,
+  "HTTPDeliveredRemains58": true,
+  "authority": {
+    "file": "docs/design/rust-r3m/g1-gate-authority01.json",
+    "bytes": 2396,
+    "rawBytesSha256": "b0e619f5ecd352543f51bb40d2542d0a382008a006f489ee427f5ed55f076fac"
+  },
+  "G1ActualAuthorityFlagsAndFiveExactOpenCommentsVerified": true,
+  "checkpoint": [
+    {
+      "file": "docs/design/rust-r3m/g2-corrective-checkpoint01.md",
+      "bytes": 1850,
+      "rawBytesSha256": "5832522a8fb80a23a947f48ebb98a92f59ec0efa77738685f864c6f906bbe30d"
+    }
+  ],
+  "inputs": {
+    "authorDeliveries": {
+      "a": {
+        "file": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/source-manifest01.json",
+        "bytes": 3347,
+        "rawBytesSha256": "048e5f68468989325274bdcbd3fcc11d236f590c56c611bc50c3c53b8c9f9520"
+      },
+      "b": {
+        "file": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/delivery01.json",
+        "bytes": 8161,
+        "rawBytesSha256": "743e745fe003fb6b4e8efb2763680a4fe1c77dd234f72df470cf6dfc6ee2b8a5"
+      },
+      "d": {
+        "file": "E:/projects/worktrees/poms-r3co-c/poms/tmp/rust-r3m/g2-d/delivery01.json",
+        "bytes": 3293,
+        "rawBytesSha256": "37cbc2c6c828e49a5e79dcefdab3ad2f9c033c785a7d7bafcb373bea9bad25a2"
+      }
+    },
+    "allA3B4D6SourceReadyHashesExact": true,
+    "authorPurePins": [
+      {
+        "author": "a",
+        "file": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/lead-correction-cases01.mjs",
+        "bytes": 13518,
+        "rawBytesSha256": "15e693a488fb96c019c4957926c159931324385b1ed8c414c3ee71d545111569"
+      },
+      {
+        "author": "a",
+        "file": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/handoff01.md",
+        "bytes": 6796,
+        "rawBytesSha256": "a7ed2447356e327b3f96123091c560953bc4fcd56508daa955d7e54cabb56b61"
+      },
+      {
+        "author": "b",
+        "file": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/assertions01.mjs",
+        "bytes": 6252,
+        "rawBytesSha256": "c4710485fa5470ff222e52a1008f02c6ae800bb794418953bb4e90578c7a9aa0"
+      },
+      {
+        "author": "b",
+        "file": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/customer-boundaries01.mjs",
+        "bytes": 12559,
+        "rawBytesSha256": "204b377ab602d617818b4d48d69560a08c997f5239059c723237a1ec21d1e64b"
+      },
+      {
+        "author": "b",
+        "file": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/converted-project-presigning-chain01.mjs",
+        "bytes": 17893,
+        "rawBytesSha256": "ba2d2ff9fbc321af526aacdd21cbe9bd49153cd003c514563cba01d50df963b0"
+      },
+      {
+        "author": "d",
+        "file": "E:/projects/worktrees/poms-r3co-c/poms/tmp/rust-r3m/g2-d/stage-matrix01.json",
+        "bytes": 117673,
+        "rawBytesSha256": "0ecc5ad5a42daa0db33b305eefcd07c68af31eaead9431863f6d0f92cd02fcac"
+      }
+    ],
+    "rootIntegration": {
+      "file": "tmp/rust-r3m/root/g2-integration02.json",
+      "bytes": 8993,
+      "rawBytesSha256": "495a9b0cb3e8ca71ba309b50b14ecafb126898398cf0ad5e332554bc3644901c"
+    },
+    "all13ReceiptAuthorPinsExactAndPriorG1PinsExact": true,
+    "integrationCurrentReadback": [
+      {
+        "file": "apps/poms-api-rust/src/leads/scoring.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/leads/scoring.rs",
+          "bytes": 16347,
+          "rawBytesSha256": "62a694e8b2522de687b447a300f0949a87a58e7989c19f178448dd0000e96bfc"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/leads/scoring.rs",
+          "bytes": 16347,
+          "rawBytesSha256": "62a694e8b2522de687b447a300f0949a87a58e7989c19f178448dd0000e96bfc"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "apps/poms-api-rust/src/leads/service.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/leads/service.rs",
+          "bytes": 84082,
+          "rawBytesSha256": "398c7da4079b71a6fd74a3d22d3ccaf3f20e9bdc9c0687ef99f721575e3886a8"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/leads/service.rs",
+          "bytes": 85846,
+          "rawBytesSha256": "a59fb2e9eb07c5df40dfa4573d9431bb99dcb098ce13dc8f9525a35cafe83334"
+        },
+        "rawStillEqual": false
+      },
+      {
+        "file": "apps/poms-api-rust/src/leads/store.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/leads/store.rs",
+          "bytes": 40084,
+          "rawBytesSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/leads/store.rs",
+          "bytes": 40084,
+          "rawBytesSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/service.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/customer_contacts/service.rs",
+          "bytes": 15533,
+          "rawBytesSha256": "bcdc7c6927cf56b4b1d441f8a84d730b46787e9e7facd8826e507336f89820c2"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/customer_contacts/service.rs",
+          "bytes": 15589,
+          "rawBytesSha256": "41884ce898adefddbb4221caeb3807650e981ba0f5ffdec7a24e9c9e95044174"
+        },
+        "rawStillEqual": false
+      },
+      {
+        "file": "apps/poms-api-rust/src/customer_contacts/store.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/customer_contacts/store.rs",
+          "bytes": 5307,
+          "rawBytesSha256": "1e512b78cdac5cfd32465e69be158656754d70e8529d2ca303234b281a4b2ae1"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/customer_contacts/store.rs",
+          "bytes": 5307,
+          "rawBytesSha256": "1e512b78cdac5cfd32465e69be158656754d70e8529d2ca303234b281a4b2ae1"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/service.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/customers/service.rs",
+          "bytes": 46892,
+          "rawBytesSha256": "1de85a6de3460a1598599dc1586a6193fba0b7e0c9281bdb1f2ebb36f0f280d7"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/customers/service.rs",
+          "bytes": 47054,
+          "rawBytesSha256": "075e33e1620b6ff4fec8235076b505fe59eaca31830f632c2ff66e013f2b5b05"
+        },
+        "rawStillEqual": false
+      },
+      {
+        "file": "apps/poms-api-rust/src/customers/store.rs",
+        "atReceipt": {
+          "file": "apps/poms-api-rust/src/customers/store.rs",
+          "bytes": 22337,
+          "rawBytesSha256": "b2b9c3964a731aecf520750040392e289edfa233b04a61b697cad1e9ebcd41e0"
+        },
+        "now": {
+          "file": "apps/poms-api-rust/src/customers/store.rs",
+          "bytes": 22337,
+          "rawBytesSha256": "b2b9c3964a731aecf520750040392e289edfa233b04a61b697cad1e9ebcd41e0"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "tools/rust-r3m/e1-cases01.mjs",
+        "atReceipt": {
+          "file": "tools/rust-r3m/e1-cases01.mjs",
+          "bytes": 4926,
+          "rawBytesSha256": "89ee244562ee5d1db349bac3e1579c2f6d4ef12cf0dab7324987250e95d647b1"
+        },
+        "now": {
+          "file": "tools/rust-r3m/e1-cases01.mjs",
+          "bytes": 4926,
+          "rawBytesSha256": "89ee244562ee5d1db349bac3e1579c2f6d4ef12cf0dab7324987250e95d647b1"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "tools/rust-r3m/e1-fixture-expectations01.mjs",
+        "atReceipt": {
+          "file": "tools/rust-r3m/e1-fixture-expectations01.mjs",
+          "bytes": 3823,
+          "rawBytesSha256": "a725ea9d646b2817e689cb4e0f05866db0946eccd5f3770a90c85ad3f1f8460b"
+        },
+        "now": {
+          "file": "tools/rust-r3m/e1-fixture-expectations01.mjs",
+          "bytes": 3823,
+          "rawBytesSha256": "a725ea9d646b2817e689cb4e0f05866db0946eccd5f3770a90c85ad3f1f8460b"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "tools/rust-r3m/e1-README01.md",
+        "atReceipt": {
+          "file": "tools/rust-r3m/e1-README01.md",
+          "bytes": 5524,
+          "rawBytesSha256": "7d9c4177002975326326342129be60d6c4fb9675e0f0a8d158463fa095520070"
+        },
+        "now": {
+          "file": "tools/rust-r3m/e1-README01.md",
+          "bytes": 5524,
+          "rawBytesSha256": "7d9c4177002975326326342129be60d6c4fb9675e0f0a8d158463fa095520070"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "tools/rust-r3m/e1-registry01.mjs",
+        "atReceipt": {
+          "file": "tools/rust-r3m/e1-registry01.mjs",
+          "bytes": 2407,
+          "rawBytesSha256": "664fe786ba032ed691f51747c254ded84588efefbcd7a6317a481c2bc97c70f0"
+        },
+        "now": {
+          "file": "tools/rust-r3m/e1-registry01.mjs",
+          "bytes": 2407,
+          "rawBytesSha256": "664fe786ba032ed691f51747c254ded84588efefbcd7a6317a481c2bc97c70f0"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "tools/rust-r3m/e1-replay01.mjs",
+        "atReceipt": {
+          "file": "tools/rust-r3m/e1-replay01.mjs",
+          "bytes": 9192,
+          "rawBytesSha256": "e2c9290e8820da167beef216c25c9b5f9b7d15c240204e15eab458db2b0edb39"
+        },
+        "now": {
+          "file": "tools/rust-r3m/e1-replay01.mjs",
+          "bytes": 9192,
+          "rawBytesSha256": "e2c9290e8820da167beef216c25c9b5f9b7d15c240204e15eab458db2b0edb39"
+        },
+        "rawStillEqual": true
+      },
+      {
+        "file": "tools/rust-r3m/e1-resolver01.mjs",
+        "atReceipt": {
+          "file": "tools/rust-r3m/e1-resolver01.mjs",
+          "bytes": 10003,
+          "rawBytesSha256": "8b6edfba7f93e5dababf7c849c80ecab86af6d045de1b4d61e4620018bab2f16"
+        },
+        "now": {
+          "file": "tools/rust-r3m/e1-resolver01.mjs",
+          "bytes": 10003,
+          "rawBytesSha256": "8b6edfba7f93e5dababf7c849c80ecab86af6d045de1b4d61e4620018bab2f16"
+        },
+        "rawStillEqual": true
+      }
+    ],
+    "RootCurrentProducts": [
+      {
+        "author": "a",
+        "relative": "apps/poms-api-rust/src/leads/service.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-a/poms/apps/poms-api-rust/src/leads/service.rs",
+          "bytes": 84082,
+          "rawBytesSha256": "398c7da4079b71a6fd74a3d22d3ccaf3f20e9bdc9c0687ef99f721575e3886a8"
+        }
+      },
+      {
+        "author": "a",
+        "relative": "apps/poms-api-rust/src/leads/store.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-a/poms/apps/poms-api-rust/src/leads/store.rs",
+          "bytes": 40084,
+          "rawBytesSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+        }
+      },
+      {
+        "author": "a",
+        "relative": "apps/poms-api-rust/src/leads/scoring.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-a/poms/apps/poms-api-rust/src/leads/scoring.rs",
+          "bytes": 16347,
+          "rawBytesSha256": "62a694e8b2522de687b447a300f0949a87a58e7989c19f178448dd0000e96bfc"
+        }
+      },
+      {
+        "author": "b",
+        "relative": "apps/poms-api-rust/src/customers/service.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customers/service.rs",
+          "bytes": 46892,
+          "rawBytesSha256": "1de85a6de3460a1598599dc1586a6193fba0b7e0c9281bdb1f2ebb36f0f280d7"
+        }
+      },
+      {
+        "author": "b",
+        "relative": "apps/poms-api-rust/src/customers/store.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customers/store.rs",
+          "bytes": 22337,
+          "rawBytesSha256": "b2b9c3964a731aecf520750040392e289edfa233b04a61b697cad1e9ebcd41e0"
+        }
+      },
+      {
+        "author": "b",
+        "relative": "apps/poms-api-rust/src/customer_contacts/service.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customer_contacts/service.rs",
+          "bytes": 15533,
+          "rawBytesSha256": "bcdc7c6927cf56b4b1d441f8a84d730b46787e9e7facd8826e507336f89820c2"
+        }
+      },
+      {
+        "author": "b",
+        "relative": "apps/poms-api-rust/src/customer_contacts/store.rs",
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customer_contacts/store.rs",
+          "bytes": 5307,
+          "rawBytesSha256": "1e512b78cdac5cfd32465e69be158656754d70e8529d2ca303234b281a4b2ae1"
+        }
+      },
+      {
+        "author": "RootUI",
+        "relative": "apps/poms-admin/src/app/features/lead/lead-list.ts",
+        "pin": {
+          "file": "apps/poms-admin/src/app/features/lead/lead-list.ts",
+          "bytes": 134215,
+          "rawBytesSha256": "d8ba617ed881106f9623721b591bc812f2de107c300123fc831337ffa296fb3d"
+        }
+      },
+      {
+        "author": "RootUI",
+        "relative": "apps/poms-admin/src/app/features/lead/lead-list.spec.ts",
+        "pin": {
+          "file": "apps/poms-admin/src/app/features/lead/lead-list.spec.ts",
+          "bytes": 55596,
+          "rawBytesSha256": "4ade07319833f528a2b02d4246197c5d2030d2175abe22f6693a65558b56bed5"
+        }
+      }
+    ],
+    "trackedProductChangesExactlyNine": true,
+    "remaining1371MixedProtectedInputsRawExact": true,
+    "immutableCSourceSnapshots": [
+      {
+        "author": "a",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-a/poms/apps/poms-api-rust/src/leads/service.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/a/apps/poms-api-rust/src/leads/service.rs.raw.bin",
+          "bytes": 84082,
+          "rawBytesSha256": "398c7da4079b71a6fd74a3d22d3ccaf3f20e9bdc9c0687ef99f721575e3886a8"
+        }
+      },
+      {
+        "author": "a",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-a/poms/apps/poms-api-rust/src/leads/store.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/a/apps/poms-api-rust/src/leads/store.rs.raw.bin",
+          "bytes": 40084,
+          "rawBytesSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+        }
+      },
+      {
+        "author": "a",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-a/poms/apps/poms-api-rust/src/leads/scoring.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/a/apps/poms-api-rust/src/leads/scoring.rs.raw.bin",
+          "bytes": 16347,
+          "rawBytesSha256": "62a694e8b2522de687b447a300f0949a87a58e7989c19f178448dd0000e96bfc"
+        }
+      },
+      {
+        "author": "b",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customers/service.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customers/service.rs.raw.bin",
+          "bytes": 46892,
+          "rawBytesSha256": "1de85a6de3460a1598599dc1586a6193fba0b7e0c9281bdb1f2ebb36f0f280d7"
+        }
+      },
+      {
+        "author": "b",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customers/store.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customers/store.rs.raw.bin",
+          "bytes": 22337,
+          "rawBytesSha256": "b2b9c3964a731aecf520750040392e289edfa233b04a61b697cad1e9ebcd41e0"
+        }
+      },
+      {
+        "author": "b",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customer_contacts/service.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customer_contacts/service.rs.raw.bin",
+          "bytes": 15533,
+          "rawBytesSha256": "bcdc7c6927cf56b4b1d441f8a84d730b46787e9e7facd8826e507336f89820c2"
+        }
+      },
+      {
+        "author": "b",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/apps/poms-api-rust/src/customer_contacts/store.rs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customer_contacts/store.rs.raw.bin",
+          "bytes": 5307,
+          "rawBytesSha256": "1e512b78cdac5cfd32465e69be158656754d70e8529d2ca303234b281a4b2ae1"
+        }
+      },
+      {
+        "author": "d",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tools/rust-r3m/e1-cases01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d/tools/rust-r3m/e1-cases01.mjs.raw.bin",
+          "bytes": 4926,
+          "rawBytesSha256": "89ee244562ee5d1db349bac3e1579c2f6d4ef12cf0dab7324987250e95d647b1"
+        }
+      },
+      {
+        "author": "d",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tools/rust-r3m/e1-fixture-expectations01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d/tools/rust-r3m/e1-fixture-expectations01.mjs.raw.bin",
+          "bytes": 3823,
+          "rawBytesSha256": "a725ea9d646b2817e689cb4e0f05866db0946eccd5f3770a90c85ad3f1f8460b"
+        }
+      },
+      {
+        "author": "d",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tools/rust-r3m/e1-README01.md",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d/tools/rust-r3m/e1-README01.md.raw.bin",
+          "bytes": 5524,
+          "rawBytesSha256": "7d9c4177002975326326342129be60d6c4fb9675e0f0a8d158463fa095520070"
+        }
+      },
+      {
+        "author": "d",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tools/rust-r3m/e1-registry01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d/tools/rust-r3m/e1-registry01.mjs.raw.bin",
+          "bytes": 2407,
+          "rawBytesSha256": "664fe786ba032ed691f51747c254ded84588efefbcd7a6317a481c2bc97c70f0"
+        }
+      },
+      {
+        "author": "d",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tools/rust-r3m/e1-replay01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d/tools/rust-r3m/e1-replay01.mjs.raw.bin",
+          "bytes": 9192,
+          "rawBytesSha256": "e2c9290e8820da167beef216c25c9b5f9b7d15c240204e15eab458db2b0edb39"
+        }
+      },
+      {
+        "author": "d",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tools/rust-r3m/e1-resolver01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d/tools/rust-r3m/e1-resolver01.mjs.raw.bin",
+          "bytes": 10003,
+          "rawBytesSha256": "8b6edfba7f93e5dababf7c849c80ecab86af6d045de1b4d61e4620018bab2f16"
+        }
+      },
+      {
+        "author": "RootUI",
+        "logicalOriginal": "apps/poms-admin/src/app/features/lead/lead-list.ts",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/RootUI/apps/poms-admin/src/app/features/lead/lead-list.ts.raw.bin",
+          "bytes": 134215,
+          "rawBytesSha256": "d8ba617ed881106f9623721b591bc812f2de107c300123fc831337ffa296fb3d"
+        }
+      },
+      {
+        "author": "RootUI",
+        "logicalOriginal": "apps/poms-admin/src/app/features/lead/lead-list.spec.ts",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/RootUI/apps/poms-admin/src/app/features/lead/lead-list.spec.ts.raw.bin",
+          "bytes": 55596,
+          "rawBytesSha256": "4ade07319833f528a2b02d4246197c5d2030d2175abe22f6693a65558b56bed5"
+        }
+      },
+      {
+        "author": "a-pure",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/lead-correction-cases01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/a-pure/tmp/rust-r3m/g2-a/lead-correction-cases01.mjs.raw.bin",
+          "bytes": 13518,
+          "rawBytesSha256": "15e693a488fb96c019c4957926c159931324385b1ed8c414c3ee71d545111569"
+        }
+      },
+      {
+        "author": "a-pure",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/handoff01.md",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/a-pure/tmp/rust-r3m/g2-a/handoff01.md.raw.bin",
+          "bytes": 6796,
+          "rawBytesSha256": "a7ed2447356e327b3f96123091c560953bc4fcd56508daa955d7e54cabb56b61"
+        }
+      },
+      {
+        "author": "b-pure",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/assertions01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b-pure/tmp/rust-r3m/g2-b/assertions01.mjs.raw.bin",
+          "bytes": 6252,
+          "rawBytesSha256": "c4710485fa5470ff222e52a1008f02c6ae800bb794418953bb4e90578c7a9aa0"
+        }
+      },
+      {
+        "author": "b-pure",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/customer-boundaries01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b-pure/tmp/rust-r3m/g2-b/customer-boundaries01.mjs.raw.bin",
+          "bytes": 12559,
+          "rawBytesSha256": "204b377ab602d617818b4d48d69560a08c997f5239059c723237a1ec21d1e64b"
+        }
+      },
+      {
+        "author": "b-pure",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/converted-project-presigning-chain01.mjs",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b-pure/tmp/rust-r3m/g2-b/converted-project-presigning-chain01.mjs.raw.bin",
+          "bytes": 17893,
+          "rawBytesSha256": "ba2d2ff9fbc321af526aacdd21cbe9bd49153cd003c514563cba01d50df963b0"
+        }
+      },
+      {
+        "author": "d-pure",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tmp/rust-r3m/g2-d/stage-matrix01.json",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d-pure/tmp/rust-r3m/g2-d/stage-matrix01.json.raw.bin",
+          "bytes": 117673,
+          "rawBytesSha256": "0ecc5ad5a42daa0db33b305eefcd07c68af31eaead9431863f6d0f92cd02fcac"
+        }
+      },
+      {
+        "author": "a-delivery",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/source-manifest01.json",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/a-delivery/tmp/rust-r3m/g2-a/source-manifest01.json.raw.bin",
+          "bytes": 3347,
+          "rawBytesSha256": "048e5f68468989325274bdcbd3fcc11d236f590c56c611bc50c3c53b8c9f9520"
+        }
+      },
+      {
+        "author": "b-delivery",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-b/poms/tmp/rust-r3m/g2-b/delivery01.json",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/b-delivery/tmp/rust-r3m/g2-b/delivery01.json.raw.bin",
+          "bytes": 8161,
+          "rawBytesSha256": "743e745fe003fb6b4e8efb2763680a4fe1c77dd234f72df470cf6dfc6ee2b8a5"
+        }
+      },
+      {
+        "author": "d-delivery",
+        "logicalOriginal": "E:/projects/worktrees/poms-r3co-c/poms/tmp/rust-r3m/g2-d/delivery01.json",
+        "snapshot": {
+          "file": "tmp/rust-r3m/c-review/g2-source-originals01/d-delivery/tmp/rust-r3m/g2-d/delivery01.json.raw.bin",
+          "bytes": 3293,
+          "rawBytesSha256": "37cbc2c6c828e49a5e79dcefdab3ad2f9c033c785a7d7bafcb373bea9bad25a2"
+        }
+      }
+    ]
+  },
+  "productFindingCounts": {
+    "P1": 0,
+    "P2": 0
+  },
+  "newProductFindings": [],
+  "knownSevenCorrectionsStillNeedFinalArtifactAndActualAcceptance": true,
+  "A": {
+    "sourceStatus": "Now SourceReady and paused, after an initial provisional read; report binds final source-manifest01 hash.",
+    "tuple": "refresh_score collects once into owned SystemScoreTuple; snapshot builder takes that tuple and does not reread facts. All seven explicit system triggers pass it through.",
+    "history": "Normal decisions search system rows matching stored score/rating, then validate formula, current base components/gates and calculations from stored facts/reason. Coherent v1 preserves its formula; JSONB numeric integers normalize without binary64; unknown metadata retained.",
+    "fallback": "No matching coherent tuple invokes a real Lead system-score/version/time/actor update and a required system snapshot in the same outer override_transaction as decision CAS/manual or revoked snapshot/session/registered audit. No GET repair or new I/F/upload trigger.",
+    "locks": "Observe override nonlocking, lock Lead FOR UPDATE first, reread override/version/status, then old/new override CAS. Explicit Lead update now takes its successful Lead CAS before active-override/snapshot lookup. No FOR SHARE-to-UPDATE upgrade introduced.",
+    "responseCorrection": "command_summary reads approved override using the caller connection; update/qualify/close/noop immediate effective tuple uses the same summary rule as GET.",
+    "requiredActual": "Matched tuple after new real facts; controlled single-materialization interleave; v1/invalid/missing/same-score-different-facts fallback; each early and late necessary write fault/recovery; two same-record legacy decisions; replacement versus old-active revoke legal serial outcomes; concurrent Lead writer; all triggers and active/manual response/GET/PG consistency.",
+    "lateFailurePhase": "Startup denial of Lead UPDATE can only prove FOR UPDATE privilege failure; stage a post-lock privilege change for fallback DML, and a later decision-snapshot failure after system snapshot insertion. Verify statement/waiter identity, not independent visibility of uncommitted rows."
+  },
+  "B": {
+    "CAS": "Only store fetch_optional None maps to typed Conflict409 before commit. Both nested domain error and genuine sqlx error explicitly roll back; sqlx errors stay500. Contact audit and managed session remain in the same TX.",
+    "noOp": "customer_changes computes business fields before updated_by; parsed optional UUID identities make spelling-only owner changes nondirty. Actual dirty change records actor; no-op leaves business version/time/actor unchanged, session upkeep separate.",
+    "projection": "ListContext org map uses Uuid; raw ownerOrgId presentation remains possible, but name lookup is identity based. CustomerDetailView is flat; POST Summary has no ownerOrgName.",
+    "audit": "Customer changed/noop has no registered updated audit; no fabricated audit requirement. Contact changed audit is registered and must roll back with CAS/SQL loss.",
+    "pureChain": "Same actual canonical convertToProject request/response ID and Customer/Lead anchors required, followed by cost1/2, direct quote, bid1/2, bid quote, nine operation surface reads/creates, exact decimal parent/child ::text and stale/fault complete graph rollback.",
+    "requiredActual": "Two real UPDATE waiters/two sessions ->200/409 and unique winning row/actor/contact audit; other actor and UUID case noops; immediate flat ownerOrgName/GET/PG; real SQL faults500 and due enlisted session rollback; same converted Project C/D/G chain."
+  },
+  "RootUI": {
+    "files": [
+      "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+    ],
+    "sourceEncoding": "Only plannedSignAt Date.toISOString; other date-only helpers unchanged.",
+    "unitChange": "Actual shared ConvertLeadToProjectRequestSchema.safeParse on mock-call DTO, dynamic local Date ISO expectation; it is still a unit and not real browser/network evidence.",
+    "requiredActual": "New final UI build; four original journeys across four browser/backend axes=16 cells, filled plannedSignAt per axis plus blank/null and local-calendar/GET/PG correspondence.",
+    "WindowsRustNativeServerCertified": false
+  },
+  "D": {
+    "sourceReadyFiles": 6,
+    "reviewedExportsNotExecutedByC": true,
+    "strictIdentity": "Full logical file/bytes/SHA; fixed pinned canonical map; snapshot before move, same-rank target conflict fail-closed, no active/latest fallback.",
+    "paths": "Reject absolute/drive/backslash/NUL/empty/dot/traversal/nonarchive targets; check parent lstat regularity/no symlink, readonly descriptor type/length/hash, pre/post identity/time and named path.",
+    "actualReplayDesign": "Load only two allowlisted exact hashed pure fixture byte buffers via data URL, no imports/dependency rewriting; actual four deterministic calls compared with independent literal expectations; reread canonical inputs/map and alias lstat states afterward.",
+    "sourceLevelPositiveReadiness": "C independently matched five actual map targets/canonical hashes, two Native pin lists872/44 formal structure and frozen16/11 operation projection against current Native spec. C did not execute resolver, replay, constructors or negatives.",
+    "nested872Or44SourcePayloadsNotCertifiedByReplay": true,
+    "pureNegativeDefinitions": {
+      "index": 14,
+      "rootReadAndExit": 8
+    },
+    "requiredActual": "Positive before/after exact five removals, typed negatives and owned link/directory labs, actual module calls/output hashes, full old canonical/map/23 legacy original preservation and absence/no mirror checks.",
+    "literalAccounting": {
+      "legacyPayloadConsumerFiles": 23,
+      "newLogicalIdentityRegistryFiles": 1,
+      "totalLiteralSourceFiles": 24,
+      "newRegistry": "tools/rust-r3m/e1-registry01.mjs",
+      "classification": "Logical pin metadata, no direct alias payload read; do not claim total literal search still23."
+    },
+    "aliasesAtThisInspection": [
+      {
+        "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+        "present": false
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+        "present": false
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+        "present": false
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+        "present": false
+      },
+      {
+        "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+        "present": false
+      }
+    ],
+    "E1ExitCertified": false,
+    "owner": "Root /root",
+    "originalDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "exitRequiredBeforeCurrentG3": true
+  },
+  "evidenceGuardRequirements": [
+    {
+      "id": "C-G2-ORACLE-01",
+      "priority": "P2-evidence-guard",
+      "category": "Acceptance adapter input completeness, not a product transaction defect",
+      "source": {
+        "file": "E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/g2-a/lead-correction-cases01.mjs",
+        "bytes": 13518,
+        "rawBytesSha256": "15e693a488fb96c019c4957926c159931324385b1ed8c414c3ee71d545111569"
+      },
+      "function": "assertFailedDecisionRolledBack",
+      "staticCounterexample": "Missing beforeGraph/afterGraph becomes assert.deepEqual(undefined,undefined), and two empty objects also compare equal; the naked helper can return true without a captured business graph.",
+      "executedByC": false,
+      "RootResponse": "Accepted in a direct Root message: actual adapter must reject missing/null/undefined/empty graphs, require every frozen table array and actual target Lead/override row, and apply the same complete-scope guard for B.",
+      "requiredClosure": "Bind and inspect that actual adapter code and its deliberate missing/empty/missing-table/absent-target rejection probes before using any rollback Pass. SourceReady pure A01 remains immutable.",
+      "state": "Root guard requirement accepted; actual adapter implementation/evidence not supplied in this source preaudit; pending G3 verification",
+      "G3EvidencePassAllowedBeforeClosure": false
+    }
+  ],
+  "diagnostic": {
+    "report": {
+      "file": "tmp/rust-r3m/acceptance-rust-baseline01-03/report01.json",
+      "bytes": 134041,
+      "rawBytesSha256": "84421c65f2605163021263778569fd883925cd657965d88962f8f84c377e05c9"
+    },
+    "completed": true,
+    "groups": 7,
+    "HTTP": 24,
+    "artifact": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+    "classification": "Actual pre-fix diagnostic only, not repaired candidate or stage acceptance.",
+    "sixBusinessDefectObservationsAndSourceDerivedDateAPIRejection": true,
+    "CustomerNoopBusinessVersionPlusOneAndAuditZeroIndependentlyRead": true,
+    "twoCASRaces200And500IndependentlyRead": true,
+    "dateOnlyCase": "Actual API400 plus source deduction; not an old filled-date browser run.",
+    "partialOriginals": [
+      {
+        "file": {
+          "file": "tmp/rust-r3m/acceptance-rust-baseline01-01/report01.json",
+          "bytes": 10013,
+          "rawBytesSha256": "edb6350f553c7bdbfc3677a349e58d1caebfb97f59a220c73040029eedf456b4"
+        },
+        "completed": false
+      },
+      {
+        "file": {
+          "file": "tmp/rust-r3m/acceptance-rust-baseline01-02/report01.json",
+          "bytes": 37880,
+          "rawBytesSha256": "d092b06b8c9313a4b90cd2d23fc33450c403e7277ce88603c835745f1695b07f"
+        },
+        "completed": false
+      }
+    ],
+    "partial01And02NotPassedOrStageCounts": true,
+    "noPrivateRawStreamsRead": true
+  },
+  "stillRequiredForG3": [
+    "Root final formatted integrated source/artifact and required fmt/clippy/unit/release/admin validation.",
+    "Guarded complete-scope actual acceptance adapter and explicit missing/empty graph rejection proof.",
+    "Post-fix regression of all seven defects plus controlled affected locks/late faults/recovery and full M0–M5 on the final candidate.",
+    "E1 actual replay/delete/replay and strict negatives; remaining16UI cells/source-contract/client/migration integrity.",
+    "Full owned graph/seed/privileges/logging restoration, second zero-change cleanup and owned environment terminal."
+  ],
+  "noProductAuthorRootExecutorOrGovernanceWriting": true,
+  "noAuthorDefinitionsOrRootToolsImportedExecutedOrModified": true,
+  "noInstallBuildTestDBHTTPPGBrowserServiceOrWSLExecution": true,
+  "noPrivateRead": true,
+  "noGitMutationOrExternalWrite": true,
+  "onlyOwnCReviewArtifactsWritten": true,
+  "ownStaticVerifier": {
+    "file": "tmp/rust-r3m/c-review/g2-write-source-preaudit01.mjs",
+    "bytes": 22429,
+    "rawBytesSha256": "ef0f80013d1ec52e48df189ce1a35ef4e5b2354107e532a1c9388dab5b3f0df2"
+  }
+}

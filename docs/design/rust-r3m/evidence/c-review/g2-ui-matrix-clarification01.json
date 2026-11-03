@@ -1,0 +1,544 @@
+{
+  "kind": "C-independent-R3-closeout-G2-UI-matrix-clarification01",
+  "createdAt": "2026-11-02T22:53:16.203Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "configuredTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "verdict": "Pass",
+  "verdictScope": "Bounded validation interpretation/corrective policy only; no actual UI, product, E1, G3 or G4 acceptance.",
+  "clarificationApproved": true,
+  "G2MatrixInterpretationApproved": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "actualUIAcceptanceCertified": false,
+  "NativeBusinessAcceptance": false,
+  "commitAllowed": false,
+  "stageIntegrationComplete": false,
+  "batchIssue": 97,
+  "scopeIssues": [
+    98,
+    99,
+    100
+  ],
+  "stageIssue": 85,
+  "overallIssue": 57,
+  "parent85Open": true,
+  "overall57Open": true,
+  "reviewedCheckpoint": {
+    "file": "docs/design/rust-r3m/g2-corrective-checkpoint02.md",
+    "bytes": 2901,
+    "rawBytesSha256": "10c92a4be84bc2e2a6f925e50cf80fb54437395e346b2334b578731fe42ae8de"
+  },
+  "sources": [
+    {
+      "file": "docs/design/rust-r3m/g2-corrective-checkpoint02.md",
+      "bytes": 2901,
+      "rawBytesSha256": "10c92a4be84bc2e2a6f925e50cf80fb54437395e346b2334b578731fe42ae8de"
+    },
+    {
+      "file": "docs/design/rust-r3m/g1-input-manifest01.json",
+      "bytes": 359370,
+      "rawBytesSha256": "7c41d08b0021ba0c7937948bd61ef990f4b4a7cac7bf4276d736a363a69b749e"
+    },
+    {
+      "file": "docs/design/rust-r3m/C/g1-independent-review01.json",
+      "bytes": 37986,
+      "rawBytesSha256": "2bdc08872f601cd7f14daf30b446a30ec2065b9f5e95fe406d8e0578f0384bfa"
+    },
+    {
+      "file": "docs/design/rust-r3-closeout-baseline.md",
+      "bytes": 14037,
+      "rawBytesSha256": "cacbb759574fa063f74bc7ddb5028fbd58e26c7f8289d2c87def43e2be630129"
+    },
+    {
+      "file": "docs/design/rust-r3m/originals/input-d/g1-input01.json",
+      "bytes": 180328,
+      "rawBytesSha256": "66c8beaf346f56b3e6aed8ea897d2f5003ee4e3938bd36954b55e67d80c9c3bc"
+    },
+    {
+      "file": "docs/design/rust-r3m/originals/input-b/g1-input01.json",
+      "bytes": 77271,
+      "rawBytesSha256": "b8210d66e633a6aba96a89b58909180063852dbc85a5d3e0627e056f847a81b0"
+    },
+    {
+      "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+      "bytes": 26295,
+      "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-journey01.mjs",
+      "bytes": 23214,
+      "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+      "bytes": 10784,
+      "rawBytesSha256": "15200de0708477e334907c592b327ccbcdff9a980f9628942510de2030b643dd"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.ts",
+      "bytes": 40540,
+      "rawBytesSha256": "ed6daeec4a727dbb8d81f4c59e4ba078e654c309fc483854112cd050e5c6ad01"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.service.ts",
+      "bytes": 42650,
+      "rawBytesSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+      "bytes": 22209,
+      "rawBytesSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+      "bytes": 11064,
+      "rawBytesSha256": "5d9986be33e056be76a1be48e5b1056514ae1e50fb4d2504a001eea07ccb6171"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+      "bytes": 12884,
+      "rawBytesSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3"
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 435823,
+      "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk-business-semantics-corrective-checkpoint01.md",
+      "bytes": 5197,
+      "rawBytesSha256": "c3f26b38f420fbdc73ae1c3faf379fede27c2115962414508adb5c6f90a86052"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk-foundation-dependency-corrective-checkpoint02.md",
+      "bytes": 2617,
+      "rawBytesSha256": "de1bf83c02de371b67f33236f9f4ba8f038a89ef5b9b6dfc306185d0056145a1"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3hijk/C/g3-independent-review02.json",
+      "bytes": 19936,
+      "rawBytesSha256": "6e9b594d2741cf97b64ba7233451726f7b487b79103bdf3ce5ab8380b32a1c62"
+    },
+    {
+      "file": "apps/poms-api-rust/src/customer_contacts/service.rs",
+      "bytes": 15589,
+      "rawBytesSha256": "41884ce898adefddbb4221caeb3807650e981ba0f5ffdec7a24e9c9e95044174"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_bid_commercial/service.rs",
+      "bytes": 16294,
+      "rawBytesSha256": "134d85d3be8bb169705455ffc92c19145e5f8757652460d22675cc4e8f5ade00"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+      "bytes": 26660,
+      "rawBytesSha256": "f6d9738e1a65346ba122f55e1e0b57407d3896b3f0a38ca94565b4051a4f2b78"
+    }
+  ],
+  "findingCounts": {
+    "policyP1": 0,
+    "policyP2": 0
+  },
+  "unresolvedPolicyBlockers": [],
+  "G1OracleOmission": {
+    "acknowledged": true,
+    "description": "G1 verified the four journey origins/counts but omitted the legacy customer/project oracle meanings. Their expected unknown/500/v1 contradict already-adopted business correctness and corrected Rust. This is an input/test-oracle omission, not a new Rust product regression.",
+    "classification": "existing-baseline-drift",
+    "detailClass": "historical-test-oracle-defect",
+    "originalG1AndLegacyDefinitionsRetainedUnchanged": true,
+    "oldFailedOrPartialAttemptsMustRemainTheirRealLabels": true,
+    "noRetroactiveG1OrOldRunRewrite": true
+  },
+  "decisionBasis": {
+    "humanPolicy": "Explicit user correctness/reasonableness policy takes priority over Node bug-level parity; prior business/foundation corrective checkpoints already require explicit gender preservation and legal version creation with one current/history.",
+    "priorRustCorrectionAccepted": {
+      "file": "docs/design/archive/slices/rust-r3hijk/C/g3-independent-review02.json",
+      "bytes": 19936,
+      "rawBytesSha256": "6e9b594d2741cf97b64ba7233451726f7b487b79103bdf3ce5ab8380b32a1c62"
+    },
+    "G1Alignment": "Keep all4journeys×4actualbrowser/backend axes; preserve source/artifact provenance, current two-file frontend build, no mocks/injection/fallback, failure/partial labels and known Native classification. G1 does not authorize copying Node errors or changing protected Node source to fabricate16 business passes.",
+    "R3Scope": "This is Rust R3 stage acceptance, not a project to repair the unchanged Native backend. Explicit reference capture of the known baseline defects supplies provenance without weakening Rust business assertions.",
+    "noNewHumanBusinessDecisionRequiredByThisInterpretation": true,
+    "noNewProductRouteDTOInterfaceMigrationPermissionOrHandler": true
+  },
+  "matrix": {
+    "plannedActualSlots": 16,
+    "RustBusinessSlots": 8,
+    "NativeReferenceSlots": 8,
+    "slots": [
+      {
+        "browser": "linux",
+        "backend": "Native",
+        "serverPlatform": "linux",
+        "kind": "native-reference-ui",
+        "journey": "customerJourney",
+        "definition": "canonical customer01",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Native",
+        "serverPlatform": "linux",
+        "kind": "native-reference-ui",
+        "journey": "projectJourney",
+        "definition": "canonical project01",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Native",
+        "serverPlatform": "linux",
+        "kind": "native-reference-ui",
+        "journey": "leadJourney",
+        "definition": "current lead03",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Native",
+        "serverPlatform": "linux",
+        "kind": "native-reference-ui",
+        "journey": "intelligenceDiscussionJourney",
+        "definition": "current intelligenceDiscussion02",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "customerJourney",
+        "definition": "customer02",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "projectJourney",
+        "definition": "project02",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "leadJourney",
+        "definition": "current lead03",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "linux",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "intelligenceDiscussionJourney",
+        "definition": "current intelligenceDiscussion02",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Native",
+        "serverPlatform": "win32",
+        "kind": "native-reference-ui",
+        "journey": "customerJourney",
+        "definition": "canonical customer01",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Native",
+        "serverPlatform": "win32",
+        "kind": "native-reference-ui",
+        "journey": "projectJourney",
+        "definition": "canonical project01",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Native",
+        "serverPlatform": "win32",
+        "kind": "native-reference-ui",
+        "journey": "leadJourney",
+        "definition": "current lead03",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Native",
+        "serverPlatform": "win32",
+        "kind": "native-reference-ui",
+        "journey": "intelligenceDiscussionJourney",
+        "definition": "current intelligenceDiscussion02",
+        "businessAcceptanceRequired": false,
+        "NativeBusinessAcceptance": false,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "customerJourney",
+        "definition": "customer02",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "projectJourney",
+        "definition": "project02",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "leadJourney",
+        "definition": "current lead03",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      },
+      {
+        "browser": "win32",
+        "backend": "Rust",
+        "serverPlatform": "linux",
+        "kind": "rust-business-ui",
+        "journey": "intelligenceDiscussionJourney",
+        "definition": "current intelligenceDiscussion02",
+        "businessAcceptanceRequired": true,
+        "NativeBusinessAcceptance": null,
+        "status": "Not-certified-by-this-review"
+      }
+    ],
+    "actualCompletedByThisReview": null,
+    "requiredAccounting": [
+      "Actual attempted/completed/capture status for each of16 slots with exact definition/runtime/UI source pins.",
+      "Eight Rust business journey passes only after all actual assertions pass on the final candidate.",
+      "Eight Native reference capture/classification outcomes kept separate from business acceptance; evidenceKind=native-reference-ui and NativeBusinessAcceptance=false.",
+      "Named known Native deviations with desired/actual full HTTP and owned PG/signature evidence; unresolved unknown failures stay explicit."
+    ],
+    "forbiddenSummary": "16 business journeys passed / 16 business pass",
+    "allowedSummaryAfterActualConditions": "16 actual executions/captures, Rust8/8 business Pass, Native8 reference captures with explicit known defects and unknown-failure status.",
+    "WindowsRustNativeServerCertified": false
+  },
+  "knownNativeReferenceScope": [
+    {
+      "id": "NATIVE-REFERENCE-CONTACT-CREATE-GENDER",
+      "legacyDefinition": {
+        "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+        "bytes": 26295,
+        "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+      },
+      "anchors": [
+        "tools/rust-r3cdefg/customer-journey01.mjs:167",
+        "tools/rust-r3cdefg/customer-journey01.mjs:181",
+        "tools/rust-r3cdefg/customer-journey01.mjs:182",
+        "tools/rust-r3cdefg/customer-journey01.mjs:184",
+        "tools/rust-r3cdefg/customer-journey01.mjs:186"
+      ],
+      "actualSignature": "Real visible UI selects female; actual POST body.gender=female; Native201 body/list/owned PG row gender=unknown. Later edit retaining its existing normal checks remains real.",
+      "desiredBusiness": "Explicit female must survive POST, list and PG; absent gender alone defaults unknown.",
+      "source": "Native CustomerContactController.create at48-62 omits body.gender while service.create at73-93 defaults absent to Unknown.",
+      "sourcePins": [
+        {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "bytes": 10784,
+          "rawBytesSha256": "15200de0708477e334907c592b327ccbcdff9a980f9628942510de2030b643dd"
+        },
+        {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.service.ts",
+          "bytes": 40540,
+          "rawBytesSha256": "ed6daeec4a727dbb8d81f4c59e4ba078e654c309fc483854112cd050e5c6ad01"
+        }
+      ],
+      "notAccepted": "A UI request that never sent female, wrong entity, missing HTTP/PG evidence, capture/driver failure, or other unexpected gender."
+    },
+    {
+      "id": "NATIVE-REFERENCE-BID-SECOND-VERSION",
+      "legacyDefinition": {
+        "file": "tools/rust-r3cdefg/project-journey01.mjs",
+        "bytes": 23214,
+        "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+      },
+      "anchors": [
+        "tools/rust-r3cdefg/project-journey01.mjs:232",
+        "tools/rust-r3cdefg/project-journey01.mjs:239",
+        "tools/rust-r3cdefg/project-journey01.mjs:247",
+        "tools/rust-r3cdefg/project-journey01.mjs:256"
+      ],
+      "actualSignature": "Second valid visible UI save POST500/Internal server error; error feedback/dialog observed; original bid parent/material/timeline unchanged; GET/workspace/history still one current v1.",
+      "desiredBusiness": "Second legal save201, new version2/unique current, oldv1 superseded with retained history/children and correct supersedes identity.",
+      "source": "ProjectService478-549 forms old/new managed version entities; Repository470-481 persists new parent/children and old current in one ORM flush. The existing current partial unique index and prior defect evidence explain the known version replacement failure; source shape alone is not a new measured SQL witness.",
+      "sourcePins": [
+        {
+          "file": "apps/poms-api/src/app/features/project/project.service.ts",
+          "bytes": 42650,
+          "rawBytesSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323"
+        },
+        {
+          "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+          "bytes": 22209,
+          "rawBytesSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5"
+        },
+        {
+          "file": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+          "bytes": 11064,
+          "rawBytesSha256": "5d9986be33e056be76a1be48e5b1056514ae1e50fb4d2504a001eea07ccb6171"
+        }
+      ],
+      "knownConstraint": "uq_project_bid_commercial_process_current",
+      "notAccepted": "Any arbitrary500, malformed request/wrong prerequisite, lost before rows, infrastructure/permission failure, timeout or different graph outcome."
+    },
+    {
+      "id": "NATIVE-REFERENCE-PRICING-SECOND-VERSION",
+      "legacyDefinition": {
+        "file": "tools/rust-r3cdefg/project-journey01.mjs",
+        "bytes": 23214,
+        "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+      },
+      "anchors": [
+        "tools/rust-r3cdefg/project-journey01.mjs:331",
+        "tools/rust-r3cdefg/project-journey01.mjs:339",
+        "tools/rust-r3cdefg/project-journey01.mjs:345",
+        "tools/rust-r3cdefg/project-journey01.mjs:352"
+      ],
+      "actualSignature": "Second valid pricing UI save POST500/Internal server error; visible error/dialog; original pricing parent unchanged; GET/workspace/history retain currentv1, upstream real cost/bid references unchanged.",
+      "desiredBusiness": "Second legal save201/currentv2; oldv1 superseded, history/conditions/current/reference invariants preserved.",
+      "source": "ProjectService557-647 and Repository484-490 persist new review/conditions and old current in one ORM flush; current partial unique index and prior accepted correction identify the known baseline issue.",
+      "sourcePins": [
+        {
+          "file": "apps/poms-api/src/app/features/project/project.service.ts",
+          "bytes": 42650,
+          "rawBytesSha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323"
+        },
+        {
+          "file": "apps/poms-api/src/app/features/project/project.repository.ts",
+          "bytes": 22209,
+          "rawBytesSha256": "d5d0c6a51115569f7de88c3d23577acd66aa6d83a005e05174a44579550c9db5"
+        },
+        {
+          "file": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+          "bytes": 12884,
+          "rawBytesSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3"
+        }
+      ],
+      "knownConstraint": "uq_project_pricing_margin_review_current",
+      "notAccepted": "An unexplained500 or partial/driver failure relabelled as this known defect; missing real source/cost/bid prerequisite or unexpected graph."
+    }
+  ],
+  "strictClassificationRules": [
+    "Use the legacy01 assertions intentionally only in Native reference slots and label their successful driver completion as historical-reference capture, never Native business correctness.",
+    "A known defect must match the actual valid request/target, unchanged Native source, full response, DOM feedback and precise before/after/GET PG graph. A bare500 is insufficient; retain linked server/SQL/constraint diagnostic when needed to identify the known version failure uniquely.",
+    "Unknown statuses/data/SQL causes, invalid fixtures, browser/network capture errors, driver exceptions and timeouts are failures/partial/unresolved; do not blanket-catch them as known.",
+    "If Native unexpectedly returns desired correct female/201v2, record that actual result and investigate/reconcile the legacy oracle/runtime observation; do not force unknown/500/v1 or silently pass a mismatching old driver.",
+    "Lead03 and intelligenceDiscussion02 retain their current applicable assertions in Native reference captures; the three named deviations are not a waiver for other failures.",
+    "Do not mutate Node code, responses, PG facts, frontend state or workflow to satisfy a reference oracle; normal declared real producers and owned cleanup remain mandatory."
+  ],
+  "derivedRustDefinitions": {
+    "expectedVersions": [
+      "customer02",
+      "project02"
+    ],
+    "implementationReviewedOrSealedByThisPolicyReview": false,
+    "sourceHashes": "Pending final authored/Root admitted derivative delivery; no invented pin here.",
+    "minimalAllowedChanges": "Correct the three old business expectations and their corresponding DOM/history/version assertions, keep real visible interactions, original request capture/PG/source identity/readonly checks and all unrelated assertions. Preserve01 as raw immutable input.",
+    "customer": "Actual female request must yield female response/list/PG; absent defaults remain distinct. Actual changed edit/null-clears/version and follow-up/noop assertions remain.",
+    "project": "Actual second bid/pricing save201, currentv2, v1superseded/retained, correct supersedes/row versions, current uniqueness, new children with correct parent IDs, historical children unchanged, DOM/history/reload and upstream cost/bid readonly assertions. Do not just delete the old500 checks.",
+    "actualRustEightMustFullyPass": true,
+    "old01FailuresOnCorrectRustAreOracleFailuresNotBusinessPasses": true,
+    "finalG3MustReviewMinimalSourceDiffAndActualFullResults": true,
+    "additionalG2ApprovalRoundNotRequiredForAlreadyAuthorizedBoundedPreparationAndExecution": true
+  },
+  "otherG1Obligations": {
+    "sameCurrentFrontendBuildOnAllAxes": true,
+    "plannedSignAt": "Lead03 actually fills the date on each axis; request ISO/selected local calendar date/response/GET/page/PG and blank/null regression remain required.",
+    "projectJourneyScope": "Technical-cost/bid/pricing collaboration workspaces, not the six ProjectBasic operations.",
+    "RootProjectM0OperationIds": [
+      "ProjectController_list",
+      "ProjectController_create",
+      "ProjectController_getByCode",
+      "ProjectController_getById",
+      "ProjectController_updateBasicInfo",
+      "ProjectController_reassignOwner"
+    ],
+    "allSixNeedOwnActualValidReceipts": true,
+    "sameConvertedProjectRealAPIChainStillRequired": true,
+    "sourceProtection": {
+      "originalMixedSet": 1373,
+      "allowedUIFiles": [
+        "apps/poms-admin/src/app/features/lead/lead-list.ts",
+        "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+      ],
+      "otherMixedPins": 1371,
+      "other1371CurrentlyRawExact": true,
+      "NativeBackendFiles": 420,
+      "NativeBackendProductDeltaAllowed": 0,
+      "terminology": "1371 is the mixed protected remainder, not1371 Node backend source files."
+    },
+    "M0M1M2M3M5AndFullStageGuardsStillRequired": true,
+    "SourceReadyBuildCountsOrReferenceCaptureNotStageAcceptance": true
+  },
+  "progressOutsideThisReview": {
+    "RootReportedFinal01Artifact": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+    "RootReportedPassed": 306,
+    "RootReportedIgnored": 54,
+    "RootReportedCompilationSources311": "239 Rust +2UI +70external compile resources",
+    "RootReportedWindowsE1Before22After21": "exact five aliases removed; further Linux/primary/finalGate pending",
+    "buildAndE1NotRecertifiedHere": true,
+    "priorRollbackGraphGuardStillRequiresActualClosure": true
+  },
+  "noProductAuthorRootExecutorOrGovernanceWriting": true,
+  "noAuthorDriversOrNodeProductDefinitionsImportedOrExecuted": true,
+  "noBuildTestHTTPDBPGBrowserOrEnvironmentExecution": true,
+  "noPrivateRead": true,
+  "noGitMutationOrExternalWrite": true,
+  "onlyOwnCReviewArtifactsWritten": true,
+  "ownStaticReviewer": {
+    "file": "tmp/rust-r3m/c-review/g2-write-ui-matrix-clarification01.mjs",
+    "bytes": 19175,
+    "rawBytesSha256": "99dd2681f7729b871dcf869391e7e2c2d06efbcb428b308093bd111613ddfaec"
+  },
+  "readableCompanion": {
+    "file": "tmp/rust-r3m/c-review/g2-ui-matrix-clarification01.md",
+    "bytes": 2107,
+    "rawBytesSha256": "309dcb6e7b57bcc550c1b20bfff46374e963d529005f96e0dc4780c916a25492"
+  }
+}

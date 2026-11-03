@@ -1,0 +1,148 @@
+{
+  "label": "A.customer.workspace",
+  "name": "A.customer.workspace",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.860Z",
+  "completedAt": "2026-11-02T23:01:03.875Z",
+  "validatedEventRange": {
+    "start": 19,
+    "end": 20,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_getWorkspaceOverview",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers/6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3/workspace-overview"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "activeLeads": [],
+        "activeProjects": [
+          {
+            "currentStage": "assessment",
+            "id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+            "ownerName": "R3CO other",
+            "plannedSignAt": null,
+            "projectName": "R3HK-5fb76d1a-11 revised project",
+            "projectNo": "PRJ-2026-000002",
+            "status": "active",
+            "updatedAt": "2026-11-02T23:01:03.802Z"
+          }
+        ],
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "generatedAt": "2026-11-02T23:01:03.872Z",
+        "recentContracts": [],
+        "recentDiscussions": [],
+        "recentFollowUps": [],
+        "recommendedActions": [
+          {
+            "description": "当前有 1 个进行中项目，优先处理最近更新的项目。",
+            "intent": "open-project-workspace",
+            "key": "advance-active-projects",
+            "priority": 20,
+            "targetObjectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+            "targetObjectType": "project",
+            "targetTitle": "R3HK-5fb76d1a-11 revised project",
+            "title": "推进进行中项目"
+          },
+          {
+            "description": "当前还没有客户级跟进记录，先补齐第一条互动事实。",
+            "intent": "record-follow-up",
+            "key": "record-follow-up",
+            "priority": 40,
+            "targetObjectId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "targetObjectType": "customer",
+            "targetTitle": "R3HK-5fb76d1a-11 customer revised",
+            "title": "补充客户跟进"
+          },
+          {
+            "description": "当前还没有客户级讨论记录，先补齐关键背景和共识。",
+            "intent": "capture-discussion",
+            "key": "capture-discussion",
+            "priority": 50,
+            "targetObjectId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "targetObjectType": "customer",
+            "targetTitle": "R3HK-5fb76d1a-11 customer revised",
+            "title": "补充客户讨论"
+          }
+        ],
+        "summary": {
+          "activeLeadCount": 0,
+          "activeProjectCount": 1,
+          "contractCount": 0,
+          "convertedLeadCount": 0,
+          "latestDiscussionAt": null,
+          "latestFollowUpAt": null,
+          "leadCount": 0,
+          "projectCount": 1,
+          "recentDiscussionCount": 0,
+          "recentFollowUpCount": 0
+        },
+        "timeline": [
+          {
+            "actorName": "R3CO other",
+            "description": "PRJ-2026-000002 · active · assessment",
+            "eventType": "project-updated",
+            "isKey": true,
+            "key": "project:16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+            "occurredAt": "2026-11-02T23:01:03.802Z",
+            "sourceId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+            "sourceType": "project",
+            "targetObjectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+            "targetObjectType": "project",
+            "targetTitle": "R3HK-5fb76d1a-11 revised project",
+            "title": "R3HK-5fb76d1a-11 revised project"
+          }
+        ]
+      },
+      "requestId": "7d78f553-2301-4f56-9ad9-47a878baaf07",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2167",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-33",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 346,
+        "requestSha256": "eef84ab676e72ab8c83ccf0930dcb52fa24c77c44ca4245e300b24cba62cfc27",
+        "responseBytes": 2447,
+        "responseSha256": "18d647481addd98c83cd9a6f041a517c61d033ef3641b733a8456e44a63c1a2d",
+        "entityBodyBytes": 2167,
+        "entityBodySha256": "8efc51e9838e31aa945e89c8ee96c1ce5d95f7bfeec36d6e5de5d83df53f0114",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-ce8f29df-867a-4dd2-9752-15529504f71b",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-20-A.customer.workspace.json",
+      "bytes": 4989,
+      "rawBytesSha256": "5168e21a633d00e895a55a0caeeafd3585e4769d7523f46e6859afaee0520568"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "label": "I-concurrent-discovery",
+  "name": "I-concurrent-discovery",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-03T00:12:52.571Z",
+  "completedAt": "2026-11-03T00:12:52.689Z",
+  "validatedEventRange": {
+    "start": 10,
+    "end": 15,
+    "exclusive": true
+  },
+  "value": {
+    "before": {
+      "id": "3abc884d-9620-4b70-9394-f73b733d4f84",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "lead_id": "4108520a-ec72-4e3c-b4e4-09f05c3342ef",
+      "project_id": null,
+      "procurement_process": "Native I discovery initial procurement",
+      "budget_source": "Native I discovery initial budget",
+      "customer_pain_points": "Native I discovery initial pain",
+      "decision_cycle": "Native I discovery initial cycle",
+      "next_contact_plan": "Native I discovery initial next contact",
+      "remark": "Native I discovery initial remark",
+      "row_version": 1,
+      "created_at": "2026-11-03T00:12:52.627Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-03T00:12:52.627Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/sales-discovery-records/3abc884d-9620-4b70-9394-f73b733d4f84",
+        "json": {
+          "remark": "concurrent admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/sales-discovery-records/3abc884d-9620-4b70-9394-f73b733d4f84",
+        "json": {
+          "remark": "concurrent other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "SalesDiscoveryRecord 3abc884d-9620-4b70-9394-f73b733d4f84 has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "5618b958-1947-4a45-a90a-38ff6519e9a4",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "144",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-508",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:52 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 483,
+            "requestSha256": "a37b7af6c7c95e4675193239fdc864ff8912d3d2023a219b36a9cca203bda19f",
+            "responseBytes": 430,
+            "responseSha256": "b5886b6a78041592473653ebfdb0154d6a8ae94ca6e48e0a7aeb0875a6c17511",
+            "entityBodyBytes": 144,
+            "entityBodySha256": "d869f1c330269cf9ced102c858c209dc9252fb2e81444c388712f2d254793179",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/raw-wire/admin-f33d5f5c-a40d-4b12-ae07-2938aebfd37b",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 200,
+          "body": {
+            "id": "3abc884d-9620-4b70-9394-f73b733d4f84",
+            "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "leadId": "4108520a-ec72-4e3c-b4e4-09f05c3342ef",
+            "leadName": "R3CO I-concurrent-discovery",
+            "projectId": null,
+            "projectName": null,
+            "procurementProcess": "Native I discovery initial procurement",
+            "budgetSource": "Native I discovery initial budget",
+            "customerPainPoints": "Native I discovery initial pain",
+            "decisionCycle": "Native I discovery initial cycle",
+            "nextContactPlan": "Native I discovery initial next contact",
+            "remark": "concurrent other",
+            "rowVersion": 2,
+            "createdAt": "2026-11-03T00:12:52.627Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updatedAt": "2026-11-03T00:12:52.654Z",
+            "updatedBy": "97e8f948-bcba-45bf-aabc-757232934bd9"
+          },
+          "requestId": "3f4940d9-82d7-481c-925f-325abc78d849",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "796",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-509",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:52 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 483,
+            "requestSha256": "37253b8f2422f8f72a852a4686a9bf0b1f587cc143c755081931bacf96bfc400",
+            "responseBytes": 1076,
+            "responseSha256": "4a21ba85eeb819d23395fb4d9d6e881ae03059b4b67da4b6716a49b871da8186",
+            "entityBodyBytes": 796,
+            "entityBodySha256": "31a3fd12cf19cbae865c90c1c45011724ede305c401e1d8469f7af7a45edefcd",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/raw-wire/other-64533bdb-6b4e-4f9a-afed-a4d3135139ac",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "3abc884d-9620-4b70-9394-f73b733d4f84",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "lead_id": "4108520a-ec72-4e3c-b4e4-09f05c3342ef",
+      "project_id": null,
+      "procurement_process": "Native I discovery initial procurement",
+      "budget_source": "Native I discovery initial budget",
+      "customer_pain_points": "Native I discovery initial pain",
+      "decision_cycle": "Native I discovery initial cycle",
+      "next_contact_plan": "Native I discovery initial next contact",
+      "remark": "concurrent other",
+      "row_version": 2,
+      "created_at": "2026-11-03T00:12:52.627Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-03T00:12:52.654Z",
+      "updated_by": "97e8f948-bcba-45bf-aabc-757232934bd9"
+    },
+    "audits": [
+      [],
+      [
+        {
+          "id": "737a78dd-0020-4602-99b6-010564ff4226",
+          "event_type": "sales-discovery-record.updated",
+          "target_type": "sales-discovery-record",
+          "target_id": "3abc884d-9620-4b70-9394-f73b733d4f84",
+          "operator_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "request_id": "3f4940d9-82d7-481c-925f-325abc78d849",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "remark": {
+              "length": 33,
+              "changed": true,
+              "present": true
+            }
+          },
+          "after_snapshot": {
+            "remark": {
+              "length": 16,
+              "changed": true,
+              "present": true
+            }
+          },
+          "metadata": {
+            "changedFields": [
+              "remark"
+            ],
+            "sourceCommand": "update-sales-discovery-record",
+            "redactedFields": [
+              "remark"
+            ],
+            "businessContext": {
+              "leadId": "4108520a-ec72-4e3c-b4e4-09f05c3342ef",
+              "projectId": null,
+              "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+            }
+          },
+          "occurred_at": "2026-11-03T00:12:52.654Z"
+        }
+      ]
+    ]
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/structured-original-03-I-concurrent-discovery.json",
+      "bytes": 7724,
+      "rawBytesSha256": "a104afdd8451ada66354338b586b6972fb33bd40b3a10e182f17d58c4ebb7c35"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

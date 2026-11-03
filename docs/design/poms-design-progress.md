@@ -701,3 +701,13 @@ G4随本归档提交推送与在线回写生效，仅关闭#74/#75；R2A–H累�
 2026-10-29 Rust R2I/J：R2I [#76](https://github.com/illusion-tech/poms/issues/76) 六操作与R2J [#77](https://github.com/illusion-tech/poms/issues/77) 十九操作已交付，实现`568c0ba39dc8dbc687c04f55f690e4f36c0af5d0`已集成推送main；[联合最终G3](rust-r2ij-review01.json)和[独立集成核验](rust-r2ij-integration-review.json)均Pass，未关闭P1/P2为0。[初始验收](rust-r2ij-validation.json)、[同次纠偏增量](rust-r2ij-g3-delta01.json)、[完整来源](rust-r2ij-source-manifest.json)及[保全锚点](rust-r2ij-preservation.json)分别保留时点与原字节；[归档收口](archive/slices/rust-r2ij-closeout.md)解释路径/hash映射。
 
 G4随本归档提交推送与在线回写核对生效，仅关闭#76/#77。R2A–J累计 **99/108**，余 **9个操作（K5/L4）及R2M阶段验收**；父#67/#57保持Open，K/L/M、#61和R3–R5边界不变。PG17实例和数据、旧环境及新PG15保留；本批API/OBS/新PG15已正常停止，无部署、真实OBS租户认证或性能结论。上方带日期的旧计数与G1/Pending记录保留历史含义，以本条为当前状态。
+
+
+### 2026-11-03 R3 收口批 G2 实际验收完成，等待独立 Gate
+
+#97 / #98 / #99 / #100 的补缺与统一候选实际验收完成；[当前状态](rust-r3-closeout-status.json)、[联合输入](rust-r3-closeout-baseline.md)及[实际证据封包](rust-r3m/g3-package-manifest01.json)承接本次收口。候选 final01/f6a9fded，Rust 306 passed / 54 ignored（53 DB opt-in 和 1 显式 child fixture 分列），Admin lint、23 focused tests、production build 通过。58/58 有效入口与权限/CSRF/会话矩阵、评分一致性与历史审批事务回滚、CAS/版本/唯一提醒流均实测；四浏览器组合为 8 Rust业务通过＋8 Native参考捕获，已知 Native 缺陷不作为 Rust 目标或业务通过。
+
+两库本批 4471 行精确归属清理，107 表 seed/catalog/428 ACL/日志恢复，二次零变化；11 个对象486B原字节保全，运行副本为0，API/浏览器/PG/keepalive已停止，卷/private保留。E1 五别名删除，Windows/Linux 移除前后支持回放一致。原 failed/partial/quarantine/ignored 不改写。当前只是 G2 已执行完成；独立 G3 已Pass，固定提交、main 集成、生命周期归档与独立 G4 尚待完成，#85/#57和本批子项仍Open，R4–R7仍Todo。
+
+
+2026-11-03 [最终非作者 G3](rust-r3m/C/g3-independent-review01.json)已Pass，P0/P1/P2为0，仅准许本候选提交。固定提交、main集成及独立G4尚待完成，本批子项和#85/#57均保持Open。

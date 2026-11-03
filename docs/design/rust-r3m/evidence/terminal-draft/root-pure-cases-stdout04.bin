@@ -1,0 +1,41 @@
+✔ valid exact actors, attributed customer, rooted child FK (5.7483ms)
+✔ seed-only FK and a remembered seed ID never establish ownership (2.1856ms)
+✔ unrooted self reference remains orphan (1.2407ms)
+✔ unrooted two-row cycle cannot self-certify during iteration (1.9081ms)
+✔ cycle connected to a genuine own attribution has an acyclic proof root (2.5398ms)
+✔ current-looking actor prefix without an exact registry ID blocks (2.3977ms)
+✔ registered seed actor ID cannot be lent as an ownership root (1.0545ms)
+✔ any changed ordinary seed blocks the entire transaction plan (1.4213ms)
+✔ unknown new row with no FK or attribution blocks (0.8183ms)
+✔ actor-null guard event requires exact validated request triple; partial is cleanup only (1.5622ms)
+✔ actor-null event without exact request source remains orphan (0.7846ms)
+✔ same request ID with a different path cannot own an event (0.957ms)
+✔ unregistered event type does not borrow a matching request root (0.6938ms)
+✔ missing actual FK target rejects the plan rather than guessing (1.2626ms)
+✔ registered fixture-actor random8 username with exact UUID-derived org/role codes is valid (1.7584ms)
+✔ registered random-style username still rejects an invalid suffix (2.5485ms)
+✔ valid random8 prefix/suffix cannot replace the exact registered user ID (1.0725ms)
+✔ random8 registration requires the complete organization code derived from its own registered UUID (0.919ms)
+✔ random8 registration requires the complete role key derived from its own registered UUID (0.8527ms)
+✔ only the four explicit authoritative actor columns establish direct roots (1.4183ms)
+✔ unknown and seed users do not establish any of the four new direct roots (5.7309ms)
+✔ whitelisted column names on an unrelated table remain ineffective (0.7646ms)
+✔ a different actor-like column on a whitelisted table is not adopted (1.21ms)
+✔ all three F target priorities establish an explicit logical reminder edge (3.1799ms)
+✔ logical Todo ownership waits for its F source to gain an independent real FK root (0.7762ms)
+✔ a seed F source cannot be lent as a logical ownership root (0.9647ms)
+✔ missing F source and a bare assignee or invented creator column do not own Todo (1.0465ms)
+✔ an unowned new F cannot become rooted merely because its Todo points back (1.1034ms)
+✔ unknown source type, Todo type and business domain each block logical adoption (3.3671ms)
+✔ matching unknown or seed F owner and Todo assignee still do not qualify (1.7998ms)
+✔ a registered Todo assignee must still match its exact F owner (0.7652ms)
+✔ mismatched Todo target type, target identity or project context blocks (2.2897ms)
+✔ historical completed and canceled reminders retain the same owned source relation (1.666ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 191.0174

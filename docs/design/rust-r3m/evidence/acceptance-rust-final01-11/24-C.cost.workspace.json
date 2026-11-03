@@ -1,0 +1,171 @@
+{
+  "label": "C.cost.workspace",
+  "name": "C.cost.workspace",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.938Z",
+  "completedAt": "2026-11-02T23:01:03.955Z",
+  "validatedEventRange": {
+    "start": 23,
+    "end": 24,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5/technical-cost-workspace"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-technical-cost-workspace",
+          "create-technical-cost-package"
+        ],
+        "blockingReasons": [],
+        "costItems": [
+          {
+            "amountExcludingTax": "100.10",
+            "amountIncludingTax": "113.11",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "R3HK-5fb76d1a-11 equipment",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "G1 已确认询价。",
+            "highUncertainty": false,
+            "id": "86024338-3bde-4f69-8cd4-bac6db4137ba",
+            "packageId": "26a39d65-56ba-4508-bdc8-bd7a404ea230",
+            "quantity": "1.2500",
+            "responsibleRole": null,
+            "sortOrder": 1,
+            "taxCostAmount": "13.01",
+            "unit": "套",
+            "unitPrice": "80.0800"
+          },
+          {
+            "amountExcludingTax": "0.20",
+            "amountIncludingTax": "0.23",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "R3HK-5fb76d1a-11 accessory",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "G1 已确认询价。",
+            "highUncertainty": false,
+            "id": "319da1d4-ba05-42c6-9ad7-510b35a6131e",
+            "packageId": "26a39d65-56ba-4508-bdc8-bd7a404ea230",
+            "quantity": "0.2000",
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "taxCostAmount": "0.03",
+            "unit": "套",
+            "unitPrice": "1.0000"
+          }
+        ],
+        "currentPackage": {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:01:03.917Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T23:01:03.917Z",
+          "highestRiskLevel": "R1",
+          "id": "26a39d65-56ba-4508-bdc8-bd7a404ea230",
+          "isCurrent": true,
+          "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "5fbed99b-2a6b-438d-a0b9-14383e28dbfd",
+          "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3HK-5fb76d1a-11 cost revision 2",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T23:01:03.917Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 2
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T23:01:03.952Z",
+        "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+        "ownerLabel": "R3CO other / R3CO other",
+        "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "riskItems": [
+          {
+            "blocksNextStage": false,
+            "id": "6b0eb2fe-b469-4347-bd9d-545acf62907a",
+            "impactScope": "设备供货范围。",
+            "mitigationPlan": "按已核实周期交付。",
+            "ownerRole": "售前",
+            "packageId": "26a39d65-56ba-4508-bdc8-bd7a404ea230",
+            "riskCategory": "R3HK-5fb76d1a-11 supply",
+            "riskDescription": "R3HK-5fb76d1a-11 reviewed delivery risk",
+            "riskLevel": "R1",
+            "riskStatus": "closed",
+            "sortOrder": 1
+          }
+        ],
+        "scopeItems": [
+          {
+            "description": "包含一项设备供货。",
+            "id": "b7fd235f-c3f1-4baf-9435-0bc35940b666",
+            "label": "R3HK-5fb76d1a-11 equipment scope",
+            "packageId": "26a39d65-56ba-4508-bdc8-bd7a404ea230",
+            "scopeType": "in-scope",
+            "sortOrder": 1
+          }
+        ],
+        "status": "active"
+      },
+      "requestId": "d442832c-2674-408f-a65a-f42fe9cb70f2",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2847",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-37",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "33a7e7998d71c3e547c29c5ee886f53687ff73b428fbc8de72a6a68f6677831b",
+        "responseBytes": 3127,
+        "responseSha256": "b45998a55178e0013fa591160321511f5c98fef66c703f9aa85a537564443bb2",
+        "entityBodyBytes": 2847,
+        "entityBodySha256": "0553107a8571032c6f6fa1a0a008f97cd044d5dbee842a5d9e2bf953d01d1a58",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-57daddde-e20b-4912-86f0-8f713bd87b49",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-24-C.cost.workspace.json",
+      "bytes": 5960,
+      "rawBytesSha256": "5924daf057eeba3d33e1430b8fbf0e92fc2e0472a01e90ecd9598755be3907f8"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

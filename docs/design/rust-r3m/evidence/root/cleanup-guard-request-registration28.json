@@ -1,0 +1,832 @@
+{
+  "kind": "R3M-cleanup-only-guard-request-registration",
+  "backend": "rust",
+  "runId": "5fb76d1a-e714-4510-a6e8-d33531405432",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "privateOriginalReport": {
+    "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/structured-original-report01.json",
+    "bytes": 6545137,
+    "rawBytesSha256": "5015046b35bc3a3dfb29cca1abde3f95b1113884b06ae2e5c863aeda5b122971"
+  },
+  "entries": [
+    {
+      "eventIndex": 689,
+      "method": "GET",
+      "route": "/api/customers?page=invalid",
+      "requestId": "eb588d27-871b-4d6b-b6cd-63402c9040bf",
+      "rawWire": {
+        "requestBytes": 303,
+        "requestSha256": "3181921cd654e0255c18917061b4538d09be355df30e74252fc1e35b44516bcd",
+        "responseBytes": 366,
+        "responseSha256": "940c9939a06e1119e7873108ef59eee1b3dc61e8b20f9afc0fcbee390c986627",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-1c38264b-deb4-4c5e-aac0-624e258e50a9",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 690,
+      "method": "DELETE",
+      "route": "/api/customer-aliases/59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "b3f9ffd5-085f-4190-be3c-9b63fcafb2a4",
+      "rawWire": {
+        "requestBytes": 449,
+        "requestSha256": "00d8bf2c1dac1ba7fec6845400973a5ab1da03447772c8ccebd275828f66ac73",
+        "responseBytes": 366,
+        "responseSha256": "5f4b06bd44c38bdb5ee8deb8b92e02b0224ee8a1ecd3e38fc59fd99c0ede1f7d",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-e51d19ee-4d28-4a64-b409-7a78e629c330",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 691,
+      "method": "GET",
+      "route": "/api/customer-contacts?customerId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "aa606ec5-bbbd-4dc3-a603-10960a244e34",
+      "rawWire": {
+        "requestBytes": 346,
+        "requestSha256": "94203cec4b89929fa70736eb5af515518f0b716ac35cfebe30515bbdc2b35603",
+        "responseBytes": 366,
+        "responseSha256": "c8acbc8ec47c3caa062f99a56d73a9f52ab8214b57435cb60920dd81cde16731",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-b3eddf6d-319c-496b-800f-ed8b6eae14aa",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 692,
+      "method": "GET",
+      "route": "/api/leads?page=invalid",
+      "requestId": "cbf412f2-06d3-426e-8847-57f83d8f6398",
+      "rawWire": {
+        "requestBytes": 299,
+        "requestSha256": "779a3e4819d1423b1913aa9f85053942f6c647547904c254421ef04fea93153f",
+        "responseBytes": 366,
+        "responseSha256": "3eebe760ee14b1d1caee450e9e9cebbfd51024f1f9a117310974f8b3acbf6193",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-992782a5-edf5-4cf0-a338-ab9771f14398",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 693,
+      "method": "POST",
+      "route": "/api/lead-score-overrides/59309ba5-3fb5-4869-895e-29deed1eac7b:approve",
+      "requestId": "8db4b91f-a4b4-4d8d-8ae0-1cab34f4caea",
+      "rawWire": {
+        "requestBytes": 459,
+        "requestSha256": "4c4d5223e2a3784a1de3d49fc96dc2fd9db1da91616319308ac5894a9373cb8a",
+        "responseBytes": 366,
+        "responseSha256": "a8a915a8541e6b8f3d5db774148c9c6160c5e932de768ea2716947f73d937090",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-d0cde870-fccc-4bbd-8c31-1abfaae77a6a",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 694,
+      "method": "GET",
+      "route": "/api/projects?page=invalid",
+      "requestId": "c40e2afe-87c4-4f04-a12a-8c57da428481",
+      "rawWire": {
+        "requestBytes": 302,
+        "requestSha256": "4cf60b42f25ef66853a7a27dfb2d330a5f5e92aaf98a044f8d38d9d4d2e49782",
+        "responseBytes": 366,
+        "responseSha256": "efb49fbd01ec1aaa7896465fe14b689c21df6c626edc898666657fb9cf3b65c0",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-aa2de69c-efe2-48a1-8b71-8fb5ad2b7981",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 695,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/technical-cost-packages",
+      "requestId": "70dce76e-b667-44f0-ba54-4402054b27f2",
+      "rawWire": {
+        "requestBytes": 350,
+        "requestSha256": "de0447d3f57953cb973880f8911c32d8b250f1c6a79d31e1a475044b9adfdbee",
+        "responseBytes": 366,
+        "responseSha256": "5e7270e0857a86a732129038f587c7c91511c2ab7a0a036934e5db0d075e8715",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-9a1e0c0a-bddb-4bc2-90d9-6f3df5b5f386",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 696,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/bid-commercial-processes",
+      "requestId": "f2a770e5-bb1e-4069-b799-6560d7d39902",
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "56b56e8c3597f4e8710d57b63a46ea258c384a82d66d6a65c83ba98a9ff813b9",
+        "responseBytes": 366,
+        "responseSha256": "abf0834ad0e68602224b3297c3fe3edda64bb9fc548f96d80f688866c2695354",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-731dfb68-a69b-4d8c-8cd1-761f5743dcfd",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 697,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/pricing-margin-reviews",
+      "requestId": "bbd3f746-988a-47a6-9015-bc001f59e34f",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "a3118d7e873cb772e932b29ae637bd6552b029ab996240a04da8a0004979af31",
+        "responseBytes": 366,
+        "responseSha256": "6892ff3c8fc9f7000341d9179447b977c3c7b6ac4ea85cca8e1c5309f2a1be0c",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-2e0ec44c-3420-4c48-bc58-cacfa07cc2eb",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 698,
+      "method": "GET",
+      "route": "/api/sales-follow-up-records",
+      "requestId": "ec90b72b-5971-4b86-8992-eb025cca4660",
+      "rawWire": {
+        "requestBytes": 304,
+        "requestSha256": "307f4f9537f6657c94da36c4e91368747bb03d09ddd67ab5d48ec9f816af2ad3",
+        "responseBytes": 366,
+        "responseSha256": "528133bf4c96a135a2ea574d5a96a0a7f79e56c1aa7088045bd6d4e09ce0e9b8",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-0a4fe033-f6cc-4af4-888a-193642f83417",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 699,
+      "method": "GET",
+      "route": "/api/opportunity-stakeholders?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "5c031feb-1019-4aac-b764-b3a1a7f28321",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "41368576f9c7734e14d75af7031246ae95f33fdd924edb6ded3e2a4f2b443b4b",
+        "responseBytes": 366,
+        "responseSha256": "59fe0ae2a0a11526e02059da962eadc179a747436e35f0c246215753e035653b",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-e887aa2a-7524-412b-8924-554bd68a4884",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 700,
+      "method": "GET",
+      "route": "/api/competitor-intelligence-records?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "e07a119a-9cad-48bc-ad67-df712e440202",
+      "rawWire": {
+        "requestBytes": 356,
+        "requestSha256": "b8a6385b7ff1649d88083ad1ec5876a78f70528dbc1636d42d06125d43ec326b",
+        "responseBytes": 366,
+        "responseSha256": "960226630f20e70853d64e981e05a9a41f5dc9ec2f3296bd44572c4959744f37",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-91aafbc2-fe02-4a87-a4c1-425fb037246b",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 701,
+      "method": "GET",
+      "route": "/api/sales-discovery-records?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "3b442c49-4cdb-426b-8125-f9f1224fd46f",
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "8f58a4ddcbe92512a92715eb39e3781d2217ca7f9801e9736485b5a4d6b25970",
+        "responseBytes": 366,
+        "responseSha256": "401c070dd44413ff3a8e0241fa71e6686d458a19fec87369b0ea6a3bd090baf9",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-5a50de59-7d0d-4232-9e98-6cd6c8fe91bb",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 702,
+      "method": "GET",
+      "route": "/api/sales-intelligence-gaps?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "a0739ef4-8fe3-430f-80cb-1881b32a3087",
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "78b03e9dd87daa76d8a31de676e13bb70b863d35def6a3642e7c3d347a20bd13",
+        "responseBytes": 366,
+        "responseSha256": "6b0eee72a7cc2d022dda896b6fa5a458364000dd56cb6bebf3ef91ef62c81a65",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-d0027749-1378-4912-91a0-24132c4e3ecf",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 703,
+      "method": "GET",
+      "route": "/api/business-discussions?customerId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "2a12ceb6-6791-4399-baef-16f8cf890c5a",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "3627f19f5b455e5728a4b1cd62fc8703edc2348f6fdbbc7418a77c4641b62c7f",
+        "responseBytes": 366,
+        "responseSha256": "e46a5eea7e33215a0b93184daf05dbf676d20df385e2a283c5fa986e83ae223f",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-f872d200-b690-4fd9-a51f-d49fe416a609",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 704,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/workspace-guidance",
+      "requestId": "6244ae9a-134c-40fd-8246-c00dc7145aaa",
+      "rawWire": {
+        "requestBytes": 345,
+        "requestSha256": "845522172fad5b3ab05c0317706265ad50811f69b4183409002fe3a53a7fc67b",
+        "responseBytes": 366,
+        "responseSha256": "71f07cf194be5c74f6097d392b085a1345fcf1eeec2b34d7b3b34844be5c0744",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-d87ce192-be60-476b-8b68-280b18c51ac6",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 705,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/timeline",
+      "requestId": "95f75ae1-9dbd-4760-b7d9-75a760dc1b56",
+      "rawWire": {
+        "requestBytes": 335,
+        "requestSha256": "94b525da32a0494120bfb2798d979f1bfa274defa70eb179fa36567d85b7078c",
+        "responseBytes": 366,
+        "responseSha256": "3336f8b299a3267dd5b7b48ae7ac08c55731744f37fb996be787eee2c1b73625",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "5b9fa6ad0b0d3d761bb428900b862dc65fb92031eb29c1abe93dd1c57ebfb7b5",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-4525d705-a4f8-4cb1-b7f3-52e117a64a7d",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 706,
+      "method": "GET",
+      "route": "/api/customers?page=invalid",
+      "requestId": "4dead0f7-c59e-49e4-9c53-b42a94d1802d",
+      "rawWire": {
+        "requestBytes": 303,
+        "requestSha256": "7315eeebbb8a408a0f3f2cd9d4f1367f4bedcd12a93c7a0ebcd4e137459b3601",
+        "responseBytes": 366,
+        "responseSha256": "2d438e048c6bd3f69749822c2c100a42a6ed18742a2431b5ae75e37d1574591f",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-6dbdb67a-6c3c-41b7-b628-11345a439fbe",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 707,
+      "method": "DELETE",
+      "route": "/api/customer-aliases/59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "25da6590-7507-451e-b656-2378f31fd249",
+      "rawWire": {
+        "requestBytes": 449,
+        "requestSha256": "05fb7cf9d3959993d87b51d09c1694a0b2c72db0746cae680b2de83e9f86394b",
+        "responseBytes": 366,
+        "responseSha256": "317fb46eee82a683fa0ab17433b92c81473865dcdf303a76af91b95524d6bb8c",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-4295dd91-ef95-474a-9ab3-db8cf6a98e93",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 708,
+      "method": "GET",
+      "route": "/api/customer-contacts?customerId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "fea4a0cd-8f26-4250-821f-277e2891b192",
+      "rawWire": {
+        "requestBytes": 346,
+        "requestSha256": "cc8ca5b2d37ffdfb863b010eeb8f3b6d6e1fb9347f582577363a358ec57259d6",
+        "responseBytes": 366,
+        "responseSha256": "e1691aeee19ef2ca8f346d2e4e6445bff4bdf5e44125a56276c5b5bdb02b1292",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-01ed5d4d-2251-4c9e-9a0d-548e97bcf664",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 709,
+      "method": "GET",
+      "route": "/api/leads?page=invalid",
+      "requestId": "acc525b6-90a0-4130-9848-1975c5691602",
+      "rawWire": {
+        "requestBytes": 299,
+        "requestSha256": "b1b460fd9636d2ae02cec0a22c1859b55d54ae2a5b1c0e3c8eaadf31f6ec0581",
+        "responseBytes": 366,
+        "responseSha256": "e7222f34ae0d508661304f974cf3bd7186e180887eef25de1520804877ab2054",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-5f65f82d-ccd3-479a-8937-38d6ec89dd9b",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 710,
+      "method": "POST",
+      "route": "/api/lead-score-overrides/59309ba5-3fb5-4869-895e-29deed1eac7b:approve",
+      "requestId": "f49eb1d8-8fc0-4916-9153-2f0cbdb40ac6",
+      "rawWire": {
+        "requestBytes": 459,
+        "requestSha256": "aaf35df50a6b8d36680f113a3a5c1bf897e68bf58351abd1f7d3112166961417",
+        "responseBytes": 366,
+        "responseSha256": "0928278b12ddcdf7853d01f35122286c015b3babc3e24fc26c938c8d5ef4b63a",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-56009508-8a89-49d2-9cdb-137995500251",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 711,
+      "method": "GET",
+      "route": "/api/projects?page=invalid",
+      "requestId": "4bf5f0fb-5933-4b20-b523-d8d0f9f57deb",
+      "rawWire": {
+        "requestBytes": 302,
+        "requestSha256": "af28eb6ab2e1517bff0c17f05ab07c5b448e87240e3047653dfb4faca00afc29",
+        "responseBytes": 366,
+        "responseSha256": "0226088831b6f2bd25eb9402e1d5fa20fd8df1acbe76d443cf25da4133212e95",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-5c9313da-1912-4cee-8b54-fac423343a71",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 712,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/technical-cost-packages",
+      "requestId": "a534e6d6-4404-4139-8a9b-5478b6c02084",
+      "rawWire": {
+        "requestBytes": 350,
+        "requestSha256": "4ddcc866634c31e26caa919a2460adacc8c5825cfe64c1c64ca4dfae1c1181c0",
+        "responseBytes": 366,
+        "responseSha256": "00bef6b60d914710a9b88a4c36fa305124e590f7db59b2db8e982799165221e6",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-e996fe72-c153-4365-b4c0-d2a752894fe5",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 713,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/bid-commercial-processes",
+      "requestId": "9ec5fb78-7c9d-43d8-8008-53c571674deb",
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "37903001301ae96b3a9048c52dee7fa2d921864b6965cb9f1d9190b66c0d62ab",
+        "responseBytes": 366,
+        "responseSha256": "27335a539ffa3dcce643a63c490ab2e6d2c056e3a6acd52f3f58512df1e71b35",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-cf861085-5d0e-422b-a62a-952b0c9e1188",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 714,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/pricing-margin-reviews",
+      "requestId": "a487c79c-8684-4ba5-b1b6-ca5aa694659d",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "9a4ea9a785c81b1c3d8991b722414fe7339682e9fb640de07bb12222340f894f",
+        "responseBytes": 366,
+        "responseSha256": "f21160e4cbd1238b7b46ac9e309ccb2d613ce572e995479ed251fe151dda965e",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-70dcdfb7-e6b2-48ba-af21-6db857892663",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 715,
+      "method": "GET",
+      "route": "/api/sales-follow-up-records",
+      "requestId": "a29cd1e0-d568-4020-932f-10a6ad257e74",
+      "rawWire": {
+        "requestBytes": 304,
+        "requestSha256": "b22dd9ddaad1fb3ffccd9fa02137d315a9c47ad3b82d6647f549a4d4f6131f7d",
+        "responseBytes": 366,
+        "responseSha256": "0d1ce912ecf8b8d4e2dccf6ea077a39c09c42ee4199b084242357023bf05b462",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-1e27c8e1-fe62-490e-b303-40a9061ae546",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 716,
+      "method": "GET",
+      "route": "/api/opportunity-stakeholders?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "c0d7bfd2-ec85-46dc-9050-d32424810197",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "a45526d18b2818ac3009297c32c980c6fcee22a3b308ec7e73a3abe3ed9a851e",
+        "responseBytes": 366,
+        "responseSha256": "73c2c8157d802755c362d7616ab930b9b1803cb4a5502ea0867ea8870637891d",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-66598ded-d1c6-421f-a06d-9e601d8ef4b2",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 717,
+      "method": "GET",
+      "route": "/api/competitor-intelligence-records?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "ed5ebbbc-9802-40da-8dce-3eb0e6fad1d2",
+      "rawWire": {
+        "requestBytes": 356,
+        "requestSha256": "45e519740775a25e4cf5b213238f3864b17fbe35af49d653a51a0104af180ab6",
+        "responseBytes": 366,
+        "responseSha256": "c9dfd013515c95b7a761db7b0e1c23688fb48320e7b466304570d0ad5350dcd8",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-b0aa875f-0842-42bb-9f1b-655a1bd37b79",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 718,
+      "method": "GET",
+      "route": "/api/sales-discovery-records?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "418aadb7-49b2-4562-9094-f1b9313014d9",
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "2aa3b06f95512b3ccd0f324464efb444fc322cdbc17808eceffb5fec30f52975",
+        "responseBytes": 366,
+        "responseSha256": "aa0c53e8e71e367ae048c0b45fa539c643e19c1edce5ca1d17a9f1a783d817db",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-50c353a8-6e09-4a27-a3db-ecc1b44879f2",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 719,
+      "method": "GET",
+      "route": "/api/sales-intelligence-gaps?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "4894fff2-be92-48d3-ad51-29770e12f477",
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "953c1c1834de0c4bf1640000f367d80692376901c1262b1892e0e145c87d6036",
+        "responseBytes": 366,
+        "responseSha256": "8cfbdbd059cb6424c6e7b8a0f46c18091eccc225be7f64eaaa140f1013a77916",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-d7dd14fa-f8d2-47da-b0f8-27985b7fff4f",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 720,
+      "method": "GET",
+      "route": "/api/business-discussions?customerId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "ac410965-797f-41b1-b263-5595bbfbac72",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "42f6dd1de2b9d4bf72d868bbeb1285353ba06b73d29f21298189e4f7f9b394e8",
+        "responseBytes": 366,
+        "responseSha256": "d24a98a4f0bf2d25aa74c13181bb20596411cbb7cd9afffbfa51c8ca2bf8cfdd",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-4c64d6f9-9523-4b2f-93ef-667ea30a22b2",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 721,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/workspace-guidance",
+      "requestId": "fae8a6b6-504b-4d27-9258-fe19b768f962",
+      "rawWire": {
+        "requestBytes": 345,
+        "requestSha256": "30544588c190a040773a381570488c627460c5308c72e33bc4dcb1a66e231202",
+        "responseBytes": 366,
+        "responseSha256": "955c63eac124abe0168b280decab6dd3acc03e5d2a8faf7076c1bd7f84add05f",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-35b723ea-1075-4f4f-abe6-aac548a9ad75",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 722,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/timeline",
+      "requestId": "82e9cdb9-dd49-4f63-b86e-a4aa8739ce3c",
+      "rawWire": {
+        "requestBytes": 335,
+        "requestSha256": "2bd0d58bf5956d59a502716cf49cb3bba167fa5815d22ac6aa8d5e57b5a26e00",
+        "responseBytes": 366,
+        "responseSha256": "b638c002c68d5e0371464f79bacd2c51b4a66d4d4215c88aaf7ab3ffb1d19033",
+        "entityBodyBytes": 79,
+        "entityBodySha256": "afe0129a2e814e17393a4f7647f6b20e47532c80c954dbfccbbe558bc7aa1cee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-c1f3b11d-c5d5-4294-b4bf-91b0cb900d2b",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 723,
+      "method": "GET",
+      "route": "/api/customers?page=invalid",
+      "requestId": "c199a649-6d8a-482b-8957-abeee24f962a",
+      "rawWire": {
+        "requestBytes": 303,
+        "requestSha256": "eb6451440e9bf876b95a676743ff929bb21d68944c0a048ff77ba030c799dffc",
+        "responseBytes": 367,
+        "responseSha256": "cb6713e3b4aa2d1d85b61ca64ec69a686c59ed98883852f0d1d58d7dc2445a02",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-3a34003f-f004-4218-b489-48694cb910cd",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 724,
+      "method": "DELETE",
+      "route": "/api/customer-aliases/59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "194b5dd9-e664-4bcd-98fb-8173f31cc827",
+      "rawWire": {
+        "requestBytes": 449,
+        "requestSha256": "c882a3d038b6f24598be107c42fd382dd145c94d50a56be83f4729d0b75c8f73",
+        "responseBytes": 367,
+        "responseSha256": "13288ba235df470d51258f915e54c3fe3dc988ca84dfccd1a288c46983b52d98",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-5a11762e-ab10-4464-ab95-5f74a7b66f70",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 725,
+      "method": "GET",
+      "route": "/api/customer-contacts?customerId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "9128d245-3252-4f56-a915-a6f4817cb99f",
+      "rawWire": {
+        "requestBytes": 346,
+        "requestSha256": "c44f80fbccc83e58d992a0e31591b105f776962da7fd044de95a5fa7c625181c",
+        "responseBytes": 367,
+        "responseSha256": "940c5171ebb90765bf6816b2794a12208cf70fe8ce1cb3ecffa5518df64354a7",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-786e1c06-7d12-4879-9122-44add87e4fa8",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 726,
+      "method": "GET",
+      "route": "/api/leads?page=invalid",
+      "requestId": "545ac8ba-867f-4234-963e-8de793a2d994",
+      "rawWire": {
+        "requestBytes": 299,
+        "requestSha256": "77896ae5aa65fa58afd9382b48541743773c7c92dfdfe1295d6906dadfe9749f",
+        "responseBytes": 367,
+        "responseSha256": "c28d679092d8f9b67a6a1eb5c52281c76cfdcffecc006271ce72b3df2e765d3e",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-aa551dac-dc47-4837-bc13-940f377a2d5b",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 727,
+      "method": "POST",
+      "route": "/api/lead-score-overrides/59309ba5-3fb5-4869-895e-29deed1eac7b:approve",
+      "requestId": "f11ca017-705c-47cf-9101-0982539d6bd0",
+      "rawWire": {
+        "requestBytes": 459,
+        "requestSha256": "713438a6bd7789f95b9bad7d91f3afdbd83b8a87c3904d5c35c021827e65f485",
+        "responseBytes": 367,
+        "responseSha256": "b1efa0f592c20cfa802f7b8a4cbfa3c4867145c5a41b46c9c7b19e0a06f8afb9",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-1865c396-372e-4f27-9a37-558d52f653ce",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 728,
+      "method": "GET",
+      "route": "/api/projects?page=invalid",
+      "requestId": "9ac796dd-76ea-47ca-8f87-1ce74d8edab3",
+      "rawWire": {
+        "requestBytes": 302,
+        "requestSha256": "b5f379236f2ba5ec46f2d7cdc48fa4310e3f8eab4b1136f82a9577264ba6e0de",
+        "responseBytes": 367,
+        "responseSha256": "f916a3ab6cf395056f6a794b31df58da852210a012daf8ea8ee5dcb20f1d1a3c",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-8c240b37-d968-4eda-a47a-40550617f06c",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 729,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/technical-cost-packages",
+      "requestId": "a8781a00-d0f7-49c3-bbd9-bd97e37bd18d",
+      "rawWire": {
+        "requestBytes": 350,
+        "requestSha256": "26bb9d6c8cd6295b70a7ec8593e19052177b737623f41246477911a95f91bfea",
+        "responseBytes": 367,
+        "responseSha256": "4de12d2387e38b6d89db86b0466552257ce121a316f1f6dd5aa39401db022836",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-5ef68503-d58d-4731-9599-9f7e53b239ac",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 730,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/bid-commercial-processes",
+      "requestId": "dac74171-88d1-4fba-81fb-56ea5d881549",
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "50ee3c4c1ee5d9356c7f5bd60724f8619dd478468f87455003c0191e43db81ab",
+        "responseBytes": 367,
+        "responseSha256": "42b028b533ae8fe9406ce6fa87ef855ede54ffeaa9e998c60dba6f3340605fc5",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-785b55cb-3b70-475b-a265-adfd7e6b92b9",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 731,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/pricing-margin-reviews",
+      "requestId": "b5d9a089-a6b0-43d7-bb2d-84206efb2dbc",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "c8907182caf402614996acd51322c8114f72b9ff1af543ab8ce2cdbc712282d0",
+        "responseBytes": 367,
+        "responseSha256": "ae916bb0d006967c3dca6245746c4e5ff56ceee5f158e7b8138c0d8553608c58",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-95eddd59-17f5-4fb5-856e-b5776cc5cbbe",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 732,
+      "method": "GET",
+      "route": "/api/sales-follow-up-records",
+      "requestId": "226d9087-c50a-49f9-8c76-cd036ca41a25",
+      "rawWire": {
+        "requestBytes": 304,
+        "requestSha256": "a11d2e3fcf017bc1992d9264a6ed936f332f9264c36aa49c31f8eb390e013c8c",
+        "responseBytes": 367,
+        "responseSha256": "3c24e942effb823bda45f553ac0ae9a9b9499cef0748b1f7750744f04e591532",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-a7522fc2-1fd7-4867-80b7-dd80d2175fbb",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 733,
+      "method": "GET",
+      "route": "/api/opportunity-stakeholders?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "8c163b7d-2ac3-4d7f-a680-ccb561eb6e24",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "158ebaf1de2686ea7e32d361fc3042fd5756ebb93663cd9b2209a7f0a95f6113",
+        "responseBytes": 367,
+        "responseSha256": "d22a4ba490134aea91d88ddf492bd9e330a308ed135dca7021d3fc0cb3f13d89",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-59c2d013-1b42-45dd-a1aa-76853014a36d",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 734,
+      "method": "GET",
+      "route": "/api/competitor-intelligence-records?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "bac8f570-7403-42b6-9ed4-c82c78a8f997",
+      "rawWire": {
+        "requestBytes": 356,
+        "requestSha256": "1ee797405a9777ac8890edbebe2fefd96b03ab3331eccd7d66a64387da66143f",
+        "responseBytes": 367,
+        "responseSha256": "0f72433177966ef2291a199a65e240500f7b8a7bf2178d65d1f4a2102c611834",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-f4d9cb82-6717-4aad-81c5-429364e42282",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 735,
+      "method": "GET",
+      "route": "/api/sales-discovery-records?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "74583148-c76d-430e-ba5d-7bc5d5b9d852",
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "c1ff9a7ebfb572d34a8102f9b6566603e17017075412a53c6ce60b9d45d228f0",
+        "responseBytes": 367,
+        "responseSha256": "07b814eeedf999691763ecf539af55ec992ef9102169ddf4d1c221c51bbfedf9",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-a77f7ece-ef57-4af1-b3c9-ce80a4eba39a",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 736,
+      "method": "GET",
+      "route": "/api/sales-intelligence-gaps?leadId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "896acd88-d28e-464f-a08e-04f23c046f8a",
+      "rawWire": {
+        "requestBytes": 348,
+        "requestSha256": "8f40b91ee50fad5c0cb749082e80afa530d50f96904397f17718682cad29a64a",
+        "responseBytes": 367,
+        "responseSha256": "369b9650e9b7a94c4008a74c3a4eef2dae34878d40292a44fd1e235b183d6622",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-e70e6471-90b2-4d33-a0cf-b2c29458a82e",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 737,
+      "method": "GET",
+      "route": "/api/business-discussions?customerId=59309ba5-3fb5-4869-895e-29deed1eac7b",
+      "requestId": "6363c3ff-6583-4426-81d5-7f54472939ed",
+      "rawWire": {
+        "requestBytes": 349,
+        "requestSha256": "d1ee8aef7359c207bba3a47ab9d564c04155b1c9e40ae4c9d844d7c4ae1ac57e",
+        "responseBytes": 367,
+        "responseSha256": "016feba26f2c00b2a3c0c5a66f49188bb5a8025225676dcc8606adef0c9f2b56",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-420316da-b359-4545-9501-a92778d7713f",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 738,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/workspace-guidance",
+      "requestId": "f85dbeac-c6c7-4956-ab4e-c66868a79ef4",
+      "rawWire": {
+        "requestBytes": 345,
+        "requestSha256": "ee6517130edde295f61a901128e81d5093764ace6a6cab8a3ff1d223b7f01472",
+        "responseBytes": 367,
+        "responseSha256": "ada319861ebcfe1c6c05c373f8e4d59c73abb78a6f456a1fac58750758705a85",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-be6efcb7-d932-447c-8580-66d80b0dca63",
+        "originalRawRetained": true
+      }
+    },
+    {
+      "eventIndex": 739,
+      "method": "GET",
+      "route": "/api/projects/59309ba5-3fb5-4869-895e-29deed1eac7b/timeline",
+      "requestId": "fd67f42a-920c-4928-ad8b-a547f59aeb7e",
+      "rawWire": {
+        "requestBytes": 335,
+        "requestSha256": "8131add152ca92f7e37407fe952e12e449a004d9ef49ce9ff164a30e3d79baba",
+        "responseBytes": 367,
+        "responseSha256": "2e3caf91c73da112155d9025ab6ec643cb01b4a83b21164c3be717a07a0322c5",
+        "entityBodyBytes": 80,
+        "entityBodySha256": "886e5eee55e35e1fcd69cfedd415a3d655d137bd0022dcc7820f8b15d8de96ee",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/raw-wire/g28_guard_lifecycle-0c08a980-34c8-4577-a7eb-aba5cdbb5e51",
+        "originalRawRetained": true
+      }
+    }
+  ],
+  "cleanupOnly": true,
+  "acceptanceClaim": false
+}

@@ -2,7 +2,7 @@
 //! These pure functions never refresh a stored Lead during a read operation.
 
 use chrono::{DateTime, Utc};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use uuid::Uuid;
 
@@ -25,7 +25,7 @@ pub struct GateInput {
     pub converted_project_id: Option<Uuid>,
 }
 
-#[derive(Clone, Debug, Default, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct IntelligenceFacts {
     pub decision_maker_known: bool,
@@ -37,7 +37,7 @@ pub struct IntelligenceFacts {
     pub next_contact_known: bool,
 }
 
-#[derive(Clone, Debug, Default, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FollowUpFacts {
     pub last_follow_up_at: Option<String>,
@@ -48,7 +48,7 @@ pub struct FollowUpFacts {
     pub next_follow_up_overdue: bool,
 }
 
-#[derive(Clone, Debug, Default, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AttachmentFacts {
     pub evidence_attachment_count: usize,

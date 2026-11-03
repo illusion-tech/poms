@@ -1,0 +1,28 @@
+{
+  "kind": "declared-safe-Native-constraint-error-derivative",
+  "sqlState": "23505",
+  "constraint": "uq_project_pricing_margin_review_current",
+  "projectId": "ccba3dd2-c7a9-4f81-a824-08d8b5f8f5b2",
+  "networkIndex": 87,
+  "actualErrorExcerpt": [
+    "2026-11-03 01:09:51.553 UTC [128] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3573 state=23505 ERROR:  23505: duplicate key value violates unique constraint \"uq_project_pricing_margin_review_current\"",
+    "2026-11-03 01:09:51.553 UTC [128] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3573 state=23505 DETAIL:  Key (project_id)=(ccba3dd2-c7a9-4f81-a824-08d8b5f8f5b2) already exists.",
+    "2026-11-03 01:09:51.553 UTC [128] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3573 state=23505 LOCATION:  _bt_check_unique, nbtinsert.c:664",
+    "2026-11-03 01:09:51.553 UTC [128] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3573 state=23505 STATEMENT:  insert into \"poms\".\"project_pricing_margin_review\" (\"id\", \"project_id\", \"version\", \"is_current\", \"supersedes_id\", \"status\", \"technical_cost_package_id\", \"bid_commercial_process_id\", \"commercial_release_baseline_id\", \"pricing_path\", \"quote_version\", \"currency_code\", \"quote_amount_tax_inclusive\", \"quote_amount_tax_exclusive\", \"tax_rate\", \"tax_condition_summary\", \"payment_terms_summary\", \"gross_margin_rate\", \"gross_margin_band\", \"gross_margin_summary\", \"decision\", \"decision_summary\", \"approval_scenario_key\", \"summary_package_key\", \"summary_snapshot_id\", \"projection_level\", \"export_policy\", \"ready_for_contracting\", \"owner_role\", \"blocker_count\", \"effective_at\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('f6c91f5e-eb49-4122-b32f-74ea1de28ac0', 'ccba3dd2-c7a9-4f81-a824-08d8b5f8f5b2', 2, true, 'f3ed0eeb-cd9c-4180-a013-7609d3c95bc7', 'effective', '5ea34c2a-4366-482f-a0b3-1509f5215921', 'a83425b1-c1c5-4db9-b239-c3a06858b77c', null, 'bid', 'windows-native01-Q2-REJECTED', 'CNY', '120.00', '100.00', '0.20000000', 'windows-native01 tax conditions', 'windows-native01 payment terms', null, 'not-calculated', 'windows-native01 gross margin pending review', 'pending', 'windows-native01 second pricing must retain V1', 'pricing-margin-review', 'pricing-margin-summary', null, 'pricing-margin', 'internal', false, 'R3CO ui_windows_native01 / R3CO ui_windows_native01', 1, '2026-11-03T01:09:51.542Z', '2026-11-03T01:09:51.542Z', '2838ca42-6bd4-4169-8dd6-fb8a4b77d144', '2026-11-03T01:09:51.542Z', '2838ca42-6bd4-4169-8dd6-fb8a4b77d144') returning \"row_version\"",
+    "2026-11-03 01:09:51.554 UTC [128] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3573 state=00000 LOG:  00000: statement: rollback"
+  ],
+  "privateOriginalStreams": [
+    {
+      "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3m/private/ui-windows-native01-run06/postgres-stdout-original.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3m/private/ui-windows-native01-run06/postgres-stderr-original.bin",
+      "bytes": 1554345,
+      "rawBytesSha256": "40841b4aaf63cfc822d92429033020142a5ba33cc73552c01fd195bf1ba9214b"
+    }
+  ],
+  "source": "actual-owned-PG-server-log",
+  "businessPass": false
+}

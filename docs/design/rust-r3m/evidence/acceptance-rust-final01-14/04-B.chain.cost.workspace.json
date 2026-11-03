@@ -1,0 +1,173 @@
+{
+  "label": "B.chain.cost.workspace",
+  "name": "B.chain.cost.workspace",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:05:06.628Z",
+  "completedAt": "2026-11-02T23:05:06.647Z",
+  "validatedEventRange": {
+    "start": 3,
+    "end": 4,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853/technical-cost-workspace",
+      "headers": {
+        "x-request-id": "r3b:R3CO-5fb76d1a:cost-workspace"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-technical-cost-workspace",
+          "create-technical-cost-package"
+        ],
+        "blockingReasons": [],
+        "costItems": [
+          {
+            "amountExcludingTax": "100.10",
+            "amountIncludingTax": "113.11",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "R3CO-5fb76d1a equipment",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "Actual confirmed supplier quote",
+            "highUncertainty": false,
+            "id": "21c1c5b6-28b9-487c-bd9e-cdf8f44d5aa3",
+            "packageId": "28e58357-96de-4251-9ead-91ee29a59bfc",
+            "quantity": "1.2500",
+            "responsibleRole": null,
+            "sortOrder": 1,
+            "taxCostAmount": "13.01",
+            "unit": "套",
+            "unitPrice": "80.0800"
+          },
+          {
+            "amountExcludingTax": "0.20",
+            "amountIncludingTax": "0.23",
+            "confidenceLevel": "high",
+            "costCategory": "equipment",
+            "costDescription": "R3CO-5fb76d1a accessory",
+            "costSubcategory": null,
+            "currencyCode": "CNY",
+            "estimationBasis": "Actual confirmed supplier quote",
+            "highUncertainty": false,
+            "id": "5b0cf6c3-18fd-4782-a414-cac627734583",
+            "packageId": "28e58357-96de-4251-9ead-91ee29a59bfc",
+            "quantity": "0.2000",
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "taxCostAmount": "0.03",
+            "unit": "套",
+            "unitPrice": "1.0000"
+          }
+        ],
+        "currentPackage": {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:05:06.603Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T23:05:06.603Z",
+          "highestRiskLevel": "R4",
+          "id": "28e58357-96de-4251-9ead-91ee29a59bfc",
+          "isCurrent": true,
+          "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "d6a1fc86-3cd2-43af-b3ad-47d53cab6f6d",
+          "taxAssumptionSummary": "Tax cost reviewed",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3CO-5fb76d1a converted cost revision 2",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T23:05:06.603Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 2
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T23:05:06.644Z",
+        "nextStep": "进入商务收口前，保持当前版本包作为报价和签约前判断依据。",
+        "ownerLabel": "R3CO admin / R3CO admin",
+        "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+        "riskItems": [
+          {
+            "blocksNextStage": false,
+            "id": "7f03b24b-a8c1-4a06-b4c8-6b7750fb083e",
+            "impactScope": "Equipment delivery",
+            "mitigationPlan": "Confirmed mitigation",
+            "ownerRole": "售前",
+            "packageId": "28e58357-96de-4251-9ead-91ee29a59bfc",
+            "riskCategory": "R3CO-5fb76d1a supply",
+            "riskDescription": "Actual risk reviewed",
+            "riskLevel": "R4",
+            "riskStatus": "closed",
+            "sortOrder": 1
+          }
+        ],
+        "scopeItems": [
+          {
+            "description": "Confirmed equipment delivery",
+            "id": "4741bd00-e94e-4b4d-822f-1096c2a5a6ca",
+            "label": "R3CO-5fb76d1a equipment scope",
+            "packageId": "28e58357-96de-4251-9ead-91ee29a59bfc",
+            "scopeType": "in-scope",
+            "sortOrder": 1
+          }
+        ],
+        "status": "active"
+      },
+      "requestId": "r3b:R3CO-5fb76d1a:cost-workspace",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2803",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-182",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:05:06 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 347,
+        "requestSha256": "65ba5baa954088b75294f0f434873ad3cc6b6a176d57b73f2bb5dd2cd87c4a72",
+        "responseBytes": 3084,
+        "responseSha256": "df0ac606c5febff9dad67cc5e8510412f89569b9af946c8bb6e0269ca8a3a833",
+        "entityBodyBytes": 2803,
+        "entityBodySha256": "9a033b9f474c16ceb8b4882862665cfbd6faf315fffa6a9400a17a69ca260f51",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/raw-wire/admin-a30c295b-eba6-4ac8-ac77-d47a1220da55",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {},
+    "actualConvertedProjectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+    "allBusinessAssertionsPassed": true,
+    "requiredGraphGuardChecked": false
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/structured-original-04-B.chain.cost.workspace.json",
+      "bytes": 6071,
+      "rawBytesSha256": "0372a55be4aec474d28a489301fc1dc9770b729433ebdec9f1c39989d16c018a"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -55,6 +55,7 @@ import {
     type SalesIntelligenceGapSummary,
     type SanitizedUserWithOrgUnits
 } from '@poms/admin-data-access';
+import { ConvertLeadToProjectRequestSchema } from '@poms/shared-contracts';
 import { BehaviorSubject } from 'rxjs';
 import { AuditHistoryPanel } from '../../shared/ui/audit-history-panel';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
@@ -1260,19 +1261,21 @@ describe('LeadList', () => {
 
     it('converts a qualified lead into a project and navigates to the created project', async () => {
         const lead = createLead({ status: LeadStatus.Qualified, gateSummary: readyConversionGate() });
+        const plannedSignDate = new Date(2026, 4, 1);
 
         component.showConvertDialog(lead);
         fixture.detectChanges();
         component.updateConvertField('customerProjectNo', '  CUS-PRJ-NEW  ');
         component.updateConvertField('projectName', '  城市交通项目  ');
-        component.updateConvertDate(new Date(2026, 4, 1));
+        component.updateConvertDate(plannedSignDate);
         await component.convertLeadToProject();
 
         expect(leadStoreMock.convertLeadToProject).toHaveBeenCalledWith('lead-1', {
             customerProjectNo: 'CUS-PRJ-NEW',
             projectName: '城市交通项目',
-            plannedSignAt: '2026-05-01'
+            plannedSignAt: plannedSignDate.toISOString()
         });
+        expect(ConvertLeadToProjectRequestSchema.safeParse(leadStoreMock.convertLeadToProject.mock.calls[0][1]).success).toBe(true);
         expect(routerMock.navigate).toHaveBeenCalledWith(['/projects', 'project-1']);
     });
 

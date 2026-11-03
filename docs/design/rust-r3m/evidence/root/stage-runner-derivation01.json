@@ -1,0 +1,99 @@
+{
+  "kind": "R3-current-source-stage-runner-derivation",
+  "records": [
+    {
+      "canonicalOriginal": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/foundation-business-regression01.mjs",
+        "bytes": 58522,
+        "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+      },
+      "currentDerived": {
+        "file": "tmp/rust-r3m/foundation-business-regression01.mjs",
+        "bytes": 58552,
+        "rawBytesSha256": "bff4d5f076f9beacab3679765bb1627185b9290a19794b764c88db1cdd7c8913"
+      },
+      "importFixtures": [
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "bytes": 4774,
+            "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "bytes": 4774,
+            "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+          }
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "bytes": 4215,
+            "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "bytes": 4215,
+            "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+          }
+        }
+      ]
+    },
+    {
+      "canonicalOriginal": {
+        "file": "docs/design/archive/slices/rust-r3hijk/originals/d-input/native-fixture-draft01.mjs",
+        "bytes": 21356,
+        "rawBytesSha256": "48a97ade973b882a678d99d760dcb9a3491e57f7138fe21536b9a69e14472bbb"
+      },
+      "currentExactCopy": {
+        "file": "tmp/rust-r3m/d-input/native-fixture-draft01.mjs",
+        "bytes": 21356,
+        "rawBytesSha256": "48a97ade973b882a678d99d760dcb9a3491e57f7138fe21536b9a69e14472bbb"
+      }
+    },
+    {
+      "originalRecipe": {
+        "file": "tools/rust-r3hijk/foundation-business02.mjs",
+        "bytes": 4011,
+        "rawBytesSha256": "b05201fd550d6e808c49fc9bf33b6b06827979fdd0d83c0d6eaee1efdd9ba47d"
+      },
+      "currentDerived": {
+        "file": "tools/rust-r3m/foundation-regression01.mjs",
+        "bytes": 4192,
+        "rawBytesSha256": "c4721a03fc6e447ce35de1d2c0e11a46a7d735d1bf669e47377740dd2bc4dd5a"
+      },
+      "actualOriginalCountsNotRecounted": true
+    },
+    {
+      "originalRecipe": {
+        "file": "tools/rust-r3hijk/acceptance-chain06.mjs",
+        "bytes": 9172,
+        "rawBytesSha256": "0e87f91fa4f4e1659bcd7238167cc6e61acdeee5e38e55602886d0a33b2303e3"
+      },
+      "currentDerived": {
+        "file": "tools/rust-r3m/integration-chain01.mjs",
+        "bytes": 9159,
+        "rawBytesSha256": "5cf3e13f8a07670619a1124713ffb907d1ae944ade4856cbb99e0cd589c23f4e"
+      },
+      "actualOriginalCountsNotRecounted": true
+    },
+    {
+      "originalRecipe": {
+        "file": "tools/rust-r3hijk/business-core02.mjs",
+        "bytes": 10986,
+        "rawBytesSha256": "09f0cd03c59e3fbc6b1427928695e495697ac46612650a3f7b25c236be12c766"
+      },
+      "currentDerived": {
+        "file": "tools/rust-r3m/lead-business-core01.mjs",
+        "bytes": 10967,
+        "rawBytesSha256": "257e8e04c76830072c6786167053117a492d320b2d31f4da93c29cf38276aa8a"
+      },
+      "actualOriginalCountsNotRecounted": true
+    }
+  ],
+  "inputsArePureCaseDefinitions": true,
+  "oldAliasesReadByNewAdapters": false,
+  "oldPrivateRead": false,
+  "actualExecutionPerformed": false,
+  "leadBarrierChange": "Approval serialization now uses Lead before override, so replacement race holds actual Lead row for both requests"
+}

@@ -1,0 +1,98 @@
+{
+  "label": "A.customer.list",
+  "name": "A.customer.list",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.688Z",
+  "completedAt": "2026-11-02T23:01:03.704Z",
+  "validatedEventRange": {
+    "start": 9,
+    "end": 10,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers",
+      "query": {
+        "keyword": "R3HK-5fb76d1a-11",
+        "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+        "status": "active"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+          "customerNo": "CUST-2026-000004",
+          "displayName": "R3HK-5fb76d1a-11 customer revised",
+          "legalName": null,
+          "shortName": "R3HK-5fb76d1a-11 short",
+          "status": "active",
+          "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+          "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "sourceChannel": "customer-visit",
+          "remark": "R3HK-5fb76d1a-11 customer revised remark",
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T23:01:03.539Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "updatedAt": "2026-11-02T23:01:03.674Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "ownerName": "R3CO other",
+          "ownerOrgName": "R3CO other",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0
+        }
+      ],
+      "requestId": "2ff942a4-28fb-4735-b1dc-dd4fa10d7fb9",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "716",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-23",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 377,
+        "requestSha256": "9a3a292e085e113f0da8d851ec5faee453a658095f4f560a8ab1e72e793daacf",
+        "responseBytes": 995,
+        "responseSha256": "26b4f6dd63912a7e953c226705d5ece678a27b2a1aa0b78d22d2209c261e131c",
+        "entityBodyBytes": 716,
+        "entityBodySha256": "638801979c24a2d406efee763df9d5944da853eaa551b579da9c0b090c9ee65a",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-056d2595-60df-4299-8e33-52df8dcadc8b",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-10-A.customer.list.json",
+      "bytes": 2894,
+      "rawBytesSha256": "c60afafee321906233bfee6b4a738124d1b3a622d1ce2947227e993218cd8812"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

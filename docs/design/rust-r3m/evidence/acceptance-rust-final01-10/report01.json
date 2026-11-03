@@ -1,0 +1,582 @@
+{
+  "kind": "R3CO-actual-bounded-G2-acceptance",
+  "evidenceKind": "candidate-business",
+  "backend": "rust",
+  "createdAt": "2026-11-02T22:57:50.484Z",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "phase": "10",
+  "tag": "final01",
+  "runId": "5fb76d1a-e714-4510-a6e8-d33531405432",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "database": "poms_r3m_rust",
+  "runtime": {
+    "kind": "R3CO-owned-Linux-runtime",
+    "backend": "rust",
+    "tag": "final01",
+    "pid": 182884,
+    "startTime": "4178612",
+    "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+    "argvSha256": "1d66c61ab9a8dd08d57640be4da9be245c7a3d50f085242efb624bfd0fc2b8e7",
+    "entry": "/home/wangzishi/.local/share/poms-r3m/target/release/poms-api-rust",
+    "artifactBytes": 43775864,
+    "artifactSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+    "cwd": "/home/wangzishi/projects/poms-rust-r3m",
+    "port": 13500,
+    "database": "poms_r3m_rust",
+    "createdAt": "2026-11-02T22:57:40.170Z"
+  },
+  "completed": true,
+  "failedAt": null,
+  "error": null,
+  "actors": [
+    {
+      "label": "admin",
+      "userId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "orgId": "ca072338-0785-4d46-9c86-94e416f68567",
+      "roleId": "aa69e2b0-96a4-4ad5-bf79-4c4d28882a66",
+      "username": "r3m_5fb76d1ae7144510a6e8d33531405432_admin"
+    },
+    {
+      "label": "other",
+      "userId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+      "orgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+      "roleId": "cc711924-3a36-4feb-95ff-a1ba557c3e11",
+      "username": "r3m_5fb76d1ae7144510a6e8d33531405432_other"
+    }
+  ],
+  "ids": {
+    "adminUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+    "adminOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+    "otherUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+    "otherOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+    "sourceCode": "customer-visit",
+    "sourceName": "客户拜访",
+    "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+    "leadId": "cadecc25-e93e-445b-ad8a-c044c920d63f",
+    "projectId": "cd332532-b878-4a86-84a5-420be43834b0",
+    "directProjectId": "cd332532-b878-4a86-84a5-420be43834b0"
+  },
+  "sources": [
+    {
+      "file": "tmp/rust-r3m/root/candidate-final01.json",
+      "bytes": 59115,
+      "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+    },
+    {
+      "file": "tools/rust-r3m/acceptance-context03.mjs",
+      "bytes": 17341,
+      "rawBytesSha256": "900c2b68635712168f6de08e8ef55ac9ad8e2c69cd2c3a9e3e9e9c0a4d6999f6"
+    },
+    {
+      "file": "tools/rust-r3m/wire-client.mjs",
+      "bytes": 4214,
+      "rawBytesSha256": "2e5bae51abc408ae04d1e892c2362584d6f395141103e8fdbfc4abdb6ffaee76"
+    },
+    {
+      "file": "tools/rust-r3m/source-guard.mjs",
+      "bytes": 1558,
+      "rawBytesSha256": "238fe5d22c0da776d564b42a34689513ffdefee8319e31cf2108bfa48edaddb1"
+    },
+    {
+      "file": "tmp/rust-r3m/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "file": "tmp/rust-r3m/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "file": "tools/rust-r3m/stage-bootstrap01.mjs",
+      "bytes": 3326,
+      "rawBytesSha256": "d8f2dc4d456e732ac033525c24c4c8b161f0bc6aa59c80001bfba8cc8655e910"
+    }
+  ],
+  "cases": [
+    {
+      "label": "stage.catalog-and-current-candidate",
+      "name": "stage.catalog-and-current-candidate",
+      "kind": "setup",
+      "completed": true,
+      "startedAt": "2026-11-02T22:57:44.684Z",
+      "completedAt": "2026-11-02T22:57:44.694Z",
+      "validatedEventRange": {
+        "start": 0,
+        "end": 0,
+        "exclusive": true
+      },
+      "value": {
+        "catalog": {
+          "tables": 107,
+          "columns": 1778,
+          "foreign_keys": 207,
+          "migrations": 92,
+          "server_version": "150012"
+        },
+        "candidateArtifact": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+        "realNewDatabase": true,
+        "noProductDDLChanged": true
+      }
+    },
+    {
+      "label": "stage.real-customer-contact-lead-project-producers",
+      "name": "stage.real-customer-contact-lead-project-producers",
+      "kind": "business",
+      "completed": true,
+      "startedAt": "2026-11-02T22:57:44.696Z",
+      "completedAt": "2026-11-02T22:57:44.804Z",
+      "validatedEventRange": {
+        "start": 0,
+        "end": 4,
+        "exclusive": true
+      },
+      "value": {
+        "customer": {
+          "id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T22:57:44.712Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "updatedAt": "2026-11-02T22:57:44.712Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+        },
+        "contact": {
+          "createdAt": "2026-11-02T22:57:44.728Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "department": null,
+          "email": null,
+          "gender": "female",
+          "id": "0a502535-05cc-4d7d-b3e8-d20cbfe852a9",
+          "mobile": null,
+          "name": "R3CO actual contact",
+          "remark": null,
+          "rowVersion": 1,
+          "status": "active",
+          "title": null,
+          "updatedAt": "2026-11-02T22:57:44.728Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "wechat": null,
+          "workPhone": null
+        },
+        "lead": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T22:57:44.755Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "B",
+          "effectiveScore": 62,
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "cadecc25-e93e-445b-ad8a-c044c920d63f",
+          "leadName": "R3CO stage-anchor",
+          "leadNo": "LD-2026-000001",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "B",
+          "rowVersion": 1,
+          "score": 62,
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T22:57:44.763Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T22:57:44.755Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "urgency": "high"
+        },
+        "project": {
+          "closedAt": null,
+          "closedReason": null,
+          "createdAt": "2026-11-02T22:57:44.790Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currentStage": "assessment",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "customerProjectNo": null,
+          "id": "cd332532-b878-4a86-84a5-420be43834b0",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "plannedSignAt": null,
+          "projectName": "R3CO stage-direct-project 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "projectNo": "PRJ-2026-000001",
+          "rowVersion": 1,
+          "sourceLeadId": null,
+          "status": "active",
+          "updatedAt": "2026-11-02T22:57:44.790Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+        },
+        "dictionarySource": {
+          "code": "customer-visit",
+          "name": "客户拜访"
+        },
+        "allTargetsActualCommittedHTTPProducers": true,
+        "projectIsDirectNotConversion": true
+      }
+    }
+  ],
+  "events": [
+    {
+      "label": "producer.customer.stage-anchor",
+      "kind": "business",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/customers",
+      "request": {
+        "displayName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T22:57:44.712Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "updatedAt": "2026-11-02T22:57:44.712Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+        },
+        "requestId": "ff72b718-834d-4df9-a4b3-bd23d36e9583",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "563",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-6",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 22:57:44 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 474,
+          "requestSha256": "2b211dc4b00661681c4cab08a00515aeb46365da021d3c9ee99160e923e5f289",
+          "responseBytes": 846,
+          "responseSha256": "b328ee3c1de36ea4e41d10e99d6e359b21fefe4f67cf9ffcad6a7475de4dcd29",
+          "entityBodyBytes": 563,
+          "entityBodySha256": "c4db03f9892c962a3cebf23b88d3362e90cb5456c76e829b57e7c516095b5add",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/raw-wire/admin-c0687e44-ca6c-4b82-950c-c55e5512aaf8",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "stage.contact.female",
+      "kind": "business",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/customer-contacts",
+      "request": {
+        "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+        "name": "R3CO actual contact",
+        "gender": "female"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "createdAt": "2026-11-02T22:57:44.728Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "department": null,
+          "email": null,
+          "gender": "female",
+          "id": "0a502535-05cc-4d7d-b3e8-d20cbfe852a9",
+          "mobile": null,
+          "name": "R3CO actual contact",
+          "remark": null,
+          "rowVersion": 1,
+          "status": "active",
+          "title": null,
+          "updatedAt": "2026-11-02T22:57:44.728Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "wechat": null,
+          "workPhone": null
+        },
+        "requestId": "1b9ebe23-27d2-44a3-8279-b8cfa11fb022",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "532",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-7",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 22:57:44 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 511,
+          "requestSha256": "8bbe79c25ed9cb31c9d70c234bf94a3b7ed89d1588c2fc79e97fed8d06b8d05b",
+          "responseBytes": 815,
+          "responseSha256": "7646925051fbcb3b11ecaaabe7c8946311df879da336a1586234cc04e4ac20b4",
+          "entityBodyBytes": 532,
+          "entityBodySha256": "00591b06b681f6a099a4e8b0240c4701abc6c72dee0cd4841eab0acb1a54b6eb",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/raw-wire/admin-f23c4cf4-c5d2-4998-8080-cf42c52b293a",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.lead.stage-anchor",
+      "kind": "business",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/leads",
+      "request": {
+        "leadName": "R3CO stage-anchor",
+        "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+        "sourceCode": "customer-visit",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "budgetStatus": "budget-confirmed",
+        "urgency": "high",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T22:57:44.755Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "B",
+          "effectiveScore": 62,
+          "effectiveScoreReason": "基础商务+62",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "cadecc25-e93e-445b-ad8a-c044c920d63f",
+          "leadName": "R3CO stage-anchor",
+          "leadNo": "LD-2026-000001",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "B",
+          "rowVersion": 1,
+          "score": 62,
+          "scoreReason": "基础商务+62",
+          "scoreUpdatedAt": "2026-11-02T22:57:44.763Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T22:57:44.755Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "urgency": "high"
+        },
+        "requestId": "d4a307d1-0105-4e7f-9f07-963a65f6effd",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1598",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-8",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 22:57:44 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 849,
+          "requestSha256": "3b70da69478d3ad0c4f2443bb6576495b73604e1162f7d92d9335d418ca7cc11",
+          "responseBytes": 1882,
+          "responseSha256": "b3f75f217ba2eaee202d7a6da743d4ebf9edd9cc68408a75adecd129db6f8fb6",
+          "entityBodyBytes": 1598,
+          "entityBodySha256": "f2211ab2d001f31dbd1a8221ee4e89f7d5bd8a8ae6a7a5e3f4f32dcb60fb8ebf",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/raw-wire/admin-f36d48ab-ca27-420c-afea-2b5bb2e5fca3",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "producer.project.stage-direct-project",
+      "kind": "business",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/projects",
+      "request": {
+        "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+        "projectName": "R3CO stage-direct-project 5fb76d1a-e714-4510-a6e8-d33531405432"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "closedAt": null,
+          "closedReason": null,
+          "createdAt": "2026-11-02T22:57:44.790Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currentStage": "assessment",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "customerProjectNo": null,
+          "id": "cd332532-b878-4a86-84a5-420be43834b0",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "plannedSignAt": null,
+          "projectName": "R3CO stage-direct-project 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "projectNo": "PRJ-2026-000001",
+          "rowVersion": 1,
+          "sourceLeadId": null,
+          "status": "active",
+          "updatedAt": "2026-11-02T22:57:44.790Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+        },
+        "requestId": "96385451-2c20-45b9-a701-c623ae831110",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "726",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-9",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 22:57:44 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 534,
+          "requestSha256": "3174b7da0a4efe1f424d362547e321c064c492dac0ef7bd2db913e98619b5451",
+          "responseBytes": 1009,
+          "responseSha256": "1d1ca9074e030eb049a36288698071d7acafc7fafeb01b4e8724b1897897898d",
+          "entityBodyBytes": 726,
+          "entityBodySha256": "bfa83c7265af0db65080ff86ffff7bfb8d2bab61f3b8f08f197b497bd528f45e",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/raw-wire/admin-f0e7050b-e6b0-41b0-9fa0-56c1fffb618f",
+          "originalRawRetained": true
+        }
+      }
+    }
+  ],
+  "observations": [],
+  "preparedFacts": [],
+  "privateOriginalSQLStreams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/postgres-stdout-original.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/postgres-stderr-original.bin",
+      "bytes": 29054,
+      "rawBytesSha256": "0ee971d1ed8fa9e76514bd5e924fdb6c62a02f8a85ad8c805345473a0d6dadc1"
+    }
+  ],
+  "rawWireOnlyPrivate": true,
+  "productDDLChanged": false,
+  "cleanup": "Pending-owned-whole-acceptance-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase10/structured-original-report01.json",
+      "bytes": 21812,
+      "rawBytesSha256": "fcd94d854795b6c373b8a8bdbe510a057474a5b2f4c1f3d68e1a906734a88916"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

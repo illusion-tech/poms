@@ -1,0 +1,185 @@
+{
+  "label": "baseline.customer-normal-CAS-conflict-is-500",
+  "startedAt": "2026-11-02T22:09:19.941Z",
+  "completedAt": "2026-11-02T22:09:20.028Z",
+  "value": {
+    "expectedPreFixViolationObserved": true,
+    "invariantRequiredAfterFix": "one successful commit and one business 409; loser has no necessary audit",
+    "before": {
+      "id": "85f15d9c-cd4c-4183-9d18-0f596dfd480e",
+      "customer_no": "CUST-2026-000009",
+      "display_name": "R3CO race 12489848-1b79-44cd-8265-853e8ac76fe5",
+      "legal_name": null,
+      "short_name": null,
+      "status": "active",
+      "owner_org_id": "4288e072-4ad0-45fb-9f46-9991de331bad",
+      "owner_user_id": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+      "source_channel": null,
+      "remark": null,
+      "merged_into_customer_id": null,
+      "row_version": 1,
+      "created_at": "2026-11-02T22:09:19.950Z",
+      "created_by": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+      "updated_at": "2026-11-02T22:09:19.950Z",
+      "updated_by": "81c8d633-8db3-4151-a55d-c6836ffbcbf1"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/customers/85f15d9c-cd4c-4183-9d18-0f596dfd480e",
+        "json": {
+          "remark": "baseline race 0"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/customers/85f15d9c-cd4c-4183-9d18-0f596dfd480e",
+        "json": {
+          "remark": "baseline race 1"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "85f15d9c-cd4c-4183-9d18-0f596dfd480e",
+            "customerNo": "CUST-2026-000009",
+            "displayName": "R3CO race 12489848-1b79-44cd-8265-853e8ac76fe5",
+            "legalName": null,
+            "shortName": null,
+            "status": "active",
+            "ownerOrgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+            "ownerUserId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+            "sourceChannel": null,
+            "remark": "baseline race 0",
+            "mergedIntoCustomerId": null,
+            "rowVersion": 2,
+            "createdAt": "2026-11-02T22:09:19.950Z",
+            "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+            "updatedAt": "2026-11-02T22:09:19.981Z",
+            "updatedBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+            "ownerName": "R3CO admin",
+            "ownerOrgName": "R3CO admin",
+            "leadCount": 0,
+            "projectCount": 0,
+            "contractCount": 0,
+            "aliases": [
+              {
+                "id": "90d34a33-6984-495a-ace9-a84ef70fc746",
+                "customerId": "85f15d9c-cd4c-4183-9d18-0f596dfd480e",
+                "aliasName": "R3CO race 12489848-1b79-44cd-8265-853e8ac76fe5",
+                "aliasType": "alias",
+                "normalizedName": "r3co race 12489848-1b79-44cd-8265-853e8ac76fe5",
+                "isPrimary": true,
+                "createdAt": "2026-11-02T22:09:19.950Z",
+                "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1"
+              }
+            ]
+          },
+          "requestId": "d02dde86-b921-4a43-b7b9-c044b53d34f4",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "1034",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-130111-31",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 22:09:20 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 468,
+            "requestSha256": "b6c1edef691d3da3a4781ac80a96e129e17ea4042092c3660361bf4e67449e0c",
+            "responseBytes": 1314,
+            "responseSha256": "8a1d7e20cd362f1d210ad1ea3b2d3fbc99790fffccdb26b6d41fe7005f055053",
+            "entityBodyBytes": 1034,
+            "entityBodySha256": "479e0de37e36b706aea3f44e0706999e01b5be45256e5daf0979c7b9b9cb27e1",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase03/raw-wire/admin-bbdd9aed-9ec3-46ce-8ae9-3a6770021f2d",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 500,
+          "body": {
+            "message": "Internal server error",
+            "statusCode": 500
+          },
+          "requestId": "2317dfcf-ac10-46b4-8687-f6de27241cd9",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "52",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-130111-30",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 22:09:20 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 468,
+            "requestSha256": "61002a6c991ff15f2134ec18a550cb5dc615eddc2a7f3fcf1c761779c2601da4",
+            "responseBytes": 349,
+            "responseSha256": "a424d6f9e428010e29ed9e8c5440f92c1622c2c2553075ed045133196c52e805",
+            "entityBodyBytes": 52,
+            "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase03/raw-wire/other-6389b74b-b777-4366-96c5-af08ea9790a7",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "85f15d9c-cd4c-4183-9d18-0f596dfd480e",
+      "customer_no": "CUST-2026-000009",
+      "display_name": "R3CO race 12489848-1b79-44cd-8265-853e8ac76fe5",
+      "legal_name": null,
+      "short_name": null,
+      "status": "active",
+      "owner_org_id": "4288e072-4ad0-45fb-9f46-9991de331bad",
+      "owner_user_id": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+      "source_channel": null,
+      "remark": "baseline race 0",
+      "merged_into_customer_id": null,
+      "row_version": 2,
+      "created_at": "2026-11-02T22:09:19.950Z",
+      "created_by": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+      "updated_at": "2026-11-02T22:09:19.981Z",
+      "updated_by": "81c8d633-8db3-4151-a55d-c6836ffbcbf1"
+    },
+    "audits": [
+      [],
+      []
+    ]
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase03/structured-original-03-baseline.customer-normal-CAS-conflict-is-500.json",
+      "bytes": 6593,
+      "rawBytesSha256": "f8fc683084a47cfdac5b80f9ef61150ca588838a16ce384ada0e80029ab4643f"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

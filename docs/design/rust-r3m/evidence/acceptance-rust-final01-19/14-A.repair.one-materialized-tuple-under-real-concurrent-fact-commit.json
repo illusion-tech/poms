@@ -1,0 +1,394 @@
+{
+  "label": "A.repair.one-materialized-tuple-under-real-concurrent-fact-commit",
+  "name": "A.repair.one-materialized-tuple-under-real-concurrent-fact-commit",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:58:20.812Z",
+  "completedAt": "2026-11-02T23:58:20.938Z",
+  "validatedEventRange": {
+    "start": 104,
+    "end": 107,
+    "exclusive": true
+  },
+  "value": {
+    "before": {
+      "id": "5ea10431-14f5-402a-9c9e-43572dd8ad95",
+      "lead_no": "LD-2026-000051",
+      "lead_name": "R3CO single-materialization",
+      "customer_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+      "status": "registered",
+      "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+      "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "qualification_summary": null,
+      "qualified_at": null,
+      "qualified_by": null,
+      "closed_reason": null,
+      "closed_at": null,
+      "closed_by": null,
+      "converted_project_id": null,
+      "converted_at": null,
+      "converted_by": null,
+      "row_version": 1,
+      "created_at": "2026-11-02T23:58:20.833Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-02T23:58:20.833Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+      "budget_status": "budget-confirmed",
+      "estimated_amount": "1200000.00",
+      "urgency": "high",
+      "expected_decision_date": "2026-11-19T15:00:00.000Z",
+      "score": 62,
+      "rating": "B",
+      "score_reason": "基础商务+62",
+      "score_updated_at": "2026-11-02T23:58:20.837Z",
+      "source_code": "customer-visit"
+    },
+    "beforeSnapshots": [
+      {
+        "id": "8465589d-4f84-4875-8d2c-32e044482bf1",
+        "lead_id": "5ea10431-14f5-402a-9c9e-43572dd8ad95",
+        "snapshot_kind": "system",
+        "override_id": null,
+        "formula_version": "lead-score-v2",
+        "system_score": 62,
+        "system_rating": "B",
+        "effective_score": 62,
+        "effective_rating": "B",
+        "effective_score_source": "system",
+        "score_reason": "基础商务+62",
+        "component_breakdown": {
+          "owner": 10,
+          "total": 62,
+          "amount": 15,
+          "budget": 20,
+          "demand": 15,
+          "source": 10,
+          "urgency": 15,
+          "baseBusiness": 62,
+          "followUpFacts": {
+            "lastFollowUpAt": null,
+            "nextFollowUpAt": null,
+            "followUpCount30d": 0,
+            "nextFollowUpOverdue": false,
+            "daysSinceLastFollowUp": null,
+            "hasPlannedNextFollowUp": false
+          },
+          "formulaVersion": "lead-score-v2",
+          "attachmentFacts": {
+            "finalAttachmentCount": 0,
+            "hasProposalAttachment": false,
+            "latestAttachmentCount": 0,
+            "hasQuotationAttachment": false,
+            "evidenceAttachmentCount": 0,
+            "hasBudgetEvidenceAttachment": false
+          },
+          "followUpActivity": 0,
+          "salesIntelligence": 0,
+          "attachmentEvidence": 0,
+          "expectedDecisionDate": 10,
+          "salesIntelligenceFacts": {
+            "painPointKnown": false,
+            "competitorKnown": false,
+            "nextContactKnown": false,
+            "budgetSourceKnown": false,
+            "decisionMakerKnown": false,
+            "procurementProcessKnown": false,
+            "technicalEvaluatorKnown": false
+          }
+        },
+        "gate_summary_snapshot": {
+          "conversion": {
+            "status": "blocked",
+            "explanation": "缺少：已确认有效状态",
+            "missingItems": [
+              "qualified-status"
+            ]
+          },
+          "qualification": {
+            "status": "ready",
+            "explanation": "已满足确认有效硬闸口",
+            "missingItems": []
+          }
+        },
+        "source_command": "create-lead",
+        "source_record_id": null,
+        "created_at": "2026-11-02T23:58:20.838Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      }
+    ],
+    "controlled": {
+      "response": {
+        "status": 200,
+        "body": {
+          "activeScoreOverrideId": null,
+          "budgetStatus": "budget-confirmed",
+          "closedAt": null,
+          "closedBy": null,
+          "closedReason": null,
+          "convertedAt": null,
+          "convertedBy": null,
+          "convertedProjectId": null,
+          "createdAt": "2026-11-02T23:58:20.833Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+          "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+          "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+          "effectiveRating": "C",
+          "effectiveScore": 59,
+          "effectiveScoreReason": "基础商务+59",
+          "effectiveScoreSource": "system",
+          "estimatedAmount": "1200000.00",
+          "expectedDecisionDate": "2026-11-20",
+          "gateSummary": {
+            "conversion": {
+              "explanation": "缺少：已确认有效状态",
+              "missingItems": [
+                "qualified-status"
+              ],
+              "status": "blocked"
+            },
+            "qualification": {
+              "explanation": "已满足确认有效硬闸口",
+              "missingItems": [],
+              "status": "ready"
+            }
+          },
+          "id": "5ea10431-14f5-402a-9c9e-43572dd8ad95",
+          "leadName": "R3CO single-materialization",
+          "leadNo": "LD-2026-000051",
+          "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+          "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "qualificationSummary": null,
+          "qualifiedAt": null,
+          "qualifiedBy": null,
+          "rating": "C",
+          "rowVersion": 2,
+          "score": 59,
+          "scoreReason": "基础商务+59",
+          "scoreUpdatedAt": "2026-11-02T23:58:20.881Z",
+          "sourceCode": "customer-visit",
+          "sourceName": "客户拜访",
+          "status": "registered",
+          "updatedAt": "2026-11-02T23:58:20.881Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "urgency": "normal"
+        },
+        "requestId": "bf10abc7-a170-417e-8b68-2ffa46d46a93",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1520",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-414",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:58:20 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 456,
+          "requestSha256": "734c0fd88ce4a716fcd0baa92e1ab9acfa4b7c9d0bfce1b45475bebb68d86b8d",
+          "responseBytes": 1801,
+          "responseSha256": "cb11a6e498d2c962b55c6ae25329fba70465ec95d816aaf1a2fcd8a572871eaa",
+          "entityBodyBytes": 1520,
+          "entityBodySha256": "838f603ca2a16a1d43f1761001d1b80ccf198b84babbafda07d43b7ee0070c1f",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/raw-wire/admin-5992af80-d724-4c28-85d1-96e31303f1d8",
+          "originalRawRetained": true
+        }
+      },
+      "waiters": [
+        {
+          "pid": 563,
+          "query": "UPDATE poms.lead SET urgency=$1,score=$2,rating=$3,score_reason=$4,score_updated_at=$5,updated_at=$6,row_version=row_version+1 WHERE id=$7 AND row_version=$8 AND status=$9 RETURNING row_version",
+          "txid": "2071",
+          "wait_event_type": "Lock",
+          "wait_event": "transactionid"
+        }
+      ],
+      "observations": {
+        "competitor": {
+          "status": 201,
+          "body": {
+            "id": "60adec2a-0723-4520-a3d6-9506f9382f19",
+            "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "leadId": "5ea10431-14f5-402a-9c9e-43572dd8ad95",
+            "leadName": "R3CO single-materialization",
+            "projectId": null,
+            "projectName": null,
+            "competitorName": "R3CO concurrent fact",
+            "position": "unknown",
+            "customerPreference": "unknown",
+            "competitorStrengths": null,
+            "competitorWeaknesses": null,
+            "ourAdvantages": null,
+            "ourRisks": null,
+            "winProbability": "unknown",
+            "evidence": null,
+            "rowVersion": 1,
+            "createdAt": "2026-11-02T23:58:20.909Z",
+            "createdBy": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "updatedAt": "2026-11-02T23:58:20.909Z",
+            "updatedBy": "97e8f948-bcba-45bf-aabc-757232934bd9"
+          },
+          "requestId": "edd68676-8507-470b-be9f-ed7eb443e41e",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "716",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-415",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 23:58:20 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 566,
+            "requestSha256": "d2a7e6e5277f8b643742786e6029570c9af28299d99cad0279e50506b08d8503",
+            "responseBytes": 1001,
+            "responseSha256": "7643bd8af0320531c0a6c6ba1577614f53efc8f78cf3ff96105246cb8a28a485",
+            "entityBodyBytes": 716,
+            "entityBodySha256": "27c13e0bc34b6243233db40dbf6264b047dee33a1140f4824faecd83874d7862",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/raw-wire/other-57e5e573-5aca-4938-9fa2-68724de62e8d",
+            "originalRawRetained": true
+          }
+        },
+        "committedWhileLeadUpdateBlocked": true
+      }
+    },
+    "after": {
+      "id": "5ea10431-14f5-402a-9c9e-43572dd8ad95",
+      "lead_no": "LD-2026-000051",
+      "lead_name": "R3CO single-materialization",
+      "customer_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+      "status": "registered",
+      "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+      "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "qualification_summary": null,
+      "qualified_at": null,
+      "qualified_by": null,
+      "closed_reason": null,
+      "closed_at": null,
+      "closed_by": null,
+      "converted_project_id": null,
+      "converted_at": null,
+      "converted_by": null,
+      "row_version": 2,
+      "created_at": "2026-11-02T23:58:20.833Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-02T23:58:20.881Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+      "budget_status": "budget-confirmed",
+      "estimated_amount": "1200000.00",
+      "urgency": "normal",
+      "expected_decision_date": "2026-11-19T15:00:00.000Z",
+      "score": 59,
+      "rating": "C",
+      "score_reason": "基础商务+59",
+      "score_updated_at": "2026-11-02T23:58:20.881Z",
+      "source_code": "customer-visit"
+    },
+    "newSnapshot": {
+      "id": "d2a26558-60b5-444e-8154-0e090d94dcc0",
+      "lead_id": "5ea10431-14f5-402a-9c9e-43572dd8ad95",
+      "snapshot_kind": "system",
+      "override_id": null,
+      "formula_version": "lead-score-v2",
+      "system_score": 59,
+      "system_rating": "C",
+      "effective_score": 59,
+      "effective_rating": "C",
+      "effective_score_source": "system",
+      "score_reason": "基础商务+59",
+      "component_breakdown": {
+        "owner": 10,
+        "total": 59,
+        "amount": 15,
+        "budget": 20,
+        "demand": 15,
+        "source": 10,
+        "urgency": 10,
+        "baseBusiness": 59,
+        "followUpFacts": {
+          "lastFollowUpAt": null,
+          "nextFollowUpAt": null,
+          "followUpCount30d": 0,
+          "nextFollowUpOverdue": false,
+          "daysSinceLastFollowUp": null,
+          "hasPlannedNextFollowUp": false
+        },
+        "formulaVersion": "lead-score-v2",
+        "attachmentFacts": {
+          "finalAttachmentCount": 0,
+          "hasProposalAttachment": false,
+          "latestAttachmentCount": 0,
+          "hasQuotationAttachment": false,
+          "evidenceAttachmentCount": 0,
+          "hasBudgetEvidenceAttachment": false
+        },
+        "followUpActivity": 0,
+        "salesIntelligence": 0,
+        "attachmentEvidence": 0,
+        "expectedDecisionDate": 10,
+        "salesIntelligenceFacts": {
+          "painPointKnown": false,
+          "competitorKnown": false,
+          "nextContactKnown": false,
+          "budgetSourceKnown": false,
+          "decisionMakerKnown": false,
+          "procurementProcessKnown": false,
+          "technicalEvaluatorKnown": false
+        }
+      },
+      "gate_summary_snapshot": {
+        "conversion": {
+          "status": "blocked",
+          "explanation": "缺少：已确认有效状态",
+          "missingItems": [
+            "qualified-status"
+          ]
+        },
+        "qualification": {
+          "status": "ready",
+          "explanation": "已满足确认有效硬闸口",
+          "missingItems": []
+        }
+      },
+      "source_command": "update-lead",
+      "source_record_id": null,
+      "created_at": "2026-11-02T23:58:20.923Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "currentCompetitorExists": true,
+    "sameMaterializedScoreAndExplanation": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/structured-original-14-A.repair.one-materialized-tuple-under-real-concurrent-fact-commit.json",
+      "bytes": 14314,
+      "rawBytesSha256": "59f760ec40a66d8f84e2b835bb766a4ce2e488010cef565e55b3f771b5cec6c7"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

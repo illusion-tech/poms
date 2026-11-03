@@ -1,0 +1,538 @@
+{
+  "label": "A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write",
+  "name": "A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:58:00.873Z",
+  "completedAt": "2026-11-02T23:58:07.314Z",
+  "validatedEventRange": {
+    "start": 59,
+    "end": 68,
+    "exclusive": true
+  },
+  "value": {
+    "requirements": {
+      "tables": [
+        "lead",
+        "lead_score_snapshot",
+        "lead_score_override",
+        "lead_owner_assignment_record",
+        "project",
+        "project_owner_reassignment_record",
+        "attachment",
+        "attachment_link",
+        "audit_log"
+      ],
+      "rows": [
+        {
+          "table": "lead",
+          "id": "e6498ffe-053b-4b61-9dbd-adf906490fc1"
+        },
+        {
+          "table": "lead_score_override",
+          "id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7"
+        }
+      ]
+    },
+    "before": {
+      "id": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+      "lead_no": "LD-2026-000046",
+      "lead_name": "R3CO A-repair-late-lead-update",
+      "customer_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+      "status": "registered",
+      "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+      "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "qualification_summary": null,
+      "qualified_at": null,
+      "qualified_by": null,
+      "closed_reason": null,
+      "closed_at": null,
+      "closed_by": null,
+      "converted_project_id": null,
+      "converted_at": null,
+      "converted_by": null,
+      "row_version": 1,
+      "created_at": "2026-11-02T23:58:00.891Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-02T23:58:00.891Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+      "budget_status": "budget-confirmed",
+      "estimated_amount": "1200000.00",
+      "urgency": "high",
+      "expected_decision_date": "2026-11-19T15:00:00.000Z",
+      "score": 62,
+      "rating": "B",
+      "score_reason": "基础商务+62",
+      "score_updated_at": "2026-11-02T23:58:00.895Z",
+      "source_code": "customer-visit"
+    },
+    "controlled": {
+      "response": {
+        "status": 500,
+        "body": {
+          "message": "Internal server error",
+          "statusCode": 500
+        },
+        "requestId": "b9fd9de0-f52a-48b6-b1ed-c0dc613f3a39",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "52",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-182884-375",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 23:58:01 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 530,
+          "requestSha256": "b22930dde9917ad1dca96584e2b8c30e3ef114163d0f0a0ffa9693d01564e122",
+          "responseBytes": 350,
+          "responseSha256": "b2f6533964ffc5ef7f0848e6320f2a18739475346459c3ea0fbf217021ba4e3d",
+          "entityBodyBytes": 52,
+          "entityBodySha256": "506a0c04167350dc9867c89aab575431c0946cea9fb12a7f1eb91658d990586d",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/raw-wire/admin-754e7671-530d-4a1b-9ea6-6f01461e40e2",
+          "originalRawRetained": true
+        }
+      },
+      "hit": {
+        "marker": "POMS_R3M_QA_HIT_8921a84b33ca45e3",
+        "sqlState": "P0001",
+        "actualErrorLine": "2026-11-02 23:58:01.222 UTC [562] user=poms_r3m_app db=poms_r3m_rust app=poms-api-rust tx=2008 ERROR:  POMS_R3M_QA_HIT_8921a84b33ca45e3:lead=e6498ffe-053b-4b61-9dbd-adf906490fc1:write=UPDATE",
+        "systemSnapshotId": null,
+        "leadId": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+        "overrideId": null,
+        "declaredPublicDerivativeOfPrivateError": true,
+        "rawLogs": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/qa-write-fault-8921a84b33ca45e3-postgres-stdout-original.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/qa-write-fault-8921a84b33ca45e3-postgres-stderr-original.bin",
+            "bytes": 11174,
+            "rawBytesSha256": "85ae5398af04cf1c34dfb0c89e7b532dfb61f553c39eb7a42a854492ecb2e426"
+          }
+        ]
+      },
+      "fixture": {
+        "nonce": "8921a84b33ca45e3",
+        "table": "lead",
+        "leadId": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+        "overrideId": null,
+        "snapshotKind": null,
+        "oldSnapshotIds": [],
+        "securityInvoker": true,
+        "fnOid": "23966",
+        "trOid": "23967",
+        "catalogRestored": true,
+        "ACLRestored": true,
+        "ledger": {
+          "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/qa-write-fault-8921a84b33ca45e3-ledger-original.jsonl",
+          "bytes": 1589,
+          "rawBytesSha256": "983d035ed4a5bb9725dc341284ff53c2d06dfef39140247ced53e5024de6010e"
+        }
+      },
+      "testOnlyDDL": true,
+      "productSchemaChanged": false
+    },
+    "after": {
+      "id": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+      "lead_no": "LD-2026-000046",
+      "lead_name": "R3CO A-repair-late-lead-update",
+      "customer_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+      "status": "registered",
+      "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+      "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "qualification_summary": null,
+      "qualified_at": null,
+      "qualified_by": null,
+      "closed_reason": null,
+      "closed_at": null,
+      "closed_by": null,
+      "converted_project_id": null,
+      "converted_at": null,
+      "converted_by": null,
+      "row_version": 2,
+      "created_at": "2026-11-02T23:58:00.891Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-02T23:58:07.301Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "demand_description": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+      "budget_status": "budget-confirmed",
+      "estimated_amount": "1200000.00",
+      "urgency": "high",
+      "expected_decision_date": "2026-11-19T15:00:00.000Z",
+      "score": 82,
+      "rating": "A",
+      "score_reason": "基础商务+62；销售情报+20",
+      "score_updated_at": "2026-11-02T23:58:07.301Z",
+      "source_code": "customer-visit"
+    },
+    "graphGuardApplied": true,
+    "initialLeadLockHadAlreadySucceeded": true,
+    "allSnapshots": [
+      {
+        "id": "61a0cbd7-ea46-4573-9128-fbef06342d76",
+        "lead_id": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+        "snapshot_kind": "system",
+        "override_id": null,
+        "formula_version": "lead-score-v2",
+        "system_score": 82,
+        "system_rating": "A",
+        "effective_score": 82,
+        "effective_rating": "A",
+        "effective_score_source": "system",
+        "score_reason": "基础商务+62；销售情报+20",
+        "component_breakdown": {
+          "owner": 10,
+          "total": 82,
+          "amount": 15,
+          "budget": 20,
+          "demand": 15,
+          "source": 10,
+          "urgency": 15,
+          "baseBusiness": 62,
+          "followUpFacts": {
+            "lastFollowUpAt": null,
+            "nextFollowUpAt": null,
+            "followUpCount30d": 0,
+            "nextFollowUpOverdue": false,
+            "daysSinceLastFollowUp": null,
+            "hasPlannedNextFollowUp": false
+          },
+          "formulaVersion": "lead-score-v2",
+          "attachmentFacts": {
+            "finalAttachmentCount": 0,
+            "hasProposalAttachment": false,
+            "latestAttachmentCount": 0,
+            "hasQuotationAttachment": false,
+            "evidenceAttachmentCount": 0,
+            "hasBudgetEvidenceAttachment": false
+          },
+          "followUpActivity": 0,
+          "salesIntelligence": 20,
+          "attachmentEvidence": 0,
+          "expectedDecisionDate": 10,
+          "salesIntelligenceFacts": {
+            "painPointKnown": true,
+            "competitorKnown": true,
+            "nextContactKnown": true,
+            "budgetSourceKnown": true,
+            "decisionMakerKnown": true,
+            "procurementProcessKnown": true,
+            "technicalEvaluatorKnown": true
+          }
+        },
+        "gate_summary_snapshot": {
+          "conversion": {
+            "status": "blocked",
+            "explanation": "缺少：已确认有效状态",
+            "missingItems": [
+              "qualified-status"
+            ]
+          },
+          "qualification": {
+            "status": "ready",
+            "explanation": "已满足确认有效硬闸口",
+            "missingItems": []
+          }
+        },
+        "source_command": "approve-score-override",
+        "source_record_id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+        "created_at": "2026-11-02T23:58:07.302Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      },
+      {
+        "id": "e78fcdc3-0175-40c8-b2b7-0a0d66fe40c6",
+        "lead_id": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+        "snapshot_kind": "manual-override",
+        "override_id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+        "formula_version": "lead-score-v2",
+        "system_score": 82,
+        "system_rating": "A",
+        "effective_score": 95,
+        "effective_rating": "A",
+        "effective_score_source": "manual-override",
+        "score_reason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+        "component_breakdown": {
+          "owner": 10,
+          "total": 82,
+          "amount": 15,
+          "budget": 20,
+          "demand": 15,
+          "source": 10,
+          "urgency": 15,
+          "baseBusiness": 62,
+          "followUpFacts": {
+            "lastFollowUpAt": null,
+            "nextFollowUpAt": null,
+            "followUpCount30d": 0,
+            "nextFollowUpOverdue": false,
+            "daysSinceLastFollowUp": null,
+            "hasPlannedNextFollowUp": false
+          },
+          "formulaVersion": "lead-score-v2",
+          "attachmentFacts": {
+            "finalAttachmentCount": 0,
+            "hasProposalAttachment": false,
+            "latestAttachmentCount": 0,
+            "hasQuotationAttachment": false,
+            "evidenceAttachmentCount": 0,
+            "hasBudgetEvidenceAttachment": false
+          },
+          "followUpActivity": 0,
+          "salesIntelligence": 20,
+          "attachmentEvidence": 0,
+          "expectedDecisionDate": 10,
+          "salesIntelligenceFacts": {
+            "painPointKnown": true,
+            "competitorKnown": true,
+            "nextContactKnown": true,
+            "budgetSourceKnown": true,
+            "decisionMakerKnown": true,
+            "procurementProcessKnown": true,
+            "technicalEvaluatorKnown": true
+          }
+        },
+        "gate_summary_snapshot": {
+          "conversion": {
+            "status": "blocked",
+            "explanation": "缺少：已确认有效状态",
+            "missingItems": [
+              "qualified-status"
+            ]
+          },
+          "qualification": {
+            "status": "ready",
+            "explanation": "已满足确认有效硬闸口",
+            "missingItems": []
+          }
+        },
+        "source_command": "approve-score-override",
+        "source_record_id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+        "created_at": "2026-11-02T23:58:07.303Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      }
+    ],
+    "system": {
+      "id": "61a0cbd7-ea46-4573-9128-fbef06342d76",
+      "lead_id": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+      "snapshot_kind": "system",
+      "override_id": null,
+      "formula_version": "lead-score-v2",
+      "system_score": 82,
+      "system_rating": "A",
+      "effective_score": 82,
+      "effective_rating": "A",
+      "effective_score_source": "system",
+      "score_reason": "基础商务+62；销售情报+20",
+      "component_breakdown": {
+        "owner": 10,
+        "total": 82,
+        "amount": 15,
+        "budget": 20,
+        "demand": 15,
+        "source": 10,
+        "urgency": 15,
+        "baseBusiness": 62,
+        "followUpFacts": {
+          "lastFollowUpAt": null,
+          "nextFollowUpAt": null,
+          "followUpCount30d": 0,
+          "nextFollowUpOverdue": false,
+          "daysSinceLastFollowUp": null,
+          "hasPlannedNextFollowUp": false
+        },
+        "formulaVersion": "lead-score-v2",
+        "attachmentFacts": {
+          "finalAttachmentCount": 0,
+          "hasProposalAttachment": false,
+          "latestAttachmentCount": 0,
+          "hasQuotationAttachment": false,
+          "evidenceAttachmentCount": 0,
+          "hasBudgetEvidenceAttachment": false
+        },
+        "followUpActivity": 0,
+        "salesIntelligence": 20,
+        "attachmentEvidence": 0,
+        "expectedDecisionDate": 10,
+        "salesIntelligenceFacts": {
+          "painPointKnown": true,
+          "competitorKnown": true,
+          "nextContactKnown": true,
+          "budgetSourceKnown": true,
+          "decisionMakerKnown": true,
+          "procurementProcessKnown": true,
+          "technicalEvaluatorKnown": true
+        }
+      },
+      "gate_summary_snapshot": {
+        "conversion": {
+          "status": "blocked",
+          "explanation": "缺少：已确认有效状态",
+          "missingItems": [
+            "qualified-status"
+          ]
+        },
+        "qualification": {
+          "status": "ready",
+          "explanation": "已满足确认有效硬闸口",
+          "missingItems": []
+        }
+      },
+      "source_command": "approve-score-override",
+      "source_record_id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+      "created_at": "2026-11-02T23:58:07.302Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "decision": {
+      "id": "e78fcdc3-0175-40c8-b2b7-0a0d66fe40c6",
+      "lead_id": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+      "snapshot_kind": "manual-override",
+      "override_id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+      "formula_version": "lead-score-v2",
+      "system_score": 82,
+      "system_rating": "A",
+      "effective_score": 95,
+      "effective_rating": "A",
+      "effective_score_source": "manual-override",
+      "score_reason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+      "component_breakdown": {
+        "owner": 10,
+        "total": 82,
+        "amount": 15,
+        "budget": 20,
+        "demand": 15,
+        "source": 10,
+        "urgency": 15,
+        "baseBusiness": 62,
+        "followUpFacts": {
+          "lastFollowUpAt": null,
+          "nextFollowUpAt": null,
+          "followUpCount30d": 0,
+          "nextFollowUpOverdue": false,
+          "daysSinceLastFollowUp": null,
+          "hasPlannedNextFollowUp": false
+        },
+        "formulaVersion": "lead-score-v2",
+        "attachmentFacts": {
+          "finalAttachmentCount": 0,
+          "hasProposalAttachment": false,
+          "latestAttachmentCount": 0,
+          "hasQuotationAttachment": false,
+          "evidenceAttachmentCount": 0,
+          "hasBudgetEvidenceAttachment": false
+        },
+        "followUpActivity": 0,
+        "salesIntelligence": 20,
+        "attachmentEvidence": 0,
+        "expectedDecisionDate": 10,
+        "salesIntelligenceFacts": {
+          "painPointKnown": true,
+          "competitorKnown": true,
+          "nextContactKnown": true,
+          "budgetSourceKnown": true,
+          "decisionMakerKnown": true,
+          "procurementProcessKnown": true,
+          "technicalEvaluatorKnown": true
+        }
+      },
+      "gate_summary_snapshot": {
+        "conversion": {
+          "status": "blocked",
+          "explanation": "缺少：已确认有效状态",
+          "missingItems": [
+            "qualified-status"
+          ]
+        },
+        "qualification": {
+          "status": "ready",
+          "explanation": "已满足确认有效硬闸口",
+          "missingItems": []
+        }
+      },
+      "source_command": "approve-score-override",
+      "source_record_id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+      "created_at": "2026-11-02T23:58:07.303Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "approvalNote": "已核实人工评估依据。",
+        "approvedAt": "2026-11-02T23:58:07.302Z",
+        "approvedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "id": "26deca4e-e8d4-4c5a-9ef0-35be55134fe7",
+        "leadId": "e6498ffe-053b-4b61-9dbd-adf906490fc1",
+        "reason": "客户已确认新增关键事实，申请人工评估。",
+        "rejectReason": null,
+        "rejectedAt": null,
+        "rejectedBy": null,
+        "requestedAt": "2026-11-02T23:58:01.018Z",
+        "requestedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "requestedRating": "A",
+        "requestedScore": 95,
+        "revokeReason": null,
+        "revokedAt": null,
+        "revokedBy": null,
+        "rowVersion": 2,
+        "status": "approved",
+        "supersededById": null,
+        "systemRatingAtRequest": "B",
+        "systemScoreAtRequest": 62
+      },
+      "requestId": "6fc59c8d-58c5-46a1-8ee6-5c3ae282527c",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "689",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-376",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:58:07 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 530,
+        "requestSha256": "698a6c822b422358a5aec7b97de41ecbe79c7eba68a1b8658e6304c8e605bb69",
+        "responseBytes": 969,
+        "responseSha256": "10d526710e3239d559b9eabad790f7ebe30fd97778ce57580db96e8f6fcfcc86",
+        "entityBodyBytes": 689,
+        "entityBodySha256": "4a7ba91e4fc9afa27117eefac8c1fc7aace9240e66658030a4f76e9f735e52c6",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/raw-wire/admin-67e9ee04-b94b-44d1-90a1-d8c71ef15c06",
+        "originalRawRetained": true
+      }
+    }
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase19/structured-original-09-A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write.json",
+      "bytes": 19081,
+      "rawBytesSha256": "fe1a4a9da29c95903bc72fb9ad968c1df70e87f5a941e58a87303bcb5d6b1806"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

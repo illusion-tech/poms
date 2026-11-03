@@ -1,0 +1,27 @@
+✔ valid exact actors, attributed customer, rooted child FK (7.5904ms)
+✔ seed-only FK and a remembered seed ID never establish ownership (2.2032ms)
+✔ unrooted self reference remains orphan (1.43ms)
+✔ unrooted two-row cycle cannot self-certify during iteration (1.3978ms)
+✔ cycle connected to a genuine own attribution has an acyclic proof root (2.2126ms)
+✔ current-looking actor prefix without an exact registry ID blocks (1.9656ms)
+✔ registered seed actor ID cannot be lent as an ownership root (0.9176ms)
+✔ any changed ordinary seed blocks the entire transaction plan (1.3086ms)
+✔ unknown new row with no FK or attribution blocks (0.94ms)
+✔ actor-null guard event requires exact validated request triple; partial is cleanup only (1.5728ms)
+✔ actor-null event without exact request source remains orphan (0.8039ms)
+✔ same request ID with a different path cannot own an event (1.3043ms)
+✔ unregistered event type does not borrow a matching request root (0.7827ms)
+✔ missing actual FK target rejects the plan rather than guessing (0.9745ms)
+✔ registered fixture-actor random8 username with exact UUID-derived org/role codes is valid (1.4733ms)
+✔ registered random-style username still rejects an invalid suffix (2.9437ms)
+✔ valid random8 prefix/suffix cannot replace the exact registered user ID (0.5871ms)
+✔ random8 registration requires the complete organization code derived from its own registered UUID (1.1417ms)
+✔ random8 registration requires the complete role key derived from its own registered UUID (0.6736ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 156.9499

@@ -1,0 +1,8 @@
+import fs from'node:fs';import assert from'node:assert/strict';import{pin}from'./source-guard.mjs';
+const customerSource='tmp/rust-r3m/ui-b/customer-journey02.mjs',customerTarget='tmp/rust-r3m/ui-b/customer-journey03.mjs';assert(!fs.existsSync(customerTarget));
+let customer=fs.readFileSync(customerSource,'utf8').replace('Derived02: business-correct Create.gender assertions only.','Derived03: correct Create.gender and unchanged-field PATCH omission assertions.');
+const old="contactEdited[0].requestBody.gender === 'female' && contactEdited[0].requestBody.workPhone === null, 'original edit did not send gender/null clear'";
+assert(customer.includes(old));customer=customer.replace(old,"!Object.hasOwn(contactEdited[0].requestBody, 'gender') && contactEdited[0].requestBody.workPhone === null, 'unchanged female must be omitted while the changed workPhone clears to null'");fs.writeFileSync(customerTarget,customer,{flag:'wx'});
+const source='tools/rust-r3m/ui-run03.mjs',target='tools/rust-r3m/ui-run04.mjs';assert(!fs.existsSync(target));const text=fs.readFileSync(source,'utf8').replaceAll('tools/rust-r3m/ui-run03.mjs',target).replaceAll("label+'-run03'","label+'-run04'").replaceAll(customerSource,customerTarget);fs.writeFileSync(target,text,{flag:'wx'});
+const prepSource='tools/rust-r3m/ui-prepare03.mjs',prepTarget='tools/rust-r3m/ui-prepare04.mjs';assert(!fs.existsSync(prepTarget));fs.writeFileSync(prepTarget,fs.readFileSync(prepSource,'utf8').replaceAll('ui-prepare03.mjs','ui-prepare04.mjs').replace("tag:'final01'","tag:'final02'"),{flag:'wx'});
+console.log(JSON.stringify({source:pin(source),derived:pin(target),customerSource:pin(customerSource),customerDerived:pin(customerTarget),producer:pin(prepTarget),productChanges:false}));

@@ -1,0 +1,72 @@
+{
+  "label": "F.followup.active-voided",
+  "name": "F.followup.active-voided",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.415Z",
+  "completedAt": "2026-11-02T23:01:04.425Z",
+  "validatedEventRange": {
+    "start": 49,
+    "end": 50,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "SalesFollowUpController_list",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/sales-follow-up-records",
+      "query": {
+        "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [],
+      "requestId": "b1e597a9-673d-4b8c-a2ad-803934753341",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-63",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "f7921a2f07d2ef369c8385432f56427585b92e3128c40cfc34bc571045a8dfe1",
+        "responseBytes": 279,
+        "responseSha256": "88d3623d1ec5845114e41041efa73dde595893fc4f531b37e1e1130d22ddf33b",
+        "entityBodyBytes": 2,
+        "entityBodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-8c8352da-1e1c-47df-ac74-5cf97ccb1d7c",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-50-F.followup.active-voided.json",
+      "bytes": 1869,
+      "rawBytesSha256": "f1910fad3d2607d2437228cda3adaecb27f27f88799dd214a58564eb30422950"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

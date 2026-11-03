@@ -1,0 +1,234 @@
+{
+  "label": "I-concurrent-stakeholder",
+  "name": "I-concurrent-stakeholder",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-03T00:12:52.301Z",
+  "completedAt": "2026-11-03T00:12:52.441Z",
+  "validatedEventRange": {
+    "start": 0,
+    "end": 5,
+    "exclusive": true
+  },
+  "value": {
+    "before": {
+      "id": "fef0df91-39ec-4fe9-af51-6cc8b35ff418",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "lead_id": "60b89207-6d7d-4ae5-b84c-efa9d3a76a4d",
+      "project_id": null,
+      "contact_id": "2acfe720-ce01-4d73-b4cc-5d92a9124cba",
+      "role": "decision-maker",
+      "attitude": "neutral",
+      "influence_level": "medium",
+      "access_level": "indirect",
+      "focus_areas_json": [
+        "预算",
+        "交付"
+      ],
+      "communication_notes": "Native I stakeholder initial communication",
+      "is_primary": false,
+      "row_version": 1,
+      "created_at": "2026-11-03T00:12:52.370Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-03T00:12:52.370Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/opportunity-stakeholders/fef0df91-39ec-4fe9-af51-6cc8b35ff418",
+        "json": {
+          "communicationNotes": "concurrent admin"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/opportunity-stakeholders/fef0df91-39ec-4fe9-af51-6cc8b35ff418",
+        "json": {
+          "communicationNotes": "concurrent other"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "id": "fef0df91-39ec-4fe9-af51-6cc8b35ff418",
+            "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "leadId": "60b89207-6d7d-4ae5-b84c-efa9d3a76a4d",
+            "leadName": "R3CO I-concurrent-stakeholder",
+            "projectId": null,
+            "projectName": null,
+            "contactId": "2acfe720-ce01-4d73-b4cc-5d92a9124cba",
+            "contactName": "R3CO I-concurrent-stakeholder",
+            "contactDepartment": null,
+            "contactTitle": null,
+            "role": "decision-maker",
+            "attitude": "neutral",
+            "influenceLevel": "medium",
+            "accessLevel": "indirect",
+            "focusAreas": [
+              "预算",
+              "交付"
+            ],
+            "communicationNotes": "concurrent admin",
+            "isPrimary": false,
+            "rowVersion": 2,
+            "createdAt": "2026-11-03T00:12:52.370Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updatedAt": "2026-11-03T00:12:52.406Z",
+            "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          "requestId": "6dde004f-8247-494b-8b10-cfdf0026f5ea",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "820",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-498",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:52 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 496,
+            "requestSha256": "fe5c8e6192ddf2886d3dc1cbe85e822e8b5887fb8813fb3e1c8382dd2b988dc2",
+            "responseBytes": 1100,
+            "responseSha256": "91d4beaa0e9483351ad835ea892f35339452b23140658fd61db86c7079532242",
+            "entityBodyBytes": 820,
+            "entityBodySha256": "4273cf16868bb9b4d70a1330f2778b1bd40bfed4a1b95cc08a28caf5f2caae74",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/raw-wire/admin-cf290801-ec03-4729-bc1e-8a0fd8448ba1",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "OpportunityStakeholder fef0df91-39ec-4fe9-af51-6cc8b35ff418 has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "0dfd6d80-9dc9-474c-b845-7fe33ee97ab4",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "146",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-499",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:52 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 496,
+            "requestSha256": "a748eafc22444a0eb947adff1d25a88a702974ebe6e01a1efcc93db860d83687",
+            "responseBytes": 432,
+            "responseSha256": "5f0f991cc7dbb1460cf08838f3a02c53a57806b2669a7efcf15017df2a292a6a",
+            "entityBodyBytes": 146,
+            "entityBodySha256": "7dbef85a9a7be72269566616c4fb87c150031515df3d819028ae5ee7a5669ea8",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/raw-wire/other-4e04419c-c827-4545-ae99-6ddd4e52f554",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "after": {
+      "id": "fef0df91-39ec-4fe9-af51-6cc8b35ff418",
+      "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+      "lead_id": "60b89207-6d7d-4ae5-b84c-efa9d3a76a4d",
+      "project_id": null,
+      "contact_id": "2acfe720-ce01-4d73-b4cc-5d92a9124cba",
+      "role": "decision-maker",
+      "attitude": "neutral",
+      "influence_level": "medium",
+      "access_level": "indirect",
+      "focus_areas_json": [
+        "预算",
+        "交付"
+      ],
+      "communication_notes": "concurrent admin",
+      "is_primary": false,
+      "row_version": 2,
+      "created_at": "2026-11-03T00:12:52.370Z",
+      "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+      "updated_at": "2026-11-03T00:12:52.406Z",
+      "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+    },
+    "audits": [
+      [
+        {
+          "id": "4e75e6e7-45bb-453b-b15c-54f4c9fd898b",
+          "event_type": "opportunity-stakeholder.updated",
+          "target_type": "opportunity-stakeholder",
+          "target_id": "fef0df91-39ec-4fe9-af51-6cc8b35ff418",
+          "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "request_id": "6dde004f-8247-494b-8b10-cfdf0026f5ea",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "communicationNotes": {
+              "length": 42,
+              "changed": true,
+              "present": true
+            }
+          },
+          "after_snapshot": {
+            "communicationNotes": {
+              "length": 16,
+              "changed": true,
+              "present": true
+            }
+          },
+          "metadata": {
+            "changedFields": [
+              "communicationNotes"
+            ],
+            "sourceCommand": "update-opportunity-stakeholder",
+            "redactedFields": [
+              "communicationNotes"
+            ],
+            "businessContext": {
+              "leadId": "60b89207-6d7d-4ae5-b84c-efa9d3a76a4d",
+              "contactId": "2acfe720-ce01-4d73-b4cc-5d92a9124cba",
+              "projectId": null,
+              "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+            }
+          },
+          "occurred_at": "2026-11-03T00:12:52.405Z"
+        }
+      ],
+      []
+    ]
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase22/structured-original-01-I-concurrent-stakeholder.json",
+      "bytes": 7970,
+      "rawBytesSha256": "9a6483b7565cbb8fb10f21f708efb81b5b0cb21970e385aeb379a2a9810f8126"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

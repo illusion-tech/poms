@@ -1,0 +1,270 @@
+{
+  "kind": "R3CO-actual-bounded-G2-acceptance",
+  "backend": "rust",
+  "createdAt": "2026-11-02T22:06:40.554Z",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "phase": "01",
+  "tag": "baseline01",
+  "runId": "12489848-1b79-44cd-8265-853e8ac76fe5",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "database": "poms_r3m_rust",
+  "runtime": {
+    "kind": "R3CO-owned-Linux-runtime",
+    "backend": "rust",
+    "tag": "baseline01",
+    "pid": 130111,
+    "startTime": "3840269",
+    "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+    "argvSha256": "1d66c61ab9a8dd08d57640be4da9be245c7a3d50f085242efb624bfd0fc2b8e7",
+    "entry": "/home/wangzishi/.local/share/poms-r3m/target/release/poms-api-rust",
+    "artifactBytes": 43734144,
+    "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+    "cwd": "/home/wangzishi/projects/poms-rust-r3m",
+    "port": 13500,
+    "database": "poms_r3m_rust",
+    "createdAt": "2026-11-02T22:01:16.730Z"
+  },
+  "completed": false,
+  "failedAt": "customer.noop.other",
+  "error": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly equal:"
+  },
+  "actors": [
+    {
+      "label": "admin",
+      "userId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+      "orgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+      "roleId": "bbbb9e6e-2b5c-4d19-8eec-564f6334a925",
+      "username": "r3m_124898481b7944cd8265853e8ac76fe5_admin"
+    },
+    {
+      "label": "other",
+      "userId": "fdca0bb9-add1-48dc-9825-79fd2ecca769",
+      "orgId": "992c2ee0-e6c9-4437-8f48-19eb2a4cf2ae",
+      "roleId": "d02ffd88-7db3-4276-bff5-23991a79232c",
+      "username": "r3m_124898481b7944cd8265853e8ac76fe5_other"
+    }
+  ],
+  "ids": {
+    "adminUserId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+    "adminOrgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+    "otherUserId": "fdca0bb9-add1-48dc-9825-79fd2ecca769",
+    "otherOrgId": "992c2ee0-e6c9-4437-8f48-19eb2a4cf2ae",
+    "customerId": "7d70ad2b-c48f-412b-90f2-1db3ced61103",
+    "sourceCode": "customer-visit"
+  },
+  "sources": [
+    {
+      "file": "tmp/rust-r3m/root/candidate-baseline01.json",
+      "bytes": 47062,
+      "rawBytesSha256": "9efcd642b700e98ecd0802902bf74ee472da5ac0821335b828e77c68fe4d7103"
+    },
+    {
+      "file": "tools/rust-r3m/acceptance-context02.mjs",
+      "bytes": 16820,
+      "rawBytesSha256": "9fb49dcd82534018aa61a95258b958f40555a0368ea2d2cbd1d5b9bfe82e01fb"
+    },
+    {
+      "file": "tools/rust-r3m/wire-client.mjs",
+      "bytes": 4214,
+      "rawBytesSha256": "2e5bae51abc408ae04d1e892c2362584d6f395141103e8fdbfc4abdb6ffaee76"
+    },
+    {
+      "file": "tools/rust-r3m/source-guard.mjs",
+      "bytes": 1558,
+      "rawBytesSha256": "238fe5d22c0da776d564b42a34689513ffdefee8319e31cf2108bfa48edaddb1"
+    },
+    {
+      "file": "tmp/rust-r3m/a-input/native-fixture-draft01.mjs",
+      "bytes": 3504,
+      "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+    },
+    {
+      "file": "tmp/rust-r3m/b-input/native-fixture-draft01.mjs",
+      "bytes": 6253,
+      "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+    },
+    {
+      "file": "tools/rust-r3m/baseline-witness01.mjs",
+      "bytes": 6919,
+      "rawBytesSha256": "aaf9a010fa07d4cb9c434aee79f2296cdea0a7062cc0121c9044dfb75030166c"
+    }
+  ],
+  "cases": [],
+  "events": [
+    {
+      "label": "producer.customer.baseline",
+      "actor": "admin",
+      "method": "POST",
+      "route": "/api/customers",
+      "request": {
+        "displayName": "R3CO baseline 12489848-1b79-44cd-8265-853e8ac76fe5"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "7d70ad2b-c48f-412b-90f2-1db3ced61103",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3CO baseline 12489848-1b79-44cd-8265-853e8ac76fe5",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+          "ownerUserId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 1,
+          "createdAt": "2026-11-02T22:06:36.434Z",
+          "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+          "updatedAt": "2026-11-02T22:06:36.434Z",
+          "updatedBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1"
+        },
+        "requestId": "1bdf36c1-a6b2-4edb-b2ce-ed6b24f05d22",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "559",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-130111-6",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 22:06:36 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 470,
+          "requestSha256": "7ae0f4dfc32a9a4932dfa9d1ca6804209bdffda382663145c3c4105151b100da",
+          "responseBytes": 842,
+          "responseSha256": "62506b89baad9063545cc71864255dbe916caa3b8b42e86a471819387e97a19a",
+          "entityBodyBytes": 559,
+          "entityBodySha256": "cfe10eb4177fe0f981209301b675c53343d633eeb94ee4598f6b8da4528ec051",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase01/raw-wire/admin-e5a53961-4740-4fe3-b6ac-f5f887e553b9",
+          "originalRawRetained": true
+        }
+      }
+    },
+    {
+      "label": "customer.noop.other",
+      "actor": "other",
+      "method": "PATCH",
+      "route": "/api/customers/7d70ad2b-c48f-412b-90f2-1db3ced61103",
+      "request": {
+        "remark": null
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "7d70ad2b-c48f-412b-90f2-1db3ced61103",
+          "customerNo": "CUST-2026-000003",
+          "displayName": "R3CO baseline 12489848-1b79-44cd-8265-853e8ac76fe5",
+          "legalName": null,
+          "shortName": null,
+          "status": "active",
+          "ownerOrgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+          "ownerUserId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+          "sourceChannel": null,
+          "remark": null,
+          "mergedIntoCustomerId": null,
+          "rowVersion": 2,
+          "createdAt": "2026-11-02T22:06:36.434Z",
+          "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+          "updatedAt": "2026-11-02T22:06:36.452Z",
+          "updatedBy": "fdca0bb9-add1-48dc-9825-79fd2ecca769",
+          "ownerName": "R3CO admin",
+          "ownerOrgName": "R3CO admin",
+          "leadCount": 0,
+          "projectCount": 0,
+          "contractCount": 0,
+          "aliases": [
+            {
+              "id": "6573fc5c-8bfc-4f81-81dd-b482ee53e65a",
+              "customerId": "7d70ad2b-c48f-412b-90f2-1db3ced61103",
+              "aliasName": "R3CO baseline 12489848-1b79-44cd-8265-853e8ac76fe5",
+              "aliasType": "alias",
+              "normalizedName": "r3co baseline 12489848-1b79-44cd-8265-853e8ac76fe5",
+              "isPrimary": true,
+              "createdAt": "2026-11-02T22:06:36.434Z",
+              "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1"
+            }
+          ]
+        },
+        "requestId": "cb96400f-050b-4698-9549-c5e46acd28ca",
+        "headers": [
+          "content-type",
+          "application/json; charset=utf-8",
+          "content-length",
+          "1033",
+          "access-control-allow-origin",
+          "http://127.0.0.1:13600",
+          "vary",
+          "Origin",
+          "access-control-allow-credentials",
+          "true",
+          "x-request-id",
+          "r1a-130111-7",
+          "connection",
+          "close",
+          "date",
+          "Mon, 02 Nov 2026 22:06:36 GMT"
+        ],
+        "rawWire": {
+          "requestBytes": 455,
+          "requestSha256": "98ecaa6132e7ba593fca4dd5446eb24017fffecff5c57bfc6893a7adac0ccd2e",
+          "responseBytes": 1312,
+          "responseSha256": "e3ba8bfa42d3e03a2c5ac9e72f4a2a4826436c9b7063549b927400d3088fb82d",
+          "entityBodyBytes": 1033,
+          "entityBodySha256": "f423cbf1f21c1bd85ac5b5a602f91d537bfcb21875492b28e64fc47e41783129",
+          "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase01/raw-wire/other-e1fd814c-ea82-46bc-b863-6f7607986bba",
+          "originalRawRetained": true
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "label": "candidate-purpose",
+      "value": {
+        "preFixDiagnosticsOnly": true,
+        "countsNotFinalStagePasses": true
+      }
+    }
+  ],
+  "preparedFacts": [],
+  "privateOriginalSQLStreams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase01/postgres-stdout-original.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase01/postgres-stderr-original.bin",
+      "bytes": 14845,
+      "rawBytesSha256": "9ddf7a6449803212dcf21bb956f964c990754719abea04229cb4ba0a6ffa4175"
+    }
+  ],
+  "rawWireOnlyPrivate": true,
+  "productDDLChanged": false,
+  "cleanup": "Pending-owned-whole-acceptance-terminal",
+  "G1Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase01/structured-original-report01.json",
+      "bytes": 9567,
+      "rawBytesSha256": "94cd26b8352e3e36f41de177e5d91edcb452ceb50335bed51ca9639351de44b6"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "kind": "RUST-R3-CO-D-pure-score-case-addendum",
+  "version": "01",
+  "status": "G1-input-not-executed",
+  "source": "Root communicated A's scoring finding and the user's direct historical fallback decision during this G1 audit",
+  "noRunner": true,
+  "noImports": true,
+  "noIOSideEffects": true,
+  "cases": [
+    {
+      "id": "M1-score-materialized-tuple",
+      "candidate": "fresh-final-Rust",
+      "definition": "Create real I facts, run an explicit system scoring trigger, and verify Lead stored score/rating and persisted snapshot system score/component breakdown/gate explanation come from the same materialized facts tuple. A controlled concurrent fact update must not split stored score from its explanation.",
+      "assertions": ["componentBreakdown total agrees with systemScore and stored Lead system score", "Exactly one facts tuple is used per explicit refresh, with semantically matching snapshot", "Semantic no-op does not manufacture duplicate snapshots", "Necessary business/snapshot/audit failures roll the whole affected graph back"]
+    },
+    {
+      "id": "M1-manual-stored-tuple-after-new-I-facts",
+      "candidate": "fresh-final-Rust",
+      "definition": "From a Lead with an existing matching system snapshot, submit a manual score override; update real I facts without an explicit system refresh, approve the override and later revoke it. The manual/revoked explanation retains the last stored system tuple rather than mixing in newly collected facts.",
+      "assertions": ["I writes alone do not silently refresh stored system score", "manual approved and override-revoked snapshot systemScore/systemRating/componentBreakdown describe the last matching stored tuple", "Manual effective score/rating may differ but its system explanation remains internally consistent", "Approve/revoke required snapshot or audit failure rolls all required changes back"]
+    },
+    {
+      "id": "M3-historical-missing-matching-system-snapshot",
+      "candidate": "fresh-final-Rust",
+      "fixtureClass": "Explicitly prepared legacy data anomaly, not an HTTP producer success",
+      "definition": "Prepare an owned historical Lead whose stored system score has no matching system snapshot. During the actual manual approval transaction, first recompute the system score from one current materialized tuple and persist its system snapshot, then perform manual approval and its required snapshot/audit in that same transaction.",
+      "assertions": ["Actual approval success leaves one consistent recalculated system tuple plus the manual effective tuple and their required snapshots/audit", "Inject each necessary system-score, system-snapshot, override-state, manual-snapshot and registered audit failure in turn; exact pre-approval graph remains unchanged", "No committed fallback score or system snapshot survives a later failed manual approval", "Restore the owned injected failure and actual retry succeeds", "Prepared anomaly, all failures, retries and cleanup remain separately labelled"]
+    }
+  ]
+}

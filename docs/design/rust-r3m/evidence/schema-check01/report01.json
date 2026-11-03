@@ -1,0 +1,286 @@
+{
+  "kind": "R3M-actual-readonly-original-CLI-schema-check",
+  "createdAt": "2026-11-03T01:21:00.581Z",
+  "completed": true,
+  "failure": null,
+  "sources": [
+    {
+      "file": "tmp/rust-r3m/guard-contract-draft/schema-run01.mjs",
+      "bytes": 13797,
+      "rawBytesSha256": "cc41fb45a7ca64c10d4db607b7fd84ddc39db7e4a6c14a0fb9b657802bdb343f"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3cdefg/evidence/original/schema-classification01.json",
+      "bytes": 92834,
+      "rawBytesSha256": "9bac378c378a47a9ca371c5aaaca9948884aa9d16cc08aff6e4fa0600697558c"
+    },
+    {
+      "file": "apps/poms-api/project.json",
+      "bytes": 6559,
+      "rawBytesSha256": "49a181c42757612967083cea579400dcd0e0bbc9892bef7b5f999991eb1a0dcd"
+    },
+    {
+      "file": "apps/poms-api/src/mikro-orm.config.ts",
+      "bytes": 240,
+      "rawBytesSha256": "8d4095a226daad0109ab2f2c5e4aca878743c7631a6aa9d2c3d18f22a15e6ed6"
+    },
+    {
+      "file": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "bytes": 2360,
+      "rawBytesSha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c"
+    },
+    {
+      "file": "package.json",
+      "bytes": 4286,
+      "rawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+    },
+    {
+      "file": "pnpm-lock.yaml",
+      "bytes": 837627,
+      "rawBytesSha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+    }
+  ],
+  "cliPins": [
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3m/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/package.json",
+      "bytes": 1400,
+      "rawBytesSha256": "059ab1871103196668a0cc90177ceb8a2b3340177cbde91ec46cc13ce53eecf6"
+    },
+    {
+      "file": "/home/wangzishi/projects/poms-rust-r3m/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+      "bytes": 253,
+      "rawBytesSha256": "de8997de977395c2043c9ecf550fe89784eab445237d7f32a1dbb00f720fa246"
+    }
+  ],
+  "receipts": [
+    {
+      "backend": "nest",
+      "before": {
+        "original": {
+          "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/nest-before-original.json",
+          "bytes": 1753751,
+          "rawBytesSha256": "5e209f0b6b61fd025c05d8a91a84a660cd14a4eda9116ffd3fcc4a0bdfb72394"
+        },
+        "publicCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/nest-before-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        },
+        "rowsSha256": "bc0bc94a668a0c355a2320f5499123fbbab46a78dea53f4f1c13164d044284c0"
+      },
+      "after": {
+        "original": {
+          "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/nest-after-original.json",
+          "bytes": 1753751,
+          "rawBytesSha256": "5e209f0b6b61fd025c05d8a91a84a660cd14a4eda9116ffd3fcc4a0bdfb72394"
+        },
+        "publicCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/nest-after-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        },
+        "rowsSha256": "bc0bc94a668a0c355a2320f5499123fbbab46a78dea53f4f1c13164d044284c0"
+      },
+      "visibility": {
+        "owner": 541,
+        "app": 0
+      },
+      "check": {
+        "name": "migration-check",
+        "backend": "nest",
+        "args": [
+          "/home/wangzishi/projects/poms-rust-r3m/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+          "migration:check",
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "startedAt": "2026-11-03T01:20:54.985Z",
+        "completedAt": "2026-11-03T01:20:56.797Z",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "logs": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/nest-migration-check-stdout-original.bin",
+            "bytes": 187,
+            "rawBytesSha256": "1bab7549dc892ca874acdf33983aa91779b58cfbf6e36ef5ab64c6948e33e66e"
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/nest-migration-check-stderr-original.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "readonlyStartupForced": true,
+        "launcher": "same-locked-installed-MikroORM-CLI; original Nx/corepack launcher not claimed"
+      },
+      "dump": {
+        "name": "schema-dump",
+        "backend": "nest",
+        "args": [
+          "/home/wangzishi/projects/poms-rust-r3m/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+          "schema:update",
+          "--dump",
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "startedAt": "2026-11-03T01:20:56.797Z",
+        "completedAt": "2026-11-03T01:20:57.832Z",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "logs": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/nest-schema-dump-stdout-original.bin",
+            "bytes": 29732,
+            "rawBytesSha256": "49149b688a7f95f223dc1668e3283e7effb09a49adc827ddb4254f884752e6dc"
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/nest-schema-dump-stderr-original.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "readonlyStartupForced": true,
+        "launcher": "same-locked-installed-MikroORM-CLI; original Nx/corepack launcher not claimed"
+      },
+      "classification": {
+        "result": "classified-existing-baseline-drift-and-tool-noise",
+        "classification": [
+          "existing-baseline-drift: exact original low-privilege CHECK introspection proposals",
+          "existing-baseline-drift: unchanged lead_score_override.status comment",
+          "tool-noise: owned QA marker outside product ORM metadata"
+        ],
+        "CHECKs": 168,
+        "exactKnownProposedSQLSet": true,
+        "actualValidatedConstraintExpressionsEqualArchived": true,
+        "existingComment": {
+          "comment": "覆盖审批状态"
+        },
+        "markerDropProposed": true,
+        "schemaDropProposed": true,
+        "newUnclassifiedStatements": 0,
+        "proposedSqlExecuted": false
+      },
+      "actualCatalogAndAll107TableRowsUnchanged": true
+    },
+    {
+      "backend": "rust",
+      "before": {
+        "original": {
+          "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/rust-before-original.json",
+          "bytes": 3949535,
+          "rawBytesSha256": "d30c7594460f443238dcc0ef3a657b02cdb2859bd386592b79eb966a47001afe"
+        },
+        "publicCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/rust-before-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        },
+        "rowsSha256": "9ebffcae6e7b46f2dd3afb317164eed46ccad1e0bb407762e8fc5c34b616baf5"
+      },
+      "after": {
+        "original": {
+          "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/rust-after-original.json",
+          "bytes": 3949535,
+          "rawBytesSha256": "d30c7594460f443238dcc0ef3a657b02cdb2859bd386592b79eb966a47001afe"
+        },
+        "publicCatalog": {
+          "file": "tmp/rust-r3m/schema-check01/rust-after-catalog.json",
+          "bytes": 1013680,
+          "rawBytesSha256": "296ae597da62d4a3f4a445a8d0c7f7bc8bc14723bb1e730a4761033fac38e6bb"
+        },
+        "rowsSha256": "9ebffcae6e7b46f2dd3afb317164eed46ccad1e0bb407762e8fc5c34b616baf5"
+      },
+      "visibility": {
+        "owner": 541,
+        "app": 0
+      },
+      "check": {
+        "name": "migration-check",
+        "backend": "rust",
+        "args": [
+          "/home/wangzishi/projects/poms-rust-r3m/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+          "migration:check",
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "startedAt": "2026-11-03T01:20:58.269Z",
+        "completedAt": "2026-11-03T01:20:59.272Z",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "logs": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/rust-migration-check-stdout-original.bin",
+            "bytes": 184,
+            "rawBytesSha256": "6736f55425dbaaea2719e57c4e458c981fea0c1e9ed4353d3fdbeb9f4781e448"
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/rust-migration-check-stderr-original.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "readonlyStartupForced": true,
+        "launcher": "same-locked-installed-MikroORM-CLI; original Nx/corepack launcher not claimed"
+      },
+      "dump": {
+        "name": "schema-dump",
+        "backend": "rust",
+        "args": [
+          "/home/wangzishi/projects/poms-rust-r3m/node_modules/.pnpm/@mikro-orm+cli@7.0.11/node_modules/@mikro-orm/cli/cli.js",
+          "schema:update",
+          "--dump",
+          "--config",
+          "apps/poms-api/src/mikro-orm.config.ts"
+        ],
+        "startedAt": "2026-11-03T01:20:59.272Z",
+        "completedAt": "2026-11-03T01:21:00.317Z",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "logs": [
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/rust-schema-dump-stdout-original.bin",
+            "bytes": 29721,
+            "rawBytesSha256": "a68f8345fbb9f13a8b6cf9887a6595d51f7dba56ac1ecad1efb1314f1146f0f2"
+          },
+          {
+            "file": "/home/wangzishi/.local/share/poms-r3m/private/schema-check01/rust-schema-dump-stderr-original.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "readonlyStartupForced": true,
+        "launcher": "same-locked-installed-MikroORM-CLI; original Nx/corepack launcher not claimed"
+      },
+      "classification": {
+        "result": "classified-existing-baseline-drift-and-tool-noise",
+        "classification": [
+          "existing-baseline-drift: exact original low-privilege CHECK introspection proposals",
+          "existing-baseline-drift: unchanged lead_score_override.status comment",
+          "tool-noise: owned QA marker outside product ORM metadata"
+        ],
+        "CHECKs": 168,
+        "exactKnownProposedSQLSet": true,
+        "actualValidatedConstraintExpressionsEqualArchived": true,
+        "existingComment": {
+          "comment": "覆盖审批状态"
+        },
+        "markerDropProposed": true,
+        "schemaDropProposed": true,
+        "newUnclassifiedStatements": 0,
+        "proposedSqlExecuted": false
+      },
+      "actualCatalogAndAll107TableRowsUnchanged": true
+    }
+  ],
+  "bothSchemasCompared": true,
+  "DDLExecuted": false,
+  "originalNxLauncherExecuted": false,
+  "originalInstalledLockedCliExecuted": true,
+  "expectedKnownMigrationCheckExitIsOneNotPass": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

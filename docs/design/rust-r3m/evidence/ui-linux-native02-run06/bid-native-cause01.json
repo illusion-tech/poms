@@ -1,0 +1,28 @@
+{
+  "kind": "declared-safe-Native-constraint-error-derivative",
+  "sqlState": "23505",
+  "constraint": "uq_project_bid_commercial_process_current",
+  "projectId": "2cff6fe2-6709-414e-b14c-314d9472e4a4",
+  "networkIndex": 59,
+  "actualErrorExcerpt": [
+    "2026-11-03 01:07:33.837 UTC [93] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3339 state=23505 ERROR:  23505: duplicate key value violates unique constraint \"uq_project_bid_commercial_process_current\"",
+    "2026-11-03 01:07:33.837 UTC [93] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3339 state=23505 DETAIL:  Key (project_id)=(2cff6fe2-6709-414e-b14c-314d9472e4a4) already exists.",
+    "2026-11-03 01:07:33.837 UTC [93] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3339 state=23505 LOCATION:  _bt_check_unique, nbtinsert.c:664",
+    "2026-11-03 01:07:33.837 UTC [93] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3339 state=23505 STATEMENT:  insert into \"poms\".\"project_bid_commercial_process\" (\"id\", \"project_id\", \"version\", \"is_current\", \"supersedes_id\", \"status\", \"bid_mode\", \"current_stage\", \"decision\", \"result_status\", \"process_summary\", \"decision_summary\", \"result_summary\", \"tender_no\", \"bid_package_no\", \"owner_role\", \"blocker_count\", \"effective_at\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('96db3e12-96fa-4b6c-8b0c-e54e2c8e902a', '2cff6fe2-6709-414e-b14c-314d9472e4a4', 2, true, 'baff967b-2d9f-4ee8-82c0-2cee124119d9', 'effective', 'public-tender', 'preparation', 'participate', 'pending', 'linux-native02 second bid must retain V1', 'linux-native02 participate', null, 'linux-native02-T2-REJECTED', 'linux-native02-PKG1', 'linux-native02 bid owner', 0, '2026-11-03T01:07:33.832Z', '2026-11-03T01:07:33.832Z', 'a4e54748-62c4-4a47-9683-f2cc9f6e91f4', '2026-11-03T01:07:33.832Z', 'a4e54748-62c4-4a47-9683-f2cc9f6e91f4') returning \"row_version\"",
+    "2026-11-03 01:07:33.838 UTC [93] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3339 state=00000 LOG:  00000: statement: rollback"
+  ],
+  "privateOriginalStreams": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/ui-linux-native02-run06/postgres-stdout-original.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/ui-linux-native02-run06/postgres-stderr-original.bin",
+      "bytes": 1548454,
+      "rawBytesSha256": "5a48d21c66f645f0d56aea17e159e222712c8062c9a43ccf98c46cf475ab0076"
+    }
+  ],
+  "source": "actual-owned-PG-server-log",
+  "businessPass": false
+}

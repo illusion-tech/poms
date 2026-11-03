@@ -1,0 +1,89 @@
+{
+  "label": "A.alias.delete-primary-denied",
+  "name": "A.alias.delete-primary-denied",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.617Z",
+  "completedAt": "2026-11-02T23:01:03.629Z",
+  "validatedEventRange": {
+    "start": 5,
+    "end": 6,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerAliasController_delete",
+    "request": {
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/customer-aliases/70c8712e-5031-45eb-a529-1c377257db8d"
+    },
+    "response": {
+      "status": 409,
+      "body": {
+        "error": "Conflict",
+        "message": "Primary customer alias 70c8712e-5031-45eb-a529-1c377257db8d cannot be deleted",
+        "statusCode": 409
+      },
+      "requestId": "8e3ba43d-7ec0-41c6-acaf-5b8cc907e4af",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "127",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-19",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 396,
+        "requestSha256": "7997962a5ed35b69761de8489774fa2e58f25170df273f26859c807e2255a622",
+        "responseBytes": 412,
+        "responseSha256": "a9a9ea1725eb1680273628273f2d05b62d4ad2d781ff4facff7929627f94521c",
+        "entityBodyBytes": 127,
+        "entityBodySha256": "63fc8a3da17e635094e1b1a87589f4084d92058b9f10312daa474e3ad29defd9",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-fe4ddb24-ff2f-4141-96ff-f15512c0e1b1",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {
+        "customer_alias": [
+          "{\"id\": \"1d2dc32d-c075-4119-947f-30c3454fb1cf\", \"alias_name\": \"北城建设集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T05:58:40.852153+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000004\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000002\", \"normalized_name\": \"北城建设集团\"}",
+          "{\"id\": \"70c8712e-5031-45eb-a529-1c377257db8d\", \"alias_name\": \"R3HK-5fb76d1a-11 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T07:01:03.539+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_primary\": true, \"customer_id\": \"6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3\", \"normalized_name\": \"r3hk-5fb76d1a-11 customer\"}",
+          "{\"id\": \"c372dd38-e754-406a-a6a1-c912bf3a11ef\", \"alias_name\": \"R3HK-5fb76d1a-11 procurement alias\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T07:01:03.6+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_primary\": false, \"customer_id\": \"6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3\", \"normalized_name\": \"r3hk-5fb76d1a-11 procurement alias\"}",
+          "{\"id\": \"cb7db02f-0745-4e8f-988f-9105a726062f\", \"alias_name\": \"R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T06:57:44.712+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_primary\": true, \"customer_id\": \"ece3e94b-27ed-4c60-bf7f-2514b23b6142\", \"normalized_name\": \"r3co stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432\"}",
+          "{\"id\": \"d35d5042-a951-4702-a6eb-b12a96b47622\", \"alias_name\": \"华南地铁集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T05:58:40.846398+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000003\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000001\", \"normalized_name\": \"华南地铁集团\"}"
+        ]
+      },
+      "afterRows": {
+        "customer_alias": [
+          "{\"id\": \"1d2dc32d-c075-4119-947f-30c3454fb1cf\", \"alias_name\": \"北城建设集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T05:58:40.852153+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000004\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000002\", \"normalized_name\": \"北城建设集团\"}",
+          "{\"id\": \"70c8712e-5031-45eb-a529-1c377257db8d\", \"alias_name\": \"R3HK-5fb76d1a-11 customer\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T07:01:03.539+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_primary\": true, \"customer_id\": \"6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3\", \"normalized_name\": \"r3hk-5fb76d1a-11 customer\"}",
+          "{\"id\": \"c372dd38-e754-406a-a6a1-c912bf3a11ef\", \"alias_name\": \"R3HK-5fb76d1a-11 procurement alias\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T07:01:03.6+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_primary\": false, \"customer_id\": \"6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3\", \"normalized_name\": \"r3hk-5fb76d1a-11 procurement alias\"}",
+          "{\"id\": \"cb7db02f-0745-4e8f-988f-9105a726062f\", \"alias_name\": \"R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T06:57:44.712+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_primary\": true, \"customer_id\": \"ece3e94b-27ed-4c60-bf7f-2514b23b6142\", \"normalized_name\": \"r3co stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432\"}",
+          "{\"id\": \"d35d5042-a951-4702-a6eb-b12a96b47622\", \"alias_name\": \"华南地铁集团\", \"alias_type\": \"alias\", \"created_at\": \"2026-11-03T05:58:40.846398+08:00\", \"created_by\": \"00000000-0000-4000-8000-000000000003\", \"is_primary\": true, \"customer_id\": \"11000000-0000-4000-8000-000000000001\", \"normalized_name\": \"华南地铁集团\"}"
+        ]
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-06-A.alias.delete-primary-denied.json",
+      "bytes": 5986,
+      "rawBytesSha256": "fa767b5033d98380c7dac73184266c4ee25af5c7b6ead8a55a066b3fb5d0a300"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

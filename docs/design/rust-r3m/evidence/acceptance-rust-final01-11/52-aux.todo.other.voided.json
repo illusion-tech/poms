@@ -1,0 +1,69 @@
+{
+  "label": "aux.todo.other.voided",
+  "name": "aux.todo.other.voided",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.438Z",
+  "completedAt": "2026-11-02T23:01:04.449Z",
+  "validatedEventRange": {
+    "start": 51,
+    "end": 52,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ApprovalController_getMyTodos",
+    "request": {
+      "actor": "other",
+      "method": "GET",
+      "path": "/api/me/todos"
+    },
+    "response": {
+      "status": 200,
+      "body": [],
+      "requestId": "ce0fe8e1-7220-4cd7-9259-0533bdf5caea",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-65",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 289,
+        "requestSha256": "4de459808c9e6843fb7ec306f255c06e5770ee3a5a7ba060fde1e52beef1dd71",
+        "responseBytes": 279,
+        "responseSha256": "29dbbe1b30f3b1ee724b57da84a55297d01eec8e8526307836dbafd0544556e8",
+        "entityBodyBytes": 2,
+        "entityBodySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/other-7d377881-84d4-4499-8b2b-6a71de2ed0ba",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-52-aux.todo.other.voided.json",
+      "bytes": 1763,
+      "rawBytesSha256": "539f1e9b7fa19b81ebd59ffbcdca3cb890791ff10c2e4f86b1fb505459f078a2"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

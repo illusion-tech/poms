@@ -198,7 +198,11 @@ impl Service {
                     }
                     let changes = changed.iter().filter_map(|key| after_values.get(key).cloned().map(|value| (*key, value))).collect::<BTreeMap<_, _>>();
                     let at = clock_now();
-                    let version = store::update(&mut transaction, &before, &changes, operator_id, at).await?;
+                    let updated = store::update(&mut transaction, &before, &changes, operator_id, at).await?;
+                    let version = match contact_updated_version(before.id, updated) {
+                        Ok(version) => version,
+                        Err(error) => return Ok(Err(error)),
+                    };
                     let mut after = before;
                     let mut raw = BTreeMap::new();
                     for (key, value) in changes {
@@ -232,6 +236,14 @@ const AUDIT_FIELDS: [&str; 10] = [
     "remark",
     "status",
 ];
+
+fn contact_updated_version(id: Uuid, version: Option<i32>) -> Result<i32, Error> {
+    version.ok_or_else(|| {
+        Error::Conflict(format!(
+            "CustomerContact {id} has been modified; refresh and retry"
+        ))
+    })
+}
 const REDACTED: [&str; 5] = ["workPhone", "mobile", "wechat", "email", "remark"];
 type TextValues = BTreeMap<&'static str, Option<JsString>>;
 
@@ -375,4 +387,23 @@ pub(crate) fn random_uuid() -> Result<Uuid, Error> {
     bytes[6] = (bytes[6] & 0x0f) | 0x40;
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
     Ok(Uuid::from_bytes(bytes))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use axum::response::IntoResponse;
+
+    #[test]
+    fn contact_cas_miss_is_conflict_and_success_keeps_returned_version() {
+        let id = Uuid::from_u128(1);
+        assert_eq!(contact_updated_version(id, Some(8)).ok(), Some(8));
+        let Err(error) = contact_updated_version(id, None) else {
+            panic!("CAS miss must be a conflict");
+        };
+        assert_eq!(
+            error.into_api_error().into_response().status(),
+            StatusCode::CONFLICT
+        );
+    }
 }

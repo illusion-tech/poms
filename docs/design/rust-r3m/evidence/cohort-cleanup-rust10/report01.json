@@ -1,0 +1,219 @@
+{
+  "kind": "R3CO-UUID-correction-exact-owned-cohort-cleanup",
+  "createdAt": "2026-11-02T22:15:44.666Z",
+  "backend": "rust",
+  "runId": "12489848-1b79-44cd-8265-853e8ac76fe5",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "database": "poms_r3m_rust",
+  "source": {
+    "file": "tools/rust-r3m/cohort-terminal01.mjs",
+    "bytes": 10521,
+    "rawBytesSha256": "38c1f663ab158699eea3799e3e4eabc83ad5095da8c2f485b650a4fb07b046a7"
+  },
+  "privateBeforeSnapshot": {
+    "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/terminal-cleanup10-before.json",
+    "bytes": 389063,
+    "rawBytesSha256": "8facfb2ae9129e8d5dcc768c0f00f550133827962a941d019dae7bf147229a3c"
+  },
+  "baselinePin": {
+    "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/baseline-before.json",
+    "bytes": 246934,
+    "rawBytesSha256": "5399d4ef6bca47c1d8d90b0f450c6827408c49d4c8d3a295362c630fef3b28c1"
+  },
+  "deltaTables": [
+    {
+      "table": "audit_log",
+      "count": 4,
+      "rawRowSetSha256": "0caac6cc75c4310f1a24464268ba6c025fb7471a46b5a0f21e3ceb4a0ecdbf21"
+    },
+    {
+      "table": "auth_session",
+      "count": 6,
+      "rawRowSetSha256": "6cc27134408bcf9b0cf6962a0e247c6a4a8f83af537ffa5c87fb05948aac157c"
+    },
+    {
+      "table": "business_number_sequence",
+      "count": 1,
+      "rawRowSetSha256": "72d9c9353cc78aa3564764a2fc975cf98679b96bf8f32a814d7b7d681c021de3"
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "count": 1,
+      "rawRowSetSha256": "213463a533fe161fe0c148c1c62da666afe9272c6aba1d592850da452c6d09f1"
+    },
+    {
+      "table": "customer",
+      "count": 7,
+      "rawRowSetSha256": "38802bd6c03adf8f9669423126e16f5b6c8238c3b63c1a3da1239c56c14021f3"
+    },
+    {
+      "table": "customer_alias",
+      "count": 7,
+      "rawRowSetSha256": "fe4faa173870d1fd4303ac1f52d1530bd9981129a0524b5aa1966f0345cebd5d"
+    },
+    {
+      "table": "customer_contact",
+      "count": 2,
+      "rawRowSetSha256": "6d1d6ed767cc81bca703fab5d1a94b16d5125efe62334a87069b3af064e2a0e6"
+    },
+    {
+      "table": "lead",
+      "count": 2,
+      "rawRowSetSha256": "5af20e081357d74b96cfe1d9d96e076c728ff8451f6aab0cb85cb8bb8a1201b2"
+    },
+    {
+      "table": "lead_score_override",
+      "count": 1,
+      "rawRowSetSha256": "35c0c2e4ecac7b53bc9569ac43e7098e53c76255822f775037f2c6c4a3c0a0e7"
+    },
+    {
+      "table": "lead_score_snapshot",
+      "count": 5,
+      "rawRowSetSha256": "ea4f2b142fa2729b68043105b6e4f7a7b0415742e5709fe95e2fbe4635095e57"
+    },
+    {
+      "table": "local_credential",
+      "count": 2,
+      "rawRowSetSha256": "6caf468c719bf995f72ba96882655cbe4874750b127e6041ad970c38dc976111"
+    },
+    {
+      "table": "opportunity_stakeholder",
+      "count": 2,
+      "rawRowSetSha256": "6d0368f80ceb4894dd577615313341e971f86f84e07a0fc01fa40bfb4b260b38"
+    },
+    {
+      "table": "org_unit",
+      "count": 2,
+      "rawRowSetSha256": "005cc33203884f2672e3a9f531059da9c342b66a65b79cc08c9a9adc3d6de010"
+    },
+    {
+      "table": "platform_user",
+      "count": 2,
+      "rawRowSetSha256": "750787ff6e4e48d94067f8b7a036d55f98bfd9acf17b616da30a0680101baa76"
+    },
+    {
+      "table": "role",
+      "count": 2,
+      "rawRowSetSha256": "04b9041d2385a68ca2354bff1a18eaf0f563ba01fbf3dc4b2f24ee2f6af3275c"
+    },
+    {
+      "table": "role_permission_assignment",
+      "count": 74,
+      "rawRowSetSha256": "e0fb7650d68c2f37f4a135cb48ad63e8ec005d0759f8c4824a543c72334f8177"
+    },
+    {
+      "table": "sales_discovery_record",
+      "count": 1,
+      "rawRowSetSha256": "9f00b1c99ada39bdbe91aff7a05340dfd55cc5cb2fca6230d0a5a1fb0ac02a1a"
+    },
+    {
+      "table": "user_org_membership",
+      "count": 2,
+      "rawRowSetSha256": "6597f5752b4e3d0a25e67e99c37541395d2f2cd70a7eb30f93003e46d457c3fc"
+    },
+    {
+      "table": "user_role_assignment",
+      "count": 2,
+      "rawRowSetSha256": "3a0518e81a9aa662598cf31183b3e7d25f12485d3490269924301ed4cd74455c"
+    }
+  ],
+  "changedSeedRows": [
+    {
+      "table": "business_number_sequence",
+      "pk": [
+        "id"
+      ]
+    }
+  ],
+  "removed": [
+    {
+      "table": "opportunity_stakeholder",
+      "count": 2
+    },
+    {
+      "table": "competitor_intelligence_record",
+      "count": 1
+    },
+    {
+      "table": "sales_discovery_record",
+      "count": 1
+    },
+    {
+      "table": "lead_score_snapshot",
+      "count": 5
+    },
+    {
+      "table": "lead_score_override",
+      "count": 1
+    },
+    {
+      "table": "lead",
+      "count": 2
+    },
+    {
+      "table": "customer_contact",
+      "count": 2
+    },
+    {
+      "table": "customer_alias",
+      "count": 7
+    },
+    {
+      "table": "customer",
+      "count": 7
+    },
+    {
+      "table": "audit_log",
+      "count": 4
+    },
+    {
+      "table": "auth_session",
+      "count": 6
+    },
+    {
+      "table": "role_permission_assignment",
+      "count": 74
+    },
+    {
+      "table": "user_role_assignment",
+      "count": 2
+    },
+    {
+      "table": "user_org_membership",
+      "count": 2
+    },
+    {
+      "table": "local_credential",
+      "count": 2
+    },
+    {
+      "table": "platform_user",
+      "count": 2
+    },
+    {
+      "table": "org_unit",
+      "count": 2
+    },
+    {
+      "table": "role",
+      "count": 2
+    },
+    {
+      "table": "business_number_sequence",
+      "count": 1
+    }
+  ],
+  "removedRows": 125,
+  "fullSeedTables": 107,
+  "all107SeedRawJSONRowsExact": true,
+  "individualPrivileges": 428,
+  "allPrivilegesRestored": true,
+  "controlledCountersRestored": 1,
+  "localObjectsRetained": [],
+  "privateAndVolumeRetained": true,
+  "oldPrivateOrPG17Touched": false,
+  "credentialsPublished": false,
+  "completed": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

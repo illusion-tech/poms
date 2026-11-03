@@ -1,0 +1,119 @@
+{
+  "label": "E.contact.create",
+  "name": "E.contact.create",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.127Z",
+  "completedAt": "2026-11-02T23:01:04.142Z",
+  "validatedEventRange": {
+    "start": 33,
+    "end": 34,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerContactController_create",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/customer-contacts",
+      "json": {
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "name": "R3HK-5fb76d1a-11 contact",
+        "gender": "female",
+        "department": "业务",
+        "title": "采购负责人",
+        "workPhone": null,
+        "mobile": "01000000000",
+        "wechat": null,
+        "email": "regression@example.com",
+        "remark": "R3HK-5fb76d1a-11 contact initial"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "createdAt": "2026-11-02T23:01:04.134Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerName": "R3HK-5fb76d1a-11 customer revised",
+        "department": "业务",
+        "email": "regression@example.com",
+        "gender": "female",
+        "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+        "mobile": "01000000000",
+        "name": "R3HK-5fb76d1a-11 contact",
+        "remark": "R3HK-5fb76d1a-11 contact initial",
+        "rowVersion": 1,
+        "status": "active",
+        "title": "采购负责人",
+        "updatedAt": "2026-11-02T23:01:04.134Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "wechat": null,
+        "workPhone": null
+      },
+      "requestId": "c44960c4-05d5-4ae5-9352-2fec31d3aa87",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "613",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-47",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 695,
+        "requestSha256": "e3d2d26de2fb16166da91890dc5506593873e14d81293836e2e33dbf2c5edda4",
+        "responseBytes": 897,
+        "responseSha256": "615d9e83df131a9940770a5dcf2a0d2a7832a0e0befd595436827ec515d85677",
+        "entityBodyBytes": 613,
+        "entityBodySha256": "342eca9a8ed2341173b8d0770937a57fd3f0f30693c3bddb135cbccc88aa36c7",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-66a8734e-0071-43f7-b2a2-91af6bd97dec",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+        "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "name": "R3HK-5fb76d1a-11 contact",
+        "department": "业务",
+        "title": "采购负责人",
+        "work_phone": null,
+        "mobile": "01000000000",
+        "wechat": null,
+        "email": "regression@example.com",
+        "remark": "R3HK-5fb76d1a-11 contact initial",
+        "status": "active",
+        "row_version": 1,
+        "created_at": "2026-11-02T23:01:04.134Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:04.134Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "gender": "female"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-34-E.contact.create.json",
+      "bytes": 3694,
+      "rawBytesSha256": "a12ef16f32e25eb6667498b6345fbb41dcc0c5dfb9113799bdcf5bf275d426ba"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

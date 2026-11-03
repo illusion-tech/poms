@@ -1,0 +1,19 @@
+{
+  "kind": "R3-stage-case-event-provenance-derivation",
+  "original": {
+    "file": "tools/rust-r3m/acceptance-context02.mjs",
+    "bytes": 16820,
+    "rawBytesSha256": "9fb49dcd82534018aa61a95258b958f40555a0368ea2d2cbd1d5b9bfe82e01fb"
+  },
+  "derived": {
+    "file": "tools/rust-r3m/acceptance-context03.mjs",
+    "bytes": 17341,
+    "rawBytesSha256": "900c2b68635712168f6de08e8ef55ac9ad8e2c69cd2c3a9e3e9e9c0a4d6999f6"
+  },
+  "changes": [
+    "Explicit report evidenceKind",
+    "Each finished case has business/guard/setup/reference kind and validated [start,end) event range",
+    "Events inherit active case kind; setup/guard/reference never substitute valid business calls"
+  ],
+  "actualExecutionPerformed": false
+}

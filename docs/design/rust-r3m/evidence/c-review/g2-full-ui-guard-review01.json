@@ -1,0 +1,409 @@
+{
+  "kind": "C-independent-full-four-axis-UI-and-guard29-review01",
+  "createdAt": "2026-11-03T01:25:47.770Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3_closeout_independent",
+    "role": "independent non-author C",
+    "configuredModel": "inherited; exact configuration not exposed",
+    "Fast": "unverified"
+  },
+  "candidate": {
+    "file": "tmp/rust-r3m/root/candidate-final01.json",
+    "bytes": 59115,
+    "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+  },
+  "UI": {
+    "reportPins": [
+      {
+        "file": "tmp/rust-r3m/ui-linux-rust03-run05/report01.json",
+        "bytes": 3366588,
+        "rawBytesSha256": "46df8f80904e3e1c87d93562924c8ef56a61c76f97667cc4490b98dca41beeb4"
+      },
+      {
+        "file": "tmp/rust-r3m/ui-linux-native02-run06/report01.json",
+        "bytes": 1891424,
+        "rawBytesSha256": "4a95297057e8359dbaf62949e663ec875ee01ef08c30250485e807f66114643c"
+      },
+      {
+        "file": "tmp/rust-r3m/ui-windows-native01-run06/report01.json",
+        "bytes": 1946848,
+        "rawBytesSha256": "1951d3d80682502ca4a0bea5699118e60db0afd60e885aa6c63db10cb23c81a7"
+      },
+      {
+        "file": "tmp/rust-r3m/ui-windows-rust01-run06/report01.json",
+        "bytes": 3440272,
+        "rawBytesSha256": "32ec05c6454cc02fc8d480618be7ed12a884639ca46578512b95df62676d719b"
+      }
+    ],
+    "layeredSummary": {
+      "covered": 16,
+      "required": 16,
+      "rustBusinessPassed": 8,
+      "nativeReferenceCaptured": 8,
+      "knownNativeBusinessFailures": 6,
+      "unknownFailures": 0,
+      "all16BusinessPassed": false,
+      "NativeBusinessAcceptance": false,
+      "WindowsNativeRustServerCertified": false
+    },
+    "WindowsReviews": [
+      {
+        "report": {
+          "file": "tmp/rust-r3m/ui-windows-native01-run06/report01.json",
+          "bytes": 1946848,
+          "rawBytesSha256": "1951d3d80682502ca4a0bea5699118e60db0afd60e885aa6c63db10cb23c81a7"
+        },
+        "backend": "native",
+        "browserPlatform": "win32",
+        "serverPlatform": "win32",
+        "actualHTTP": 354,
+        "actualPG": 27,
+        "sources": [
+          {
+            "file": "tmp/rust-r3m/root/candidate-final01.json",
+            "bytes": 59115,
+            "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+          },
+          {
+            "file": "tmp/rust-r3m/c-review/g2-ui-matrix-clarification01.json",
+            "bytes": 25520,
+            "rawBytesSha256": "37b486e86e60e2e6c3181e21d036b0115b48b17b651910934cdbc8211f5025db"
+          },
+          {
+            "file": "tools/rust-r3m/ui-run06.mjs",
+            "bytes": 20186,
+            "rawBytesSha256": "4c2507ceaa45d6ae62ae48308caf7299c94955003ce24ae83354b8d3f6f986d5"
+          },
+          {
+            "file": "tools/rust-r3m/ui-server01.mjs",
+            "bytes": 4455,
+            "rawBytesSha256": "24230867adf246eb94bfb038cad60f61e46b1c358da772ed9ee142274f39697b"
+          },
+          {
+            "file": "tools/rust-r3m/ui-runtime-witness02.mjs",
+            "bytes": 1043,
+            "rawBytesSha256": "51165c647420dae30f3d17b5cb0d2dcb00309b259f70bb51e6722b5de57956db"
+          },
+          {
+            "file": "tmp/rust-r3m/ui-b/four-journey-cell01.mjs",
+            "bytes": 13790,
+            "rawBytesSha256": "fa718a994f9dc8f19d9497a0f29ac53dd1da7b0efd635317b41a634b06c5ebed"
+          },
+          {
+            "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "bytes": 435823,
+            "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+          },
+          {
+            "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+            "bytes": 26295,
+            "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+          },
+          {
+            "file": "tools/rust-r3cdefg/project-journey01.mjs",
+            "bytes": 23214,
+            "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+          },
+          {
+            "file": "tmp/rust-r3m/ui-a/lead-journey04.mjs",
+            "bytes": 26072,
+            "rawBytesSha256": "9c317e4560326890bfa7f0cee1846d9663ace51787c8fb4abc22ea3140853bd1"
+          },
+          {
+            "file": "docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs",
+            "bytes": 31946,
+            "rawBytesSha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+          }
+        ],
+        "allFourRolesAccepted": true,
+        "actualDateRequestResponseGetStagePGAndScreen": true,
+        "knownNativeBusinessFailures": [
+          {
+            "id": "contact-female-to-unknown",
+            "journeyName": "customerJourney",
+            "networkIndex": 21,
+            "afterPgIndex": 0
+          },
+          {
+            "id": "bid-second-version-500",
+            "journeyName": "projectJourney",
+            "firstNetworkIndex": 56,
+            "failedNetworkIndex": 59,
+            "historyNetworkIndex": 71,
+            "beforePgIndex": 12,
+            "afterPgIndex": 15,
+            "validRequestVerified": true,
+            "actualSharedSchemaValidation": true,
+            "cause": {
+              "sqlState": "23505",
+              "constraint": "uq_project_bid_commercial_process_current",
+              "evidencePin": {
+                "file": "tmp/rust-r3m/ui-windows-native01-run06/bid-native-cause01.json",
+                "bytes": 2672,
+                "rawBytesSha256": "8fa18a4251d47d0c39e5fe16703d1fe919fa9c8cf1e5aa175ea74e884e0b37c0"
+              }
+            }
+          },
+          {
+            "id": "pricing-second-version-500",
+            "journeyName": "projectJourney",
+            "firstNetworkIndex": 84,
+            "failedNetworkIndex": 87,
+            "historyNetworkIndex": 99,
+            "beforePgIndex": 20,
+            "afterPgIndex": 21,
+            "validRequestVerified": true,
+            "actualSharedSchemaValidation": true,
+            "cause": {
+              "sqlState": "23505",
+              "constraint": "uq_project_pricing_margin_review_current",
+              "evidencePin": {
+                "file": "tmp/rust-r3m/ui-windows-native01-run06/pricing-native-cause01.json",
+                "bytes": 3332,
+                "rawBytesSha256": "cc24f3c41f1a18de920ab5adec1bfa7714f88e5292fe91b31587ee67bf8e3d29"
+              }
+            }
+          }
+        ],
+        "NativeBusinessAcceptance": false,
+        "screenshots": [
+          {
+            "file": "tmp/rust-r3m/ui-windows-native01-run06/customer.png",
+            "bytes": 164746,
+            "rawBytesSha256": "9ec77cd472d89bdfea5ea7e3981904b33ad1234af510be63d6fab897fe879891",
+            "role": "customer",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          },
+          {
+            "file": "tmp/rust-r3m/ui-windows-native01-run06/project.png",
+            "bytes": 214193,
+            "rawBytesSha256": "cafafc3e80451743562f253820ac662a1eed38f83bee2b1b130fd8447b9bf8b1",
+            "role": "project",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          },
+          {
+            "file": "tmp/rust-r3m/ui-windows-native01-run06/lead.png",
+            "bytes": 191541,
+            "rawBytesSha256": "6708601703bff2423dd457bd1832d66b853b374831cc9a07e1ddd32d918d62a8",
+            "role": "lead",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          },
+          {
+            "file": "tmp/rust-r3m/ui-windows-native01-run06/intelligence.png",
+            "bytes": 229607,
+            "rawBytesSha256": "30a6e2e68464f4abf51142b9b0f61aa4848de53baa31848b4c2618c022acb67a",
+            "role": "intelligence",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          }
+        ]
+      },
+      {
+        "report": {
+          "file": "tmp/rust-r3m/ui-windows-rust01-run06/report01.json",
+          "bytes": 3440272,
+          "rawBytesSha256": "32ec05c6454cc02fc8d480618be7ed12a884639ca46578512b95df62676d719b"
+        },
+        "backend": "rust",
+        "browserPlatform": "win32",
+        "serverPlatform": "linux",
+        "actualHTTP": 360,
+        "actualPG": 31,
+        "sources": [
+          {
+            "file": "tmp/rust-r3m/root/candidate-final01.json",
+            "bytes": 59115,
+            "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+          },
+          {
+            "file": "tmp/rust-r3m/c-review/g2-ui-matrix-clarification01.json",
+            "bytes": 25520,
+            "rawBytesSha256": "37b486e86e60e2e6c3181e21d036b0115b48b17b651910934cdbc8211f5025db"
+          },
+          {
+            "file": "tools/rust-r3m/ui-run06.mjs",
+            "bytes": 20186,
+            "rawBytesSha256": "4c2507ceaa45d6ae62ae48308caf7299c94955003ce24ae83354b8d3f6f986d5"
+          },
+          {
+            "file": "tools/rust-r3m/ui-server01.mjs",
+            "bytes": 4455,
+            "rawBytesSha256": "24230867adf246eb94bfb038cad60f61e46b1c358da772ed9ee142274f39697b"
+          },
+          {
+            "file": "tools/rust-r3m/ui-runtime-witness02.mjs",
+            "bytes": 1043,
+            "rawBytesSha256": "51165c647420dae30f3d17b5cb0d2dcb00309b259f70bb51e6722b5de57956db"
+          },
+          {
+            "file": "tmp/rust-r3m/ui-b/four-journey-cell01.mjs",
+            "bytes": 13790,
+            "rawBytesSha256": "fa718a994f9dc8f19d9497a0f29ac53dd1da7b0efd635317b41a634b06c5ebed"
+          },
+          {
+            "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+            "bytes": 435823,
+            "rawBytesSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+          },
+          {
+            "file": "tmp/rust-r3m/ui-b/customer-journey03.mjs",
+            "bytes": 26556,
+            "rawBytesSha256": "1bea0e0091de5d3b80cf7e678e42e43f776c44c2fdb7a6d29bb36824bb798a8b"
+          },
+          {
+            "file": "tmp/rust-r3m/ui-b/project-journey02.mjs",
+            "bytes": 27750,
+            "rawBytesSha256": "d088e556900a1028183ecb9f6c381d2230c9d3db799eed5f94a6f0c61aff48c1"
+          },
+          {
+            "file": "tmp/rust-r3m/ui-a/lead-journey04.mjs",
+            "bytes": 26072,
+            "rawBytesSha256": "9c317e4560326890bfa7f0cee1846d9663ace51787c8fb4abc22ea3140853bd1"
+          },
+          {
+            "file": "docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs",
+            "bytes": 31946,
+            "rawBytesSha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+          }
+        ],
+        "allFourRolesAccepted": true,
+        "actualDateRequestResponseGetStagePGAndScreen": true,
+        "knownNativeBusinessFailures": [],
+        "NativeBusinessAcceptance": false,
+        "screenshots": [
+          {
+            "file": "tmp/rust-r3m/ui-windows-rust01-run06/customer.png",
+            "bytes": 163583,
+            "rawBytesSha256": "97c1e84f03e8833ebf34895cac25e7e49af8f63f8713e9c11b5d934b7a71d0d9",
+            "role": "customer",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          },
+          {
+            "file": "tmp/rust-r3m/ui-windows-rust01-run06/project.png",
+            "bytes": 212825,
+            "rawBytesSha256": "d335c67f2ab554d3dc9e671ee0f709f05223f9ae387d9d3e747d5ff5aa876a78",
+            "role": "project",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          },
+          {
+            "file": "tmp/rust-r3m/ui-windows-rust01-run06/lead.png",
+            "bytes": 188934,
+            "rawBytesSha256": "eede8faf1fdcdf8d81498694e08c7fd7eb40e38b7eeaf7e923c21fd753c22496",
+            "role": "lead",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          },
+          {
+            "file": "tmp/rust-r3m/ui-windows-rust01-run06/intelligence.png",
+            "bytes": 228068,
+            "rawBytesSha256": "285b1abcda136caf99feaf237114522e3f2214c3ea85fc40b4393433b20afe29",
+            "role": "intelligence",
+            "independentlyViewed": true,
+            "observed": "Rendered original UI; correct contextual IDs, current Q1 for Native reference/Q2 for Rust business, converted sourceLead and 2026-12-01 visible. Existing Invalid PrimeUI License toast retained."
+          }
+        ]
+      }
+    ],
+    "all16ScreenshotsActuallyIndependentlyViewed": true,
+    "previousLinuxIndependentReviews": [
+      {
+        "file": "tmp/rust-r3m/c-review/g2-linux-rust-ui-review02.json",
+        "bytes": 8420,
+        "rawBytesSha256": "ce005280e90f79a81f0dfb59767c49961487e8a26c406fb92e387149c8b64b27"
+      },
+      {
+        "file": "tmp/rust-r3m/c-review/g2-native-integrity-review01.json",
+        "bytes": 9039,
+        "rawBytesSha256": "7dd316630a502bf92d4a735bc2dd7208c0058e06f4e7e449c72b2315b073c4bd"
+      }
+    ]
+  },
+  "Guard": {
+    "report": {
+      "file": "tmp/rust-r3m/acceptance-rust-final02-29/report01.json",
+      "bytes": 3870747,
+      "rawBytesSha256": "a3e4ba3a0a6fc43c6d99b5eb56374edf6928adc8a8b4141616aef56aeaa85672"
+    },
+    "sources": [
+      {
+        "file": "tmp/rust-r3m/root/candidate-final01.json",
+        "bytes": 59115,
+        "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+      },
+      {
+        "file": "tools/rust-r3m/acceptance-context04.mjs",
+        "bytes": 17404,
+        "rawBytesSha256": "a51860cff3664d77621c85db947575aa774fdeac0506e44158b99de58aea4adb"
+      },
+      {
+        "file": "tools/rust-r3m/wire-client.mjs",
+        "bytes": 4214,
+        "rawBytesSha256": "2e5bae51abc408ae04d1e892c2362584d6f395141103e8fdbfc4abdb6ffaee76"
+      },
+      {
+        "file": "tools/rust-r3m/source-guard.mjs",
+        "bytes": 1558,
+        "rawBytesSha256": "238fe5d22c0da776d564b42a34689513ffdefee8319e31cf2108bfa48edaddb1"
+      },
+      {
+        "file": "tmp/rust-r3m/a-input/native-fixture-draft01.mjs",
+        "bytes": 3504,
+        "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+      },
+      {
+        "file": "tmp/rust-r3m/b-input/native-fixture-draft01.mjs",
+        "bytes": 6253,
+        "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+      },
+      {
+        "file": "tmp/rust-r3m/guard-contract-draft/guard58-run04.mjs",
+        "bytes": 14054,
+        "rawBytesSha256": "f20026c675267fdbfa2aaefade436e68485318e2b2fcdd2859508605d6d9af6d"
+      },
+      {
+        "file": "tmp/rust-r3m/guard-contract-draft/guard58-plan01.mjs",
+        "bytes": 5950,
+        "rawBytesSha256": "d272a4f290079ea190010baf1f2688dfea05e855dce8a2a849c8ee8e8d067f15"
+      },
+      {
+        "file": "docs/design/rust-r3-operation-slices.json",
+        "bytes": 177599,
+        "rawBytesSha256": "8af54cffe608879d7ac8b6f200807e5ac8e9314689344197cecf7356abf2a129"
+      }
+    ],
+    "verdict": "Current phase29 semantics and public-safe graph representation accepted",
+    "operations58": true,
+    "anonymousEnvelopes58": true,
+    "CSRFWriteTargets": 33,
+    "permissionMatrixResponses": 580,
+    "allowedHandlerReached": 102,
+    "deniedWithExactEnvelopeAndSecurityEvent": 478,
+    "rawMethodAndURIOrdering": 18,
+    "lifecycleAdapters": 17,
+    "lifecycleClasses": 3,
+    "lifecycleActualInvalidResponses": 51,
+    "existingSessionPermissionRefresh403200403": true,
+    "businessSuccessClaims": 0,
+    "fullProtectedBusinessTables": 104,
+    "fullPrivateBeforeAfterExactSHA": "c7f50c705c8252c6316758cd18a1a32f4a90c1df40381636bedd514fd845a91a",
+    "all104SafeDigestCountsEqual": true,
+    "requiredSafeTargetsNonempty": true,
+    "recursivePublicSecretKeyScanIncludingEmbeddedJSON": {
+      "files": 1,
+      "leaks": 0
+    },
+    "earlier27And28UnsafePublicGraphs": "Quarantined by Root to exact currentprivate originals; final publication safety still needs allpublicJSON scan and quarantine metadata verification."
+  },
+  "openProductFindings": [],
+  "terminalToolReview": "Initial classifier/executor static boundaries examined, final guard-quarantine registration and negative tests awaited; no cleanup acceptance yet.",
+  "G3Certified": false,
+  "G4Certified": false,
+  "stageIntegrationComplete": false,
+  "issuesMayClose": []
+}

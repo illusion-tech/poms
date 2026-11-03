@@ -1,0 +1,128 @@
+{
+  "label": "A.customer.update",
+  "name": "A.customer.update",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.663Z",
+  "completedAt": "2026-11-02T23:01:03.687Z",
+  "validatedEventRange": {
+    "start": 8,
+    "end": 9,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_update",
+    "request": {
+      "actor": "admin",
+      "method": "PATCH",
+      "path": "/api/customers/6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+      "json": {
+        "displayName": "R3HK-5fb76d1a-11 customer revised",
+        "legalName": null,
+        "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+        "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+        "remark": "R3HK-5fb76d1a-11 customer revised remark"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerNo": "CUST-2026-000004",
+        "displayName": "R3HK-5fb76d1a-11 customer revised",
+        "legalName": null,
+        "shortName": "R3HK-5fb76d1a-11 short",
+        "status": "active",
+        "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+        "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-5fb76d1a-11 customer revised remark",
+        "mergedIntoCustomerId": null,
+        "rowVersion": 2,
+        "createdAt": "2026-11-02T23:01:03.539Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updatedAt": "2026-11-02T23:01:03.674Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "ownerName": "R3CO other",
+        "ownerOrgName": "R3CO other",
+        "leadCount": 0,
+        "projectCount": 0,
+        "contractCount": 0,
+        "aliases": [
+          {
+            "id": "70c8712e-5031-45eb-a529-1c377257db8d",
+            "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "aliasName": "R3HK-5fb76d1a-11 customer",
+            "aliasType": "alias",
+            "normalizedName": "r3hk-5fb76d1a-11 customer",
+            "isPrimary": true,
+            "createdAt": "2026-11-02T23:01:03.539Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          }
+        ]
+      },
+      "requestId": "e87d2d41-90c1-4a49-9157-380f1e9ba6e0",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1036",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-22",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 666,
+        "requestSha256": "09966abb15f541a425a5df04abd48646f391756d5a44c68d852bc8a09a223f16",
+        "responseBytes": 1316,
+        "responseSha256": "84656aad9d53831db05d519bd936bd70a30b033483b394b1a954cb03fed54e01",
+        "entityBodyBytes": 1036,
+        "entityBodySha256": "e2fd662f607f559e51ffecf6f66fc60df2a6abe32887dd097ea112d598dfacad",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-b926ba9c-1836-4ec2-820a-ad424d872a1c",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customer_no": "CUST-2026-000004",
+        "display_name": "R3HK-5fb76d1a-11 customer revised",
+        "legal_name": null,
+        "short_name": "R3HK-5fb76d1a-11 short",
+        "status": "active",
+        "owner_org_id": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+        "owner_user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+        "source_channel": "customer-visit",
+        "remark": "R3HK-5fb76d1a-11 customer revised remark",
+        "merged_into_customer_id": null,
+        "row_version": 2,
+        "created_at": "2026-11-02T23:01:03.539Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:03.674Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-09-A.customer.update.json",
+      "bytes": 4309,
+      "rawBytesSha256": "026cf117dae7ba2b4894795a8ead4235dc9419e3c43a25a95cd18801fe476a38"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

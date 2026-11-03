@@ -190,10 +190,7 @@ impl CustomersService {
         )?;
         Ok(ListContext {
             users,
-            orgs: orgs
-                .into_iter()
-                .map(|(id, name)| (id.to_string(), name))
-                .collect(),
+            orgs,
             leads,
             projects,
             contracts,
@@ -485,8 +482,7 @@ impl CustomersService {
             customer.owner_user_id = owner.user_id;
             customer.owner_org_id = owner.org_id;
         }
-        customer.updated_by = Some(operator.id.to_string());
-        let changes = customer_changes(&before, &customer)?;
+        let changes = customer_changes(&before, &mut customer, operator.id)?;
         if !changes.is_empty() || pending.is_some() {
             let dirty = !changes.is_empty();
             let target = row.id;
@@ -498,30 +494,34 @@ impl CustomersService {
                 .with_connection(move |connection| {
                     Box::pin(async move {
                         let mut transaction = connection.begin().await?;
-                        let result: Result<Option<i32>, sqlx::Error> = async {
-                            if let Some(pending) = pending.as_ref() {
-                                flush_managed_session(&mut transaction, pending).await?;
-                            }
-                            if dirty {
-                                Ok(Some(
-                                    store::update_customer(
+                        let result: Result<Result<Option<i32>, CustomersError>, sqlx::Error> =
+                            async {
+                                if let Some(pending) = pending.as_ref() {
+                                    flush_managed_session(&mut transaction, pending).await?;
+                                }
+                                if dirty {
+                                    let updated = store::update_customer(
                                         &mut transaction,
                                         target,
                                         expected,
                                         &changes,
                                         updated_at,
                                     )
-                                    .await?,
-                                ))
-                            } else {
-                                Ok(None)
+                                    .await?;
+                                    Ok(customer_updated_version(target, updated).map(Some))
+                                } else {
+                                    Ok(Ok(None))
+                                }
                             }
-                        }
-                        .await;
+                            .await;
                         match result {
-                            Ok(version) => {
+                            Ok(Ok(version)) => {
                                 transaction.commit().await?;
-                                Ok(version)
+                                Ok(Ok(version))
+                            }
+                            Ok(Err(error)) => {
+                                transaction.rollback().await?;
+                                Ok(Err(error))
                             }
                             Err(error) => {
                                 transaction.rollback().await?;
@@ -530,7 +530,7 @@ impl CustomersService {
                         }
                     })
                 })
-                .await?;
+                .await??;
             if let Some(version) = version {
                 customer.row_version = version;
                 customer.updated_at = iso(updated_at)?;
@@ -694,37 +694,47 @@ fn apply_text(target: &mut Option<JsString>, value: &Field<JsString>) {
 fn changed_text(before: &Option<JsString>, after: &Option<JsString>) -> Option<Option<String>> {
     (before != after).then(|| after.as_ref().map(JsString::to_utf8_lossy))
 }
+
+fn customer_updated_version(id: Uuid, version: Option<i32>) -> Result<i32, CustomersError> {
+    version.ok_or_else(|| {
+        CustomersError::Conflict(format!(
+            "Customer {id} has been modified; refresh and retry"
+        ))
+    })
+}
+
 fn customer_changes(
     before: &CustomerSummary,
-    after: &CustomerSummary,
+    after: &mut CustomerSummary,
+    operator: Uuid,
 ) -> Result<store::CustomerChanges, CustomersError> {
-    Ok(store::CustomerChanges {
+    let before_org = parse_optional_uuid(before.owner_org_id.as_deref())?;
+    let after_org = parse_optional_uuid(after.owner_org_id.as_deref())?;
+    let before_user = parse_optional_uuid(before.owner_user_id.as_deref())?;
+    let after_user = parse_optional_uuid(after.owner_user_id.as_deref())?;
+    let mut changes = store::CustomerChanges {
         display_name: (before.display_name != after.display_name)
             .then(|| after.display_name.to_utf8_lossy()),
         legal_name: changed_text(&before.legal_name, &after.legal_name),
         short_name: changed_text(&before.short_name, &after.short_name),
         status: (before.status != after.status).then(|| after.status.clone()),
-        owner_org_id: (before.owner_org_id != after.owner_org_id)
-            .then(|| after.owner_org_id.clone()),
-        owner_user_id: if before.owner_user_id != after.owner_user_id {
-            Some(parse_optional_uuid(after.owner_user_id.as_deref())?)
-        } else {
-            None
-        },
+        owner_org_id: (before_org != after_org).then(|| after.owner_org_id.clone()),
+        owner_user_id: (before_user != after_user).then_some(after_user),
         source_channel: changed_text(&before.source_channel, &after.source_channel),
         remark: changed_text(&before.remark, &after.remark),
-        updated_by: if before.updated_by != after.updated_by {
-            Some(parse_optional_uuid(after.updated_by.as_deref())?)
-        } else {
-            None
-        },
-    })
+        updated_by: None,
+    };
+    if !changes.is_empty() {
+        after.updated_by = Some(operator.to_string());
+        changes.updated_by = Some(Some(operator));
+    }
+    Ok(changes)
 }
 
 #[derive(Default)]
 struct ListContext {
     users: HashMap<Uuid, String>,
-    orgs: HashMap<String, String>,
+    orgs: HashMap<Uuid, String>,
     leads: HashMap<Uuid, i64>,
     projects: HashMap<Uuid, i64>,
     contracts: HashMap<Uuid, i64>,
@@ -741,11 +751,9 @@ impl ListContext {
                 .cloned(),
             owner_org_name: customer
                 .owner_org_id
-                .as_ref()
-                // Native's context Map uses DB-canonical string keys. A
-                // managed uppercase ownerOrgId deliberately misses until GET
-                // hydrates the customer from its persisted canonical UUID.
-                .and_then(|id| self.orgs.get(id))
+                .as_deref()
+                .and_then(|id| Uuid::parse_str(id).ok())
+                .and_then(|id| self.orgs.get(&id))
                 .cloned(),
             lead_count: *self.leads.get(&id).unwrap_or(&0),
             project_count: *self.projects.get(&id).unwrap_or(&0),
@@ -897,6 +905,106 @@ fn workspace_timeline(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn customer() -> CustomerSummary {
+        CustomerSummary {
+            id: Uuid::from_u128(1).to_string(),
+            customer_no: "CUST-2026-000001".to_owned(),
+            display_name: model::text("Actual customer"),
+            legal_name: None,
+            short_name: None,
+            status: "active".to_owned(),
+            owner_org_id: Some("123e4567-e89b-42d3-a456-426614174000".to_owned()),
+            owner_user_id: Some("223e4567-e89b-42d3-a456-426614174000".to_owned()),
+            source_channel: None,
+            remark: None,
+            merged_into_customer_id: None,
+            row_version: 7,
+            created_at: "2026-11-01T00:00:00.000Z".to_owned(),
+            created_by: Some(Uuid::from_u128(2).to_string()),
+            updated_at: "2026-11-01T00:00:00.000Z".to_owned(),
+            updated_by: Some(Uuid::from_u128(2).to_string()),
+        }
+    }
+
+    #[test]
+    fn business_noop_with_other_actor_and_uuid_case_keeps_update_facts() {
+        let before = customer();
+        let mut after = before.clone();
+        after.owner_org_id = after.owner_org_id.map(|id| id.to_uppercase());
+        after.owner_user_id = after.owner_user_id.map(|id| id.to_uppercase());
+        let changes = customer_changes(&before, &mut after, Uuid::from_u128(3))
+            .unwrap_or_else(|_| panic!("valid UUID identity no-op"));
+        assert!(changes.is_empty());
+        assert_eq!(after.updated_by, before.updated_by);
+        assert_eq!(after.updated_at, before.updated_at);
+        assert_eq!(after.row_version, before.row_version);
+    }
+
+    #[test]
+    fn real_customer_change_records_actor_and_preserves_explicit_owner_clear() {
+        let before = customer();
+        let mut after = before.clone();
+        let actor = Uuid::from_u128(3);
+        after.remark = Some(model::text("New business fact"));
+        after.owner_org_id = None;
+        let changes = customer_changes(&before, &mut after, actor)
+            .unwrap_or_else(|_| panic!("valid business change"));
+        assert_eq!(changes.remark, Some(Some("New business fact".to_owned())));
+        assert_eq!(changes.owner_org_id, Some(None));
+        assert_eq!(changes.owner_user_id, None);
+        assert_eq!(changes.updated_by, Some(Some(actor)));
+        assert_eq!(after.updated_by, Some(actor.to_string()));
+    }
+
+    #[test]
+    fn invalid_owner_uuid_is_not_treated_as_an_absent_identity() {
+        let mut before = customer();
+        before.owner_org_id = None;
+        let mut after = before.clone();
+        after.owner_org_id = Some("invalid-uuid".to_owned());
+        assert!(matches!(
+            customer_changes(&before, &mut after, Uuid::from_u128(3)),
+            Err(CustomersError::Internal)
+        ));
+        assert_eq!(after.updated_by, before.updated_by);
+    }
+
+    #[test]
+    fn organization_projection_uses_uuid_identity_and_keeps_raw_response_id() {
+        let mut value = customer();
+        let org = parse_optional_uuid(value.owner_org_id.as_deref())
+            .unwrap_or_else(|_| panic!("valid organization UUID"))
+            .unwrap_or_else(|| panic!("actual organization reference"));
+        value.owner_org_id = Some(org.to_string().to_uppercase());
+        let context = ListContext {
+            orgs: HashMap::from([(org, "Actual organization".to_owned())]),
+            ..ListContext::default()
+        };
+        let view = context
+            .view(value)
+            .unwrap_or_else(|_| panic!("valid customer projection"));
+        assert_eq!(view.owner_org_name.as_deref(), Some("Actual organization"));
+        assert_eq!(
+            view.customer.owner_org_id,
+            Some(org.to_string().to_uppercase())
+        );
+    }
+
+    #[test]
+    fn customer_cas_miss_is_conflict_and_success_keeps_returned_version() {
+        use axum::response::IntoResponse;
+        let id = Uuid::from_u128(1);
+        assert_eq!(customer_updated_version(id, Some(8)).ok(), Some(8));
+        let Err(error) = customer_updated_version(id, None) else {
+            panic!("CAS miss must be a conflict");
+        };
+        assert_eq!(
+            error.into_api_error().into_response().status(),
+            StatusCode::CONFLICT
+        );
+    }
+
     #[test]
     fn timeline_keeps_source_order_at_equal_millisecond_timestamps() {
         let date = "2026-11-01T00:00:00.000Z";

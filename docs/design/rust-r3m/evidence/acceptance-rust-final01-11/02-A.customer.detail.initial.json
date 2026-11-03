@@ -1,0 +1,103 @@
+{
+  "label": "A.customer.detail.initial",
+  "name": "A.customer.detail.initial",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.553Z",
+  "completedAt": "2026-11-02T23:01:03.578Z",
+  "validatedEventRange": {
+    "start": 1,
+    "end": 2,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_getById",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers/6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerNo": "CUST-2026-000004",
+        "displayName": "R3HK-5fb76d1a-11 customer",
+        "legalName": "R3HK-5fb76d1a-11 legal",
+        "shortName": "R3HK-5fb76d1a-11 short",
+        "status": "active",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-5fb76d1a-11 original customer",
+        "mergedIntoCustomerId": null,
+        "rowVersion": 1,
+        "createdAt": "2026-11-02T23:01:03.539Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updatedAt": "2026-11-02T23:01:03.539Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "ownerName": "R3CO admin",
+        "ownerOrgName": "R3CO admin",
+        "leadCount": 0,
+        "projectCount": 0,
+        "contractCount": 0,
+        "aliases": [
+          {
+            "id": "70c8712e-5031-45eb-a529-1c377257db8d",
+            "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "aliasName": "R3HK-5fb76d1a-11 customer",
+            "aliasType": "alias",
+            "normalizedName": "r3hk-5fb76d1a-11 customer",
+            "isPrimary": true,
+            "createdAt": "2026-11-02T23:01:03.539Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          }
+        ]
+      },
+      "requestId": "1f9cc254-20e9-40af-bb1c-37a7bdd0297a",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1042",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-15",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 327,
+        "requestSha256": "90fba0287f74dc8c916e8f54c1f06059081b7d28c97ed5642f3416844552602b",
+        "responseBytes": 1322,
+        "responseSha256": "9de7de7224dc20c3d586bace5c6548f450a006ee2810b0e2e9f5a04b327b4d73",
+        "entityBodyBytes": 1042,
+        "entityBodySha256": "a1dc958fa15d2b9c18b5559bb4ceec4998bed31938fdb9e2d116cf0ca85d9267",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-8a2d306a-83e1-4ae2-bd0d-70f155963c50",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-02-A.customer.detail.initial.json",
+      "bytes": 3221,
+      "rawBytesSha256": "6689334f8d15cc8077935f0e8ac0dadbdd6c774dc3ad4078851d7d58caf6bf83"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

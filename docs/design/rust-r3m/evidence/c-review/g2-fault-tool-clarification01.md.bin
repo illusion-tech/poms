@@ -1,0 +1,15 @@
+# R3 收口 G2 故障工具解释独审 01
+
+结论：**Pass，仅限 checkpoint03 的受控 QA fixture 方法**。reviewCompleted/clarificationApproved=true；actualFaultAcceptanceCertified/G3/G4=false，不认证DDL安装、实际命中或回滚。
+
+这是既有M3必要写任一失败整体回滚的测量方法替换。产品源码、route/DTO、92migration和产品DDL零变更规则不变；临时QA触发器/函数的实际DDL必须单列，不能把执行过fixture DDL写成泛称“无DDL”。先前REVOKE未命中的原因不作推测。partial18的200正确提交和全原件保留；新完整目标phase另存，不拼旧partial成Pass。
+
+仅新marked poms_r3m_rust/已登记PG15实例、G1 base与namespace/run marker匹配、current_user=poms_r3m_app、实际owned HTTP Lead/override UUID；禁止Native/primary/PG17/远程库。独占r3m_control/r3m_qa_*新名字，不覆盖旧对象；显式SECURITY INVOKER、安全固定search_path。旧权限故障先恢复，安装提交后串行调用。
+
+晚快照故障必须精确manual-override或单列override-revoked及真实source_record_id；system INSERT不抛。在同一app TX内先确认本次新增system snapshot（排除before IDs），将其ID和唯一hit marker放入具名P0001诊断；无该前置证据是fixture错误，不算后段命中。Root第二连接不能见到未提交行，不能据其空结果或任意500猜测命中。
+
+Lead BEFORE UPDATE只拦真实UPDATE而非SELECT/FOR UPDATE。正常匹配tuple200/Lead不变的对照，其真实target也必须被同一谓词武装；对无关UUID的200没有证明力。500须关联具名注入错误，完整非空required graph、必要审计、enlisted session与独立auth/counter分列后精确比较。
+
+finally等待请求TX结束，按登记name/OID/definition精确DROP trigger及function，无CASCADE；核pg_trigger/pg_proc、相关catalog/ACL/seed恢复，旧对象不变、所有fixture消失，正常重试成功。中断用owned ledger恢复；残留或恢复失败必须停止后续可变测试并阻断G3/G4。原始DDL/网络/错误/图/恢复保留，private只限本批。
+
+本签署允许Root在以上条件内准备并执行有界工具，不另加一次G2批准流程。最终工具源码、预定命中、全图回滚、armed正常对照、恢复/重试与完整阶段仍由独立G3/G4审查。#85/#57当前保持Open。

@@ -1,0 +1,70 @@
+{
+  "kind": "R3-closeout-D-pure-coverage-auditor-handoff",
+  "version": "01",
+  "createdAt": "2026-11-02T22:52:22.7792836Z",
+  "worktree": "E:/projects/worktrees/poms-r3co-c/poms",
+  "files": [
+    {
+      "file": "tmp/rust-r3m/g2-d-audit/auditor-cases01.json",
+      "bytes": 3189,
+      "rawBytesSha256": "de2158bdb9b210592bcaa21bb13d790e4dbcfe1729d12a40338f7ee5d21233dc"
+    },
+    {
+      "file": "tmp/rust-r3m/g2-d-audit/coverage-auditor01.mjs",
+      "bytes": 25857,
+      "rawBytesSha256": "e6322c1c79b72e55268d7390cfc98b480a12a58abef3fad388b7eeeb757f54bd"
+    },
+    {
+      "file": "tmp/rust-r3m/g2-d-audit/input-contract01.md",
+      "bytes": 7446,
+      "rawBytesSha256": "3744ae11f8fd114fc1530178bd0184ba122b176495d3aec78a8f7cff232f7727"
+    }
+  ],
+  "status": "SourceReady-unexecuted",
+  "exports": [
+    "auditM0Coverage",
+    "auditUICoverage",
+    "auditCandidateEvidence",
+    "G3_CLOSEOUT_CHECKLIST",
+    "CoverageInputError"
+  ],
+  "requiredInputs": [
+    "inventory58",
+    "finalArtifactSha",
+    "immutableCandidatePin",
+    "apiReports:[{pin,report}]",
+    "uiReports:[{pin,report}]",
+    "passedIndependentMatrixClarificationPin-for-layered-UI"
+  ],
+  "APIContract": "candidate-business, completed=true, Rust final runtime hash and exact immutable source pin; only2xx inside completed business case0-based[start,end)exclusive validated range; nonbusiness veto; explicitoperationId cross-method/canonical route or exact UUID/colon fallback only when property absent",
+  "UIContract": "4cells x4journeys, Rust8 business pass + Native8 reference capture. Correct candidate+approved independent clarification pins; real network/PG validation flags. Native reference needs actual3specific known failure network/PG/cause links; never all16businessPassed.",
+  "nativeVersionWitnessFields": [
+    "firstNetworkIndex",
+    "failedNetworkIndex",
+    "historyNetworkIndex",
+    "beforePgIndex",
+    "afterPgIndex",
+    "validRequestVerified:true",
+    "cause.sqlState:23505",
+    "cause.constraint:exact-current-index",
+    "cause.evidencePin:actual-error-original"
+  ],
+  "RootReportedCurrentBinary": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+  "RootReportedRustTests": {
+    "passed": 306,
+    "ignored": 54,
+    "DExecuted": false
+  },
+  "ignoredClassification": {
+    "DBOptIn": 53,
+    "explicitParentInvokedChild": 1,
+    "passed": null
+  },
+  "DNodeParseImportReplayTestOrBuildExecuted": false,
+  "DHTTPDBBrowserWSLOrPrivateRead": false,
+  "priorSixE1ToolsAndG2DDeliveryModifiedByD": false,
+  "GateCertification": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "pending": "Root executes parser/actual pure auditor positive+negative checks and applies only actual report field adapters, then invokes final report audit. M4 clarification needs actual independent Pass before layered UI is considered complete. Root source/hash/signature checks and full closeout requirements remain separate."
+}

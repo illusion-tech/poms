@@ -1,0 +1,48 @@
+{
+  "kind": "R3-closeout-real-adapter-derivation",
+  "original": {
+    "file": "tools/rust-r3hijk/acceptance-context01.mjs",
+    "bytes": 15497,
+    "rawBytesSha256": "992dfaf613fbe5068d3a9ecd48935b6d7cf89dd1c4a181b8a74af48a9b9556db"
+  },
+  "derived": {
+    "file": "tools/rust-r3m/acceptance-context01.mjs",
+    "bytes": 16659,
+    "rawBytesSha256": "36d0e5ea58efbb098330c9d55012cf7840be699ba5470a5cb8f0a0f7d00d893b"
+  },
+  "fixtures": [
+    {
+      "canonical": {
+        "file": "docs/design/archive/slices/rust-r3hijk/originals/a-input/native-fixture-draft01.mjs",
+        "bytes": 3504,
+        "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+      },
+      "currentNamespaceExactCopy": {
+        "file": "tmp/rust-r3m/a-input/native-fixture-draft01.mjs",
+        "bytes": 3504,
+        "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+      }
+    },
+    {
+      "canonical": {
+        "file": "docs/design/archive/slices/rust-r3hijk/originals/b-input/native-fixture-draft01.mjs",
+        "bytes": 6253,
+        "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+      },
+      "currentNamespaceExactCopy": {
+        "file": "tmp/rust-r3m/b-input/native-fixture-draft01.mjs",
+        "bytes": 6253,
+        "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+      }
+    }
+  ],
+  "changes": [
+    "New namespace/ports/current58 inventory",
+    "Expanded only G1-owned denial/row-barrier table allowlists",
+    "Each public case/report is a declared derivative with a private original/hash and sensitive-field redaction",
+    "SQL capture uses current phase since timestamp; raw streams remain private",
+    "Complete candidate source guard at phase entry and finish"
+  ],
+  "actualExecutionPerformed": false,
+  "previousPrivateRead": false
+}

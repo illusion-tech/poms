@@ -1,0 +1,122 @@
+{
+  "label": "B.chain.bid.history",
+  "name": "B.chain.bid.history",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:05:06.726Z",
+  "completedAt": "2026-11-02T23:05:06.737Z",
+  "validatedEventRange": {
+    "start": 7,
+    "end": 8,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_listProjectBidCommercialProcesses",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853/bid-commercial-processes",
+      "headers": {
+        "x-request-id": "r3b:R3CO-5fb76d1a:bid-list"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "bidMode": "public-tender",
+          "bidPackageNo": "R3CO-5fb76d1a-B2",
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:05:06.713Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currentStage": "result-confirmed",
+          "decision": "participate",
+          "decisionSummary": "Actual bid participation decision",
+          "effectiveAt": "2026-11-02T23:05:06.713Z",
+          "id": "314e733c-0109-4091-aa73-9ad8378e71b8",
+          "isCurrent": true,
+          "ownerRole": "商务",
+          "processSummary": "R3CO-5fb76d1a converted bid revision 2",
+          "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+          "resultStatus": "won",
+          "resultSummary": "Actual award confirmation",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "0f6dc7f2-10e3-4980-b5a7-fd1c6c3dacdb",
+          "tenderNo": "R3CO-5fb76d1a-T2",
+          "updatedAt": "2026-11-02T23:05:06.713Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 2
+        },
+        {
+          "bidMode": "public-tender",
+          "bidPackageNo": "R3CO-5fb76d1a-B1",
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:05:06.687Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currentStage": "preparation",
+          "decision": "participate",
+          "decisionSummary": "Actual bid participation decision",
+          "effectiveAt": "2026-11-02T23:05:06.687Z",
+          "id": "0f6dc7f2-10e3-4980-b5a7-fd1c6c3dacdb",
+          "isCurrent": false,
+          "ownerRole": "商务",
+          "processSummary": "R3CO-5fb76d1a converted bid revision 1",
+          "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+          "resultStatus": "pending",
+          "resultSummary": null,
+          "rowVersion": 2,
+          "status": "superseded",
+          "supersedesId": null,
+          "tenderNo": "R3CO-5fb76d1a-T1",
+          "updatedAt": "2026-11-02T23:05:06.713Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 1
+        }
+      ],
+      "requestId": "r3b:R3CO-5fb76d1a:bid-list",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1547",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-186",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:05:06 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 341,
+        "requestSha256": "81eb54262f237bf545bb619775b54b14557c1e226d0046fccfc1df86edc7a4d3",
+        "responseBytes": 1828,
+        "responseSha256": "c597b012090eb48a53eb7bf314763b0e75e9ad46995899f3df3f823f47d6cdaa",
+        "entityBodyBytes": 1547,
+        "entityBodySha256": "e42953528b9b63a606f257ec807a5e44ad68c866da6a5d9e861eb50abdddba92",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/raw-wire/admin-10cb40a6-7ab2-495c-8f10-77d4a8bfce68",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {},
+    "actualConvertedProjectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+    "allBusinessAssertionsPassed": true,
+    "requiredGraphGuardChecked": false
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/structured-original-08-B.chain.bid.history.json",
+      "bytes": 4121,
+      "rawBytesSha256": "d2a2154be788bd162150c0d9ead6e822543acf59b396ecd1dca8679d198274a6"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

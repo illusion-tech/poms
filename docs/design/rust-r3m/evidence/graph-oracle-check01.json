@@ -1,0 +1,71 @@
+{
+  "kind": "R3-actual-rollback-oracle-negative-check",
+  "closes": "C-G2-ORACLE-01-evidence-guard",
+  "completed": true,
+  "cases": [
+    {
+      "name": "missing-both",
+      "rejected": true
+    },
+    {
+      "name": "empty-both",
+      "rejected": true
+    },
+    {
+      "name": "missing-table",
+      "rejected": true
+    },
+    {
+      "name": "missing-lead-row",
+      "rejected": true
+    },
+    {
+      "name": "missing-override-row",
+      "rejected": true
+    },
+    {
+      "name": "duplicate-target",
+      "rejected": true
+    },
+    {
+      "name": "real-write-is-not-rollback",
+      "rejected": true
+    },
+    {
+      "name": "complete-real-shape-identical-graphs",
+      "passed": true
+    }
+  ],
+  "requirements": {
+    "tables": [
+      "lead",
+      "lead_score_override",
+      "lead_score_snapshot",
+      "audit_log"
+    ],
+    "rows": [
+      {
+        "table": "lead",
+        "id": "owned-lead"
+      },
+      {
+        "table": "lead_score_override",
+        "id": "owned-override"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "file": "tools/rust-r3m/graph-assertions01.mjs",
+      "bytes": 1775,
+      "rawBytesSha256": "ba9c37e786b593fa5de0069370479031541a294f1692a86256a48889d87b4a10"
+    },
+    {
+      "file": "tools/rust-r3m/graph-oracle-check01.mjs",
+      "bytes": 1996,
+      "rawBytesSha256": "baf87f14b9d83386c92aaeb5f7703e11be551cab31ebcc0e52b0480153e56445"
+    }
+  ],
+  "realBusinessTransactionAcceptance": false,
+  "G3Certified": false
+}

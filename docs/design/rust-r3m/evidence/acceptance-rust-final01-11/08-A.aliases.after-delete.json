@@ -1,0 +1,80 @@
+{
+  "label": "A.aliases.after-delete",
+  "name": "A.aliases.after-delete",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.651Z",
+  "completedAt": "2026-11-02T23:01:03.662Z",
+  "validatedEventRange": {
+    "start": 7,
+    "end": 8,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_listAliases",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/customers/6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3/aliases"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "id": "70c8712e-5031-45eb-a529-1c377257db8d",
+          "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+          "aliasName": "R3HK-5fb76d1a-11 customer",
+          "aliasType": "alias",
+          "normalizedName": "r3hk-5fb76d1a-11 customer",
+          "isPrimary": true,
+          "createdAt": "2026-11-02T23:01:03.539Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+        }
+      ],
+      "requestId": "e9c08442-986b-437b-ae7e-d0d06bf550b5",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "311",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-21",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 335,
+        "requestSha256": "14e82a357356a01bcf08f1055525c7b8faeaf7839d2bf32f637eb819b5c5211b",
+        "responseBytes": 590,
+        "responseSha256": "072826269c8e24e7f3f7a0e8bb6c9d2d2275121b13d7431d7401a79137283d13",
+        "entityBodyBytes": 311,
+        "entityBodySha256": "6cc5884378ac8dc37fa5f17ee6c1ec119a0d93d5ad78382b1b4589853f0a2ba0",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-73352649-06c3-41e7-8836-0df661e47649",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-08-A.aliases.after-delete.json",
+      "bytes": 2244,
+      "rawBytesSha256": "ad523435c8acd3a5eaffbbd8b8a7c5bdb31e4d6cb12ca8ab381ae054385b6c3f"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

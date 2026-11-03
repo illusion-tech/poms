@@ -1,0 +1,608 @@
+{
+  "kind": "C-independent-R3-G2-graph-retention-closure-and-UI-oracle04",
+  "createdAt": "2026-11-03T01:00:42.377Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3_closeout_independent",
+    "role": "Independent non-author C",
+    "configuredModel": "inherited; exact configuration not exposed",
+    "Fast": "unverified"
+  },
+  "candidate": {
+    "file": "tmp/rust-r3m/root/candidate-final01.json",
+    "bytes": 59115,
+    "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+  },
+  "artifact": {
+    "file": "/home/wangzishi/.local/share/poms-r3m/artifacts/final01-poms-api-rust",
+    "bytes": 43775864,
+    "rawBytesSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747"
+  },
+  "scope": "Public source/report read and pure comparisons only; no private/DB/browser/build/Git/GitHub access or mutations.",
+  "evidence": {
+    "phase24": {
+      "file": "tmp/rust-r3m/acceptance-rust-final02-24/report01.json",
+      "bytes": 7891576,
+      "rawBytesSha256": "8ab0978b66721a2e4a82cf58c7db96450913b57e7705109332d8dab3965c39ef"
+    },
+    "sourceChecks": [
+      {
+        "file": "tmp/rust-r3m/root/candidate-final01.json",
+        "bytes": 59115,
+        "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+      },
+      {
+        "file": "tools/rust-r3m/acceptance-context03.mjs",
+        "bytes": 17341,
+        "rawBytesSha256": "900c2b68635712168f6de08e8ef55ac9ad8e2c69cd2c3a9e3e9e9c0a4d6999f6"
+      },
+      {
+        "file": "tools/rust-r3m/wire-client.mjs",
+        "bytes": 4214,
+        "rawBytesSha256": "2e5bae51abc408ae04d1e892c2362584d6f395141103e8fdbfc4abdb6ffaee76"
+      },
+      {
+        "file": "tools/rust-r3m/source-guard.mjs",
+        "bytes": 1558,
+        "rawBytesSha256": "238fe5d22c0da776d564b42a34689513ffdefee8319e31cf2108bfa48edaddb1"
+      },
+      {
+        "file": "tmp/rust-r3m/a-input/native-fixture-draft01.mjs",
+        "bytes": 3504,
+        "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+      },
+      {
+        "file": "tmp/rust-r3m/b-input/native-fixture-draft01.mjs",
+        "bytes": 6253,
+        "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+      },
+      {
+        "file": "tools/rust-r3m/lead-repair03.mjs",
+        "bytes": 14745,
+        "rawBytesSha256": "eaab51e5a2cd01a2f46eaeab2b4e1e5d3342a3df2f1a944e761092a1a128304a"
+      },
+      {
+        "file": "tools/rust-r3m/graph-assertions01.mjs",
+        "bytes": 1775,
+        "rawBytesSha256": "ba9c37e786b593fa5de0069370479031541a294f1692a86256a48889d87b4a10"
+      },
+      {
+        "file": "tools/rust-r3m/db-controls01.mjs",
+        "bytes": 1595,
+        "rawBytesSha256": "c525fb785c96cd70b6b80f18c28b8a58ebdc1f33362b047a3c97bc903107b24e"
+      },
+      {
+        "file": "tools/rust-r3m/db-controls02.mjs",
+        "bytes": 3587,
+        "rawBytesSha256": "4eb2f3730a2d35f44e1b45ad8828b0b7091ea7419b268874e6a682473a3917cc"
+      },
+      {
+        "file": "tools/rust-r3m/db-controls03.mjs",
+        "bytes": 2428,
+        "rawBytesSha256": "6a7339e52a5e5763b2b3bbedcaac33cbb78d0d9b94f819747b26308b75285077"
+      },
+      {
+        "file": "tools/rust-r3m/qa-write-fault01.mjs",
+        "bytes": 8865,
+        "rawBytesSha256": "c057e4ed5dbf1a815ce5ac76b489f2f05c9f2bb6ceab178b6761c2170970e37c"
+      },
+      {
+        "file": "tmp/rust-r3m/c-review/g2-fault-tool-clarification01.json",
+        "bytes": 13937,
+        "rawBytesSha256": "eef424dd28fe8ea0c17dd6236851779fa8c6ad422878956bf9b688bd57447851"
+      },
+      {
+        "file": "tmp/rust-r3m/g2-a/lead-correction-cases01.mjs",
+        "bytes": 13518,
+        "rawBytesSha256": "15e693a488fb96c019c4957926c159931324385b1ed8c414c3ee71d545111569"
+      }
+    ],
+    "phase19PriorIndependentFinding": {
+      "file": "tmp/rust-r3m/c-review/g2-continuation-review01.json",
+      "bytes": 21293,
+      "rawBytesSha256": "d894bf7ee49695ad9788c29a9f2f2caa115e1c7eba17fc31eae640cded6eb9b4"
+    }
+  },
+  "findingResolution": {
+    "id": "C-G2-P2-GRAPH-RETENTION-01",
+    "status": "Closed-by-independent-actual-new-phase24-review",
+    "actualRuntimeTag": "final02",
+    "actualRuntimeArtifactSameCandidate": true,
+    "cases": [
+      {
+        "caseIndex": 5,
+        "name": "A.repair.legacy-required-lead_score_snapshot-rollback-and-retry",
+        "tables": [
+          {
+            "table": "lead",
+            "beforeCount": 61,
+            "afterCount": 61,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "beforeCount": 110,
+            "afterCount": 110,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_override",
+            "beforeCount": 28,
+            "afterCount": 28,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "beforeCount": 3,
+            "afterCount": 3,
+            "exactEqual": true
+          },
+          {
+            "table": "project",
+            "beforeCount": 25,
+            "afterCount": 25,
+            "exactEqual": true
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "beforeCount": 1,
+            "afterCount": 1,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment",
+            "beforeCount": 5,
+            "afterCount": 5,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment_link",
+            "beforeCount": 7,
+            "afterCount": 7,
+            "exactEqual": true
+          },
+          {
+            "table": "audit_log",
+            "beforeCount": 97,
+            "afterCount": 97,
+            "exactEqual": true
+          }
+        ],
+        "requiredRows": [
+          {
+            "table": "lead",
+            "id": "7381aaf7-ba38-4ec4-82fb-bb27f782c4ce"
+          },
+          {
+            "table": "lead_score_override",
+            "id": "5728d729-5cb6-434d-b4c9-e76985aabe7c"
+          }
+        ],
+        "nonemptyRequiredTargets": true,
+        "completeGraphExact": true,
+        "failedStatus": 500,
+        "noFailedRequestAudit": true,
+        "approvedStatusBefore": "pending",
+        "retryStatus": 200,
+        "retryLeadVersion": 2,
+        "retrySystemId": "50f07191-8427-46ee-8ac5-6f77b7d21d1a",
+        "retryDecisionId": "67d4e8c7-ce78-416c-86c7-f1dce6306ce6",
+        "qaHit": null
+      },
+      {
+        "caseIndex": 6,
+        "name": "A.repair.legacy-required-audit_log-rollback-and-retry",
+        "tables": [
+          {
+            "table": "lead",
+            "beforeCount": 62,
+            "afterCount": 62,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "beforeCount": 112,
+            "afterCount": 112,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_override",
+            "beforeCount": 29,
+            "afterCount": 29,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "beforeCount": 3,
+            "afterCount": 3,
+            "exactEqual": true
+          },
+          {
+            "table": "project",
+            "beforeCount": 25,
+            "afterCount": 25,
+            "exactEqual": true
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "beforeCount": 1,
+            "afterCount": 1,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment",
+            "beforeCount": 5,
+            "afterCount": 5,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment_link",
+            "beforeCount": 7,
+            "afterCount": 7,
+            "exactEqual": true
+          },
+          {
+            "table": "audit_log",
+            "beforeCount": 99,
+            "afterCount": 99,
+            "exactEqual": true
+          }
+        ],
+        "requiredRows": [
+          {
+            "table": "lead",
+            "id": "1b7be07b-3d2d-41ae-8ad1-be7de30c0b21"
+          },
+          {
+            "table": "lead_score_override",
+            "id": "b11e7940-3298-4e27-afa2-e63f87579e88"
+          }
+        ],
+        "nonemptyRequiredTargets": true,
+        "completeGraphExact": true,
+        "failedStatus": 500,
+        "noFailedRequestAudit": true,
+        "approvedStatusBefore": "pending",
+        "retryStatus": 200,
+        "retryLeadVersion": 2,
+        "retrySystemId": "ebcfcaa8-c656-4d2f-ad6a-48cdef285393",
+        "retryDecisionId": "0410231d-a210-44f8-9f58-aeb211922c18",
+        "qaHit": null
+      },
+      {
+        "caseIndex": 7,
+        "name": "A.repair.second-decision-snapshot-failure-rolls-back-system-repair",
+        "tables": [
+          {
+            "table": "lead",
+            "beforeCount": 63,
+            "afterCount": 63,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "beforeCount": 114,
+            "afterCount": 114,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_override",
+            "beforeCount": 30,
+            "afterCount": 30,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "beforeCount": 3,
+            "afterCount": 3,
+            "exactEqual": true
+          },
+          {
+            "table": "project",
+            "beforeCount": 25,
+            "afterCount": 25,
+            "exactEqual": true
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "beforeCount": 1,
+            "afterCount": 1,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment",
+            "beforeCount": 5,
+            "afterCount": 5,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment_link",
+            "beforeCount": 7,
+            "afterCount": 7,
+            "exactEqual": true
+          },
+          {
+            "table": "audit_log",
+            "beforeCount": 101,
+            "afterCount": 101,
+            "exactEqual": true
+          }
+        ],
+        "requiredRows": [
+          {
+            "table": "lead",
+            "id": "e06b5591-02fd-431b-947a-d09eba25595e"
+          },
+          {
+            "table": "lead_score_override",
+            "id": "8e34c734-cd83-4e38-bafe-535920f0647a"
+          }
+        ],
+        "nonemptyRequiredTargets": true,
+        "completeGraphExact": true,
+        "failedStatus": 500,
+        "noFailedRequestAudit": true,
+        "approvedStatusBefore": "pending",
+        "retryStatus": 200,
+        "retryLeadVersion": 2,
+        "retrySystemId": "a7c27f88-4ba2-4510-a3b0-9ec480fa1be1",
+        "retryDecisionId": "372961fc-c9b7-4254-a573-8c4de89a6e33",
+        "qaHit": {
+          "marker": "POMS_R3M_QA_HIT_2f45e44efcd944a6",
+          "sqlState": "P0001",
+          "systemSnapshotId": "9c6dd105-bb39-4439-a899-8046b0b341de",
+          "catalogRestored": true,
+          "ACLRestored": true
+        }
+      },
+      {
+        "caseIndex": 8,
+        "name": "A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write",
+        "tables": [
+          {
+            "table": "lead",
+            "beforeCount": 64,
+            "afterCount": 64,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "beforeCount": 116,
+            "afterCount": 116,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_override",
+            "beforeCount": 31,
+            "afterCount": 31,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "beforeCount": 3,
+            "afterCount": 3,
+            "exactEqual": true
+          },
+          {
+            "table": "project",
+            "beforeCount": 25,
+            "afterCount": 25,
+            "exactEqual": true
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "beforeCount": 1,
+            "afterCount": 1,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment",
+            "beforeCount": 5,
+            "afterCount": 5,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment_link",
+            "beforeCount": 7,
+            "afterCount": 7,
+            "exactEqual": true
+          },
+          {
+            "table": "audit_log",
+            "beforeCount": 103,
+            "afterCount": 103,
+            "exactEqual": true
+          }
+        ],
+        "requiredRows": [
+          {
+            "table": "lead",
+            "id": "e661c49e-d51b-488e-b80c-0337985b58fa"
+          },
+          {
+            "table": "lead_score_override",
+            "id": "a95d6b2a-bdd0-446b-897b-cd37c5c86525"
+          }
+        ],
+        "nonemptyRequiredTargets": true,
+        "completeGraphExact": true,
+        "failedStatus": 500,
+        "noFailedRequestAudit": true,
+        "approvedStatusBefore": "pending",
+        "retryStatus": 200,
+        "retryLeadVersion": 2,
+        "retrySystemId": "bd9ce823-5f1f-4200-aca7-e042b30344c9",
+        "retryDecisionId": "831e050f-f199-496d-b33e-078945c117ee",
+        "qaHit": {
+          "marker": "POMS_R3M_QA_HIT_f4019a55366847b0",
+          "sqlState": "P0001",
+          "systemSnapshotId": null,
+          "catalogRestored": true,
+          "ACLRestored": true
+        }
+      },
+      {
+        "caseIndex": 12,
+        "name": "A.repair.legacy-revocation-late-snapshot-failure-and-retry",
+        "tables": [
+          {
+            "table": "lead",
+            "beforeCount": 68,
+            "afterCount": 68,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_snapshot",
+            "beforeCount": 124,
+            "afterCount": 124,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_score_override",
+            "beforeCount": 35,
+            "afterCount": 35,
+            "exactEqual": true
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "beforeCount": 3,
+            "afterCount": 3,
+            "exactEqual": true
+          },
+          {
+            "table": "project",
+            "beforeCount": 25,
+            "afterCount": 25,
+            "exactEqual": true
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "beforeCount": 1,
+            "afterCount": 1,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment",
+            "beforeCount": 5,
+            "afterCount": 5,
+            "exactEqual": true
+          },
+          {
+            "table": "attachment_link",
+            "beforeCount": 7,
+            "afterCount": 7,
+            "exactEqual": true
+          },
+          {
+            "table": "audit_log",
+            "beforeCount": 113,
+            "afterCount": 113,
+            "exactEqual": true
+          }
+        ],
+        "requiredRows": [
+          {
+            "table": "lead",
+            "id": "539f48b8-9f58-45b5-a53e-f13c2c351fd0"
+          },
+          {
+            "table": "lead_score_override",
+            "id": "bf3f0ebd-c24e-453e-97a9-a9b05bfd0f7e"
+          }
+        ],
+        "nonemptyRequiredTargets": true,
+        "completeGraphExact": true,
+        "failedStatus": 500,
+        "noFailedRequestAudit": true,
+        "approvedStatusBefore": "approved",
+        "retryStatus": 200,
+        "retryLeadVersion": 2,
+        "retrySystemId": "76b3975f-facf-4aec-b9b4-2178eccd95c1",
+        "retryDecisionId": "c42136f3-d2e4-4bb7-8d90-5a4c8c5e8183",
+        "qaHit": {
+          "marker": "POMS_R3M_QA_HIT_eebb032e3c434ca3",
+          "sqlState": "P0001",
+          "systemSnapshotId": "cfa96753-b468-46a3-b111-ce525ff1106e",
+          "catalogRestored": true,
+          "ACLRestored": true
+        }
+      }
+    ],
+    "restoration": {
+      "fourFixtures": 4,
+      "allCatalogACLAndOriginalSeedRestoreAssertionsPresent": true,
+      "oneArmedNormalMatchedDecisionControl": true
+    },
+    "prior19ActualCompletedRetainedButNotSufficientFaultGraphEvidence": true,
+    "prior18PartialRemainsPartial": true
+  },
+  "UIOracle04": {
+    "checkpoint": {
+      "file": "docs/design/rust-r3m/g2-corrective-checkpoint04.md",
+      "bytes": 1875,
+      "rawBytesSha256": "4e951eb44493fee226620be782d62baf7fcfae05c10f9688cf0aac151a0d2132"
+    },
+    "customer03": {
+      "file": "tmp/rust-r3m/ui-b/customer-journey03.mjs",
+      "bytes": 26556,
+      "rawBytesSha256": "1bea0e0091de5d3b80cf7e678e42e43f776c44c2fdb7a6d29bb36824bb798a8b"
+    },
+    "exactMinimalDiff": true,
+    "protectedOriginalUI": {
+      "file": "apps/poms-admin/src/app/shared/ui/sales-intelligence-panel.ts",
+      "bytes": 67799,
+      "rawBytesSha256": "17cb7484be40693a879fee6eaf2672aea060c1c4889f734d0b0d79231a204502"
+    },
+    "sourceRule": "Only changed normalized fields are included in PATCH; unchanged female is omitted.",
+    "actualPartial": {
+      "file": "tmp/rust-r3m/ui-linux-rust01-run03/report01.json",
+      "bytes": 168950,
+      "rawBytesSha256": "4c4fb02f1f9f7e6105f6aa83cf614a496a2e8945d9e6c1e0fac3a3243e420ccd"
+    },
+    "actualRequest": {
+      "title": "UI调整岗位 linux-rust01",
+      "workPhone": null,
+      "remark": "UI联系人修改 linux-rust01"
+    },
+    "actualResponse": {
+      "status": 200,
+      "id": "f414faeb-4582-44ae-944b-0fcafd0d7419",
+      "gender": "female"
+    },
+    "editAfterPGNotObservedByPartial": true,
+    "explanationApproved": true,
+    "actualUIAccepted": false,
+    "NativeOriginal01AndReferenceBoundaryUnchanged": true,
+    "freshCompleteCellRequired": true
+  },
+  "newRunnerSourceReview": {
+    "ui": {
+      "file": "tools/rust-r3m/ui-run04.mjs",
+      "bytes": 20009,
+      "rawBytesSha256": "dc7cfa8a0a8ebde2d62ab3906a2f63e597b3b51ec79295eeb6fe20751a105908"
+    },
+    "repair": {
+      "file": "tools/rust-r3m/lead-repair03.mjs",
+      "bytes": 14745,
+      "rawBytesSha256": "eaab51e5a2cd01a2f46eaeab2b4e1e5d3342a3df2f1a944e761092a1a128304a"
+    },
+    "runtimeWitness": {
+      "file": "tools/rust-r3m/ui-runtime-witness02.mjs",
+      "bytes": 1043,
+      "rawBytesSha256": "51165c647420dae30f3d17b5cb0d2dcb00309b259f70bb51e6722b5de57956db"
+    },
+    "sharedZodValidNativeSecondRequest": true,
+    "pricingUpstreamIDsExplicit": true,
+    "actualConvertedLeadProjectPGDateAsserted": true,
+    "newRuntimeJournalAfterRebootAndOldOriginalsDistinct": true
+  },
+  "openProductFindings": [],
+  "openEvidenceFindings": [],
+  "fullG3Remaining": "M0 guards/contracts, full16 layered UI, E1Linux/main, wholeowned terminal restoration, formal capsule/docs, exact commit/main/archive and actual G4 still required.",
+  "G3Certified": false,
+  "G4Certified": false,
+  "commitAllowed": false,
+  "stageIntegrationComplete": false,
+  "issuesMayClose": [],
+  "parents85And57RemainOpen": true
+}

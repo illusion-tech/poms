@@ -1,0 +1,161 @@
+{
+  "label": "E.contact.update",
+  "name": "E.contact.update",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.155Z",
+  "completedAt": "2026-11-02T23:01:04.176Z",
+  "validatedEventRange": {
+    "start": 35,
+    "end": 36,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerContactController_update",
+    "request": {
+      "actor": "admin",
+      "method": "PATCH",
+      "path": "/api/customer-contacts/3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+      "json": {
+        "gender": "male",
+        "department": null,
+        "title": "项目采购",
+        "remark": "R3HK-5fb76d1a-11 updated contact"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "createdAt": "2026-11-02T23:01:04.134Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerName": "R3HK-5fb76d1a-11 customer revised",
+        "department": null,
+        "email": "regression@example.com",
+        "gender": "male",
+        "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+        "mobile": "01000000000",
+        "name": "R3HK-5fb76d1a-11 contact",
+        "remark": "R3HK-5fb76d1a-11 updated contact",
+        "rowVersion": 2,
+        "status": "active",
+        "title": "项目采购",
+        "updatedAt": "2026-11-02T23:01:04.168Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "wechat": null,
+        "workPhone": null
+      },
+      "requestId": "d0911652-fad6-4a3e-83b4-c50780078589",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "595",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-49",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 551,
+        "requestSha256": "cd1c35757287fe36db27255f0d1b0fb37b65bc32a9b9d8cb4e92c96f5bf10c1d",
+        "responseBytes": 874,
+        "responseSha256": "7e61951a9b17ec348c11b2d3ec8dacad60860086775ee4baeb8930724fc95099",
+        "entityBodyBytes": 595,
+        "entityBodySha256": "2511ae79f676fb60ccd4a90e0f44e6176ea2e59c3639f3b672ba8c575e1d1236",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-add7ceb1-2f17-4f25-970b-c3c7fb8f9791",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+        "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "name": "R3HK-5fb76d1a-11 contact",
+        "department": null,
+        "title": "项目采购",
+        "work_phone": null,
+        "mobile": "01000000000",
+        "wechat": null,
+        "email": "regression@example.com",
+        "remark": "R3HK-5fb76d1a-11 updated contact",
+        "status": "active",
+        "row_version": 2,
+        "created_at": "2026-11-02T23:01:04.134Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:04.168Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "gender": "male"
+      },
+      "auditRows": [
+        {
+          "id": "7bf91f19-036a-4c5a-a1e7-a76ac9bda1a5",
+          "event_type": "customer-contact.updated",
+          "target_type": "customer-contact",
+          "target_id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+          "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "request_id": "d0911652-fad6-4a3e-83b4-c50780078589",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "title": "采购负责人",
+            "gender": "female",
+            "remark": {
+              "length": 32,
+              "changed": true,
+              "present": true
+            },
+            "department": "业务"
+          },
+          "after_snapshot": {
+            "title": "项目采购",
+            "gender": "male",
+            "remark": {
+              "length": 32,
+              "changed": true,
+              "present": true
+            },
+            "department": null
+          },
+          "metadata": {
+            "changedFields": [
+              "gender",
+              "department",
+              "title",
+              "remark"
+            ],
+            "sourceCommand": "update-customer-contact",
+            "redactedFields": [
+              "remark"
+            ],
+            "businessContext": {
+              "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3"
+            }
+          },
+          "occurred_at": "2026-11-02T23:01:04.167Z"
+        }
+      ]
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-36-E.contact.update.json",
+      "bytes": 4945,
+      "rawBytesSha256": "b66b2be636c82118e8dc4c77bbeebad0693fd42b535c2d9b082d772a3b0f0310"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

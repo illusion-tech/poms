@@ -1,0 +1,84 @@
+# 四旅程 ctx 与验收定义纠偏02
+
+只交纯定义。产品继续暂停，`g2-b/` 和四个既有产品文件逐字节不变；未执行 Node/browser/HTTP/DB/构建/格式化。Root 报告 final01 `f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747`、306/54ignored；本作者未重跑或认证该产物。
+
+## 原件与派生边界
+
+- 原 `customer-journey01` 的三项断言把UI选female后的HTTP、reload和PG预期为unknown，属于已知旧缺陷。新 `customer-journey02` 只改为female，并保留全部UI操作/其余断言。
+- 原 `project-journey01` 把合法第二次bid/pricing保存预期500并保留v1。新 `project-journey02` 保留原表单/selector/首版，二版按201收集真实workspace/history、核v2唯一current及v1 superseded/旧children不变；返回实际两版/children IDs。
+- 旧01不改。Root显式传Rust02做业务验收，Native01仅作已知缺陷参考，`NativeBusinessAcceptance=false`，实际错误记入 `observedKnownBusinessFailures`。不回unknown/500给Rust兜底。
+- 规划16旅程分为8 Rust业务旅程和8 Native参考旅程，均不是本作者实跑结果。此分类解释仍需独立C确认，不改旧G1，也不修受保护Native。
+- `projectJourney` 实际是技术成本只读+竞标/报价UI，不是项目基础6；`customerJourney` 是既有客户工作区的Contact/F UI，不是Customer新增/修改/别名或no-op UI。基础6、客户修复和三域完整生产链由Root的M0/API/PG另证。
+- CustomerDetail现行wire为顶层id/ownerOrgName，不是body.customer；Customer POST仍是Summary，不能要求额外名字字段。派生定义不改变DTO。
+
+## Root显式组合接口
+
+`four-journey-cell01.mjs` 无import，不根据backend选择函数或重写期待：
+
+```js
+await runFourJourneyCell(page, {
+  cellId, mode, actualBackend, browserPlatform, timezoneId: 'Asia/Tokyo',
+  contexts: { customer, project, lead, intelligence },
+  definitionPins: {
+    customer: { file: actualLoadedCustomerFile, sha256: actualHash },
+    project: { file: actualLoadedProjectFile, sha256: actualHash },
+    lead: { file: actualLoadedLead03File, sha256: actualHash },
+    intelligence: { file: actualLoadedArchivedIJK02File, sha256: actualHash },
+  },
+}, { customerJourney, projectJourney, leadJourney, intelligenceDiscussionJourney });
+```
+
+mode显式为 `rust-business` 或 `native-known-defect-reference`；actualBackend分别rust/native。Root决定并核实际函数/file/hash，wrapper没有动态加载、旧环境访问或按后端替换断言。page由Root登录/启动，真实API/proxy、actor和browser平台由Root提供；同cell origin保持一致，timezone必须实际设为Asia/Tokyo。
+
+顺序固定客户→签约前工作区→Lead03→I/J/K。每个ctx均有baseUrl、label、ids、observe。ctx/ids分别拷贝，不合并跨旅程ID；回执按role归档、观察加cell/role前缀。失败原样抛出并保留partial，无fallback。Root仍负责截图审看、完整HTTP/PG/权限、清理及平台/产物 pin。
+
+## 精确 ctx / 真实API夹具前提
+
+| 旅程 | ctx.ids / callbacks | Root必须预先真实生产与核实 |
+| --- | --- | --- |
+| customer02 / Native01 | ids.customer=C1；observe；row(table,id)；todosFor(sourceId) | 独立active Customer C1；该customer所有contacts=0、activeF=0。真实Customer POST取Summary.id、GET取flat detail；不要求POST ownerOrgName。函数本身通过UI生产Contact与F。 |
+| project02 / Native01 | ids.costProject=P_cost、bidProject=P_bid、pricingProject=P_pricing、costPackage；可选bidProcess；observe；row（object或one-row array） | 三个不同真实presigning Project。P_cost需实际API成本包供只读；P_bid需无bid历史；P_pricing需实际current cost+适用current bid、无pricing历史。costPackage属于P_pricing，不是P_cost。全部用Root真实API生产，不以prepared SQL冒充生产者。 |
+| Lead03 | ids.customerId=C2、customerDisplayName、leadId=L_A、sourceCode/sourceName；observe；可选timeoutMs | C2与C1不同。L_A真实registered/editable、owner/org非null、active source、无pending/approved override；真实I/F/上传facts与系统分必须足以在revoke后qualify/convert。active字典code和可见name唯一，C2搜索结果当前页可见L_A。 |
+| IJK02 | ids.customer=C2、customerDisplayName、lead=L_I、contact=C2Contact、contactName、sourceLeadDiscussionId或Body；observe；可选journeyMarker | L_I是第二条真实registered未converted且I为空/gaps7的Lead，不能用已converted的L_A。C2Contact真实active、同C2且可见name唯一。在L_A转换前，用真实HTTP/UI发一条唯一短单行lead-target discussion，供项目sourceLead聚合；不把后来的project-target发言冒充该源。 |
+
+Customer的row callback须返回单个physical snake_case对象或null；project兼容单对象或one-row array。todosFor(sourceId)按sales-follow-up-record来源及该source UUID读取真实Todo，必须包含open/processing/completed/canceled等全部生命周期，不可复用只返回active的GET /me/todos结果，否则无法核历史提醒。row_version保持整数，日期为可解析真实时间，DB连接/查询与证据保全仍全部归Root。
+
+Root实际API准备顺序：
+
+1. 新cell独立namespace/真实full-permission actor、字典source和follow-up type；真实创建空C1。
+2. 真实创建三个独立presigning项目及上表只读成本、pricing上游成本/适用bid；不事先创建目标bid/pricing历史。
+3. 独立C2、active Contact、L_A（真实I/F/上传facts和系统分充足、无active/pending覆盖）；实际发L_A-target discussion；另建L_I且不写I。不是把L_A复制成SQL row。
+4. 执行组合时，Lead03实际转换返回Project ID；IJK `ids.project` 在调用前可省略，由wrapper显式填此实际ID。若预传project/projectId必须等于该ID，不得静默用另一个prepared Project。
+5. 该Project必须与三签约前fixture项目不同；IJK读到真实sourceLeadId=L_A，独立registered Lead仍=L_I，Customer仍=C2。
+
+`Lead03.options` 仅新增plannedSignDate（默认2026-12-01），完整cell不能把createLead/scoreOverrides/qualifyAndConvert设false。Root实际BrowserContext为Asia/Tokyo；默认日期真实请求/响应/GET应为2026-11-30T15:00:00.000Z，页面显示2026-12-01。不是Node host时区假设。
+
+原IJK02明确无I更新/删除入口、无J关联对象选择器，K只读；这些留白保留。不能靠直接HTTP替代UI写，Root准备source discussion只认证fixture producer，IJK实际认证其聚合显示。
+
+## 返回值与ID互扰
+
+- customer：返回C1 customerId、UI实际contactId/followUpId/replacementId/todoIds和statuses。没有contactName字段；不把它自动当C2联系人。
+- project02：返回costReadOnlyId、两版bid/pricing IDs、bid材料/节点IDs、current ID、201状态及边界标志。Native01返回undefined；wrapper只在函数正常结束且实际收到projectJourney.complete观察时适配该既有返回协议，不从失败或prepared状态补结果。
+- Lead03：保留preparedLeadId/uiCreatedLeadId/editedLeadId/convertedProjectId/executed/omitted，新增convertedLocalSignDate和convertedPlannedSignAt。preparedProjectId仅参考metadata，不是实际转换结果。
+- IJK02：返回真实C2/L_I/project/sourceL_A、全部I/J新ID、sourceLeadDiscussionReadId和unavailable。wrapper核project与Lead03回执相同，保留IUpdateOrDeleteUIAcceptance=false/R4WriteAcceptance=false。
+- 不共享一个通用ids对象。C1空列表与C2资格facts会冲突；L_A转换后不再是IJK registered fixture；P_pricing.costPackage不能误用P_cost包；旧ctx.project/projectId不能盖掉实际转换回执。
+- Native观察到female→unknown或合法二版500时，仅记实际known failure；参考旅程完成不能计业务通过，也不声称Windows浏览器→LinuxRust是Windows原生Rust服务。
+
+## 源与新定义 pin
+
+旧源只读，A03来自A独立工作树，hash与A交付相同。没有E1 alias/旧private import；project/Lead只用Node内建assert，IJK/customer无外部import。wrapper接Root显式四函数，不耦合文件路径；没有复制大树。
+
+| 原/外部源 | bytes | SHA256 |
+| --- | --- | --- |
+| `tools/rust-r3cdefg/customer-journey01.mjs` | 26295 | `5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb` |
+| `tools/rust-r3cdefg/project-journey01.mjs` | 23214 | `7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc` |
+| `docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs` | 31946 | `a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a` |
+| `E:/projects/worktrees/poms-r3co-a/poms/tmp/rust-r3m/ui-a/lead-journey03.mjs` | 26008 | `df62bbb0f89bb0562fe713f4e4e50d94a8901b0c922a37f7d8f191924a830262` |
+
+| 新纯定义 | bytes | SHA256 |
+| --- | --- | --- |
+| `tmp/rust-r3m/ui-b/customer-journey02.mjs` | 26498 | `733cc75cf37fd2411c408916e646938d8d95adc79fa69f3af675ef6109005144` |
+| `tmp/rust-r3m/ui-b/project-journey02.mjs` | 27750 | `d088e556900a1028183ecb9f6c381d2230c9d3db799eed5f94a6f0c61aff48c1` |
+| `tmp/rust-r3m/ui-b/four-journey-cell01.mjs` | 13790 | `fa718a994f9dc8f19d9497a0f29ac53dd1da7b0efd635317b41a634b06c5ebed` |
+
+机器版本见 [acceptance-definition-correction02.json](acceptance-definition-correction02.json)。本次仅ui-b新增文件，前次4产品+g2-b 5件共9个已交付文件hash全部保持。未Node语法执行/浏览器/HTTP/PG，未启动环境或格式化。交Root实际运行与独立审查后继续保持暂停。

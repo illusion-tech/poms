@@ -1,0 +1,27 @@
+{
+  "kind": "R3-controlled-QA-write-fault-adapter-correction",
+  "original": {
+    "file": "tools/rust-r3m/lead-repair01.mjs",
+    "bytes": 12367,
+    "rawBytesSha256": "92753cc54629a14f519b7763c7531ad0fd3642296f5cc8c6c364d35715748cd3"
+  },
+  "derived": {
+    "file": "tools/rust-r3m/lead-repair02.mjs",
+    "bytes": 14546,
+    "rawBytesSha256": "2b0922b05a3d636ce2e9791c13526cea4b9fd3f93a0d8324643f1a2f5da84a85"
+  },
+  "retainedPartial": "tmp/rust-r3m/acceptance-rust-final01-18/report01.json",
+  "review": {
+    "file": "tmp/rust-r3m/c-review/g2-fault-tool-clarification01.json",
+    "bytes": 13937,
+    "rawBytesSha256": "eef424dd28fe8ea0c17dd6236851779fa8c6ad422878956bf9b688bd57447851"
+  },
+  "changes": [
+    "Replace ineffective late ACL revocations with target/role-bound temporary QA database errors",
+    "Same-transaction trigger proves the fresh system snapshot existed before the failing manual/revoked insert",
+    "Armed Lead UPDATE positive/negative control",
+    "Add explicit historical revocation success and second-snapshot rollback/retry"
+  ],
+  "productChanges": false,
+  "oldPartialNotPromoted": true
+}

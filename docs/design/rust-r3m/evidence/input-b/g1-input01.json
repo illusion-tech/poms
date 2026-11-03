@@ -1,0 +1,1715 @@
+{
+  "kind": "RUST-R3-closeout-B-G1-author-input",
+  "version": 1,
+  "createdDate": "2026-11-03",
+  "baseline": {
+    "repository": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+    "head": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+    "branch": "codex/poms-r3-closeout",
+    "branchOrigin": "Root本轮已创建并只读核实；此前同HEAD在codex/poms-r3hijk-next28",
+    "trackedWorktreeInitiallyClean": true
+  },
+  "governance": {
+    "overallIssue": 57,
+    "stageIssue": 85,
+    "closeoutParent": 97,
+    "lineIssue": 99,
+    "line": "B",
+    "issueRegistrationEvidence": "Root回报#85→#97→A98/B99/D100 native关系已读回；B未访问网络或GitHub写入",
+    "stage": "G1 author input only",
+    "independentJointG1Certified": false,
+    "onlineFreezeCertified": false,
+    "G2Authorized": false,
+    "implementationWorktree": "Root将在联合G1/线上freeze后另给；此处禁止产品修改",
+    "declaredAgentConfiguration": "gpt-6.1-sol/max per Root；Fast未核实，不作性能认证",
+    "policy": "以业务语义/正确性/合理性为准；必要业务写整体回滚；不追Node bug parity"
+  },
+  "scope": {
+    "existingR3HttpDelivered": 58,
+    "auditedBExistingOperations": 38,
+    "otherAExistingBoundaryOperations": 20,
+    "newHttp": 0,
+    "newPublicDto": 0,
+    "newDdl": 0,
+    "productChangesInThisInput": 0,
+    "formalDocumentChanges": 0,
+    "authorOutputRoot": "tmp/rust-r3m/input-b/",
+    "r3StageCertified": false,
+    "ownership": "本阶段只写B输入；Root独占共享/执行/治理，A/D并行；独立C联合审查后才G2",
+    "futureG2ExclusiveDirectories": [
+      "apps/poms-api-rust/src/customers/ (除全部http.rs)",
+      "apps/poms-api-rust/src/customer_contacts/ (除全部http.rs)",
+      "apps/poms-api-rust/src/sales_follow_up/ (除全部http.rs)",
+      "apps/poms-api-rust/src/sales_intelligence/ (除全部http.rs)",
+      "apps/poms-api-rust/src/business_discussions/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_workspace/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_technical_cost/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_bid_commercial/ (除全部http.rs)",
+      "apps/poms-api-rust/src/project_pricing_margin/ (除全部http.rs)"
+    ],
+    "futureG2Excluded": [
+      "全部http.rs/lib/Cargo/toolchain/shared bridges和共享模块归Root",
+      "leads非http归A；只读其真实生产者供B统一闭环",
+      "原UI lead-list.ts/.spec.ts由Root依联合基线精确修复",
+      "正式治理/Git/GitHub/所有实际执行/环境/清理归Root"
+    ]
+  },
+  "ssot": {
+    "business": [
+      "EX48 append-only FollowUp lifecycle",
+      "EX49 owner+most-specific target提醒流唯一性",
+      "EX26/27/28签约前版本事实源与原查询合同",
+      "Root确认业务正确性及必要写整体rollback政策"
+    ],
+    "publicContracts": "libs/shared/contracts/src/lib/shared-contracts.ts + 原OpenAPI/当前route canonical inventory；不新增/更改公开面",
+    "identity": "内部归属/关联比较用Uuid身份；None/invalid不匹配；不全局小写全部raw请求",
+    "money": "exact Decimal/numeric string；金额2位、数量/单价4位、比例8位；不可Number/toFixed重建金额",
+    "dates": "既有DTO区分datetime与business date；plannedSignAt为datetime；UI source mismatch单列",
+    "evidence": "canonical归档路径+当前原始字节SHA256，不重写历史label/原件；旧private不读"
+  },
+  "mechanisms": [
+    {
+      "id": "B-CUSTOMER",
+      "deliveredOperations": 8,
+      "scope": "客户/别名与客户工作区",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/customers/service.rs",
+          "lines": "83-97; 219-255; 343-449; 464-666; 711-772",
+          "meaning": "active customer bridge、六类工作区事实、customer+primary alias、PATCH/no-op、alias audit TX、ownerOrg名投影"
+        },
+        {
+          "path": "apps/poms-api-rust/src/customers/store.rs",
+          "lines": "192-230; 233-308; workspace_*",
+          "meaning": "编号之外的实体/别名SQL；customer version CAS；跨域只读聚合"
+        }
+      ],
+      "callers": [
+        "customers/http.rs 8既有操作",
+        "projects::Service create/update 与 leads::Service create/update 调 require_active_customer",
+        "customer-workspace.ts 消费overview/联系人/跟进/讨论"
+      ],
+      "transaction": "create owner/org校验先于BEGIN；customer+primary alias+pending session同TX；business number通过独立池保留已提交分配，失败允许号段空洞。PATCH/session同TX；alias delete必要audit→session→DELETE同TX。",
+      "lockCas": "customer UPDATE WHERE id AND row_version；当前CAS0 Protocol→500为已知纠偏候选。alias delete当前无锁/无affected-row判定，已读到的竞争删除仍204，属于显式幂等删除既有行为，不能据此臆造新CAS参数。",
+      "guardsNoop": "customer read/write各需customer:read/write；关联活跃客户桥missing404/inactive400，不追mergedInto/alias、不加owner scope。primary alias/merged客户删除409；merged不能新增alias。PATCH当前将updated_by计入dirty，跨actor同业务值no-op待纠偏。ownerOrgName raw key大小写待纠偏。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+        "docs/design/archive/slices/rust-r3ab-closeout.md"
+      ],
+      "acceptance": [
+        "B-CAS-CUSTOMER",
+        "B-NOOP-CUSTOMER",
+        "B-UUID-OWNERORG",
+        "B-CHAIN-01",
+        "B-ALIAS-TX",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-CONTACT",
+      "deliveredOperations": 3,
+      "scope": "联系人list/create/update",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/customer_contacts/service.rs",
+          "lines": "90-222",
+          "meaning": "Create.gender透传；changed audit/session/contact同TX；no-op session-only"
+        },
+        {
+          "path": "apps/poms-api-rust/src/customer_contacts/store.rs",
+          "lines": "95-146",
+          "meaning": "INSERT与contact row_version CAS"
+        }
+      ],
+      "callers": [
+        "customer_contacts/http.rs",
+        "sales_intelligence create_stakeholder contact_by_id",
+        "business_discussions related_contact；customer/lead/project原UI联系人选择"
+      ],
+      "transaction": "create contact+session同TX；changed PATCH field audit→session→CAS同TX；no-op不写contact/audit，可维护session。",
+      "lockCas": "无FOR UPDATE，UPDATE id/version；当前CAS0 Protocol→500为真实静态遗漏候选，SQL错误仍500并rollback，不能全部映射409。",
+      "guardsNoop": "customer:read/write；客户仅存在性，不新加active eligibility；gender可显式female/male/unknown，缺省unknown。create无新增审计要求。PATCH原DTO禁止全空更新；同值合法输入不写业务行。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-55/report01.json"
+      ],
+      "acceptance": [
+        "B-CAS-CONTACT",
+        "B-CONTACT-ROUNDTRIP",
+        "B-CONTACT-AUDIT",
+        "B-CHAIN-01",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-FOLLOWUP",
+      "deliveredOperations": 4,
+      "scope": "append-only跟进与真实Todo生产者",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+          "lines": "create/replace/void; flush:501-615; insert_required_audit; locked_source",
+          "meaning": "business/reminder/session/必要audit一事务，先源锁重验"
+        },
+        {
+          "path": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+          "lines": "36-143; target",
+          "meaning": "先规范target advisory锁，后全部source/stream/existing Todo查询；target优先project>lead>customer"
+        },
+        {
+          "path": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+          "lines": "lock_source; update; source_todos/stream_todos/existing_todo/update_todo",
+          "meaning": "source FOR UPDATE；F/Todo CAS0显式结果"
+        }
+      ],
+      "callers": [
+        "sales_follow_up/http.rs",
+        "leads::store collect_facts读取active跟进",
+        "approval::service getMyTodos→approval_common::projection::todo",
+        "客户/线索/项目跟进面板；J related_follow_up"
+      ],
+      "transaction": "create/replace/void的全部F/Todo/session写在同TX；replace/void既有sales-follow-up.replaced/voided必要audit同TX。审计/任意必要SQL失败整体rollback。create没有凭空添加created audit。",
+      "lockCas": "replace/void source F FOR UPDATE→expectedVersion/active重验→target advisory(hashtextextended('sales-follow-up-reminder:{type}:{canonicalUuid}',0))→Todo→F/Todo CAS→必要audit。create无源锁但相同target锁。事务锁覆盖空流、无owner、无nextDate和换owner；不同owner无需双锁。source/Todo CAS0为409，其他SQL500。",
+      "guardsNoop": "any(customer|lead|project):read/write沿既有HTTP策略；源行active/version规则，create客户active；list lead/project双锚点OR，默认active、all保留history。owner+most-specific target+todoType每流≤1 open/processing；新事实完成该owner旧Todo，replace取消源后应用create规则，void取消源。无nextDate不建新Todo；无owner不虚构owner。Todo不能直接完成，allowedActions=[]。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-58/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-59/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json"
+      ],
+      "acceptance": [
+        "B-F-EMPTY-STREAM",
+        "B-F-SAME-SOURCE",
+        "B-F-LIFECYCLE",
+        "B-F-REQUIRED-WRITE",
+        "B-CHAIN-02",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-INTELLIGENCE",
+      "deliveredOperations": 10,
+      "scope": "stakeholder/competitor/discovery各list/create/update，gaps",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+          "lines": "create; require_opportunity_context; update; focus_areas_view; gap_summary",
+          "meaning": "typed UUID归属；语义no-op；typed focus[]；七gaps"
+        },
+        {
+          "path": "apps/poms-api-rust/src/sales_intelligence/store.rs",
+          "lines": "list; update; collect_lead_score_facts; competitor_by_id",
+          "meaning": "list OR；CAS；H/J共享最小事实读取"
+        }
+      ],
+      "callers": [
+        "sales_intelligence/http.rs",
+        "leads::store::collect_facts→collect_lead_score_facts(&mut PgConnection,&str)",
+        "business_discussions::related_competitor→competitor_by_id",
+        "project-detail.ts:421-427同时传sourceLeadId/projectId"
+      ],
+      "transaction": "create记录+session同TX；changed PATCH必要*.updated audit→session→CAS同TX；全部必要写失败整图rollback；no-op不写record/version/time/actor/audit，session维护独立。无created审计要求。",
+      "lockCas": "PATCH按row_version CAS，失效409；Contact/Lead/Project归属比较使用解析后的Uuid，None/invalid不相等；raw输入保留给错误/显示。锚点查询按lead/project先读后原存在检查；无sourceLead一致性强化。",
+      "guardsNoop": "any(lead:read|project:read)或write；customer按input ?? project.customerId ?? lead.customerId解析；不加inactive/closed/converted资格过滤。list双锚点OR，updated_at DESC,created_at DESC。H事实只lead_id，discovery updated_at DESC ONLY；不混gap排序、不按status/project筛选、不自动刷新存储分。focus读侧始终string[]：null/非法shape投影[]不GET写库；合法legacy13项完整保留，写DTO仍max12。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-55/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-51/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-52/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json"
+      ],
+      "acceptance": [
+        "B-I-UUID",
+        "B-I-PATCH-NOOP",
+        "B-I-AUDIT-CAS",
+        "B-I-FACTS-SCORE",
+        "B-CHAIN-02",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-DISCUSSION",
+      "deliveredOperations": 2,
+      "scope": "业务讨论create/list及跨sourceLead聚合",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/business_discussions/service.rs",
+          "lines": "list/create; target; assert_customer/assert_opportunity",
+          "meaning": "真实target/关联校验；project list包含sourceLead，原thread快照不可变"
+        },
+        {
+          "path": "apps/poms-api-rust/src/business_discussions/store.rs",
+          "lines": "130-155",
+          "meaning": "target unique ON CONFLICT DO NOTHING+新statement读赢家，不no-op UPDATE改旧thread"
+        }
+      ],
+      "callers": [
+        "business_discussions/http.rs",
+        "Customer/Lead/Project讨论面板",
+        "customers::store::workspace_discussions"
+      ],
+      "transaction": "thread(必要时insert_or_get)+comment+session同TX；必要失败整组rollback。create后展示关联user_names读取不是业务新增写；不新增未登记审计。",
+      "lockCas": "unique(target_object_type,target_object_id)解决首评空thread竞态；两个合法首评都201，唯一历史thread、两comments，无伪造retry500。既有thread无更新重写。",
+      "guardsNoop": "any customer/lead/project read或write；同客户及非null lead/project关联校验；nullable关联不被自动补齐。project list自动合并sourceLead thread并去重，原targetTitle/anchors保持创建时快照，不将lead thread搬家。每次合法发言追加comment，不假称同文POST是no-op。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-55/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json"
+      ],
+      "acceptance": [
+        "B-J-FIRST-COMMENTS",
+        "B-J-ASSOCIATIONS",
+        "B-CHAIN-03",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-COST",
+      "deliveredOperations": 3,
+      "scope": "技术成本版本包/历史/workspace",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+          "lines": "108-253; 375-507",
+          "meaning": "精确Decimal输入与合计；project锁重验/版本追加/整TX"
+        },
+        {
+          "path": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+          "lines": "42-66; current; supersede; insert_children",
+          "meaning": "公共project行锁覆盖空历史；版本序号与子表"
+        }
+      ],
+      "callers": [
+        "project_technical_cost/http.rs",
+        "project_pricing_margin costs::current/by_id/lock_project",
+        "签约前技术成本原UI"
+      ],
+      "transaction": "父包supersede+新current+scope/risk/cost子表+session同TX；任一child失败恢复原current及全图。编号不涉及本命令。",
+      "lockCas": "共同project FOR UPDATE→重验阶段→current/next_version→supersede id/version/is_current CAS→insert；空历史也串行，两合法POST可各201且版本连续，仅一current。",
+      "guardsNoop": "project:read/write；仅签约前assessment/scope-confirmation/commercial-closure/contracting，closed拒绝。Decimal金额2位、quantity/unitPrice4位，行税额精确相加、币种一致及numeric范围；R1..R4字符串max与显式等级权重一致。POST是版本命令，同DTO也允许新版本，不增加expectedVersion。workspace纯读不刷新业务。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-43/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-44/report01.json"
+      ],
+      "acceptance": [
+        "B-C-EXACT-MONEY",
+        "B-CURRENT-VERSION-CONCURRENCY",
+        "B-CURRENT-CHILD-ROLLBACK",
+        "B-CHAIN-05",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-BID",
+      "deliveredOperations": 3,
+      "scope": "竞标/直接商务版本事实",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/project_bid_commercial/service.rs",
+          "lines": "183-285; path_error; blocker_count",
+          "meaning": "project锁、路径门禁、材料/时间线及current版本"
+        },
+        {
+          "path": "apps/poms-api-rust/src/project_bid_commercial/store.rs",
+          "lines": "current/next_version/insert_parent/insert_timelines/insert_materials/supersede",
+          "meaning": "父子版本SQL"
+        }
+      ],
+      "callers": [
+        "project_bid_commercial/http.rs",
+        "project_pricing_margin bids::current/by_id",
+        "签约前竞标原UI"
+      ],
+      "transaction": "source parent supersede+新current+material/timeline children+session同TX。",
+      "lockCas": "与cost/pricing共project FOR UPDATE，重验closed/stage→读取current/next_version，supersede CAS0 Conflict409，SQL500回滚。",
+      "guardsNoop": "project:read/write；same presigning stage；bidMode/decision路径约束，not-required也是真实显式事实；正常append-only版本，不伪造没有竞标数据即direct路径。POST追加版本而非no-op。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json"
+      ],
+      "acceptance": [
+        "B-CURRENT-VERSION-CONCURRENCY",
+        "B-CURRENT-CHILD-ROLLBACK",
+        "B-BID-PATHS",
+        "B-CHAIN-06",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-PRICING",
+      "deliveredOperations": 3,
+      "scope": "报价/毛利版本事实与workspace",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+          "lines": "references/cost_reference/amounts; create:327-548; workspace",
+          "meaning": "仅引用当前有效cost及适用bid；同TX再验引用；存储历史引用读模型"
+        },
+        {
+          "path": "apps/poms-api-rust/src/project_pricing_margin/store.rs",
+          "lines": "current/next_version/by_id/insert/insert_conditions/supersede",
+          "meaning": "报价版本与条件子表"
+        }
+      ],
+      "callers": [
+        "project_pricing_margin/http.rs",
+        "签约前pricing workspace原UI",
+        "后续R4 contract-readiness消费本事实，非本批producer"
+      ],
+      "transaction": "project行锁下重新校验cost/bid身份/币种/路径→old supersede+new review+conditions+session同TX；失败全回滚。",
+      "lockCas": "cost/bid/pricing共同project锁防引用并发切换；当前有效引用用typed UUID equality；旧引用或币种不一致400。CAS0 Conflict409，不把真正SQL错混成409。",
+      "guardsNoop": "project:read/write及presigning阶段；金额2位、taxRate/grossMarginRate8位；inclusive>=exclusive。released/conditional-release/escalation-required要求既有baseline/summary引用字段，不生成这些R4对象/审批引擎。workspace已有review按其stored historical cost/bid读取，不自动重指向最新。POST追加版本。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-43/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-44/report01.json"
+      ],
+      "acceptance": [
+        "B-PRICING-CURRENT-REF",
+        "B-C-EXACT-MONEY",
+        "B-CURRENT-VERSION-CONCURRENCY",
+        "B-CURRENT-CHILD-ROLLBACK",
+        "B-CHAIN-07",
+        "B-GUARD"
+      ]
+    },
+    {
+      "id": "B-WORKSPACE",
+      "deliveredOperations": 2,
+      "scope": "project guidance/timeline只读内部机制",
+      "source": [
+        {
+          "path": "apps/poms-api-rust/src/project_workspace/service.rs",
+          "lines": "guidance/timeline; first_signed_contract; timeline_events",
+          "meaning": "正式存储时间选择，不从stage推造里程碑"
+        },
+        {
+          "path": "apps/poms-api-rust/src/project_workspace/store.rs",
+          "lines": "snapshot/contracts/handover/acceptance/completion/archive",
+          "meaning": "R4/R5 prepared读取筛选"
+        },
+        {
+          "path": "apps/poms-api-rust/src/project_workspace/guidance.rs",
+          "lines": "stage_text; blocking_reasons; allowed_actions; view",
+          "meaning": "stage/status/permission guide与snapshot引用"
+        }
+      ],
+      "callers": [
+        "project_workspace/http.rs requires project:read",
+        "project-detail.ts 真实项目详情"
+      ],
+      "transaction": "纯只读多次查询；不创建summary/lifecycle事实、不GET修库，不声称全组查询具有同一MVCC快照。",
+      "lockCas": "N/A read projections；首次signed最早真实signed_at；handover confirmed，acceptance confirmed accepted/conditional，completion confirmed，archive recorded及原排序。相同毫秒不伪造UUID业务次序。",
+      "guardsNoop": "allowedActions由实际权限和stage/status约束；无R4事实只显示实际project-created及真实关闭事实，不以currentStage伪造contract/handover/验收/完成/归档。snapshot必须project-detail active/project-detail projection；下游prepared输入仅证明读映射。",
+      "evidence": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate03-31/report01.json"
+      ],
+      "acceptance": [
+        "B-CHAIN-08",
+        "B-K-PREPARED-BOUNDARY",
+        "B-GUARD"
+      ]
+    }
+  ],
+  "knownFindings": [
+    {
+      "id": "P2-B01",
+      "title": "Contact正常CAS失效变500",
+      "classification": "existing-baseline-drift",
+      "status": "static-confirmed; Root已接受列联合G1候选; 本轮待真实复现",
+      "source": [
+        "apps/poms-api-rust/src/customer_contacts/store.rs:141-146",
+        "apps/poms-api-rust/src/customer_contacts/service.rs:49-56,196-219"
+      ],
+      "target": "只CAS0为409；真正SQL500并必要audit/record/session整TX rollback",
+      "cases": [
+        "B-CAS-CONTACT"
+      ]
+    },
+    {
+      "id": "P2-B02",
+      "title": "Customer正常CAS失效变500",
+      "classification": "existing-baseline-drift",
+      "status": "static-confirmed; 已即时报告Root待归并同类候选",
+      "source": [
+        "apps/poms-api-rust/src/customers/store.rs:301-308",
+        "apps/poms-api-rust/src/customers/service.rs:490-543"
+      ],
+      "target": "CAS0明确409，不新增DTO expectedVersion",
+      "cases": [
+        "B-CAS-CUSTOMER"
+      ]
+    },
+    {
+      "id": "P2-B03",
+      "title": "Customer跨actor同业务值PATCH仍写version/actor",
+      "classification": "existing-baseline-drift",
+      "status": "static-confirmed; Root接受G1候选; 真实no-op断言待执行",
+      "source": [
+        "apps/poms-api-rust/src/customers/service.rs:490",
+        "apps/poms-api-rust/src/customers/service.rs:733-738"
+      ],
+      "target": "先判业务字段语义变化，再写actor/time；no-op只允许session维护",
+      "cases": [
+        "B-NOOP-CUSTOMER"
+      ]
+    },
+    {
+      "id": "P2-B04",
+      "title": "Customer ownerOrgId UUID拼写影响ownerOrgName",
+      "classification": "existing-baseline-drift",
+      "status": "static-confirmed; Root接受G1候选; 真实PATCH/GET待执行",
+      "source": [
+        "apps/poms-api-rust/src/customers/service.rs:743-772"
+      ],
+      "target": "内部org identity lookup用parsed Uuid或规范key；raw请求/DTO不全局改写",
+      "cases": [
+        "B-UUID-OWNERORG"
+      ]
+    },
+    {
+      "id": "B-UI05",
+      "title": "原UI非空plannedSignAt发送date-only",
+      "classification": "existing-baseline-drift",
+      "status": "source-proven public-contract conflict; Root联合baseline已独占精确两UI文件修正与实跑；B只报告",
+      "source": [
+        "apps/poms-admin/src/app/features/lead/lead-list.ts:1308-1315,2173,2503-2508",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:2622-2626",
+        "apps/poms-api-rust/src/leads/validation.rs:235-257"
+      ],
+      "impact": "用户选择预计签约日期时UI送YYYY-MM-DD，原/新datetime验证均400；留空null路径不覆盖该操作",
+      "target": "Root仅修改lead-list.ts及其.spec.ts，将所选Date用toISOString()，其他date字段不变，不放宽公共DTO。",
+      "cases": [
+        "B-UI-DATE"
+      ]
+    },
+    {
+      "id": "B-EVID06",
+      "title": "同一converted project继续成本/竞标/报价的连续生产链未由既有两组报告直接证明",
+      "classification": "existing-baseline-drift",
+      "status": "stage-acceptance gap, not missing product feature",
+      "source": [
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json",
+        "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json"
+      ],
+      "target": "本批一套实际同ID闭环，不能把不同project的既有成功报告拼成完整链",
+      "cases": [
+        "B-CHAIN-01",
+        "B-CHAIN-02",
+        "B-CHAIN-03",
+        "B-CHAIN-05",
+        "B-CHAIN-06",
+        "B-CHAIN-07",
+        "B-CHAIN-08"
+      ]
+    }
+  ],
+  "acceptanceMatrix": [
+    {
+      "id": "B-CAS-CUSTOMER",
+      "priority": "P2-confirm-on-current-candidate",
+      "dependsOn": [
+        "真实独立Customer producer",
+        "两个不同actor/session"
+      ],
+      "requests": [
+        {
+          "method": "PATCH",
+          "path": "/api/customers/{customerId}",
+          "json": {
+            "remark": "{marker}-winner-a"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/customers/{customerId}",
+          "json": {
+            "remark": "{marker}-winner-b"
+          }
+        }
+      ],
+      "barrier": "Root锁actual customer源行；非锁定读完成后两UPDATE实际waiters，再release。不要给DTO添加expectedVersion。",
+      "assertions": [
+        "状态多集[200,409]，不是[200,500]",
+        "仅赢家业务字段/updated_by落库，row_version恰+1",
+        "输家必要写全部回滚；SQL故障仍500，不泛化冲突",
+        "当前store.rs:308为静态已知坏路径，实际未在本G1运行"
+      ]
+    },
+    {
+      "id": "B-CAS-CONTACT",
+      "priority": "P2-confirm-on-current-candidate",
+      "dependsOn": [
+        "真实Contact producer",
+        "两个不同actor/session"
+      ],
+      "requests": [
+        {
+          "method": "PATCH",
+          "path": "/api/customer-contacts/{contactId}",
+          "json": {
+            "title": "{marker}-a"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/customer-contacts/{contactId}",
+          "json": {
+            "title": "{marker}-b"
+          }
+        }
+      ],
+      "barrier": "Root锁actual contact源行；两个changed PATCH读到同version并实际等待UPDATE，release。",
+      "assertions": [
+        "[200,409]、contact row_version+1、字段和updated_by为赢家",
+        "exactly一个既有contact.updated字段审计，输家audit/session随TX rollback",
+        "无权或真正SQL故障不冒充409"
+      ]
+    },
+    {
+      "id": "B-NOOP-CUSTOMER",
+      "priority": "P2-confirm-on-current-candidate",
+      "requests": [
+        {
+          "actor": "other",
+          "method": "PATCH",
+          "path": "/api/customers/{customerId}",
+          "json": {
+            "displayName": "{actualUnchangedDisplayName}"
+          }
+        }
+      ],
+      "assertions": [
+        "200",
+        "实际customer row、row_version、updated_at、updated_by逐字段保持before值；不因actor切换写业务",
+        "pending auth session维护不纳入业务no-op图；不新增customer审计事件",
+        "相邻真实changed PATCH仍version+1且actor正确"
+      ]
+    },
+    {
+      "id": "B-UUID-OWNERORG",
+      "priority": "P2-confirm-on-current-candidate",
+      "requests": [
+        {
+          "method": "PATCH",
+          "path": "/api/customers/{customerId}",
+          "json": {
+            "ownerOrgId": "{UPPERCASE_ACTUAL_OTHER_ORG_UUID}"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/customers/{customerId}"
+        }
+      ],
+      "assertions": [
+        "两个200",
+        "PATCH.body.customer.ownerOrgName与真实Org.name及后续GET一致，不能仅因大小写null",
+        "实际owner_org_id为相同UUID身份；请求raw形态无需全局规范化",
+        "POST CustomerSummary本身没有ownerOrgName，不能添加不存在的响应字段来做断言"
+      ]
+    },
+    {
+      "id": "B-UI-DATE",
+      "priority": "existing-frontend-contract-gap",
+      "ownerDecision": "Root联合baseline已冻结Date.toISOString及精确两UI文件；B不改frontend",
+      "requests": [
+        {
+          "journey": "原Angular Lead转换dialog选择非空预计签约日期，再点真实转换按钮"
+        },
+        {
+          "method": "POST",
+          "path": "/api/leads/{leadId}:convert",
+          "json": {
+            "plannedSignAt": "2026-12-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "assertions": [
+        "UI nonempty值当前toIsoDate返回YYYY-MM-DD，与现有datetime DTO必然冲突；不能靠留空路径冒称覆盖",
+        "API合法datetime生产真实project且日期持久化；date-only输入仍按既有DTO400",
+        "Root按联合baseline仅为plannedSignAt编码Date.toISOString，其他date字段不变、不放宽公开DTO；受影响unit/lint/build与原UI非空真实转换由Root执行。"
+      ]
+    },
+    {
+      "id": "B-ALIAS-TX",
+      "priority": "regression",
+      "assertions": [
+        "Customer201同时产生唯一primary alias，失败alias INSERT不残留Customer；编号已独立分配可留gap",
+        "非primary alias新增/删除真实往返；primary/merged删除409",
+        "拒绝必要alias-deleted审计INSERT时audit/DELETE/session同TX rollback；不据两个预读幂等204发明新HTTP参数"
+      ]
+    },
+    {
+      "id": "B-CONTACT-ROUNDTRIP",
+      "priority": "regression",
+      "assertions": [
+        "female/male显式Create真实DB/GET保持该gender，缺省unknown",
+        "nullable字段明确null清理；合法changed字段PATCH返回/持久化一致",
+        "Customer only存在性不被新active门禁收紧"
+      ]
+    },
+    {
+      "id": "B-CONTACT-AUDIT",
+      "priority": "regression",
+      "assertions": [
+        "changed PATCH audit拒绝或contact SQL拒绝500后业务字段/version/actor/audit全部回滚",
+        "同值PATCH 200且contact/version/time/actor/audit不变；会话维护单独观察",
+        "无contact created audit要求"
+      ]
+    },
+    {
+      "id": "B-F-EMPTY-STREAM",
+      "priority": "critical-regression",
+      "variants": [
+        "project same-owner",
+        "lead same-owner",
+        "customer same-owner",
+        "project different-owners",
+        "无nextDate",
+        "无owner"
+      ],
+      "barrier": "空流SHARE锁todo_item后dispatch两create；实际一INSERT等待+一target advisory等待，不要求修复后2个INSERT waiter。",
+      "assertions": [
+        "两合法create均201，两个F事实都保留",
+        "同owner+type+target仅一open/processing，先提交Todo completed、后提交新事实Todo open；不同owner各一open合法",
+        "无nextDate新事实完成该owner旧提醒且不新建；无owner不虚构owner",
+        "全部路径先target事务锁再Todo查询，commit/rollback释放；后继同target命令能继续"
+      ]
+    },
+    {
+      "id": "B-F-SAME-SOURCE",
+      "priority": "critical-regression",
+      "variants": [
+        "replace/replace",
+        "void/void",
+        "replace/void"
+      ],
+      "barrier": "实际active F源行FOR UPDATE blocker，2个同expectedVersion app source waiters后release",
+      "assertions": [
+        "状态[200,409]",
+        "源version恰+1、唯一替代或无替代、历史不删",
+        "赢家Todo图/updated_by/既有required audit各一次，输家无业务写",
+        "source行锁/版本重验必须先于target advisory，不能先Todo后等source造成反序"
+      ]
+    },
+    {
+      "id": "B-F-LIFECYCLE",
+      "priority": "regression",
+      "assertions": [
+        "create→replace→void append-only原始/替代链接真实保持",
+        "默认active列表排除superseded/voided；lifecycleScope=all保留两行",
+        "换owner取消旧owner源Todo，新owner接收；同owner使用既有EX49取消后create stream规则",
+        "GET /me/todos来自真实F生产，无前端或prepared注入；summary不泄露detail、allowedActions=[]"
+      ]
+    },
+    {
+      "id": "B-F-REQUIRED-WRITE",
+      "priority": "critical-regression",
+      "variants": [
+        "deny audit INSERT on replace/void",
+        "deny todo INSERT/UPDATE",
+        "deny F INSERT/UPDATE"
+      ],
+      "assertions": [
+        "500+F源/替代/Todo/必要audit业务图逐字段before==after",
+        "不把必要审计拆成后置独立提交",
+        "SQL错误不是CAS409，释放锁后正常同target写成功"
+      ]
+    },
+    {
+      "id": "B-I-UUID",
+      "priority": "regression",
+      "assertions": [
+        "uppercase customer/lead/project/contact合法同一身份三类Create正常成功，真实FK相同",
+        "真正跨客户400、有效missing404、非法UUID400",
+        "原raw错误显示保留，不全局lowercase所有DTO或扩大eligibility"
+      ]
+    },
+    {
+      "id": "B-I-PATCH-NOOP",
+      "priority": "regression",
+      "assertions": [
+        "focusAreas读侧始终string[]；JSONnull/非法object/混型投影[]，GET不改DB；合法legacy13项不截断",
+        "语义no-op PATCH不写row/version/time/actor/audit；session维护单列",
+        "合法写array max12/codepoint/元素校验保持；非法object只需400，不镜像Node额外unknown length issue"
+      ]
+    },
+    {
+      "id": "B-I-AUDIT-CAS",
+      "priority": "critical-regression",
+      "assertions": [
+        "三个域changed PATCH必要audit/record/session同TX，拒绝任一必要写全rollback",
+        "两reader各域200/409，唯一赢家字段/actor/一个updated audit",
+        "create无既有created audit；audit-deny下create201不能被工具误判业务失败"
+      ]
+    },
+    {
+      "id": "B-I-FACTS-SCORE",
+      "priority": "critical-integration",
+      "assertions": [
+        "七bool只由actual lead_id事实导出；不增加项目/status过滤",
+        "discovery给score只updated_at DESC；gap list保持updated_at DESC,created_at DESC",
+        "I/F写不自动刷新stored Lead score；实际score刷新后consume真实七facts/activeF/上传附件且快照语义正确",
+        "summary/gaps固定七项原顺序，禁止以prepared行替代生产者链"
+      ]
+    },
+    {
+      "id": "B-J-FIRST-COMMENTS",
+      "priority": "critical-regression",
+      "assertions": [
+        "首thread竞争两个合法comment201/201；unique target一thread、两comment",
+        "历史thread的title/anchor/created字段不被ON CONFLICT no-op UPDATE重写",
+        "thread/comment/session必要写故障500全rollback；不给无要求的created审计加门禁"
+      ]
+    },
+    {
+      "id": "B-J-ASSOCIATIONS",
+      "priority": "integration",
+      "assertions": [
+        "联系人的客户、competitor/F的非null实际机会归属校验，合法关联返回真实id",
+        "真实跨客户或不符非null机会400，missing404，拒绝不写thread/comment",
+        "project查询合并sourceLead并去重；转换不搬家不改旧thread标题"
+      ]
+    },
+    {
+      "id": "B-C-EXACT-MONEY",
+      "priority": "critical-regression",
+      "assertions": [
+        "金额string保持numeric(18,2)十进制准确、quantity/unitPrice numeric(18,4)、ratio8位",
+        "0.10+0.20与大额精确合计；每行exclusive+tax=inclusive，币种一致；非精确/溢出拒绝无写",
+        "actual DB numeric列以::text观察，不能经Number/toFixed后声称精确",
+        "R1,R2,R3,R4混合最高R4，无误把此处max当字母风险low/high缺陷"
+      ]
+    },
+    {
+      "id": "B-CURRENT-VERSION-CONCURRENCY",
+      "priority": "critical-regression",
+      "variants": [
+        "cost空历史/已有current",
+        "bid空历史/已有current",
+        "pricing空历史/已有current"
+      ],
+      "barrier": "同一actual project行blocker，两个合法版本POST实际等待共同project锁",
+      "assertions": [
+        "两个合法POST各201（不凭空添加expectedVersion冲突合同）",
+        "version连续、supersedes指向前一actual row、仅一effective is_current",
+        "source project状态/阶段重验、历史不可覆盖；old row_version合法递增",
+        "pricing在锁内再次验证当前cost/bid，过时引用400无写；不能只用事务外读"
+      ]
+    },
+    {
+      "id": "B-CURRENT-CHILD-ROLLBACK",
+      "priority": "critical-regression",
+      "variants": [
+        "cost scope/risk/cost child INSERT拒绝",
+        "bid material/timeline INSERT拒绝",
+        "pricing condition INSERT拒绝"
+      ],
+      "assertions": [
+        "500，父新版本/子表/old-current supersede/session全部rollback",
+        "旧current保持effective/is_current/version/actor/time",
+        "SQL错仍500，CAS0明确409，不能把所有SQL失败抹成409"
+      ]
+    },
+    {
+      "id": "B-BID-PATHS",
+      "priority": "regression",
+      "assertions": [
+        "direct-commercial/not-required显式事实受原bidMode+decision约束；not-required不靠无数据推断",
+        "valid新版本带materials/timeline真实回读、blockers/nextStep一致",
+        "非签约前stage/closed拒绝无业务写"
+      ]
+    },
+    {
+      "id": "B-PRICING-CURRENT-REF",
+      "priority": "critical-regression",
+      "assertions": [
+        "使用actual current cost id/币种和适用bid id，大小写UUID同身份可引用；过时/其他project引用400",
+        "direct-commercial与bid路径约束正确；rejected不带release baseline",
+        "released/conditional/escalation所需引用字段完整；不伪造baseline/summary producer成功",
+        "已有review workspace读其stored历史引用，不自动改指向新cost/bid；金额/条件/ready解释一致"
+      ]
+    },
+    {
+      "id": "B-GUARD",
+      "priority": "critical-regression",
+      "assertions": [
+        "客户/联系人必须customer read/write；I为lead或project read/write；F/J为customer/lead/project任一；cost/bid/pricing/K为project权限",
+        "沿用原认证/CSRF/已冻结scope，不以UI隐藏代替服务拒绝",
+        "无权请求不得写owned业务行/required audit；正常session续期事实分列",
+        "只读actor allowedActions不能宣称有write action"
+      ]
+    },
+    {
+      "id": "B-CHAIN-01",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "Root isolation+real actors/source/dictionary"
+      ],
+      "assertions": [
+        "Rust真实POST Customer→primary alias→真实Contact female→A真实POST lead使用相同customerId",
+        "真实客户工作区lead/project聚合计数，禁止先SQL准备Customer/Lead冒充生产成功"
+      ]
+    },
+    {
+      "id": "B-CHAIN-02",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "B-CHAIN-01"
+      ],
+      "assertions": [
+        "实际lead I三类事实/必要PATCH、F due→GET me/todos、J lead comment关联contact/competitor/F",
+        "实际local上传字节与sha/active latest category，A refresh score消费真实I/F/附件",
+        "保留刷新前stored score，不以I写触发隐式刷新代替显式命令"
+      ]
+    },
+    {
+      "id": "B-CHAIN-03",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "B-CHAIN-02",
+        "A真实qualify/转换准入"
+      ],
+      "assertions": [
+        "Rust真实convert返回project.source_lead_id=actual lead.id、customerId相同；project/lead/eligible links/snapshot/necessary audit同TX",
+        "符合条件附件复制，不符合类别/非latest排除；源links不被搬走或删除",
+        "project UI向I/F传leadId=sourceLeadId+projectId双锚点；J project list自动含sourceLead，旧thread快照不改",
+        "DateTime API使用合法ISO非空值；原UI非空datepicker缺口按B-UI-DATE单列"
+      ]
+    },
+    {
+      "id": "B-CHAIN-05",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "B-CHAIN-03"
+      ],
+      "assertions": [
+        "将刚convert返回的同一真实projectId继续创建cost v1/v2，不能改用另一direct-create project拼证据",
+        "精确成本、历史current/子表、workspace真实回读"
+      ]
+    },
+    {
+      "id": "B-CHAIN-06",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "B-CHAIN-05"
+      ],
+      "assertions": [
+        "在同一converted project创建bid/直接商务事实及后续版本，真实materials/timeline",
+        "版本current及路径/阻断解释真实回读"
+      ]
+    },
+    {
+      "id": "B-CHAIN-07",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "B-CHAIN-06"
+      ],
+      "assertions": [
+        "同一project以刚生成current cost/bid进行pending pricing真实POST/list/workspace",
+        "旧cost引用拒绝；pricing stored references与精确金额/条件匹配",
+        "止于签约前事实，不伪造R4审批/商业基线/合同签约"
+      ]
+    },
+    {
+      "id": "B-CHAIN-08",
+      "priority": "minimum-stage-closure",
+      "dependsOn": [
+        "B-CHAIN-07"
+      ],
+      "assertions": [
+        "同一converted project K guidance/timeline真实GET，project-created来源精确，read-only不写库",
+        "客户工作区source lead/project/followup/discussion聚合与已实际生产记录相符",
+        "在没有真实R4签约/移交/验收/完成/归档时，不因stage推造其里程碑"
+      ]
+    },
+    {
+      "id": "B-K-PREPARED-BOUNDARY",
+      "priority": "read-projection-regression",
+      "assertions": [
+        "可在Root准备并明确标prepared的R4/R5 row上检查query filter/order/permission mapping",
+        "prepared合同/移交/验收/完成/归档/摘要仅证明读投影，不作为这些阶段write/approval/HTTP producer验收",
+        "separate real-source/legacy/prepared/failed/partial/UI artifact平台标签，54ignored不计执行"
+      ]
+    }
+  ],
+  "minimumRealClosure": {
+    "caseOrder": [
+      "B-CHAIN-01",
+      "B-CHAIN-02",
+      "B-CHAIN-03",
+      "B-CHAIN-05",
+      "B-CHAIN-06",
+      "B-CHAIN-07",
+      "B-CHAIN-08"
+    ],
+    "identityRule": "同一套真实Customer/Lead/Contact/I/F/Todo/上传附件/转换返回Project；后续cost/bid/pricing必须直接消费这个projectId",
+    "producerRule": "所有R3生产源通过实际Rust HTTP产生，Root记录requestId/raw receipts/PG before-after；不能prepared SQL替代",
+    "requiredFixtures": [
+      "Root独立PG/roles/runtime/cohort/marker",
+      "两个实际full-permission actor及read-only/no-permission session",
+      "active sourceCode/followUpType dictionary",
+      "真实客户/联系人/线索；强制并发组各独立target/source",
+      "四实际上传字节含适用/排除类别与sha",
+      "合法datetime/times及真实可写presigning stage"
+    ],
+    "faultGraphRule": "必要record/children/current link/Todo/snapshot/audit失败全部业务图rollback；auth-session维护单列；独立business-number成功分配可留下gap"
+  },
+  "alreadyDelivered": [
+    "客户/primary alias/contacts以及真实workspace聚合",
+    "I10+七bool lead facts+gaps+typed no-op/UUID membership",
+    "F4 append-only+真实Todo producer+source与target锁+必要audit atomicity",
+    "J2真实target关联+unique immutable thread+sourceLead聚合",
+    "cost/bid/pricing三类版本TX/project锁/精确十进制/current引用重验",
+    "K2只读guidance/timeline，R4/R5 projection输入有明确prepared边界",
+    "Lead真实convert/附件copy/score/override事务由A负责，本B验收只直接消费其真实产物"
+  ],
+  "notMissingOrInvented": [
+    "不新增R3 scheduler或人工rebuild所有Todo任务；EX49 currentNodeName由GET mapper，逾期高亮由dueAt读模型解释",
+    "不因generic approval handler目前仅contract/payout/adjustment三支就臆造cost/bid/pricing审批引擎；EX28明确不实现审批引擎/商业基线本体；R3 lead override自有命令由A已实现",
+    "不把0 remaining HTTP=完整R3阶段通过；最新58/58和full-stage开放需分列",
+    "不新增DTO expectedVersion到旧Customer/Contact PATCH或cost/bid/pricing POST",
+    "R1..R4 highestRiskLevel的字符串max与正式等级顺序一致，不列伪风险",
+    "alias预读后的并发delete幂等204不凭猜测新增源锁/409参数"
+  ],
+  "futureProjectionBoundary": {
+    "R4": [
+      "Contract/contract-readiness/finance/handover/actual-cost/operating/acceptance/completion/archive producers与审批仍属后续阶段",
+      "K和customer workspace读这些存量/prepared事实仅验证read projection，不认证其write-side"
+    ],
+    "R5": [
+      "commission freeze/gate/settlement/解释快照的prepared读取及通用审批受控事实不认证提成完整链"
+    ],
+    "R6": [
+      "迁移执行器/seed接管、migration history/locks/checksum/failed recovery、部署切流、任务单实例与回退属于R6",
+      "Rust main只HTTP及--openapi，未知CLI参数拒绝；无R3迁移器入口。Native persistence.config.ts仍注册Migrator/SeedManager与原92 migrations"
+    ],
+    "R7": [
+      "正式切流/旧后端退出不在本批"
+    ]
+  },
+  "schedulerAudit": {
+    "result": "已检查的R3 Native/Rust产品源码无scheduler入口；未据静态模式外推宿主机不存在任何后台管理任务",
+    "searchScope": [
+      "apps/poms-api/src/app/features/{customer,lead,sales-follow-up,sales-intelligence,business-discussion,project}",
+      "apps/poms-api-rust/src"
+    ],
+    "patterns": [
+      "@Cron",
+      "@Interval",
+      "@Timeout",
+      "ScheduleModule",
+      "scheduler",
+      "cron",
+      "onModuleInit/onApplicationBootstrap/onModuleDestroy/onApplicationShutdown"
+    ],
+    "r3Matches": 0,
+    "productTokioSpawnSites": [
+      "lifecycle.rs HTTP server task",
+      "attachment_storage/obs_s3.rs upload stream pump"
+    ],
+    "excludedNonBusinessMatches": [
+      "lifecycle.rs测试spawn",
+      "tools/e2e runtime-worker/stubborn fixture keepAlive setInterval"
+    ],
+    "support": "docs/design/rust-r0-api-contract-inventory.md:120-136 明确无schedule/lifecycle hook线索，provider retry不等于业务定时任务；R6核host任务所有权"
+  },
+  "existingReportReadbacks": [
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-55/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 4,
+      "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 14,
+      "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 56,
+      "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-58/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 6,
+      "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-59/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 3,
+      "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 2,
+      "artifactSha256": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-49/report01.json",
+      "completed": false,
+      "failedAt": "uuid.audit-fault.stakeholder.POST",
+      "caseCount": 14,
+      "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+      "claim": "historical partial retained; failed tool expectation is not an acceptance target"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-51/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 14,
+      "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-52/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 69,
+      "artifactSha256": "bb1695946483e4856707f1a590147a2a375d140d0a3dc41255ae56556d1a6c2e",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-43/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 1,
+      "artifactSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-44/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 17,
+      "artifactSha256": "cb19cff248fdb44ac27269bb5f681ab24887c85b077af14032fc30a0fc8101aa",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate03-31/report01.json",
+      "completed": true,
+      "failedAt": null,
+      "caseCount": 19,
+      "artifactSha256": "37ad04b20b699a8d9bafcaf3e0824f09fbe51e548108ee0ad3cf02ec232692af",
+      "claim": "existing original-artifact execution; not a current-batch rerun"
+    }
+  ],
+  "existingEvidenceReuse": {
+    "mode": "待独立G1冻结source diff及Root具体执行计划后决定因果复用；本作者不授权跳过本批真实case",
+    "finalOriginalArtifact": "66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67",
+    "fullReportCounts": "06 phase55 4组18HTTP；56 14/65；57 56/56；58 6/18；59 3/12；61 2/32（原C review02记录，非本轮执行）",
+    "partial49": "completed=false，I create无required-created-audit仍201；工具误期望500历史partial保留，51后补必要PATCH fault，无改旧report",
+    "ui": "原四UI仍绑定原backend/browser平台和37ad04b2产物；未认证WindowsRust server/filled optional conversion date；不冒称本批或candidate06重跑",
+    "ignored": "54 ignored不计真实PG测试通过",
+    "E1": "既有5机器兼容输入419264B/owner Root/2026-11-09期限不自动继承新批许可；若本批实际runner仍用其旧逻辑路径，Root须在G1明确独立续准或迁移canonical+hash。本输入不import/运行这些构造器，也不新建兼容mirror。"
+  },
+  "sourceFingerprintPolicy": "当前Windows checkout原始字节SHA256+bytes；仅read/hash，不声称全部原始换行等于Linux Git blob；跨平台构建输入由Root另冻结",
+  "sourceFingerprints": [
+    {
+      "path": "apps/poms-api-rust/src/customers/http.rs",
+      "bytes": 10470,
+      "sha256": "35d393ec5bcd5d612dc7ceb0198f3a82dfdeb6c825c0466fa972bdfe4316c0e9"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customers/model.rs",
+      "bytes": 6025,
+      "sha256": "1378c80cfcc649c077aba6b7f547d6433381925653a371ad386e823eaabb2f03"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customers/validation.rs",
+      "bytes": 15150,
+      "sha256": "154d838d4d65b87325351dfe8db91ba4fcadd7374f1c6abdc2d72f3a23694824"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customers/service.rs",
+      "bytes": 42427,
+      "sha256": "26f481beae001269c9344e5e7b6a5d4c9cf0e90de61014a0e6d93864190e4596"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customers/store.rs",
+      "bytes": 22461,
+      "sha256": "cc6ed0a14e5d514bfb6dc8fe5e98cc16398922df9cf07d4ce7fe936f56949495"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/http.rs",
+      "bytes": 6112,
+      "sha256": "132a87fa2abc40d564e505ae165cf269b2a258d092521aa1bbeb8a8d3efd4926"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/model.rs",
+      "bytes": 883,
+      "sha256": "4b6b6c1467ee630295f7a7b7e22fd3b2d94e84b96d297e3e39627003dac6375e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/validation.rs",
+      "bytes": 10018,
+      "sha256": "7b891f12e35ddec401d0753eabcc7bd63f32240eccae90ee8d449ac338feb9fd"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/service.rs",
+      "bytes": 14594,
+      "sha256": "d50c63f5a0a198e6cda23097bb161558bedccbac50c0cc028f7516d2511ef39f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/store.rs",
+      "bytes": 5398,
+      "sha256": "dec1ff65841d3564d75ff9ad0d168a04996dcf845f0971608ebff0a3fac835ba"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_follow_up/http.rs",
+      "bytes": 7447,
+      "sha256": "eef374d2e9b8565a2eb7fcc00e013966baa8bbf52ff1f52eb34eb46ece727208"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_follow_up/model.rs",
+      "bytes": 1050,
+      "sha256": "c845f968cf43b7fa4c64388f50ca835c6556f4791f63b8329efad8ac4260bf86"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_follow_up/validation.rs",
+      "bytes": 8741,
+      "sha256": "ad25199c391d8290813e4f2e6ace53e7c1f73db1cc341710a1898c6026ed59ca"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+      "bytes": 35337,
+      "sha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+      "bytes": 19058,
+      "sha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_intelligence/http.rs",
+      "bytes": 8375,
+      "sha256": "034b9bb13fea21003b3a9c01b8b4a05f4beceed65bf60b9a4b7eb8e3fe0c63d8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_intelligence/model.rs",
+      "bytes": 3279,
+      "sha256": "ff7c102aab95f82317c51a1c335b4f8bd8ca31d755f275ac40d141043ace0e98"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_intelligence/validation.rs",
+      "bytes": 23391,
+      "sha256": "fda88e422a29e0b751435e422224ca7972c12b168330735586c5dc777bf6da8d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_intelligence/service.rs",
+      "bytes": 43218,
+      "sha256": "2fbd0bc4533578ad0f5c30628dcd99923998462f1656aeaf26afcb661fd3ab8d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_intelligence/store.rs",
+      "bytes": 15672,
+      "sha256": "be0b547ddf6108813a34d99d6076898d1efa2e47fcc009a5630ea00975d75e4d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/business_discussions/http.rs",
+      "bytes": 3391,
+      "sha256": "b8ce00727edd83624c983aec68a3fa79146508c1941438e9d70de84813395e8b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/business_discussions/model.rs",
+      "bytes": 616,
+      "sha256": "d26023b4e3bd3b70d85c9989fb87e1b399fff24aef37c228178de622d53a9b01"
+    },
+    {
+      "path": "apps/poms-api-rust/src/business_discussions/validation.rs",
+      "bytes": 7680,
+      "sha256": "419a15161571744da11bc32d6786634a5e97bc731a12972695b061c6c47215a7"
+    },
+    {
+      "path": "apps/poms-api-rust/src/business_discussions/service.rs",
+      "bytes": 22466,
+      "sha256": "a3d3b21a62b38e856eb4909bc29f13a567b8093b3c781c5c02246db4c23e58b1"
+    },
+    {
+      "path": "apps/poms-api-rust/src/business_discussions/store.rs",
+      "bytes": 6893,
+      "sha256": "10ae711066c507916d1fa9c2b6c34d1c42ab4e78d92eb2711535e596b11b965b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_technical_cost/http.rs",
+      "bytes": 6679,
+      "sha256": "250ded8424626344ca2c04299b284ba315cbf8b19511792bf992aa3227afc83e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_technical_cost/model.rs",
+      "bytes": 1497,
+      "sha256": "20702d110cfb52757f16988e1c4e1b5b983a66b4c7dc2d8d6af5606d5aaf1cb0"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_technical_cost/validation.rs",
+      "bytes": 22012,
+      "sha256": "9a86fb82a6b98da38cea57ae8d31795c43d5af99dcf83cf82d7a1680633ca639"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_technical_cost/service.rs",
+      "bytes": 26822,
+      "sha256": "eff5b8080332f5bcf3f0001d807cf7ad493eda61423e57f3d25fb599b18d850d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_technical_cost/store.rs",
+      "bytes": 16817,
+      "sha256": "ee6e79427858f7d375a7b9fa77aba5954322d6f432a0a79daf20a81ac3e5aa16"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_bid_commercial/http.rs",
+      "bytes": 6375,
+      "sha256": "da8be0746953b10b4dbaf8f792eef389663f445d1d05591c46c9ed4294e834d9"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_bid_commercial/model.rs",
+      "bytes": 1292,
+      "sha256": "d8c45bff85f58334d31f646f852faea0a188d65a1d0e15958d1b7d2b391ecb63"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_bid_commercial/validation.rs",
+      "bytes": 11290,
+      "sha256": "75b57a103da9971c9ad4bdef63bcf2d917993dc2e8eba609fbb3cd50c57c9bf3"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_bid_commercial/service.rs",
+      "bytes": 16294,
+      "sha256": "134d85d3be8bb169705455ffc92c19145e5f8757652460d22675cc4e8f5ade00"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_bid_commercial/store.rs",
+      "bytes": 14883,
+      "sha256": "ea2a37b7e673a929a4d1f3f9a018663d821869a86b98b194b8db79c119d23d17"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_pricing_margin/http.rs",
+      "bytes": 6365,
+      "sha256": "13c0a3d5abd7dc08c0e70a1ccd8dfc05c52e1d2df733fd6fd7fe7770c265f941"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_pricing_margin/model.rs",
+      "bytes": 1454,
+      "sha256": "e719c3c215a1e0fd05d5a2b6ee3ba67e0bf6bbc9fb1f68b41991b92913b54f45"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_pricing_margin/validation.rs",
+      "bytes": 4697,
+      "sha256": "ca959099458785ec4f41b7d079be0b4a6016087819ef9ab913fce172eaf541df"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+      "bytes": 26660,
+      "sha256": "f6d9738e1a65346ba122f55e1e0b57407d3896b3f0a38ca94565b4051a4f2b78"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_pricing_margin/store.rs",
+      "bytes": 13444,
+      "sha256": "887824eb9c171cf00e2b6de9d9fa9f8be681c9d49949b7fe4e52de898223943a"
+    },
+    {
+      "path": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+      "bytes": 9339,
+      "sha256": "da2f93ccd37bb42444d6bead2a1be95514c3eac10c7ba8845896dd5cab7bcd55"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_workspace/service.rs",
+      "bytes": 19768,
+      "sha256": "63a95b4ae77dcea3b42cbf2082591eaacdcc40831acb1e091b5f6301b8a6a0ee"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_workspace/store.rs",
+      "bytes": 6871,
+      "sha256": "edff5cd3e24e58047a1fcd606895394e64c92a79811ce7ae9b49922ba7397684"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_workspace/guidance.rs",
+      "bytes": 27744,
+      "sha256": "38ac34ca3ec2f24dec684ec4eda1c1c8b0997c5da66b131cc474a7e2866addca"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_workspace/http.rs",
+      "bytes": 3373,
+      "sha256": "bec86b82e612493fe24575cab11d4c83e5475809478d1a4e111d23b5dbd426cd"
+    },
+    {
+      "path": "apps/poms-api-rust/src/leads/service.rs",
+      "bytes": 65162,
+      "sha256": "92337cccccbef402f6d9207d684fb57ad017cca7baf7686239e187a4b51de755"
+    },
+    {
+      "path": "apps/poms-api-rust/src/leads/store.rs",
+      "bytes": 37867,
+      "sha256": "c5c27b3bd9a8643cca3cc78a53ead47e04aae7d484a1ddfeb8b8e517a0ecd5a7"
+    },
+    {
+      "path": "apps/poms-api-rust/src/leads/scoring.rs",
+      "bytes": 16293,
+      "sha256": "7394ca2707330814f13442d4dd8a917ecc4aa39fba59920f99d14f6ff05239fe"
+    },
+    {
+      "path": "apps/poms-api-rust/src/leads/validation.rs",
+      "bytes": 30662,
+      "sha256": "b73f6d20bbff8095b0abf1d197bed272acb40c6fa34d70cd82584ee04f7fd85b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/service.rs",
+      "bytes": 32780,
+      "sha256": "06ee76e45d684df23de9fb7f1d3fcc4d6743bf5c7df7a3d827580e3837b16101"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/store.rs",
+      "bytes": 15141,
+      "sha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/validation.rs",
+      "bytes": 14130,
+      "sha256": "8f4d3e02d30e24601aad8750a541340831309c11220629ce2eab82d2b3da1358"
+    },
+    {
+      "path": "apps/poms-api-rust/src/opportunity_context/store.rs",
+      "bytes": 1514,
+      "sha256": "c9288a84bad0654696e28cd27003d2ee78fbbd95f05d0e7d6346056595ee577d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/opportunity_context/validation.rs",
+      "bytes": 1156,
+      "sha256": "b3b47b9d0919678742acb45d18a348ec78973e24fcdad8fa2ada1f199e647311"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval/domain.rs",
+      "bytes": 26954,
+      "sha256": "8ff262a4abbb55587f60d61add1a3aa7ef17a862a901ec374d92fb570c037f5d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval/service.rs",
+      "bytes": 8961,
+      "sha256": "116abb92571bfb85fe2d7f7a16ba79f3d6844d5e46fdb87cc0479bbcd233796e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval_common/projection.rs",
+      "bytes": 5247,
+      "sha256": "5fc3494362d1a12f41181730d4ddfdc9dd249d6176784dc94265d3af5ec69bda"
+    },
+    {
+      "path": "apps/poms-api-rust/src/main.rs",
+      "bytes": 4444,
+      "sha256": "57eed170423302511910a0f3a72eef73b65ee69df1f0039b7e250cafefa7a50a"
+    },
+    {
+      "path": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 865,
+      "sha256": "24307615446d16ae7e1bddee366207da96a36ac3c90a25e3a160c5c57f87883b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/http.rs",
+      "bytes": 26165,
+      "sha256": "7432c80fa0da0c44660437d803078bdb6ce637af6ac1732249f0364b79e2c1e8"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "bytes": 2360,
+      "sha256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.service.ts",
+      "bytes": 42650,
+      "sha256": "69e51e34a9fbe6c547ec0ddf3e818155829de2b067a51dcf1798b4512e50d323"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.service.ts",
+      "bytes": 18440,
+      "sha256": "f62d1f512bcafac142ba8fafc8e8df4019b8309f87895aa6b9922dabad29ca96"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "bytes": 134217,
+      "sha256": "1f256fd2f2b5d976e3572799193bbebcc867a34cde387ea88b394ebb38493408"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-detail.ts",
+      "bytes": 81589,
+      "sha256": "ed1941e76752f406f08002230b984ebb7fed3c881428ede39f28dcfb92e8273c"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/customer/customer-workspace.ts",
+      "bytes": 46799,
+      "sha256": "520082399aae2fa0e891bbe883cf68828ad684b20080f06340731654a9b3b115"
+    },
+    {
+      "path": "apps/poms-admin/src/app/shared/ui/sales-follow-up-panel.ts",
+      "bytes": 29231,
+      "sha256": "8243a46298ff1e6b53a210fad766bb57eabd28061374e8ea02d9ae4277678784"
+    },
+    {
+      "path": "apps/poms-admin/src/app/shared/ui/sales-intelligence-panel.ts",
+      "bytes": 67799,
+      "sha256": "17cb7484be40693a879fee6eaf2672aea060c1c4889f734d0b0d79231a204502"
+    },
+    {
+      "path": "apps/poms-admin/src/app/shared/ui/business-discussion-panel.ts",
+      "bytes": 12760,
+      "sha256": "f95aeb7b3662b396b4d91ceeb6778f33e1d5c90231288418bf4210e47e78b351"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 435823,
+      "sha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097"
+    },
+    {
+      "path": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 176354,
+      "sha256": "6f859292afa8f5369304ac7e6932ca76000f38b5810135476ec315ff22488668"
+    },
+    {
+      "path": "docs/design/rust-r3hijk-delivery-status.json",
+      "bytes": 20266,
+      "sha256": "485eedbb979c47ff8527c5c9be86d456c05ee7fb8fa994c66f40c87ebc5a051b"
+    },
+    {
+      "path": "docs/design/rust-r3cdefg-delivery-status.json",
+      "bytes": 22800,
+      "sha256": "9bf557558c4867ad64dc99235eac916e7b7a6656e2d861823eedcb801a80f674"
+    },
+    {
+      "path": "docs/design/rust-r3ab-delivery-status.json",
+      "bytes": 6744,
+      "sha256": "f7a6a5644af8b387bdf12ec903ab0c54299042bc023941c47c9d52d60746b85a"
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "bytes": 72948,
+      "sha256": "d88b02cb98ab64aebddd6d2c00e7b6a36401be3eb220d30f8268286a6a599017"
+    },
+    {
+      "path": "docs/design/rust-r3-scope-and-dependencies.md",
+      "bytes": 4525,
+      "sha256": "25d8cf7acdeb3387547568a4d7347e8af72e92ed525534aab74c09d70e5adbfa"
+    },
+    {
+      "path": "docs/design/archive/slices/ex-48-sales-follow-up-change-lifecycle-governance-baseline.md",
+      "bytes": 17159,
+      "sha256": "2bcbeae85207bb328307f99c4202e0909357f7cf5e9b4b1261ebf5800c8fbd33"
+    },
+    {
+      "path": "docs/design/archive/slices/ex-49-sales-follow-up-reminder-todo-governance-baseline.md",
+      "bytes": 15996,
+      "sha256": "c4420c7690440ef920ebd34c4a63f00e20d94dfbcdd8ec7ea53259920fe07deb"
+    },
+    {
+      "path": "docs/design/archive/slices/ex-26-presigning-technical-cost-fact-source-baseline.md",
+      "bytes": 21288,
+      "sha256": "caeb232911e896691a136dfe9b93a7d4e95e6b6ca1a9eba5732d08f90ef5e936"
+    },
+    {
+      "path": "docs/design/archive/slices/ex-27-presigning-bid-commercial-fact-source-baseline.md",
+      "bytes": 20766,
+      "sha256": "1aecde49e13f60b40d524eab7c8283ba8a63dd02e4ad27ebbccdf9e8fd5132eb"
+    },
+    {
+      "path": "docs/design/archive/slices/ex-28-presigning-pricing-margin-fact-source-baseline.md",
+      "bytes": 12457,
+      "sha256": "aff9e4a4cdd547539a1accca828caeb65152eab4f2de7a534b35547c697d6617"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "bytes": 10211,
+      "sha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "bytes": 9479,
+      "sha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd"
+    },
+    {
+      "path": "apps/poms-api-rust/src/lifecycle.rs",
+      "bytes": 5654,
+      "sha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/attachment_storage/obs_s3.rs",
+      "bytes": 43813,
+      "sha256": "858e47a1cfdfba6aadabf3e644ae888466b926bf570cc5ef7f68c5e8102dba3d"
+    },
+    {
+      "path": "apps/poms-api-rust/Cargo.toml",
+      "bytes": 3419,
+      "sha256": "12048cee8734f9df868d7fe0fa4e9cea007cc1e755168edb56106ffaf7140e3e"
+    },
+    {
+      "path": "docs/design/rust-r0-api-contract-inventory.md",
+      "bytes": 37789,
+      "sha256": "1b2d80c10fd6cb0b6336f4024877c1f0880cde521dbb62b5e002ef54d572f6a2"
+    },
+    {
+      "path": "docs/design/rust-r0-environment-inventory.md",
+      "bytes": 54028,
+      "sha256": "4cdb76cf88e2c4eeabd75193f86a81a16aac4f663ac388ee7cf7f93cdcb0d343"
+    }
+  ],
+  "evidenceFingerprints": [
+    {
+      "path": "docs/design/archive/slices/rust-r3ab-closeout.md",
+      "bytes": 4873,
+      "sha256": "a0568bfaa6592feee63b83a774d8adf1e1812db1f474fdd374e7c9500508bae0"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3cdefg-closeout.md",
+      "bytes": 3784,
+      "sha256": "ead75d63d1a6bb0e9b3a47510fdb8a583921a3c8f50f3993d4d2315849d14720"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk-closeout.md",
+      "bytes": 2820,
+      "sha256": "ffc354866bf803a881a0f553de96dc03e1c0fd9753b953b01ffa54c2ed276e22"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/g3-submission02.md",
+      "bytes": 4429,
+      "sha256": "1b9e85b7b7e291409fb761bff14301293e8aa0a21e93f91476088a039de21810"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/C/g3-independent-review02.json",
+      "bytes": 19936,
+      "sha256": "6e9b594d2741cf97b64ba7233451726f7b487b79103bdf3ce5ab8380b32a1c62"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/C/g4-independent-actual-review01.json",
+      "bytes": 22353,
+      "sha256": "ec540fc8c69a3a2030f0d704e6c591ef4b4123f465481557a5781bf6457a6c25"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/business-policy-authority01.json",
+      "bytes": 1117,
+      "sha256": "7cac384b568f41a4cf357754536d7f3dee943a6e13ab82c1bbe3678d4ffb813b"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-55/report01.json",
+      "bytes": 95066,
+      "sha256": "faf3209d9d6b51120152175b949762a7ea5efacf7446d8bacffd533e2b8c9661"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/report01.json",
+      "bytes": 587217,
+      "sha256": "64b2c88a63c3e70af37e023e758032dedab05219ecbb1d6c6266bf22ffe51035"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-57/report01.json",
+      "bytes": 2299954,
+      "sha256": "3ed482c5b663889ad4e049c4b9e04afa471eb98b06fc25ae380b20b5bf2955d4"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-58/report01.json",
+      "bytes": 319514,
+      "sha256": "6ba0305f51c78d778c0495268de858dbb5830d5f8e9a9d5defcb6b1bd3005b70"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-59/report01.json",
+      "bytes": 153886,
+      "sha256": "c26db6578c43eabaa7976bee2c32d5cb38b71b3882dafc7598f81f1a1e9f8cbb"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json",
+      "bytes": 532741,
+      "sha256": "82ca54730ba02adb013ab70ab73ddee2ba26aa1b61b1119cdb477c3d48f6d00f"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-49/report01.json",
+      "bytes": 375204,
+      "sha256": "492d0da3bc34ff8293477bde6971011cb98a2424e84a94c98bdcf06591ccf3d8"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-51/report01.json",
+      "bytes": 655981,
+      "sha256": "fd7be6b98c3118da3ae88d6dad0c2b1def5b2da583ac943d6f68fdc6fc29162a"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate05-52/report01.json",
+      "bytes": 829539,
+      "sha256": "099c755bd44c1b87b31c7239891813153812d089741667860df99697e2b0e535"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-43/report01.json",
+      "bytes": 235952,
+      "sha256": "8e630ac896b2b8a80f1243195d9a689f9cd4b416b95172fc078f1a69d2d39ed6"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate04-44/report01.json",
+      "bytes": 2049405,
+      "sha256": "38d7c15787494ed1533a58a74dfc11b671b14592149eaad89d55979eeb517d22"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate03-31/report01.json",
+      "bytes": 1571753,
+      "sha256": "9019fa45621324e57af0199f7816aae306eb7fc884057d749826ee0612ccf431"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/foundation-business-regression01.mjs",
+      "bytes": 58522,
+      "sha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs",
+      "bytes": 31946,
+      "sha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/b-g2-definitions/intelligence-boundaries01.mjs",
+      "bytes": 18866,
+      "sha256": "301bb3097d1215a3ec6d22862e7868552a3c3afaa6ac850f5e1c6f0664a89114"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/C/fixed-commit-review01.json",
+      "bytes": 8158,
+      "sha256": "759b1d69346e44b6dcdb4bafb4595d7eef9b7701623485561ea7351577641186"
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r3hijk/evidence/c-review/ui-platform-scope-review01.json",
+      "bytes": 16573,
+      "sha256": "750dfdef47cbc67ab4fde668a9ddec45fd8e62c2c331dfd7fb26160bfa8c60f3"
+    }
+  ],
+  "execution": {
+    "sourceReadAndHash": true,
+    "productModified": false,
+    "build": false,
+    "fmt": false,
+    "test": false,
+    "HTTP": false,
+    "DB": false,
+    "browser": false,
+    "WSL": false,
+    "network": false,
+    "oldPrivateRead": false,
+    "GitHubWrites": false,
+    "checksStatus": "G1审计不执行；Root在授权且冻结后统一执行必要检查；尚无本批验证通过声明"
+  },
+  "nextGate": "B输入完成即暂停；独立联合G1及Root线上freeze均满足，Root明确激活并给独立worktree后，才进行已证实最小修复与完整真实验收。",
+  "crossLineContracts": {
+    "A": "A负责Lead单次materialized系统评分/快照同tuple、正常manual tuple复用及用户裁决的历史无snapshot事务内fallback；B提供真实I/F事实且不加自动重算触发。统一链消费A真实转换产物。",
+    "D": "D负责精确当前交付/54 ignored分类和E1 supported replay退出；B只给已有真实source/evidence与same-project闭环，不私自复制或续准旧兼容树。",
+    "Root": "联合baseline docs/design/rust-r3-closeout-baseline.md是Pending候选；Root集中pin避免与作者输入hash循环依赖，真实目录以本输入futureG2ExclusiveDirectories为准。"
+  },
+  "metadataDriftNotes": [
+    "rust-r3-scope-and-dependencies.md/迁移计划上部仍有历史30/58语句；以当前operation inventory delivered58与latest G4收口为当前事实，Root后续同步当前正文，不回写旧frozen原件。",
+    "当前operation inventory nonHttpScope.future仍含lead conversion/domain handlers的旧时点文字，源码+phase61已证明真实转换/附件链交付；不能由旧future标签发明未实现R3 handler或scheduler。"
+  ]
+}

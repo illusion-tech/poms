@@ -201,6 +201,23 @@ pub async fn find_for_override_submission(
     .transpose()
 }
 
+/// Decisions acquire this lock before touching override rows. In particular a
+/// legacy repair never upgrades the submission path's shared Lead lock.
+pub async fn find_for_score_decision(
+    connection: &mut PgConnection,
+    id: &str,
+) -> Result<Option<LeadRow>, sqlx::Error> {
+    sqlx::query(concat!(
+        lead_select!(),
+        "WHERE id=$1::text::uuid LIMIT 1 FOR UPDATE"
+    ))
+    .bind(id)
+    .fetch_optional(connection)
+    .await?
+    .map(lead)
+    .transpose()
+}
+
 pub async fn source_name(
     connection: &mut PgConnection,
     code: &str,
@@ -377,6 +394,36 @@ pub async fn update_lead(
         .build_query_scalar::<i32>()
         .fetch_optional(connection)
         .await?;
+    if let Some(version) = version {
+        row.row_version = version;
+        Ok(true)
+    } else {
+        Ok(false)
+    }
+}
+
+/// A historical missing-tuple repair is a real system-score write, including
+/// its time, actor and version even when the resulting numeric score is equal.
+pub async fn update_recalculated_score(
+    connection: &mut PgConnection,
+    before: &LeadRow,
+    row: &mut LeadRow,
+) -> Result<bool, sqlx::Error> {
+    row.updated_at = clock_now();
+    let version = sqlx::query_scalar::<_, i32>(
+        "UPDATE poms.lead SET score=$1,rating=$2,score_reason=$3,score_updated_at=$4,updated_at=$5,updated_by=$6,row_version=row_version+1 WHERE id=$7 AND row_version=$8 AND status=$9 RETURNING row_version"
+    )
+    .bind(row.score)
+    .bind(&row.rating)
+    .bind(&row.score_reason)
+    .bind(row.score_updated_at)
+    .bind(row.updated_at)
+    .bind(row.updated_by)
+    .bind(row.id)
+    .bind(before.row_version)
+    .bind(&before.status)
+    .fetch_optional(connection)
+    .await?;
     if let Some(version) = version {
         row.row_version = version;
         Ok(true)
@@ -834,6 +881,27 @@ pub async fn latest_system_snapshot(
     .await?
     .map(snapshot)
     .transpose()
+}
+
+/// Return candidate explanations for the actually stored result, newest first.
+/// The service validates formula, component facts and current Lead gates before
+/// accepting one; equal numeric scores alone do not establish a matching tuple.
+pub async fn system_snapshots_for_score(
+    connection: &mut PgConnection,
+    lead: &LeadRow,
+) -> Result<Vec<SnapshotRow>, sqlx::Error> {
+    sqlx::query(concat!(
+        snapshot_select!(),
+        "WHERE lead_id=$1 AND snapshot_kind='system' AND system_score=$2 AND system_rating=$3 ORDER BY created_at DESC"
+    ))
+    .bind(lead.id)
+    .bind(lead.score)
+    .bind(&lead.rating)
+    .fetch_all(connection)
+    .await?
+    .into_iter()
+    .map(snapshot)
+    .collect()
 }
 
 pub async fn snapshots(

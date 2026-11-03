@@ -1,0 +1,113 @@
+{
+  "label": "A.customer.create",
+  "name": "A.customer.create",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.526Z",
+  "completedAt": "2026-11-02T23:01:03.552Z",
+  "validatedEventRange": {
+    "start": 0,
+    "end": 1,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_create",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/customers",
+      "json": {
+        "displayName": "R3HK-5fb76d1a-11 customer",
+        "legalName": "R3HK-5fb76d1a-11 legal",
+        "shortName": "R3HK-5fb76d1a-11 short",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-5fb76d1a-11 original customer"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerNo": "CUST-2026-000004",
+        "displayName": "R3HK-5fb76d1a-11 customer",
+        "legalName": "R3HK-5fb76d1a-11 legal",
+        "shortName": "R3HK-5fb76d1a-11 short",
+        "status": "active",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "sourceChannel": "customer-visit",
+        "remark": "R3HK-5fb76d1a-11 original customer",
+        "mergedIntoCustomerId": null,
+        "rowVersion": 1,
+        "createdAt": "2026-11-02T23:01:03.539Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updatedAt": "2026-11-02T23:01:03.539Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      },
+      "requestId": "a88df0ad-bbe6-45ea-8df3-ff2e4eb948b7",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "618",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-14",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 704,
+        "requestSha256": "786a380d6d96c5a2f03edc749174c97fd367a681d9d0dd0afc4ee2ea19f0bb34",
+        "responseBytes": 902,
+        "responseSha256": "949d027eee44759f3ed490f14ce406738aed34406ee86ad7050ccb8bfce4e7f4",
+        "entityBodyBytes": 618,
+        "entityBodySha256": "c50138e3f4278d98f50dd2be384740137eecd0ea7fe4a7c678004ed0a99a4f64",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-25dd6fd6-a6d5-46f9-bf85-06b51de56f4e",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customer_no": "CUST-2026-000004",
+        "display_name": "R3HK-5fb76d1a-11 customer",
+        "legal_name": "R3HK-5fb76d1a-11 legal",
+        "short_name": "R3HK-5fb76d1a-11 short",
+        "status": "active",
+        "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+        "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "source_channel": "customer-visit",
+        "remark": "R3HK-5fb76d1a-11 original customer",
+        "merged_into_customer_id": null,
+        "row_version": 1,
+        "created_at": "2026-11-02T23:01:03.539Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:03.539Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-01-A.customer.create.json",
+      "bytes": 3749,
+      "rawBytesSha256": "5e6f48e621686f918ee13fefe44dc8cef76bb4e4df5ffc45cc5e2c2d1fe487b8"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

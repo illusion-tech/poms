@@ -1,0 +1,2971 @@
+{
+  "kind": "R3-closeout-D-G2-pure-stage-matrix",
+  "version": "01",
+  "baselineCommit": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "generatedAt": "2026-11-02T22:03:09.3506759Z",
+  "G1CertifiedByD": false,
+  "G2ImplementationAuthorizedByRoot": true,
+  "actualAcceptanceExecuted": false,
+  "sourceReadyOnly": true,
+  "authority": {
+    "jointManifest": {
+      "file": "docs/design/rust-r3m/g1-input-manifest01.json",
+      "bytes": 359370,
+      "rawBytesSha256": "7c41d08b0021ba0c7937948bd61ef990f4b4a7cac7bf4276d736a363a69b749e"
+    },
+    "independentG1": {
+      "file": "docs/design/rust-r3m/C/g1-independent-review01.json",
+      "bytes": 37986,
+      "rawBytesSha256": "2bdc08872f601cd7f14daf30b446a30ec2065b9f5e95fe406d8e0578f0384bfa"
+    },
+    "supplements": [
+      {
+        "file": "docs/design/rust-r3m/g1-root-supplement01.json",
+        "bytes": 1178,
+        "rawBytesSha256": "fa619436efc69714b2057956b558656a544da7905e63d7106bd6f6c9779a4f25"
+      },
+      {
+        "file": "docs/design/rust-r3m/g1-root-supplement02.json",
+        "bytes": 2570,
+        "rawBytesSha256": "625b7da8c6e2eae16f3d8a23b07e579bc391eb8b0b9a0dea23c6971de8086a13"
+      },
+      {
+        "file": "docs/design/rust-r3m/g1-root-supplement03.json",
+        "bytes": 878,
+        "rawBytesSha256": "dd18ba639340d31142140c7ce6458789eab2be3f51224ce799c2295ed031963c"
+      }
+    ],
+    "actualOnlineAuthorityReadFrom": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r3m/g1-gate-authority01.json",
+    "actualOnlineAuthorityObservedTrue": true,
+    "sealedD": {
+      "file": "docs/design/rust-r3m/originals/input-d/g1-input01.json",
+      "bytes": 180328,
+      "rawBytesSha256": "66c8beaf346f56b3e6aed8ea897d2f5003ee4e3938bd36954b55e67d80c9c3bc"
+    },
+    "sealedOldBaselineNotRewritten": true,
+    "currentReconciliationAuthority": "Joint manifest authorInputReconciliation"
+  },
+  "M0": {
+    "uniqueOperations": 58,
+    "A14B38Root6": true,
+    "routeRows": [
+      {
+        "operationId": "BusinessDiscussionController_list",
+        "method": "GET",
+        "canonicalPath": "/api/business-discussions",
+        "scopeOwner": "RUST-R3J",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 95,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+          "line": 14
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 365,
+          "domain": "business-discussion",
+          "capability": "listBusinessDiscussionComments",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "BusinessDiscussionController_create",
+        "method": "POST",
+        "canonicalPath": "/api/business-discussions",
+        "scopeOwner": "RUST-R3J",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 95,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/business-discussion/business-discussion.controller.ts",
+          "line": 27
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 366,
+          "domain": "business-discussion",
+          "capability": "createBusinessDiscussionComment",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CompetitorIntelligenceRecordController_list",
+        "method": "GET",
+        "canonicalPath": "/api/competitor-intelligence-records",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 129
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 358,
+          "domain": "sales-intelligence",
+          "capability": "listCompetitorIntelligenceRecords",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CompetitorIntelligenceRecordController_create",
+        "method": "POST",
+        "canonicalPath": "/api/competitor-intelligence-records",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 140
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 359,
+          "domain": "sales-intelligence",
+          "capability": "createCompetitorIntelligenceRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CompetitorIntelligenceRecordController_update",
+        "method": "PATCH",
+        "canonicalPath": "/api/competitor-intelligence-records/{id}",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 164
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 360,
+          "domain": "sales-intelligence",
+          "capability": "updateCompetitorIntelligenceRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerAliasController_delete",
+        "method": "DELETE",
+        "canonicalPath": "/api/customer-aliases/{id}",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Delete an extra actual owned alias;204 then list confirms absence.",
+        "expectedSuccessfulStatus": 204,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer-alias.controller.ts",
+          "line": 14
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 321,
+          "domain": "customer",
+          "capability": "deleteCustomerAlias",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerContactController_list",
+        "method": "GET",
+        "canonicalPath": "/api/customer-contacts",
+        "scopeOwner": "RUST-R3E",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 90,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 36
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 352,
+          "domain": "sales-intelligence",
+          "capability": "listCustomerContacts",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerContactController_create",
+        "method": "POST",
+        "canonicalPath": "/api/customer-contacts",
+        "scopeOwner": "RUST-R3E",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 90,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 44
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 353,
+          "domain": "sales-intelligence",
+          "capability": "createCustomerContact",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerContactController_update",
+        "method": "PATCH",
+        "canonicalPath": "/api/customer-contacts/{id}",
+        "scopeOwner": "RUST-R3E",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 90,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 65
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 354,
+          "domain": "sales-intelligence",
+          "capability": "updateCustomerContact",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_list",
+        "method": "GET",
+        "canonicalPath": "/api/customers",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 25
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 314,
+          "domain": "customer",
+          "capability": "listCustomers",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_create",
+        "method": "POST",
+        "canonicalPath": "/api/customers",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 39
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 315,
+          "domain": "customer",
+          "capability": "createCustomer",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_getById",
+        "method": "GET",
+        "canonicalPath": "/api/customers/{id}",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 71
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 316,
+          "domain": "customer",
+          "capability": "getCustomer",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_update",
+        "method": "PATCH",
+        "canonicalPath": "/api/customers/{id}",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 79
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 318,
+          "domain": "customer",
+          "capability": "updateCustomer",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_listAliases",
+        "method": "GET",
+        "canonicalPath": "/api/customers/{id}/aliases",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 47
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 319,
+          "domain": "customer",
+          "capability": "listCustomerAliases",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_createAlias",
+        "method": "POST",
+        "canonicalPath": "/api/customers/{id}/aliases",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 55
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 320,
+          "domain": "customer",
+          "capability": "createCustomerAlias",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "CustomerController_getWorkspaceOverview",
+        "method": "GET",
+        "canonicalPath": "/api/customers/{id}/workspace-overview",
+        "scopeOwner": "RUST-R3A",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 86,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "customer:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/customer/customer.controller.ts",
+          "line": 63
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 317,
+          "domain": "customer",
+          "capability": "getCustomerWorkspaceOverview",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadScoreOverrideController_approve",
+        "method": "POST",
+        "canonicalPath": "/api/lead-score-overrides/{id}:approve",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:score:override"
+          ],
+          "any": []
+        },
+        "validScenario": "Approve pending override with fresh versions and consistent materialized/stored score tuple.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 259
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 414,
+          "domain": "lead-scoring",
+          "capability": "approveLeadScoreOverride",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadScoreOverrideController_reject",
+        "method": "POST",
+        "canonicalPath": "/api/lead-score-overrides/{id}:reject",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:score:override"
+          ],
+          "any": []
+        },
+        "validScenario": "Reject separate pending override and retain previous effective score.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 276
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 415,
+          "domain": "lead-scoring",
+          "capability": "rejectLeadScoreOverride",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadScoreOverrideController_revoke",
+        "method": "POST",
+        "canonicalPath": "/api/lead-score-overrides/{id}:revoke",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:score:override"
+          ],
+          "any": []
+        },
+        "validScenario": "Revoke separate approved override and verify system score fallback and consistent explanation.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 293
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 416,
+          "domain": "lead-scoring",
+          "capability": "revokeLeadScoreOverride",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_list",
+        "method": "GET",
+        "canonicalPath": "/api/leads",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 57
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 299,
+          "domain": "lead",
+          "capability": "listLeads",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_create",
+        "method": "POST",
+        "canonicalPath": "/api/leads",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 95
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 298,
+          "domain": "lead",
+          "capability": "createLead",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_getById",
+        "method": "GET",
+        "canonicalPath": "/api/leads/{id}",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 79
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 300,
+          "domain": "lead",
+          "capability": "getLead",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_update",
+        "method": "PATCH",
+        "canonicalPath": "/api/leads/{id}",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 169
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 301,
+          "domain": "lead",
+          "capability": "updateLead",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_assignOwner",
+        "method": "POST",
+        "canonicalPath": "/api/leads/{id}:assignOwner",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:assign"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual distinct active owner assignment with persisted record and full readback.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 151
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 303,
+          "domain": "lead",
+          "capability": "assignLeadOwner",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_claimOwner",
+        "method": "POST",
+        "canonicalPath": "/api/leads/{id}:claim",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Claim an extra eligible unowned Lead and verify ownership record/version/required graph.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 136
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 302,
+          "domain": "lead",
+          "capability": "claimLeadOwner",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_close",
+        "method": "POST",
+        "canonicalPath": "/api/leads/{id}:close",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Close an extra eligible Lead; verify closed reason/status and required snapshot/audit.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 211
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 305,
+          "domain": "lead",
+          "capability": "closeLead",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_convertToProject",
+        "method": "POST",
+        "canonicalPath": "/api/leads/{id}:convertToProject",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write",
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual qualified Lead with local uploaded bytes converts once; verify Project linkage/copy and nonempty ISO datetime.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 228
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 306,
+          "domain": "lead",
+          "capability": "convertLeadToProject",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_qualify",
+        "method": "POST",
+        "canonicalPath": "/api/leads/{id}:qualify",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Qualify using actual gate facts then readback state and score history.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 194
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 304,
+          "domain": "lead",
+          "capability": "qualifyLead",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_getScoreHistory",
+        "method": "GET",
+        "canonicalPath": "/api/leads/{id}/score-history",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 87
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 412,
+          "domain": "lead-scoring",
+          "capability": "listLeadScoreHistory",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "LeadController_submitScoreOverride",
+        "method": "POST",
+        "canonicalPath": "/api/leads/{id}/score-overrides",
+        "scopeOwner": "RUST-R3H",
+        "currentProductOwner": "A#98",
+        "scopedDeliveredIssue": 93,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "lead:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Submit real pending override with fresh expectedLeadRowVersion and registered audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/lead/lead.controller.ts",
+          "line": 119
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 413,
+          "domain": "lead-scoring",
+          "capability": "submitLeadScoreOverride",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "OpportunityStakeholderController_list",
+        "method": "GET",
+        "canonicalPath": "/api/opportunity-stakeholders",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 80
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 355,
+          "domain": "sales-intelligence",
+          "capability": "listOpportunityStakeholders",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "OpportunityStakeholderController_create",
+        "method": "POST",
+        "canonicalPath": "/api/opportunity-stakeholders",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 91
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 356,
+          "domain": "sales-intelligence",
+          "capability": "createOpportunityStakeholder",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "OpportunityStakeholderController_update",
+        "method": "PATCH",
+        "canonicalPath": "/api/opportunity-stakeholders/{id}",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 114
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 357,
+          "domain": "sales-intelligence",
+          "capability": "updateOpportunityStakeholder",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_list",
+        "method": "GET",
+        "canonicalPath": "/api/projects",
+        "scopeOwner": "RUST-R3B",
+        "currentProductOwner": "Root-existing-project-basic6",
+        "scopedDeliveredIssue": 87,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 83
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 307,
+          "domain": "project",
+          "capability": "listProjects",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_create",
+        "method": "POST",
+        "canonicalPath": "/api/projects",
+        "scopeOwner": "RUST-R3B",
+        "currentProductOwner": "Root-existing-project-basic6",
+        "scopedDeliveredIssue": 87,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 194
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 542,
+          "domain": "project",
+          "capability": "createProject",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getByCode",
+        "method": "GET",
+        "canonicalPath": "/api/projects:lookup",
+        "scopeOwner": "RUST-R3B",
+        "currentProductOwner": "Root-existing-project-basic6",
+        "scopedDeliveredIssue": 87,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 353
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 548,
+          "domain": "project",
+          "capability": "getProjectByCode",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getById",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{id}",
+        "scopeOwner": "RUST-R3B",
+        "currentProductOwner": "Root-existing-project-basic6",
+        "scopedDeliveredIssue": 87,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 186
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 230,
+          "domain": "project",
+          "capability": "getProject",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_updateBasicInfo",
+        "method": "PATCH",
+        "canonicalPath": "/api/projects/{id}",
+        "scopeOwner": "RUST-R3B",
+        "currentProductOwner": "Root-existing-project-basic6",
+        "scopedDeliveredIssue": 87,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 318
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 250,
+          "domain": "project",
+          "capability": "updateProject",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_reassignOwner",
+        "method": "POST",
+        "canonicalPath": "/api/projects/{id}:reassignOwner",
+        "scopeOwner": "RUST-R3B",
+        "currentProductOwner": "Root-existing-project-basic6",
+        "scopedDeliveredIssue": 87,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual owner reassignment with fresh expectedVersion, record and persisted Project.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 213
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 308,
+          "domain": "project",
+          "capability": "reassignProjectOwner",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_listProjectBidCommercialProcesses",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/bid-commercial-processes",
+        "scopeOwner": "RUST-R3D",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 89,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 138
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 236,
+          "domain": "project",
+          "capability": "listProjectBidCommercialProcesses",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_createProjectBidCommercialProcess",
+        "method": "POST",
+        "canonicalPath": "/api/projects/{projectId}/bid-commercial-processes",
+        "scopeOwner": "RUST-R3D",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 89,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 288
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 235,
+          "domain": "project",
+          "capability": "createProjectBidCommercialProcess",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/bid-commercial-workspace",
+        "scopeOwner": "RUST-R3D",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 89,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 146
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 237,
+          "domain": "project",
+          "capability": "getProjectBidCommercialWorkspace",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_listProjectPricingMarginReviews",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/pricing-margin-reviews",
+        "scopeOwner": "RUST-R3G",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 92,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 154
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 239,
+          "domain": "project",
+          "capability": "listProjectPricingMarginReviews",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_createProjectPricingMarginReview",
+        "method": "POST",
+        "canonicalPath": "/api/projects/{projectId}/pricing-margin-reviews",
+        "scopeOwner": "RUST-R3G",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 92,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 298
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 238,
+          "domain": "project",
+          "capability": "createProjectPricingMarginReview",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getProjectPricingMarginWorkspace",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/pricing-margin-workspace",
+        "scopeOwner": "RUST-R3G",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 92,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 162
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 240,
+          "domain": "project",
+          "capability": "getProjectPricingMarginWorkspace",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_listProjectTechnicalCostPackages",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/technical-cost-packages",
+        "scopeOwner": "RUST-R3C",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 88,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 170
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 233,
+          "domain": "project",
+          "capability": "listProjectTechnicalCostPackages",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_createProjectTechnicalCostPackage",
+        "method": "POST",
+        "canonicalPath": "/api/projects/{projectId}/technical-cost-packages",
+        "scopeOwner": "RUST-R3C",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 88,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:write"
+          ],
+          "any": []
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 308
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 232,
+          "domain": "project",
+          "capability": "createProjectTechnicalCostPackage",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getProjectTechnicalCostWorkspace",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/technical-cost-workspace",
+        "scopeOwner": "RUST-R3C",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 88,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 178
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 234,
+          "domain": "project",
+          "capability": "getProjectTechnicalCostWorkspace",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getTimeline",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/timeline",
+        "scopeOwner": "RUST-R3K",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 96,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 106
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 241,
+          "domain": "project",
+          "capability": "getProjectTimeline",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "ProjectController_getWorkspaceGuidance",
+        "method": "GET",
+        "canonicalPath": "/api/projects/{projectId}/workspace-guidance",
+        "scopeOwner": "RUST-R3K",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 96,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [
+            "project:read"
+          ],
+          "any": []
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/project/project.controller.ts",
+          "line": 98
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 231,
+          "domain": "project",
+          "capability": "getProjectWorkspaceGuidance",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesDiscoveryRecordController_list",
+        "method": "GET",
+        "canonicalPath": "/api/sales-discovery-records",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 179
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 361,
+          "domain": "sales-intelligence",
+          "capability": "listSalesDiscoveryRecords",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesDiscoveryRecordController_create",
+        "method": "POST",
+        "canonicalPath": "/api/sales-discovery-records",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 190
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 362,
+          "domain": "sales-intelligence",
+          "capability": "createSalesDiscoveryRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesDiscoveryRecordController_update",
+        "method": "PATCH",
+        "canonicalPath": "/api/sales-discovery-records/{id}",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual changed update with fresh required CAS, persisted readback and required registered audit; equal-value/no-op tested separately.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 211
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 363,
+          "domain": "sales-intelligence",
+          "capability": "updateSalesDiscoveryRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesFollowUpController_list",
+        "method": "GET",
+        "canonicalPath": "/api/sales-follow-up-records",
+        "scopeOwner": "RUST-R3F",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 91,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:read",
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+          "line": 15
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 343,
+          "domain": "sales-follow-up",
+          "capability": "listSalesFollowUpRecords",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesFollowUpController_create",
+        "method": "POST",
+        "canonicalPath": "/api/sales-follow-up-records",
+        "scopeOwner": "RUST-R3F",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 91,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual valid create with earlier real producer IDs; check full response, persisted graph, version and required snapshot/audit.",
+        "expectedSuccessfulStatus": 201,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+          "line": 30
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 344,
+          "domain": "sales-follow-up",
+          "capability": "createSalesFollowUpRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesFollowUpController_replace",
+        "method": "POST",
+        "canonicalPath": "/api/sales-follow-up-records/{id}:replace",
+        "scopeOwner": "RUST-R3F",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 91,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Actual changed replacement, current/history versions, required audit and Todo lifecycle.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+          "line": 53
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 345,
+          "domain": "sales-follow-up",
+          "capability": "replaceSalesFollowUpRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesFollowUpController_void",
+        "method": "POST",
+        "canonicalPath": "/api/sales-follow-up-records/{id}:void",
+        "scopeOwner": "RUST-R3F",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 91,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "customer:write",
+            "lead:write",
+            "project:write"
+          ]
+        },
+        "validScenario": "Void an extra active FollowUp and verify actual history/Todo closure.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": true,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.controller.ts",
+          "line": 78
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 346,
+          "domain": "sales-follow-up",
+          "capability": "voidSalesFollowUpRecord",
+          "status": "aligned"
+        }
+      },
+      {
+        "operationId": "SalesIntelligenceGapController_list",
+        "method": "GET",
+        "canonicalPath": "/api/sales-intelligence-gaps",
+        "scopeOwner": "RUST-R3I",
+        "currentProductOwner": "B#99",
+        "scopedDeliveredIssue": 94,
+        "executionOwner": "Root",
+        "permissions": {
+          "all": [],
+          "any": [
+            "lead:read",
+            "project:read"
+          ]
+        },
+        "validScenario": "Successful complete projection over real owned nonempty facts from this candidate; detail target exists.",
+        "expectedSuccessfulStatus": 200,
+        "freshValidReceiptRequired": true,
+        "freshPerRouteMissingSessionAndPermission": true,
+        "freshCSRF": false,
+        "candidateReceipt": null,
+        "source": {
+          "file": "apps/poms-api/src/app/features/sales-intelligence/sales-intelligence.controller.ts",
+          "line": 226
+        },
+        "canonical": {
+          "file": "docs/design/api-route-canonical-inventory.md",
+          "line": 364,
+          "domain": "sales-intelligence",
+          "capability": "getSalesIntelligenceGaps",
+          "status": "aligned"
+        }
+      }
+    ],
+    "successfulReceiptRule": "Every exact operation needs a complete real successful receipt on the final candidate. Denied/empty-only cases cannot replace actual deletion/close/reject/revoke/replace/void/PATCH success or the same converted-Project full chain.",
+    "sharedGuards": "Root covers each distinct dispatch/adapter method,URI,expiry/revoke/disabled classes, full envelopes and zero rejected business deltas."
+  },
+  "journeys": [
+    {
+      "name": "customerJourney",
+      "canonical": {
+        "file": "tools/rust-r3cdefg/customer-journey01.mjs",
+        "bytes": 26295,
+        "rawBytesSha256": "5c46e863feeb77fc0f3772c29ed27665fee56f0fa9e11c700be8407892f7effb"
+      },
+      "supplement": "Current Customer/Contact CAS, UUID identity and other-actor semantic no-op."
+    },
+    {
+      "name": "projectJourney",
+      "canonical": {
+        "file": "tools/rust-r3cdefg/project-journey01.mjs",
+        "bytes": 23214,
+        "rawBytesSha256": "7a18506ed7414fa0e0ca24b0758470a6824f590ccb05937035f0f0a61753d0cc"
+      },
+      "supplement": "Same-candidate actual C/D/G Decimal/current/history and valid operation receipts."
+    },
+    {
+      "name": "leadJourney",
+      "canonical": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/a-ui-definitions/lead-journey02.mjs",
+        "bytes": 22328,
+        "rawBytesSha256": "6219e45e909ec4a01ae3078a5eab99cfee659738a8462c15da422e27f4207a65"
+      },
+      "originalLogical": "tmp/rust-r3hijk/a-ui-definitions/lead-journey02.mjs",
+      "supplement": "New pure supplement for nonempty plannedSignAt; all four platform cells; original bytes unchanged."
+    },
+    {
+      "name": "intelligenceDiscussionJourney",
+      "canonical": {
+        "file": "docs/design/archive/slices/rust-r3hijk/evidence/b-ui-definitions/intelligence-discussion-journey02.mjs",
+        "bytes": 31946,
+        "rawBytesSha256": "a65ec8b419b2a3dfe4c6636f14f486afb630af79d5bf7adab3d29809cb2fb51a"
+      },
+      "originalLogical": "tmp/rust-r3hijk/b-ui-definitions/intelligence-discussion-journey02.mjs",
+      "supplement": "Current I/F/J/K producers and consumers; absent controls remain absent."
+    }
+  ],
+  "platformCells": [
+    "Linux browser to Linux Native",
+    "Linux browser to Linux Rust",
+    "Windows browser to Windows Native",
+    "Windows browser to Linux Rust"
+  ],
+  "journeyCellsRequired": 16,
+  "filledPlannedSignAtConversionsRequired": 4,
+  "WindowsRustNativeServerCertified": false,
+  "sourceImpact": {
+    "DOnlyAddsE1SupportAndPureDefinitions": true,
+    "noProductNativeContractClientMigrationOrOldToolChanges": true,
+    "protected1373IsMixedSet": true,
+    "expectedRootUIChanges": [
+      "apps/poms-admin/src/app/features/lead/lead-list.ts",
+      "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+    ],
+    "currentOtherProtectedMatchRequired": true,
+    "freshRootUnifiedRuntime": "Rust173/138/585,Native291/237/585,client579,migrations92",
+    "historicalReuse": "Only exact raw hash plus dependency impact; retain old candidate/platform/failure/partial labels. Current actual stage required separately.",
+    "AChange": "Single materialized system tuple; manual/revoked matching stored tuple; user historical missing snapshot fallback sameTX system+manual. Fresh affected score triggers/real facts/concurrency and every required failure path.",
+    "BChange": "Customer/Contact CAS409, real SQL500 rollback, customer different-actor equal-value no-op, UUID organization identity/name; fresh actual conflicts/no-op/GET projection.",
+    "RootUIChange": "Actual rebuilt UI Date.toISOString; four filled-date cells, blank/null and other date-only regressions. Shared DTO unchanged."
+  },
+  "ignoredSummary": {
+    "total": 54,
+    "DBOptIn": 53,
+    "explicitChildFixture": 1,
+    "DChangedIgnoreFiles": false,
+    "DBReuse": "No D changes. Root checks final dependency impact and prior exact-source execution; opt-in default ignored is never pass. Mandatory current R3 real PG/HTTP evidence always separate.",
+    "child": "Current successful nonignored blocking_worker_does_not_extend_process_shutdown parent proves explicit --ignored --exact child execution; never relabel independent default ignored as pass."
+  },
+  "ignored": [
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 186,
+      "test": "async fn credentials_profile_permissions_and_memberships_use_real_rows() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 229,
+      "test": "async fn create_session_defaults_hashes_caps_and_timestamp_precision() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 288,
+      "test": "async fn exact_expiry_disabled_and_missing_errors_preserve_source_write_order() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 315,
+      "test": "async fn throttle_exact_boundary_coalesces_ip_and_caps_renewal() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 372,
+      "test": "async fn csrf_rotation_and_anonymous_expiry_are_distinct_from_session_caps() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 413,
+      "test": "async fn atomic_concurrent_touch_rotate_revoke_keep_legacy_guards() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 512,
+      "test": "async fn logout_and_batch_revoke_count_only_status_active_even_if_time_expired() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 575,
+      "test": "async fn independent_audit_failure_does_not_rollback_session_and_explicit_audit_tx_can_rollback() {",
+      "reason": "#[ignore = \"explicit controlled PG15: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 668,
+      "test": "async fn real_original_mikroorm_writer_and_sqlx_writer_interoperate_bidirectionally() {",
+      "reason": "#[ignore = \"explicit controlled PG15 and Node24: no silent skip without R1C opt-in\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 749,
+      "test": "async fn actual_session_guard_default_deny_all_any_override_and_wrong_method_effects() {",
+      "reason": "#[ignore = \"explicit controlled PG15: actual session to guarded MethodRouter and audit\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_database.rs",
+      "line": 818,
+      "test": "async fn managed_session_audit_flush_is_local_optimistic_and_atomic_after_raw_commit() {",
+      "reason": "#[ignore = \"explicit controlled PG15: original managed snapshot plus audit flush transaction\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_database.rs",
+        "bytes": 43422,
+        "rawBytesSha256": "5c6f093838be86578611b508ccc846b566b3d6e482bc255382b8ccc22ad7d90b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/auth_projection_db.rs",
+      "line": 18,
+      "test": "async fn projection_appends_one_batch_event_and_propagates_real_insert_failure()",
+      "reason": "#[ignore = \"requires check.sh db and dedicated marked PG15\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/auth_projection_db.rs",
+        "bytes": 3121,
+        "rawBytesSha256": "f4b05f7f0a1f661b5896d9b61fd9d10b125348157e8ca7fd2273ca5aa6efe223"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 261,
+      "test": "async fn every_connection_and_replacement_has_timezone_schema_and_runtime_identity() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 309,
+      "test": "async fn exhausted_pool_times_out_and_recovers_after_release() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 346,
+      "test": "async fn explicit_error_and_drop_rollbacks_leave_no_rows_or_transaction() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 425,
+      "test": "async fn server_statement_timeout_returns_57014_and_discards_connection() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 465,
+      "test": "async fn client_deadline_quarantines_connection_and_server_work_is_bounded() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 508,
+      "test": "async fn externally_cancelled_future_cannot_return_its_connection_to_pool() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 565,
+      "test": "async fn failed_initializer_never_borrows_an_uninitialized_connection() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/database.rs",
+      "line": 600,
+      "test": "async fn bounded_close_prevents_new_borrows_and_releases_existing_backend() {",
+      "reason": "#[ignore = \"isolated PG15: explicit POMS_R1A_DATABASE_TEST=1 and guarded URL required\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/database.rs",
+        "bytes": 22387,
+        "rawBytesSha256": "ca16c0f9456b1d34393601a2d51d1a2ca0cde9f070e9b40c0788308d64895649"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 309,
+      "test": "async fn four_real_usage_tables_dirty_noop_and_active_item_semantics() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+        "bytes": 26521,
+        "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 431,
+      "test": "async fn registered_setting_noop_audit_and_separate_audit_failure_commit() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+        "bytes": 26521,
+        "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 547,
+      "test": "async fn nine_scopes_borrowed_rollback_utc_and_int4_overflow() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+        "bytes": 26521,
+        "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+      "line": 625,
+      "test": "async fn journalled_concurrency_and_default_connection_consumption() {",
+      "reason": "#[ignore = \"explicit root-owned R2EF PG15 fixture only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/e_foundation_database.rs",
+        "bytes": 26521,
+        "rawBytesSha256": "317d032c497794bc1f987ddcffe647156a10e545a0b10df354c6832fee11a67b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "line": 370,
+      "test": "async fn navigation_audit_without_pending_preserves_session_and_all_twelve_columns() {",
+      "reason": "#[ignore = \"explicit R2A PG15: real audit insert, full wire snapshot and non-due session\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+        "bytes": 19687,
+        "rawBytesSha256": "78a8c93814e038b097464267ac889b0af20a1fdc96b9aca02a43fa7f2f64e8ea"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "line": 405,
+      "test": "async fn navigation_audit_commits_due_flush_once_after_raw_touch() {",
+      "reason": "#[ignore = \"explicit R2A PG15: raw due touch then business audit plus managed CAS commit\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+        "bytes": 19687,
+        "rawBytesSha256": "78a8c93814e038b097464267ac889b0af20a1fdc96b9aca02a43fa7f2f64e8ea"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+      "line": 443,
+      "test": "async fn navigation_audit_failures_preserve_raw_commit_and_rollback_the_insert() {",
+      "reason": "#[ignore = \"explicit R2A PG15: 22001 and late CAS failure roll back audit flush only\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/navigation_audit_db.rs",
+        "bytes": 19687,
+        "rawBytesSha256": "78a8c93814e038b097464267ac889b0af20a1fdc96b9aca02a43fa7f2f64e8ea"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 456,
+      "test": "async fn organization_defaults_noops_ids_and_mutable_code_are_persisted() {",
+      "reason": "#[ignore = \"explicit R2C PG15: business/audit, no-op session, strict IDs and mutable code\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 536,
+      "test": "async fn mixed_cascade_changes_only_dirty_rows_and_audits_all_affected_in_list_order() {",
+      "reason": "#[ignore = \"explicit R2C PG15: mixed cascade, inactive descendants, hierarchy and audit arrays\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 682,
+      "test": "async fn surrogate_storage_audit_and_repeated_dirty_updates_keep_their_boundaries() {",
+      "reason": "#[ignore = \"explicit R2C PG15: UTF16 response versus PG text and separate audit failure\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 739,
+      "test": "async fn stale_batch_version_preflight_rolls_back_all_dirty_orgs_and_pending_session() {",
+      "reason": "#[ignore = \"explicit R2C PG15: stale batch precheck rolls back the same session transaction\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 801,
+      "test": "async fn stale_pending_session_stops_the_business_flush_before_org_update() {",
+      "reason": "#[ignore = \"explicit R2C PG15: stale managed-session CAS prevents the later organization write\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 847,
+      "test": "async fn explicit_and_default_display_order_overflow_are_storage_failures() {",
+      "reason": "#[ignore = \"explicit R2C PG15: explicit and default int4 overflows preserve raw session touch\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/org_units_database.rs",
+      "line": 902,
+      "test": "async fn alias_hydration_preserves_cached_nullable_fields_and_fresh_versions() {",
+      "reason": "#[ignore = \"explicit R2C PG15: real reads/shared hydration; not an HTTP two-SELECT barrier\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/org_units_database.rs",
+        "bytes": 37152,
+        "rawBytesSha256": "4681b0497fa59159781f46fa39cb0f9c64d9eb623b0f8bfab6ef1a7c19f55ef6"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/process_runtime.rs",
+      "line": 15,
+      "test": "fn blocking_child_fixture() -> Result<(), Box<dyn Error>> {",
+      "reason": "#[ignore = \"child fixture: explicitly executed by blocking_worker_does_not_extend_process_shutdown\"]",
+      "class": "explicit-child-fixture-invoked-by-parent",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/process_runtime.rs",
+        "bytes": 3403,
+        "rawBytesSha256": "da4f7d93649ec8351e1ce835a3b008ca39b9080e6172d62365634ed24da75c0b"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 492,
+      "test": "async fn role_business_and_audit_flushes_preserve_defaults_versions_and_noop_boundaries() {",
+      "reason": "#[ignore = \"explicit R2B PG15: create, dirty/no-op role flushes and twelve audit columns\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 532,
+      "test": "async fn business_failure_keeps_only_the_preexisting_raw_session_touch() {",
+      "reason": "#[ignore = \"explicit R2B PG15: int4 overflow rolls back the first flush and preserves raw touch\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 556,
+      "test": "async fn name_and_key_surrogate_audit_failures_preserve_first_flush_rows() {",
+      "reason": "#[ignore = \"explicit R2B PG15: raw UTF16 create commits before separate JSONB audit failure\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 588,
+      "test": "async fn description_surrogate_returns_original_code_units_then_each_dirty_update_commits() {",
+      "reason": "#[ignore = \"explicit R2B PG15: original surrogate response and repeated dirty update partial commits\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 641,
+      "test": "async fn request_role_snapshot_preserves_early_detail_and_fresh_list_except_nullable_description() {",
+      "reason": "#[ignore = \"explicit R2B PG15: guard Role snapshot, list null hydration and stale role CAS rollback\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 667,
+      "test": "async fn stale_session_flush_rolls_back_the_role_insert_and_skips_audit() {",
+      "reason": "#[ignore = \"explicit R2B PG15: late managed session CAS rolls back a role inserted earlier in the transaction\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 699,
+      "test": "async fn permission_replacement_preserves_history_and_changes_existing_sessions_immediately() {",
+      "reason": "#[ignore = \"explicit R2B PG15: permission history, audit-only no-op and immediate existing-session permissions\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/roles_database.rs",
+      "line": 886,
+      "test": "async fn historical_permissions_and_unknown_system_role_are_not_silently_filtered_or_protected() {",
+      "reason": "#[ignore = \"explicit R2B PG15: historical raw keys, inactive-user counts and exact known-system minimum boundary\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/roles_database.rs",
+        "bytes": 38500,
+        "rawBytesSha256": "fbb3a8cce18cf466b5494877453289d0e60d74a49e7d3543457afca62963b205"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 477,
+      "test": "async fn concurrent_commands_keep_managed_cas_and_do_not_strengthen_noop_windows() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W14 dirty CAS and weak no-op/same-primary windows using owned test-only row locks\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 540,
+      "test": "async fn owner_and_user_projections_preserve_microseconds_fallback_and_unknown_memberships() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W15 microsecond sort keys, ties, inactive candidates and duplicate role names\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 648,
+      "test": "async fn encoding_failures_preserve_the_two_distinct_flush_boundaries() {",
+      "reason": "#[ignore = \"explicit R2D PG15: complete W06 observations from retained failed remaining01 report\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 680,
+      "test": "async fn pending_session_cas_rolls_back_business_but_does_not_restore_native_deleted_history() {",
+      "reason": "#[ignore = \"explicit R2D PG15: complete W12 observations, pending session CAS rollback after split deletes\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 775,
+      "test": "async fn path_aliases_preserve_raw_audit_identity_and_body_aliases_fail_before_delete() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W10 PostgreSQL UUID aliases remain distinct from strict JS reference maps\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 867,
+      "test": "async fn reactivation_does_not_revive_used_revoked_session_and_roles_refresh_on_next_request() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W11 two pre-existing sessions and permission refresh at next authorization\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 993,
+      "test": "async fn create_preserves_generated_id_child_failure_and_session_flush_order() {",
+      "reason": "#[ignore = \"explicit R2D PG15: original W01 seven shapes, with non-due and due first flush\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1073,
+      "test": "async fn profile_patch_preserves_noops_verified_resets_audits_and_overflow() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W02 dirty/no-op patches, contact verification and overflow rollback\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1108,
+      "test": "async fn replacements_preserve_history_delete_commits_and_membership_projection() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W04/W05 nativeDelete history and failed duplicate replacement\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1205,
+      "test": "async fn self_snapshot_retains_audit_values_while_nonnull_hydration_refreshes_response() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W07 self nullable identity-map and audit/response snapshots\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "line": 1275,
+      "test": "async fn activation_ignores_command_fields_preserves_noops_and_defers_session_revoke() {",
+      "reason": "#[ignore = \"explicit R2D PG15: W03 toggles/noops/raw entity and lazy current-session invalidation\"]",
+      "class": "controlled-DB-PG15-opt-in",
+      "baselineSource": {
+        "file": "apps/poms-api-rust/tests/users_database.rs",
+        "bytes": 56451,
+        "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+      },
+      "DChangesThisSource": false,
+      "defaultIgnoredNotPass": true,
+      "freshExecutionReceipt": null
+    }
+  ],
+  "E1Pending": {
+    "RootOnlyActualExecution": true,
+    "legacyConsumers": 23,
+    "newLiteralFile": "tools/rust-r3m/e1-registry01.mjs",
+    "newLiteralClass": "Logical identity registry, not direct alias-payload consumer",
+    "legacySourcesRawImmutable": true,
+    "beforeReplay": null,
+    "negativeIndexAndReadCaseReceipts": null,
+    "RootRemovesExactlyFiveAliases": null,
+    "afterAliasAbsentReplay": null,
+    "fourDeterministicBuilderSHAs": null,
+    "canonicalMapAndFiveRawPinsUnchanged": null,
+    "legacy23RawPinsUnchanged": null,
+    "noNewMirrorOrAlias": null,
+    "owner": "Root /root",
+    "deadline": "2026-11-09",
+    "deadlineExtended": false,
+    "mustExitBeforeCurrentG3": true,
+    "E1Exited": false
+  },
+  "G3Pending": [
+    {
+      "caseId": "M0-entry58",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M0-guards",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M1-customer-to-score",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M1-direct-score-approval",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M1-conversion-real-attachments",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M2-project-pricing-history",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M2-follow-up-discussion-workspace",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M3-required-write-rollback",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M3-cas-noop-concurrency",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M4-four-journeys-four-platform-cells",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M4-plannedSignAt-nonempty",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M5-e1-strict-resolver",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M5-e1-representative-actual-replay",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M5-source-build-contract-integrity",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M5-terminal-and-gates",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/acceptance-cases01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M1-score-materialized-tuple",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/score-cases-addendum01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M1-manual-stored-tuple-after-new-I-facts",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/score-cases-addendum01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    },
+    {
+      "caseId": "M3-historical-missing-matching-system-snapshot",
+      "definitionSource": "docs/design/rust-r3m/originals/input-d/score-cases-addendum01.json",
+      "actualOwner": "Root",
+      "status": "Pending-actual-final-candidate-execution",
+      "receipt": null
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false,
+  "stage85Closed": false,
+  "overall57MustRemainOpen": true
+}

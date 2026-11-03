@@ -1,0 +1,2676 @@
+{
+  "label": "B.contact-cas",
+  "name": "B.contact-cas",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:30:47.689Z",
+  "completedAt": "2026-11-02T23:30:47.756Z",
+  "validatedEventRange": {
+    "start": 11,
+    "end": 13,
+    "exclusive": true
+  },
+  "value": {
+    "requests": [
+      {
+        "actor": "admin",
+        "method": "PATCH",
+        "path": "/api/customer-contacts/9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+        "headers": {
+          "x-request-id": "r3b:R3CO-5fb76d1a-17:contact-cas-0"
+        },
+        "json": {
+          "title": "R3CO-5fb76d1a-17 contact-cas winner-0"
+        }
+      },
+      {
+        "actor": "other",
+        "method": "PATCH",
+        "path": "/api/customer-contacts/9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+        "headers": {
+          "x-request-id": "r3b:R3CO-5fb76d1a-17:contact-cas-1"
+        },
+        "json": {
+          "title": "R3CO-5fb76d1a-17 contact-cas winner-1"
+        }
+      }
+    ],
+    "race": {
+      "waitingBeforeRelease": 2,
+      "waiters": [
+        {
+          "pid": 435,
+          "query": "UPDATE poms.customer_contact SET title=$1,updated_by=$2,updated_at=$3,row_version=row_version+1 WHERE id=$4 AND row_version=$5 RETURNING row_version",
+          "txid": "1727",
+          "wait_event_type": "Lock",
+          "wait_event": "tuple"
+        },
+        {
+          "pid": 436,
+          "query": "UPDATE poms.customer_contact SET title=$1,updated_at=$2,row_version=row_version+1 WHERE id=$3 AND row_version=$4 RETURNING row_version",
+          "txid": "1726",
+          "wait_event_type": "Lock",
+          "wait_event": "transactionid"
+        }
+      ],
+      "observation": {
+        "admin": {
+          "id": "0e962c8d-fe45-4124-8cbb-3de527c07a82",
+          "user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "status": "active",
+          "idle_expires_at": "2026-11-02T23:45:47.708Z",
+          "absolute_expires_at": "2026-11-03T07:30:47.307Z",
+          "last_seen_at": "2026-11-02T23:30:47.708Z",
+          "last_ip": "127.0.0.1",
+          "row_version": 3,
+          "updated_at": "2026-11-02T23:30:47.708Z"
+        },
+        "other": {
+          "id": "1d742726-cca9-4983-9342-4a924c4013d8",
+          "user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "status": "active",
+          "idle_expires_at": "2026-11-02T23:45:47.708Z",
+          "absolute_expires_at": "2026-11-03T07:30:47.330Z",
+          "last_seen_at": "2026-11-02T23:30:47.708Z",
+          "last_ip": "127.0.0.1",
+          "row_version": 4,
+          "updated_at": "2026-11-02T23:30:47.708Z"
+        }
+      },
+      "responses": [
+        {
+          "status": 200,
+          "body": {
+            "createdAt": "2026-11-02T23:30:47.428Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "customerId": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "customerName": "R3CO B-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "department": null,
+            "email": null,
+            "gender": "unknown",
+            "id": "9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+            "mobile": null,
+            "name": "R3CO B-repair",
+            "remark": null,
+            "rowVersion": 2,
+            "status": "active",
+            "title": "R3CO-5fb76d1a-17 contact-cas winner-0",
+            "updatedAt": "2026-11-02T23:30:47.722Z",
+            "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "wechat": null,
+            "workPhone": null
+          },
+          "requestId": "r3b:R3CO-5fb76d1a-17:contact-cas-0",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "558",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-238",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 23:30:47 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 495,
+            "requestSha256": "bfca9769f68535ad8f382afbbe93f589af4509486387012e5982ffeb31ca0d18",
+            "responseBytes": 838,
+            "responseSha256": "c3c0f03f08ad9095a3e8f1e0d4597d23121a0cb5035b88ea05cb63c52d4fde03",
+            "entityBodyBytes": 558,
+            "entityBodySha256": "116db78d49fd30d41eb91e1fdeb65cd23c918f32304206455e979404d4f631c6",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase17/raw-wire/admin-11e2599c-7ec6-4e70-abe5-1f7678d24f31",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "CustomerContact 9d60f62a-4731-4563-b2fd-c7d27290a7c7 has been modified; refresh and retry",
+            "statusCode": 409
+          },
+          "requestId": "r3b:R3CO-5fb76d1a-17:contact-cas-1",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "139",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-239",
+            "connection",
+            "close",
+            "date",
+            "Mon, 02 Nov 2026 23:30:47 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 495,
+            "requestSha256": "b85372e23544135322a50e8754c6d97e40e8b995ed1d9fb05c79e4836ea78427",
+            "responseBytes": 425,
+            "responseSha256": "de751d3a1c75df28b40c133c306e05c8218dd2779b21551990edea8817440850",
+            "entityBodyBytes": 139,
+            "entityBodySha256": "77f763d11daef8685148a5de8064d96e7280d51de7f7117514d69376c20ef6f8",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase17/raw-wire/other-0aea01f4-4dab-4675-86b4-9d5d66d773aa",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "beforeRows": {
+        "customer": [
+          {
+            "id": "11000000-0000-4000-8000-000000000001",
+            "customer_no": "CUST-2026-000001",
+            "display_name": "华南地铁集团",
+            "legal_name": "华南地铁集团有限公司",
+            "short_name": "华南地铁",
+            "status": "active",
+            "owner_org_id": null,
+            "owner_user_id": null,
+            "source_channel": "seed",
+            "remark": null,
+            "merged_into_customer_id": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T21:58:40.843Z",
+            "created_by": "00000000-0000-4000-8000-000000000003",
+            "updated_at": "2026-11-02T21:58:40.843Z",
+            "updated_by": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "11000000-0000-4000-8000-000000000002",
+            "customer_no": "CUST-2026-000002",
+            "display_name": "北城建设集团",
+            "legal_name": "北城建设集团有限公司",
+            "short_name": "北城建设",
+            "status": "active",
+            "owner_org_id": null,
+            "owner_user_id": null,
+            "source_channel": "seed",
+            "remark": null,
+            "merged_into_customer_id": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T21:58:40.849Z",
+            "created_by": "00000000-0000-4000-8000-000000000004",
+            "updated_at": "2026-11-02T21:58:40.849Z",
+            "updated_by": "00000000-0000-4000-8000-000000000004"
+          },
+          {
+            "id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "customer_no": "CUST-2026-000005",
+            "display_name": "R3CO B-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "legal_name": null,
+            "short_name": null,
+            "status": "active",
+            "owner_org_id": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+            "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "source_channel": null,
+            "remark": "R3CO-5fb76d1a-17 customer-cas winner-1",
+            "merged_into_customer_id": null,
+            "row_version": 4,
+            "created_at": "2026-11-02T23:30:47.415Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:30:47.644Z",
+            "updated_by": "97e8f948-bcba-45bf-aabc-757232934bd9"
+          },
+          {
+            "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "customer_no": "CUST-2026-000004",
+            "display_name": "R3HK-5fb76d1a-11 customer revised",
+            "legal_name": null,
+            "short_name": "R3HK-5fb76d1a-11 short",
+            "status": "active",
+            "owner_org_id": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+            "owner_user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "source_channel": "customer-visit",
+            "remark": "R3HK-5fb76d1a-11 customer revised remark",
+            "merged_into_customer_id": null,
+            "row_version": 2,
+            "created_at": "2026-11-02T23:01:03.539Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:03.674Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customer_no": "CUST-2026-000003",
+            "display_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "legal_name": null,
+            "short_name": null,
+            "status": "active",
+            "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+            "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "source_channel": null,
+            "remark": null,
+            "merged_into_customer_id": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T22:57:44.712Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T22:57:44.712Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          }
+        ],
+        "customer_alias": [
+          {
+            "id": "1d2dc32d-c075-4119-947f-30c3454fb1cf",
+            "customer_id": "11000000-0000-4000-8000-000000000002",
+            "alias_name": "北城建设集团",
+            "alias_type": "alias",
+            "normalized_name": "北城建设集团",
+            "is_primary": true,
+            "created_at": "2026-11-02T21:58:40.852Z",
+            "created_by": "00000000-0000-4000-8000-000000000004"
+          },
+          {
+            "id": "70c8712e-5031-45eb-a529-1c377257db8d",
+            "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "alias_name": "R3HK-5fb76d1a-11 customer",
+            "alias_type": "alias",
+            "normalized_name": "r3hk-5fb76d1a-11 customer",
+            "is_primary": true,
+            "created_at": "2026-11-02T23:01:03.539Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "be019a93-d989-4ad4-a6dd-8a1a45ac4aad",
+            "customer_id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "alias_name": "R3CO B-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "alias_type": "alias",
+            "normalized_name": "r3co b-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "is_primary": true,
+            "created_at": "2026-11-02T23:30:47.415Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "cb7db02f-0745-4e8f-988f-9105a726062f",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "alias_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "alias_type": "alias",
+            "normalized_name": "r3co stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "is_primary": true,
+            "created_at": "2026-11-02T22:57:44.712Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "d35d5042-a951-4702-a6eb-b12a96b47622",
+            "customer_id": "11000000-0000-4000-8000-000000000001",
+            "alias_name": "华南地铁集团",
+            "alias_type": "alias",
+            "normalized_name": "华南地铁集团",
+            "is_primary": true,
+            "created_at": "2026-11-02T21:58:40.846Z",
+            "created_by": "00000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "customer_contact": [
+          {
+            "id": "0a502535-05cc-4d7d-b3e8-d20cbfe852a9",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "name": "R3CO actual contact",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T22:57:44.728Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T22:57:44.728Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "female"
+          },
+          {
+            "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+            "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "name": "R3HK-5fb76d1a-11 contact",
+            "department": null,
+            "title": "项目采购",
+            "work_phone": null,
+            "mobile": "01000000000",
+            "wechat": null,
+            "email": "regression@example.com",
+            "remark": "R3HK-5fb76d1a-11 updated contact",
+            "status": "active",
+            "row_version": 2,
+            "created_at": "2026-11-02T23:01:04.134Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:04.168Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "male"
+          },
+          {
+            "id": "71c904b7-2c2e-454c-9504-7c1dccd4eb09",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "name": "R3CO chain-contact",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T23:01:16.672Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:16.672Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "unknown"
+          },
+          {
+            "id": "9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+            "customer_id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "name": "R3CO B-repair",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T23:30:47.428Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:30:47.428Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "unknown"
+          },
+          {
+            "id": "c9fcafa4-1db9-40d8-9cfd-257df22f8360",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "name": "R3CO I-typed",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T23:01:11.537Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:11.537Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "unknown"
+          }
+        ],
+        "audit_log": [
+          {
+            "id": "033878ed-86c2-494a-b35b-646a92a03325",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "04b8728b-1ac8-4e6b-98bb-e6c30a577e92",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "leadName": "R3CO real-integration"
+            },
+            "after_snapshot": {
+              "leadName": "真实联合集成线索😀"
+            },
+            "metadata": {
+              "changedFields": [
+                "leadName"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "9c8ee7d5-0925-4239-81ad-846d8ece760f"
+              },
+              "expectedVersion": null
+            },
+            "occurred_at": "2026-11-02T23:01:17.076Z"
+          },
+          {
+            "id": "04b5294f-3f0d-4e52-8281-fc3b83720be8",
+            "event_type": "competitor-intelligence.updated",
+            "target_type": "competitor-intelligence",
+            "target_id": "73716a9e-705d-4926-9797-c7b48a189541",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "45f8f218-1dfc-44ab-a792-8292d00cc56d",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "evidence": {
+                "length": 34,
+                "changed": true,
+                "present": true
+              },
+              "ourRisks": {
+                "length": 31,
+                "changed": true,
+                "present": true
+              },
+              "position": "active-competitor",
+              "ourAdvantages": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              },
+              "competitorName": "Actual competitor",
+              "winProbability": "medium",
+              "customerPreference": "neutral",
+              "competitorStrengths": {
+                "length": 35,
+                "changed": true,
+                "present": true
+              },
+              "competitorWeaknesses": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              }
+            },
+            "after_snapshot": {
+              "evidence": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              },
+              "ourRisks": {
+                "length": 33,
+                "changed": true,
+                "present": true
+              },
+              "position": "incumbent",
+              "ourAdvantages": {
+                "length": 38,
+                "changed": true,
+                "present": true
+              },
+              "competitorName": "R3CO actual revised revised",
+              "winProbability": "high",
+              "customerPreference": "toward-us",
+              "competitorStrengths": {
+                "length": 37,
+                "changed": true,
+                "present": true
+              },
+              "competitorWeaknesses": {
+                "length": 38,
+                "changed": true,
+                "present": true
+              }
+            },
+            "metadata": {
+              "changedFields": [
+                "competitorName",
+                "position",
+                "customerPreference",
+                "competitorStrengths",
+                "competitorWeaknesses",
+                "ourAdvantages",
+                "ourRisks",
+                "winProbability",
+                "evidence"
+              ],
+              "sourceCommand": "update-competitor-intelligence-record",
+              "redactedFields": [
+                "competitorStrengths",
+                "competitorWeaknesses",
+                "ourAdvantages",
+                "ourRisks",
+                "evidence"
+              ],
+              "businessContext": {
+                "leadId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+                "projectId": null,
+                "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+              }
+            },
+            "occurred_at": "2026-11-02T23:20:21.997Z"
+          },
+          {
+            "id": "06bfefff-8f0d-4ef1-bcc2-ca448a87b734",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "5a117d05-03e3-48ac-ab5b-91f281a29b79",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "0a074f7b-9a56-45ec-b3d9-f97982de0da1",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "791a05ec-e3a5-4100-8d8c-323a40956ef9",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.190Z"
+          },
+          {
+            "id": "14791a9b-22d0-41a1-b1e3-0e9073c28620",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "e3fbeb21-9010-4cf3-9a21-5806833d6431",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "543f8bd3-f87c-4e73-bb48-eb68ae7faa57",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "1d55ba21-dbab-4651-92f7-b41a7101eeb2",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.037Z"
+          },
+          {
+            "id": "1e1df2e6-f1f0-4947-ad00-759ca1c69c29",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "61c70020-f8d8-430f-b958-5a2f2db90564",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "efe20319-5266-4f1c-89f5-7c7ad81daa8b",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 34,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:16.794Z"
+          },
+          {
+            "id": "297d69bf-6f1c-45d0-9c4a-2f6e6ffafe74",
+            "event_type": "lead-score-override.revoked",
+            "target_type": "lead-score-override",
+            "target_id": "de2e1de0-e03a-4630-983c-07d1831070d1",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "46619cbe-c40e-4da0-8a42-811e84bbdea2",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "revokeReason": "人工调整依据已失效，恢复系统评分。"
+            },
+            "occurred_at": "2026-11-02T23:20:21.976Z"
+          },
+          {
+            "id": "2df80b59-6648-41c8-b3c6-9accde3d52fd",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "2bec8da1-ab8d-43a3-ad9f-ec0a8577c61e",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "1339ef92-ac88-4d16-a288-4c89f9b8641c",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "internal-assessment",
+              "fileName": "R3CO-internal-assessment.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 45,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "sensitive",
+              "uploadSessionId": "f7f8ac8b-c9a6-4d11-be9d-f2728080e96b"
+            },
+            "occurred_at": "2026-11-02T23:01:17.052Z"
+          },
+          {
+            "id": "38d157fb-f550-4fb3-90ec-78cdce2eef7f",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "de2e1de0-e03a-4630-983c-07d1831070d1",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "19394d1e-ddde-44f7-a7e4-bdd2059be5df",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:20:21.954Z"
+          },
+          {
+            "id": "3ebb26bb-3c25-4a13-b790-37f64a5d83a1",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "791fed11-62f5-4ffc-9a67-d66f74ac43cd",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "6b077447-40df-454b-8aa4-ee3c4e79baf8",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "leadName": "R3CO semantic-dedup"
+            },
+            "after_snapshot": {
+              "leadName": "业务名称变更"
+            },
+            "metadata": {
+              "changedFields": [
+                "leadName"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "791fed11-62f5-4ffc-9a67-d66f74ac43cd"
+              },
+              "expectedVersion": null
+            },
+            "occurred_at": "2026-11-02T23:01:10.607Z"
+          },
+          {
+            "id": "4b080b9c-42b1-4e36-970d-764634bcc0e2",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "92e06524-31fe-43f6-9603-1fd14794e69e",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "a91566a8-7ffb-4788-a55c-d010aa4cd880",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "quotation",
+              "fileName": "R3CO-quotation.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 35,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "sensitive",
+              "uploadSessionId": "02bbbe70-d47f-4966-87e1-ee1a2dd4e703"
+            },
+            "occurred_at": "2026-11-02T23:01:16.917Z"
+          },
+          {
+            "id": "528334e6-95de-4845-9daf-451a10980883",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "791fed11-62f5-4ffc-9a67-d66f74ac43cd",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "c3bef2c8-b88a-49de-b2de-d5f2031741b8",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "budgetStatus": "budget-confirmed"
+            },
+            "after_snapshot": {
+              "budgetStatus": "unknown"
+            },
+            "metadata": {
+              "changedFields": [
+                "budgetStatus"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "791fed11-62f5-4ffc-9a67-d66f74ac43cd"
+              },
+              "expectedVersion": null
+            },
+            "occurred_at": "2026-11-02T23:01:10.647Z"
+          },
+          {
+            "id": "57f99b92-88fa-480f-87a1-9e54d4ba6ca5",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "84764fe0-95e2-42ac-8732-141d7469791a",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "1a49f93b-c762-4227-99d6-9f4781f469bd",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.381Z"
+          },
+          {
+            "id": "58437c4e-a9ca-4451-8fbe-6a540b067934",
+            "event_type": "customer.alias.deleted",
+            "target_type": "customer",
+            "target_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "d3d602d8-c848-498b-aac1-c6371c7bbfc6",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "aliasId": "c372dd38-e754-406a-a6a1-c912bf3a11ef",
+              "aliasName": "R3HK-5fb76d1a-11 procurement alias",
+              "aliasType": "alias",
+              "createdAt": "2026-11-02T23:01:03.600Z",
+              "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+              "isPrimary": false,
+              "normalizedName": "r3hk-5fb76d1a-11 procurement alias"
+            },
+            "after_snapshot": null,
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "occurred_at": "2026-11-02T23:01:03.640Z"
+          },
+          {
+            "id": "7be7f978-daa9-4e71-995f-16fc97fbd230",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "84764fe0-95e2-42ac-8732-141d7469791a",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "5d7a8997-731c-4869-889f-b793cafbfb58",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "approvalNote": "已核实人工评估依据。",
+              "requestedScore": 85,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:01:11.397Z"
+          },
+          {
+            "id": "7bf91f19-036a-4c5a-a1e7-a76ac9bda1a5",
+            "event_type": "customer-contact.updated",
+            "target_type": "customer-contact",
+            "target_id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "d0911652-fad6-4a3e-83b4-c50780078589",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "title": "采购负责人",
+              "gender": "female",
+              "remark": {
+                "length": 32,
+                "changed": true,
+                "present": true
+              },
+              "department": "业务"
+            },
+            "after_snapshot": {
+              "title": "项目采购",
+              "gender": "male",
+              "remark": {
+                "length": 32,
+                "changed": true,
+                "present": true
+              },
+              "department": null
+            },
+            "metadata": {
+              "changedFields": [
+                "gender",
+                "department",
+                "title",
+                "remark"
+              ],
+              "sourceCommand": "update-customer-contact",
+              "redactedFields": [
+                "remark"
+              ],
+              "businessContext": {
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3"
+              }
+            },
+            "occurred_at": "2026-11-02T23:01:04.167Z"
+          },
+          {
+            "id": "7e3baa74-e210-44c9-9a50-a4be168e8630",
+            "event_type": "sales-follow-up.replaced",
+            "target_type": "sales-follow-up-record",
+            "target_id": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "af865b5c-1854-4dbc-8c3e-29b70256e546",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "after": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "waiting-customer",
+                "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T01:00:00.000Z",
+                "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+                "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+                "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+              },
+              "before": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "progress",
+                "summary": "R3HK-5fb76d1a-11 original follow-up",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T00:00:00.000Z",
+                "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": null,
+                "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+                "replacementReason": null
+              },
+              "replacementId": "7e870ef8-b1b3-4a16-9919-4eae7caa7772",
+              "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+            },
+            "occurred_at": "2026-11-02T23:01:04.269Z"
+          },
+          {
+            "id": "a5832383-bb21-42ee-95f2-22176db274a4",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "2c83ca16-41c1-45b9-960f-4aec12b5be86",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "ca27330d-96f9-4955-b63d-da3cb023b517",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 33,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:16.943Z"
+          },
+          {
+            "id": "a6864ece-fd6e-4472-a5da-d230f5c98651",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "15ce82ad-f61d-4c95-bbc1-768b0e07c53d",
+            "operator_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "request_id": "e68b6b0f-9d83-41c1-8ed8-53f0f1584820",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "leadName": "R3CO single-CAS"
+            },
+            "after_snapshot": {
+              "leadName": "single-CAS other"
+            },
+            "metadata": {
+              "changedFields": [
+                "leadName"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "15ce82ad-f61d-4c95-bbc1-768b0e07c53d"
+              },
+              "expectedVersion": 1
+            },
+            "occurred_at": "2026-11-02T23:01:11.327Z"
+          },
+          {
+            "id": "a718c45b-6f14-4272-a080-98cd856f4490",
+            "event_type": "attachment.link_copied_to_project",
+            "target_type": "attachment",
+            "target_id": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": null,
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "to": {
+                "targetId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+                "targetType": "project"
+              },
+              "from": {
+                "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+                "targetType": "lead"
+              },
+              "copiedCount": 2,
+              "relationType": "source"
+            },
+            "occurred_at": "2026-11-02T23:01:17.274Z"
+          },
+          {
+            "id": "afa6d704-8545-446f-8213-71b493af9eac",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "022620da-f91e-4313-ba47-d55303dc2500",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "4bc89c1e-5b00-411e-bc3d-223728289d20",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "proposal",
+              "fileName": "R3CO-proposal.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 34,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "internal",
+              "uploadSessionId": "61c70020-f8d8-430f-b958-5a2f2db90564"
+            },
+            "occurred_at": "2026-11-02T23:01:16.845Z"
+          },
+          {
+            "id": "b143ae4a-55cc-4294-b93d-080aef4be365",
+            "event_type": "sales-follow-up.voided",
+            "target_type": "sales-follow-up-record",
+            "target_id": "7e870ef8-b1b3-4a16-9919-4eae7caa7772",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "1ebedaa3-8cb0-4bf3-8d18-e6c25179911d",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "after": {
+                "leadId": null,
+                "status": "voided",
+                "outcome": "waiting-customer",
+                "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+                "voidedAt": "2026-11-02T23:01:04.396Z",
+                "voidedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T01:00:00.000Z",
+                "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+                "rowVersion": 2,
+                "voidReason": "R3HK-5fb76d1a-11 withdraw follow-up",
+                "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+                "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+                "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+              },
+              "before": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "waiting-customer",
+                "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T01:00:00.000Z",
+                "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+                "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+                "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+              },
+              "reason": "R3HK-5fb76d1a-11 withdraw follow-up"
+            },
+            "occurred_at": "2026-11-02T23:01:04.403Z"
+          },
+          {
+            "id": "b28d4ebb-ad26-45f7-b496-5bdd85cc1c9e",
+            "event_type": "sales-discovery-record.updated",
+            "target_type": "sales-discovery-record",
+            "target_id": "e72af20a-f8ac-486d-aaee-f14c59a4a252",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "f8df57c7-0cfc-488f-b4eb-3d314b8283bc",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "remark": {
+                "length": 31,
+                "changed": true,
+                "present": true
+              },
+              "budgetSource": {
+                "length": 31,
+                "changed": true,
+                "present": true
+              },
+              "decisionCycle": {
+                "length": 30,
+                "changed": true,
+                "present": true
+              },
+              "nextContactPlan": {
+                "length": 37,
+                "changed": true,
+                "present": true
+              },
+              "customerPainPoints": {
+                "length": 29,
+                "changed": true,
+                "present": true
+              },
+              "procurementProcess": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              }
+            },
+            "after_snapshot": {
+              "remark": {
+                "length": 34,
+                "changed": true,
+                "present": true
+              },
+              "budgetSource": {
+                "length": 34,
+                "changed": true,
+                "present": true
+              },
+              "decisionCycle": {
+                "length": 33,
+                "changed": true,
+                "present": true
+              },
+              "nextContactPlan": {
+                "length": 40,
+                "changed": true,
+                "present": true
+              },
+              "customerPainPoints": {
+                "length": 32,
+                "changed": true,
+                "present": true
+              },
+              "procurementProcess": {
+                "length": 39,
+                "changed": true,
+                "present": true
+              }
+            },
+            "metadata": {
+              "changedFields": [
+                "procurementProcess",
+                "budgetSource",
+                "customerPainPoints",
+                "decisionCycle",
+                "nextContactPlan",
+                "remark"
+              ],
+              "sourceCommand": "update-sales-discovery-record",
+              "redactedFields": [
+                "procurementProcess",
+                "budgetSource",
+                "customerPainPoints",
+                "decisionCycle",
+                "nextContactPlan",
+                "remark"
+              ],
+              "businessContext": {
+                "leadId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+                "projectId": null,
+                "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+              }
+            },
+            "occurred_at": "2026-11-02T23:20:22.023Z"
+          },
+          {
+            "id": "c2537068-e8ba-46a3-a0da-a11e064db51c",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "d93a9d0a-3c44-433a-bc5a-4dbeacbab775",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "dc41100e-aff5-4fac-850d-58a93141dcbf",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:20:21.932Z"
+          },
+          {
+            "id": "cccf3f73-1033-4a10-aba1-5e5c5118c6b6",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "4d6e0987-78f5-4bf1-bc6f-cde852c165c4",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "2c8f0d43-244a-457a-b4db-3a9d7d8962a3",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "requestedScore": 95,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.413Z"
+          },
+          {
+            "id": "d2a15324-b978-4908-98e2-aa87993b8350",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "de2e1de0-e03a-4630-983c-07d1831070d1",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "775a3c17-a741-4e82-b167-e1337e99c3c3",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "approvalNote": "已核实人工评估依据。",
+              "requestedScore": 85,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:20:21.965Z"
+          },
+          {
+            "id": "d3aefb2e-2e13-46e8-aba7-2bb86f02f2b5",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "8fda953f-a489-4f3d-b1b3-1d038399ac50",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "f4131a18-2a34-4c81-a316-7ebe69248a5c",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "327cab0e-7633-4af7-9260-944b2aa0ae22",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.116Z"
+          },
+          {
+            "id": "d57d1342-37bc-4c85-853d-d34f047c8ec4",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "f7f8ac8b-c9a6-4d11-be9d-f2728080e96b",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "8c925079-c54c-41f0-bef3-e0442bde729f",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 45,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:17.014Z"
+          },
+          {
+            "id": "e3b7ebb2-4a43-4ea3-aeb4-8b130139c076",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "58b58b8a-1109-4843-91d8-fb131c414006",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "0f344719-1365-4138-8ebf-324a590dd826",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "finance",
+              "fileName": "R3CO-finance.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 33,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "sensitive",
+              "uploadSessionId": "2c83ca16-41c1-45b9-960f-4aec12b5be86"
+            },
+            "occurred_at": "2026-11-02T23:01:16.987Z"
+          },
+          {
+            "id": "e6683494-5bad-4df2-b377-d61f73148ac8",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "5a117d05-03e3-48ac-ab5b-91f281a29b79",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "4ce26f35-816b-4156-a7e5-e88d256de4d4",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "791a05ec-e3a5-4100-8d8c-323a40956ef9",
+              "approvalNote": "已核实人工评估依据。",
+              "requestedScore": 85,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:01:11.204Z"
+          },
+          {
+            "id": "f7e8fefc-3064-43b2-aef5-efbf746b881e",
+            "event_type": "lead-score-override.rejected",
+            "target_type": "lead-score-override",
+            "target_id": "d93a9d0a-3c44-433a-bc5a-4dbeacbab775",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "aa728109-f306-44d2-8f06-1d909c1cea24",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "rejectReason": "现有依据不足以支持人工调整。"
+            },
+            "occurred_at": "2026-11-02T23:20:21.944Z"
+          },
+          {
+            "id": "f97ee0ce-cca5-4963-b18a-b32632260f93",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "02bbbe70-d47f-4966-87e1-ee1a2dd4e703",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "78a2194c-c1b7-44ee-b10d-87bfc259da62",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 35,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:16.875Z"
+          },
+          {
+            "id": "fc788d0c-7d43-41ee-95af-c6e7f56de7b1",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "4d6e0987-78f5-4bf1-bc6f-cde852c165c4",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "2002a79a-b4c9-4cee-bb26-aa14b74caaa0",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "approvalNote": "业务并发审批 admin",
+              "requestedScore": 95,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:01:11.480Z"
+          }
+        ]
+      },
+      "lockSourceId": "9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+      "lockTable": "poms.customer_contact",
+      "afterRows": {
+        "customer": [
+          {
+            "id": "11000000-0000-4000-8000-000000000001",
+            "customer_no": "CUST-2026-000001",
+            "display_name": "华南地铁集团",
+            "legal_name": "华南地铁集团有限公司",
+            "short_name": "华南地铁",
+            "status": "active",
+            "owner_org_id": null,
+            "owner_user_id": null,
+            "source_channel": "seed",
+            "remark": null,
+            "merged_into_customer_id": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T21:58:40.843Z",
+            "created_by": "00000000-0000-4000-8000-000000000003",
+            "updated_at": "2026-11-02T21:58:40.843Z",
+            "updated_by": "00000000-0000-4000-8000-000000000003"
+          },
+          {
+            "id": "11000000-0000-4000-8000-000000000002",
+            "customer_no": "CUST-2026-000002",
+            "display_name": "北城建设集团",
+            "legal_name": "北城建设集团有限公司",
+            "short_name": "北城建设",
+            "status": "active",
+            "owner_org_id": null,
+            "owner_user_id": null,
+            "source_channel": "seed",
+            "remark": null,
+            "merged_into_customer_id": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T21:58:40.849Z",
+            "created_by": "00000000-0000-4000-8000-000000000004",
+            "updated_at": "2026-11-02T21:58:40.849Z",
+            "updated_by": "00000000-0000-4000-8000-000000000004"
+          },
+          {
+            "id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "customer_no": "CUST-2026-000005",
+            "display_name": "R3CO B-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "legal_name": null,
+            "short_name": null,
+            "status": "active",
+            "owner_org_id": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+            "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "source_channel": null,
+            "remark": "R3CO-5fb76d1a-17 customer-cas winner-1",
+            "merged_into_customer_id": null,
+            "row_version": 4,
+            "created_at": "2026-11-02T23:30:47.415Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:30:47.644Z",
+            "updated_by": "97e8f948-bcba-45bf-aabc-757232934bd9"
+          },
+          {
+            "id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "customer_no": "CUST-2026-000004",
+            "display_name": "R3HK-5fb76d1a-11 customer revised",
+            "legal_name": null,
+            "short_name": "R3HK-5fb76d1a-11 short",
+            "status": "active",
+            "owner_org_id": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+            "owner_user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "source_channel": "customer-visit",
+            "remark": "R3HK-5fb76d1a-11 customer revised remark",
+            "merged_into_customer_id": null,
+            "row_version": 2,
+            "created_at": "2026-11-02T23:01:03.539Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:03.674Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customer_no": "CUST-2026-000003",
+            "display_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "legal_name": null,
+            "short_name": null,
+            "status": "active",
+            "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+            "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "source_channel": null,
+            "remark": null,
+            "merged_into_customer_id": null,
+            "row_version": 1,
+            "created_at": "2026-11-02T22:57:44.712Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T22:57:44.712Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          }
+        ],
+        "customer_alias": [
+          {
+            "id": "1d2dc32d-c075-4119-947f-30c3454fb1cf",
+            "customer_id": "11000000-0000-4000-8000-000000000002",
+            "alias_name": "北城建设集团",
+            "alias_type": "alias",
+            "normalized_name": "北城建设集团",
+            "is_primary": true,
+            "created_at": "2026-11-02T21:58:40.852Z",
+            "created_by": "00000000-0000-4000-8000-000000000004"
+          },
+          {
+            "id": "70c8712e-5031-45eb-a529-1c377257db8d",
+            "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "alias_name": "R3HK-5fb76d1a-11 customer",
+            "alias_type": "alias",
+            "normalized_name": "r3hk-5fb76d1a-11 customer",
+            "is_primary": true,
+            "created_at": "2026-11-02T23:01:03.539Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "be019a93-d989-4ad4-a6dd-8a1a45ac4aad",
+            "customer_id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "alias_name": "R3CO B-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "alias_type": "alias",
+            "normalized_name": "r3co b-repair 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "is_primary": true,
+            "created_at": "2026-11-02T23:30:47.415Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "cb7db02f-0745-4e8f-988f-9105a726062f",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "alias_name": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "alias_type": "alias",
+            "normalized_name": "r3co stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "is_primary": true,
+            "created_at": "2026-11-02T22:57:44.712Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+          },
+          {
+            "id": "d35d5042-a951-4702-a6eb-b12a96b47622",
+            "customer_id": "11000000-0000-4000-8000-000000000001",
+            "alias_name": "华南地铁集团",
+            "alias_type": "alias",
+            "normalized_name": "华南地铁集团",
+            "is_primary": true,
+            "created_at": "2026-11-02T21:58:40.846Z",
+            "created_by": "00000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "customer_contact": [
+          {
+            "id": "0a502535-05cc-4d7d-b3e8-d20cbfe852a9",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "name": "R3CO actual contact",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T22:57:44.728Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T22:57:44.728Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "female"
+          },
+          {
+            "id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+            "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "name": "R3HK-5fb76d1a-11 contact",
+            "department": null,
+            "title": "项目采购",
+            "work_phone": null,
+            "mobile": "01000000000",
+            "wechat": null,
+            "email": "regression@example.com",
+            "remark": "R3HK-5fb76d1a-11 updated contact",
+            "status": "active",
+            "row_version": 2,
+            "created_at": "2026-11-02T23:01:04.134Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:04.168Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "male"
+          },
+          {
+            "id": "71c904b7-2c2e-454c-9504-7c1dccd4eb09",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "name": "R3CO chain-contact",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T23:01:16.672Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:16.672Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "unknown"
+          },
+          {
+            "id": "9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+            "customer_id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1",
+            "name": "R3CO B-repair",
+            "department": null,
+            "title": "R3CO-5fb76d1a-17 contact-cas winner-0",
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 2,
+            "created_at": "2026-11-02T23:30:47.428Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:30:47.722Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "unknown"
+          },
+          {
+            "id": "c9fcafa4-1db9-40d8-9cfd-257df22f8360",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "name": "R3CO I-typed",
+            "department": null,
+            "title": null,
+            "work_phone": null,
+            "mobile": null,
+            "wechat": null,
+            "email": null,
+            "remark": null,
+            "status": "active",
+            "row_version": 1,
+            "created_at": "2026-11-02T23:01:11.537Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-02T23:01:11.537Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "gender": "unknown"
+          }
+        ],
+        "audit_log": [
+          {
+            "id": "033878ed-86c2-494a-b35b-646a92a03325",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "04b8728b-1ac8-4e6b-98bb-e6c30a577e92",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "leadName": "R3CO real-integration"
+            },
+            "after_snapshot": {
+              "leadName": "真实联合集成线索😀"
+            },
+            "metadata": {
+              "changedFields": [
+                "leadName"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "9c8ee7d5-0925-4239-81ad-846d8ece760f"
+              },
+              "expectedVersion": null
+            },
+            "occurred_at": "2026-11-02T23:01:17.076Z"
+          },
+          {
+            "id": "04b5294f-3f0d-4e52-8281-fc3b83720be8",
+            "event_type": "competitor-intelligence.updated",
+            "target_type": "competitor-intelligence",
+            "target_id": "73716a9e-705d-4926-9797-c7b48a189541",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "45f8f218-1dfc-44ab-a792-8292d00cc56d",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "evidence": {
+                "length": 34,
+                "changed": true,
+                "present": true
+              },
+              "ourRisks": {
+                "length": 31,
+                "changed": true,
+                "present": true
+              },
+              "position": "active-competitor",
+              "ourAdvantages": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              },
+              "competitorName": "Actual competitor",
+              "winProbability": "medium",
+              "customerPreference": "neutral",
+              "competitorStrengths": {
+                "length": 35,
+                "changed": true,
+                "present": true
+              },
+              "competitorWeaknesses": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              }
+            },
+            "after_snapshot": {
+              "evidence": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              },
+              "ourRisks": {
+                "length": 33,
+                "changed": true,
+                "present": true
+              },
+              "position": "incumbent",
+              "ourAdvantages": {
+                "length": 38,
+                "changed": true,
+                "present": true
+              },
+              "competitorName": "R3CO actual revised revised",
+              "winProbability": "high",
+              "customerPreference": "toward-us",
+              "competitorStrengths": {
+                "length": 37,
+                "changed": true,
+                "present": true
+              },
+              "competitorWeaknesses": {
+                "length": 38,
+                "changed": true,
+                "present": true
+              }
+            },
+            "metadata": {
+              "changedFields": [
+                "competitorName",
+                "position",
+                "customerPreference",
+                "competitorStrengths",
+                "competitorWeaknesses",
+                "ourAdvantages",
+                "ourRisks",
+                "winProbability",
+                "evidence"
+              ],
+              "sourceCommand": "update-competitor-intelligence-record",
+              "redactedFields": [
+                "competitorStrengths",
+                "competitorWeaknesses",
+                "ourAdvantages",
+                "ourRisks",
+                "evidence"
+              ],
+              "businessContext": {
+                "leadId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+                "projectId": null,
+                "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+              }
+            },
+            "occurred_at": "2026-11-02T23:20:21.997Z"
+          },
+          {
+            "id": "06bfefff-8f0d-4ef1-bcc2-ca448a87b734",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "5a117d05-03e3-48ac-ab5b-91f281a29b79",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "0a074f7b-9a56-45ec-b3d9-f97982de0da1",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "791a05ec-e3a5-4100-8d8c-323a40956ef9",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.190Z"
+          },
+          {
+            "id": "14791a9b-22d0-41a1-b1e3-0e9073c28620",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "e3fbeb21-9010-4cf3-9a21-5806833d6431",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "543f8bd3-f87c-4e73-bb48-eb68ae7faa57",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "1d55ba21-dbab-4651-92f7-b41a7101eeb2",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.037Z"
+          },
+          {
+            "id": "1e1df2e6-f1f0-4947-ad00-759ca1c69c29",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "61c70020-f8d8-430f-b958-5a2f2db90564",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "efe20319-5266-4f1c-89f5-7c7ad81daa8b",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 34,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:16.794Z"
+          },
+          {
+            "id": "1eb27626-7306-40b5-89cf-e3a5971cb2ba",
+            "event_type": "customer-contact.updated",
+            "target_type": "customer-contact",
+            "target_id": "9d60f62a-4731-4563-b2fd-c7d27290a7c7",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "r3b:R3CO-5fb76d1a-17:contact-cas-0",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "title": null
+            },
+            "after_snapshot": {
+              "title": "R3CO-5fb76d1a-17 contact-cas winner-0"
+            },
+            "metadata": {
+              "changedFields": [
+                "title"
+              ],
+              "sourceCommand": "update-customer-contact",
+              "redactedFields": [],
+              "businessContext": {
+                "customerId": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1"
+              }
+            },
+            "occurred_at": "2026-11-02T23:30:47.720Z"
+          },
+          {
+            "id": "297d69bf-6f1c-45d0-9c4a-2f6e6ffafe74",
+            "event_type": "lead-score-override.revoked",
+            "target_type": "lead-score-override",
+            "target_id": "de2e1de0-e03a-4630-983c-07d1831070d1",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "46619cbe-c40e-4da0-8a42-811e84bbdea2",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "revokeReason": "人工调整依据已失效，恢复系统评分。"
+            },
+            "occurred_at": "2026-11-02T23:20:21.976Z"
+          },
+          {
+            "id": "2df80b59-6648-41c8-b3c6-9accde3d52fd",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "2bec8da1-ab8d-43a3-ad9f-ec0a8577c61e",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "1339ef92-ac88-4d16-a288-4c89f9b8641c",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "internal-assessment",
+              "fileName": "R3CO-internal-assessment.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 45,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "sensitive",
+              "uploadSessionId": "f7f8ac8b-c9a6-4d11-be9d-f2728080e96b"
+            },
+            "occurred_at": "2026-11-02T23:01:17.052Z"
+          },
+          {
+            "id": "38d157fb-f550-4fb3-90ec-78cdce2eef7f",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "de2e1de0-e03a-4630-983c-07d1831070d1",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "19394d1e-ddde-44f7-a7e4-bdd2059be5df",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:20:21.954Z"
+          },
+          {
+            "id": "3ebb26bb-3c25-4a13-b790-37f64a5d83a1",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "791fed11-62f5-4ffc-9a67-d66f74ac43cd",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "6b077447-40df-454b-8aa4-ee3c4e79baf8",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "leadName": "R3CO semantic-dedup"
+            },
+            "after_snapshot": {
+              "leadName": "业务名称变更"
+            },
+            "metadata": {
+              "changedFields": [
+                "leadName"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "791fed11-62f5-4ffc-9a67-d66f74ac43cd"
+              },
+              "expectedVersion": null
+            },
+            "occurred_at": "2026-11-02T23:01:10.607Z"
+          },
+          {
+            "id": "4b080b9c-42b1-4e36-970d-764634bcc0e2",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "92e06524-31fe-43f6-9603-1fd14794e69e",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "a91566a8-7ffb-4788-a55c-d010aa4cd880",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "quotation",
+              "fileName": "R3CO-quotation.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 35,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "sensitive",
+              "uploadSessionId": "02bbbe70-d47f-4966-87e1-ee1a2dd4e703"
+            },
+            "occurred_at": "2026-11-02T23:01:16.917Z"
+          },
+          {
+            "id": "528334e6-95de-4845-9daf-451a10980883",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "791fed11-62f5-4ffc-9a67-d66f74ac43cd",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "c3bef2c8-b88a-49de-b2de-d5f2031741b8",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "budgetStatus": "budget-confirmed"
+            },
+            "after_snapshot": {
+              "budgetStatus": "unknown"
+            },
+            "metadata": {
+              "changedFields": [
+                "budgetStatus"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "791fed11-62f5-4ffc-9a67-d66f74ac43cd"
+              },
+              "expectedVersion": null
+            },
+            "occurred_at": "2026-11-02T23:01:10.647Z"
+          },
+          {
+            "id": "57f99b92-88fa-480f-87a1-9e54d4ba6ca5",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "84764fe0-95e2-42ac-8732-141d7469791a",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "1a49f93b-c762-4227-99d6-9f4781f469bd",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.381Z"
+          },
+          {
+            "id": "58437c4e-a9ca-4451-8fbe-6a540b067934",
+            "event_type": "customer.alias.deleted",
+            "target_type": "customer",
+            "target_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "d3d602d8-c848-498b-aac1-c6371c7bbfc6",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "aliasId": "c372dd38-e754-406a-a6a1-c912bf3a11ef",
+              "aliasName": "R3HK-5fb76d1a-11 procurement alias",
+              "aliasType": "alias",
+              "createdAt": "2026-11-02T23:01:03.600Z",
+              "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+              "isPrimary": false,
+              "normalizedName": "r3hk-5fb76d1a-11 procurement alias"
+            },
+            "after_snapshot": null,
+            "metadata": {
+              "sourceCommand": "delete-customer-alias"
+            },
+            "occurred_at": "2026-11-02T23:01:03.640Z"
+          },
+          {
+            "id": "7be7f978-daa9-4e71-995f-16fc97fbd230",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "84764fe0-95e2-42ac-8732-141d7469791a",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "5d7a8997-731c-4869-889f-b793cafbfb58",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "approvalNote": "已核实人工评估依据。",
+              "requestedScore": 85,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:01:11.397Z"
+          },
+          {
+            "id": "7bf91f19-036a-4c5a-a1e7-a76ac9bda1a5",
+            "event_type": "customer-contact.updated",
+            "target_type": "customer-contact",
+            "target_id": "3beb5fa8-4f4f-480d-b6e9-35d588b8eb49",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "d0911652-fad6-4a3e-83b4-c50780078589",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "title": "采购负责人",
+              "gender": "female",
+              "remark": {
+                "length": 32,
+                "changed": true,
+                "present": true
+              },
+              "department": "业务"
+            },
+            "after_snapshot": {
+              "title": "项目采购",
+              "gender": "male",
+              "remark": {
+                "length": 32,
+                "changed": true,
+                "present": true
+              },
+              "department": null
+            },
+            "metadata": {
+              "changedFields": [
+                "gender",
+                "department",
+                "title",
+                "remark"
+              ],
+              "sourceCommand": "update-customer-contact",
+              "redactedFields": [
+                "remark"
+              ],
+              "businessContext": {
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3"
+              }
+            },
+            "occurred_at": "2026-11-02T23:01:04.167Z"
+          },
+          {
+            "id": "7e3baa74-e210-44c9-9a50-a4be168e8630",
+            "event_type": "sales-follow-up.replaced",
+            "target_type": "sales-follow-up-record",
+            "target_id": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "af865b5c-1854-4dbc-8c3e-29b70256e546",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "after": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "waiting-customer",
+                "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T01:00:00.000Z",
+                "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+                "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+                "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+              },
+              "before": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "progress",
+                "summary": "R3HK-5fb76d1a-11 original follow-up",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T00:00:00.000Z",
+                "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": null,
+                "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+                "replacementReason": null
+              },
+              "replacementId": "7e870ef8-b1b3-4a16-9919-4eae7caa7772",
+              "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+            },
+            "occurred_at": "2026-11-02T23:01:04.269Z"
+          },
+          {
+            "id": "a5832383-bb21-42ee-95f2-22176db274a4",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "2c83ca16-41c1-45b9-960f-4aec12b5be86",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "ca27330d-96f9-4955-b63d-da3cb023b517",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 33,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:16.943Z"
+          },
+          {
+            "id": "a6864ece-fd6e-4472-a5da-d230f5c98651",
+            "event_type": "lead.updated",
+            "target_type": "lead",
+            "target_id": "15ce82ad-f61d-4c95-bbc1-768b0e07c53d",
+            "operator_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "request_id": "e68b6b0f-9d83-41c1-8ed8-53f0f1584820",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "leadName": "R3CO single-CAS"
+            },
+            "after_snapshot": {
+              "leadName": "single-CAS other"
+            },
+            "metadata": {
+              "changedFields": [
+                "leadName"
+              ],
+              "sourceCommand": "update-lead",
+              "redactedFields": [],
+              "businessContext": {
+                "leadId": "15ce82ad-f61d-4c95-bbc1-768b0e07c53d"
+              },
+              "expectedVersion": 1
+            },
+            "occurred_at": "2026-11-02T23:01:11.327Z"
+          },
+          {
+            "id": "a718c45b-6f14-4272-a080-98cd856f4490",
+            "event_type": "attachment.link_copied_to_project",
+            "target_type": "attachment",
+            "target_id": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": null,
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "to": {
+                "targetId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+                "targetType": "project"
+              },
+              "from": {
+                "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+                "targetType": "lead"
+              },
+              "copiedCount": 2,
+              "relationType": "source"
+            },
+            "occurred_at": "2026-11-02T23:01:17.274Z"
+          },
+          {
+            "id": "afa6d704-8545-446f-8213-71b493af9eac",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "022620da-f91e-4313-ba47-d55303dc2500",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "4bc89c1e-5b00-411e-bc3d-223728289d20",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "proposal",
+              "fileName": "R3CO-proposal.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 34,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "internal",
+              "uploadSessionId": "61c70020-f8d8-430f-b958-5a2f2db90564"
+            },
+            "occurred_at": "2026-11-02T23:01:16.845Z"
+          },
+          {
+            "id": "b143ae4a-55cc-4294-b93d-080aef4be365",
+            "event_type": "sales-follow-up.voided",
+            "target_type": "sales-follow-up-record",
+            "target_id": "7e870ef8-b1b3-4a16-9919-4eae7caa7772",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "1ebedaa3-8cb0-4bf3-8d18-e6c25179911d",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "after": {
+                "leadId": null,
+                "status": "voided",
+                "outcome": "waiting-customer",
+                "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+                "voidedAt": "2026-11-02T23:01:04.396Z",
+                "voidedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T01:00:00.000Z",
+                "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+                "rowVersion": 2,
+                "voidReason": "R3HK-5fb76d1a-11 withdraw follow-up",
+                "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+                "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+                "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+              },
+              "before": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "waiting-customer",
+                "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+                "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+                "occurredAt": "2026-11-02T01:00:00.000Z",
+                "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+                "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+                "replacementReason": "R3HK-5fb76d1a-11 correction reason"
+              },
+              "reason": "R3HK-5fb76d1a-11 withdraw follow-up"
+            },
+            "occurred_at": "2026-11-02T23:01:04.403Z"
+          },
+          {
+            "id": "b28d4ebb-ad26-45f7-b496-5bdd85cc1c9e",
+            "event_type": "sales-discovery-record.updated",
+            "target_type": "sales-discovery-record",
+            "target_id": "e72af20a-f8ac-486d-aaee-f14c59a4a252",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "f8df57c7-0cfc-488f-b4eb-3d314b8283bc",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": {
+              "remark": {
+                "length": 31,
+                "changed": true,
+                "present": true
+              },
+              "budgetSource": {
+                "length": 31,
+                "changed": true,
+                "present": true
+              },
+              "decisionCycle": {
+                "length": 30,
+                "changed": true,
+                "present": true
+              },
+              "nextContactPlan": {
+                "length": 37,
+                "changed": true,
+                "present": true
+              },
+              "customerPainPoints": {
+                "length": 29,
+                "changed": true,
+                "present": true
+              },
+              "procurementProcess": {
+                "length": 36,
+                "changed": true,
+                "present": true
+              }
+            },
+            "after_snapshot": {
+              "remark": {
+                "length": 34,
+                "changed": true,
+                "present": true
+              },
+              "budgetSource": {
+                "length": 34,
+                "changed": true,
+                "present": true
+              },
+              "decisionCycle": {
+                "length": 33,
+                "changed": true,
+                "present": true
+              },
+              "nextContactPlan": {
+                "length": 40,
+                "changed": true,
+                "present": true
+              },
+              "customerPainPoints": {
+                "length": 32,
+                "changed": true,
+                "present": true
+              },
+              "procurementProcess": {
+                "length": 39,
+                "changed": true,
+                "present": true
+              }
+            },
+            "metadata": {
+              "changedFields": [
+                "procurementProcess",
+                "budgetSource",
+                "customerPainPoints",
+                "decisionCycle",
+                "nextContactPlan",
+                "remark"
+              ],
+              "sourceCommand": "update-sales-discovery-record",
+              "redactedFields": [
+                "procurementProcess",
+                "budgetSource",
+                "customerPainPoints",
+                "decisionCycle",
+                "nextContactPlan",
+                "remark"
+              ],
+              "businessContext": {
+                "leadId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+                "projectId": null,
+                "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142"
+              }
+            },
+            "occurred_at": "2026-11-02T23:20:22.023Z"
+          },
+          {
+            "id": "c2537068-e8ba-46a3-a0da-a11e064db51c",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "d93a9d0a-3c44-433a-bc5a-4dbeacbab775",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "dc41100e-aff5-4fac-850d-58a93141dcbf",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:20:21.932Z"
+          },
+          {
+            "id": "cccf3f73-1033-4a10-aba1-5e5c5118c6b6",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "4d6e0987-78f5-4bf1-bc6f-cde852c165c4",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "2c8f0d43-244a-457a-b4db-3a9d7d8962a3",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "requestedScore": 95,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.413Z"
+          },
+          {
+            "id": "d2a15324-b978-4908-98e2-aa87993b8350",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "de2e1de0-e03a-4630-983c-07d1831070d1",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "775a3c17-a741-4e82-b167-e1337e99c3c3",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "approvalNote": "已核实人工评估依据。",
+              "requestedScore": 85,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:20:21.965Z"
+          },
+          {
+            "id": "d3aefb2e-2e13-46e8-aba7-2bb86f02f2b5",
+            "event_type": "lead-score-override.submitted",
+            "target_type": "lead-score-override",
+            "target_id": "8fda953f-a489-4f3d-b1b3-1d038399ac50",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "f4131a18-2a34-4c81-a316-7ebe69248a5c",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "327cab0e-7633-4af7-9260-944b2aa0ae22",
+              "requestedScore": 85,
+              "requestedRating": "A",
+              "systemScoreAtRequest": 62,
+              "systemRatingAtRequest": "B"
+            },
+            "occurred_at": "2026-11-02T23:01:11.116Z"
+          },
+          {
+            "id": "d57d1342-37bc-4c85-853d-d34f047c8ec4",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "f7f8ac8b-c9a6-4d11-be9d-f2728080e96b",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "8c925079-c54c-41f0-bef3-e0442bde729f",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 45,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:17.014Z"
+          },
+          {
+            "id": "e3b7ebb2-4a43-4ea3-aeb4-8b130139c076",
+            "event_type": "attachment.uploaded",
+            "target_type": "attachment",
+            "target_id": "58b58b8a-1109-4843-91d8-fb131c414006",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "0f344719-1365-4138-8ebf-324a590dd826",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "category": "finance",
+              "fileName": "R3CO-finance.txt",
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 33,
+              "targetType": "lead",
+              "relationType": "source",
+              "securityLevel": "sensitive",
+              "uploadSessionId": "2c83ca16-41c1-45b9-960f-4aec12b5be86"
+            },
+            "occurred_at": "2026-11-02T23:01:16.987Z"
+          },
+          {
+            "id": "e6683494-5bad-4df2-b377-d61f73148ac8",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "5a117d05-03e3-48ac-ab5b-91f281a29b79",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "4ce26f35-816b-4156-a7e5-e88d256de4d4",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "791a05ec-e3a5-4100-8d8c-323a40956ef9",
+              "approvalNote": "已核实人工评估依据。",
+              "requestedScore": 85,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:01:11.204Z"
+          },
+          {
+            "id": "f7e8fefc-3064-43b2-aef5-efbf746b881e",
+            "event_type": "lead-score-override.rejected",
+            "target_type": "lead-score-override",
+            "target_id": "d93a9d0a-3c44-433a-bc5a-4dbeacbab775",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "aa728109-f306-44d2-8f06-1d909c1cea24",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "42156aef-ab3e-46eb-bb81-0e18c504517d",
+              "rejectReason": "现有依据不足以支持人工调整。"
+            },
+            "occurred_at": "2026-11-02T23:20:21.944Z"
+          },
+          {
+            "id": "f97ee0ce-cca5-4963-b18a-b32632260f93",
+            "event_type": "attachment_upload_session.created",
+            "target_type": "attachment",
+            "target_id": "02bbbe70-d47f-4966-87e1-ee1a2dd4e703",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "78a2194c-c1b7-44ee-b10d-87bfc259da62",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "targetId": "9c8ee7d5-0925-4239-81ad-846d8ece760f",
+              "sizeBytes": 35,
+              "targetType": "lead",
+              "uploadMode": "proxy",
+              "maxSizeBytes": 52428800,
+              "providerType": "local",
+              "operationType": "create-attachment",
+              "baseAttachmentId": null
+            },
+            "occurred_at": "2026-11-02T23:01:16.875Z"
+          },
+          {
+            "id": "fc788d0c-7d43-41ee-95af-c6e7f56de7b1",
+            "event_type": "lead-score-override.approved",
+            "target_type": "lead-score-override",
+            "target_id": "4d6e0987-78f5-4bf1-bc6f-cde852c165c4",
+            "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "request_id": "2002a79a-b4c9-4cee-bb26-aa14b74caaa0",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "leadId": "28b9bf77-98a5-4e59-8340-d2c34e1a7380",
+              "approvalNote": "业务并发审批 admin",
+              "requestedScore": 95,
+              "requestedRating": "A"
+            },
+            "occurred_at": "2026-11-02T23:01:11.480Z"
+          }
+        ]
+      },
+      "pendingSession": {
+        "due": true,
+        "authKeepaliveSeparated": true,
+        "requestId": "r3b:R3CO-5fb76d1a-17:contact-cas-1",
+        "initialDue": {
+          "id": "1d742726-cca9-4983-9342-4a924c4013d8",
+          "user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "status": "active",
+          "idle_expires_at": "2026-11-02T23:45:47.634Z",
+          "absolute_expires_at": "2026-11-03T07:30:47.330Z",
+          "last_seen_at": "2026-11-02T23:29:46.692Z",
+          "last_ip": "127.0.0.1",
+          "row_version": 3,
+          "updated_at": "2026-11-02T23:30:47.645Z"
+        },
+        "independentTouchObserved": {
+          "id": "1d742726-cca9-4983-9342-4a924c4013d8",
+          "user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "status": "active",
+          "idle_expires_at": "2026-11-02T23:45:47.708Z",
+          "absolute_expires_at": "2026-11-03T07:30:47.330Z",
+          "last_seen_at": "2026-11-02T23:30:47.708Z",
+          "last_ip": "127.0.0.1",
+          "row_version": 4,
+          "updated_at": "2026-11-02T23:30:47.708Z"
+        },
+        "before": {
+          "id": "1d742726-cca9-4983-9342-4a924c4013d8",
+          "user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "status": "active",
+          "idle_expires_at": "2026-11-02T23:45:47.708Z",
+          "absolute_expires_at": "2026-11-03T07:30:47.330Z",
+          "last_seen_at": "2026-11-02T23:30:47.708Z",
+          "last_ip": "127.0.0.1",
+          "row_version": 4,
+          "updated_at": "2026-11-02T23:30:47.708Z"
+        },
+        "after": {
+          "id": "1d742726-cca9-4983-9342-4a924c4013d8",
+          "user_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "status": "active",
+          "idle_expires_at": "2026-11-02T23:45:47.708Z",
+          "absolute_expires_at": "2026-11-03T07:30:47.330Z",
+          "last_seen_at": "2026-11-02T23:30:47.708Z",
+          "last_ip": "127.0.0.1",
+          "row_version": 4,
+          "updated_at": "2026-11-02T23:30:47.708Z"
+        }
+      }
+    },
+    "requiredScope": {
+      "tables": [
+        "customer",
+        "customer_alias",
+        "customer_contact",
+        "audit_log"
+      ],
+      "rows": [
+        {
+          "table": "customer",
+          "id": "2433a4e0-5df1-4d9b-8985-41079aa9a6c1"
+        },
+        {
+          "table": "customer_contact",
+          "id": "9d60f62a-4731-4563-b2fd-c7d27290a7c7"
+        }
+      ]
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase17/structured-original-08-B.contact-cas.json",
+      "bytes": 106419,
+      "rawBytesSha256": "73dcaa0f87d2b9badb53cba87f893952f6d9b5bfa83e63b42ed24203aac73784"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

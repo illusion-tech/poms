@@ -1,0 +1,18 @@
+# 聚合终态 02：匹配已注册 actor 的两种真实命名来源
+
+Root 实际运行的 14 项纯数据测试通过。`inspect-rust01` 随后在 01 中“username suffix 必须是 label”的定义假设处停止，未执行删除。01 的工具、检查和实际失败证据均保留；不能标为完成。
+
+02 仅对这个命名来源假设做有界修正：
+
+- context03/04 和 guard executor：`username = r3m_<runWithoutHyphens>_<label>`；org code 与 role key 均精确为 `r3m-<runId>-<label>`。
+- fixture-actor03：已注册 username 的 suffix 为恰好 8 位小写 hex；org code 精确为 `r3m-<runId>-<registeredOrgId前8位>`，role key 精确为 `r3m-<runId>-<registeredRoleId前8位>`。
+- 两者均先要求 context 中明确注册 userId/orgId/roleId、username/runId/label，实际新 user 的 username 必须与注册完整值相等。合法前缀或 random8 不能注册未知 UUID，不能借 seed UUID。普通业务归属、FK 闭包、无根 cycle、删表顺序、seed/counter 恢复、请求来源、private 边界和平台进程检查均保持 01。
+
+run02 额外冻结 fixture-actor03、context03、context04 的实际源字节。原始输入清单仍可用，执行使用新的 attempt，保持 tmp 目录结构：
+
+```text
+node --test tmp/rust-r3m/terminal-draft/aggregate-plan-cases02.test.mjs
+node tmp/rust-r3m/terminal-draft/aggregate-run02.mjs inspect rust 02 tmp/rust-r3m/root/whole-batch-terminal-input01.json
+```
+
+cases02 保留原 14 项，新增合法 random8、非法 suffix、random8 无精确注册 ID、完整 org code 错误及完整 role key 错误，合计 19 项纯数据测试定义。作者仅做语法检查，不执行纯数据测试、环境、DB、private 或删除操作；Root 实际运行并由 C 独立审查。其余输入/输出合同见 README01。

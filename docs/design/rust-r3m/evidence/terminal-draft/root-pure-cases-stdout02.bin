@@ -1,0 +1,22 @@
+✔ valid exact actors, attributed customer, rooted child FK (7.2149ms)
+✔ seed-only FK and a remembered seed ID never establish ownership (2.1238ms)
+✔ unrooted self reference remains orphan (1.0833ms)
+✔ unrooted two-row cycle cannot self-certify during iteration (1.0909ms)
+✔ cycle connected to a genuine own attribution has an acyclic proof root (2.0345ms)
+✔ current-looking actor prefix without an exact registry ID blocks (2.1992ms)
+✔ registered seed actor ID cannot be lent as an ownership root (0.8441ms)
+✔ any changed ordinary seed blocks the entire transaction plan (1.4921ms)
+✔ unknown new row with no FK or attribution blocks (0.8679ms)
+✔ actor-null guard event requires exact validated request triple; partial is cleanup only (1.4685ms)
+✔ actor-null event without exact request source remains orphan (1.3633ms)
+✔ same request ID with a different path cannot own an event (0.7208ms)
+✔ unregistered event type does not borrow a matching request root (0.8157ms)
+✔ missing actual FK target rejects the plan rather than guessing (0.9024ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.9443

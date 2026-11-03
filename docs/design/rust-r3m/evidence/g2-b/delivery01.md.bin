@@ -1,0 +1,54 @@
+# B #99 G2 作者交付01
+
+已完成四项具名修复并暂停。工作树 `E:/projects/worktrees/poms-r3co-b/poms`，干净起点/当前HEAD为 `546c6c243ea6162077cb065ced54c5a8188afe23`，managed detached checkout，无提交/推送。已读冻结baseline/manifest、C Pass、supplement01/02/03及Root绝对路径Gate authority（G1Certified/G2Authorized=true）。
+
+## 产品变化
+
+只改四个文件：`customers/{service,store}.rs`、`customer_contacts/{service,store}.rs`。
+
+- 两个store的CAS返回 `Option<i32>`：未命中由Service映射typed Conflict409；真正SQL错误仍500。Customer pending session和Contact audit→session→CAS仍在原同TX；typed CAS/SQL错误均显式rollback，不提交中间写。
+- Customer先判业务字段变化，再填写updatedBy。跨actor同业务值及仅UUID大小写差异不写row/version/time/actor/audit；pending session维护保留。
+- ownerOrg/ownerUser变更比较使用parsed UUID，明确null清理保持；非法内部UUID不因parse失败变成None相等。
+- private组织名context改为Uuid键，用raw ownerOrgId解析后的身份查名字，即时返回与GET一致；不全局改写raw响应ID。
+
+公开Service方法不变；仅两个store方法返回Option，静态调用扫描均为本域Service。没有HTTP/DTO/DDL/schema/permission、共享、projects、Lead或UI变化。新增6个有意义纯单测定义，覆盖no-op/actor、UUID大小写/非法/clear、真实字段变化、组织投影及两CAS409。没有执行这些测试；真实rollback不能由纯单测冒充证明。
+
+## Root可调用的纯定义
+
+仅本目录相对pure import，不import旧E1 alias或历史runner，无IO/环境/时钟/随机ID/自执行。
+
+`customer-boundaries01.mjs`：
+
+- `buildCustomerRepairCases(ids)`：5个正常定义；`case.request(evidence)`、`case.assert(exchange,evidence)`。
+- `buildCustomerCasCases(ids)`：Customer/Contact两竞态；`case.requests(evidence)`、`case.assert(race,evidence)`。Root锁实际源行、观测两UPDATE waiter；responses须按请求顺序。正常一200一409、version+1、赢家actor/字段；Contact仅赢家既有audit。
+- `buildCustomerRequiredWriteFaultCases(ids)`：customer UPDATE、contact UPDATE、contact required audit INSERT三故障；500+完整before/after业务图相等，实际due pending-session字段rollback单列验证。
+
+ids包含实际customerId/contactId、actorUserId/otherUserId、otherOrgId/otherOrgName、唯一ASCII marker<=24，可覆盖writerActor/otherActor（默认admin/other）。所有ID来自Root真实生产者。组织case还需readBack实际GET。**CustomerDetailView现行HTTP是flat wire，字段为body.ownerOrgName/body.rowVersion**；sealed prose的body.customer.*不是现行wire，不改旧原件，adapter按真实DTO检查。
+
+evidence的beforeRows/afterRows是实际owned表数组，至少对应customer/customer_alias/customer_contact/audit_log，不把独立auth keepalive放进业务rollback图。CAS/fault另需实际 `pendingSession={due:true,requestId,authKeepaliveSeparated:true,before,after}`，仅观察业务事务管理字段；缺失不会当通过。Root执行器负责保留真实pending/guard边界，不用虚构布尔值代替实际快照。
+
+`converted-project-presigning-chain01.mjs`：
+
+- 导出 `convertedProject(state,ids)` 和三个纯DTO builder及 `buildConvertedProjectPresigningPlan(ids)`。
+- ids.convertStateKey必须指向实际 `{status:200,body:ProjectSummary,request:{method:'POST',path:'/api/leads/<actual id>:convertToProject'}}`；sourceLeadId/customerId匹配实际上游，不接受direct-create/prepared Project替代。
+- 返回13个顺序请求定义及3个必要child故障定义：同一converted Project的cost v1/v2 → direct pending pricing → bid v1/v2 → bid pending pricing；三域全部list/create/workspace、唯一current/历史链、精确金额/数量/单价/税率/毛利、stale cost400。
+- 正常POST的evidence.row为实际父行（或afterRows中对应行），numeric列必须text。workspace读实际children。三类child INSERT拒绝后的500必须整个版本图逐字段不变。所有ACL/锁/HTTP/PG由Root安排并恢复。
+- conversion canonical仅 `:convertToProject`，没有新增 `:convert` alias；A14+B38+Root基础项目6归属保持。
+
+Root统一M0/M1/M2/M3仍需I/F/J/K、A评分/审批/转换与已有38入口；本纯续链不冒称独立执行完整R3。
+
+## authored字节与验证状态
+
+| 文件 | bytes | SHA256 |
+| --- | --- | --- |
+| `apps/poms-api-rust/src/customers/service.rs` | 46892 | `1de85a6de3460a1598599dc1586a6193fba0b7e0c9281bdb1f2ebb36f0f280d7` |
+| `apps/poms-api-rust/src/customers/store.rs` | 22337 | `b2b9c3964a731aecf520750040392e289edfa233b04a61b697cad1e9ebcd41e0` |
+| `apps/poms-api-rust/src/customer_contacts/service.rs` | 15533 | `bcdc7c6927cf56b4b1d441f8a84d730b46787e9e7facd8826e507336f89820c2` |
+| `apps/poms-api-rust/src/customer_contacts/store.rs` | 5307 | `1e512b78cdac5cfd32465e69be158656754d70e8529d2ca303234b281a4b2ae1` |
+| `tmp/rust-r3m/g2-b/assertions01.mjs` | 6252 | `c4710485fa5470ff222e52a1008f02c6ae800bb794418953bb4e90578c7a9aa0` |
+| `tmp/rust-r3m/g2-b/customer-boundaries01.mjs` | 12559 | `204b377ab602d617818b4d48d69560a08c997f5239059c723237a1ec21d1e64b` |
+| `tmp/rust-r3m/g2-b/converted-project-presigning-chain01.mjs` | 17893 | `ba2d2ff9fbc321af526aacdd21cbe9bd49153cd003c514563cba01d50df963b0` |
+
+这些是Root格式化前的作者字节，不能冒称build产物；fmt/集成后Root须重捕获最终candidate指纹。结构化元数据在 [delivery01.json](delivery01.json)。
+
+只读源码/公开授权、Git状态/diff/调用点/hash；未运行build/test/fmt/clippy、Node runner、HTTP/PG/browser/WSL，未读旧private、未Git提交推送/GitHub操作，也未改sealed input-b或正式治理。Root先保留fresh未修baseline真实失败，再集成并统一验证。作者到此暂停。

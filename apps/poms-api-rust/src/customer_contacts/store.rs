@@ -110,7 +110,7 @@ pub(super) async fn update(
     changes: &BTreeMap<&'static str, Option<JsString>>,
     operator_id: Uuid,
     at: DateTime<Utc>,
-) -> Result<i32, sqlx::Error> {
+) -> Result<Option<i32>, sqlx::Error> {
     let mut query = QueryBuilder::<Postgres>::new("UPDATE poms.customer_contact SET ");
     let mut first = true;
     for (key, value) in changes {
@@ -140,8 +140,7 @@ pub(super) async fn update(
     query
         .build_query_scalar::<i32>()
         .fetch_optional(connection)
-        .await?
-        .ok_or_else(|| sqlx::Error::Protocol("customer-contact managed version conflict".into()))
+        .await
 }
 
 pub(super) fn set_text(row: &mut Contact, key: &str, value: Option<String>) {

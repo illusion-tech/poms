@@ -1,0 +1,564 @@
+{
+  "kind": "C-independent-R3-closeout-continuation-review01",
+  "createdAt": "2026-11-03T00:56:11.646Z",
+  "reviewCompleted": true,
+  "reviewer": {
+    "agent": "/root/r3_closeout_independent",
+    "role": "independent non-author C",
+    "configuredModel": "inherited-from-parent; exact model and effort not exposed in current spawn",
+    "Fast": "unverified"
+  },
+  "baseline": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "candidate": {
+    "file": "tmp/rust-r3m/root/candidate-final01.json",
+    "bytes": 59115,
+    "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+  },
+  "artifact": {
+    "file": "/home/wangzishi/.local/share/poms-r3m/artifacts/final01-poms-api-rust",
+    "bytes": 43775864,
+    "rawBytesSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747"
+  },
+  "scope": "public source/evidence only; no private reads, DB, browser, build, product/executor/governance edits or Git/GitHub mutations",
+  "sourceChecks": {
+    "currentProductFiles": 311,
+    "currentProductPinsAllExact": true,
+    "runtimeSourcePins": [
+      {
+        "file": "tmp/rust-r3m/root/candidate-final01.json",
+        "bytes": 59115,
+        "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+      },
+      {
+        "file": "tools/rust-r3m/acceptance-context03.mjs",
+        "bytes": 17341,
+        "rawBytesSha256": "900c2b68635712168f6de08e8ef55ac9ad8e2c69cd2c3a9e3e9e9c0a4d6999f6"
+      },
+      {
+        "file": "tools/rust-r3m/wire-client.mjs",
+        "bytes": 4214,
+        "rawBytesSha256": "2e5bae51abc408ae04d1e892c2362584d6f395141103e8fdbfc4abdb6ffaee76"
+      },
+      {
+        "file": "tools/rust-r3m/source-guard.mjs",
+        "bytes": 1558,
+        "rawBytesSha256": "238fe5d22c0da776d564b42a34689513ffdefee8319e31cf2108bfa48edaddb1"
+      },
+      {
+        "file": "tmp/rust-r3m/a-input/native-fixture-draft01.mjs",
+        "bytes": 3504,
+        "rawBytesSha256": "ce9587bacda932ab2f046dbccde1c4452ea83860833a4ded656c3eb705c2489e"
+      },
+      {
+        "file": "tmp/rust-r3m/b-input/native-fixture-draft01.mjs",
+        "bytes": 6253,
+        "rawBytesSha256": "edcd5f3a8ea1e5e0e3e5ba166cddf5feb84ccdaaeb8f155373bfa31ffa38f9e0"
+      },
+      {
+        "file": "tools/rust-r3m/lead-repair02.mjs",
+        "bytes": 14546,
+        "rawBytesSha256": "2b0922b05a3d636ce2e9791c13526cea4b9fd3f93a0d8324643f1a2f5da84a85"
+      },
+      {
+        "file": "tools/rust-r3m/graph-assertions01.mjs",
+        "bytes": 1775,
+        "rawBytesSha256": "ba9c37e786b593fa5de0069370479031541a294f1692a86256a48889d87b4a10"
+      },
+      {
+        "file": "tools/rust-r3m/db-controls01.mjs",
+        "bytes": 1595,
+        "rawBytesSha256": "c525fb785c96cd70b6b80f18c28b8a58ebdc1f33362b047a3c97bc903107b24e"
+      },
+      {
+        "file": "tools/rust-r3m/db-controls02.mjs",
+        "bytes": 3587,
+        "rawBytesSha256": "4eb2f3730a2d35f44e1b45ad8828b0b7091ea7419b268874e6a682473a3917cc"
+      },
+      {
+        "file": "tools/rust-r3m/db-controls03.mjs",
+        "bytes": 2428,
+        "rawBytesSha256": "6a7339e52a5e5763b2b3bbedcaac33cbb78d0d9b94f819747b26308b75285077"
+      },
+      {
+        "file": "tools/rust-r3m/qa-write-fault01.mjs",
+        "bytes": 8865,
+        "rawBytesSha256": "c057e4ed5dbf1a815ce5ac76b489f2f05c9f2bb6ceab178b6761c2170970e37c"
+      },
+      {
+        "file": "tmp/rust-r3m/c-review/g2-fault-tool-clarification01.json",
+        "bytes": 13937,
+        "rawBytesSha256": "eef424dd28fe8ea0c17dd6236851779fa8c6ad422878956bf9b688bd57447851"
+      },
+      {
+        "file": "tmp/rust-r3m/g2-a/lead-correction-cases01.mjs",
+        "bytes": 13518,
+        "rawBytesSha256": "15e693a488fb96c019c4957926c159931324385b1ed8c414c3ee71d545111569"
+      }
+    ]
+  },
+  "phase19": {
+    "pin": {
+      "file": "tmp/rust-r3m/acceptance-rust-final01-19/report01.json",
+      "bytes": 1807510,
+      "rawBytesSha256": "c70195b6eb956ce0149d0410a719059eeb40e4da0c2038084b968b69d2dbd314"
+    },
+    "completed": true,
+    "businessCases": 14,
+    "HTTPEvents": 107,
+    "allCaseRangesCompleted": true,
+    "normalStoredTupleAndRevokeRechecked": true,
+    "legacyChecks": [
+      {
+        "caseIndex": 3,
+        "name": "A.repair.legacy-missing-atomic-fallback",
+        "mode": "missing",
+        "leadId": "9ac0d4c4-ec24-4bfd-9f8c-2193196dda81",
+        "systemId": "7c3c2429-09fd-41ee-a153-dc1ba712c89e",
+        "decisionId": "b3e9cc74-2342-41d6-a217-c74f286b3316",
+        "coherentSystemAndDecision": true
+      },
+      {
+        "caseIndex": 4,
+        "name": "A.repair.legacy-mismatched-atomic-fallback",
+        "mode": "mismatched",
+        "leadId": "7ca62f6e-51f9-4cc9-a54b-7fa112b7da96",
+        "systemId": "ee712f59-5eeb-4816-a7d6-791160ae385b",
+        "decisionId": "f92cb659-91a4-43fe-b3ec-472a17be8649",
+        "coherentSystemAndDecision": true
+      }
+    ],
+    "qaMethod": {
+      "fourFixturesObserved": 4,
+      "threeRealNamedP0001Errors": 3,
+      "oneArmedNormalControl200": 1,
+      "allSpecificTargetsAndSystemSnapshotDiagnostics": true,
+      "catalogACLAndSeedRestoreAssertionsPresent": true,
+      "privateOriginalPinsOnlyInspectedNotContents": true
+    },
+    "faultGraphsSufficientForIndependentCertification": false
+  },
+  "findings": [
+    {
+      "id": "C-G2-P2-GRAPH-RETENTION-01",
+      "priority": "P2",
+      "category": "evidence-retention; not product correctness failure",
+      "status": "Open-awaiting-new-execution",
+      "tool": {
+        "file": "tools/rust-r3m/lead-repair02.mjs",
+        "bytes": 14546,
+        "rawBytesSha256": "2b0922b05a3d636ce2e9791c13526cea4b9fd3f93a0d8324643f1a2f5da84a85"
+      },
+      "affected": [
+        {
+          "caseIndex": 5,
+          "name": "A.repair.legacy-required-lead_score_snapshot-rollback-and-retry",
+          "requiredTables": [
+            "lead",
+            "lead_score_snapshot",
+            "lead_score_override",
+            "lead_owner_assignment_record",
+            "project",
+            "project_owner_reassignment_record",
+            "attachment",
+            "attachment_link",
+            "audit_log"
+          ],
+          "beforeKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "afterKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "beforeShape": "Lead-row-overwrote-fault-before-graph",
+          "afterShape": "successful-retry-Lead-row-overwrote-fault-after-graph",
+          "rootCause": "return object spreads fallbackResult after graph fields; result contains same before/after keys"
+        },
+        {
+          "caseIndex": 6,
+          "name": "A.repair.legacy-required-audit_log-rollback-and-retry",
+          "requiredTables": [
+            "lead",
+            "lead_score_snapshot",
+            "lead_score_override",
+            "lead_owner_assignment_record",
+            "project",
+            "project_owner_reassignment_record",
+            "attachment",
+            "attachment_link",
+            "audit_log"
+          ],
+          "beforeKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "afterKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "beforeShape": "Lead-row-overwrote-fault-before-graph",
+          "afterShape": "successful-retry-Lead-row-overwrote-fault-after-graph",
+          "rootCause": "return object spreads fallbackResult after graph fields; result contains same before/after keys"
+        },
+        {
+          "caseIndex": 7,
+          "name": "A.repair.second-decision-snapshot-failure-rolls-back-system-repair",
+          "requiredTables": [
+            "lead",
+            "lead_score_snapshot",
+            "lead_score_override",
+            "lead_owner_assignment_record",
+            "project",
+            "project_owner_reassignment_record",
+            "attachment",
+            "attachment_link",
+            "audit_log"
+          ],
+          "beforeKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "afterKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "beforeShape": "Lead-row-overwrote-fault-before-graph",
+          "afterShape": "successful-retry-Lead-row-overwrote-fault-after-graph",
+          "rootCause": "return object spreads fallbackResult after graph fields; result contains same before/after keys"
+        },
+        {
+          "caseIndex": 8,
+          "name": "A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write",
+          "requiredTables": [
+            "lead",
+            "lead_score_snapshot",
+            "lead_score_override",
+            "lead_owner_assignment_record",
+            "project",
+            "project_owner_reassignment_record",
+            "attachment",
+            "attachment_link",
+            "audit_log"
+          ],
+          "beforeKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "afterKeys": [
+            "id",
+            "lead_no",
+            "lead_name",
+            "customer_name",
+            "status",
+            "owner_org_id",
+            "owner_user_id",
+            "qualification_summary",
+            "qualified_at",
+            "qualified_by",
+            "closed_reason",
+            "closed_at",
+            "closed_by",
+            "converted_project_id",
+            "converted_at",
+            "converted_by",
+            "row_version",
+            "created_at",
+            "created_by",
+            "updated_at",
+            "updated_by",
+            "customer_id",
+            "demand_description",
+            "budget_status",
+            "estimated_amount",
+            "urgency",
+            "expected_decision_date",
+            "score",
+            "rating",
+            "score_reason",
+            "score_updated_at",
+            "source_code"
+          ],
+          "beforeShape": "Lead-row-overwrote-fault-before-graph",
+          "afterShape": "successful-retry-Lead-row-overwrote-fault-after-graph",
+          "rootCause": "return object spreads fallbackResult after graph fields; result contains same before/after keys"
+        },
+        {
+          "caseIndex": 12,
+          "name": "A.repair.legacy-revocation-late-snapshot-failure-and-retry",
+          "beforeShape": "nine-table graph retained",
+          "afterShape": "fault afterGraph local variable not returned",
+          "rootCause": "afterFault used for live assertion but omitted from returned evidence"
+        }
+      ],
+      "impact": "Live source asserts complete nonempty graphs, but retained report drops/overwrites exact fault graph values; G3 cannot substitute graphGuardApplied=true or successful retry Leadrow for durable fault before/after graph.",
+      "requiredCorrection": "Immutable new runner version with distinct beforeGraph/afterFaultGraph/afterRetryLead (including revoke fault graph), run full target against exact same artifact; retain19 actual completed but insufficient evidence status and18 partial."
+    }
+  ],
+  "UIdefinitions": {
+    "definitionPins": {
+      "customer": {
+        "file": "tmp/rust-r3m/ui-b/customer-journey02.mjs",
+        "bytes": 26498,
+        "rawBytesSha256": "733cc75cf37fd2411c408916e646938d8d95adc79fa69f3af675ef6109005144"
+      },
+      "project": {
+        "file": "tmp/rust-r3m/ui-b/project-journey02.mjs",
+        "bytes": 27750,
+        "rawBytesSha256": "d088e556900a1028183ecb9f6c381d2230c9d3db799eed5f94a6f0c61aff48c1"
+      },
+      "lead": {
+        "file": "tmp/rust-r3m/ui-a/lead-journey03.mjs",
+        "bytes": 26008,
+        "rawBytesSha256": "df62bbb0f89bb0562fe713f4e4e50d94a8901b0c922a37f7d8f191924a830262"
+      },
+      "wrapper": {
+        "file": "tmp/rust-r3m/ui-b/four-journey-cell01.mjs",
+        "bytes": 13790,
+        "rawBytesSha256": "fa718a994f9dc8f19d9497a0f29ac53dd1da7b0efd635317b41a634b06c5ebed"
+      }
+    },
+    "customerDiffExactlyThreeBusinessExpectationsPlusDeclaration": true,
+    "projectDerived02StaticReview": "Retains actual UI and upstream readonly assertions; second versions201/v2, unique current, predecessor superseded, business facts and child history retained; not projectbasic6/technicalcostwriteUI.",
+    "leadDerived03StaticReview": "Retains complete branch/no-omission behavior, real visible Tokyo datepicker, ISOdatetime request, response, ProjectGET/stage/page instant and calendar day; no mocks/state injection.",
+    "wrapperStaticReview": "Explicit four functions/pins/contexts; separate C1/C2 and primaryLA/registeredLI, real conversion output passed into IJK, Native reference and Rust business layers distinct.",
+    "actualUIAccepted": false
+  },
+  "newUiRunnerPreexecutionNotes": {
+    "file": {
+      "file": "tools/rust-r3m/ui-run01.mjs",
+      "bytes": 17832,
+      "rawBytesSha256": "54025b89af2c23e39bacd53436902585c6ebca3418adc2cb21df1a55962d133b"
+    },
+    "advisory": "Row whitelist initially omitted bid material/timeline items; Root notified before execution. Root should bind validRequestVerified to explicit actual request checks and capture final Lead/convertedProject PG readback. This evolving unexecuted driver is not yet certified."
+  },
+  "G3CloseoutChecklist": [
+    "Resolve C-G2-P2-GRAPH-RETENTION-01 with new fully retained fault-before/fault-after graphs and same final candidate; preserve phase19 and18 originals and real labels.",
+    "M0 exact current173/138/585, Native291/237/585 and client579/migration92 protected sources plus all58 success and separate guards/method/URI/CSRF/no-side-effects.",
+    "M1-M3 source-to-candidate influence matrix, required-write rollback and recovery, legacy approve/revoke, actual CAS and session/independent-auth boundary, F empty streams, exact money and versions.",
+    "M4 four fresh cohorts and real platform processes/browser/build pins,16 captures with8 Rust business passes and8 Native reference captures; three known Native signatures each bound actualnetwork+PG+specific SQL cause, all unknown failures retained.",
+    "M4 four actual nonempty signing dates request/response/GET/page and storedProject/Lead readbacks; screenshots actually inspected, no route mocks/state injection/failure fallback.",
+    "E1 actual postdelete replay on Linux and Windows; exactly5aliases419264B absent, canonical originals/23historical payload consumers exact, logicalregistry counted separately, main landing absence proven.",
+    "M5 full owned graph,107tables original seed rows,428ACL and exact logging restored, test fixture catalog empty/exact, reverse cohort cleanup twice with zero second delta, objects preserved then onlyownedruntimecopies removed; ownedAPI/browser/PG ports stopped; retained volume/current private ledger.",
+    "Currentsource/tool/evidence capsule and source pin mapping including author preformat originals and failed/partial/stopped records; docs format and diff checks actual.",
+    "No unresolved P0/P1/P2, independent fullG3; exact committed tree and branchpush fixedcommit review; clean primary fastforward/mainpush plus15 protectedCRLF raw preservation; lifecycle archive mapping byteexact.",
+    "Independent actualG4 and live exact Issue checklist/comment/readback alignment:98/99/100/97/85 closeonlyifconditionshold,57 remainsOpen withR3complete andR4-R7Todo;31/38 outside scope."
+  ],
+  "productBlockersFound": [],
+  "G3Certified": false,
+  "G4Certified": false,
+  "commitAllowed": false,
+  "stageIntegrationComplete": false,
+  "issuesMayClose": [],
+  "parents85And57RemainOpen": true
+}

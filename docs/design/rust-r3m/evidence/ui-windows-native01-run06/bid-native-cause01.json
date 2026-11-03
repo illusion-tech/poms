@@ -1,0 +1,28 @@
+{
+  "kind": "declared-safe-Native-constraint-error-derivative",
+  "sqlState": "23505",
+  "constraint": "uq_project_bid_commercial_process_current",
+  "projectId": "616dc553-0a1a-456a-b817-73cbc26edaa4",
+  "networkIndex": 59,
+  "actualErrorExcerpt": [
+    "2026-11-03 01:09:47.839 UTC [139] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3567 state=23505 ERROR:  23505: duplicate key value violates unique constraint \"uq_project_bid_commercial_process_current\"",
+    "2026-11-03 01:09:47.839 UTC [139] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3567 state=23505 DETAIL:  Key (project_id)=(616dc553-0a1a-456a-b817-73cbc26edaa4) already exists.",
+    "2026-11-03 01:09:47.839 UTC [139] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3567 state=23505 LOCATION:  _bt_check_unique, nbtinsert.c:664",
+    "2026-11-03 01:09:47.839 UTC [139] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3567 state=23505 STATEMENT:  insert into \"poms\".\"project_bid_commercial_process\" (\"id\", \"project_id\", \"version\", \"is_current\", \"supersedes_id\", \"status\", \"bid_mode\", \"current_stage\", \"decision\", \"result_status\", \"process_summary\", \"decision_summary\", \"result_summary\", \"tender_no\", \"bid_package_no\", \"owner_role\", \"blocker_count\", \"effective_at\", \"created_at\", \"created_by\", \"updated_at\", \"updated_by\") values ('10425b93-d641-4a32-9df9-119db8b41a7e', '616dc553-0a1a-456a-b817-73cbc26edaa4', 2, true, 'c1e69ab5-17ab-4083-a300-b0db0435233c', 'effective', 'public-tender', 'preparation', 'participate', 'pending', 'windows-native01 second bid must retain V1', 'windows-native01 participate', null, 'windows-native01-T2-REJECTED', 'windows-native01-PKG1', 'windows-native01 bid owner', 0, '2026-11-03T01:09:47.827Z', '2026-11-03T01:09:47.827Z', '2838ca42-6bd4-4169-8dd6-fb8a4b77d144', '2026-11-03T01:09:47.827Z', '2838ca42-6bd4-4169-8dd6-fb8a4b77d144') returning \"row_version\"",
+    "2026-11-03 01:09:47.843 UTC [139] user=poms_r3m_app db=poms_r3m_nest app=[unknown] tx=3567 state=00000 LOG:  00000: statement: rollback"
+  ],
+  "privateOriginalStreams": [
+    {
+      "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3m/private/ui-windows-native01-run06/postgres-stdout-original.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "C:\\Users\\ynh2\\AppData\\Local/poms-r3m/private/ui-windows-native01-run06/postgres-stderr-original.bin",
+      "bytes": 1554345,
+      "rawBytesSha256": "40841b4aaf63cfc822d92429033020142a5ba33cc73552c01fd195bf1ba9214b"
+    }
+  ],
+  "source": "actual-owned-PG-server-log",
+  "businessPass": false
+}

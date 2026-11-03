@@ -1,0 +1,3 @@
+import fs from'node:fs';import assert from'node:assert/strict';import{pin}from'./source-guard.mjs';
+const source='tools/rust-r3m/ui-run01.mjs',target='tools/rust-r3m/ui-run02.mjs';assert(!fs.existsSync(target));
+let text=fs.readFileSync(source,'utf8').replaceAll('tools/rust-r3m/ui-run01.mjs',target).replace("out='tmp/rust-r3m/ui-'+label,directory=priv+'/ui-'+label","out='tmp/rust-r3m/ui-'+label+'-run02',directory=priv+'/ui-'+label+'-run02'");assert(text.includes("label+'-run02'"));fs.writeFileSync(target,text,{flag:'wx'});console.log(JSON.stringify({source:pin(source),derived:pin(target),reason:'Run01 preflight could not read independent clarification; no browser or DB was opened. New attempt paths preserve empty first directories.'}));

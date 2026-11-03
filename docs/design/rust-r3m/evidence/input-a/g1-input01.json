@@ -1,0 +1,287 @@
+{
+  "kind": "RUST-R3-CO-A-G1-input-candidate",
+  "revision": "01",
+  "issue": 98,
+  "parentIssue": 97,
+  "migrationParentIssue": 85,
+  "overallIssue": 57,
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "branchAtAudit": "codex/poms-r3-closeout",
+  "owner": "A: Lead/scoring-v2/direct-score-override/conversion transaction integrity",
+  "phase": "G1-input-audit-only",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "executionInThisInputAudit": false,
+  "productModified": false,
+  "newHTTP": 0,
+  "newDTO": 0,
+  "newDDL": 0,
+  "pinManifest": "tmp/rust-r3m/input-a/input-pins01.json",
+  "pureDefinitions": "tmp/rust-r3m/input-a/lead-stage-cases01.mjs",
+  "authority": [
+    "User business-semantics/correctness policy overrides Node defect parity.",
+    "Necessary business state, owner records, snapshots and registered audits commit or roll back together.",
+    "Independent business-number reservations may leave gaps; reserve outside an occupied main transaction connection.",
+    "EX54 sections 5 and 6; EX55A-R sections 5 and 6; EX32 conversion baseline; EX70B workbench baseline.",
+    "Only Root executes stage/API/DB/browser/build/tests and writes governance/shared files."
+  ],
+  "operationIds": [
+    "LeadController_list",
+    "LeadController_create",
+    "LeadController_getById",
+    "LeadController_update",
+    "LeadController_claimOwner",
+    "LeadController_assignOwner",
+    "LeadController_qualify",
+    "LeadController_close",
+    "LeadController_convertToProject",
+    "LeadController_getScoreHistory",
+    "LeadController_submitScoreOverride",
+    "LeadScoreOverrideController_approve",
+    "LeadScoreOverrideController_reject",
+    "LeadScoreOverrideController_revoke"
+  ],
+  "historicalEvidence": [
+    {
+      "id": "E-BUILD11",
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/rust-check11/report01.json",
+      "bytes": 89524,
+      "sha256": "076005ecbd9832ed81cf0740211822bb3075d5304af7a683f753123f8750c1e0",
+      "observed": "Root actual fmt/clippy/test/release all exit 0; report binds 231 source pins and candidate06 artifact.",
+      "reuse": "Current A and immediate dependency raw source hashes compared to this report; see input-pins01. Historical build success is not this batch execution."
+    },
+    {
+      "id": "E-56",
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/report01.json",
+      "bytes": 587217,
+      "sha256": "64b2c88a63c3e70af37e023e758032dedab05219ecbb1d6c6266bf22ffe51035",
+      "observed": "Completed 14 groups / 65 HTTP: input bounds, semantic snapshot noop, snapshot faults claim/assign/qualify/close, required-audit faults submit/approve/reject/revoke, single CAS and replacement approval races, number pool capacity.",
+      "reuse": "Named assertions only. No proof of a coherent score/breakdown tuple after independently changed I/F/attachment facts."
+    },
+    {
+      "id": "E-61",
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-61/report01.json",
+      "bytes": 532741,
+      "sha256": "82ca54730ba02adb013ab70ab73ddee2ba26aa1b61b1119cdb477c3d48f6d00f",
+      "observed": "Completed 2 groups / 32 HTTP; real Lead/contact/I/F/Todo/local byte upload producers, Lead refresh/qualify/real Project conversion/J/K; 4 source attachment links and 2 eligible copied links; copy-link/audit/snapshot INSERT denial whole rollback.",
+      "reuse": "Local storage and actual HTTP producers only; report cloudCertification=false. No R4/R5 producer or full-stage certification."
+    },
+    {
+      "id": "E-SNAPSHOT-NOOP",
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/02-semantic-system-snapshot-noop-and-real-facts.json",
+      "bytes": 31238,
+      "sha256": "48b0a3424298e3d5a8b6d4268299a23654a122e6adc8dd70827346b9afd0dc62",
+      "observed": "Snapshot count 1 before, 1 after name edit, 1 after exact noop, 2 after changed scoring component."
+    },
+    {
+      "id": "E-LEAD-CAS",
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/11-single-optimistic-write-exactly-one-success.json",
+      "bytes": 15159,
+      "sha256": "176a2e4b6a4be186d7f95f0ca854f1a293b9e4c9ee3cd8c62df1bdfb85cb7185",
+      "observed": "Two real waiting writers; responses 200/409, one business edit and one required audit."
+    },
+    {
+      "id": "E-OVERRIDE-CAS",
+      "file": "docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-56/12-replacement-approval-exactly-once.json",
+      "bytes": 26287,
+      "sha256": "4b6dc660810c67a3f27045d6c8fecc4acd481d30acb7eade44248425c50d554b",
+      "observed": "Existing approved plus pending, two waiting approvers sharing expectedVersion; 200/409 and one replacement snapshot/audit."
+    },
+    {
+      "id": "E-G4",
+      "file": "docs/design/archive/slices/rust-r3hijk/g4-gate-authority01.json",
+      "bytes": 1090,
+      "sha256": "3f343bf1156068cc6d230c5233264e98292fbeaf43a005f81948ac6674c4df40",
+      "observed": "Scoped G1/G3/G4 true, HTTP58/58 and Rust173, fullStageCertified=false; #85/#57 remain open."
+    }
+  ],
+  "matrix": [
+    {
+      "id": "A-M01",
+      "capability": "Create Lead and initial v2 system score/snapshot",
+      "classification": "delivered; stage rerun",
+      "source": ["leads/http.rs:166", "leads/service.rs:332", "leads/store.rs:280", "business_numbers/service.rs"],
+      "caller": "Existing LeadController_create -> LeadsService::create -> borrowed store inserts",
+      "sameTransaction": ["Lead", "initial system snapshot", "pending session flush"],
+      "outsideTransaction": "User/owner/org/customer/source preflight, then independent Lead number reservation; no main transaction connection held during next().",
+      "guardsCASQueriesNoop": "lead:write + session/CSRF before local DTO; active customer/source and valid active owner/org; exact money and commercial years; no new audit event invented for create.",
+      "evidence": ["E-BUILD11", "E-56", "E-61"],
+      "stage": ["A-S01", "A-S08", "A-S10"]
+    },
+    {
+      "id": "A-M02",
+      "capability": "Lead edit, stored system tuple and semantic dedup",
+      "classification": "delivered with A-P2-01 tuple coherence gap",
+      "source": ["leads/service.rs:426", "leads/service.rs:859", "leads/service.rs:1064", "leads/store.rs:290", "leads/store.rs:866"],
+      "caller": "Existing PATCH Lead -> update -> refresh_score -> system_snapshot -> save_lead/audit/snapshot",
+      "sameTransaction": ["Lead CAS update", "lead.updated registered audit with requestId", "necessary system snapshot", "pending session flush"],
+      "guardsCASQueriesNoop": "Editable registered/qualified state; expectedVersion if supplied; write WHERE id+row_version+status, zero rows=409; exact no-op performs no score/state/audit/snapshot writes; changed non-score name may update Lead/audit but unchanged semantic formula+facts/gates+score/rating adds no snapshot. Objects compare without key order; array order remains meaningful.",
+      "evidence": ["E-SNAPSHOT-NOOP", "E-LEAD-CAS", "E-56"],
+      "stage": ["A-S03", "A-S04", "A-S06", "A-S08"]
+    },
+    {
+      "id": "A-M03",
+      "capability": "Claim/assign ownership and score provenance",
+      "classification": "delivered; tuple materialization regression required if repaired",
+      "source": ["leads/service.rs:479", "leads/service.rs:516", "leads/service.rs:563", "leads/store.rs:402"],
+      "caller": "Existing :claim/:assignOwner -> assign_main",
+      "sameTransaction": ["Lead owner/version update", "immutable lead_owner_assignment_record", "necessary system snapshot", "pending session flush"],
+      "guardsCASQueriesNoop": "claim lead:write / assign lead:assign; registered/qualified; claim requires public pool; active eligible owner/org; assign same owner/org rejected; saved preflight version/status rechecked by write CAS, stale=409. Owner record is required trace; no invented generic approval/audit.",
+      "evidence": ["E-56"],
+      "stage": ["A-S04", "A-S08", "A-S11"]
+    },
+    {
+      "id": "A-M04",
+      "capability": "Qualify and close",
+      "classification": "delivered; tuple materialization regression required if repaired",
+      "source": ["leads/service.rs:612", "leads/service.rs:648", "leads/scoring.rs:235", "leads/service.rs:1159"],
+      "caller": "Existing :qualify/:close -> refresh/save/snapshot",
+      "sameTransaction": ["status/actor/time/reason", "stored score", "necessary gate system snapshot", "pending session flush"],
+      "guardsCASQueriesNoop": "lead:write; qualify registered and hard gate; close registered/qualified; optimistic write guards id/version/status even where public DTO has no expectedVersion. Manual high score never bypasses hard gate.",
+      "evidence": ["E-56", "E-61"],
+      "stage": ["A-S01", "A-S04", "A-S08", "A-S11"]
+    },
+    {
+      "id": "A-M05",
+      "capability": "Convert Lead to real Project and copy eligible attachment metadata",
+      "classification": "delivered; stage integration rerun",
+      "source": ["leads/http.rs:172", "leads/service.rs:1188", "leads/store.rs:481", "leads/store.rs:534", "leads/store.rs:543"],
+      "caller": "Existing :convertToProject -> pure preflight -> independent Project number -> transaction reread/eligibility/CAS",
+      "sameTransaction": ["real Project with source_lead_id", "Lead converted pointer/status/score/version", "copied attachment_link rows", "attachment.link_copied_to_project if copiedCount>0", "necessary system snapshot", "pending session flush"],
+      "outsideTransaction": "Released short eligibility read and independent Project number reservation; failure may keep counter gap only.",
+      "guardsCASQueriesNoop": "Both lead:write and project:write; qualified, not converted, hard gate; reread in main transaction. Active source links -> active latest attachments, dedup ids, exclude finance/internal-assessment; copy as project/source, retain source links and object bytes; no repeat project on concurrent conversion. Storage failures=500 with whole-business rollback; conflict=409 only for actual CAS/known uniqueness.",
+      "evidence": ["E-61", "E-56"],
+      "stage": ["A-S01", "A-S07", "A-S09", "A-S10", "A-S11"]
+    },
+    {
+      "id": "A-M06",
+      "capability": "v2 facts producer attribution and consumption",
+      "classification": "delivered facts producers; missing coherent single materialization A-P2-01",
+      "source": ["leads/store.rs:412", "leads/scoring.rs:126", "sales_intelligence/store.rs", "sales_follow_up/service.rs", "attachments/service.rs", "attachment_storage/service.rs"],
+      "caller": "Lead command refresh_score -> collect_facts on its borrowed PgConnection; B's collect_lead_score_facts supplies seven boolean I facts; real F and attachment tables supply metadata/time facts.",
+      "sameTransaction": "Consumer queries use command connection. Each real I/F/upload producer has its own authorized transaction; the whole multi-request user journey is not one global transaction.",
+      "guardsCASQueriesNoop": "I exact lead_id, latest discovery updated_at DESC; active lead-linked F, active link/attachment latest-or-final score evidence. Base65/I20/F10/attachment5; no free-text personality/OCR. I/F/upload writes do not themselves promise automatic Lead refresh; GET never writes/recomputes stored score.",
+      "evidence": ["E-61", "E-BUILD11"],
+      "stage": ["A-S01", "A-S02", "A-S03"]
+    },
+    {
+      "id": "A-M07",
+      "capability": "Direct score override submission",
+      "classification": "delivered; not generic ApprovalRecord",
+      "source": ["leads/service.rs:194", "leads/service.rs:1256", "leads/store.rs:189", "leads/service.rs:82"],
+      "caller": "Existing POST /leads/{id}/score-overrides -> override_transaction(submitted)",
+      "sameTransaction": ["pending lead_score_override", "lead-score-override.submitted audit and requestId", "pending session flush"],
+      "guardsCASQueriesNoop": "lead:write, score integer0..100, nonblank reason, required expectedLeadRowVersion; Lead FOR SHARE keeps checked version stable through insert; one pending partial unique index; only known pending/approved unique conflicts map409. No ApprovalRecord/Todo producer is called.",
+      "evidence": ["E-56", "E-BUILD11"],
+      "stage": ["A-S02", "A-S05", "A-S08", "A-S11"]
+    },
+    {
+      "id": "A-M08",
+      "capability": "Direct override approve/replacement",
+      "classification": "delivered transaction/CAS; A-P2-01 manual tuple gap",
+      "source": ["leads/service.rs:1330", "leads/service.rs:194", "leads/store.rs:709", "leads/service.rs:1064"],
+      "caller": "Existing /lead-score-overrides/{id}:approve -> override_transaction(approved)",
+      "sameTransaction": ["old approved CAS -> superseded with superseded_by_id", "pending CAS -> approved", "one manual snapshot", "lead-score-override.approved audit and requestId", "pending session flush"],
+      "guardsCASQueriesNoop": "lead:score:override; required expectedOverrideRowVersion; pending state; write CAS on both old/new rows; two requests with same version yield one success/one409, one snapshot/audit, no weak bulk 200/200. Approval changes effective score; design does not add system refresh trigger.",
+      "evidence": ["E-OVERRIDE-CAS", "E-56"],
+      "stage": ["A-S02", "A-S05", "A-S08", "A-S11"]
+    },
+    {
+      "id": "A-M09",
+      "capability": "Reject and revoke direct override",
+      "classification": "delivered transaction/CAS; revoked tuple also affected by A-P2-01",
+      "source": ["leads/service.rs:1399", "leads/service.rs:1440", "leads/service.rs:194"],
+      "caller": "Existing :reject/:revoke -> override_transaction",
+      "sameTransaction": ["override status/actor/reason CAS", "revoked snapshot only for revoke", "existing rejected/revoked audit with requestId", "pending session flush"],
+      "guardsCASQueriesNoop": "lead:score:override; expectedOverrideRowVersion; reject only pending, revoke only approved. Reject adds no score snapshot; revoke effective score returns to stored system score. No destructive history delete.",
+      "evidence": ["E-56"],
+      "stage": ["A-S02", "A-S05", "A-S08", "A-S11"]
+    },
+    {
+      "id": "A-M10",
+      "capability": "Lead workbench/detail/history read model",
+      "classification": "delivered; reuse detailed historical DTO boundaries plus stage read assertions",
+      "source": ["leads/service.rs:227", "leads/service.rs:296", "leads/service.rs:1241", "leads/store.rs:216"],
+      "caller": "Existing GET leads / id / score-history; source labels and project summaries from actual references",
+      "sameTransaction": "Read-only business queries; do not treat session access bookkeeping as business score mutation.",
+      "guardsCASQueriesNoop": "lead:read, no added owner-only permission. Repository filters first, summary/facets before scope and page. mine overrides explicit ownerUserId; public-pool requires null owner. Stored rating/score, active/pending direct override projection; GET does not generate snapshots/audit/recompute or backfill old snapshots.",
+      "evidence": ["E-56", "E-61", "E-G4"],
+      "stage": ["A-S01", "A-S02", "A-S06", "A-S11"]
+    },
+    {
+      "id": "A-M11",
+      "capability": "Input/storage representability",
+      "classification": "delivered; no new DTO/DDL",
+      "source": ["leads/validation.rs", "opportunity_context/validation.rs", "leads/http.rs"],
+      "caller": "Authorized existing HTTP -> local validator -> service",
+      "sameTransaction": "Invalid local data rejected before business reservation/write; all valid state remains handled by existing transactions.",
+      "guardsCASQueriesNoop": "Reject NUL/lone surrogate; codepoint Zod bounds separate from UTF16 demand business length; missing/null preserved and unknown stripped; exact string money numeric18,2 up to9999999999999999.99, leading zeros handled, above JS-safe exact; business date0001..9999 and valid leap days; malformed path UUID400, valid absent404.",
+      "evidence": ["E-56", "E-BUILD11"],
+      "stage": ["A-S10", "A-S11"]
+    },
+    {
+      "id": "A-M12",
+      "capability": "Generic approval handlers / jobs / R4-R5 producers",
+      "classification": "N/A to A/R3 producer implementation; keep future stage open",
+      "source": ["approval/domain.rs:510", "apps/poms-api/src/app/features/approval/approval.service.ts", "docs/design/backend-rust-migration-plan.md:171"],
+      "caller": "Generic branches handle contract-review, commission-payout-approval, commission-adjustment-approval; their submit producers belong R4/R5.",
+      "sameTransaction": "Generic CommonSession exists but is not called by Lead direct override.",
+      "guardsCASQueriesNoop": "Do not count Lead override as ApprovalRecord/Todo; do not invent a R3 generic handler, asynchronous scoring job, scheduler, OCR or cloud producer. Unsupported generic kinds remain unsupported; broader future acceptance is not certified by this input.",
+      "evidence": ["E-G4", "E-BUILD11"],
+      "stage": ["A-S02"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "A-P2-01",
+      "severity": "P2",
+      "status": "static-deduced product coherence defect; real witness pending G2",
+      "source": ["apps/poms-api-rust/src/leads/service.rs:859", "apps/poms-api-rust/src/leads/service.rs:1064", "apps/poms-api-rust/src/leads/service.rs:1380", "apps/poms-api-rust/src/leads/service.rs:1474"],
+      "problem": "refresh_score computes stored score from one facts materialization; build_snapshot independently rereads facts for breakdown while copying stored score/rating. Even without concurrency, an I/F/upload fact added after last Lead refresh then submit/approve creates a manual snapshot with new breakdown.total but old systemScore. READ COMMITTED also permits mismatched system snapshots when facts commit between the two collections.",
+      "authority": "EX54 5.2 requires the system result and explanatory factors at that score; EX55A-R 5.2-5.4 requires same v2 breakdown. Node shares this defect and is not acceptance authority.",
+      "minimalRepairDirection": "System refresh paths share one materialized tuple for Lead and snapshot. Normal manual/revoked snapshots use the matching last stored system tuple, retain manual source/actor metadata; do not add implicit GET or I/F/upload refresh.",
+      "mustNotClaim": "No actual failed request or DB witness executed by A in G1. Historical E-56/E-61 do not assert this interleaving or unrefreshed manual case.",
+      "stage": ["A-S02", "A-S03", "A-S08"],
+      "legacyMissingTuple": "Direct user decision via Root: only if no matching stored system tuple exists, the approval transaction first recalculates stored system score and inserts a system snapshot, then approves override and inserts its manual snapshot; every necessary state/snapshot/audit write rolls back together. Normal matching tuple is reused without unconditional refresh."
+    },
+    {
+      "id": "A-DOC-01",
+      "severity": "G1-input consistency",
+      "status": "Resolved by Root before 01 seal; historical audit observation only, no product change",
+      "source": ["docs/design/rust-r3-scope-and-dependencies.md:3", "docs/design/backend-rust-migration-plan.md:3", "docs/design/rust-r3-operation-slices.json:20"],
+      "problem": "At initial audit, undated/current headers said30/58 and remaining28, and nonHttpScope.future named delivered Lead conversion. Root corrected the active scope/plan/operation summary before this 01 seal. Final pins capture corrected current inputs; dated historical statements remain preserved. This is not a remaining product omission.",
+      "evidence": ["E-G4"]
+    }
+  ],
+  "stagePlan": [
+    {"id":"A-S01","priority":"required stage integration rerun","name":"Real Lead/I/F/upload -> refresh -> qualify -> real Project -> J/K reads","newComparedWithHistorical":"Stage-owned real IDs/receipt graph and score tuple assertions; historical E-61 is causal prior evidence only."},
+    {"id":"A-S02","priority":"new necessary P2 witness and regression","name":"Unrefreshed real facts -> submit/approve/revoke preserves coherent stored system tuple","newComparedWithHistorical":"Nonconcurrent mismatch trigger; no generic ApprovalRecord/Todo row; system GET remains read-only."},
+    {"id":"A-S03","priority":"new necessary P2 concurrency regression","name":"Block system_snapshot approved lookup after refresh, commit real I fact, release and verify one coherent materialized tuple","newComparedWithHistorical":"Root-owned ACCESS EXCLUSIVE lock on lead_score_override plus pg_stat_activity observed waiter; no sleeps/mock/product hooks."},
+    {"id":"A-S04","priority":"necessary after tuple repair","name":"Each actual system trigger + active override and semantic-noop controls","newComparedWithHistorical":"All touched create/update/claim/assign/qualify/close/convert paths score==breakdown.total and gates; name-only and exact noop suppress extra snapshot."},
+    {"id":"A-S05","priority":"bounded critical race rerun","name":"Same expected-version Lead edit / override replacement races and one-pending submission","newComparedWithHistorical":"Reuse historical race mechanics, new stage receipts; 200/409 or201/409 only as appropriate, one committed trace."},
+    {"id":"A-S06","priority":"bounded stage read/ownership assertion","name":"Workbench scope/filter/ownership and actual converted pointer","newComparedWithHistorical":"Summary/facets scope order, owner filtering and GET purity on same stage IDs; do not rerun 80 DTO cases without changed validation."},
+    {"id":"A-S07","priority":"bounded conversion concurrency rerun","name":"Two real qualified conversion attempts create exactly one Project","newComparedWithHistorical":"Record observed waiters if forcing simultaneous preflights; loser409 when write races,400 allowed only after reread already converted, never2 success."},
+    {"id":"A-S08","priority":"required atomicity regression on affected commands","name":"Deny necessary snapshot/assignment/audit writes and compare whole business state plus session","newComparedWithHistorical":"Selective Root permissions only; all state/versions/history/owner/audit remain identical; counter gap exception separately observed."},
+    {"id":"A-S09","priority":"bounded conversion atomicity rerun","name":"Real uploaded files with copy-link/audit/snapshot INSERT denied separately","newComparedWithHistorical":"No orphan Project, no converted Lead pointer, no copied link or partial snapshot/audit; source link/object intact; independent counter may advance."},
+    {"id":"A-S10","priority":"reuse unless touched; one stage capacity check","name":"Independent number reservation and early storage/input bounds","newComparedWithHistorical":"Root at least poolCapacity+1 real creates complete without nested pool wait; counter uniqueness, invalid local input no reservation; numeric/year/scalar detailed E-56 reusable if source pins unchanged."},
+    {"id":"A-S11","priority":"bounded authorization/gate/CAS regressions","name":"Real actor missing conversion permission, ineligible owner, incomplete gates and stale row versions","newComparedWithHistorical":"Assert status class and zero business/snapshot/required-audit deltas, using registered actor/permission fixtures; no new permission policy."},
+    {"id":"A-S12","priority":"new necessary user-decided legacy fallback","name":"Prepared owned historical Lead without matching system tuple -> approval transaction recalculates system then approves override","newComparedWithHistorical":"Prepared legacy state explicitly labeled, not claimed as an actual historical HTTP producer. Successful approval commits Lead system score/version, one system snapshot, approved override/manual snapshot/registered audit together; deny necessary Lead/snapshot/audit writes separately and verify complete rollback."}
+  ],
+  "exclusions": [
+    "Contract review submit/decisions, contract terms and sign-ready producers are R4; commission payout/adjustment submit and settlement are R5.",
+    "No new generic R3 approval kind, scoring job, route, DTO, schema, migration, cloud tenant, deployment or performance certification.",
+    "Do not read old private SQL/raw-wire originals. Public archived reports may reference originals without opening them.",
+    "Stage full certification and parent closure belong Root and independent reviews, not historical child G4 or this G1 input."
+  ],
+  "legacyBusinessDecision": {
+    "topic": "Legacy Lead missing a matching stored system tuple/snapshot",
+    "state": "Direct human answer relayed by Root during this G1 audit",
+    "decisionQuote": "审批事务内先补算系统评分并留快照，再执行覆盖审批；任一必要写入失败整体回滚（推荐）",
+    "applicability": "Historical Lead with no matching persisted system tuple/snapshot only; normal matched tuple is reused without automatic manual refresh.",
+    "G2AuthorizedByThisInput": false,
+    "definition": "Freeze bounded fallback direction, actual prepared-legacy witness and whole-transaction failure assertions. Implementation still waits for joint G1/online freeze and explicit Root G2."
+  },
+  "handoff": "Pause after input delivery. Joint independent G1 and online freeze precede Root explicit G2 and separate product-fix worktree."
+}

@@ -1,0 +1,115 @@
+{
+  "label": "B.project.update",
+  "name": "B.project.update",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.773Z",
+  "completedAt": "2026-11-02T23:01:03.790Z",
+  "validatedEventRange": {
+    "start": 14,
+    "end": 15,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_updateBasicInfo",
+    "request": {
+      "actor": "admin",
+      "method": "PATCH",
+      "path": "/api/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+      "json": {
+        "projectName": "R3HK-5fb76d1a-11 revised project",
+        "customerProjectNo": null,
+        "plannedSignAt": null
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "closedAt": null,
+        "closedReason": null,
+        "createdAt": "2026-11-02T23:01:03.717Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "currentStage": "assessment",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerName": "R3HK-5fb76d1a-11 customer revised",
+        "customerProjectNo": null,
+        "id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "plannedSignAt": null,
+        "projectName": "R3HK-5fb76d1a-11 revised project",
+        "projectNo": "PRJ-2026-000002",
+        "rowVersion": 2,
+        "sourceLeadId": null,
+        "status": "active",
+        "updatedAt": "2026-11-02T23:01:03.782Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      },
+      "requestId": "c88f8156-4159-45e4-aac2-6eddf97f710e",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "675",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-28",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 535,
+        "requestSha256": "0c2bfa0e03b7d21f6dcdada15f71c0a59bd70f67797eeeb69f5cb44ba9f97a15",
+        "responseBytes": 954,
+        "responseSha256": "b09dff203d0f862281a1112b56d1b1c02f17e3ad4c635fe66924794acb2d50d7",
+        "entityBodyBytes": 675,
+        "entityBodySha256": "d9ed9cd6bd084eb9c32ed215ed89d5871d8eaaa8f75cab4e36e117ed4f6081c1",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-a911c243-a889-4a61-a03c-074472410cc0",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "project_no": "PRJ-2026-000002",
+        "project_name": "R3HK-5fb76d1a-11 revised project",
+        "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "status": "active",
+        "current_stage": "assessment",
+        "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+        "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "planned_sign_at": null,
+        "closed_at": null,
+        "closed_reason": null,
+        "row_version": 2,
+        "created_at": "2026-11-02T23:01:03.717Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:03.782Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customer_name": "R3HK-5fb76d1a-11 customer revised",
+        "source_lead_id": null,
+        "customer_project_no": null
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-15-B.project.update.json",
+      "bytes": 3728,
+      "rawBytesSha256": "a3f6d097cacc9ac0b6be0df5a9fe8707de4495087de1140c40d4b44b52f5d1cb"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -2170,7 +2170,7 @@ export class LeadList implements OnInit {
             const project = await this.#leadStore.convertLeadToProject(target.id, {
                 customerProjectNo: this.optionalText(form.customerProjectNo),
                 projectName: this.optionalText(form.projectName) ?? undefined,
-                plannedSignAt: form.plannedSignAt ? this.toIsoDate(form.plannedSignAt) : null
+                plannedSignAt: form.plannedSignAt ? form.plannedSignAt.toISOString() : null
             });
             this.convertDialogVisible = false;
             this.detailDialogVisible = false;

@@ -1,0 +1,85 @@
+{
+  "kind": "R3-required-common-candidate-checks",
+  "completed": true,
+  "source": {
+    "file": "tools/rust-r3m/common-checks01.mjs",
+    "bytes": 1760,
+    "rawBytesSha256": "62da591effb8fa9ec37c288660e523b8712801d0bd3cae7e96f43def5905eaea"
+  },
+  "candidate": {
+    "file": "tmp/rust-r3m/root/candidate-final01.json",
+    "bytes": 59115,
+    "rawBytesSha256": "54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f"
+  },
+  "checks": [
+    {
+      "name": "markdown-format-check",
+      "exe": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "task",
+        "format:md:check"
+      ],
+      "startedAt": "2026-11-03T02:07:42.748Z",
+      "completedAt": "2026-11-03T02:07:44.512Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "docs/design/rust-r3m/verification/common-checks01/markdown-format-check-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/rust-r3m/verification/common-checks01/markdown-format-check-stderr-original.bin",
+        "bytes": 83,
+        "rawBytesSha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd"
+      }
+    },
+    {
+      "name": "staged-whitespace",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "startedAt": "2026-11-03T02:07:44.514Z",
+      "completedAt": "2026-11-03T02:07:45.343Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "docs/design/rust-r3m/verification/common-checks01/staged-whitespace-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/rust-r3m/verification/common-checks01/staged-whitespace-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "worktree-whitespace",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "startedAt": "2026-11-03T02:07:45.344Z",
+      "completedAt": "2026-11-03T02:07:45.425Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "docs/design/rust-r3m/verification/common-checks01/worktree-whitespace-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/rust-r3m/verification/common-checks01/worktree-whitespace-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

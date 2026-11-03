@@ -1,0 +1,205 @@
+{
+  "kind": "C-independent-R3-closeout-Root-D-G1-preaudit01",
+  "createdAt": "2026-11-02T21:28:05.018Z",
+  "reviewer": {
+    "agent": "/root/r3hijk_review",
+    "role": "Independent non-author C",
+    "configuredTarget": "gpt-6.1-sol/max",
+    "Fast": "unverified"
+  },
+  "status": "Preaudit-complete-awaiting-complete-joint-frozen-input",
+  "G1Certified": false,
+  "G2AuthorizedAfterOnlineFreeze": false,
+  "actualAcceptanceExecuted": false,
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "branch": "codex/poms-r3-closeout",
+  "batchIssue": 97,
+  "scopeIssues": [
+    98,
+    99,
+    100
+  ],
+  "stageIssue": 85,
+  "overallIssue": 57,
+  "inputs": {
+    "rootBaseline": {
+      "file": "docs/design/rust-r3-closeout-baseline.md",
+      "bytes": 14037,
+      "rawBytesSha256": "cacbb759574fa063f74bc7ddb5028fbd58e26c7f8289d2c87def43e2be630129"
+    },
+    "RootG0Registration": {
+      "file": "tmp/rust-r3m/root/g0-issue-registration.json",
+      "bytes": 15146,
+      "rawBytesSha256": "15333a83d3e4a132e2cbb7bf4ea777c8672c748f3715e4274d48fd17f0e09f62"
+    },
+    "DInput": {
+      "file": "tmp/rust-r3m/input-d/g1-input01.json",
+      "bytes": 180328,
+      "rawBytesSha256": "66c8beaf346f56b3e6aed8ea897d2f5003ee4e3938bd36954b55e67d80c9c3bc"
+    },
+    "DMarkdown": {
+      "file": "tmp/rust-r3m/input-d/g1-input01.md",
+      "bytes": 6872,
+      "rawBytesSha256": "9ad4bf3f02c678ce9b8990601af7714a4523de95f3a001269a196a9f82b45a24"
+    },
+    "caseDefinitions": [
+      {
+        "file": "tmp/rust-r3m/input-d/acceptance-cases01.json",
+        "bytes": 14440,
+        "rawBytesSha256": "f0693659e0f70db124cd8284b12d688765430f6e95f44887f386ba08045ad92c"
+      },
+      {
+        "file": "tmp/rust-r3m/input-d/score-cases-addendum01.json",
+        "bytes": 3033,
+        "rawBytesSha256": "ec22de2868f63748a295d9ddde6898cbc2037dd395b2395b9fcc1e1e4ec2daa3"
+      }
+    ],
+    "currentStatus": {
+      "file": "docs/design/rust-r3-closeout-status.json",
+      "bytes": 439,
+      "rawBytesSha256": "d5c09ae2f81f7806fc3fd0ffe531f006333b493ac5d1da5ec7b3cfd894fda8a5"
+    },
+    "inventory": {
+      "file": "docs/design/rust-r3-operation-slices.json",
+      "bytes": 177599,
+      "rawBytesSha256": "8af54cffe608879d7ac8b6f200807e5ac8e9314689344197cecf7356abf2a129"
+    }
+  },
+  "rootG0": {
+    "nativeGraphSnapshot": {
+      "file": "tmp/rust-r3m/root/g0-online01/24-after-stdout-original.json",
+      "bytes": 3730,
+      "rawBytesSha256": "47658ef625a90f030d47a1e490fda7a8829cff4f79652a444221c1cf781b6b16"
+    },
+    "all64RegisteredOriginalPinsExact": true,
+    "graph": "57(open) ->85(open)->97(open)->98/99/100(open)",
+    "old86To96Closed": true,
+    "publicOperationsAdded": 0,
+    "currentR3HTTPDelivered": 58,
+    "currentStageIncomplete": true
+  },
+  "preliminaryConclusion": {
+    "newProductOrBusinessScopeBlockersFound": [],
+    "RootAndDDesignBoundaryUsableForJointG1": true,
+    "finalAAndBInputsAndManifestRequired": true,
+    "noPrematureGatePass": true
+  },
+  "sourceReconciliationRequiredInFormalManifest": {
+    "file": "docs/design/rust-r3-closeout-baseline.md",
+    "D01OriginalPin": {
+      "file": "docs/design/rust-r3-closeout-baseline.md",
+      "bytes": 14011,
+      "rawBytesSha256": "a4838996cf1aea0b91deafd1808b69486b64adc5ac381c7c54b7dcdfea16aa23"
+    },
+    "currentRootAuthorityPin": {
+      "file": "docs/design/rust-r3-closeout-baseline.md",
+      "bytes": 14037,
+      "rawBytesSha256": "cacbb759574fa063f74bc7ddb5028fbd58e26c7f8289d2c87def43e2be630129"
+    },
+    "onlyDelta": "Three directory names corrected from project_costs/project_bids/project_pricing to project_technical_cost/project_bid_commercial/project_pricing_margin.",
+    "byteDelta": 26,
+    "inMemoryInverseExactToD01OriginalPin": true,
+    "businessScopeChanged": false,
+    "D01MustRemainOriginal": true,
+    "RootAcknowledged": "Formal source-reconciliation will retain D01 old pin and designate current joint baseline/manifest authority; final sealed record not yet inspected."
+  },
+  "rootAndDChecks": {
+    "all58OperationIdMethodPathIssueAndPermissionsMatchCurrentInventory": true,
+    "each58RequiresOwnActualSuccessReceipt": true,
+    "knownCounts": {
+      "RustOperations": 173,
+      "RustPaths": 138,
+      "RustSchemas": 585,
+      "NativePaths": 237,
+      "NativeOperations": 291,
+      "NativeSchemas": 585,
+      "clientFiles": 579,
+      "migrations": 92
+    },
+    "countsAreInputFactsNotCurrentAcceptance": true,
+    "DFormalPinsMatching": 38,
+    "DFormalPinsTotal": 39,
+    "DCaseDefinitionPinsExact": true,
+    "ignored": {
+      "total": 54,
+      "DBOptIn": 53,
+      "explicitChildFixture": 1,
+      "all54SourceAttributeLinesAndTestNamesVerified": true,
+      "defaultIgnoredNotPass": true,
+      "currentParentExecutionReceiptRequired": true
+    },
+    "pureDefinitions": 18,
+    "pureDefinitionsAreUnexecuted": true,
+    "boundaries": {
+      "R3Approval": "Existing Lead score submit/approve/reject/revoke only; no generic ApprovalRecord handler.",
+      "genericContract": "R4 contract/contract-review",
+      "genericCommission": "R5 payout/adjustment approval",
+      "schedulerAndTakeover": "R6/R7, no invented R3 scheduler",
+      "preparedFutureFacts": "Declared readonly projections only; no future producer completion"
+    },
+    "scoring": "One materialized tuple for explicit refresh; normal manual/revoked snapshots retain matching stored system tuple; user-decided historical missing-match fallback recomputes system+snapshot before manual approval within one TX; GET does not backfill.",
+    "UI": {
+      "allowedFiles": [
+        "apps/poms-admin/src/app/features/lead/lead-list.ts",
+        "apps/poms-admin/src/app/features/lead/lead-list.spec.ts"
+      ],
+      "delta": "Nonempty plannedSignAt Date.toISOString(), datetime DTO unchanged, other date fields unchanged.",
+      "journeys": 4,
+      "platformAxes": 4,
+      "requiredActualJourneyCells": 16,
+      "localCalendarDateAndPGTimestampMustAgree": true,
+      "blankNullRegressionRequired": true,
+      "WindowsRustNativeServerCertified": false
+    },
+    "protected1373MixedSet": "Exactly the two declared UI files may change; all other original pins exact. Do not describe all1373 as unchanged Native backend sources."
+  },
+  "knownCorrectionCandidatesNotAcceptance": {
+    "A": [
+      "System refresh/build_snapshot separately collect facts; freeze a shared materialized tuple and matching stored system tuple selection.",
+      "Historical no-match approval fallback follows direct user decision and tests each necessary write rollback."
+    ],
+    "B": [
+      "Customer/Contact CAS0 Protocol maps to500; freeze409 conflict and loser rollback.",
+      "Other actor equal business value PATCH must not dirty only updatedBy.",
+      "Uppercase ownerOrg identity immediate response must agree with subsequent GET."
+    ],
+    "Root": [
+      "Original nonempty plannedSignAt UI sends date-only; exact two-file datetime serialization correction."
+    ],
+    "state": "Known existing-baseline-drift correction candidates before G2, not current fixes or runtime passes; await A/B formal source and case pins."
+  },
+  "E1": {
+    "freshApprovalRequired": true,
+    "approvedByThisPreaudit": false,
+    "provisionalScopeEligibleForJointG1Decision": true,
+    "regularAliases": 5,
+    "totalBytes": 419264,
+    "actualDirectLiteralConsumers": 23,
+    "allFiveActiveAndCanonicalRawPinsAndAll23ConsumerSourcePinsVerified": true,
+    "owner": "Root /root",
+    "originalDeadline": "2026-11-09",
+    "deadlineExtended": false,
+    "exitRequiredBeforeCurrentG3": true,
+    "onlyForCurrentBatchExitWork": true,
+    "noNewConsumerAliasMirrorOrPrivateReadAllowed": true,
+    "requiredExit": "Strict canonical (logical file,bytes,SHA) resolver; immutable snapshots before move mapping; no old-active/latest fallback; actual representative manifests/operation/fixture builder calls before and after deleting exactly five aliases, original archive hashes unchanged.",
+    "historicalScriptsRemainImmutableAndNotAdvertisedUnchangedRunnable": true,
+    "newSupportedEntryImplementationAndActualReplayStillPending": true
+  },
+  "finalJointG1Remaining": [
+    "Sealed A and B inputs with exact sources/cases/ownership and tuple matching/fallback semantics.",
+    "Root manifest pinning all formal inputs, protected two-file delta and explicit D01 baseline reconciliation.",
+    "Fresh bounded E1 decision in final joint G1; pure preaudit does not approve it.",
+    "Complete independent joint G1 and exact online freeze before product G2."
+  ],
+  "noProductOrRootExecutorOrGovernanceWriting": true,
+  "noInstallBuildTestDBHTTPBrowserServiceOrWSLExecution": true,
+  "noPrivateRead": true,
+  "noGitMutationOrGitHubExternalWrite": true,
+  "onlyOwnCReviewArtifactsWritten": true,
+  "staticVerifier": {
+    "file": "tmp/rust-r3m/c-review/write-g1-root-d-preaudit01.mjs",
+    "bytes": 10262,
+    "rawBytesSha256": "b92e6a9d9220945ce1763074c875b11d65904e941d1170803fcb1040aef22380"
+  }
+}

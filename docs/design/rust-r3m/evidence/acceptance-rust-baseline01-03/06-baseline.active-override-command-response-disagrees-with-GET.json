@@ -1,0 +1,197 @@
+{
+  "label": "baseline.active-override-command-response-disagrees-with-GET",
+  "startedAt": "2026-11-02T22:09:20.233Z",
+  "completedAt": "2026-11-02T22:09:20.272Z",
+  "value": {
+    "expectedPreFixViolationObserved": true,
+    "response": {
+      "status": 200,
+      "body": {
+        "activeScoreOverrideId": null,
+        "budgetStatus": "budget-confirmed",
+        "closedAt": null,
+        "closedBy": null,
+        "closedReason": null,
+        "convertedAt": null,
+        "convertedBy": null,
+        "convertedProjectId": null,
+        "createdAt": "2026-11-02T22:09:20.115Z",
+        "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+        "customerId": "f18124dc-47d0-4199-a8cb-02ed3b6ba718",
+        "customerName": "R3CO baseline 12489848-1b79-44cd-8265-853e8ac76fe5",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "effectiveRating": "A",
+        "effectiveScore": 82,
+        "effectiveScoreReason": "基础商务+62；销售情报+20",
+        "effectiveScoreSource": "system",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "gateSummary": {
+          "conversion": {
+            "explanation": "缺少：已确认有效状态",
+            "missingItems": [
+              "qualified-status"
+            ],
+            "status": "blocked"
+          },
+          "qualification": {
+            "explanation": "已满足确认有效硬闸口",
+            "missingItems": [],
+            "status": "ready"
+          }
+        },
+        "id": "955ab6a5-e5a0-42ef-81af-d9a811b04d41",
+        "leadName": "R3CO changed 12489848",
+        "leadNo": "LD-2026-000001",
+        "ownerOrgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+        "ownerUserId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+        "qualificationSummary": null,
+        "qualifiedAt": null,
+        "qualifiedBy": null,
+        "rating": "A",
+        "rowVersion": 2,
+        "score": 82,
+        "scoreReason": "基础商务+62；销售情报+20",
+        "scoreUpdatedAt": "2026-11-02T22:09:20.241Z",
+        "sourceCode": "customer-visit",
+        "sourceName": "客户拜访",
+        "status": "registered",
+        "updatedAt": "2026-11-02T22:09:20.245Z",
+        "updatedBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+        "urgency": "high"
+      },
+      "requestId": "6355953a-6fdf-4e36-b067-f16426a774c8",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1544",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-130111-43",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 22:09:20 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 472,
+        "requestSha256": "9396a209e4865463ad0a38eb690834c8d360815ecae2d99eff56ce0d87312c59",
+        "responseBytes": 1824,
+        "responseSha256": "c1be42d20fc235b36ebbee6f75bdbe829ce118599be1bd8676904d412208bc52",
+        "entityBodyBytes": 1544,
+        "entityBodySha256": "8ffcc1f605426c61fcf33f4930bdc2e6bdd09315e5b9e2c309c8fa43f2febf2a",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase03/raw-wire/admin-163aa391-a737-44be-b75e-ef331915e7d3",
+        "originalRawRetained": true
+      }
+    },
+    "read": {
+      "status": 200,
+      "body": {
+        "activeScoreOverrideId": "10de7a5b-b0cd-4b8e-a73c-829420e0655c",
+        "allowedActions": [
+          "assign-lead-owner"
+        ],
+        "budgetStatus": "budget-confirmed",
+        "closedAt": null,
+        "closedBy": null,
+        "closedReason": null,
+        "convertedAt": null,
+        "convertedBy": null,
+        "convertedProjectId": null,
+        "convertedProjectSummary": null,
+        "createdAt": "2026-11-02T22:09:20.115Z",
+        "createdBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+        "customerId": "f18124dc-47d0-4199-a8cb-02ed3b6ba718",
+        "customerName": "R3CO baseline 12489848-1b79-44cd-8265-853e8ac76fe5",
+        "demandDescription": "客户已确认设备建设目标、项目范围、预算来源及下一步沟通安排。",
+        "effectiveRating": "A",
+        "effectiveScore": 95,
+        "effectiveScoreReason": "人工覆盖评分：客户已确认新增关键事实，申请人工评估。",
+        "effectiveScoreSource": "manual-override",
+        "estimatedAmount": "1200000.00",
+        "expectedDecisionDate": "2026-11-20",
+        "gateSummary": {
+          "conversion": {
+            "explanation": "缺少：已确认有效状态",
+            "missingItems": [
+              "qualified-status"
+            ],
+            "status": "blocked"
+          },
+          "qualification": {
+            "explanation": "已满足确认有效硬闸口",
+            "missingItems": [],
+            "status": "ready"
+          }
+        },
+        "id": "955ab6a5-e5a0-42ef-81af-d9a811b04d41",
+        "leadName": "R3CO changed 12489848",
+        "leadNo": "LD-2026-000001",
+        "ownerName": "R3CO admin",
+        "ownerOrgId": "4288e072-4ad0-45fb-9f46-9991de331bad",
+        "ownerOrgName": "R3CO admin",
+        "ownerUserId": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+        "qualificationSummary": null,
+        "qualifiedAt": null,
+        "qualifiedBy": null,
+        "rating": "A",
+        "rowVersion": 2,
+        "score": 82,
+        "scoreReason": "基础商务+62；销售情报+20",
+        "scoreUpdatedAt": "2026-11-02T22:09:20.241Z",
+        "sourceCode": "customer-visit",
+        "sourceName": "客户拜访",
+        "sourceSummary": "来源：客户拜访",
+        "status": "registered",
+        "updatedAt": "2026-11-02T22:09:20.245Z",
+        "updatedBy": "81c8d633-8db3-4151-a55d-c6836ffbcbf1",
+        "urgency": "high"
+      },
+      "requestId": "a0b13331-d3c5-4c70-8808-c696e4c4a1a9",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1783",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-130111-44",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 22:09:20 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 323,
+        "requestSha256": "bd3a312e5bac93ddc2d989ba7b6b110baafca1acff4213769feb6c1efaab27c0",
+        "responseBytes": 2063,
+        "responseSha256": "b1b36e3c865e2328834778912f92ffba37cf5c57e127291278057787f78162e4",
+        "entityBodyBytes": 1783,
+        "entityBodySha256": "270e230e42d0361f4132547054e31165c3319d4ce0e807c3348aa571b425f35c",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase03/raw-wire/admin-f0367cb4-b60f-4afd-a0e9-3a1349c49d30",
+        "originalRawRetained": true
+      }
+    }
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-12489848-1b79-44cd-8265-853e8ac76fe5/phase03/structured-original-06-baseline.active-override-command-response-disagrees-with-GET.json",
+      "bytes": 7127,
+      "rawBytesSha256": "12c04a5d9e6b8c77c306534106ac5321359e547b04a2ab3f9e08cc7eed7b3219"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -1,0 +1,443 @@
+{
+  "label": "F.concurrent.replace-void",
+  "name": "F.concurrent.replace-void",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-03T00:12:58.132Z",
+  "completedAt": "2026-11-03T00:12:58.217Z",
+  "validatedEventRange": {
+    "start": 9,
+    "end": 12,
+    "exclusive": true
+  },
+  "value": {
+    "producer": {
+      "status": 201,
+      "body": {
+        "createdAt": "2026-11-03T00:12:58.144Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+        "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+        "detail": "r3m-f-23 source private detail",
+        "followUpType": "phone",
+        "id": "03c21ad7-81b7-464f-864e-b70661298b29",
+        "leadId": null,
+        "leadName": null,
+        "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+        "occurredAt": "2026-11-03T00:00:00.000Z",
+        "outcome": "progress",
+        "ownerName": "R3CO admin",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerOrgName": "R3CO admin",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "projectId": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+        "projectName": "R3CO F-race-replace-void-23 5fb76d1a-e714-4510-a6e8-d33531405432",
+        "replacedById": null,
+        "replacementReason": null,
+        "rowVersion": 1,
+        "status": "active",
+        "summary": "r3m-f-23 replace-void source",
+        "supersedesId": null,
+        "updatedAt": "2026-11-03T00:12:58.144Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "voidReason": null,
+        "voidedAt": null,
+        "voidedBy": null,
+        "voidedByName": null
+      },
+      "requestId": "f-race:r3m-f-23:replace-void:seed",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1048",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-526",
+        "connection",
+        "close",
+        "date",
+        "Tue, 03 Nov 2026 00:12:58 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 848,
+        "requestSha256": "8f718e06f7751ec8a546c993cdbe921c4ccb340c831cf05cd8043ef6c965b4d6",
+        "responseBytes": 1334,
+        "responseSha256": "d70c11b3beb3e5f5cb50bc3c5df130ec455e14ce5a9c541c85b336ccdcbb7b7a",
+        "entityBodyBytes": 1048,
+        "entityBodySha256": "8a624c80b5404ac4bced62fb0457f4ed8209bc96ac86fc7b37c3fb3a8461195c",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase23/raw-wire/admin-7592329d-7696-4f25-b6a1-cd6fd9929bbd",
+        "originalRawRetained": true
+      }
+    },
+    "requests": [
+      {
+        "actor": "admin",
+        "operationId": "SalesFollowUpController_replace",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records/03c21ad7-81b7-464f-864e-b70661298b29:replace",
+        "headers": {
+          "x-request-id": "f-race:r3m-f-23:replace-void:a"
+        },
+        "json": {
+          "followUpType": "phone",
+          "occurredAt": "2026-11-03T01:00:00.000Z",
+          "summary": "r3m-f-23 replace-void winner-a",
+          "detail": "r3m-f-23 replacement private detail a",
+          "outcome": "waiting-customer",
+          "nextFollowUpAt": "2027-02-02T00:00:00.000Z",
+          "ownerUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "ownerOrgId": "5d85212f-2442-4bf3-a1ab-8e4245404179",
+          "replacementReason": "r3m-f-23 replace-void correction-a",
+          "expectedVersion": 1
+        }
+      },
+      {
+        "actor": "other",
+        "operationId": "SalesFollowUpController_void",
+        "method": "POST",
+        "path": "/api/sales-follow-up-records/03c21ad7-81b7-464f-864e-b70661298b29:void",
+        "headers": {
+          "x-request-id": "f-race:r3m-f-23:replace-void:b"
+        },
+        "json": {
+          "reason": "r3m-f-23 replace-void withdraw-b",
+          "comment": "actual contender b",
+          "expectedVersion": 1
+        }
+      }
+    ],
+    "lock": {
+      "owner": "Root",
+      "table": "poms.sales_follow_up_record",
+      "sourceId": "03c21ad7-81b7-464f-864e-b70661298b29",
+      "mode": "FOR UPDATE",
+      "expectedVersion": 1,
+      "sql": "SELECT id,row_version,status FROM poms.sales_follow_up_record WHERE id=$1::uuid FOR UPDATE",
+      "params": [
+        "03c21ad7-81b7-464f-864e-b70661298b29"
+      ],
+      "requiredWaitingBeforeRelease": 2,
+      "releaseOnlyAfter": "both actual application transactions wait on this source-row blocker"
+    },
+    "race": {
+      "waitingBeforeRelease": 2,
+      "waiters": [
+        {
+          "pid": 629,
+          "wait_event_type": "Lock",
+          "wait_event": "transactionid",
+          "query": "SELECT * FROM poms.sales_follow_up_record WHERE id=$1 FOR UPDATE",
+          "blockers": [
+            637
+          ]
+        },
+        {
+          "pid": 630,
+          "wait_event_type": "Lock",
+          "wait_event": "tuple",
+          "query": "SELECT * FROM poms.sales_follow_up_record WHERE id=$1 FOR UPDATE",
+          "blockers": [
+            629
+          ]
+        }
+      ],
+      "responses": [
+        {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "sales-follow-up-record version 1 does not match current version 2",
+            "statusCode": 409
+          },
+          "requestId": "f-race:r3m-f-23:replace-void:a",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "115",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-527",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:58 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 867,
+            "requestSha256": "03633c073948e5b5ed9b91928640d0d78a8dd8fb5653b71b2203ef47dcf15485",
+            "responseBytes": 401,
+            "responseSha256": "9838c4dc65dce2ea6c53b481316c0e465541ff78642a863c0880b4a1bdef4a6d",
+            "entityBodyBytes": 115,
+            "entityBodySha256": "4ba3494df7592221c530cb68d99c9ff4c696c370f7bbde79eed35c2f26642d55",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase23/raw-wire/admin-483872d8-9f05-4469-9230-0fb16980da59",
+            "originalRawRetained": true
+          }
+        },
+        {
+          "status": 200,
+          "body": {
+            "createdAt": "2026-11-03T00:12:58.144Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "customerName": "R3CO stage-anchor 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "detail": "r3m-f-23 source private detail",
+            "followUpType": "phone",
+            "id": "03c21ad7-81b7-464f-864e-b70661298b29",
+            "leadId": null,
+            "leadName": null,
+            "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+            "occurredAt": "2026-11-03T00:00:00.000Z",
+            "outcome": "progress",
+            "ownerName": "R3CO admin",
+            "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+            "ownerOrgName": "R3CO admin",
+            "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "projectId": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "projectName": "R3CO F-race-replace-void-23 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "replacedById": null,
+            "replacementReason": null,
+            "rowVersion": 2,
+            "status": "voided",
+            "summary": "r3m-f-23 replace-void source",
+            "supersedesId": null,
+            "updatedAt": "2026-11-03T00:12:58.205Z",
+            "updatedBy": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "voidReason": "r3m-f-23 replace-void withdraw-b: actual contender b",
+            "voidedAt": "2026-11-03T00:12:58.176Z",
+            "voidedBy": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "voidedByName": "R3CO other"
+          },
+          "requestId": "f-race:r3m-f-23:replace-void:b",
+          "headers": [
+            "content-type",
+            "application/json; charset=utf-8",
+            "content-length",
+            "1162",
+            "access-control-allow-origin",
+            "http://127.0.0.1:13600",
+            "vary",
+            "Origin",
+            "access-control-allow-credentials",
+            "true",
+            "x-request-id",
+            "r1a-182884-528",
+            "connection",
+            "close",
+            "date",
+            "Tue, 03 Nov 2026 00:12:58 GMT"
+          ],
+          "rawWire": {
+            "requestBytes": 548,
+            "requestSha256": "bc93781ed1bd815e411a390e7fafd9f347b5f8fb13c293205d781ec93dda1927",
+            "responseBytes": 1443,
+            "responseSha256": "5eed52bdca1b27bd12254b2944b7a0adff8d04648275e3f2eec9609df436285a",
+            "entityBodyBytes": 1162,
+            "entityBodySha256": "45fccf5061f8408af4875f06dd4506243a08d2689b5cae57cbf7c9dd84997ec2",
+            "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase23/raw-wire/other-1e8d5be4-bf58-412c-8938-71973a6063ab",
+            "originalRawRetained": true
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "lockTable": "poms.sales_follow_up_record",
+      "lockSourceId": "03c21ad7-81b7-464f-864e-b70661298b29",
+      "sourceRowLockHeldUntilTwoWaiters": true,
+      "beforeRows": {
+        "sales_follow_up_record": [
+          {
+            "id": "03c21ad7-81b7-464f-864e-b70661298b29",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "lead_id": null,
+            "project_id": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "follow_up_type": "phone",
+            "occurred_at": "2026-11-03T00:00:00.000Z",
+            "summary": "r3m-f-23 replace-void source",
+            "detail": "r3m-f-23 source private detail",
+            "outcome": "progress",
+            "next_follow_up_at": "2027-02-01T00:00:00.000Z",
+            "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+            "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "row_version": 1,
+            "created_at": "2026-11-03T00:12:58.144Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-03T00:12:58.144Z",
+            "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "status": "active",
+            "supersedes_record_id": null,
+            "replaced_by_record_id": null,
+            "replacement_reason": null,
+            "voided_at": null,
+            "voided_by": null,
+            "void_reason": null
+          }
+        ],
+        "todo_item": [
+          {
+            "id": "39cd3245-a885-44d0-9855-9ad68cc135d6",
+            "source_type": "sales-follow-up-record",
+            "source_id": "03c21ad7-81b7-464f-864e-b70661298b29",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "project_id": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "title": "销售跟进提醒：R3CO F-race-replace-void-23 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "summary": "r3m-f-23 replace-void source",
+            "assignee_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "status": "open",
+            "priority": "normal",
+            "due_at": "2027-02-01T00:00:00.000Z",
+            "completed_at": null,
+            "row_version": 1,
+            "created_at": "2026-11-03T00:12:58.150Z",
+            "updated_at": "2026-11-03T00:12:58.150Z"
+          }
+        ],
+        "audit_log": []
+      },
+      "afterRows": {
+        "sales_follow_up_record": [
+          {
+            "id": "03c21ad7-81b7-464f-864e-b70661298b29",
+            "customer_id": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+            "lead_id": null,
+            "project_id": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "follow_up_type": "phone",
+            "occurred_at": "2026-11-03T00:00:00.000Z",
+            "summary": "r3m-f-23 replace-void source",
+            "detail": "r3m-f-23 source private detail",
+            "outcome": "progress",
+            "next_follow_up_at": "2027-02-01T00:00:00.000Z",
+            "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+            "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "row_version": 2,
+            "created_at": "2026-11-03T00:12:58.144Z",
+            "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "updated_at": "2026-11-03T00:12:58.205Z",
+            "updated_by": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "status": "voided",
+            "supersedes_record_id": null,
+            "replaced_by_record_id": null,
+            "replacement_reason": null,
+            "voided_at": "2026-11-03T00:12:58.176Z",
+            "voided_by": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "void_reason": "r3m-f-23 replace-void withdraw-b: actual contender b"
+          }
+        ],
+        "todo_item": [
+          {
+            "id": "39cd3245-a885-44d0-9855-9ad68cc135d6",
+            "source_type": "sales-follow-up-record",
+            "source_id": "03c21ad7-81b7-464f-864e-b70661298b29",
+            "todo_type": "sales-follow-up-reminder",
+            "business_domain": "sales",
+            "target_object_type": "project",
+            "target_object_id": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "project_id": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+            "title": "销售跟进提醒：R3CO F-race-replace-void-23 5fb76d1a-e714-4510-a6e8-d33531405432",
+            "summary": "r3m-f-23 replace-void source",
+            "assignee_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "status": "canceled",
+            "priority": "normal",
+            "due_at": "2027-02-01T00:00:00.000Z",
+            "completed_at": "2026-11-03T00:12:58.204Z",
+            "row_version": 2,
+            "created_at": "2026-11-03T00:12:58.150Z",
+            "updated_at": "2026-11-03T00:12:58.204Z"
+          }
+        ],
+        "audit_log": [
+          {
+            "id": "f44f17e0-9d15-4e7b-bc34-056634aa071e",
+            "event_type": "sales-follow-up.voided",
+            "target_type": "sales-follow-up-record",
+            "target_id": "03c21ad7-81b7-464f-864e-b70661298b29",
+            "operator_id": "97e8f948-bcba-45bf-aabc-757232934bd9",
+            "request_id": "f-race:r3m-f-23:replace-void:b",
+            "result": "success",
+            "reason": null,
+            "before_snapshot": null,
+            "after_snapshot": null,
+            "metadata": {
+              "after": {
+                "leadId": null,
+                "status": "voided",
+                "outcome": "progress",
+                "summary": "r3m-f-23 replace-void source",
+                "voidedAt": "2026-11-03T00:12:58.176Z",
+                "voidedBy": "97e8f948-bcba-45bf-aabc-757232934bd9",
+                "projectId": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+                "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+                "occurredAt": "2026-11-03T00:00:00.000Z",
+                "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+                "rowVersion": 2,
+                "voidReason": "r3m-f-23 replace-void withdraw-b: actual contender b",
+                "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": null,
+                "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+                "replacementReason": null
+              },
+              "before": {
+                "leadId": null,
+                "status": "active",
+                "outcome": "progress",
+                "summary": "r3m-f-23 replace-void source",
+                "voidedAt": null,
+                "voidedBy": null,
+                "projectId": "7b0199c0-26fc-4fc5-afd1-8b559362251c",
+                "customerId": "ece3e94b-27ed-4c60-bf7f-2514b23b6142",
+                "occurredAt": "2026-11-03T00:00:00.000Z",
+                "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+                "rowVersion": 1,
+                "voidReason": null,
+                "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+                "followUpType": "phone",
+                "replacedById": null,
+                "supersedesId": null,
+                "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+                "replacementReason": null
+              },
+              "reason": "r3m-f-23 replace-void withdraw-b: actual contender b"
+            },
+            "occurred_at": "2026-11-03T00:12:58.207Z"
+          }
+        ]
+      }
+    },
+    "verified": {
+      "winnerIndex": 1,
+      "loserIndex": 0,
+      "winningOperation": "void",
+      "sourceId": "03c21ad7-81b7-464f-864e-b70661298b29",
+      "replacementId": null,
+      "winnerRequestId": "f-race:r3m-f-23:replace-void:b",
+      "loserRequestId": "f-race:r3m-f-23:replace-void:a"
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase23/structured-original-03-F.concurrent.replace-void.json",
+      "bytes": 17690,
+      "rawBytesSha256": "3b532f7f748664aeaddb79013561a37df72af3bfffa3ddf498a749873fa38029"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

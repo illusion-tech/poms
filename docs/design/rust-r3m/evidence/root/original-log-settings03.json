@@ -1,0 +1,56 @@
+{
+  "kind": "R3M-original-log-settings-declared-derivative",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "settings": {
+    "log_statement": "none",
+    "log_line_prefix": "%m [%p] ",
+    "log_error_verbosity": "default"
+  },
+  "originalEvidence": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/ui-linux-rust01-run03/postgres-stderr-original.bin",
+      "bytes": 119657,
+      "rawBytesSha256": "36223c2ad06a6c73b630662fcaca0d7db5c5caf73c37a9afb1629a3ca3c2bb72"
+    }
+  ],
+  "evidence": [
+    {
+      "key": "log_statement",
+      "actualRestorationStatement": "statement: alter system set log_statement='none'",
+      "statementOffset": 117598,
+      "originalStream": {
+        "file": "/home/wangzishi/.local/share/poms-r3m/private/ui-linux-rust01-run03/postgres-stderr-original.bin",
+        "bytes": 119657,
+        "rawBytesSha256": "36223c2ad06a6c73b630662fcaca0d7db5c5caf73c37a9afb1629a3ca3c2bb72"
+      }
+    },
+    {
+      "key": "log_line_prefix",
+      "actualRestorationStatement": "statement: alter system set log_line_prefix='%m [%p] '",
+      "statementOffset": 117948,
+      "originalStream": {
+        "file": "/home/wangzishi/.local/share/poms-r3m/private/ui-linux-rust01-run03/postgres-stderr-original.bin",
+        "bytes": 119657,
+        "rawBytesSha256": "36223c2ad06a6c73b630662fcaca0d7db5c5caf73c37a9afb1629a3ca3c2bb72"
+      }
+    },
+    {
+      "key": "log_error_verbosity",
+      "actualRestorationStatement": "statement: alter system set log_error_verbosity='default'",
+      "statementOffset": 118304,
+      "originalStream": {
+        "file": "/home/wangzishi/.local/share/poms-r3m/private/ui-linux-rust01-run03/postgres-stderr-original.bin",
+        "bytes": 119657,
+        "rawBytesSha256": "36223c2ad06a6c73b630662fcaca0d7db5c5caf73c37a9afb1629a3ca3c2bb72"
+      }
+    }
+  ],
+  "sourceExecutor": {
+    "file": "tools/rust-r3m/ui-run03.mjs",
+    "bytes": 20009,
+    "rawBytesSha256": "4f8ec84951956291b3001b8971d241b9d6e3a117ea758d175ff4da772c4c4815"
+  },
+  "interpretation": "First actual UI executor SHOW captures are restored in finally; these are its actual final restoration SQL statements, not guessed defaults.",
+  "privateOnlyRawSQL": true
+}

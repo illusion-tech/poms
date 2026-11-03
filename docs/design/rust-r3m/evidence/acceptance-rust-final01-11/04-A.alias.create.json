@@ -1,0 +1,92 @@
+{
+  "label": "A.alias.create",
+  "name": "A.alias.create",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.593Z",
+  "completedAt": "2026-11-02T23:01:03.607Z",
+  "validatedEventRange": {
+    "start": 3,
+    "end": 4,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerController_createAlias",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/customers/6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3/aliases",
+      "json": {
+        "aliasName": "R3HK-5fb76d1a-11 procurement alias",
+        "aliasType": "alias"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "id": "c372dd38-e754-406a-a6a1-c912bf3a11ef",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "aliasName": "R3HK-5fb76d1a-11 procurement alias",
+        "aliasType": "alias",
+        "normalizedName": "r3hk-5fb76d1a-11 procurement alias",
+        "isPrimary": false,
+        "createdAt": "2026-11-02T23:01:03.600Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      },
+      "requestId": "05edafb8-f33a-452a-ad71-e72d0ea61e5f",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "328",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-17",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 517,
+        "requestSha256": "d8678a906139856f952e501d85bf4fe2f4beba4bcfc5dee2d6574f80f48a7c4e",
+        "responseBytes": 612,
+        "responseSha256": "7c0b01c52b77ece1c912f447a0c1c26a51587f784bc7979d82a56a7e8d354e30",
+        "entityBodyBytes": 328,
+        "entityBodySha256": "b66bfc37c9125a316b988557b8c4660e6f1f95e21b3cf362ea6629e392eea33a",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-b3181b9b-adad-405f-a23e-e1a013ab0136",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "c372dd38-e754-406a-a6a1-c912bf3a11ef",
+        "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "alias_name": "R3HK-5fb76d1a-11 procurement alias",
+        "alias_type": "alias",
+        "normalized_name": "r3hk-5fb76d1a-11 procurement alias",
+        "is_primary": false,
+        "created_at": "2026-11-02T23:01:03.600Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-04-A.alias.create.json",
+      "bytes": 2762,
+      "rawBytesSha256": "ac214dcaf11de819cf984ba8a93da41e0d2b66de26afa35847ad6d493e9f57ca"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

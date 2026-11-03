@@ -1,0 +1,148 @@
+{
+  "label": "B.project.detail",
+  "name": "B.project.detail",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.750Z",
+  "completedAt": "2026-11-02T23:01:03.772Z",
+  "validatedEventRange": {
+    "start": 13,
+    "end": 14,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_getById",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-project-workspace",
+          "edit-project-basic-info",
+          "reassign-project-owner"
+        ],
+        "closedAt": null,
+        "closedReason": null,
+        "createdAt": "2026-11-02T23:01:03.717Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "currentApprovalSummary": {
+          "exportPolicy": null,
+          "generatedAt": null,
+          "projectionLevel": null,
+          "summaryPackageKey": null,
+          "summarySnapshotId": null
+        },
+        "currentBidSummary": {
+          "bidPackageNo": null,
+          "bidProcessId": null,
+          "bidStatus": "not_configured",
+          "resultStatus": null,
+          "summary": null,
+          "tenderNo": null
+        },
+        "currentConfirmationSummary": {
+          "confirmationRecordId": null,
+          "confirmedAt": null,
+          "confirmedCount": 0,
+          "pendingCount": 0,
+          "requiredCount": 0,
+          "status": "not_configured"
+        },
+        "currentContractSummary": {
+          "activeContractCount": 0,
+          "currencyCode": null,
+          "currentSnapshotId": null,
+          "latestContractId": null,
+          "latestContractNo": null,
+          "latestContractStatus": null,
+          "signedAmountProjection": {
+            "displayText": "-",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "field-package-not-applicable",
+            "value": null
+          },
+          "signedAt": null
+        },
+        "currentStage": "assessment",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerName": "R3HK-5fb76d1a-11 customer revised",
+        "customerProjectNo": "R3HK-5fb76d1a-11-external",
+        "exportPolicy": null,
+        "generatedAt": "2026-11-02T23:01:03.768Z",
+        "id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "ownerName": "R3CO admin",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerOrgName": "R3CO admin",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "plannedSignAt": "2027-02-01T00:00:00.000Z",
+        "projectName": "R3HK-5fb76d1a-11 project",
+        "projectNo": "PRJ-2026-000002",
+        "projectionLevel": null,
+        "rowVersion": 1,
+        "sourceLeadId": null,
+        "sourceLeadSummary": null,
+        "stageSummary": {
+          "blockingReasons": [],
+          "closedAt": null,
+          "closedReason": null,
+          "currentStage": "assessment",
+          "plannedSignAt": "2027-02-01T00:00:00.000Z",
+          "status": "active"
+        },
+        "status": "active",
+        "summarySnapshotId": null,
+        "updatedAt": "2026-11-02T23:01:03.717Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      },
+      "requestId": "d2c2017a-76a4-4649-a17e-caf00a9eae29",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1937",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-27",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 326,
+        "requestSha256": "38619a1d50b792e3618b10d4ea599be1745a35369ab64f4755895cbf35a0b321",
+        "responseBytes": 2217,
+        "responseSha256": "404b8d1eafcbe028626c1a4bec067d7f7f1a18caf3087fbb3f06c295c5cd34d9",
+        "entityBodyBytes": 1937,
+        "entityBodySha256": "4d3fb4f8664b86f16f8874952dea4617064ed1e25bec3aa72d6b8b42ac8ea9b2",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-75b6fc85-864c-404d-8b22-d1af2bb16232",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-14-B.project.detail.json",
+      "bytes": 4595,
+      "rawBytesSha256": "b10672f22d1831df615d5a76cc59bfed5cb0c06f9c6c99ea9cbfdb3e24c240db"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

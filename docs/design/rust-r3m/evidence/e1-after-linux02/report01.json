@@ -1,0 +1,918 @@
+{
+  "kind": "R3-E1-actual-supported-replay-acceptance",
+  "mode": "after",
+  "completed": true,
+  "cases": [
+    {
+      "name": "mapped-source-destination",
+      "passed": true,
+      "actual": {
+        "logical": {
+          "file": "historical/input.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/e1-lab/moved.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "kind": "move",
+        "authority": {
+          "file": "docs/design/archive/slices/e1-lab/map.json",
+          "bytes": 315,
+          "rawBytesSha256": "2ac4d8cfbba9fac26c96eb99f1e5e7eaac47d7d70f955a2aed5e891bdaea3242"
+        }
+      }
+    },
+    {
+      "name": "mapped-original-archive-schema",
+      "passed": true,
+      "actual": {
+        "logical": {
+          "file": "historical/input.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/e1-lab/moved.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "kind": "move",
+        "authority": {
+          "file": "docs/design/archive/slices/e1-lab/map.json",
+          "bytes": 209,
+          "rawBytesSha256": "c23b25cd76cf9dc0cd88f0144ea29f585b3365f0e010eb32c4d8c1d39b91a3e3"
+        }
+      }
+    },
+    {
+      "name": "exact-snapshot-before-move",
+      "passed": true,
+      "actual": {
+        "logical": {
+          "file": "historical/input.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/e1-lab/snapshot.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "kind": "snapshot",
+        "authority": {
+          "file": "docs/design/archive/slices/e1-lab/map.json",
+          "bytes": 647,
+          "rawBytesSha256": "dbdaf2881a97d862a47318bcc5952a459a1079518cbaad1c2cab6eb10a47c63b"
+        }
+      }
+    },
+    {
+      "name": "distinct-hash-is-not-latest",
+      "passed": true,
+      "actual": {
+        "logical": {
+          "file": "historical/input.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "canonical": {
+          "file": "docs/design/archive/slices/e1-lab/moved.json",
+          "bytes": 2,
+          "rawBytesSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "kind": "move",
+        "authority": {
+          "file": "docs/design/archive/slices/e1-lab/map.json",
+          "bytes": 617,
+          "rawBytesSha256": "1c9ffcfd43d48277e5c260d55134437bd6cf030a75834645243bdcc230106e8a"
+        }
+      }
+    },
+    {
+      "name": "unknown-pin-no-active-fallback",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNKNOWN_PIN"
+      },
+      "expectedCode": "E1_UNKNOWN_PIN"
+    },
+    {
+      "name": "wrong-length-is-different-identity",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNKNOWN_PIN"
+      },
+      "expectedCode": "E1_UNKNOWN_PIN"
+    },
+    {
+      "name": "conflicting-move-targets",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_MAP_CONFLICT"
+      },
+      "expectedCode": "E1_MAP_CONFLICT"
+    },
+    {
+      "name": "conflicting-snapshot-targets",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_MAP_CONFLICT"
+      },
+      "expectedCode": "E1_MAP_CONFLICT"
+    },
+    {
+      "name": "relocation-changes-content",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_MAP_CONFLICT"
+      },
+      "expectedCode": "E1_MAP_CONFLICT"
+    },
+    {
+      "name": "logical-traversal",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNSAFE_PATH"
+      },
+      "expectedCode": "E1_UNSAFE_PATH"
+    },
+    {
+      "name": "target-traversal",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNSAFE_PATH"
+      },
+      "expectedCode": "E1_UNSAFE_PATH"
+    },
+    {
+      "name": "absolute-target",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNSAFE_PATH"
+      },
+      "expectedCode": "E1_UNSAFE_PATH"
+    },
+    {
+      "name": "windows-drive-target",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNSAFE_PATH"
+      },
+      "expectedCode": "E1_UNSAFE_PATH"
+    },
+    {
+      "name": "nonarchive-target",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_NOT_CANONICAL"
+      },
+      "expectedCode": "E1_NOT_CANONICAL"
+    },
+    {
+      "name": "authority-wrong-hash-before-parse",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_CONTENT_MISMATCH"
+      },
+      "expectedCode": "E1_CONTENT_MISMATCH"
+    },
+    {
+      "name": "authority-wrong-length-before-parse",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_CONTENT_MISMATCH"
+      },
+      "expectedCode": "E1_CONTENT_MISMATCH"
+    },
+    {
+      "name": "payload-wrong-hash",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_CONTENT_MISMATCH"
+      },
+      "expectedCode": "E1_CONTENT_MISMATCH"
+    },
+    {
+      "name": "payload-wrong-length",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_CONTENT_MISMATCH"
+      },
+      "expectedCode": "E1_CONTENT_MISMATCH"
+    },
+    {
+      "name": "directory-cannot-be-canonical-file",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_NOT_REGULAR"
+      },
+      "expectedCode": "E1_NOT_REGULAR"
+    },
+    {
+      "name": "symlink-or-junction-ancestor-is-rejected",
+      "passed": true,
+      "observed": {
+        "name": "E1Error",
+        "code": "E1_UNSAFE_PATH"
+      },
+      "expectedCode": "E1_UNSAFE_PATH"
+    },
+    {
+      "name": "actual-manifest-projection-and-four-fixture-replays",
+      "passed": true,
+      "resultSHA256": "211e0f25ea901ed51b13cf5aed56453ac3fa259fcd4b9d918bc48aecea926403"
+    }
+  ],
+  "replay": {
+    "kind": "R3-closeout-supported-E1-actual-replay-result",
+    "scope": {
+      "owner": "Root /root",
+      "originalDeadline": "2026-11-09",
+      "exitBefore": "current batch G3 or original deadline, whichever is earlier",
+      "aliases": 5,
+      "aliasBytes": 419264,
+      "originalDirectLegacyConsumers": 23,
+      "newRegistryClassification": "Logical identity registry; no direct alias payload read",
+      "unchangedLegacyCommandReplaySupported": false,
+      "oldPrivateOrEnvironmentReplaySupported": false
+    },
+    "authority": {
+      "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+      "bytes": 355382,
+      "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+    },
+    "aliasStateBefore": {
+      "allAbsent": true,
+      "states": [
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "bytes": 190930,
+            "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "bytes": 180482,
+            "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+            "bytes": 38863,
+            "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "bytes": 4774,
+            "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "bytes": 4215,
+            "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+          },
+          "absent": true
+        }
+      ]
+    },
+    "aliasStateAfter": {
+      "allAbsent": true,
+      "states": [
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "bytes": 190930,
+            "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "bytes": 180482,
+            "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+            "bytes": 38863,
+            "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "bytes": 4774,
+            "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+          },
+          "absent": true
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "bytes": 4215,
+            "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+          },
+          "absent": true
+        }
+      ]
+    },
+    "requireAliasesAbsent": true,
+    "manifests": {
+      "inputs": [
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/g1-input-manifest02.json",
+            "bytes": 190930,
+            "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/g1-input-manifest02.json",
+            "bytes": 190930,
+            "rawBytesSha256": "1a55e52076869b87d55de1f636b6e789cc0319525e29ac7bfcf70f36dc4d6f94"
+          },
+          "kind": "move",
+          "authority": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+            "bytes": 355382,
+            "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+          }
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "bytes": 180482,
+            "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/preflight-native-source-manifest01.json",
+            "bytes": 180482,
+            "rawBytesSha256": "998660f563f4d792c9e0146fde454a351c7d968f9f45df1059af0f9d9ce36661"
+          },
+          "kind": "move",
+          "authority": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+            "bytes": 355382,
+            "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+          }
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/g1-operation-slices-original.json",
+            "bytes": 38863,
+            "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/g1-operation-slices-original.json",
+            "bytes": 38863,
+            "rawBytesSha256": "5fd7c80e1ccac5e3f8e9ac1ef5ebfbe5996b8d5c740ba0933f567dbea453269c"
+          },
+          "kind": "move",
+          "authority": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+            "bytes": 355382,
+            "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+          }
+        }
+      ],
+      "historicalBase": "0fced204c917a37b84a2ad50838e722e764b8f78",
+      "nativeInputPinsInspected": 872,
+      "formalInputPinsInspected": 44,
+      "nestedSourcePayloadsReadOrCertified": false,
+      "nativePinListSHA256": "1a7bfa7e7b5b922e3cb7366203f1118d7f4e6f29c4802e983211f64ed61e6b4c",
+      "nativeOpenAPI": {
+        "file": "libs/shared/api-spec/openapi.json",
+        "bytes": 1129410,
+        "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+      },
+      "projection": [
+        {
+          "method": "POST",
+          "path": "/api/customer-contacts",
+          "operationId": "CustomerContactController_create"
+        },
+        {
+          "method": "GET",
+          "path": "/api/customer-contacts",
+          "operationId": "CustomerContactController_list"
+        },
+        {
+          "method": "PATCH",
+          "path": "/api/customer-contacts/{id}",
+          "operationId": "CustomerContactController_update"
+        },
+        {
+          "method": "POST",
+          "path": "/api/projects/{projectId}/bid-commercial-processes",
+          "operationId": "ProjectController_createProjectBidCommercialProcess"
+        },
+        {
+          "method": "POST",
+          "path": "/api/projects/{projectId}/pricing-margin-reviews",
+          "operationId": "ProjectController_createProjectPricingMarginReview"
+        },
+        {
+          "method": "POST",
+          "path": "/api/projects/{projectId}/technical-cost-packages",
+          "operationId": "ProjectController_createProjectTechnicalCostPackage"
+        },
+        {
+          "method": "GET",
+          "path": "/api/projects/{projectId}/bid-commercial-workspace",
+          "operationId": "ProjectController_getProjectBidCommercialWorkspace"
+        },
+        {
+          "method": "GET",
+          "path": "/api/projects/{projectId}/pricing-margin-workspace",
+          "operationId": "ProjectController_getProjectPricingMarginWorkspace"
+        },
+        {
+          "method": "GET",
+          "path": "/api/projects/{projectId}/technical-cost-workspace",
+          "operationId": "ProjectController_getProjectTechnicalCostWorkspace"
+        },
+        {
+          "method": "GET",
+          "path": "/api/projects/{projectId}/bid-commercial-processes",
+          "operationId": "ProjectController_listProjectBidCommercialProcesses"
+        },
+        {
+          "method": "GET",
+          "path": "/api/projects/{projectId}/pricing-margin-reviews",
+          "operationId": "ProjectController_listProjectPricingMarginReviews"
+        },
+        {
+          "method": "GET",
+          "path": "/api/projects/{projectId}/technical-cost-packages",
+          "operationId": "ProjectController_listProjectTechnicalCostPackages"
+        },
+        {
+          "method": "POST",
+          "path": "/api/sales-follow-up-records",
+          "operationId": "SalesFollowUpController_create"
+        },
+        {
+          "method": "GET",
+          "path": "/api/sales-follow-up-records",
+          "operationId": "SalesFollowUpController_list"
+        },
+        {
+          "method": "POST",
+          "path": "/api/sales-follow-up-records/{id}:replace",
+          "operationId": "SalesFollowUpController_replace"
+        },
+        {
+          "method": "POST",
+          "path": "/api/sales-follow-up-records/{id}:void",
+          "operationId": "SalesFollowUpController_void"
+        }
+      ],
+      "projectionSHA256": "ffea276263f3f9fbd69514f90501d0ecc547e38d896e975b31af0e71948c87e3",
+      "historicalCertificationFlagsNotRelabelled": true
+    },
+    "fixtures": {
+      "inputs": [
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "bytes": 4774,
+            "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/input-a/native-fixture-draft01.mjs",
+            "bytes": 4774,
+            "rawBytesSha256": "041932f361cb4308ce7c854ac1506c53a6846dcf58cb0732c1d15519f8018a83"
+          },
+          "kind": "move",
+          "authority": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+            "bytes": 355382,
+            "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+          }
+        },
+        {
+          "logical": {
+            "file": "docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "bytes": 4215,
+            "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+          },
+          "canonical": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/input-b/native-fixture-draft01.mjs",
+            "bytes": 4215,
+            "rawBytesSha256": "7e5824cb04bda5a3ae38869b27d2f00a624b7d853875ec1ca8e0461773a14946"
+          },
+          "kind": "move",
+          "authority": {
+            "file": "docs/design/archive/slices/rust-r3cdefg/archive-origin-map.json",
+            "bytes": 355382,
+            "rawBytesSha256": "74246bb91c6bae9d9e3f9277351386264f1f8534acdbbf309f56eb952608bfc8"
+          }
+        }
+      ],
+      "arguments": {
+        "costId": "11111111-1111-4111-8111-111111111111",
+        "bidId": "22222222-2222-4222-8222-222222222222",
+        "marker": "E1-replay01",
+        "navigationHint": "/projects/e1-replay/workspace/bid-commercial",
+        "classification": "Pure constructor inputs only; not HTTP producers or database facts"
+      },
+      "results": [
+        {
+          "mode": "cost",
+          "output": {
+            "technicalFeasibilityDecision": "feasible",
+            "technicalConclusionSummary": "G1 技术方案可行。",
+            "allowNextStage": true,
+            "currencyCode": "CNY",
+            "taxAssumptionSummary": "G1 设备成本含税测算，税务已复核。",
+            "taxReviewStatus": "reviewed",
+            "scopeItems": [
+              {
+                "scopeType": "in-scope",
+                "label": "G1 设备交付",
+                "description": "包含一项设备供货。",
+                "sortOrder": 1
+              }
+            ],
+            "riskItems": [
+              {
+                "riskCategory": "G1 供货",
+                "riskLevel": "R1",
+                "riskDescription": "供货周期已经核实。",
+                "impactScope": "设备供货范围。",
+                "mitigationPlan": "按已核实周期交付。",
+                "ownerRole": "售前",
+                "riskStatus": "closed",
+                "blocksNextStage": false,
+                "sortOrder": 1
+              }
+            ],
+            "costItems": [
+              {
+                "costCategory": "equipment",
+                "costDescription": "G1 设备成本",
+                "estimationBasis": "G1 已确认询价。",
+                "amountExcludingTax": "100.00",
+                "taxCostAmount": "13.00",
+                "amountIncludingTax": "113.00",
+                "currencyCode": "CNY",
+                "confidenceLevel": "high",
+                "highUncertainty": false,
+                "sortOrder": 1
+              }
+            ]
+          },
+          "expectedSHA256": "7b35afefce939a7a3c7f1f2f9eaf55ce9daff014a8fe63e4f6a7ce3cb1e02cdc",
+          "actualSHA256": "7b35afefce939a7a3c7f1f2f9eaf55ce9daff014a8fe63e4f6a7ce3cb1e02cdc",
+          "deterministicRepeatMatched": true
+        },
+        {
+          "mode": "direct-pricing",
+          "output": {
+            "technicalCostPackageId": "11111111-1111-4111-8111-111111111111",
+            "bidCommercialProcessId": null,
+            "pricingPath": "direct-commercial",
+            "quoteVersion": "Q-G1-DIRECT-01",
+            "currencyCode": "CNY",
+            "quoteAmountTaxInclusive": "226.00",
+            "quoteAmountTaxExclusive": "200.00",
+            "taxRate": "0.13",
+            "taxConditionSummary": "G1 报价税务条件已记录。",
+            "paymentTermsSummary": "G1 按约定节点回款。",
+            "grossMarginBand": "not-calculated",
+            "grossMarginSummary": "G1 毛利判断待评审。",
+            "decision": "pending",
+            "decisionSummary": "G1 待形成评审结论。",
+            "conditionItems": [
+              {
+                "conditionKey": "g1-payment-review",
+                "conditionType": "payment",
+                "label": "G1 回款条件确认",
+                "conditionSummary": "核实已记录的回款节点。",
+                "conditionStatus": "open",
+                "requiredForContracting": false,
+                "responsibleRole": "财务",
+                "dueAt": "2026-11-02T00:00:00.000Z",
+                "resolutionSummary": null,
+                "sortOrder": 1
+              }
+            ]
+          },
+          "expectedSHA256": "ced637eeb29be887972e47c8061307bdc4541e47b43e0a99cb43e15fe5c64358",
+          "actualSHA256": "ced637eeb29be887972e47c8061307bdc4541e47b43e0a99cb43e15fe5c64358",
+          "deterministicRepeatMatched": true
+        },
+        {
+          "mode": "bid-pricing",
+          "output": {
+            "technicalCostPackageId": "11111111-1111-4111-8111-111111111111",
+            "bidCommercialProcessId": "22222222-2222-4222-8222-222222222222",
+            "pricingPath": "bid",
+            "quoteVersion": "Q-G1-BID-01",
+            "currencyCode": "CNY",
+            "quoteAmountTaxInclusive": "226.00",
+            "quoteAmountTaxExclusive": "200.00",
+            "taxRate": "0.13",
+            "taxConditionSummary": "G1 报价税务条件已记录。",
+            "paymentTermsSummary": "G1 按约定节点回款。",
+            "grossMarginBand": "not-calculated",
+            "grossMarginSummary": "G1 毛利判断待评审。",
+            "decision": "pending",
+            "decisionSummary": "G1 待形成评审结论。",
+            "conditionItems": [
+              {
+                "conditionKey": "g1-payment-review",
+                "conditionType": "payment",
+                "label": "G1 回款条件确认",
+                "conditionSummary": "核实已记录的回款节点。",
+                "conditionStatus": "open",
+                "requiredForContracting": false,
+                "responsibleRole": "财务",
+                "dueAt": "2026-11-02T00:00:00.000Z",
+                "resolutionSummary": null,
+                "sortOrder": 1
+              }
+            ]
+          },
+          "expectedSHA256": "14d017638eeebb2016c6f02ada0e51996e1d6b1485059515cecaf70a6463b026",
+          "actualSHA256": "14d017638eeebb2016c6f02ada0e51996e1d6b1485059515cecaf70a6463b026",
+          "deterministicRepeatMatched": true
+        },
+        {
+          "mode": "bid-with-children",
+          "output": {
+            "bidMode": "public-tender",
+            "decision": "participate",
+            "resultStatus": "pending",
+            "currentStage": "preparation",
+            "processSummary": "E1-replay01 process",
+            "decisionSummary": "E1-replay01 decision",
+            "resultSummary": null,
+            "tenderNo": "E1-replay01 tender",
+            "bidPackageNo": "E1-replay01 package",
+            "ownerRole": "E1-replay01 owner",
+            "materialItems": [
+              {
+                "materialKey": "E1-replay01 material",
+                "label": "E1-replay01 material label",
+                "materialStatus": "in-progress",
+                "responsibleRole": "E1-replay01 material owner",
+                "dueAt": "2026-11-03T08:00:00.123Z",
+                "blocksNextStep": true,
+                "navigationHint": "/projects/e1-replay/workspace/bid-commercial",
+                "sortOrder": 1
+              },
+              {
+                "materialKey": "E1-replay01 ready material",
+                "label": "E1-replay01 ready material label",
+                "materialStatus": "ready",
+                "responsibleRole": null,
+                "dueAt": null,
+                "blocksNextStep": false,
+                "navigationHint": null,
+                "sortOrder": 2
+              }
+            ],
+            "timelineItems": [
+              {
+                "eventKey": "E1-replay01 completed event",
+                "label": "E1-replay01 completed event label",
+                "summary": "E1-replay01 completed event summary",
+                "timelineStatus": "done",
+                "occurredAt": "2026-11-02T02:00:00.456Z",
+                "dueAt": "2026-11-02T03:00:00.000Z",
+                "responsibleRole": "E1-replay01 event owner",
+                "sortOrder": 1
+              },
+              {
+                "eventKey": "E1-replay01 pending event",
+                "label": "E1-replay01 pending event label",
+                "summary": null,
+                "timelineStatus": "pending",
+                "occurredAt": null,
+                "dueAt": "2026-11-04T08:00:00.000Z",
+                "responsibleRole": null,
+                "sortOrder": 2
+              }
+            ]
+          },
+          "expectedSHA256": "2d5e23f20526c344611e8842c7e080ccfd692b0a91f3cf0694b8d389b34c45ab",
+          "actualSHA256": "2d5e23f20526c344611e8842c7e080ccfd692b0a91f3cf0694b8d389b34c45ab",
+          "deterministicRepeatMatched": true
+        }
+      ],
+      "resultSHA256": "bfa058262405cba3f89f89299d4755d03b92906e3ce8f512905849a8a019a9df",
+      "noHTTPDatabaseOrEnvironmentReplay": true
+    },
+    "allReplayAssertionsPassed": true,
+    "canonicalInputsReadAgainAfterReplay": true,
+    "resultSHA256": "211e0f25ea901ed51b13cf5aed56453ac3fa259fcd4b9d918bc48aecea926403",
+    "E1ExitCertified": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "error": null,
+  "sources": [
+    {
+      "file": "tools/rust-r3m/e1-README01.md",
+      "bytes": 5524,
+      "rawBytesSha256": "7d9c4177002975326326342129be60d6c4fb9675e0f0a8d158463fa095520070"
+    },
+    {
+      "file": "tools/rust-r3m/e1-acceptance-linux01.mjs",
+      "bytes": 5798,
+      "rawBytesSha256": "3906c63bd7b9094e8e755d187d1e354eb2711ad2fd7966a24c93ee98c425a9a9"
+    },
+    {
+      "file": "tools/rust-r3m/e1-acceptance-linux02.mjs",
+      "bytes": 5798,
+      "rawBytesSha256": "49d4ef36065f39df9594b4e71dd864e789ce094f16af2a4b9e1a57d7bae718d7"
+    },
+    {
+      "file": "tools/rust-r3m/e1-acceptance01.mjs",
+      "bytes": 5786,
+      "rawBytesSha256": "b5a390b8cd63b8c3b8fad33ccb028014f426a771ad0d39befec3a400e25d71cd"
+    },
+    {
+      "file": "tools/rust-r3m/e1-cases01.mjs",
+      "bytes": 4926,
+      "rawBytesSha256": "89ee244562ee5d1db349bac3e1579c2f6d4ef12cf0dab7324987250e95d647b1"
+    },
+    {
+      "file": "tools/rust-r3m/e1-fixture-expectations01.mjs",
+      "bytes": 3823,
+      "rawBytesSha256": "a725ea9d646b2817e689cb4e0f05866db0946eccd5f3770a90c85ad3f1f8460b"
+    },
+    {
+      "file": "tools/rust-r3m/e1-registry01.mjs",
+      "bytes": 2407,
+      "rawBytesSha256": "664fe786ba032ed691f51747c254ded84588efefbcd7a6317a481c2bc97c70f0"
+    },
+    {
+      "file": "tools/rust-r3m/e1-replay01.mjs",
+      "bytes": 9192,
+      "rawBytesSha256": "e2c9290e8820da167beef216c25c9b5f9b7d15c240204e15eab458db2b0edb39"
+    },
+    {
+      "file": "tools/rust-r3m/e1-resolver01.mjs",
+      "bytes": 10003,
+      "rawBytesSha256": "8b6edfba7f93e5dababf7c849c80ecab86af6d045de1b4d61e4620018bab2f16"
+    }
+  ],
+  "legacySources": [
+    {
+      "file": "tools/rust-r3cdefg/attest-rust.mjs",
+      "bytes": 3611,
+      "rawBytesSha256": "3b23bec6e39c5fc5fe1657c035c5465ada74841f6549507ce76d93fc1eacb880"
+    },
+    {
+      "file": "tools/rust-r3cdefg/bootstrap-linux.mjs",
+      "bytes": 2515,
+      "rawBytesSha256": "ab6b7652adc286db8e43bedcb7e53d1508ac94e87954481b096a70db24fa5594"
+    },
+    {
+      "file": "tools/rust-r3cdefg/boundaries.mjs",
+      "bytes": 24363,
+      "rawBytesSha256": "5457405b48964d177c09b9eb8f9c9e59004835b6c4ce014384e89ea6a0aaa1b3"
+    },
+    {
+      "file": "tools/rust-r3cdefg/business-branches01.mjs",
+      "bytes": 40691,
+      "rawBytesSha256": "80713d60314972cf611038c124805dc6fbbe0b87049a245ca15b02765b08d1e3"
+    },
+    {
+      "file": "tools/rust-r3cdefg/business-run.mjs",
+      "bytes": 12262,
+      "rawBytesSha256": "263707c70d4de1b28c039b082f75fb19011f7fa7cb0c4e4a5cb8451853d8b8c6"
+    },
+    {
+      "file": "tools/rust-r3cdefg/coverage.mjs",
+      "bytes": 15589,
+      "rawBytesSha256": "3f326de2dc0b3f87904a3fe7c31aa8cb79eceb7b8249ab6d1d8c76a579850daf"
+    },
+    {
+      "file": "tools/rust-r3cdefg/derive-acceptance.mjs",
+      "bytes": 5174,
+      "rawBytesSha256": "6fdcdca0943d8cd16ae9b4662a8ad7b4c9c1132e635f99357d61cfc152345989"
+    },
+    {
+      "file": "tools/rust-r3cdefg/edge-run.mjs",
+      "bytes": 7444,
+      "rawBytesSha256": "a09a15f8fd235556b7e0956d344c28a1960a2bd0d58e7beaa131b332cefaa39a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/environment.mjs",
+      "bytes": 12044,
+      "rawBytesSha256": "3ee7cb95d54a0a660524a407968889c0f18c7826b991f07315e7e1b474eeb33b"
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-witness-extra02.mjs",
+      "bytes": 20627,
+      "rawBytesSha256": "b833dc839ac7ff31ef39791483c7960e130c93882647f8f34973e1f52bd40055"
+    },
+    {
+      "file": "tools/rust-r3cdefg/native-witness.mjs",
+      "bytes": 23714,
+      "rawBytesSha256": "a64f0ab323d5a56d24209775ce17eb26495421f67547801378538470e31efde6"
+    },
+    {
+      "file": "tools/rust-r3cdefg/prepare-ui.mjs",
+      "bytes": 4117,
+      "rawBytesSha256": "0e3f7a7bec7a375737f6161be69fb378952637bef653db7fae662943ac8c0b34"
+    },
+    {
+      "file": "tools/rust-r3cdefg/project-edges01.mjs",
+      "bytes": 23434,
+      "rawBytesSha256": "e31a97c7270798b4ae99144d2354b4153495336c25ea63097a74be2960b67e46"
+    },
+    {
+      "file": "tools/rust-r3cdefg/raw-errors.mjs",
+      "bytes": 5518,
+      "rawBytesSha256": "85741227e0cf19eaf7f9b0f387b777d936953990de5c685291f71e8e3496acf8"
+    },
+    {
+      "file": "tools/rust-r3cdefg/semantics-extra02.mjs",
+      "bytes": 21311,
+      "rawBytesSha256": "24bfe129acccb685b87150234ddbad7fa74307237ad4fd38ae30e894d4d6f760"
+    },
+    {
+      "file": "tools/rust-r3cdefg/semantics01.mjs",
+      "bytes": 24753,
+      "rawBytesSha256": "f645a5b221ad70f3369f9ee566f59c393592abe8ccde0384b4d2858890082f25"
+    },
+    {
+      "file": "tools/rust-r3cdefg/shared-checks-resume02.mjs",
+      "bytes": 3162,
+      "rawBytesSha256": "63d6260367301406944b1a84ac708d8fa5114643715f78d7d17c0b50793195ce"
+    },
+    {
+      "file": "tools/rust-r3cdefg/shared-checks.mjs",
+      "bytes": 3382,
+      "rawBytesSha256": "d00fac17e7223baa0a77e2ff2b6c35ae1f3f6f0feae901f0dc2d2da3c69b686e"
+    },
+    {
+      "file": "tools/rust-r3cdefg/temporal.mjs",
+      "bytes": 6292,
+      "rawBytesSha256": "7d9e685a4bf9c7146c23061d3bd062e0a59f98069ab2ea50d49deff13e44804b"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-extra-run.mjs",
+      "bytes": 10312,
+      "rawBytesSha256": "a901b132f89cc24bd6c5b217cee0023ef489660d578d56325df0665cac6b425a"
+    },
+    {
+      "file": "tools/rust-r3cdefg/ui-run.mjs",
+      "bytes": 9095,
+      "rawBytesSha256": "fd67881ead6df4c431250d642901e53af5e0181ffe8dac1ecd484f2e8e3ce30d"
+    },
+    {
+      "file": "tools/rust-r3cdefg/wire-http-modules.mjs",
+      "bytes": 12858,
+      "rawBytesSha256": "6a5e589c599fdba955e4a53236917b03d27aae5688ddba07663e529490cc3903"
+    },
+    {
+      "file": "tmp/rust-r3hijk/foundation-business-regression01.mjs",
+      "bytes": 58522,
+      "rawBytesSha256": "fd16327daac826a932edaadafa6b1ecb2e7bb7f498d6b4d0d4af22db144a8715"
+    }
+  ],
+  "legacyCount": 23,
+  "additionalLogicalRegistryFiles": 1,
+  "realAliasesRemovedByThisRunner": false,
+  "canonicalAndLegacyBytesUnchanged": true,
+  "E1ExitCertified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

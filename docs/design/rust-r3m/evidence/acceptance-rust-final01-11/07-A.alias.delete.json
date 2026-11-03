@@ -1,0 +1,93 @@
+{
+  "label": "A.alias.delete",
+  "name": "A.alias.delete",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.630Z",
+  "completedAt": "2026-11-02T23:01:03.649Z",
+  "validatedEventRange": {
+    "start": 6,
+    "end": 7,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "CustomerAliasController_delete",
+    "request": {
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/customer-aliases/c372dd38-e754-406a-a6a1-c912bf3a11ef"
+    },
+    "response": {
+      "status": 204,
+      "body": null,
+      "requestId": "d3d602d8-c848-498b-aac1-c6371c7bbfc6",
+      "headers": [
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-20",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 396,
+        "requestSha256": "ba7f593a26045204f496026edfe35d7fad07c6fe1767708ccc9803997e654b5a",
+        "responseBytes": 219,
+        "responseSha256": "03e8b6ed4f2a3e74845105ed4dcf68589d36e7e9f966a2c907782140a0809657",
+        "entityBodyBytes": 0,
+        "entityBodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-5b819732-0cc5-406a-add0-b161d719d675",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "deletedRow": null,
+      "deletedRowAbsent": true,
+      "auditRows": [
+        {
+          "id": "58437c4e-a9ca-4451-8fbe-6a540b067934",
+          "event_type": "customer.alias.deleted",
+          "target_type": "customer",
+          "target_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+          "operator_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "request_id": "d3d602d8-c848-498b-aac1-c6371c7bbfc6",
+          "result": "success",
+          "reason": null,
+          "before_snapshot": {
+            "aliasId": "c372dd38-e754-406a-a6a1-c912bf3a11ef",
+            "aliasName": "R3HK-5fb76d1a-11 procurement alias",
+            "aliasType": "alias",
+            "createdAt": "2026-11-02T23:01:03.600Z",
+            "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+            "isPrimary": false,
+            "normalizedName": "r3hk-5fb76d1a-11 procurement alias"
+          },
+          "after_snapshot": null,
+          "metadata": {
+            "sourceCommand": "delete-customer-alias"
+          },
+          "occurred_at": "2026-11-02T23:01:03.640Z"
+        }
+      ]
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-07-A.alias.delete.json",
+      "bytes": 2789,
+      "rawBytesSha256": "5d9649888cd6e9270d699dc3a23ab9a92f4fd5e6244bc6b7fd151ed80b35c3ec"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

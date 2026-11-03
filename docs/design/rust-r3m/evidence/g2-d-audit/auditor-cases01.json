@@ -1,0 +1,24 @@
+{
+  "kind": "R3-closeout-pure-coverage-auditor-case-definitions",
+  "version": "01",
+  "executionOwner": "Root",
+  "executedByD": false,
+  "noRunner": true,
+  "cases": [
+    { "id": "explicit-id-cross-check", "definition": "A real completed business range contains a 2xx event with correct operationId, method and UUID/colon path; provenance points to that exact event." },
+    { "id": "wrong-explicit-id-no-fallback", "definition": "An explicit ID contradicts a path that belongs to another valid operation; the event remains excluded." },
+    { "id": "exact-UUID-colon", "definition": "Correct full UUID with exact :approve/:reject suffix matches only its operation; appended command text, wrong UUID shape and substring paths do not match." },
+    { "id": "decode-once-and-query", "definition": "Valid once-encoded segment/query is interpreted without query affecting route; malformed encoding, double-encoded colon, encoded slash and dot traversal do not count." },
+    { "id": "setup-and-guard-success", "definition": "2xx setup outside ranges and 2xx guard case/event never count; overlapping nonbusiness range vetoes an enclosing business range." },
+    { "id": "partial-wrong-artifact-or-pin", "definition": "Preserved partial/baseline/Native reference, wrong runtime artifact, missing candidate pin or conflicting same-file pin report is excluded with explicit reasons." },
+    { "id": "invalid-range", "definition": "Negative, empty, out-of-bounds or non-exclusive range cannot count an event; incomplete case cannot count an otherwise 2xx event." },
+    { "id": "missing-operation", "definition": "57 uniquely proven operations yield58 required/57 covered and the exact missing operation, with no inferred success." },
+    { "id": "duplicate-report", "definition": "A repeated immutable report pin does not duplicate accepted provenance or known Native witness counts." },
+    { "id": "missing-independent-M4-pin", "definition": "UI reports without the passedIndependentMatrixClarificationPin remain hard missing even when all completed flags are true." },
+    { "id": "browser-server-axis", "definition": "win32 browser/rust/linux is accepted as that axis; win32 browser/rust/win32 is not an approved axis and never certifies Windows-native Rust." },
+    { "id": "Native-role-not-business", "definition": "A Native capture presented as candidate-ui/business success is excluded; explicit native-reference-ui and role reference are required." },
+    { "id": "specific-Native-witnesses", "definition": "Only actual female-to-unknown POST201+same-ID PG and exact first201/second500+unchanged-v1+23505/current-constraint cause witnesses are accepted; arbitrary500 and unknown failure IDs are excluded." },
+    { "id": "layered16", "definition": "After real approved clarification, 8 valid Rust business journey cells plus8 fully captured Native reference cells produce coverageComplete16 with separate rustBusinessPassed8/nativeReferenceCaptured8 and knownNativeBusinessFailures; no all16 business claim." },
+    { "id": "ignored-not-pass", "definition": "Combined interpretation keeps53 DB opt-in+1 parent-invoked child with passed:null; it never adds54 to a pass count." }
+  ]
+}

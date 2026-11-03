@@ -1,0 +1,19 @@
+{
+  "kind": "R3-adapter-pre-execution-hardening",
+  "original": {
+    "file": "tools/rust-r3m/acceptance-context01.mjs",
+    "bytes": 16659,
+    "rawBytesSha256": "36d0e5ea58efbb098330c9d55012cf7840be699ba5470a5cb8f0a0f7d00d893b"
+  },
+  "derived": {
+    "file": "tools/rust-r3m/acceptance-context02.mjs",
+    "bytes": 16820,
+    "rawBytesSha256": "9fb49dcd82534018aa61a95258b958f40555a0368ea2d2cbd1d5b9bfe82e01fb"
+  },
+  "changes": [
+    "Protect csrf_token_hash and csrfTokenHash in every declared public derivative",
+    "Pin the immutable candidate capsule used by each actual phase"
+  ],
+  "actualExecutionPerformed": false,
+  "previousPrivateRead": false
+}

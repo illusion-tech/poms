@@ -1,0 +1,122 @@
+{
+  "label": "B.chain.cost.history",
+  "name": "B.chain.cost.history",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:05:06.616Z",
+  "completedAt": "2026-11-02T23:05:06.627Z",
+  "validatedEventRange": {
+    "start": 2,
+    "end": 3,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_listProjectTechnicalCostPackages",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853/technical-cost-packages",
+      "headers": {
+        "x-request-id": "r3b:R3CO-5fb76d1a:cost-list"
+      }
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:05:06.603Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T23:05:06.603Z",
+          "highestRiskLevel": "R4",
+          "id": "28e58357-96de-4251-9ead-91ee29a59bfc",
+          "isCurrent": true,
+          "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "d6a1fc86-3cd2-43af-b3ad-47d53cab6f6d",
+          "taxAssumptionSummary": "Tax cost reviewed",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3CO-5fb76d1a converted cost revision 2",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T23:05:06.603Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 2
+        },
+        {
+          "allowNextStage": true,
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:05:06.573Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currencyCode": "CNY",
+          "effectiveAt": "2026-11-02T23:05:06.573Z",
+          "highestRiskLevel": "R1",
+          "id": "d6a1fc86-3cd2-43af-b3ad-47d53cab6f6d",
+          "isCurrent": false,
+          "projectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+          "rowVersion": 2,
+          "status": "superseded",
+          "supersedesId": null,
+          "taxAssumptionSummary": "Tax cost reviewed",
+          "taxReviewStatus": "reviewed",
+          "technicalConclusionSummary": "R3CO-5fb76d1a converted cost revision 1",
+          "technicalFeasibilityDecision": "feasible",
+          "totalEstimatedAmountExcludingTax": "100.30",
+          "totalEstimatedAmountIncludingTax": "113.34",
+          "totalTaxCostAmount": "13.04",
+          "updatedAt": "2026-11-02T23:05:06.603Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 1
+        }
+      ],
+      "requestId": "r3b:R3CO-5fb76d1a:cost-list",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1615",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-181",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:05:06 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 341,
+        "requestSha256": "4ae2b8f821c2c10be9f606ef006969b0204b4c85fa8b5c46378b35d292c57d39",
+        "responseBytes": 1896,
+        "responseSha256": "e9025e830307d87003d5a19a3a88b9dbc6dd2f36b597d8ed161c6f47fa38feab",
+        "entityBodyBytes": 1615,
+        "entityBodySha256": "837d89cebbd5c4fc7e00b1f151980d808fffaf236b1d2db5cdd57d201b54ed09",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/raw-wire/admin-0bfdd469-80d7-4dcd-86de-f7c8936e0769",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {},
+    "actualConvertedProjectId": "e4a2f4b3-3fa8-49c3-ab6d-e7b40b382853",
+    "allBusinessAssertionsPassed": true,
+    "requiredGraphGuardChecked": false
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase14/structured-original-03-B.chain.cost.history.json",
+      "bytes": 4191,
+      "rawBytesSha256": "07f7f1119f1361a36f816938c5eeb49b27244aea63777680b1eb3ef97f7d2c6a"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

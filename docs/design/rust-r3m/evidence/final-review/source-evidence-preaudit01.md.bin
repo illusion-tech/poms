@@ -1,0 +1,27 @@
+# R3 收口最终审查者：源码与已完成证据预审 01
+
+本轮是预审，**G3 / fixed-commit / main / G4 均未认证，未授权关闭 Issue**。在已核源码和已完成公开证据范围内，未发现新增 P0 / P1 / P2。M5 和最终冻结封包仍在推进，不能用本报告代替完整 Gate 决定。
+
+本审查者未参与本批产品、Root 执行器或正式治理实现；只读源码和本批公开证据，只在 `tmp/rust-r3m/final-review/` 写报告。没有运行 Git / GitHub、环境、DB、浏览器或构建，没有打开任何 private 文件。Root 声明的本批目标为 `gpt-6.1-sol` / `max`；本会话无独立模型配置内省，Fast 仍未核实。
+
+候选为 `final01`，`candidate-final01.json` 的实际 SHA 为 `54bba98742e0790d10ffc1eb41096387e13487a30b39c726ff5260d33085666f`。逐项重算 311 个当前输入，零偏差；逐项重算 1373 个保护文件，仅授权的两份 UI 文件变化。相对 G1 共 7 份 Rust 文件和 2 份 UI 文件。构建凭据绑定 43,775,864 字节、SHA `f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747` 的产物；审查者没有访问 state/private 下的实际二进制或源副本。
+
+源码核验覆盖同一 materialized `SystemScoreTuple` 落分和解释、正常审批沿用匹配 tuple、历史 fallback 的 Lead/system snapshot/decision snapshot/必要审计同事务、Lead 先锁后 override CAS、Customer/Contact CAS0 typed 409 及回滚、不同 actor 业务 no-op、typed UUID 组织名称、UI `plannedSignAt.toISOString()`。未见增量 route / DTO / schema / client / migration。
+
+已完成证据核验：
+
+- Rust stdout 31 条结果独立求和为 306 passed、0 failed、54 ignored；53 个 DB opt-in 和 1 个显式 child fixture 不计入 passed。fmt / clippy all-targets deny warnings / locked offline all-targets test / release 凭据 exit 0。Admin lint、23 项 focused unit、production build 凭据通过。
+- M0 的 14 份接纳报告逐字节 pin 全匹配；对 58 个唯一 inventory operation，独立重连 method、canonical UUID path、HTTP success、完整 business case 的 exclusive event range 和 artifact，58/58 有成功凭据，没有错误 provenance。
+- phase24 的 14 cases / 107 events 保留五组完整九表故障前后图，重新比较全部相等。第二张 manual snapshot、实际 Lead UPDATE、撤销 snapshot 的具名 `P0001` 与具体 Lead/record 绑定；正常匹配 tuple 的 UPDATE trap 未触发且请求 200。恢复与重试保留。phase19 缺图没有补造或升格。
+- phase29 的 743 events 全为 guard：58 anonymous、33 CSRF、580 permission policies、18 raw、51 lifecycle、3 次权限刷新 403 → 200 → 403。重新比较 104 张业务表公开摘要和 required safe rows 均相等，公开图未发布 credential rows，DB opt-in 执行数仍为 0。
+- 四轴分别有 HTTP/PG 358/31、354/27、354/27、360/31；16 个旅程捕获为 8 个 Rust 业务通过和 8 个 Native 参考捕获。两个 Native 格各自的 female→unknown 与第二版 bid/pricing 500 都有真实 network/PG 绑定；四个 23505 cause pin、constraint、projectId、v1 current 前后不变已重核。不能称为 16 个业务旅程全通过，也不能称为 Windows 原生 Rust 服务认证。
+- 已实际查看四格各四张 PNG。Rust 报价显示 Q2，Native 参考显示保留 Q1；转换项目日期显示 2026-12-01。四格网络 request、conversion response、GET、stage summary 和 PG 均代表 Tokyo 当天零点，即 `2026-11-30T15:00:00Z`。既有 PrimeUI license 提示保留。
+- 当前 Rust 全量 OpenAPI 原始 export 与前批完整原件 SHA 相同：173 operations / 138 paths / 585 schemas；Native 291 / 237 / 585，58 个完整 canonical operation join，579 client / 92 migration 原字节保护。没有宣称生成 client。
+- 两库 public catalog 前后四文件 SHA 完全相同：107 tables、1778 columns、207 FK、168 CHECK、428 ACL、92 migrations。只读 installed MikroORM CLI migration-check exit 1 / schema-dump exit 0；既有 CHECK/comment 和 QA marker 噪声分类明确，unknown 0，DDL 0。原始私有 SQL 没有被本审查者读取。
+- E1 两端 before 22 / after 21 cases 全通过，四份 replay digest 同为 `211e0f25ea901ed51b13cf5aed56453ac3fa259fcd4b9d918bc48aecea926403`。Windows 五条 alias 当前确实不存在，五个 canonical 与 23 个 legacy source pin 独立重算无偏差；仅删除 5 files / 419264 bytes。支持 resolver/replay 已读；历史 hardcode 不被改称可直接运行。
+
+G3 前尚需 Root 正式冻结最终候选、M5 完整 owned 图及无 FK 归属闭包、seed/unowned facts 保全、catalog/ACL/log settings 恢复、对象原字节保全后删除运行副本、第二次零清理、精确停进程与 PG 且保留卷/private、最终公开隐私与隔离检查、原字节映射，以及最终 Markdown/whitespace 检查凭据。
+
+G3 后仍需独立固定提交核验、primary FF/main push 与精确读回、生命周期归档与保全/远端核验、独立 G4 实际关闭许可。#57 必须保持 Open；#85/#97/#98/#99/#100 不能依据本预审关闭。
+
+机器报告及完整来源 pin：`source-evidence-preaudit01.json`（23,363 bytes，SHA `02056aba3c51e7481b590047a1cd1efead95a4cfaad7ee29c63b76002d8c9834`）。后续正式 Gate 使用新报告，不回写本预审。

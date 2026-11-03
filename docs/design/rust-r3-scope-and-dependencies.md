@@ -1,6 +1,6 @@
 # RUST-R3 范围、依赖与本批边界
 
-- 状态（2026-11-03）：A–K共58/58 HTTP已完成各自G4，#86–96 Closed；收口批#97及#98–100联合G1准备中；完整阶段尚未验收，父#85/#57保持Open。
+- 状态（2026-11-03）：A–K HTTP58/58及各自子片G4已完成；收口批#97/#98–100的联合G1已冻结、G2补缺及实际验收完成；独立G3已Pass，固定提交/main/G4待，#85/#57保持Open。
 - 父项：[R3 #85](https://github.com/illusion-tech/poms/issues/85)；总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。
 - 当前来源：main `5041275d7ad82af4becbb4462e7213ffe465bc7a`；R2 #67/#80 和路由 #61/#84 已 Closed。早期范围拆分起点为 `a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d`。
 - 当前清单：[58 个操作的当前 controller/spec/canonical 复核](rust-r3-operation-slices.json)。旧 R0 只作历史映射，不照抄其中已切换的 lookup 路径。
@@ -40,3 +40,13 @@
 
 
 最新H–K的28项已按独立许可实际G4关闭，当前HTTP58/58，详见[H–K收口](archive/slices/rust-r3hijk-closeout.md)。上方首批环境及C–G证据保持历史范围，不能冒称当前阶段新运行。当前#97使用全新环境；旧private/PG17/failed/partial/uncertified与ignored标签保留。E1须本次G1重审并按原2026-11-09期限退出。无部署、切流、迁移接管或性能结论。
+
+
+### 2026-11-03 R3 收口批 G2 实际验收完成，等待独立 Gate
+
+#97 / #98 / #99 / #100 的补缺与统一候选实际验收完成；[当前状态](rust-r3-closeout-status.json)、[联合输入](rust-r3-closeout-baseline.md)及[实际证据封包](rust-r3m/g3-package-manifest01.json)承接本次收口。候选 final01/f6a9fded，Rust 306 passed / 54 ignored（53 DB opt-in 和 1 显式 child fixture 分列），Admin lint、23 focused tests、production build 通过。58/58 有效入口与权限/CSRF/会话矩阵、评分一致性与历史审批事务回滚、CAS/版本/唯一提醒流均实测；四浏览器组合为 8 Rust业务通过＋8 Native参考捕获，已知 Native 缺陷不作为 Rust 目标或业务通过。
+
+两库本批 4471 行精确归属清理，107 表 seed/catalog/428 ACL/日志恢复，二次零变化；11 个对象486B原字节保全，运行副本为0，API/浏览器/PG/keepalive已停止，卷/private保留。E1 五别名删除，Windows/Linux 移除前后支持回放一致。原 failed/partial/quarantine/ignored 不改写。当前只是 G2 已执行完成；独立 G3 已Pass，固定提交、main 集成、生命周期归档与独立 G4 尚待完成，#85/#57和本批子项仍Open，R4–R7仍Todo。
+
+
+2026-11-03 [最终非作者 G3](rust-r3m/C/g3-independent-review01.json)已Pass，P0/P1/P2为0，仅准许本候选提交。固定提交、main集成及独立G4尚待完成，本批子项和#85/#57均保持Open。

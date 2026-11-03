@@ -1,0 +1,117 @@
+{
+  "label": "B.project.create",
+  "name": "B.project.create",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:03.705Z",
+  "completedAt": "2026-11-02T23:01:03.724Z",
+  "validatedEventRange": {
+    "start": 10,
+    "end": 11,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_create",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects",
+      "json": {
+        "projectName": "R3HK-5fb76d1a-11 project",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerProjectNo": "R3HK-5fb76d1a-11-external",
+        "currentStage": "assessment",
+        "plannedSignAt": "2027-02-01T00:00:00.000Z"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "closedAt": null,
+        "closedReason": null,
+        "createdAt": "2026-11-02T23:01:03.717Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "currentStage": "assessment",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerName": "R3HK-5fb76d1a-11 customer revised",
+        "customerProjectNo": "R3HK-5fb76d1a-11-external",
+        "id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "plannedSignAt": "2027-02-01T00:00:00.000Z",
+        "projectName": "R3HK-5fb76d1a-11 project",
+        "projectNo": "PRJ-2026-000002",
+        "rowVersion": 1,
+        "sourceLeadId": null,
+        "status": "active",
+        "updatedAt": "2026-11-02T23:01:03.717Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93"
+      },
+      "requestId": "b0aef9ae-dabf-4a89-8bf5-081212018f99",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "712",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-24",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:03 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 615,
+        "requestSha256": "c3d21c6c3759f36b59a63d77094a8ddf7a524fa19ef1d371009aefd997b54c9e",
+        "responseBytes": 996,
+        "responseSha256": "0c5fc2247f0709c276b4737aed3833cd159df2cdaa4cf2b8eaa4633038e3749d",
+        "entityBodyBytes": 712,
+        "entityBodySha256": "aea33f90e2aa4b12ab3d8a1ca877539b5abb56a1521d51d06ac16acd2a1eb27f",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-b7022169-d9d9-4593-ab9e-7dd0a6f77c69",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "project_no": "PRJ-2026-000002",
+        "project_name": "R3HK-5fb76d1a-11 project",
+        "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "status": "active",
+        "current_stage": "assessment",
+        "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+        "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "planned_sign_at": "2027-02-01T00:00:00.000Z",
+        "closed_at": null,
+        "closed_reason": null,
+        "row_version": 1,
+        "created_at": "2026-11-02T23:01:03.717Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:03.717Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customer_name": "R3HK-5fb76d1a-11 customer revised",
+        "source_lead_id": null,
+        "customer_project_no": "R3HK-5fb76d1a-11-external"
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-11-B.project.create.json",
+      "bytes": 3892,
+      "rawBytesSha256": "09c84fe1856b7d4864412be2798c18ca1754937ec8ce890eb2e769ce167175fb"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

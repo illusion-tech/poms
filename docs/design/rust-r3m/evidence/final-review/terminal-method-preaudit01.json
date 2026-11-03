@@ -1,0 +1,77 @@
+{
+  "kind": "R3M-final-reviewer-terminal-method-source-preaudit",
+  "createdAt": "2026-11-03T01:45:32.4948971Z",
+  "reviewer": "/root/r3_final_gate_review",
+  "scope": "source only, no runtime or cleanup certification",
+  "sources": [
+    {
+      "file": "docs/design/rust-r3m/g2-corrective-checkpoint05.md",
+      "bytes": 2861,
+      "rawBytesSha256": "ace2e579cedd1f04fc814e6ddb24a4055373d1504953c2b9ec0764a25366f433"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-plan03.mjs",
+      "bytes": 20654,
+      "rawBytesSha256": "01953d25b19d5617b932834e99691a0ad180e5acd1d07318a7fd80e226c04b2c"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-run03.mjs",
+      "bytes": 32424,
+      "rawBytesSha256": "6f175c70548c16d4fd148b66cf9264c6c078d6678741e1801bdb5a102118d1d7"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-plan-cases03.test.mjs",
+      "bytes": 15367,
+      "rawBytesSha256": "d85265a1ca84a3b42d76269ceadd0410ee1e626676abc92b8fe8946436dd1d3e"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/README03.md",
+      "bytes": 3322,
+      "rawBytesSha256": "53090518cffa2f4741ba9cd0005d4bb8767343b755d9f9fa525c2a10e05c2935"
+    },
+    {
+      "file": "tools/rust-r3m/object-process-terminal01.mjs",
+      "bytes": 8070,
+      "rawBytesSha256": "a69d02e2f27542b95b5aed479b76f4d6a65cd1e9df1a9c148caf667176db6acf"
+    }
+  ],
+  "ownershipMethod03": {
+    "newDirectAttribution": "exact registered present non-seed user, four table/column pairs only",
+    "pairs": [
+      "attachment.uploaded_by",
+      "attachment_link.linked_by",
+      "audit_log.operator_id",
+      "security_event.actor_id"
+    ],
+    "todo": "requires source_type sales-follow-up-record, todo_type sales-follow-up-reminder, domain sales, independently rooted added F, registered present assignee equals F owner, existing exact target by project>lead>customer, exact project context",
+    "todoGenericFkAndActorFallbackBypassed": true,
+    "logicalEdgesLabelledNotDatabaseFk": true,
+    "seedCannotRoot": true,
+    "unrootedCyclesCannotRoot": true,
+    "sourcePinsIncludeActualWriters": true,
+    "blockedInspect01And02Retained": true,
+    "actualRequiredReruns": "Root must run 33 pure cases, inspect both backends, first and second cleanup with all-107 exact baseline and ACL/catalog/log restoration receipts"
+  },
+  "objectProcessMethod01": {
+    "requiresFourSuccessfulDatabaseCleanupReceipts": true,
+    "secondDatabaseCleanupMustHaveZeroRemoved": true,
+    "exactObjectInventoryComparedToReceipts": true,
+    "symlinkAndMultiLinkRefused": true,
+    "copyExclusiveThenHashBeforeUnlink": true,
+    "manifestWrittenBeforeDeletingAnyOriginal": true,
+    "secondObjectCheckRehashesPreservedFiles": true,
+    "linuxAndWindowsOwnedBrowserProcessAbsenceChecked": true,
+    "markedContainerScopeBaseVolumeCheckedBeforeStop": true,
+    "volumeInspectedAfterStop": true,
+    "loopbackOwnedPortsProbed": true,
+    "keepaliveBootCwdCommandIdentityCheckedBeforeMarkerStop": true,
+    "privateContentNeverPrintedByMethod": true,
+    "failureBeforeFinalReport": "Root must preserve command exit/stdout/stderr; no Pass inferred from a missing report"
+  },
+  "sourceFindings": [],
+  "sourceDecision": "No material source blocker found in these exact method versions; actual outcomes still pending",
+  "G3Certified": false,
+  "G4Certified": false,
+  "actualCleanupCertified": false,
+  "issueClosureAuthorized": false
+}

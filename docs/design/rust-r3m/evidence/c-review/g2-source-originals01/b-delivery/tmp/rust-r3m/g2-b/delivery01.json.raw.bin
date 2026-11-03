@@ -1,0 +1,144 @@
+{
+  "kind": "R3-closeout-B-G2-authored-delivery01",
+  "baseline": {
+    "head": "546c6c243ea6162077cb065ced54c5a8188afe23",
+    "worktree": "E:/projects/worktrees/poms-r3co-b/poms",
+    "detachedManagedCheckout": true,
+    "initialTrackedWorktreeClean": true
+  },
+  "authorization": {
+    "G1Certified": true,
+    "G2Authorized": true,
+    "authorityFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r3m/g1-gate-authority01.json",
+    "authoritySha256": "b0e619f5ecd352543f51bb40d2542d0a382008a006f489ee427f5ed55f076fac",
+    "manifestFile": "docs/design/rust-r3m/g1-input-manifest01.json",
+    "manifestSha256": "7c41d08b0021ba0c7937948bd61ef990f4b4a7cac7bf4276d736a363a69b749e",
+    "read": "frozen baseline, manifest, independent C Pass and supplements01/02/03; later actual Gate authority governs over original Pending snapshots",
+    "ownership": "A14+B38+Root project-basic6; no projects/ or shared changes",
+    "canonicalConversion": "LeadController_convertToProject POST /api/leads/{id}:convertToProject"
+  },
+  "productFiles": [
+    {
+      "path": "apps/poms-api-rust/src/customers/service.rs",
+      "bytes": 46892,
+      "sha256": "1de85a6de3460a1598599dc1586a6193fba0b7e0c9281bdb1f2ebb36f0f280d7"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customers/store.rs",
+      "bytes": 22337,
+      "sha256": "b2b9c3964a731aecf520750040392e289edfa233b04a61b697cad1e9ebcd41e0"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/service.rs",
+      "bytes": 15533,
+      "sha256": "bcdc7c6927cf56b4b1d441f8a84d730b46787e9e7facd8826e507336f89820c2"
+    },
+    {
+      "path": "apps/poms-api-rust/src/customer_contacts/store.rs",
+      "bytes": 5307,
+      "sha256": "1e512b78cdac5cfd32465e69be158656754d70e8529d2ca303234b281a4b2ae1"
+    }
+  ],
+  "pureDefinitions": [
+    {
+      "path": "tmp/rust-r3m/g2-b/assertions01.mjs",
+      "bytes": 6252,
+      "sha256": "c4710485fa5470ff222e52a1008f02c6ae800bb794418953bb4e90578c7a9aa0"
+    },
+    {
+      "path": "tmp/rust-r3m/g2-b/customer-boundaries01.mjs",
+      "bytes": 12559,
+      "sha256": "204b377ab602d617818b4d48d69560a08c997f5239059c723237a1ec21d1e64b"
+    },
+    {
+      "path": "tmp/rust-r3m/g2-b/converted-project-presigning-chain01.mjs",
+      "bytes": 17893,
+      "sha256": "ba2d2ff9fbc321af526aacdd21cbe9bd49153cd003c514563cba01d50df963b0"
+    }
+  ],
+  "policies": [
+    "Customer and Contact store CAS return Option<i32>; only None becomes a typed Conflict409 in the caller, before its transaction commits. Genuine sqlx failure remains500. Existing business-managed session and registered contact field audit remain in that same transaction and roll back with CAS/SQL failure.",
+    "Customer business changes are computed before assigning updated_by. Actor-only and UUID-case-only requests create no business dirty/version/time/actor/audit write; pending session maintenance retains its existing path.",
+    "owner_org_id and owner_user_id compare parsed optional UUID values for change detection; invalid values propagate internal invariant error rather than collapsing to None. Valid absence/explicit clear retain original presence semantics. DTO validation is unchanged.",
+    "Private ListContext organization map uses Uuid keys and parses raw ownerOrgId on lookup; immediate name agrees with GET while the existing raw response ID representation is preserved.",
+    "Only customers/{service,store}.rs and customer_contacts/{service,store}.rs product files changed. All Service methods, HTTP/DTO/DDL/permission/contracts/client, Root shared and projects modules remain untouched."
+  ],
+  "interfaces": {
+    "publicService": "unchanged",
+    "storeChanges": [
+      "customers::store::update_customer -> Result<Option<i32>,sqlx::Error> (only local service caller found)",
+      "customer_contacts::store::update -> Result<Option<i32>,sqlx::Error> (pub(super), local only)"
+    ],
+    "privateChanges": [
+      "customer_changes(before,&mut after,operator) fills actor only after real business changes",
+      "customer_updated_version/contact_updated_version map typed CAS miss",
+      "ListContext.orgs HashMap<Uuid,String>"
+    ]
+  },
+  "unitDefinitions": {
+    "executed": false,
+    "added": 6,
+    "names": [
+      "business_noop_with_other_actor_and_uuid_case_keeps_update_facts",
+      "real_customer_change_records_actor_and_preserves_explicit_owner_clear",
+      "invalid_owner_uuid_is_not_treated_as_an_absent_identity",
+      "organization_projection_uses_uuid_identity_and_keeps_raw_response_id",
+      "customer_cas_miss_is_conflict_and_success_keeps_returned_version",
+      "contact_cas_miss_is_conflict_and_success_keeps_returned_version"
+    ],
+    "runtimeRollbackIsNotProvenByPureUnits": true
+  },
+  "pureContracts": {
+    "customerFile": "customer-boundaries01.mjs",
+    "exports": [
+      "buildCustomerRepairCases(ids) -> 5 definitions",
+      "buildCustomerCasCases(ids) -> 2 definitions",
+      "buildCustomerRequiredWriteFaultCases(ids) -> 3 definitions"
+    ],
+    "callShape": "normal/fault: case.request(evidence), case.assert(exchange,evidence). race: case.requests(evidence), case.assert(race,evidence); exchanges preserve request-array order.",
+    "evidence": "Full owned beforeRows/afterRows arrays include customer/customer_alias/customer_contact/audit_log as applicable; no independent auth upkeep in business oracle. Race source lock table/id/waitingBeforeRelease=2; due pendingSession actual business-managed fields belong to rejected request; ownerOrg cases readBack actual GET.",
+    "wireCorrection": "Actual CustomerDetailView is flat via serde(flatten); pure adapter checks body.ownerOrgName/body.rowVersion, not sealed prose body.customer.*. No sealed input is rewritten.",
+    "chainFile": "converted-project-presigning-chain01.mjs",
+    "chainExports": [
+      "convertedProject(state,ids)",
+      "buildCostBusinessRequest",
+      "buildBidBusinessRequest",
+      "buildPricingBusinessRequest",
+      "buildConvertedProjectPresigningPlan(ids)"
+    ],
+    "chainCounts": {
+      "sequentialDefinitions": 13,
+      "necessaryChildFaults": 3,
+      "executedByAuthor": 0
+    },
+    "chainProvenance": "state[ids.convertStateKey] actual status200 ProjectSummary plus actual request.method=POST/path=<owned lead>:convertToProject; project.sourceLeadId/customerId must match actual upstream ids. No direct-create or prepared Project accepted.",
+    "chainSemantics": "Same actual converted Project cost v1/v2 -> direct pending quote -> bid v1/v2 -> bid pending quote -> all nine list/create/workspace operations; retained versions, actual current cost/bid references, exact decimal parent/children, stale-cost400 no graph writes; cost/bid/pricing child failures500 full graph rollback.",
+    "externalImports": "none; relative imports only assertions01.mjs in this owned directory; no new E1 consumers, no old hardcode/alias imports",
+    "actualRootFixtures": [
+      "short unique marker<=24 ASCII (not an invented entity ID)",
+      "actual customer/contact/Lead/convertedProject receipts and request provenance",
+      "two actual actor/session identities and otherOrgId/name",
+      "actual dates chosen by Root",
+      "owned before/after PG row graphs with numeric ::text columns",
+      "Root-controlled source lock waiters/necessary SQL or audit fault/due managed-session probes"
+    ]
+  },
+  "checks": {
+    "sourceReadAndStaticCallsiteScan": true,
+    "build": "not run; Root owns",
+    "test": "not run; Root owns",
+    "fmt": "not run; Root owns",
+    "clippy": "not run; Root owns",
+    "NodeRunner": "not run",
+    "HTTP": "not run",
+    "PG": "not run",
+    "browser": "not run",
+    "WSL": "not run",
+    "oldPrivate": "not read",
+    "GitCommitPush": "not performed",
+    "GitHub": "not accessed or written",
+    "sealedInput": "not modified"
+  },
+  "hashPolicy": "These hashes pin authored pre-Root-fmt current bytes. Root must recapture actual final candidate hashes after formatting/integration; they are not a successful-build claim.",
+  "status": "authored complete; paused for Root baseline-witness retention, integration, unified fmt/check/actual regression and independent G3."
+}

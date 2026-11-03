@@ -110,6 +110,196 @@ impl From<DictionaryError> for LeadsError {
 
 type Work<'c, T> = Pin<Box<dyn Future<Output = Result<T, LeadsError>> + Send + 'c>>;
 
+/// One explicit system calculation owns both the persisted result and its
+/// explanation. Building a snapshot never collects a second set of live facts.
+#[derive(Clone, Debug)]
+struct SystemScoreTuple {
+    formula_version: String,
+    score: i32,
+    rating: String,
+    reason: String,
+    component_breakdown: String,
+    gate_summary: String,
+}
+
+impl SystemScoreTuple {
+    fn calculate(lead: &LeadRow, facts: &scoring::Facts) -> Result<Self, LeadsError> {
+        let input = lead.gate_input();
+        let value = scoring::breakdown(&input, facts);
+        Ok(Self {
+            formula_version: scoring::FORMULA_VERSION.into(),
+            score: value.total,
+            rating: scoring::rating(value.total).into(),
+            reason: scoring::score_reason(&value),
+            component_breakdown: serde_json::to_string(&value).map_err(|_| LeadsError::Internal)?,
+            gate_summary: serde_json::to_string(&scoring::gate_summary(&input))
+                .map_err(|_| LeadsError::Internal)?,
+        })
+    }
+
+    fn apply(&self, lead: &mut LeadRow) {
+        lead.score = self.score;
+        lead.rating = self.rating.clone();
+        lead.score_reason = self.reason.clone();
+        lead.score_updated_at = clock_now();
+    }
+
+    /// Validate stored facts against their own calculation, never against
+    /// newly collected I/F/upload facts. Extra historical JSON metadata is kept.
+    fn from_stored(lead: &LeadRow, snapshot: &SnapshotRow) -> Result<Option<Self>, LeadsError> {
+        if snapshot.lead_id != lead.id
+            || snapshot.snapshot_kind != "system"
+            || snapshot.system_score != lead.score
+            || snapshot.system_rating != lead.rating
+            || snapshot.system_rating != scoring::rating(lead.score)
+        {
+            return Ok(None);
+        }
+        let Ok(component) = serde_json::from_str::<Value>(&snapshot.component_breakdown) else {
+            return Ok(None);
+        };
+        let Ok(gates) = serde_json::from_str::<Value>(&snapshot.gate_summary_snapshot) else {
+            return Ok(None);
+        };
+        if !component.is_object() || !gates.is_object() {
+            return Ok(None);
+        }
+        let input = lead.gate_input();
+        let expected_gates = serde_json::to_value(scoring::gate_summary(&input))
+            .map_err(|_| LeadsError::Internal)?;
+        if !equal_json(&gates, &expected_gates)
+            || !component
+                .get("total")
+                .is_some_and(|total| equal_json(total, &json!(lead.score)))
+            || component
+                .get("formulaVersion")
+                .is_some_and(|version| version.as_str() != Some(snapshot.formula_version.as_str()))
+        {
+            return Ok(None);
+        }
+
+        let expected = match snapshot.formula_version.as_str() {
+            scoring::FORMULA_VERSION => {
+                let Some(facts) = stored_score_facts(&component) else {
+                    return Ok(None);
+                };
+                let value = scoring::breakdown(&input, &facts);
+                if value.total != lead.score || scoring::score_reason(&value) != lead.score_reason {
+                    return Ok(None);
+                }
+                serde_json::to_value(value).map_err(|_| LeadsError::Internal)?
+            }
+            "lead-score-v1" => {
+                // v1 has the same seven base components before v2's 65% weight.
+                // Its historical system reason and formula remain unchanged.
+                let value = scoring::breakdown(&input, &scoring::Facts::default());
+                let total = (value.source
+                    + value.demand
+                    + value.budget
+                    + value.amount
+                    + value.urgency
+                    + value.expected_decision_date
+                    + value.owner)
+                    .min(100);
+                if total != lead.score {
+                    return Ok(None);
+                }
+                let mut value = serde_json::to_value(value).map_err(|_| LeadsError::Internal)?;
+                value["total"] = json!(total);
+                value["formulaVersion"] = json!("lead-score-v1");
+                value
+            }
+            _ => return Ok(None),
+        };
+        let fields: &[&str] = if snapshot.formula_version == scoring::FORMULA_VERSION {
+            &[
+                "source",
+                "demand",
+                "budget",
+                "amount",
+                "urgency",
+                "expectedDecisionDate",
+                "owner",
+                "baseBusiness",
+                "salesIntelligence",
+                "followUpActivity",
+                "attachmentEvidence",
+                "total",
+                "formulaVersion",
+            ]
+        } else {
+            &[
+                "source",
+                "demand",
+                "budget",
+                "amount",
+                "urgency",
+                "expectedDecisionDate",
+                "owner",
+                "total",
+            ]
+        };
+        if fields
+            .iter()
+            .any(|key| match (component.get(*key), expected.get(*key)) {
+                (Some(actual), Some(expected)) => !equal_json(actual, expected),
+                _ => true,
+            })
+        {
+            return Ok(None);
+        }
+        Ok(Some(Self {
+            formula_version: snapshot.formula_version.clone(),
+            score: lead.score,
+            rating: lead.rating.clone(),
+            reason: lead.score_reason.clone(),
+            component_breakdown: snapshot.component_breakdown.clone(),
+            gate_summary: snapshot.gate_summary_snapshot.clone(),
+        }))
+    }
+}
+
+fn equal_json(actual: &Value, expected: &Value) -> bool {
+    scoring::semantic_json_equal(&actual.to_string(), &expected.to_string()).unwrap_or(false)
+}
+
+fn stored_score_facts(component: &Value) -> Option<scoring::Facts> {
+    Some(scoring::Facts {
+        sales_intelligence: serde_json::from_value(stored_fact_numbers(
+            component.get("salesIntelligenceFacts")?.clone(),
+        ))
+        .ok()?,
+        follow_up: serde_json::from_value(stored_fact_numbers(
+            component.get("followUpFacts")?.clone(),
+        ))
+        .ok()?,
+        attachment_evidence: serde_json::from_value(stored_fact_numbers(
+            component.get("attachmentFacts")?.clone(),
+        ))
+        .ok()?,
+    })
+}
+
+fn stored_fact_numbers(mut value: Value) -> Value {
+    // JSONB may spell an integer count as 1.0. Preserve semantic matching
+    // without converting exact historical integers through binary64.
+    if let Value::Object(object) = &mut value {
+        for value in object.values_mut() {
+            if let Value::Number(number) = value
+                && let Ok(decimal) = number.to_string().parse::<rust_decimal::Decimal>()
+                && decimal.fract().is_zero()
+                && let Ok(integer) = decimal
+                    .normalize()
+                    .to_string()
+                    .parse::<serde_json::Number>()
+            {
+                *number = integer;
+            }
+        }
+    }
+    value
+}
+
 struct OwnerChange {
     lead: LeadRow,
     operator: Uuid,
@@ -409,9 +599,10 @@ impl LeadsService {
                     updated_by: Some(operator.id),
                     raw_text,
                 };
-                refresh_score(connection, &mut lead).await?;
+                let system = refresh_score(connection, &mut lead).await?;
                 let snapshot =
-                    system_snapshot(connection, &lead, "create-lead", operator.id, None).await?;
+                    system_snapshot(connection, &lead, &system, "create-lead", operator.id, None)
+                        .await?;
                 lead.row_version = store::insert_lead(connection, &lead).await?;
                 if let Some(snapshot) = snapshot {
                     store::insert_snapshot(connection, &snapshot).await?;
@@ -462,15 +653,14 @@ impl LeadsService {
             if !input.expected_decision_date.is_missing() {lead.expected_decision_date=field_option(input.expected_decision_date);}
             let changed=changed_fields(&before,&lead);
             if changed.is_empty() {return command_summary(connection,&lead).await;}
-            lead.updated_by=Some(operator);refresh_score(connection,&mut lead).await?;
-            let snapshot=system_snapshot(connection,&lead,"update-lead",operator,None).await?;
+            lead.updated_by=Some(operator);let system=refresh_score(connection,&mut lead).await?;
             let metadata=json!({"changedFields":changed,"sourceCommand":"update-lead","expectedVersion":input.expected_version,
                 "redactedFields":changed.iter().filter(|field|**field=="demandDescription").collect::<Vec<_>>(),"businessContext":{"leadId":lead.id}}).to_string();
             let before_json=field_audit(&before,&changed);let after_json=field_audit(&lead,&changed);
             // Claim the expected version before dependent snapshot/audit writes.
             save_lead(connection,&before,&mut lead).await?;
             store::insert_raw_audit(connection,store::RawAudit {event_type:"lead.updated",target_type:"lead",target_id:&lead.id.to_string(),operator_id:operator,request_id:request_id.as_deref(),before:Some(&before_json),after:Some(&after_json),metadata:Some(&metadata)}).await?;
-            if let Some(snapshot)=snapshot {store::insert_snapshot(connection,&snapshot).await?;}
+            persist_system_snapshot(connection,&lead,&system,"update-lead",operator,None).await?;
             flush_session(connection,pending.as_ref()).await?;
             command_summary(connection,&lead).await
         })).await
@@ -597,10 +787,10 @@ impl LeadsService {
         self
             .transaction(move |connection| {
                 Box::pin(async move {
-                    refresh_score(connection,&mut lead).await?;
+                    let system=refresh_score(connection,&mut lead).await?;
                     save_lead(connection, &before, &mut lead).await?;
                     store::insert_assignment(connection, &record).await?;
-                    persist_system_snapshot(connection,&lead,&format!("{kind}-lead-owner"),operator,Some(record_id)).await?;
+                    persist_system_snapshot(connection,&lead,&system,&format!("{kind}-lead-owner"),operator,Some(record_id)).await?;
                     flush_session(connection, pending.as_ref()).await?;
                     Ok(Wire::value(json!({"targetId":target_id,"leadOwnerAssignmentRecordId":record_id,"previousOwnerUserId":previous_user,"previousOwnerOrgId":previous_org,
                         "newOwnerUserId":owner,"newOwnerOrgId":org_wire,"assignmentType":kind,"businessStatusAfter":status})))
@@ -635,9 +825,10 @@ impl LeadsService {
         lead.updated_by = Some(operator);
         self.transaction(move |connection| {
             Box::pin(async move {
-                refresh_score(connection, &mut lead).await?;
+                let system = refresh_score(connection, &mut lead).await?;
                 save_lead(connection, &before, &mut lead).await?;
-                persist_system_snapshot(connection, &lead, "qualify-lead", operator, None).await?;
+                persist_system_snapshot(connection, &lead, &system, "qualify-lead", operator, None)
+                    .await?;
                 flush_session(connection, pending.as_ref()).await?;
                 command_summary(connection, &lead).await
             })
@@ -670,9 +861,10 @@ impl LeadsService {
         lead.updated_by = Some(operator);
         self.transaction(move |connection| {
             Box::pin(async move {
-                refresh_score(connection, &mut lead).await?;
+                let system = refresh_score(connection, &mut lead).await?;
                 save_lead(connection, &before, &mut lead).await?;
-                persist_system_snapshot(connection, &lead, "close-lead", operator, None).await?;
+                persist_system_snapshot(connection, &lead, &system, "close-lead", operator, None)
+                    .await?;
                 flush_session(connection, pending.as_ref()).await?;
                 command_summary(connection, &lead).await
             })
@@ -859,14 +1051,11 @@ async fn flush_session(
 async fn refresh_score(
     connection: &mut PgConnection,
     lead: &mut LeadRow,
-) -> Result<(), LeadsError> {
+) -> Result<SystemScoreTuple, LeadsError> {
     let facts = store::collect_facts(connection, lead.id).await?;
-    let value = scoring::breakdown(&lead.gate_input(), &facts);
-    lead.score = value.total;
-    lead.rating = scoring::rating(value.total).into();
-    lead.score_reason = scoring::score_reason(&value);
-    lead.score_updated_at = clock_now();
-    Ok(())
+    let system = SystemScoreTuple::calculate(lead, &facts)?;
+    system.apply(lead);
+    Ok(system)
 }
 
 fn effective(lead: &LeadRow, active: Option<&OverrideRow>) -> Value {
@@ -1061,8 +1250,8 @@ fn raw_object(fields: impl IntoIterator<Item = (String, String)>) -> String {
     )
 }
 
-async fn build_snapshot(
-    connection: &mut PgConnection,
+fn build_snapshot(
+    system: &SystemScoreTuple,
     lead: &LeadRow,
     active: Option<&OverrideRow>,
     kind: &str,
@@ -1070,19 +1259,17 @@ async fn build_snapshot(
     operator: Uuid,
     record: Option<Uuid>,
 ) -> Result<SnapshotRow, LeadsError> {
-    let facts = store::collect_facts(connection, lead.id).await?;
-    let breakdown = scoring::breakdown(&lead.gate_input(), &facts);
     Ok(SnapshotRow {
         id: random_uuid()?,
         lead_id: lead.id,
         snapshot_kind: kind.into(),
         override_id: active.map(|row| row.id),
-        formula_version: scoring::FORMULA_VERSION.into(),
-        system_score: lead.score,
-        system_rating: lead.rating.clone(),
-        effective_score: active.map_or(lead.score, |row| row.requested_score),
+        formula_version: system.formula_version.clone(),
+        system_score: system.score,
+        system_rating: system.rating.clone(),
+        effective_score: active.map_or(system.score, |row| row.requested_score),
         effective_rating: active
-            .map_or_else(|| lead.rating.clone(), |row| row.requested_rating.clone()),
+            .map_or_else(|| system.rating.clone(), |row| row.requested_rating.clone()),
         effective_score_source: if active.is_some() {
             "manual-override"
         } else {
@@ -1090,12 +1277,11 @@ async fn build_snapshot(
         }
         .into(),
         score_reason: active.map_or_else(
-            || lead.score_reason.clone(),
+            || system.reason.clone(),
             |row| format!("人工覆盖评分：{}", row.reason),
         ),
-        component_breakdown: serde_json::to_string(&breakdown).map_err(|_| LeadsError::Internal)?,
-        gate_summary_snapshot: serde_json::to_string(&scoring::gate_summary(&lead.gate_input()))
-            .map_err(|_| LeadsError::Internal)?,
+        component_breakdown: system.component_breakdown.clone(),
+        gate_summary_snapshot: system.gate_summary.clone(),
         source_command: command.into(),
         source_record_id: record,
         created_at: clock_now(),
@@ -1105,21 +1291,21 @@ async fn build_snapshot(
 async fn system_snapshot(
     connection: &mut PgConnection,
     lead: &LeadRow,
+    system: &SystemScoreTuple,
     command: &str,
     operator: Uuid,
     record: Option<Uuid>,
 ) -> Result<Option<SnapshotRow>, LeadsError> {
     let active = store::find_override_status(connection, lead.id, "approved").await?;
     let next = build_snapshot(
-        connection,
+        system,
         lead,
         active.as_ref(),
         "system",
         command,
         operator,
         record,
-    )
-    .await?;
+    )?;
     if let Some(old) = store::latest_system_snapshot(connection, lead.id).await?
         && store::duplicate_snapshot(&old, &next)?
     {
@@ -1131,11 +1317,14 @@ async fn system_snapshot(
 async fn persist_system_snapshot(
     connection: &mut PgConnection,
     lead: &LeadRow,
+    system: &SystemScoreTuple,
     command: &str,
     operator: Uuid,
     record: Option<Uuid>,
 ) -> Result<(), LeadsError> {
-    if let Some(snapshot) = system_snapshot(connection, lead, command, operator, record).await? {
+    if let Some(snapshot) =
+        system_snapshot(connection, lead, system, command, operator, record).await?
+    {
         store::insert_snapshot(connection, &snapshot).await?;
     }
     Ok(())
@@ -1153,7 +1342,11 @@ async fn command_summary(
     if let Some(source) = source.as_ref() {
         raw.insert("sourceName".into(), source.clone());
     }
-    Ok(Wire::object(summary(lead, source.as_ref(), None)?, &raw))
+    let active = store::find_override_status(connection, lead.id, "approved").await?;
+    Ok(Wire::object(
+        summary(lead, source.as_ref(), active.as_ref())?,
+        &raw,
+    ))
 }
 
 async fn save_lead(
@@ -1182,6 +1375,67 @@ async fn save_override(
         )));
     }
     Ok(())
+}
+
+async fn lock_override_lead(
+    connection: &mut PgConnection,
+    id: &str,
+) -> Result<(LeadRow, OverrideRow), LeadsError> {
+    // This first read is not a row lock. Every decision takes the Lead lock
+    // first, then rereads/CASes overrides, including a possible old approved row.
+    let observed = require_override(connection, id).await?;
+    let lead_id = observed.lead_id.to_string();
+    let lead = store::find_for_score_decision(connection, &lead_id)
+        .await?
+        .ok_or_else(|| LeadsError::NotFound(format!("Lead {lead_id} not found")))?;
+    let current = require_override(connection, id).await?;
+    if current.lead_id != lead.id {
+        return Err(LeadsError::Conflict(
+            "Lead score override target changed concurrently; reload and retry".into(),
+        ));
+    }
+    Ok((lead, current))
+}
+
+async fn system_tuple_for_decision(
+    connection: &mut PgConnection,
+    lead: &mut LeadRow,
+    active: Option<&OverrideRow>,
+    command: &str,
+    operator: Uuid,
+    record: Uuid,
+) -> Result<SystemScoreTuple, LeadsError> {
+    for snapshot in store::system_snapshots_for_score(connection, lead).await? {
+        if let Some(system) = SystemScoreTuple::from_stored(lead, &snapshot)? {
+            return Ok(system);
+        }
+    }
+
+    // User-authorized legacy fallback only: score, its system explanation and
+    // the later manual decision all belong to the caller's one transaction.
+    let before = lead.clone();
+    let system = refresh_score(connection, lead).await?;
+    lead.updated_by = Some(operator);
+    if !store::update_recalculated_score(connection, &before, lead).await? {
+        return Err(LeadsError::Conflict(format!(
+            "Lead {} changed concurrently; reload and retry",
+            lead.id
+        )));
+    }
+    // A repair must record its system evidence even if an older unrelated
+    // snapshot happens to have the newly calculated score. Normal triggers
+    // still use semantic dedup; a matching tuple never enters this branch.
+    let snapshot = build_snapshot(
+        &system,
+        lead,
+        active,
+        "system",
+        command,
+        operator,
+        Some(record),
+    )?;
+    store::insert_snapshot(connection, &snapshot).await?;
+    Ok(system)
 }
 
 impl LeadsService {
@@ -1218,7 +1472,7 @@ impl LeadsService {
                 owner_org_id:before.owner_org_id,owner_user_id:before.owner_user_id,planned_sign_at:field_option(input.planned_sign_at),closed_at:None,closed_reason:None,
                 row_version:1,created_at:now,created_by:Some(operator.id),updated_at:now,updated_by:Some(operator.id)};
             let mut lead=before.clone();lead.status="converted".into();lead.converted_project_id=Some(project.id);lead.converted_at=Some(clock_now());lead.converted_by=Some(operator.id);lead.updated_by=Some(operator.id);
-            refresh_score(connection,&mut lead).await?;
+            let system=refresh_score(connection,&mut lead).await?;
             let candidates=store::conversion_attachments(connection,lead.id).await?;
             project.row_version=store::insert_conversion_project(connection,&project).await?;
             save_lead(connection,&before,&mut lead).await?;
@@ -1232,7 +1486,7 @@ impl LeadsService {
                 let metadata=json!({"from":{"targetType":"lead","targetId":lead.id},"to":{"targetType":"project","targetId":project.id},"relationType":"source","copiedCount":copied}).to_string();
                 store::insert_raw_audit(connection,store::RawAudit {event_type:"attachment.link_copied_to_project",target_type:"attachment",target_id:&project.id.to_string(),operator_id:operator.id,request_id:None,before:None,after:None,metadata:Some(&metadata)}).await?;
             }
-            persist_system_snapshot(connection,&lead,"convert-to-project",operator.id,Some(project.id)).await?;
+            persist_system_snapshot(connection,&lead,&system,"convert-to-project",operator.id,Some(project.id)).await?;
             flush_session(connection,pending.as_ref()).await?;
             Ok(Wire::object(project_summary(&project)?,&original_text))
         })).await
@@ -1343,17 +1597,25 @@ impl LeadsService {
                 request_id.map(str::to_owned),
                 move |connection| {
                     Box::pin(async move {
-                        let before = require_override(connection, &key).await?;
+                        let (mut lead, before) = lock_override_lead(connection, &key).await?;
                         check_version(
                             before.row_version,
                             Some(input.expected_override_row_version),
                             "lead score override",
                         )?;
                         override_status(&before, "pending", "approve")?;
-                        let lead = require_lead(connection, &before.lead_id.to_string()).await?;
                         let mut active =
                             store::find_override_status(connection, before.lead_id, "approved")
                                 .await?;
+                        let system = system_tuple_for_decision(
+                            connection,
+                            &mut lead,
+                            active.as_ref(),
+                            "approve-score-override",
+                            operator,
+                            before.id,
+                        )
+                        .await?;
                         let mut row = before.clone();
                         row.status = "approved".into();
                         row.approved_at = Some(clock_now());
@@ -1377,15 +1639,14 @@ impl LeadsService {
                         }
                         save_override(connection, &before, &mut row).await?;
                         let snapshot = build_snapshot(
-                            connection,
+                            &system,
                             &lead,
                             Some(&row),
                             "manual-override",
                             "approve-score-override",
                             operator,
                             Some(row.id),
-                        )
-                        .await?;
+                        )?;
                         store::insert_snapshot(connection, &snapshot).await?;
                         flush_session(connection, pending.as_ref()).await?;
                         Ok(row)
@@ -1453,14 +1714,22 @@ impl LeadsService {
                 request_id.map(str::to_owned),
                 move |connection| {
                     Box::pin(async move {
-                        let before = require_override(connection, &key).await?;
+                        let (mut lead, before) = lock_override_lead(connection, &key).await?;
                         check_version(
                             before.row_version,
                             Some(input.expected_override_row_version),
                             "lead score override",
                         )?;
                         override_status(&before, "approved", "revoke")?;
-                        let lead = require_lead(connection, &before.lead_id.to_string()).await?;
+                        let system = system_tuple_for_decision(
+                            connection,
+                            &mut lead,
+                            Some(&before),
+                            "revoke-score-override",
+                            operator,
+                            before.id,
+                        )
+                        .await?;
                         let mut row = before.clone();
                         let reason = trim_js(input.reason);
                         row.status = "revoked".into();
@@ -1471,15 +1740,14 @@ impl LeadsService {
                         row.updated_by = Some(operator);
                         save_override(connection, &before, &mut row).await?;
                         let snapshot = build_snapshot(
-                            connection,
+                            &system,
                             &lead,
                             None,
                             "override-revoked",
                             "revoke-score-override",
                             operator,
                             Some(row.id),
-                        )
-                        .await?;
+                        )?;
                         store::insert_snapshot(connection, &snapshot).await?;
                         flush_session(connection, pending.as_ref()).await?;
                         Ok(row)
@@ -1593,4 +1861,276 @@ fn snapshot_summary(row: &SnapshotRow) -> Result<Value, LeadsError> {
         "systemScore":row.system_score,"systemRating":row.system_rating,"effectiveScore":row.effective_score,"effectiveRating":row.effective_rating,"effectiveScoreSource":row.effective_score_source,
         "scoreReason":row.score_reason,"componentBreakdown":component,"gateSummarySnapshot":gate,"sourceCommand":row.source_command,"sourceRecordId":row.source_record_id,"createdAt":iso(row.created_at)?,"createdBy":row.created_by}),
     )
+}
+
+#[cfg(test)]
+mod score_tuple_tests {
+    use super::*;
+
+    fn lead() -> LeadRow {
+        let epoch = DateTime::from_timestamp_millis(0).unwrap_or_else(|| panic!("epoch"));
+        LeadRow {
+            id: Uuid::from_u128(1),
+            lead_no: "LD-test".into(),
+            lead_name: "既有线索".into(),
+            customer_id: Uuid::from_u128(2),
+            customer_name: "真实客户".into(),
+            source_code: "customer-visit".into(),
+            demand_description: Some(
+                "已核对设备建设需求、项目范围、预算来源以及下一步沟通安排。".into(),
+            ),
+            budget_status: "rough-budget".into(),
+            estimated_amount: Some("1200000.00".into()),
+            urgency: "normal".into(),
+            expected_decision_date: Some("2026-11-20".into()),
+            score: 0,
+            rating: "D".into(),
+            score_reason: "暂无有效评分事实".into(),
+            score_updated_at: epoch,
+            status: "registered".into(),
+            owner_org_id: Some(Uuid::from_u128(3)),
+            owner_user_id: Some(Uuid::from_u128(4)),
+            qualification_summary: None,
+            qualified_at: None,
+            qualified_by: None,
+            closed_reason: None,
+            closed_at: None,
+            closed_by: None,
+            converted_project_id: None,
+            converted_at: None,
+            converted_by: None,
+            row_version: 1,
+            created_at: epoch,
+            created_by: Some(Uuid::from_u128(4)),
+            updated_at: epoch,
+            updated_by: Some(Uuid::from_u128(4)),
+            raw_text: BTreeMap::new(),
+        }
+    }
+
+    fn system_snapshot(
+        lead: &LeadRow,
+        system: &SystemScoreTuple,
+    ) -> Result<SnapshotRow, LeadsError> {
+        build_snapshot(
+            system,
+            lead,
+            None,
+            "system",
+            "create-lead",
+            Uuid::from_u128(4),
+            None,
+        )
+    }
+
+    fn active_override(lead: &LeadRow) -> OverrideRow {
+        let now = lead.updated_at;
+        OverrideRow {
+            id: Uuid::from_u128(5),
+            lead_id: lead.id,
+            requested_score: 91,
+            requested_rating: "A".into(),
+            reason: "已核对特殊业务事实".into(),
+            status: "approved".into(),
+            system_score_at_request: lead.score,
+            system_rating_at_request: lead.rating.clone(),
+            requested_by: lead.updated_by,
+            requested_at: now,
+            approved_by: lead.updated_by,
+            approved_at: Some(now),
+            approval_note: None,
+            rejected_by: None,
+            rejected_at: None,
+            reject_reason: None,
+            revoked_by: None,
+            revoked_at: None,
+            revoke_reason: None,
+            superseded_by_id: None,
+            created_at: now,
+            updated_at: now,
+            updated_by: lead.updated_by,
+            row_version: 2,
+            raw_text: BTreeMap::new(),
+        }
+    }
+
+    fn breakdown(snapshot: &SnapshotRow) -> Result<Value, LeadsError> {
+        serde_json::from_str(&snapshot.component_breakdown).map_err(|_| LeadsError::Internal)
+    }
+
+    #[test]
+    fn one_materialized_result_supplies_lead_and_system_explanation() -> Result<(), LeadsError> {
+        let mut lead = lead();
+        let facts = scoring::Facts {
+            sales_intelligence: scoring::IntelligenceFacts {
+                decision_maker_known: true,
+                budget_source_known: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let system = SystemScoreTuple::calculate(&lead, &facts)?;
+        system.apply(&mut lead);
+        let snapshot = system_snapshot(&lead, &system)?;
+        assert_eq!(snapshot.system_score, lead.score);
+        assert_eq!(snapshot.system_rating, lead.rating);
+        assert_eq!(breakdown(&snapshot)?["total"], json!(lead.score));
+        assert_eq!(snapshot.score_reason, lead.score_reason);
+        assert_eq!(snapshot.formula_version, scoring::FORMULA_VERSION);
+        assert!(SystemScoreTuple::from_stored(&lead, &snapshot)?.is_some());
+        Ok(())
+    }
+
+    #[test]
+    fn manual_and_revoked_explanations_keep_the_stored_facts_after_new_facts_arrive()
+    -> Result<(), LeadsError> {
+        let mut lead = lead();
+        let system = SystemScoreTuple::calculate(&lead, &scoring::Facts::default())?;
+        system.apply(&mut lead);
+        let original = system_snapshot(&lead, &system)?;
+        let new_facts = scoring::Facts {
+            sales_intelligence: scoring::IntelligenceFacts {
+                decision_maker_known: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let newly_calculated = SystemScoreTuple::calculate(&lead, &new_facts)?;
+        assert_ne!(newly_calculated.score, lead.score);
+        let stored =
+            SystemScoreTuple::from_stored(&lead, &original)?.ok_or(LeadsError::Internal)?;
+        let active = active_override(&lead);
+        let manual = build_snapshot(
+            &stored,
+            &lead,
+            Some(&active),
+            "manual-override",
+            "approve-score-override",
+            Uuid::from_u128(4),
+            Some(active.id),
+        )?;
+        let revoked = build_snapshot(
+            &stored,
+            &lead,
+            None,
+            "override-revoked",
+            "revoke-score-override",
+            Uuid::from_u128(4),
+            Some(active.id),
+        )?;
+        for snapshot in [&manual, &revoked] {
+            assert_eq!(snapshot.system_score, lead.score);
+            assert_eq!(snapshot.component_breakdown, original.component_breakdown);
+            assert_eq!(breakdown(snapshot)?["total"], json!(lead.score));
+            assert_eq!(snapshot.source_record_id, Some(active.id));
+        }
+        assert_eq!(manual.effective_score, 91);
+        assert_eq!(manual.override_id, Some(active.id));
+        assert_eq!(revoked.effective_score, lead.score);
+        assert_eq!(revoked.override_id, None);
+        Ok(())
+    }
+
+    #[test]
+    fn damaged_or_internally_mismatched_history_cannot_be_reused() -> Result<(), LeadsError> {
+        let mut lead = lead();
+        let system = SystemScoreTuple::calculate(&lead, &scoring::Facts::default())?;
+        system.apply(&mut lead);
+        let original = system_snapshot(&lead, &system)?;
+        let mut corruptions = Vec::new();
+        for (field, value) in [
+            ("total", json!(lead.score + 1)),
+            ("salesIntelligence", json!(20)),
+            ("formulaVersion", json!("lead-score-v1")),
+            ("salesIntelligenceFacts", Value::Null),
+        ] {
+            let mut snapshot = original.clone();
+            let mut component = breakdown(&snapshot)?;
+            component[field] = value;
+            snapshot.component_breakdown = component.to_string();
+            corruptions.push(snapshot);
+        }
+        let mut invalid_json = original.clone();
+        invalid_json.component_breakdown = "{invalid".into();
+        corruptions.push(invalid_json);
+        let mut invalid_gates = original.clone();
+        invalid_gates.gate_summary_snapshot = "{}".into();
+        corruptions.push(invalid_gates);
+        let mut invalid_rating = original.clone();
+        invalid_rating.system_rating = "A".into();
+        corruptions.push(invalid_rating);
+        for snapshot in corruptions {
+            assert!(SystemScoreTuple::from_stored(&lead, &snapshot)?.is_none());
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn equal_total_from_different_base_facts_is_not_a_matching_tuple() -> Result<(), LeadsError> {
+        let mut lead = lead();
+        let system = SystemScoreTuple::calculate(&lead, &scoring::Facts::default())?;
+        system.apply(&mut lead);
+        let original = system_snapshot(&lead, &system)?;
+        // +5 budget and -5 urgency preserve the total and aggregate reason.
+        lead.budget_status = "budget-confirmed".into();
+        lead.urgency = "low".into();
+        let changed = SystemScoreTuple::calculate(&lead, &scoring::Facts::default())?;
+        assert_eq!(changed.score, lead.score);
+        assert_eq!(changed.reason, lead.score_reason);
+        assert!(SystemScoreTuple::from_stored(&lead, &original)?.is_none());
+        Ok(())
+    }
+
+    #[test]
+    fn semantic_numeric_json_and_extra_historical_metadata_are_preserved() -> Result<(), LeadsError>
+    {
+        let mut lead = lead();
+        let system = SystemScoreTuple::calculate(&lead, &scoring::Facts::default())?;
+        system.apply(&mut lead);
+        let mut snapshot = system_snapshot(&lead, &system)?;
+        let mut component = breakdown(&snapshot)?;
+        component["total"] = json!(f64::from(lead.score));
+        component["followUpFacts"]["followUpCount30d"] = json!(0.0);
+        component["attachmentFacts"]["latestAttachmentCount"] = json!(0.0);
+        component["historicalMetadata"] = json!({"source":"retained"});
+        snapshot.component_breakdown = component.to_string();
+        let stored =
+            SystemScoreTuple::from_stored(&lead, &snapshot)?.ok_or(LeadsError::Internal)?;
+        assert_eq!(stored.component_breakdown, snapshot.component_breakdown);
+        Ok(())
+    }
+
+    #[test]
+    fn a_coherent_v1_stored_result_keeps_its_original_formula_without_live_refresh()
+    -> Result<(), LeadsError> {
+        let mut lead = lead();
+        let value = scoring::breakdown(&lead.gate_input(), &scoring::Facts::default());
+        let total = (value.source
+            + value.demand
+            + value.budget
+            + value.amount
+            + value.urgency
+            + value.expected_decision_date
+            + value.owner)
+            .min(100);
+        lead.score = total;
+        lead.rating = scoring::rating(total).into();
+        lead.score_reason = "历史v1系统解释".into();
+        let system = SystemScoreTuple {
+            formula_version: "lead-score-v1".into(), score: total, rating: lead.rating.clone(),
+            reason: lead.score_reason.clone(),
+            component_breakdown: json!({"source":value.source,"demand":value.demand,
+                "budget":value.budget,"amount":value.amount,"urgency":value.urgency,
+                "expectedDecisionDate":value.expected_decision_date,"owner":value.owner,"total":total}).to_string(),
+            gate_summary: serde_json::to_string(&scoring::gate_summary(&lead.gate_input()))
+                .map_err(|_| LeadsError::Internal)?,
+        };
+        let snapshot = system_snapshot(&lead, &system)?;
+        let stored =
+            SystemScoreTuple::from_stored(&lead, &snapshot)?.ok_or(LeadsError::Internal)?;
+        assert_eq!(stored.formula_version, "lead-score-v1");
+        assert_eq!(stored.score, total);
+        assert_eq!(stored.reason, "历史v1系统解释");
+        Ok(())
+    }
 }

@@ -1,0 +1,27 @@
+# 聚合终态 03：按原写入来源补足逻辑归属
+
+Root 的实际 inspect-rust02 未删除：3727 新增行中 1987 已有证明，1740 行因数据库不存在对应 FK 而缺归属，分别为 attachment8、attachment_link12、audit_log155、security_event1537、todo_item28。02 不标为完成，原图和原定义保留。
+
+03 只补本批明确授权的来源语义，不修改产品/schema，不增加实际 FK，也不使用 remember IDs：
+
+| Table | 唯一新增直接归属列 | 来源 |
+| --- | --- | --- |
+| attachment | uploaded_by | attachments service/store |
+| attachment_link | linked_by | attachments service/store 与 leads conversion store |
+| audit_log | operator_id | auth/audit.rs 与各必要审计 writer |
+| security_event | actor_id | auth/audit.rs |
+
+值必须是 context 精确注册、当前实际存在的新增 own user。seed/未知 user 值不建立这些新根；任意其他表或其他相似列不会被扩展。原合法实际 FK 闭包仍可证明连接到已归属新实体的行，例如 attachment_link 的 attachment_id。actor=null 安全事件仍只能走旧的精确实际请求证据根，不根据 event_type 或前缀猜归属。
+
+Todo 单独采用源码确定的逻辑来源规则：source_type 必须恰为 `sales-follow-up-record`，todo_type 必须恰为 `sales-follow-up-reminder`，business_domain 必须为 `sales`；source_id 精确指向本批新增、已经独立归属的 sales_follow_up_record；assignee_user_id 必须是当前存在的精确注册新 user，并等于该 F 的 owner_user_id。目标按源码的 project > lead > customer 优先级，由 F.project_id / F.lead_id / F.customer_id 精确计算；Todo 的 target_object_type/id 和 project_id 必须全吻合，当前实际目标也必须存在。
+
+只有这些检查均通过才能赋予 `source-defined-logical-sales-follow-up-reminder` 证明。它明确是 `actualForeignKey:false`，另外记录 logicalOwnershipEdges，不能冒充第 208 个 FK。该逻辑边只能 child Todo → 已归属新增 F，不反推 F、不能借 seed F、不能自证循环。Todo 不使用 assignee-only、任意 created_by 或普通 FK fallback 绕过来源检查。历史 completed/canceled 与 replaced/voided F 仍可保留这个同一来源关系，不强制 active/open。
+
+run03 在 02 来源保护基础上额外绑定 Rust auth/audit.rs、attachments service/store、leads store、sales_follow_up service/store/reminder，以及对应 Native Todo entity、F repository、attachment entity。原 DELETE_ORDER、整体表级 SQL、seed/counter恢复、原 wire 根、private 边界、平台停止、catalog/ACL/log 和二次零变化均不变。
+
+```text
+node --test tmp/rust-r3m/terminal-draft/aggregate-plan-cases03.test.mjs
+node tmp/rust-r3m/terminal-draft/aggregate-run03.mjs inspect rust 03 tmp/rust-r3m/root/whole-batch-terminal-input01.json
+```
+
+cases03 保留 02 的 19 项，新增 14 项（含表驱动负例），合计 33 项定义：四列白名单正例、未知/seed actor、错误表/列、三个目标优先级、源 F 实际 FK 先归属、seed/missing/unrooted F、未知常量、未知/seed/不匹配 assignee、目标上下文错配、历史链。作者只做语法检查，不执行纯数据测试/private/DB/环境或删除。Root 执行后再由 C 独立判断终态。

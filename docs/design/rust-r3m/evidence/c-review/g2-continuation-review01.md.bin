@@ -1,0 +1,9 @@
+# R3 收口继续独审 01
+
+本报告只复核公开源码和当前报告，不认证 G3/G4。phase19 同 final01/f6 的 14 个 business case、107 事件真实 completed；正常已存 tuple、历史补算和具名 QA 错误目标绑定可核。
+
+发现 P2 C-G2-P2-GRAPH-RETENTION-01：cases[5/6/7/8] 的完整故障 before/after graph 被 fallbackResult 同名 Lead 行覆盖，cases[12] 的 afterFault 未保留。源码确有实时图断言，但该记录不足以独立核验故障前后全图。Root 已收到，须新 runner/phase 留存明确图字段；19 与18原件不回写，产品候选无需因此重编。
+
+customer02 三处 female 纠正为精确最小派生；project02 保留真实 UI、上下游只读、201/v2、唯一 current、旧父子事实完整性；Lead03 保留全旅程并增加实际非空日期 request/response/GET/stage/page 检查。四轴尚未实际接受。新 ui-run01 漏 bid material/timeline row 白名单，已在执行前通知 Root。
+
+完整 G3/fixed/main/G4 所需逐项清单和所有 pin 见同名 JSON。当前无新产品 P0/P1/P2 结论；证据 P2 未关闭，#85/#57 保持开放。模型元信息如实记录为当前 spawn 继承且不可见，不冒称历史 C 的精确配置。

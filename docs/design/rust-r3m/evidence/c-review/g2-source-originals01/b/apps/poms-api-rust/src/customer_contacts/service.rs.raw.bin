@@ -1,0 +1,404 @@
+//! Contact reads, public Create fields and field-audit transactions.
+
+use std::{collections::BTreeMap, error::Error as StdError, fmt};
+
+use axum::http::StatusCode;
+use chrono::{DateTime, Utc};
+use serde_json::{Value, json};
+use sqlx::{Connection, PgConnection};
+use uuid::Uuid;
+
+use super::{
+    model::{Create, Query, Update},
+    store::{self, Contact},
+};
+use crate::{
+    auth::{
+        guards::RequestMetadata,
+        js_json::JsString,
+        model::{ResolvedSession, clock_now},
+        store::flush_managed_session,
+    },
+    compat::{json::Field, scalars::js_iso_string},
+    database::{Database, DbError},
+    error::ApiError,
+    projects::model::{Wire, js},
+    shared::generated::{CustomerContactGender, CustomerContactStatus},
+};
+
+#[derive(Debug)]
+pub enum Error {
+    BadRequest(String),
+    NotFound(String),
+    Conflict(String),
+    Database(DbError),
+    Internal,
+}
+impl fmt::Display for Error {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("sales fact operation failed")
+    }
+}
+impl StdError for Error {}
+impl From<DbError> for Error {
+    fn from(value: DbError) -> Self {
+        Self::Database(value)
+    }
+}
+impl Error {
+    pub fn into_api_error(self) -> ApiError {
+        match self {
+            Self::BadRequest(message) => ApiError::message(StatusCode::BAD_REQUEST, message),
+            Self::NotFound(message) => ApiError::message(StatusCode::NOT_FOUND, message),
+            Self::Conflict(message) => ApiError::message(StatusCode::CONFLICT, message),
+            Self::Database(_) | Self::Internal => ApiError::internal(),
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct Service {
+    database: Database,
+}
+
+impl Service {
+    pub fn new(database: Database) -> Self {
+        Self { database }
+    }
+
+    pub async fn list(&self, input: Query) -> Result<Wire, Error> {
+        let id = input.customer_id.clone();
+        let customer = self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(async move { store::customer(connection, &id).await })
+            })
+            .await?
+            .ok_or_else(|| Error::NotFound(format!("Customer {} not found", input.customer_id)))?;
+        let customer_id = customer.id;
+        let rows = self
+            .database
+            .with_connection(move |connection| Box::pin(store::list(connection, customer_id)))
+            .await?;
+        let values = rows
+            .iter()
+            .map(|row| summary(row, &customer.display_name).map(Wire::value))
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(array(values))
+    }
+
+    pub async fn create(&self, input: Create, session: &ResolvedSession) -> Result<Wire, Error> {
+        let customer_id = input.customer_id.clone();
+        let customer = self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(async move { store::customer(connection, &customer_id).await })
+            })
+            .await?
+            .ok_or_else(|| Error::NotFound(format!("Customer {} not found", input.customer_id)))?;
+        let raw = create_text(&input);
+        let mut row = Contact {
+            id: random_uuid()?,
+            customer_id: customer.id,
+            name: input.name.to_utf8_lossy(),
+            gender: input
+                .gender
+                .as_deref()
+                .unwrap_or(CustomerContactGender::Unknown.as_str())
+                .to_owned(),
+            department: nullable(&input.department),
+            title: nullable(&input.title),
+            work_phone: nullable(&input.work_phone),
+            mobile: nullable(&input.mobile),
+            wechat: nullable(&input.wechat),
+            email: nullable(&input.email),
+            remark: nullable(&input.remark),
+            status: CustomerContactStatus::Active.as_str().to_owned(),
+            row_version: 1,
+            created_at: clock_now(),
+            created_by: Some(session.user.user_id),
+            updated_at: clock_now(),
+            updated_by: Some(session.user.user_id),
+        };
+        let stored = row.clone();
+        let pending = session.pending_flush.clone();
+        row.row_version = self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(async move {
+                    let mut transaction = connection.begin().await?;
+                    let result: Result<i32, sqlx::Error> = async {
+                        let version = store::insert(&mut transaction, &stored).await?;
+                        if let Some(pending) = pending.as_ref() {
+                            flush_managed_session(&mut transaction, pending).await?;
+                        }
+                        Ok(version)
+                    }
+                    .await;
+                    match result {
+                        Ok(version) => {
+                            transaction.commit().await?;
+                            Ok(version)
+                        }
+                        Err(error) => {
+                            transaction.rollback().await?;
+                            Err(error)
+                        }
+                    }
+                })
+            })
+            .await?;
+        Ok(Wire::object(summary(&row, &customer.display_name)?, &raw))
+    }
+
+    pub async fn update(
+        &self,
+        id: &str,
+        input: Update,
+        session: &ResolvedSession,
+        metadata: &RequestMetadata,
+    ) -> Result<Wire, Error> {
+        let id = id.to_owned();
+        let operator_id = session.user.user_id;
+        let pending = session.pending_flush.clone();
+        let request_id = metadata.request_id.clone();
+        self.database.with_connection(move |connection| {
+            Box::pin(async move {
+                let mut transaction = connection.begin().await?;
+                let result: Result<Result<Wire, Error>, sqlx::Error> = async {
+                    let Some(before) = store::find(&mut transaction, &id).await? else {
+                        return Ok(Err(Error::NotFound(format!("CustomerContact {id} not found"))));
+                    };
+                    let Some(customer) = store::customer(&mut transaction, &before.customer_id.to_string()).await? else {
+                        return Ok(Err(Error::NotFound(format!("Customer {} not found", before.customer_id))));
+                    };
+                    let before_values = values(&before);
+                    let mut after_values = before_values.clone();
+                    apply_input(&mut after_values, &input);
+                    let changed = AUDIT_FIELDS.iter().copied().filter(|key| before_values.get(key) != after_values.get(key)).collect::<Vec<_>>();
+                    if changed.is_empty() {
+                        if let Some(pending) = pending.as_ref() {
+                            flush_managed_session(&mut transaction, pending).await?;
+                        }
+                        return Ok(summary(&before, &customer.display_name).map(Wire::value));
+                    }
+                    let before_snapshot = audit_snapshot(&before_values, &changed);
+                    let after_snapshot = audit_snapshot(&after_values, &changed);
+                    let audit_metadata = json!({
+                        "changedFields":changed,
+                        "sourceCommand":"update-customer-contact",
+                        "redactedFields":changed.iter().filter(|key| REDACTED.contains(key)).collect::<Vec<_>>(),
+                        "businessContext":{"customerId":before.customer_id},
+                    });
+                    // Native G1: CREATE audit, UPDATE pending session, then
+                    // versioned UPDATE contact, all inside this transaction.
+                    insert_field_audit(&mut transaction, before.id, operator_id, request_id, &before_snapshot, &after_snapshot, audit_metadata).await?;
+                    if let Some(pending) = pending.as_ref() {
+                        flush_managed_session(&mut transaction, pending).await?;
+                    }
+                    let changes = changed.iter().filter_map(|key| after_values.get(key).cloned().map(|value| (*key, value))).collect::<BTreeMap<_, _>>();
+                    let at = clock_now();
+                    let updated = store::update(&mut transaction, &before, &changes, operator_id, at).await?;
+                    let version = match contact_updated_version(before.id, updated) {
+                        Ok(version) => version,
+                        Err(error) => return Ok(Err(error)),
+                    };
+                    let mut after = before;
+                    let mut raw = BTreeMap::new();
+                    for (key, value) in changes {
+                        store::set_text(&mut after, key, value.as_ref().map(JsString::to_utf8_lossy));
+                        if let Some(value) = value { raw.insert(key.to_owned(), value); }
+                    }
+                    after.row_version = version;
+                    after.updated_at = at;
+                    after.updated_by = Some(operator_id);
+                    Ok(summary(&after, &customer.display_name).map(|value| Wire::object(value, &raw)))
+                }.await;
+                match result {
+                    Ok(Ok(value)) => { transaction.commit().await?; Ok(Ok(value)) }
+                    Ok(Err(error)) => { transaction.rollback().await?; Ok(Err(error)) }
+                    Err(error) => { transaction.rollback().await?; Err(error) }
+                }
+            })
+        }).await?
+    }
+}
+
+const AUDIT_FIELDS: [&str; 10] = [
+    "name",
+    "gender",
+    "department",
+    "title",
+    "workPhone",
+    "mobile",
+    "wechat",
+    "email",
+    "remark",
+    "status",
+];
+
+fn contact_updated_version(id: Uuid, version: Option<i32>) -> Result<i32, Error> {
+    version.ok_or_else(|| {
+        Error::Conflict(format!("CustomerContact {id} has been modified; refresh and retry"))
+    })
+}
+const REDACTED: [&str; 5] = ["workPhone", "mobile", "wechat", "email", "remark"];
+type TextValues = BTreeMap<&'static str, Option<JsString>>;
+
+fn values(row: &Contact) -> TextValues {
+    [
+        ("name", Some(js(&row.name))),
+        ("gender", Some(js(&row.gender))),
+        ("department", row.department.as_deref().map(js)),
+        ("title", row.title.as_deref().map(js)),
+        ("workPhone", row.work_phone.as_deref().map(js)),
+        ("mobile", row.mobile.as_deref().map(js)),
+        ("wechat", row.wechat.as_deref().map(js)),
+        ("email", row.email.as_deref().map(js)),
+        ("remark", row.remark.as_deref().map(js)),
+        ("status", Some(js(&row.status))),
+    ]
+    .into_iter()
+    .collect()
+}
+
+fn apply_input(values: &mut TextValues, input: &Update) {
+    if let Some(value) = input.name.as_ref() {
+        values.insert("name", Some(value.clone()));
+    }
+    if let Some(value) = input.gender.as_ref() {
+        values.insert("gender", Some(js(value)));
+    }
+    if let Some(value) = input.status.as_ref() {
+        values.insert("status", Some(js(value)));
+    }
+    for (key, value) in [
+        ("department", &input.department),
+        ("title", &input.title),
+        ("workPhone", &input.work_phone),
+        ("mobile", &input.mobile),
+        ("wechat", &input.wechat),
+        ("email", &input.email),
+        ("remark", &input.remark),
+    ] {
+        match value {
+            Field::Missing => {}
+            Field::Null => {
+                values.insert(key, None);
+            }
+            Field::Value(value) => {
+                values.insert(key, Some(value.clone()));
+            }
+        }
+    }
+}
+
+fn create_text(input: &Create) -> BTreeMap<String, JsString> {
+    let mut raw = BTreeMap::from([("name".to_owned(), input.name.clone())]);
+    for (key, value) in [
+        ("department", &input.department),
+        ("title", &input.title),
+        ("workPhone", &input.work_phone),
+        ("mobile", &input.mobile),
+        ("wechat", &input.wechat),
+        ("email", &input.email),
+        ("remark", &input.remark),
+    ] {
+        if let Field::Value(value) = value {
+            raw.insert(key.to_owned(), value.clone());
+        }
+    }
+    raw
+}
+
+fn audit_snapshot(values: &TextValues, fields: &[&str]) -> String {
+    let entries = fields
+        .iter()
+        .map(|key| {
+            let value = values.get(key).and_then(Option::as_ref);
+            let value = if REDACTED.contains(key) {
+                let length = value.map_or(0, |value| value.as_code_units().len());
+                json!({"changed":true,"present":length>0,"length":length}).to_string()
+            } else {
+                value.map_or_else(|| "null".to_owned(), JsString::json)
+            };
+            format!("{}:{value}", js(key).json())
+        })
+        .collect::<Vec<_>>()
+        .join(",");
+    format!("{{{entries}}}")
+}
+
+async fn insert_field_audit(
+    connection: &mut PgConnection,
+    id: Uuid,
+    operator: Uuid,
+    request_id: Option<String>,
+    before: &str,
+    after: &str,
+    metadata: Value,
+) -> Result<(), sqlx::Error> {
+    // Text casts retain original JSON UTF-16 escapes. PostgreSQL jsonb must
+    // reject unsupported lone-surrogate snapshots just as Node pg does.
+    sqlx::query("INSERT INTO poms.audit_log (event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES ('customer-contact.updated','customer-contact',$1,$2,$3,'success',NULL,$4::text::jsonb,$5::text::jsonb,$6,$7)")
+        .bind(id.to_string()).bind(operator).bind(request_id).bind(before).bind(after).bind(metadata).bind(clock_now())
+        .execute(connection).await?;
+    Ok(())
+}
+
+fn summary(row: &Contact, customer_name: &str) -> Result<Value, Error> {
+    Ok(json!({
+        "id":row.id,"customerId":row.customer_id,"customerName":customer_name,
+        "name":row.name,"gender":row.gender,"department":row.department,"title":row.title,
+        "workPhone":row.work_phone,"mobile":row.mobile,"wechat":row.wechat,"email":row.email,
+        "remark":row.remark,"status":row.status,"rowVersion":row.row_version,
+        "createdAt":iso(row.created_at)?,"createdBy":row.created_by,
+        "updatedAt":iso(row.updated_at)?,"updatedBy":row.updated_by,
+    }))
+}
+
+fn nullable(value: &Field<JsString>) -> Option<String> {
+    match value {
+        Field::Value(value) => Some(value.to_utf8_lossy()),
+        _ => None,
+    }
+}
+
+pub(crate) fn iso(value: DateTime<Utc>) -> Result<String, Error> {
+    js_iso_string(value).map_err(|_| Error::Internal)
+}
+
+pub(crate) fn array(values: Vec<Wire>) -> Wire {
+    Wire(format!(
+        "[{}]",
+        values
+            .into_iter()
+            .map(|value| value.0)
+            .collect::<Vec<_>>()
+            .join(",")
+    ))
+}
+
+pub(crate) fn random_uuid() -> Result<Uuid, Error> {
+    let mut bytes = [0_u8; 16];
+    getrandom::fill(&mut bytes).map_err(|_| Error::Internal)?;
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    Ok(Uuid::from_bytes(bytes))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use axum::response::IntoResponse;
+
+    #[test]
+    fn contact_cas_miss_is_conflict_and_success_keeps_returned_version() {
+        let id = Uuid::from_u128(1);
+        assert_eq!(contact_updated_version(id, Some(8)).ok(), Some(8));
+        let Err(error) = contact_updated_version(id, None) else {
+            panic!("CAS miss must be a conflict");
+        };
+        assert_eq!(error.into_api_error().into_response().status(), StatusCode::CONFLICT);
+    }
+}

@@ -1,0 +1,103 @@
+# 当前批次聚合终态定义
+
+这是一组未执行环境操作的纯工具草稿。作者只读公开源码/公开报告，写此目录并做语法检查。Root 负责实际执行；独立 C 负责审查。它替代按 cohort 倒序恢复的假设，不改变历史 partial 的标签。
+
+## 运行
+
+保持此目录结构，原字节复制到新 Linux checkout；从 `/home/wangzishi/projects/poms-rust-r3m` 使用本批 Node 24.19.0 执行。不要从 `tools/` 路径直接执行，否则相对 imports 不同。
+
+```text
+node --test tmp/rust-r3m/terminal-draft/aggregate-plan-cases01.test.mjs
+node tmp/rust-r3m/terminal-draft/aggregate-run01.mjs inspect rust 01 tmp/rust-r3m/root/aggregate-terminal-input01.json
+node tmp/rust-r3m/terminal-draft/aggregate-run01.mjs cleanup rust 01 tmp/rust-r3m/root/aggregate-terminal-input01.json
+node tmp/rust-r3m/terminal-draft/aggregate-run01.mjs cleanup rust 02 tmp/rust-r3m/root/aggregate-terminal-input01.json
+```
+
+对 nest 同样运行。每次 mode/backend/attempt 都必须新编号；已有输出拒绝覆盖。第二次 cleanup 要求 `secondCleanupZeroChanges=true`。本工具不停止进程、不删对象、不停 PG、不删除 private/volume。
+
+执行前 Root 先停当前批 API、Windows Native 和 UI。工具只读确认所有本批 Linux 公开 journal 的 PID/boot/startTime/cmdline；绑定试验要求 Linux 13400/13410/13500/13600 均空闲。还从 WSL 调用 Windows PowerShell 的只读 CIM 与 TCP 查询，确认登记过的 Windows Native 原 PID/creation 不再运行，Windows 13410/13600 无监听。不能把 WSL 上 bind 成功冒充 Windows 端口空闲。PG 当前数据库除本工具外不得有 client backend。
+
+## Root 输入文件
+
+输入位于 `tmp/rust-r3m/root/<lowercase-name>.json`，必须由 Root 在四轴及补充真实执行结束后创建，并由 C 复核。
+
+```json
+{
+  "kind": "R3M-explicit-whole-current-batch-terminal-input",
+  "namespace": "poms-r3m",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "cohorts": [
+    { "file": "tmp/rust-r3m/root/stage-rust-cohort01.json", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" },
+    { "file": "tmp/rust-r3m/root/stage-nest-cohort01.json", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" }
+  ],
+  "expectedCatalog": {
+    "rust": { "file": "tmp/rust-r3m/schema-check01/rust-after-catalog.json", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" },
+    "nest": { "file": "tmp/rust-r3m/schema-check01/nest-after-catalog.json", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" }
+  },
+  "originalLogSettingsEvidence": { "file": "tmp/rust-r3m/root/original-log-settings01.json", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" },
+  "linuxRuntimeJournals": [],
+  "windowsRuntimeJournals": [],
+  "allowedNumberPeriods": ["2026"],
+  "guardRequestRegistrations": [],
+  "guardRequestRoots": []
+}
+```
+
+示例中所有 0/placeholder 均不能直接使用。`cohorts` 必须明确列齐当前公开 `stage-rust/stage-nest` 与所有 `ui-(linux/windows)-(rust/native)NN-cohort01.json`，包括失败准备/浏览器重试的 cohort。工具只枚举这个当前公开目录以校验无漏项，然后仅按该清单读本批 private context，不扫描 private。历史已回滚的 baseline diagnostic cohort 不在 current stage/UI 清单内；若它们有残留，将因无归属而阻断，不会靠前缀混删。
+
+每个 backend 的最早 stage `baseline-before.json` 是唯一 107 表 seed 原件，所有 stage/UI actor 注册表合并后一起对照当前库。新增 user/org/role 必须精确匹配这些注册 UUID，且用户名/编码/role key 匹配各自 runId 前缀；context.ownedIds 和 remember() 完全不读。注册 actor 不能借用任何 seed UUID。
+
+`expectedCatalog` 采用实际只读 schema 验证产物，字段/查询与 guard-contract-draft/schema-run01.mjs 相同。它包含 107 表、1778 列、92 migrations、完整 constraints/indexes/triggers 及 428 ACL，要求实际前后原对象深相等。它不是手工写的预期计数。
+
+`linuxRuntimeJournals` 列齐当前公开 runtime 目录内所有 `rust/nest-<tag>.json` 原 journal，不包含 `-stop01.json`。`windowsRuntimeJournals` 列齐 `windows-nativeNN.json`。旧 boot 的 journal 保留历史身份，不对已退出进程的旧 entry 强求当前文件仍是旧 binary；当前 boot 和精确 birth identity 匹配的进程若还活着则阻断。
+
+日志设置原件须由 Root 从本批实际设置前/恢复后原日志提取，不能猜默认值。安全公开登记形状如下；源 raw 日志仍只在本批 private。
+
+```json
+{
+  "kind": "R3M-original-log-settings-declared-derivative",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "settings": { "log_statement": "ACTUAL", "log_line_prefix": "ACTUAL", "log_error_verbosity": "ACTUAL" },
+  "originalEvidence": [ { "file": "/home/wangzishi/.local/share/poms-r3m/private/ACTUAL", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" } ]
+}
+```
+
+工具仅核对日志设置已正确恢复，不修改 global setting。所有源 pin 再次核对，差异阻断。
+
+## actor=null 的 security_event
+
+普通闭包只从精确 actor roots、created_by/updated_by 的新 actor 归属开始，沿实际 FK 从 child 到已拥有的新 parent 扩展。seed 不当根，反向从 child 推 parent 不允许，无根 self/two-cycle 不会自证。所有 207 FK 实际列映射都要检查，未知表/外 schema/missing FK target/删表顺序冲突均阻断。
+
+Root 已明确允许一种附加来源：actor=null、类型仅 `auth.session.invalid` / `auth.csrf.failed` / `authz.permission.denied` 的事件，可由本批真实 guard 请求精确登记。必须 request_id/path/method 全匹配，且报告 eventIndex、原 wire 请求行/X-Request-Id、原 response status、原字节 hashes 全部吻合；不靠前缀。一个登记请求不能默默拥有重复安全事件。
+
+若安全原 public report 仍在，`guardRequestRoots` 元素可用 `{ "report": PIN, "eventIndex": N }`。对已隔离的 phase27/28，不恢复原 public；Root 改建安全登记：
+
+```json
+{
+  "kind": "R3M-cleanup-only-guard-request-registration",
+  "sourceKind": "declared-current-batch-private-report-request-derivative",
+  "backend": "rust",
+  "runId": "5fb76d1a-e714-4510-a6e8-d33531405432",
+  "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "marker": "39e32eba-dd41-41c4-99f5-a21c435fb69d",
+  "cleanupOnly": true,
+  "acceptanceClaim": false,
+  "rawPayloadsAndCredentialsPublished": false,
+  "privateOriginalReport": { "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase28/structured-original-report01.json", "bytes": 0, "rawBytesSha256": "FILL_ACTUAL" },
+  "entries": [ { "eventIndex": 0, "method": "GET", "route": "/api/ACTUAL", "requestId": "ACTUAL", "rawWire": {} } ]
+}
+```
+
+登记文件位于 `tmp/rust-r3m/root/` 或 `tmp/rust-r3m/request-roots/`。`entries` 每项恰好五个字段；`rawWire` 使用该私有原事件 response.rawWire 的完整原 metadata（bytes/hashes/privatePrefix/originalRawRetained），不放 headers、body、cookie、session 或 SQL。全部 entries 都登记时，直接在输入 `guardRequestRegistrations:[PIN,...]` 列明文件即可；若只登记部分条目，则在 `guardRequestRoots` 引用 `{ "registration": PIN, "entryIndex": N }`，N 指安全 entries 数组位置。两者不可重复登记同一请求。工具运行时读本批该私有原报告，逐个核对 metadata 与 eventIndex，再核对实际原 wire。partial、已隔离完整 report 的真实请求都只用于清理归属，始终不计验收通过。
+
+## 删除与输出
+
+只有全部新增行有根、无 seed 缺失/普通 seed 改动、无未知归属后才允许清理。独立号仅 customer/project/lead 和显式 year；当前序列 spec 必须原字节权威定义一致，原 seed 只有原 allocator 会更新的五列可有变化。新号行最后删除，变化 seed 号行严格 CAS 恢复原完整行。
+
+Root 停进程后，cleanup 在同一事务锁住 107 表，再保存完整 before raw snapshot。仅已证明归属的新增 Lead/Project 先清空 converted_project_id/source_lead_id，按原完整表序逐表删除；每张表全部 self-version-chain 用一条 SQL，不 CASCADE、不 disable constraints/triggers、不逐行删版本链。任一行数或断言不符就 rollback。
+
+公开输出在 `tmp/rust-r3m/aggregate-terminal-<mode>-<backend>NN/`：ownership-preflight01.json 含逐行归属证明/有根深度/FK/源 pin、orphans metadata 和删表顺序冲突；report01.json 含实际运行边界/计数/全 seed、schema、ACL、日志和提交后读回结论。完整 before/after 原图、actor 注册、原 SQL/错误和 wire 留在本批 private。公开绝不发布 raw DB row/string graph 或 credential/hash 字段；只有 metadata、SHA 和原件 pin。
+
+对象文件全部 hash 盘点并要求前后不变，保留原字节；Root 另行保全及删除 runtime 副本，不能将本工具的“保留”写成“对象零残留”。全部 Gate 标记 false。只有实际两次清理、独立审查及对象终态完成后才能作为 M5/G4 收口证据。

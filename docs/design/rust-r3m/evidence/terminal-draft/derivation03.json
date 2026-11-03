@@ -1,0 +1,120 @@
+{
+  "kind": "R3M-aggregate-terminal-scoped-source-attribution-correction03",
+  "createdAt": "2026-11-03T01:44:45.5370442+00:00",
+  "originalsPreserved": true,
+  "RootReportedPriorInspect": {
+    "backend": "rust",
+    "attempt": "02",
+    "productDeletionPerformed": false,
+    "addedRows": 3727,
+    "ownedRows": 1987,
+    "orphanRows": 1740
+  },
+  "changes": [
+    "Whitelist only attachment.uploaded_by / attachment_link.linked_by / audit_log.operator_id / security_event.actor_id for exact present registered own user attribution",
+    "Todo logical edge only from owned newly added F with frozen types, registered matching owner and exact source target context",
+    "Mark logical and attribution values as not actual FK; preserve real FK closure elsewhere",
+    "Run03 binds exact original writer and schema source files",
+    "Fourteen pure regressions added to original nineteen"
+  ],
+  "records": [
+    {
+      "original": {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-plan02.mjs",
+        "bytes": 16399,
+        "rawBytesSha256": "9672bf4d6f489ddf9e09120dfa2b89007d4baf69d6400652d22ec36ec8614383"
+      },
+      "derived": {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-plan03.mjs",
+        "bytes": 20654,
+        "rawBytesSha256": "01953d25b19d5617b932834e99691a0ad180e5acd1d07318a7fd80e226c04b2c"
+      },
+      "nodeSyntaxExitCode": 0
+    },
+    {
+      "original": {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-run02.mjs",
+        "bytes": 31880,
+        "rawBytesSha256": "3a6e42cb420db296ccc0911bf32a997feaa33810efa5585da73433cc1e36b141"
+      },
+      "derived": {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-run03.mjs",
+        "bytes": 32424,
+        "rawBytesSha256": "6f175c70548c16d4fd148b66cf9264c6c078d6678741e1801bdb5a102118d1d7"
+      },
+      "nodeSyntaxExitCode": 0
+    },
+    {
+      "original": {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-plan-cases02.test.mjs",
+        "bytes": 8702,
+        "rawBytesSha256": "da28efa1de2d3431834a7149194015c89030f0734fd5eafbb8604db787dddfb6"
+      },
+      "derived": {
+        "file": "tmp/rust-r3m/terminal-draft/aggregate-plan-cases03.test.mjs",
+        "bytes": 15367,
+        "rawBytesSha256": "d85265a1ca84a3b42d76269ceadd0410ee1e626676abc92b8fe8946436dd1d3e"
+      },
+      "nodeSyntaxExitCode": 0
+    }
+  ],
+  "sourceAttributionWriters": [
+    {
+      "file": "apps/poms-api-rust/src/auth/audit.rs",
+      "bytes": 4747,
+      "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 42291,
+      "rawBytesSha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68932,
+      "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/leads/store.rs",
+      "bytes": 40084,
+      "rawBytesSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/store.rs",
+      "bytes": 19058,
+      "rawBytesSha256": "871432a457fe05e81819b4e7171c431ac20c5893626473269bd5692f777e0f83"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/reminder.rs",
+      "bytes": 9339,
+      "rawBytesSha256": "da2f93ccd37bb42444d6bead2a1be95514c3eac10c7ba8845896dd5cab7bcd55"
+    },
+    {
+      "file": "apps/poms-api-rust/src/sales_follow_up/service.rs",
+      "bytes": 35337,
+      "rawBytesSha256": "0330a492ed77da333a98c015e8818995e6ed781336781f9050800fcbc1544039"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/sales-follow-up/sales-follow-up.repository.ts",
+      "bytes": 11870,
+      "rawBytesSha256": "bbf595691256c1363be3120a7bfbf31ffce536c4e126d07b0558a6dc56ccf664"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.entity.ts",
+      "bytes": 19232,
+      "rawBytesSha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/approval/todo-item.entity.ts",
+      "bytes": 3816,
+      "rawBytesSha256": "74e9796a6c21333118eb4be277fa5ec40d087acbddc6c55f4ab6da580bdbc66c"
+    }
+  ],
+  "syntaxChecksPassed": true,
+  "pureCasesDefined": 33,
+  "authorPureCasesExecuted": false,
+  "authorPrivateRead": false,
+  "authorEnvironmentExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

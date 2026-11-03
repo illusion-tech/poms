@@ -1,0 +1,99 @@
+# RUST-R3 收口 B 线 G1 作者输入
+
+- 日期：2026-11-03；父 #85 → 收口 #97 → B #99。当前仅作者输入，独立联合G1、线上freeze及Root明确G2尚未完成。
+- 基线 `5041275d7ad82af4becbb4462e7213ffe465bc7a`；当前 `codex/poms-r3-closeout`。显式工作目录 `E:/projects/worktrees/poms-r3hijk-next28/poms`。
+- 已读 `.agents/skills/poms-implementation-governance/SKILL.md` 及 `references/governance-summary.md`。以业务正确性和必要写整体回滚为准，旧Node缺陷不作目标。
+- **B审计覆盖既有38操作，新增HTTP/DTO/DDL/schema/permission为0。** A负责线索14和项目基础6；既有R3公共面58/58不等于完整阶段认证。
+- 完整结构、32组纯验收定义、精确源码锚点和112份原始字节指纹见 [g1-input01.json](g1-input01.json)。规模不是运行通过数；没有复制源码或历史证据树。
+
+## 边界与归属
+
+本阶段仅写 `tmp/rust-r3m/input-b/`。G2须由Root另给独立worktree，B独占以下真实Rust目录的非 `http.rs` 文件：
+
+`customers`、`customer_contacts`、`sales_follow_up`、`sales_intelligence`、`business_discussions`、`project_workspace`、`project_technical_cost`、`project_bid_commercial`、`project_pricing_margin`。
+
+所有HTTP/lib/Cargo/toolchain/共享桥、正式治理、Git/GitHub及实际构建/DB/HTTP/UI/故障/清理归Root。Lead非HTTP归A，54 ignored分类与E1支持重放/退出归D。Root按联合基线精确修复原UI `lead-list.ts` 及其spec；B只提供影响和验收条件。
+
+## source → caller → TX / lock / guard / no-op
+
+JSON `mechanisms` 有每行的完整路径、区段、caller、权限与证据映射。
+
+| 已交付范围 | 实际caller | 内部机制与验收边界 |
+| --- | --- | --- |
+| 客户/别名/工作区8 | customer HTTP；projects/leads require_active_customer；原客户工作区 | customer+primary alias+session同TX；编号独立预留允许gap；alias删除必要审计同TX；六类事实只读聚合；CAS/no-op/org名四候选见下 |
+| 联系人3 | contact HTTP；I stakeholder、J contact bridge；原联系人选择器 | gender透传/缺省unknown；changed field audit→session→contact CAS同TX；同值不写业务，CAS错误映射待补 |
+| 跟进4→Todo | F HTTP；H activeF facts；GET /me/todos；J bridge | replace/void先source FOR UPDATE+版本/active重验，再target事务advisory锁，后全部Todo/F/session/必要审计；create也锁空target；CAS0=409，SQL500整体rollback |
+| 情报10→七bool | I HTTP；H collect_lead_score_facts；J competitor；project UI双锚点 | typed UUID归属；changed audit/session/CAS同TX；no-op不写record/version/time/actor/audit；focus读始终string[]，合法legacy13项完整保留 |
+| 讨论2 | customer/lead/project面板；sourceLead聚合；客户工作区 | 首thread unique ON CONFLICT DO NOTHING后读赢家，thread/comment/session同TX；两首评201/201、一历史thread两发言；不重写title/anchor |
+| 成本3 | cost HTTP；pricing current/by_id；原技术成本UI | project锁重验→current/next_version/supersede CAS→父子/session同TX；Decimal金额2位、数量/单价4位；相同DTO的POST仍是新版本命令 |
+| 竞标3 | bid HTTP；pricing current/by_id；原竞标UI | 同一project锁与版本链；material/timeline子表同TX；direct/not-required是显式事实 |
+| 报价3 | pricing HTTP/workspace；未来R4 readiness消费引用 | project锁内再次验证current cost/bid身份/币种/路径；review/conditions/supersede/session同TX；workspace按stored历史引用读，不自动改指向最新 |
+| guidance/timeline2 | K HTTP project:read；原项目详情 | 只读真实里程碑，不从stage推造签约/移交/验收/完成/归档；R4/R5 prepared只证明投影 |
+
+- F流是 **owner + 最具体targetType/UUID + todoType**，每流最多一个open/processing。锁按target串行、查询保留owner过滤，不同owner各有open合法。无nextDate完成该owner旧提醒但不新建，无owner不虚构owner。Todo不直接完成，allowedActions=[]。
+- F同源双waiter仍需200/409，输家在Todo之前拒绝；空流两合法create均201、两事实、前Todo completed/后Todo open。修后SHARE Todo blocker应看到一INSERT waiter和一advisory waiter。
+- I/F双锚点list为OR；项目UI明确传sourceLeadId+projectId。J自动合并sourceLead，旧thread快照不搬家。
+- I gaps list为updated_at DESC,created_at DESC；H discovery事实只lead_id且updated_at DESC ONLY。I/F写不自动刷新stored score。
+- 必要状态、子表、快照、已注册审计整体TX；auth保活分列，独立编号成功预留可有gap。不存在的created audit不得新增为门槛。
+- 客户/Contact不新增expectedVersion DTO；三版本域合法并发POST允许两201，project锁保证版本连续和唯一current。
+
+## 四项最小候选：静态确认，待Root真实复现
+
+| 候选 | 源码 | 本批最低断言 |
+| --- | --- | --- |
+| Contact CAS0变500 | customer_contacts/store.rs:141–146；service Database→500 | 不同actor/session两个changed PATCH实际等待源UPDATE后释放，200/409、version+1、唯一赢家字段/actor/字段audit，输家整TX rollback |
+| Customer CAS0变500 | customers/store.rs:301–308；service update .await? | 实际两个reader/UPDATE waiter后200/409；不把真正SQL错误误报409、不新增参数 |
+| Customer跨actor同值PATCH制造版本 | customers/service.rs:490无条件updated_by；customer_changes:733–738计dirty | other actor提交相同业务值200，customer/version/time/actor/audit不变；pending session单列；真实changed仍正常变更 |
+| ownerOrg UUID拼写影响即时名字 | customers/service.rs:743–772 raw key查canonical map | PATCH uppercase实际Org UUID，body.customer.ownerOrgName与真实Org.name及后续GET一致；内部按UUID身份，不全局改raw |
+
+Customer POST的公共CustomerSummary没有ownerOrgName，不给它虚构字段；此问题以PATCH CustomerDetailView和后续GET验证。
+
+原UI非空日期问题已交Root：`lead-list.ts:2173` 调 `toIsoDate:2503–2508` 返回YYYY-MM-DD，`shared-contracts.ts:2622–2626` 与 Rust `leads/validation.rs:235–257` 要求plannedSignAt为datetime。选日期会400，留空null不覆盖此旅程。Root已冻结仅该字段使用Date.toISOString、其他date字段及DTO不变；原四UI未认证filled optional date的标签保留。
+
+## 同一真实converted Project的最低阶段链
+
+旧phase61证明真实上传/I/F→convert→J/K；phase57成本/竞标/报价用独立direct-create Project。两份成功报告不能拼成同一项目全链实跑。本批必须：
+
+1. 真实Rust Customer POST+primary alias → female Contact → A真实Lead POST，使用同一customerId。
+2. 同lead的I三类事实/必要PATCH → F due真实Todo → GET /me/todos；J关联实际contact/competitor/F。真实上传字节/sha/类别供A显式score及快照消费，I/F不隐式重算。
+3. A正常资格/人工覆盖审批及真实convert，核source_lead_id/customerId/eligible links和源links不搬走，必要写失败整体rollback。A的单次materialized tuple及历史无snapshot事务内fallback由A/Root覆盖。
+4. **直接消费convert返回的同一projectId**，继续cost v1/v2 → bid/直接商务v1/v2 → current cost/bid的pending pricing POST/list/workspace，核精确金额、版本、父子表、唯一current、stored引用和stale400。
+5. 同项目I/F双锚点、J sourceLead聚合、K真实guidance/timeline；客户工作区实际聚合与这些生产者一致。没有R4事实时不凭stage造里程碑。
+6. 配套必要audit/record/child/snapshot故障、CAS、F两类并发、版本current并发、权限/no-op和原UI非空日期。prepared/mock/DOM注入/历史报告不能代替本批生产者链。
+
+完整32定义组见JSON `acceptanceMatrix`。组数不是通过数；无需机械重跑全部历史深层参数，Root按冻结来源和影响确定最小充分集合。
+
+## 原证据路径与hash
+
+下列原件位于 `docs/design/archive/slices/rust-r3hijk/evidence/acceptance-rust-candidate06-{phase}/report01.json`，实际读取completed=true；绑定原artifact `66db94ce84778e4cbf7b1141b34ba5211ecc229ff40f17f8950933d5034aef67`。组/HTTP来自原独立C review02，不是本批新增执行。
+
+| phase | 内容 | 组/HTTP | SHA256 |
+| --- | --- | --- | --- |
+| 55 | I三CAS/J首评 | 4/18 | `faf3209d9d6b51120152175b949762a7ea5efacf7446d8bacffd533e2b8c9661` |
+| 56 | 必要写/语义快照/编号 | 14/65 | `64b2c88a63c3e70af37e023e758032dedab05219ecbb1d6c6266bf22ffe51035` |
+| 57 | 旧30生产回归 | 56/56 | `3ed482c5b663889ad4e049c4b9e04afa471eb98b06fc25ae380b20b5bf2955d4` |
+| 58 | F空流/owner/必要写 | 6/18 | `6ba0305f51c78d778c0495268de858dbb5830d5f8e9a9d5defcb6b1bd3005b70` |
+| 59 | F同源三竞态 | 3/12 | `c26db6578c43eabaa7976bee2c32d5cb38b71b3882dafc7598f81f1a1e9f8cbb` |
+| 61 | 真实上传/I/F→convert→J/K | 2/32 | `82ca54730ba02adb013ab70ab73ddee2ba26aa1b61b1119cdb477c3d48f6d00f` |
+
+JSON另pin I candidate05 phase49/51/52、金额candidate04 phase43/44、K prepared candidate03 phase31、独立G3/G4/三批收口及B纯定义/旅程。phase49 completed=false，是工具误要求I create审计失败500；partial原标签不改。旧I/金额/UI证据仍绑定各原候选，是否因果复用由联合G1和Root实际source-diff裁定。
+
+本输入共 **88份源码/正式输入 + 24份公开证据** raw bytes/sha256。没有旧private读取、没有复制大树。Windows字节hash不冒充Linux Git blob，跨平台输入由Root统一manifest另证。
+
+## 已交付 / 真遗漏 / 未来边界
+
+- 真正新缺口是上述四项候选、Root原UI精确修复，以及same-converted-Project→C/D/G统一阶段证据；其余已交付机制不重复发明。
+- 没有R3 scheduler源码入口：R3 Native未命中schedule decorator/lifecycle hook，Rust main仅HTTP及--openapi，产品spawn为HTTP server和OBS上传pump。EX49 currentNodeName由GET mapper生成，逾期由dueAt解释，不新增定时补写作业。静态结论不证明host没有管理任务；接管属R6。
+- Native persistence.config.ts仍注册Migrator/SeedManager和原92 migrations；Rust无R3 migrate/seed入口。迁移history/锁/checksum/恢复、seed接管、发布切流与回退属R6。
+- R3审批为A已交付Lead override四命令。generic OriginalApprovalDomain的contract/commission分支属R4/R5；EX28明确不实现审批引擎/商业基线本体，不虚构R3通用handler。
+- K/customer workspace的合同/移交/验收/完工/归档/summary/佣金prepared事实只认证read projection，不认证未来生产/审批，不形成R3循环等待。
+- 成本正式风险枚举为R1..R4，字符串max与等级顺序一致，不列伪风险。Alias预读后竞争delete幂等204也不凭猜测扩新CAS合同。
+- scope/计划上部30/58和inventory nonHttpScope.future仍有历史句；Root同步当前治理，不能由旧标签推断真实转换未交付，也不倒改frozen历史。
+
+## 例外、执行与下一Gate
+
+旧E1五regular alias共419264B/23直接消费者、Root owner/2026-11-09期限不自动继承或延长。D/Root本批独立审定canonical/hash supported replay并退出；B只引用canonical公开原件，不import/运行旧构造器、不加mirror。
+
+54 ignored不计执行；原UI平台轴/原产物保留，Windows浏览器→LinuxRust不改称Windows原生Rust server。
+
+本作者只读源码/公开原件/JSON元数据与hash，并写这两个输入。**未修改产品/正式治理，未运行构建、测试、fmt、HTTP、DB、browser、WSL、网络或GitHub写入。** 当前暂停，独立联合G1和线上freeze后由Root给独立worktree并明确G2，再最小实现与纯case交付。

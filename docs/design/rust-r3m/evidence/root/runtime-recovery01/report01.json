@@ -1,0 +1,51 @@
+{
+  "kind": "R3-owned-runtime-recovery-after-WSL-reboot",
+  "previous": [
+    {
+      "backend": "rust",
+      "journal": {
+        "file": "/home/wangzishi/.local/share/poms-r3m/private/rust-final01.json",
+        "bytes": 601,
+        "rawBytesSha256": "9fad6a27b2f67ed1eeccb160e15ac7ea86d07eff3fa6c9789b1fe24ac3d85190"
+      },
+      "pid": 182884,
+      "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+      "originalRetained": true
+    },
+    {
+      "backend": "nest",
+      "journal": {
+        "file": "/home/wangzishi/.local/share/poms-r3m/private/nest-final01.json",
+        "bytes": 599,
+        "rawBytesSha256": "04f331a1d93d1aae9b94e787754a5f0df43e58d0abd1d1092f71cf06c660459d"
+      },
+      "pid": 182928,
+      "bootId": "907a020b-26f7-44bf-8aaf-ca3e1b8f75cd",
+      "originalRetained": true
+    }
+  ],
+  "currentBootId": "fc22e245-df0c-4527-861e-931267b85efc",
+  "containerId": "4559772fc21fd4f109d4d4567dbf3a43f7901ef422fe696f58a4b895e3f6471c",
+  "sameContainerAndVolume": true,
+  "noDatabaseRecreated": true,
+  "runs": [
+    {
+      "pid": 662,
+      "backend": "rust",
+      "tag": "final02",
+      "port": 13500,
+      "healthStatus": 200,
+      "artifactSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747"
+    },
+    {
+      "pid": 704,
+      "backend": "nest",
+      "tag": "final02",
+      "port": 13400,
+      "healthStatus": 200,
+      "artifactSha256": "0ef7d8117097103a1c7b8a50cd00657ac1b57dac695175986ae07f98dfa2c2c4"
+    }
+  ],
+  "keepalivePID": 553,
+  "privateOriginalsRetained": true
+}

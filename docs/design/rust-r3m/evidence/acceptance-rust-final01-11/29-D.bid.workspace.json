@@ -1,0 +1,158 @@
+{
+  "label": "D.bid.workspace",
+  "name": "D.bid.workspace",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.044Z",
+  "completedAt": "2026-11-02T23:01:04.058Z",
+  "validatedEventRange": {
+    "start": 28,
+    "end": 29,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_getProjectBidCommercialWorkspace",
+    "request": {
+      "actor": "admin",
+      "method": "GET",
+      "path": "/api/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5/bid-commercial-workspace"
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "allowedActions": [
+          "view-bid-commercial-workspace",
+          "create-bid-commercial-process"
+        ],
+        "blockingReasons": [],
+        "currentProcess": {
+          "bidMode": "public-tender",
+          "bidPackageNo": "R3HK-5fb76d1a-11 B2 package",
+          "blockerCount": 0,
+          "createdAt": "2026-11-02T23:01:04.018Z",
+          "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "currentStage": "result-confirmed",
+          "decision": "participate",
+          "decisionSummary": "R3HK-5fb76d1a-11 B2 decision",
+          "effectiveAt": "2026-11-02T23:01:04.018Z",
+          "id": "5df5fe18-fc5c-4320-b886-083d7ba26beb",
+          "isCurrent": true,
+          "ownerRole": "R3HK-5fb76d1a-11 B2 owner",
+          "processSummary": "R3HK-5fb76d1a-11 B2 process",
+          "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "resultStatus": "won",
+          "resultSummary": "R3HK-5fb76d1a-11 actual awarded result fixture",
+          "rowVersion": 1,
+          "status": "effective",
+          "supersedesId": "16edef48-d2c0-4205-8d7a-fa886d610e04",
+          "tenderNo": "R3HK-5fb76d1a-11 B2 tender",
+          "updatedAt": "2026-11-02T23:01:04.018Z",
+          "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+          "version": 2
+        },
+        "currentStage": "assessment",
+        "generatedAt": "2026-11-02T23:01:04.055Z",
+        "materialItems": [
+          {
+            "blocksNextStep": false,
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "id": "bdd4babc-8eaf-4e1d-b779-96589c1d8bc1",
+            "label": "R3HK-5fb76d1a-11 B2 material label",
+            "materialKey": "R3HK-5fb76d1a-11 B2 material",
+            "materialStatus": "ready",
+            "navigationHint": "/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5/workspace/bid-commercial",
+            "processId": "5df5fe18-fc5c-4320-b886-083d7ba26beb",
+            "responsibleRole": "R3HK-5fb76d1a-11 B2 material owner",
+            "sortOrder": 1
+          },
+          {
+            "blocksNextStep": false,
+            "dueAt": null,
+            "id": "f54043ba-95d4-422b-832a-5b44e39f3af4",
+            "label": "R3HK-5fb76d1a-11 B2 ready material label",
+            "materialKey": "R3HK-5fb76d1a-11 B2 ready material",
+            "materialStatus": "ready",
+            "navigationHint": null,
+            "processId": "5df5fe18-fc5c-4320-b886-083d7ba26beb",
+            "responsibleRole": null,
+            "sortOrder": 2
+          }
+        ],
+        "nextStep": "将中标 / 竞标结果带入报价与毛利评审或签约就绪判断。",
+        "ownerLabel": "R3CO other / R3CO other",
+        "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "status": "active",
+        "timelineItems": [
+          {
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "eventKey": "R3HK-5fb76d1a-11 B2 completed event",
+            "id": "9c62d302-5428-4840-8dbf-9116f3d23898",
+            "label": "R3HK-5fb76d1a-11 B2 completed event label",
+            "occurredAt": "2026-11-02T01:00:00.000Z",
+            "processId": "5df5fe18-fc5c-4320-b886-083d7ba26beb",
+            "responsibleRole": "R3HK-5fb76d1a-11 B2 event owner",
+            "sortOrder": 1,
+            "summary": "R3HK-5fb76d1a-11 B2 completed event summary",
+            "timelineStatus": "done"
+          },
+          {
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "eventKey": "R3HK-5fb76d1a-11 B2 pending event",
+            "id": "bf054a21-b686-44ba-b88a-4fd540c7b51e",
+            "label": "R3HK-5fb76d1a-11 B2 pending event label",
+            "occurredAt": "2026-11-02T01:00:00.000Z",
+            "processId": "5df5fe18-fc5c-4320-b886-083d7ba26beb",
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "summary": null,
+            "timelineStatus": "done"
+          }
+        ]
+      },
+      "requestId": "7fffabde-46ec-4552-9fd8-a8a446184e37",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "2783",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-42",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 351,
+        "requestSha256": "d7ab1aed1eb6036f963cd2c179b1e6b6af1807a31f7f1d934ef50efb38d29489",
+        "responseBytes": 3063,
+        "responseSha256": "67f01019ffba6ae2fdb140c7ef1254a93d3383e8ed39074b2b9771fab20a351d",
+        "entityBodyBytes": 2783,
+        "entityBodySha256": "3d1e58022506f0a02167dddcc8b01f67709b1e424b992d5b797de612c7fbcdb7",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-e91a5833-7909-4225-abc6-61ac385fbdfe",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-29-D.bid.workspace.json",
+      "bytes": 5721,
+      "rawBytesSha256": "e15453571466e51deee49cd828dad4908139419fe41bede04519521fd84f17ef"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

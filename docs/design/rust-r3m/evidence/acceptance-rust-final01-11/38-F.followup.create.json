@@ -1,0 +1,139 @@
+{
+  "label": "F.followup.create",
+  "name": "F.followup.create",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.189Z",
+  "completedAt": "2026-11-02T23:01:04.217Z",
+  "validatedEventRange": {
+    "start": 37,
+    "end": 38,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "SalesFollowUpController_create",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/sales-follow-up-records",
+      "json": {
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "leadId": null,
+        "followUpType": "phone",
+        "occurredAt": "2026-11-02T00:00:00.000Z",
+        "summary": "R3HK-5fb76d1a-11 original follow-up",
+        "detail": "R3HK-5fb76d1a-11 detail must not leak to global todos",
+        "outcome": "progress",
+        "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "createdAt": "2026-11-02T23:01:04.201Z",
+        "createdBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "customerId": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "customerName": "R3HK-5fb76d1a-11 customer revised",
+        "detail": "R3HK-5fb76d1a-11 detail must not leak to global todos",
+        "followUpType": "phone",
+        "id": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+        "leadId": null,
+        "leadName": null,
+        "nextFollowUpAt": "2027-02-01T00:00:00.000Z",
+        "occurredAt": "2026-11-02T00:00:00.000Z",
+        "outcome": "progress",
+        "ownerName": "R3CO admin",
+        "ownerOrgId": "ca072338-0785-4d46-9c86-94e416f68567",
+        "ownerOrgName": "R3CO admin",
+        "ownerUserId": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "projectName": "R3HK-5fb76d1a-11 revised project",
+        "replacedById": null,
+        "replacementReason": null,
+        "rowVersion": 1,
+        "status": "active",
+        "summary": "R3HK-5fb76d1a-11 original follow-up",
+        "supersedesId": null,
+        "updatedAt": "2026-11-02T23:01:04.201Z",
+        "updatedBy": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "voidReason": null,
+        "voidedAt": null,
+        "voidedBy": null,
+        "voidedByName": null
+      },
+      "requestId": "05abcd2d-1e30-465e-9516-333f5655e52b",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "1025",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-51",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 881,
+        "requestSha256": "234646d77b537feeebc009218bb85e28a460bbc22fd0e9907f6b4a3667b844f5",
+        "responseBytes": 1310,
+        "responseSha256": "6a26aa6b2e45120dbb58335e115aed558bdafd325df024cd8e9ad006309b8e39",
+        "entityBodyBytes": 1025,
+        "entityBodySha256": "2c820f201a11036158b09a245f5967c180fdc022416f497ee6b4488a340dc147",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-cb79a56b-2cf0-4aca-a81d-21cd644e4bae",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {},
+      "row": {
+        "id": "cdb8aabb-539a-4144-89db-b9e441269ce9",
+        "customer_id": "6a2f7451-2c53-4ac3-a4fe-3ebbe04599d3",
+        "lead_id": null,
+        "project_id": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+        "follow_up_type": "phone",
+        "occurred_at": "2026-11-02T00:00:00.000Z",
+        "summary": "R3HK-5fb76d1a-11 original follow-up",
+        "detail": "R3HK-5fb76d1a-11 detail must not leak to global todos",
+        "outcome": "progress",
+        "next_follow_up_at": "2027-02-01T00:00:00.000Z",
+        "owner_org_id": "ca072338-0785-4d46-9c86-94e416f68567",
+        "owner_user_id": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "row_version": 1,
+        "created_at": "2026-11-02T23:01:04.201Z",
+        "created_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "updated_at": "2026-11-02T23:01:04.201Z",
+        "updated_by": "c53ed6b6-9c03-4fd4-82a2-65c8429aca93",
+        "status": "active",
+        "supersedes_record_id": null,
+        "replaced_by_record_id": null,
+        "replacement_reason": null,
+        "voided_at": null,
+        "voided_by": null,
+        "void_reason": null
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-38-F.followup.create.json",
+      "bytes": 4843,
+      "rawBytesSha256": "78b72f95d86e765d47fd4e94e0d3bb776b5a38449f369cca127e10748c014244"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

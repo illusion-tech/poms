@@ -1,0 +1,93 @@
+{
+  "label": "aux.todo.other.replaced",
+  "name": "aux.todo.other.replaced",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.334Z",
+  "completedAt": "2026-11-02T23:01:04.346Z",
+  "validatedEventRange": {
+    "start": 45,
+    "end": 46,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ApprovalController_getMyTodos",
+    "request": {
+      "actor": "other",
+      "method": "GET",
+      "path": "/api/me/todos"
+    },
+    "response": {
+      "status": 200,
+      "body": [
+        {
+          "allowedActions": [],
+          "assigneeUserId": "97e8f948-bcba-45bf-aabc-757232934bd9",
+          "businessDomain": "sales",
+          "completedAt": null,
+          "createdAt": "2026-11-02T23:01:04.263Z",
+          "currentNodeName": "下次跟进：2027-02-02 08:00",
+          "dueAt": "2027-02-02T00:00:00.000Z",
+          "id": "9be24886-8b1b-43e7-9df1-4c07ffacaf23",
+          "priority": "normal",
+          "projectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "rowVersion": 1,
+          "sourceId": "7e870ef8-b1b3-4a16-9919-4eae7caa7772",
+          "sourceType": "sales-follow-up-record",
+          "status": "open",
+          "summary": "R3HK-5fb76d1a-11 corrected follow-up",
+          "targetObjectId": "16703ce0-3446-4bce-bf0c-e70c9fa998b5",
+          "targetObjectType": "project",
+          "targetTitle": "R3HK-5fb76d1a-11 revised project",
+          "title": "销售跟进提醒：R3HK-5fb76d1a-11 revised project",
+          "todoType": "sales-follow-up-reminder",
+          "updatedAt": "2026-11-02T23:01:04.263Z"
+        }
+      ],
+      "requestId": "185acf72-0186-4486-907a-2a34c282b5d7",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "843",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-59",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 289,
+        "requestSha256": "3f22e35ae0cbaabe2187528b33c6b46ea73e134a8edac3c412a3f4e9e543beb5",
+        "responseBytes": 1122,
+        "responseSha256": "7b81ed7adebce13b053a8d18f632931c975507bb220226f50f1f13e75f5d4fa5",
+        "entityBodyBytes": 843,
+        "entityBodySha256": "1ba7d4836de38f4a50bec0273537e516deca6602995621bd8b3e3eed6d97b02a",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/other-1cd2adcc-534a-4693-b4ed-1a97757246b3",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {},
+      "afterRows": {}
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-46-aux.todo.other.replaced.json",
+      "bytes": 2854,
+      "rawBytesSha256": "28d82f5cbb3e2c1ca8b1a5f6cc87cc4603c2ad5b0ead6fad45fd2006c70860be"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}

@@ -265,7 +265,7 @@ pub async fn update_customer(
     version: i32,
     input: &CustomerChanges,
     updated_at: DateTime<Utc>,
-) -> Result<i32, sqlx::Error> {
+) -> Result<Option<i32>, sqlx::Error> {
     let mut sql = QueryBuilder::<Postgres>::new("UPDATE poms.customer SET updated_at=");
     sql.push_bind(updated_at).push(",row_version=row_version+1");
     if let Some(value) = &input.display_name {
@@ -302,10 +302,9 @@ pub async fn update_customer(
         .push(" AND row_version=")
         .push_bind(version)
         .push(" RETURNING row_version");
-    let row = sql.build().fetch_optional(connection).await?;
-    row.map(|row| row.try_get("row_version"))
-        .transpose()?
-        .ok_or_else(|| sqlx::Error::Protocol("customer managed version conflict".into()))
+    sql.build_query_scalar::<i32>()
+        .fetch_optional(connection)
+        .await
 }
 pub async fn find_owner(
     connection: &mut PgConnection,

@@ -1,0 +1,122 @@
+{
+  "label": "G.pricing.stale-cost-rejected",
+  "name": "G.pricing.stale-cost-rejected",
+  "kind": "business",
+  "completed": true,
+  "startedAt": "2026-11-02T23:01:04.112Z",
+  "completedAt": "2026-11-02T23:01:04.126Z",
+  "validatedEventRange": {
+    "start": 32,
+    "end": 33,
+    "exclusive": true
+  },
+  "value": {
+    "operationId": "ProjectController_createProjectPricingMarginReview",
+    "request": {
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/projects/16703ce0-3446-4bce-bf0c-e70c9fa998b5/pricing-margin-reviews",
+      "json": {
+        "technicalCostPackageId": "5fbed99b-2a6b-438d-a0b9-14383e28dbfd",
+        "bidCommercialProcessId": "5df5fe18-fc5c-4320-b886-083d7ba26beb",
+        "pricingPath": "bid",
+        "quoteVersion": "R3HK-5fb76d1a-11-Q3",
+        "currencyCode": "CNY",
+        "quoteAmountTaxInclusive": "226.00",
+        "quoteAmountTaxExclusive": "200.00",
+        "taxRate": "0.13",
+        "taxConditionSummary": "G1 报价税务条件已记录。",
+        "paymentTermsSummary": "G1 按约定节点回款。",
+        "grossMarginBand": "target",
+        "grossMarginSummary": "R3HK-5fb76d1a-11 margin based on 100.30 / 200.00",
+        "decision": "pending",
+        "decisionSummary": "R3HK-5fb76d1a-11 pending review 3",
+        "conditionItems": [
+          {
+            "conditionKey": "R3HK-5fb76d1a-11-payment",
+            "conditionType": "payment",
+            "label": "G1 回款条件确认",
+            "conditionSummary": "核实已记录的回款节点。",
+            "conditionStatus": "open",
+            "requiredForContracting": false,
+            "responsibleRole": "财务",
+            "dueAt": "2027-02-01T00:00:00.000Z",
+            "resolutionSummary": null,
+            "sortOrder": 1
+          }
+        ],
+        "grossMarginRate": "0.4985"
+      }
+    },
+    "response": {
+      "status": 400,
+      "body": {
+        "error": "Bad Request",
+        "message": "technicalCostPackageId must match the current effective technical cost package",
+        "statusCode": 400
+      },
+      "requestId": "ee2b1825-d089-47c5-8f57-1d0d278efbd3",
+      "headers": [
+        "content-type",
+        "application/json; charset=utf-8",
+        "content-length",
+        "131",
+        "access-control-allow-origin",
+        "http://127.0.0.1:13600",
+        "vary",
+        "Origin",
+        "access-control-allow-credentials",
+        "true",
+        "x-request-id",
+        "r1a-182884-46",
+        "connection",
+        "close",
+        "date",
+        "Mon, 02 Nov 2026 23:01:04 GMT"
+      ],
+      "rawWire": {
+        "requestBytes": 1400,
+        "requestSha256": "87f594bcde8695a16b3a9b7317cec7bdbce7d6e5ed22b0df3e2f7b6bc585003d",
+        "responseBytes": 419,
+        "responseSha256": "53990905db61a60d044200877c8e02464e7b707b47b5780e2bd4d9fd353d38e3",
+        "entityBodyBytes": 131,
+        "entityBodySha256": "47187f0540ad8468ec354885fafbc5adb4b6d6cb144487018ce02bc570a19abf",
+        "privatePrefix": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/raw-wire/admin-aa4619b6-f278-4bc2-8e80-59ac15182ee2",
+        "originalRawRetained": true
+      }
+    },
+    "evidence": {
+      "beforeRows": {
+        "project_pricing_margin_review": [
+          "{\"id\": \"09b21460-7f76-4f8d-bec9-93bcff1d92f6\", \"status\": \"effective\", \"version\": 2, \"decision\": \"pending\", \"tax_rate\": 0.13000000, \"created_at\": \"2026-11-03T07:01:04.073+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_current\": true, \"owner_role\": null, \"project_id\": \"16703ce0-3446-4bce-bf0c-e70c9fa998b5\", \"updated_at\": \"2026-11-03T07:01:04.073+08:00\", \"updated_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"row_version\": 1, \"effective_at\": \"2026-11-03T07:01:04.073+08:00\", \"pricing_path\": \"bid\", \"blocker_count\": 1, \"currency_code\": \"CNY\", \"export_policy\": null, \"quote_version\": \"R3HK-5fb76d1a-11-Q2\", \"supersedes_id\": \"114cedc4-b927-408d-89b2-82927e31d862\", \"decision_summary\": \"R3HK-5fb76d1a-11 pending review 2\", \"projection_level\": null, \"gross_margin_band\": \"target\", \"gross_margin_rate\": 0.49850000, \"summary_package_key\": null, \"summary_snapshot_id\": null, \"gross_margin_summary\": \"R3HK-5fb76d1a-11 margin based on 100.30 / 200.00\", \"approval_scenario_key\": null, \"payment_terms_summary\": \"G1 按约定节点回款。\", \"ready_for_contracting\": false, \"tax_condition_summary\": \"G1 报价税务条件已记录。\", \"bid_commercial_process_id\": \"5df5fe18-fc5c-4320-b886-083d7ba26beb\", \"technical_cost_package_id\": \"26a39d65-56ba-4508-bdc8-bd7a404ea230\", \"quote_amount_tax_exclusive\": 200.00, \"quote_amount_tax_inclusive\": 226.00, \"commercial_release_baseline_id\": null}",
+          "{\"id\": \"114cedc4-b927-408d-89b2-82927e31d862\", \"status\": \"superseded\", \"version\": 1, \"decision\": \"pending\", \"tax_rate\": 0.13000000, \"created_at\": \"2026-11-03T07:01:03.973+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_current\": false, \"owner_role\": null, \"project_id\": \"16703ce0-3446-4bce-bf0c-e70c9fa998b5\", \"updated_at\": \"2026-11-03T07:01:04.073+08:00\", \"updated_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"row_version\": 2, \"effective_at\": \"2026-11-03T07:01:03.973+08:00\", \"pricing_path\": \"direct-commercial\", \"blocker_count\": 1, \"currency_code\": \"CNY\", \"export_policy\": null, \"quote_version\": \"R3HK-5fb76d1a-11-Q1\", \"supersedes_id\": null, \"decision_summary\": \"R3HK-5fb76d1a-11 pending review 1\", \"projection_level\": null, \"gross_margin_band\": \"target\", \"gross_margin_rate\": 0.49850000, \"summary_package_key\": null, \"summary_snapshot_id\": null, \"gross_margin_summary\": \"R3HK-5fb76d1a-11 margin based on 100.30 / 200.00\", \"approval_scenario_key\": null, \"payment_terms_summary\": \"G1 按约定节点回款。\", \"ready_for_contracting\": false, \"tax_condition_summary\": \"G1 报价税务条件已记录。\", \"bid_commercial_process_id\": null, \"technical_cost_package_id\": \"26a39d65-56ba-4508-bdc8-bd7a404ea230\", \"quote_amount_tax_exclusive\": 200.00, \"quote_amount_tax_inclusive\": 226.00, \"commercial_release_baseline_id\": null}"
+        ],
+        "project_pricing_margin_condition_item": [
+          "{\"id\": \"0045d818-db5d-442f-9a2c-5c78fa1dd581\", \"label\": \"G1 回款条件确认\", \"due_at\": \"2027-02-01T08:00:00+08:00\", \"review_id\": \"09b21460-7f76-4f8d-bec9-93bcff1d92f6\", \"sort_order\": 1, \"condition_key\": \"R3HK-5fb76d1a-11-payment\", \"condition_type\": \"payment\", \"condition_status\": \"open\", \"responsible_role\": \"财务\", \"condition_summary\": \"核实已记录的回款节点。\", \"resolution_summary\": null, \"required_for_contracting\": false}",
+          "{\"id\": \"6a8cadb2-36c0-402a-9679-a4f0baa6de8b\", \"label\": \"G1 回款条件确认\", \"due_at\": \"2027-02-01T08:00:00+08:00\", \"review_id\": \"114cedc4-b927-408d-89b2-82927e31d862\", \"sort_order\": 1, \"condition_key\": \"R3HK-5fb76d1a-11-payment\", \"condition_type\": \"payment\", \"condition_status\": \"open\", \"responsible_role\": \"财务\", \"condition_summary\": \"核实已记录的回款节点。\", \"resolution_summary\": null, \"required_for_contracting\": false}"
+        ]
+      },
+      "afterRows": {
+        "project_pricing_margin_review": [
+          "{\"id\": \"09b21460-7f76-4f8d-bec9-93bcff1d92f6\", \"status\": \"effective\", \"version\": 2, \"decision\": \"pending\", \"tax_rate\": 0.13000000, \"created_at\": \"2026-11-03T07:01:04.073+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_current\": true, \"owner_role\": null, \"project_id\": \"16703ce0-3446-4bce-bf0c-e70c9fa998b5\", \"updated_at\": \"2026-11-03T07:01:04.073+08:00\", \"updated_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"row_version\": 1, \"effective_at\": \"2026-11-03T07:01:04.073+08:00\", \"pricing_path\": \"bid\", \"blocker_count\": 1, \"currency_code\": \"CNY\", \"export_policy\": null, \"quote_version\": \"R3HK-5fb76d1a-11-Q2\", \"supersedes_id\": \"114cedc4-b927-408d-89b2-82927e31d862\", \"decision_summary\": \"R3HK-5fb76d1a-11 pending review 2\", \"projection_level\": null, \"gross_margin_band\": \"target\", \"gross_margin_rate\": 0.49850000, \"summary_package_key\": null, \"summary_snapshot_id\": null, \"gross_margin_summary\": \"R3HK-5fb76d1a-11 margin based on 100.30 / 200.00\", \"approval_scenario_key\": null, \"payment_terms_summary\": \"G1 按约定节点回款。\", \"ready_for_contracting\": false, \"tax_condition_summary\": \"G1 报价税务条件已记录。\", \"bid_commercial_process_id\": \"5df5fe18-fc5c-4320-b886-083d7ba26beb\", \"technical_cost_package_id\": \"26a39d65-56ba-4508-bdc8-bd7a404ea230\", \"quote_amount_tax_exclusive\": 200.00, \"quote_amount_tax_inclusive\": 226.00, \"commercial_release_baseline_id\": null}",
+          "{\"id\": \"114cedc4-b927-408d-89b2-82927e31d862\", \"status\": \"superseded\", \"version\": 1, \"decision\": \"pending\", \"tax_rate\": 0.13000000, \"created_at\": \"2026-11-03T07:01:03.973+08:00\", \"created_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"is_current\": false, \"owner_role\": null, \"project_id\": \"16703ce0-3446-4bce-bf0c-e70c9fa998b5\", \"updated_at\": \"2026-11-03T07:01:04.073+08:00\", \"updated_by\": \"c53ed6b6-9c03-4fd4-82a2-65c8429aca93\", \"row_version\": 2, \"effective_at\": \"2026-11-03T07:01:03.973+08:00\", \"pricing_path\": \"direct-commercial\", \"blocker_count\": 1, \"currency_code\": \"CNY\", \"export_policy\": null, \"quote_version\": \"R3HK-5fb76d1a-11-Q1\", \"supersedes_id\": null, \"decision_summary\": \"R3HK-5fb76d1a-11 pending review 1\", \"projection_level\": null, \"gross_margin_band\": \"target\", \"gross_margin_rate\": 0.49850000, \"summary_package_key\": null, \"summary_snapshot_id\": null, \"gross_margin_summary\": \"R3HK-5fb76d1a-11 margin based on 100.30 / 200.00\", \"approval_scenario_key\": null, \"payment_terms_summary\": \"G1 按约定节点回款。\", \"ready_for_contracting\": false, \"tax_condition_summary\": \"G1 报价税务条件已记录。\", \"bid_commercial_process_id\": null, \"technical_cost_package_id\": \"26a39d65-56ba-4508-bdc8-bd7a404ea230\", \"quote_amount_tax_exclusive\": 200.00, \"quote_amount_tax_inclusive\": 226.00, \"commercial_release_baseline_id\": null}"
+        ],
+        "project_pricing_margin_condition_item": [
+          "{\"id\": \"0045d818-db5d-442f-9a2c-5c78fa1dd581\", \"label\": \"G1 回款条件确认\", \"due_at\": \"2027-02-01T08:00:00+08:00\", \"review_id\": \"09b21460-7f76-4f8d-bec9-93bcff1d92f6\", \"sort_order\": 1, \"condition_key\": \"R3HK-5fb76d1a-11-payment\", \"condition_type\": \"payment\", \"condition_status\": \"open\", \"responsible_role\": \"财务\", \"condition_summary\": \"核实已记录的回款节点。\", \"resolution_summary\": null, \"required_for_contracting\": false}",
+          "{\"id\": \"6a8cadb2-36c0-402a-9679-a4f0baa6de8b\", \"label\": \"G1 回款条件确认\", \"due_at\": \"2027-02-01T08:00:00+08:00\", \"review_id\": \"114cedc4-b927-408d-89b2-82927e31d862\", \"sort_order\": 1, \"condition_key\": \"R3HK-5fb76d1a-11-payment\", \"condition_type\": \"payment\", \"condition_status\": \"open\", \"responsible_role\": \"财务\", \"condition_summary\": \"核实已记录的回款节点。\", \"resolution_summary\": null, \"required_for_contracting\": false}"
+        ]
+      }
+    },
+    "allBusinessAssertionsPassed": true
+  },
+  "publicDerivation": {
+    "kind": "declared-structured-public-derivative",
+    "privateOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r3m/private/acceptance-rust-5fb76d1a-e714-4510-a6e8-d33531405432/phase11/structured-original-33-G.pricing.stale-cost-rejected.json",
+      "bytes": 11532,
+      "rawBytesSha256": "49eb2a9355f822bb6b123bc158431a37ace5a16e2262a77b8e1cd1ade115f809"
+    },
+    "redactedFields": 0,
+    "rawAuthAndSQLOnlyPrivate": true
+  }
+}
