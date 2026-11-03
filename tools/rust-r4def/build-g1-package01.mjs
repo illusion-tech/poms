@@ -107,7 +107,7 @@ function assert30(value) {
 }
 assert30(target);
 const schemaChanges = [...proposed].filter(([name, { schema }]) => stable(schema) !== stable(full.components.schemas[name]));
-const inputFiles = ['.gitattributes', 'docs/design/rust-r4def-next30-baseline.md', `${folder}/ownership04.md`, `${folder}/protocol01.md`, `${folder}/user-decisions01.json`, `${folder}/root-decisions02.json`, `${folder}/root-source-currency01.sql`, dFile, `${folder}/D-g1-candidate01.md`, `${folder}/D-schema-candidate01.sql`, eFile, `${folder}/E-g1-candidate02.md`, `${folder}/${e.ddlCandidate?.file?.split('/').at(-1) ?? e.ddlCandidate?.path?.split('/').at(-1) ?? 'E-schema-candidate02.sql'}`, fFile, `${folder}/F-g1-candidate01.md`, `${folder}/F-schema-candidate01.sql`, 'docs/design/api-route-canonical-inventory.md', 'libs/shared/api-spec/openapi.json', 'tools/rust-r4def/build-g1-package01.mjs'];
+const inputFiles = ['.gitattributes', 'docs/design/rust-r4def-next30-baseline.md', `${folder}/ownership04.md`, `${folder}/root-projection05.json`, `${folder}/protocol01.md`, `${folder}/user-decisions01.json`, `${folder}/root-decisions02.json`, `${folder}/root-source-currency01.sql`, dFile, `${folder}/D-g1-candidate01.md`, `${folder}/D-schema-candidate01.sql`, eFile, `${folder}/E-g1-candidate02.md`, `${folder}/${e.ddlCandidate?.file?.split('/').at(-1) ?? e.ddlCandidate?.path?.split('/').at(-1) ?? 'E-schema-candidate02.sql'}`, fFile, `${folder}/F-g1-candidate01.md`, `${folder}/F-schema-candidate01.sql`, 'docs/design/api-route-canonical-inventory.md', 'libs/shared/api-spec/openapi.json', 'tools/rust-r4def/build-g1-package01.mjs'];
 // The corrected candidate must explicitly name a real SQL file.
 const eSql = e.ddlCandidate?.file ?? e.ddlCandidate?.path ?? `${folder}/E-schema-candidate02.sql`;
 assert(fs.existsSync(eSql));
@@ -125,8 +125,16 @@ for (const root of ['apps/poms-api-rust/src', 'apps/poms-api/src/app/features/pr
 }
 for (const file of ['project-lifecycle-design.md', 'contract-finance-design.md', 'interface-command-design.md', 'interface-openapi-dto-design.md', 'table-structure-freeze-design.md', 'schema-ddl-design.md', 'query-view-boundary-design.md', 'phase2-project-actual-cost-records.md', 'phase2-cost-source-to-project-record-mapping.md', 'phase2-contract-to-handover-workspace.md', 'phase2-project-handover-gate-workspace.md', 'phase2-handover-closure-rules.md', 'phase2-commission-freeze-at-handover.md', 'phase2-data-permission-and-sensitive-visibility-design.md']) readScope.add(`docs/design/${file}`);
 const sources = [...readScope].sort().map(pin);
+const previousPath = `${folder}/joint-g1-04/manifest04.json`;
+const previous = fs.existsSync(previousPath) ? new Map(read(previousPath).sources.map(source => [source.file, source])) : new Map();
 for (const source of sources) {
     assert(!path.isAbsolute(source.file) && !source.file.split('/').includes('..'));
+    const reusable = previous.get(source.file);
+    if (reusable?.rawBytesSha256 === source.rawBytesSha256) {
+        assert.equal(pin(reusable.original).rawBytesSha256, source.rawBytesSha256);
+        source.original = reusable.original;
+        continue;
+    }
     const dest = `${out}/source-originals/${source.file}.bin`;
     fs.mkdirSync(path.dirname(dest), { recursive: true });
     fs.writeFileSync(dest, fs.readFileSync(source.file), { flag: 'wx' });
@@ -136,5 +144,6 @@ for (const source of sources) {
 }
 const outputs = ['operation-map', 'schema-authority', 'target-full-spec', 'schema', 'openapi-normalization'].map(name => pin(`${out}/${name}${edition}.${name === 'schema' ? 'sql' : 'json'}`));
 const manifest = { kind: `R4-DEF-joint-G1-static-candidate${edition}`, createdAt: new Date().toISOString(), base: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), counts: { D: 7, E: 11, F: 12, total: 30, existing: 28, new: 2, currentFull: 291, targetFull: 293, currentRust: 210, expectedRustAfterBatch: 240, changedSchemas: schemaChanges.length, targetSchemas: Object.keys(target.components.schemas).length, sourcePins: sources.length }, sources, outputs, sqlFiles, model: { authorsAndReviewer: 'gpt-6.1-sol', effort: 'max', fast: 'unverified' }, G1Certified: false, G2Authorized: false, runtimeExecuted: false, oldFailedAndPartialPreserved: true };
+manifest.authorityOrder = ['explicit user decisions', 'Root root-projection05 stricter labor-derived permissions', 'Root root-decisions02 / protocol01 / ownership04', 'D final candidate01 / E corrected candidate02 / F candidate01 with the explicit Root overrides', 'declared OpenAPI30 semantic-preserving normalization and selected outputs'];
 fs.writeFileSync(`${out}/manifest${edition}.json`, JSON.stringify(manifest, null, 2) + '\n', { flag: 'wx' });
 console.log(JSON.stringify({ counts: manifest.counts, manifest: pin(`${out}/manifest${edition}.json`) }));
