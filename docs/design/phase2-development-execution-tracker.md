@@ -795,3 +795,9 @@ R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#1
 ### 2026-11-04 R4 第二批 G0 与联合 G1 准备
 
 已建立 [#106](https://github.com/illusion-tech/poms/issues/106) → D#107/E#108/F#109。28既有入口当前AST/spec/canonical去重完成；用户授权补齐准备/本人确认/受控变更的真实可操作闭环，候选D7/E11/F12共30，其中2新增canonical为planned。职责本人确认/可兼任、R5执行准入分层、成本两位及整批分摊守恒三项已裁决，详见[基线](rust-r4def-next30-baseline.md)和[状态](rust-r4def-delivery-status.json)。当前G1准备、G2未准入、新增正式交付0；经营17及验收完工归档8仍后续。#101/#57保持Open，第二阶段原任务状态不因迁移准备被重写。
+
+### 2026-11-04 R4 第二批联合 G1 实际冻结
+
+[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](rust-r4def/g1-online07.json)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](rust-r4def-next30-baseline.md)、[归属](rust-r4def/ownership04.md)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
+
+当前仅G1完成，Rust仍210、本批新增正式交付0；实现/SQL/HTTP/PG/UI/独立G3/G4与main集成均未认证。经营17、验收完工归档8及完整R4仍后续，#101/#57持续Open。

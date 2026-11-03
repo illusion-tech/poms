@@ -1,11 +1,11 @@
 # RUST-R4-DEF 移交与成本事实联合实施基线
 
-- Gate Status: `Pending`，G0 已完成，G1 输入准备中，尚未准入 G2。
+- Gate Status: `Pass`，独立联合 G1 与实际线上冻结已完成；三线 G2 已准入，尚无产品实现或运行验收交付。
 - Parent: [#106](https://github.com/illusion-tech/poms/issues/106)，上级 [#101](https://github.com/illusion-tech/poms/issues/101) / [#57](https://github.com/illusion-tech/poms/issues/57)。
 - Owner: Root；D [#107](https://github.com/illusion-tech/poms/issues/107)、E [#108](https://github.com/illusion-tech/poms/issues/108)、F [#109](https://github.com/illusion-tech/poms/issues/109)。
 - Slice Type: `cross-layer-high-risk`。
 - Base: `565661b9113372de4da6662a4a692fbfd2296dd6`；分支 `codex/poms-r4def-next28` 保留已登记名称，不用名称推断最终数量。
-- G1 Reviewer / Date: 待非作者复核及线上冻结。
+- G1 Reviewer / Date: 独立 reviewer / 2026-11-03T20:57:31.034Z；输入提交 `57f64d6c0aef99430acc3b4ed7d99d00074d59f4`。
 
 ## 1. 范围
 
@@ -62,3 +62,10 @@ G1 前仅有静态盘点与 G0 线上实际登记；没有 runtime、G1 Pass、G
 当前没有已接受的绕过 G1 例外。Node 缺失真实准备/本人确认/变更生产链、阶段未锁及金额/分摊缺口归 `existing-baseline-drift`；新增公共入口、受控 DTO/DDL 和 UI 按用户授权列为 `design-change-required`。发现新业务歧义时报告用户裁决，技术一致性由 Root 负责。
 
 G1 = Pending。仅在精确输入齐备、非作者复核和线上冻结后准入 G2。本批 G4 后仅关闭 #107/#108/#109/#106，不关闭 #101/#57。
+
+
+## 9. 当前 G1 冻结结论
+
+[独立终审原件](rust-r4def/g1-independent07/g1-final06.json.bin) Pass，P0–P2剩余0；[实际线上读回](rust-r4def/g1-online07.json)核四项正文/comment及原生父子关系，#101/#57保持Open。权威[manifest06](rust-r4def/joint-g1-06/manifest06.json)绑定435来源、5outputs、30入口/63schema差异及完整目标293/624；[ownership04](rust-r4def/ownership04.md)与[Root人力派生权限覆盖](rust-r4def/root-projection05.json)参与冻结。原候选、03/05 Block、失败原件保留各自时点。
+
+G1Certified=true、G2Authorized=true仅准入本批三线实现；Rust仍210操作，本批新增正式交付0。实现、实际验收、独立G3/G4、固定提交/main和收口仍待完成；作者从同一冻结metadata提交建立工作树，不重新询问已决业务。上方候选和原始输入的Pending文句保留原时点，以本节及线上Issue为当前准入。

@@ -1,0 +1,511 @@
+{
+  "kind": "R4-DEF-actual-online-G1-freeze-readback",
+  "completedAt": "2026-11-03T20:57:31.034Z",
+  "inputCommit": "57f64d6c0aef99430acc3b4ed7d99d00074d59f4",
+  "metadataCommit": "49678e7713a303156aea412fcd494d104cac0704",
+  "manifest": {
+    "file": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
+    "rawBytesSha256": "8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147"
+  },
+  "certificate": {
+    "file": "docs/design/rust-r4def/g1-independent07/g1-final06.json.bin",
+    "rawBytesSha256": "b157f230a59a5750fd8fa993d8f58fb517619fb898b3ba1f3757b7a54d0656f6"
+  },
+  "actual": [
+    {
+      "number": 106,
+      "body": "状态：Doing / G1已冻结；完成本批线上读回后准入G2，尚未实现交付。\n\n父#101，总体#57；原生子项D#107/E#108/F#109。\n\nD7/E11/F12共30：28既有+2新公共入口。受控合同变更及必要发票币种扩展复用既有操作，不重复计数。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n- [x] G0：父子Issue与canonical边界\n- [x] 联合G1：独立Pass、用户裁决、精确DTO/DDL/真实机制/事务/权限及文件归属\n- [ ] 三线实现与独占交付\n- [ ] 统一候选真实生产者/HTTP/PG/权限/故障/并发/原UI验收及精确清理\n- [ ] 独立G3、固定提交与main集成\n- [ ] 生命周期归档、独立G4关闭许可与实际线上读回\n",
+      "commentBody": "G1 已冻结。\n\nD7/E11/F12共30：28既有+2新公共入口。受控合同变更及必要发票币种扩展复用既有操作，不重复计数。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n实际线上冻结以本批全部正文/评论/父子关系读回为准；其后Root发布G2准入authority，作者无需再次请求同一业务批准。",
+      "commentId": 6615241191,
+      "commentUrl": "https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191",
+      "state": "open"
+    },
+    {
+      "number": 107,
+      "body": "状态：Doing / G1已冻结；完成本批线上读回后准入G2，尚未实现交付。\n\n父#106，上级#101，总体#57。\n\nD7：承接/详情/最终确认/再基线化5既有，加准备和本人确认2新入口；真实职责/摘要/待办/冻结、受控变更与原子新计划、附件真实闭环和最小UI。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n- [x] G0：父子Issue与canonical边界\n- [x] 联合G1：独立Pass、用户裁决、精确DTO/DDL/真实机制/事务/权限及文件归属\n- [ ] 三线实现与独占交付\n- [ ] 统一候选真实生产者/HTTP/PG/权限/故障/并发/原UI验收及精确清理\n- [ ] 独立G3、固定提交与main集成\n- [ ] 生命周期归档、独立G4关闭许可与实际线上读回\n",
+      "commentBody": "G1 已冻结。\n\nD7：承接/详情/最终确认/再基线化5既有，加准备和本人确认2新入口；真实职责/摘要/待办/冻结、受控变更与原子新计划、附件真实闭环和最小UI。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n实际线上冻结以本批全部正文/评论/父子关系读回为准；其后Root发布G2准入authority，作者无需再次请求同一业务批准。",
+      "commentId": 6615243857,
+      "commentUrl": "https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857",
+      "state": "open"
+    },
+    {
+      "number": 108,
+      "body": "状态：Doing / G1已冻结；完成本批线上读回后准入G2，尚未实现交付。\n\n父#106，上级#101，总体#57。\n\nE11：费率、五来源实际成本登记/查询/人力替代、费用生命周期；真实来源/币种/阶段依据、费率边界、精度和全部敏感字段投影。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n- [x] G0：父子Issue与canonical边界\n- [x] 联合G1：独立Pass、用户裁决、精确DTO/DDL/真实机制/事务/权限及文件归属\n- [ ] 三线实现与独占交付\n- [ ] 统一候选真实生产者/HTTP/PG/权限/故障/并发/原UI验收及精确清理\n- [ ] 独立G3、固定提交与main集成\n- [ ] 生命周期归档、独立G4关闭许可与实际线上读回\n",
+      "commentBody": "G1 已冻结。\n\nE11：费率、五来源实际成本登记/查询/人力替代、费用生命周期；真实来源/币种/阶段依据、费率边界、精度和全部敏感字段投影。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n实际线上冻结以本批全部正文/评论/父子关系读回为准；其后Root发布G2准入authority，作者无需再次请求同一业务批准。",
+      "commentId": 6615246436,
+      "commentUrl": "https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436",
+      "state": "open"
+    },
+    {
+      "number": 109,
+      "body": "状态：Doing / G1已冻结；完成本批线上读回后准入G2，尚未实现交付。\n\n父#106，上级#101，总体#57。\n\nF12：共享分摊4、阶段归属4、税务4；完整批次不可变替代、显式金额层/币种/证据、真实成本确认/锁、双敏感LABOR派生规则。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n- [x] G0：父子Issue与canonical边界\n- [x] 联合G1：独立Pass、用户裁决、精确DTO/DDL/真实机制/事务/权限及文件归属\n- [ ] 三线实现与独占交付\n- [ ] 统一候选真实生产者/HTTP/PG/权限/故障/并发/原UI验收及精确清理\n- [ ] 独立G3、固定提交与main集成\n- [ ] 生命周期归档、独立G4关闭许可与实际线上读回\n",
+      "commentBody": "G1 已冻结。\n\nF12：共享分摊4、阶段归属4、税务4；完整批次不可变替代、显式金额层/币种/证据、真实成本确认/锁、双敏感LABOR派生规则。\n\n独立联合G1已Pass，输入提交 57f64d6c0aef99430acc3b4ed7d99d00074d59f4，manifest SHA256 8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147。\n\n权威输入：[联合基线](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def-next30-baseline.md)、[精确30入口/DTO/DDL/来源](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/joint-g1-06/manifest06.json)、[独立G1证书](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/g1-independent07/g1-final06.json.bin)、[独占文件归属](https://github.com/illusion-tech/poms/blob/49678e7713a303156aea412fcd494d104cac0704/docs/design/rust-r4def/ownership04.md)。Root权限覆盖 root-projection05、root-decisions02 和 protocol01；D final01/E corrected02/F01的原始候选、03/05 Block及失败原件均保留，按manifest authorityOrder解释。\n\n当前静态输入435份、完整目标293operations/624schemas；这是G1设计目标，当前Rust仍210，本批正式新增交付0。未执行新SQL/业务HTTP/PG/UI，不把G1当实现/验收。\n\n用户已明确：补真实移交准备/本人确认/受控合同变更与最小UI；同人可兼任、只本人确认，execution仍需R5有效角色冻结；货币两位/费率四位/数量两位、人工精确HALF_UP、确定性尾差守恒、完整份额整批原子替代、历史多位不自动改写。必要业务/版本/快照/审计/会话写同一外层CommonSession，任一必要写失败整体回滚。F阶段确认真实推进registered→confirmed+锁+归属+审计；本批not included。人力及其可反推派生组按双敏感授权规则，不能由finance:manage推出敏感读取权。\n\n三线从同一冻结metadata基线在隔离工作树实施，Root独占公共契约/生成物/DDL/路由/Git/GitHub和统一实际环境。F实际验收消费E及适用D真实事实。经营17、验收完工归档8、完整R5、部署切流未纳入；#101/#57保持Open。\n\n实际线上冻结以本批全部正文/评论/父子关系读回为准；其后Root发布G2准入authority，作者无需再次请求同一业务批准。",
+      "commentId": 6615249125,
+      "commentUrl": "https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125",
+      "state": "open"
+    }
+  ],
+  "nativeChildren": [
+    {
+      "number": 107,
+      "state": "open"
+    },
+    {
+      "number": 108,
+      "state": "open"
+    },
+    {
+      "number": 109,
+      "state": "open"
+    }
+  ],
+  "parentStates": {
+    "57": "OPEN",
+    "101": "OPEN"
+  },
+  "commands": [
+    {
+      "name": "before-106",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/106"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/01-before-106-stdout-original.json",
+        "sha256": "4df102ee39284e90c71f2f7e8ad3128d9c2d2c242f2e9bf08be849d463f00938"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/01-before-106-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "body-106",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/106",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/02-body-106-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/02-body-106-stdout-original.json",
+        "sha256": "734dcbd41c5a4722678df3b7d3f2ce1e5fc6a318454f4d5f3930f4f48822fb91"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/02-body-106-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-106",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/106/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/03-comment-106-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/03-comment-106-stdout-original.json",
+        "sha256": "ec2d27d10de1ef5b72c803ddb634d927b405dc817ffd570359a33ca4d0c4949b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/03-comment-106-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "after-106",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/106"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/04-after-106-stdout-original.json",
+        "sha256": "3a54d2ec62f5466fdc40c54bddf2e142376ba3ecfba36ae0bd1e3b292f9b685b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/04-after-106-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "read-comment-106",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/comments/6615241191"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/05-read-comment-106-stdout-original.json",
+        "sha256": "ec2d27d10de1ef5b72c803ddb634d927b405dc817ffd570359a33ca4d0c4949b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/05-read-comment-106-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "before-107",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/107"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/06-before-107-stdout-original.json",
+        "sha256": "b80ce84f70ffd19366b7e473a2c2c93642b8f9ba096e51f8c90f4bfee898b076"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/06-before-107-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "body-107",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/107",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/07-body-107-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/07-body-107-stdout-original.json",
+        "sha256": "9cee46c391e1d8ff88607d86d42197332dd08abac82af97f855f34639cee979a"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/07-body-107-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-107",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/107/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/08-comment-107-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/08-comment-107-stdout-original.json",
+        "sha256": "0ae4cd128041321bf7b2a2091e4f69bdb07c24999a9383683e2a48c24ba09093"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/08-comment-107-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "after-107",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/107"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/09-after-107-stdout-original.json",
+        "sha256": "8664764f3712484ad244175ea43f74b15066ad1f39f4d90265f7654048050fcf"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/09-after-107-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "read-comment-107",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/comments/6615243857"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/10-read-comment-107-stdout-original.json",
+        "sha256": "0ae4cd128041321bf7b2a2091e4f69bdb07c24999a9383683e2a48c24ba09093"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/10-read-comment-107-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "before-108",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/108"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/11-before-108-stdout-original.json",
+        "sha256": "1c44040f519815d27f8ec9e4cb80c558e9f6797483e3167f7980f2a2200ae694"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/11-before-108-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "body-108",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/108",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/12-body-108-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/12-body-108-stdout-original.json",
+        "sha256": "e3df4c5b241059e9122ceb2cc5947eff8a8f30414f872f5be0676479fbab5882"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/12-body-108-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-108",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/108/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/13-comment-108-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/13-comment-108-stdout-original.json",
+        "sha256": "05326bb3efd9a059b2df22bcd60e0b46df17498de2e9e1d93d19f4770767be49"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/13-comment-108-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "after-108",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/108"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/14-after-108-stdout-original.json",
+        "sha256": "f58401293b360650f697abb697438eacdf1abed196d5235702f89287a178d07b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/14-after-108-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "read-comment-108",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/comments/6615246436"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/15-read-comment-108-stdout-original.json",
+        "sha256": "05326bb3efd9a059b2df22bcd60e0b46df17498de2e9e1d93d19f4770767be49"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/15-read-comment-108-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "before-109",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/109"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/16-before-109-stdout-original.json",
+        "sha256": "2556fea4efe82a9ab6b5557cb785239fbbb5891d41d0614931eb018a1c45fcc1"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/16-before-109-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "body-109",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/109",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/17-body-109-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/17-body-109-stdout-original.json",
+        "sha256": "a36c265423c371c39bd6c9aaf8700a2503c3e7055b0601a43544fe70ff86e9c2"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/17-body-109-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-109",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/109/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/18-comment-109-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/18-comment-109-stdout-original.json",
+        "sha256": "05ec27ba435055c6945d4d461d87f86138941d8253980fd8e654b4d073e2d38b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/18-comment-109-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "after-109",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/109"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/19-after-109-stdout-original.json",
+        "sha256": "412de0471bcb59d314a2b645486b635a9f6cddac26e377182e947a61e0f6f4fe"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/19-after-109-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "read-comment-109",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/comments/6615249125"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/20-read-comment-109-stdout-original.json",
+        "sha256": "05ec27ba435055c6945d4d461d87f86138941d8253980fd8e654b4d073e2d38b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/20-read-comment-109-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "batch-children",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/21-batch-children-stdout-original.json",
+        "sha256": "8d28d5e00c2e668253ed8f814a5298bbae291f1290c24de35754ccf755743158"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/21-batch-children-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "parent",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/101"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/22-parent-stdout-original.json",
+        "sha256": "279ed17748fd530546689337469ba8523475c8340ce7ba95c054f451f64b07b6"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/22-parent-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "root",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/57"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/23-root-stdout-original.json",
+        "sha256": "d2e804f9f4bbddddb5af5a5e7e2a81928e056087d30f6dbb617abf2875defbd6"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/23-root-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "parent-progress",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/101/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/24-parent-progress-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/24-parent-progress-stdout-original.json",
+        "sha256": "ec3186eed329206efa0ba8b33b86e132bdf90b49292c1c0e904de422844ee4d7"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/24-parent-progress-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "root-progress",
+      "args": [
+        "api",
+        "repos/illusion-tech/poms/issues/57/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g1-online07/25-root-progress-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g1-online07/25-root-progress-stdout-original.json",
+        "sha256": "44c6435fe21a9fdd4d8190d70c5bd037bfb1c3b4e9cba50ad001360a4f99cb66"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g1-online07/25-root-progress-stderr-original.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "G1Certified": true,
+  "G2Authorized": true,
+  "runtimeExecuted": false
+}
