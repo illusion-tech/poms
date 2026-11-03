@@ -1,6 +1,6 @@
 # R3 阶段收口
 
-本批 #98/#99/#100/#97/#85 已按独立G4许可实际关闭，#57保持Open；最终独立实际G4签署另附。实现552211dd及归档4b078已集成main。
+本批 #98/#99/#100/#97/#85 已完成独立实际G4终审并Closed；总体#57保持Open。实现552211dd与归档、main及线上原文读回一致。
 
 Rust306 passed/54 ignored，53DB opt-in与parent实际调用的child分列；Admin lint/23focused/build。58有效入口、必要写整体回滚、历史缺快照事务补算、CAS409/no-op/typedUUID与日期已验收。四轴16捕获为8Rust业务通过＋8Native参考，Native既有缺陷、Windows原生Rust与R4–R7边界不混淆。
 
@@ -12,3 +12,8 @@ Rust306 passed/54 ignored，53DB opt-in与parent实际调用的child分列；Adm
 ## 实际线上收口
 
 [具体方案](rust-r3m/g4-plan01/plan01.json)、[独立许可](rust-r3m/C/g4-closeout-preflight01.json)及[六项原文读回](rust-r3m/g4-online-receipt01.json)分列；5个目标Closed、#57Open。最后实际G4审查与元数据保全另附，不改历史原件或产品。
+
+
+## 最终独立实际 G4
+
+[非作者实际终审](rust-r3m/C/g4-independent-actual-review01.json)已Pass。当前R3完整阶段Done，R4–R7继续Todo；最后元数据只追加签署/映射，不改变受测产品、已获批方案或线上正文。历史边界、53DB opt-in及child分类、Native8参考与Windows原生Rust留白不升格。

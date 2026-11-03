@@ -1,0 +1,319 @@
+{
+  "kind": "R3-post-publication-metadata-only-main-commit",
+  "completed": true,
+  "base": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "target": "10c22c6d3d24c920729bc7453b4a1e88c78a3998",
+  "commitObject": {
+    "file": "tmp/rust-r3m/root/g4-applied-commit01/10-stdout-original.bin",
+    "bytes": 535,
+    "rawBytesSha256": "cfde14007303f361f3ecbaf7f90340e3c666b85dea3a6e92bda9a592bfc23d3a"
+  },
+  "recursiveTree": {
+    "file": "tmp/rust-r3m/root/g4-applied-commit01/11-stdout-original.bin",
+    "bytes": 1451752,
+    "rawBytesSha256": "313aeadc7ee27b4fcd698ede2f8483ef9b11b6c46b64952a59c55fd1321cc10c"
+  },
+  "delta": {
+    "file": "tmp/rust-r3m/root/g4-applied-commit01/12-stdout-original.bin",
+    "bytes": 19416,
+    "rawBytesSha256": "9ffcc3d20e6e4d013e87ba9c203167f71da887c6aa88a5cf3e31b6e273d811da"
+  },
+  "commands": [
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "diff",
+        "--quiet",
+        "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+        "10c22c6d3d24c920729bc7453b4a1e88c78a3998",
+        "--",
+        "apps",
+        "libs",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".gitattributes"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/01-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/01-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "push",
+        "origin",
+        "HEAD:refs/heads/codex/poms-r3-closeout"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/02-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/02-stderr-original.bin",
+        "bytes": 99,
+        "rawBytesSha256": "140f9753b615ecb31d6e0732f9dc2b71a836644cb299ea266805c0fa2c333983"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/03-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/03-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "branch",
+        "--show-current"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/04-stdout-original.bin",
+        "bytes": 5,
+        "rawBytesSha256": "6403203dd5a0867eb14d104ee8a73730bd72dd9ad92e78d996a6dba0a5dcfc01"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/04-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/05-stdout-original.bin",
+        "bytes": 41,
+        "rawBytesSha256": "e7610e2866e0979b0bdc8cc0ed920f096572d1efb332d519cd045e02047783d6"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/05-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "ls-remote",
+        "--heads",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/06-stdout-original.bin",
+        "bytes": 57,
+        "rawBytesSha256": "237af44c0d31cfb9b46d522c25a7bfc18d2a906b5e7a7d01b805321bf1c7aeb4"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/06-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "merge",
+        "--ff-only",
+        "codex/poms-r3-closeout"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/07-stdout-original.bin",
+        "bytes": 34668,
+        "rawBytesSha256": "685b04badc85ba1aa4050e4fdfc8928fdab146e15970f6580a0081d8e1c18ad2"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/07-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "push",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/08-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/08-stderr-original.bin",
+        "bytes": 81,
+        "rawBytesSha256": "ea60016b0c7bf224da9350a70fc68a629875283beb04163d468a73738c58bfcc"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "ls-remote",
+        "--heads",
+        "origin",
+        "main"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/09-stdout-original.bin",
+        "bytes": 57,
+        "rawBytesSha256": "beba09917974695d6405c04bcb67ec8fe0bf723e79d925018943fe3eaa566408"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/09-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "cat-file",
+        "commit",
+        "10c22c6d3d24c920729bc7453b4a1e88c78a3998"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/10-stdout-original.bin",
+        "bytes": 535,
+        "rawBytesSha256": "cfde14007303f361f3ecbaf7f90340e3c666b85dea3a6e92bda9a592bfc23d3a"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/10-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "ls-tree",
+        "-r",
+        "-z",
+        "--full-tree",
+        "10c22c6d3d24c920729bc7453b4a1e88c78a3998"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/11-stdout-original.bin",
+        "bytes": 1451752,
+        "rawBytesSha256": "313aeadc7ee27b4fcd698ede2f8483ef9b11b6c46b64952a59c55fd1321cc10c"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/11-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "diff",
+        "--no-renames",
+        "--name-status",
+        "-z",
+        "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+        "10c22c6d3d24c920729bc7453b4a1e88c78a3998"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/12-stdout-original.bin",
+        "bytes": 19416,
+        "rawBytesSha256": "9ffcc3d20e6e4d013e87ba9c203167f71da887c6aa88a5cf3e31b6e273d811da"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/12-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/13-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/13-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "cwd": "E:/projects/poms",
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/14-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/g4-applied-commit01/14-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "source": {
+    "file": "tmp/rust-r3m/root/commit-g4-applied01.mjs",
+    "bytes": 5921,
+    "rawBytesSha256": "544514ea4b92c0f5eff9943f28386306a0ad6d6fbadc0fce009c471af3c12ab0"
+  },
+  "mainPushedAndReadBack": "10c22c6d3d24c920729bc7453b4a1e88c78a3998",
+  "all311ProductInputsUnchanged": true,
+  "appsLibrariesManifestsAttributesDiffZero": true,
+  "exactPublication": {
+    "file": "docs/design/archive/slices/rust-r3m/g4-online-receipt01.json",
+    "bytes": 24460,
+    "rawBytesSha256": "b6b264449fc53a17f22682ec3306198798d6c1158ba3db68a86273fe851df7b0"
+  },
+  "preclose": {
+    "file": "docs/design/archive/slices/rust-r3m/C/g4-closeout-preflight01.json",
+    "bytes": 12612,
+    "rawBytesSha256": "7917ed458d3ffd037276cfd250b1eb5933f5740d3285ffe4ce76fa148ca576dc"
+  },
+  "primaryAndRootClean": true,
+  "G4Certified": false,
+  "independentActualG4Pending": true
+}

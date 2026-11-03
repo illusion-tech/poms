@@ -1,0 +1,384 @@
+Updating 4b078edf..10c22c6d
+Fast-forward
+ docs/design/README.md                              |    5 +
+ docs/design/archive/slices/rust-r3m-closeout.md    |    9 +-
+ .../slices/rust-r3m/C/archive-main-review01.json   |  235 +++
+ .../slices/rust-r3m/C/g4-closeout-preflight01.json |  269 +++
+ .../final-review/archive-main-review01.json        |  235 +++
+ .../final-review/archive-object-audit01.json       | 1063 ++++++++++
+ .../final-review/archive-object-audit02.json       |   75 +
+ .../final-review/archive-pin-audit01.json          |   17 +
+ .../g4-closeout-preflight01.failed-draft.raw.bin   |  Bin 0 -> 10642 bytes
+ .../final-review/g4-closeout-preflight01.json      |  269 +++
+ ...-closeout-preflight01.publisher02-rejected.json |  244 +++
+ .../g4-preclose-prerequisite-audit01.json          |   20 +
+ .../final-review/main552-audit01.json              |   54 +
+ .../archive-commit-export01/01-stderr-original.bin |  Bin
+ .../archive-commit-export01/01-stdout-original.bin |  Bin 0 -> 41 bytes
+ .../archive-commit-export01/02-stderr-original.bin |  Bin
+ .../archive-commit-export01/02-stdout-original.bin |  Bin
+ .../archive-commit-export01/03-stderr-original.bin |  Bin
+ .../archive-commit-export01/03-stdout-original.bin |  Bin 0 -> 583 bytes
+ .../archive-commit-export01/04-stderr-original.bin |  Bin
+ .../archive-commit-export01/04-stdout-original.bin |  Bin 0 -> 1423246 bytes
+ .../archive-commit-export01/05-stderr-original.bin |  Bin
+ .../archive-commit-export01/05-stdout-original.bin |  Bin
+ .../archive-commit-export01/06-stderr-original.bin |  Bin
+ .../archive-commit-export01/06-stdout-original.bin |  Bin 0 -> 273701 bytes
+ .../archive-commit-export01/07-stderr-original.bin |  Bin
+ .../archive-commit-export01/07-stdout-original.bin |  Bin 0 -> 75 bytes
+ .../root/archive-commit-export01/report01.json     |  185 ++
+ .../root/archive-commit-message01.txt.bin          |  Bin 0 -> 359 bytes
+ .../01-stderr-original.bin                         |  Bin
+ .../01-stdout-original.bin                         |  Bin 0 -> 41 bytes
+ .../02-stderr-original.bin                         |  Bin
+ .../02-stdout-original.bin                         |  Bin
+ .../03-stderr-original.bin                         |  Bin
+ .../03-stdout-original.bin                         |  Bin 0 -> 41 bytes
+ .../04-stderr-original.bin                         |  Bin
+ .../04-stdout-original.bin                         |  Bin
+ .../05-stderr-original.bin                         |  Bin
+ .../05-stdout-original.bin                         |  Bin 0 -> 5 bytes
+ .../06-stderr-original.bin                         |  Bin
+ .../06-stdout-original.bin                         |  Bin 0 -> 57 bytes
+ .../07-stderr-original.bin                         |  Bin
+ .../07-stdout-original.bin                         |  Bin
+ .../08-stderr-original.bin                         |  Bin 0 -> 1327 bytes
+ .../08-stdout-original.bin                         |  Bin 0 -> 373393 bytes
+ .../09-stderr-original.bin                         |  Bin
+ .../09-stdout-original.bin                         |  Bin 0 -> 41 bytes
+ .../10-stderr-original.bin                         |  Bin 0 -> 81 bytes
+ .../10-stdout-original.bin                         |  Bin
+ .../11-stderr-original.bin                         |  Bin
+ .../11-stdout-original.bin                         |  Bin 0 -> 57 bytes
+ .../12-stderr-original.bin                         |  Bin
+ .../12-stdout-original.bin                         |  Bin
+ .../root/archive-main-integration02/report01.json  |  256 +++
+ .../root/check-archive-and-commit01.mjs            |    4 +
+ .../root/commit-final-g4-metadata01.mjs            |    6 +
+ .../evidence-delta03/root/commit-g4-applied01.mjs  |    6 +
+ .../evidence-delta03/root/derive-publisher02.mjs   |    4 +
+ .../evidence-delta03/root/derive-publisher03.mjs   |    3 +
+ .../root/export-archive-commit01.mjs               |    3 +
+ .../root/finalize-g4-metadata01.mjs                |   11 +
+ .../g4-online01/01-before-98-stderr-original.bin   |  Bin
+ .../g4-online01/01-before-98-stdout-original.json  |    1 +
+ .../root/g4-online01/02-apply-98-input.json        |    5 +
+ .../g4-online01/02-apply-98-stderr-original.bin    |  Bin
+ .../g4-online01/02-apply-98-stdout-original.json   |    1 +
+ .../root/g4-online01/03-comment-98-input.json      |    3 +
+ .../g4-online01/03-comment-98-stderr-original.bin  |  Bin
+ .../g4-online01/03-comment-98-stdout-original.json |    1 +
+ .../g4-online01/04-readback-98-stderr-original.bin |  Bin
+ .../04-readback-98-stdout-original.json            |    1 +
+ .../05-comment-readback-98-stderr-original.bin     |  Bin
+ .../05-comment-readback-98-stdout-original.json    |    1 +
+ .../g4-online01/06-before-99-stderr-original.bin   |  Bin
+ .../g4-online01/06-before-99-stdout-original.json  |    1 +
+ .../root/g4-online01/07-apply-99-input.json        |    5 +
+ .../g4-online01/07-apply-99-stderr-original.bin    |  Bin
+ .../g4-online01/07-apply-99-stdout-original.json   |    1 +
+ .../root/g4-online01/08-comment-99-input.json      |    3 +
+ .../g4-online01/08-comment-99-stderr-original.bin  |  Bin
+ .../g4-online01/08-comment-99-stdout-original.json |    1 +
+ .../g4-online01/09-readback-99-stderr-original.bin |  Bin
+ .../09-readback-99-stdout-original.json            |    1 +
+ .../10-comment-readback-99-stderr-original.bin     |  Bin
+ .../10-comment-readback-99-stdout-original.json    |    1 +
+ .../g4-online01/11-before-100-stderr-original.bin  |  Bin
+ .../g4-online01/11-before-100-stdout-original.json |    1 +
+ .../root/g4-online01/12-apply-100-input.json       |    5 +
+ .../g4-online01/12-apply-100-stderr-original.bin   |  Bin
+ .../g4-online01/12-apply-100-stdout-original.json  |    1 +
+ .../root/g4-online01/13-comment-100-input.json     |    3 +
+ .../g4-online01/13-comment-100-stderr-original.bin |  Bin
+ .../13-comment-100-stdout-original.json            |    1 +
+ .../14-readback-100-stderr-original.bin            |  Bin
+ .../14-readback-100-stdout-original.json           |    1 +
+ .../15-comment-readback-100-stderr-original.bin    |  Bin
+ .../15-comment-readback-100-stdout-original.json   |    1 +
+ .../16-children-before-97-stderr-original.bin      |  Bin
+ .../16-children-before-97-stdout-original.json     |    1 +
+ .../g4-online01/17-before-97-stderr-original.bin   |  Bin
+ .../g4-online01/17-before-97-stdout-original.json  |    1 +
+ .../root/g4-online01/18-apply-97-input.json        |    5 +
+ .../g4-online01/18-apply-97-stderr-original.bin    |  Bin
+ .../g4-online01/18-apply-97-stdout-original.json   |    1 +
+ .../root/g4-online01/19-comment-97-input.json      |    3 +
+ .../g4-online01/19-comment-97-stderr-original.bin  |  Bin
+ .../g4-online01/19-comment-97-stdout-original.json |    1 +
+ .../g4-online01/20-readback-97-stderr-original.bin |  Bin
+ .../20-readback-97-stdout-original.json            |    1 +
+ .../21-comment-readback-97-stderr-original.bin     |  Bin
+ .../21-comment-readback-97-stdout-original.json    |    1 +
+ .../22-children-before-85-stderr-original.bin      |  Bin
+ .../22-children-before-85-stdout-original.json     |    1 +
+ .../g4-online01/23-before-85-stderr-original.bin   |  Bin
+ .../g4-online01/23-before-85-stdout-original.json  |    1 +
+ .../root/g4-online01/24-apply-85-input.json        |    5 +
+ .../g4-online01/24-apply-85-stderr-original.bin    |  Bin
+ .../g4-online01/24-apply-85-stdout-original.json   |    1 +
+ .../root/g4-online01/25-comment-85-input.json      |    3 +
+ .../g4-online01/25-comment-85-stderr-original.bin  |  Bin
+ .../g4-online01/25-comment-85-stdout-original.json |    1 +
+ .../g4-online01/26-readback-85-stderr-original.bin |  Bin
+ .../26-readback-85-stdout-original.json            |    1 +
+ .../27-comment-readback-85-stderr-original.bin     |  Bin
+ .../27-comment-readback-85-stdout-original.json    |    1 +
+ .../g4-online01/28-before-57-stderr-original.bin   |  Bin
+ .../g4-online01/28-before-57-stdout-original.json  |    1 +
+ .../root/g4-online01/29-apply-57-input.json        |    4 +
+ .../g4-online01/29-apply-57-stderr-original.bin    |  Bin
+ .../g4-online01/29-apply-57-stdout-original.json   |    1 +
+ .../root/g4-online01/30-comment-57-input.json      |    3 +
+ .../g4-online01/30-comment-57-stderr-original.bin  |  Bin
+ .../g4-online01/30-comment-57-stdout-original.json |    1 +
+ .../g4-online01/31-readback-57-stderr-original.bin |  Bin
+ .../31-readback-57-stdout-original.json            |    1 +
+ .../32-comment-readback-57-stderr-original.bin     |  Bin
+ .../32-comment-readback-57-stdout-original.json    |    1 +
+ .../g4-online01/execution-progress-original.jsonl  |   34 +
+ .../root/g4-online01/receipt01.json                |  708 +++++++
+ .../root/g4-plan01/01-issue-98-stderr-original.bin |  Bin
+ .../g4-plan01/01-issue-98-stdout-original.json     |    1 +
+ .../root/g4-plan01/02-issue-99-stderr-original.bin |  Bin
+ .../g4-plan01/02-issue-99-stdout-original.json     |    1 +
+ .../g4-plan01/03-issue-100-stderr-original.bin     |  Bin
+ .../g4-plan01/03-issue-100-stdout-original.json    |    1 +
+ .../root/g4-plan01/04-issue-97-stderr-original.bin |  Bin
+ .../g4-plan01/04-issue-97-stdout-original.json     |    1 +
+ .../root/g4-plan01/05-issue-85-stderr-original.bin |  Bin
+ .../g4-plan01/05-issue-85-stdout-original.json     |    1 +
+ .../root/g4-plan01/06-issue-57-stderr-original.bin |  Bin
+ .../g4-plan01/06-issue-57-stdout-original.json     |    1 +
+ .../g4-plan01/07-children97-stderr-original.bin    |  Bin
+ .../g4-plan01/07-children97-stdout-original.json   |    1 +
+ .../g4-plan01/08-children85-stderr-original.bin    |  Bin
+ .../g4-plan01/08-children85-stdout-original.json   |    1 +
+ .../evidence-delta03/root/g4-plan01/plan01.json    |  165 ++
+ .../root/integrate-archive-main02.mjs              |    5 +
+ .../evidence-delta03/root/lifecycle-archive01.json |   31 +
+ .../evidence-delta03/root/prepare-g4-plan01.mjs    |   11 +
+ .../root/preserve-author-worktrees01.mjs           |    2 +
+ .../evidence-delta03/root/publish-g4-plan01.mjs    |    6 +
+ .../evidence-delta03/root/publish-g4-plan02.mjs    |    6 +
+ .../evidence-delta03/root/publish-g4-plan03.mjs    |    6 +
+ .../evidence-delta03/root/record-g4-applied01.mjs  |   12 +
+ .../evidence-delta03/root/verify-archive01.mjs     |    8 +
+ .../slices/rust-r3m/g4-online-receipt01.json       |  708 +++++++
+ .../archive/slices/rust-r3m/g4-plan01/plan01.json  |  165 ++
+ .../rust-r3m/g4-writeback01/README.md.before.bin   |  Bin 0 -> 46580 bytes
+ .../backend-rust-migration-plan.md.before.bin      |  Bin 0 -> 74843 bytes
+ .../slices/rust-r3m/g4-writeback01/manifest01.json |  184 ++
+ ...se2-development-execution-tracker.md.before.bin |  Bin 0 -> 406746 bytes
+ .../poms-design-progress.md.before.bin             |  Bin 0 -> 230211 bytes
+ .../rust-migration-execution-tracker.md.before.bin |  Bin 0 -> 56194 bytes
+ .../rust-r3-closeout-status.json.before.bin        |  Bin 0 -> 2420 bytes
+ .../rust-r3-operation-slices.json.before.bin       |  Bin 0 -> 178235 bytes
+ .../rust-r3-scope-and-dependencies.md.before.bin   |  Bin 0 -> 6946 bytes
+ .../g4-writeback01/rust-r3m-closeout.md.before.bin |  Bin 0 -> 1501 bytes
+ .../rust-r3m/public-evidence-origin-map03.json     | 2232 ++++++++++++++++++++
+ .../format-current-tracker-stderr-original.bin     |  Bin
+ .../format-current-tracker-stdout-original.bin     |  Bin 0 -> 59 bytes
+ .../verification/g4-applied-check03/report01.json  |  120 ++
+ .../staged-whitespace-stderr-original.bin          |  Bin
+ .../staged-whitespace-stdout-original.bin          |  Bin
+ .../tracker-before-format-original.bin             |  Bin 0 -> 57123 bytes
+ .../whole-doc-markdown-stderr-original.bin         |  Bin 0 -> 83 bytes
+ .../whole-doc-markdown-stdout-original.bin         |  Bin
+ .../worktree-whitespace-stderr-original.bin        |  Bin
+ .../worktree-whitespace-stdout-original.bin        |  Bin
+ docs/design/backend-rust-migration-plan.md         |    7 +-
+ .../design/phase2-development-execution-tracker.md |    5 +
+ docs/design/poms-design-progress.md                |    5 +
+ docs/design/rust-migration-execution-tracker.md    |   37 +-
+ docs/design/rust-r3-closeout-status.json           |   31 +-
+ docs/design/rust-r3-operation-slices.json          |   21 +-
+ docs/design/rust-r3-scope-and-dependencies.md      |   11 +-
+ 195 files changed, 7551 insertions(+), 29 deletions(-)
+ create mode 100644 docs/design/archive/slices/rust-r3m/C/archive-main-review01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/C/g4-closeout-preflight01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/archive-main-review01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/archive-object-audit01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/archive-object-audit02.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/archive-pin-audit01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/g4-closeout-preflight01.failed-draft.raw.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/g4-closeout-preflight01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/g4-closeout-preflight01.publisher02-rejected.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/g4-preclose-prerequisite-audit01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/final-review/main552-audit01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/01-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/01-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/02-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/02-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/03-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/03-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/04-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/04-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/05-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/05-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/06-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/06-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/07-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/07-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-export01/report01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-commit-message01.txt.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/01-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/01-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/02-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/02-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/03-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/03-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/04-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/04-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/05-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/05-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/06-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/06-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/07-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/07-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/08-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/08-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/09-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/09-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/10-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/10-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/11-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/11-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/12-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/12-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/archive-main-integration02/report01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/check-archive-and-commit01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/commit-final-g4-metadata01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/commit-g4-applied01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/derive-publisher02.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/derive-publisher03.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/export-archive-commit01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/finalize-g4-metadata01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/01-before-98-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/01-before-98-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/02-apply-98-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/02-apply-98-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/02-apply-98-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/03-comment-98-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/03-comment-98-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/03-comment-98-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/04-readback-98-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/04-readback-98-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/05-comment-readback-98-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/05-comment-readback-98-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/06-before-99-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/06-before-99-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/07-apply-99-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/07-apply-99-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/07-apply-99-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/08-comment-99-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/08-comment-99-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/08-comment-99-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/09-readback-99-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/09-readback-99-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/10-comment-readback-99-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/10-comment-readback-99-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/11-before-100-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/11-before-100-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/12-apply-100-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/12-apply-100-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/12-apply-100-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/13-comment-100-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/13-comment-100-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/13-comment-100-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/14-readback-100-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/14-readback-100-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/15-comment-readback-100-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/15-comment-readback-100-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/16-children-before-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/16-children-before-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/17-before-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/17-before-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/18-apply-97-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/18-apply-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/18-apply-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/19-comment-97-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/19-comment-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/19-comment-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/20-readback-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/20-readback-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/21-comment-readback-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/21-comment-readback-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/22-children-before-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/22-children-before-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/23-before-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/23-before-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/24-apply-85-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/24-apply-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/24-apply-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/25-comment-85-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/25-comment-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/25-comment-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/26-readback-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/26-readback-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/27-comment-readback-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/27-comment-readback-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/28-before-57-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/28-before-57-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/29-apply-57-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/29-apply-57-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/29-apply-57-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/30-comment-57-input.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/30-comment-57-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/30-comment-57-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/31-readback-57-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/31-readback-57-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/32-comment-readback-57-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/32-comment-readback-57-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/execution-progress-original.jsonl
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-online01/receipt01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/01-issue-98-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/01-issue-98-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/02-issue-99-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/02-issue-99-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/03-issue-100-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/03-issue-100-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/04-issue-97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/04-issue-97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/05-issue-85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/05-issue-85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/06-issue-57-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/06-issue-57-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/07-children97-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/07-children97-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/08-children85-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/08-children85-stdout-original.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/g4-plan01/plan01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/integrate-archive-main02.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/lifecycle-archive01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/prepare-g4-plan01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/preserve-author-worktrees01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/publish-g4-plan01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/publish-g4-plan02.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/publish-g4-plan03.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/record-g4-applied01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/evidence-delta03/root/verify-archive01.mjs
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-online-receipt01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-plan01/plan01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/README.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/backend-rust-migration-plan.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/manifest01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/phase2-development-execution-tracker.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/poms-design-progress.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/rust-migration-execution-tracker.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/rust-r3-closeout-status.json.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/rust-r3-operation-slices.json.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/rust-r3-scope-and-dependencies.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/g4-writeback01/rust-r3m-closeout.md.before.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/public-evidence-origin-map03.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/format-current-tracker-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/format-current-tracker-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/report01.json
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/staged-whitespace-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/staged-whitespace-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/tracker-before-format-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/whole-doc-markdown-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/whole-doc-markdown-stdout-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/worktree-whitespace-stderr-original.bin
+ create mode 100644 docs/design/archive/slices/rust-r3m/verification/g4-applied-check03/worktree-whitespace-stdout-original.bin

@@ -1,0 +1,124 @@
+{
+  "kind": "R3-final-G4-signature-only-metadata-check",
+  "completed": true,
+  "source": {
+    "file": "tmp/rust-r3m/root/commit-final-g4-metadata01.mjs",
+    "bytes": 7145,
+    "rawBytesSha256": "01afd98109a94a994fe7a8a396be8db7a9167bfc05e2e25425e95308a9371495"
+  },
+  "actualReview": {
+    "file": "docs/design/archive/slices/rust-r3m/C/g4-independent-actual-review01.json",
+    "bytes": 5755,
+    "rawBytesSha256": "f612359c3512bcb134940e315b71fa1fe180e5ce827dd1f8bb53acef080c2837"
+  },
+  "exactArchivedPins": 3923,
+  "product311AndProtected1373Unchanged": true,
+  "formatterOnlyDelta": {
+    "before": {
+      "file": "docs/design/rust-migration-execution-tracker.md",
+      "bytes": 57801,
+      "rawBytesSha256": "8afe4ca2607d6020f2a238cfbc82dba2cf4afd906b3a50b1b42b882adfc32cda"
+    },
+    "rawBefore": {
+      "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/tracker-before-format-original.bin",
+      "bytes": 57801,
+      "rawBytesSha256": "8afe4ca2607d6020f2a238cfbc82dba2cf4afd906b3a50b1b42b882adfc32cda"
+    },
+    "after": {
+      "file": "docs/design/rust-migration-execution-tracker.md",
+      "bytes": 57811,
+      "rawBytesSha256": "86959aea5d38e0b031e58e1052ae41a9fd8f832080a745734c8b73d8cc0b4d02"
+    }
+  },
+  "checks": [
+    {
+      "name": "format-current-tracker",
+      "exe": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "run",
+        "--allow-read",
+        "--allow-write",
+        "tools/format-md-tables.ts",
+        "docs/design/rust-migration-execution-tracker.md"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/format-current-tracker-stdout-original.bin",
+        "bytes": 59,
+        "rawBytesSha256": "d6cc84e6a8c6e48115ed0ebfe2ce6c1205ded80383b7f67322cbdba18344818f"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/format-current-tracker-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "whole-doc-markdown",
+      "exe": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "task",
+        "format:md:check"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/whole-doc-markdown-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/whole-doc-markdown-stderr-original.bin",
+        "bytes": 83,
+        "rawBytesSha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd"
+      }
+    },
+    {
+      "name": "staged-whitespace",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/staged-whitespace-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/staged-whitespace-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "worktree-whitespace",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/worktree-whitespace-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/final-g4-check04/worktree-whitespace-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "G4Certified": true,
+  "closedIssues": [
+    98,
+    99,
+    100,
+    97,
+    85
+  ],
+  "overall57Open": true
+}

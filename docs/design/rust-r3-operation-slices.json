@@ -29,7 +29,7 @@
       "conversion": "Real Project / eligible attachment copy / score snapshot / necessary audit are one transaction; number reservation is independently committed",
       "manualApproval": "R3 submit / approve / reject / revoke are Lead-specific commands; generic contract and commission handlers belong to R4 / R5",
       "currentStageAudit": 98,
-      "completeR3StageCertified": false
+      "completeR3StageCertified": true
     },
     "deliveredSalesFollowUpReminderProducer": {
       "implemented": true,
@@ -49,16 +49,18 @@
         "rawBytesSha256": "6ba0305f51c78d778c0495268de858dbb5830d5f8e9a9d5defcb6b1bd3005b70"
       },
       "completeLeadDetailUI": true,
-      "UIBoundary": "Scoped H-K current-source four browser/API cells; optional nonempty plannedSignAt conversion was not certified and is a named #97 correction candidate; full-stage UI remains pending"
+      "UIBoundary": "Scoped H-K current-source four browser/API cells; optional nonempty plannedSignAt conversion was not certified and is a named #97 correction candidate; full-stage UI remains pending",
+      "fullR3StageCertified": true,
+      "UIBoundaryHistoricalOnly": true
     },
     "stageCloseout": {
       "issue": 97,
-      "phase": "G4-online-applied-awaiting-independent-actual-review",
+      "phase": "Done",
       "candidate": "final01",
       "artifactSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
       "publicOperationDelta": 0,
       "R3HTTPDelivered": 58,
-      "completeR3StageCertified": false,
+      "completeR3StageCertified": true,
       "evidence": "docs/design/archive/slices/rust-r3m/g3-package-manifest01.json",
       "historicalScopedEvidenceUnchanged": true,
       "G3Certified": true,
@@ -66,7 +68,7 @@
       "fixedCommitCertified": true,
       "mainIntegrated": true,
       "G4OnlineApplied": true,
-      "G4Certified": false,
+      "G4Certified": true,
       "closedIssues": [
         98,
         99,
@@ -80,7 +82,12 @@
         "bytes": 24460,
         "rawBytesSha256": "b6b264449fc53a17f22682ec3306198798d6c1158ba3db68a86273fe851df7b0"
       },
-      "independentFinalReviewPending": true
+      "independentFinalReviewPending": false,
+      "actualReview": {
+        "file": "docs/design/archive/slices/rust-r3m/C/g4-independent-actual-review01.json",
+        "bytes": 5755,
+        "rawBytesSha256": "f612359c3512bcb134940e315b71fa1fe180e5ce827dd1f8bb53acef080c2837"
+      }
     }
   },
   "sources": [

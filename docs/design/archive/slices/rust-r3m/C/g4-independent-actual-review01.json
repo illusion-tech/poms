@@ -1,0 +1,137 @@
+{
+  "kind": "R3M-independent-actual-G4-final-review",
+  "createdAtUTC": "2026-11-03T04:17:49.1858317Z",
+  "reviewer": "/root/r3_final_gate_review",
+  "independentNonAuthor": true,
+  "modelConfiguration": {
+    "registeredTarget": "gpt-6.1-sol",
+    "registeredReasoningEffort": "max",
+    "runtimeIntrospection": "unavailable",
+    "Fast": "unverified"
+  },
+  "decision": "Pass",
+  "findings": [],
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "G4Certified": true,
+  "overall57Open": true,
+  "closedIssues": [
+    98,
+    99,
+    100,
+    97,
+    85
+  ],
+  "implementation": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "archiveCommit": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "actualMain": "10c22c6d3d24c920729bc7453b4a1e88c78a3998",
+  "approvedPlan": {
+    "file": "docs/design/archive/slices/rust-r3m/g4-plan01/plan01.json",
+    "bytes": 50628,
+    "rawBytesSha256": "ed536e88071ad73981cf89b6355db9fb5e626edb407bffce6fd6f9cfef406b51"
+  },
+  "independentPreclose": {
+    "file": "docs/design/archive/slices/rust-r3m/C/g4-closeout-preflight01.json",
+    "bytes": 12612,
+    "rawBytesSha256": "7917ed458d3ffd037276cfd250b1eb5933f5740d3285ffe4ce76fa148ca576dc"
+  },
+  "actualPublication": {
+    "file": "docs/design/archive/slices/rust-r3m/g4-online-receipt01.json",
+    "bytes": 24460,
+    "rawBytesSha256": "b6b264449fc53a17f22682ec3306198798d6c1158ba3db68a86273fe851df7b0"
+  },
+  "actualMainCommitEvidence": {
+    "file": "tmp/rust-r3m/root/g4-applied-commit01/report01.json",
+    "bytes": 10631,
+    "rawBytesSha256": "0b29fb687b0694d466c0d8b0ce51e6ba9bf1301cfcc144d7dac442b7b0be2694"
+  },
+  "actualChecks": {
+    "sixBodiesAndCommentsExactlyApproved": true,
+    "fiveClosedCompleted": true,
+    "nativeChildrenActuallyClosedBeforeParents": true,
+    "overall57OpenR3CheckedR4ThroughR7Unchecked": true,
+    "APIcalls": 32,
+    "rawAPIStreamsRehashed": 64,
+    "payloadsCompared": 12,
+    "ledgerLines": 34,
+    "before57VarianceUsed": false,
+    "commitSHA1AndFullTreeRecomputed": true,
+    "treeSHA1": "c9c6b7f95579b84374010d3273624628570f4ef4",
+    "parent": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+    "delta": 195,
+    "added": 186,
+    "modified": 9,
+    "deleted": 0,
+    "changedGitBlobsRehashed": 195,
+    "oldImmutableArchiveMemberChanges": 0,
+    "appsLibsPackageLockAttributesChanges": 0,
+    "commandStreamsRehashed": 28,
+    "authorizedMetadataFilesReconstructed": 9,
+    "all58OperationObjectsUnchanged": true,
+    "newPublicOriginalsAndBeforeSnapshots": 170,
+    "newPublicLogicalSourcesRehashed": 161,
+    "beforeSnapshotsBoundToParentGit": 9,
+    "primary311ProductRawInputsExact": true,
+    "protected1373GitInputsUnchanged": true,
+    "original15PrimaryCRLFRawBytesStillExact": true,
+    "canonicalPrivacyJSONPinsRehashed": 689,
+    "concreteStructuredPrivacyFindings": 0,
+    "generalSecretCertification": false,
+    "rootAndPrimaryCleanAndMainRemote10cReadback": true,
+    "allAuditMismatches": 0,
+    "priorProductStageEvidenceUnchangedAndNotRerunOrUpgraded": true,
+    "reviewerGitGitHubEnvironmentOrPrivateAccess": false
+  },
+  "supportingAudits": [
+    {
+      "file": "tmp/rust-r3m/final-review/g4-online-actual-audit01.json",
+      "bytes": 3042,
+      "rawBytesSha256": "c41a723fdf48e16208d4065b5030651100c38bbb8b66cfec5b33f2b16f597a62"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g4-actual-object-audit02.json",
+      "bytes": 2159,
+      "rawBytesSha256": "772aaaec76d2174b29f37a8274d94f2c8129253475bb529d10fcf760d7415c25"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g4-actual-metadata-audit01.json",
+      "bytes": 1785,
+      "rawBytesSha256": "3a3b9ac3411c6e86f8e76ef080359521200d7a722ed5918d5524bd308762b952"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g4-actual-preservation-audit01.json",
+      "bytes": 1182,
+      "rawBytesSha256": "72c85bada13266b5d8c45ce647b54894fca82c00cd24dae0146f301e8325e8c6"
+    }
+  ],
+  "certificationScope": "R3 only: existing58 HTTP plus complete nonHTTP/Lead approval/stage closeout. #57 remains Open; R4-R7 Todo.",
+  "boundaries": {
+    "RustBusinessUI": 8,
+    "NativeReferenceUI": 8,
+    "NativeBusinessAcceptance": false,
+    "WindowsNativeRustCertified": false,
+    "R4R5R6R7Certified": false,
+    "deploymentCutoverPerformanceCertified": false,
+    "historicalFailedPartialQuarantineIgnoredLabelsUnchanged": true,
+    "managedAuthorWTs": "3 retained due active-task API rejection;22ignored originals preserved; no forced termination or false archive claim; not an acceptance-runtime blocker"
+  },
+  "finalMetadataWritebackAllowed": true,
+  "finalMetadataWritebackScope": {
+    "requireExactFinalAnnouncedSignatureSHA": true,
+    "appendExactSignatureAndAdditiveRawEvidenceMapsOnly": true,
+    "updateExisting8CurrentMetadataAndCanonicalCloseoutIndexToThisFinalR3Pass": true,
+    "onlyR3NonHTTPStageCertificationFlagsMayFinalize": true,
+    "preserveExistingImmutableOriginalsAndBeforeVersions": true,
+    "necessaryMarkdownWhitespaceAndMetadataOnlyCommitPushPrimaryFFAllowed": true,
+    "mustPreserve": "311tested raw inputs,1373protected inputs,original15primaryCRLF bytes,58operation objects,apps/libs/package/lock/attributes and product contracts",
+    "mustNotChange": "approvedplan,preclose,actualreceipt,GitHubbodies/comments,historicalcandidate/failed/partial/quarantine/ignored labels",
+    "R4ThroughR7StayTodo": true,
+    "overall57MustStayOpen": true,
+    "noNewIssueMutationRuntimeDeploymentPrivateCopyOrForcedWTTermination": true,
+    "finalMainAndAll6IssueReadbackRequired": true
+  },
+  "issueClosureAllowed": false,
+  "newProductWorkAllowed": false,
+  "overall57MustRemainOpen": true
+}
