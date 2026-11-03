@@ -17,12 +17,36 @@ const eFile = `${folder}/E-g1-candidate02.json`;
 const fFile = `${folder}/F-g1-candidate01.json`;
 const d = read(dFile), e = read(eFile), f = read(fFile);
 const full = read('libs/shared/api-spec/openapi.json');
+const vocabularyNormalizations = [];
+function openApi30(value, at) {
+    if (Array.isArray(value)) return value.map((v, i) => openApi30(v, `${at}/${i}`));
+    if (!value || typeof value !== 'object') return value;
+    let output = Object.fromEntries(Object.entries(value).map(([k, v]) => [k, openApi30(v, `${at}/${k}`)]));
+    if (Object.hasOwn(output, 'const')) {
+        assert(!output.enum || stable(output.enum) === stable([output.const]));
+        output.enum = [output.const]; delete output.const;
+        vocabularyNormalizations.push({ path: at, rule: 'const -> singleton enum; same accepted value' });
+    }
+    for (const keyword of ['oneOf', 'anyOf']) {
+        if (!output[keyword]) continue;
+        const variants = output[keyword];
+        const nonNull = variants.filter(v => !(v.type === 'null' && Object.keys(v).length === 1));
+        if (nonNull.length === variants.length) continue;
+        assert.equal(nonNull.length, 1, `Explicit nullable union normalization required: ${at}`);
+        const rest = { ...output }; delete rest[keyword];
+        const only = nonNull[0];
+        output = { ...rest, ...(only.$ref ? { allOf: [only] } : only), nullable: true };
+        vocabularyNormalizations.push({ path: at, rule: `${keyword} [T,null] -> nullable T; same accepted values` });
+    }
+    return output;
+}
 const proposed = new Map();
 for (const [owner, schemas] of [['D', { ...d.targetPublicContract.schemas, ...d.affectedContractSchemaProposals }], ['E', e.proposedSchemas], ['F', f.candidateSchemas]]) {
     assert(schemas && Object.keys(schemas).length > 0, owner);
     for (const [name, schema] of Object.entries(schemas)) {
-        if (proposed.has(name)) assert.equal(stable(proposed.get(name).schema), stable(schema), `Conflicting schema owners: ${name}`);
-        else proposed.set(name, { owner, schema });
+        const normalized = openApi30(schema, `/components/schemas/${name}`);
+        if (proposed.has(name)) assert.equal(stable(proposed.get(name).schema), stable(normalized), `Conflicting schema owners: ${name}`);
+        else proposed.set(name, { owner, schema: normalized });
     }
 }
 // Root's explicitly frozen financial source-currency extension adds no HTTP route.
@@ -75,8 +99,15 @@ function walk(value) {
     Object.values(value).forEach(walk);
 }
 walk(target.paths);
+function assert30(value) {
+    if (Array.isArray(value)) return value.forEach(assert30);
+    if (!value || typeof value !== 'object') return;
+    assert(value.type !== 'null' && !Object.hasOwn(value, 'const'), 'OpenAPI3.1-only schema vocabulary');
+    Object.values(value).forEach(assert30);
+}
+assert30(target);
 const schemaChanges = [...proposed].filter(([name, { schema }]) => stable(schema) !== stable(full.components.schemas[name]));
-const inputFiles = ['docs/design/rust-r4def-next30-baseline.md', `${folder}/protocol01.md`, `${folder}/user-decisions01.json`, `${folder}/root-decisions02.json`, `${folder}/root-source-currency01.sql`, dFile, `${folder}/D-g1-candidate01.md`, `${folder}/D-schema-candidate01.sql`, eFile, `${folder}/E-g1-candidate02.md`, `${folder}/${e.ddlCandidate?.file?.split('/').at(-1) ?? e.ddlCandidate?.path?.split('/').at(-1) ?? 'E-schema-candidate02.sql'}`, fFile, `${folder}/F-g1-candidate01.md`, `${folder}/F-schema-candidate01.sql`, 'docs/design/api-route-canonical-inventory.md', 'libs/shared/api-spec/openapi.json', 'tools/rust-r4def/build-g1-package01.mjs'];
+const inputFiles = ['.gitattributes', 'docs/design/rust-r4def-next30-baseline.md', `${folder}/ownership04.md`, `${folder}/protocol01.md`, `${folder}/user-decisions01.json`, `${folder}/root-decisions02.json`, `${folder}/root-source-currency01.sql`, dFile, `${folder}/D-g1-candidate01.md`, `${folder}/D-schema-candidate01.sql`, eFile, `${folder}/E-g1-candidate02.md`, `${folder}/${e.ddlCandidate?.file?.split('/').at(-1) ?? e.ddlCandidate?.path?.split('/').at(-1) ?? 'E-schema-candidate02.sql'}`, fFile, `${folder}/F-g1-candidate01.md`, `${folder}/F-schema-candidate01.sql`, 'docs/design/api-route-canonical-inventory.md', 'libs/shared/api-spec/openapi.json', 'tools/rust-r4def/build-g1-package01.mjs'];
 // The corrected candidate must explicitly name a real SQL file.
 const eSql = e.ddlCandidate?.file ?? e.ddlCandidate?.path ?? `${folder}/E-schema-candidate02.sql`;
 assert(fs.existsSync(eSql));
@@ -87,6 +118,7 @@ fs.writeFileSync(`${out}/operation-map${edition}.json`, JSON.stringify({ kind: '
 fs.writeFileSync(`${out}/schema-authority${edition}.json`, JSON.stringify({ kind: 'joint-G1-declared-schema-changes', schemas: Object.fromEntries(schemaChanges.map(([name, { owner, schema }]) => [name, { owner, before: full.components.schemas[name] ?? null, after: schema }])) }, null, 2) + '\n', { flag: 'wx' });
 fs.writeFileSync(`${out}/target-full-spec${edition}.json`, JSON.stringify(target, null, 2) + '\n', { flag: 'wx' });
 fs.writeFileSync(`${out}/schema${edition}.sql`, sqlFiles.map(file => `-- SOURCE ${file}\n${fs.readFileSync(file, 'utf8')}\n`).join('\n').trimEnd() + '\n', { flag: 'wx' });
+fs.writeFileSync(`${out}/openapi-normalization${edition}.json`, JSON.stringify({ kind: 'semantic-preserving-OpenAPI30-vocabulary-normalization', vocabularyNormalizations }, null, 2) + '\n', { flag: 'wx' });
 const readScope = new Set(inputFiles.filter(fs.existsSync));
 for (const root of ['apps/poms-api-rust/src', 'apps/poms-api/src/app/features/project-handover', 'apps/poms-api/src/app/features/project-cost', 'apps/poms-api/src/app/features/contract', 'apps/poms-api/src/app/features/contract-readiness', 'apps/poms-api/src/app/features/contract-finance', 'apps/poms-api/src/migrations', 'libs/shared/contracts/src', 'libs/api/contracts/src']) {
     function scan(dir) { for (const entry of fs.readdirSync(dir, { withFileTypes: true })) { const file = `${dir}/${entry.name}`; if (entry.isDirectory()) scan(file); else if (entry.isFile()) readScope.add(file); } } scan(root);
@@ -102,7 +134,7 @@ for (const source of sources) {
     assert.equal(pin(source.file).rawBytesSha256, source.rawBytesSha256, `Unstable source ${source.file}`);
     source.original = dest;
 }
-const outputs = ['operation-map', 'schema-authority', 'target-full-spec', 'schema'].map(name => pin(`${out}/${name}${edition}.${name === 'schema' ? 'sql' : 'json'}`));
-const manifest = { kind: 'R4-DEF-joint-G1-static-candidate02', createdAt: new Date().toISOString(), base: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), counts: { D: 7, E: 11, F: 12, total: 30, existing: 28, new: 2, currentFull: 291, targetFull: 293, currentRust: 210, expectedRustAfterBatch: 240, changedSchemas: schemaChanges.length, targetSchemas: Object.keys(target.components.schemas).length, sourcePins: sources.length }, sources, outputs, sqlFiles, model: { authorsAndReviewer: 'gpt-6.1-sol', effort: 'max', fast: 'unverified' }, G1Certified: false, G2Authorized: false, runtimeExecuted: false, oldFailedAndPartialPreserved: true };
+const outputs = ['operation-map', 'schema-authority', 'target-full-spec', 'schema', 'openapi-normalization'].map(name => pin(`${out}/${name}${edition}.${name === 'schema' ? 'sql' : 'json'}`));
+const manifest = { kind: `R4-DEF-joint-G1-static-candidate${edition}`, createdAt: new Date().toISOString(), base: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), counts: { D: 7, E: 11, F: 12, total: 30, existing: 28, new: 2, currentFull: 291, targetFull: 293, currentRust: 210, expectedRustAfterBatch: 240, changedSchemas: schemaChanges.length, targetSchemas: Object.keys(target.components.schemas).length, sourcePins: sources.length }, sources, outputs, sqlFiles, model: { authorsAndReviewer: 'gpt-6.1-sol', effort: 'max', fast: 'unverified' }, G1Certified: false, G2Authorized: false, runtimeExecuted: false, oldFailedAndPartialPreserved: true };
 fs.writeFileSync(`${out}/manifest${edition}.json`, JSON.stringify(manifest, null, 2) + '\n', { flag: 'wx' });
 console.log(JSON.stringify({ counts: manifest.counts, manifest: pin(`${out}/manifest${edition}.json`) }));

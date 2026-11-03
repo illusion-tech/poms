@@ -1,0 +1,180 @@
+//! Explicit financial DTOs. Database dates and instants have separate types.
+use chrono::{DateTime, NaiveDate, SecondsFormat, Utc};
+use serde_json::{Value, json};
+use uuid::Uuid;
+
+pub(super) fn iso(value: DateTime<Utc>) -> String {
+    value.to_rfc3339_opts(SecondsFormat::Millis, true)
+}
+
+#[derive(Clone, PartialEq)]
+pub(super) struct Receipt {
+    pub id: Uuid,
+    pub contract_id: Uuid,
+    pub project_id: Uuid,
+    pub receipt_amount: String,
+    pub receipt_date: DateTime<Utc>,
+    pub source_type: String,
+    pub status: String,
+    pub confirmed_at: Option<DateTime<Utc>>,
+    pub confirmed_by: Option<Uuid>,
+    pub row_version: i32,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+}
+impl Receipt {
+    pub fn summary(&self) -> Value {
+        json!({
+            "id":self.id,"contractId":self.contract_id,"projectId":self.project_id,
+            "receiptAmount":self.receipt_amount,"receiptDate":iso(self.receipt_date),
+            "sourceType":self.source_type,"status":self.status,
+            "confirmedAt":self.confirmed_at.map(iso),"confirmedBy":self.confirmed_by,
+            "rowVersion":self.row_version,"createdAt":iso(self.created_at),"updatedAt":iso(self.updated_at)
+        })
+    }
+}
+
+#[derive(Clone, PartialEq)]
+pub(super) struct Payable {
+    pub id: Uuid,
+    pub project_id: Uuid,
+    pub contract_id: Option<Uuid>,
+    pub vendor_name: String,
+    pub cost_category: String,
+    pub payable_description: String,
+    pub currency: String,
+    pub amount_excluding_tax: String,
+    pub tax_amount: Option<String>,
+    pub amount_including_tax: Option<String>,
+    pub expected_payment_date: NaiveDate,
+    pub status: String,
+    pub evidence_summary: Option<String>,
+    pub attachment_count: i32,
+    pub closed_at: Option<DateTime<Utc>>,
+    pub close_reason: Option<String>,
+    pub voided_at: Option<DateTime<Utc>>,
+    pub void_reason: Option<String>,
+    pub row_version: i32,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+    pub settled_amount: String,
+    pub any_payment: bool,
+}
+impl Payable {
+    pub fn summary(&self) -> Value {
+        json!({
+            "id":self.id,"projectId":self.project_id,"contractId":self.contract_id,
+            "vendorName":self.vendor_name,"costCategory":self.cost_category,
+            "payableDescription":self.payable_description,"currency":self.currency,
+            "amountExcludingTax":self.amount_excluding_tax,"taxAmount":self.tax_amount,
+            "amountIncludingTax":self.amount_including_tax,"settledAmountExcludingTax":self.settled_amount,
+            "expectedPaymentDate":self.expected_payment_date.to_string(),"status":self.status,
+            "evidenceSummary":self.evidence_summary,"attachmentCount":self.attachment_count,
+            "closedAt":self.closed_at.map(iso),"closeReason":self.close_reason,
+            "voidedAt":self.voided_at.map(iso),"voidReason":self.void_reason,
+            "rowVersion":self.row_version,"createdAt":iso(self.created_at),"updatedAt":iso(self.updated_at)
+        })
+    }
+    pub fn detail(&self, mapped: bool) -> Value {
+        let mut result = self.summary();
+        let mut actions = Vec::new();
+        if !mapped && self.status != "voided" {
+            if matches!(self.status.as_str(), "draft" | "recorded") {
+                actions.push("update");
+            }
+            if self.status != "closed" {
+                actions.push("close");
+            }
+            if !self.any_payment {
+                // Existing response action key, distinct from the :void route.
+                actions.push("voided");
+            }
+        }
+        result["allowedActions"] = json!(actions);
+        result
+    }
+}
+
+#[derive(Clone, PartialEq)]
+pub(super) struct Payment {
+    pub id: Uuid,
+    pub project_id: Uuid,
+    pub contract_id: Option<Uuid>,
+    pub payable_record_id: Option<Uuid>,
+    pub currency: String,
+    pub amount_excluding_tax: String,
+    pub tax_amount: Option<String>,
+    pub amount_including_tax: Option<String>,
+    pub payment_date: DateTime<Utc>,
+    pub cost_category: String,
+    pub source_type: String,
+    pub status: String,
+    pub confirmed_at: Option<DateTime<Utc>>,
+    pub confirmed_by: Option<Uuid>,
+    pub row_version: i32,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+}
+impl Payment {
+    pub fn summary(&self) -> Value {
+        json!({
+            "id":self.id,"projectId":self.project_id,"contractId":self.contract_id,
+            "payableRecordId":self.payable_record_id,"currency":self.currency,
+            "amountExcludingTax":self.amount_excluding_tax,"taxAmount":self.tax_amount,
+            "amountIncludingTax":self.amount_including_tax,"paymentDate":iso(self.payment_date),
+            "costCategory":self.cost_category,"sourceType":self.source_type,"status":self.status,
+            "confirmedAt":self.confirmed_at.map(iso),"confirmedBy":self.confirmed_by,
+            "rowVersion":self.row_version,"createdAt":iso(self.created_at),"updatedAt":iso(self.updated_at)
+        })
+    }
+}
+
+#[derive(Clone, PartialEq)]
+pub(super) struct Invoice {
+    pub id: Uuid,
+    pub project_id: Uuid,
+    pub contract_id: Option<Uuid>,
+    pub invoice_type: String,
+    pub invoice_number: String,
+    pub invoice_amount: String,
+    pub invoice_date: NaiveDate,
+    pub status: String,
+    pub exception_status: String,
+    pub exception_reason: Option<String>,
+    pub exception_resolution: Option<String>,
+    pub closed_at: Option<DateTime<Utc>>,
+    pub close_reason: Option<String>,
+    pub row_version: i32,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+}
+impl Invoice {
+    pub fn summary(&self) -> Value {
+        json!({
+            "id":self.id,"projectId":self.project_id,"contractId":self.contract_id,
+            "invoiceType":self.invoice_type,"invoiceNumber":self.invoice_number,
+            "invoiceAmount":self.invoice_amount,"invoiceDate":self.invoice_date.to_string(),
+            "status":self.status,"exceptionStatus":self.exception_status,
+            "exceptionReason":self.exception_reason,"exceptionResolution":self.exception_resolution,
+            "closedAt":self.closed_at.map(iso),"closeReason":self.close_reason,
+            "rowVersion":self.row_version,"createdAt":iso(self.created_at),"updatedAt":iso(self.updated_at)
+        })
+    }
+    pub fn detail(&self, mapped: bool) -> Value {
+        let mut result = self.summary();
+        let actions = if mapped || self.status == "closed" {
+            Vec::new()
+        } else if self.exception_status == "open" {
+            if self.status == "exception" {
+                vec!["resolve-exception"]
+            } else {
+                Vec::new()
+            }
+        } else {
+            // A resolved exception retains history while ordinary PATCH remains valid.
+            vec!["update", "mark-exception", "close"]
+        };
+        result["allowedActions"] = json!(actions);
+        result
+    }
+}

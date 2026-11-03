@@ -1,0 +1,626 @@
+//! Finite request-schema interpreter for the reviewed R4 first-37 closure.
+//! Generated input combines current OpenAPI with statically admitted Shared
+//! trim/default/refine rules. No Node runtime, database or transaction access.
+use std::collections::BTreeSet;
+use std::sync::OnceLock;
+
+use axum::http::StatusCode;
+use chrono::NaiveDate;
+use serde_json::{Map, Number, Value, json};
+use uuid::Uuid;
+
+use crate::error::ApiError;
+
+const INPUT: &str = include_str!("../../../../tools/rust-r4abc/validation-input01.json");
+
+fn manifest() -> Result<&'static Value, ApiError> {
+    static PARSED: OnceLock<Option<Value>> = OnceLock::new();
+    let input = PARSED
+        .get_or_init(|| serde_json::from_str(INPUT).ok())
+        .as_ref()
+        .ok_or_else(ApiError::internal)?;
+    if input.get("version").and_then(Value::as_u64) != Some(1)
+        || input.get("operationCount").and_then(Value::as_u64) != Some(37)
+    {
+        return Err(ApiError::internal());
+    }
+    Ok(input)
+}
+
+fn failure(errors: Vec<Value>) -> ApiError {
+    ApiError::object(
+        StatusCode::BAD_REQUEST,
+        json!({"statusCode":400,"message":"Validation failed","errors":errors}),
+    )
+}
+
+fn kind(input: Option<&Value>) -> &'static str {
+    match input {
+        None => "undefined",
+        Some(Value::Null) => "null",
+        Some(Value::Bool(_)) => "boolean",
+        Some(Value::Number(_)) => "number",
+        Some(Value::String(_)) => "string",
+        Some(Value::Array(_)) => "array",
+        Some(Value::Object(_)) => "object",
+    }
+}
+
+fn invalid_type(expected: &str, input: Option<&Value>, path: &[Value]) -> Value {
+    json!({"expected":expected,"code":"invalid_type","path":path,
+        "message":format!("Invalid input: expected {expected}, received {}",kind(input))})
+}
+
+fn custom(path: &[Value], message: &str) -> Value {
+    json!({"code":"custom","path":path,"message":message})
+}
+
+fn trim_js(value: &str) -> &str {
+    value.trim_matches(|character| {
+        matches!(character,
+        '\u{0009}'..='\u{000d}' | '\u{0020}' | '\u{00a0}' | '\u{1680}' |
+        '\u{2000}'..='\u{200a}' | '\u{2028}' | '\u{2029}' | '\u{202f}' |
+        '\u{205f}' | '\u{3000}' | '\u{feff}')
+    })
+}
+
+fn valid_date(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.len() == 10
+        && bytes[4] == b'-'
+        && bytes[7] == b'-'
+        && bytes
+            .iter()
+            .enumerate()
+            .all(|(index, byte)| [4, 7].contains(&index) || byte.is_ascii_digit())
+        && NaiveDate::parse_from_str(value, "%Y-%m-%d").is_ok()
+}
+
+fn valid_datetime(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    if bytes.len() < 20
+        || !value.ends_with('Z')
+        || bytes[10] != b'T'
+        || bytes[13] != b':'
+        || bytes[16] != b':'
+        || !valid_date(&value[..10])
+        || ![11, 12, 14, 15, 17, 18]
+            .iter()
+            .all(|index| bytes[*index].is_ascii_digit())
+        || &bytes[11..13] > b"23".as_slice()
+        || &bytes[14..16] > b"59".as_slice()
+        || &bytes[17..19] > b"59".as_slice()
+    {
+        return false;
+    }
+    if bytes.len() != 20
+        && (bytes[19] != b'.'
+            || bytes.len() < 22
+            || !bytes[20..bytes.len() - 1].iter().all(u8::is_ascii_digit))
+    {
+        return false;
+    }
+    // The admitted Shared regex permits arbitrary fractional precision. The
+    // Gregorian/date and all time bytes are already checked; do not impose a
+    // timestamp parser's storage precision on this request string.
+    true
+}
+
+fn uuid(value: &str) -> Option<Uuid> {
+    let bytes = value.as_bytes();
+    if bytes.len() != 36
+        || !bytes.iter().enumerate().all(|(index, byte)| {
+            if [8, 13, 18, 23].contains(&index) {
+                *byte == b'-'
+            } else {
+                byte.is_ascii_hexdigit()
+            }
+        })
+    {
+        return None;
+    }
+    let id = Uuid::parse_str(value).ok()?;
+    if id.is_nil() || value == "ffffffff-ffff-ffff-ffff-ffffffffffff" {
+        return Some(id);
+    }
+    ((b'1'..=b'8').contains(&bytes[14])
+        && matches!(bytes[19], b'8' | b'9' | b'a' | b'A' | b'b' | b'B'))
+    .then_some(id)
+}
+
+fn bound_issue(origin: &str, small: bool, bound: &Value, inclusive: bool, path: &[Value]) -> Value {
+    let code = if small { "too_small" } else { "too_big" };
+    let relation = match (small, inclusive) {
+        (true, true) => ">=",
+        (true, false) => ">",
+        (false, true) => "<=",
+        (false, false) => "<",
+    };
+    let description = match origin {
+        "string" => format!("string to have {relation}{bound} characters"),
+        "array" => format!("array to have {relation}{bound} items"),
+        _ => format!("number to be {relation}{bound}"),
+    };
+    let mut result = json!({"origin":origin,"code":code,"inclusive":inclusive,"path":path,
+        "message":format!("{}: expected {description}",if small {"Too small"} else {"Too big"})});
+    result[if small { "minimum" } else { "maximum" }] = bound.clone();
+    result
+}
+
+fn length_bounds(
+    schema: &Value,
+    length: usize,
+    origin: &str,
+    min: &str,
+    max: &str,
+    path: &[Value],
+    errors: &mut Vec<Value>,
+) {
+    if let Some(bound) = schema.get(min).and_then(Value::as_u64)
+        && (length as u128) < u128::from(bound)
+    {
+        errors.push(bound_issue(origin, true, &json!(bound), true, path));
+    }
+    if let Some(bound) = schema.get(max).and_then(Value::as_u64)
+        && (length as u128) > u128::from(bound)
+    {
+        errors.push(bound_issue(origin, false, &json!(bound), true, path));
+    }
+}
+
+fn merge(left: &mut Value, right: Value) {
+    match (left, right) {
+        (Value::Object(left), Value::Object(right)) => left.extend(right),
+        (left, right) => *left = right,
+    }
+}
+
+fn walk(
+    schema: &Value,
+    input: Option<&Value>,
+    required: bool,
+    path: &[Value],
+    depth: usize,
+    schemas: &Value,
+    errors: &mut Vec<Value>,
+) -> Result<Option<Value>, ApiError> {
+    if depth > 64 {
+        return Err(ApiError::internal());
+    }
+    if let Some(reference) = schema.get("$ref").and_then(Value::as_str) {
+        let name = reference
+            .strip_prefix("#/components/schemas/")
+            .ok_or_else(ApiError::internal)?;
+        let target = schemas.get(name).ok_or_else(ApiError::internal)?;
+        let mut resolved = target.as_object().cloned().ok_or_else(ApiError::internal)?;
+        for (key, value) in schema.as_object().ok_or_else(ApiError::internal)? {
+            if key != "$ref" {
+                resolved.insert(key.clone(), value.clone());
+            }
+        }
+        return walk(
+            &Value::Object(resolved),
+            input,
+            required,
+            path,
+            depth + 1,
+            schemas,
+            errors,
+        );
+    }
+    let default;
+    let input = if input.is_none() {
+        if let Some(value) = schema.get("default") {
+            default = value.clone();
+            Some(&default)
+        } else if !required {
+            return Ok(None);
+        } else {
+            None
+        }
+    } else {
+        input
+    };
+    if input.is_some_and(Value::is_null)
+        && (schema.get("nullable") == Some(&Value::Bool(true))
+            || schema.get("type") == Some(&json!("null"))
+            || schema
+                .get("type")
+                .and_then(Value::as_array)
+                .is_some_and(|values| values.contains(&json!("null"))))
+    {
+        return Ok(Some(Value::Null));
+    }
+    if let Some(types) = schema.get("type").and_then(Value::as_array) {
+        let selected = types
+            .iter()
+            .filter_map(Value::as_str)
+            .find(|expected| match *expected {
+                "integer" => input
+                    .and_then(Value::as_f64)
+                    .is_some_and(|number| number.is_finite() && number.fract() == 0.0),
+                "number" => input.is_some_and(Value::is_number),
+                other => other == kind(input),
+            });
+        let Some(selected) = selected else {
+            errors.push(invalid_type(
+                &types
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .collect::<Vec<_>>()
+                    .join("|"),
+                input,
+                path,
+            ));
+            return Ok(input.cloned());
+        };
+        let mut resolved = schema.as_object().cloned().ok_or_else(ApiError::internal)?;
+        resolved.insert("type".into(), json!(selected));
+        return walk(
+            &Value::Object(resolved),
+            input,
+            required,
+            path,
+            depth + 1,
+            schemas,
+            errors,
+        );
+    }
+    for keyword in ["anyOf", "oneOf"] {
+        if let Some(branches) = schema.get(keyword).and_then(Value::as_array) {
+            let mut attempts = Vec::new();
+            let mut successes = Vec::new();
+            for branch in branches {
+                let mut branch_errors = Vec::new();
+                let result = walk(
+                    branch,
+                    input,
+                    required,
+                    path,
+                    depth + 1,
+                    schemas,
+                    &mut branch_errors,
+                )?;
+                if branch_errors.is_empty() {
+                    successes.push(result);
+                } else {
+                    attempts.push(branch_errors);
+                }
+            }
+            if successes.len() == 1 || (keyword == "anyOf" && !successes.is_empty()) {
+                return Ok(successes.remove(0));
+            }
+            errors.push(json!({"code":"invalid_union","errors":attempts,"path":path,"message":"Invalid input"}));
+            return Ok(input.cloned());
+        }
+    }
+    let combined;
+    let input = if let Some(parts) = schema.get("allOf").and_then(Value::as_array) {
+        let mut result = Value::Object(Map::new());
+        for part in parts {
+            if let Some(value) = walk(part, input, required, path, depth + 1, schemas, errors)? {
+                merge(&mut result, value);
+            }
+        }
+        combined = result;
+        Some(&combined)
+    } else {
+        input
+    };
+    let expected = schema.get("type").and_then(Value::as_str);
+    let output = match expected {
+        Some("object") => {
+            let Some(value) = input.and_then(Value::as_object) else {
+                errors.push(invalid_type("object", input, path));
+                return Ok(input.cloned());
+            };
+            let properties = schema
+                .get("properties")
+                .and_then(Value::as_object)
+                .ok_or_else(ApiError::internal)?;
+            let mut result = Map::new();
+            for (key, child) in properties {
+                let mut child_path = path.to_vec();
+                child_path.push(json!(key));
+                let required = schema
+                    .get("required")
+                    .and_then(Value::as_array)
+                    .is_some_and(|keys| keys.contains(&json!(key)));
+                if let Some(value) = walk(
+                    child,
+                    value.get(key),
+                    required,
+                    &child_path,
+                    depth + 1,
+                    schemas,
+                    errors,
+                )? {
+                    result.insert(key.clone(), value);
+                }
+            }
+            // Current z.object strips all undeclared keys, recursively.
+            Value::Object(result)
+        }
+        Some("array") => {
+            let Some(values) = input.and_then(Value::as_array) else {
+                errors.push(invalid_type("array", input, path));
+                return Ok(input.cloned());
+            };
+            length_bounds(
+                schema,
+                values.len(),
+                "array",
+                "minItems",
+                "maxItems",
+                path,
+                errors,
+            );
+            let item = schema.get("items").ok_or_else(ApiError::internal)?;
+            let mut result = Vec::new();
+            for (index, value) in values.iter().enumerate() {
+                let mut child_path = path.to_vec();
+                child_path.push(json!(index));
+                result.push(
+                    walk(
+                        item,
+                        Some(value),
+                        true,
+                        &child_path,
+                        depth + 1,
+                        schemas,
+                        errors,
+                    )?
+                    .unwrap_or(Value::Null),
+                );
+            }
+            Value::Array(result)
+        }
+        Some("string") => {
+            let Some(value) = input.and_then(Value::as_str) else {
+                errors.push(invalid_type("string", input, path));
+                return Ok(input.cloned());
+            };
+            let value = if schema.get("x-r4-trim") == Some(&Value::Bool(true)) {
+                trim_js(value)
+            } else {
+                value
+            };
+            length_bounds(
+                schema,
+                value.encode_utf16().count(),
+                "string",
+                "minLength",
+                "maxLength",
+                path,
+                errors,
+            );
+            let mut canonical = value.to_owned();
+            if let Some(format) = schema.get("format").and_then(Value::as_str) {
+                let valid = match format {
+                    "uuid" => match uuid(value) {
+                        Some(id) => {
+                            canonical = id.to_string();
+                            true
+                        }
+                        None => false,
+                    },
+                    "date" => valid_date(value),
+                    "date-time" => valid_datetime(value),
+                    _ => return Err(ApiError::internal()),
+                };
+                if !valid {
+                    errors.push(json!({"origin":"string","code":"invalid_format","format":format,"path":path,
+                        "message":format!("Invalid {}",if format=="date-time" {"ISO datetime"} else if format=="date" {"ISO date"} else {"UUID"})}));
+                }
+            }
+            if let Some(scalar) = schema.get("x-r4-scalar").and_then(Value::as_str) {
+                let (valid, message) = match scalar {
+                    "positive-money" => (
+                        super::money(value).is_ok(),
+                        "Expected a positive amount within numeric(18,2)",
+                    ),
+                    "nonnegative-money" => (
+                        super::nonnegative_money(value).is_ok(),
+                        "Expected a nonnegative amount within numeric(18,2)",
+                    ),
+                    "ratio" => (
+                        super::ratio(value).is_ok(),
+                        "Expected a ratio between zero and one",
+                    ),
+                    _ => return Err(ApiError::internal()),
+                };
+                if !valid {
+                    errors.push(custom(path, message));
+                }
+            } else if schema.get("pattern").is_some() && schema.get("format").is_none() {
+                return Err(ApiError::internal());
+            }
+            Value::String(canonical)
+        }
+        Some("integer" | "number") => {
+            let Some(value) = input
+                .and_then(Value::as_f64)
+                .filter(|number| number.is_finite())
+            else {
+                errors.push(invalid_type(expected.unwrap_or("number"), input, path));
+                return Ok(input.cloned());
+            };
+            if expected == Some("integer") && value.fract() != 0.0 {
+                errors.push(invalid_type("int", input, path));
+            }
+            for (minimum, exclusive, small) in [
+                ("minimum", "exclusiveMinimum", true),
+                ("maximum", "exclusiveMaximum", false),
+            ] {
+                let limit = schema
+                    .get(exclusive)
+                    .filter(|value| value.is_number())
+                    .or_else(|| schema.get(minimum));
+                if let Some(bound) = limit.and_then(Value::as_f64) {
+                    let exclusive = schema
+                        .get(exclusive)
+                        .is_some_and(|value| value == &Value::Bool(true) || value.is_number());
+                    let invalid = if small {
+                        if exclusive {
+                            value <= bound
+                        } else {
+                            value < bound
+                        }
+                    } else if exclusive {
+                        value >= bound
+                    } else {
+                        value > bound
+                    };
+                    if invalid {
+                        errors.push(bound_issue(
+                            "number",
+                            small,
+                            limit.ok_or_else(ApiError::internal)?,
+                            !exclusive,
+                            path,
+                        ));
+                    }
+                }
+            }
+            if expected == Some("integer")
+                && value.fract() == 0.0
+                && value.abs() <= 9_007_199_254_740_991.0
+            {
+                Value::Number(Number::from(value as i64))
+            } else {
+                input.cloned().ok_or_else(ApiError::internal)?
+            }
+        }
+        Some("boolean") => {
+            if !input.is_some_and(Value::is_boolean) {
+                errors.push(invalid_type("boolean", input, path));
+            }
+            input.cloned().unwrap_or(Value::Null)
+        }
+        Some("null") => {
+            if !input.is_some_and(Value::is_null) {
+                errors.push(invalid_type("null", input, path));
+            }
+            Value::Null
+        }
+        None => input.cloned().unwrap_or(Value::Null),
+        _ => return Err(ApiError::internal()),
+    };
+    if let Some(values) = schema.get("enum").and_then(Value::as_array)
+        && !values.contains(&output)
+    {
+        errors.push(json!({"code":"invalid_value","values":values,"path":path,"message":"Invalid option: expected one of the declared values"}));
+    }
+    if let Some(value) = schema.get("const")
+        && value != &output
+    {
+        errors.push(json!({"code":"invalid_value","values":[value],"path":path,"message":"Invalid input: expected the declared literal"}));
+    }
+    if let Some(rule) = schema.get("x-r4-at-least-one") {
+        let keys = rule
+            .get("keys")
+            .and_then(Value::as_array)
+            .ok_or_else(ApiError::internal)?;
+        if !keys
+            .iter()
+            .filter_map(Value::as_str)
+            .any(|key| output.get(key).is_some())
+        {
+            errors.push(custom(
+                path,
+                rule.get("message")
+                    .and_then(Value::as_str)
+                    .ok_or_else(ApiError::internal)?,
+            ));
+        }
+    }
+    if let Some(message) = schema
+        .get("x-r4-unique-contract-ids")
+        .and_then(Value::as_str)
+        && let Some(values) = output.as_array()
+    {
+        let mut identities = BTreeSet::new();
+        if values
+            .iter()
+            .filter_map(|value| value.get("contractId").and_then(Value::as_str))
+            .any(|id| !identities.insert(id.to_ascii_lowercase()))
+        {
+            errors.push(custom(path, message));
+        }
+    }
+    Ok(Some(output))
+}
+
+fn operation(operation_id: &str) -> Result<(&'static Value, &'static Value), ApiError> {
+    let input = manifest()?;
+    Ok((
+        input
+            .get("operations")
+            .and_then(|operations| operations.get(operation_id))
+            .ok_or_else(ApiError::internal)?,
+        input.get("schemas").ok_or_else(ApiError::internal)?,
+    ))
+}
+
+pub fn validate_body(operation_id: &str, raw: Option<&str>) -> Result<Value, ApiError> {
+    let (operation, schemas) = operation(operation_id)?;
+    let schema = operation.get("body").ok_or_else(ApiError::internal)?;
+    if schema.is_null() {
+        return Ok(json!({}));
+    }
+    let parsed = raw
+        .map(serde_json::from_str::<Value>)
+        .transpose()
+        .map_err(|_| failure(vec![custom(&[], "Invalid JSON body")]))?;
+    let mut errors = Vec::new();
+    let output = walk(
+        schema,
+        parsed.as_ref(),
+        operation.get("bodyRequired") == Some(&Value::Bool(true)),
+        &[],
+        0,
+        schemas,
+        &mut errors,
+    )?;
+    if errors.is_empty() {
+        Ok(output.unwrap_or_else(|| json!({})))
+    } else {
+        Err(failure(errors))
+    }
+}
+
+pub fn validate_query(operation_id: &str, raw_query: Option<&str>) -> Result<Value, ApiError> {
+    let (operation, schemas) = operation(operation_id)?;
+    let mut input = Map::new();
+    for (key, value) in url::form_urlencoded::parse(raw_query.unwrap_or("").as_bytes()) {
+        let value = Value::String(value.into_owned());
+        match input.entry(key.into_owned()) {
+            serde_json::map::Entry::Vacant(entry) => {
+                entry.insert(value);
+            }
+            serde_json::map::Entry::Occupied(mut entry) => {
+                if let Value::Array(values) = entry.get_mut() {
+                    values.push(value);
+                } else {
+                    let previous = entry.get().clone();
+                    entry.insert(Value::Array(vec![previous, value]));
+                }
+            }
+        }
+    }
+    let mut errors = Vec::new();
+    let output = walk(
+        operation.get("query").ok_or_else(ApiError::internal)?,
+        Some(&Value::Object(input)),
+        true,
+        &[],
+        0,
+        schemas,
+        &mut errors,
+    )?;
+    if errors.is_empty() {
+        Ok(output.unwrap_or_else(|| json!({})))
+    } else {
+        Err(failure(errors))
+    }
+}

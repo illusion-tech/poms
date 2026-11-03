@@ -1,0 +1,15 @@
+# R4 DEF G2 独占文件与共享接线归属
+
+这是联合 G1 的准入条件，不单独授权产品编码。冻结后使用独立托管工作树；任何超白名单的必要修改先报告 Root，由单一负责人接入。
+
+| Owner         | 产品白名单                                                                                                                                                                                          | 支持文件                                                                                                                             | 明确禁止并发修改                                                                   |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| D #107        | `apps/poms-api-rust/src/project_handover/**`、`apps/poms-api-rust/src/contracts/**`、`apps/poms-api-rust/src/contract_readiness/**`；仅受控合同变更所需 `apps/poms-api-rust/src/approval/domain.rs` | 原 `project-contract-handover.ts` / `.spec.ts` 及同目录新增 `project-handover-*` UI/helpers；作者测试/工具限 `tools/rust-r4def/D/**` | Shared、DTO、spec/client、迁移/entity、公共 HTTP/lib/Cargo、其他审批模块和正式治理 |
+| E #108        | `apps/poms-api-rust/src/project_actual_cost/**`                                                                                                                                                     | 作者测试/工具限 `tools/rust-r4def/E/**`                                                                                              | D/F 模块、公共 support、Shared、DTO、迁移/entity、spec/client、UI、Git/GitHub      |
+| F #109        | `apps/poms-api-rust/src/project_cost_governance/**`                                                                                                                                                 | 作者测试/工具限 `tools/rust-r4def/F/**`                                                                                              | D/E 模块、公共 support、Shared、DTO、迁移/entity、spec/client、UI、Git/GitHub      |
+| Root          | `execution_support/**`、`contract_support/**`、`http.rs`、`lib.rs`、Cargo/工具链；必要发票币种的 `contract_finance/**`；新 migration/entity、Shared/DTO/spec/client/生成器及其他必要消费者接线      | 正式基线/状态/归档、Git/GitHub、所有真实环境/构建/PG/HTTP/browser/故障/并发/cleanup与来源保全                                        | 不在作者工作树改作者文件；作者完成后集中导入独占文件，统一候选只由 Root 接线       |
+| 独立 reviewer | 不写产品，仅在 `tmp/rust-r4def/independent/**` 保存分版审核与原件                                                                                                                                   | 非作者 G1、统一候选 G3、固定提交/main、G4关闭方案与实际状态复核                                                                      | 不以作者自评代审，不替作者修复或改变既有失败原件                                   |
+
+三个实现模块使用 protocol01 的同一 `execute` 签名和 Root 外层事务。作者可以运行隔离静态检查/纯逻辑测试；统一 DB、对象存储、网络端口、数据和原 UI 运行由 Root 协调。D 的 Angular 修改遵循现有 Angular22.1.6/既有表单，Root 完成实际 Angular build 和真实浏览器验收。
+
+Root 集成只导入作者白名单路径，保留基线与来源。公共声明/模块注册和 D 所需新字段由 Root 按冻结输入统一同步，不复制作者整个工作树。共享文件发生新需求时先统一责任及冻结差异，再修改；不得多人各造相似协议。

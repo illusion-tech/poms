@@ -69,3 +69,10 @@ docs/design/archive/slices/rust-r3m/**/*.bin binary
 # R4 source and console originals are binary evidence; preserve exact bytes.
 docs/design/rust-r4abc/**/*.bin binary
 docs/design/archive/slices/rust-r4abc/**/*.bin binary
+
+# R4 DEF certified source originals retain bytes through cloning and archiving.
+docs/design/rust-r4def/**/*.bin binary
+docs/design/archive/slices/rust-r4def/**/*.bin binary
+# Failed G1 candidate02 is retained evidence, not the executable SQL authority.
+docs/design/rust-r4def/joint-g1-02/schema02.sql binary
+docs/design/archive/slices/rust-r4def/joint-g1-02/schema02.sql binary
