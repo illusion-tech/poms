@@ -1,0 +1,382 @@
+{
+  "schema": "poms-r4abc-independent-g4-preclose/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "role": "Non-author independent Gate reviewer",
+  "reviewedAtUtc": "2026-11-03T17:33:25.9122958Z",
+  "decision": "Pass",
+  "G4ClosePermission": true,
+  "G4Certified": false,
+  "actualClosureApplied": false,
+  "planSha256": "062404d37afe1f6c490a86720d1faea76f0cba97d08c4e800b759ab46ffd3ef0",
+  "plan": {
+    "file": "docs/design/archive/slices/rust-r4abc/g4-plan65/plan65.json",
+    "bytes": 43481,
+    "sha256": "062404d37afe1f6c490a86720d1faea76f0cba97d08c4e800b759ab46ffd3ef0"
+  },
+  "scope": "One execution of the exact six-Issue plan65; close only the completed first37 batch and its three children. This is preclose authorization, not final actual G4 certification.",
+  "authorization": {
+    "repository": "illusion-tech/poms",
+    "exactPlanSha256": "062404d37afe1f6c490a86720d1faea76f0cba97d08c4e800b759ab46ffd3ef0",
+    "closeOnly": [
+      103,
+      104,
+      105,
+      102
+    ],
+    "maintainBodiesAndCommentsButKeepOpen": [
+      101,
+      57
+    ],
+    "executionOrder": [
+      103,
+      104,
+      105,
+      102,
+      101,
+      57
+    ],
+    "exactApprovedBodyAndCommentHashes": [
+      {
+        "issue": 103,
+        "beforeState": "open",
+        "beforeBodySha256": "bf73b86b963372216d9f7f2f0bc88a48d412bfff476fd959b7fadf31be08be85",
+        "beforeExact": true,
+        "desiredState": "CLOSED",
+        "bodySha256": "08c44ae7b4786be9478672ce4d87f238b19c0eada1a69678b898ed8fc838ec54",
+        "commentSha256": "b3393660ad46626617eea758d8a11185d8bb189159a85927179e22f9313cea9e"
+      },
+      {
+        "issue": 104,
+        "beforeState": "open",
+        "beforeBodySha256": "031d05954acd536ca54c71e550ea58479ffd996ed21cce3fca9dee564229d209",
+        "beforeExact": true,
+        "desiredState": "CLOSED",
+        "bodySha256": "b5f0b598f9d47410505782265b63d367f4420112ab314adf4c35739847d56cd0",
+        "commentSha256": "77af29cf5200d98c80f73b2bcebb7d045540bdfd9ecdb7e5affef4039c0b8e47"
+      },
+      {
+        "issue": 105,
+        "beforeState": "open",
+        "beforeBodySha256": "15d18c507c7cd6c7f31d2d5b759748bad4dd3867bd153aa2a6aeab87739e8f0f",
+        "beforeExact": true,
+        "desiredState": "CLOSED",
+        "bodySha256": "00bdd27ecac194e670d2cececf90690f35bfca29c66f099b035b125aacc9567c",
+        "commentSha256": "c714b97e09cd37825262a44eb671462f27c2b421c9f2256dc110000594d56582"
+      },
+      {
+        "issue": 102,
+        "beforeState": "open",
+        "beforeBodySha256": "cdc24938b859f26a7893d42fce26584e6b9b1a35356f75ed6da2ba9b3f8a4573",
+        "beforeExact": true,
+        "desiredState": "CLOSED",
+        "bodySha256": "a1a6089801d7eb0880026559e394a293cb371c20b848d5163505ffb8b6d4054a",
+        "commentSha256": "235ec29017f9f8dfd0dfe8282cce442185b40c75356371406647391c9757c76a"
+      },
+      {
+        "issue": 101,
+        "beforeState": "open",
+        "beforeBodySha256": "2b864cef4cc7a99674c13a64b6fc32ea68cc58275e769992b9f2bef89defb5be",
+        "beforeExact": true,
+        "desiredState": "OPEN",
+        "bodySha256": "c5f2fc4984926c0bfa5906d6adc6b56cf2bd6c47dbd3b39aec799f3c78d058ff",
+        "commentSha256": "24edf118ce4042b0665524fcf3817f123c3f40e5a945f3f3d84b1516a35f4587"
+      },
+      {
+        "issue": 57,
+        "beforeState": "open",
+        "beforeBodySha256": "dce1c1e599f5f9013b7f1dd087b1fd6827576be75a265d9150208b4f37dab68e",
+        "beforeExact": true,
+        "desiredState": "OPEN",
+        "bodySha256": "ecf2751886e2e000d994de78f48174d6117649fb4be098b5048b555978308738",
+        "commentSha256": "a0de5289fc755e50c3c3368e0de5118e46acc9c30ea2d118801174c8203e8263"
+      }
+    ],
+    "anyAdditionalIssueOrScopeAuthorized": false,
+    "rootExecutesActualWrites": true,
+    "reviewerWritesIssues": false,
+    "finalIndependentActualReadbackReviewRequired": "g4-independent actual review12 after original API readback and local synchronization"
+  },
+  "preconditions": [
+    "Use the exact approved plan bytes/body/comment/state for this one execution. Re-read current Issue state/body and native parent-child relationships before the first mutation; stop on drift from sourceBefore rather than silently replacing the approved plan.",
+    "Preserve the exact a299 implementation, permanent S3 ancestry and reviewed949 product bytes; metadata-only archival ancestry17c remains the bound archive base.",
+    "Follow103->104->105->102->101->57. Before closing102, recheck that103/104/105 are actually Closed. Keep101 and57 Open.",
+    "Save actual PATCH/POST responses and comments, then read all six state/body/comment/native edges back exactly and synchronize local current indices. A failed or partial attempt retains its true label; do not claim final G4.",
+    "Completed-tense body/comment text is approved as the target state of the successful ordered application. It is not evidence that any write has already happened. Final actual independent G4 signature remains pending review12."
+  ],
+  "liveBeforeReview": {
+    "readOnlyGitHubConnector": "fetch_issue for six current issues; issue fields/body strings preserved in independent before artifact",
+    "exactBeforeArtifact": {
+      "file": "tmp/rust-r4abc/independent/g4-preclose11-live-before.json",
+      "bytes": 17467,
+      "sha256": "90ee836fe536af4045871e4422bd90f7d9f28312f1f9d0eaeef72f1eb749458a"
+    },
+    "allSixStates": "OPEN",
+    "allSixCurrentBodySha256MatchPlanSourceBefore": true,
+    "currentBodyStatusBindings": [
+      {
+        "issue": 103,
+        "state": "open",
+        "bodySha256": "bf73b86b963372216d9f7f2f0bc88a48d412bfff476fd959b7fadf31be08be85",
+        "sourceBeforeExact": true
+      },
+      {
+        "issue": 104,
+        "state": "open",
+        "bodySha256": "031d05954acd536ca54c71e550ea58479ffd996ed21cce3fca9dee564229d209",
+        "sourceBeforeExact": true
+      },
+      {
+        "issue": 105,
+        "state": "open",
+        "bodySha256": "15d18c507c7cd6c7f31d2d5b759748bad4dd3867bd153aa2a6aeab87739e8f0f",
+        "sourceBeforeExact": true
+      },
+      {
+        "issue": 102,
+        "state": "open",
+        "bodySha256": "cdc24938b859f26a7893d42fce26584e6b9b1a35356f75ed6da2ba9b3f8a4573",
+        "sourceBeforeExact": true
+      },
+      {
+        "issue": 101,
+        "state": "open",
+        "bodySha256": "2b864cef4cc7a99674c13a64b6fc32ea68cc58275e769992b9f2bef89defb5be",
+        "sourceBeforeExact": true
+      },
+      {
+        "issue": 57,
+        "state": "open",
+        "bodySha256": "dce1c1e599f5f9013b7f1dd087b1fd6827576be75a265d9150208b4f37dab68e",
+        "sourceBeforeExact": true
+      }
+    ],
+    "independentNativeTreeRead": {
+      "method": "Read-only GitHub GraphQL subIssues query",
+      "observedAtUtc": "2026-11-03T17:29:52.2578405Z",
+      "tree": {
+        "i57": {
+          "number": 57,
+          "state": "OPEN",
+          "subIssues": {
+            "nodes": [
+              {
+                "number": 58,
+                "state": "CLOSED"
+              },
+              {
+                "number": 60,
+                "state": "CLOSED"
+              },
+              {
+                "number": 61,
+                "state": "CLOSED"
+              },
+              {
+                "number": 67,
+                "state": "CLOSED"
+              },
+              {
+                "number": 85,
+                "state": "CLOSED"
+              },
+              {
+                "number": 101,
+                "state": "OPEN"
+              }
+            ]
+          }
+        },
+        "i101": {
+          "number": 101,
+          "state": "OPEN",
+          "subIssues": {
+            "nodes": [
+              {
+                "number": 102,
+                "state": "OPEN"
+              }
+            ]
+          }
+        },
+        "i102": {
+          "number": 102,
+          "state": "OPEN",
+          "subIssues": {
+            "nodes": [
+              {
+                "number": 103,
+                "state": "OPEN"
+              },
+              {
+                "number": 104,
+                "state": "OPEN"
+              },
+              {
+                "number": 105,
+                "state": "OPEN"
+              }
+            ]
+          }
+        }
+      },
+      "exactMatchToPlanSourceBefore": true,
+      "protectedHierarchy": "overall57 -> R4stage101 -> firstBatch102 -> A103/B104/C105",
+      "earlierClosedR0R1R2R3And61NodesPreserved": true
+    },
+    "proposalBeforeExecution": {
+      "actualWriteApplied": false,
+      "G4Certified": false
+    }
+  },
+  "planContentReview": {
+    "allSixBodiesAndCommentsReadInFull": true,
+    "first37Only": {
+      "A": 9,
+      "B": 9,
+      "C": 19,
+      "total": 37
+    },
+    "parent101": "Doing/Open; only the first37 checkbox closes, remaining transfer/actual-cost40/operations/acceptance/completion/archive and whole R4 integration stay unchecked.",
+    "overall57": "Doing/Open; R0-R3 retained, R4 unchecked/Doing, R5-R7 unchecked/Todo. Technical210 is not whole-R4 or overall completion.",
+    "businessAuthority": "Independent per-contract terms and amounts, exact preparation-review-activation-plan lifecycle, money/payment ownership and atomic necessary writes; no Native-bug parity target.",
+    "actualEvidenceLimits": "Rust310/54 historical ignored, Native863, admin411,59 real fault hits,6 barriers+foreign-lock negative, Linux continuation/Windows complete UI and bounded163 prefinal reuse are summarized within already verified limits.",
+    "excludedScopeRetained": [
+      "whole R4",
+      "actual-cost40 producer",
+      "transfer/operations/acceptance/completion/archive",
+      "R5-R7",
+      "new A01/A05/A04 or finance19 UI",
+      "new Native lifecycle conformance",
+      "production deployment/cutover/performance"
+    ],
+    "cleanupAndPreservationClaimsMatchPriorActualReviews": true,
+    "failurePartialIgnoredAndNativeReferenceNotPromoted": true,
+    "finalActualG4SignatureExplicitlyPending": true
+  },
+  "mainAndMetadataBoundary": {
+    "implementationCommit": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "archiveCommit": "17c71bac90bbeb7686fbdee5c043e58684bcb6b7",
+    "archiveParentIsExactImplementationCommit": true,
+    "RootAndPrimaryHeadAtReview": "17c71bac90bbeb7686fbdee5c043e58684bcb6b7",
+    "liveRemoteMainReadback": "17c71bac90bbeb7686fbdee5c043e58684bcb6b7",
+    "metadataChangedPaths": 2683,
+    "allChangesUnderDocs": true,
+    "newProductOrLockOrDependencyChanges": [],
+    "primaryFullClean": true,
+    "RootTrackedClean": true,
+    "RootUntrackedProposal": [
+      "?? docs/design/archive/slices/rust-r4abc/g4-plan65/"
+    ],
+    "note": "The untracked g4-plan65 directory is this unapplied concrete proposal; it is not silently called a fully clean Root working tree."
+  },
+  "rawArchiveReview": {
+    "originMap": {
+      "file": "docs/design/archive/slices/rust-r4abc/archive-origin-map63.json",
+      "bytes": 526278,
+      "sha256": "dd33ac759b137161e59fc365c4be6ec8327d62f42d072231d21f940e73ae5f15"
+    },
+    "lifecycleOriginals": 1390,
+    "lifecycleRawBytes": 64177784,
+    "lifecycleRootAndPrimaryRawFailures": [],
+    "actualCompilationResourcesMoved": 0,
+    "independentlyComputedCompilationOverlapWithArchive": [],
+    "laterEvidenceMap": {
+      "file": "docs/design/archive/slices/rust-r4abc/g4-evidence66/origin-map66.json",
+      "bytes": 36279,
+      "sha256": "9829a1ce9ae32fa75c462dbbc14028ada1c2212412973cb17cf850b3b3473176"
+    },
+    "laterOriginals": 107,
+    "laterRawBytes": 10921256,
+    "laterRootAndPrimaryRawFailures": [],
+    "logicalOldPathsResolvedThroughArchiveMap": true,
+    "RootActualSecretScan": {
+      "actualNeedles": 295,
+      "hits": 0
+    },
+    "reviewerPrivateContentAccess": false,
+    "criticalOriginalBindings": [
+      {
+        "file": "docs/design/archive/slices/rust-r4abc/g3-independent08.json.bin",
+        "sha256": "4abaab087cd553341427e7f608bf9aaeda86d061c6bc4727e7437871dbb1ad0b",
+        "matches": true
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4abc/fixed-commit09.json.bin",
+        "sha256": "d35b98a9006a07dca3dafcb5b4a7a2d9525942990ca05e1ba5e6043d77673924",
+        "matches": true
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4abc/main-integration10.json.bin",
+        "sha256": "4fd05a27a0f2d729dad45aab731dea1ed31cedf519e165c9d3139c2fc7afc319",
+        "matches": true
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4abc/final-source53.json",
+        "sha256": "5ee6a7f3ab7893e5e840e879ecb18f993f8c6910ccd7ac5066ea511acae81db1",
+        "matches": true
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4abc/final-validation57.json",
+        "sha256": "7336469c939c046a966b62353d0d87807b609dbcf3101b11e7d2212ba290eaeb",
+        "matches": true
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4abc/validation-supplement59.json",
+        "sha256": "0bc46818a401c666e5468da2421894ea4e84137abd4033d6bb76a77844922d86",
+        "matches": true
+      }
+    ],
+    "priorScopeAndProofLabelsUnchanged": true
+  },
+  "productAndPrimaryRepresentationReview": {
+    "exactRawProductsOnBothRootAndPrimary": 949,
+    "productRawFailures": [],
+    "primaryPreservedOriginalRepresentations": 17,
+    "currentPreservedRepresentationFailures": [],
+    "all17Outside949AsPreviouslyIndependentlyVerified": true,
+    "noWholeWorkingTreeRawEqualsGitBlanketClaim": true,
+    "runtimeOrBuildReexecutionClaim": false
+  },
+  "currentIndex": {
+    "file": {
+      "file": "docs/design/rust-r4abc-delivery-status.json",
+      "bytes": 549,
+      "sha256": "cb9239c870d1d6302bb246e957515989bfac1662eb3efed2e8a41e0bd93a413a"
+    },
+    "stage": "G4Ready",
+    "officialNewDeliveredBeforeOnlineG4": 0,
+    "technicalRustOperations": 210,
+    "fullR4Complete": false,
+    "G4Certified": false,
+    "allSixStillOpen": true,
+    "remainingScopeDocument": {
+      "file": "docs/design/rust-r4-scope-and-dependencies.md",
+      "bytes": 1484,
+      "sha256": "0237944f2e49f36ea60152496145330bed36942f538fa77fad3c193b79912af1"
+    },
+    "fiveLongTrackersAndFiveFormalLinkUpdates": "Metadata/current references updated to the archive and G4Ready; historical records keep their old point-in-time labels."
+  },
+  "findings": {
+    "open": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    },
+    "blockers": []
+  },
+  "nextRequiredEvidence": [
+    "Root actual ordered application of this plan and original per-request receipts.",
+    "Exact final body/comment/state/native-edge API readbacks for all six issues, with only103/104/105/102 Closed and101/57 Open.",
+    "Local current-index/tracker synchronization and immutable preservation of failed/partial/ignored/provisional source records.",
+    "A separate independent actual G4 review12; this preclose report must not be relabeled as that final signature."
+  ],
+  "independence": {
+    "sourceOrExecutorAuthor": false,
+    "productWrites": false,
+    "GitWrites": false,
+    "GitHubWrites": false,
+    "DBHttpBrowserWslRuntimeExecuted": false,
+    "readOnlyLiveGitHubQueries": true,
+    "outputsOnly": "tmp/rust-r4abc/independent/"
+  }
+}
