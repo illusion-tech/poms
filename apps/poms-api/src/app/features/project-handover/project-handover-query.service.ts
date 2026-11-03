@@ -1,5 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import type { ContractHandoverSummaryView, ContractReadinessDetail, ProjectHandoverDetailView } from '@poms/shared-contracts';
+import type { ContractHandoverSummaryView, ProjectHandoverDetailView } from '@poms/shared-contracts';
+// Historical Native reference shape only; no new Rust readiness producer claim.
+import type { LegacyContractReadinessDetail as ContractReadinessDetail } from '../contract-readiness/contract-readiness.legacy-types';
 import type { UserPayload } from '@poms/shared-contracts';
 import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import { ConfirmationService, type ConfirmationProgress } from '../approval/confirmation.service';

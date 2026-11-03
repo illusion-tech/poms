@@ -4,14 +4,19 @@ import { Inject, BadRequestException, ConflictException, Injectable, NotFoundExc
 import type {
     CommercialBaselineReviewDecision,
     CommercialDiffReviewResult,
-    CommercialReleaseBaselineSummary,
-    ContractDiffReviewHistoryView,
-    ContractReadinessDetail,
-    CreateCommercialReleaseBaselineRequest,
-    CreateContractReadinessPackageRequest,
-    ReadinessInitializationResult,
-    ReviewCommercialReleaseBaselineDiffRequest
+    ContractSelectionQuery
 } from '@poms/shared-contracts';
+// Compile adapter for the frozen historical Native implementation only.
+// New Shared DTOs describe the real Rust lifecycle, not these old markers.
+import type {
+    LegacyCommercialReleaseBaselineSummary as CommercialReleaseBaselineSummary,
+    LegacyContractDiffReviewHistoryView as ContractDiffReviewHistoryView,
+    LegacyContractReadinessDetail as ContractReadinessDetail,
+    LegacyCreateCommercialReleaseBaselineRequest as CreateCommercialReleaseBaselineRequest,
+    LegacyCreateContractReadinessPackageRequest as CreateContractReadinessPackageRequest,
+    LegacyReadinessInitializationResult as ReadinessInitializationResult,
+    LegacyReviewCommercialReleaseBaselineDiffRequest as ReviewCommercialReleaseBaselineDiffRequest
+} from './contract-readiness.legacy-types';
 import { randomUUID } from 'node:crypto';
 import { ProjectService } from '../project/project.service';
 import { CommercialBaselineDiffItem, CommercialBaselineDiffResult, CommercialBaselineReviewRecord, CommercialReleaseBaseline } from './commercial-release-baseline.entity';
@@ -124,7 +129,7 @@ export class ContractReadinessService {
         return mapCommercialReleaseBaselineSummary(baseline, diffResult);
     }
 
-    async findDiffHistoryByBaselineId(id: string): Promise<ContractDiffReviewHistoryView> {
+    async findDiffHistoryByBaselineId(id: string, _selection?: ContractSelectionQuery): Promise<ContractDiffReviewHistoryView> {
         const baseline = await this.commercialReleaseBaselineRepository.findById(id);
         if (!baseline) {
             throw new NotFoundException(`CommercialReleaseBaseline ${id} not found`);
@@ -281,7 +286,7 @@ export class ContractReadinessService {
         return mapContractReadinessDetail(readinessPackage, diffResult, items);
     }
 
-    async findCurrentContractReadinessByProjectId(projectId: string): Promise<ContractReadinessDetail> {
+    async findCurrentContractReadinessByProjectId(projectId: string, _selection?: ContractSelectionQuery): Promise<ContractReadinessDetail> {
         const readinessPackage = await this.contractReadinessPackageRepository.findCurrentByProjectId(projectId);
         if (!readinessPackage) {
             throw new NotFoundException(`No current ContractReadinessPackage found for project ${projectId}`);

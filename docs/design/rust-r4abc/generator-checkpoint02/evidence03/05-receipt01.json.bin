@@ -1,0 +1,35 @@
+{
+  "kind": "R4-actual-shared-schema-boundary-check",
+  "startedAt": "2026-11-03T07:55:11.399Z",
+  "completedAt": "2026-11-03T07:55:13.921Z",
+  "source": {
+    "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "bytes": 443953,
+    "rawBytesSha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120"
+  },
+  "test": {
+    "file": "tools/rust-r4abc/shared-contract-tests02.ts",
+    "bytes": 5205,
+    "rawBytesSha256": "810a70f145fdbc3bb14bdf68e2541355ea938b8584b06fa63e029f0116c160d7"
+  },
+  "args": [
+    "-r",
+    "ts-node/register",
+    "-r",
+    "tsconfig-paths/register",
+    "tools/rust-r4abc/shared-contract-tests02.ts"
+  ],
+  "exitCode": 0,
+  "result": "passed",
+  "stdout": {
+    "file": "tmp/rust-r4abc/root/shared-schema-passed02/stdout-original.bin",
+    "bytes": 120,
+    "rawBytesSha256": "b6135f765baf1cfc45c99cdfc695df06ddb2af7192440aee693d1c1f9a368d21"
+  },
+  "stderr": {
+    "file": "tmp/rust-r4abc/root/shared-schema-passed02/stderr-original.bin",
+    "bytes": 0,
+    "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "databaseOrBusinessRuntimeExecuted": false
+}

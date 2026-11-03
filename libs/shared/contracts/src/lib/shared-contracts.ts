@@ -5691,6 +5691,121 @@ export const CustomerWorkspaceOverviewViewSchema = z
 
 export type CustomerWorkspaceOverviewView = z.infer<typeof CustomerWorkspaceOverviewViewSchema>;
 
+// R4's ordinary financial inputs only. Do not reuse these scoped validators to
+// silently change the un-migrated actual-cost/commission contracts.
+function isR4ScaledDecimal(value: string, scale: 2 | 4, maximum: bigint, allowZero: boolean): boolean {
+    const syntax = scale === 2 ? /^[0-9]+(?:\.[0-9]{1,2})?$/ : /^[0-9]+(?:\.[0-9]{1,4})?$/;
+    if (value.length > 64 || !syntax.test(value)) {
+        return false;
+    }
+    const [whole, fraction = ''] = value.split('.');
+    const scaled = BigInt(whole) * (scale === 2 ? 100n : 10000n) + BigInt(fraction.padEnd(scale, '0'));
+    return scaled <= maximum && (allowZero || scaled > 0n);
+}
+
+export const R4PositiveMoneyStringSchema = z
+    .string()
+    .trim()
+    .min(1)
+    .max(64)
+    .regex(/^[0-9]+(?:\.[0-9]{1,2})?$/, 'Expected an unsigned ordinary decimal with at most two fractional digits')
+    .refine((value) => isR4ScaledDecimal(value, 2, 999999999999999999n, false), 'Expected a positive amount within numeric(18,2)')
+    .meta({ id: 'R4PositiveMoneyString' });
+
+export const R4NonnegativeMoneyStringSchema = z
+    .string()
+    .trim()
+    .min(1)
+    .max(64)
+    .regex(/^[0-9]+(?:\.[0-9]{1,2})?$/, 'Expected an unsigned ordinary decimal with at most two fractional digits')
+    .refine((value) => isR4ScaledDecimal(value, 2, 999999999999999999n, true), 'Expected a nonnegative amount within numeric(18,2)')
+    .meta({ id: 'R4NonnegativeMoneyString' });
+
+export const R4RatioStringSchema = z
+    .string()
+    .trim()
+    .min(1)
+    .max(64)
+    .regex(/^[0-9]+(?:\.[0-9]{1,4})?$/, 'Expected an unsigned ordinary ratio with at most four fractional digits')
+    .refine((value) => isR4ScaledDecimal(value, 4, 10000n, true), 'Expected a ratio between zero and one')
+    .meta({ id: 'R4RatioString' });
+
+export const ReceivablePlanSeedSchema = z
+    .object({
+        nodeKey: z.string().trim().min(1).max(64),
+        label: z.string().trim().min(1).max(128),
+        plannedAmount: R4PositiveMoneyStringSchema,
+        plannedDate: z.iso.date(),
+        isRetentionNode: z.boolean(),
+        sortOrder: z.number().int().nonnegative(),
+        note: z.string().max(1000).nullable().optional()
+    })
+    .meta({ id: 'ReceivablePlanSeed' });
+
+export type ReceivablePlanSeed = z.infer<typeof ReceivablePlanSeedSchema>;
+
+export const ContractCommercialTermsSchema = z
+    .object({
+        contractId: z.uuid(),
+        amountTaxInclusive: R4PositiveMoneyStringSchema,
+        amountTaxExclusive: R4PositiveMoneyStringSchema,
+        taxRate: R4RatioStringSchema,
+        downPaymentRate: R4RatioStringSchema,
+        retentionRate: R4RatioStringSchema,
+        retentionDueDate: z.iso.date().nullable(),
+        paymentTerms: z.string().trim().min(1).max(1000),
+        receivablePlanSeeds: z.array(ReceivablePlanSeedSchema).min(1)
+    })
+    .meta({ id: 'ContractCommercialTerms' });
+
+export type ContractCommercialTerms = z.infer<typeof ContractCommercialTermsSchema>;
+
+export const CONTRACT_TERM_PREPARATION_STATUSES = ['prepared', 'superseded', 'activated'] as const;
+export const ContractTermPreparationStatusSchema = z.enum(CONTRACT_TERM_PREPARATION_STATUSES).meta({ id: 'ContractTermPreparationStatus' });
+export type ContractTermPreparationStatus = z.infer<typeof ContractTermPreparationStatusSchema>;
+
+export const ContractTermPreparationSummarySchema = z
+    .object({
+        preparationId: z.uuid(),
+        projectId: z.uuid(),
+        contractId: z.uuid(),
+        version: z.number().int().positive(),
+        rowVersion: z.number().int().positive(),
+        status: ContractTermPreparationStatusSchema,
+        isCurrent: z.boolean(),
+        sourceReadinessId: z.uuid(),
+        sourceBaselineId: z.uuid(),
+        sourceDiffResultId: z.uuid(),
+        payloadHash: z.string().regex(/^[0-9a-f]{64}$/),
+        preparedAt: z.iso.datetime(),
+        preparedBy: z.uuid(),
+        activatedSnapshotId: z.uuid().nullable(),
+        activatedAt: z.iso.datetime().nullable()
+    })
+    .meta({ id: 'ContractTermPreparationSummary' });
+
+export type ContractTermPreparationSummary = z.infer<typeof ContractTermPreparationSummarySchema>;
+
+export const ContractReviewBindingSummarySchema = z
+    .object({
+        approvalRecordId: z.uuid(),
+        contractId: z.uuid(),
+        preparationId: z.uuid(),
+        preparationVersion: z.number().int().positive(),
+        payloadHash: z.string().regex(/^[0-9a-f]{64}$/),
+        createdAt: z.iso.datetime(),
+        createdBy: z.uuid()
+    })
+    .meta({ id: 'ContractReviewBindingSummary' });
+
+export type ContractReviewBindingSummary = z.infer<typeof ContractReviewBindingSummarySchema>;
+
+export const ContractSelectionQuerySchema = z
+    .object({ contractId: z.uuid().optional() })
+    .meta({ id: 'ContractSelectionQuery' });
+
+export type ContractSelectionQuery = z.infer<typeof ContractSelectionQuerySchema>;
+
 export const ContractTermSnapshotSummarySchema = z
     .object({
         id: z.uuid(),
@@ -5706,6 +5821,7 @@ export const ContractTermSnapshotSummarySchema = z
         paymentTermsProjection: SensitiveStringFieldProjectionSchema,
         sourceReadinessId: z.uuid().nullable(),
         sourceBaselineId: z.uuid().nullable(),
+        sourcePreparationId: z.uuid().nullable(),
         version: z.number().int(),
         snapshotStatus: ContractTermSnapshotStatusSchema,
         createdAt: z.iso.datetime(),
@@ -5717,7 +5833,9 @@ export const ContractTermSnapshotSummarySchema = z
 export type ContractTermSnapshotSummary = z.infer<typeof ContractTermSnapshotSummarySchema>;
 
 export const ContractDetailViewSchema = ContractSummarySchema.extend({
-    currentTermSnapshot: ContractTermSnapshotSummarySchema.nullable()
+    currentTermSnapshot: ContractTermSnapshotSummarySchema.nullable(),
+    currentPreparation: ContractTermPreparationSummarySchema.nullable(),
+    latestReviewBinding: ContractReviewBindingSummarySchema.nullable()
 }).meta({ id: 'ContractDetailView' });
 
 export type ContractDetailView = z.infer<typeof ContractDetailViewSchema>;
@@ -5744,8 +5862,8 @@ export const CreateContractRequestSchema = z
     .object({
         projectId: z.uuid(),
         customerContractNo: z.string().trim().min(1).max(128).nullable().optional(),
-        status: ContractStatusSchema.optional(),
-        signedAmount: z.string().trim().min(1).max(64),
+        status: z.literal(ContractStatusValue.Draft).optional(),
+        signedAmount: R4PositiveMoneyStringSchema,
         currencyCode: z.string().trim().min(1).max(16).optional(),
         signedAt: z.iso.datetime().nullable().optional(),
         retentionDueDate: z.iso.date().nullable().optional(),
@@ -5759,11 +5877,12 @@ export type CreateContractRequest = z.infer<typeof CreateContractRequestSchema>;
 export const UpdateContractBasicInfoRequestSchema = z
     .object({
         customerContractNo: z.string().trim().min(1).max(128).nullable().optional(),
-        signedAmount: z.string().trim().min(1).max(64).optional(),
+        signedAmount: R4PositiveMoneyStringSchema.optional(),
         currencyCode: z.string().trim().min(1).max(16).optional(),
         signedAt: z.iso.datetime().nullable().optional(),
         retentionDueDate: z.iso.date().nullable().optional(),
-        updatedBy: z.uuid().nullable().optional()
+        updatedBy: z.uuid().nullable().optional(),
+        expectedVersion: z.number().int().positive().optional()
     })
     .refine((value) => value.customerContractNo !== undefined || value.signedAmount !== undefined || value.currencyCode !== undefined || value.signedAt !== undefined || value.retentionDueDate !== undefined || value.updatedBy !== undefined, {
         message: 'At least one field is required for update'
@@ -5924,6 +6043,7 @@ export const CommercialBaselineReviewRecordSummarySchema = z
         projectId: z.uuid(),
         decision: CommercialBaselineReviewDecisionSchema,
         reviewedFieldKeys: z.array(z.string()),
+        attachmentIds: z.array(z.uuid()),
         comment: z.string().nullable(),
         reviewerUserId: z.uuid(),
         createdAt: z.iso.datetime()
@@ -5944,6 +6064,9 @@ export const CommercialReleaseBaselineSummarySchema = z
         quotationReviewId: z.uuid().nullable(),
         baselineStatus: CommercialReleaseBaselineStatusSchema,
         isCurrent: z.boolean(),
+        contractTerms: z.array(ContractCommercialTermsSchema).nullable(),
+        currencyCode: z.string(),
+        financialProjection: SensitiveStringFieldProjectionSchema,
         grossMarginSummary: z.string().nullable(),
         paymentTermsSummary: z.string().nullable(),
         amountTaxInclusive: z.string().nullable(),
@@ -5952,9 +6075,9 @@ export const CommercialReleaseBaselineSummarySchema = z
         downPaymentRate: z.string().nullable(),
         retentionRate: z.string().nullable(),
         paymentTerms: z.string().nullable(),
-        latestDiffResultId: z.uuid(),
-        diffLevel: CommercialDiffLevelSchema,
-        reviewStatus: CommercialDiffReviewStatusSchema,
+        latestDiffResultId: z.uuid().nullable(),
+        diffLevel: CommercialDiffLevelSchema.nullable(),
+        reviewStatus: CommercialDiffReviewStatusSchema.nullable(),
         diffSummary: z.string().nullable(),
         rowVersion: z.number().int(),
         createdAt: z.iso.datetime(),
@@ -5996,6 +6119,10 @@ export const ContractReadinessDetailSchema = z
     .object({
         id: z.uuid(),
         projectId: z.uuid(),
+        contractId: z.uuid().nullable(),
+        candidateTerms: ContractCommercialTermsSchema.nullable(),
+        currentPreparation: ContractTermPreparationSummarySchema.nullable(),
+        financialProjection: SensitiveStringFieldProjectionSchema,
         sourceBaselineId: z.uuid(),
         commercialReleaseBaselineId: z.uuid(),
         latestDiffResultId: z.uuid(),
@@ -6477,17 +6604,18 @@ export type CreateCommercialBaselineDiffItemInput = z.infer<typeof CreateCommerc
 export const CreateCommercialReleaseBaselineRequestSchema = z
     .object({
         projectId: z.uuid(),
+        contractTerms: z.array(ContractCommercialTermsSchema).min(1).refine((terms) => new Set(terms.map((term) => term.contractId.toLowerCase())).size === terms.length, 'Each contractId must be unique'),
         baselineCode: z.string().trim().min(1).max(64),
         quotationReviewId: z.uuid().nullable().optional(),
         grossMarginSummary: z.string().max(1000).nullable().optional(),
         paymentTermsSummary: z.string().max(1000).nullable().optional(),
-        amountTaxInclusive: z.string().max(64).nullable().optional(),
-        amountTaxExclusive: z.string().max(64).nullable().optional(),
-        taxRate: z.string().max(64).nullable().optional(),
-        downPaymentRate: z.string().max(64).nullable().optional(),
-        retentionRate: z.string().max(64).nullable().optional(),
+        amountTaxInclusive: R4PositiveMoneyStringSchema.nullable().optional(),
+        amountTaxExclusive: R4PositiveMoneyStringSchema.nullable().optional(),
+        taxRate: R4RatioStringSchema.nullable().optional(),
+        downPaymentRate: R4RatioStringSchema.nullable().optional(),
+        retentionRate: R4RatioStringSchema.nullable().optional(),
         paymentTerms: z.string().max(1000).nullable().optional(),
-        diffLevel: CommercialDiffLevelSchema,
+        diffLevel: CommercialDiffLevelSchema.optional(),
         diffSummary: z.string().max(1000).nullable().optional(),
         diffItems: z.array(CreateCommercialBaselineDiffItemInputSchema).default([]),
         createdBy: z.uuid().nullable().optional(),
@@ -6499,10 +6627,12 @@ export type CreateCommercialReleaseBaselineRequest = z.infer<typeof CreateCommer
 
 export const ReviewCommercialReleaseBaselineDiffRequestSchema = z
     .object({
+        contractId: z.uuid(),
+        diffResultId: z.uuid(),
         diffDecision: CommercialBaselineReviewDecisionSchema,
         reviewedFieldKeys: z.array(z.string()).default([]),
         comment: z.string().trim().max(1000).optional(),
-        attachmentIds: z.array(z.string()).default([]),
+        attachmentIds: z.array(z.uuid()).default([]),
         expectedVersion: z.number().int().positive().optional()
     })
     .meta({ id: 'ReviewCommercialReleaseBaselineDiffRequest' });
@@ -6527,10 +6657,12 @@ export type ContractReadinessPackageItemInput = z.infer<typeof ContractReadiness
 export const CreateContractReadinessPackageRequestSchema = z
     .object({
         projectId: z.uuid(),
+        contractId: z.uuid(),
+        candidateTerms: ContractCommercialTermsSchema,
         sourceBaselineId: z.uuid(),
-        latestDiffResultId: z.uuid(),
-        packageStatus: ContractReadinessStatusSchema,
-        guardDecision: ContractReadinessGuardDecisionSchema,
+        latestDiffResultId: z.uuid().optional(),
+        packageStatus: ContractReadinessStatusSchema.optional(),
+        guardDecision: ContractReadinessGuardDecisionSchema.optional(),
         currentEffectiveDecisionSummary: z.string().max(1000).nullable().optional(),
         blockingReasonSummary: z.string().max(1000).nullable().optional(),
         missingPrerequisiteCount: z.number().int().min(0).optional(),
@@ -6544,6 +6676,7 @@ export type CreateContractReadinessPackageRequest = z.infer<typeof CreateContrac
 
 export const InitializeContractSnapshotFromReadinessPackageRequestSchema = z
     .object({
+        contractId: z.uuid(),
         contractReadinessPackageId: z.uuid().optional(),
         comment: z.string().trim().max(1000).optional(),
         expectedVersion: z.number().int().positive().optional()
@@ -6554,6 +6687,7 @@ export type InitializeContractSnapshotFromReadinessPackageRequest = z.infer<type
 
 export const InitializeReceivablePlanFromReadinessPackageRequestSchema = z
     .object({
+        contractId: z.uuid(),
         contractReadinessPackageId: z.uuid().optional(),
         comment: z.string().trim().max(1000).optional(),
         expectedVersion: z.number().int().positive().optional()
@@ -6576,13 +6710,22 @@ export type CommercialDiffReviewResult = z.infer<typeof CommercialDiffReviewResu
 export const ReadinessInitializationResultSchema = z
     .object({
         targetId: z.uuid(),
-        targetType: z.string(),
+        targetType: z.enum(['contract-term-preparation', 'receivable-plan-version']),
         sourceReadinessId: z.uuid(),
-        resultStatus: z.string(),
-        businessStatusAfter: z.string(),
-        snapshotId: z.uuid().nullable().optional(),
-        newVersionId: z.uuid().nullable().optional()
+        contractId: z.uuid(),
+        resultStatus: z.enum(['prepared', 'initialized']),
+        businessStatusAfter: z.enum(['prepared', 'active']),
+        preparationId: z.uuid(),
+        preparationVersion: z.number().int().positive(),
+        snapshotId: z.uuid().nullable(),
+        newVersionId: z.uuid().nullable(),
+        planVersionId: z.uuid().nullable(),
+        planVersion: z.number().int().positive().nullable(),
+        initRecordId: z.uuid().nullable()
     })
+    .refine((value) => value.targetId.toLowerCase() === (value.targetType === 'contract-term-preparation' ? value.preparationId : value.planVersionId)?.toLowerCase(), 'targetId must identify the actual preparation or plan version')
+    .refine((value) => value.targetType !== 'contract-term-preparation' || (value.resultStatus === 'prepared' && value.businessStatusAfter === 'prepared' && value.snapshotId === null && value.newVersionId === null && value.planVersionId === null && value.planVersion === null && value.initRecordId === null), 'Prepared initialization must not claim an effective snapshot or a formal plan')
+    .refine((value) => value.targetType !== 'receivable-plan-version' || (value.resultStatus === 'initialized' && value.businessStatusAfter === 'active' && value.snapshotId !== null && value.planVersionId !== null && value.planVersion !== null && value.initRecordId !== null && value.newVersionId?.toLowerCase() === value.planVersionId.toLowerCase()), 'Formal plan initialization requires its real snapshot, version and initialization record')
     .meta({ id: 'ReadinessInitializationResult' });
 
 export type ReadinessInitializationResult = z.infer<typeof ReadinessInitializationResultSchema>;
@@ -6628,7 +6771,7 @@ export type ReceiptRecordList = z.infer<typeof ReceiptRecordListSchema>;
 
 export const CreateReceiptRecordRequestSchema = z
     .object({
-        receiptAmount: z.string().trim().min(1).max(64),
+        receiptAmount: R4PositiveMoneyStringSchema,
         receiptDate: z.iso.datetime(),
         sourceType: z.string().trim().min(1).max(32).optional()
     })
@@ -6707,9 +6850,9 @@ export const CreatePayableRecordRequestSchema = z
         costCategory: z.string().trim().min(1).max(64),
         payableDescription: z.string().trim().min(1).max(2000),
         currency: z.string().trim().min(1).max(16).optional(),
-        amountExcludingTax: z.string().trim().min(1).max(64),
-        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
-        amountIncludingTax: z.string().trim().min(1).max(64).nullable().optional(),
+        amountExcludingTax: R4PositiveMoneyStringSchema,
+        taxAmount: R4NonnegativeMoneyStringSchema.nullable().optional(),
+        amountIncludingTax: R4PositiveMoneyStringSchema.nullable().optional(),
         expectedPaymentDate: z.iso.date(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         attachmentCount: z.number().int().nonnegative().optional()
@@ -6725,9 +6868,9 @@ export const UpdatePayableRecordRequestSchema = z
         costCategory: z.string().trim().min(1).max(64).optional(),
         payableDescription: z.string().trim().min(1).max(2000).optional(),
         currency: z.string().trim().min(1).max(16).optional(),
-        amountExcludingTax: z.string().trim().min(1).max(64).optional(),
-        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
-        amountIncludingTax: z.string().trim().min(1).max(64).nullable().optional(),
+        amountExcludingTax: R4PositiveMoneyStringSchema.optional(),
+        taxAmount: R4NonnegativeMoneyStringSchema.nullable().optional(),
+        amountIncludingTax: R4PositiveMoneyStringSchema.nullable().optional(),
         expectedPaymentDate: z.iso.date().optional(),
         evidenceSummary: z.string().trim().min(1).max(2000).nullable().optional(),
         attachmentCount: z.number().int().nonnegative().optional(),
@@ -6822,9 +6965,9 @@ export const CreatePaymentRecordRequestSchema = z
         contractId: z.uuid().nullable().optional(),
         payableRecordId: z.uuid().nullable().optional(),
         currency: z.string().trim().min(1).max(16).optional(),
-        amountExcludingTax: z.string().trim().min(1).max(64),
-        taxAmount: z.string().trim().min(1).max(64).nullable().optional(),
-        amountIncludingTax: z.string().trim().min(1).max(64).nullable().optional(),
+        amountExcludingTax: R4PositiveMoneyStringSchema,
+        taxAmount: R4NonnegativeMoneyStringSchema.nullable().optional(),
+        amountIncludingTax: R4PositiveMoneyStringSchema.nullable().optional(),
         paymentDate: z.iso.datetime(),
         costCategory: z.string().trim().min(1).max(64),
         sourceType: z.string().trim().min(1).max(32).optional()
@@ -6923,7 +7066,7 @@ export const CreateInvoiceRecordRequestSchema = z
         contractId: z.uuid().nullable().optional(),
         invoiceType: InvoiceRecordTypeSchema,
         invoiceNumber: z.string().trim().min(1).max(128),
-        invoiceAmount: z.string().trim().min(1).max(64),
+        invoiceAmount: R4PositiveMoneyStringSchema,
         invoiceDate: z.iso.date()
     })
     .meta({ id: 'CreateInvoiceRecordRequest' });
@@ -6940,7 +7083,7 @@ export const UpdateInvoiceRecordRequestSchema = z
     .object({
         contractId: z.uuid().nullable().optional(),
         invoiceNumber: z.string().trim().min(1).max(128).optional(),
-        invoiceAmount: z.string().trim().min(1).max(64).optional(),
+        invoiceAmount: R4PositiveMoneyStringSchema.optional(),
         invoiceDate: z.iso.date().optional(),
         status: InvoiceRecordPatchableStatusSchema.optional(),
         expectedVersion: z.number().int().positive().optional()
@@ -7332,14 +7475,30 @@ export const CommandResultSchema = z
         approvalRecordId: z.uuid().nullable(),
         confirmationRecordId: z.uuid().nullable(),
         todoItemIds: z.array(z.uuid()),
-        snapshotId: z.uuid().nullable().optional()
+        snapshotId: z.uuid().nullable().optional(),
+        preparationId: z.uuid().nullable().optional()
     })
     .meta({ id: 'CommandResult' });
 
 export type CommandResult = z.infer<typeof CommandResultSchema>;
 
+// Define these strict results after their base, with required real identities.
+export const SubmitContractReviewResultSchema = CommandResultSchema.extend({
+    preparationId: z.uuid()
+}).strict().meta({ id: 'SubmitContractReviewResult' });
+
+export type SubmitContractReviewResult = z.infer<typeof SubmitContractReviewResultSchema>;
+
+export const ActivateContractResultSchema = CommandResultSchema.extend({
+    preparationId: z.uuid(),
+    snapshotId: z.uuid()
+}).strict().meta({ id: 'ActivateContractResult' });
+
+export type ActivateContractResult = z.infer<typeof ActivateContractResultSchema>;
+
 export const SubmitContractReviewRequestSchema = z
     .object({
+        preparationId: z.uuid(),
         comment: z.string().trim().min(1).max(1000).optional(),
         expectedVersion: z.number().int().positive().optional()
     })

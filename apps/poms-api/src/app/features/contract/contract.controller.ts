@@ -2,8 +2,8 @@ import { Inject, Body, Controller, Get, HttpCode, HttpStatus, NotFoundException,
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
     ActivateContractRequestDto,
+    ActivateContractResultDto,
     ApprovalRecordDto,
-    CommandResultDto,
     ContractDetailViewDto,
     ContractDto,
     ContractListDto,
@@ -11,9 +11,10 @@ import {
     ContractLookupQueryDto,
     CreateContractRequestDto,
     SubmitContractReviewRequestDto,
+    SubmitContractReviewResultDto,
     UpdateContractBasicInfoRequestDto
 } from '@poms/api-contracts';
-import type { ApprovalRecordSummary, CommandResult, ContractDetailView, ContractListQuery, ContractSummary, ContractTermSnapshotSummary, UserPayload } from '@poms/shared-contracts';
+import type { ApprovalRecordSummary, ContractDetailView, ContractListQuery, ContractSummary, ContractTermSnapshotSummary, UserPayload } from '@poms/shared-contracts';
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
 import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
@@ -24,6 +25,7 @@ import { ProjectService } from '../project/project.service';
 import { Contract, ContractTermSnapshot } from './contract.entity';
 import { ContractService } from './contract.service';
 import { ContractTermSnapshotRepository } from './contract.repository';
+import type { LegacyContractCommandResult } from './contract.legacy-types';
 
 @ApiTags('contract')
 @ApiCookieAuth('pomsSession')
@@ -127,8 +129,8 @@ export class ContractController {
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '提交合同审核' })
-    @ApiOkResponse({ type: CommandResultDto })
-    submitReview(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: SubmitContractReviewRequestDto): Promise<CommandResult> {
+    @ApiOkResponse({ type: SubmitContractReviewResultDto })
+    submitReview(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: SubmitContractReviewRequestDto): Promise<LegacyContractCommandResult> {
         return this.approvalService.submitContractReview(id, req.user.sub, body);
     }
 
@@ -136,8 +138,8 @@ export class ContractController {
     @HasPermissions('project:write')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认合同生效' })
-    @ApiOkResponse({ type: CommandResultDto })
-    activate(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ActivateContractRequestDto): Promise<CommandResult> {
+    @ApiOkResponse({ type: ActivateContractResultDto })
+    activate(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ActivateContractRequestDto): Promise<LegacyContractCommandResult> {
         return this.contractService.activate(id, req.user.sub, body);
     }
 }
@@ -260,6 +262,8 @@ export async function mapSnapshotToSummary(
         paymentTermsProjection,
         sourceReadinessId: snapshot.sourceReadinessId ?? null,
         sourceBaselineId: snapshot.sourceBaselineId ?? null,
+        // Historical Native snapshots have no prepared-version producer.
+        sourcePreparationId: null,
         version: snapshot.version,
         snapshotStatus: snapshot.snapshotStatus,
         createdAt: snapshot.createdAt.toISOString(),
@@ -278,6 +282,8 @@ async function mapContractToDetailView(
 ): Promise<ContractDetailView> {
     return {
         ...(await mapContractToSummary(contract, project, sensitiveFieldProjectionService, user, requestContext)),
-        currentTermSnapshot: snapshot ? await mapSnapshotToSummary(snapshot, sensitiveFieldProjectionService, user, requestContext) : null
+        currentTermSnapshot: snapshot ? await mapSnapshotToSummary(snapshot, sensitiveFieldProjectionService, user, requestContext) : null,
+        currentPreparation: null,
+        latestReviewBinding: null
     };
 }

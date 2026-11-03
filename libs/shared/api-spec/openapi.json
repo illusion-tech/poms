@@ -9565,7 +9565,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommandResult"
+                  "$ref": "#/components/schemas/SubmitContractReviewResult"
                 }
               }
             }
@@ -9611,7 +9611,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommandResult"
+                  "$ref": "#/components/schemas/ActivateContractResult"
                 }
               }
             }
@@ -9785,6 +9785,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "contractId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -9938,6 +9948,16 @@
             "required": true,
             "in": "path",
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contractId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
               "type": "string"
             }
           }
@@ -28029,13 +28049,17 @@
           "$ref": "#/components/schemas/ReceiptRecordSummary"
         }
       },
+      "R4PositiveMoneyString": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[0-9]+(?:\\.[0-9]{1,2})?$"
+      },
       "CreateReceiptRecordRequest": {
         "type": "object",
         "properties": {
           "receiptAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "receiptDate": {
             "type": "string",
@@ -28334,6 +28358,12 @@
           "allowedActions"
         ]
       },
+      "R4NonnegativeMoneyString": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[0-9]+(?:\\.[0-9]{1,2})?$"
+      },
       "CreatePayableRecordRequest": {
         "type": "object",
         "properties": {
@@ -28364,20 +28394,22 @@
             "maxLength": 16
           },
           "amountExcludingTax": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "taxAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4NonnegativeMoneyString"
+              }
+            ],
             "nullable": true
           },
           "amountIncludingTax": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4PositiveMoneyString"
+              }
+            ],
             "nullable": true
           },
           "expectedPaymentDate": {
@@ -28435,20 +28467,22 @@
             "maxLength": 16
           },
           "amountExcludingTax": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "taxAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4NonnegativeMoneyString"
+              }
+            ],
             "nullable": true
           },
           "amountIncludingTax": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4PositiveMoneyString"
+              }
+            ],
             "nullable": true
           },
           "expectedPaymentDate": {
@@ -28767,9 +28801,7 @@
             "maxLength": 128
           },
           "invoiceAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "invoiceDate": {
             "type": "string",
@@ -28809,9 +28841,7 @@
             "maxLength": 128
           },
           "invoiceAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "invoiceDate": {
             "type": "string",
@@ -29041,20 +29071,22 @@
             "maxLength": 16
           },
           "amountExcludingTax": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "taxAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4NonnegativeMoneyString"
+              }
+            ],
             "nullable": true
           },
           "amountIncludingTax": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4PositiveMoneyString"
+              }
+            ],
             "nullable": true
           },
           "paymentDate": {
@@ -30291,6 +30323,12 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
           }
         },
         "required": [
@@ -30655,6 +30693,12 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
           },
+          "sourcePreparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
           "version": {
             "type": "integer",
             "minimum": -9007199254740991,
@@ -30694,6 +30738,7 @@
           "paymentTermsProjection",
           "sourceReadinessId",
           "sourceBaselineId",
+          "sourcePreparationId",
           "version",
           "snapshotStatus",
           "createdAt",
@@ -30707,6 +30752,159 @@
           "active",
           "superseded",
           "voided"
+        ]
+      },
+      "ContractTermPreparationSummary": {
+        "type": "object",
+        "properties": {
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "status": {
+            "$ref": "#/components/schemas/ContractTermPreparationStatus"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "sourceReadinessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceDiffResultId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "payloadHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "preparedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "preparedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "activatedSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "activatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "preparationId",
+          "projectId",
+          "contractId",
+          "version",
+          "rowVersion",
+          "status",
+          "isCurrent",
+          "sourceReadinessId",
+          "sourceBaselineId",
+          "sourceDiffResultId",
+          "payloadHash",
+          "preparedAt",
+          "preparedBy",
+          "activatedSnapshotId",
+          "activatedAt"
+        ]
+      },
+      "ContractTermPreparationStatus": {
+        "type": "string",
+        "enum": [
+          "prepared",
+          "superseded",
+          "activated"
+        ]
+      },
+      "ContractReviewBindingSummary": {
+        "type": "object",
+        "properties": {
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "preparationVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "payloadHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "approvalRecordId",
+          "contractId",
+          "preparationId",
+          "preparationVersion",
+          "payloadHash",
+          "createdAt",
+          "createdBy"
         ]
       },
       "ContractDetailView": {
@@ -30797,6 +30995,22 @@
               }
             ],
             "nullable": true
+          },
+          "currentPreparation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractTermPreparationSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "latestReviewBinding": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractReviewBindingSummary"
+              }
+            ],
+            "nullable": true
           }
         },
         "required": [
@@ -30817,7 +31031,9 @@
           "createdBy",
           "updatedAt",
           "updatedBy",
-          "currentTermSnapshot"
+          "currentTermSnapshot",
+          "currentPreparation",
+          "latestReviewBinding"
         ]
       },
       "CreateContractRequest": {
@@ -30835,12 +31051,13 @@
             "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/ContractStatus"
+            "type": "string",
+            "enum": [
+              "draft"
+            ]
           },
           "signedAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "currencyCode": {
             "type": "string",
@@ -30887,9 +31104,7 @@
             "nullable": true
           },
           "signedAmount": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
           },
           "currencyCode": {
             "type": "string",
@@ -30913,12 +31128,23 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           }
         }
       },
       "SubmitContractReviewRequest": {
         "type": "object",
         "properties": {
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
           "comment": {
             "type": "string",
             "minLength": 1,
@@ -30930,7 +31156,71 @@
             "maximum": 9007199254740991,
             "minimum": 0
           }
-        }
+        },
+        "required": [
+          "preparationId"
+        ]
+      },
+      "SubmitContractReviewResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "preparationId"
+        ],
+        "additionalProperties": false
       },
       "ActivateContractRequest": {
         "type": "object",
@@ -30947,6 +31237,171 @@
             "minimum": 0
           }
         }
+      },
+      "ActivateContractResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "snapshotId",
+          "preparationId"
+        ],
+        "additionalProperties": false
+      },
+      "ContractCommercialTerms": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "amountTaxInclusive": {
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
+          },
+          "amountTaxExclusive": {
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
+          },
+          "taxRate": {
+            "$ref": "#/components/schemas/R4RatioString"
+          },
+          "downPaymentRate": {
+            "$ref": "#/components/schemas/R4RatioString"
+          },
+          "retentionRate": {
+            "$ref": "#/components/schemas/R4RatioString"
+          },
+          "retentionDueDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "paymentTerms": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "receivablePlanSeeds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceivablePlanSeed"
+            }
+          }
+        },
+        "required": [
+          "contractId",
+          "amountTaxInclusive",
+          "amountTaxExclusive",
+          "taxRate",
+          "downPaymentRate",
+          "retentionRate",
+          "retentionDueDate",
+          "paymentTerms",
+          "receivablePlanSeeds"
+        ]
+      },
+      "R4RatioString": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[0-9]+(?:\\.[0-9]{1,4})?$"
+      },
+      "ReceivablePlanSeed": {
+        "type": "object",
+        "properties": {
+          "nodeKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "plannedAmount": {
+            "$ref": "#/components/schemas/R4PositiveMoneyString"
+          },
+          "plannedDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "isRetentionNode": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "nodeKey",
+          "label",
+          "plannedAmount",
+          "plannedDate",
+          "isRetentionNode",
+          "sortOrder"
+        ]
       },
       "CreateCommercialBaselineDiffItemInput": {
         "type": "object",
@@ -30997,6 +31452,13 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "contractTerms": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContractCommercialTerms"
+            }
+          },
           "baselineCode": {
             "type": "string",
             "minLength": 1,
@@ -31019,28 +31481,43 @@
             "nullable": true
           },
           "amountTaxInclusive": {
-            "type": "string",
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4PositiveMoneyString"
+              }
+            ],
             "nullable": true
           },
           "amountTaxExclusive": {
-            "type": "string",
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4PositiveMoneyString"
+              }
+            ],
             "nullable": true
           },
           "taxRate": {
-            "type": "string",
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4RatioString"
+              }
+            ],
             "nullable": true
           },
           "downPaymentRate": {
-            "type": "string",
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4RatioString"
+              }
+            ],
             "nullable": true
           },
           "retentionRate": {
-            "type": "string",
-            "maxLength": 64,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/R4RatioString"
+              }
+            ],
             "nullable": true
           },
           "paymentTerms": {
@@ -31078,8 +31555,8 @@
         },
         "required": [
           "projectId",
-          "baselineCode",
-          "diffLevel"
+          "contractTerms",
+          "baselineCode"
         ]
       },
       "CommercialReleaseBaselineStatus": {
@@ -31118,6 +31595,19 @@
           "isCurrent": {
             "type": "boolean"
           },
+          "contractTerms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContractCommercialTerms"
+            },
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "financialProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
           "grossMarginSummary": {
             "type": "string",
             "nullable": true
@@ -31153,13 +31643,24 @@
           "latestDiffResultId": {
             "type": "string",
             "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
           },
           "diffLevel": {
-            "$ref": "#/components/schemas/CommercialDiffLevel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CommercialDiffLevel"
+              }
+            ],
+            "nullable": true
           },
           "reviewStatus": {
-            "$ref": "#/components/schemas/CommercialDiffReviewStatus"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CommercialDiffReviewStatus"
+              }
+            ],
+            "nullable": true
           },
           "diffSummary": {
             "type": "string",
@@ -31200,6 +31701,9 @@
           "quotationReviewId",
           "baselineStatus",
           "isCurrent",
+          "contractTerms",
+          "currencyCode",
+          "financialProjection",
           "grossMarginSummary",
           "paymentTermsSummary",
           "amountTaxInclusive",
@@ -31302,6 +31806,14 @@
               "type": "string"
             }
           },
+          "attachmentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
           "comment": {
             "type": "string",
             "nullable": true
@@ -31324,6 +31836,7 @@
           "projectId",
           "decision",
           "reviewedFieldKeys",
+          "attachmentIds",
           "comment",
           "reviewerUserId",
           "createdAt"
@@ -31361,6 +31874,16 @@
       "ReviewCommercialReleaseBaselineDiffRequest": {
         "type": "object",
         "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "diffResultId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
           "diffDecision": {
             "$ref": "#/components/schemas/CommercialBaselineReviewDecision"
           },
@@ -31379,7 +31902,9 @@
             "default": [],
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             }
           },
           "expectedVersion": {
@@ -31390,6 +31915,8 @@
           }
         },
         "required": [
+          "contractId",
+          "diffResultId",
           "diffDecision"
         ]
       },
@@ -31493,6 +32020,14 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "candidateTerms": {
+            "$ref": "#/components/schemas/ContractCommercialTerms"
+          },
           "sourceBaselineId": {
             "type": "string",
             "format": "uuid",
@@ -31546,10 +32081,9 @@
         },
         "required": [
           "projectId",
-          "sourceBaselineId",
-          "latestDiffResultId",
-          "packageStatus",
-          "guardDecision"
+          "contractId",
+          "candidateTerms",
+          "sourceBaselineId"
         ]
       },
       "ContractReadinessItem": {
@@ -31614,6 +32148,31 @@
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "candidateTerms": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractCommercialTerms"
+              }
+            ],
+            "nullable": true
+          },
+          "currentPreparation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContractTermPreparationSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "financialProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
           },
           "sourceBaselineId": {
             "type": "string",
@@ -31725,6 +32284,10 @@
         "required": [
           "id",
           "projectId",
+          "contractId",
+          "candidateTerms",
+          "currentPreparation",
+          "financialProjection",
           "sourceBaselineId",
           "commercialReleaseBaselineId",
           "latestDiffResultId",
@@ -31752,6 +32315,11 @@
       "InitializeContractSnapshotFromReadinessPackageRequest": {
         "type": "object",
         "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
           "contractReadinessPackageId": {
             "type": "string",
             "format": "uuid",
@@ -31767,7 +32335,10 @@
             "maximum": 9007199254740991,
             "minimum": 0
           }
-        }
+        },
+        "required": [
+          "contractId"
+        ]
       },
       "ReadinessInitializationResult": {
         "type": "object",
@@ -31778,18 +32349,46 @@
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
           "targetType": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "contract-term-preparation",
+              "receivable-plan-version"
+            ]
           },
           "sourceReadinessId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
           "resultStatus": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "prepared",
+              "initialized"
+            ]
           },
           "businessStatusAfter": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "prepared",
+              "active"
+            ]
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "preparationVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
           },
           "snapshotId": {
             "type": "string",
@@ -31802,19 +32401,50 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
+          },
+          "planVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "planVersion": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "initRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
           }
         },
         "required": [
           "targetId",
           "targetType",
           "sourceReadinessId",
+          "contractId",
           "resultStatus",
-          "businessStatusAfter"
+          "businessStatusAfter",
+          "preparationId",
+          "preparationVersion",
+          "snapshotId",
+          "newVersionId",
+          "planVersionId",
+          "planVersion",
+          "initRecordId"
         ]
       },
       "InitializeReceivablePlanFromReadinessPackageRequest": {
         "type": "object",
         "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
           "contractReadinessPackageId": {
             "type": "string",
             "format": "uuid",
@@ -31830,7 +32460,10 @@
             "maximum": 9007199254740991,
             "minimum": 0
           }
-        }
+        },
+        "required": [
+          "contractId"
+        ]
       },
       "SalesFollowUpRecordSummary": {
         "type": "object",

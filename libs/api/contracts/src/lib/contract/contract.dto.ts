@@ -1,5 +1,6 @@
 import {
     ActivateContractRequestSchema,
+    ActivateContractResultSchema,
     CommercialDiffReviewResultSchema,
     ConfirmProjectHandoverRequestSchema,
     ConfirmProjectHandoverResultSchema,
@@ -13,6 +14,10 @@ import {
     ContractListSchema,
     ContractSummarySchema,
     ContractTermSnapshotSummarySchema,
+    ContractCommercialTermsSchema,
+    ContractSelectionQuerySchema,
+    ContractTermPreparationSummarySchema,
+    ContractReviewBindingSummarySchema,
     CreateCommercialReleaseBaselineRequestSchema,
     CreateContractRequestSchema,
     CreateContractReadinessPackageRequestSchema,
@@ -23,6 +28,8 @@ import {
     RebaselineContractHandoverRequestSchema,
     RebaselineContractHandoverResultSchema,
     ReviewCommercialReleaseBaselineDiffRequestSchema,
+    ReceivablePlanSeedSchema,
+    SubmitContractReviewResultSchema,
     UpdateContractBasicInfoRequestSchema
 } from '@poms/shared-contracts';
 import { createZodDto } from '@poms/vendor-nestjs-zod';
@@ -44,6 +51,20 @@ export class CreateContractRequestDto extends createZodDto(CreateContractRequest
 export class UpdateContractBasicInfoRequestDto extends createZodDto(UpdateContractBasicInfoRequestSchema) {}
 
 export class ActivateContractRequestDto extends createZodDto(ActivateContractRequestSchema) {}
+
+export class ActivateContractResultDto extends createZodDto(ActivateContractResultSchema) {}
+
+export class SubmitContractReviewResultDto extends createZodDto(SubmitContractReviewResultSchema) {}
+
+export class ContractSelectionQueryDto extends createZodDto(ContractSelectionQuerySchema) {}
+
+export class ReceivablePlanSeedDto extends createZodDto(ReceivablePlanSeedSchema) {}
+
+export class ContractCommercialTermsDto extends createZodDto(ContractCommercialTermsSchema) {}
+
+export class ContractTermPreparationSummaryDto extends createZodDto(ContractTermPreparationSummarySchema) {}
+
+export class ContractReviewBindingSummaryDto extends createZodDto(ContractReviewBindingSummarySchema) {}
 
 export class CommercialReleaseBaselineDto extends createZodDto(CommercialReleaseBaselineSummarySchema) {}
 

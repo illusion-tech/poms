@@ -1,0 +1,30 @@
+
+[7m[1m[36m NX [39m[22m[27m  [36mRunning target [1mbuild[22m for project poms-api and [1m2[22m tasks it depends on:[39m
+
+[2m[36m[39m[22m
+[32m✔[39m  [2mnx run[22m vendor-nestjs-zod:build
+[32m✔[39m  [2mnx run[22m shared-contracts:build
+
+[2m> [22m[2mnx run[22m poms-api:build
+
+[2m> [22mwebpack-cli build --config-node-env=production
+
+webpack compiled [1m[32msuccessfully[39m[22m (6c23a9dd61569185)
+
+[2m[32m[39m[22m
+
+[7m[1m[32m NX [39m[22m[27m  [32mSuccessfully ran target [1mbuild[22m for project poms-api and [1m2[22m tasks it depends on[39m
+
+
+[2mOutput of 2 successful tasks were not shown. Run with[22m --verbose [2mor[22m --output-style=static [2mto see it.[22m
+
+  Run duration:      45.0s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     43.2s (2 tasks)
+  Recoverable time:  <1ms
+
+  Recommendations:
+    - Cache: drop --skip-nx-cache to restore unchanged tasks instantly.
+    - Speed up or split the longest tasks on the critical path:
+        shared-contracts:build    22.5s
+        poms-api:build            20.7s
