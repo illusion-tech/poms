@@ -170,7 +170,7 @@
 # 文档标题
 
 **文档状态**: Draft
-**最后更新**: 2026-03-16
+**最后更新**: 2026-11-04
 **适用范围**: `POMS` 第一阶段某业务域或某治理专题
 **关联文档**:
 
@@ -513,3 +513,10 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-03 R3 独立实际 G4 终审 Pass
 
 [最终非作者实际G4签署](archive/slices/rust-r3m/C/g4-independent-actual-review01.json)已Pass，仅认证本R3收口及当前58/58阶段交付；#98/#99/#100/#97/#85 Closed，#57持续Open、仅R3完成，R4–R7仍Todo。实施552211dd、原字节归档/固定提交/main及六Issue实际原文读回一致，311受测产品输入无变。最终写回只追加本签署与当前状态，G1/G3候选、失败/partial/quarantine/ignored、Native参考和平台留白保持原标签。托管作者工作树因应用活动引用保留，22ignored原件已保全，不影响已终止的验收运行态。
+
+
+### 2026-11-04 R4 首批独立 G3、实现与主线集成
+
+R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#104/C#105 共37入口已完成真实实现及验收，[独立 G3](archive/slices/rust-r4abc/g3-independent08.json.bin) Pass、固定提交复核和main集成已完成；实现为 `a2995dfb187a70064d2e54ce336a72c24974721a`，S3 `4f78bd48` 永久祖先保留。当前为 **G4Ready，尚不标Done或关闭**，仅具体四项G4方案可在独立许可和实际读回后收口，#101/#57维持Open。
+
+[验收索引](archive/slices/rust-r4abc/validation-checkpoint57.md)、[原字节归档](archive/slices/rust-r4abc/archive-origin-map63.json)和[后续范围](rust-r4-scope-and-dependencies.md)分别保留真实边界：Rust310/54历史ignored，Native863，Angular411，59真实写故障、6屏障并发及跨项目锁负例、Linux续跑链与Windows完整原UI；1004自有行及借用原件恢复、两次noop、对象原字节和卷/private保留，运行态已停止。整体Rust技术surface210，本批37尚待正式G4计交付；完整R4、成本40、移交经营验收完工归档、R5–R7及部署切流不因此完成。旧G1/Pending/失败/partial文句只保留原时点，当前进度以本条及GitHub为准。

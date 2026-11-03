@@ -1,0 +1,647 @@
+{
+  "schema": "poms-r4abc-independent-main-integration-review/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "role": "Non-author independent Gate reviewer",
+  "reviewedAtUtc": "2026-11-03T17:09:51.5562296Z",
+  "decision": "Pass",
+  "scope": "Actual exact main fast-forward/readback and primary working-byte preservation for the already approved implementation commit; not G4 or Issue closure.",
+  "beforeMain": "1730f304c1cf5600721f80b6c06feec24269d387",
+  "implementationCommit": "a2995dfb187a70064d2e54ce336a72c24974721a",
+  "actualMain": {
+    "primary": "E:/projects/poms",
+    "branch": "main",
+    "head": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "tree": "baedc78eaa89cca7a24d7f3979eacf15c3d7da1b",
+    "liveRemoteRef": "refs/heads/main",
+    "liveRemoteHead": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "independentLiveReadCommand": "git ls-remote origin refs/heads/main",
+    "rawLiveReadback": [
+      "a2995dfb187a70064d2e54ce336a72c24974721a\trefs/heads/main"
+    ],
+    "primaryFullPorcelainStatus": [],
+    "primaryCleanIncludingUntracked": true,
+    "fastForwardFromOriginal1730": true,
+    "permanentS3AncestorPreserved": true,
+    "mergeConflictsOrAdditionalProductionCommit": false
+  },
+  "RootWorkingTree": {
+    "path": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+    "branch": "codex/poms-r4abc-first37",
+    "head": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "trackedChanges": [],
+    "fullStatusAtFinalReadback": [
+      "?? docs/design/rust-r4abc/fixed-commit09-blobs.json.bin",
+      "?? docs/design/rust-r4abc/fixed-commit09.json.bin"
+    ],
+    "fullCleanAtFinalReadback": false,
+    "exactReason": "Only two new untracked fixed-commit review archival .bin copies appeared during this readback. Both are byte-identical to the independent originals and contain no product change.",
+    "archiveCopies": [
+      {
+        "source": "tmp/rust-r4abc/independent/fixed-commit09.json",
+        "copy": "docs/design/rust-r4abc/fixed-commit09.json.bin",
+        "sha256": "d35b98a9006a07dca3dafcb5b4a7a2d9525942990ca05e1ba5e6043d77673924",
+        "exact": true
+      },
+      {
+        "source": "tmp/rust-r4abc/independent/fixed-commit09-blobs.json",
+        "copy": "docs/design/rust-r4abc/fixed-commit09-blobs.json.bin",
+        "sha256": "1f407dfadb9df49f3f367b32f59dedd465cf5503a3ca4a6eb7d13bae408145b0",
+        "exact": true
+      }
+    ],
+    "productSourceChanges": false,
+    "note": "The actual primary main remains fully clean. Root is accurately reported as tracked-clean with two provenance copies, rather than relabeled fully clean."
+  },
+  "fixedCommitAndG3Continuity": {
+    "fixedReview": {
+      "file": "tmp/rust-r4abc/independent/fixed-commit09.json",
+      "bytes": 7325,
+      "sha256": "d35b98a9006a07dca3dafcb5b4a7a2d9525942990ca05e1ba5e6043d77673924"
+    },
+    "immutableBlobInventory": {
+      "file": "tmp/rust-r4abc/independent/fixed-commit09-blobs.json",
+      "bytes": 959533,
+      "sha256": "1f407dfadb9df49f3f367b32f59dedd465cf5503a3ca4a6eb7d13bae408145b0"
+    },
+    "candidateAnchorsOnPrimary": [
+      {
+        "file": "docs/design/rust-r4abc/final-source53.json",
+        "bytes": 337773,
+        "sha256": "5ee6a7f3ab7893e5e840e879ecb18f993f8c6910ccd7ac5066ea511acae81db1",
+        "expectedSha256": "5ee6a7f3ab7893e5e840e879ecb18f993f8c6910ccd7ac5066ea511acae81db1",
+        "exact": true
+      },
+      {
+        "file": "docs/design/rust-r4abc/final-validation57.json",
+        "bytes": 11013,
+        "sha256": "7336469c939c046a966b62353d0d87807b609dbcf3101b11e7d2212ba290eaeb",
+        "expectedSha256": "7336469c939c046a966b62353d0d87807b609dbcf3101b11e7d2212ba290eaeb",
+        "exact": true
+      },
+      {
+        "file": "docs/design/rust-r4abc/validation-supplement59.json",
+        "bytes": 29222,
+        "sha256": "0bc46818a401c666e5468da2421894ea4e84137abd4033d6bb76a77844922d86",
+        "expectedSha256": "0bc46818a401c666e5468da2421894ea4e84137abd4033d6bb76a77844922d86",
+        "exact": true
+      }
+    ],
+    "exactOriginalThreeAnchorRawBytes": true,
+    "exactCommittedTree": "baedc78eaa89cca7a24d7f3979eacf15c3d7da1b",
+    "noPostG3ProductOrDependencyOrLockChange": true,
+    "priorSourceRuntimeEvidenceAndFiniteBoundariesRetained": true,
+    "runtimeRerunAfterMainClaimed": false
+  },
+  "primaryProductByteReview": {
+    "count": 949,
+    "independentlyReadActualPrimaryFiles": true,
+    "expected": "G3 final-source53 product rawBytesSha256/bytes and normalizedTextSha256, already matched to fixed commit blobs in review09.",
+    "actualRawByteLengthOrSha256Differences": [],
+    "actualNormalizedTextSha256Differences": [],
+    "all949RawBytesExact": true,
+    "all949NormalizedTextExact": true,
+    "normalizationUsedOnlyForSeparateTextComparison": "Strict valid UTF8, physical CRLF->LF only; no BOM/Unicode/space/bare-CR normalization.",
+    "semanticOrProductDifferenceOpen": false
+  },
+  "originalPrimaryBytePreservation": {
+    "originalTreeFiles": 11127,
+    "originalBeforeRecords": 11127,
+    "treeClassificationIndependentlyCompared": true,
+    "treeOrUnchangedClassificationErrors": [],
+    "definition": "Unchanged is defined by identical original/new Git blob object ID, as used by the actual integration executor.",
+    "unchangedBlobFiles": 11058,
+    "receiptUnchangedCount": 11058,
+    "all11058CurrentRawBytesMatchRecordedBefore": true,
+    "currentUnchangedRawDifferences": [],
+    "originalNonGitRawRepresentations": 17,
+    "preservedRepresentationsInside949": 0,
+    "preservedRepresentationsOutside949": 17,
+    "everyPreservedCurrentRawEqualsBeforeAndBackup": true,
+    "everyRepresentationDifferenceOnlyCRLF": true,
+    "preservedRepresentations": [
+      {
+        "file": "apps/poms-admin/src/app/core/auth/auth.guard.ts",
+        "rawBytes": 560,
+        "rawSha256": "d03f42f82008460e5c46b08cd65959fceda576c6ba4fdb98182f270d353ba573",
+        "beforeRawSha256": "d03f42f82008460e5c46b08cd65959fceda576c6ba4fdb98182f270d353ba573",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-admin/src/app/core/auth/auth.guard.ts.bin",
+        "savedOriginalSha256": "d03f42f82008460e5c46b08cd65959fceda576c6ba4fdb98182f270d353ba573",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/.env.example",
+        "rawBytes": 377,
+        "rawSha256": "94b17b2e3864ac9d203e6de4f556f016403d9067e4edb37faf1f698886b6eabc",
+        "beforeRawSha256": "94b17b2e3864ac9d203e6de4f556f016403d9067e4edb37faf1f698886b6eabc",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/.env.example.bin",
+        "savedOriginalSha256": "94b17b2e3864ac9d203e6de4f556f016403d9067e4edb37faf1f698886b6eabc",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/approval/todo-item.entity.ts",
+        "rawBytes": 3844,
+        "rawSha256": "7a9fd2c375cbf0dd953908d0f42563af6231046274b39b11c41da90d396c0f3f",
+        "beforeRawSha256": "7a9fd2c375cbf0dd953908d0f42563af6231046274b39b11c41da90d396c0f3f",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/approval/todo-item.entity.ts.bin",
+        "savedOriginalSha256": "7a9fd2c375cbf0dd953908d0f42563af6231046274b39b11c41da90d396c0f3f",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/commission/commission-rule-version.entity.ts",
+        "rawBytes": 2734,
+        "rawSha256": "48a41b1ad9552e1b43d51aca506c950efd9801666b4c0edb45ee2d08c034a8a9",
+        "beforeRawSha256": "48a41b1ad9552e1b43d51aca506c950efd9801666b4c0edb45ee2d08c034a8a9",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/commission/commission-rule-version.entity.ts.bin",
+        "savedOriginalSha256": "48a41b1ad9552e1b43d51aca506c950efd9801666b4c0edb45ee2d08c034a8a9",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/navigation/navigation.module.ts",
+        "rawBytes": 330,
+        "rawSha256": "9b130f9d2420a3bc6dd71517ada409f2d926f68831ae8505ca46e4c6968a7e79",
+        "beforeRawSha256": "9b130f9d2420a3bc6dd71517ada409f2d926f68831ae8505ca46e4c6968a7e79",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/navigation/navigation.module.ts.bin",
+        "savedOriginalSha256": "9b130f9d2420a3bc6dd71517ada409f2d926f68831ae8505ca46e4c6968a7e79",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/org-unit.entity.ts",
+        "rawBytes": 2470,
+        "rawSha256": "536a166fda4294c808492db0aaed7a48f3c29bc8d9df74ee5e6c781bd74ce16a",
+        "beforeRawSha256": "536a166fda4294c808492db0aaed7a48f3c29bc8d9df74ee5e6c781bd74ce16a",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/org-unit.entity.ts.bin",
+        "savedOriginalSha256": "536a166fda4294c808492db0aaed7a48f3c29bc8d9df74ee5e6c781bd74ce16a",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform-user.entity.ts",
+        "rawBytes": 2197,
+        "rawSha256": "5e19e1bd192af6048a1601e21dcd7249bdf33a34feb485c89b8de3a41ec883ee",
+        "beforeRawSha256": "5e19e1bd192af6048a1601e21dcd7249bdf33a34feb485c89b8de3a41ec883ee",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/platform-user.entity.ts.bin",
+        "savedOriginalSha256": "5e19e1bd192af6048a1601e21dcd7249bdf33a34feb485c89b8de3a41ec883ee",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform.controller.spec.ts",
+        "rawBytes": 15206,
+        "rawSha256": "a0b29cb86d4d00112ab1e4fe1e900feacda7abecb567c361fd336edcacef8aab",
+        "beforeRawSha256": "a0b29cb86d4d00112ab1e4fe1e900feacda7abecb567c361fd336edcacef8aab",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/platform.controller.spec.ts.bin",
+        "savedOriginalSha256": "a0b29cb86d4d00112ab1e4fe1e900feacda7abecb567c361fd336edcacef8aab",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform.module.ts",
+        "rawBytes": 1143,
+        "rawSha256": "2684bfba0223b5b75ec4a9ef444924e080a5e036e13430d8239d46a96a706145",
+        "beforeRawSha256": "2684bfba0223b5b75ec4a9ef444924e080a5e036e13430d8239d46a96a706145",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/platform.module.ts.bin",
+        "savedOriginalSha256": "2684bfba0223b5b75ec4a9ef444924e080a5e036e13430d8239d46a96a706145",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform.repository.ts",
+        "rawBytes": 5893,
+        "rawSha256": "9cf2394d57030a1cd06d78a13b791c10b776d99bc9512eb2e9a4eac0bb7fe8af",
+        "beforeRawSha256": "9cf2394d57030a1cd06d78a13b791c10b776d99bc9512eb2e9a4eac0bb7fe8af",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/platform.repository.ts.bin",
+        "savedOriginalSha256": "9cf2394d57030a1cd06d78a13b791c10b776d99bc9512eb2e9a4eac0bb7fe8af",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform.service.spec.ts",
+        "rawBytes": 59308,
+        "rawSha256": "f46fd04b79f2abcad0e22abee14e04c7cc6b20e459dba78fad0a88d0d786121f",
+        "beforeRawSha256": "f46fd04b79f2abcad0e22abee14e04c7cc6b20e459dba78fad0a88d0d786121f",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/platform.service.spec.ts.bin",
+        "savedOriginalSha256": "f46fd04b79f2abcad0e22abee14e04c7cc6b20e459dba78fad0a88d0d786121f",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/role-permission-assignment.entity.ts",
+        "rawBytes": 2196,
+        "rawSha256": "d46875f1a1a9a87d52b1adb4a36b532a5f14f3eee26f53ce7b875be44bab44b6",
+        "beforeRawSha256": "d46875f1a1a9a87d52b1adb4a36b532a5f14f3eee26f53ce7b875be44bab44b6",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/role-permission-assignment.entity.ts.bin",
+        "savedOriginalSha256": "d46875f1a1a9a87d52b1adb4a36b532a5f14f3eee26f53ce7b875be44bab44b6",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/role.entity.ts",
+        "rawBytes": 1416,
+        "rawSha256": "9f387982f0cb6a45c529aaba6f383a6ea6a400bbf6097068bdbf3097b0e0e727",
+        "beforeRawSha256": "9f387982f0cb6a45c529aaba6f383a6ea6a400bbf6097068bdbf3097b0e0e727",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/role.entity.ts.bin",
+        "savedOriginalSha256": "9f387982f0cb6a45c529aaba6f383a6ea6a400bbf6097068bdbf3097b0e0e727",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/user-org-membership.entity.ts",
+        "rawBytes": 2735,
+        "rawSha256": "3558e307d53b5fd1e39ddf94828b309573e7f0d2f2ca754305da595cd1c982e6",
+        "beforeRawSha256": "3558e307d53b5fd1e39ddf94828b309573e7f0d2f2ca754305da595cd1c982e6",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/user-org-membership.entity.ts.bin",
+        "savedOriginalSha256": "3558e307d53b5fd1e39ddf94828b309573e7f0d2f2ca754305da595cd1c982e6",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/user-role-assignment.entity.ts",
+        "rawBytes": 2322,
+        "rawSha256": "0c06dd5357de3a16bbd70ac914cb748adbcdf0bd920ca3c8aa9b5fbb0eb6bdfc",
+        "beforeRawSha256": "0c06dd5357de3a16bbd70ac914cb748adbcdf0bd920ca3c8aa9b5fbb0eb6bdfc",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/app/features/platform/user-role-assignment.entity.ts.bin",
+        "savedOriginalSha256": "0c06dd5357de3a16bbd70ac914cb748adbcdf0bd920ca3c8aa9b5fbb0eb6bdfc",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "apps/poms-api/src/seeders/README.md",
+        "rawBytes": 1116,
+        "rawSha256": "2f0b389671d8d7edd867a6b7351d271ff55f0156c77cab70c597eb41bf70703c",
+        "beforeRawSha256": "2f0b389671d8d7edd867a6b7351d271ff55f0156c77cab70c597eb41bf70703c",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/apps/poms-api/src/seeders/README.md.bin",
+        "savedOriginalSha256": "2f0b389671d8d7edd867a6b7351d271ff55f0156c77cab70c597eb41bf70703c",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      },
+      {
+        "file": "tools/openapi/typescript-angular.config.json",
+        "rawBytes": 643,
+        "rawSha256": "dc46d95dd7fa449868b6a850c5e4dd5abaae95c02b10ef02572f7443a64b9b28",
+        "beforeRawSha256": "dc46d95dd7fa449868b6a850c5e4dd5abaae95c02b10ef02572f7443a64b9b28",
+        "savedOriginal": "tmp/rust-r4abc/root/main-integration64/primary-originals/tools/openapi/typescript-angular.config.json.bin",
+        "savedOriginalSha256": "dc46d95dd7fa449868b6a850c5e4dd5abaae95c02b10ef02572f7443a64b9b28",
+        "allRawEqual": true,
+        "onlyCRLFRepresentation": true,
+        "in949": false
+      }
+    ],
+    "wholePrimaryWorkingTreeRawEqualsGitBlobClaimed": false,
+    "preciseBoundary": "The 17 retained CRLF working forms are all outside the949 product list. They keep their original raw bytes while canonical Git blob content is unchanged. Separately, every one of the949 products is an exact raw match to the approved candidate."
+  },
+  "actualIntegrationEvidence": {
+    "receipt": {
+      "file": "tmp/rust-r4abc/root/main-integration64/receipt64.json",
+      "bytes": 6825,
+      "sha256": "19ca29a91041c4ebc08c809cf047a1cf1e2ef5d92cc16ebb3045cf912fb9d223"
+    },
+    "originalPrimaryBeforeInventory": {
+      "file": "tmp/rust-r4abc/root/main-integration64/primary-before64.json",
+      "bytes": 4146957,
+      "sha256": "f9de7228506c744250e61eee63c7c54e5bdc4db355c8f49dcd18510258e0bf26"
+    },
+    "executor64": {
+      "file": "tmp/rust-r4abc/integrate-main64.mjs",
+      "bytes": 4993,
+      "sha256": "b919513b1e3469349fd09b7ef9713a8d55a554e780a643c92a39bf60dbf5fc50"
+    },
+    "actualRecordedGitCommands": 15,
+    "nonzeroRecordedCommandExits": 0,
+    "actualSequence": "Before main and remote were exact1730, ancestry checked, original tree/working bytes captured, merge --ff-only exact a299, unchanged raw bytes verified/restored only from own backups,949 products checked, primary clean, push main, remote exact a299 read back.",
+    "commandOriginalStreamPins": [
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/1-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/1-stdout-original.bin",
+        "bytes": 17,
+        "sha256": "c4ce9e94190f7aeb47a041c664820de4cf10b46f2d2b66f65d6ab7bdb978c6aa"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/10-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/10-stdout-original.bin",
+        "bytes": 1666804,
+        "sha256": "f5b4c5439aad5c1e22f75945eef28413f0210aaab828176e44142d176a6e2706"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/2-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/2-stdout-original.bin",
+        "bytes": 5,
+        "sha256": "6403203dd5a0867eb14d104ee8a73730bd72dd9ad92e78d996a6dba0a5dcfc01"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/3-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/3-stdout-original.bin",
+        "bytes": 41,
+        "sha256": "41522aff8be510a44ba91050835a10b85ebeb9f6c9867c90bfeb59f669371d43"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/4-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/4-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/5-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/5-stdout-original.bin",
+        "bytes": 41,
+        "sha256": "ce1ebc4c6d0aec587b5a33f05c58d79ead9d63544891475b5e8f8466447a988e"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/6-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/6-stdout-original.bin",
+        "bytes": 57,
+        "sha256": "c8f76703a0a6fec1eb836434c947fd6b52b4cd20419cc46e09bc97f6a61e7af8"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/7-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/7-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/8-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/8-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/9-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration61/9-stdout-original.bin",
+        "bytes": 1460840,
+        "sha256": "ef77b2675f3f2c9ca9d652e987fe64982924b30f0d6128a5721476ce41742470"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/1-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/1-stdout-original.bin",
+        "bytes": 17,
+        "sha256": "c4ce9e94190f7aeb47a041c664820de4cf10b46f2d2b66f65d6ab7bdb978c6aa"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/10-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/10-stdout-original.bin",
+        "bytes": 1666804,
+        "sha256": "f5b4c5439aad5c1e22f75945eef28413f0210aaab828176e44142d176a6e2706"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/11-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/11-stdout-original.bin",
+        "bytes": 265327,
+        "sha256": "e3a59050a87e2e019c53927092bc0be6582f94945920060a535393b1505e2c9b"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/12-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/12-stdout-original.bin",
+        "bytes": 41,
+        "sha256": "41522aff8be510a44ba91050835a10b85ebeb9f6c9867c90bfeb59f669371d43"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/13-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/13-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/14-stderr-original.bin",
+        "bytes": 81,
+        "sha256": "6cf044276b74e22e18c6d48565582170e325e67060a348fc45c77846ad62005e"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/14-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/15-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/15-stdout-original.bin",
+        "bytes": 57,
+        "sha256": "0c4b94749ad34b1810345573e6e71737225b26c9d4a560de52e0a45e0aaedb95"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/2-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/2-stdout-original.bin",
+        "bytes": 5,
+        "sha256": "6403203dd5a0867eb14d104ee8a73730bd72dd9ad92e78d996a6dba0a5dcfc01"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/3-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/3-stdout-original.bin",
+        "bytes": 41,
+        "sha256": "41522aff8be510a44ba91050835a10b85ebeb9f6c9867c90bfeb59f669371d43"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/4-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/4-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/5-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/5-stdout-original.bin",
+        "bytes": 41,
+        "sha256": "ce1ebc4c6d0aec587b5a33f05c58d79ead9d63544891475b5e8f8466447a988e"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/6-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/6-stdout-original.bin",
+        "bytes": 57,
+        "sha256": "c8f76703a0a6fec1eb836434c947fd6b52b4cd20419cc46e09bc97f6a61e7af8"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/7-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/7-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/8-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/8-stdout-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/9-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/main-integration64/9-stdout-original.bin",
+        "bytes": 1460840,
+        "sha256": "ef77b2675f3f2c9ca9d652e987fe64982924b30f0d6128a5721476ce41742470"
+      }
+    ]
+  },
+  "priorAttempt61": {
+    "classification": "Stopped before integration; remains a failed/preflight attempt, not Pass.",
+    "source": {
+      "file": "tmp/rust-r4abc/integrate-main61.mjs",
+      "bytes": 4972,
+      "sha256": "266bec691c8b38bf8b797fb4fca7db756dd7fa3114b2322b0a231667ea966b5b"
+    },
+    "progress": {
+      "file": "tmp/rust-r4abc/root/main-integration61/progress.json",
+      "bytes": 1889,
+      "sha256": "8afcd4bf07918b04782bf2e12ad06d7f5808163ea87cd6840026faa2fef9b8ba"
+    },
+    "recordedGitCommands": 10,
+    "recordedMergeOrPushCommands": 0,
+    "errorScope": "Windows path separator representation caused the safety-prefix comparison to stop before any merge.",
+    "independentlyCompared64Delta": {
+      "outputDirectoryAndReceiptBeforeInventoryNamespacesChanged": true,
+      "onlySubstantiveChange": "const full=path.resolve(primary,file).replaceAll('\\\\','/');",
+      "allOtherSourceBytesEquivalentAfterThoseExactReplacements": true,
+      "productChanges": false
+    },
+    "originalCommandStreamsPreserved": true
+  },
+  "findings": {
+    "open": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    },
+    "blockers": []
+  },
+  "allowedNextStep": {
+    "prepareG4ReadyLifecycleArchiveAndIndex": true,
+    "prepareConcreteSixIssueClosurePlan": true,
+    "requiredBoundary": "Preserve original bytes, logical-to-stored mappings, compiled-resource paths and existing validation labels. Keep production semantics and the reviewed implementation unchanged.",
+    "submitIssueClosureActions": false,
+    "G4Certified": false
+  },
+  "issueBoundary": {
+    "eventualClosableOnlyAfterSeparatePermission": [
+      103,
+      104,
+      105,
+      102
+    ],
+    "parentIssuesMustRemainOpen": [
+      101,
+      57
+    ],
+    "allSixRemainOpenForThisReview": true
+  },
+  "independence": {
+    "sourceOrExecutorAuthor": false,
+    "productWrites": false,
+    "GitWrites": false,
+    "GitHubWrites": false,
+    "reviewerExecutedBuildTestGeneratorDbHttpBrowserWsl": false,
+    "reviewerActions": "Read-only local/remote Git identity and trees, actual public integration source/receipts/original command streams, primary/Root file bytes and hashes.",
+    "privateContentsRead": false,
+    "outputsOnly": "tmp/rust-r4abc/independent/"
+  },
+  "finalConclusion": "Exact approved commit is actually on primary and remote main, with949 exact raw product matches and all11058 unchanged original raw files preserved. Main integration Pass. G4Ready preparation may proceed; no G4/Issue closure permission is granted."
+}

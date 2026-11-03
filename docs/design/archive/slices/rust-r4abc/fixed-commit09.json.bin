@@ -1,0 +1,199 @@
+{
+  "schema": "poms-r4abc-independent-fixed-commit-review/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "role": "Non-author independent Gate reviewer",
+  "reviewedAtUtc": "2026-11-03T16:51:48.4846459Z",
+  "decision": "Pass",
+  "scope": "Immutable local implementation commit raw-blob equivalence to the exact independently approved G3 first37 candidate.",
+  "commit": "a2995dfb187a70064d2e54ce336a72c24974721a",
+  "parent": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+  "tree": "baedc78eaa89cca7a24d7f3979eacf15c3d7da1b",
+  "branch": "codex/poms-r4abc-first37",
+  "implementationCommitsAfterPermanentS3": 1,
+  "changedPaths": 971,
+  "identity": {
+    "G1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "permanentS3": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "originalProductBase": "1730f304c1cf5600721f80b6c06feec24269d387",
+    "allAncestorsPreserved": true,
+    "ancestorCommandExitCodes": {
+      "S3": 0,
+      "G1": 0,
+      "base1730": 0
+    },
+    "HEADAtReadback": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "worktreeClean": true
+  },
+  "rawBlobReview": {
+    "method": "git cat-file --batch, direct binary stdout. Read object header and exact payload length, hash raw bytes with SHA256. No text decoding, newline conversion or normalization.",
+    "inspectedPaths": 1840,
+    "distinctReadBlobs": 1501,
+    "exactMatches": 1840,
+    "failures": [],
+    "CRLFRepresentationExceptions": [],
+    "products": 949,
+    "recursiveCompilationResourcesCovered": 326,
+    "completeClient": {
+      "expectedFiles": 586,
+      "actualCommitFiles": 586,
+      "inventoryDifferences": [],
+      "allRawBytesExact": true
+    },
+    "listedExecutionSources": 127,
+    "additionalNativePreload": {
+      "file": "tools/rust-r4abc/native-preload31.cjs",
+      "bytes": 1450,
+      "sha256": "3ed7f6b363bb24eed08ab847d1a70c14b4c0a1c0379062f85b40bba4b4254ed8",
+      "explicitG3ExtraPinMatches": true
+    },
+    "originalEvidence": {
+      "files": 592,
+      "bytes": 37256209,
+      "allStoredCommitBlobsExact": true
+    },
+    "supplementalEvidence": {
+      "files": 12,
+      "allStoredCommitBlobsExact": true
+    },
+    "all971ChangedPathsComparedToReviewedCurrentBytes": true,
+    "fullInventory": {
+      "file": "tmp/rust-r4abc/independent/fixed-commit09-blobs.json",
+      "bytes": 959533,
+      "sha256": "1f407dfadb9df49f3f367b32f59dedd465cf5503a3ca4a6eb7d13bae408145b0"
+    },
+    "inventoryScope": "G3 product/execution/evidence pins, exact three anchors plus checkpoint/map, explicit Native adapter, G3 review/authority and all remaining existing G1/G2 provenance changed paths.",
+    "independentSourceOrExecutorEdits": false
+  },
+  "candidateAnchors": [
+    {
+      "file": "docs/design/rust-r4abc/final-source53.json",
+      "expectedSha256": "5ee6a7f3ab7893e5e840e879ecb18f993f8c6910ccd7ac5066ea511acae81db1",
+      "blobSha256": "5ee6a7f3ab7893e5e840e879ecb18f993f8c6910ccd7ac5066ea511acae81db1",
+      "bytes": 337773,
+      "matches": true
+    },
+    {
+      "file": "docs/design/rust-r4abc/final-validation57.json",
+      "expectedSha256": "7336469c939c046a966b62353d0d87807b609dbcf3101b11e7d2212ba290eaeb",
+      "blobSha256": "7336469c939c046a966b62353d0d87807b609dbcf3101b11e7d2212ba290eaeb",
+      "bytes": 11013,
+      "matches": true
+    },
+    {
+      "file": "docs/design/rust-r4abc/validation-supplement59.json",
+      "expectedSha256": "0bc46818a401c666e5468da2421894ea4e84137abd4033d6bb76a77844922d86",
+      "blobSha256": "0bc46818a401c666e5468da2421894ea4e84137abd4033d6bb76a77844922d86",
+      "bytes": 29222,
+      "matches": true
+    }
+  ],
+  "G3ReviewBinding": {
+    "originalIndependentReview": {
+      "file": "tmp/rust-r4abc/independent/g3-independent08.json",
+      "bytes": 24205,
+      "sha256": "4abaab087cd553341427e7f608bf9aaeda86d061c6bc4727e7437871dbb1ad0b"
+    },
+    "committedArchive": {
+      "file": "docs/design/rust-r4abc/g3-independent08.json.bin",
+      "categories": [
+        "G3-anchor-or-authorized-metadata"
+      ],
+      "commitBlobOid": "827c92ce19c058b238d6e9fa5ce8f0e4fe365205",
+      "mode": "100644",
+      "expectedBytes": 24205,
+      "actualBytes": 24205,
+      "expectedSha256": "4abaab087cd553341427e7f608bf9aaeda86d061c6bc4727e7437871dbb1ad0b",
+      "actualSha256": "4abaab087cd553341427e7f608bf9aaeda86d061c6bc4727e7437871dbb1ad0b",
+      "matches": true
+    },
+    "exactOriginalRawBytes": true,
+    "authority": {
+      "file": "docs/design/rust-r4abc/g3-authority60.json",
+      "categories": [
+        "G3-anchor-or-authorized-metadata"
+      ],
+      "commitBlobOid": "732ef48d2f4068c012ccfa73c9a4ff38f21b8002",
+      "mode": "100644",
+      "expectedBytes": 738,
+      "actualBytes": 738,
+      "expectedSha256": "c404f87af30cdd85868f829d9d071d55692788aac70ff1fd8e45db570afca2f0",
+      "actualSha256": "c404f87af30cdd85868f829d9d071d55692788aac70ff1fd8e45db570afca2f0",
+      "matches": true
+    },
+    "authorityReferencesExactReviewAndCandidate": true,
+    "authorityNotRetroactivelyWidened": {
+      "G3": true,
+      "mainAuthorizedByThatOlderRecord": false,
+      "G4": false,
+      "issuesRemainOpen": [
+        103,
+        104,
+        105,
+        102,
+        101,
+        57
+      ]
+    },
+    "onlyPostG3CandidateAdditions": "The authorized original G3 review copy and its bounded authority metadata; the implementation remains the same reviewed candidate."
+  },
+  "changeBoundary": {
+    "unreviewedProductionChanges": [],
+    "dependencyLockOrProtectedInputChangesAfterS3": [],
+    "sourceLockDependencyOrProductionDrift": false,
+    "deletionsOrHistoryRewrite": false,
+    "previousG3FiniteReuseDriftIgnoredAndPartialBoundariesRetained": true,
+    "runtimeValidationRerunClaim": false,
+    "reasonNoNewRuntimeRunRequired": "This review finds exact immutable blob equivalence to the already actually validated G3 candidate, with no production-byte change."
+  },
+  "findings": {
+    "open": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    },
+    "blockers": []
+  },
+  "mainFastForwardPermission": {
+    "granted": true,
+    "exactTargetCommit": "a2995dfb187a70064d2e54ce336a72c24974721a",
+    "method": "Fast-forward only",
+    "grantedByThisIndependentFixedCommitReview": true,
+    "operationalPreflight": "Root must perform the already planned live primary/remote main identity and clean-state checks, preserve raw representation of unchanged files, and integrate this exact target without rewriting or adding production changes.",
+    "exactMainProductReadbackRequired": 949,
+    "subsequentIndependentMainReviewRequired": true,
+    "anotherCommitAutomaticallyAuthorized": false
+  },
+  "notCertified": {
+    "mainAlreadyIntegrated": false,
+    "mainWorkingBytesOrRemoteReadback": false,
+    "delivery": false,
+    "IssueClosure": false,
+    "G4": false,
+    "wholeR4": false,
+    "deploymentCutoverPerformance": false
+  },
+  "remainingScope": {
+    "firstBatchOperations": 37,
+    "issuesStillOpen": [
+      103,
+      104,
+      105,
+      102,
+      101,
+      57
+    ],
+    "parentsMustRemainOpen": [
+      101,
+      57
+    ]
+  },
+  "independence": {
+    "reviewOnly": true,
+    "productOrExecutorWritten": false,
+    "GitWrites": false,
+    "GitHubWrites": false,
+    "DBHttpBrowserWslRuntimeExecuted": false,
+    "privateContentsRead": false,
+    "outputsOnly": "tmp/rust-r4abc/independent/"
+  }
+}

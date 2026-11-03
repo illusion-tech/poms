@@ -1,7 +1,7 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0/R1/R2/R3已完成，R3独立实际G4终审Pass，#85及本批子项Closed；#57继续Open；R4首批G0/G1进行中，R5–R7待推进
-**最后更新**: 2026-11-03
+**文档状态**: Active — R0/R1/R2/R3已完成，R3独立实际G4终审Pass，#85及本批子项Closed；#57继续Open；R4首批37入口已集成/G4Ready，R5–R7待推进
+**最后更新**: 2026-11-04
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
 
@@ -558,4 +558,11 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 
 ### 2026-11-03 R4 首批 G0 与联合 G1 候选
 
-用户已授权启动 [R4 #101](https://github.com/illusion-tech/poms/issues/101) 首批 [#102](https://github.com/illusion-tech/poms/issues/102)，原生 A#103/B#104/C#105 已建立并读回。当前37唯一公开入口为签约就绪9、合同9、财务19；313份当前静态来源与AST/spec/canonical清单已捕获，[联合基线](rust-r4abc-first37-baseline.md)及精确DTO/DDL/同事务协议进入非作者G1审查，尚未准入G2。四项用户裁决明确真实合同准备/审核激活/正式计划、正数两位金额、付款归属、每合同独立金额与来源差异审计。R0–R3交付不变；R4 Doing/G1待冻结、R5–R7 Todo，#101/#57保持Open，本批完成也不能关闭整个R4。
+用户已授权启动 [R4 #101](https://github.com/illusion-tech/poms/issues/101) 首批 [#102](https://github.com/illusion-tech/poms/issues/102)，原生 A#103/B#104/C#105 已建立并读回。当前37唯一公开入口为签约就绪9、合同9、财务19；313份当前静态来源与AST/spec/canonical清单已捕获，[联合基线](archive/slices/rust-r4abc-first37-baseline.md)及精确DTO/DDL/同事务协议进入非作者G1审查，尚未准入G2。四项用户裁决明确真实合同准备/审核激活/正式计划、正数两位金额、付款归属、每合同独立金额与来源差异审计。R0–R3交付不变；R4 Doing/G1待冻结、R5–R7 Todo，#101/#57保持Open，本批完成也不能关闭整个R4。
+
+
+### 2026-11-04 R4 首批独立 G3、实现与主线集成
+
+R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#104/C#105 共37入口已完成真实实现及验收，[独立 G3](archive/slices/rust-r4abc/g3-independent08.json.bin) Pass、固定提交复核和main集成已完成；实现为 `a2995dfb187a70064d2e54ce336a72c24974721a`，S3 `4f78bd48` 永久祖先保留。当前为 **G4Ready，尚不标Done或关闭**，仅具体四项G4方案可在独立许可和实际读回后收口，#101/#57维持Open。
+
+[验收索引](archive/slices/rust-r4abc/validation-checkpoint57.md)、[原字节归档](archive/slices/rust-r4abc/archive-origin-map63.json)和[后续范围](rust-r4-scope-and-dependencies.md)分别保留真实边界：Rust310/54历史ignored，Native863，Angular411，59真实写故障、6屏障并发及跨项目锁负例、Linux续跑链与Windows完整原UI；1004自有行及借用原件恢复、两次noop、对象原字节和卷/private保留，运行态已停止。整体Rust技术surface210，本批37尚待正式G4计交付；完整R4、成本40、移交经营验收完工归档、R5–R7及部署切流不因此完成。旧G1/Pending/失败/partial文句只保留原时点，当前进度以本条及GitHub为准。
