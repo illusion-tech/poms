@@ -15,7 +15,8 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { AdminTableCard } from '../../shared/ui/admin-table-card';
-import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
+import { BUSINESS_FINANCE_PERMISSION_KEYS } from '../../shared/ui/sensitive-visibility';
+import { contractAmountDisplay, isValidContractAmount } from './contract-flow';
 import { contractStatusLabelOrFallback, contractStatusSeverityOrFallback, projectStageLabelOrFallback, projectStageSeverityOrFallback, projectStatusLabelOrFallback, projectStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 const CONTRACT_STATUS_FILTER_VALUES = [ContractStatus.Draft, ContractStatus.PendingReview, ContractStatus.Active, ContractStatus.Terminated, ContractStatus.Completed] as const;
@@ -249,7 +250,7 @@ export class ContractList implements OnInit {
     first = 0;
     rows = 10;
     readonly statusColumnFilterOptions = CONTRACT_STATUS_FILTER_OPTIONS;
-    readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
+    readonly formatSensitiveAmountProjection = contractAmountDisplay;
     readonly canViewFinancialSensitiveFields = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
     readonly canManageContractFinance = this.canViewFinancialSensitiveFields;
 
@@ -279,7 +280,7 @@ export class ContractList implements OnInit {
     }
 
     isValidAmount(value: string): boolean {
-        return /^\d+(\.\d{1,2})?$/.test(value.trim()) && parseFloat(value) > 0;
+        return isValidContractAmount(value);
     }
 
     showCreateDialog() {

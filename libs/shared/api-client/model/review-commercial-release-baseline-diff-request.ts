@@ -11,6 +11,8 @@ import { CommercialBaselineReviewDecision } from './commercial-baseline-review-d
 
 
 export interface ReviewCommercialReleaseBaselineDiffRequest {
+    contractId: string;
+    diffResultId: string;
     diffDecision: CommercialBaselineReviewDecision;
     reviewedFieldKeys?: Array<string>;
     comment?: string;

@@ -1,0 +1,11 @@
+# C19 编译候选 02
+
+仅修 Root 实际 domain-compile01 中 C 的 SQLx 0.9 `SqlSafeStr` 编译错误。作者没有运行编译或测试。Root 原始 stderr SHA 为 `d462ac95e10fde25fc75b7acfef4a84fdd61c130aab1104b50a82638528bbc78`；B/Root helper 的错误不在本修复范围。
+
+唯一产品变化是 `contract_finance/store.rs`：4个单项读取和4个列表读取从 `&format!(...)` 改为 `QueryBuilder<Postgres>`，列清单与条件/排序/锁片段仍是编译期字符串，ID通过 `push_bind`。没有 `AssertSqlSafe`、新依赖、事务生命周期操作、DTO或业务/锁序改变。
+
+静态文本核对：第一查询前的源码除新增 imports 完全一致；`settled_amount` 至文件结束（含所有写SQL、成本bridge）完全一致。Root须实际二编确认 API与类型；本文不宣称 Passed。
+
+01 原始 3源码、cases、handoff、manifest 已按原SHA保存在 `../candidate01-originals/`，保全索引是 `../candidate01-original-preservation.json`。`manifest01.json` 保持01历史，不回写成新结果；C02 manifest 绑定当前3源码，只有store改变。Shared候选保持冻结且未修改。
+
+Root可核01原store SHA `d908ee79c08e608553860f99e8c1014310dac47f895674be8e156760053bcf16` 后导入 `products/apps/poms-api-rust/src/contract_finance/store.rs`。新源码15,543字节、SHA `0e8bf0cb380082cbefdbc446bfcb54977554425ae263103d574081f1847eaece`。

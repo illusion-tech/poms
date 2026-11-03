@@ -1,0 +1,266 @@
+{
+  "kind": "R4-new-public-Linux-checkouts-offline-bootstrap",
+  "createdAt": "2026-11-03T06:16:48.698Z",
+  "G1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "root": "/home/wangzishi/projects/poms-rust-r4abc",
+  "reference": "/home/wangzishi/projects/poms-native-r4abc-reference",
+  "referenceBase": "1730f304c1cf5600721f80b6c06feec24269d387",
+  "Node": "v24.19.0",
+  "pnpm": "12.3.4",
+  "commands": [
+    {
+      "name": "rust-clone",
+      "exe": "git",
+      "args": [
+        "clone",
+        "--shared",
+        "--no-checkout",
+        "/mnt/e/projects/poms",
+        "/home/wangzishi/projects/poms-rust-r4abc"
+      ],
+      "cwd": "/home/wangzishi/projects",
+      "startedAt": "2026-11-03T06:16:40.121Z",
+      "completedAt": "2026-11-03T06:16:40.241Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-clone-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-clone-stderr-original.bin",
+        "bytes": 65,
+        "rawBytesSha256": "bde0248e4e93a450bcfc3cdccf7f521052d0d2ac5d99b869fb2cdd978ea6399a"
+      }
+    },
+    {
+      "name": "rust-lf",
+      "exe": "git",
+      "args": [
+        "config",
+        "core.autocrlf",
+        "false"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-rust-r4abc",
+      "startedAt": "2026-11-03T06:16:40.253Z",
+      "completedAt": "2026-11-03T06:16:40.256Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-lf-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-lf-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "rust-checkout",
+      "exe": "git",
+      "args": [
+        "checkout",
+        "--detach",
+        "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-rust-r4abc",
+      "startedAt": "2026-11-03T06:16:40.268Z",
+      "completedAt": "2026-11-03T06:16:43.731Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-checkout-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-checkout-stderr-original.bin",
+        "bytes": 72,
+        "rawBytesSha256": "9535841ef0d58a2e796ea9340f577de70aa7e951cbea9de46bc7b2163d72c07b"
+      }
+    },
+    {
+      "name": "rust-remote",
+      "exe": "git",
+      "args": [
+        "remote",
+        "set-url",
+        "origin",
+        "https://github.com/illusion-tech/poms.git"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-rust-r4abc",
+      "startedAt": "2026-11-03T06:16:43.744Z",
+      "completedAt": "2026-11-03T06:16:43.749Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-remote-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-remote-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "rust-offline-install",
+      "exe": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+      "args": [
+        "/home/wangzishi/.cache/node/corepack/v1/pnpm/12.3.4/bin/pnpm.mjs",
+        "install",
+        "--offline",
+        "--frozen-lockfile",
+        "--config.manage-package-manager-versions=false"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-rust-r4abc",
+      "startedAt": "2026-11-03T06:16:43.764Z",
+      "completedAt": "2026-11-03T06:16:45.036Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-offline-install-stdout-original.bin",
+        "bytes": 2807,
+        "rawBytesSha256": "13e91333a81749f18cb6e1f5439ef11ad94a306ec73b3b1ca7693db17c5d116a"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/rust-offline-install-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "native-reference-clone",
+      "exe": "git",
+      "args": [
+        "clone",
+        "--shared",
+        "--no-checkout",
+        "/mnt/e/projects/poms",
+        "/home/wangzishi/projects/poms-native-r4abc-reference"
+      ],
+      "cwd": "/home/wangzishi/projects",
+      "startedAt": "2026-11-03T06:16:45.050Z",
+      "completedAt": "2026-11-03T06:16:45.156Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-clone-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-clone-stderr-original.bin",
+        "bytes": 77,
+        "rawBytesSha256": "5b94ffb3032c61b3fd54422bb4bdcef5833d89e3bdbbd5f81ccdf673d455ad71"
+      }
+    },
+    {
+      "name": "native-reference-lf",
+      "exe": "git",
+      "args": [
+        "config",
+        "core.autocrlf",
+        "false"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-native-r4abc-reference",
+      "startedAt": "2026-11-03T06:16:45.167Z",
+      "completedAt": "2026-11-03T06:16:45.171Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-lf-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-lf-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "native-reference-checkout",
+      "exe": "git",
+      "args": [
+        "checkout",
+        "--detach",
+        "1730f304c1cf5600721f80b6c06feec24269d387"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-native-r4abc-reference",
+      "startedAt": "2026-11-03T06:16:45.182Z",
+      "completedAt": "2026-11-03T06:16:47.571Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-checkout-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-checkout-stderr-original.bin",
+        "bytes": 84,
+        "rawBytesSha256": "8be5ef4b494c7a07b15013543958a9d9e096cbfed8ece345266f7b7c13717d68"
+      }
+    },
+    {
+      "name": "native-reference-remote",
+      "exe": "git",
+      "args": [
+        "remote",
+        "set-url",
+        "origin",
+        "https://github.com/illusion-tech/poms.git"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-native-r4abc-reference",
+      "startedAt": "2026-11-03T06:16:47.584Z",
+      "completedAt": "2026-11-03T06:16:47.588Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-remote-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-remote-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "native-reference-offline-install",
+      "exe": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+      "args": [
+        "/home/wangzishi/.cache/node/corepack/v1/pnpm/12.3.4/bin/pnpm.mjs",
+        "install",
+        "--offline",
+        "--frozen-lockfile",
+        "--config.manage-package-manager-versions=false"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-native-r4abc-reference",
+      "startedAt": "2026-11-03T06:16:47.604Z",
+      "completedAt": "2026-11-03T06:16:48.687Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-offline-install-stdout-original.bin",
+        "bytes": 2805,
+        "rawBytesSha256": "2f0607a60de86a9254128681f8dfe2443ceaca4b4a6eb842caffe75bbe682b09"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/linux-bootstrap01/native-reference-offline-install-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "dependencyLocksUnchanged": true,
+  "sharedObjects": "public Git object store only; isolated work directories",
+  "oldPrivateRead": false,
+  "runtimeAccepted": false
+}

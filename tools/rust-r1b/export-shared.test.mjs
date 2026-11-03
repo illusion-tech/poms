@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import test from 'node:test';
 import { Script } from 'node:vm';
-import { ROOT, SHARED_PATH, SPEC_PATH, SOURCE_HEAD, MANIFEST_PATH, RUST_PATH, TEST_PATH, analyzeShared, artifacts, assertSourceGuard, buildManifest, checkArtifacts, main, normalizeText, rustIdentifier, rustString, sha256 } from './export-shared.mjs';
+import { ROOT, SHARED_PATH, SPEC_PATH, SOURCE_HEAD, R0_PATH, HISTORICAL_R0, REVIEWED_R4_ADDITIONS, MANIFEST_PATH, RUST_PATH, TEST_PATH, analyzeShared, artifacts, assertSourceGuard, buildManifest, checkArtifacts, compareR0, main, normalizeText, rustIdentifier, rustString, sha256 } from './export-shared.mjs';
 
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
@@ -16,24 +16,25 @@ const manifest = buildManifest();
 const outputs = artifacts(manifest);
 const analyze = (text) => analyzeShared(text, spec);
 const declaration = (name) => manifest.declarations.find((item) => item.name === name);
+const historicalR0 = JSON.parse(readFileSync(resolve(ROOT, R0_PATH), 'utf8'));
 
 test('every source declaration, R0 snapshot, z.enum occurrence and permission has an explicit mapping', () => {
-    assert.deepEqual(manifest.coverage.r0SnapshotKinds, { 'enum-definitions': 92, 'string-array': 201, 'wire-value-object': 162 });
-    assert.equal(manifest.coverage.sharedTopLevelVariables, 1302);
-    assert.equal(manifest.declarations.length, 665);
-    assert.equal(manifest.schemaDeclarations.length, 636);
+    assert.deepEqual(manifest.coverage.r0SnapshotKinds, { 'enum-definitions': 92, 'string-array': 202, 'wire-value-object': 162 });
+    assert.equal(manifest.coverage.sharedTopLevelVariables, 1316);
+    assert.equal(manifest.declarations.length, 666);
+    assert.equal(manifest.schemaDeclarations.length, 649);
     assert.equal(manifest.excludedDeclarations.length, 1);
-    assert.equal(manifest.declarations.length + manifest.schemaDeclarations.length + manifest.excludedDeclarations.length, 1302);
-    assert.equal(manifest.enumOccurrences.length, 224);
-    assert.equal(manifest.enumOccurrences.filter((item) => item.topLevel).length, 171);
-    assert.equal(manifest.enumOccurrences.filter((item) => !item.topLevel).length, 53);
-    assert.equal(manifest.enums.length, 205);
+    assert.equal(manifest.declarations.length + manifest.schemaDeclarations.length + manifest.excludedDeclarations.length, 1316);
+    assert.equal(manifest.enumOccurrences.length, 228);
+    assert.equal(manifest.enumOccurrences.filter((item) => item.topLevel).length, 172);
+    assert.equal(manifest.enumOccurrences.filter((item) => !item.topLevel).length, 56);
+    assert.equal(manifest.enums.length, 209);
     assert.equal(
         manifest.enums.reduce((sum, item) => sum + item.values.length, 0),
-        778
+        787
     );
     assert.equal(manifest.coverage.permissionKeys, 37);
-    assert.equal(new Set(manifest.enums.map((item) => item.name)).size, 205);
+    assert.equal(new Set(manifest.enums.map((item) => item.name)).size, 209);
     for (const occurrence of manifest.enumOccurrences) {
         const family = manifest.enums.find((item) => item.name === occurrence.family);
         assert.ok(family, occurrence.id);
@@ -48,12 +49,25 @@ test('every source declaration, R0 snapshot, z.enum occurrence and permission ha
             `${item.name}: complete Rust mapping`
         );
     for (const item of manifest.declarations.filter((item) => item.helper && ['label-map', 'severity-map', 'options', 'hint-map'].includes(item.kind))) assert.ok(item.rustMappings.length, `${item.name}: metadata Rust mapping`);
-    assert.deepEqual(manifest.r0Witness, { path: 'docs/design/rust-r0-api-operations.json', constantsCompared: 455, enumOccurrencesCompared: 224, result: 'exact-payload-and-order' });
+    assert.equal(manifest.r0Witness.path, R0_PATH);
+    assert.equal(manifest.r0Witness.constantsCompared, 455);
+    assert.equal(manifest.r0Witness.enumOccurrencesCompared, 224);
+    assert.equal(manifest.r0Witness.result, 'unchanged-base-payload-and-order-with-declared-r4-additions');
+    assert.equal(manifest.r0Witness.currentConstants, 456);
+    assert.equal(manifest.r0Witness.currentEnumOccurrences, 228);
+    assert.equal(manifest.r0Witness.declaredAdditions.constants.length, 1);
+    assert.equal(manifest.r0Witness.declaredAdditions.enumOccurrences.length, 4);
+    assert.equal(manifest.r0Witness.provenance.constants.positions.length, 455);
+    assert.equal(manifest.r0Witness.provenance.enumOccurrences.positions.length, 224);
+    assert.equal(manifest.coverage.historicalR0SnapshotCount, 455);
+    assert.equal(manifest.coverage.declaredPostR0SnapshotCount, 1);
 });
 
 test('actual original TS helpers and Zod options are the independent execution oracle', () => {
-    assert.deepEqual(manifest.originalTsExecution, { dataDeclarationsCompared: 665, enumArgumentsCompared: 224, actualTopLevelZodEnumsCompared: 171, importAllowlist: ['zod'] });
+    assert.deepEqual(manifest.originalTsExecution, { dataDeclarationsCompared: 666, enumArgumentsCompared: 228, actualTopLevelZodEnumsCompared: 172, importAllowlist: ['zod'] });
     assert.equal(manifest.helpers.filter((item) => item.role === 'enum-helper').length, 9);
+    assert.equal(manifest.helpers.find((item) => item.name === 'isR4ScaledDecimal').role, 'schema-refinement-out-of-enum-scope');
+    assert.equal(manifest.helpers.find((item) => item.name === 'isR4ScaledDecimal').declarationSha256, '91181096c5c8cc938bd1e3cdc4a99bb987a2480ab551e3cf7f2510abb0c70d27');
     assert.equal(manifest.coverage.helperDerivedMetadata, 206);
     for (const item of manifest.declarations.filter((item) => item.helper && ['label-map', 'severity-map', 'options', 'hint-map'].includes(item.kind))) {
         assert.ok(item.dependencies.length, `${item.name}: helper input provenance`);
@@ -65,13 +79,13 @@ test('actual original TS helpers and Zod options are the independent execution o
     assert.equal(declaration('IDENTITY_PROVIDER_SCOPE_MAX_ITEMS').kind, 'schema-scalar-limit');
 });
 
-test('161 published enum schemas keep exact OpenAPI order; unpublished and nested enums remain included', () => {
+test('162 published enum schemas keep exact OpenAPI order; unpublished and nested enums remain included', () => {
     const published = manifest.enumOccurrences.filter((item) => item.openApiValues);
-    assert.equal(published.length, 161);
+    assert.equal(published.length, 162);
     assert.equal(manifest.enumOccurrences.filter((item) => item.topLevel && !item.openApiValues).length, 10);
     for (const item of published) assert.deepEqual(item.values, spec.components.schemas[item.schemaId].enum);
     const nested = manifest.enumOccurrences.filter((item) => !item.topLevel);
-    assert.equal(nested.length, 53);
+    assert.equal(nested.length, 56);
     const subset = nested.find((item) => item.owner === 'UpdateCustomerRequestSchema');
     assert.equal(subset.family, 'UpdateCustomerRequestStatus');
     assert.deepEqual(subset.values, ['active', 'inactive']);
@@ -140,11 +154,100 @@ test('source, R0 witness and OpenAPI tampering cannot refresh the baseline silen
     const r0Path = manifest.r0Witness.path;
     const altered = JSON.parse(readFileSync(resolve(ROOT, r0Path), 'utf8'));
     altered.sharedSsot.constants[0].value.push('tampered');
-    assert.throws(() => buildManifest({ guard: false, sourceTexts: { [r0Path]: JSON.stringify(altered) } }), /R0 455 snapshot witness differs/);
+    assert.throws(() => compareR0(analyze(shared), altered), /Historical payload\/order drift/);
+    assert.throws(() => buildManifest({ sourceTexts: { [r0Path]: JSON.stringify(altered) } }), /Only equivalent CRLF normalization/);
     const openapi = structuredClone(spec);
     openapi.components.schemas.CustomerStatus.enum.reverse();
     assert.throws(() => analyzeShared(shared, openapi), /OpenAPI enum values\/order differ/);
-    assert.throws(() => buildManifest({ guard: false, sourceTexts: { [SHARED_PATH]: shared + "\nexport const NEW_STATUS_VALUES = ['new'];" } }), /Unused string-array candidate/);
+    assert.throws(() => analyze(shared + "\nexport const NEW_STATUS_VALUES = ['new'];"), /Unused string-array candidate/);
+    assert.throws(() => buildManifest({ guard: false }), /source guard cannot be disabled/);
+    assert.throws(() => buildManifest({ sourceTexts: { [SHARED_PATH]: shared + '\n// unreviewed override\n' } }), /Only equivalent CRLF normalization/);
+    assert.throws(() => buildManifest({ sourceTexts: { 'ignored-unreviewed.ts': shared } }), /Unknown source input override/);
+});
+
+test('historical payload/order stays exact while actual current line provenance can move', () => {
+    const original = analyze(shared);
+    const shifted = analyze('\n\n\n' + shared);
+    const normal = compareR0(original, historicalR0);
+    const remapped = compareR0(shifted, historicalR0);
+    assert.equal(remapped.constantsCompared, 455);
+    assert.equal(remapped.enumOccurrencesCompared, 224);
+    for (const group of ['constants', 'enumOccurrences']) {
+        const a = normal.provenance[group].positions;
+        const b = remapped.provenance[group].positions;
+        assert.equal(a.length, b.length);
+        for (let i = 0; i < a.length; i++) {
+            assert.equal(b[i].historicalLine, a[i].historicalLine);
+            assert.equal(b[i].currentLine, a[i].currentLine + 3);
+        }
+    }
+    assert.equal(sha256(normalizeText(readFileSync(resolve(ROOT, R0_PATH), 'utf8'))), HISTORICAL_R0.normalizedTextSha256);
+});
+
+test('old 455/224 records cannot be deleted, changed or reordered to accommodate additions', () => {
+    const mutate = (change) => {
+        const analysis = analyze(shared);
+        change(analysis);
+        assert.throws(() => compareR0(analysis, historicalR0), /Historical payload\/order drift|missing historical record/);
+    };
+    const legacy = (item) => item.r0Kind && !REVIEWED_R4_ADDITIONS.constants.some((reviewed) => reviewed.name === item.name);
+    mutate((analysis) => { analysis.declarations = analysis.declarations.filter((item) => item.name !== 'PERMISSION_KEYS'); });
+    mutate((analysis) => {
+        const indexes = analysis.declarations.map((item, index) => legacy(item) ? index : -1).filter((index) => index >= 0);
+        [analysis.declarations[indexes[0]], analysis.declarations[indexes[1]]] = [analysis.declarations[indexes[1]], analysis.declarations[indexes[0]]];
+    });
+    mutate((analysis) => { analysis.declarations.find((item) => item.name === 'PERMISSION_KEYS').valueSha256 = '0'.repeat(64); });
+    mutate((analysis) => { analysis.occurrences.shift(); });
+    mutate((analysis) => { [analysis.occurrences[0], analysis.occurrences[1]] = [analysis.occurrences[1], analysis.occurrences[0]]; });
+    mutate((analysis) => { analysis.occurrences[0].expression = 'unreviewed-expression'; });
+    mutate((analysis) => { analysis.occurrences[0].values = ['unreviewed-wire']; });
+});
+
+test('post-R0 additions are exact reviewed declarations and owner/schema/field occurrences', () => {
+    const witness = compareR0(analyze(shared), historicalR0);
+    assert.equal(witness.declaredAdditions.sourceHead, SOURCE_HEAD);
+    assert.deepEqual(witness.declaredAdditions.constants.map((item) => item.name), ['CONTRACT_TERM_PREPARATION_STATUSES']);
+    assert.deepEqual(witness.declaredAdditions.enumOccurrences.map((item) => [item.owner, item.schemaId, item.propertyPath, item.topLevel]), [
+        ['ContractTermPreparationStatusSchema', 'ContractTermPreparationStatus', [], true],
+        ['ReadinessInitializationResultSchema', 'ReadinessInitializationResult', ['targetType'], false],
+        ['ReadinessInitializationResultSchema', 'ReadinessInitializationResult', ['resultStatus'], false],
+        ['ReadinessInitializationResultSchema', 'ReadinessInitializationResult', ['businessStatusAfter'], false]
+    ]);
+    const extra = analyze(shared + "\nexport const UNREVIEWED_ENUM_VALUES = ['unreviewed'] as const; export type UnreviewedEnum = (typeof UNREVIEWED_ENUM_VALUES)[number]; export const UnreviewedEnumSchema = z.enum(UNREVIEWED_ENUM_VALUES);");
+    assert.throws(() => compareR0(extra, historicalR0), /Unreviewed post-R0 constant/);
+    const inline = analyze(shared + "\nexport const UnreviewedInlineSchema = z.object({ phase: z.enum(['unreviewed']) }).meta({ id: 'UnreviewedInline' });");
+    assert.throws(() => compareR0(inline, historicalR0), /Undeclared addition or missing historical record/);
+    const changed = analyze(shared);
+    changed.declarations.find((item) => item.name === 'CONTRACT_TERM_PREPARATION_STATUSES').valueSha256 = '0'.repeat(64);
+    assert.throws(() => compareR0(changed, historicalR0), /Reviewed value\/order changed/);
+    const changedDeclaration = analyze(shared.replace("CONTRACT_TERM_PREPARATION_STATUSES = ['prepared'", "CONTRACT_TERM_PREPARATION_STATUSES = [ 'prepared'"));
+    assert.throws(() => compareR0(changedDeclaration, historicalR0), /Reviewed declaration changed/);
+    const missingConstant = analyze(shared);
+    missingConstant.declarations = missingConstant.declarations.filter((item) => item.name !== 'CONTRACT_TERM_PREPARATION_STATUSES');
+    assert.throws(() => compareR0(missingConstant, historicalR0), /Missing or reordered declared R4 constants/);
+    const duplicateConstant = analyze(shared);
+    duplicateConstant.declarations.push(duplicateConstant.declarations.find((item) => item.name === 'CONTRACT_TERM_PREPARATION_STATUSES'));
+    assert.throws(() => compareR0(duplicateConstant, historicalR0), /Duplicate declared R4 constant/);
+    const changedValues = analyze(shared);
+    const changedOccurrence = changedValues.occurrences.find((item) => item.owner === 'ReadinessInitializationResultSchema');
+    changedOccurrence.values = [...changedOccurrence.values].reverse();
+    assert.throws(() => compareR0(changedValues, historicalR0), /Reviewed enum values\/order changed/);
+    const missing = analyze(shared);
+    missing.occurrences = missing.occurrences.filter((item) => !(item.owner === 'ReadinessInitializationResultSchema' && item.propertyPath[0] === 'targetType'));
+    assert.throws(() => compareR0(missing, historicalR0), /Missing or reordered declared R4 enum occurrences/);
+    const duplicate = analyze(shared);
+    duplicate.occurrences.push(duplicate.occurrences.find((item) => item.owner === 'ContractTermPreparationStatusSchema'));
+    assert.throws(() => compareR0(duplicate, historicalR0), /Duplicate declared R4 enum occurrence/);
+    const wrongField = analyze(shared);
+    wrongField.occurrences.find((item) => item.owner === 'ReadinessInitializationResultSchema').propertyPath = ['unreviewedField'];
+    assert.throws(() => compareR0(wrongField, historicalR0), /Missing or reordered declared R4 enum occurrences/);
+});
+
+test('reviewed non-enum refinements do not open helper or callback language generally', () => {
+    assert.throws(() => analyze(shared.replace('return scaled <= maximum && (allowZero || scaled > 0n);', 'return true;')), /Unsupported or changed helper\/function isR4ScaledDecimal/);
+    assert.throws(() => analyze(shared.replace('isR4ScaledDecimal(value, 2, 999999999999999999n, false)', 'isR4ScaledDecimal(value, 2, 999999999999999999n, true)')), /Changed reviewed R4 schema refinement declaration/);
+    assert.throws(() => analyze(shared.replace('new Set(terms.map((term) => term.contractId.toLowerCase()))', 'new Set(terms.map((term) => term.contractId))')), /Changed reviewed R4 schema refinement declaration/);
+    assert.throws(() => analyze(shared + '\nexport const UnknownRefinementSchema = z.string().refine((value) => unknownRefinement(value));'), /Unsupported schema helper unknownRefinement/);
 });
 
 function temporaryRoot(t, prefix) {
@@ -209,7 +312,7 @@ test('Git source guard rejects tracked/untracked input changes and --write canno
 
 test('normalization changes only physical CRLF, never escaped CR/LF, BOM, bare CR or Unicode', () => {
     assert.equal(normalizeText('\ufeff中\r\na\rb\\r\\n'), '\ufeff中\na\rb\\r\\n');
-    const crlf = buildManifest({ guard: false, sourceTexts: { [SHARED_PATH]: shared.replace(/\n/g, '\r\n') } });
+    const crlf = buildManifest({ sourceTexts: { [SHARED_PATH]: shared.replace(/\n/g, '\r\n') } });
     assert.deepEqual(crlf, manifest);
     assert.doesNotThrow(() => checkArtifacts(outputs));
 });

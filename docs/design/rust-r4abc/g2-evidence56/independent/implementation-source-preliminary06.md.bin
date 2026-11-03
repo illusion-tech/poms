@@ -1,0 +1,11 @@
+本轮 implementation-source Preliminary Pass；不构成最终 G3/G4，也不准许 main、交付或关闭 Issue。
+
+C05 已关闭 SRC-05-UI-01（P2）：详情持续观察路由参数，读取、审批、命令回执与待办发布绑定到原 scope/page；A→B→A 与晚到响应不能覆盖当前合同。草稿重新准备和服务端来源变化恢复入口也已核实。当前没有未决源码 P1/P2。
+
+最终只读重核 93 个审查输入；原 92 个文件仅 C05 的 6 个文件变化，另增路由 spec。6 个既有文件均与作者 manifest 一致；新 spec 唯一差异为 Angular metadata override 的 `set` 改 `add`，原件保留。
+
+Root 实际 ts-checks36：admin build、2 个 lint target 均成功；58 套测试通过，新增路由套件 9 例因 setup 配置错误未运行，整轮 exit1 如实保留。修正后 route-test37 当前 51 输入全部匹配，原始日志为 1 套 9 例通过。这里是 UI fixture 回归，未冒称真实浏览器验收。
+
+后端源码和 ORM 16 条强 composite FK / 3 条等价 CHECK deparse 的有限接受保持 preliminary05 结论，相关字节未变。仍待最终完整候选绑定、Linux/Windows 原 UI 与清理实证、独立最终 G3；#57/#101 保持 OPEN。
+
+精确 SHA、当前文件清单和原始日志绑定见同名 JSON。

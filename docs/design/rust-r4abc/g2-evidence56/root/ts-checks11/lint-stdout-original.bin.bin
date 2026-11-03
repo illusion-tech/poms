@@ -1,0 +1,39 @@
+
+[7m[1m[36m NX [39m[22m[27m  [36mRunning target [1mlint[22m for 3 projects:[39m
+
+[2m-[22m poms-api
+[2m-[22m poms-admin
+[2m-[22m admin-data-access
+
+[2m[36m[39m[22m
+[32m✔[39m  [2mnx run[22m admin-data-access:lint
+[32m✔[39m  [2mnx run[22m poms-api:lint
+
+[2m> [22m[2mnx run[22m poms-admin:lint
+
+[1m[33mThe `@nx/eslint:lint` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/eslint:convert-to-inferred` to migrate to the `@nx/eslint/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.[39m[22m
+
+Linting "poms-admin"...
+[0m
+[4m/home/wangzishi/projects/poms-rust-r4abc/apps/poms-admin/src/app/features/contract/contract-flow.spec.ts[24m
+   [2m1:1[22m   [31merror[39m    A project tagged with "type:app" can only depend on libs tagged with "type:data-access", "type:contracts"  [2m@nx/enforce-module-boundaries[22m
+  [2m51:45[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m57:44[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+
+[4m/home/wangzishi/projects/poms-rust-r4abc/apps/poms-admin/src/app/features/contract/contract-flow.ts[24m
+  [2m1:1[22m  [31merror[39m  A project tagged with "type:app" can only depend on libs tagged with "type:data-access", "type:contracts"  [2m@nx/enforce-module-boundaries[22m
+
+[4m/home/wangzishi/projects/poms-rust-r4abc/apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts[24m
+    [2m7:1[22m   [31merror[39m    A project tagged with "type:app" can only depend on libs tagged with "type:data-access", "type:contracts"  [2m@nx/enforce-module-boundaries[22m
+  [2m424:56[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+
+[31m[1m✖ 6 problems (3 errors, 3 warnings)[22m[39m
+[0m
+✖ 6 problems (3 errors, 3 warnings)
+
+
+[2m[31m[39m[22m
+  Run duration:      14.9s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     11.6s (1 task)
+  Recoverable time:  3.3s (22% of the run)

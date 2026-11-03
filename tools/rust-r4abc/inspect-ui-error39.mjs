@@ -1,0 +1,1 @@
+import fs from'node:fs';import{priv}from'./fixture-core04.mjs';const input=JSON.parse(fs.readFileSync(priv+'/ui-flow36.json','utf8'));let s=fs.readFileSync(priv+'/rust-ui-linux36-error.log','utf8');for(const actor of Object.values(input.actors))for(const value of [actor.password])if(value)s=s.replaceAll(value,'<REDACTED>');console.log(s.slice(0,5000));

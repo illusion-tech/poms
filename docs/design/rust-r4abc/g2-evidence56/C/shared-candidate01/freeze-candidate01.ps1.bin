@@ -1,0 +1,108 @@
+# Static source-scope and byte inventory only. Does not load or execute TS.
+$ErrorActionPreference = 'Stop'
+$taskRepo = 'E:/projects/worktrees/poms-r4c-finance/poms'
+$taskOwned = Join-Path $taskRepo 'tmp/rust-r4abc/shared-candidate01'
+$taskProducts = [System.IO.Path]::GetFullPath((Join-Path $taskOwned 'products'))
+$taskEncoding = [System.Text.UTF8Encoding]::new($false)
+function Read-Normalized([string] $taskPath) {
+    return [System.IO.File]::ReadAllText($taskPath).Replace("`r`n", "`n")
+}
+function Remove-Schema([string] $taskText, [string] $taskName) {
+    $taskStart = $taskText.IndexOf('export const ' + $taskName + 'Schema =', [System.StringComparison]::Ordinal)
+    if ($taskStart -lt 0) { throw ('Missing schema ' + $taskName) }
+    $taskMeta = ".meta({ id: '" + $taskName + "' });"
+    $taskEnd = $taskText.IndexOf($taskMeta, $taskStart, [System.StringComparison]::Ordinal)
+    if ($taskEnd -lt 0) { throw ('Missing exact schema end ' + $taskName) }
+    return $taskText.Remove($taskStart, $taskEnd + $taskMeta.Length - $taskStart)
+}
+$taskSharedPath = 'libs/shared/contracts/src/lib/shared-contracts.ts'
+$taskOriginal = Read-Normalized (Join-Path $taskRepo $taskSharedPath)
+$taskCandidate = Read-Normalized (Join-Path $taskProducts $taskSharedPath)
+$taskNewStart = $taskCandidate.IndexOf("// R4's ordinary financial inputs only.", [System.StringComparison]::Ordinal)
+$taskNewEnd = $taskCandidate.IndexOf('export const ContractTermSnapshotSummarySchema =', $taskNewStart, [System.StringComparison]::Ordinal)
+if ($taskNewStart -lt 0 -or $taskNewEnd -lt $taskNewStart) { throw 'Missing scoped declarations block' }
+$taskCandidate = $taskCandidate.Remove($taskNewStart, $taskNewEnd - $taskNewStart)
+$taskResultsStart = $taskCandidate.IndexOf('// Define these strict results after their base, with required real identities.', [System.StringComparison]::Ordinal)
+$taskResultsEnd = $taskCandidate.IndexOf('export const SubmitContractReviewRequestSchema =', $taskResultsStart, [System.StringComparison]::Ordinal)
+if ($taskResultsStart -lt 0 -or $taskResultsEnd -lt $taskResultsStart) { throw 'Missing strict result block' }
+$taskCandidate = $taskCandidate.Remove($taskResultsStart, $taskResultsEnd - $taskResultsStart)
+$taskExistingChanges = @(
+    'ContractTermSnapshotSummary','ContractDetailView','CreateContractRequest','UpdateContractBasicInfoRequest',
+    'CommercialBaselineReviewRecordSummary','CommercialReleaseBaselineSummary','ContractReadinessDetail',
+    'CreateCommercialReleaseBaselineRequest','ReviewCommercialReleaseBaselineDiffRequest','CreateContractReadinessPackageRequest',
+    'InitializeContractSnapshotFromReadinessPackageRequest','InitializeReceivablePlanFromReadinessPackageRequest','ReadinessInitializationResult',
+    'CreateReceiptRecordRequest','CreatePayableRecordRequest','UpdatePayableRecordRequest','CreatePaymentRecordRequest',
+    'CreateInvoiceRecordRequest','UpdateInvoiceRecordRequest','CommandResult','SubmitContractReviewRequest'
+)
+foreach ($taskName in $taskExistingChanges) {
+    $taskOriginal = Remove-Schema $taskOriginal $taskName
+    $taskCandidate = Remove-Schema $taskCandidate $taskName
+}
+$taskSharedScopeMatches = $taskOriginal -ceq $taskCandidate
+$taskHandoverPath = 'apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts'
+$taskOldImport = "import type { ContractHandoverSummaryView, ContractReadinessDetail, ProjectHandoverDetailView } from '@poms/shared-contracts';"
+$taskNewImport = @'
+import type { ContractHandoverSummaryView, ProjectHandoverDetailView } from '@poms/shared-contracts';
+// Historical Native reference shape only; no new Rust readiness producer claim.
+import type { LegacyContractReadinessDetail as ContractReadinessDetail } from '../contract-readiness/contract-readiness.legacy-types';
+'@.Replace("`r`n", "`n")
+$taskHandoverScopeMatches = (Read-Normalized (Join-Path $taskRepo $taskHandoverPath)).Replace($taskOldImport, $taskNewImport) -ceq (Read-Normalized (Join-Path $taskProducts $taskHandoverPath))
+$taskScope = [ordered]@{
+    schema = 'poms-r4-shared-candidate-static-scope/v1'
+    kind = 'normalized source text comparison, not AST/typecheck/runtime acceptance'
+    changedExistingSharedDeclarations = $taskExistingChanges
+    addedSharedBlocks = @('scoped R4 BigInt validators and lifecycle types before ContractTermSnapshotSummary','strict results after CommandResult')
+    sharedOutsideDeclaredBlocksUnchanged = $taskSharedScopeMatches
+    handoverOnlyAuthorizedTypeImportChanged = $taskHandoverScopeMatches
+    typescriptExecuted = $false
+    buildTestRuntimeExecuted = $false
+}
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'static-scope01.json'), ($taskScope | ConvertTo-Json -Depth 20) + [Environment]::NewLine, $taskEncoding)
+if (-not $taskSharedScopeMatches -or -not $taskHandoverScopeMatches) { throw 'Static scope differs outside declared edits' }
+$taskBase = Get-Content -LiteralPath (Join-Path $taskOwned 'base-manifest01.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 30
+$taskChanges = @{
+    'libs/shared/contracts/src/lib/shared-contracts.ts' = @('R4PositiveMoneyString/R4NonnegativeMoneyString/R4RatioString and BigInt-only capacity helper','ReceivablePlanSeed/ContractCommercialTerms','ContractTermPreparationStatus/Summary/ContractReviewBindingSummary/ContractSelectionQuery','strict SubmitContractReviewResult/ActivateContractResult after CommandResult','21 existing declarations listed in static-scope01.json')
+    'libs/api/contracts/src/lib/contract/contract.dto.ts' = @('ActivateContractResultDto/SubmitContractReviewResultDto/ContractSelectionQueryDto','ReceivablePlanSeedDto/ContractCommercialTermsDto/ContractTermPreparationSummaryDto/ContractReviewBindingSummaryDto')
+    'apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts' = @('A03/A07 ContractSelectionQueryDto binding','explicit Legacy Native request/response compile boundary; no fake prep/plan outputs')
+    'apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts' = @('Legacy request/response type aliases only','two optional _selection query parameters; historical runtime body unchanged')
+    'apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts' = @('new explicit historical Native request/response shapes; no new lifecycle producer claim')
+    'apps/poms-api/src/app/features/contract/contract.controller.ts' = @('strict result Swagger DTOs with explicit Legacy command return type','historical snapshot.sourcePreparationId=null and detail currentPreparation/latestReviewBinding=null')
+    'apps/poms-api/src/app/features/contract/contract.legacy-types.ts' = @('new LegacyContractCommandResult without fabricated preparationId')
+    'apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts' = @('Root separately authorized type import only; runtime logic/fields unchanged')
+}
+$taskFiles = @()
+foreach ($taskFile in (Get-ChildItem -LiteralPath $taskProducts -Recurse -File | Sort-Object FullName)) {
+    $taskRelative = [System.IO.Path]::GetRelativePath($taskProducts,$taskFile.FullName).Replace([char]92,[char]47)
+    if (-not $taskChanges.ContainsKey($taskRelative)) { throw ('Unexpected candidate product ' + $taskRelative) }
+    $taskCaptured = @($taskBase.files | Where-Object { $_.path -eq $taskRelative })
+    $taskSource = Join-Path $taskRepo $taskRelative
+    if ($taskCaptured.Count -gt 1) { throw 'Duplicate captured base' }
+    $taskBaseExists = $taskCaptured.Count -eq 1
+    if ($taskBaseExists) {
+        $taskBaseSha = $taskCaptured[0].baseSha256
+        $taskBaseBytes = $taskCaptured[0].baseRawBytes
+        if ((Get-FileHash -LiteralPath $taskSource -Algorithm SHA256).Hash.ToLowerInvariant() -ne $taskBaseSha) { throw ('Base changed after capture: ' + $taskRelative) }
+    } else {
+        if (Test-Path -LiteralPath $taskSource) { throw ('New candidate conflicts with real product: ' + $taskRelative) }
+        $taskBaseSha = $null
+        $taskBaseBytes = $null
+    }
+    $taskFiles += [ordered]@{ path = $taskRelative; candidate = 'products/' + $taskRelative; baseExists = $taskBaseExists; baseRawBytes = $taskBaseBytes; baseSha256 = $taskBaseSha; newRawBytes = $taskFile.Length; newSha256 = (Get-FileHash -LiteralPath $taskFile.FullName -Algorithm SHA256).Hash.ToLowerInvariant(); changedDeclarations = $taskChanges[$taskRelative]; author = 'C candidate author' }
+}
+if ($taskFiles.Count -ne 8) { throw 'Expected exactly eight complete candidate products' }
+$taskManifest = [ordered]@{
+    schema = 'poms-r4-shared-candidate/v1'
+    author = 'C implementation and candidate author, not independent reviewer'
+    fixedG1Commit = '2f613c312c9e41b3ed5ac59edf5e9db63842c1cb'
+    rootAdmission = 'actual g1-gate-authority01.json G1Certified/G2Authorized true'
+    productWriteStatus = 'None; all complete product proposals under tmp/rust-r4abc/shared-candidate01/products only'
+    candidateProducts = $taskFiles.Count
+    candidateRawBytes = ($taskFiles | ForEach-Object { $_.newRawBytes } | Measure-Object -Sum).Sum
+    integration = 'INTEGRATION.md'
+    staticScope = 'static-scope01.json'
+    validation = @{ staticScopeRead = 'complete'; typescriptBuildTypecheck = 'not-run'; tests = 'not-run'; nodeSyntaxExecution = 'not-run'; generationOpenApiClient = 'Root-owned not-run'; httpPgBrowserEnvironmentGit = 'not-run' }
+    importRule = 'Root compares exact base SHA or absent-new target before importing; changed base requires explicit merge, not whole-file overwrite'
+    files = $taskFiles
+}
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'manifest01.json'), ($taskManifest | ConvertTo-Json -Depth 30) + [Environment]::NewLine, $taskEncoding)
+[ordered]@{ candidateProducts = $taskFiles.Count; rawBytes = $taskManifest.candidateRawBytes; sharedScopeMatches = $taskSharedScopeMatches; handoverTypeOnly = $taskHandoverScopeMatches; manifestSha256 = (Get-FileHash -LiteralPath (Join-Path $taskOwned 'manifest01.json') -Algorithm SHA256).Hash.ToLowerInvariant() } | ConvertTo-Json -Compress

@@ -1,0 +1,92 @@
+{
+  "kind": "R4A-bounded-summary-lineage-and-bid-result-correction-pure-case-overlay",
+  "issue": 103,
+  "baselineCommit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "baseCases": "acceptance-cases01.json",
+  "supersedesOnly": "The A-source-current claim requiring an active summary with A-defined target/context equality, its old incomplete applicable-bid-result predicate, and corresponding candidate01 delivery notes. All other case rules remain unchanged.",
+  "executedByA": false,
+  "executionOwner": "Root",
+  "qualification": "Real current R3 pricing decision released/conditional-release, readyForContracting, blockers/conditions and matching real cost/bid/baseline/currency/project quote facts remain authoritative. Applicable bid requires the real participated won result. Per Root's exact formal interpretation, direct substitution requires real current direct-commercial/not-required mode with its corresponding participate/not-required decision, excludes lost/cancelled, and uses eligible real current direct pricing as substitution rather than imposing an applicable-bid won gate. A adds no quotation-review HTTP, handler, summary status authorization or invented approval.",
+  "producerRecipeCorrection": [
+    "Root uses the already delivered R2 create_summary_snapshot_with_session non-HTTP producer under the real shared session/transaction to create a real generic summary record. Do not seed, reserve or invent the summary identity.",
+    "Root passes that existing summary FK and the existing R3 required request fields through the real R3 pricing HTTP release command.",
+    "A reads that current persisted pricing fact and verifies the summary FK resolves to an existing record; the generic summary is lineage, never evidence that quotation approval ran.",
+    "For pricingPath=bid, produce a real participated current bid with resultStatus=won. A real participate+pending bid with R3 released pricing is a mandatory negative; existing R3 ready/blocker counters alone do not prove a formed bid result.",
+    "For direct-commercial, produce an explicit real current direct-commercial/not-required replacement record; do not bypass a still-pending applicable bid merely by changing pricingPath or omitting its optional reference.",
+    "Continue real A05/A04/A08/B review/activation/A09 and C cases under the unchanged frozen producer recipe."
+  ],
+  "cases": [
+    {
+      "id": "A-summary-lineage-real-producer",
+      "given": "Real R2-produced generic summary record and otherwise eligible current R3 HTTP pricing release.",
+      "assert": "A05 derives its readiness from real R3 facts and the exact contract diff. sourceFacts.summary.id is the existing referenced UUID; it does not claim quotation approval."
+    },
+    {
+      "id": "A-summary-status-not-qualification",
+      "given": "An existing referenced summary becomes superseded through the supported real R2 producer; persisted R3 pricing identity/version, decision, blockers, conditions, cost/bid/baseline and contract facts stay unchanged.",
+      "assert": "Summary status/rowVersion/timestamps alone do not add an A blocker or source_changed result for the existing preparation. Original record existence and ID remain auditable. No active-summary requirement is reintroduced through full-row hashes."
+    },
+    {
+      "id": "A-summary-context-not-quotation-handler",
+      "given": "Use an actually supported R2 generic summary target/context; the existing R3 command accepts its real FK and required R3 metadata. Its target kind/scope or scenario/package/projection/export fields need not equal A's former invented mapping.",
+      "assert": "A does not reject solely on those generic summary metadata differences and does not invent a quotation-review handler or state transition. Existing R3 command validation still applies."
+    },
+    {
+      "id": "A-summary-reference-required",
+      "given": "Try omitting the required summary reference or supplying a nonexistent UUID to the real R3 release command.",
+      "assert": "Existing R3 validation/FK prevents an invalid released fact. A still defensively emits an explanatory missing-real-summary blocker if it encounters a legacy absent record; no random replacement ID, seed-only source or constraint bypass is acceptable."
+    },
+    {
+      "id": "A-summary-lineage-change-visible",
+      "given": "A new real current R3 pricing version references a different actually produced summary ID.",
+      "assert": "Existing pricing source ID/version/freshness checks still detect the changed real pricing lineage. Removing summary metadata gates does not remove current R3 source checks or the captured summary identity."
+    },
+    {
+      "id": "A-real-participate-pending-released-negative",
+      "given": "Run the supported real project go-bid decision chain, create current bid-commercial process decision=participate/resultStatus=pending through R3 HTTP, then a real released R3 bid pricing review with matching current IDs, complete conditions and a real R2-produced summary FK. go-bid is not invented as a BidCommercialDecision enum alias.",
+      "assert": "A05 is blocked even if R3 pricing.readyForContracting=true and stored blockerCount=0. sourceFacts.bidQualification records the actual pending status and pathQualified=false; A08 cannot create a preparation."
+    },
+    {
+      "id": "A-real-bid-won-positive",
+      "given": "Use real R3 producers for the same applicable bid path with decision=participate, resultStatus=won and matching current pricing reference, actual costs/baseline/currency/quote and closed required conditions.",
+      "assert": "The bid-result gate passes and captures the real won record/version. The independent contract diff still decides prompt/review/reapproval; a won result does not bypass those rules."
+    },
+    {
+      "id": "A-other-unformed-bid-results-negative",
+      "given": "Exercise applicable bid resultStatus pending/lost/cancelled/not-applicable through real supported producers and bid pricing.",
+      "assert": "None grants A preparation eligibility. If the existing R3 producer rejects a combination first, preserve that actual rejection instead of bypassing the producer or claiming A saw a synthetic released fact."
+    },
+    {
+      "id": "A-explicit-direct-replacement-positive",
+      "given": "Produce actual current not-required/not-required/not-applicable, or actual direct-commercial/participate/pending (and supported won variant), then a real direct-commercial R3 pricing released/conditional-release with all mandatory source conditions complete. Do not bypass existing R3 request legality to force an unsupported tuple.",
+      "assert": "Per Root's exact formal interpretation, direct result pending/not-applicable/won is not an applicable-bid hard gate. With no blockers the explicit replacement can pass; lost/cancelled still block. sourceFacts.bidApplicability=not-applicable and substitution=current-direct-pricing, while actual pending remains pending rather than being relabeled won."
+    },
+    {
+      "id": "A-pending-bid-direct-bypass-negative",
+      "given": "Keep an actual current applicable bid mode with participate+pending result, then exercise R3 direct-commercial pricing with its optional bid reference omitted, or attempt an incompatible supplied reference.",
+      "assert": "Changing pricingPath/omitting a reference cannot turn the unformed applicable bid into an explicit direct replacement. A blocks if R3 accepts the omitted-reference input; an upstream R3 rejection is retained as such. Missing real replacement process or pending/no-bid decision is not silently accepted."
+    },
+    {
+      "id": "A-direct-lost-cancelled-negative",
+      "given": "Produce current actual direct-commercial mode with decision=participate and resultStatus=lost/cancelled, then exercise the supported real pricing producer.",
+      "assert": "Lost/cancelled direct facts cannot qualify as substitution. Retain any earlier R3 rejection; if a released fact is reachable through real producer, A blocks it and substitution remains null."
+    },
+    {
+      "id": "A-bid-freshness-follows-real-records",
+      "given": "After a real won-source preparation, replace the current bid with a new actually produced process/version and update pricing through the real R3 command.",
+      "assert": "Source ID/version and bidQualification reflect the actual new mode/decision/result. Pending or incompatible replacement invalidates current-source preparation checks; no carried-forward won bit or guessed direct qualification."
+    },
+    {
+      "id": "A-source-other-blockers-unchanged",
+      "given": "Repeat cost/tax/bid/current condition, pricing decision/readiness, baseline, project/currency/quote amount and contract-specific diff negative vectors from candidate01.",
+      "assert": "Their existing blocked/reapproval/review behavior remains unchanged; a real summary record alone never grants readiness."
+    },
+    {
+      "id": "A-package-assertion-field-name",
+      "given": "For A08/A09 use optional contractReadinessPackageId matching or differing from path. Separately include an undeclared packageId field at the real HTTP DTO boundary.",
+      "assert": "The declared contractReadinessPackageId assertion must equal the parsed path UUID or reject400. No packageId alias is introduced; Root's ordinary unknown-field stripping is not turned into an assertion or a second resource selector."
+    }
+  ],
+  "requiredRawEvidence": ["actual R2 non-HTTP producer result and committed record identity", "real R3 participate+pending and won process HTTP requests/responses and FK rows", "real explicit direct replacement process and pricing requests/responses", "real R3 HTTP release request/response and summary FK row", "A package/preparation sourceFacts and business audit lineage", "current R3 and source graph before/after", "supported summary supersession original and new record", "full rollback evidence for existing required write-fault cases"],
+  "notClaimed": ["runtime cases executed", "quotation approval performed", "new quotation-review handler", "build/fmt/clippy/test pass", "HTTP/PG/UI pass", "G3/G4"]
+}

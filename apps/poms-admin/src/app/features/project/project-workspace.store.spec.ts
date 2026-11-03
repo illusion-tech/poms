@@ -19,6 +19,7 @@ import {
     ContractHandoverRebaselineBlockingStatus,
     ContractHandoverRebaselineStatus,
     ContractHandoverReceivablePlanInitStatus,
+    ContractApi,
     ContractReadinessApi,
     ContractReadinessGuardDecision,
     ContractReadinessItemStatus,
@@ -67,6 +68,8 @@ import {
     type CommissionRuleExplanationView,
     type ContractHandoverSummaryView,
     type ContractReadinessDetail,
+    type ContractDetailView,
+    type ContractSummary,
     type ProjectHandoverDetailView,
     type ProjectHandoverAttachmentChecklistView,
     type ProjectBidCommercialWorkspaceView,
@@ -77,7 +80,7 @@ import {
     type ProjectVarianceRiskExplanationView,
     type ProjectWorkspaceGuidanceView
 } from '@poms/admin-data-access';
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
     return {
@@ -194,9 +197,37 @@ describe('ProjectWorkspaceStore', () => {
         ],
         generatedAt: '2026-04-20T08:00:00.000Z'
     };
-    const contractReadiness = {
+    // UI store fixtures only; these do not certify a real preparation/activation producer.
+    const selectedContract: ContractDetailView = {
+        id: 'contract-1', projectId: 'project-1', projectName: '城市交通项目', customerName: '城市交通集团',
+        contractNo: 'CT-2026-000001', customerContractNo: null, status: ContractStatus.Draft,
+        signedAmountProjection: contractSensitiveProjection('1200000.00'), currencyCode: 'CNY',
+        currentSnapshotId: null, signedAt: null, retentionDueDate: null, rowVersion: 1,
+        createdAt: '2026-04-20T08:00:00.000Z', createdBy: 'user-1',
+        updatedAt: '2026-04-20T08:00:00.000Z', updatedBy: 'user-1',
+        currentTermSnapshot: null, currentPreparation: null, latestReviewBinding: null
+    };
+    const diffHistory = {
+        baseline: {
+            id: 'baseline-source-1', projectId: 'project-1', baselineCode: 'BASE-1', quotationReviewId: null,
+            baselineStatus: 'effective', isCurrent: true, contractTerms: null, currencyCode: 'CNY',
+            financialProjection: contractSensitiveProjection(null), grossMarginSummary: null,
+            paymentTermsSummary: null, amountTaxInclusive: null, amountTaxExclusive: null,
+            taxRate: null, downPaymentRate: null, retentionRate: null, paymentTerms: null,
+            latestDiffResultId: 'diff-1', diffLevel: CommercialDiffLevel.Prompt,
+            reviewStatus: CommercialDiffReviewStatus.NotRequired, diffSummary: null, rowVersion: 1,
+            createdAt: '2026-04-20T08:00:00.000Z', createdBy: 'user-1',
+            updatedAt: '2026-04-20T08:00:00.000Z', updatedBy: 'user-1'
+        },
+        diffItems: [], reviewHistory: []
+    };
+    const contractReadiness: ContractReadinessDetail = {
         id: 'readiness-1',
         projectId: 'project-1',
+        contractId: 'contract-1',
+        candidateTerms: null,
+        currentPreparation: null,
+        financialProjection: contractSensitiveProjection(null),
         sourceBaselineId: 'baseline-source-1',
         commercialReleaseBaselineId: 'commercial-baseline-1',
         latestDiffResultId: 'diff-1',
@@ -231,7 +262,7 @@ describe('ProjectWorkspaceStore', () => {
                 sortOrder: 10
             }
         ]
-    } as ContractReadinessDetail;
+    };
     const technicalCostWorkspace: ProjectTechnicalCostWorkspaceView = {
         projectId: 'project-1',
         currentStage: ProjectStage.ScopeConfirmation,
@@ -418,8 +449,13 @@ describe('ProjectWorkspaceStore', () => {
     let httpClientMock: {
         get: jest.Mock;
     };
+    let contractApiMock: {
+        contractControllerList: jest.Mock;
+        contractControllerGetById: jest.Mock;
+    };
     let contractReadinessApiMock: {
         contractReadinessControllerGetCurrentContractReadiness: jest.Mock;
+        contractReadinessControllerGetDiffHistory: jest.Mock;
     };
     let commissionApiMock: {
         commissionControllerGetCurrentRoleAssignment: jest.Mock;
@@ -460,8 +496,13 @@ describe('ProjectWorkspaceStore', () => {
         httpClientMock = {
             get: jest.fn()
         };
+        contractApiMock = {
+            contractControllerList: jest.fn().mockReturnValue(of([selectedContract])),
+            contractControllerGetById: jest.fn().mockReturnValue(of(selectedContract))
+        };
         contractReadinessApiMock = {
-            contractReadinessControllerGetCurrentContractReadiness: jest.fn()
+            contractReadinessControllerGetCurrentContractReadiness: jest.fn(),
+            contractReadinessControllerGetDiffHistory: jest.fn().mockReturnValue(of(diffHistory))
         };
         commissionApiMock = {
             commissionControllerGetCurrentRoleAssignment: jest.fn(),
@@ -494,6 +535,10 @@ describe('ProjectWorkspaceStore', () => {
                 {
                     provide: HttpClient,
                     useValue: httpClientMock
+                },
+                {
+                    provide: ContractApi,
+                    useValue: contractApiMock
                 },
                 {
                     provide: ContractReadinessApi,
@@ -544,17 +589,95 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.guidanceError()).toBe('当前项目还没有形成工作区引导，请先确认项目是否存在并具备查看权限。');
     });
 
-    it('loads current contract readiness for pre-signing overview', async () => {
+    it('loads current readiness and diff history for the explicitly selected contract', async () => {
         contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(of(contractReadiness));
 
-        await expect(store.loadPreSigningOverview('project-1')).resolves.toEqual(contractReadiness);
+        await expect(store.loadPreSigningOverview('project-1', 'contract-1')).resolves.toEqual(contractReadiness);
 
+        expect(contractApiMock.contractControllerList).toHaveBeenCalledWith({ projectId: 'project-1' });
+        expect(contractApiMock.contractControllerGetById).toHaveBeenCalledWith({ id: 'contract-1' });
         expect(contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness).toHaveBeenCalledWith({
-            projectId: 'project-1'
+            projectId: 'project-1', contractId: 'contract-1'
         });
+        expect(contractReadinessApiMock.contractReadinessControllerGetDiffHistory).toHaveBeenCalledWith({
+            id: contractReadiness.sourceBaselineId, contractId: 'contract-1'
+        });
+        expect(store.preSigningContractId()).toBe('contract-1');
+        expect(store.preSigningContract()).toEqual(selectedContract);
+        expect(store.preSigningDiffHistory()).toEqual(diffHistory);
         expect(store.contractReadiness()).toEqual(contractReadiness);
         expect(store.hasContractReadiness()).toBe(true);
         expect(store.preSigningError()).toBeNull();
+    });
+
+    it.each([1, 2])('does not guess a contract from %i available candidates', async (count) => {
+        const contracts = count === 1 ? [selectedContract] : [selectedContract, { ...selectedContract, id: 'contract-2', contractNo: 'CT-2026-000002' }];
+        contractApiMock.contractControllerList.mockReturnValue(of(contracts));
+
+        await expect(store.loadPreSigningOverview('project-1')).resolves.toBeNull();
+
+        expect(store.preSigningContracts()).toEqual(contracts);
+        expect(store.preSigningContractId()).toBeNull();
+        expect(store.preSigningContract()).toBeNull();
+        expect(store.contractReadiness()).toBeNull();
+        expect(contractApiMock.contractControllerGetById).not.toHaveBeenCalled();
+        expect(contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness).not.toHaveBeenCalled();
+        expect(contractReadinessApiMock.contractReadinessControllerGetDiffHistory).not.toHaveBeenCalled();
+    });
+
+    it('preserves selection candidates and unrelated guidance after a selection conflict', async () => {
+        const secondContract = { ...selectedContract, id: 'contract-2', contractNo: 'CT-2026-000002' };
+        const conflict = new HttpErrorResponse({ status: 409, error: {
+            code: 'contract_selection_required', message: '请明确选择合同。', candidateContractIds: ['contract-1', 'contract-2']
+        } });
+        contractApiMock.contractControllerList.mockReturnValue(of([selectedContract, secondContract]));
+        contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(throwError(() => conflict));
+        projectApiMock.projectControllerGetWorkspaceGuidance.mockReturnValue(of(workspaceGuidance));
+        await store.loadGuidance('project-1');
+
+        await expect(store.loadPreSigningOverview('project-1', 'contract-1')).rejects.toBe(conflict);
+
+        expect(store.preSigningCandidateIds()).toEqual(['contract-1', 'contract-2']);
+        expect(store.preSigningContractId()).toBeNull();
+        expect(store.preSigningContract()).toBeNull();
+        expect(store.contractReadiness()).toBeNull();
+        expect(store.preSigningError()).toBe('请明确选择合同。');
+        await store.loadPreSigningOverview('project-1');
+        expect(store.preSigningCandidateIds()).toEqual(['contract-1', 'contract-2']);
+        expect(store.preSigningContracts()).toEqual([selectedContract, secondContract]);
+        expect(store.guidance()).toEqual(workspaceGuidance);
+    });
+
+    it('keeps permission failures visible instead of reporting a missing package', async () => {
+        const forbidden = new HttpErrorResponse({ status: 403, error: { message: '你没有权限查看本合同。' } });
+        contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(throwError(() => forbidden));
+
+        await expect(store.loadPreSigningOverview('project-1', 'contract-1')).rejects.toBe(forbidden);
+
+        expect(store.preSigningError()).toBe('你没有权限查看本合同。');
+        expect(store.preSigningContract()).toEqual(selectedContract);
+        expect(store.contractReadiness()).toBeNull();
+    });
+
+    it('ignores a late previous selector response after a newer contract is loaded', async () => {
+        const lateList = new Subject<ContractSummary[]>();
+        const secondContract = { ...selectedContract, id: 'contract-2', contractNo: 'CT-2026-000002' };
+        const secondReadiness = { ...contractReadiness, id: 'readiness-2', contractId: 'contract-2' };
+        contractApiMock.contractControllerList.mockReturnValueOnce(lateList).mockReturnValueOnce(of([selectedContract, secondContract]));
+        contractApiMock.contractControllerGetById.mockReturnValue(of(secondContract));
+        contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(of(secondReadiness));
+
+        const previousLoad = store.loadPreSigningOverview('project-1', 'contract-1');
+        await store.loadPreSigningOverview('project-1', 'contract-2');
+        lateList.next([selectedContract]);
+        lateList.complete();
+        await previousLoad;
+
+        expect(store.preSigningContractId()).toBe('contract-2');
+        expect(store.preSigningContract()).toEqual(secondContract);
+        expect(store.contractReadiness()).toEqual(secondReadiness);
+        expect(store.preSigningContracts()).toEqual([selectedContract, secondContract]);
+        expect(store.loadingPreSigning()).toBe(false);
     });
 
     it('treats missing current contract readiness as an empty pre-signing gap', async () => {
@@ -568,7 +691,11 @@ describe('ProjectWorkspaceStore', () => {
 
         contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(throwError(() => notFound));
 
-        await expect(store.loadPreSigningOverview('project-empty')).resolves.toBeNull();
+        await expect(store.loadPreSigningOverview('project-1', 'contract-1')).resolves.toBeNull();
+
+        expect(store.preSigningContractId()).toBe('contract-1');
+        expect(store.preSigningContract()).toEqual(selectedContract);
+        expect(contractReadinessApiMock.contractReadinessControllerGetDiffHistory).not.toHaveBeenCalled();
 
         expect(store.contractReadiness()).toBeNull();
         expect(store.hasContractReadiness()).toBe(false);
@@ -1482,7 +1609,7 @@ describe('ProjectWorkspaceStore', () => {
         contractReadinessApiMock.contractReadinessControllerGetCurrentContractReadiness.mockReturnValue(of(contractReadiness));
 
         await store.loadGuidance('project-1');
-        await store.loadPreSigningOverview('project-1');
+        await store.loadPreSigningOverview('project-1', 'contract-1');
         await store.loadOperatingOverview('project-1');
         await store.loadVarianceRisk('project-1');
         await store.loadCommissionGateOverview('project-1');
@@ -1495,6 +1622,14 @@ describe('ProjectWorkspaceStore', () => {
         expect(store.contractHandoverSummary()).toBeNull();
         expect(store.projectHandoverDetail()).toBeNull();
         expect(store.contractReadiness()).toBeNull();
+        expect(store.preSigningContracts()).toEqual([]);
+        expect(store.preSigningContract()).toBeNull();
+        expect(store.preSigningContractId()).toBeNull();
+        expect(store.preSigningCandidateIds()).toEqual([]);
+        expect(store.preSigningDiffHistory()).toBeNull();
+        expect(store.preSigningInitialization()).toBeNull();
+        expect(store.preSigningActionError()).toBeNull();
+        expect(store.savingPreSigning()).toBe(false);
         expect(store.bidCommercialWorkspace()).toBeNull();
         expect(store.pricingMarginWorkspace()).toBeNull();
         expect(store.businessOutcomeOverview()).toBeNull();

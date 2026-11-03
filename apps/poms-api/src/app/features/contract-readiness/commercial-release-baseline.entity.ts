@@ -1,5 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
-import type { CommercialBaselineReviewDecision, CommercialDiffLevel, CommercialDiffReviewStatus } from '@poms/shared-contracts';
+import type { CommercialBaselineReviewDecision, CommercialDiffLevel, CommercialDiffReviewStatus, ContractCommercialTerms } from '@poms/shared-contracts';
+import { Contract } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 
 export type CommercialReleaseBaselineStatus = 'draft' | 'effective' | 'superseded';
@@ -14,7 +15,15 @@ export const CommercialReleaseBaselineSchema = defineEntity({
         { name: 'idx_commercial_release_baseline_project_current', properties: ['projectId', 'isCurrent'] },
         { name: 'idx_commercial_release_baseline_status', properties: ['baselineStatus'] }
     ],
-    uniques: [{ name: 'commercial_release_baseline_project_code_unique', properties: ['projectId', 'baselineCode'] }],
+    uniques: [
+        { name: 'commercial_release_baseline_project_code_unique', properties: ['projectId', 'baselineCode'] },
+        { name: 'uq_r4_baseline_id_project', properties: ['id', 'projectId'] },
+        {
+            name: 'uq_r4_baseline_project_current',
+            expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}"`
+        }
+    ],
+    checks: [{ name: 'chk_r4_baseline_contract_terms', expression: 'jsonb_typeof("contract_terms") = \'array\'' }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         projectId: () =>
@@ -26,6 +35,8 @@ export const CommercialReleaseBaselineSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('cascade'),
         baselineCode: p.string().length(64).fieldName('baseline_code'),
+        contractTerms: p.json<ContractCommercialTerms[]>().defaultRaw("'[]'::jsonb").fieldName('contract_terms'),
+        currencyCode: p.string().length(16).default('CNY').fieldName('currency_code'),
         quotationReviewId: p.uuid().nullable().fieldName('quotation_review_id'),
         baselineStatus: p.string().length(32).default('effective').fieldName('baseline_status').$type<CommercialReleaseBaselineStatus>(),
         isCurrent: p.boolean().default(true).fieldName('is_current'),
@@ -66,6 +77,7 @@ export const CommercialBaselineDiffResultSchema = defineEntity({
         { name: 'idx_commercial_baseline_diff_result_baseline', properties: ['baselineId', 'createdAt'] },
         { name: 'idx_commercial_baseline_diff_result_review_status', properties: ['reviewStatus'] }
     ],
+    uniques: [{ name: 'uq_r4_diff_scope', properties: ['id', 'baselineId', 'projectId', 'contractId'] }],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         baselineId: () =>
@@ -84,6 +96,12 @@ export const CommercialBaselineDiffResultSchema = defineEntity({
                 .foreignKeyName('commercial_baseline_diff_result_project_id_foreign')
                 .updateRule('cascade')
                 .deleteRule('cascade'),
+        // fk_r4_diff_contract_project and fk_r4_diff_baseline_project remain
+        // mandatory SQL93 composite scope FKs; do not invent a single-column FK.
+        contractId: () => p.manyToOne(Contract).mapToPk().nullable().fieldName('contract_id').createForeignKeyConstraint(false),
+        referenceTerms: p.json<ContractCommercialTerms>().nullable().fieldName('reference_terms'),
+        candidateTerms: p.json<ContractCommercialTerms>().nullable().fieldName('candidate_terms'),
+        payloadHash: p.string().length(64).nullable().fieldName('payload_hash'),
         diffLevel: p.string().length(32).fieldName('diff_level').$type<CommercialDiffLevel>(),
         reviewStatus: p.string().length(32).fieldName('review_status').$type<CommercialDiffReviewStatus>(),
         diffSummary: p.string().length(1000).nullable().fieldName('diff_summary'),

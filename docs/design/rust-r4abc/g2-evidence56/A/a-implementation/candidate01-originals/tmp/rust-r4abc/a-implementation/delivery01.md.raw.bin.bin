@@ -1,0 +1,26 @@
+# R4A 第一完整源码候选
+
+准入：Root `g1-gate-authority01.json` 已签署 G1Certified/G2Authorized；固定 G1 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，Issue #103。A 工作树 `E:/projects/worktrees/poms-r4a-readiness/poms`，仅写 `apps/poms-api-rust/src/contract_readiness/**` 及本交付目录。
+
+已实现九个 operationId 的 execute 分派、同连接 `load_preparation`，真实baseline合同referenceTerms、服务端来源/合同diff/package、exact review及真实附件关联、prepared版本、正式plan/version/node/init record。字段/列/constraints沿本工作树正式 G1 schema/DTO/shared protocol。公共Actor/Error/金额/ratio/hash/new_uuid/Project锁/Contract事实/audit全部调用Root contract_support，无另一套公共定义。
+
+只提供源码候选，**未编译、未运行fmt/clippy/test/HTTP/PG/browser/WSL、未操作Git/GitHub**。Root必须先导入6源文件和公共helper/新迁移/契约接线，再统一构建及实际业务验收；不能把本交付当G3通过。
+
+实现约束：
+
+- 所有领域入口要求调用方已有outerTX，无第二连接或自主commit；Project→同项目Contract→typed source/target锁；Root final flush/COMMIT拥有最终原子性。
+- baseline is_current/status资格与不可变source/reference hash分开；mutable row_version/latest_diff_result_id不进入prep source/hash，防止另一合同A05/A04使已审准备失效。
+- 独立合同reference↔candidate比较；任何金额变化缺同合同毛利依据均reapproval；合同金额不与projecttotal直接算偏离、不分摊/硬预算。
+- exact A08/A09在锁内返回原真实产物，不因自身推进package版本而冲突；新mutation才CAS；A08无论重试仅draft，Active返回400，避免假prepared状态。A09只用Active snapshot冻结seed，不重新要求旧R3仍current。
+- loader true覆盖B draft送审、pending-review批准和激活，不强制draft；核current prep/package、exact diff、当前core/source/hash。false用于历史reject，只核原持久化身份/immutable hash，不用当前core/source阻止退回。B已确认此边界。
+- 必要audit与业务同outerTX；businessaudit使用身份/状态/hash的安全DTO，不回填未授权原始财务字段。读模型复用现auth::projection::plan，隐藏响应和真实security event同连接；只有确有隐藏事件时common flush必要auth，普通GET无业务写。
+- 附件去重parsedUUID、active attachment及active project/contract link真实授权（project:read+原四种敏感权限）；link读持FOR SHARE防并发unlink穿透；保存真实review_attachment。
+
+Root集成注意：
+
+1. 新模块未自行注册lib/Cargo/HTTP，Root负责；需Root实际 `contract_support::new_uuid`、`expected_version` 和已冻结其它helper。
+2. Source summary核active及context，同时验证project/contract/source-lead真实归属；所有源raw JSON只内部使用，public response显式构造，不返回sourceFacts。
+3. source collector从current cost/bid/pricing真实表读取，当前required pricing conditions实际校验，八位税率只接受可无损规范四位者。Root的R3 baseline bridge仍须导入/回归。
+4. 精确source/core/hash和所有SQL绑定尚无实际编译/PG证据；以 `acceptance-cases01.json` 的纯producer/负例/fault/race计划统一执行。不要复用旧作者G1纯case候选作为实际验收。
+
+逐文件字节长度与SHA由 `delivery01.json` 绑定。此后若Root格式化/修正/集成，应另冻结统一候选的新散列与真实结果，本索引不冒称导入后的字节仍相同。

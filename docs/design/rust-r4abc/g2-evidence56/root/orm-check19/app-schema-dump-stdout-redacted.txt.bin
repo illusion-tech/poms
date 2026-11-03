@@ -1,0 +1,297 @@
+◇ injected env (16) from ../../.local/share/poms-r4abc/private/rust.env // tip: ⌘ enable debugging { debug: true }
+set names 'utf8';
+
+drop table if exists "r4abc_control"."marker" cascade;
+
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_baseline_project";
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_contract_project";
+
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_contract_project";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_current_preparation";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_diff_scope";
+
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_activated_snapshot";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_contract_project";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_diff_scope";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_readiness_scope";
+
+alter table "poms"."contract_term_snapshot" drop constraint "fk_r4_snapshot_preparation_contract";
+
+alter table "poms"."contract_review_binding" drop constraint "fk_r4_review_preparation_contract";
+
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_contract_project";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_preparation_source";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_snapshot_scope";
+
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_contract";
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_snapshot";
+
+alter table "poms"."approval_record" add constraint "chk_approval_record_approval_type" check ("approval_type" in ('contract-review', 'commission-payout-approval', 'commission-adjustment-approval'));
+alter table "poms"."approval_record" add constraint "chk_approval_record_business_domain" check ("business_domain" in ('contract-finance', 'commission', 'sales', 'project-handover'));
+alter table "poms"."approval_record" add constraint "chk_approval_record_target_object_type" check ("target_object_type" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));
+alter table "poms"."approval_record" add constraint "chk_approval_record_current_status" check ("current_status" in ('pending', 'approved', 'rejected'));
+alter table "poms"."approval_record" add constraint "chk_approval_record_decision" check ("decision" in ('approved', 'rejected'));
+
+alter table "poms"."attachment" add constraint "chk_attachment_security_level" check ("security_level" in ('normal', 'internal', 'sensitive', 'confidential', 'restricted'));
+alter table "poms"."attachment" add constraint "chk_attachment_status" check ("status" in ('active', 'voided', 'deleted', 'failed'));
+
+alter table "poms"."attachment_link" add constraint "chk_attachment_link_target_type" check ("target_type" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up', 'project-handover'));
+alter table "poms"."attachment_link" add constraint "chk_attachment_link_relation_type" check ("relation_type" in ('normal', 'source', 'evidence', 'final', 'handover'));
+alter table "poms"."attachment_link" add constraint "chk_attachment_link_status" check ("status" in ('active', 'unlinked'));
+
+alter table "poms"."attachment_storage_provider_config" add constraint "chk_attachment_storage_provider_type" check ("provider_type" in ('local', 'huawei-obs-s3'));
+alter table "poms"."attachment_storage_provider_config" add constraint "chk_attachment_storage_provider_status" check ("status" in ('draft', 'active', 'disabled', 'misconfigured'));
+
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_operation_type" check ("operation_type" in ('create-attachment', 'create-version'));
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_status" check ("status" in ('pending', 'uploading', 'uploaded', 'validating', 'completed', 'failed', 'expired', 'aborted'));
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_upload_mode" check ("upload_mode" in ('proxy', 'presigned-put', 'multipart'));
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_provider_type" check ("provider_type" in ('local', 'huawei-obs-s3'));
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_max_size_bytes" check ("max_size_bytes" > 0);
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_target_type" check ("target_type" is null or "target_type" = any (array['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying]));
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_security_level" check ("security_level" is null or "security_level" = any (array['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying]));
+alter table "poms"."attachment_upload_session" add constraint "chk_attachment_upload_session_relation_type" check ("relation_type" is null or "relation_type" = any (array['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying]));
+
+alter table "poms"."commission_rule_version" add constraint "chk_commission_rule_version_status" check ("status" in ('draft', 'active', 'stopped'));
+
+alter table "poms"."dictionary_item" add constraint "chk_dictionary_item_domain" check ("domain" in ('attachment-category', 'sales-follow-up-type', 'expense-category', 'lead-source'));
+alter table "poms"."dictionary_item" add constraint "chk_dictionary_item_status" check ("status" in ('active', 'inactive'));
+alter table "poms"."dictionary_item" add constraint "chk_dictionary_item_code_format" check ("code" ~ '^[a-z][a-z0-9-]*$');
+
+alter table "poms"."identity_provider_config" add constraint "chk_identity_provider_config_provider" check ("provider" in ('feishu'));
+alter table "poms"."identity_provider_config" add constraint "chk_identity_provider_config_status" check ("status" in ('draft', 'active', 'disabled', 'misconfigured'));
+alter table "poms"."identity_provider_config" add constraint "chk_identity_provider_config_search_grant_mode" check ("search_grant_mode" in ('per-admin', 'service-account'));
+
+alter table "poms"."internal_cost_rate_version" add constraint "chk_internal_cost_rate_version_status" check ("status" in ('active', 'superseded', 'retired'));
+alter table "poms"."internal_cost_rate_version" add constraint "chk_internal_cost_rate_version_scope_type" check ("rate_scope_type" in ('person', 'role'));
+alter table "poms"."internal_cost_rate_version" add constraint "chk_internal_cost_rate_version_rate_unit" check ("rate_unit" in ('hour', 'day'));
+
+alter table "poms"."org_unit" add constraint "chk_org_unit_parent_not_self" check (("parent_id" is null or "parent_id" <> "id"));
+
+alter table "poms"."external_org_source" add constraint "chk_external_org_source_provider" check ("provider" in ('feishu', 'dingtalk', 'wecom'));
+alter table "poms"."external_org_source" add constraint "chk_external_org_source_status" check ("status" in ('draft', 'active', 'paused', 'archived'));
+
+alter table "poms"."external_department_mapping" add constraint "chk_external_department_mapping_status" check ("status" in ('unmapped', 'mapped', 'conflict', 'ignored'));
+
+alter table "poms"."org_sync_run" add constraint "chk_org_sync_run_status" check ("status" in ('previewing', 'previewed', 'applying', 'applied', 'failed', 'cancelled'));
+
+alter table "poms"."org_sync_diff_item" add constraint "chk_org_sync_diff_item_action" check ("action" in ('create_org_unit', 'update_org_unit', 'move_org_unit', 'disable_org_unit', 'map_existing_org_unit', 'ignore', 'conflict'));
+alter table "poms"."org_sync_diff_item" add constraint "chk_org_sync_diff_item_status" check ("status" in ('pending', 'approved', 'skipped', 'applied', 'failed'));
+
+alter table "poms"."identity_provider_oauth_grant" add constraint "chk_identity_provider_oauth_grant_provider" check ("provider" in ('feishu'));
+alter table "poms"."identity_provider_oauth_grant" add constraint "chk_identity_provider_oauth_grant_status" check ("status" in ('missing', 'active', 'expired', 'revoked'));
+
+alter table "poms"."external_identity" add constraint "chk_external_identity_provider" check ("provider" in ('feishu'));
+alter table "poms"."external_identity" add constraint "chk_external_identity_status" check ("status" in ('active', 'revoked'));
+
+alter table "poms"."external_login_ticket" add constraint "chk_external_login_ticket_provider" check ("provider" in ('feishu'));
+alter table "poms"."external_login_ticket" add constraint "chk_external_login_ticket_status" check ("status" in ('issued', 'consumed', 'expired'));
+
+alter table "poms"."customer" add constraint "chk_customer_status" check ("status" in ('active', 'inactive', 'merged'));
+
+alter table "poms"."lead" add constraint "chk_lead_status" check ("status" in ('registered', 'qualified', 'converted', 'closed'));
+alter table "poms"."lead" add constraint "chk_lead_budget_status" check ("budget_status" in ('unknown', 'no-budget', 'rough-budget', 'budget-confirmed', 'budget-approved'));
+alter table "poms"."lead" add constraint "chk_lead_urgency" check ("urgency" in ('low', 'normal', 'high', 'critical'));
+alter table "poms"."lead" add constraint "chk_lead_estimated_amount_non_negative" check ("estimated_amount" is null or "estimated_amount" >= 0);
+alter table "poms"."lead" add constraint "chk_lead_score_range" check ("score" >= 0 and "score" <= 100);
+alter table "poms"."lead" add constraint "chk_lead_rating" check ("rating" in ('A', 'B', 'C', 'D'));
+
+alter table "poms"."lead_score_snapshot" add constraint "chk_lss_snapshot_kind" check ("snapshot_kind" in ('system', 'manual-override', 'override-revoked'));
+alter table "poms"."lead_score_snapshot" add constraint "chk_lss_system_score_range" check ("system_score" >= 0 and "system_score" <= 100);
+alter table "poms"."lead_score_snapshot" add constraint "chk_lss_effective_score_range" check ("effective_score" >= 0 and "effective_score" <= 100);
+alter table "poms"."lead_score_snapshot" add constraint "chk_lss_system_rating" check ("system_rating" in ('A', 'B', 'C', 'D'));
+alter table "poms"."lead_score_snapshot" add constraint "chk_lss_effective_rating" check ("effective_rating" in ('A', 'B', 'C', 'D'));
+alter table "poms"."lead_score_snapshot" add constraint "chk_lss_effective_score_source" check ("effective_score_source" in ('system', 'manual-override'));
+
+comment on column "poms"."lead_score_override"."status" is '覆盖状态';
+alter table "poms"."lead_score_override" add constraint "chk_lso_status" check ("status" in ('pending', 'approved', 'rejected', 'revoked', 'superseded'));
+alter table "poms"."lead_score_override" add constraint "chk_lso_requested_score_range" check ("requested_score" >= 0 and "requested_score" <= 100);
+alter table "poms"."lead_score_override" add constraint "chk_lso_requested_rating" check ("requested_rating" in ('A', 'B', 'C', 'D'));
+alter table "poms"."lead_score_override" add constraint "chk_lso_system_score_at_request_range" check ("system_score_at_request" >= 0 and "system_score_at_request" <= 100);
+alter table "poms"."lead_score_override" add constraint "chk_lso_system_rating_at_request" check ("system_rating_at_request" in ('A', 'B', 'C', 'D'));
+
+alter table "poms"."lead_owner_assignment_record" add constraint "chk_lead_owner_assignment_type" check ("assignment_type" in ('claimed', 'assigned', 'reassigned'));
+
+alter table "poms"."customer_contact" add constraint "chk_customer_contact_status" check ("status" in ('active', 'inactive'));
+alter table "poms"."customer_contact" add constraint "chk_customer_contact_gender" check ("gender" in ('unknown', 'male', 'female'));
+
+alter table "poms"."customer_alias" add constraint "chk_customer_alias_type" check ("alias_type" in ('legal-name', 'short-name', 'legacy-input', 'import-name', 'alias'));
+
+alter table "poms"."auth_session" add constraint "chk_auth_session_status" check ("status" in ('active', 'revoked', 'expired'));
+alter table "poms"."auth_session" add constraint "chk_auth_session_revoked_reason" check (("revoked_reason" is null or ("revoked_reason")::text = any ((array['logout'::character varying, 'admin-revoked'::character varying, 'password-reset'::character varying, 'account-disabled'::character varying, 'session-rotated'::character varying])::text[])));
+
+alter table "poms"."project" add constraint "chk_project_status" check ("status" in ('active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'));
+alter table "poms"."project" add constraint "chk_project_current_stage" check ("current_stage" in ('assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'));
+
+alter table "poms"."opportunity_stakeholder" add constraint "chk_opportunity_stakeholder_anchor" check ("lead_id" is not null or "project_id" is not null);
+alter table "poms"."opportunity_stakeholder" add constraint "chk_opportunity_stakeholder_role" check ("role" in ('decision-maker', 'influencer', 'end-user', 'technical-evaluator', 'procurement-contact', 'finance-legal', 'sponsor', 'blocker', 'unknown', 'other'));
+alter table "poms"."opportunity_stakeholder" add constraint "chk_opportunity_stakeholder_attitude" check ("attitude" in ('supportive', 'neutral', 'resistant', 'unknown'));
+alter table "poms"."opportunity_stakeholder" add constraint "chk_opportunity_stakeholder_influence" check ("influence_level" in ('high', 'medium', 'low', 'unknown'));
+alter table "poms"."opportunity_stakeholder" add constraint "chk_opportunity_stakeholder_access" check ("access_level" in ('direct', 'indirect', 'unknown', 'blocked'));
+
+alter table "poms"."operating_baseline_package" add constraint "chk_operating_baseline_package_baseline_selection_source" check ("baseline_selection_source" in ('original', 'handover-rebaseline'));
+alter table "poms"."operating_baseline_package" add constraint "chk_operating_baseline_package_status" check ("status" in ('draft', 'active', 'superseded'));
+
+alter table "poms"."change_package_baseline" add constraint "chk_change_package_baseline_status" check ("status" in ('active', 'voided'));
+
+alter table "poms"."contract" add constraint "chk_contract_status" check ("status" in ('draft', 'pending-review', 'active', 'terminated', 'completed'));
+
+alter table "poms"."payable_record" add constraint "chk_payable_record_status" check ("status" in ('draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'));
+
+alter table "poms"."payment_record" add constraint "chk_payment_record_status" check ("status" in ('draft', 'recorded', 'confirmed', 'voided'));
+
+alter table "poms"."invoice_record" add constraint "chk_invoice_record_invoice_type" check ("invoice_type" in ('input', 'output'));
+alter table "poms"."invoice_record" add constraint "chk_invoice_record_status" check ("status" in ('draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'));
+alter table "poms"."invoice_record" add constraint "chk_invoice_record_exception_status" check ("exception_status" in ('none', 'open', 'resolved'));
+
+alter table "poms"."expense_record" add constraint "chk_expense_record_source_type" check ("source_type" in ('manual', 'reimbursement', 'import'));
+alter table "poms"."expense_record" add constraint "chk_expense_record_status" check ("status" in ('draft', 'recorded', 'confirmed', 'voided'));
+
+alter table "poms"."competitor_intelligence_record" add constraint "chk_competitor_intelligence_anchor" check ("lead_id" is not null or "project_id" is not null);
+alter table "poms"."competitor_intelligence_record" add constraint "chk_competitor_position" check ("position" in ('incumbent', 'active-competitor', 'potential-competitor', 'unknown'));
+alter table "poms"."competitor_intelligence_record" add constraint "chk_competitor_customer_preference" check ("customer_preference" in ('toward-us', 'neutral', 'toward-competitor', 'unknown'));
+alter table "poms"."competitor_intelligence_record" add constraint "chk_competitor_win_probability" check ("win_probability" in ('high', 'medium', 'low', 'unknown'));
+
+alter table "poms"."commission_calculation" add constraint "chk_commission_calculation_status" check ("status" in ('pending', 'calculated', 'effective', 'superseded'));
+
+alter table "poms"."commission_payout" add constraint "chk_commission_payout_stage_type" check ("stage_type" in ('first', 'second', 'final', 'retention'));
+alter table "poms"."commission_payout" add constraint "chk_commission_payout_payout_kind" check ("payout_kind" in ('primary', 'supplement'));
+alter table "poms"."commission_payout" add constraint "chk_commission_payout_selected_tier" check ("selected_tier" in ('basic', 'mid', 'premium'));
+alter table "poms"."commission_payout" add constraint "chk_commission_payout_status" check ("status" in ('draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed'));
+
+alter table "poms"."commission_adjustment" add constraint "chk_commission_adjustment_adjustment_type" check ("adjustment_type" in ('suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate'));
+alter table "poms"."commission_adjustment" add constraint "chk_commission_adjustment_status" check ("status" in ('draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed'));
+
+alter table "poms"."commercial_release_baseline" add constraint "chk_r4_baseline_contract_terms" check (jsonb_typeof("contract_terms") = 'array');
+
+alter table "poms"."business_discussion_thread" add constraint "chk_business_discussion_thread_target" check ("target_object_type" in ('customer', 'lead', 'project'));
+
+alter table "poms"."accounting_tax_treatment_snapshot" add constraint "chk_accounting_tax_treatment_snapshot_deductibility_status" check ("deductibility_status" in ('pending', 'deductible', 'non-deductible'));
+alter table "poms"."accounting_tax_treatment_snapshot" add constraint "chk_accounting_tax_treatment_snapshot_status" check ("status" in ('pending', 'active', 'superseded', 'voided'));
+
+alter table "poms"."project_actual_cost_record" add constraint "chk_project_actual_cost_record_cost_type" check ("cost_type" in ('procurement', 'invoice', 'expense', 'payment-fact', 'labor'));
+alter table "poms"."project_actual_cost_record" add constraint "chk_project_actual_cost_record_record_status" check ("record_status" in ('draft', 'registered', 'confirmed', 'included', 'voided', 'replaced'));
+alter table "poms"."project_actual_cost_record" add constraint "chk_project_actual_cost_record_labor_period_type" check ("labor_period_type" is null or ("labor_period_type")::text = ANY ((ARRAY['week'::character varying, 'month'::character varying])::text[]));
+alter table "poms"."project_actual_cost_record" add constraint "chk_project_actual_cost_record_source_type" check ("source_type" is null or ("source_type")::text = ANY ((ARRAY['payment-record'::character varying, 'invoice-record'::character varying, 'expense-record'::character varying, 'payable-record'::character varying, 'labor'::character varying])::text[]));
+
+alter table "poms"."cost_stage_attribution_snapshot" add constraint "chk_cost_stage_attribution_snapshot_attribution_mode" check ("attribution_mode" in ('auto', 'manual', 'reclassified'));
+alter table "poms"."cost_stage_attribution_snapshot" add constraint "chk_cost_stage_attribution_snapshot_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."project_archive_record" add constraint "chk_project_archive_record_status" check ("status" in ('recorded', 'voided', 'superseded'));
+
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_version_check" check ("version" > 0);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_row_version_check" check ("row_version" > 0);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_status_check" check ("status" in ('prepared', 'superseded', 'activated'));
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_contract_row_version_at_prepara_check" check ("contract_row_version_at_preparation" > 0);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_amount_tax_inclusive_check" check ("amount_tax_inclusive" > 0);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_amount_tax_exclusive_check" check ("amount_tax_exclusive" > 0);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_tax_rate_check" check ("tax_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_down_payment_rate_check" check ("down_payment_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_retention_rate_check" check ("retention_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_receivable_plan_seeds_check" check (jsonb_typeof("receivable_plan_seeds") = 'array' and jsonb_array_length("receivable_plan_seeds") > 0);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_source_facts_check" check (jsonb_typeof("source_facts") = 'object');
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_contract_core_hash_check" check ("contract_core_hash" ~ '^[0-9a-f]{64}$');
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_payload_hash_check" check ("payload_hash" ~ '^[0-9a-f]{64}$');
+alter table "poms"."contract_term_preparation" add constraint "chk_r4_preparation_activation" check (("status" = 'activated' and "activated_snapshot_id" is not null and "activated_at" is not null and "activated_by" is not null) or ("status" <> 'activated' and "activated_snapshot_id" is null and "activated_at" is null and "activated_by" is null));
+
+alter table "poms"."contract_term_snapshot" add constraint "chk_contract_term_snapshot_status" check ("snapshot_status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."project_operating_snapshot" add constraint "chk_project_operating_snapshot_snapshot_mode" check ("snapshot_mode" in ('realtime', 'period-end', 'restated'));
+alter table "poms"."project_operating_snapshot" add constraint "chk_project_operating_snapshot_current_action_level" check ("current_action_level" in ('prompt', 'review', 'block'));
+alter table "poms"."project_operating_snapshot" add constraint "chk_project_operating_snapshot_baseline_selection_source" check ("baseline_selection_source" in ('original', 'handover-rebaseline'));
+alter table "poms"."project_operating_snapshot" add constraint "chk_project_operating_snapshot_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."data_maturity_evaluation_result" add constraint "chk_data_maturity_evaluation_result_data_maturity_level" check ("data_maturity_level" in ('insufficient', 'preliminary', 'mature'));
+alter table "poms"."data_maturity_evaluation_result" add constraint "chk_data_maturity_evaluation_result_cost_action_recommendation" check ("cost_action_recommendation" in ('prompt', 'review', 'block'));
+alter table "poms"."data_maturity_evaluation_result" add constraint "chk_data_maturity_evaluation_result_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."operating_signal_evaluation_result" add constraint "chk_operating_signal_evaluation_result_signal_level" check ("signal_level" in ('attention', 'alert'));
+alter table "poms"."operating_signal_evaluation_result" add constraint "chk_operating_signal_evaluation_result_risk_level" check ("risk_level" in ('attention', 'risk'));
+alter table "poms"."operating_signal_evaluation_result" add constraint "chk_operating_signal_evaluation_result_formula_boundary_action" check ("formula_boundary_action" in ('prompt', 'review', 'block'));
+alter table "poms"."operating_signal_evaluation_result" add constraint "chk_operating_signal_evaluation_result_current_action_level" check ("current_action_level" in ('prompt', 'review', 'block'));
+alter table "poms"."operating_signal_evaluation_result" add constraint "chk_operating_signal_evaluation_result_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."operating_signal_gate_binding" add constraint "chk_operating_signal_gate_binding_binding_action" check ("binding_action" in ('prompt', 'review', 'block'));
+alter table "poms"."operating_signal_gate_binding" add constraint "chk_operating_signal_gate_binding_baseline_selection_source" check ("baseline_selection_source" in ('original', 'handover-rebaseline'));
+alter table "poms"."operating_signal_gate_binding" add constraint "chk_operating_signal_gate_binding_data_maturity_level" check ("data_maturity_level" in ('insufficient', 'preliminary', 'mature'));
+alter table "poms"."operating_signal_gate_binding" add constraint "chk_operating_signal_gate_binding_cost_action_recommendation" check ("cost_action_recommendation" in ('prompt', 'review', 'block'));
+alter table "poms"."operating_signal_gate_binding" add constraint "chk_operating_signal_gate_binding_current_action_level" check ("current_action_level" in ('prompt', 'review', 'block'));
+alter table "poms"."operating_signal_gate_binding" add constraint "chk_operating_signal_gate_binding_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."operating_signal_review_record" add constraint "chk_os_review_review_decision" check ("review_decision" in ('approve', 'manual-confirmed'));
+alter table "poms"."operating_signal_review_record" add constraint "chk_os_review_resolved_cost_action" check ("resolved_cost_action_recommendation" is null or ("resolved_cost_action_recommendation")::text = ANY ((ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying])::text[]));
+alter table "poms"."operating_signal_review_record" add constraint "chk_os_review_resolved_current_action" check ("resolved_current_action_level" in ('prompt', 'review', 'block'));
+alter table "poms"."operating_signal_review_record" add constraint "chk_os_review_resolved_data_maturity" check ("resolved_data_maturity_level" is null or ("resolved_data_maturity_level")::text = ANY ((ARRAY['insufficient'::character varying, 'preliminary'::character varying, 'mature'::character varying])::text[]));
+alter table "poms"."operating_signal_review_record" add constraint "chk_os_review_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."project_handover_attachment_selection" add constraint "chk_phas_status" check ("status" in ('included', 'missing', 'excluded', 'sensitive-excluded', 'stale-version'));
+
+alter table "poms"."attachment_download_package" add constraint "chk_adp_status" check ("status" in ('pending', 'running', 'ready', 'failed', 'expired', 'cancelled'));
+
+alter table "poms"."attachment_download_package_item" add constraint "chk_adpi_status" check ("status" in ('included', 'excluded'));
+
+alter table "poms"."period_closing_snapshot" add constraint "chk_period_closing_snapshot_snapshot_mode" check ("snapshot_mode" in ('period-end'));
+alter table "poms"."period_closing_snapshot" add constraint "chk_period_closing_snapshot_current_action_level" check ("current_action_level" in ('prompt', 'review', 'block'));
+alter table "poms"."period_closing_snapshot" add constraint "chk_period_closing_snapshot_baseline_selection_source" check ("baseline_selection_source" in ('original', 'handover-rebaseline'));
+alter table "poms"."period_closing_snapshot" add constraint "chk_period_closing_snapshot_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."operating_restatement_record" add constraint "chk_operating_restatement_record_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."commission_role_assignment" add constraint "chk_commission_role_assignment_status" check ("status" in ('draft', 'frozen', 'superseded'));
+
+alter table "poms"."commission_freeze_dispute_record" add constraint "chk_cfdr_arbitration_status" check ("arbitration_status" in ('pending', 'arbitrated'));
+alter table "poms"."commission_freeze_dispute_record" add constraint "chk_cfdr_status" check ("status" in ('submitted', 'closed'));
+
+alter table "poms"."commission_freeze_change_request" add constraint "chk_cfcr_status" check ("status" in ('effective', 'closed'));
+
+alter table "poms"."commission_departure_exception_decision" add constraint "chk_cded_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."contract_review_binding" add constraint "contract_review_binding_preparation_version_check" check ("preparation_version" > 0);
+alter table "poms"."contract_review_binding" add constraint "contract_review_binding_payload_hash_check" check ("payload_hash" ~ '^[0-9a-f]{64}$');
+
+alter table "poms"."receipt_record" add constraint "chk_receipt_record_status" check ("status" in ('draft', 'pending-confirmation', 'confirmed', 'reversed', 'voided'));
+
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_data_maturity_level" check ("data_maturity_level" in ('insufficient', 'preliminary', 'mature'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_final_settlement_status" check ("final_settlement_status" in ('pending-final-settlement', 'pending-retention-settlement', 'settled-all'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_non_retention_settlement_status" check ("non_retention_settlement_status" in ('pending-non-retention', 'settled-non-retention'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_retention_settlement_status" check ("retention_settlement_status" in ('waiting-retention', 'ready-retention', 'settled-retention'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_baseline_selection_source" check ("baseline_selection_source" in ('original', 'handover-rebaseline'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_cost_action_recommendation" check ("cost_action_recommendation" in ('prompt', 'review', 'block'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_current_action_level" check ("current_action_level" in ('prompt', 'review', 'block'));
+alter table "poms"."commission_final_settlement_snapshot" add constraint "chk_cfss_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."commission_rule_explanation_snapshot" add constraint "chk_cres_current_stage_status" check ("current_stage_status" in ('pending-final-settlement', 'blocked-retention', 'ready-retention', 'settled-retention'));
+alter table "poms"."commission_rule_explanation_snapshot" add constraint "chk_cres_gate_decision_code" check ("gate_decision_code" in ('allow-final-settlement', 'settled-retention', 'block-retention', 'review-retention', 'allow-retention'));
+alter table "poms"."commission_rule_explanation_snapshot" add constraint "chk_cres_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."receivable_plan_version" add constraint "receivable_plan_version_version_check" check ("version" > 0);
+alter table "poms"."receivable_plan_version" add constraint "receivable_plan_version_row_version_check" check ("row_version" > 0);
+alter table "poms"."receivable_plan_version" add constraint "receivable_plan_version_status_check" check ("status" in ('active', 'superseded', 'voided'));
+alter table "poms"."receivable_plan_version" add constraint "receivable_plan_version_amount_tax_inclusive_check" check ("amount_tax_inclusive" > 0);
+alter table "poms"."receivable_plan_version" add constraint "receivable_plan_version_payload_hash_check" check ("payload_hash" ~ '^[0-9a-f]{64}$');
+
+alter table "poms"."receivable_plan_node" add constraint "receivable_plan_node_planned_amount_check" check ("planned_amount" > 0);
+alter table "poms"."receivable_plan_node" add constraint "receivable_plan_node_sort_order_check" check ("sort_order" >= 0);
+
+alter table "poms"."sales_discovery_record" add constraint "chk_sales_discovery_anchor" check ("lead_id" is not null or "project_id" is not null);
+
+alter table "poms"."sales_follow_up_record" add constraint "chk_sales_follow_up_outcome" check ("outcome" in ('progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other'));
+alter table "poms"."sales_follow_up_record" add constraint "chk_sales_follow_up_record_status" check ("status" in ('active', 'superseded', 'voided'));
+
+alter table "poms"."business_discussion_comment" add constraint "chk_business_discussion_type" check ("discussion_type" in ('intelligence-supplement', 'decision-chain', 'competition', 'strategy', 'risk', 'general'));
+
+alter table "poms"."shared_cost_allocation_basis" add constraint "chk_shared_cost_allocation_basis_status" check ("status" in ('pending', 'active', 'superseded', 'voided'));
+
+alter table "poms"."shared_cost_allocation_result" add constraint "chk_shared_cost_allocation_result_status" check ("status" in ('pending', 'active', 'superseded', 'voided'));
+
+alter table "poms"."system_setting" add constraint "chk_system_setting_value_type" check ("value_type" in ('integer'));
+
+alter table "poms"."todo_item" add constraint "chk_todo_item_source_type" check ("source_type" in ('approval-record', 'confirmation-record', 'sales-follow-up-record'));
+alter table "poms"."todo_item" add constraint "chk_todo_item_todo_type" check ("todo_type" in ('approval', 'confirmation', 'sales-follow-up-reminder'));
+alter table "poms"."todo_item" add constraint "chk_todo_item_business_domain" check ("business_domain" in ('contract-finance', 'commission', 'sales', 'project-handover'));
+alter table "poms"."todo_item" add constraint "chk_todo_item_target_object_type" check ("target_object_type" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));
+alter table "poms"."todo_item" add constraint "chk_todo_item_status" check ("status" in ('open', 'processing', 'completed', 'canceled'));
+alter table "poms"."todo_item" add constraint "chk_todo_item_priority" check ("priority" in ('low', 'normal', 'high', 'urgent'));
+
+drop schema if exists "r4abc_control";
+
+

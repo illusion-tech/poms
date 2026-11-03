@@ -1,0 +1,18 @@
+// Root new public checkouts + offline dependencies. Admission is actual online G1.
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{spawnSync,execFileSync}from'node:child_process';import{createHash}from'node:crypto';
+assert.equal(process.platform,'linux');
+const win='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',root='/home/wangzishi/projects/poms-rust-r4abc',reference='/home/wangzishi/projects/poms-native-r4abc-reference',out=win+'/tmp/rust-r4abc/root/linux-bootstrap01';
+const gate=JSON.parse(fs.readFileSync(win+'/docs/design/rust-r4abc/g1-gate-authority01.json','utf8'));assert(gate.G1Certified&&gate.G2Authorized);assert.equal(gate.baselineCommit,'2f613c312c9e41b3ed5ac59edf5e9db63842c1cb');
+assert(!fs.existsSync(out));fs.mkdirSync(out,{recursive:true});const sha=b=>createHash('sha256').update(b).digest('hex'),pin=file=>{const b=fs.readFileSync(file);return{file,bytes:b.length,rawBytesSha256:sha(b)}};
+const env={};for(const k of['PATH','HOME','USER','LOGNAME','LANG','LC_ALL','TMPDIR'])if(process.env[k])env[k]=process.env[k];Object.assign(env,{PATH:path.dirname(process.execPath)+':'+env.PATH,NX_DAEMON:'false',NX_ISOLATE_PLUGINS:'false',CI:'true',npm_config_manage_package_manager_versions:'false',COREPACK_ENABLE_AUTO_PIN:'0'});
+const pm='/home/wangzishi/.cache/node/corepack/v1/pnpm/12.3.4/bin/pnpm.mjs';assert(fs.existsSync(pm));const commands=[];
+function run(name,exe,args,cwd){const stdout=out+'/'+name+'-stdout-original.bin',stderr=out+'/'+name+'-stderr-original.bin',o=fs.openSync(stdout,'wx'),e=fs.openSync(stderr,'wx');let r;const startedAt=new Date().toISOString();try{r=spawnSync(exe,args,{cwd,env,stdio:['ignore',o,e],timeout:300000});}finally{fs.closeSync(o);fs.closeSync(e);}commands.push({name,exe,args,cwd,startedAt,completedAt:new Date().toISOString(),exitCode:r.status,errorName:r.error?.name??null,stdout:pin(stdout),stderr:pin(stderr)});fs.writeFileSync(out+'/progress.json',JSON.stringify({commands},null,2)+'\n');assert.equal(r.status,0,name);}
+for(const [name,folder,ref]of[['rust',root,gate.baselineCommit],['native-reference',reference,'1730f304c1cf5600721f80b6c06feec24269d387']]){
+ assert(!fs.existsSync(folder),'Do not overwrite any existing checkout');
+ run(name+'-clone','git',['clone','--shared','--no-checkout','/mnt/e/projects/poms',folder],'/home/wangzishi/projects');
+ run(name+'-lf','git',['config','core.autocrlf','false'],folder);run(name+'-checkout','git',['checkout','--detach',ref],folder);
+ run(name+'-remote','git',['remote','set-url','origin','https://github.com/illusion-tech/poms.git'],folder);
+ assert.equal(execFileSync('git',['rev-parse','HEAD'],{cwd:folder,encoding:'utf8'}).trim(),ref);
+ const lock=fs.readFileSync(folder+'/pnpm-lock.yaml');run(name+'-offline-install',process.execPath,[pm,'install','--offline','--frozen-lockfile','--config.manage-package-manager-versions=false'],folder);assert(lock.equals(fs.readFileSync(folder+'/pnpm-lock.yaml')));
+}
+fs.mkdirSync(root+'/tmp/rust-r4abc',{recursive:true});const receipt={kind:'R4-new-public-Linux-checkouts-offline-bootstrap',createdAt:new Date().toISOString(),G1Commit:gate.baselineCommit,root,reference,referenceBase:'1730f304c1cf5600721f80b6c06feec24269d387',Node:process.version,pnpm:'12.3.4',commands,dependencyLocksUnchanged:true,sharedObjects:'public Git object store only; isolated work directories',oldPrivateRead:false,runtimeAccepted:false};fs.writeFileSync(out+'/receipt01.json',JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({root,reference,commands:commands.length,locksUnchanged:true,oldPrivateRead:false}));

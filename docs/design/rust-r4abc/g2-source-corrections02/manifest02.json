@@ -1,0 +1,203 @@
+{
+  "kind": "Root-bounded-source-import-and-declared-shared-contract-application",
+  "createdAt": "2026-11-03T07:21:28.515Z",
+  "products": [
+    {
+      "owner": "A",
+      "file": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "source": "E:/projects/worktrees/poms-r4a-readiness/poms/apps/poms-api-rust/src/contract_readiness/source.rs",
+      "oldSha256": "b50f0649cfa3ad0e2b497c9a13e6c6d5292eb5c60889e60a3ccbcf019abcb957",
+      "newSha256": "c64f78538365a8bdca3558b2f905f7ef277deb32b39f50ac5c8685bcd21a0c77",
+      "bytes": 12116,
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/A/apps/poms-api-rust/src/contract_readiness/source.rs.bin"
+    },
+    {
+      "owner": "B",
+      "file": "apps/poms-api-rust/src/contracts/store.rs",
+      "source": "E:/projects/worktrees/poms-r4b-contracts/poms/apps/poms-api-rust/src/contracts/store.rs",
+      "oldSha256": "05948723928c8d03933769cae7ad2bdeee42df0ac44aec304a7b54c7fa494738",
+      "newSha256": "1b4c4d3de65c159a582903c9b06c274c59d5e49a5926f08612d07edb2bad4989",
+      "bytes": 15561,
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/B/apps/poms-api-rust/src/contracts/store.rs.bin"
+    },
+    {
+      "owner": "C",
+      "file": "apps/poms-api-rust/src/contract_finance/store.rs",
+      "source": "E:/projects/worktrees/poms-r4c-finance/poms/apps/poms-api-rust/src/contract_finance/store.rs",
+      "oldSha256": "d908ee79c08e608553860f99e8c1014310dac47f895674be8e156760053bcf16",
+      "newSha256": "0e8bf0cb380082cbefdbc446bfcb54977554425ae263103d574081f1847eaece",
+      "bytes": 15543,
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/C/apps/poms-api-rust/src/contract_finance/store.rs.bin"
+    }
+  ],
+  "sharedProducts": [
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "baseExists": true,
+      "baseRawBytes": 5540,
+      "baseSha256": "57b648c14e573ca788a40a97b782d107f71112e57eaaf8f2e55c9b9f4b890cbf",
+      "newRawBytes": 6466,
+      "newSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8",
+      "changedDeclarations": [
+        "A03/A07 ContractSelectionQueryDto binding",
+        "explicit Legacy Native request/response compile boundary; no fake prep/plan outputs"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts.bin"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "baseExists": false,
+      "baseRawBytes": null,
+      "baseSha256": null,
+      "newRawBytes": 2714,
+      "newSha256": "9a4cac49065ebea267678e4d899a8451bf22214928175b050efe19e91aed97b2",
+      "changedDeclarations": [
+        "new explicit historical Native request/response shapes; no new lifecycle producer claim"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts.bin"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "baseExists": true,
+      "baseRawBytes": 26350,
+      "baseSha256": "8e1db3a0a207e03d94668c62e83cc089475d2b7f295d6a9f499c3e0b39eb22d7",
+      "newRawBytes": 26958,
+      "newSha256": "ff7d7bf1bf49aeb1e6a44369a72748299ed189865b46da9042ed08ac6343f3b6",
+      "changedDeclarations": [
+        "Legacy request/response type aliases only",
+        "two optional _selection query parameters; historical runtime body unchanged"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts.bin"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "baseExists": true,
+      "baseRawBytes": 14097,
+      "baseSha256": "453dbb75dd5c981a8d8ddbdd3047a17516d1b6630310333a4c090cbd7a000416",
+      "newRawBytes": 14430,
+      "newSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7",
+      "changedDeclarations": [
+        "strict result Swagger DTOs with explicit Legacy command return type",
+        "historical snapshot.sourcePreparationId=null and detail currentPreparation/latestReviewBinding=null"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/apps/poms-api/src/app/features/contract/contract.controller.ts.bin"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "baseExists": false,
+      "baseRawBytes": null,
+      "baseSha256": null,
+      "newRawBytes": 225,
+      "newSha256": "224363c6ea883812afe20a168ec5c7d5b815f14b041cd85903d2b9c0733ac92d",
+      "changedDeclarations": [
+        "new LegacyContractCommandResult without fabricated preparationId"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/apps/poms-api/src/app/features/contract/contract.legacy-types.ts.bin"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "candidate": "products/apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "baseExists": true,
+      "baseRawBytes": 28670,
+      "baseSha256": "a36a8dce979e5b294015a6839e063927a11377492469f35878e21453d78edcf2",
+      "newRawBytes": 28861,
+      "newSha256": "9a20590eefa09b22cc20113916a6f70830a6ce536a17255a0914cbc77f4539a5",
+      "changedDeclarations": [
+        "Root separately authorized type import only; runtime logic/fields unchanged"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts.bin"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "candidate": "products/libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "baseExists": true,
+      "baseRawBytes": 3781,
+      "baseSha256": "de5fce720f2b4d537572937b34555e0c1b7075b9fe0bb6b7289824687904ddf3",
+      "newRawBytes": 4722,
+      "newSha256": "c8d5db8660d8fb99c347ee08e6762bc6c442af523afbf465df708b72511dfb7f",
+      "changedDeclarations": [
+        "ActivateContractResultDto/SubmitContractReviewResultDto/ContractSelectionQueryDto",
+        "ReceivablePlanSeedDto/ContractCommercialTermsDto/ContractTermPreparationSummaryDto/ContractReviewBindingSummaryDto"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/libs/api/contracts/src/lib/contract/contract.dto.ts.bin"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "candidate": "products/libs/shared/contracts/src/lib/shared-contracts.ts",
+      "baseExists": true,
+      "baseRawBytes": 435823,
+      "baseSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+      "newRawBytes": 443119,
+      "newSha256": "e9a4bd9affcecd1821b23ccb7464eaa088e0314894a37fb2bb20dda614c028fb",
+      "changedDeclarations": [
+        "R4PositiveMoneyString/R4NonnegativeMoneyString/R4RatioString and BigInt-only capacity helper",
+        "ReceivablePlanSeed/ContractCommercialTerms",
+        "ContractTermPreparationStatus/Summary/ContractReviewBindingSummary/ContractSelectionQuery",
+        "strict SubmitContractReviewResult/ActivateContractResult after CommandResult",
+        "21 existing declarations listed in static-scope01.json"
+      ],
+      "author": "C candidate author",
+      "originalBytesFile": "docs/design/rust-r4abc/g2-source-corrections02/shared/libs/shared/contracts/src/lib/shared-contracts.ts.bin"
+    }
+  ],
+  "artifacts": [
+    {
+      "logicalOrigin": "E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/shared-candidate01/manifest01.json",
+      "storedAt": "docs/design/rust-r4abc/g2-source-corrections02/receipts/0-manifest01.json.bin",
+      "bytes": 6609,
+      "sha256": "02937e9b00850ab831f3e7e974745ad5d6a16785f905016d5f470d45f7648f22"
+    },
+    {
+      "logicalOrigin": "E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/shared-candidate01/INTEGRATION.md",
+      "storedAt": "docs/design/rust-r4abc/g2-source-corrections02/receipts/1-INTEGRATION.md.bin",
+      "bytes": 6840,
+      "sha256": "ce47af1345c9087311c22c656adc631bc04f474def59f85fcd9fe1f0911c7693"
+    },
+    {
+      "logicalOrigin": "E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/shared-candidate01/static-scope01.json",
+      "storedAt": "docs/design/rust-r4abc/g2-source-corrections02/receipts/2-static-scope01.json.bin",
+      "bytes": 1354,
+      "sha256": "cf87c45e7ea41cb6fc4fccbadd0b5e97ee512faa1b53de80aef5b56d07252bf1"
+    },
+    {
+      "logicalOrigin": "E:/projects/worktrees/poms-r4a-readiness/poms/tmp/rust-r4abc/a-implementation/delivery02.json",
+      "storedAt": "docs/design/rust-r4abc/g2-source-corrections02/receipts/3-delivery02.json.bin",
+      "bytes": 4385,
+      "sha256": "79906a5281d70b5781df30f24dbaf65e8e7a3e78e5ba6f3b58c067e5df92f1a1"
+    },
+    {
+      "logicalOrigin": "E:/projects/worktrees/poms-r4b-contracts/poms/tmp/rust-r4abc/b-implementation/source-index02.json",
+      "storedAt": "docs/design/rust-r4abc/g2-source-corrections02/receipts/4-source-index02.json.bin",
+      "bytes": 3479,
+      "sha256": "b524a1e672f09cd2d2d05df3cb5e548b42d7a642a9027cdce5f2c4a74edc04a9"
+    },
+    {
+      "logicalOrigin": "E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/c-implementation/candidate02/manifest02.json",
+      "storedAt": "docs/design/rust-r4abc/g2-source-corrections02/receipts/5-manifest02.json.bin",
+      "bytes": 2417,
+      "sha256": "1fd226da2eee4d2a23fceea93474691aab8a626aa88f927eca6c72de13db0e3f"
+    }
+  ],
+  "sourceAuthors": {
+    "A": "readiness",
+    "B": "contracts",
+    "C": "finance and shared source proposal",
+    "Root": "sole actual shared mutation and integration owner"
+  },
+  "scope": "A two confirmed pre-G3 P1 and B/C SQLx0.9 static SQL correction; G1-frozen shared DTO/Native legacy compilation boundary",
+  "compiled": false,
+  "runtimeAccepted": false,
+  "G3Certified": false
+}

@@ -1,0 +1,341 @@
+{
+  "schema": "poms-r4abc-independent-g1-review/v1",
+  "gate": "G1",
+  "decision": "Pass",
+  "reviewedAtUtc": "2026-11-03T05:49:10Z",
+  "reviewer": "/root/r4_independent_gate",
+  "independence": {
+    "productAuthor": false,
+    "sharedProtocolOrDdlAuthor": false,
+    "runtimeExecutorAuthor": false,
+    "actions": [
+      "read-only source and artifact inspection",
+      "read-only branch/HEAD and product-path Git inspection",
+      "raw byte/hash checks",
+      "review outputs under tmp/rust-r4abc/independent only"
+    ],
+    "prohibitedActionsPerformed": [],
+    "preliminary": "preliminary-review01.md/json remain Preliminary only and are not rewritten"
+  },
+  "candidate": {
+    "file": "docs/design/rust-r4abc/g1-candidate-manifest01.json",
+    "bytes": 123657,
+    "sha256": "cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36",
+    "branch": "codex/poms-r4abc-first37",
+    "sourceBase": "1730f304c1cf5600721f80b6c06feec24269d387",
+    "observedHead": "1730f304c1cf5600721f80b6c06feec24269d387",
+    "manifestFiles": 491,
+    "uniqueManifestFiles": 491,
+    "fileLengthOrHashMismatches": [],
+    "activeInputPins": [
+      {
+        "file": "docs/design/api-route-canonical-inventory.md",
+        "bytes": 172403,
+        "rawBytesSha256": "f4720edce089d7ca462686b3e4f02b819969a8a5bd7b73c9a6dcf471a4884b42"
+      },
+      {
+        "file": "docs/design/backend-rust-migration-plan.md",
+        "bytes": 77201,
+        "rawBytesSha256": "05c087da0154097b7b58af8ab125cf8c1c87065f48b67b151495894b77d3ccff"
+      },
+      {
+        "file": "docs/design/contract-finance-design.md",
+        "bytes": 21716,
+        "rawBytesSha256": "e0debca2d713912a68637dc12092073f8813569749aa68e0b0c3d70b16839ad9"
+      },
+      {
+        "file": "docs/design/interface-command-design.md",
+        "bytes": 57398,
+        "rawBytesSha256": "c4d086e51f7968c140ccdcca322afe133aa1dda25537240e0960cb4866d50cd1"
+      },
+      {
+        "file": "docs/design/phase2-development-execution-tracker.md",
+        "bytes": 409111,
+        "rawBytesSha256": "d1913e226ae3d77032e0f3abcbf30d0db2fbb4e578d6b06d47878db5111be1cc"
+      },
+      {
+        "file": "docs/design/rust-migration-execution-tracker.md",
+        "bytes": 58618,
+        "rawBytesSha256": "63ba76ab5e7b06ea2c0eaf6e6def73dee3601ef67555e2d11fbfec59ac5e2a40"
+      },
+      {
+        "file": "docs/design/rust-r4abc-first37-baseline.md",
+        "bytes": 24956,
+        "rawBytesSha256": "2838dad037aef613669484ecf9af7141caa82acced5069f1a59d5fdf79aa9269"
+      },
+      {
+        "file": "docs/design/rust-r4abc/dto-freeze01.json",
+        "bytes": 7346,
+        "rawBytesSha256": "b26654b36db3174a549752b6c18a90c1ff675eed51b9d98f09290cfa9251471f"
+      },
+      {
+        "file": "docs/design/rust-r4abc/environment-plan01.json",
+        "bytes": 3820,
+        "rawBytesSha256": "1201fc666ece29a7e3d95ca78bccb1cff08cbb424c63387b747c87055c4957d0"
+      },
+      {
+        "file": "docs/design/rust-r4abc/inputs/origin-map01.json",
+        "bytes": 58864,
+        "rawBytesSha256": "23305f2429208f7b0f5d1f8a97b4652ef589c482e23cdce1d556fad6e758c1e4"
+      },
+      {
+        "file": "docs/design/rust-r4abc/inputs/source-union01.json",
+        "bytes": 112578,
+        "rawBytesSha256": "5ae543c6de7c9005955d7f246e3b47508608b60f458e43d8bb806dd4288f5cc5"
+      },
+      {
+        "file": "docs/design/rust-r4abc/inputs/surface37-source01.json",
+        "bytes": 153046,
+        "rawBytesSha256": "cfc89c8982e0c7cbbbeee34251881227bfb50e03546ac8730ffa0be44f5d01c1"
+      },
+      {
+        "file": "docs/design/rust-r4abc/schema-freeze01.sql",
+        "bytes": 11869,
+        "rawBytesSha256": "42113d15a495bf84f6fa57087366b997765620e06f18174482778bdba8cae0ae"
+      },
+      {
+        "file": "docs/design/rust-r4abc/shared-protocol01.md",
+        "bytes": 8306,
+        "rawBytesSha256": "f8c6be0a114c63ab9ade8b77862acd5d4c3a346f1a9e86fe48740ec7f74b309b"
+      },
+      {
+        "file": "docs/design/rust-r4abc/user-decisions01.json",
+        "bytes": 799,
+        "rawBytesSha256": "a439a87a23653fa65aa7eefe44067a4cc4ad1047032e8150f3b79e80d7bc9645"
+      },
+      {
+        "file": "docs/design/schema-ddl-design.md",
+        "bytes": 59904,
+        "rawBytesSha256": "3576a64237784387ec918d3effffc51ba352363fad46b566a88537d2c0f34d08"
+      },
+      {
+        "file": "docs/design/table-structure-freeze-design.md",
+        "bytes": 64504,
+        "rawBytesSha256": "02ece90761184e6034037edca9aa688802f474c01fd5f9041a5870ebd4dccf00"
+      }
+    ]
+  },
+  "issues": {
+    "overall": 57,
+    "stage": 101,
+    "batch": 102,
+    "A": 103,
+    "B": 104,
+    "C": 105,
+    "onlineG0Evidence": "Root verified native relations; local raw receipts are included by the candidate; reviewer did not access GitHub",
+    "mustRemainOpenAfterThisBatch": [
+      101,
+      57
+    ],
+    "potentialG4ChildCloseOnly": [
+      103,
+      104,
+      105,
+      102
+    ]
+  },
+  "staticInputVerification": {
+    "sourceOriginals": 313,
+    "sourceOriginalBytes": 6868156,
+    "originalLengthOrHashMismatches": [],
+    "currentOriginalDrift": {
+      "declaredFormalSupplements": [
+        "docs/design/api-route-canonical-inventory.md",
+        "docs/design/backend-rust-migration-plan.md",
+        "docs/design/contract-finance-design.md",
+        "docs/design/interface-command-design.md",
+        "docs/design/schema-ddl-design.md",
+        "docs/design/table-structure-freeze-design.md"
+      ],
+      "unlistedDrift": [],
+      "retainedOriginalBytesVerified": true
+    },
+    "surface": {
+      "A": 9,
+      "B": 9,
+      "C": 19,
+      "total": 37,
+      "uniqueMethodPaths": 37,
+      "uniqueOperationIds": 37,
+      "currentNativeOpenApiIdentityMismatches": [],
+      "pinnedHistoricalRustOperations": 173,
+      "operationIdOverlapWithPinned173": 0,
+      "newToRust": 37,
+      "schemaClosureDeclaredByCandidate": 75,
+      "evidenceClass": "static input only; archived173 is pinned historical evidence, not a newly executed OpenAPI result"
+    },
+    "productAtG1": {
+      "trackedChangesUnderAppsAndLibs": [],
+      "untrackedFilesUnderAppsAndLibs": [],
+      "newTools": "Root-only G0/capture/manifest tooling is outside the product-change statement",
+      "implementationExecuted": false
+    },
+    "semanticReadBoundary": "Full active baseline/SQL/DTO/shared protocol/environment plan reviewed; original source semantics spot-checked on contracts, R3 release, R2 CommonSession/domain/flush, audit and attachments. All313 sources were byte/hash checked, not claimed as all313 line-by-line semantic review."
+  },
+  "formalInputReview": {
+    "currentEightDocuments": {
+      "result": "Pass",
+      "files": [
+        "docs/design/api-route-canonical-inventory.md",
+        "docs/design/contract-finance-design.md",
+        "docs/design/interface-command-design.md",
+        "docs/design/schema-ddl-design.md",
+        "docs/design/table-structure-freeze-design.md",
+        "docs/design/backend-rust-migration-plan.md",
+        "docs/design/phase2-development-execution-tracker.md",
+        "docs/design/rust-migration-execution-tracker.md"
+      ],
+      "conclusion": "R4 supplements explicitly defer field/schema/transaction authority to this frozen package; historical text is retained; current status remains G0/G1 pending online freeze and not G2."
+    },
+    "jointBaseline": {
+      "result": "Pass",
+      "noPendingDesignBlocker": true
+    },
+    "ddl": {
+      "file": "docs/design/rust-r4abc/schema-freeze01.sql",
+      "result": "Pass-as-design-input",
+      "noPendingDesignBlocker": true,
+      "reviewed": [
+        "legacy nullable compatibility",
+        "contract/project composite scope references",
+        "real preparation/version/current/exact uniqueness",
+        "approval binding identity",
+        "distinct active snapshot source-preparation uniqueness",
+        "real plan/version/node/init persistence and uniqueness",
+        "review attachment persistence",
+        "foreign-key write ordering"
+      ],
+      "databaseExecuted": false
+    },
+    "dto": {
+      "file": "docs/design/rust-r4abc/dto-freeze01.json",
+      "result": "Pass-as-schema-delta",
+      "noPendingDesignBlocker": true,
+      "conclusion": "Required/nullable preparation/binding/initialization metadata, strict submit/activate results, same-contract terms/seeds, query selection and sensitive projections are frozen. targetId now identifies the real preparation/plan version matching targetType."
+    },
+    "sharedProtocol": {
+      "file": "docs/design/rust-r4abc/shared-protocol01.md",
+      "result": "Pass-as-interface-design",
+      "noPendingDesignBlocker": true,
+      "conclusion": "Same borrowed connection/state/participant, immediate-FK materialization flush inside outerTX, once-only auth consumption, exact identity refresh and outer COMMIT proof are explicit; no second connection/commit or broad read-only unlock."
+    },
+    "environmentPlan": {
+      "file": "docs/design/rust-r4abc/environment-plan01.json",
+      "result": "Pass-as-plan",
+      "noPendingDesignBlocker": true,
+      "resourcesCurrentlyCreatedOrCertified": false,
+      "conclusion": "New poms-r4abc namespace, own PG15 databases/roles/volume, exact source/worktree policy, explicit planned ports with preflight/no eviction, fresh private data, original UI applicability, owned cleanup and preservation boundaries are frozen. Binding and runtime existence remain G2 actual observations."
+    }
+  },
+  "resolvedPreliminaryFindings": [
+    {
+      "id": "PRE-01",
+      "status": "Closed-by-final-design",
+      "resolution": "Real B draft precedes A01 contractTerms and R3 released pricing; no baseline/contract reference cycle."
+    },
+    {
+      "id": "PRE-02",
+      "status": "Closed-by-final-design",
+      "resolution": "No project cost allocation. Any amount change without real same-contract margin evidence is reapproval-required. Supported diff fields have explicit severity; unsupported structured tax/scope fields are not falsely certified."
+    },
+    {
+      "id": "PRE-03",
+      "status": "Closed-by-final-design",
+      "resolution": "Source freshness checks exact current R3 source at submit/approve/activate; immutable baseline/reference hash excludes mutable baseline rowVersion and other-contract diff pointers; A09 uses active historical frozen source."
+    },
+    {
+      "id": "PRE-04",
+      "status": "Closed-by-final-design",
+      "resolution": "Single outerTX and identity graph; B flush materializes real approval/todo before immediate binding FK; subsequent failure rolls all writes back; auth is not reconstructed or consumed twice."
+    },
+    {
+      "id": "PRE-05",
+      "status": "Closed-by-final-design",
+      "resolution": "Final491 manifest, SQL, DTO and shared protocol freeze naming/types/hash/constraints/query/idempotency and output identities."
+    },
+    {
+      "id": "REF-attachments",
+      "status": "Closed-by-final-design",
+      "resolution": "A04 stores real review_attachment links with active same-project/contract and existing permission checks."
+    },
+    {
+      "id": "REF-retention",
+      "status": "Closed-by-final-design",
+      "resolution": "Retention seed sum equals exact inclusive cents times ratio; unrepresentable fractional cents reject; target seeds remain per contract."
+    },
+    {
+      "id": "REF-errors",
+      "status": "Closed-by-final-design",
+      "resolution": "Known catalog constraint allowlist maps business uniqueness to409; unknown SQL remains safe500; exact init is lock-protected idempotent before uniqueness fallback."
+    },
+    {
+      "id": "REF-wire-identity",
+      "status": "Closed-by-final-design",
+      "resolution": "A08/A09 targetId now equals actual preparation/planVersion ID while sourceReadinessId identifies the package."
+    },
+    {
+      "id": "REF-ui",
+      "status": "Closed-by-final-design",
+      "resolution": "Original contract/readiness/approval/todo UI only; finance19 through actual HTTP/PG. Old recipes and Native defects retain historical/pure-definition labels."
+    }
+  ],
+  "metadataChecks": {
+    "receipt": "tmp/rust-r4abc/root/g1-static-checks01/receipt01.json",
+    "receiptSha256": "01f9ad92945f42db977694d92b701470eb2c38eea483edf9fb60a60dc684d5d6",
+    "receiptBytes": 2049,
+    "runnerAndRawOutputsVerified": 5,
+    "runnerOrRawOutputHashMismatches": [],
+    "candidateManifestUnchangedBeforeAfterRootChecks": true,
+    "rootExecuted": [
+      {
+        "command": "git diff --check",
+        "exitCode": 0,
+        "reviewerReadRawReceipt": true
+      },
+      {
+        "command": "E:/.cargo/bin/deno.exe task format:md:check",
+        "exitCode": 0,
+        "reviewerReadRawReceipt": true
+      }
+    ],
+    "reviewerRepeatedBuildOrTests": false,
+    "implementationLintBuildTestHttpPgBrowserFaultChecks": "Not required to execute at G1; frozen as mandatory risk-scaled G3 evidence, not passed here"
+  },
+  "g2Admission": {
+    "designAllowsBoundedG2": true,
+    "implementationHasStartedOrBeenCertified": false,
+    "operationalPrerequisites": [
+      "Root completes actual online G1 freeze for this exact package",
+      "Root fixes immutable G1 source commit and creates isolated managed author worktrees",
+      "Root records real port/process/PG/source bindings before any runtime acceptance"
+    ],
+    "allowedScope": {
+      "A": "Nine frozen readiness/commercial operations and real per-contract preparation/formal-plan producer within apps/poms-api-rust/src/contract_readiness",
+      "B": "Nine frozen contract/lookup/snapshot operations and exact review/activation within apps/poms-api-rust/src/contracts",
+      "C": "Nineteen frozen finance operations and minimum typed actual-cost read guard within apps/poms-api-rust/src/contract_finance",
+      "Root": "Only frozen contract_support, HTTP/auth/projection/transaction adapters, R2 contract-review extension, bounded R3 baseline validation, forward migration/entities, Shared/DTO/OpenAPI/client/Rust generated changes, original UI consumers and fresh planned acceptance environment"
+    },
+    "excluded": [
+      "other53 R4 public operations",
+      "real cost producer40 operation delivery or certification",
+      "handover/amendment/full R4 stage completion",
+      "R5 delivery",
+      "production deploy/cutover",
+      "performance claims",
+      "G3/G4 or fixed-commit/main integration approval"
+    ]
+  },
+  "outstandingFindings": [],
+  "openFindingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0
+  },
+  "exceptions": [],
+  "actualRuntimeCertified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "preliminaryReferenceCorrection": "preliminary-review01.json PRE-03 audit-a02.md:62 should refer to audit-a02.md:55 for the A09 historical-source rule; the old preliminary raw file is preserved.",
+  "next": "Root may apply exact online G1 freeze and then admit only the bounded G2 scope; return to this non-author reviewer for G3, fixed commit/integration and G4."
+}

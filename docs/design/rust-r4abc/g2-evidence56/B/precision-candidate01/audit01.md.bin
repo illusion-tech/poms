@@ -1,0 +1,30 @@
+# R4B 18,2金额传递有界只读审计01
+
+结论：当前受审合同/common目标路径未发现 `to_jsonb numeric -> serde_json number -> js::Value::Number(f64)` 的真实精度损失。无需产品补丁，`proposedProductChanges=[]`。这只是当前源码静态结论，Root仍需实际最大值HTTP与PG numeric::text回读；不借用smoke08/negative09的既有结果认证本高值矩阵。
+
+## 逐边界证据
+
+1. `approval_common/domain_schema.rs` 将Contract.signedAmount、ContractTerm.amountTaxInclusive/Exclusive、Receipt.receiptAmount列的cast定义为`numeric(18,2)`，没有伪装成integer/jsonb。
+2. `approval_common/store.rs:230`的find按列构造SELECT；约259行对所有非timestamptz列显式`::text`。实际金额因而以PostgreSQL文本传SQLx，不通过`to_jsonb`。
+3. `read_row`（约206行）读取Option<String>，仅`cast == integer`解析为Value::Number，boolean转bool，jsonb才Value::parse，其余包括numeric(18,2)变Value::text。数字版本号走f64不等于金额走f64。
+4. `manage`（约150行）对已有clean属性hydrate/clone，不做数值反序列化；id-only identity shortcut直接返回已有正确Text身份。新写B create/PATCH经Root i128 money→money_string→Value::text，因而shortcut也没有先前Number金额污染来源。
+5. common写参数`push_value`对Text执行js_text clone→UTF8 string bind→数据库numeric cast；Text分支不是ryu浮点格式化。B schema要求输入金额为string，data_text只接受Text，裸number不会被默默转字符串继续。
+6. B contract_summary把signedAmount Text读成String，传`auth::projection::StringField.raw_value: Option<String>`；full投影clone String，serde输出JSON string，masked为null；displayText只是String拼币种。核心hash也从data_text得到JSON string。
+7. Root contract_support::contract_fact显式`SELECT signed_amount::text`至String，锁前发现/锁内复读不把金额放入to_jsonb numeric。
+8. B activate只从A loader的prepared string取每合同金额，经相同i128 helper规范，typedSQL绑定字符串转numeric。snapshot读取显式两金额numeric::text及ratio::text→Option<String>；snapshot_summary继续String投影；legacy_data exact refresh仍构造Text，不解除common read_only或改事务边界。
+9. 财务Receipt相邻读取使用`receipt_amount::text`到String；common Receipt metadata经同列式text读。R2 settlement receipt_summary在Text分支直接clone；Number/toFixed分支是旧内部输入兼容路径，此受审实际PG Receipt读取不会选择它。没有据此扩展或修改旧173操作。
+10. `approval_common/receipt.rs`的CreateReceipt是INSERT/COMMIT证据回执，字段只有table/id/proof/counters，不是金融ReceiptRecord，没有金额JSON字段或金额浮点转换。
+
+## 明确边界
+
+通用`js::Value::from_raw`仍把裸JSON number反序列化为f64，任意jsonb里若存裸金额数字会有风险；当前Contract/ContractTerm/Receipt的上述标量路径不会走它。B amount只允许Text，A monetary字符串若未来被误改成number，B prepared_string/data_text会拒绝，而不是在本链静默四舍五入。不能由本结论宣称全部旧jsonb金额/全部R5结算契约已认证。
+
+合同独立金额、真实准备/审批绑定、source freshness、snapshot来源和现有outerTX/CAS/audit/auth次序均不改。高值合同不能因本次测试而套项目quote合计约束或自动分摊。
+
+Root实际证据观察也须用金额`::text`，不能用Node JSON.parse(to_jsonb(row))产生的裸number作为精确金额oracle。每条比较同时核wire `typeof string`/JSON string和PG精确文本，不仅视觉格式或近似数值。
+
+## 待Root实际验证的纯向量
+
+`0.01`、`90071992547409.93`（cents超过JS安全整数）、`9007199254740993.01`（金额整数部分也超过JS安全整数）和最大`9999999999999999.99`。分别覆盖真实create/PATCH、fresh-request list/detail/lookup、审批后activate、独立snapshot读取与full/masked投影；PG检查contract.signed_amount、snapshot.amount_tax_inclusive/exclusive文本，必要Receipt相邻路径另用receipt_amount文本。超范围`10000000000000000.00`应400并无必要业务/编号/审计/session部分提交。
+
+本包没有执行金额计算程序、Node、cargo、HTTP、数据库或Git；纯向量不代表通过，源码未修改。

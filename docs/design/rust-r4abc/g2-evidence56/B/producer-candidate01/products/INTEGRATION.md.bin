@@ -1,0 +1,52 @@
+# R4真实上游recipe / 非HTTP summary producer候选01
+
+B是候选源码作者，未执行Node/cargo/HTTP/PG/browser或访问private运行数据，未改B/Root实际产品、公共协议或Cargo。Root导入后实际运行与非作者独审。此前HTTP+validator compile03的exit0不包含本新example，也不代表这些recipe已运行通过。
+
+只需导入两件源码：`tools/rust-r4abc/upstream-payloads01.mjs`（纯payload factory，无import/I/O/transport）和 `apps/poms-api-rust/examples/r4_summary_producer.rs`（测试专用内部producer，Cargo自动发现example，不改Cargo）。另附`upstream-schema-source01.json`从当前Root完整595 schemas/291ops静态提取的精确输入闭包和operation表；不是新的schema/生成权威。
+
+## 真正最短生产顺序
+
+| 顺序 / factory | 前置与方法/路径 | 必填与真实返回/版本承接 |
+| --- | --- | --- |
+| 1 customer | `POST /api/customers` | displayName必填；本case actor/可选org用Root已建立的真实ID。回`$.id`，不传系统customerNo。 |
+| 2 project | `POST /api/projects` | projectName/customerId必填；显式currentStage=`commercial-closure`是现CreateProjectRequest合法字段，不改DB种阶段。回`$.id,rowVersion`。 |
+| 3 cost | `POST /api/projects/{projectId}/technical-cost-packages` | feasibility/conclusion/allowNextStage/currency/taxSummary/taxReview/costItems必填。costItems精确50000+6500=56500，riskItems空、tax reviewed、allow true，真实blockerCount=0。回`$.id,version,rowVersion`。 |
+| 4 bid | `POST /api/projects/{projectId}/bid-commercial-processes` | bidMode/currentStage/decision/resultStatus/processSummary必填。下述direct/won真实枚举；materialItems/timelineItems空非阻断。回`$.id,version,rowVersion`。 |
+| 5 draftContract | `POST /api/contracts` | projectId/signedAmount必填；本合同56500.00与项目source113000.00独立，currency CNY。回`$.id,rowVersion,contractNo`；不直接active。 |
+| 6 baseline | `POST /api/commercial-release-baselines` | projectId/baselineCode/contractTerms必填。真实合同referenceTerms与节点为独立56500/50000/13%；项目层source113000/100000/13%。回`$.id,rowVersion`且draft，不是放行资格。 |
+| 7 summaryRequest + example | 非HTTP actual ApprovalCommonService | 下述trusted内部请求、实际repo-create/save+snapshot-create。只有outerACK的`summarySnapshotId`和真实package metadata可传下一步；不是随机marker或报价批准。 |
+| 8 pricing | `POST /api/projects/{projectId}/pricing-margin-reviews` | technicalCostPackageId/pricingPath/quoteVersion/currency/两金额/tax/taxSummary/paymentSummary/grossMarginBand+Summary/decision+Summary必填。released/conditional还必须实际baseline和summary五个元数据引用；本factory全部提供真实ID。回`$.id,version,rowVersion,readyForContracting`。 |
+| 9 readiness | `POST /api/contract-readiness-packages` | projectId/contractId/sourceBaselineId/candidateTerms必填；server实际读取current cost/bid/pricing及条件，不自报ready/items。回`$.id,rowVersion,latestDiffResultId,guardDecision`。 |
+| 10 optional reviewDiff | `GET /api/commercial-release-baselines/{baselineId}/diff-history?contractId=...`；`POST .../{baselineId}:reviewDiff` | 仅review-required时执行；先GET baseline取**最新**rowVersion和exact diff-history真实fieldKey。body contractId/diffResultId/diffDecision=approved、reviewedFieldKeys覆盖实际项、attachmentIds=[]、expectedVersion。之后重读baseline/currentReadiness。prompt无需复核；reapproval-required不得用此批准绕过。 |
+| 11 prepare | `POST /api/contract-readiness-packages/{id}:initializeContractSnapshot` | contractId必填，兼容assert packageId等于path；expectedVersion取最新currentReadiness。回真实`$.preparationId,preparationVersion`，`snapshotId=null`。 |
+| 12 submit | `GET /api/contracts/{id}` 后 `POST /api/contracts/{id}:submitReview` | required preparationId=实际A08返回；expectedVersion=本次GET合同rowVersion。回`$.approvalRecordId,todoItemIds,preparationId`。 |
+| 13 decide | `GET /api/approval-records/{approvalId}`；`POST ...:approve`或`:reject` | Root以**真实currentApproverUserId**对应登录处理，不猜UUID/initiator。expectedVersion取actual approval.rowVersion；reject还必填reason。approve合同仍pending-review/no-op业务版本；reject回draft。 |
+| 14 activate | 重新GET合同后 `POST /api/contracts/{id}:activate` | expectedVersion取当前合同。回新`$.snapshotId,preparationId`，actual Active snapshot version1独立准备version。 |
+| 15 plan | 重新GET`/api/projects/{projectId}/contract-readiness?contractId=...` 后 `POST /api/contract-readiness-packages/{id}:initializeReceivablePlan` | contractId必填、用B激活后实际package.rowVersion；不得沿用A08前旧版本。回实际`$.planVersionId,initRecordId,snapshotId`。 |
+| 16 C consumer | `POST /api/contracts/{contractId}/receipt-records`、`POST /api/projects/{projectId}/payable-records`、`payment-records`、`invoice-records` | exact paths使用-records；receiptDate/paymentDate为datetime，invoiceDate/expectedPaymentDate为date。payable绑定实际Active合同，payment省略合同继承该payable，不猜合同；invoice output必须该Active合同。各回`$.id,rowVersion`。receipt confirm为`POST /api/receipt-records/{id}:confirm`，expectedVersion取真实receipt。 |
+
+当前公开customer→project直接建档路径没有单独必需的project decision API。R3 create实际验证active customer/actor，并接受已冻结currentStage；cost/bid/pricing创建允许assessment/scope-confirmation/commercial-closure/contracting、拒closed。本最短recipe使用合法公开create选commercial-closure，不额外seed状态，不创造缺失stage-transition命令。若Root另走Lead晋级链，保留其真实assessment/decision产物；**Lead的go-bid不等于BidCommercialProcess.decision**，这里绝不做alias。
+
+## direct / won / conditional
+
+- `bid(context,'direct')`：actual bidMode=`direct-commercial`、decision=`participate`、resultStatus=`pending`；pricingPath=`direct-commercial`且真实pricing decision=`released`才构成来源中的direct替代。不是伪中标。或显式`bid(...,'not-required')`使用not-required/not-required/not-applicable，其pricing仍direct-commercial。A当前source实际接受这两种对应组合与真实direct release。
+- `bid(context,'won')`：actual applicable mode=`public-tender`、decision=`participate`、resultStatus=`won`；pricingPath=`bid`且引用其当前id。不能用pending/lost/cancelled/not-applicable冒充won，也不把go-bid改写成participate。
+- `pricing(...,{condition:'closed'})`或`waived`：真实`conditional-release`，必备condition以实际closed/waived和resolutionSummary保存；真实readyForContracting=true且blockerCount=0后才A05。`condition:'open'`为负例：ready false/A05 blocked，不能自报guard allowed。修复不是patch不存在的condition API，而是再次POST完整pricing版本（新quoteVersion，实际旧版supersede/new id/version），再新A05。
+- 默认candidateTerms与同合同referenceTerms完全相同，prompt→A08最短链。`readiness(...,{lightReview:true})`只改seed label，当前正式分级为review-required，A04使用真实history fieldKey。金额、tax、paymentTerms或节点金额/结构改变按正式规则重审，不用A04绕过。
+- 各合同金额/条款/节点独立；上述project113000与contract56500故意不相等，不自动分摊、不强制合同合计等于项目quote。未来第二合同必须先真实B draft，再A01显式该合同referenceTerms，不能拷贝project总金额到每合同。
+
+## summary example安全与语义
+
+原seed静态只提供handover和commission-gate场景定义，不适合本评审材料语义，故本task生成实际Definition配置：scenario=`pricing-margin-review`，package=`r4pf-{runId.simple}-{caseId}`，projection=`pricing-facts`，export=`internal-only`，ruleVersion=`r4-fact-v1`。这是明确的测试任务配置，并非新审批类型、公共API或报价审批handler。Definition通过已交付`repository_create`/`repository_save`；snapshot和七field projections通过实际`create_summary_snapshot_with_session`产生。源码没有raw INSERT业务行。
+
+example只有一个argv：本task private request JSON filepath。Root child env设置`POMS_ENV_FILE`为本task priv/rust.env，Config::load读取；Rust不unsafe set_var。env与request必须是新`/home/wangzishi/.local/share/poms-r4abc/private/`内真实非symlink普通文件。配置核test/127.0.0.1/24433/poms_r4abc_rust/poms_r4abc_rust_app；连库后核actual database/user/schema、internalport15432、version150012、isolated=on、非superuser/bypassRLS、唯一`r4abc_control.marker`的expectedInstanceId/namespace/base。base固定2f613c31完整SHA；expectedInstanceId由Root实况传入，不能猜或对错库只检查名字。
+
+内部请求由`summaryRequest(context)`纯工厂给出：runId/caseId1..16（不截断）、actorId、expectedInstanceId、projectId、costPackageId、baselineId和仅fieldValues。Root先真实HTTP登录核同actor；example核actual active user存在，但**不冒充新的公共认证/权限guard**。使用CommonSession::borrow与同outerTX，无伪造ResolvedSession/登录token或额外auth_session touch；其后真正HTTP命令的auth coflush由Root原矩阵验收。
+
+example锁actual project、读实际同项目cost/baseline材料引用并精确比项目source金额/ratio，hash包含实际ID/版本和candidateQuoteVersion。新Definition自然键/新definition UUID/同target-scenario-projection active产物先读不存在，已有则拒绝，不收养seed或盲重试。所有Definition/snapshot/projection在同outerTX；outerCOMMIT实际返回后才输出真实IDs、outerCommitAcknowledged与现WriteTrace。commit响应未知明确失败需Root按自然键/PG读回，不能盲重试；数据ownership仍由Root补before-absence/outerACK/after-PG归属证据，源码不自证owned/已验收。
+
+当前schema只有Definition及field projection metadata，没有raw材料value列。example**不扩schema**，`channelScopeSummary`仅内部范围与materialDigest元数据，不暗塞raw条款SSOT；私有request/Root源快照和实际R3事实可复核materialHash，真正合同terms/sourceFacts冻结仍由A baseline/preparation承担。summary不是approved proof，A只能沿已冻结实际R3引用消费，不恢复已移除的summary active/target/scenario资格门槛。
+
+## Root必须实际执行的验证
+
+本包未编译/运行。Root需先核source pins与recipe method/schema exact，导入两源码后统一fmt/check/clippy/all-targets；真实direct、won、conditional closed/waived与open负例；真实summary定义/七projection/快照外层ACK与故障rollback；错误marker/db/role/inactive actor、重复自然键拒绝；无新quoteapproval API；原HTTPsource链、A/B审批/激活/计划与C消费。所有failed/partial/unknowncommit保持标签，不把本纯工厂/示例源当完成验收。

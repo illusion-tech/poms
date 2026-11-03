@@ -9,6 +9,8 @@
  */
 import { CommercialReleaseBaselineStatus } from './commercial-release-baseline-status';
 import { CommercialDiffReviewStatus } from './commercial-diff-review-status';
+import { ContractCommercialTerms } from './contract-commercial-terms';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { CommercialDiffLevel } from './commercial-diff-level';
 
 
@@ -19,6 +21,9 @@ export interface CommercialReleaseBaselineSummary {
     quotationReviewId: string | null;
     baselineStatus: CommercialReleaseBaselineStatus;
     isCurrent: boolean;
+    contractTerms: Array<ContractCommercialTerms> | null;
+    currencyCode: string;
+    financialProjection: SensitiveStringFieldProjection;
     grossMarginSummary: string | null;
     paymentTermsSummary: string | null;
     amountTaxInclusive: string | null;
@@ -27,9 +32,9 @@ export interface CommercialReleaseBaselineSummary {
     downPaymentRate: string | null;
     retentionRate: string | null;
     paymentTerms: string | null;
-    latestDiffResultId: string;
-    diffLevel: CommercialDiffLevel;
-    reviewStatus: CommercialDiffReviewStatus;
+    latestDiffResultId: string | null;
+    diffLevel: CommercialDiffLevel | null;
+    reviewStatus: CommercialDiffReviewStatus | null;
     diffSummary: string | null;
     rowVersion: number;
     createdAt: string;

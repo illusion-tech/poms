@@ -1,0 +1,99 @@
+{
+  "kind": "bounded-reuse-of-prior-route-authorization-CSRF-and-DTO-evidence",
+  "original": "tmp/rust-r4abc/root/negative-surface09/receipt09.json",
+  "originalRemainsPrefinal": true,
+  "originalFinalAcceptanceFieldUnchanged": false,
+  "scope": "163 original authorization/CSRF/DTO/masking cases; new lifecycle/business/fault/race/UI separately exercised on final18",
+  "beforeFormatterChanges": [
+    "apps/poms-api-rust/src/shared/generated.rs",
+    "apps/poms-api-rust/tests/shared_generated.rs"
+  ],
+  "generatedDelta": "Only exact 1 constant +4 enum occurrences; all historical455/224 full payloads preserved, independently reviewed in enum-tool-review04",
+  "formatters": [
+    {
+      "run": 14,
+      "commands": [
+        {
+          "name": "fmt-initial",
+          "exitCode": 1
+        },
+        {
+          "name": "fmt-apply",
+          "exitCode": 0
+        },
+        {
+          "name": "fmt-final",
+          "exitCode": 0
+        }
+      ]
+    },
+    {
+      "run": 15,
+      "commands": [
+        {
+          "name": "fmt-initial",
+          "exitCode": 1
+        },
+        {
+          "name": "fmt-apply",
+          "exitCode": 0
+        },
+        {
+          "name": "fmt-final",
+          "exitCode": 0
+        }
+      ]
+    },
+    {
+      "run": 18,
+      "commands": [
+        {
+          "name": "fmt-initial",
+          "exitCode": 1
+        },
+        {
+          "name": "fmt-apply",
+          "exitCode": 0
+        },
+        {
+          "name": "fmt-final",
+          "exitCode": 0
+        }
+      ]
+    }
+  ],
+  "clippyChanges": [
+    "apps/poms-api-rust/src/contract_finance/mod.rs",
+    "apps/poms-api-rust/src/contract_readiness/service.rs",
+    "apps/poms-api-rust/src/contract_support/validation.rs"
+  ],
+  "clippyDeltaSemantics": [
+    "Invoice reason late initialization becomes equivalent match expression",
+    "Private audit argument-count lint attribute only",
+    "Enum validation nested if becomes the equivalent let-chain"
+  ],
+  "testOnlyChanges": [
+    "apps/poms-api-rust/tests/http.rs"
+  ],
+  "fixedResources": [
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "sha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+    },
+    {
+      "file": "tools/rust-r4abc/operation-map01.json",
+      "sha256": "8dcea3c86d2d7a7997442a3212cc45e35f467fabe63c4dca99dba606f8101de9"
+    },
+    {
+      "file": "tools/rust-r4abc/component-overrides01.json",
+      "sha256": "a9ef6c3bba8d8b8c4980b6a5aaa47390266256a5f9505d3bb4d45d18731dea2f"
+    },
+    {
+      "file": "tools/rust-r4abc/validation-input01.json",
+      "sha256": "951145fea7064c122734b5788b71ec6a6fe57cc2d9dd327fd68b40750984c889"
+    }
+  ],
+  "allCurrentCrateFilesEqualFinal18": true,
+  "reuseDecision": "Narrow equivalence argument for independent review; original negative09 never relabelled as a final-binary run",
+  "G3Certified": false
+}

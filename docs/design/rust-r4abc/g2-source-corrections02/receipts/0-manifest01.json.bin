@@ -1,0 +1,134 @@
+{
+  "schema": "poms-r4-shared-candidate/v1",
+  "author": "C implementation and candidate author, not independent reviewer",
+  "fixedG1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "rootAdmission": "actual g1-gate-authority01.json G1Certified/G2Authorized true",
+  "productWriteStatus": "None; all complete product proposals under tmp/rust-r4abc/shared-candidate01/products only",
+  "candidateProducts": 8,
+  "candidateRawBytes": 527495.0,
+  "integration": "INTEGRATION.md",
+  "staticScope": "static-scope01.json",
+  "validation": {
+    "staticScopeRead": "complete",
+    "typescriptBuildTypecheck": "not-run",
+    "nodeSyntaxExecution": "not-run",
+    "httpPgBrowserEnvironmentGit": "not-run",
+    "generationOpenApiClient": "Root-owned not-run",
+    "tests": "not-run"
+  },
+  "importRule": "Root compares exact base SHA or absent-new target before importing; changed base requires explicit merge, not whole-file overwrite",
+  "files": [
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "baseExists": true,
+      "baseRawBytes": 5540,
+      "baseSha256": "57b648c14e573ca788a40a97b782d107f71112e57eaaf8f2e55c9b9f4b890cbf",
+      "newRawBytes": 6466,
+      "newSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8",
+      "changedDeclarations": [
+        "A03/A07 ContractSelectionQueryDto binding",
+        "explicit Legacy Native request/response compile boundary; no fake prep/plan outputs"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "baseExists": false,
+      "baseRawBytes": null,
+      "baseSha256": null,
+      "newRawBytes": 2714,
+      "newSha256": "9a4cac49065ebea267678e4d899a8451bf22214928175b050efe19e91aed97b2",
+      "changedDeclarations": [
+        "new explicit historical Native request/response shapes; no new lifecycle producer claim"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "baseExists": true,
+      "baseRawBytes": 26350,
+      "baseSha256": "8e1db3a0a207e03d94668c62e83cc089475d2b7f295d6a9f499c3e0b39eb22d7",
+      "newRawBytes": 26958,
+      "newSha256": "ff7d7bf1bf49aeb1e6a44369a72748299ed189865b46da9042ed08ac6343f3b6",
+      "changedDeclarations": [
+        "Legacy request/response type aliases only",
+        "two optional _selection query parameters; historical runtime body unchanged"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "baseExists": true,
+      "baseRawBytes": 14097,
+      "baseSha256": "453dbb75dd5c981a8d8ddbdd3047a17516d1b6630310333a4c090cbd7a000416",
+      "newRawBytes": 14430,
+      "newSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7",
+      "changedDeclarations": [
+        "strict result Swagger DTOs with explicit Legacy command return type",
+        "historical snapshot.sourcePreparationId=null and detail currentPreparation/latestReviewBinding=null"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "candidate": "products/apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "baseExists": false,
+      "baseRawBytes": null,
+      "baseSha256": null,
+      "newRawBytes": 225,
+      "newSha256": "224363c6ea883812afe20a168ec5c7d5b815f14b041cd85903d2b9c0733ac92d",
+      "changedDeclarations": [
+        "new LegacyContractCommandResult without fabricated preparationId"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "candidate": "products/apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "baseExists": true,
+      "baseRawBytes": 28670,
+      "baseSha256": "a36a8dce979e5b294015a6839e063927a11377492469f35878e21453d78edcf2",
+      "newRawBytes": 28861,
+      "newSha256": "9a20590eefa09b22cc20113916a6f70830a6ce536a17255a0914cbc77f4539a5",
+      "changedDeclarations": [
+        "Root separately authorized type import only; runtime logic/fields unchanged"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "candidate": "products/libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "baseExists": true,
+      "baseRawBytes": 3781,
+      "baseSha256": "de5fce720f2b4d537572937b34555e0c1b7075b9fe0bb6b7289824687904ddf3",
+      "newRawBytes": 4722,
+      "newSha256": "c8d5db8660d8fb99c347ee08e6762bc6c442af523afbf465df708b72511dfb7f",
+      "changedDeclarations": [
+        "ActivateContractResultDto/SubmitContractReviewResultDto/ContractSelectionQueryDto",
+        "ReceivablePlanSeedDto/ContractCommercialTermsDto/ContractTermPreparationSummaryDto/ContractReviewBindingSummaryDto"
+      ],
+      "author": "C candidate author"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "candidate": "products/libs/shared/contracts/src/lib/shared-contracts.ts",
+      "baseExists": true,
+      "baseRawBytes": 435823,
+      "baseSha256": "fbf31addc344ce395fe917141c208fce27e84270850c4df4cd842279ffa67097",
+      "newRawBytes": 443119,
+      "newSha256": "e9a4bd9affcecd1821b23ccb7464eaa088e0314894a37fb2bb20dda614c028fb",
+      "changedDeclarations": [
+        "R4PositiveMoneyString/R4NonnegativeMoneyString/R4RatioString and BigInt-only capacity helper",
+        "ReceivablePlanSeed/ContractCommercialTerms",
+        "ContractTermPreparationStatus/Summary/ContractReviewBindingSummary/ContractSelectionQuery",
+        "strict SubmitContractReviewResult/ActivateContractResult after CommandResult",
+        "21 existing declarations listed in static-scope01.json"
+      ],
+      "author": "C candidate author"
+    }
+  ]
+}

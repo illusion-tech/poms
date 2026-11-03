@@ -43,6 +43,11 @@ pub struct WriteTrace {
     pub incomplete: bool,
 }
 impl WriteTrace {
+    /// Auth coflush is required for a real enlisted write, never just a read
+    /// or an exact no-op command. The outer transaction still owns commitment.
+    pub fn has_pending_insertions(&self) -> bool {
+        self.scopes.iter().any(|scope| !scope.pending.is_empty())
+    }
     pub fn depth(&self) -> usize {
         self.scopes.len()
     }

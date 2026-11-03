@@ -1,0 +1,135 @@
+{
+  "kind": "R4-one-way-enum-export-tool-candidate",
+  "version": 1,
+  "author": "A /root/r4a_readiness",
+  "status": "Complete pure source candidate; awaiting Root base-SHA import, actual execution and non-author review",
+  "actualProductWritesByA": [],
+  "writeScope": "Only A worktree tmp/rust-r4abc/enum-export-candidate01/**",
+  "sourceHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+  "g1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "sharedSourceNormalizedTextSha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120",
+  "historicalR0NormalizedTextSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c",
+  "products": [
+    {
+      "path": "tools/rust-r1b/export-shared.mjs",
+      "candidatePath": "products/tools/rust-r1b/export-shared.mjs",
+      "baseSha256": "20b8736dc220c54c7e7c3046ba0817e30fc47b4b5a35c0c5575dbc4cb9bd4d24",
+      "baseByteLength": 49443,
+      "newSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6",
+      "newByteLength": 63064
+    },
+    {
+      "path": "tools/rust-r1b/export-shared.test.mjs",
+      "candidatePath": "products/tools/rust-r1b/export-shared.test.mjs",
+      "baseSha256": "cb2793fc555f20fd0035773eb5be530a696d0922e52c47ccebcfd855e6f5173c",
+      "baseByteLength": 15257,
+      "newSha256": "5525c86dcba920564d38d5751d92e3bedf724fb88e6158205e7633123cbe99f5",
+      "newByteLength": 23869
+    },
+    {
+      "path": "tools/rust-r1b/README.md",
+      "candidatePath": "products/tools/rust-r1b/README.md",
+      "baseSha256": "61b2057139827ded4e9056e2ec4ec74fb36b79d8db6e76534407c9ff66b0e29d",
+      "baseByteLength": 4008,
+      "newSha256": "fa0d1f76e264ad8f84d3ca2494f16675e10e11aea695ecd9b925f0e3a04a136c",
+      "newByteLength": 5966
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "base-pins01.json",
+      "sha256": "6f737eb31e307397f222bc7eccd4cb61a9d5c20ce243cc2289a781c62c3fb3fa",
+      "byteLength": 790
+    },
+    {
+      "path": "static-preservation01.json",
+      "sha256": "9cac4eece7e2a960fa3c306ac7d89579a60fdfb007f87cbdde706ab6b1d54f93",
+      "byteLength": 11189
+    },
+    {
+      "path": "INTEGRATION.md",
+      "sha256": "1b0093340ff0f41355f70058603cf6a172e017af7053eca46a14a1aeb50750da",
+      "byteLength": 4424
+    }
+  ],
+  "changes": [
+    "Advance SOURCE_HEAD only to Root-authorized clean permanent S3; SOURCE_SCOPE/SOURCE_PATHS and worktree/index/untracked assertSourceGuard body unchanged",
+    "Add exact isR4ScaledDecimal declaration hash to OTHER_FUNCTION_HASHES as non-enum refinement; original nine enum helper hashes unchanged",
+    "Hash-only reviewed metadata permits and requires exactly one new R0-compatible constant and four precise enum occurrences from S3",
+    "Compare all historical 455 constant and 224 enum full payloads in historical order, excluding only line; report full historical/current line provenance remap without rewriting R0",
+    "Pin original R0 normalized whole-text hash and reject guard:false, unknown source overrides and non-equivalent in-memory source overrides",
+    "Support ordinary non-enum refine callbacks only inside five exact reviewed S3 schema declaration hashes; unknown/changed declarations and callbacks containing z.enum rejected",
+    "Update existing unit-test source with precise current coverage and negative cases; runtimeOracle body, evaluator, code rendering, artifacts/check/main remain unchanged"
+  ],
+  "declaredR4Additions": {
+    "constants": [
+      "CONTRACT_TERM_PREPARATION_STATUSES"
+    ],
+    "enumOccurrences": [
+      {
+        "owner": "ContractTermPreparationStatusSchema",
+        "schemaId": "ContractTermPreparationStatus",
+        "propertyPath": [],
+        "topLevel": true
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "propertyPath": [
+          "targetType"
+        ],
+        "topLevel": false
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "propertyPath": [
+          "resultStatus"
+        ],
+        "topLevel": false
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "propertyPath": [
+          "businessStatusAfter"
+        ],
+        "topLevel": false
+      }
+    ],
+    "rule": "Exact fixed source declaration/payload/expression/value hashes; metadata is not an alternate wire-value SSOT"
+  },
+  "validation": {
+    "performedByA": [
+      "Read-only source review",
+      "Static raw/text SHA and byte-length capture",
+      "Normalized-text equality of ten preserved source blocks",
+      "Static source-fence hashes of seven reviewed declarations and capacity helper",
+      "JSON comparison of all historical 171 top-level OpenAPI enum payloads against current spec",
+      "A and Root actual tool product raw hashes unchanged at recorded bases"
+    ],
+    "historicalOpenApiPayloadFindings": 0,
+    "candidateCodeExecutedByA": [],
+    "notExecutedByA": [
+      "Node including syntax check",
+      "TypeScript AST",
+      "exporter write/check",
+      "TS+Zod runtimeOracle",
+      "unit tests",
+      "generated Rust write",
+      "Rust build/test",
+      "Git/GitHub",
+      "DB/HTTP/browser/WSL/private access"
+    ],
+    "rootReportedPriorRestrictedCapacityChecks": "43 passed as reported by Root; not rerun or independently certified by A",
+    "rootRequired": [
+      "Verify all product base SHA before import",
+      "Actual TS AST declaration hashes and exact S3 analyzer coverage",
+      "Actual exporter --write then --check with immutable R0 bytes",
+      "Existing and added tool unit tests; original TS+Zod oracle",
+      "Independent review of line remap and exact historical payload/order plus declared additions",
+      "Generated Rust checks and actual downstream validation"
+    ],
+    "conclusion": "Static candidate only; no execution/HTTP/DB/Gate pass claimed"
+  }
+}

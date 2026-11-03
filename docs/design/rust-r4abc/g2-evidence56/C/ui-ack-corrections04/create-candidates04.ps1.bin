@@ -1,0 +1,299 @@
+$ErrorActionPreference = 'Stop'
+$rootPath = 'E:/projects/worktrees/poms-r3hijk-next28/poms'
+$candidatePath = 'E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/ui-ack-corrections04'
+$utf8 = [System.Text.UTF8Encoding]::new($false)
+$files = @()
+function Read-Source([string]$relativePath) {
+    $script:relativePath = $relativePath
+    $script:sourcePath = Join-Path $rootPath $relativePath
+    $script:baseBytes = [System.IO.File]::ReadAllBytes($script:sourcePath)
+    $script:text = [System.IO.File]::ReadAllText($script:sourcePath).Replace("`r`n", "`n")
+}
+function Replace-Once([string]$old, [string]$new) {
+    $count = [regex]::Matches($script:text, [regex]::Escape($old)).Count
+    if ($count -ne 1) { throw "Expected one static replacement, found $count for: $old" }
+    $script:text = $script:text.Replace($old, $new)
+}
+function Write-Candidate([string[]]$changes) {
+    $destination = Join-Path (Join-Path $candidatePath 'products') $script:relativePath
+    $baseDestination = Join-Path (Join-Path $candidatePath 'bases') ($script:relativePath + '.bin')
+    [System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($destination)) | Out-Null
+    [System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($baseDestination)) | Out-Null
+    [System.IO.File]::WriteAllBytes($baseDestination, $script:baseBytes)
+    [System.IO.File]::WriteAllText($destination, $script:text, $utf8)
+    $script:files += [ordered]@{ path=$script:relativePath; baseExists=$true; baseRoot=$rootPath; baseRawBytes=$script:baseBytes.Length; baseSha256=(Get-FileHash -LiteralPath $baseDestination -Algorithm SHA256).Hash.ToLowerInvariant(); newRawBytes=(Get-Item -LiteralPath $destination).Length; newSha256=(Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant(); changes=$changes }
+}
+Read-Source 'libs/admin/data-access/src/lib/contract/contract.store.ts'
+Replace-Once '@Injectable()' @'
+export interface ContractCommandAcknowledgement {
+    action: 'submit-review' | 'activate' | 'approve' | 'reject';
+    contractId: string;
+    result: CommandResult;
+}
+
+@Injectable()
+'@
+Replace-Once '    readonly #loaded = signal(false);' @'
+    readonly #loaded = signal(false);
+    readonly #lastAcknowledgement = signal<ContractCommandAcknowledgement | null>(null);
+    readonly #commandRefreshError = signal<string | null>(null);
+    readonly #refreshingAcknowledgement = signal(false);
+'@
+Replace-Once '    readonly loaded = this.#loaded.asReadonly();' @'
+    readonly loaded = this.#loaded.asReadonly();
+    readonly lastAcknowledgement = this.#lastAcknowledgement.asReadonly();
+    readonly commandRefreshError = this.#commandRefreshError.asReadonly();
+    readonly refreshingAcknowledgement = this.#refreshingAcknowledgement.asReadonly();
+'@
+foreach ($command in @(@{method='submitReview'; action='submit-review'; target='id'}, @{method='activateContract';action='activate';target='id'}, @{method='approveRecord';action='approve';target='result.targetId'}, @{method='rejectRecord';action='reject';target='result.targetId'})) {
+    $methodStart = $text.IndexOf('    async ' + $command.method + '(')
+    if ($methodStart -lt 0) { throw "Missing method $($command.method)" }
+    $nextMethod = $text.IndexOf("`n    async ", $methodStart + 10)
+    if ($nextMethod -lt 0) { $nextMethod = $text.IndexOf("`n    clearSelectedContract()", $methodStart + 10) }
+    $section = $text.Substring($methodStart, $nextMethod - $methodStart)
+    $old = '            await this.#reloadDetailState(' + $command.target + ");`n            await this.#authStore.refreshTodos();"
+    if (!$section.Contains($old)) { throw "Missing post-ACK reads for $($command.method)" }
+    $new = "            await this.#rememberAcknowledgement('" + $command.action + "', " + $command.target + ', result);'
+    $text = $text.Substring(0,$methodStart) + $section.Replace($old,$new) + $text.Substring($nextMethod)
+}
+Replace-Once @'
+        this.#currentApproval.set(null);
+    }
+
+    async #reloadDetailState(id: string) {
+        await Promise.all([this.loadContract(id), this.loadCurrentApproval(id)]);
+    }
+'@ @'
+        this.#currentApproval.set(null);
+        this.#lastAcknowledgement.set(null);
+        this.#commandRefreshError.set(null);
+        this.#refreshingAcknowledgement.set(false);
+    }
+
+    async reloadAcknowledgedState(): Promise<boolean> {
+        const acknowledgement = this.#lastAcknowledgement();
+        if (!acknowledgement) return true;
+        if (this.#refreshingAcknowledgement()) return false;
+        this.#refreshingAcknowledgement.set(true);
+        try {
+            // These are reads after a genuine command ACK. Retrying this method never repeats a write.
+            const outcomes = await Promise.allSettled([
+                this.loadContract(acknowledgement.contractId),
+                this.loadCurrentApproval(acknowledgement.contractId),
+                this.#authStore.refreshTodos({ propagateErrors: true })
+            ]);
+            if (this.#lastAcknowledgement() !== acknowledgement) return false;
+            const errors = outcomes.flatMap((outcome) => outcome.status === 'rejected' ? [this.#readRefreshError(outcome.reason)] : []);
+            this.#commandRefreshError.set(errors.length ? [...new Set(errors)].join('；') : null);
+            return errors.length === 0;
+        } finally {
+            if (this.#lastAcknowledgement() === acknowledgement) this.#refreshingAcknowledgement.set(false);
+        }
+    }
+
+    async #rememberAcknowledgement(action: ContractCommandAcknowledgement['action'], contractId: string, result: CommandResult): Promise<void> {
+        this.#lastAcknowledgement.set({ action, contractId, result });
+        this.#commandRefreshError.set(null);
+        await this.reloadAcknowledgedState();
+    }
+
+    #readRefreshError(error: unknown): string {
+        if (error instanceof HttpErrorResponse && typeof error.error?.message === 'string') return error.error.message;
+        if (error instanceof Error) return error.message;
+        return '读取未完成，请重新加载合同、审批与待办。';
+    }
+'@
+Write-Candidate @('save exact successful POST result and action separately from readback errors for four B commands','post-ACK detail/approval/todos allSettled; preserve every read failure and return original ACK','read-only retry entry and clear reset; original write rejection remains unchanged')
+
+Read-Source 'apps/poms-admin/src/app/features/contract/contract-detail.ts'
+Replace-Once '        <p-toast />' @'
+        <p-toast />
+        @if (commandRefreshError(); as refreshError) {
+            <p-message severity="warn" styleClass="mb-4 w-full">
+                <div class="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <div class="font-medium">{{ acknowledgedStatus() }}，刷新失败</div>
+                        <p class="mt-1 text-sm">{{ refreshError }} 请重新加载后核对当前状态。</p>
+                    </div>
+                    <p-button label="重新加载合同、审批与待办" icon="pi pi-refresh" [outlined]="true" severity="secondary" [loading]="refreshingAcknowledgement()" (onClick)="reloadAcknowledgedState()" />
+                </div>
+            </p-message>
+        }
+'@
+Replace-Once '    readonly saving = this.#contractStore.saving;' @'
+    readonly saving = this.#contractStore.saving;
+    readonly commandRefreshError = this.#contractStore.commandRefreshError;
+    readonly refreshingAcknowledgement = this.#contractStore.refreshingAcknowledgement;
+    readonly acknowledgedStatus = computed(() => {
+        switch (this.#contractStore.lastAcknowledgement()?.action) {
+            case 'submit-review': return '已提交';
+            case 'activate': return '已生效';
+            case 'approve':
+            case 'reject': return '审批已处理';
+            default: return '操作已完成';
+        }
+    });
+    readonly hasCurrentCommandState = computed(() => !this.commandRefreshError() && !this.refreshingAcknowledgement());
+'@
+foreach ($name in @('canEditContract', 'canSubmitReview', 'canApprove', 'canReject', 'canActivate')) {
+    Replace-Once ('    readonly ' + $name + ' = computed(() => ') ('    readonly ' + $name + ' = computed(() => this.hasCurrentCommandState() && ')
+}
+Replace-Once @'
+    readonly actionHeadline = computed(() => {
+'@ @'
+    readonly actionHeadline = computed(() => {
+        if (this.commandRefreshError()) return `${this.acknowledgedStatus()}，请先重新加载当前状态`;
+'@
+Replace-Once @'
+    readonly actionDescription = computed(() => {
+'@ @'
+    readonly actionDescription = computed(() => {
+        if (this.commandRefreshError()) return '已收到操作成功回执；后续读取未完成，请使用重新加载入口核对合同、审批与待办。';
+'@
+Replace-Once "            this.#messageService.add({ severity: 'success', summary: '提交成功', detail: '合同已进入审核流程', life: 3000 });" "            this.#notifyAcknowledgedResult('提交成功', '合同已进入审核流程');"
+Replace-Once "            this.#messageService.add({ severity: 'success', summary: '审批完成', detail: '合同审核已通过，待业务确认生效', life: 3000 });" "            this.#notifyAcknowledgedResult('审批完成', '合同审核已通过，待业务确认生效');"
+Replace-Once "            this.#messageService.add({ severity: 'success', summary: '已驳回', detail: '合同已退回草稿，待业务修订后重新提交', life: 3000 });" "            this.#notifyAcknowledgedResult('已驳回', '合同已退回草稿，待业务修订后重新提交');"
+Replace-Once "            this.#messageService.add({ severity: 'success', summary: '生效成功', detail: '合同已切换为正式生效状态', life: 3000 });" "            this.#notifyAcknowledgedResult('生效成功', '合同已切换为正式生效状态');"
+Replace-Once '    getStatusName(status: ContractStatusPresentationValue): string {' @'
+    async reloadAcknowledgedState() {
+        const refreshed = await this.#contractStore.reloadAcknowledgedState();
+        if (refreshed) this.#messageService.add({ severity: 'success', summary: '已重新加载', detail: '合同、审批与待办已更新', life: 3000 });
+    }
+
+    #notifyAcknowledgedResult(summary: string, detail: string) {
+        const refreshError = this.commandRefreshError();
+        this.#messageService.add(refreshError
+            ? { severity: 'warn', summary: `${this.acknowledgedStatus()}，刷新失败`, detail: `${refreshError} 请重新加载后核对当前状态。`, life: 6000 }
+            : { severity: 'success', summary, detail, life: 3000 });
+    }
+
+    getStatusName(status: ContractStatusPresentationValue): string {
+'@
+Write-Candidate @('persistent ACK-aware warning with read-only reload button','correct success/warning toast for four completed B commands; original POST error catches retained','block actions based on stale business state until readback succeeds; no write retry')
+
+Read-Source 'apps/poms-admin/src/app/features/contract/contract-detail.spec.ts'
+Replace-Once 'type ContractDetailView, type SanitizedUserWithOrgUnits' 'type ContractCommandAcknowledgement, type ContractDetailView, type SanitizedUserWithOrgUnits'
+Replace-Once @'
+        saving: ReturnType<typeof signal<boolean>>;
+        loadContract: jest.Mock;
+'@ @'
+        saving: ReturnType<typeof signal<boolean>>;
+        lastAcknowledgement: ReturnType<typeof signal<ContractCommandAcknowledgement | null>>;
+        commandRefreshError: ReturnType<typeof signal<string | null>>;
+        refreshingAcknowledgement: ReturnType<typeof signal<boolean>>;
+        reloadAcknowledgedState: jest.Mock;
+        loadContract: jest.Mock;
+'@
+Replace-Once @'
+            saving: signal(false),
+            loadContract: jest.fn().mockResolvedValue(createContract()),
+'@ @'
+            saving: signal(false),
+            lastAcknowledgement: signal<ContractCommandAcknowledgement | null>(null),
+            commandRefreshError: signal<string | null>(null),
+            refreshingAcknowledgement: signal(false),
+            reloadAcknowledgedState: jest.fn().mockResolvedValue(true),
+            loadContract: jest.fn().mockResolvedValue(createContract()),
+'@
+Replace-Once "    it('updates customer contract number without sending an internal contract number', async () => {" @'
+    it('shows an acknowledged write separately from failed refresh and offers a read-only reload', async () => {
+        contractStoreMock.lastAcknowledgement.set({
+            action: 'submit-review', contractId: 'contract-1', result: {
+                targetId: 'contract-1', targetType: 'contract', resultStatus: 'submitted', businessStatusAfter: 'pending-review',
+                approvalRecordId: 'approval-1', confirmationRecordId: null, todoItemIds: ['todo-1'], preparationId: 'preparation-1'
+            }
+        });
+        contractStoreMock.commandRefreshError.set('审批摘要暂时不可用。');
+        contractStoreMock.reloadAcknowledgedState.mockImplementation(async () => {
+            contractStoreMock.commandRefreshError.set(null);
+            return true;
+        });
+        await fixture.whenStable();
+
+        const text = fixture.nativeElement.textContent;
+        expect(text).toContain('已提交，刷新失败');
+        expect(text).toContain('审批摘要暂时不可用。');
+        expect(text).toContain('重新加载合同、审批与待办');
+        expect(text).not.toContain('提交失败');
+        expect(component.canEditContract()).toBe(false);
+        expect(component.canSubmitReview()).toBe(false);
+
+        await component.reloadAcknowledgedState();
+        await fixture.whenStable();
+
+        expect(contractStoreMock.reloadAcknowledgedState).toHaveBeenCalledTimes(1);
+        expect(fixture.nativeElement.textContent).not.toContain('已提交，刷新失败');
+    });
+
+    it('updates customer contract number without sending an internal contract number', async () => {
+'@
+Write-Candidate @('fixture signals for ACK/readback state','warning and read-only reload UI test; no actual producer or browser evidence')
+
+Read-Source 'libs/admin/data-access/src/lib/auth/auth.store.ts'
+Replace-Once '    async refreshTodos(): Promise<void> {' '    async refreshTodos(options: { propagateErrors?: boolean } = {}): Promise<void> {'
+Replace-Once @'
+        const todos = await firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))));
+        this.myTodos.set(todos ?? []);
+'@ @'
+        const request = this.#approvalApi.approvalControllerGetMyTodos();
+        const todos = await firstValueFrom(options.propagateErrors ? request : request.pipe(catchError(() => of([]))));
+        this.myTodos.set(todos ?? []);
+'@
+Write-Candidate @('optional propagateErrors=true preserves old todos and exposes actual request failure to B ACK readback','existing default callers retain their previous empty-list fallback; no other auth behavior changed')
+
+Read-Source 'apps/poms-admin/src/app/core/auth/auth.store.spec.ts'
+Replace-Once "import { ApprovalApi, AuthApi, AuthStore, IdentityProvider, NavigationApi, type CurrentAuthSessionView, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';" "import { ApprovalApi, AuthApi, AuthStore, BusinessDomain, IdentityProvider, NavigationApi, TargetObjectType, TodoPriority, TodoSourceType, TodoStatus, TodoType, type CurrentAuthSessionView, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits, type TodoItemSummary } from '@poms/admin-data-access';"
+Replace-Once "import { of } from 'rxjs';" "import { of, throwError } from 'rxjs';"
+Replace-Once "describe('AuthStore', () => {" @'
+function createTodo(): TodoItemSummary {
+    return {
+        id: 'todo-1', sourceType: TodoSourceType.ApprovalRecord, sourceId: 'approval-1', todoType: TodoType.Approval,
+        businessDomain: BusinessDomain.ContractFinance, targetObjectType: TargetObjectType.Contract, targetObjectId: 'contract-1',
+        projectId: 'project-1', title: '合同审批', summary: null, targetTitle: '合同 CT-1', currentNodeName: '审核',
+        allowedActions: ['approve', 'reject'], assigneeUserId: 'user-1', status: TodoStatus.Open, priority: TodoPriority.Normal,
+        dueAt: null, completedAt: null, rowVersion: 1, createdAt: '2026-11-03T01:00:00.000Z', updatedAt: '2026-11-03T01:00:00.000Z'
+    };
+}
+
+describe('AuthStore', () => {
+'@
+Replace-Once "    it('updates currentUser from profile self-service response', async () => {" @'
+    it('propagates an explicitly requested todo read failure and keeps the previous todos', async () => {
+        const previousTodos = [createTodo()];
+        const failure = new Error('待办服务暂时不可用。');
+        store.currentUser.set(createUser());
+        store.myTodos.set(previousTodos);
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(throwError(() => failure));
+
+        await expect(store.refreshTodos({ propagateErrors: true })).rejects.toBe(failure);
+
+        expect(store.myTodos()).toBe(previousTodos);
+        expect(approvalApiMock.approvalControllerGetMyTodos).toHaveBeenCalledTimes(1);
+    });
+
+    it('retains the existing empty-list fallback when callers use the default todo refresh', async () => {
+        store.currentUser.set(createUser());
+        store.myTodos.set([createTodo()]);
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(throwError(() => new Error('待办服务暂时不可用。')));
+
+        await expect(store.refreshTodos()).resolves.toBeUndefined();
+
+        expect(store.myTodos()).toEqual([]);
+    });
+
+    it('updates todos after an explicitly requested strict read succeeds', async () => {
+        const todos = [createTodo()];
+        store.currentUser.set(createUser());
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(of(todos));
+
+        await expect(store.refreshTodos({ propagateErrors: true })).resolves.toBeUndefined();
+
+        expect(store.myTodos()).toBe(todos);
+    });
+
+    it('updates currentUser from profile self-service response', async () => {
+'@
+Write-Candidate @('actual AuthStore strict todo failure retains old state and rejects unchanged cause','default refresh failure remains fulfilled empty-list fallback','strict success updates the actual returned todo array')
+
+$manifest = [ordered]@{schema='poms-r4-ui-ack-corrections/v1';author='C source author; not independent Gate reviewer';baseRule='Root current source after actual02 and03 import; original bytes preserved per file';scope='four B write commands only, plus their detail warning/reload and focused source tests';verification=@{staticSourceAndBytes='completed';nodeAngularBuildLintTestsBrowser='not-run by C'};files=$files}
+[System.IO.File]::WriteAllText((Join-Path $candidatePath 'manifest04-draft.json'), ($manifest | ConvertTo-Json -Depth 8) + "`n", $utf8)

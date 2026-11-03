@@ -10,6 +10,7 @@
 
 
 export interface SubmitContractReviewRequest {
+    preparationId: string;
     comment?: string;
     expectedVersion?: number;
 }

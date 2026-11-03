@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+assert.equal(process.platform,'win32');
+const paths=execFileSync('git',['ls-files','-m','-o','--exclude-standard','-z'],{encoding:'utf8',windowsHide:true}).split('\0').filter(f=>/^(apps\/poms-(admin|api)\/|libs\/admin\/data-access\/|libs\/shared\/)/.test(f)&&fs.statSync(f).isFile());
+const out='tmp/rust-r4abc/root/ts-source-list11.json';assert(!fs.existsSync(out));fs.writeFileSync(out,JSON.stringify({inputs:paths},null,2)+'\n',{flag:'wx'});
+const before=fs.readFileSync('tools/rust-r4abc/verify-ts10.mjs','utf8');
+const start=before.indexOf('const names='),end=before.indexOf('\nfor(const f of',start);assert(start>0&&end>start);
+const next=(before.slice(0,start)+"const names=JSON.parse(fs.readFileSync(win+'/tmp/rust-r4abc/root/ts-source-list11.json','utf8')).inputs;"+before.slice(end)).replaceAll('ts-checks10','ts-checks11').replaceAll('receipt10','receipt11');
+fs.writeFileSync('tools/rust-r4abc/verify-ts11.mjs',next,{flag:'wx'});
+fs.writeFileSync('tmp/rust-r4abc/root/ts-checks10/failed10.json',JSON.stringify({kind:'actual-harness-failure',phase:'Windows-worktree-discovery-from-Linux-Git',exitCode:1,cause:'Windows .git worktree path is not a Linux path; no Node checks or source copies ran',next:'Explicit Windows Git source inventory, immutable verify-ts11.mjs'},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({inputs:paths.length,next:'verify-ts11.mjs'}));

@@ -1,0 +1,118 @@
+{
+  "inputs": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "bytes": 6466,
+      "rawBytesSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "bytes": 2714,
+      "rawBytesSha256": "9a4cac49065ebea267678e4d899a8451bf22214928175b050efe19e91aed97b2"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "bytes": 26958,
+      "rawBytesSha256": "ff7d7bf1bf49aeb1e6a44369a72748299ed189865b46da9042ed08ac6343f3b6"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "bytes": 14430,
+      "rawBytesSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "bytes": 225,
+      "rawBytesSha256": "224363c6ea883812afe20a168ec5c7d5b815f14b041cd85903d2b9c0733ac92d"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+      "bytes": 28861,
+      "rawBytesSha256": "9a20590eefa09b22cc20113916a6f70830a6ce536a17255a0914cbc77f4539a5"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "bytes": 4722,
+      "rawBytesSha256": "c8d5db8660d8fb99c347ee08e6762bc6c442af523afbf465df708b72511dfb7f"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 443119,
+      "rawBytesSha256": "e9a4bd9affcecd1821b23ccb7464eaa088e0314894a37fb2bb20dda614c028fb"
+    }
+  ],
+  "commands": [
+    {
+      "name": "openapi",
+      "args": [
+        "node_modules/nx/dist/bin/nx.js",
+        "run",
+        "poms-api:openapi",
+        "--skip-nx-cache"
+      ],
+      "startedAt": "2026-11-03T07:28:34.391Z",
+      "completedAt": "2026-11-03T07:28:52.144Z",
+      "exitCode": 0,
+      "errorName": null,
+      "logs": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/contract-generation01/openapi-stdout-original.bin",
+          "bytes": 571,
+          "rawBytesSha256": "99d3336b1365c6fc11b8502cc42740700f3a1201e6690edb5e0ba1c6f6175d42",
+          "rawOriginalPublic": true,
+          "privateOriginal": {
+            "file": "/home/wangzishi/.local/share/poms-r4abc/private/generation01-openapi-stdout.bin",
+            "bytes": 571,
+            "rawBytesSha256": "99d3336b1365c6fc11b8502cc42740700f3a1201e6690edb5e0ba1c6f6175d42"
+          }
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/contract-generation01/openapi-stderr-original.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rawOriginalPublic": true,
+          "privateOriginal": {
+            "file": "/home/wangzishi/.local/share/poms-r4abc/private/generation01-openapi-stderr.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ]
+    },
+    {
+      "name": "client-write",
+      "args": [
+        "tools/openapi/shared-api-client.mjs",
+        "--write"
+      ],
+      "startedAt": "2026-11-03T07:28:52.166Z",
+      "completedAt": "2026-11-03T07:28:52.283Z",
+      "exitCode": 1,
+      "errorName": null,
+      "logs": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/contract-generation01/client-write-stdout-original.bin",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rawOriginalPublic": true,
+          "privateOriginal": {
+            "file": "/home/wangzishi/.local/share/poms-r4abc/private/generation01-client-write-stdout.bin",
+            "bytes": 0,
+            "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/contract-generation01/client-write-stderr-original.bin",
+          "bytes": 226,
+          "rawBytesSha256": "93823799fc2e27ce43a3587667f9d06a997d2ca8c18d11bffb204a46d17fe993",
+          "rawOriginalPublic": true,
+          "privateOriginal": {
+            "file": "/home/wangzishi/.local/share/poms-r4abc/private/generation01-client-write-stderr.bin",
+            "bytes": 226,
+            "rawBytesSha256": "93823799fc2e27ce43a3587667f9d06a997d2ca8c18d11bffb204a46d17fe993"
+          }
+        }
+      ]
+    }
+  ]
+}

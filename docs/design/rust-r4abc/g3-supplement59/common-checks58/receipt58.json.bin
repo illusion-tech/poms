@@ -1,0 +1,63 @@
+{
+  "kind": "final-required-common-and-unchanged-guarded-generation-checks",
+  "checks": [
+    {
+      "name": "diff-check",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "startedAt": "2026-11-03T15:52:54.151Z",
+      "completedAt": "2026-11-03T15:52:54.273Z",
+      "exitCode": 0,
+      "error": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "markdown-format",
+      "exe": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "task",
+        "format:md:check"
+      ],
+      "startedAt": "2026-11-03T15:52:54.275Z",
+      "completedAt": "2026-11-03T15:52:57.494Z",
+      "exitCode": 0,
+      "error": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd"
+    },
+    {
+      "name": "one-way-enum-check",
+      "exe": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+      "args": [
+        "tools/rust-r1b/export-shared.mjs",
+        "--check"
+      ],
+      "startedAt": "2026-11-03T15:52:57.495Z",
+      "completedAt": "2026-11-03T15:52:58.682Z",
+      "exitCode": 0,
+      "error": null,
+      "stdoutSha256": "31fa0d4c109fb649dcaef9d614e386d3e56b0a5047c7233966634861c38d23b8",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "guarded-client-check",
+      "exe": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+      "args": [
+        "tools/openapi/shared-api-client.mjs",
+        "--check"
+      ],
+      "startedAt": "2026-11-03T15:52:58.683Z",
+      "completedAt": "2026-11-03T15:53:25.142Z",
+      "exitCode": 0,
+      "error": null,
+      "stdoutSha256": "ebc07ccec95d0814c63fe92d28ced0157dd1775440831d0de585fcfb8def6f1b",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "allPassed": true,
+  "runtimeReopened": false
+}

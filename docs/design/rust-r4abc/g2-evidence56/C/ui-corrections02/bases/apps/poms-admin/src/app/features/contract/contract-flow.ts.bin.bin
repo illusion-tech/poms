@@ -1,0 +1,32 @@
+import type { ContractDetailView } from '@poms/shared-api-client';
+import { sensitiveProjectionDisplayText, type SensitiveStringFieldProjectionView } from '../../shared/ui/sensitive-visibility';
+
+type ContractLifecycle = Pick<ContractDetailView, 'id' | 'status' | 'currentPreparation' | 'latestReviewBinding'>;
+
+export function isValidContractAmount(value: string): boolean {
+    const text = value.trim();
+    if (text.length > 64 || !/^[0-9]+(?:\.[0-9]{1,2})?$/.test(text)) return false;
+    const [whole, fraction = ''] = text.split('.');
+    const cents = BigInt(whole) * 100n + BigInt(fraction.padEnd(2, '0'));
+    return cents > 0n && cents <= 999999999999999999n;
+}
+
+export function hasCurrentContractPreparation(contract: ContractLifecycle | null | undefined): boolean {
+    const preparation = contract?.currentPreparation;
+    return !!contract && !!preparation && !!preparation.preparationId && preparation.isCurrent && preparation.status === 'prepared'
+        && preparation.contractId.toLowerCase() === contract.id.toLowerCase();
+}
+
+export function hasApprovedPreparationBinding(contract: ContractLifecycle | null | undefined, approval: { id: string; currentStatus: string } | null | undefined): boolean {
+    if (!contract || !approval || approval.currentStatus !== 'approved' || !hasCurrentContractPreparation(contract)) return false;
+    const preparation = contract.currentPreparation;
+    const binding = contract.latestReviewBinding;
+    return !!preparation && !!binding && binding.approvalRecordId === approval.id
+        && binding.contractId === contract.id && binding.preparationId === preparation.preparationId
+        && binding.preparationVersion === preparation.version && binding.payloadHash === preparation.payloadHash;
+}
+
+export function contractAmountDisplay(projection: SensitiveStringFieldProjectionView | null | undefined, currencyCode?: string | null): string {
+    const display = sensitiveProjectionDisplayText(projection);
+    return projection?.mode === 'full' && currencyCode && !display.includes(currencyCode) ? `${display} ${currencyCode}` : display;
+}

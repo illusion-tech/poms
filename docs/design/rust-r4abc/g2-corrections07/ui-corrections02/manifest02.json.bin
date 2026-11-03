@@ -1,0 +1,59 @@
+{
+  "schema": "poms-r4-ui-corrections/v1",
+  "author": "C author; not independent Gate reviewer",
+  "scope": "Root actual admin lint11 errors/warnings and static missing fixture type re-export",
+  "reportedRootChecks": "Angular/API build passed by Root; author did not execute",
+  "actualProductWrites": "none",
+  "files": [
+    {
+      "path": "libs/admin/data-access/src/index.ts",
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 13235,
+      "baseSha256": "5841a29e2e37af33eeff7a085c352534eb74c7ca7d61f1af439e7020f40bd179",
+      "newRawBytes": 13339,
+      "newSha256": "33add4c2eb710992ed4c70a3a4b57e68cf9e62ff4e6ba1b98b95fbf2bb6014f3",
+      "changedDeclarations": [
+        "re-export only required R4 model types and preparation enum through existing data-access boundary; include already consumed ContractDetailView"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-flow.ts",
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 2097,
+      "baseSha256": "02039231652e8700529b2040dff7b905dbc8f068a0d10bc7d27d992442da33ce",
+      "newRawBytes": 2097,
+      "newSha256": "2d4c6bd865ae9dd13cbe64889358c5849860a094cd3298005ed3e9d3be65f482",
+      "changedDeclarations": [
+        "replace direct generated SDK type import with existing data-access barrel"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-flow.spec.ts",
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 3806,
+      "baseSha256": "51b45e67042e6ec3c5395b91eb6d2f630618a5f7ccb7f04c2b6d4eb5e2478801",
+      "newRawBytes": 4033,
+      "newSha256": "19ae0448346338d1d5e0959afb84db574e59095e92cef0f2842b99a83eaac9c0",
+      "changedDeclarations": [
+        "replace direct generated SDK imports with data-access barrel",
+        "replace two new non-null assertions with explicit fixture guards"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts",
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 30219,
+      "baseSha256": "824e9437dcb6d8833f0334c27c4e52459da9065acf9d5f2e39cd9bc5021e0080",
+      "newRawBytes": 30227,
+      "newSha256": "4b50602089ed63dfd32d46e9112890f7393bf1bdc4e219edffc75c32d8638a56",
+      "changedDeclarations": [
+        "replace direct generated SDK type import with data-access barrel",
+        "narrow active snapshot once before fact mapping instead of new non-null assertion"
+      ]
+    }
+  ],
+  "verification": {
+    "sourceAndByteInspection": "completed",
+    "buildLintTestsBrowser": "not-run by C"
+  }
+}

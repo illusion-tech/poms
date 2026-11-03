@@ -17,6 +17,7 @@ export interface CommercialBaselineReviewRecordSummary {
     projectId: string;
     decision: CommercialBaselineReviewDecision;
     reviewedFieldKeys: Array<string>;
+    attachmentIds: Array<string>;
     comment: string | null;
     reviewerUserId: string;
     createdAt: string;

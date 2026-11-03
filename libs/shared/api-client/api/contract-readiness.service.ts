@@ -61,10 +61,12 @@ export interface ContractReadinessControllerGetContractReadinessPackageRequestPa
 
 export interface ContractReadinessControllerGetCurrentContractReadinessRequestParams {
     projectId: string;
+    contractId?: string;
 }
 
 export interface ContractReadinessControllerGetDiffHistoryRequestParams {
     id: string;
+    contractId?: string;
 }
 
 export interface ContractReadinessControllerInitializeContractSnapshotRequestParams {
@@ -364,6 +366,18 @@ export class ContractReadinessApi extends BaseService {
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling contractReadinessControllerGetCurrentContractReadiness.');
         }
+        const contractId = requestParameters?.contractId;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'contractId',
+            <any>contractId,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -397,6 +411,7 @@ export class ContractReadinessApi extends BaseService {
         return this.httpClient.request<ContractReadinessDetail>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -423,6 +438,18 @@ export class ContractReadinessApi extends BaseService {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling contractReadinessControllerGetDiffHistory.');
         }
+        const contractId = requestParameters?.contractId;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'contractId',
+            <any>contractId,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -456,6 +483,7 @@ export class ContractReadinessApi extends BaseService {
         return this.httpClient.request<ContractDiffReviewHistoryView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

@@ -7,12 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ContractCommercialTerms } from './contract-commercial-terms';
 import { CommercialDiffLevel } from './commercial-diff-level';
 import { CreateCommercialBaselineDiffItemInput } from './create-commercial-baseline-diff-item-input';
 
 
 export interface CreateCommercialReleaseBaselineRequest {
     projectId: string;
+    contractTerms: Array<ContractCommercialTerms>;
     baselineCode: string;
     quotationReviewId?: string | null;
     grossMarginSummary?: string | null;
@@ -23,7 +25,7 @@ export interface CreateCommercialReleaseBaselineRequest {
     downPaymentRate?: string | null;
     retentionRate?: string | null;
     paymentTerms?: string | null;
-    diffLevel: CommercialDiffLevel;
+    diffLevel?: CommercialDiffLevel;
     diffSummary?: string | null;
     diffItems?: Array<CreateCommercialBaselineDiffItemInput>;
     createdBy?: string | null;

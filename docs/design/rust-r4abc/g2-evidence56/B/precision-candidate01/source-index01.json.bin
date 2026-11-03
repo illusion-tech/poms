@@ -1,0 +1,92 @@
+{
+  "kind": "R4B-static-precision-audit01-not-executed",
+  "sourceRoot": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+  "sourcePins": [
+    {
+      "path": "apps/poms-api-rust/src/approval_common/store.rs",
+      "bytes": 35844,
+      "sha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval_common/domain_schema.rs",
+      "bytes": 88205,
+      "sha256": "3063af131554f2baf13b322f08d984eb47051bb8048d3f8a422b955f503645ce"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval_common/js.rs",
+      "bytes": 11080,
+      "sha256": "35394edc597583d2c9c808c488a02e91e49703f44bd5a53aedc4e740896ab5a7"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval_common/receipt.rs",
+      "bytes": 3713,
+      "sha256": "b707f25ecbaceceb90989c3dae6cfa8dd57e2fb9c1b56005aa3eccbeba58d757"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/model.rs",
+      "bytes": 5735,
+      "sha256": "7fab9efb2defeff63b49f2ee7aac490c891493cd5b590db2694a84e631e83e77"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/projection.rs",
+      "bytes": 6154,
+      "sha256": "f0dd34d55bf2877fe6223d557059cd7147d565e0256314e1aa0fdbdd2e9bfbe2"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/store.rs",
+      "bytes": 15561,
+      "sha256": "1b4c4d3de65c159a582903c9b06c274c59d5e49a5926f08612d07edb2bad4989"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/service.rs",
+      "bytes": 28538,
+      "sha256": "50967d457e1b5b571a22679fdbaeb2ebce50c243f4575400450aa8f3fffa6b75"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "bytes": 14408,
+      "sha256": "f0d700756397202ac2cc7d0ea6e29fe1a9435800a0baafd69a554f564662a4bf"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/projection.rs",
+      "bytes": 8800,
+      "sha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval/domain.rs",
+      "bytes": 29882,
+      "sha256": "1b8b770015eb68f0597286f55d2b9c69ff42071801e79d3fa245ec41762c67ed"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval/settlement.rs",
+      "bytes": 19171,
+      "sha256": "78ad40daf9926ede88a933a6853ad445b6ee07798ba950ee8085003ccd52b7df"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/store.rs",
+      "bytes": 15543,
+      "sha256": "0e8bf0cb380082cbefdbc446bfcb54977554425ae263103d574081f1847eaece"
+    }
+  ],
+  "files": [
+    {
+      "path": "audit01.md",
+      "bytes": 4383,
+      "sha256": "0c9370a138eb310f7cb67dd6a9e113066af41a4987a9361daa8ded285d91dd8f"
+    },
+    {
+      "path": "audit01.json",
+      "bytes": 2793,
+      "sha256": "3164e1d8f73ba0e2a0c7861a987b2938319624603a78bc86552c6a557534ebe8"
+    }
+  ],
+  "finding": "no lossy path found in bounded current source closure",
+  "proposedProductChanges": [],
+  "newProductSha": [],
+  "reasonNoNewSha": "No source change justified; base/current SHA pins only",
+  "runtimeExecuted": false,
+  "gitExecuted": false,
+  "databaseExecuted": false,
+  "scope": "contract/common signedAmount, projection, typed snapshot and adjacent receipt string carriers; not all old173",
+  "actualMaxHttpPgProof": "Root follow-up required"
+}

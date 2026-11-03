@@ -1,0 +1,20 @@
+file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r1b/export-shared.mjs:128
+    if (changed || staged || untracked) throw new Error(`R1B source inputs differ from reviewed reference ${SOURCE_HEAD}; review and advance the reference deliberately.\n${[changed, staged, untracked].filter(Boolean).join('\n')}`);
+                                              ^
+
+Error: R1B source inputs differ from reviewed reference ef9fd7f4871eb87167bca1ae04fae8a992ef594c; review and advance the reference deliberately.
+.gitattributes
+libs/shared/api-spec/openapi.json
+libs/shared/contracts/src/lib/shared-contracts.ts
+.gitattributes
+libs/shared/api-spec/openapi.json
+libs/shared/contracts/src/lib/shared-contracts.ts
+    at assertSourceGuard (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r1b/export-shared.mjs:128:47)
+    at buildManifest (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r1b/export-shared.mjs:595:16)
+    at main (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r1b/export-shared.mjs:817:22)
+    at file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r1b/export-shared.mjs:829:85
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0

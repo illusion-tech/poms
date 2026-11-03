@@ -1,0 +1,45 @@
+# R4 first37 请求验证器候选01
+
+本包是 B 明确参与编写的公共候选，不能作非作者审查结论。仅两件产品源建议，由Root核base后导入：
+
+- `apps/poms-api-rust/src/contract_support/validation.rs`
+- `tools/rust-r4abc/export-validation-input01.mjs`
+
+本包未改 B 合同产品或Root任何产品，未执行Node、生成器、格式化、编译、测试、HTTP、PG或浏览器。原Root domain compile02 exit0只认证之前218rs/all-targets域源码；本验证器未参与该次编译，不借用其通过结论。
+
+## Root导入及生成顺序
+
+1. 核本包source-index与Root当前Shared/OpenAPI/37surface来源。只导入上述两件产品源，不把本包case或文档当真实生成input。
+2. Root实际运行 `node tools/rust-r4abc/export-validation-input01.mjs`；由该次运行生成 `tools/rust-r4abc/validation-input01.json`，保留stdout/错误/源pins和实际输出SHA。此命令是后续执行定义，本包没有运行它。
+3. 再统一format/check/clippy/test/build及HTTP/真实UI验证。Rust的include_str相对位置对应现有 `apps/poms-api-rust/src/contract_support/`，缺生成文件会显式编译失败，不能拿伪造37operation占位JSON绕过。
+4. Root HTTP/guard/outerTX仍单独负责。公开接口 `validate_body(operation_id, raw: Option<&str>)`、`validate_query(operation_id, raw_query: Option<&str>)` 只返回剥除未知字段、应用Source变换/默认值后的JSON或现ApiError，不持久化、不获取连接、不begin/commit。
+
+## 生成input格式及SSOT
+
+input顶层为version1、kind、sourcePins、operationCount37、sourceSchemaCount595、operations、schemas、observedRefinements与boundary。操作map按实际37surface连接当前spec的method/path/operationId，精确不重名；不根据旧surface里的旧request schema转录。每操作含当前body schema/bodyRequired与flatten query对象schema。schemas仅为当前请求/query递归ref闭包，完整保留现required/nullable/allOf/enum/array/minmax/default/UUID/date格式。
+
+当前Shared由TypeScript AST静态读取，绝不import或执行Zod runtime。属性节点补 `x-r4-trim`；literal `.default(...)` 同步到schema.default；当前三Update请求补 `x-r4-at-least-one={keys,message}`；三个R4标量补 `x-r4-scalar`；A01 contractTerms现有唯一contractId refine补 `x-r4-unique-contract-ids`。引用标量通过其component透传trim/default，嵌套object/array精确按AST位置应用，不给所有string统一trim。
+
+query仅当前四处有query DTO：A03/A07→ContractSelectionQuery、Blist→ContractListQuery、Blookup→ContractLookupQuery。导出时核字段集合与当前OpenAPI parameters完全相同；新增query入口或字段必须先扩明确映射，不能默选旧规则。Root当前Zod输出595 schemas/291 operations作为此候选的受控来源边界；发生变化导出器拒绝继续，需复核本候选。
+
+## 运行语义
+
+- object递归strip undeclared字段。missing/default/null三态独立；缺失应用default，显式null只在nullable允许时保留。legacy declared actor字段可以接受并解析，领域仍忽略其权限来源。
+- R4 money/ratio先按Source trim/长度，再调用Root `money/nonnegative_money/ratio` 精确i128/i64 helper；不以f64检查金额容量，也不把它们规范化成两位输出改变Zod string变换。金额规范化由领域负责。
+- number/integer只用于版本/count/order等非金额JSON数字；int核整数/边界后规范为JSON整数，避免`expectedVersion:1.0`通过语法却被下游as_i64误拒。无string-number coercion。
+- UUID按当前有限白名单format/pattern核36字节连字符、hex、RFC版本1..8/variant、nil和小写max，并返回canonical lowercase。其他有效UUID的大小写等价。大写max不符合当前特殊max分支正则，不能自行放宽。
+- date核Gregorian真实YYYY-MM-DD；datetime当前Shared明确Z-only、整点秒00..59及可选非空小数，不接受offset、日期冒充datetime或统一trim。这里没有改变时间/日期值；领域统一UTC毫秒和业务日期语义另负责。
+- length按本任务明确要求UTF16 unit计数；trim仅为ECMAScript whitespace集合。合法补充平面字符因此计2。Rust serde_json拒绝孤立surrogate和非法JSON，本候选给标准400并明确此边界，没有通过lossy替换伪称完整JS原始UTF16模型。
+- query使用现url::form_urlencoded解码；重复同key保留为数组，已声明string/UUID字段随后400，不默选第一。bracket key保留literal unknown并strip，`+`按form空格、`%2B`为加号。
+- three update refinements在strip后判至少一个实际声明的可更新字段；expectedVersion/unknown-only不能把空更新变成功no-op，nullable字段显式null算提供。
+- 所有外部语法失败为400 `{statusCode:400,message:'Validation failed',errors:[...]}`，含path/code/message等Zod样式issue。未知内部schema/operation/input版本为500；不冒充用户DTO错误。
+
+## 明确有限边界
+
+这不是通用JSONSchema/Zod引擎。导出器只允许列举Shared方法、已冻结R4精确标量refine、三update at-least-one和A01 contractId唯一refine；其他refine/transform/superRefine/check/preprocess/coerce/catch/pipe等显式拒绝。schema只接受列举keywords；未知pattern/format、remote ref、dictionary/passthrough/boolean schema，以及带额外未支持约束的union均拒绝。date/UUID/金额pattern与本次当前输出严格白名单一致，变化需复核，不能忽略新正则。
+
+有限allOf合并及无额外约束的anyOf/oneOf已提供；当前主要用allOf包nullable scalar ref。节点总额、retention乘积、同合同/同项目、source资格/更替、审计与CAS均由A/B/C domain负责。特别C的金额层关系合法语法但不一致仍422，本验证器不新增跨金额refine改成DTO400。ReadinessInitializationResult是响应schema，Root已修的条件refine不被当请求校验运行。
+
+## 必须由Root执行的核验
+
+完整生成+源before/after稳定校验、实际Rust编译/Clippy/format、37入口实际body/query+返回原始issues、三更新空body、缺body/非object/null、nested defaults/strip/trim、精确容量/UUID/date/UTF16、duplicate query，以及C domain422保持。`case-definitions01.json`只是纯向量定义；未执行、未通过，不代替独立reviewer和实际Gate。

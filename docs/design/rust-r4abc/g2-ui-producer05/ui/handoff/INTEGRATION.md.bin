@@ -1,0 +1,38 @@
+# R4 现有 UI / Store 候选 01
+
+C 是这批 UI 候选及 focused test 候选作者，不是独立审查者。完整文件仅写在 `products/<repo-relative-path>`；没有修改 Root/C 真实产品、冻结 C19/Shared 候选、全局路由/RBAC 或生成客户端。base 原字节另保存在 `bases/`。Root 导入前逐件核当前 base SHA；若不同，先合并而非整文件覆盖。
+
+输入为 Root S3 `4f78bd486ca2118e4700bae560cb25ff08c4b47d` 后当前 app/client/spec。Angular 22.1.6 已从 Root package.json 静态核对；沿现 signal、inject、template-driven forms 与 PrimeNG 组件，不新增组件/服务类，因此没有 CLI 脚手架。新增的只是现合同目录内纯 helper/spec。
+
+## 本批实现
+
+- 合同送审使用 detail.currentPreparation.preparationId + contract.rowVersion。无真实 current/prepared 版本时不发请求，并明确提示去既有项目签约前主线准备；导航携带 contractId。Store 移除非法默认 `{}` 请求。
+- 生效入口要求真实 approved approval 与 detail.latestReviewBinding 的合同、approval、preparation ID/version/hash 完全匹配当前准备版。请求仍只有 expectedVersion/comment，不允许 UI 重新指定另一份条款。准备版、审核绑定、有效快照三列独立显示，prep3 不冒充 snapshot3；active snapshot 可以是独立 version1。
+- 合同金额输入用 BigInt cents 校验正数/2位/18,2容量；金额展示只用服务端 projection.displayText，并在 full 时补缺失币种，不对金额 Number/parseFloat/toLocaleString。比例同样保留服务端文本。合同编辑继续只在既有敏感投影可读权限下预填真实字符串，PATCH带expectedVersion。
+- 原合同页没有 retention 编辑器或 UTC.slice 写入，实际是只读 DatePipe。候选将 retentionDueDate 直接作为日历字符串展示；原 signedAt datetime 处理保持不变。节点 plannedDate/retentionDueDate 也不经 UTC 转换。
+- 项目签约前页增加显式合同选择，ContractApi按project列出合同。即使一份也不自动代选；来自合同页的明确 contractId deep link可直接读取。A03/A07始终携带所选contractId。服务器409 contract_selection_required的原message与候选ID保留供选择，不把它转换成404缺包。读请求序号防旧合同迟到响应覆盖新选择。
+- A08“准备合同条款”只在真实 draft + 服务端 allowed action下开启；A09“生成正式应收计划”只在Active及真实有效snapshot/匹配承接来源具备时开启。保留既有project:write，不新增角色。两body都是contractId、canonical contractReadinessPackageId=path、expectedVersion，无packageId alias。
+- 初始化按result.sourceReadinessId回读A06并刷新真实合同详情。targetId只用于真实 preparation/plan产品，不作为pkg ID。准备时不显示生效；计划、快照、准备来源分开。已ACK成功但后续GET失败时保留回执并明确提示刷新核对，不谎称业务回滚。
+- candidateTerms/typed节点仅在 financialProjection.full 且服务端确实返回结构化terms时显示。敏感隐藏时只显示投影文本；不从paymentTerms/summary推算金额、日期或节点，不设置项目合计预算或自动分摊。差异/history按合同读取，old/new敏感摘要也按服务端财务projection隐藏。
+- GET没有任何自报ready、初始化或source UUID生成。无真实prep/snapshot来源时不将旧marker显示为已初始化的正式产物。清理/切项目与异步命令有独立序号，旧请求不能污染新选择或清掉新命令busy状态。
+
+## 原 UI 覆盖与上游 API 边界
+
+静态全域查询未发现原admin/data-access有A01 CreateCommercialReleaseBaseline、A05 CreateContractReadinessPackage或A04 review录入消费者。原签约前页是只读工作区，不存在完整条款/节点编辑器。本批不编造已有编辑器或扩展新门户；保留真实服务端terms/节点安全展示，并把实际既有消费者（B submit/activate、A03/A07及新增在现页的A08/A09）接成合法新body/query。
+
+因此实际浏览器覆盖为：真实B draft/detail → 已由Root实际API链产生的A01/R3 pricing/A05/A04上游包 → 此页选择合同/A08 → 合同页真实送审/审批/绑定生效 → 此页A09。A01/A05/A04源生产本身仍是Root真实API验收边界，不能把本候选写成完整UI端到端录入。未新增19财务页面，整个R4及未来成本producer仍不由此关闭。
+
+## 验证与已知集成点
+
+没有运行 CLI、ng/nx build、lint、test、Node/TS执行、环境、Git/GH、HTTP、PG或browser。`contract-flow.spec.ts` 是未执行的精度/投影/准备绑定focused源码；两份原组件spec补required-nullable元数据、新store信号与新的明确选择/展示预期。`ui-acceptance-vectors01.json` 是纯验收向量，不是实际通过计数。
+
+Angular skill要求“Once you finish generating code, run ng build”；本任务明确禁止作者运行并指定Root统一 `nx admin build`/两平台browser，此处服从该执行分工。Root需完成实际lint/build/focused tests与真实浏览器后再出Gate，不用静态候选代替。
+
+Root集成时注意：
+
+1. ProjectWorkspaceStore新注入现 ContractApi；原store单测若只mock旧ReadinessApi，需提供ContractApi/list/detail或按新显式contractId场景适配。这是已知旧mock边界，尚无实际运行失败记录。其它workspace方法保留。
+2. 原 contract-list.spec若依赖旧前端分组/浮点formatter文本，需要改以服务端displayText为准，不能为旧展示断言恢复Number金额转换。当前候选没有修改全局sensitive-visibility，以免影响其它域。
+3. UI只显示正式planID/本次回执版本；现A06没有单独plan详情/version读API，页面重载后不会猜出plan版本号。preparedAt/有效snapshot元数据来自真实响应；无计划录入或隐藏补写。
+4. 声明/模板与586客户端的实际编译、PrimeNG选择交互、错误/401/403/409、遮罩、快速切换和移动端宽度均待Root实测。旧Native reference不是这些新UI契约的conformance目标；实际新流程连接Rust。
+
+`manifest01.json`逐件列Root原始base SHA、新SHA/长度、声明修改；`sdk-input-pins01.json`绑定所读当前SDK与spec/package输入。纯源码候选未经独立Gate签署。

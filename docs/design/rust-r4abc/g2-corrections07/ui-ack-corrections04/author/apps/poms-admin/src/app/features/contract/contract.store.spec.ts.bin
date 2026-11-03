@@ -1,0 +1,165 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+import { ApprovalApi, AuthStore, ContractApi, ContractStatus, ContractStore } from '@poms/admin-data-access';
+import { of, throwError } from 'rxjs';
+
+const ACTIONS = ['submit-review', 'activate', 'approve', 'reject'] as const;
+type Action = (typeof ACTIONS)[number];
+
+function acknowledgement(action: Action) {
+    return {
+        targetId: 'contract-1', targetType: 'contract',
+        resultStatus: action === 'submit-review' ? 'submitted' : action === 'activate' ? 'activated' : action === 'approve' ? 'approved' : 'rejected',
+        businessStatusAfter: action === 'activate' ? 'active' : action === 'reject' ? 'draft' : 'pending-review',
+        approvalRecordId: 'approval-1', confirmationRecordId: null, todoItemIds: [],
+        preparationId: 'preparation-1', snapshotId: action === 'activate' ? 'snapshot-1' : null
+    };
+}
+
+function contractDetail() {
+    return {
+        id: 'contract-1', projectId: 'project-1', projectName: '城市交通项目', customerName: null,
+        contractNo: 'CT-2026-000001', customerContractNo: null, status: ContractStatus.PendingReview,
+        signedAmountProjection: { mode: 'masked', value: null, displayText: '经营敏感字段已隐藏', fieldPackageKey: 'contract-finance', reasonCode: 'missing-sensitive-read-permission' },
+        currencyCode: 'CNY', currentSnapshotId: null, signedAt: null, retentionDueDate: null, rowVersion: 2,
+        createdAt: '2026-11-03T01:00:00.000Z', createdBy: 'actor-1', updatedAt: '2026-11-03T01:05:00.000Z', updatedBy: 'actor-1',
+        currentTermSnapshot: null, currentPreparation: null, latestReviewBinding: null
+    };
+}
+
+describe('ContractStore acknowledged commands (UI fixtures, not producer acceptance)', () => {
+    let store: ContractStore;
+    let contractApi: {
+        contractControllerSubmitReview: jest.Mock;
+        contractControllerActivate: jest.Mock;
+        contractControllerGetById: jest.Mock;
+        contractControllerGetCurrentApproval: jest.Mock;
+    };
+    let approvalApi: {
+        approvalControllerApproveRecord: jest.Mock;
+        approvalControllerRejectRecord: jest.Mock;
+    };
+    let refreshTodos: jest.Mock;
+
+    function writeMock(action: Action): jest.Mock {
+        switch (action) {
+            case 'submit-review': return contractApi.contractControllerSubmitReview;
+            case 'activate': return contractApi.contractControllerActivate;
+            case 'approve': return approvalApi.approvalControllerApproveRecord;
+            case 'reject': return approvalApi.approvalControllerRejectRecord;
+        }
+    }
+
+    function execute(action: Action) {
+        switch (action) {
+            case 'submit-review': return store.submitReview('contract-1', { preparationId: 'preparation-1', expectedVersion: 1 });
+            case 'activate': return store.activateContract('contract-1', { expectedVersion: 2 });
+            case 'approve': return store.approveRecord('approval-1', 1);
+            case 'reject': return store.rejectRecord('approval-1', '需要修订', 1);
+        }
+    }
+
+    beforeEach(() => {
+        contractApi = {
+            contractControllerSubmitReview: jest.fn(),
+            contractControllerActivate: jest.fn(),
+            contractControllerGetById: jest.fn().mockReturnValue(of(contractDetail())),
+            contractControllerGetCurrentApproval: jest.fn().mockReturnValue(of(null))
+        };
+        approvalApi = {
+            approvalControllerApproveRecord: jest.fn(),
+            approvalControllerRejectRecord: jest.fn()
+        };
+        refreshTodos = jest.fn().mockResolvedValue(undefined);
+        TestBed.configureTestingModule({ providers: [
+            ContractStore,
+            { provide: ContractApi, useValue: contractApi },
+            { provide: ApprovalApi, useValue: approvalApi },
+            { provide: AuthStore, useValue: { refreshTodos } }
+        ] });
+        store = TestBed.inject(ContractStore);
+    });
+
+    it.each(ACTIONS)('%s preserves the exact POST ACK when a following detail GET fails', async (action) => {
+        const ack = acknowledgement(action);
+        const failure = new HttpErrorResponse({ status: 503, error: { message: '合同读取暂时失败。' } });
+        writeMock(action).mockReturnValue(of(ack));
+        contractApi.contractControllerGetById.mockReturnValueOnce(throwError(() => failure));
+
+        await expect(execute(action)).resolves.toBe(ack);
+
+        expect(store.lastAcknowledgement()?.action).toBe(action);
+        expect(store.lastAcknowledgement()?.contractId).toBe('contract-1');
+        expect(store.lastAcknowledgement()?.result).toBe(ack);
+        expect(store.commandRefreshError()).toBe('合同读取暂时失败。');
+        expect(store.saving()).toBe(false);
+        expect(store.refreshingAcknowledgement()).toBe(false);
+        expect(writeMock(action)).toHaveBeenCalledTimes(1);
+        expect(refreshTodos).toHaveBeenCalledTimes(1);
+        expect(refreshTodos).toHaveBeenCalledWith({ propagateErrors: true });
+
+        await expect(store.reloadAcknowledgedState()).resolves.toBe(true);
+
+        expect(store.commandRefreshError()).toBeNull();
+        expect(store.lastAcknowledgement()?.result).toBe(ack);
+        expect(writeMock(action)).toHaveBeenCalledTimes(1);
+        expect(contractApi.contractControllerGetById).toHaveBeenCalledTimes(2);
+        expect(contractApi.contractControllerGetCurrentApproval).toHaveBeenCalledTimes(2);
+        expect(refreshTodos).toHaveBeenCalledTimes(2);
+    });
+
+    it.each(ACTIONS)('%s keeps a write failure unchanged and does not attempt command readback', async (action) => {
+        const failure = new HttpErrorResponse({ status: 409, error: { message: '版本已变化。' } });
+        writeMock(action).mockReturnValue(throwError(() => failure));
+
+        await expect(execute(action)).rejects.toBe(failure);
+
+        expect(store.lastAcknowledgement()).toBeNull();
+        expect(store.commandRefreshError()).toBeNull();
+        expect(store.saving()).toBe(false);
+        expect(contractApi.contractControllerGetById).not.toHaveBeenCalled();
+        expect(contractApi.contractControllerGetCurrentApproval).not.toHaveBeenCalled();
+        expect(refreshTodos).not.toHaveBeenCalled();
+    });
+
+    it('keeps an approval GET failure visible without turning an approved command into failure', async () => {
+        const ack = acknowledgement('approve');
+        const failure = new HttpErrorResponse({ status: 403, error: { message: '审批摘要读取无权限。' } });
+        approvalApi.approvalControllerApproveRecord.mockReturnValue(of(ack));
+        contractApi.contractControllerGetCurrentApproval.mockReturnValue(throwError(() => failure));
+
+        await expect(store.approveRecord('approval-1', 1)).resolves.toBe(ack);
+
+        expect(store.lastAcknowledgement()?.result).toBe(ack);
+        expect(store.commandRefreshError()).toBe('审批摘要读取无权限。');
+        expect(store.currentApproval()).toBeNull();
+    });
+
+    it('keeps a todo refresh failure separate from the successful activation ACK', async () => {
+        const ack = acknowledgement('activate');
+        contractApi.contractControllerActivate.mockReturnValue(of(ack));
+        refreshTodos.mockRejectedValueOnce(new Error('待办读取暂时失败。'));
+
+        await expect(store.activateContract('contract-1', { expectedVersion: 2 })).resolves.toBe(ack);
+
+        expect(store.commandRefreshError()).toBe('待办读取暂时失败。');
+        expect(store.lastAcknowledgement()?.result).toBe(ack);
+        await expect(store.reloadAcknowledgedState()).resolves.toBe(true);
+        expect(contractApi.contractControllerActivate).toHaveBeenCalledTimes(1);
+        expect(store.commandRefreshError()).toBeNull();
+    });
+
+    it('clears scoped ACK state without replaying a write during a later reload', async () => {
+        const ack = acknowledgement('submit-review');
+        contractApi.contractControllerSubmitReview.mockReturnValue(of(ack));
+        await store.submitReview('contract-1', { preparationId: 'preparation-1' });
+
+        store.clearSelectedContract();
+        await expect(store.reloadAcknowledgedState()).resolves.toBe(true);
+
+        expect(store.lastAcknowledgement()).toBeNull();
+        expect(store.commandRefreshError()).toBeNull();
+        expect(contractApi.contractControllerSubmitReview).toHaveBeenCalledTimes(1);
+        expect(contractApi.contractControllerGetById).toHaveBeenCalledTimes(1);
+    });
+});

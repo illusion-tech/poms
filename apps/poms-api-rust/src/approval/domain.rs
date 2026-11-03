@@ -533,11 +533,66 @@ impl ApprovalDomainHandler for OriginalApprovalDomain {
                 Table::Payout => "CommissionPayout",
                 _ => "CommissionAdjustment",
             };
-            let entity = required(
-                find_one(session, table, &[("id", vec![id.clone()])], &[]).await?,
-                kind,
-                &id,
-            )?;
+            let mut filters = vec![("id", vec![id.clone()])];
+            if table == Table::Contract {
+                use crate::contract_support;
+                let contract_id = uuid::Uuid::parse_str(&record.target_object_id.to_utf8_lossy())
+                    .map_err(|_| {
+                    CommonFailure::http(StatusCode::BAD_REQUEST, "Invalid contract UUID")
+                })?;
+                let approval_id =
+                    uuid::Uuid::parse_str(&record.id.to_utf8_lossy()).map_err(|_| {
+                        CommonFailure::http(StatusCode::BAD_REQUEST, "Invalid approval UUID")
+                    })?;
+                let fact =
+                    contract_support::contract_fact(session.connection, contract_id, None, false)
+                        .await
+                        .map_err(contract_support::Error::into_common)?
+                        .ok_or_else(|| {
+                            CommonFailure::http(StatusCode::NOT_FOUND, "Contract not found")
+                        })?;
+                contract_support::lock_project(session.connection, fact.project_id)
+                    .await
+                    .map_err(contract_support::Error::into_common)?;
+                let fact = contract_support::contract_fact(
+                    session.connection,
+                    contract_id,
+                    Some(fact.project_id),
+                    true,
+                )
+                .await
+                .map_err(contract_support::Error::into_common)?
+                .ok_or_else(|| CommonFailure::http(StatusCode::NOT_FOUND, "Contract not found"))?;
+                crate::contracts::validate_review_binding(
+                    session,
+                    contract_id,
+                    approval_id,
+                    approved,
+                )
+                .await
+                .map_err(contract_support::Error::into_common)?;
+                if (approved && fact.status != "pending-review")
+                    || (!approved && !matches!(fact.status.as_str(), "draft" | "pending-review"))
+                {
+                    return Err(CommonFailure::http(
+                        StatusCode::BAD_REQUEST,
+                        "Contract cannot consume this review in its current status",
+                    ));
+                }
+                filters.push(("projectId", vec![Value::text(fact.project_id.to_string())]));
+                let actor_id = uuid::Uuid::parse_str(&context.actor_id.to_utf8_lossy())
+                    .map_err(|_| CommonFailure::unexpected("Invalid authenticated actor"))?;
+                let request_id = session.request_id.clone();
+                contract_support::audit_identity(session,actor_id,request_id.as_deref(),contract_support::AuditWrite {
+                    operation_id:if approved{"ApprovalController_approveRecord"}else{"ApprovalController_rejectRecord"}.into(),
+                    target_type:"Contract".into(),target_id:contract_id,project_id:fact.project_id,contract_id:Some(contract_id),
+                    before:Some(serde_json::json!({"id":contract_id,"status":fact.status})),
+                    after:Some(serde_json::json!({"id":contract_id,"status":if approved{"pending-review"}else{"draft"}})),
+                    reason:record.decision_comment.as_ref().map(|text|text.to_utf8_lossy()),
+                    metadata:serde_json::json!({"approvalRecordId":approval_id,"decision":if approved{"approved"}else{"rejected"}}),
+                }).await.map_err(contract_support::Error::into_common)?;
+            }
+            let entity = required(find_one(session, table, &filters, &[]).await?, kind, &id)?;
             let mut row = store::data(session.state, entity)?;
             let mut snapshot_id = None;
             let status = match table {

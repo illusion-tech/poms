@@ -1,0 +1,231 @@
+{
+  "schema": "poms-r4abc-independent-pre-g3-static-review/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "reviewedAtUtc": "2026-11-03T06:54:13Z",
+  "status": "Preliminary-static-review-only",
+  "formalG3Decision": null,
+  "G3Pass": false,
+  "productOrProtocolAuthor": false,
+  "executorAuthor": false,
+  "writes": [
+    "tmp/rust-r4abc/independent/pre-g3-review01.md",
+    "tmp/rust-r4abc/independent/pre-g3-review01.json"
+  ],
+  "fixedG1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "admission": "Root reported actual online G1 freeze and G2 authority; current Root/B/C read-only HEAD observations match fixedG1Commit; reviewer did not access GitHub",
+  "scope": {
+    "A": 9,
+    "B": 9,
+    "C": 19,
+    "totalPublicOperations": 37,
+    "sourceFiles": 14,
+    "sourceBytes": 193966
+  },
+  "inputIndexes": {
+    "A": {
+      "file": "E:/projects/worktrees/poms-r4a-readiness/poms/tmp/rust-r4abc/a-implementation/delivery01.json",
+      "sha256": "f717e686cb25447901b4a862ccae6ccea6d5eae6b93e0cd2f305a697a0a13084",
+      "status": "01 source candidate, uncompiled and untested"
+    },
+    "B": {
+      "file": "E:/projects/worktrees/poms-r4b-contracts/poms/tmp/rust-r4abc/b-implementation/source-index01.json",
+      "sha256": "15cce132caf3d54f2a829c9e3fde832ef918e14e56c70d8f99cdd03a48f8be3c",
+      "status": "01 source candidate, uncompiled and untested"
+    },
+    "C": {
+      "file": "E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/c-implementation/manifest01.json",
+      "sha256": "0d06cae69710955df58fc9f6bb775f8f5e0c28eca622717e984a78f868447212",
+      "status": "01 source candidate, uncompiled and untested"
+    }
+  },
+  "sourcePins": {
+    "A": [
+      {
+        "path": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+        "byteLength": 269,
+        "sha256": "0e7538858a60618f3af151e72fd06d63057ec25132279e636951b9bea232e394"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_readiness/service.rs",
+        "byteLength": 46461,
+        "sha256": "4beb9ffc40ae08cef4f1579fc7c64238ca9440f8fbc89b08e102b59e452be807"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_readiness/source.rs",
+        "byteLength": 11084,
+        "sha256": "b50f0649cfa3ad0e2b497c9a13e6c6d5292eb5c60889e60a3ccbcf019abcb957"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_readiness/store.rs",
+        "byteLength": 6831,
+        "sha256": "015b70836db5f90f5f15af7870c652c037220d778515949a88cc3bacb76e9a7e"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+        "byteLength": 10471,
+        "sha256": "30d4deeb6513615f7dc79d98ca95b60d436c5db70ae3cdc060214185cd31853b"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_readiness/view.rs",
+        "byteLength": 7411,
+        "sha256": "ffd09e2cafeb55463356c9d87a14f46482320f020d25d26f64d45bcfdc88b0ad"
+      }
+    ],
+    "B": [
+      {
+        "path": "apps/poms-api-rust/src/contracts/mod.rs",
+        "bytes": 252,
+        "sha256": "ea52d357202f3b527f8158b1aaab0f2fc419ac24c3e4288138a6a951517bcbcb"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contracts/model.rs",
+        "bytes": 5735,
+        "sha256": "7fab9efb2defeff63b49f2ee7aac490c891493cd5b590db2694a84e631e83e77"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contracts/store.rs",
+        "bytes": 15381,
+        "sha256": "05948723928c8d03933769cae7ad2bdeee42df0ac44aec304a7b54c7fa494738"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contracts/projection.rs",
+        "bytes": 6154,
+        "sha256": "f0dd34d55bf2877fe6223d557059cd7147d565e0256314e1aa0fdbdd2e9bfbe2"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contracts/service.rs",
+        "bytes": 28538,
+        "sha256": "50967d457e1b5b571a22679fdbaeb2ebce50c243f4575400450aa8f3fffa6b75"
+      }
+    ],
+    "C": [
+      {
+        "path": "apps/poms-api-rust/src/contract_finance/mod.rs",
+        "rawBytes": 33534,
+        "sha256": "13298e12b81e63658dff86f49a4d7de3b0b5724fd3d9e9e3f38555fc710d6f19",
+        "class": "product-source-unbuilt"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_finance/model.rs",
+        "rawBytes": 6902,
+        "sha256": "615a63cb0b4e680843f80798fac256427b5004a661ada4862ecb45c9d3f7def9",
+        "class": "product-source-unbuilt"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_finance/store.rs",
+        "rawBytes": 14943,
+        "sha256": "d908ee79c08e608553860f99e8c1014310dac47f895674be8e156760053bcf16",
+        "class": "product-source-unbuilt"
+      }
+    ]
+  },
+  "sourceIntegrity": {
+    "A": "All6 imported Root copy files match delivery01 lengths/hashes, including source.rs b50f0649...; author may now produce bounded02 and this report remains bound to01",
+    "B": "All5 author worktree files match source-index01 lengths/hashes",
+    "C": "All3 author worktree files match manifest01 lengths/hashes",
+    "mismatches": []
+  },
+  "rootHelperContext": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/contract_support/mod.rs",
+    "observedSha256": "9b802aa53ab1d7a9739d2fc8fb78a6b9aa172043feb99a5f71deb4ab18295806",
+    "status": "Root work in progress, read for interface/error/amount/audit/identity context; not a fixed integrated-candidate certification"
+  },
+  "findings": [
+    {
+      "id": "PRE-G3-01",
+      "priority": "P1",
+      "module": "A",
+      "title": "Do not turn generic summary metadata into an invented pricing approval gate",
+      "file": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "lines": {
+        "start": 98,
+        "end": 114
+      },
+      "sourceSha256": "b50f0649cfa3ad0e2b497c9a13e6c6d5292eb5c60889e60a3ccbcf019abcb957",
+      "trigger": "A valid actual current R3 released/conditional-release pricing reference points to an existing summary record whose active status, target scope or scenario/package/projection/export metadata does not satisfy the newly invented A checks.",
+      "defect": "The01 collector adds active summary plus project/contract/lead target and full metadata equality as contracting authorization. The frozen G1 uses the real R3 pricing decision/ready/blockers/conditions and cost/bid/baseline/amount/currency facts; it explicitly does not claim a quotation approval handler. Current Rust contains the delivered create_summary_snapshot_with_session mechanism but no business caller producing this alleged quotation approval chain.",
+      "impact": "The documented real producer chain can remain blocked behind an unsupported approval prerequisite or be tempted to use a seeded/random summary as false approval proof.",
+      "requiredCorrection": "Retain a real existing summary reference and lineage as required by the original R3 contract; remove A-invented approval qualification. Root may use the delivered R2 internal summary producer to create a real non-HTTP artifact before real R3 HTTP release, accurately labeled as a summary artifact rather than quotation approval.",
+      "authority": [
+        "docs/design/rust-r4abc-first37-baseline.md sections3-5",
+        "fixed G1 real producer order and no quotation handler boundary",
+        "apps/poms-api-rust/src/project_pricing_margin/service.rs references/create",
+        "apps/poms-api-rust/src/approval_common/service.rs create_summary_snapshot_with_session"
+      ],
+      "evidenceClass": "static code/call-site inspection only; no runtime failure claimed",
+      "rootDisposition": "Root confirmed and assigned A bounded02 correction; original01 is preserved",
+      "resolutionVerifiedByReviewer": false,
+      "status": "Confirmed-remediation-in-progress"
+    },
+    {
+      "id": "PRE-G3-02",
+      "priority": "P1",
+      "module": "A",
+      "title": "Applicable bid with pending result can currently reach prepared and active contract",
+      "file": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "lines": {
+        "start": 57,
+        "end": 73
+      },
+      "sourceSha256": "b50f0649cfa3ad0e2b497c9a13e6c6d5292eb5c60889e60a3ccbcf019abcb957",
+      "trigger": "Real current applicable bid process uses a participating decision, result_status=pending, no material blockers; the actual R3 pricing command subsequently stores released and ready_for_contracting=true.",
+      "defect": "The01 source collector excludes lost/cancelled results and pending/no-bid decisions, but on pricing_path=bid excludes only not-applicable rather than pending. The R3 pricing ready flag itself does not prove that the applicable bid result was formed.",
+      "impact": "A05 can mark the package ready, A08 can prepare and B can approve/activate before an applicable bid has won.",
+      "requiredCorrection": "For the bid pricing path require the exact current referenced applicable bid result=won; keep direct-commercial/not-required replacement rules separate. Include a real participating+pending negative vector with R3 ready=true, plus won and direct-commercial positive vectors.",
+      "authority": [
+        "docs/design/phase2-presigning-contract-readiness-workspace.md:119-124",
+        "docs/design/rust-r4abc-first37-baseline.md actual source prerequisites",
+        "apps/poms-api-rust/src/project_pricing_margin/service.rs ready derivation",
+        "apps/poms-api-rust/src/project_bid_commercial/service.rs blocker derivation"
+      ],
+      "evidenceClass": "static reachable-state analysis only; no runtime reproduction claimed",
+      "rootDisposition": "Root confirmed and assigned A bounded02 correction; original01 is preserved",
+      "resolutionVerifiedByReviewer": false,
+      "status": "Confirmed-remediation-in-progress"
+    }
+  ],
+  "findingCountsOn01": {
+    "P1": 2,
+    "P2": 0
+  },
+  "reviewedStructuralBoundaries": {
+    "A": [
+      "Per-contract reference/candidate parsing, exact18,2/ratio/retention seeds and diff severities",
+      "Project/Contract scope and current readiness/source identity, source hash excludes mutable baseline rowVersion",
+      "Exact diff review, authorized active attachment links and persistent review attachments",
+      "Real preparation versions/current/exact identity, historical rejection loader versus current-source loader",
+      "Actual active snapshot to formal plan/version/nodes/init, exact idempotent retry and no current-R3 requirement for A09",
+      "Explicit safe audit DTO and masked readiness/baseline/history response paths"
+    ],
+    "B": [
+      "Draft-only create, same-connection contract business numbering, authenticated actor and required audit",
+      "Locked draft PATCH, expectedVersion and actual dirty/no-op comparison",
+      "Explicit preparationId, normalized core fingerprint, real approver lookup and immutable preparationVersion/payloadHash binding",
+      "Same outerTX middle flush materializes Approval/Todo before immediate binding FK; no independent connection/commit",
+      "Exact source-aware reviewed preparation to distinct active snapshot UUID/version1, prep/package/Contract mutations and audit",
+      "Same preparation can be resubmitted after rejection while core/source remain valid; historical no-binding rejection is supported",
+      "Contract/standalone snapshot projection, metadata-only preparation/binding read models and exact ContractTerm identity refresh"
+    ],
+    "C": [
+      "All19 operation dispatch identities, exact money strings and checked tax tuple arithmetic",
+      "Typed UUID scope and sorted Contract locks after Project; Payable before Payment",
+      "Selected/null/missing payment contract inheritance, Active/same-project/equal bound-payable rules and legal project-level no-contract payment",
+      "Confirmed payment SUM refreshed after locks, checked remaining amount, both payable/payment before-after audit and actual settled response",
+      "Typed source-id cost mapping guard including uppercase UUID and registered/confirmed/included statuses; no real cost producer claim",
+      "Same-value finance PATCH does not update business version/time/audit; exception resolution history and allowedActions follow actual rules",
+      "Mutation SQL and mandatory audit use the single borrowed caller connection, with no local transaction lifecycle"
+    ],
+    "conclusionForBAndC": "No additional definite P1/P2 defect identified in the inspected stable01 sources. This is not a compilation, SQL, concurrency or acceptance Pass."
+  },
+  "excludedFromThisReview": [
+    "Root unfinished HTTP/schema/entity/UI/common registration wiring",
+    "Unified compiler, clippy, test or runtime results that do not yet exist",
+    "Any claim that pure definitions are executed evidence",
+    "A02 remediation until its exact source hash and integration are delivered",
+    "Full R4 or cost40 producer certification"
+  ],
+  "runtimeActionsByReviewer": [],
+  "gitMutationsByReviewer": [],
+  "ghDbPrivateBrowserWslActionsByReviewer": [],
+  "currentGateConclusion": "Preliminary only. The two confirmed A01 findings remain unverified corrections in this artifact. Final independent G3 requires the integrated exact candidate and actual Root evidence; this report neither grants nor refuses an as-yet-unrequested formal G3."
+}

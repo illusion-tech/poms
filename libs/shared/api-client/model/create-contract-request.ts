@@ -7,13 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ContractStatus } from './contract-status';
 
 
 export interface CreateContractRequest {
     projectId: string;
     customerContractNo?: string | null;
-    status?: ContractStatus;
+    status?: CreateContractRequestStatusEnum;
     signedAmount: string;
     currencyCode?: string;
     signedAt?: string | null;
@@ -21,3 +20,6 @@ export interface CreateContractRequest {
     createdBy?: string | null;
     updatedBy?: string | null;
 }
+export enum CreateContractRequestStatusEnum {
+    Draft = 'draft'
+};

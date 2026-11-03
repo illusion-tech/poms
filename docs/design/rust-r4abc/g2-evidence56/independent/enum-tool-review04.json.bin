@@ -1,0 +1,486 @@
+{
+  "schema": "poms-r4abc-independent-enum-tool-review/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "reviewedAtUtc": "2026-11-03T11:32:04Z",
+  "decision": "Pass",
+  "scope": "Bounded one-way enum exporter change and named05 generation/tool-test evidence only",
+  "implementationG3Decision": null,
+  "G3Certified": false,
+  "G4Certified": false,
+  "independence": {
+    "productOrToolOrExecutorAuthor": false,
+    "candidateExecutedByReviewer": false,
+    "actions": [
+      "read-only source/diff/raw evidence inspection",
+      "read-only Git source-state queries",
+      "independent hash and JSON payload/order/provenance comparisons",
+      "new review JSON only"
+    ],
+    "productGitDbHttpPrivateBrowserWslMutations": [],
+    "preExistingReviewFilesOverwritten": false
+  },
+  "candidate": {
+    "authorManifest": "E:/projects/worktrees/poms-r4a-readiness/poms/tmp/rust-r4abc/enum-export-candidate01/manifest01.json",
+    "manifestBytes": 6132,
+    "manifestSha256": "b35e09c33cbaca75c268f0ad77ddd8f9a61167d8804b15000ecf50778427749a",
+    "author": "A /root/r4a_readiness",
+    "authorWroteActualToolProducts": false,
+    "RootSoleActualImporterAndExecutor": true,
+    "G1": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "fixedS3": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "branch": "codex/poms-r4abc-first37",
+    "products": [
+      {
+        "path": "tools/rust-r1b/export-shared.mjs",
+        "candidatePath": "products/tools/rust-r1b/export-shared.mjs",
+        "baseSha256": "20b8736dc220c54c7e7c3046ba0817e30fc47b4b5a35c0c5575dbc4cb9bd4d24",
+        "baseByteLength": 49443,
+        "newSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6",
+        "newByteLength": 63064
+      },
+      {
+        "path": "tools/rust-r1b/export-shared.test.mjs",
+        "candidatePath": "products/tools/rust-r1b/export-shared.test.mjs",
+        "baseSha256": "cb2793fc555f20fd0035773eb5be530a696d0922e52c47ccebcfd855e6f5173c",
+        "baseByteLength": 15257,
+        "newSha256": "5525c86dcba920564d38d5751d92e3bedf724fb88e6158205e7633123cbe99f5",
+        "newByteLength": 23869
+      },
+      {
+        "path": "tools/rust-r1b/README.md",
+        "candidatePath": "products/tools/rust-r1b/README.md",
+        "baseSha256": "61b2057139827ded4e9056e2ec4ec74fb36b79d8db6e76534407c9ff66b0e29d",
+        "baseByteLength": 4008,
+        "newSha256": "fa0d1f76e264ad8f84d3ca2494f16675e10e11aea695ecd9b925f0e3a04a136c",
+        "newByteLength": 5966
+      }
+    ],
+    "integrity": "All3 old author-worktree base files, candidate files and Root imported files match recorded lengths/hashes; current Root Git diff reviewed against fixedS3",
+    "sourceOrProductHashMismatches": []
+  },
+  "sourceAuthority": {
+    "sourceHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "rule": "TypeScript is the sole editable authority. This manifest and Rust files are one-way generated outputs; R0 is a comparison witness only.",
+    "textNormalization": {
+      "encoding": "UTF-8",
+      "rule": "text.replace(/\\r\\n/g, '\\n')",
+      "preserves": [
+        "BOM",
+        "bare CR",
+        "Unicode",
+        "decoded string values"
+      ],
+      "hashes": "SHA-256 of normalized UTF-8 text; value hashes use JSON.stringify of decoded values"
+    },
+    "sourceInputs": [
+      {
+        "path": ".gitattributes",
+        "normalizedUtf8Bytes": 5406,
+        "normalizedTextSha256": "ea040b2c6fc5fc9d75695f5451b5f2280c1a3b371687ebe19d2883259e9e3ca8"
+      },
+      {
+        "path": "libs/shared/contracts/src/index.ts",
+        "normalizedUtf8Bytes": 40,
+        "normalizedTextSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+      },
+      {
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "normalizedUtf8Bytes": 443953,
+        "normalizedTextSha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120"
+      },
+      {
+        "path": "libs/shared/api-spec/openapi.json",
+        "normalizedUtf8Bytes": 1154387,
+        "normalizedTextSha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+      },
+      {
+        "path": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+        "normalizedUtf8Bytes": 4018,
+        "normalizedTextSha256": "6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479"
+      },
+      {
+        "path": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "normalizedUtf8Bytes": 12139,
+        "normalizedTextSha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89"
+      },
+      {
+        "path": "docs/design/rust-r0-api-operations.json",
+        "normalizedUtf8Bytes": 2607939,
+        "normalizedTextSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c"
+      }
+    ],
+    "generator": {
+      "path": "tools/rust-r1b/export-shared.mjs",
+      "normalizedTextSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6"
+    },
+    "runtime": {
+      "nodeCompatibility": "24.x",
+      "typescript": "6.0.3",
+      "zod": "4.6.1"
+    },
+    "independentlyRehashedPhysicalInputs": 7,
+    "inputHashMismatches": [],
+    "workingTreeIndexAndUntrackedScopeChanges": [],
+    "originalSourceScopeAndSourcePathsTextUnchanged": true,
+    "immutableS3IsLiteralNotMutableHead": true,
+    "S3PermanentAndPushed": "Root-provided prior readback; no GitHub/network query by reviewer",
+    "R0NeverRewrittenAsCurrent": true
+  },
+  "historicalIndependentComparison": {
+    "method": "Read-only JSON projections from current generated manifest and immutable R0 JSON; for each original record compare every witness payload field at the same historical array index, omitting only line; verify each reported historical/current position against actual records",
+    "historicalR0NormalizedTextSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c",
+    "historicalConstants": 455,
+    "historicalEnumOccurrences": 224,
+    "currentR0CompatibleConstants": 456,
+    "currentEnumOccurrences": 228,
+    "payloadOrRecordOrderMismatches": [],
+    "provenancePositionMismatches": [],
+    "changedConstantSourceLines": 209,
+    "changedEnumSourceLines": 86,
+    "onlyExcludedPayloadField": "line",
+    "lineAndColumnInCurrentGeneratedRecordsRetained": true,
+    "originalHistoricalLineAndIndexRetained": true,
+    "noCountLowerBoundOrWireSetSubstitution": true,
+    "auditMethodNote": "An initial local PowerShell JsonNode projection assembly failed and was discarded; the independent read-only comparison was repeated successfully using immutable hashtable projections. It was not an exporter or product failure."
+  },
+  "exactAuthorizedAdditions": {
+    "constants": [
+      {
+        "name": "CONTRACT_TERM_PREPARATION_STATUSES",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "line": 5763,
+        "column": 14,
+        "kind": "string-array",
+        "declarationSha256": "14d75307e70625f4c0719a59a587f19b429b4e6f954b28c6bba124316073404b",
+        "valueSha256": "2115923a4ec54e3f67b7e1a4796856995ddbb40e14262782673c27129bfbcbde",
+        "payloadSha256": "e48112a1b4ec063b48ffb957cf16afd84d7038902d717c57650c06164d5d6def"
+      }
+    ],
+    "enumOccurrences": [
+      {
+        "owner": "ContractTermPreparationStatusSchema",
+        "schemaId": "ContractTermPreparationStatus",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "line": 5764,
+        "column": 52,
+        "propertyPath": [],
+        "topLevel": true,
+        "sourceArray": "CONTRACT_TERM_PREPARATION_STATUSES",
+        "declarationSha256": "9a0b16650231db7f031dd670dd40db9354209d38a5c29f3d72ab49f749684049",
+        "expressionSha256": "561e9005c4f602e353f8c1b85e8def43fa4866ed2708e1fac516159ca685a0dd",
+        "valuesSha256": "2115923a4ec54e3f67b7e1a4796856995ddbb40e14262782673c27129bfbcbde",
+        "payloadSha256": "b04080246bbbe9e194863495fe129d0dfd7a307dfd533b729bb33a27e60a8dea"
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "line": 6713,
+        "column": 21,
+        "propertyPath": [
+          "targetType"
+        ],
+        "topLevel": false,
+        "sourceArray": null,
+        "declarationSha256": "2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a",
+        "expressionSha256": "8cc7a1f66bbd76427c08b1cb3a889af05ec87b530e003ab0ef19aec7e25c8790",
+        "valuesSha256": "b7f0f6eb8386f413f5fe9e21c5030e8063f04e6246b658b69c8f7e1332954b70",
+        "payloadSha256": "27c4a02b9b9c79ef059430b1a21ed23115b7ea3795fda9827331e84f63e427ea"
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "line": 6716,
+        "column": 23,
+        "propertyPath": [
+          "resultStatus"
+        ],
+        "topLevel": false,
+        "sourceArray": null,
+        "declarationSha256": "2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a",
+        "expressionSha256": "b51064e48459e6adf6d99eaab37fc7ba5d38870848d56ad8ca01074653530607",
+        "valuesSha256": "40f4c6e02050480aeb51ef5014c13d53322957455c910ef500de0d60f2134fdc",
+        "payloadSha256": "b35eb795442a11bd3e8f9b07a074a58a20c7c9ef35b755b5c5d9bcfc22ea4971"
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "line": 6717,
+        "column": 30,
+        "propertyPath": [
+          "businessStatusAfter"
+        ],
+        "topLevel": false,
+        "sourceArray": null,
+        "declarationSha256": "2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a",
+        "expressionSha256": "6a558cdc1a6a7ed169954a9ceb32e0c4b4ef822f71795b9fef5e977bea246193",
+        "valuesSha256": "32a1f43dafb5f7e56231161fe1920c58862a0fdae05e8056b2cc1d839f15e179",
+        "payloadSha256": "b710f5d50060dde2174ec4b087e06a327205aea9beb2ab8ee73cc185ee633dc8"
+      }
+    ],
+    "count": {
+      "constants": 1,
+      "enumOccurrences": 4
+    },
+    "permittedConstant": "CONTRACT_TERM_PREPARATION_STATUSES",
+    "permittedEnums": [
+      {
+        "owner": "ContractTermPreparationStatusSchema",
+        "schemaId": "ContractTermPreparationStatus",
+        "propertyPath": [],
+        "topLevel": true
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "propertyPath": [
+          "targetType"
+        ],
+        "topLevel": false
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "propertyPath": [
+          "resultStatus"
+        ],
+        "topLevel": false
+      },
+      {
+        "owner": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "propertyPath": [
+          "businessStatusAfter"
+        ],
+        "topLevel": false
+      }
+    ],
+    "validation": "Exact owner/schema/path/top-level/source-array keys and S3 declaration/expression/value/full-payload hashes are required; missing/duplicate/reordered/changed/unreviewed additions fail",
+    "noEditableDuplicateWireValueAuthority": true
+  },
+  "callbackAndFunctionReview": {
+    "originalNineEnumHelperHashesUnchanged": true,
+    "capacityHelper": {
+      "name": "isR4ScaledDecimal",
+      "role": "schema-refinement-out-of-enum-scope",
+      "staticSourceFenceHash": "91181096c5c8cc938bd1e3cdc4a99bb987a2480ab551e3cf7f2510abb0c70d27",
+      "rootActualTsAstGetTextHash": "91181096c5c8cc938bd1e3cdc4a99bb987a2480ab551e3cf7f2510abb0c70d27",
+      "rootSemanticChecks": "Parent reported 43 restricted semantic checks passed; not rerun by A"
+    },
+    "preciseReviewedDeclarationPins": [
+      {
+        "name": "CONTRACT_TERM_PREPARATION_STATUSES",
+        "schemaId": null,
+        "normalizedDeclarationUtf8Bytes": 85,
+        "normalizedDeclarationSha256": "14d75307e70625f4c0719a59a587f19b429b4e6f954b28c6bba124316073404b",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      },
+      {
+        "name": "ContractTermPreparationStatusSchema",
+        "schemaId": "ContractTermPreparationStatus",
+        "normalizedDeclarationUtf8Bytes": 126,
+        "normalizedDeclarationSha256": "9a0b16650231db7f031dd670dd40db9354209d38a5c29f3d72ab49f749684049",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      },
+      {
+        "name": "R4PositiveMoneyStringSchema",
+        "schemaId": "R4PositiveMoneyString",
+        "normalizedDeclarationUtf8Bytes": 372,
+        "normalizedDeclarationSha256": "3cf02fe20c3dfd0c2091edb349d0e1555c0fa775f4984f06f6a252b832f1772e",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      },
+      {
+        "name": "R4NonnegativeMoneyStringSchema",
+        "schemaId": "R4NonnegativeMoneyString",
+        "normalizedDeclarationUtf8Bytes": 380,
+        "normalizedDeclarationSha256": "a921d2ccfe9350b8f73aed43f8250365ac8ef33f50b1902e5742997ca3e2dd81",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      },
+      {
+        "name": "R4RatioStringSchema",
+        "schemaId": "R4RatioString",
+        "normalizedDeclarationUtf8Bytes": 331,
+        "normalizedDeclarationSha256": "3166000098dad8d0fe6d94efcc9e5aaa7f53cc1507103c87c77fd158c29bcc13",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      },
+      {
+        "name": "CreateCommercialReleaseBaselineRequestSchema",
+        "schemaId": "CreateCommercialReleaseBaselineRequest",
+        "normalizedDeclarationUtf8Bytes": 1349,
+        "normalizedDeclarationSha256": "e5536fb334545802f9de20be6c962537cf70f7307bf642c951222cfecbe98882",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      },
+      {
+        "name": "ReadinessInitializationResultSchema",
+        "schemaId": "ReadinessInitializationResult",
+        "normalizedDeclarationUtf8Bytes": 1799,
+        "normalizedDeclarationSha256": "2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a",
+        "method": "Static source fence matches expected VariableDeclaration text shape; Root must confirm actual TS AST getText"
+      }
+    ],
+    "permittedRefinementOwners": [
+      "R4PositiveMoneyStringSchema",
+      "R4NonnegativeMoneyStringSchema",
+      "R4RatioStringSchema",
+      "CreateCommercialReleaseBaselineRequestSchema",
+      "ReadinessInitializationResultSchema"
+    ],
+    "wholeS3DeclarationHashRequiredBeforeCallbackAdmission": true,
+    "callbackAdmissionDoesNotExpandGeneralSchemaHelperLanguage": true,
+    "callbackContainingZEnumRejected": true,
+    "changedHelperOrUnknownCallbackRejected": true,
+    "capacitySemanticsCertifiedByThisEnumReview": false,
+    "capacitySemanticEvidenceBoundary": "isR4ScaledDecimal is a non-enum refinement; the prior scoped43 Shared checks cover its declared business boundaries. This enum oracle does not certify full business behavior."
+  },
+  "independentlyComparedPreservedBlocks": [
+    "HELPER_HASHES",
+    "SCHEMA_METHODS",
+    "SOURCE_SCOPE",
+    "SOURCE_PATHS",
+    "assertSourceGuard",
+    "collect",
+    "evaluator",
+    "authConstants",
+    "runtimeOracle",
+    "rustString/renderRust/renderRustTests/artifacts/checkArtifacts/main+entrypoint"
+  ],
+  "preservedBlockTextDifferences": [],
+  "strengthenedAdmission": {
+    "guardFalseRejected": true,
+    "unknownSourceOverrideRejected": true,
+    "nonEquivalentInMemorySourceOverrideRejected": true,
+    "CRLFEquivalentOverrideOnly": true,
+    "originalR0WholeNormalizedHashRequired": true
+  },
+  "actualRootWitness": {
+    "receipt": "tmp/rust-r4abc/root/shared-enum-export05/receipt05.json",
+    "receiptBytes": 2308,
+    "receiptSha256": "d79810552e33cf02877fa96f11d5ee9a717a8ec3c75a3afb0c4087102b3ad6eb",
+    "commands": [
+      {
+        "command": "node tools/rust-r1b/export-shared.mjs --write",
+        "exitCode": 0
+      },
+      {
+        "command": "node tools/rust-r1b/export-shared.mjs --check",
+        "exitCode": 0
+      },
+      {
+        "command": "node --test tools/rust-r1b/export-shared.test.mjs",
+        "exitCode": 0,
+        "tests": 14,
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "runtime": {
+      "actualNode": "24.19.0",
+      "requiredTypescript": "6.0.3",
+      "requiredZod": "4.6.1"
+    },
+    "originalTsExecution": {
+      "dataDeclarationsCompared": 666,
+      "enumArgumentsCompared": 228,
+      "actualTopLevelZodEnumsCompared": 172,
+      "importAllowlist": [
+        "zod"
+      ]
+    },
+    "coverage": {
+      "sharedTopLevelVariables": 1316,
+      "sharedClassifiedDataDeclarations": 666,
+      "sharedSchemaDeclarations": 649,
+      "explicitSchemaShapeExclusions": 1,
+      "sharedDataKinds": {
+        "enum-definitions": 92,
+        "hint-map": 1,
+        "label-map": 92,
+        "options": 60,
+        "permission-metadata": 1,
+        "schema-scalar-limit": 2,
+        "sensitive-package-permission-map": 1,
+        "severity-map": 53,
+        "string-array": 202,
+        "wire-value-object": 162
+      },
+      "r0SnapshotCount": 456,
+      "historicalR0SnapshotCount": 455,
+      "declaredPostR0SnapshotCount": 1,
+      "r0SnapshotsWithCompleteRustMappings": 456,
+      "r0SnapshotKinds": {
+        "enum-definitions": 92,
+        "string-array": 202,
+        "wire-value-object": 162
+      },
+      "helperDerivedMetadata": 206,
+      "permissionKeys": 37,
+      "zEnumOccurrences": 228,
+      "topLevelZEnums": 172,
+      "nestedZEnums": 56,
+      "openApiVisibleTopLevelEnums": 162,
+      "unpublishedTopLevelEnums": 10,
+      "sharedEnumFamilies": 206,
+      "backendAuthEnumFamilies": 3,
+      "generatedEnumFamilies": 209,
+      "generatedEnumValues": 787,
+      "completenessRule": "Every top-level shared variable is classified; unknown statements/data expressions/helpers/candidates fail. Families retain source-symbol identity, never merge by equal values."
+    },
+    "outputPins": [
+      {
+        "file": "tools/rust-r1b/shared-manifest.json",
+        "bytes": 1484261,
+        "sha256": "4670737ecb406beb4f887425c8e0991f84843cbbadb99a6db7d34d2feb1b0d34"
+      },
+      {
+        "file": "apps/poms-api-rust/src/shared/generated.rs",
+        "bytes": 321222,
+        "sha256": "1638c282c664df348f1b0633e9a1fd0728dd1aa51d072f0132a4441626d6c62b"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/shared_generated.rs",
+        "bytes": 27745,
+        "sha256": "9bb357a192693edaa5bad2dce3d718ff41f1a6d4e3f62c766a5978646f1db0db"
+      }
+    ],
+    "outputLengthOrHashMismatches": [],
+    "publicLogPins": [
+      {
+        "file": "tmp/rust-r4abc/root/shared-enum-export05/write-stdout-original.bin",
+        "sha256": "f884404212d7d6802b7f2bd197f29ff6deebc655ab430babfcdebfebeb2accec2"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/shared-enum-export05/check-stdout-original.bin",
+        "sha256": "31fa0d4c109fb649dcaef9d614e386d3e56b0a5047c7233966634861c38d23b8"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/shared-enum-export05/tests-stdout-original.bin",
+        "sha256": "e88c6e5053116a55c0426a48944e2327c638d38fd26179c8c444ebc69effd50a"
+      }
+    ],
+    "allThreeStderrOriginals": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidenceClass": "Actual limited exporter/oracle/Node-tool-test execution by Root, independently read back; no DB/HTTP/UI or full implementation runtime claim"
+  },
+  "openFindings": [],
+  "openFindingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "boundedConclusion": "The exact three-file enum tool candidate and the named05 one-way generation are acceptable within the admitted R4 batch. Historical455/224 payload/order and old guard/oracle semantics are preserved with explicit line remapping and exact1+4 S3 additions.",
+  "notAuthorizedOrCertified": [
+    "Final R4 implementation G3",
+    "Rust compilation or downstream generated-Rust execution by this review",
+    "Actual HTTP/PG/UI/fault/race acceptance",
+    "Main integration or delivery commit permission",
+    "Issue closure",
+    "Fixed-commit/main/G4 closeout",
+    "Full R4/R5 completion or performance claims"
+  ],
+  "remaining": "Root continues the unified exact candidate and actual downstream validation; final independent G3/fixed-commit/main/G4 remain separate. #101/#57 remain Open."
+}

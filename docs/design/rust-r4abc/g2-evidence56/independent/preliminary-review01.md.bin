@@ -1,0 +1,27 @@
+# R4 首批 37 操作非作者预审 01
+
+状态：**Preliminary only，未作 G1 判定，不准据此进入 G2**。审查时点：2026-11-03 05:29:01 UTC。审查者 `/root/r4_independent_gate` 未参与产品、共享协议、DDL 或执行器编写；本次仅静态读取与本目录审查输出。
+
+只读核实分支 `codex/poms-r4abc-first37`、HEAD `1730f304c1cf5600721f80b6c06feec24269d387`。线上 G0/Issue 状态由 Root 提供，本审查者未访问 GitHub。范围按 Root 为 A9＋B9＋C19，R4 #101 与总体 #57 保持 Open；没有把全部 R4、成本真实 producer、变更或移交认证纳入本批。
+
+## 需要正式候选解决的关键点
+
+1. **可执行 producer 顺序应明确加入真实合同 draft。** A03 增量要求 A01 `contractTerms[].contractId`，因此顺序应为真实 project/cost/bid → B 创建真实 draft contract(s) → A01 draft baseline（含各合同独立 reference）→ R3 released pricing 引用该 baseline → A05 diff/package → A04 exact review → A08 preparation → B/R2 review/activate → A09。B `case-definitions.json:15-17` 及 C `finance-cases01.mjs:29-33` 目前将抽象 pricing 放在 draft 前；若执行器把它解为 released，将产生引用循环。Native `contract.service.ts:75-93` 仅要求 project 存在，draft 无需先有 released pricing。正式 recipe 必须覆盖该抽象次序，不必回写旧作者原件。
+2. **每合同毛利审批带与完整差异输入尚待落字。** A03 `root-protocol-addendum-a03.md:19` 明确同合同 reference/candidate 比较，项目总成本不能直接分配给每合同。正式 DTO 必须提供同合同可核验的毛利率/审批带/成本依据及缺失行为；税制、税负承担、范围承诺、节点日期等正式差异维度也应有可比较输入或明确适用性。仅保留“按 formal 规则计算”不是可实现输入。
+3. **来源失效规则必须按时点分开。** A准备/送审、R2审批、B激活分别检查哪些 current ID/version、contract fingerprint、diff review 和来源条件，需精确 predicate。B `shared-interface-proposal.md:36,70,98` 当前仍交给 Root 冻结。已 Active 合同的 A09 必须继续消费其冻结 snapshot/seeds；另一个合同后来生成项目 quote，不能使既有正式计划失效。拒绝后复用同 preparation 与新 preparation 的条件须与绑定不变性一致。
+4. **同事务身份图不能只冻结“同连接”口号。** 当前 `CommonSession` 只有一个 participant 槽；`ContractTerm` 是 common read-only 表；store flush 在 caller 已有 TX 时不另提交。正式协议须明确 typed preparation/binding/snapshot SQL 与 CommonState 的 exact refresh/invalidate、统一锁序、mandatory audit 的安全字段及顺序、pending session 一次消费，且失败后不复用脏 tracked state。上述关键能力当前候选均标为待实现，不能误作现有能力。
+5. **正式 schema/DDL/hash/接口仍需冻结。** 新表/FK/partial unique/CAS、preparation 与 snapshot 两条版本链、payload canonical hash（UUID/金额/日期/节点排序归一化）、A03/A07 多合同选择、A04 exact diff、A08/A09 幂等回执及 actor policy 必须在 Root 正式候选中闭合。A02 老建议和 A03 overlay 的优先级应由统一 manifest 明确。
+
+## 需要清理的验收文本冲突
+
+B `audit.md:101` 与 `case-definitions.json:79` 仍引用财务原页面；C `finance-cases01.mjs:24` 明确本次审计的前端没有 19 项财务原页面。正式矩阵应以既有合同/readiness/审批/待办页面和认证/敏感投影为 UI 轴，财务 19 项走真实 HTTP＋PG；不能把 browser fetch 改称原页面操作。此处可由正式 overlay 统一，旧作者包保留原字节。
+
+## 本次确认与证据边界
+
+- A02＋A03、B、C 均明确是候选、纯定义或静态抽取；没有据此宣称实际业务用例通过。A31 组与 B60 组用例数量不是执行通过数；C `node --check` 只是作者已记录的语法检查，本审查未运行它。
+- 独立 source spot-check 确认：R3 当前 release guard 只校验 baseline 等引用非空，create 事务持有 Project 锁但未加载 baseline 核项目/payload；Root 的有界 R3 补强需进入正式范围和回归矩阵。未把该静态缺口升级为已观测生产故障。
+- 当前 R2 真 `contract-review` handler approved 保持 `pending-review`、rejected 回 draft；不会自动生成 active snapshot。复用它需加入 exact preparation binding 与必要审计，不能把旧 seed 消费证据作本批真实 producer 验收。
+- 审查未运行构建、测试、SQL、HTTP、PG、browser、WSL、private、GitHub、Git 写入或产品修改。Git 仅执行 branch/HEAD 只读身份查询；原包只读取并计算关键文件 SHA-256。
+- 正式基线 `docs/design/rust-r4abc-first37-baseline.md` 及统一精确协议尚未交付给本审查者；本文件不构成 `Needs-correction` 的正式 Gate 签署，也不构成 Pass。后续应由 Root 提供冻结 candidate/active manifest，再作独立 G1。
+
+关键输入观察 SHA-256 见 `preliminary-review01.json`。此处没有认证全部 source manifests、live catalog 或 runtime 结果。

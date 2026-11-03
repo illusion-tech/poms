@@ -2,7 +2,7 @@ use std::{collections::BTreeMap, error, fmt};
 
 use rust_decimal::Decimal;
 use serde_json::{Value, json};
-use sqlx::Connection;
+use sqlx::{Connection, PgConnection, Row};
 use uuid::Uuid;
 
 use super::{model::CreateRequest, store};
@@ -48,6 +48,73 @@ impl fmt::Display for Error {
     }
 }
 impl error::Error for Error {}
+
+/// A release may reference a real draft baseline: that avoids a circular
+/// readiness dependency. The project quote fields must still be its exact
+/// immutable source; contract allocations are independent and are not summed.
+async fn baseline_reference(
+    connection: &mut PgConnection,
+    project_id: Uuid,
+    input: &CreateRequest,
+) -> Result<(), Error> {
+    let Some(id) = input.commercial_release_baseline_id.as_deref() else {
+        return Ok(());
+    };
+    let id = Uuid::parse_str(id)
+        .map_err(|_| Error::BadRequest("Invalid commercialReleaseBaselineId".into()))?;
+    let row=sqlx::query("SELECT project_id,baseline_status,is_current,currency_code,amount_tax_inclusive::text AS inclusive,amount_tax_exclusive::text AS exclusive,tax_rate::text AS tax FROM poms.commercial_release_baseline WHERE id=$1 AND project_id=$2 FOR SHARE")
+        .bind(id).bind(project_id).fetch_optional(connection).await?
+        .ok_or_else(||Error::NotFound("Commercial release baseline not found for this project".into()))?;
+    if !matches!(
+        input.decision.as_str(),
+        "released" | "conditional-release" | "escalation-required"
+    ) {
+        return Ok(());
+    }
+    let status: String = row.try_get("baseline_status")?;
+    if !row.try_get::<bool, _>("is_current")? || !matches!(status.as_str(), "draft" | "effective") {
+        return Err(Error::Conflict(
+            "Commercial release baseline is no longer current".into(),
+        ));
+    }
+    let currency: String = row.try_get("currency_code")?;
+    if currency != input.currency_code.to_utf8_lossy() {
+        return Err(Error::BadRequest(
+            "Commercial source currency differs from the pricing review".into(),
+        ));
+    }
+    for (column, quoted) in [
+        ("inclusive", input.quote_amount_tax_inclusive.as_str()),
+        ("exclusive", input.quote_amount_tax_exclusive.as_str()),
+    ] {
+        let value: Option<String> = row.try_get(column)?;
+        let amount = value
+            .as_deref()
+            .and_then(|v| crate::contract_support::money(v).ok());
+        if amount.is_none() || amount != crate::contract_support::money(quoted).ok() {
+            return Err(Error::BadRequest(
+                "Commercial source project amounts differ from the pricing review".into(),
+            ));
+        }
+    }
+    let tax: Option<String> = row.try_get("tax")?;
+    let lossless = |value: &str| {
+        let value = value.trim();
+        let value = if value.contains('.') {
+            value.trim_end_matches('0').trim_end_matches('.')
+        } else {
+            value
+        };
+        crate::contract_support::ratio(value).ok()
+    };
+    let source = tax.as_deref().and_then(lossless);
+    if source.is_none() || source != lossless(&input.tax_rate) {
+        return Err(Error::BadRequest(
+            "Commercial source tax rate differs or cannot be represented losslessly".into(),
+        ));
+    }
+    Ok(())
+}
 
 #[derive(Clone)]
 pub struct Service {
@@ -507,6 +574,7 @@ impl Service {
                         cost_reference(&input.technical_cost_package_id,&input.currency_code,cost.as_ref().map(|cost|(cost.id,cost.currency_code.as_str())))?;
                         let bid=bids::current(&mut transaction,&project_key).await?;
                         references(&input,bid.as_ref())?;
+                        baseline_reference(&mut transaction,project.id,&input).await?;
                         let previous=store::current(&mut transaction,&project_key).await?;
                         persisted.version=store::next_version(&mut transaction,project.id).await?;
                         persisted.supersedes_id=previous.as_ref().map(|row|row.id);

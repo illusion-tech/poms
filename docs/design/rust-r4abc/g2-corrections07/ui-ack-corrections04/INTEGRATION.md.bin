@@ -1,0 +1,29 @@
+# UI ACK correction04 — C author candidate
+
+C is the source author, not an independent Gate reviewer. These are complete candidate files only. Root current products, C19, Shared, UI01, correction02, and correction03 were not edited by C.
+
+The base is Root source after actual02→03 import. Verify every manifest base SHA before importing. Existing file raw bytes are preserved under `bases/<path>.bin`; the new `contract.store.spec.ts` must not already exist.
+
+## Behavior
+
+Only B submitReview/activate/approve/reject change their post-command handling. The store records the exact successful POST result and action before reading contract, approval, or todos. All three reads settle; read errors become a separate warning and the method still returns the original ACK. A failed POST still rejects with its original error and performs no readback.
+
+The detail page closes the completed command dialog and shows “已提交/已生效/审批已处理，刷新失败”. A persistent warning provides “重新加载合同、审批与待办”. That entry calls reads only; it does not repeat the write. Actions relying on current contract state stay unavailable until a complete readback succeeds. Necessary ACK state remains in the component-scoped store; no persistence or new API contract was added.
+
+AuthStore.refreshTodos gains optional `{ propagateErrors?: boolean }`. B ACK readback passes `true`: a real todo request failure rejects and preserves the prior todo array. Other existing callers omit the option and keep the original fulfilled empty-array fallback. Root explicitly authorized this direct dependency change. No other auth flows change.
+
+## Source tests, not execution evidence
+
+- New contract store spec: each of four successful commands plus a failed following detail GET retains the exact ACK; read-only retry leaves the POST call count at one. Each of four failed writes preserves the original failure and performs no readback. Separate cases cover approval GET failure, todo failure, and cleared ACK state: 11 source cases.
+- Existing detail spec: new mock signals plus one warning/reload case.
+- Existing AuthStore spec: three cases for strict failure preserving old todos, unchanged default fallback, and strict success.
+
+The author did not execute Node, Angular, build, lint, tests, HTTP, PG, Git, or browser. Root owns all actual execution. Test fixtures are UI references and do not certify preparation, activation, or finance producers.
+
+Root browser observation: allow a real B POST success, then abort subsequent detail/approval/todo GETs. Verify the success-aware warning, actual server state after a separate read, and that clicking reload adds only reads while the original write count remains one. Repeat with the POST itself returning a real version conflict and verify the original failure text. No automatic write retry is introduced.
+
+## Static follow-up observations
+
+The nine UI01 files originally matched the applied Root bytes. SDK A03/A07 `contractId?`, A08/A09 required `contractId`, canonical optional `contractReadinessPackageId`, and strict B result fields match the current generated client. Correction02 fixes the real app→SDK boundary imports and three new assertions; correction03 supplies the actual ContractApi token mock and explicit-selection fixtures. No further compiler finding is claimed beyond Root's actual lint/build results.
+
+The original pre-signing page has no A01/A05/A04 authoring editor. Upstream source production remains Root's real API chain; this batch displays its safe typed terms/seeds and executes A08/B/A09. Browser validation still needs two-contract selection, late-response behavior, masked projections, prepared version versus snapshot version, binding mismatch, correct sourceReadinessId reload, and UTC/Tokyo calendar dates. Static source review is not browser acceptance.

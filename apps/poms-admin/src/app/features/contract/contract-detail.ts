@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnDestroy, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApprovalStatus, AttachmentTargetType, AuthStore, ContractStatus, ContractStore } from '@poms/admin-data-access';
@@ -13,9 +14,11 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
+import { distinctUntilChanged, map } from 'rxjs';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
 import { SectionCard } from '../../shared/ui/sectioncard';
-import { BUSINESS_FINANCE_PERMISSION_KEYS, formatSensitiveAmountProjection, formatSensitiveRatioProjection, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
+import { contractAmountDisplay, hasApprovedPreparationBinding, hasCurrentContractPreparation, isValidContractAmount } from './contract-flow';
 import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
 
 type ApprovalStatusPresentationValue = ApprovalStatus | ApprovalStatusCode;
@@ -29,6 +32,29 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
     changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <p-toast />
+        @if (commandRefreshError(); as refreshError) {
+            <p-message severity="warn" styleClass="mb-4 w-full">
+                <div class="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <div class="font-medium">{{ acknowledgedStatus() }}，刷新失败</div>
+                        <p class="mt-1 text-sm">{{ refreshError }} 请重新加载后核对当前状态。</p>
+                    </div>
+                    <p-button label="重新加载合同、审批与待办" icon="pi pi-refresh" [outlined]="true" severity="secondary" [loading]="refreshingAcknowledgement()" (onClick)="reloadAcknowledgedState()" />
+                </div>
+            </p-message>
+        }
+        @if (preparationRecovery(); as recovery) {
+            <p-message severity="warn" styleClass="mb-4 w-full">
+                <div class="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <div class="font-medium">条款或来源已变化，请核对并重新准备</div>
+                        <p class="mt-1 text-sm">{{ recovery }}</p>
+                        <p class="mt-1 text-sm">请前往项目签约前主线核对来源与准备版本，并按当前合同状态完成修订。</p>
+                    </div>
+                    <p-button label="前往签约前主线核对" icon="pi pi-file-edit" [outlined]="true" (onClick)="navigateToPreparation()" />
+                </div>
+            </p-message>
+        }
         @if (loading()) {
             <div class="flex items-center justify-center py-20">
                 <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
@@ -79,6 +105,9 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
                             }
                         </div>
                         <div class="flex flex-wrap gap-2">
+                            @if (canManageContractFinance() && contract()!.status === contractStatus.Draft) {
+                                <p-button [label]="hasPreparation() ? '重新准备合同条款' : '准备合同条款'" icon="pi pi-file-edit" [outlined]="true" (onClick)="navigateToPreparation()" />
+                            }
                             @if (canSubmitReview()) {
                                 <p-button label="提交审核" icon="pi pi-send" severity="warn" [rounded]="true" (onClick)="openSubmitReviewDialog()" class="cursor-pointer" />
                             }
@@ -90,6 +119,42 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
                             }
                             @if (canActivate()) {
                                 <p-button label="确认生效" icon="pi pi-verified" severity="primary" [rounded]="true" (onClick)="openActivateDialog()" class="cursor-pointer" />
+                            }
+                        </div>
+                    </div>
+                </section-card>
+
+                <section-card>
+                    <ng-template #title>合同条款版本与审核绑定</ng-template>
+                    <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+                        <div class="space-y-2">
+                            <div class="font-medium">{{ contract()!.currentPreparation?.status === 'prepared' ? '准备版（未生效）' : '条款准备版本' }}</div>
+                            @if (contract()!.currentPreparation; as preparation) {
+                                <div>准备版本 {{ preparation.version }} · {{ preparation.status === 'activated' ? '已承接生效' : preparation.status === 'prepared' ? '待审核 / 生效' : '已替代' }}</div>
+                                <div class="break-all text-xs text-surface-500">{{ preparation.preparationId }}</div>
+                                <div class="text-sm">准备时间：{{ preparation.preparedAt | date: 'yyyy-MM-dd HH:mm' }}</div>
+                            } @else {
+                                <p class="text-sm text-surface-500">尚未准备合同条款，请先前往项目签约前主线。</p>
+                            }
+                        </div>
+                        <div class="space-y-2">
+                            <div class="font-medium">审核绑定</div>
+                            @if (contract()!.latestReviewBinding; as binding) {
+                                <div>绑定准备版本 {{ binding.preparationVersion }}</div>
+                                <div class="break-all text-xs text-surface-500">准备标识：{{ binding.preparationId }}</div>
+                                <div class="break-all text-xs text-surface-500">审批标识：{{ binding.approvalRecordId }}</div>
+                            } @else {
+                                <p class="text-sm text-surface-500">尚未形成审核绑定。</p>
+                            }
+                        </div>
+                        <div class="space-y-2">
+                            <div class="font-medium">有效合同快照</div>
+                            @if (contract()!.currentTermSnapshot; as activeSnapshot) {
+                                <div>快照版本 {{ activeSnapshot.version }} · {{ activeSnapshot.snapshotStatus }}</div>
+                                <div class="break-all text-xs text-surface-500">{{ activeSnapshot.id }}</div>
+                                <div class="break-all text-xs text-surface-500">来源准备：{{ activeSnapshot.sourcePreparationId ?? '历史快照未记录' }}</div>
+                            } @else {
+                                <p class="text-sm text-surface-500">尚未生效；准备版本不代表有效快照。</p>
                             }
                         </div>
                     </div>
@@ -194,7 +259,7 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
                         @if (contract()!.currentTermSnapshot; as snapshot) {
                             <div class="grid grid-cols-2 gap-4 mt-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-xs text-surface-500 dark:text-surface-400">税率</span>
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">税率（比例）</span>
                                     <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
                                         {{ formatSensitiveRatioProjection(snapshot.taxRateProjection) }}
                                     </span>
@@ -226,7 +291,7 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
                                 <div class="flex flex-col gap-1">
                                     <span class="text-xs text-surface-500 dark:text-surface-400">质保期届满日期</span>
                                     <span class="text-sm text-surface-950 dark:text-surface-0">
-                                        {{ snapshot.retentionDueDate ? (snapshot.retentionDueDate | date: 'yyyy-MM-dd') : '-' }}
+                                        {{ snapshot.retentionDueDate ?? '-' }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col gap-1 xl:col-span-2">
@@ -405,29 +470,52 @@ type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
 })
 export class ContractDetail implements OnInit, OnDestroy {
     readonly #route = inject(ActivatedRoute);
+    readonly #destroyRef = inject(DestroyRef);
+    readonly #routeContractId = signal<string | null>(null);
+    #pageRequest = 0;
     readonly #router = inject(Router);
     readonly #contractStore = inject(ContractStore);
     readonly #authStore = inject(AuthStore);
     readonly #messageService = inject(MessageService);
 
-    readonly contract = this.#contractStore.selectedContract;
-    readonly currentApproval = this.#contractStore.currentApproval;
+    readonly contract = computed(() => {
+        const contract = this.#contractStore.selectedContract();
+        return contract && contract.id.toLowerCase() === this.#routeContractId()?.toLowerCase() ? contract : null;
+    });
+    readonly currentApproval = computed(() => {
+        const approval = this.#contractStore.currentApproval();
+        return this.contract() && approval?.targetObjectId.toLowerCase() === this.#routeContractId()?.toLowerCase() ? approval : null;
+    });
     readonly loading = this.#contractStore.loading;
     readonly loadingApproval = this.#contractStore.loadingApproval;
     readonly saving = this.#contractStore.saving;
+    readonly commandRefreshError = computed(() => this.#contractStore.lastAcknowledgement()?.contractId.toLowerCase() === this.#routeContractId()?.toLowerCase() ? this.#contractStore.commandRefreshError() : null);
+    readonly refreshingAcknowledgement = this.#contractStore.refreshingAcknowledgement;
+    readonly preparationRecovery = signal<string | null>(null);
+    readonly acknowledgedStatus = computed(() => {
+        switch (this.#contractStore.lastAcknowledgement()?.action) {
+            case 'submit-review': return '已提交';
+            case 'activate': return '已生效';
+            case 'approve':
+            case 'reject': return '审批已处理';
+            default: return '操作已完成';
+        }
+    });
+    readonly hasCurrentCommandState = computed(() => !!this.contract() && !this.loading() && !this.loadingApproval() && !this.saving() && !this.commandRefreshError() && !this.refreshingAcknowledgement());
     readonly currentUser = computed(() => this.#authStore.currentUser());
     readonly contractStatus = ContractStatus;
     readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
     readonly canManageContractFinance = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
-    readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
-    readonly formatSensitiveRatioProjection = formatSensitiveRatioProjection;
+    readonly formatSensitiveAmountProjection = contractAmountDisplay;
+    readonly formatSensitiveRatioProjection = sensitiveProjectionDisplayText;
     readonly sensitiveProjectionDisplayText = sensitiveProjectionDisplayText;
     readonly canReadContractSignedAmount = computed(() => isSensitiveProjectionFull(this.contract()?.signedAmountProjection));
-    readonly canEditContract = computed(() => this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === ContractStatus.Draft);
-    readonly canSubmitReview = computed(() => this.canManageContractFinance() && this.contract()?.status === ContractStatus.Draft);
-    readonly canApprove = computed(() => this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
-    readonly canReject = computed(() => this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
-    readonly canActivate = computed(() => this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Approved && this.canManageContractFinance());
+    readonly canEditContract = computed(() => this.hasCurrentCommandState() && this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === ContractStatus.Draft);
+    readonly hasPreparation = computed(() => hasCurrentContractPreparation(this.contract()));
+    readonly canSubmitReview = computed(() => this.hasCurrentCommandState() && this.canManageContractFinance() && this.contract()?.status === ContractStatus.Draft && this.hasPreparation());
+    readonly canApprove = computed(() => this.hasCurrentCommandState() && this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
+    readonly canReject = computed(() => this.hasCurrentCommandState() && this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
+    readonly canActivate = computed(() => this.hasCurrentCommandState() && this.contract()?.status === ContractStatus.PendingReview && this.canManageContractFinance() && hasApprovedPreparationBinding(this.contract(), this.currentApproval()));
     readonly contractAttachmentTargetType = AttachmentTargetType.Contract;
     readonly canReadContractAttachment = computed(() => this.#authStore.hasAnyPermission(['project:read'] as const));
     readonly canWriteContractAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
@@ -440,7 +528,9 @@ export class ContractDetail implements OnInit, OnDestroy {
         return status ? this.getApprovalStatusSeverity(status) : undefined;
     });
     readonly actionHeadline = computed(() => {
-        if (this.canSubmitReview()) return '合同草稿已准备就绪，可提交进入审核流程';
+        if (this.commandRefreshError()) return `${this.acknowledgedStatus()}，请先重新加载当前状态`;
+        if (this.contract()?.status === ContractStatus.Draft && !this.hasPreparation()) return '请先准备本合同条款，再提交审核';
+        if (this.canSubmitReview()) return '已存在条款准备版，请确认与当前合同信息一致后提交审核';
         if (this.canApprove()) return '你是当前审批人，可以直接处理这条合同审核';
         if (this.canReject()) return '你可以驳回当前审批，合同将退回草稿';
         if (this.canActivate()) return '审批已通过，下一步应确认合同正式生效';
@@ -449,10 +539,13 @@ export class ContractDetail implements OnInit, OnDestroy {
         return '当前没有可执行的命令动作';
     });
     readonly actionDescription = computed(() => {
-        if (this.canSubmitReview()) return '提交审核后将生成审批记录与统一待办，详情页进入审批追踪状态。';
+        if (this.commandRefreshError()) return '已收到操作成功回执；后续读取未完成，请使用重新加载入口核对合同、审批与待办。';
+        if (this.contract()?.status === ContractStatus.Draft && !this.hasPreparation()) return '请前往项目签约前主线，选择本合同并准备真实条款版本。';
+        if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Approved && !this.canActivate()) return '当前审核与准备版本的绑定尚不完整或不一致，请刷新并核对后再确认生效。';
+        if (this.canSubmitReview()) return '送审会校验准备版本与当前合同及来源是否一致；修改客户合同编号、金额、币种或条款来源后，请先重新准备。';
         if (this.canApprove()) return '审批通过后仍需业务侧执行“确认生效”，以避免审批状态和业务状态混用。';
         if (this.canReject()) return '驳回将关闭当前待办，并把合同状态退回草稿，便于业务侧继续修订。';
-        if (this.canActivate()) return '生效后会生成快照标识，并将合同业务状态切换为已生效。';
+        if (this.canActivate()) return '确认生效将承接已审核绑定的准备版本，形成独立的有效合同快照。';
         if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending) return '审批入口保留在业务页面，统一待办仅作为聚合入口。';
         if (this.contract()?.status === ContractStatus.Active) return '当前合同已完成审核与生效闭环，后续可以继续接回款、发票等切片。';
         return '请结合当前合同状态与审批摘要继续推进。';
@@ -477,14 +570,44 @@ export class ContractDetail implements OnInit, OnDestroy {
     ];
 
     ngOnInit() {
-        const id = this.#route.snapshot.paramMap.get('id');
-        if (id) {
-            void Promise.all([this.#contractStore.loadContract(id), this.#contractStore.loadCurrentApproval(id)]);
-        }
+        this.#route.paramMap.pipe(
+            map((params) => params.get('id')),
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.#destroyRef)
+        ).subscribe((id) => {
+            const page = ++this.#pageRequest;
+            this.#routeContractId.set(id);
+            this.#resetFormsAndDialogs();
+            this.#messageService.clear();
+            this.#contractStore.setContractScope(id);
+            if (!id) return;
+            void Promise.allSettled([this.#contractStore.loadContract(id), this.#contractStore.loadCurrentApproval(id)]).then((outcomes) => {
+                if (page !== this.#pageRequest) return;
+                const errors = outcomes.flatMap((outcome) => outcome.status === 'rejected' ? [this.getErrorMessage(outcome.reason)] : []);
+                if (errors.length) this.#messageService.add({ severity: 'error', summary: '读取失败', detail: [...new Set(errors)].join('；'), life: 5000 });
+            });
+        });
     }
 
     ngOnDestroy() {
+        ++this.#pageRequest;
+        this.#routeContractId.set(null);
         this.#contractStore.clearSelectedContract();
+    }
+
+    #resetFormsAndDialogs(): void {
+        this.preparationRecovery.set(null);
+        this.editDialogVisible = false;
+        this.editSubmitAttempted = false;
+        this.submitReviewDialogVisible = false;
+        this.approveDialogVisible = false;
+        this.rejectDialogVisible = false;
+        this.activateDialogVisible = false;
+        this.editForm = { signedAmount: '', currencyCode: '', customerContractNo: '' };
+        this.submitReviewForm = { comment: '' };
+        this.approveForm = { comment: '' };
+        this.rejectForm = { reason: '', comment: '' };
+        this.activateForm = { comment: '' };
     }
 
     goBack() {
@@ -496,13 +619,18 @@ export class ContractDetail implements OnInit, OnDestroy {
         if (c) this.#router.navigate(['/projects', c.projectId]);
     }
 
+    navigateToPreparation() {
+        const contract = this.contract();
+        if (contract) void this.#router.navigate(['/projects', contract.projectId, 'workspace', 'pre-signing'], { queryParams: { contractId: contract.id } });
+    }
+
     isValidAmount(value: string): boolean {
-        return /^\d+(\.\d{1,2})?$/.test(value.trim()) && parseFloat(value) > 0;
+        return isValidContractAmount(value);
     }
 
     showEditDialog() {
         const c = this.contract();
-        if (!c) return;
+        if (!c || !this.canEditContract()) return;
         this.editForm = { signedAmount: c.signedAmountProjection.value ?? '', currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
         this.editSubmitAttempted = false;
         this.editDialogVisible = true;
@@ -514,20 +642,25 @@ export class ContractDetail implements OnInit, OnDestroy {
     }
 
     async saveContract() {
+        const page = this.#pageRequest;
         this.editSubmitAttempted = true;
         const c = this.contract();
-        if (!c || !this.isValidAmount(this.editForm.signedAmount)) return;
+        if (!c || !this.canEditContract() || !this.isValidAmount(this.editForm.signedAmount)) return;
 
         try {
             await this.#contractStore.updateContract(c.id, {
                 signedAmount: this.editForm.signedAmount,
                 currencyCode: this.editForm.currencyCode,
-                customerContractNo: this.optionalText(this.editForm.customerContractNo)
+                customerContractNo: this.optionalText(this.editForm.customerContractNo),
+                expectedVersion: c.rowVersion
             });
+            if (page !== this.#pageRequest) return;
             this.editDialogVisible = false;
             this.editSubmitAttempted = false;
             this.#messageService.add({ severity: 'success', summary: '保存成功', detail: '合同基础信息已更新', life: 3000 });
         } catch (error) {
+            if (page !== this.#pageRequest) return;
+            this.#capturePreparationRecovery(error);
             this.#messageService.add({ severity: 'error', summary: '保存失败', detail: this.getErrorMessage(error), life: 4000 });
             return;
         }
@@ -539,81 +672,130 @@ export class ContractDetail implements OnInit, OnDestroy {
     }
 
     openSubmitReviewDialog() {
+        if (!this.canSubmitReview()) return;
         this.submitReviewForm = { comment: '' };
         this.submitReviewDialogVisible = true;
     }
 
     async submitReview() {
+        const page = this.#pageRequest;
         const c = this.contract();
-        if (!c) return;
+        const preparation = c?.currentPreparation;
+        if (!c || !preparation || !this.canSubmitReview()) {
+            this.#messageService.add({ severity: 'warn', summary: '请先准备条款', detail: '当前合同缺少可送审的真实准备版本。', life: 4000 });
+            return;
+        }
 
         try {
             await this.#contractStore.submitReview(c.id, {
+                preparationId: preparation.preparationId,
                 comment: this.submitReviewForm.comment || undefined,
                 expectedVersion: c.rowVersion
             });
+            if (page !== this.#pageRequest) return;
+            this.preparationRecovery.set(null);
             this.submitReviewDialogVisible = false;
-            this.#messageService.add({ severity: 'success', summary: '提交成功', detail: '合同已进入审核流程', life: 3000 });
+            this.#notifyAcknowledgedResult('提交成功', '合同已进入审核流程');
         } catch (error) {
+            if (page !== this.#pageRequest) return;
+            this.#capturePreparationRecovery(error);
             this.#messageService.add({ severity: 'error', summary: '提交失败', detail: this.getErrorMessage(error), life: 4000 });
         }
     }
 
     openApproveDialog() {
+        if (!this.canApprove()) return;
         this.approveForm = { comment: '' };
         this.approveDialogVisible = true;
     }
 
     async approveApproval() {
+        const page = this.#pageRequest;
         const approval = this.currentApproval();
-        if (!approval) return;
+        if (!approval || !this.canApprove()) return;
 
         try {
             await this.#contractStore.approveRecord(approval.id, approval.rowVersion, this.approveForm.comment || undefined);
+            if (page !== this.#pageRequest) return;
             this.approveDialogVisible = false;
-            this.#messageService.add({ severity: 'success', summary: '审批完成', detail: '合同审核已通过，待业务确认生效', life: 3000 });
+            this.#notifyAcknowledgedResult('审批完成', '合同审核已通过，待业务确认生效');
         } catch (error) {
+            if (page !== this.#pageRequest) return;
+            this.#capturePreparationRecovery(error);
             this.#messageService.add({ severity: 'error', summary: '审批失败', detail: this.getErrorMessage(error), life: 4000 });
         }
     }
 
     openRejectDialog() {
+        if (!this.canReject()) return;
         this.rejectForm = { reason: '', comment: '' };
         this.rejectDialogVisible = true;
     }
 
     async rejectApproval() {
+        const page = this.#pageRequest;
         const approval = this.currentApproval();
-        if (!approval || !this.rejectForm.reason.trim()) return;
+        if (!approval || !this.canReject() || !this.rejectForm.reason.trim()) return;
 
         try {
             await this.#contractStore.rejectRecord(approval.id, this.rejectForm.reason.trim(), approval.rowVersion, this.rejectForm.comment || undefined);
+            if (page !== this.#pageRequest) return;
             this.rejectDialogVisible = false;
-            this.#messageService.add({ severity: 'success', summary: '已驳回', detail: '合同已退回草稿，待业务修订后重新提交', life: 3000 });
+            this.#notifyAcknowledgedResult('已驳回', '合同已退回草稿，待业务修订后重新提交');
         } catch (error) {
+            if (page !== this.#pageRequest) return;
+            this.#capturePreparationRecovery(error);
             this.#messageService.add({ severity: 'error', summary: '驳回失败', detail: this.getErrorMessage(error), life: 4000 });
         }
     }
 
     openActivateDialog() {
+        if (!this.canActivate()) return;
         this.activateForm = { comment: '' };
         this.activateDialogVisible = true;
     }
 
     async activateContract() {
+        const page = this.#pageRequest;
         const c = this.contract();
-        if (!c) return;
+        if (!c || !this.canActivate()) return;
 
         try {
             await this.#contractStore.activateContract(c.id, {
                 comment: this.activateForm.comment || undefined,
                 expectedVersion: c.rowVersion
             });
+            if (page !== this.#pageRequest) return;
+            this.preparationRecovery.set(null);
             this.activateDialogVisible = false;
-            this.#messageService.add({ severity: 'success', summary: '生效成功', detail: '合同已切换为正式生效状态', life: 3000 });
+            this.#notifyAcknowledgedResult('生效成功', '合同已切换为正式生效状态');
         } catch (error) {
+            if (page !== this.#pageRequest) return;
+            this.#capturePreparationRecovery(error);
             this.#messageService.add({ severity: 'error', summary: '生效失败', detail: this.getErrorMessage(error), life: 4000 });
         }
+    }
+
+    async reloadAcknowledgedState() {
+        const page = this.#pageRequest;
+        const acknowledgement = this.#contractStore.lastAcknowledgement();
+        if (!acknowledgement || acknowledgement.contractId.toLowerCase() !== this.#routeContractId()?.toLowerCase()) return;
+        const refreshed = await this.#contractStore.reloadAcknowledgedState();
+        if (page !== this.#pageRequest) return;
+        if (refreshed) this.#messageService.add({ severity: 'success', summary: '已重新加载', detail: '合同、审批与待办已更新', life: 3000 });
+    }
+
+    #notifyAcknowledgedResult(summary: string, detail: string) {
+        const refreshError = this.commandRefreshError();
+        this.#messageService.add(refreshError
+            ? { severity: 'warn', summary: `${this.acknowledgedStatus()}，刷新失败`, detail: `${refreshError} 请重新加载后核对当前状态。`, life: 6000 }
+            : { severity: 'success', summary, detail, life: 3000 });
+    }
+
+    #capturePreparationRecovery(error: unknown): void {
+        if (typeof error !== 'object' || error === null) return;
+        const code = (error as { error?: { code?: unknown } }).error?.code;
+        if (code === 'payload_changed' || code === 'source_changed') this.preparationRecovery.set(this.getErrorMessage(error));
     }
 
     getStatusName(status: ContractStatusPresentationValue): string {

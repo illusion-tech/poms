@@ -1,0 +1,1 @@
+import fs from'node:fs';import{priv}from'./fixture-core04.mjs';const d=JSON.parse(fs.readFileSync(priv+'/ui-diagnostic40.json','utf8'));console.log(d.aria.split('\n').filter(l=>l.includes('准备合同条款')||l.includes('生成正式应收计划')).join('\n'));

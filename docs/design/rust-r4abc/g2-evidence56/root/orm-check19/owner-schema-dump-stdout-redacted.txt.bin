@@ -1,0 +1,38 @@
+◇ injected env (16) from ../../.local/share/poms-r4abc/private/orm-owner19.env // tip: ⌘ enable debugging { debug: true }
+set names 'utf8';
+
+drop table if exists "r4abc_control"."marker" cascade;
+
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_baseline_project";
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_contract_project";
+
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_contract_project";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_current_preparation";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_diff_scope";
+
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_activated_snapshot";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_contract_project";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_diff_scope";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_readiness_scope";
+
+alter table "poms"."contract_term_snapshot" drop constraint "fk_r4_snapshot_preparation_contract";
+
+alter table "poms"."contract_review_binding" drop constraint "fk_r4_review_preparation_contract";
+
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_contract_project";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_preparation_source";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_snapshot_scope";
+
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_contract";
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_snapshot";
+
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_down_payment_rate_check";
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_retention_rate_check";
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_tax_rate_check";
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_down_payment_rate_check" check ("down_payment_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_retention_rate_check" check ("retention_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_tax_rate_check" check ("tax_rate" between 0 and 1);
+
+drop schema if exists "r4abc_control";
+
+

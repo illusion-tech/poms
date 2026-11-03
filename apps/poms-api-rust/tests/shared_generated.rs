@@ -36,7 +36,7 @@ where
 #[rustfmt::skip]
 fn all_generated_enums_match_manifest_and_openapi_values() -> Result<(), Box<dyn Error>> {
     let manifest = manifest()?;
-    assert_eq!(manifest["coverage"]["generatedEnumFamilies"], 205);
+    assert_eq!(manifest["coverage"]["generatedEnumFamilies"], 209);
     verify_enum::<PermissionKey>(&manifest, "PermissionKey", PermissionKey::ALL)?;
     verify_enum::<SystemSettingKey>(&manifest, "SystemSettingKey", SystemSettingKey::ALL)?;
     verify_enum::<SystemSettingValueType>(&manifest, "SystemSettingValueType", SystemSettingValueType::ALL)?;
@@ -159,6 +159,7 @@ fn all_generated_enums_match_manifest_and_openapi_values() -> Result<(), Box<dyn
     verify_enum::<CustomerWorkspaceTargetObjectType>(&manifest, "CustomerWorkspaceTargetObjectType", CustomerWorkspaceTargetObjectType::ALL)?;
     verify_enum::<CustomerWorkspaceTimelineEventType>(&manifest, "CustomerWorkspaceTimelineEventType", CustomerWorkspaceTimelineEventType::ALL)?;
     verify_enum::<CustomerWorkspaceTimelineSourceType>(&manifest, "CustomerWorkspaceTimelineSourceType", CustomerWorkspaceTimelineSourceType::ALL)?;
+    verify_enum::<ContractTermPreparationStatus>(&manifest, "ContractTermPreparationStatus", ContractTermPreparationStatus::ALL)?;
     verify_enum::<CommercialDiffLevel>(&manifest, "CommercialDiffLevel", CommercialDiffLevel::ALL)?;
     verify_enum::<CommercialDiffReviewStatus>(&manifest, "CommercialDiffReviewStatus", CommercialDiffReviewStatus::ALL)?;
     verify_enum::<CommercialBaselineReviewDecision>(&manifest, "CommercialBaselineReviewDecision", CommercialBaselineReviewDecision::ALL)?;
@@ -239,6 +240,9 @@ fn all_generated_enums_match_manifest_and_openapi_values() -> Result<(), Box<dyn
     verify_enum::<OperatingSignalReviewDecision>(&manifest, "OperatingSignalReviewDecision", OperatingSignalReviewDecision::ALL)?;
     verify_enum::<AccountingTaxDeductibilityStatus>(&manifest, "AccountingTaxDeductibilityStatus", AccountingTaxDeductibilityStatus::ALL)?;
     verify_enum::<UpdateCustomerRequestStatus>(&manifest, "UpdateCustomerRequestStatus", UpdateCustomerRequestStatus::ALL)?;
+    verify_enum::<ReadinessInitializationResultTargetType>(&manifest, "ReadinessInitializationResultTargetType", ReadinessInitializationResultTargetType::ALL)?;
+    verify_enum::<ReadinessInitializationResultResultStatus>(&manifest, "ReadinessInitializationResultResultStatus", ReadinessInitializationResultResultStatus::ALL)?;
+    verify_enum::<ReadinessInitializationResultBusinessStatusAfter>(&manifest, "ReadinessInitializationResultBusinessStatusAfter", ReadinessInitializationResultBusinessStatusAfter::ALL)?;
     verify_enum::<AuthSessionStatus>(&manifest, "AuthSessionStatus", AuthSessionStatus::ALL)?;
     verify_enum::<AuthSessionRevokedReason>(&manifest, "AuthSessionRevokedReason", AuthSessionRevokedReason::ALL)?;
     verify_enum::<AuthSessionErrorCode>(&manifest, "AuthSessionErrorCode", AuthSessionErrorCode::ALL)?;

@@ -1,0 +1,65 @@
+import { ContractStatus, ContractTermPreparationStatus, type ContractDetailView } from '@poms/admin-data-access';
+import { contractAmountDisplay, hasApprovedPreparationBinding, hasCurrentContractPreparation, isValidContractAmount } from './contract-flow';
+
+function preparedContract(): Pick<ContractDetailView, 'id' | 'status' | 'currentPreparation' | 'latestReviewBinding'> {
+    return {
+        id: 'contract-1',
+        status: ContractStatus.PendingReview,
+        currentPreparation: {
+            preparationId: 'preparation-3', projectId: 'project-1', contractId: 'contract-1',
+            version: 3, rowVersion: 1, status: ContractTermPreparationStatus.Prepared, isCurrent: true,
+            sourceReadinessId: 'package-1', sourceBaselineId: 'baseline-1', sourceDiffResultId: 'diff-1',
+            payloadHash: 'a'.repeat(64), preparedAt: '2026-11-03T01:00:00.000Z', preparedBy: 'actor-1',
+            activatedSnapshotId: null, activatedAt: null
+        },
+        latestReviewBinding: {
+            approvalRecordId: 'approval-1', contractId: 'contract-1', preparationId: 'preparation-3',
+            preparationVersion: 3, payloadHash: 'a'.repeat(64), createdAt: '2026-11-03T01:05:00.000Z', createdBy: 'actor-1'
+        }
+    };
+}
+
+describe('contract flow policy (pure fixtures, not real producer evidence)', () => {
+    it('keeps legal cents beyond JavaScript safe integers and accepts the exact capacity', () => {
+        expect(isValidContractAmount('9007199254740991.99')).toBe(true);
+        expect(isValidContractAmount('9999999999999999.99')).toBe(true);
+        expect(isValidContractAmount(' 00001.20 ')).toBe(true);
+    });
+
+    it('rejects zero, negative, exponents, precision loss and numeric capacity overflow', () => {
+        for (const input of ['0', '-1', '+1', '1e2', 'NaN', 'Infinity', '1.001', '10000000000000000.00']) {
+            expect(isValidContractAmount(input)).toBe(false);
+        }
+    });
+
+    it('uses server display text without monetary Number conversion or duplicate currency', () => {
+        expect(contractAmountDisplay({ mode: 'full', value: '9007199254740991.99', displayText: '9007199254740991.99 CNY' }, 'CNY')).toBe('9007199254740991.99 CNY');
+        expect(contractAmountDisplay({ mode: 'masked', value: '9007199254740991.99', displayText: '金额已隐藏' }, 'CNY')).toBe('金额已隐藏');
+    });
+
+    it('does not allow submission without a real current prepared metadata object', () => {
+        const contract = preparedContract();
+        contract.currentPreparation = null;
+        expect(hasCurrentContractPreparation(contract)).toBe(false);
+    });
+
+    it('matches the approved exact preparation identity, version and hash', () => {
+        const contract = preparedContract();
+        expect(hasApprovedPreparationBinding(contract, { id: 'approval-1', currentStatus: 'approved' })).toBe(true);
+        expect(hasApprovedPreparationBinding(contract, { id: 'approval-other', currentStatus: 'approved' })).toBe(false);
+        expect(hasApprovedPreparationBinding(contract, { id: 'approval-1', currentStatus: 'pending' })).toBe(false);
+        const binding = contract.latestReviewBinding;
+        if (!binding) throw new Error('review binding fixture is required');
+        contract.latestReviewBinding = { ...binding, preparationVersion: 2 };
+        expect(hasApprovedPreparationBinding(contract, { id: 'approval-1', currentStatus: 'approved' })).toBe(false);
+    });
+
+    it('rejects a replaced preparation even if an old approval once matched', () => {
+        const contract = preparedContract();
+        const preparation = contract.currentPreparation;
+        if (!preparation) throw new Error('preparation fixture is required');
+        contract.currentPreparation = { ...preparation, status: ContractTermPreparationStatus.Superseded, isCurrent: false };
+        expect(hasCurrentContractPreparation(contract)).toBe(false);
+        expect(hasApprovedPreparationBinding(contract, { id: 'approval-1', currentStatus: 'approved' })).toBe(false);
+    });
+});

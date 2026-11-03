@@ -1,0 +1,46 @@
+{
+  "schema": "poms-r4abc-independent-preliminary/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "reviewedAtUtc": "2026-11-03T05:29:01Z",
+  "status": "Preliminary-only-awaiting-formal-candidate",
+  "formalG1Decision": null,
+  "authorOfProductOrExecutor": false,
+  "implementationAuthorization": false,
+  "observedIdentity": {
+    "branch": "codex/poms-r4abc-first37",
+    "head": "1730f304c1cf5600721f80b6c06feec24269d387",
+    "method": "read-only git branch --show-current and git rev-parse HEAD"
+  },
+  "issueStateEvidenceOwner": "Root; reviewer did not access GitHub",
+  "scope": { "A": 9, "B": 9, "C": 19, "total": 37, "R4Complete": false, "stage101RemainsOpen": true, "overall57RemainsOpen": true },
+  "pendingFormalFreeze": [
+    { "id": "PRE-01", "topic": "real draft precedes baseline contractTerms and released R3 pricing", "refs": ["input-a/root-protocol-addendum-a03.md:9", "input-b/case-definitions.json:15-17", "input-c/finance-cases01.mjs:29-33", "apps/poms-api/src/app/features/contract/contract.service.ts:75-93"] },
+    { "id": "PRE-02", "topic": "same-contract margin and complete diff dimensions with missing-source behavior", "refs": ["input-a/root-protocol-addendum-a03.md:19", "docs/design/contract-finance-design.md:275-282"] },
+    { "id": "PRE-03", "topic": "source-validity predicates per prepare/submit/decision/activate/plan time point", "refs": ["input-b/shared-interface-proposal.md:36", "input-b/shared-interface-proposal.md:70", "input-b/shared-interface-proposal.md:98", "input-a/audit-a02.md:62"] },
+    { "id": "PRE-04", "topic": "single TX identity synchronization, lock order, audit and managed session once-only flush", "refs": ["apps/poms-api-rust/src/approval_common/session.rs:76-117", "apps/poms-api-rust/src/approval_common/store.rs:460-537", "input-b/shared-interface-proposal.md:74"] },
+    { "id": "PRE-05", "topic": "exact DTO/DDL/constraints/hash/selection/idempotency and active manifest precedence", "refs": ["input-a/root-protocol-addendum-a03.json:remainingRootProtocolFreeze", "input-b/shared-interface-proposal.md:94-100"] }
+  ],
+  "validationTextConflict": {
+    "refs": ["input-b/audit.md:101", "input-b/case-definitions.json:79", "input-c/finance-cases01.mjs:24"],
+    "resolutionRequired": "Freeze existing contract/readiness/approval/todo original UI coverage; finance19 actual HTTP and PG; no invented original finance page"
+  },
+  "keyInputSha256": {
+    "input-a/audit-a02.md": "4dbfe40ddfd2b05d7a7803a69c06a1c7452511d3d9a3f8f6130c987a592c7d17",
+    "input-a/audit-a02.json": "d783e9ab7015c50e703f347625f9649c32d47c11492ba4b61957acbcba74dd72",
+    "input-a/cases-a01.json": "27986c60599ed27cb3f23bb6558455b8f9332b3e4f1c84ab8b9588ae615c051b",
+    "input-a/root-protocol-addendum-a03.md": "3d7fe7bff5092d496062c523656080ad3df35bd3c2b5f879d30e1a758f70d717",
+    "input-a/root-protocol-addendum-a03.json": "7900ae5600da889ef5666f379038914d9a5daf56829bb9740c7799afb9b5e8d9",
+    "input-b/audit.md": "52df551594ababb9154c1108043632671c65d811779f73298ae0a28b54d90296",
+    "input-b/audit.json": "1eb550d68987db0950993702c88b9bf241c8cbe0543bb895d4de9a3ab1776dbb",
+    "input-b/shared-interface-proposal.md": "235c37bd4d0af19f7a81471d36108053c82157e5b6db70a1c135e1c4e20a7d34",
+    "input-b/case-definitions.json": "3ac61d6b82213f4b72196d873f996cdbd387e848509a08a1fd3dcb4c4867c11b",
+    "input-c/finance-g1-audit01.md": "3e1666c01e78ef21188e91f96fcb9819d17d57b7ceff5656870edf21d86bce77",
+    "input-c/finance-g1-audit01.json": "4be63a71ecf4e10f45056c617931e23c704480658c1cc5b05307038a4b72cb6c",
+    "input-c/entry-semantics19.json": "c374c580e59874f03fac2c1c796c8d0613505b9e48d1536a916d673f03150bc7",
+    "input-c/finance-cases01.mjs": "484cbc84a5871edb94239066779c62aa87bc97f6fbb10c73be1baf4b3a8fb562"
+  },
+  "executedRuntimeChecks": [],
+  "sourceManifestCertification": "not performed; key input digests only",
+  "prohibitedActionsPerformed": [],
+  "next": "Await Root frozen formal candidate and active manifest for independent G1"
+}

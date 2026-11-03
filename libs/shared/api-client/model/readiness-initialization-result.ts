@@ -11,10 +11,28 @@
 
 export interface ReadinessInitializationResult {
     targetId: string;
-    targetType: string;
+    targetType: ReadinessInitializationResultTargetTypeEnum;
     sourceReadinessId: string;
-    resultStatus: string;
-    businessStatusAfter: string;
-    snapshotId?: string | null;
-    newVersionId?: string | null;
+    contractId: string;
+    resultStatus: ReadinessInitializationResultResultStatusEnum;
+    businessStatusAfter: ReadinessInitializationResultBusinessStatusAfterEnum;
+    preparationId: string;
+    preparationVersion: number;
+    snapshotId: string | null;
+    newVersionId: string | null;
+    planVersionId: string | null;
+    planVersion: number | null;
+    initRecordId: string | null;
 }
+export enum ReadinessInitializationResultTargetTypeEnum {
+    ContractTermPreparation = 'contract-term-preparation',
+    ReceivablePlanVersion = 'receivable-plan-version'
+};
+export enum ReadinessInitializationResultResultStatusEnum {
+    Prepared = 'prepared',
+    Initialized = 'initialized'
+};
+export enum ReadinessInitializationResultBusinessStatusAfterEnum {
+    Prepared = 'prepared',
+    Active = 'active'
+};

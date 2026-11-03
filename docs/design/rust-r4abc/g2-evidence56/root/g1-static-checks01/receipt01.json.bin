@@ -1,0 +1,62 @@
+{
+  "kind": "R4-G1-current-metadata-static-checks",
+  "candidate": {
+    "file": "docs/design/rust-r4abc/g1-candidate-manifest01.json",
+    "bytes": 123657,
+    "rawBytesSha256": "cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36"
+  },
+  "commands": [
+    {
+      "name": "diff-check",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "startedAt": "2026-11-03T05:48:23.398Z",
+      "completedAt": "2026-11-03T05:48:23.599Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-static-checks01/diff-check-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-static-checks01/diff-check-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "all-markdown",
+      "exe": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "task",
+        "format:md:check"
+      ],
+      "startedAt": "2026-11-03T05:48:23.600Z",
+      "completedAt": "2026-11-03T05:48:27.159Z",
+      "exitCode": 0,
+      "errorName": null,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-static-checks01/all-markdown-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-static-checks01/all-markdown-stderr-original.bin",
+        "bytes": 83,
+        "rawBytesSha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd"
+      }
+    }
+  ],
+  "candidateManifestUnchanged": true,
+  "productOrRuntimeExecuted": false,
+  "passed": true,
+  "runner": {
+    "file": "tmp/rust-r4abc/root/g1-static-checks01/runner-source-original.mjs.bin",
+    "bytes": 1772,
+    "rawBytesSha256": "819dac6ed8c47a29fff50cbfb8b7a56bd23f74ffcbdacbe3726233a1cb5e3908"
+  }
+}

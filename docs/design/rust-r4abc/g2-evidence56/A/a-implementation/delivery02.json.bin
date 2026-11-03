@@ -1,0 +1,92 @@
+{
+  "kind": "R4A-bounded-candidate02-summary-lineage-and-bid-result-correction",
+  "issue": 103,
+  "g1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "worktree": "E:/projects/worktrees/poms-r4a-readiness/poms",
+  "createdAt": "2026-11-03T07:06:32.0750281+00:00",
+  "previousDelivery": "delivery01.json",
+  "previousDeliverySha256": "f717e686cb25447901b4a862ccae6ccea6d5eae6b93e0cd2f305a697a0a13084",
+  "candidate01Preservation": "candidate01-preservation02.json",
+  "candidate01PreservedFilesVerified": 9,
+  "changedProductFiles": [
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "beforeSha256": "b50f0649cfa3ad0e2b497c9a13e6c6d5292eb5c60889e60a3ccbcf019abcb957",
+      "afterSha256": "c64f78538365a8bdca3558b2f905f7ef277deb32b39f50ac5c8685bcd21a0c77",
+      "beforeByteLength": 11084,
+      "afterByteLength": 12116
+    }
+  ],
+  "unchangedOtherProductFiles": 5,
+  "sourceFiles": [
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+      "byteLength": 269,
+      "sha256": "0e7538858a60618f3af151e72fd06d63057ec25132279e636951b9bea232e394"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/service.rs",
+      "byteLength": 46461,
+      "sha256": "4beb9ffc40ae08cef4f1579fc7c64238ca9440f8fbc89b08e102b59e452be807"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "byteLength": 12116,
+      "sha256": "c64f78538365a8bdca3558b2f905f7ef277deb32b39f50ac5c8685bcd21a0c77"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/store.rs",
+      "byteLength": 6831,
+      "sha256": "015b70836db5f90f5f15af7870c652c037220d778515949a88cc3bacb76e9a7e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+      "byteLength": 10471,
+      "sha256": "30d4deeb6513615f7dc79d98ca95b60d436c5db70ae3cdc060214185cd31853b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/view.rs",
+      "byteLength": 7411,
+      "sha256": "ffd09e2cafeb55463356c9d87a14f46482320f020d25d26f64d45bcfdc88b0ad"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tmp/rust-r4abc/a-implementation/candidate01-preservation02.json",
+      "byteLength": 3109,
+      "sha256": "3549738bc9804f0efcd11eeda46fa5fc27562d1950094d1a8890fcfb3d8a8026"
+    },
+    {
+      "path": "tmp/rust-r4abc/a-implementation/acceptance-cases02.json",
+      "byteLength": 10165,
+      "sha256": "1e00833917ab03f3c5607576a874a26f2ee6a584012e39c8b362db2a791faf53"
+    },
+    {
+      "path": "tmp/rust-r4abc/a-implementation/delivery02.md",
+      "byteLength": 3753,
+      "sha256": "4ea0682df7570789edc99e81bfc51989af5bb20cc43e52a37445092e324e97d8"
+    }
+  ],
+  "corrections": [
+    "Summary FK actual record existence only; generic summary status/target/context does not authorize quotation approval.",
+    "sourceFacts.summary stores actual referenced id, not mutable rowVersion or full-row hash as indirect qualification.",
+    "Applicable current bid requires exact current reference, supported applicable mode, decision participate and actual result won.",
+    "Root formal interpretation: direct-commercial/not-required process uses corresponding participate/not-required decision; actual lost/cancelled block, pending/not-applicable/won are not an applicable-bid hard gate.",
+    "Direct substitution depends on actual eligible current direct pricing and all existing cost/bid/baseline/currency/conditions; a pending real applicable bid cannot bypass by changing pricingPath or omitting reference.",
+    "sourceFacts explicitly preserve actual bidApplicability, substitution and raw mode/decision/result/reference; pending is never relabeled won.",
+    "Service body assertion remains contractReadinessPackageId; no packageId alias or other A product changes."
+  ],
+  "caseOverlay": "acceptance-cases02.json",
+  "caseOverlayGroups": 14,
+  "caseJsonParsedOnly": true,
+  "runtimeExecuted": [],
+  "sourceStatus": "bounded source candidate, uncompiled and untested",
+  "remainingOwner": "Root SHA-pinned incremental import, shared actual producer/compile/HTTP/PG/fault/race verification and independent review",
+  "notClaimed": [
+    "quotation approval performed",
+    "new quotation-review handler",
+    "build/fmt/clippy/test pass",
+    "HTTP/PG/UI pass",
+    "G3/G4"
+  ]
+}

@@ -14,7 +14,7 @@ if (process.versions.node.split('.')[0] !== '24' || ts.version !== '6.0.3' || zo
     throw new Error(`R1B exporter requires Node 24.x, TypeScript 6.0.3 and Zod 4.6.1; found Node ${process.versions.node}, TypeScript ${ts.version}, Zod ${zodVersion}`);
 }
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-export const SOURCE_HEAD = 'ef9fd7f4871eb87167bca1ae04fae8a992ef594c';
+export const SOURCE_HEAD = '4f78bd486ca2118e4700bae560cb25ff08c4b47d';
 export const SHARED_PATH = 'libs/shared/contracts/src/lib/shared-contracts.ts';
 export const SPEC_PATH = 'libs/shared/api-spec/openapi.json';
 export const R0_PATH = 'docs/design/rust-r0-api-operations.json';
@@ -42,7 +42,76 @@ export const HELPER_HASHES = Object.freeze({
     enumDefinitionHints: '1c1a18b688fa0267f8412664d37ea2ed25f68c0e639a19f64fdda37697a9d5e9'
 });
 const OTHER_FUNCTION_HASHES = Object.freeze({
-    assertOperatingSnapshotBaselineSelection: '8e8e469ac46fb27c6f28ba7d9251c8e989a93661ad8028b9100d857d2375f456'
+    assertOperatingSnapshotBaselineSelection: '8e8e469ac46fb27c6f28ba7d9251c8e989a93661ad8028b9100d857d2375f456',
+    isR4ScaledDecimal: '91181096c5c8cc938bd1e3cdc4a99bb987a2480ab551e3cf7f2510abb0c70d27'
+});
+// R0 is immutable historical evidence. Only CRLF normalization is permitted;
+// never refresh that file to make current source look like the old inventory.
+export const HISTORICAL_R0 = Object.freeze({
+    normalizedTextSha256: '3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c',
+    constants: 455,
+    enumOccurrences: 224
+});
+// Hash-only tool review metadata, not another wire-value authority. The values
+// are still extracted from, and independently executed from, original TS+Zod.
+export const REVIEWED_R4_ADDITIONS = Object.freeze({
+    sourceHead: '4f78bd486ca2118e4700bae560cb25ff08c4b47d',
+    g1Commit: '2f613c312c9e41b3ed5ac59edf5e9db63842c1cb',
+    declarationAuthority: 'docs/design/rust-r4abc-first37-baseline.md + fixed reviewed S3 source',
+    constants: Object.freeze([
+        Object.freeze({
+            name: 'CONTRACT_TERM_PREPARATION_STATUSES',
+            path: SHARED_PATH,
+            kind: 'string-array',
+            declarationSha256: '14d75307e70625f4c0719a59a587f19b429b4e6f954b28c6bba124316073404b',
+            payloadSha256: 'e48112a1b4ec063b48ffb957cf16afd84d7038902d717c57650c06164d5d6def',
+            valueSha256: '2115923a4ec54e3f67b7e1a4796856995ddbb40e14262782673c27129bfbcbde'
+        })
+    ]),
+    enumOccurrences: Object.freeze([
+        Object.freeze({
+            owner: 'ContractTermPreparationStatusSchema', schemaId: 'ContractTermPreparationStatus', path: SHARED_PATH,
+            propertyPath: Object.freeze([]), topLevel: true, sourceArray: 'CONTRACT_TERM_PREPARATION_STATUSES',
+            declarationSha256: '9a0b16650231db7f031dd670dd40db9354209d38a5c29f3d72ab49f749684049',
+            payloadSha256: 'b04080246bbbe9e194863495fe129d0dfd7a307dfd533b729bb33a27e60a8dea',
+            expressionSha256: '561e9005c4f602e353f8c1b85e8def43fa4866ed2708e1fac516159ca685a0dd',
+            valuesSha256: '2115923a4ec54e3f67b7e1a4796856995ddbb40e14262782673c27129bfbcbde'
+        }),
+        Object.freeze({
+            owner: 'ReadinessInitializationResultSchema', schemaId: 'ReadinessInitializationResult', path: SHARED_PATH,
+            propertyPath: Object.freeze(['targetType']), topLevel: false, sourceArray: null,
+            declarationSha256: '2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a',
+            payloadSha256: '27c4a02b9b9c79ef059430b1a21ed23115b7ea3795fda9827331e84f63e427ea',
+            expressionSha256: '8cc7a1f66bbd76427c08b1cb3a889af05ec87b530e003ab0ef19aec7e25c8790',
+            valuesSha256: 'b7f0f6eb8386f413f5fe9e21c5030e8063f04e6246b658b69c8f7e1332954b70'
+        }),
+        Object.freeze({
+            owner: 'ReadinessInitializationResultSchema', schemaId: 'ReadinessInitializationResult', path: SHARED_PATH,
+            propertyPath: Object.freeze(['resultStatus']), topLevel: false, sourceArray: null,
+            declarationSha256: '2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a',
+            payloadSha256: 'b35eb795442a11bd3e8f9b07a074a58a20c7c9ef35b755b5c5d9bcfc22ea4971',
+            expressionSha256: 'b51064e48459e6adf6d99eaab37fc7ba5d38870848d56ad8ca01074653530607',
+            valuesSha256: '40f4c6e02050480aeb51ef5014c13d53322957455c910ef500de0d60f2134fdc'
+        }),
+        Object.freeze({
+            owner: 'ReadinessInitializationResultSchema', schemaId: 'ReadinessInitializationResult', path: SHARED_PATH,
+            propertyPath: Object.freeze(['businessStatusAfter']), topLevel: false, sourceArray: null,
+            declarationSha256: '2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a',
+            payloadSha256: 'b710f5d50060dde2174ec4b087e06a327205aea9beb2ab8ee73cc185ee633dc8',
+            expressionSha256: '6a558cdc1a6a7ed169954a9ceb32e0c4b4ef822f71795b9fef5e977bea246193',
+            valuesSha256: '32a1f43dafb5f7e56231161fe1920c58862a0fdae05e8056b2cc1d839f15e179'
+        })
+    ])
+});
+// These exact S3 schemas contain non-enum callbacks (decimal capacity, UUID
+// uniqueness and receipt identity). Unknown or changed callbacks are not
+// admitted. A callback can never hide a z.enum occurrence from the inventory.
+const REVIEWED_R4_REFINEMENTS = Object.freeze({
+    R4PositiveMoneyStringSchema: '3cf02fe20c3dfd0c2091edb349d0e1555c0fa775f4984f06f6a252b832f1772e',
+    R4NonnegativeMoneyStringSchema: 'a921d2ccfe9350b8f73aed43f8250365ac8ef33f50b1902e5742997ca3e2dd81',
+    R4RatioStringSchema: '3166000098dad8d0fe6d94efcc9e5aaa7f53cc1507103c87c77fd158c29bcc13',
+    CreateCommercialReleaseBaselineRequestSchema: 'e5536fb334545802f9de20be6c962537cf70f7307bf642c951222cfecbe98882',
+    ReadinessInitializationResultSchema: '2492ab661e8aeb2b31a87fb51ed071f1f42eed552edab4106aed3aacbccf1c3a'
 });
 const SCHEMA_METHODS = new Set([
     'addIssue',
@@ -262,9 +331,26 @@ function dependencies(node, input) {
     return [...result];
 }
 
-function validateSchema(node, input) {
+function validateSchema(node, input, owner) {
+    const callbacks = new Set();
+    const reviewed = REVIEWED_R4_REFINEMENTS[owner];
+    if (reviewed) {
+        const declaration = input.constants.get(owner);
+        if (!declaration || sha256(declaration.getText(input.sf)) !== reviewed) failAt(node, input.sf, `Changed reviewed R4 schema refinement declaration ${owner}`);
+        visit(node, (item) => {
+            if (!ts.isCallExpression(item) || !ts.isPropertyAccessExpression(item.expression) || !['refine', 'superRefine'].includes(item.expression.name.text)) return;
+            const callback = unwrap(item.arguments[0]);
+            if (!callback || (!ts.isArrowFunction(callback) && !ts.isFunctionExpression(callback))) failAt(item, input.sf, 'Unsupported reviewed refinement callback');
+            visit(callback, (child) => {
+                if (ts.isCallExpression(child) && child.expression.getText(input.sf) === 'z.enum') failAt(child, input.sf, 'A reviewed non-enum refinement cannot contain z.enum');
+            });
+            callbacks.add(callback);
+        });
+        if (!callbacks.size) failAt(node, input.sf, `Missing reviewed R4 refinement callback ${owner}`);
+    }
     visit(node, (item) => {
         if (!ts.isCallExpression(item)) return;
+        for (let parent = item; parent && parent !== node; parent = parent.parent) if (callbacks.has(parent)) return;
         if (!ts.isPropertyAccessExpression(item.expression) || !SCHEMA_METHODS.has(item.expression.name.text)) failAt(item, input.sf, `Unsupported schema helper ${item.expression.getText(input.sf)}`);
         let root = item.expression.expression;
         while (ts.isCallExpression(root) || ts.isPropertyAccessExpression(root)) root = ts.isCallExpression(root) ? root.expression : root.expression;
@@ -352,13 +438,13 @@ export function analyzeShared(text, spec) {
         const initializer = unwrap(node.initializer);
         if (name.endsWith('Schema')) {
             if (!ts.isCallExpression(initializer)) failAt(node, input.sf, `Unknown schema candidate ${name}`);
-            validateSchema(initializer, input);
+            validateSchema(initializer, input, name);
             schemaDeclarations.push({ name, ...source(node, input.sf), classification: 'zod-schema', enumOccurrenceIds: [] });
             continue;
         }
         if (name === 'CommissionSharedEvidencePackageShape') {
             if (!ts.isObjectLiteralExpression(initializer)) failAt(node, input.sf, 'Schema shape must remain an object');
-            validateSchema(initializer, input);
+            validateSchema(initializer, input, name);
             if (
                 initializer.properties.some(
                     (property) => !ts.isPropertyAssignment(property) || (!ts.isCallExpression(unwrap(property.initializer)) && !(ts.isIdentifier(unwrap(property.initializer)) && unwrap(property.initializer).text.endsWith('Schema')))
@@ -573,27 +659,130 @@ export function runtimeOracle(analysis) {
     return { dataDeclarationsCompared: declarations.length, enumArgumentsCompared: occurrences.length, actualTopLevelZodEnumsCompared: Object.keys(oracle.topEnums).length, importAllowlist: ['zod'] };
 }
 
-function compareR0(analysis, r0) {
-    const current = analysis.declarations.filter((item) => item.r0Kind).map((item) => ({ name: item.name, path: item.path, line: item.line, kind: item.r0Kind, value: item.value, sha256: item.valueSha256 }));
-    jsonEqual(current, r0.sharedSsot.constants, 'R0 455 snapshot witness differs from current SSOT');
-    const occurrences = analysis.occurrences.map((item) => ({
-        name: item.owner,
-        schemaId: item.schemaId,
-        path: item.path,
-        line: item.line,
-        topLevelEnum: item.topLevel,
-        expression: item.expression,
-        values: item.values,
-        openApiValues: item.openApiValues,
-        comparison: item.comparison
+const withoutSourceLine = (item) => Object.fromEntries(Object.entries(item).filter(([key]) => key !== 'line'));
+const constantWitness = (item) => ({ name: item.name, path: item.path, line: item.line, kind: item.r0Kind, value: item.value, sha256: item.valueSha256 });
+const enumWitness = (item) => ({
+    name: item.owner, schemaId: item.schemaId, path: item.path, line: item.line,
+    topLevelEnum: item.topLevel, expression: item.expression, values: item.values,
+    openApiValues: item.openApiValues, comparison: item.comparison
+});
+const enumReviewKey = (item) => JSON.stringify([item.owner, item.schemaId, item.path, item.topLevel, item.propertyPath, item.sourceArray]);
+
+function reviewedDeclarationHash(analysis, owner) {
+    const declaration = analysis.input.constants.get(owner);
+    if (!declaration) throw new Error(`Missing reviewed source declaration ${owner}`);
+    return sha256(declaration.getText(analysis.input.sf));
+}
+
+function compareHistoricalRecords(current, historical, count, label) {
+    assert.ok(Array.isArray(historical), `${label}: Historical array is required`);
+    assert.equal(historical.length, count, `${label}: Historical witness count changed`);
+    assert.equal(current.length, count, `${label}: Undeclared addition or missing historical record`);
+    for (let index = 0; index < count; index++) {
+        // Every other field remains part of the full comparison, in original
+        // declaration/occurrence order. Never sort or reduce this to wire sets.
+        jsonEqual(withoutSourceLine(current[index]), withoutSourceLine(historical[index]), `${label} #${index} ${historical[index].name}: Historical payload/order drift`);
+    }
+}
+
+export function compareR0(analysis, r0) {
+    assert.equal(SOURCE_HEAD, REVIEWED_R4_ADDITIONS.sourceHead, 'Review metadata must advance with the fixed source reference');
+    const historicalConstants = r0.sharedSsot.constants;
+    const historicalEnums = r0.sharedSsot.enumSchemas;
+    const historicalNames = new Set(historicalConstants.map((item) => item.name));
+    unique([...historicalConstants.map((item) => item.name)], 'Duplicate name in historical R0 witness');
+    const reviewedConstants = new Map(REVIEWED_R4_ADDITIONS.constants.map((item) => [item.name, item]));
+    const reviewedEnums = new Map(REVIEWED_R4_ADDITIONS.enumOccurrences.map((item) => [enumReviewKey(item), item]));
+    const legacyConstants = [];
+    const addedConstants = [];
+    const seenConstants = new Set();
+    for (const item of analysis.declarations.filter((item) => item.r0Kind)) {
+        if (historicalNames.has(item.name)) {
+            legacyConstants.push(item);
+            continue;
+        }
+        const reviewed = reviewedConstants.get(item.name);
+        if (!reviewed) throw new Error(`Unreviewed post-R0 constant ${item.name} at ${item.path}:${item.line}`);
+        if (seenConstants.has(item.name)) throw new Error(`Duplicate declared R4 constant ${item.name}`);
+        seenConstants.add(item.name);
+        const declarationSha256 = reviewedDeclarationHash(analysis, item.name);
+        const payloadSha256 = sha256(JSON.stringify(withoutSourceLine(constantWitness(item))));
+        assert.equal(declarationSha256, reviewed.declarationSha256, `${item.name}: Reviewed declaration changed`);
+        assert.equal(item.valueSha256, reviewed.valueSha256, `${item.name}: Reviewed value/order changed`);
+        assert.equal(payloadSha256, reviewed.payloadSha256, `${item.name}: Reviewed addition payload changed`);
+        addedConstants.push({ name: item.name, path: item.path, line: item.line, column: item.column, kind: item.r0Kind, declarationSha256, valueSha256: item.valueSha256, payloadSha256 });
+    }
+    jsonEqual(addedConstants.map((item) => item.name), REVIEWED_R4_ADDITIONS.constants.map((item) => item.name), 'Missing or reordered declared R4 constants');
+    compareHistoricalRecords(legacyConstants.map(constantWitness), historicalConstants, HISTORICAL_R0.constants, 'R0 constants');
+
+    const legacyEnums = [];
+    const addedEnums = [];
+    const seenEnums = new Set();
+    for (const item of analysis.occurrences) {
+        const key = enumReviewKey(item);
+        const reviewed = reviewedEnums.get(key);
+        if (!reviewed) {
+            legacyEnums.push(item);
+            continue;
+        }
+        if (seenEnums.has(key)) throw new Error(`Duplicate declared R4 enum occurrence ${key}`);
+        seenEnums.add(key);
+        const declarationSha256 = reviewedDeclarationHash(analysis, item.owner);
+        const payloadSha256 = sha256(JSON.stringify(withoutSourceLine(enumWitness(item))));
+        const expressionSha256 = sha256(item.expression);
+        const valuesSha256 = sha256(JSON.stringify(item.values));
+        assert.equal(declarationSha256, reviewed.declarationSha256, `${key}: Reviewed owner declaration changed`);
+        assert.equal(expressionSha256, reviewed.expressionSha256, `${key}: Reviewed enum expression changed`);
+        assert.equal(valuesSha256, reviewed.valuesSha256, `${key}: Reviewed enum values/order changed`);
+        assert.equal(payloadSha256, reviewed.payloadSha256, `${key}: Reviewed enum payload changed`);
+        addedEnums.push({
+            owner: item.owner, schemaId: item.schemaId, path: item.path, line: item.line, column: item.column,
+            propertyPath: item.propertyPath, topLevel: item.topLevel, sourceArray: item.sourceArray,
+            declarationSha256, expressionSha256, valuesSha256, payloadSha256
+        });
+    }
+    jsonEqual(addedEnums.map(enumReviewKey), REVIEWED_R4_ADDITIONS.enumOccurrences.map(enumReviewKey), 'Missing or reordered declared R4 enum occurrences');
+    compareHistoricalRecords(legacyEnums.map(enumWitness), historicalEnums, HISTORICAL_R0.enumOccurrences, 'R0 enum occurrences');
+    const constantPositions = legacyConstants.map((item, index) => ({
+        historicalIndex: index, name: item.name, path: item.path,
+        historicalLine: historicalConstants[index].line, currentLine: item.line, currentColumn: item.column,
+        lineChanged: historicalConstants[index].line !== item.line
     }));
-    jsonEqual(occurrences, r0.sharedSsot.enumSchemas, 'R0 224 z.enum witness differs from current SSOT');
-    return { path: R0_PATH, constantsCompared: current.length, enumOccurrencesCompared: occurrences.length, result: 'exact-payload-and-order' };
+    const enumPositions = legacyEnums.map((item, index) => ({
+        historicalIndex: index, owner: item.owner, schemaId: item.schemaId, path: item.path,
+        propertyPath: item.propertyPath, historicalLine: historicalEnums[index].line,
+        currentLine: item.line, currentColumn: item.column, lineChanged: historicalEnums[index].line !== item.line
+    }));
+    return {
+        path: R0_PATH,
+        historicalNormalizedTextSha256: HISTORICAL_R0.normalizedTextSha256,
+        constantsCompared: HISTORICAL_R0.constants,
+        enumOccurrencesCompared: HISTORICAL_R0.enumOccurrences,
+        result: 'unchanged-base-payload-and-order-with-declared-r4-additions',
+        currentConstants: legacyConstants.length + addedConstants.length,
+        currentEnumOccurrences: legacyEnums.length + addedEnums.length,
+        provenance: {
+            rule: 'Historical source line only is remapped; all base payload fields and record order are unchanged. R0 bytes are never rewritten.',
+            constants: { remapped: constantPositions.filter((item) => item.lineChanged).length, positions: constantPositions },
+            enumOccurrences: { remapped: enumPositions.filter((item) => item.lineChanged).length, positions: enumPositions }
+        },
+        declaredAdditions: { sourceHead: REVIEWED_R4_ADDITIONS.sourceHead, g1Commit: REVIEWED_R4_ADDITIONS.g1Commit, constants: addedConstants, enumOccurrences: addedEnums }
+    };
 }
 
 export function buildManifest({ root = ROOT, sourceTexts = null, guard = true } = {}) {
-    if (guard) assertSourceGuard(root);
-    const texts = Object.fromEntries(SOURCE_PATHS.map((path) => [path, normalizeText(sourceTexts?.[path] ?? read(root, path))]));
+    if (guard !== true) throw new Error('The source guard cannot be disabled');
+    assertSourceGuard(root);
+    if (sourceTexts !== null && !record(sourceTexts)) throw new Error('Source text overrides must be a normalization-only object');
+    for (const path of Object.keys(sourceTexts ?? {})) if (!SOURCE_PATHS.includes(path)) throw new Error(`Unknown source input override ${path}`);
+    const texts = Object.fromEntries(SOURCE_PATHS.map((path) => {
+        const reviewed = read(root, path);
+        if (sourceTexts !== null && Object.hasOwn(sourceTexts, path)) {
+            if (typeof sourceTexts[path] !== 'string' || normalizeText(sourceTexts[path]) !== reviewed) throw new Error(`${path}: Only equivalent CRLF normalization overrides are permitted; edit and review the actual source deliberately`);
+        }
+        return [path, reviewed];
+    }));
+    assert.equal(sha256(texts[R0_PATH]), HISTORICAL_R0.normalizedTextSha256, 'Historical R0 original changed; do not refresh the witness');
     const spec = JSON.parse(texts[SPEC_PATH]);
     const analysis = analyzeShared(texts[SHARED_PATH], spec);
     const oracle = runtimeOracle(analysis);
@@ -626,6 +815,8 @@ export function buildManifest({ root = ROOT, sourceTexts = null, guard = true } 
             explicitSchemaShapeExclusions: analysis.excludedDeclarations.length,
             sharedDataKinds: sortedCounts(analysis.declarations, (item) => item.kind),
             r0SnapshotCount: analysis.declarations.filter((item) => item.r0Kind).length,
+            historicalR0SnapshotCount: r0Witness.constantsCompared,
+            declaredPostR0SnapshotCount: r0Witness.declaredAdditions.constants.length,
             r0SnapshotsWithCompleteRustMappings: analysis.declarations.filter((item) => item.r0Kind && item.rustMappings.some((mapping) => mapping.wireRelation === 'exact-values-and-order')).length,
             r0SnapshotKinds: sortedCounts(
                 analysis.declarations.filter((item) => item.r0Kind),
@@ -656,8 +847,8 @@ export function buildManifest({ root = ROOT, sourceTexts = null, guard = true } 
     };
     jsonEqual(
         [manifest.coverage.sharedTopLevelVariables, manifest.coverage.sharedClassifiedDataDeclarations, manifest.coverage.r0SnapshotCount, manifest.coverage.zEnumOccurrences, manifest.coverage.generatedEnumFamilies],
-        [1302, 665, 455, 224, 205],
-        'Reviewed R1B coverage changed; explicitly review new candidates and update the coverage baseline'
+        [1316, 666, 456, 228, 209],
+        'Reviewed fixed S3 coverage changed; explicitly review new candidates and their historical witness relationship'
     );
     return manifest;
 }

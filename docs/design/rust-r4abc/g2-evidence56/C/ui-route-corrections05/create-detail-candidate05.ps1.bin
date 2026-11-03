@@ -1,0 +1,153 @@
+$ErrorActionPreference = 'Stop'
+$rootPath = 'E:/projects/worktrees/poms-r3hijk-next28/poms'
+$candidatePath = 'E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/ui-route-corrections05'
+$utf8 = [System.Text.UTF8Encoding]::new($false)
+$relativePath = 'apps/poms-admin/src/app/features/contract/contract-detail.ts'
+$text = [System.IO.File]::ReadAllText((Join-Path $rootPath $relativePath)).Replace("`r`n", "`n")
+function Replace-Once([string]$old, [string]$new) {
+    $count = [regex]::Matches($script:text, [regex]::Escape($old)).Count
+    if ($count -ne 1) { throw "Expected one replacement, found $count for: $old" }
+    $script:text = $script:text.Replace($old, $new)
+}
+Replace-Once "import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';" "import { Component, computed, DestroyRef, inject, OnDestroy, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';`nimport { takeUntilDestroyed } from '@angular/core/rxjs-interop';"
+Replace-Once "import { ToastModule } from 'primeng/toast';" "import { ToastModule } from 'primeng/toast';`nimport { distinctUntilChanged, map } from 'rxjs';"
+Replace-Once '    readonly #route = inject(ActivatedRoute);' @'
+    readonly #route = inject(ActivatedRoute);
+    readonly #destroyRef = inject(DestroyRef);
+    readonly #routeContractId = signal<string | null>(null);
+    #pageRequest = 0;
+'@
+Replace-Once @'
+    readonly contract = this.#contractStore.selectedContract;
+    readonly currentApproval = this.#contractStore.currentApproval;
+'@ @'
+    readonly contract = computed(() => {
+        const contract = this.#contractStore.selectedContract();
+        return contract && contract.id.toLowerCase() === this.#routeContractId()?.toLowerCase() ? contract : null;
+    });
+    readonly currentApproval = computed(() => {
+        const approval = this.#contractStore.currentApproval();
+        return this.contract() && approval?.targetObjectId.toLowerCase() === this.#routeContractId()?.toLowerCase() ? approval : null;
+    });
+'@
+Replace-Once '    readonly commandRefreshError = this.#contractStore.commandRefreshError;' @'
+    readonly commandRefreshError = computed(() => this.#contractStore.lastAcknowledgement()?.contractId.toLowerCase() === this.#routeContractId()?.toLowerCase() ? this.#contractStore.commandRefreshError() : null);
+'@
+Replace-Once '    readonly hasCurrentCommandState = computed(() => !this.commandRefreshError() && !this.refreshingAcknowledgement());' '    readonly hasCurrentCommandState = computed(() => !!this.contract() && !this.loading() && !this.loadingApproval() && !this.saving() && !this.commandRefreshError() && !this.refreshingAcknowledgement());'
+Replace-Once @'
+    ngOnInit() {
+        const id = this.#route.snapshot.paramMap.get('id');
+        if (id) {
+            void Promise.all([this.#contractStore.loadContract(id), this.#contractStore.loadCurrentApproval(id)]).catch((error: unknown) => {
+                this.#messageService.add({ severity: 'error', summary: '读取失败', detail: this.getErrorMessage(error), life: 5000 });
+            });
+        }
+    }
+
+    ngOnDestroy() {
+        this.#contractStore.clearSelectedContract();
+    }
+'@ @'
+    ngOnInit() {
+        this.#route.paramMap.pipe(
+            map((params) => params.get('id')),
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.#destroyRef)
+        ).subscribe((id) => {
+            const page = ++this.#pageRequest;
+            this.#routeContractId.set(id);
+            this.#resetFormsAndDialogs();
+            this.#messageService.clear();
+            this.#contractStore.setContractScope(id);
+            if (!id) return;
+            void Promise.allSettled([this.#contractStore.loadContract(id), this.#contractStore.loadCurrentApproval(id)]).then((outcomes) => {
+                if (page !== this.#pageRequest) return;
+                const errors = outcomes.flatMap((outcome) => outcome.status === 'rejected' ? [this.getErrorMessage(outcome.reason)] : []);
+                if (errors.length) this.#messageService.add({ severity: 'error', summary: '读取失败', detail: [...new Set(errors)].join('；'), life: 5000 });
+            });
+        });
+    }
+
+    ngOnDestroy() {
+        ++this.#pageRequest;
+        this.#routeContractId.set(null);
+        this.#contractStore.clearSelectedContract();
+    }
+
+    #resetFormsAndDialogs(): void {
+        this.editDialogVisible = false;
+        this.editSubmitAttempted = false;
+        this.submitReviewDialogVisible = false;
+        this.approveDialogVisible = false;
+        this.rejectDialogVisible = false;
+        this.activateDialogVisible = false;
+        this.editForm = { signedAmount: '', currencyCode: '', customerContractNo: '' };
+        this.submitReviewForm = { comment: '' };
+        this.approveForm = { comment: '' };
+        this.rejectForm = { reason: '', comment: '' };
+        this.activateForm = { comment: '' };
+    }
+'@
+Replace-Once @'
+    showEditDialog() {
+        const c = this.contract();
+        if (!c) return;
+'@ @'
+    showEditDialog() {
+        const c = this.contract();
+        if (!c || !this.canEditContract()) return;
+'@
+Replace-Once '        if (!c || !this.isValidAmount(this.editForm.signedAmount)) return;' '        if (!c || !this.canEditContract() || !this.isValidAmount(this.editForm.signedAmount)) return;'
+Replace-Once @'
+    openApproveDialog() {
+        this.approveForm = { comment: '' };
+'@ @'
+    openApproveDialog() {
+        if (!this.canApprove()) return;
+        this.approveForm = { comment: '' };
+'@
+Replace-Once '        if (!approval) return;' '        if (!approval || !this.canApprove()) return;'
+Replace-Once @'
+    openRejectDialog() {
+        this.rejectForm = { reason: '', comment: '' };
+'@ @'
+    openRejectDialog() {
+        if (!this.canReject()) return;
+        this.rejectForm = { reason: '', comment: '' };
+'@
+Replace-Once '        if (!approval || !this.rejectForm.reason.trim()) return;' '        if (!approval || !this.canReject() || !this.rejectForm.reason.trim()) return;'
+
+# Every awaited command handler retains its originating page, including A -> B -> A.
+foreach ($method in @('saveContract','submitReview','approveApproval','rejectApproval','activateContract')) {
+    $start = $text.IndexOf('    async ' + $method + '() {')
+    if ($start -lt 0) { throw "Missing command handler: $method" }
+    $end = $text.IndexOf("`n    }", $start) + 6
+    $section = $text.Substring($start, $end - $start)
+    $section = $section.Replace('    async ' + $method + '() {', '    async ' + $method + "() {`n        const page = this.#pageRequest;")
+    # The API call is the first await. Check the page before any post-await local mutation/toast.
+    $awaitAt = $section.IndexOf('            await ')
+    if ($awaitAt -lt 0) { throw "Missing awaited command in $method" }
+    $afterAwait = $section.IndexOf(";`n", $awaitAt) + 2
+    if ($afterAwait -lt 2) { throw "Missing end of awaited command in $method" }
+    $section = $section.Insert($afterAwait, "            if (page !== this.#pageRequest) return;`n")
+    $section = $section.Replace('        } catch (error) {', "        } catch (error) {`n            if (page !== this.#pageRequest) return;")
+    $text = $text.Substring(0,$start) + $section + $text.Substring($end)
+}
+Replace-Once @'
+    async reloadAcknowledgedState() {
+        const refreshed = await this.#contractStore.reloadAcknowledgedState();
+        if (refreshed) this.#messageService.add({ severity: 'success', summary: '已重新加载', detail: '合同、审批与待办已更新', life: 3000 });
+    }
+'@ @'
+    async reloadAcknowledgedState() {
+        const page = this.#pageRequest;
+        const acknowledgement = this.#contractStore.lastAcknowledgement();
+        if (!acknowledgement || acknowledgement.contractId.toLowerCase() !== this.#routeContractId()?.toLowerCase()) return;
+        const refreshed = await this.#contractStore.reloadAcknowledgedState();
+        if (page !== this.#pageRequest) return;
+        if (refreshed) this.#messageService.add({ severity: 'success', summary: '已重新加载', detail: '合同、审批与待办已更新', life: 3000 });
+    }
+'@
+$destination = Join-Path (Join-Path $candidatePath 'products') $relativePath
+[System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($destination)) | Out-Null
+[System.IO.File]::WriteAllText($destination, $text, $utf8)

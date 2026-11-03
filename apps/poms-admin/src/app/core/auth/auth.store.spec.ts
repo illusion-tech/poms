@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { ApprovalApi, AuthApi, AuthStore, IdentityProvider, NavigationApi, type CurrentAuthSessionView, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { ApprovalApi, AuthApi, AuthStore, BusinessDomain, IdentityProvider, NavigationApi, TargetObjectType, TodoPriority, TodoSourceType, TodoStatus, TodoType, type CurrentAuthSessionView, type EnabledLoginProviderSummary, type SanitizedUserWithOrgUnits, type TodoItemSummary } from '@poms/admin-data-access';
 import { PomsCsrfTokenStore } from '@poms/admin-data-access/lib/poms-api/poms-csrf-token.store';
-import { of } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 
 function createUser(overrides: Partial<SanitizedUserWithOrgUnits> = {}): SanitizedUserWithOrgUnits {
     return {
@@ -33,6 +33,16 @@ function createSession(user: SanitizedUserWithOrgUnits): CurrentAuthSessionView 
             cookieName: 'poms_csrf',
             headerName: 'X-CSRF-Token'
         }
+    };
+}
+
+function createTodo(): TodoItemSummary {
+    return {
+        id: 'todo-1', sourceType: TodoSourceType.ApprovalRecord, sourceId: 'approval-1', todoType: TodoType.Approval,
+        businessDomain: BusinessDomain.ContractFinance, targetObjectType: TargetObjectType.Contract, targetObjectId: 'contract-1',
+        projectId: 'project-1', title: '合同审批', summary: null, targetTitle: '合同 CT-1', currentNodeName: '审核',
+        allowedActions: ['approve', 'reject'], assigneeUserId: 'user-1', status: TodoStatus.Open, priority: TodoPriority.Normal,
+        dueAt: null, completedAt: null, rowVersion: 1, createdAt: '2026-11-03T01:00:00.000Z', updatedAt: '2026-11-03T01:00:00.000Z'
     };
 }
 
@@ -192,6 +202,56 @@ describe('AuthStore', () => {
         expect(store.currentUser()).toBeNull();
         expect(store.navigationTree()).toEqual([]);
         expect(store.myTodos()).toEqual([]);
+    });
+
+    it('propagates an explicitly requested todo read failure and keeps the previous todos', async () => {
+        const previousTodos = [createTodo()];
+        const failure = new Error('待办服务暂时不可用。');
+        store.currentUser.set(createUser());
+        store.myTodos.set(previousTodos);
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(throwError(() => failure));
+
+        await expect(store.refreshTodos({ propagateErrors: true })).rejects.toBe(failure);
+
+        expect(store.myTodos()).toBe(previousTodos);
+        expect(approvalApiMock.approvalControllerGetMyTodos).toHaveBeenCalledTimes(1);
+    });
+
+    it('retains the existing empty-list fallback when callers use the default todo refresh', async () => {
+        store.currentUser.set(createUser());
+        store.myTodos.set([createTodo()]);
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(throwError(() => new Error('待办服务暂时不可用。')));
+
+        await expect(store.refreshTodos()).resolves.toBeUndefined();
+
+        expect(store.myTodos()).toEqual([]);
+    });
+
+    it('updates todos after an explicitly requested strict read succeeds', async () => {
+        const todos = [createTodo()];
+        store.currentUser.set(createUser());
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(of(todos));
+
+        await expect(store.refreshTodos({ propagateErrors: true })).resolves.toBeUndefined();
+
+        expect(store.myTodos()).toBe(todos);
+    });
+
+    it('does not publish a delayed todo result after its caller scope is invalidated', async () => {
+        const previousTodos = [createTodo()];
+        const delayedTodos = new Subject<TodoItemSummary[]>();
+        let current = true;
+        store.currentUser.set(createUser());
+        store.myTodos.set(previousTodos);
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(delayedTodos);
+        const reading = store.refreshTodos({ propagateErrors: true, isCurrent: () => current });
+
+        current = false;
+        delayedTodos.next([{ ...createTodo(), id: 'old-scope-todo' }]);
+        delayedTodos.complete();
+        await expect(reading).resolves.toBeUndefined();
+
+        expect(store.myTodos()).toBe(previousTodos);
     });
 
     it('updates currentUser from profile self-service response', async () => {

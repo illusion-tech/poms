@@ -1,0 +1,62 @@
+{
+  "phase": "POST /api/projects/51923262-8e4e-458d-bf31-d4c049b0b739/invoice-records",
+  "cases": [
+    {
+      "caseId": "max12-1",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/contracts",
+      "status": 201,
+      "requestBodySha256": "2cd0a54cb2174ce962024ab1211c820013c6c5a3198c7925e44d356c4e4d6f4b",
+      "responseBodySha256": "f8beefc74385a44e9476508fd85e2927ebff12621c2ae8115c7d3f6b4238d49e",
+      "errorCode": null
+    },
+    {
+      "caseId": "max12-2",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "GET",
+      "url": "/api/contracts/4dca3530-ab9a-4cfa-8729-eef08cdc5ca5",
+      "status": 200,
+      "requestBodySha256": null,
+      "responseBodySha256": "740e9148a729411ae6e0d86b428d92a579ed10c42476d756d0ce631f7ba94076",
+      "errorCode": null
+    },
+    {
+      "caseId": "max12-3",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "PATCH",
+      "url": "/api/contracts/4dca3530-ab9a-4cfa-8729-eef08cdc5ca5",
+      "status": 200,
+      "requestBodySha256": "56cce27ec0f15444ad29103e078ed216a14b1c45a22e6176eb65df1762249fc3",
+      "responseBodySha256": "f8beefc74385a44e9476508fd85e2927ebff12621c2ae8115c7d3f6b4238d49e",
+      "errorCode": null
+    },
+    {
+      "caseId": "max12-4",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/contracts/209565f3-a2c1-4ff3-9945-800956d684c0/receipt-records",
+      "status": 201,
+      "requestBodySha256": "594a27d512b7c9dcaba6710971d1a7601aa73e68c6bc79051140082bdb04c7ae",
+      "responseBodySha256": "b6887eec33c1ff3157927a55f21b6cdb345bd76b38abc272057a592b622707e4",
+      "errorCode": null
+    },
+    {
+      "caseId": "max12-5",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/projects/51923262-8e4e-458d-bf31-d4c049b0b739/invoice-records",
+      "status": 422,
+      "requestBodySha256": "0e2b645e0f4c5ead17afd6679b2839d8af9f1316d422e900c2648bc83774cbc4",
+      "responseBodySha256": "acd730f42ee092d05036c59257206273f9e5d90a7b1f05923870fd473411626e",
+      "errorCode": null
+    }
+  ],
+  "completed": false,
+  "errorName": "AssertionError"
+}

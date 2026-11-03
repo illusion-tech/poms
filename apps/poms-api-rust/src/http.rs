@@ -174,6 +174,10 @@ pub fn openapi() -> serde_json::Value {
     // Keep the TS-owned OpenAPI 3.0 schema vocabulary intact. Deserializing it
     // as Utoipa's OpenAPI 3.1 types would narrow or discard existing metadata.
     document["openapi"] = authentication["openapi"].clone();
+    let r4_overrides: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../tools/rust-r4abc/component-overrides01.json"
+    ))
+    .unwrap_or_else(|_| panic!("invalid declared R4 component delta"));
     for subset in [
         authentication,
         crate::navigation::http::openapi(),
@@ -194,6 +198,7 @@ pub fn openapi() -> serde_json::Value {
             .unwrap_or_else(|_| panic!("invalid original next16 OpenAPI subset")),
         serde_json::from_str(include_str!("../../../tools/rust-r3hijk/openapi.json"))
             .unwrap_or_else(|_| panic!("invalid original final28 OpenAPI subset")),
+        crate::contract_support::http::openapi(),
     ] {
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
@@ -209,11 +214,20 @@ pub fn openapi() -> serde_json::Value {
                     document["components"][kind] = json!({});
                 }
                 let existing = &document["components"][kind][name];
-                assert!(
-                    existing.is_null() || existing == value,
-                    "conflicting OpenAPI component {kind}/{name}"
-                );
-                document["components"][kind][name] = value.clone();
+                let replacement = &r4_overrides["overrides"][name];
+                if kind == "schemas" && !replacement.is_null() {
+                    assert!(
+                        value == &replacement["before"] || value == &replacement["after"],
+                        "undeclared R4 component shape {name}"
+                    );
+                    document["components"][kind][name] = replacement["after"].clone();
+                } else {
+                    assert!(
+                        existing.is_null() || existing == value,
+                        "conflicting OpenAPI component {kind}/{name}"
+                    );
+                    document["components"][kind][name] = value.clone();
+                }
             }
         }
     }
@@ -267,6 +281,7 @@ pub fn router_with_runtime_settings(
         attachment_storage.clone(),
     ));
     let approval = crate::approval::ApprovalService::new(state.database.clone());
+    let contract_database = state.database.clone();
     let support = crate::provider_support::ProviderSupport::new(provider_settings);
     let directory = crate::external_org_sync::DirectoryAdapter::new(support.clone());
     let identity_providers =
@@ -400,6 +415,10 @@ pub fn router_with_runtime_settings(
                 auth.clone(),
                 workspace,
             ))
+            .merge(crate::contract_support::http::router(
+                auth.clone(),
+                contract_database,
+            ))
             .merge(crate::approval::http::router(auth, approval)),
         cors_origins,
     )
@@ -476,6 +495,9 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         ))
         .layer(middleware::from_fn(
             crate::project_workspace::http::normalize_uri,
+        ))
+        .layer(middleware::from_fn(
+            crate::contract_support::http::normalize_uri,
         ))
         .layer(middleware::from_fn(decode_path_segments))
         .layer(middleware::from_fn(crate::auth::http::body_parser))

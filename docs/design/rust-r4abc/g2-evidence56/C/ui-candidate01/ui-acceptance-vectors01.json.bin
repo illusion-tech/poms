@@ -1,0 +1,28 @@
+{
+  "kind": "R4 UI pure acceptance vectors, not executed",
+  "author": "C UI candidate author, not independent reviewer",
+  "source": "Root current app/client after S3 4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+  "executionOwner": "Root centralized lint/build/focused tests and actual Linux/Windows browsers",
+  "vectors": [
+    {"id":"UI-R4-01","trigger":"Draft detail without currentPreparation","expect":"No submit HTTP request; disabled/absent submit; clear prepare-first message and existing project pre-signing navigation with contractId."},
+    {"id":"UI-R4-02","trigger":"Draft with real current prepared metadata","expect":"Submit carries exact preparationId + contract rowVersion + optional comment, never preparation version as contract version."},
+    {"id":"UI-R4-03","trigger":"Approved review not bound to current exact preparation/hash/version","expect":"No activate action/request; explain missing or inconsistent binding; do not select replacement terms."},
+    {"id":"UI-R4-04","trigger":"Exact approved binding for preparation version3, later active snapshot version1","expect":"Display prep3, review prep3 and snapshot1 separately. Activation body only expectedVersion/comment; no caller terms/prep replacement."},
+    {"id":"UI-R4-05","trigger":"Contract money9007199254740991.99/max18,2/leading zeros","expect":"Exact strings remain; no Number/parseFloat/toLocaleString rounding in local contract renderer/editor. Max overflow, zero, negative, scientific and third decimal rejected locally."},
+    {"id":"UI-R4-06","trigger":"Masked projection plus stale raw value/candidateTerms in fixture","expect":"Render only displayText; never raw monetary value, candidate terms or seed rows. Actual Root HTTP privacy proof remains mandatory."},
+    {"id":"UI-R4-07","trigger":"retentionDueDate/plannedDate2026-11-03 on both host timezones","expect":"Display exact date string without UTC conversion/slice. signedAt retains original datetime semantics."},
+    {"id":"UI-R4-08","trigger":"Project has multiple contracts and no explicit choice","expect":"Show selector, no first/latest guess and no unsafely unscoped readiness/diff GET. Selecting one sends A03/A07 contractId."},
+    {"id":"UI-R4-09","trigger":"409 contract_selection_required with candidateContractIds","expect":"Preserve server message and candidate IDs in selector state until valid selection; no invented readiness. No 404 fallback for401/403/409/500."},
+    {"id":"UI-R4-10","trigger":"Rapidly select contractA thenB; A request resolves last","expect":"Only B detail/readiness/history remains. Old read cannot clear latest loading/error or overwrite current contract facts."},
+    {"id":"UI-R4-11","trigger":"A08 prepare on eligible draft/package","expect":"Body contractId + contractReadinessPackageId=path + expectedVersion; result snapshotId null; show actual preparation metadata, not active snapshot. Reload A06 with sourceReadinessId, never targetId."},
+    {"id":"UI-R4-12","trigger":"A09 before Active valid snapshot or without matching source","expect":"Button disabled and no request; no fake plan from legacy marker or summary. Missing sources/blocked reasons visible."},
+    {"id":"UI-R4-13","trigger":"A09 after actual B Active valid source snapshot","expect":"Body selected contractId/canonical package assertion/version; actual planVersionId/version/initRecordId from result. Read back package by sourceReadinessId and actual contract detail."},
+    {"id":"UI-R4-14","trigger":"A08/A09 returns success but subsequent GET fails","expect":"Keep acknowledged receipt, explain successful operation plus failed refresh; do not claim rollback or blindly create replacement. Refresh is explicit."},
+    {"id":"UI-R4-15","trigger":"Workspace clear/new project while an old initialization remains pending","expect":"Old request cannot repopulate new project/selection or clear a newer command busy state."},
+    {"id":"UI-R4-16","trigger":"Source changed/version409/domain rejection/CSRF or permission error","expect":"Retain server message, no optimistic ready/active/plan assignment and no fabricated successful product."},
+    {"id":"UI-R4-17","trigger":"Read-only financial user or missing project:write","expect":"Existing contract permission policy retained; project prepare/plan actions unavailable without existing project:write. No new route or role/RBAC."},
+    {"id":"UI-R4-18","trigger":"A01/A05 upstream missing","expect":"Show absence/blocked state; do not manufacture a new editor, source UUID, candidate terms from free text, or fake initialization. Root's actual API producer supplies this upstream boundary."}
+  ],
+  "focusedSourceTests": ["products/apps/poms-admin/src/app/features/contract/contract-flow.spec.ts","updated existing contract-detail.spec.ts and project-pre-signing-overview.spec.ts fixtures"],
+  "notClaimed": ["actual unit/build pass","real browser pass","A01/A05 UI authoring path","finance19 original UI","R4 stage complete"]
+}

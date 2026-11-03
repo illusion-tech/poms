@@ -1,0 +1,2514 @@
+{
+  "kind": "read-only-actual-cost-typed-mapping-negative-fixtures-and-real-UI-side-task",
+  "steps": [
+    {
+      "caseId": "map35-1",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/projects/f27c2e0f-e0ad-4cdd-9c51-1261a63c5ac3/payable-records",
+      "status": 201,
+      "requestBodySha256": "bb0190cd4928b692a8c08287697fdeb73d97f3a2bf8ca2d9f4bbf3f43b24db0a",
+      "responseBodySha256": "645e7714894f0cf164c64cddb7e4033d2f78c2872e5790e83392e3b0baffa84b",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-2",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/projects/f27c2e0f-e0ad-4cdd-9c51-1261a63c5ac3/payment-records",
+      "status": 201,
+      "requestBodySha256": "7d1c6accdb7da35afb1b0c922a579db05bb7dba4ec7a92896520732e5bbfaf4b",
+      "responseBodySha256": "25062b284273ad5d6808cb774ea87a9ec59e5ffc66a69f9ce519e416cc20fd6c",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-3",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/projects/f27c2e0f-e0ad-4cdd-9c51-1261a63c5ac3/invoice-records",
+      "status": 201,
+      "requestBodySha256": "8e41615edbdb32d7bedf0b87f7337f6b8f555a28e6b2202f9582a7fedfc0b71a",
+      "responseBodySha256": "81a936ea608d7151adb9fe7778307772f86504b1828b8cfff3f1eb02a345d426",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-4",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "PATCH",
+      "url": "/api/payable-records/b0e7b647-5552-4f4d-aa25-eddff0fd6bbb",
+      "status": 422,
+      "requestBodySha256": "d07c81145ed64b536b36184caef73dfcc9362d88249bb5cb72fc1d84541aeafb",
+      "responseBodySha256": "b83d937f17e837cc55253abb1fbfe2a6975752ef69e5c0951334070d6c3a1041",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-5",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "GET",
+      "url": "/api/payable-records/b0e7b647-5552-4f4d-aa25-eddff0fd6bbb",
+      "status": 200,
+      "requestBodySha256": null,
+      "responseBodySha256": "9454f7983d0f5af34597e8f6e98d1cbb362cd561d1023bddba4a1e8abe9b3a0b",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-6",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "PATCH",
+      "url": "/api/payable-records/b0e7b647-5552-4f4d-aa25-eddff0fd6bbb",
+      "status": 200,
+      "requestBodySha256": "d07c81145ed64b536b36184caef73dfcc9362d88249bb5cb72fc1d84541aeafb",
+      "responseBodySha256": "a3f4a1fd110e4d8a5fbc1dd91d7feab32d59eac6f063fba198a0ceb125c677be",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-7",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/invoice-records/eb283bd4-261c-43a1-86e4-94dd3357403b:markException",
+      "status": 422,
+      "requestBodySha256": "e01d2156241cfab4d8c8837dae34eced16d402c04e86bdf980ba93f2bf01928a",
+      "responseBodySha256": "4642477d6bfd58238a590f65e6a123916bf6582d7a68b8fce4e919d685d85633",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-8",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "GET",
+      "url": "/api/invoice-records/eb283bd4-261c-43a1-86e4-94dd3357403b",
+      "status": 200,
+      "requestBodySha256": null,
+      "responseBodySha256": "5640a9b90b2268cad4fb8c532c765b5dab68d3512689808d840f9ca8a337521d",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-9",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/invoice-records/eb283bd4-261c-43a1-86e4-94dd3357403b:markException",
+      "status": 200,
+      "requestBodySha256": "e01d2156241cfab4d8c8837dae34eced16d402c04e86bdf980ba93f2bf01928a",
+      "responseBodySha256": "286d87bec1d390a2eceec4e99cdc0d7b08fba720b07eb52982cc38c19110fb01",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-10",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/contract-readiness-packages",
+      "status": 201,
+      "requestBodySha256": "ae22b40329708885586c3510ebcdb3871a99c712b1edcff0455dec33021bc1e7",
+      "responseBodySha256": "30a6247e6200a8e68d55d7c5ef03f94f2973d471b2af9e4d247c4e8d60a70617",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-11",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "GET",
+      "url": "/api/contract-readiness-packages/75d83b0b-06bb-4b3f-90d5-b10229c4539a",
+      "status": 200,
+      "requestBodySha256": null,
+      "responseBodySha256": "30a6247e6200a8e68d55d7c5ef03f94f2973d471b2af9e4d247c4e8d60a70617",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-12",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/contract-readiness-packages/75d83b0b-06bb-4b3f-90d5-b10229c4539a:initializeContractSnapshot",
+      "status": 200,
+      "requestBodySha256": "fb075d228f70e82af1e8276acdb1903cac5decd54d609da7ee00c148e4f20fe5",
+      "responseBodySha256": "53f2eec1805048ad986fd00c68e7b241ea17f60adbdde21af04343049776fcc6",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-13",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "GET",
+      "url": "/api/contracts/76ce2445-de73-4ab8-ba70-d6f4d4e57b10",
+      "status": 200,
+      "requestBodySha256": null,
+      "responseBodySha256": "afe6ce7286741ba9cb6252c0534946508896835ee2fddc6bab558f5c22a69c3d",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-14",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "POST",
+      "url": "/api/contracts/76ce2445-de73-4ab8-ba70-d6f4d4e57b10:submitReview",
+      "status": 200,
+      "requestBodySha256": "2393d815346d109fca91a3e260b44cf3efaba799937c46155e04a02393f7b3fe",
+      "responseBodySha256": "40b81fb74524d4ff27da8366e880d9cec227e50bda1698b4081cf51f8100b33b",
+      "errorCode": null
+    },
+    {
+      "caseId": "map35-15",
+      "backend": "rust",
+      "actor": "creator",
+      "method": "GET",
+      "url": "/api/contracts/76ce2445-de73-4ab8-ba70-d6f4d4e57b10/approval-record",
+      "status": 200,
+      "requestBodySha256": null,
+      "responseBodySha256": "74510bfc2b66d3d9ece68c6f719c9eebb5150ca7c01c87d28b2a76cbb05c83e4",
+      "errorCode": null
+    }
+  ],
+  "checks": [
+    {
+      "source": "payable-record",
+      "sourceId": "b0e7b647-5552-4f4d-aa25-eddff0fd6bbb",
+      "storedSourceId": "B0E7B647-5552-4F4D-AA25-EDDFF0FD6BBB",
+      "blocked": true,
+      "typedUUIDMatch": true,
+      "before": {
+        "file": {
+          "file": "/home/wangzishi/.local/share/poms-r4abc/private/graphs/map35-1-before.json",
+          "bytes": 1214414,
+          "rawBytesSha256": "ec1911f4952220f080ed647cf07280950fe1ad538a6d889163cb2c51e8039059"
+        },
+        "tables": [
+          {
+            "table": "acceptance_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "approval_record",
+            "count": 21,
+            "rowsRawTextSha256": "0514510742e34bbe7c82160513a6dbf2c6375ee885483d23652893f5af13ba26"
+          },
+          {
+            "table": "approval_summary_field_projection",
+            "count": 42,
+            "rowsRawTextSha256": "029008bf1e96e7389a750741fb412f36291e9834998e5b19eea46aeb5307b074"
+          },
+          {
+            "table": "approval_summary_package_definition",
+            "count": 9,
+            "rowsRawTextSha256": "d54354289a75a015ccf0fdb034b2f6026e529ce4955956692542a184d090c6ed"
+          },
+          {
+            "table": "approval_summary_snapshot",
+            "count": 21,
+            "rowsRawTextSha256": "f81df2f5776cde921272b4ab0625d40735f729a957fd798bc52591540aecb265"
+          },
+          {
+            "table": "attachment",
+            "count": 2,
+            "rowsRawTextSha256": "f23a9f63723d8df2069372711ae129afc2e734195d0e10c9f68ca90e04004e4b"
+          },
+          {
+            "table": "attachment_download_package",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_download_package_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_link",
+            "count": 2,
+            "rowsRawTextSha256": "8072c805dedea5bf0efc28b2f83e6c36fc6f9b23b8b504464629e0bfac24b540"
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_upload_session",
+            "count": 2,
+            "rowsRawTextSha256": "91994f8e0d38c4e69fff6b4f722f91191c574291cf262c0fb5b5a39ac5a81966"
+          },
+          {
+            "table": "audit_log",
+            "count": 234,
+            "rowsRawTextSha256": "5f8fe30d2060d9d9276f1042548bbd2699e8dff47bc8d2d15deb7b0d2ec63cca"
+          },
+          {
+            "table": "auth_session",
+            "count": 22,
+            "rowsRawTextSha256": "1f8efd86992ab0c10295313abf1ae9560b88b97d885bbb7aa471e89ec04f76ce"
+          },
+          {
+            "table": "business_discussion_comment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_discussion_thread",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_number_sequence",
+            "count": 3,
+            "rowsRawTextSha256": "d055eb49d6e6c99a549b82bdff36d566ed988d174a58b59358682f4c876e89a9"
+          },
+          {
+            "table": "change_package_baseline",
+            "count": 3,
+            "rowsRawTextSha256": "7463ada29f90f21444946c512f60e36ff6320d021d581e795491c303a81eb534"
+          },
+          {
+            "table": "commercial_baseline_diff_item",
+            "count": 16,
+            "rowsRawTextSha256": "f024b177a3213a1dd27f89ef3bec43564a1fff56c7a28fc4be21d65ca34bd8be"
+          },
+          {
+            "table": "commercial_baseline_diff_result",
+            "count": 42,
+            "rowsRawTextSha256": "8fd592bec738a1813cd1718df5c6fe2f113e36df2f9b7a02c4b000676fa7ab66"
+          },
+          {
+            "table": "commercial_baseline_review_attachment",
+            "count": 7,
+            "rowsRawTextSha256": "2aeb732eeadf1a555b1e27ed068f11b7fc6fc876b88269f1d29260e19326f712"
+          },
+          {
+            "table": "commercial_baseline_review_record",
+            "count": 8,
+            "rowsRawTextSha256": "9e1bceb720328002fa87e42e1d8aa383fddfca77119e1b9891faf9a9f5027014"
+          },
+          {
+            "table": "commercial_release_baseline",
+            "count": 19,
+            "rowsRawTextSha256": "f4fd3fbba48f34219425de3fe7730b9cd078e34fab2fce0653240d181cb3d6d3"
+          },
+          {
+            "table": "commission_adjustment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_calculation",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_departure_exception_decision",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_change_request",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_gate_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_payout",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_role_assignment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "confirmation_participant",
+            "count": 12,
+            "rowsRawTextSha256": "420fbc0031255e28dca83291a3b546514299601f2bcd5a0bd9b6979c3860e7f7"
+          },
+          {
+            "table": "confirmation_record",
+            "count": 6,
+            "rowsRawTextSha256": "85445ed4bbbaf7ca2bd19817028efa721a4cae39e30b0e896fb84f0962c43860"
+          },
+          {
+            "table": "contract",
+            "count": 40,
+            "rowsRawTextSha256": "bc01bafbfa8446ecdcb0864d5286ff488ccf0f2cf0a85c82148952a7fbad20cc"
+          },
+          {
+            "table": "contract_amendment",
+            "count": 1,
+            "rowsRawTextSha256": "bf789b509acacb857f389957ec8c0fd450caccdf25a2f070c6f8b29fd08da137"
+          },
+          {
+            "table": "contract_handover_rebaseline_record",
+            "count": 1,
+            "rowsRawTextSha256": "6f515ddf68ca7546b8d2aa0adcdab993895f3c909384f3ea3b03262e5d205bc8"
+          },
+          {
+            "table": "contract_readiness_package",
+            "count": 42,
+            "rowsRawTextSha256": "f4e748e66d024a4976c7d1d932fa47f8ed2ed5a0e1a82928d9c23fbee2b5882c"
+          },
+          {
+            "table": "contract_readiness_package_item",
+            "count": 105,
+            "rowsRawTextSha256": "b68bc017d4b85342691f08dc75c214e8dcda94a98e421418ed30c4071106a762"
+          },
+          {
+            "table": "contract_review_binding",
+            "count": 21,
+            "rowsRawTextSha256": "4b751413a4720910e10b68c37a0b40cd40029b584a23d44c58aa44343752aa29"
+          },
+          {
+            "table": "contract_term_preparation",
+            "count": 22,
+            "rowsRawTextSha256": "2cb6e44f2189821fdd71a7b6eaf76be28e30d84edce7dfa179418822f44e6bef"
+          },
+          {
+            "table": "contract_term_snapshot",
+            "count": 17,
+            "rowsRawTextSha256": "a9a745d716fc2419e1f1b011ff177402677ece1417e9372174aaf04d4d1a8bc0"
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "customer",
+            "count": 9,
+            "rowsRawTextSha256": "81d592209e16dd3e232c074ccf34aa03effd6af5affadf0cc4bf08e55f546cc8"
+          },
+          {
+            "table": "customer_alias",
+            "count": 9,
+            "rowsRawTextSha256": "b82df62812d51dfe7872e1acb250af2cb5f4b9bcf14bc0ff85bb553d5441bf27"
+          },
+          {
+            "table": "customer_contact",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "689bc63110acc6274ca744227a5b5690edf72e5fbcde3d64d49cccc42a09c857"
+          },
+          {
+            "table": "dictionary_item",
+            "count": 32,
+            "rowsRawTextSha256": "8fb65cec5b52f83bfd9c6ea51e4a72ef6f727f40dc3a812fd70a9d7a817c4667"
+          },
+          {
+            "table": "expense_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_department_mapping",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_identity",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_login_ticket",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_org_source",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "handover_baseline_impact_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "invoice_record",
+            "count": 5,
+            "rowsRawTextSha256": "8f2836e84e917926f6d881a298d6d806481ae07dd86b194983a76f8450a0ee1f"
+          },
+          {
+            "table": "lead",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_override",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "local_credential",
+            "count": 18,
+            "rowsRawTextSha256": "106b17557f2d7fe0aad12b7fe3c1602a378ab01683fc518a01f717cde98d4adf"
+          },
+          {
+            "table": "operating_baseline_package",
+            "count": 3,
+            "rowsRawTextSha256": "e9762a584899cec9fdb6524a63f5cadb9dc253d84d845a7e327b7858b4ffa68f"
+          },
+          {
+            "table": "operating_restatement_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "5170edf8e19027c07d55bc959f1d054e2bff1da9f81ffb51521ea69f5ad21f45"
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "count": 3,
+            "rowsRawTextSha256": "8fecd5f0aee901dfcd113962277538c80d227930245c794fcc47fa6e896b7c6a"
+          },
+          {
+            "table": "operating_signal_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_diff_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_run",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_unit",
+            "count": 9,
+            "rowsRawTextSha256": "447697f09eeafa7cf919e4319743bf406725f3ea35b75efad45ba51a9d3f799a"
+          },
+          {
+            "table": "payable_record",
+            "count": 10,
+            "rowsRawTextSha256": "5454de5369026b776e6f76422cb17594388127e228ec324296de089fd1df8308"
+          },
+          {
+            "table": "payment_record",
+            "count": 11,
+            "rowsRawTextSha256": "c36e10ea4e6971362669590ead24681ebfb3113537eae3ce1e400f8ffa6991ed"
+          },
+          {
+            "table": "period_closing_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "platform_user",
+            "count": 18,
+            "rowsRawTextSha256": "8740930d75b5a803d1a5f27883b02b031c18191314d1a705c836916694db837c"
+          },
+          {
+            "table": "poms_migrations",
+            "count": 93,
+            "rowsRawTextSha256": "2aeba76ce971247b5464242d06e8f68e1bf3edb03ed9ce9a6ded96ddfd684140"
+          },
+          {
+            "table": "project",
+            "count": 18,
+            "rowsRawTextSha256": "15a56b15929ce0c72ea6795f32bf1d0a6a280ae45e884d0d3e3c2bb197b206db"
+          },
+          {
+            "table": "project_actual_cost_record",
+            "count": 1,
+            "rowsRawTextSha256": "7820652a12c7c1b594dae78509fece785fc95072ad93b369d972e6dbcdb330c4"
+          },
+          {
+            "table": "project_archive_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_material_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_process",
+            "count": 7,
+            "rowsRawTextSha256": "6e505a73ab49d7b9af2194298d5d08c258f2ea8a5d58f2fb8a8b86ab8678e325"
+          },
+          {
+            "table": "project_bid_commercial_timeline_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_completion_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_handover",
+            "count": 6,
+            "rowsRawTextSha256": "dbfab66ca55dd91eddbc5b518fbd7f56888dde5e05515dfd189d21add51d2412"
+          },
+          {
+            "table": "project_handover_attachment_selection",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_operating_snapshot",
+            "count": 3,
+            "rowsRawTextSha256": "4db596251f8325e93f800134d2e147dced3817ad33d106a39d1f93ad6613247c"
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_condition_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_review",
+            "count": 9,
+            "rowsRawTextSha256": "b5bf2142f306a500bcb12c94be19e9d38e7c65fbb010bae1ceca08c8779c74bc"
+          },
+          {
+            "table": "project_receipt_judgment_freeze",
+            "count": 2,
+            "rowsRawTextSha256": "ec4edd87638e9ac09eeea0f62633dba51e8e58d2aae853ae90342fa78bf96266"
+          },
+          {
+            "table": "project_technical_cost_item",
+            "count": 7,
+            "rowsRawTextSha256": "bc1a2a96d89fcf371690b779a4d5ab281112b9c7f1349af341f6a6190aed7bc0"
+          },
+          {
+            "table": "project_technical_cost_package",
+            "count": 7,
+            "rowsRawTextSha256": "954b39a15581c3db46f3a13e2b4338fb992298db7f292f9e1f7f87e98074906e"
+          },
+          {
+            "table": "project_technical_risk_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_technical_scope_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "receipt_record",
+            "count": 8,
+            "rowsRawTextSha256": "22c66ad4fcd684674562a3d579014286526fd3982a92881877c605f884199a67"
+          },
+          {
+            "table": "receivable_plan_init_record",
+            "count": 10,
+            "rowsRawTextSha256": "62b426e9042a343edea0e86bcf6bab7b2b53a83c79d454d4c2d58a54efb7a416"
+          },
+          {
+            "table": "receivable_plan_node",
+            "count": 10,
+            "rowsRawTextSha256": "5ad18661535e965a4452e5cf44a0a5c1677e6ee5878ce293483a445314bf6677"
+          },
+          {
+            "table": "receivable_plan_version",
+            "count": 10,
+            "rowsRawTextSha256": "8dbb7fdfe9cb0f14d70d94e9344cfbf298aacf067acb0a5d637fea86808db086"
+          },
+          {
+            "table": "role",
+            "count": 16,
+            "rowsRawTextSha256": "073a25dddfd5c5c4c76a21af0250209f1089750b53f96e423550bfbbfe8df319"
+          },
+          {
+            "table": "role_permission_assignment",
+            "count": 201,
+            "rowsRawTextSha256": "ef430adceb4542fd107c70d58fd67470af5146a1be07de5d1706538a0ad2eeea"
+          },
+          {
+            "table": "sales_discovery_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "sales_follow_up_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "security_event",
+            "count": 94,
+            "rowsRawTextSha256": "9110e21bb797b566e99e20db7fd44f27b3c016c52f31214bf2defa72f3d05213"
+          },
+          {
+            "table": "shared_cost_allocation_basis",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "shared_cost_allocation_result",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "system_setting",
+            "count": 1,
+            "rowsRawTextSha256": "fe913a1a2b604e228b4a3e5c9a0a45fccd89754371442b6c6186b67c57596614"
+          },
+          {
+            "table": "todo_item",
+            "count": 21,
+            "rowsRawTextSha256": "56817fdb74ac1b14ea1cc485a1d5f0698ae4e7fab24064dfad4a14d3e4b5d7b7"
+          },
+          {
+            "table": "user_org_membership",
+            "count": 15,
+            "rowsRawTextSha256": "676b5256a916f57a217d1b5d4b6de030e50f7ee01d015a6cf0948a6d9ec482f0"
+          },
+          {
+            "table": "user_role_assignment",
+            "count": 45,
+            "rowsRawTextSha256": "a0d9aa4260cdc58522a8d08a188d74b671711573e86623a337ee64c3cbb9ce73"
+          }
+        ],
+        "rows": 1437
+      },
+      "after": {
+        "file": {
+          "file": "/home/wangzishi/.local/share/poms-r4abc/private/graphs/map35-1-after.json",
+          "bytes": 1214414,
+          "rawBytesSha256": "ec1911f4952220f080ed647cf07280950fe1ad538a6d889163cb2c51e8039059"
+        },
+        "tables": [
+          {
+            "table": "acceptance_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "approval_record",
+            "count": 21,
+            "rowsRawTextSha256": "0514510742e34bbe7c82160513a6dbf2c6375ee885483d23652893f5af13ba26"
+          },
+          {
+            "table": "approval_summary_field_projection",
+            "count": 42,
+            "rowsRawTextSha256": "029008bf1e96e7389a750741fb412f36291e9834998e5b19eea46aeb5307b074"
+          },
+          {
+            "table": "approval_summary_package_definition",
+            "count": 9,
+            "rowsRawTextSha256": "d54354289a75a015ccf0fdb034b2f6026e529ce4955956692542a184d090c6ed"
+          },
+          {
+            "table": "approval_summary_snapshot",
+            "count": 21,
+            "rowsRawTextSha256": "f81df2f5776cde921272b4ab0625d40735f729a957fd798bc52591540aecb265"
+          },
+          {
+            "table": "attachment",
+            "count": 2,
+            "rowsRawTextSha256": "f23a9f63723d8df2069372711ae129afc2e734195d0e10c9f68ca90e04004e4b"
+          },
+          {
+            "table": "attachment_download_package",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_download_package_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_link",
+            "count": 2,
+            "rowsRawTextSha256": "8072c805dedea5bf0efc28b2f83e6c36fc6f9b23b8b504464629e0bfac24b540"
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_upload_session",
+            "count": 2,
+            "rowsRawTextSha256": "91994f8e0d38c4e69fff6b4f722f91191c574291cf262c0fb5b5a39ac5a81966"
+          },
+          {
+            "table": "audit_log",
+            "count": 234,
+            "rowsRawTextSha256": "5f8fe30d2060d9d9276f1042548bbd2699e8dff47bc8d2d15deb7b0d2ec63cca"
+          },
+          {
+            "table": "auth_session",
+            "count": 22,
+            "rowsRawTextSha256": "1f8efd86992ab0c10295313abf1ae9560b88b97d885bbb7aa471e89ec04f76ce"
+          },
+          {
+            "table": "business_discussion_comment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_discussion_thread",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_number_sequence",
+            "count": 3,
+            "rowsRawTextSha256": "d055eb49d6e6c99a549b82bdff36d566ed988d174a58b59358682f4c876e89a9"
+          },
+          {
+            "table": "change_package_baseline",
+            "count": 3,
+            "rowsRawTextSha256": "7463ada29f90f21444946c512f60e36ff6320d021d581e795491c303a81eb534"
+          },
+          {
+            "table": "commercial_baseline_diff_item",
+            "count": 16,
+            "rowsRawTextSha256": "f024b177a3213a1dd27f89ef3bec43564a1fff56c7a28fc4be21d65ca34bd8be"
+          },
+          {
+            "table": "commercial_baseline_diff_result",
+            "count": 42,
+            "rowsRawTextSha256": "8fd592bec738a1813cd1718df5c6fe2f113e36df2f9b7a02c4b000676fa7ab66"
+          },
+          {
+            "table": "commercial_baseline_review_attachment",
+            "count": 7,
+            "rowsRawTextSha256": "2aeb732eeadf1a555b1e27ed068f11b7fc6fc876b88269f1d29260e19326f712"
+          },
+          {
+            "table": "commercial_baseline_review_record",
+            "count": 8,
+            "rowsRawTextSha256": "9e1bceb720328002fa87e42e1d8aa383fddfca77119e1b9891faf9a9f5027014"
+          },
+          {
+            "table": "commercial_release_baseline",
+            "count": 19,
+            "rowsRawTextSha256": "f4fd3fbba48f34219425de3fe7730b9cd078e34fab2fce0653240d181cb3d6d3"
+          },
+          {
+            "table": "commission_adjustment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_calculation",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_departure_exception_decision",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_change_request",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_gate_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_payout",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_role_assignment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "confirmation_participant",
+            "count": 12,
+            "rowsRawTextSha256": "420fbc0031255e28dca83291a3b546514299601f2bcd5a0bd9b6979c3860e7f7"
+          },
+          {
+            "table": "confirmation_record",
+            "count": 6,
+            "rowsRawTextSha256": "85445ed4bbbaf7ca2bd19817028efa721a4cae39e30b0e896fb84f0962c43860"
+          },
+          {
+            "table": "contract",
+            "count": 40,
+            "rowsRawTextSha256": "bc01bafbfa8446ecdcb0864d5286ff488ccf0f2cf0a85c82148952a7fbad20cc"
+          },
+          {
+            "table": "contract_amendment",
+            "count": 1,
+            "rowsRawTextSha256": "bf789b509acacb857f389957ec8c0fd450caccdf25a2f070c6f8b29fd08da137"
+          },
+          {
+            "table": "contract_handover_rebaseline_record",
+            "count": 1,
+            "rowsRawTextSha256": "6f515ddf68ca7546b8d2aa0adcdab993895f3c909384f3ea3b03262e5d205bc8"
+          },
+          {
+            "table": "contract_readiness_package",
+            "count": 42,
+            "rowsRawTextSha256": "f4e748e66d024a4976c7d1d932fa47f8ed2ed5a0e1a82928d9c23fbee2b5882c"
+          },
+          {
+            "table": "contract_readiness_package_item",
+            "count": 105,
+            "rowsRawTextSha256": "b68bc017d4b85342691f08dc75c214e8dcda94a98e421418ed30c4071106a762"
+          },
+          {
+            "table": "contract_review_binding",
+            "count": 21,
+            "rowsRawTextSha256": "4b751413a4720910e10b68c37a0b40cd40029b584a23d44c58aa44343752aa29"
+          },
+          {
+            "table": "contract_term_preparation",
+            "count": 22,
+            "rowsRawTextSha256": "2cb6e44f2189821fdd71a7b6eaf76be28e30d84edce7dfa179418822f44e6bef"
+          },
+          {
+            "table": "contract_term_snapshot",
+            "count": 17,
+            "rowsRawTextSha256": "a9a745d716fc2419e1f1b011ff177402677ece1417e9372174aaf04d4d1a8bc0"
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "customer",
+            "count": 9,
+            "rowsRawTextSha256": "81d592209e16dd3e232c074ccf34aa03effd6af5affadf0cc4bf08e55f546cc8"
+          },
+          {
+            "table": "customer_alias",
+            "count": 9,
+            "rowsRawTextSha256": "b82df62812d51dfe7872e1acb250af2cb5f4b9bcf14bc0ff85bb553d5441bf27"
+          },
+          {
+            "table": "customer_contact",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "689bc63110acc6274ca744227a5b5690edf72e5fbcde3d64d49cccc42a09c857"
+          },
+          {
+            "table": "dictionary_item",
+            "count": 32,
+            "rowsRawTextSha256": "8fb65cec5b52f83bfd9c6ea51e4a72ef6f727f40dc3a812fd70a9d7a817c4667"
+          },
+          {
+            "table": "expense_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_department_mapping",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_identity",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_login_ticket",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_org_source",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "handover_baseline_impact_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "invoice_record",
+            "count": 5,
+            "rowsRawTextSha256": "8f2836e84e917926f6d881a298d6d806481ae07dd86b194983a76f8450a0ee1f"
+          },
+          {
+            "table": "lead",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_override",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "local_credential",
+            "count": 18,
+            "rowsRawTextSha256": "106b17557f2d7fe0aad12b7fe3c1602a378ab01683fc518a01f717cde98d4adf"
+          },
+          {
+            "table": "operating_baseline_package",
+            "count": 3,
+            "rowsRawTextSha256": "e9762a584899cec9fdb6524a63f5cadb9dc253d84d845a7e327b7858b4ffa68f"
+          },
+          {
+            "table": "operating_restatement_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "5170edf8e19027c07d55bc959f1d054e2bff1da9f81ffb51521ea69f5ad21f45"
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "count": 3,
+            "rowsRawTextSha256": "8fecd5f0aee901dfcd113962277538c80d227930245c794fcc47fa6e896b7c6a"
+          },
+          {
+            "table": "operating_signal_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_diff_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_run",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_unit",
+            "count": 9,
+            "rowsRawTextSha256": "447697f09eeafa7cf919e4319743bf406725f3ea35b75efad45ba51a9d3f799a"
+          },
+          {
+            "table": "payable_record",
+            "count": 10,
+            "rowsRawTextSha256": "5454de5369026b776e6f76422cb17594388127e228ec324296de089fd1df8308"
+          },
+          {
+            "table": "payment_record",
+            "count": 11,
+            "rowsRawTextSha256": "c36e10ea4e6971362669590ead24681ebfb3113537eae3ce1e400f8ffa6991ed"
+          },
+          {
+            "table": "period_closing_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "platform_user",
+            "count": 18,
+            "rowsRawTextSha256": "8740930d75b5a803d1a5f27883b02b031c18191314d1a705c836916694db837c"
+          },
+          {
+            "table": "poms_migrations",
+            "count": 93,
+            "rowsRawTextSha256": "2aeba76ce971247b5464242d06e8f68e1bf3edb03ed9ce9a6ded96ddfd684140"
+          },
+          {
+            "table": "project",
+            "count": 18,
+            "rowsRawTextSha256": "15a56b15929ce0c72ea6795f32bf1d0a6a280ae45e884d0d3e3c2bb197b206db"
+          },
+          {
+            "table": "project_actual_cost_record",
+            "count": 1,
+            "rowsRawTextSha256": "7820652a12c7c1b594dae78509fece785fc95072ad93b369d972e6dbcdb330c4"
+          },
+          {
+            "table": "project_archive_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_material_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_process",
+            "count": 7,
+            "rowsRawTextSha256": "6e505a73ab49d7b9af2194298d5d08c258f2ea8a5d58f2fb8a8b86ab8678e325"
+          },
+          {
+            "table": "project_bid_commercial_timeline_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_completion_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_handover",
+            "count": 6,
+            "rowsRawTextSha256": "dbfab66ca55dd91eddbc5b518fbd7f56888dde5e05515dfd189d21add51d2412"
+          },
+          {
+            "table": "project_handover_attachment_selection",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_operating_snapshot",
+            "count": 3,
+            "rowsRawTextSha256": "4db596251f8325e93f800134d2e147dced3817ad33d106a39d1f93ad6613247c"
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_condition_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_review",
+            "count": 9,
+            "rowsRawTextSha256": "b5bf2142f306a500bcb12c94be19e9d38e7c65fbb010bae1ceca08c8779c74bc"
+          },
+          {
+            "table": "project_receipt_judgment_freeze",
+            "count": 2,
+            "rowsRawTextSha256": "ec4edd87638e9ac09eeea0f62633dba51e8e58d2aae853ae90342fa78bf96266"
+          },
+          {
+            "table": "project_technical_cost_item",
+            "count": 7,
+            "rowsRawTextSha256": "bc1a2a96d89fcf371690b779a4d5ab281112b9c7f1349af341f6a6190aed7bc0"
+          },
+          {
+            "table": "project_technical_cost_package",
+            "count": 7,
+            "rowsRawTextSha256": "954b39a15581c3db46f3a13e2b4338fb992298db7f292f9e1f7f87e98074906e"
+          },
+          {
+            "table": "project_technical_risk_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_technical_scope_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "receipt_record",
+            "count": 8,
+            "rowsRawTextSha256": "22c66ad4fcd684674562a3d579014286526fd3982a92881877c605f884199a67"
+          },
+          {
+            "table": "receivable_plan_init_record",
+            "count": 10,
+            "rowsRawTextSha256": "62b426e9042a343edea0e86bcf6bab7b2b53a83c79d454d4c2d58a54efb7a416"
+          },
+          {
+            "table": "receivable_plan_node",
+            "count": 10,
+            "rowsRawTextSha256": "5ad18661535e965a4452e5cf44a0a5c1677e6ee5878ce293483a445314bf6677"
+          },
+          {
+            "table": "receivable_plan_version",
+            "count": 10,
+            "rowsRawTextSha256": "8dbb7fdfe9cb0f14d70d94e9344cfbf298aacf067acb0a5d637fea86808db086"
+          },
+          {
+            "table": "role",
+            "count": 16,
+            "rowsRawTextSha256": "073a25dddfd5c5c4c76a21af0250209f1089750b53f96e423550bfbbfe8df319"
+          },
+          {
+            "table": "role_permission_assignment",
+            "count": 201,
+            "rowsRawTextSha256": "ef430adceb4542fd107c70d58fd67470af5146a1be07de5d1706538a0ad2eeea"
+          },
+          {
+            "table": "sales_discovery_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "sales_follow_up_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "security_event",
+            "count": 94,
+            "rowsRawTextSha256": "9110e21bb797b566e99e20db7fd44f27b3c016c52f31214bf2defa72f3d05213"
+          },
+          {
+            "table": "shared_cost_allocation_basis",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "shared_cost_allocation_result",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "system_setting",
+            "count": 1,
+            "rowsRawTextSha256": "fe913a1a2b604e228b4a3e5c9a0a45fccd89754371442b6c6186b67c57596614"
+          },
+          {
+            "table": "todo_item",
+            "count": 21,
+            "rowsRawTextSha256": "56817fdb74ac1b14ea1cc485a1d5f0698ae4e7fab24064dfad4a14d3e4b5d7b7"
+          },
+          {
+            "table": "user_org_membership",
+            "count": 15,
+            "rowsRawTextSha256": "676b5256a916f57a217d1b5d4b6de030e50f7ee01d015a6cf0948a6d9ec482f0"
+          },
+          {
+            "table": "user_role_assignment",
+            "count": 45,
+            "rowsRawTextSha256": "a0d9aa4260cdc58522a8d08a188d74b671711573e86623a337ee64c3cbb9ce73"
+          }
+        ],
+        "rows": 1437
+      }
+    },
+    {
+      "source": "invoice-record",
+      "sourceId": "eb283bd4-261c-43a1-86e4-94dd3357403b",
+      "storedSourceId": "EB283BD4-261C-43A1-86E4-94DD3357403B",
+      "blocked": true,
+      "typedUUIDMatch": true,
+      "before": {
+        "file": {
+          "file": "/home/wangzishi/.local/share/poms-r4abc/private/graphs/map35-2-before.json",
+          "bytes": 1216627,
+          "rawBytesSha256": "78e7bf683e265eba1c99f69affab52735f0d652c8f838d3889940719d3a37952"
+        },
+        "tables": [
+          {
+            "table": "acceptance_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "approval_record",
+            "count": 21,
+            "rowsRawTextSha256": "0514510742e34bbe7c82160513a6dbf2c6375ee885483d23652893f5af13ba26"
+          },
+          {
+            "table": "approval_summary_field_projection",
+            "count": 42,
+            "rowsRawTextSha256": "029008bf1e96e7389a750741fb412f36291e9834998e5b19eea46aeb5307b074"
+          },
+          {
+            "table": "approval_summary_package_definition",
+            "count": 9,
+            "rowsRawTextSha256": "d54354289a75a015ccf0fdb034b2f6026e529ce4955956692542a184d090c6ed"
+          },
+          {
+            "table": "approval_summary_snapshot",
+            "count": 21,
+            "rowsRawTextSha256": "f81df2f5776cde921272b4ab0625d40735f729a957fd798bc52591540aecb265"
+          },
+          {
+            "table": "attachment",
+            "count": 2,
+            "rowsRawTextSha256": "f23a9f63723d8df2069372711ae129afc2e734195d0e10c9f68ca90e04004e4b"
+          },
+          {
+            "table": "attachment_download_package",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_download_package_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_link",
+            "count": 2,
+            "rowsRawTextSha256": "8072c805dedea5bf0efc28b2f83e6c36fc6f9b23b8b504464629e0bfac24b540"
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_upload_session",
+            "count": 2,
+            "rowsRawTextSha256": "91994f8e0d38c4e69fff6b4f722f91191c574291cf262c0fb5b5a39ac5a81966"
+          },
+          {
+            "table": "audit_log",
+            "count": 235,
+            "rowsRawTextSha256": "441298cfb3a92e6c27321e0a2381133bb9ca1017a724c52426f93df3e378739d"
+          },
+          {
+            "table": "auth_session",
+            "count": 22,
+            "rowsRawTextSha256": "1f8efd86992ab0c10295313abf1ae9560b88b97d885bbb7aa471e89ec04f76ce"
+          },
+          {
+            "table": "business_discussion_comment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_discussion_thread",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_number_sequence",
+            "count": 3,
+            "rowsRawTextSha256": "d055eb49d6e6c99a549b82bdff36d566ed988d174a58b59358682f4c876e89a9"
+          },
+          {
+            "table": "change_package_baseline",
+            "count": 3,
+            "rowsRawTextSha256": "7463ada29f90f21444946c512f60e36ff6320d021d581e795491c303a81eb534"
+          },
+          {
+            "table": "commercial_baseline_diff_item",
+            "count": 16,
+            "rowsRawTextSha256": "f024b177a3213a1dd27f89ef3bec43564a1fff56c7a28fc4be21d65ca34bd8be"
+          },
+          {
+            "table": "commercial_baseline_diff_result",
+            "count": 42,
+            "rowsRawTextSha256": "8fd592bec738a1813cd1718df5c6fe2f113e36df2f9b7a02c4b000676fa7ab66"
+          },
+          {
+            "table": "commercial_baseline_review_attachment",
+            "count": 7,
+            "rowsRawTextSha256": "2aeb732eeadf1a555b1e27ed068f11b7fc6fc876b88269f1d29260e19326f712"
+          },
+          {
+            "table": "commercial_baseline_review_record",
+            "count": 8,
+            "rowsRawTextSha256": "9e1bceb720328002fa87e42e1d8aa383fddfca77119e1b9891faf9a9f5027014"
+          },
+          {
+            "table": "commercial_release_baseline",
+            "count": 19,
+            "rowsRawTextSha256": "f4fd3fbba48f34219425de3fe7730b9cd078e34fab2fce0653240d181cb3d6d3"
+          },
+          {
+            "table": "commission_adjustment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_calculation",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_departure_exception_decision",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_change_request",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_gate_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_payout",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_role_assignment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "confirmation_participant",
+            "count": 12,
+            "rowsRawTextSha256": "420fbc0031255e28dca83291a3b546514299601f2bcd5a0bd9b6979c3860e7f7"
+          },
+          {
+            "table": "confirmation_record",
+            "count": 6,
+            "rowsRawTextSha256": "85445ed4bbbaf7ca2bd19817028efa721a4cae39e30b0e896fb84f0962c43860"
+          },
+          {
+            "table": "contract",
+            "count": 40,
+            "rowsRawTextSha256": "bc01bafbfa8446ecdcb0864d5286ff488ccf0f2cf0a85c82148952a7fbad20cc"
+          },
+          {
+            "table": "contract_amendment",
+            "count": 1,
+            "rowsRawTextSha256": "bf789b509acacb857f389957ec8c0fd450caccdf25a2f070c6f8b29fd08da137"
+          },
+          {
+            "table": "contract_handover_rebaseline_record",
+            "count": 1,
+            "rowsRawTextSha256": "6f515ddf68ca7546b8d2aa0adcdab993895f3c909384f3ea3b03262e5d205bc8"
+          },
+          {
+            "table": "contract_readiness_package",
+            "count": 42,
+            "rowsRawTextSha256": "f4e748e66d024a4976c7d1d932fa47f8ed2ed5a0e1a82928d9c23fbee2b5882c"
+          },
+          {
+            "table": "contract_readiness_package_item",
+            "count": 105,
+            "rowsRawTextSha256": "b68bc017d4b85342691f08dc75c214e8dcda94a98e421418ed30c4071106a762"
+          },
+          {
+            "table": "contract_review_binding",
+            "count": 21,
+            "rowsRawTextSha256": "4b751413a4720910e10b68c37a0b40cd40029b584a23d44c58aa44343752aa29"
+          },
+          {
+            "table": "contract_term_preparation",
+            "count": 22,
+            "rowsRawTextSha256": "2cb6e44f2189821fdd71a7b6eaf76be28e30d84edce7dfa179418822f44e6bef"
+          },
+          {
+            "table": "contract_term_snapshot",
+            "count": 17,
+            "rowsRawTextSha256": "a9a745d716fc2419e1f1b011ff177402677ece1417e9372174aaf04d4d1a8bc0"
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "customer",
+            "count": 9,
+            "rowsRawTextSha256": "81d592209e16dd3e232c074ccf34aa03effd6af5affadf0cc4bf08e55f546cc8"
+          },
+          {
+            "table": "customer_alias",
+            "count": 9,
+            "rowsRawTextSha256": "b82df62812d51dfe7872e1acb250af2cb5f4b9bcf14bc0ff85bb553d5441bf27"
+          },
+          {
+            "table": "customer_contact",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "689bc63110acc6274ca744227a5b5690edf72e5fbcde3d64d49cccc42a09c857"
+          },
+          {
+            "table": "dictionary_item",
+            "count": 32,
+            "rowsRawTextSha256": "8fb65cec5b52f83bfd9c6ea51e4a72ef6f727f40dc3a812fd70a9d7a817c4667"
+          },
+          {
+            "table": "expense_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_department_mapping",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_identity",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_login_ticket",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_org_source",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "handover_baseline_impact_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "invoice_record",
+            "count": 5,
+            "rowsRawTextSha256": "8f2836e84e917926f6d881a298d6d806481ae07dd86b194983a76f8450a0ee1f"
+          },
+          {
+            "table": "lead",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_override",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "local_credential",
+            "count": 18,
+            "rowsRawTextSha256": "106b17557f2d7fe0aad12b7fe3c1602a378ab01683fc518a01f717cde98d4adf"
+          },
+          {
+            "table": "operating_baseline_package",
+            "count": 3,
+            "rowsRawTextSha256": "e9762a584899cec9fdb6524a63f5cadb9dc253d84d845a7e327b7858b4ffa68f"
+          },
+          {
+            "table": "operating_restatement_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "5170edf8e19027c07d55bc959f1d054e2bff1da9f81ffb51521ea69f5ad21f45"
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "count": 3,
+            "rowsRawTextSha256": "8fecd5f0aee901dfcd113962277538c80d227930245c794fcc47fa6e896b7c6a"
+          },
+          {
+            "table": "operating_signal_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_diff_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_run",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_unit",
+            "count": 9,
+            "rowsRawTextSha256": "447697f09eeafa7cf919e4319743bf406725f3ea35b75efad45ba51a9d3f799a"
+          },
+          {
+            "table": "payable_record",
+            "count": 10,
+            "rowsRawTextSha256": "4f3f2ca2fa211a4ba432ef348c02ce150b662c665066ed1a4ce3ea8c3d79b06d"
+          },
+          {
+            "table": "payment_record",
+            "count": 11,
+            "rowsRawTextSha256": "c36e10ea4e6971362669590ead24681ebfb3113537eae3ce1e400f8ffa6991ed"
+          },
+          {
+            "table": "period_closing_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "platform_user",
+            "count": 18,
+            "rowsRawTextSha256": "8740930d75b5a803d1a5f27883b02b031c18191314d1a705c836916694db837c"
+          },
+          {
+            "table": "poms_migrations",
+            "count": 93,
+            "rowsRawTextSha256": "2aeba76ce971247b5464242d06e8f68e1bf3edb03ed9ce9a6ded96ddfd684140"
+          },
+          {
+            "table": "project",
+            "count": 18,
+            "rowsRawTextSha256": "15a56b15929ce0c72ea6795f32bf1d0a6a280ae45e884d0d3e3c2bb197b206db"
+          },
+          {
+            "table": "project_actual_cost_record",
+            "count": 1,
+            "rowsRawTextSha256": "bdd5128ea7cbd445cb93438d9043a520c3e14e0637bb1fa4a05ef3ab73633b98"
+          },
+          {
+            "table": "project_archive_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_material_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_process",
+            "count": 7,
+            "rowsRawTextSha256": "6e505a73ab49d7b9af2194298d5d08c258f2ea8a5d58f2fb8a8b86ab8678e325"
+          },
+          {
+            "table": "project_bid_commercial_timeline_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_completion_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_handover",
+            "count": 6,
+            "rowsRawTextSha256": "dbfab66ca55dd91eddbc5b518fbd7f56888dde5e05515dfd189d21add51d2412"
+          },
+          {
+            "table": "project_handover_attachment_selection",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_operating_snapshot",
+            "count": 3,
+            "rowsRawTextSha256": "4db596251f8325e93f800134d2e147dced3817ad33d106a39d1f93ad6613247c"
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_condition_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_review",
+            "count": 9,
+            "rowsRawTextSha256": "b5bf2142f306a500bcb12c94be19e9d38e7c65fbb010bae1ceca08c8779c74bc"
+          },
+          {
+            "table": "project_receipt_judgment_freeze",
+            "count": 2,
+            "rowsRawTextSha256": "ec4edd87638e9ac09eeea0f62633dba51e8e58d2aae853ae90342fa78bf96266"
+          },
+          {
+            "table": "project_technical_cost_item",
+            "count": 7,
+            "rowsRawTextSha256": "bc1a2a96d89fcf371690b779a4d5ab281112b9c7f1349af341f6a6190aed7bc0"
+          },
+          {
+            "table": "project_technical_cost_package",
+            "count": 7,
+            "rowsRawTextSha256": "954b39a15581c3db46f3a13e2b4338fb992298db7f292f9e1f7f87e98074906e"
+          },
+          {
+            "table": "project_technical_risk_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_technical_scope_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "receipt_record",
+            "count": 8,
+            "rowsRawTextSha256": "22c66ad4fcd684674562a3d579014286526fd3982a92881877c605f884199a67"
+          },
+          {
+            "table": "receivable_plan_init_record",
+            "count": 10,
+            "rowsRawTextSha256": "62b426e9042a343edea0e86bcf6bab7b2b53a83c79d454d4c2d58a54efb7a416"
+          },
+          {
+            "table": "receivable_plan_node",
+            "count": 10,
+            "rowsRawTextSha256": "5ad18661535e965a4452e5cf44a0a5c1677e6ee5878ce293483a445314bf6677"
+          },
+          {
+            "table": "receivable_plan_version",
+            "count": 10,
+            "rowsRawTextSha256": "8dbb7fdfe9cb0f14d70d94e9344cfbf298aacf067acb0a5d637fea86808db086"
+          },
+          {
+            "table": "role",
+            "count": 16,
+            "rowsRawTextSha256": "073a25dddfd5c5c4c76a21af0250209f1089750b53f96e423550bfbbfe8df319"
+          },
+          {
+            "table": "role_permission_assignment",
+            "count": 201,
+            "rowsRawTextSha256": "ef430adceb4542fd107c70d58fd67470af5146a1be07de5d1706538a0ad2eeea"
+          },
+          {
+            "table": "sales_discovery_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "sales_follow_up_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "security_event",
+            "count": 94,
+            "rowsRawTextSha256": "9110e21bb797b566e99e20db7fd44f27b3c016c52f31214bf2defa72f3d05213"
+          },
+          {
+            "table": "shared_cost_allocation_basis",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "shared_cost_allocation_result",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "system_setting",
+            "count": 1,
+            "rowsRawTextSha256": "fe913a1a2b604e228b4a3e5c9a0a45fccd89754371442b6c6186b67c57596614"
+          },
+          {
+            "table": "todo_item",
+            "count": 21,
+            "rowsRawTextSha256": "56817fdb74ac1b14ea1cc485a1d5f0698ae4e7fab24064dfad4a14d3e4b5d7b7"
+          },
+          {
+            "table": "user_org_membership",
+            "count": 15,
+            "rowsRawTextSha256": "676b5256a916f57a217d1b5d4b6de030e50f7ee01d015a6cf0948a6d9ec482f0"
+          },
+          {
+            "table": "user_role_assignment",
+            "count": 45,
+            "rowsRawTextSha256": "a0d9aa4260cdc58522a8d08a188d74b671711573e86623a337ee64c3cbb9ce73"
+          }
+        ],
+        "rows": 1438
+      },
+      "after": {
+        "file": {
+          "file": "/home/wangzishi/.local/share/poms-r4abc/private/graphs/map35-2-after.json",
+          "bytes": 1216627,
+          "rawBytesSha256": "78e7bf683e265eba1c99f69affab52735f0d652c8f838d3889940719d3a37952"
+        },
+        "tables": [
+          {
+            "table": "acceptance_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "accounting_tax_treatment_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "approval_record",
+            "count": 21,
+            "rowsRawTextSha256": "0514510742e34bbe7c82160513a6dbf2c6375ee885483d23652893f5af13ba26"
+          },
+          {
+            "table": "approval_summary_field_projection",
+            "count": 42,
+            "rowsRawTextSha256": "029008bf1e96e7389a750741fb412f36291e9834998e5b19eea46aeb5307b074"
+          },
+          {
+            "table": "approval_summary_package_definition",
+            "count": 9,
+            "rowsRawTextSha256": "d54354289a75a015ccf0fdb034b2f6026e529ce4955956692542a184d090c6ed"
+          },
+          {
+            "table": "approval_summary_snapshot",
+            "count": 21,
+            "rowsRawTextSha256": "f81df2f5776cde921272b4ab0625d40735f729a957fd798bc52591540aecb265"
+          },
+          {
+            "table": "attachment",
+            "count": 2,
+            "rowsRawTextSha256": "f23a9f63723d8df2069372711ae129afc2e734195d0e10c9f68ca90e04004e4b"
+          },
+          {
+            "table": "attachment_download_package",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_download_package_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_link",
+            "count": 2,
+            "rowsRawTextSha256": "8072c805dedea5bf0efc28b2f83e6c36fc6f9b23b8b504464629e0bfac24b540"
+          },
+          {
+            "table": "attachment_storage_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "attachment_upload_session",
+            "count": 2,
+            "rowsRawTextSha256": "91994f8e0d38c4e69fff6b4f722f91191c574291cf262c0fb5b5a39ac5a81966"
+          },
+          {
+            "table": "audit_log",
+            "count": 235,
+            "rowsRawTextSha256": "441298cfb3a92e6c27321e0a2381133bb9ca1017a724c52426f93df3e378739d"
+          },
+          {
+            "table": "auth_session",
+            "count": 22,
+            "rowsRawTextSha256": "1f8efd86992ab0c10295313abf1ae9560b88b97d885bbb7aa471e89ec04f76ce"
+          },
+          {
+            "table": "business_discussion_comment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_discussion_thread",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "business_number_sequence",
+            "count": 3,
+            "rowsRawTextSha256": "d055eb49d6e6c99a549b82bdff36d566ed988d174a58b59358682f4c876e89a9"
+          },
+          {
+            "table": "change_package_baseline",
+            "count": 3,
+            "rowsRawTextSha256": "7463ada29f90f21444946c512f60e36ff6320d021d581e795491c303a81eb534"
+          },
+          {
+            "table": "commercial_baseline_diff_item",
+            "count": 16,
+            "rowsRawTextSha256": "f024b177a3213a1dd27f89ef3bec43564a1fff56c7a28fc4be21d65ca34bd8be"
+          },
+          {
+            "table": "commercial_baseline_diff_result",
+            "count": 42,
+            "rowsRawTextSha256": "8fd592bec738a1813cd1718df5c6fe2f113e36df2f9b7a02c4b000676fa7ab66"
+          },
+          {
+            "table": "commercial_baseline_review_attachment",
+            "count": 7,
+            "rowsRawTextSha256": "2aeb732eeadf1a555b1e27ed068f11b7fc6fc876b88269f1d29260e19326f712"
+          },
+          {
+            "table": "commercial_baseline_review_record",
+            "count": 8,
+            "rowsRawTextSha256": "9e1bceb720328002fa87e42e1d8aa383fddfca77119e1b9891faf9a9f5027014"
+          },
+          {
+            "table": "commercial_release_baseline",
+            "count": 19,
+            "rowsRawTextSha256": "f4fd3fbba48f34219425de3fe7730b9cd078e34fab2fce0653240d181cb3d6d3"
+          },
+          {
+            "table": "commission_adjustment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_calculation",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_departure_exception_decision",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_final_settlement_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_change_request",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_freeze_dispute_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_gate_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_payout",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_role_assignment",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_explanation_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "commission_rule_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "competitor_intelligence_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "confirmation_participant",
+            "count": 12,
+            "rowsRawTextSha256": "420fbc0031255e28dca83291a3b546514299601f2bcd5a0bd9b6979c3860e7f7"
+          },
+          {
+            "table": "confirmation_record",
+            "count": 6,
+            "rowsRawTextSha256": "85445ed4bbbaf7ca2bd19817028efa721a4cae39e30b0e896fb84f0962c43860"
+          },
+          {
+            "table": "contract",
+            "count": 40,
+            "rowsRawTextSha256": "bc01bafbfa8446ecdcb0864d5286ff488ccf0f2cf0a85c82148952a7fbad20cc"
+          },
+          {
+            "table": "contract_amendment",
+            "count": 1,
+            "rowsRawTextSha256": "bf789b509acacb857f389957ec8c0fd450caccdf25a2f070c6f8b29fd08da137"
+          },
+          {
+            "table": "contract_handover_rebaseline_record",
+            "count": 1,
+            "rowsRawTextSha256": "6f515ddf68ca7546b8d2aa0adcdab993895f3c909384f3ea3b03262e5d205bc8"
+          },
+          {
+            "table": "contract_readiness_package",
+            "count": 42,
+            "rowsRawTextSha256": "f4e748e66d024a4976c7d1d932fa47f8ed2ed5a0e1a82928d9c23fbee2b5882c"
+          },
+          {
+            "table": "contract_readiness_package_item",
+            "count": 105,
+            "rowsRawTextSha256": "b68bc017d4b85342691f08dc75c214e8dcda94a98e421418ed30c4071106a762"
+          },
+          {
+            "table": "contract_review_binding",
+            "count": 21,
+            "rowsRawTextSha256": "4b751413a4720910e10b68c37a0b40cd40029b584a23d44c58aa44343752aa29"
+          },
+          {
+            "table": "contract_term_preparation",
+            "count": 22,
+            "rowsRawTextSha256": "2cb6e44f2189821fdd71a7b6eaf76be28e30d84edce7dfa179418822f44e6bef"
+          },
+          {
+            "table": "contract_term_snapshot",
+            "count": 17,
+            "rowsRawTextSha256": "a9a745d716fc2419e1f1b011ff177402677ece1417e9372174aaf04d4d1a8bc0"
+          },
+          {
+            "table": "cost_stage_attribution_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "customer",
+            "count": 9,
+            "rowsRawTextSha256": "81d592209e16dd3e232c074ccf34aa03effd6af5affadf0cc4bf08e55f546cc8"
+          },
+          {
+            "table": "customer_alias",
+            "count": 9,
+            "rowsRawTextSha256": "b82df62812d51dfe7872e1acb250af2cb5f4b9bcf14bc0ff85bb553d5441bf27"
+          },
+          {
+            "table": "customer_contact",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "data_maturity_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "689bc63110acc6274ca744227a5b5690edf72e5fbcde3d64d49cccc42a09c857"
+          },
+          {
+            "table": "dictionary_item",
+            "count": 32,
+            "rowsRawTextSha256": "8fb65cec5b52f83bfd9c6ea51e4a72ef6f727f40dc3a812fd70a9d7a817c4667"
+          },
+          {
+            "table": "expense_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_department_mapping",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_identity",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_login_ticket",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "external_org_source",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "handover_baseline_impact_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_config",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "identity_provider_oauth_grant",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "internal_cost_rate_version",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "invoice_record",
+            "count": 5,
+            "rowsRawTextSha256": "8f2836e84e917926f6d881a298d6d806481ae07dd86b194983a76f8450a0ee1f"
+          },
+          {
+            "table": "lead",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_owner_assignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_override",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "lead_score_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "local_credential",
+            "count": 18,
+            "rowsRawTextSha256": "106b17557f2d7fe0aad12b7fe3c1602a378ab01683fc518a01f717cde98d4adf"
+          },
+          {
+            "table": "operating_baseline_package",
+            "count": 3,
+            "rowsRawTextSha256": "e9762a584899cec9fdb6524a63f5cadb9dc253d84d845a7e327b7858b4ffa68f"
+          },
+          {
+            "table": "operating_restatement_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "operating_signal_evaluation_result",
+            "count": 3,
+            "rowsRawTextSha256": "5170edf8e19027c07d55bc959f1d054e2bff1da9f81ffb51521ea69f5ad21f45"
+          },
+          {
+            "table": "operating_signal_gate_binding",
+            "count": 3,
+            "rowsRawTextSha256": "8fecd5f0aee901dfcd113962277538c80d227930245c794fcc47fa6e896b7c6a"
+          },
+          {
+            "table": "operating_signal_review_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "opportunity_stakeholder",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_diff_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_sync_run",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "org_unit",
+            "count": 9,
+            "rowsRawTextSha256": "447697f09eeafa7cf919e4319743bf406725f3ea35b75efad45ba51a9d3f799a"
+          },
+          {
+            "table": "payable_record",
+            "count": 10,
+            "rowsRawTextSha256": "4f3f2ca2fa211a4ba432ef348c02ce150b662c665066ed1a4ce3ea8c3d79b06d"
+          },
+          {
+            "table": "payment_record",
+            "count": 11,
+            "rowsRawTextSha256": "c36e10ea4e6971362669590ead24681ebfb3113537eae3ce1e400f8ffa6991ed"
+          },
+          {
+            "table": "period_closing_snapshot",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "platform_user",
+            "count": 18,
+            "rowsRawTextSha256": "8740930d75b5a803d1a5f27883b02b031c18191314d1a705c836916694db837c"
+          },
+          {
+            "table": "poms_migrations",
+            "count": 93,
+            "rowsRawTextSha256": "2aeba76ce971247b5464242d06e8f68e1bf3edb03ed9ce9a6ded96ddfd684140"
+          },
+          {
+            "table": "project",
+            "count": 18,
+            "rowsRawTextSha256": "15a56b15929ce0c72ea6795f32bf1d0a6a280ae45e884d0d3e3c2bb197b206db"
+          },
+          {
+            "table": "project_actual_cost_record",
+            "count": 1,
+            "rowsRawTextSha256": "bdd5128ea7cbd445cb93438d9043a520c3e14e0637bb1fa4a05ef3ab73633b98"
+          },
+          {
+            "table": "project_archive_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_material_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_bid_commercial_process",
+            "count": 7,
+            "rowsRawTextSha256": "6e505a73ab49d7b9af2194298d5d08c258f2ea8a5d58f2fb8a8b86ab8678e325"
+          },
+          {
+            "table": "project_bid_commercial_timeline_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_completion_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_handover",
+            "count": 6,
+            "rowsRawTextSha256": "dbfab66ca55dd91eddbc5b518fbd7f56888dde5e05515dfd189d21add51d2412"
+          },
+          {
+            "table": "project_handover_attachment_selection",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_operating_snapshot",
+            "count": 3,
+            "rowsRawTextSha256": "4db596251f8325e93f800134d2e147dced3817ad33d106a39d1f93ad6613247c"
+          },
+          {
+            "table": "project_owner_reassignment_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_condition_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_pricing_margin_review",
+            "count": 9,
+            "rowsRawTextSha256": "b5bf2142f306a500bcb12c94be19e9d38e7c65fbb010bae1ceca08c8779c74bc"
+          },
+          {
+            "table": "project_receipt_judgment_freeze",
+            "count": 2,
+            "rowsRawTextSha256": "ec4edd87638e9ac09eeea0f62633dba51e8e58d2aae853ae90342fa78bf96266"
+          },
+          {
+            "table": "project_technical_cost_item",
+            "count": 7,
+            "rowsRawTextSha256": "bc1a2a96d89fcf371690b779a4d5ab281112b9c7f1349af341f6a6190aed7bc0"
+          },
+          {
+            "table": "project_technical_cost_package",
+            "count": 7,
+            "rowsRawTextSha256": "954b39a15581c3db46f3a13e2b4338fb992298db7f292f9e1f7f87e98074906e"
+          },
+          {
+            "table": "project_technical_risk_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "project_technical_scope_item",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "receipt_record",
+            "count": 8,
+            "rowsRawTextSha256": "22c66ad4fcd684674562a3d579014286526fd3982a92881877c605f884199a67"
+          },
+          {
+            "table": "receivable_plan_init_record",
+            "count": 10,
+            "rowsRawTextSha256": "62b426e9042a343edea0e86bcf6bab7b2b53a83c79d454d4c2d58a54efb7a416"
+          },
+          {
+            "table": "receivable_plan_node",
+            "count": 10,
+            "rowsRawTextSha256": "5ad18661535e965a4452e5cf44a0a5c1677e6ee5878ce293483a445314bf6677"
+          },
+          {
+            "table": "receivable_plan_version",
+            "count": 10,
+            "rowsRawTextSha256": "8dbb7fdfe9cb0f14d70d94e9344cfbf298aacf067acb0a5d637fea86808db086"
+          },
+          {
+            "table": "role",
+            "count": 16,
+            "rowsRawTextSha256": "073a25dddfd5c5c4c76a21af0250209f1089750b53f96e423550bfbbfe8df319"
+          },
+          {
+            "table": "role_permission_assignment",
+            "count": 201,
+            "rowsRawTextSha256": "ef430adceb4542fd107c70d58fd67470af5146a1be07de5d1706538a0ad2eeea"
+          },
+          {
+            "table": "sales_discovery_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "sales_follow_up_record",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "security_event",
+            "count": 94,
+            "rowsRawTextSha256": "9110e21bb797b566e99e20db7fd44f27b3c016c52f31214bf2defa72f3d05213"
+          },
+          {
+            "table": "shared_cost_allocation_basis",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "shared_cost_allocation_result",
+            "count": 0,
+            "rowsRawTextSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "table": "system_setting",
+            "count": 1,
+            "rowsRawTextSha256": "fe913a1a2b604e228b4a3e5c9a0a45fccd89754371442b6c6186b67c57596614"
+          },
+          {
+            "table": "todo_item",
+            "count": 21,
+            "rowsRawTextSha256": "56817fdb74ac1b14ea1cc485a1d5f0698ae4e7fab24064dfad4a14d3e4b5d7b7"
+          },
+          {
+            "table": "user_org_membership",
+            "count": 15,
+            "rowsRawTextSha256": "676b5256a916f57a217d1b5d4b6de030e50f7ee01d015a6cf0948a6d9ec482f0"
+          },
+          {
+            "table": "user_role_assignment",
+            "count": 45,
+            "rowsRawTextSha256": "a0d9aa4260cdc58522a8d08a188d74b671711573e86623a337ee64c3cbb9ce73"
+          }
+        ],
+        "rows": 1438
+      }
+    }
+  ],
+  "ownedFixtures": [
+    {
+      "id": "c4822307-ac7c-4434-9f50-ef401bfeb223",
+      "table": "project_actual_cost_record",
+      "beforeAbsent": true,
+      "ownerCommitAcknowledged": true,
+      "fixtureOnly": true,
+      "notActualCostProducer": true,
+      "deletedAfterExactReadback": true
+    },
+    {
+      "id": "40e2c2ac-552d-45e1-b123-1e294a85210e",
+      "table": "project_actual_cost_record",
+      "beforeAbsent": true,
+      "ownerCommitAcknowledged": true,
+      "fixtureOnly": true,
+      "notActualCostProducer": true,
+      "deletedAfterExactReadback": true
+    }
+  ],
+  "actualCostProducerClaim": false,
+  "completed": true,
+  "UIBusinessPreparation": {
+    "contractId": "76ce2445-de73-4ab8-ba70-d6f4d4e57b10",
+    "preparationId": "73699ea8-352f-479e-a812-5a73fac9558d",
+    "approvalRecordId": "1cc5062c-6ea2-48b7-beb4-5931bd600edf",
+    "realHTTPProduced": true
+  }
+}

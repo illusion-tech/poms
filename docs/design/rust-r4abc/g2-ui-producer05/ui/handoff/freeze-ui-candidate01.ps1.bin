@@ -1,0 +1,80 @@
+# Source bytes and SDK declarations only; no TS/Angular/Node execution.
+$ErrorActionPreference = 'Stop'
+$taskRoot = 'E:/projects/worktrees/poms-r3hijk-next28/poms'
+$taskOwned = 'E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/ui-candidate01'
+$taskProducts = Join-Path $taskOwned 'products'
+$taskEncoding = [System.Text.UTF8Encoding]::new($false)
+$taskSdkInputs = @(
+    'package.json','libs/shared/api-spec/openapi.json',
+    'libs/shared/api-client/api/contract.service.ts','libs/shared/api-client/api/contract-readiness.service.ts',
+    'libs/shared/api-client/model/contract-detail-view.ts','libs/shared/api-client/model/contract-summary.ts',
+    'libs/shared/api-client/model/contract-term-snapshot-summary.ts','libs/shared/api-client/model/contract-term-preparation-summary.ts',
+    'libs/shared/api-client/model/contract-review-binding-summary.ts','libs/shared/api-client/model/contract-commercial-terms.ts',
+    'libs/shared/api-client/model/receivable-plan-seed.ts','libs/shared/api-client/model/contract-readiness-detail.ts',
+    'libs/shared/api-client/model/contract-diff-review-history-view.ts','libs/shared/api-client/model/readiness-initialization-result.ts',
+    'libs/shared/api-client/model/submit-contract-review-request.ts','libs/shared/api-client/model/submit-contract-review-result.ts',
+    'libs/shared/api-client/model/activate-contract-result.ts'
+)
+$taskSdkFiles = foreach ($taskRelative in $taskSdkInputs) {
+    $taskPath = Join-Path $taskRoot $taskRelative
+    [ordered]@{ path = $taskRelative; rawBytes = (Get-Item -LiteralPath $taskPath).Length; sha256 = (Get-FileHash -LiteralPath $taskPath -Algorithm SHA256).Hash.ToLowerInvariant() }
+}
+$taskSdk = [ordered]@{ kind = 'Root current source SDK pins, static only'; root = $taskRoot; rootReportedS3 = '4f78bd486ca2118e4700bae560cb25ff08c4b47d'; angularPackageVersionRead = '22.1.6'; files = @($taskSdkFiles); generationExecutedByC = $false }
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'sdk-input-pins01.json'), ($taskSdk | ConvertTo-Json -Depth 15) + [Environment]::NewLine, $taskEncoding)
+$taskBase = Get-Content -LiteralPath (Join-Path $taskOwned 'base-manifest01.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 20
+$taskChanges = @{
+    'apps/poms-admin/src/app/features/contract/contract-detail.ts' = @('current prepared submission + exact approved binding activation','separate preparation/review/snapshot metadata and prepare navigation','string projection money/ratio and literal calendar display','PATCH expectedVersion and preserved server failures')
+    'apps/poms-admin/src/app/features/contract/contract-list.ts' = @('BigInt financial input validation','server projection display text instead of floating monetary formatting')
+    'apps/poms-admin/src/app/features/contract/contract-flow.ts' = @('new pure existing-directory money/projection/preparation-binding helpers; not a component')
+    'apps/poms-admin/src/app/features/contract/contract-flow.spec.ts' = @('new focused pure boundary test source; not executed')
+    'apps/poms-admin/src/app/features/contract/contract-detail.spec.ts' = @('new nullable metadata fixture fields; expectedVersion and server-text expectations','async whenStable instead of manual detectChanges')
+    'apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts' = @('explicit contract selector and safe 409 candidate handling','A08/A09 eligible actions and real product/source display','safe structured terms/seeds/diff read views; no authoring portal')
+    'apps/poms-admin/src/app/features/project/project-pre-signing-overview.spec.ts' = @('new scoped store signals/AuthStore and explicit query-param fixture','updated source-empty text and async whenStable')
+    'libs/admin/data-access/src/lib/contract/contract.store.ts' = @('required preparation request and strict submit/activate return types','404-only missing approval handling; other server errors retained')
+    'libs/admin/data-access/src/lib/project/project-workspace.store.ts' = @('new scoped contract list/detail/readiness/history state and race tickets','A03/A07 contractId queries; real A08/A09 bodies and sourceReadinessId reload','known successful receipt plus failed readback distinction; no false rollback','clear resets scoped state; unrelated workspace methods unchanged')
+}
+$taskFiles = @()
+foreach ($taskFile in (Get-ChildItem -LiteralPath $taskProducts -Recurse -File | Sort-Object FullName)) {
+    $taskRelative = [System.IO.Path]::GetRelativePath($taskProducts,$taskFile.FullName).Replace([char]92,[char]47)
+    if (-not $taskChanges.ContainsKey($taskRelative)) { throw ('Unexpected UI product ' + $taskRelative) }
+    $taskCaptured = @($taskBase.files | Where-Object { $_.path -eq $taskRelative })
+    if ($taskCaptured.Count -gt 1) { throw 'Duplicate base' }
+    if ($taskCaptured.Count -eq 1) {
+        $taskBaseExists = $true
+        $taskBaseSha = $taskCaptured[0].baseSha256
+        $taskBaseBytes = $taskCaptured[0].baseRawBytes
+        if ((Get-FileHash -LiteralPath (Join-Path $taskRoot $taskRelative) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $taskBaseSha) { throw ('Root UI base changed; reconcile before import: ' + $taskRelative) }
+    } else {
+        if (Test-Path -LiteralPath (Join-Path $taskRoot $taskRelative)) { throw ('New UI helper conflicts with Root product ' + $taskRelative) }
+        $taskBaseExists = $false
+        $taskBaseSha = $null
+        $taskBaseBytes = $null
+    }
+    $taskFiles += [ordered]@{ path = $taskRelative; candidate = 'products/' + $taskRelative; baseExists = $taskBaseExists; baseRoot = $taskRoot; baseRawBytes = $taskBaseBytes; baseSha256 = $taskBaseSha; newRawBytes = $taskFile.Length; newSha256 = (Get-FileHash -LiteralPath $taskFile.FullName -Algorithm SHA256).Hash.ToLowerInvariant(); changedDeclarations = $taskChanges[$taskRelative]; author = 'C UI candidate author' }
+}
+if ($taskFiles.Count -ne 9) { throw 'Expected nine complete UI/test candidate products' }
+$taskFrozenSiblings = @(
+    @{ path = 'E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/c-implementation/candidate02/manifest02.json'; expected = '1fd226da2eee4d2a23fceea93474691aab8a626aa88f927eca6c72de13db0e3f' },
+    @{ path = 'E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/shared-candidate01/manifest01.json'; expected = '02937e9b00850ab831f3e7e974745ad5d6a16785f905016d5f470d45f7648f22' }
+)
+foreach ($taskSibling in $taskFrozenSiblings) {
+    if ((Get-FileHash -LiteralPath $taskSibling.path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $taskSibling.expected) { throw 'Frozen sibling manifest changed' }
+}
+$taskManifest = [ordered]@{
+    schema = 'poms-r4-ui-candidate/v1'
+    author = 'C UI and test candidate author; not independent reviewer'
+    rootReportedS3Commit = '4f78bd486ca2118e4700bae560cb25ff08c4b47d'
+    angularVersion = '22.1.6 package.json statically read'
+    fileCount = $taskFiles.Count
+    totalProductRawBytes = ($taskFiles | ForEach-Object { $_.newRawBytes } | Measure-Object -Sum).Sum
+    sourceBaseRule = 'Root current base hashes required before importing; changed source requires explicit merge'
+    actualProductWrites = 'none by C; only owned products/base/meta candidates'
+    frozenC19AndSharedManifests = 'unchanged exact SHA checked'
+    scope = 'existing contract/pre-signing UI and directly corresponding data stores; no routes/RBAC/finance19 pages/generated clients'
+    upstreamUiBoundary = 'No existing A01/A05/A04 authoring consumer. Root actual API chain supplies upstream; UI displays typed source and executes real A08/B review+activate/A09.'
+    artifacts = @('INTEGRATION.md','sdk-input-pins01.json','ui-acceptance-vectors01.json','base-manifest01.json')
+    verification = @{ sourceAndByteInspection = 'completed'; angularTypecheckBuildLint = 'not-run'; focusedTests = 'source only, not-run'; browserHttpPgGitEnvironment = 'not-run'; skillBuildResponsibility = 'Root explicitly owns final nx admin build and platform browsers' }
+    files = $taskFiles
+}
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'manifest01.json'), ($taskManifest | ConvertTo-Json -Depth 25) + [Environment]::NewLine, $taskEncoding)
+[ordered]@{ products = $taskFiles.Count; rawBytes = $taskManifest.totalProductRawBytes; manifestSha256 = (Get-FileHash -LiteralPath (Join-Path $taskOwned 'manifest01.json') -Algorithm SHA256).Hash.ToLowerInvariant(); actualTestsOrBuildExecuted = $false } | ConvertTo-Json -Compress

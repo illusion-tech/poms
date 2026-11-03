@@ -4313,7 +4313,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5464; CONTRACT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5472; CONTRACT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractStatus {
         #[serde(rename = "draft")]
@@ -4354,7 +4354,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5476; CONTRACT_TERM_SNAPSHOT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5484; CONTRACT_TERM_SNAPSHOT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractTermSnapshotStatus {
         #[serde(rename = "active")]
@@ -4387,7 +4387,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5611; CUSTOMER_WORKSPACE_ACTION_INTENTS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5619; CUSTOMER_WORKSPACE_ACTION_INTENTS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceActionIntent {
         #[serde(rename = "open-leads")]
@@ -4428,7 +4428,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5617; CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5625; CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceTargetObjectType {
         #[serde(rename = "customer")]
@@ -4473,7 +4473,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5638; CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5646; CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceTimelineEventType {
         #[serde(rename = "lead-updated")]
@@ -4514,7 +4514,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5644; CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5652; CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceTimelineSourceType {
         #[serde(rename = "lead")]
@@ -4555,7 +4555,40 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5768; COMMERCIAL_DIFF_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5763; CONTRACT_TERM_PREPARATION_STATUSES.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ContractTermPreparationStatus {
+        #[serde(rename = "prepared")]
+        Prepared,
+        #[serde(rename = "superseded")]
+        Superseded,
+        #[serde(rename = "activated")]
+        Activated,
+    }
+    impl ContractTermPreparationStatus {
+        pub const ALL: &'static [Self] = &[Self::Prepared, Self::Superseded, Self::Activated];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prepared => "prepared",
+                Self::Superseded => "superseded",
+                Self::Activated => "activated",
+            }
+        }
+    }
+    impl AsRef<str> for ContractTermPreparationStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ContractTermPreparationStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prepared" => Ok(Self::Prepared),
+                "superseded" => Ok(Self::Superseded),
+                "activated" => Ok(Self::Activated),
+                _ => Err(UnknownEnumValue { enum_name: "ContractTermPreparationStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5903; COMMERCIAL_DIFF_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialDiffLevel {
         #[serde(rename = "prompt")]
@@ -4588,7 +4621,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5780; COMMERCIAL_DIFF_REVIEW_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5915; COMMERCIAL_DIFF_REVIEW_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialDiffReviewStatus {
         #[serde(rename = "not-required")]
@@ -4625,7 +4658,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5793; COMMERCIAL_BASELINE_REVIEW_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5928; COMMERCIAL_BASELINE_REVIEW_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialBaselineReviewDecision {
         #[serde(rename = "approved")]
@@ -4654,7 +4687,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5804; COMMERCIAL_RELEASE_BASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5939; COMMERCIAL_RELEASE_BASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialReleaseBaselineStatus {
         #[serde(rename = "draft")]
@@ -4687,7 +4720,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5824; CONTRACT_READINESS_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5959; CONTRACT_READINESS_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessStatus {
         #[serde(rename = "ready")]
@@ -4720,7 +4753,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5842; CONTRACT_READINESS_GUARD_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5977; CONTRACT_READINESS_GUARD_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessGuardDecision {
         #[serde(rename = "allowed")]
@@ -4753,7 +4786,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5861; CONTRACT_READINESS_ITEM_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5996; CONTRACT_READINESS_ITEM_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessItemType {
         #[serde(rename = "checklist")]
@@ -4790,7 +4823,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5878; CONTRACT_READINESS_ITEM_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6013; CONTRACT_READINESS_ITEM_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessItemStatus {
         #[serde(rename = "ready")]
@@ -4827,7 +4860,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6047; CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6190; CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverBaselineValidationStatus {
         #[serde(rename = "ready")]
@@ -4860,7 +4893,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6064; CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6207; CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverCurrentBaselineStatus {
         #[serde(rename = "available")]
@@ -4889,7 +4922,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6083; CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6226; CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverCurrentBaselineSourceType {
         #[serde(rename = "contract-readiness")]
@@ -4926,7 +4959,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6102; CONTRACT_HANDOVER_REBASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6245; CONTRACT_HANDOVER_REBASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverRebaselineStatus {
         #[serde(rename = "none")]
@@ -4971,7 +5004,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6120; CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6263; CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverRebaselineBlockingStatus {
         #[serde(rename = "none")]
@@ -5004,7 +5037,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6138; CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6281; CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverReceivablePlanInitStatus {
         #[serde(rename = "initialized")]
@@ -5037,7 +5070,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6233; PROJECT_HANDOVER_PARTICIPANT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6376; PROJECT_HANDOVER_PARTICIPANT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverParticipantStatus {
         #[serde(rename = "pending")]
@@ -5070,7 +5103,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6252; PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6395; PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverParticipantConfirmationStatus {
         #[serde(rename = "not-started")]
@@ -5107,7 +5140,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6269; PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6412; PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverReceiptJudgmentFreezeStatus {
         #[serde(rename = "not-frozen")]
@@ -5136,7 +5169,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6287; PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6430; PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverReceiptJudgmentSourceType {
         #[serde(rename = "project-handover")]
@@ -5169,7 +5202,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6305; PROJECT_HANDOVER_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6448; PROJECT_HANDOVER_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverStatus {
         #[serde(rename = "not-started")]
@@ -5210,7 +5243,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6583; RECEIPT_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6742; RECEIPT_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReceiptRecordStatus {
         #[serde(rename = "draft")]
@@ -5251,7 +5284,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6641; PAYABLE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6800; PAYABLE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PayableRecordStatus {
         #[serde(rename = "draft")]
@@ -5296,7 +5329,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6769; PAYMENT_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6928; PAYMENT_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PaymentRecordStatus {
         #[serde(rename = "draft")]
@@ -5333,7 +5366,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6834; INVOICE_RECORD_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6993; INVOICE_RECORD_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordType {
         #[serde(rename = "input")]
@@ -5362,7 +5395,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6851; INVOICE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7010; INVOICE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordStatus {
         #[serde(rename = "draft")]
@@ -5411,7 +5444,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6865; INVOICE_RECORD_EXCEPTION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7024; INVOICE_RECORD_EXCEPTION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordExceptionStatus {
         #[serde(rename = "none")]
@@ -5444,7 +5477,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6917; INVOICE_RECORD_PATCHABLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7076; INVOICE_RECORD_PATCHABLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordPatchableStatus {
         #[serde(rename = "draft")]
@@ -5485,7 +5518,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6980; EXPENSE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7139; EXPENSE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExpenseSourceType {
         #[serde(rename = "manual")]
@@ -5518,7 +5551,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6994; EXPENSE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7153; EXPENSE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExpenseRecordStatus {
         #[serde(rename = "draft")]
@@ -5555,7 +5588,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7122; APPROVAL_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7281; APPROVAL_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ApprovalType {
         #[serde(rename = "contract-review")]
@@ -5588,7 +5621,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7136; BUSINESS_DOMAINS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7295; BUSINESS_DOMAINS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BusinessDomain {
         #[serde(rename = "contract-finance")]
@@ -5625,7 +5658,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7153; TARGET_OBJECT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7312; TARGET_OBJECT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TargetObjectType {
         #[serde(rename = "contract")]
@@ -5674,7 +5707,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7166; APPROVAL_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7325; APPROVAL_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ApprovalStatus {
         #[serde(rename = "pending")]
@@ -5707,7 +5740,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7179; APPROVAL_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7338; APPROVAL_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ApprovalDecision {
         #[serde(rename = "approved")]
@@ -5736,7 +5769,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7193; TODO_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7352; TODO_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoSourceType {
         #[serde(rename = "approval-record")]
@@ -5769,7 +5802,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7206; TODO_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7365; TODO_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoType {
         #[serde(rename = "approval")]
@@ -5802,7 +5835,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7220; TODO_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7379; TODO_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoStatus {
         #[serde(rename = "open")]
@@ -5839,7 +5872,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7235; TODO_PRIORITIES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7394; TODO_PRIORITIES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoPriority {
         #[serde(rename = "low")]
@@ -5876,7 +5909,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7357; COMMISSION_RULE_VERSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7532; COMMISSION_RULE_VERSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRuleVersionStatus {
         #[serde(rename = "draft")]
@@ -5909,7 +5942,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7376; COMMISSION_ROLE_ASSIGNMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7551; COMMISSION_ROLE_ASSIGNMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRoleAssignmentStatus {
         #[serde(rename = "draft")]
@@ -5942,7 +5975,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7391; COMMISSION_CALCULATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7566; COMMISSION_CALCULATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionCalculationStatus {
         #[serde(rename = "pending")]
@@ -5979,7 +6012,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7408; COMMISSION_PAYOUT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7583; COMMISSION_PAYOUT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutStatus {
         #[serde(rename = "draft")]
@@ -6024,7 +6057,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7415; COMMISSION_PAYOUT_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7590; COMMISSION_PAYOUT_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutStage {
         #[serde(rename = "first")]
@@ -6061,7 +6094,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7428; NON_RETENTION_COMMISSION_PAYOUT_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7603; NON_RETENTION_COMMISSION_PAYOUT_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum NonRetentionCommissionPayoutStage {
         #[serde(rename = "first")]
@@ -6094,7 +6127,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7434; COMMISSION_PAYOUT_TIERS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7609; COMMISSION_PAYOUT_TIERS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutTier {
         #[serde(rename = "basic")]
@@ -6127,7 +6160,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7446; COMMISSION_PAYOUT_KINDS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7621; COMMISSION_PAYOUT_KINDS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutKind {
         #[serde(rename = "primary")]
@@ -6156,7 +6189,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7457; COMMISSION_ADJUSTMENT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7632; COMMISSION_ADJUSTMENT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionAdjustmentType {
         #[serde(rename = "suspend-payout")]
@@ -6197,7 +6230,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7481; COMMISSION_ADJUSTMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7656; COMMISSION_ADJUSTMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionAdjustmentStatus {
         #[serde(rename = "draft")]
@@ -6242,7 +6275,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7488; COMMISSION_FREEZE_DISPUTE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7663; COMMISSION_FREEZE_DISPUTE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFreezeDisputeStatus {
         #[serde(rename = "submitted")]
@@ -6271,7 +6304,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7499; COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7674; COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFreezeDisputeArbitrationStatus {
         #[serde(rename = "pending")]
@@ -6300,7 +6333,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7510; COMMISSION_FREEZE_CHANGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7685; COMMISSION_FREEZE_CHANGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFreezeChangeStatus {
         #[serde(rename = "effective")]
@@ -6329,7 +6362,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7521; COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7696; COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionLifecycleSnapshotStatus {
         #[serde(rename = "active")]
@@ -6364,7 +6397,7 @@ mod generated_values {
     /// TS alias proven to use the same source array as CommissionLifecycleSnapshotStatus; no independent schema identity.
     pub type CommissionDepartureExceptionDecisionStatus = CommissionLifecycleSnapshotStatus;
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7540; COMMISSION_FINAL_SETTLEMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7715; COMMISSION_FINAL_SETTLEMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFinalSettlementStatus {
         #[serde(rename = "pending-final-settlement")]
@@ -6397,7 +6430,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7553; COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7728; COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionNonRetentionSettlementStatus {
         #[serde(rename = "pending-non-retention")]
@@ -6426,7 +6459,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7567; COMMISSION_RETENTION_SETTLEMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7742; COMMISSION_RETENTION_SETTLEMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRetentionSettlementStatus {
         #[serde(rename = "waiting-retention")]
@@ -6459,7 +6492,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7582; COMMISSION_RULE_EXPLANATION_STAGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7757; COMMISSION_RULE_EXPLANATION_STAGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRuleExplanationStageStatus {
         #[serde(rename = "pending-final-settlement")]
@@ -6496,7 +6529,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7598; COMMISSION_RULE_EXPLANATION_GATE_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7773; COMMISSION_RULE_EXPLANATION_GATE_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRuleExplanationGateDecision {
         #[serde(rename = "allow-final-settlement")]
@@ -6537,7 +6570,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7605; COMMISSION_RETENTION_DUE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7780; COMMISSION_RETENTION_DUE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRetentionDueStatus {
         #[serde(rename = "missing")]
@@ -6570,7 +6603,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8118; INTERNAL_COST_RATE_VERSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8293; INTERNAL_COST_RATE_VERSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InternalCostRateVersionStatus {
         #[serde(rename = "active")]
@@ -6603,7 +6636,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8130; INTERNAL_COST_RATE_SCOPE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8305; INTERNAL_COST_RATE_SCOPE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InternalCostRateScopeType {
         #[serde(rename = "person")]
@@ -6632,7 +6665,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8141; INTERNAL_COST_RATE_UNITS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8316; INTERNAL_COST_RATE_UNITS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InternalCostRateUnit {
         #[serde(rename = "hour")]
@@ -6661,7 +6694,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8196; PROJECT_ACTUAL_COST_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8371; PROJECT_ACTUAL_COST_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectActualCostType {
         #[serde(rename = "procurement")]
@@ -6702,7 +6735,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8210; PROJECT_ACTUAL_COST_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8385; PROJECT_ACTUAL_COST_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectActualCostRecordStatus {
         #[serde(rename = "draft")]
@@ -6747,7 +6780,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8225; PROJECT_ACTUAL_COST_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8400; PROJECT_ACTUAL_COST_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectActualCostSourceType {
         #[serde(rename = "payment-record")]
@@ -6788,7 +6821,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8239; LABOR_COST_PERIOD_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8414; LABOR_COST_PERIOD_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LaborCostPeriodType {
         #[serde(rename = "week")]
@@ -6817,7 +6850,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8328; BASELINE_SELECTION_SOURCES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8503; BASELINE_SELECTION_SOURCES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BaselineSelectionSource {
         #[serde(rename = "original")]
@@ -6846,7 +6879,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8341; OPERATING_SNAPSHOT_ACTION_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8516; OPERATING_SNAPSHOT_ACTION_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSnapshotActionLevel {
         #[serde(rename = "prompt")]
@@ -6879,7 +6912,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8348; OPERATING_BASELINE_PACKAGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8523; OPERATING_BASELINE_PACKAGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingBaselinePackageStatus {
         #[serde(rename = "draft")]
@@ -6912,7 +6945,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8360; CHANGE_PACKAGE_BASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8535; CHANGE_PACKAGE_BASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ChangePackageBaselineStatus {
         #[serde(rename = "active")]
@@ -6941,7 +6974,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8371; OPERATING_LIFECYCLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8546; OPERATING_LIFECYCLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingLifecycleStatus {
         #[serde(rename = "active")]
@@ -6974,7 +7007,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8383; OPERATING_PENDING_LIFECYCLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8558; OPERATING_PENDING_LIFECYCLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingPendingLifecycleStatus {
         #[serde(rename = "pending")]
@@ -7011,7 +7044,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8396; OPERATING_SNAPSHOT_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8571; OPERATING_SNAPSHOT_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSnapshotMode {
         #[serde(rename = "realtime")]
@@ -7044,7 +7077,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8408; CREATABLE_OPERATING_SNAPSHOT_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8583; CREATABLE_OPERATING_SNAPSHOT_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CreatableOperatingSnapshotMode {
         #[serde(rename = "realtime")]
@@ -7073,7 +7106,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8414; COST_STAGE_ATTRIBUTION_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8589; COST_STAGE_ATTRIBUTION_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CostStageAttributionMode {
         #[serde(rename = "auto")]
@@ -7106,7 +7139,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8426; CONFIRM_COST_STAGE_ATTRIBUTION_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8601; CONFIRM_COST_STAGE_ATTRIBUTION_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ConfirmCostStageAttributionMode {
         #[serde(rename = "auto")]
@@ -7135,7 +7168,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8439; OPERATING_DATA_MATURITY_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8614; OPERATING_DATA_MATURITY_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingDataMaturityLevel {
         #[serde(rename = "insufficient")]
@@ -7168,7 +7201,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8451; OPERATING_SIGNAL_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8626; OPERATING_SIGNAL_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSignalLevel {
         #[serde(rename = "attention")]
@@ -7197,7 +7230,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8464; OPERATING_RISK_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8639; OPERATING_RISK_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingRiskLevel {
         #[serde(rename = "attention")]
@@ -7226,7 +7259,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8471; OPERATING_SIGNAL_REVIEW_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8646; OPERATING_SIGNAL_REVIEW_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSignalReviewDecision {
         #[serde(rename = "approve")]
@@ -7255,7 +7288,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8482; ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8657; ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AccountingTaxDeductibilityStatus {
         #[serde(rename = "pending")]
@@ -7313,6 +7346,93 @@ mod generated_values {
                 "active" => Ok(Self::Active),
                 "inactive" => Ok(Self::Inactive),
                 _ => Err(UnknownEnumValue { enum_name: "UpdateCustomerRequestStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6713; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReadinessInitializationResultTargetType {
+        #[serde(rename = "contract-term-preparation")]
+        ContractTermPreparation,
+        #[serde(rename = "receivable-plan-version")]
+        ReceivablePlanVersion,
+    }
+    impl ReadinessInitializationResultTargetType {
+        pub const ALL: &'static [Self] = &[Self::ContractTermPreparation, Self::ReceivablePlanVersion];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ContractTermPreparation => "contract-term-preparation",
+                Self::ReceivablePlanVersion => "receivable-plan-version",
+            }
+        }
+    }
+    impl AsRef<str> for ReadinessInitializationResultTargetType { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReadinessInitializationResultTargetType {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "contract-term-preparation" => Ok(Self::ContractTermPreparation),
+                "receivable-plan-version" => Ok(Self::ReceivablePlanVersion),
+                _ => Err(UnknownEnumValue { enum_name: "ReadinessInitializationResultTargetType" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6716; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReadinessInitializationResultResultStatus {
+        #[serde(rename = "prepared")]
+        Prepared,
+        #[serde(rename = "initialized")]
+        Initialized,
+    }
+    impl ReadinessInitializationResultResultStatus {
+        pub const ALL: &'static [Self] = &[Self::Prepared, Self::Initialized];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prepared => "prepared",
+                Self::Initialized => "initialized",
+            }
+        }
+    }
+    impl AsRef<str> for ReadinessInitializationResultResultStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReadinessInitializationResultResultStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prepared" => Ok(Self::Prepared),
+                "initialized" => Ok(Self::Initialized),
+                _ => Err(UnknownEnumValue { enum_name: "ReadinessInitializationResultResultStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6717; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReadinessInitializationResultBusinessStatusAfter {
+        #[serde(rename = "prepared")]
+        Prepared,
+        #[serde(rename = "active")]
+        Active,
+    }
+    impl ReadinessInitializationResultBusinessStatusAfter {
+        pub const ALL: &'static [Self] = &[Self::Prepared, Self::Active];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prepared => "prepared",
+                Self::Active => "active",
+            }
+        }
+    }
+    impl AsRef<str> for ReadinessInitializationResultBusinessStatusAfter { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReadinessInitializationResultBusinessStatusAfter {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prepared" => Ok(Self::Prepared),
+                "active" => Ok(Self::Active),
+                _ => Err(UnknownEnumValue { enum_name: "ReadinessInitializationResultBusinessStatusAfter" }),
             }
         }
     }

@@ -1,0 +1,44 @@
+# R4 首批 37 操作独立 G1 审查 01
+
+结论：**G1 Pass**。开放 P0/P1/P2/P3 均为 0，无待决设计阻断、无例外。仅认证本批的设计与实施输入，当前未启动或认证 G2，也不认证 G3/G4。
+
+审查者 `/root/r4_independent_gate` 保持非作者，只写本目录审查输出。受审分支 `codex/poms-r4abc-first37`，产品基线及只读观察 HEAD 均为 `1730f304c1cf5600721f80b6c06feec24269d387`。绑定清单为 `docs/design/rust-r4abc/g1-candidate-manifest01.json`，123657 B，SHA-256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`。
+
+## 范围与来源核验
+
+A9＋B9＋C19，共 37 个唯一 method/path、37 个唯一 operationId，与当前完整 OpenAPI 相同；对候选 pin 的历史 Rust173 规范差集为 37、重叠为 0。该比较属于静态输入，未新运行生成器或将历史规范升级为本轮运行结果。
+
+清单 491 个路径唯一，全部长度和 SHA 相符。313 份基础来源共 6,868,156 B，原字节全部匹配；当前来源只出现清单显式列出的六份正式文档补充，无未声明漂移。apps/libs 无 tracked 修改和 untracked 产品文件；Root 的 G0/保全工具单列。没有把机械哈希核验称为全部源码逐行语义审查。
+
+已复核联合基线及当前八份文档：canonical inventory、合同资金设计、接口命令设计、schema-DDL、表结构冻结、Rust迁移计划、phase2 tracker、Rust tracker。它们明确引用本包字段/DDL/协议权威，保留历史，当前仍是 G0/G1、未准入 G2。SQL、DTO、共享协议、环境计划均有可实现的冻结输入，无待决设计阻断。
+
+## 关键审查结论
+
+- 真实 project/cost/bid → B draft → A01 baseline → R3 pricing release → A05/A04/A08 → B/R2审核与激活 → A09 的次序已排除引用循环。每合同 reference/candidate、金额、节点独立；无项目报价复制、分摊或强制合计。
+- 未有同合同毛利依据时，金额变动明确要求新 baseline 重审；节点、付款文本、质保、比例及日期差异有逐字段规则。质保节点金额必须精确符合合同自身比例，禁止隐式分角取整。
+- 准备、binding、active snapshot、plan 是不同真实持久化身份。版本链、FK、唯一/current、exact 幂等和 required/nullable 已冻结；A08/A09 targetId 与实际产物类型相符，sourceReadinessId 单独指包。
+- baseline 可变 rowVersion/latestDiff 不进入冻结准备的 freshness；送审/批准/激活验证真实来源，A09 消费已生效历史快照，其他合同后续报价不会破坏既有计划。
+- B 送审在同 outerTX 内先 common flush 实际 Approval/Todo，再插立即 FK 的 binding；后续失败仍整体回滚，auth participant 只消费一次。typed SQL 与 CommonState 只做 exact identity 同步，不解禁整个只读表、不另取连接或 commit。
+- A04 附件有真实关联表、同项目/合同 active link 与既有权限规则。金额/UUID/actor、受控唯一冲突、敏感投影、mandatory audit/session 和安全事件边界已明确。
+- 新 namespace、PG15数据库/角色/卷、计划端口与先核占用、全新私有数据、精确源/worktree、真实UI适用性、所有权清理与旧环境保留均已冻结为环境计划。此处不宣称资源已创建或运行通过。
+
+预审及后续反馈全部由最终冻结输入闭合；`preliminary-review01.*` 保持原字节和 Preliminary 标签。其 JSON 的 PRE-03 行号 62 应读为 A02 第55行，属于引用行号更正，不改变历史预审内容。
+
+## 实际检查与证据等级
+
+Root 的 `tmp/rust-r4abc/root/g1-static-checks01/receipt01.json` 为 2049 B、SHA-256 `01f9ad92945f42db977694d92b701470eb2c38eea483edf9fb60a60dc684d5d6`。独立读回 receipt、runner 和四份 stdout/stderr，5份原件长度/哈希相符；`git diff --check` 与 `deno task format:md:check` 均 exit0，候选 manifest 前后未变。
+
+本审查者未执行构建、测试、DDL、HTTP、PG、browser、WSL、private、GitHub 或 Git 写入。实际 runtime 为未执行。Rust/Native/admin lint/build/test、真实PG/HTTP/并发/故障/原UI、完整OpenAPI/client、migration/entity/DDL 对齐和清理都是 G2/G3 必须完成的验收，不在此宣称 Pass。作者 pure case、语法检查、静态路由数、历史 Native 缺陷均保留其真实等级。
+
+## 允许的后续工作
+
+Root 完成这一精确候选的线上 G1 冻结、固定不可变 G1 commit 并创建隔离 author worktree 后，可准入：
+
+- A：`contract_readiness/` 内的9入口及真实合同准备/正式计划。
+- B：`contracts/` 内的9入口及精确送审/激活。
+- C：`contract_finance/` 内的19入口与最小实际成本只读 guard。
+- Root：本包冻结的公共支持、HTTP/认证/投影/事务、R2真实contract-review扩展、R3 baseline有界校验、forward migration/entity、Shared/DTO/OpenAPI/client/generated与既有UI消费和新验收环境。
+
+这不是额外53个R4入口、实际成本40项、移交/变更、整个R4/R5、部署/切流或性能验收许可。G3、固定提交、main集成和G4分别独立审查；本批最终仅可能关闭 #103/#104/#105/#102，**#101/#57 始终保持 Open**，直至各自完整条件满足。线上冻结及环境实际绑定是后续操作步骤，不是未解决设计项。
+
+完整结构化判断及17项 active 输入 pin 见 `g1-independent-review01.json`。

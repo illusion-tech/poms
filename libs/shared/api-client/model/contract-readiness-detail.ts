@@ -11,12 +11,19 @@ import { ContractReadinessItem } from './contract-readiness-item';
 import { ContractReadinessStatus } from './contract-readiness-status';
 import { ContractReadinessGuardDecision } from './contract-readiness-guard-decision';
 import { CommercialDiffReviewStatus } from './commercial-diff-review-status';
+import { ContractCommercialTerms } from './contract-commercial-terms';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { ContractTermPreparationSummary } from './contract-term-preparation-summary';
 import { CommercialDiffLevel } from './commercial-diff-level';
 
 
 export interface ContractReadinessDetail {
     id: string;
     projectId: string;
+    contractId: string | null;
+    candidateTerms: ContractCommercialTerms | null;
+    currentPreparation: ContractTermPreparationSummary | null;
+    financialProjection: SensitiveStringFieldProjection;
     sourceBaselineId: string;
     commercialReleaseBaselineId: string;
     latestDiffResultId: string;

@@ -129,6 +129,11 @@ fn policy(op: Op) -> RoutePolicy {
     }
 }
 fn failure(error: CommonFailure) -> Response {
+    if error.kind == FailureKind::Database {
+        return crate::contract_support::Error::from(error)
+            .into_api_error()
+            .into_response();
+    }
     if error.kind != FailureKind::Http {
         return ApiError::internal().into_response();
     }
@@ -138,14 +143,18 @@ fn failure(error: CommonFailure) -> Response {
     else {
         return ApiError::internal().into_response();
     };
-    let body = Value::Object(object([
+    let mut fields = object([
         ("statusCode", Value::Number(f64::from(status.as_u16()))),
         ("message", Value::Text(error.message)),
         (
             "error",
             Value::text(status.canonical_reason().unwrap_or("Error")),
         ),
-    ]));
+    ]);
+    if let Some(code) = error.code {
+        fields.insert("code".into(), Value::text(code));
+    }
+    let body = Value::Object(fields);
     ApiError::raw_json(status, body.json()).into_response()
 }
 async fn dispatch(
@@ -202,6 +211,7 @@ async fn dispatch(
                     &mut state,
                     &mut participant,
                 );
+                session.request_id = metadata.request_id.clone();
                 let output = match op {
                     Op::Detail => service.get_record_with_session(&mut session, id).await,
                     Op::Todos => service.get_my_todos_with_session(&mut session, actor).await,

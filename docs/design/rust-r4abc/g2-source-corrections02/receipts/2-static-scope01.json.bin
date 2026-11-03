@@ -1,0 +1,35 @@
+{
+  "schema": "poms-r4-shared-candidate-static-scope/v1",
+  "kind": "normalized source text comparison, not AST/typecheck/runtime acceptance",
+  "changedExistingSharedDeclarations": [
+    "ContractTermSnapshotSummary",
+    "ContractDetailView",
+    "CreateContractRequest",
+    "UpdateContractBasicInfoRequest",
+    "CommercialBaselineReviewRecordSummary",
+    "CommercialReleaseBaselineSummary",
+    "ContractReadinessDetail",
+    "CreateCommercialReleaseBaselineRequest",
+    "ReviewCommercialReleaseBaselineDiffRequest",
+    "CreateContractReadinessPackageRequest",
+    "InitializeContractSnapshotFromReadinessPackageRequest",
+    "InitializeReceivablePlanFromReadinessPackageRequest",
+    "ReadinessInitializationResult",
+    "CreateReceiptRecordRequest",
+    "CreatePayableRecordRequest",
+    "UpdatePayableRecordRequest",
+    "CreatePaymentRecordRequest",
+    "CreateInvoiceRecordRequest",
+    "UpdateInvoiceRecordRequest",
+    "CommandResult",
+    "SubmitContractReviewRequest"
+  ],
+  "addedSharedBlocks": [
+    "scoped R4 BigInt validators and lifecycle types before ContractTermSnapshotSummary",
+    "strict results after CommandResult"
+  ],
+  "sharedOutsideDeclaredBlocksUnchanged": true,
+  "handoverOnlyAuthorizedTypeImportChanged": true,
+  "typescriptExecuted": false,
+  "buildTestRuntimeExecuted": false
+}

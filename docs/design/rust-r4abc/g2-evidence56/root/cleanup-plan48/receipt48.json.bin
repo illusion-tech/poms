@@ -1,0 +1,396 @@
+{
+  "kind": "owned-only-restoration-with-real-FK-enforcement",
+  "mode": "plan",
+  "reports": [
+    {
+      "backend": "rust",
+      "plan": {
+        "phases": [
+          {
+            "kind": "delete-owned-leaves",
+            "tables": [
+              "approval_summary_field_projection",
+              "attachment_link",
+              "attachment_upload_session",
+              "audit_log",
+              "auth_session",
+              "business_number_sequence",
+              "commercial_baseline_diff_item",
+              "commercial_baseline_review_attachment",
+              "contract_readiness_package_item",
+              "contract_review_binding",
+              "customer_alias",
+              "invoice_record",
+              "local_credential",
+              "payment_record",
+              "project_technical_cost_item",
+              "receipt_record",
+              "receivable_plan_init_record",
+              "receivable_plan_node",
+              "role_permission_assignment",
+              "security_event",
+              "todo_item",
+              "user_role_assignment",
+              "approval_record",
+              "attachment",
+              "commercial_baseline_review_record",
+              "payable_record",
+              "receivable_plan_version",
+              "role"
+            ]
+          },
+          {
+            "kind": "clear-only-owned-nullable-cycle-pointers",
+            "clears": [
+              {
+                "table": "contract",
+                "column": "current_snapshot_id",
+                "keys": [
+                  "[\"18746176-fb41-4cf9-84be-af7e6bd7c9df\"]",
+                  "[\"209565f3-a2c1-4ff3-9945-800956d684c0\"]",
+                  "[\"3f5cf69d-b7c2-46e6-ad0b-afb2862aaa9d\"]",
+                  "[\"5210b01e-96ff-418d-998e-a172a6fb80f0\"]",
+                  "[\"547d62f1-63b0-4eaa-92b8-0597e76c0863\"]",
+                  "[\"6459aa0c-5d31-47d6-8e6a-bf008c5f6100\"]",
+                  "[\"651e74b7-e40d-48dc-b3cd-f61352bee1bf\"]",
+                  "[\"84e19d59-df8b-43ce-a9ea-3cdbd040b8ef\"]",
+                  "[\"a18efe15-5cdb-409e-b28c-133ddf8394b8\"]",
+                  "[\"b21244e6-869d-4ec2-aceb-c353e0e2e9af\"]",
+                  "[\"dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb\"]",
+                  "[\"f02da8ae-53f4-4f51-a0ad-f3e40e54dc77\"]"
+                ]
+              },
+              {
+                "table": "contract_term_snapshot",
+                "column": "source_preparation_id",
+                "keys": [
+                  "[\"0a3a3832-ad9e-4121-b5c8-da3ebc3eb183\"]",
+                  "[\"2493ed96-02a0-4007-bff8-093151de8324\"]",
+                  "[\"25656e5c-0bee-48ed-a1a7-43b4163258cb\"]",
+                  "[\"26c810d8-cffa-4077-b3d8-bec80e206594\"]",
+                  "[\"27ac663d-5ba0-4ea8-b672-ed9121215fef\"]",
+                  "[\"3a8b04a5-57ae-4ad4-879c-dce05bc66726\"]",
+                  "[\"462f810a-d6a5-4a63-9349-0e23ad28ce89\"]",
+                  "[\"5d1b2cf8-1a81-442d-ae41-518052ce8557\"]",
+                  "[\"679456d5-84bd-4d05-9363-fbf9e3f82b73\"]",
+                  "[\"8bdc1cc5-65de-4762-8122-e05ec7dc29e9\"]",
+                  "[\"fa058227-3160-4c39-b426-0486975a0249\"]",
+                  "[\"fda56619-f03e-4f3b-88fe-9752dda048ca\"]"
+                ]
+              },
+              {
+                "table": "contract_readiness_package",
+                "column": "current_preparation_id",
+                "keys": [
+                  "[\"0d92ac5e-9b9a-466f-b0db-4aca0eca5672\"]",
+                  "[\"26952f31-3087-4cb1-909a-e3e6ae94b383\"]",
+                  "[\"2c940c18-fc72-4e77-84f7-1f7b9818db45\"]",
+                  "[\"2e84fb5a-4fb5-4c2f-b0f8-5ea83938b5c7\"]",
+                  "[\"469613e2-dc2a-4f17-b51e-f971a7156fa6\"]",
+                  "[\"4a7ff4a2-94c1-4f62-8003-215b35a1651c\"]",
+                  "[\"56f19f29-d00c-441b-b4a9-60fd4a0e7c49\"]",
+                  "[\"75d83b0b-06bb-4b3f-90d5-b10229c4539a\"]",
+                  "[\"7c87a529-0afe-4a12-b9d2-1745b1583113\"]",
+                  "[\"9230a59a-60e9-47db-b133-6fb073451320\"]",
+                  "[\"b23b8263-dc76-4276-8c24-bf31c3e2a9e7\"]",
+                  "[\"b5d7ebb8-acca-4037-a238-2736f04aeec0\"]",
+                  "[\"ba672526-f1c5-4780-805e-53e75e51c183\"]",
+                  "[\"c2eb5057-f351-4e18-8a66-9ae5f869525d\"]",
+                  "[\"c93d95a7-47c5-4838-9a02-ddd6ce41560e\"]",
+                  "[\"d29d575f-13b3-4a89-86b4-4ec2694d367a\"]",
+                  "[\"e384803f-882c-4199-a587-0a7f5dba2530\"]",
+                  "[\"efe5fce6-eb41-4e99-a1bb-e1b458f01934\"]",
+                  "[\"f62f32b8-46e3-4b7e-82f1-420a11ff2638\"]",
+                  "[\"ffc59aee-34f2-4c0e-8461-b408bf6eb12d\"]"
+                ]
+              },
+              {
+                "table": "commercial_release_baseline",
+                "column": "latest_diff_result_id",
+                "keys": [
+                  "[\"3ce7f1c2-d521-4488-8ac6-3fb97e0281f9\"]",
+                  "[\"4b59efd3-d8c4-4f6e-90ea-254630808530\"]",
+                  "[\"7773e7d7-a17b-4302-96bf-a7e50b961ab6\"]",
+                  "[\"d9491d79-8af6-47bf-b302-9b36fb0d3e09\"]",
+                  "[\"edc4f39e-6029-43db-91df-de2247566e88\"]",
+                  "[\"ffc3243b-e5f6-47ee-ad0b-cd702230e772\"]"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "delete-owned-after-cycle-break",
+            "tables": [
+              "contract_term_preparation",
+              "contract_term_snapshot",
+              "contract_readiness_package",
+              "commercial_baseline_diff_result",
+              "project_pricing_margin_review",
+              "approval_summary_snapshot",
+              "commercial_release_baseline",
+              "contract",
+              "project_bid_commercial_process",
+              "project_technical_cost_package",
+              "approval_summary_package_definition",
+              "project",
+              "customer",
+              "platform_user"
+            ]
+          }
+        ],
+        "tableCounts": [
+          {
+            "table": "approval_record",
+            "count": 24
+          },
+          {
+            "table": "approval_summary_field_projection",
+            "count": 42
+          },
+          {
+            "table": "approval_summary_package_definition",
+            "count": 6
+          },
+          {
+            "table": "approval_summary_snapshot",
+            "count": 6
+          },
+          {
+            "table": "attachment",
+            "count": 2
+          },
+          {
+            "table": "attachment_link",
+            "count": 2
+          },
+          {
+            "table": "attachment_upload_session",
+            "count": 2
+          },
+          {
+            "table": "audit_log",
+            "count": 250
+          },
+          {
+            "table": "auth_session",
+            "count": 34
+          },
+          {
+            "table": "business_number_sequence",
+            "count": 2
+          },
+          {
+            "table": "commercial_baseline_diff_result",
+            "count": 36
+          },
+          {
+            "table": "commercial_release_baseline",
+            "count": 12
+          },
+          {
+            "table": "contract",
+            "count": 31
+          },
+          {
+            "table": "contract_readiness_package",
+            "count": 36
+          },
+          {
+            "table": "contract_readiness_package_item",
+            "count": 108
+          },
+          {
+            "table": "contract_review_binding",
+            "count": 24
+          },
+          {
+            "table": "contract_term_preparation",
+            "count": 25
+          },
+          {
+            "table": "contract_term_snapshot",
+            "count": 12
+          },
+          {
+            "table": "customer",
+            "count": 7
+          },
+          {
+            "table": "invoice_record",
+            "count": 5
+          },
+          {
+            "table": "local_credential",
+            "count": 3
+          },
+          {
+            "table": "payable_record",
+            "count": 10
+          },
+          {
+            "table": "payment_record",
+            "count": 10
+          },
+          {
+            "table": "platform_user",
+            "count": 3
+          },
+          {
+            "table": "project",
+            "count": 7
+          },
+          {
+            "table": "project_bid_commercial_process",
+            "count": 7
+          },
+          {
+            "table": "project_pricing_margin_review",
+            "count": 9
+          },
+          {
+            "table": "project_technical_cost_package",
+            "count": 7
+          },
+          {
+            "table": "receipt_record",
+            "count": 7
+          },
+          {
+            "table": "receivable_plan_init_record",
+            "count": 12
+          },
+          {
+            "table": "receivable_plan_version",
+            "count": 12
+          },
+          {
+            "table": "role",
+            "count": 1
+          },
+          {
+            "table": "role_permission_assignment",
+            "count": 1
+          },
+          {
+            "table": "security_event",
+            "count": 98
+          },
+          {
+            "table": "todo_item",
+            "count": 24
+          },
+          {
+            "table": "user_role_assignment",
+            "count": 30
+          },
+          {
+            "table": "commercial_baseline_diff_item",
+            "count": 16
+          },
+          {
+            "table": "commercial_baseline_review_attachment",
+            "count": 7
+          },
+          {
+            "table": "commercial_baseline_review_record",
+            "count": 8
+          },
+          {
+            "table": "customer_alias",
+            "count": 7
+          },
+          {
+            "table": "project_technical_cost_item",
+            "count": 7
+          },
+          {
+            "table": "receivable_plan_node",
+            "count": 12
+          }
+        ],
+        "ownedRows": 964
+      },
+      "ownership": {
+        "file": "/home/wangzishi/.local/share/poms-r4abc/private/cohort-final46-rust.json",
+        "bytes": 2945387,
+        "rawBytesSha256": "76647a508ce8192b6749009afe5b5b6b0121430d068d5235c29f31a8bd1483d9"
+      },
+      "modifiedSeed": [
+        {
+          "table": "business_number_sequence",
+          "key": "[\"91bd0e49-90e2-4c45-b711-c6b2588ac37e\"]",
+          "restoreAuthorized": true,
+          "reason": "isolated-task-counter-borrowed-original"
+        },
+        {
+          "table": "local_credential",
+          "key": "[\"70000000-0000-4000-8000-000000000008\"]",
+          "restoreAuthorized": true,
+          "reason": "explicitly-borrowed-credential-original-retained"
+        }
+      ]
+    },
+    {
+      "backend": "native",
+      "plan": {
+        "phases": [
+          {
+            "kind": "delete-owned-leaves",
+            "tables": [
+              "auth_session",
+              "local_credential",
+              "role_permission_assignment",
+              "user_role_assignment",
+              "platform_user",
+              "role"
+            ]
+          }
+        ],
+        "tableCounts": [
+          {
+            "table": "auth_session",
+            "count": 2
+          },
+          {
+            "table": "local_credential",
+            "count": 3
+          },
+          {
+            "table": "platform_user",
+            "count": 3
+          },
+          {
+            "table": "role",
+            "count": 1
+          },
+          {
+            "table": "role_permission_assignment",
+            "count": 1
+          },
+          {
+            "table": "user_role_assignment",
+            "count": 30
+          }
+        ],
+        "ownedRows": 40
+      },
+      "ownership": {
+        "file": "/home/wangzishi/.local/share/poms-r4abc/private/cohort-final46-native.json",
+        "bytes": 357464,
+        "rawBytesSha256": "f1a4699cb713671b30c50e1a81b6d830b76b2f0736e03914fbc801037e585c9b"
+      },
+      "modifiedSeed": [
+        {
+          "table": "local_credential",
+          "key": "[\"70000000-0000-4000-8000-000000000008\"]",
+          "restoreAuthorized": true,
+          "reason": "explicitly-borrowed-credential-original-retained"
+        }
+      ]
+    }
+  ],
+  "completed": true,
+  "constraintsDisabled": false,
+  "seedRowsDeleted": false,
+  "rawRowsPublished": false
+}

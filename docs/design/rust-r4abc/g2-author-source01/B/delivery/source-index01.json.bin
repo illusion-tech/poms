@@ -1,0 +1,78 @@
+{
+  "kind": "R4B-G2-source-candidate01-not-runtime-acceptance",
+  "baseline": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "issue": 104,
+  "worktree": "E:\\projects\\worktrees\\poms-r4b-contracts\\poms",
+  "products": [
+    {
+      "path": "apps/poms-api-rust/src/contracts/mod.rs",
+      "bytes": 252,
+      "sha256": "ea52d357202f3b527f8158b1aaab0f2fc419ac24c3e4288138a6a951517bcbcb"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/model.rs",
+      "bytes": 5735,
+      "sha256": "7fab9efb2defeff63b49f2ee7aac490c891493cd5b590db2694a84e631e83e77"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/store.rs",
+      "bytes": 15381,
+      "sha256": "05948723928c8d03933769cae7ad2bdeee42df0ac44aec304a7b54c7fa494738"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/projection.rs",
+      "bytes": 6154,
+      "sha256": "f0dd34d55bf2877fe6223d557059cd7147d565e0256314e1aa0fdbdd2e9bfbe2"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/service.rs",
+      "bytes": 28538,
+      "sha256": "50967d457e1b5b571a22679fdbaeb2ebce50c243f4575400450aa8f3fffa6b75"
+    }
+  ],
+  "pureDefinitions": [
+    {
+      "path": "tmp/rust-r4abc/b-implementation/INTEGRATION.md",
+      "bytes": 4876,
+      "sha256": "5292915415cf0bbf92bf6dbb803e69c88eb673e9f69bb3808849b67111286b24"
+    },
+    {
+      "path": "tmp/rust-r4abc/b-implementation/case-definitions01.json",
+      "bytes": 13202,
+      "sha256": "c92189746b7db76396335501aa173aacf730b210712bde60a7764f888fb891d6"
+    }
+  ],
+  "operations": 9,
+  "pureCases": 38,
+  "entrypoints": [
+    "contracts::execute",
+    "contracts::validate_review_binding"
+  ],
+  "productExecution": false,
+  "checksRun": [],
+  "unverified": [
+    "Rust fmt/check/clippy/build/tests",
+    "actual schema/FK/CAS/constraint behavior",
+    "HTTP/PG/fault/race/source/COMMIT/auth/projection observations",
+    "original client/UI and actual R2/A/C integration"
+  ],
+  "publicHelpers": [
+    "Actor",
+    "Error",
+    "AuditWrite",
+    "audit",
+    "money",
+    "money_string",
+    "ratio",
+    "ratio_string",
+    "new_uuid",
+    "canonical_hash",
+    "lock_project",
+    "contract_fact",
+    "require_uuid",
+    "expected_version",
+    "refresh_identity"
+  ],
+  "approvalPolicy": "actual active platform_user username vp_owner from frozen Native/R2 policy; no fixed UUID fallback",
+  "ownership": "only contracts/** and this pure-case/index directory written"
+}

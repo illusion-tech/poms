@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContractReadinessGuardDecisionLabel, ContractReadinessItemStatusLabel, ContractReadinessItemTypeLabel, ContractReadinessStatusLabel } from '@poms/shared-contracts';
-import { ContractReadinessGuardDecision, type ContractReadinessDetail, type ContractReadinessItem, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { AuthStore, ContractReadinessGuardDecision, type ContractReadinessDetail, type ContractReadinessItem, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import type { ContractCommercialTerms, ReceivablePlanSeed } from '@poms/admin-data-access';
+import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { SectionCard } from '../../shared/ui/sectioncard';
@@ -11,6 +15,7 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
 import type { UiTagSeverity } from './project-presentation';
 
 interface PreSigningEntry {
@@ -31,9 +36,27 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
 @Component({
     selector: 'app-project-pre-signing-overview',
     standalone: true,
-    imports: [CommonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    imports: [CommonModule, FormsModule, ButtonModule, SelectModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
     changeDetection: ChangeDetectionStrategy.Eager,
     template: `
+        <section-card class="mb-6 block">
+            <ng-template #title>选择合同</ng-template>
+            <ng-template #description>承接包、准备条款和应收计划按合同独立读取，请明确选择本次处理的合同。</ng-template>
+            <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <label for="pre-signing-contract" class="text-sm font-medium">合同</label>
+                <p-select inputId="pre-signing-contract" name="preSigningContract" [options]="contractOptions()" optionLabel="label" optionValue="value" [ngModel]="selectedContractId()" (ngModelChange)="selectContract($event)" [filter]="true" [showClear]="true" [disabled]="saving()" placeholder="请选择合同" class="min-w-0 flex-1" />
+                <p-button label="刷新" icon="pi pi-refresh" [outlined]="true" [disabled]="saving()" (onClick)="selectContract(selectedContractId())" />
+            </div>
+            @if (candidateIds().length) {
+                <app-workspace-feedback class="mt-4 block" severity="warn" summary="请选择具体合同" detail="存在多个候选合同，请选择后继续。">
+                    <ul class="mt-2 break-all text-xs">@for (id of candidateIds(); track id) { <li>{{ id }}</li> }</ul>
+                </app-workspace-feedback>
+            }
+            @if (actionError()) { <app-workspace-feedback class="mt-3 block" severity="error" summary="请核对操作结果" [detail]="actionError()" /> }
+            @if (!selectedContractId() && !loading()) {
+                <p class="mt-3 text-sm text-surface-500">{{ contractOptions().length ? '请选择合同，页面不会自动代选。' : '当前项目尚无合同，请先建立合同草稿。' }}</p>
+            }
+        </section-card>
         @if (loading()) {
             <app-workspace-loading label="正在读取签约前主线" />
         } @else if (error()) {
@@ -103,6 +126,52 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                     @if (readiness(); as currentReadiness) {
                         <app-workspace-fact-grid class="mt-4 block" [items]="readinessFactItems(currentReadiness)" [columns]="4" />
 
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            <p-button label="准备合同条款" icon="pi pi-file-edit" [disabled]="!canPrepare()" [loading]="saving()" (onClick)="prepareTerms()" />
+                            <p-button label="生成正式应收计划" icon="pi pi-calendar-plus" [outlined]="true" [disabled]="!canGeneratePlan()" [loading]="saving()" (onClick)="generatePlan()" />
+                        </div>
+                        <p class="mt-3 text-sm text-surface-500">{{ initializationGuidance() }}</p>
+                        @if (commandMessage()) { <app-workspace-feedback class="mt-3 block" severity="success" summary="操作完成" [detail]="commandMessage()" /> }
+
+                        <div class="mt-5 rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
+                            <h3 class="font-medium">本合同条款与应收节点</h3>
+                            @if (visibleTerms(currentReadiness); as terms) {
+                                <dl class="mt-3 grid grid-cols-1 gap-3 text-sm md:grid-cols-3">
+                                    <div><dt class="text-surface-500">含税金额</dt><dd>{{ terms.amountTaxInclusive }} {{ selectedContract()?.currencyCode }}</dd></div>
+                                    <div><dt class="text-surface-500">未税金额</dt><dd>{{ terms.amountTaxExclusive }} {{ selectedContract()?.currencyCode }}</dd></div>
+                                    <div><dt class="text-surface-500">税率（0–1）</dt><dd>{{ terms.taxRate }}</dd></div>
+                                    <div><dt class="text-surface-500">首付比例（0–1）</dt><dd>{{ terms.downPaymentRate }}</dd></div>
+                                    <div><dt class="text-surface-500">质保比例（0–1）</dt><dd>{{ terms.retentionRate }}</dd></div>
+                                    <div><dt class="text-surface-500">质保届满日</dt><dd>{{ terms.retentionDueDate ?? '-' }}</dd></div>
+                                </dl>
+                                <p class="mt-3 whitespace-pre-wrap text-sm">{{ terms.paymentTerms }}</p>
+                                <div class="mt-4 overflow-x-auto">
+                                    <table class="w-full text-left text-sm">
+                                        <thead><tr><th class="p-2">应收节点</th><th class="p-2">金额</th><th class="p-2">计划日期</th><th class="p-2">质保节点</th></tr></thead>
+                                        <tbody>@for (seed of termSeeds(terms); track seed.nodeKey) {
+                                            <tr><td class="p-2">{{ seed.label }}</td><td class="p-2">{{ seed.plannedAmount }}</td><td class="p-2">{{ seed.plannedDate }}</td><td class="p-2">{{ seed.isRetentionNode ? '是' : '否' }}</td></tr>
+                                        }</tbody>
+                                    </table>
+                                </div>
+                            } @else {
+                                <p class="mt-3 text-sm text-surface-500">{{ financialDisplay(currentReadiness) }}</p>
+                            }
+                        </div>
+
+                        @if (diffHistory(); as history) {
+                            <details class="mt-4 rounded-[8px] border border-surface-200 p-4 dark:border-surface-700">
+                                <summary class="cursor-pointer font-medium">本合同差异与复核记录</summary>
+                                <ul class="mt-3 space-y-2 text-sm">@for (item of history.diffItems; track item.id) {
+                                    <li><span class="font-medium">{{ item.fieldLabel }}</span> · {{ item.diffLevel }}
+                                        @if (history.baseline.financialProjection.mode === 'full') { <span>：{{ item.oldValueSummary ?? '-' }} → {{ item.newValueSummary ?? '-' }}</span> }
+                                    </li>
+                                } @empty { <li>当前没有差异明细。</li> }</ul>
+                                <ul class="mt-3 space-y-2 text-sm">@for (review of history.reviewHistory; track review.id) {
+                                    <li>{{ review.createdAt | date: 'yyyy-MM-dd HH:mm' }} · {{ review.decision }} · 附件 {{ review.attachmentIds.length }} 份</li>
+                                }</ul>
+                            </details>
+                        }
+
                         <p-table
                             class="mt-4 block p-datatable-sm"
                             [value]="readinessItems(currentReadiness)"
@@ -142,8 +211,8 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
                         <app-workspace-feedback
                             class="mt-4 block"
                             severity="warn"
-                            summary="签约就绪承接包尚未形成"
-                            detail="先补齐签约前评估、范围、报价和合同前置事实；形成承接包后，这里会展示可签约判断与缺口。"
+                            [summary]="selectedContractId() ? '本合同的签约就绪承接包尚未形成' : '请选择合同查看承接状态'"
+                            detail="先补齐项目报价与本合同的条款承接事实；形成承接包后，再准备合同条款。"
                         />
                     }
                 </section-card>
@@ -154,11 +223,38 @@ const READINESS_ITEM_TYPE_LABELS = ContractReadinessItemTypeLabel as Record<Cont
 export class ProjectPreSigningOverview implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #workspaceStore = inject(ProjectWorkspaceStore);
+    readonly #authStore = inject(AuthStore);
 
     readonly guidance = this.#workspaceStore.guidance;
     readonly readiness = this.#workspaceStore.contractReadiness;
     readonly loading = this.#workspaceStore.loadingPreSigning;
     readonly error = this.#workspaceStore.preSigningError;
+    readonly selectedContractId = this.#workspaceStore.preSigningContractId;
+    readonly selectedContract = this.#workspaceStore.preSigningContract;
+    readonly candidateIds = this.#workspaceStore.preSigningCandidateIds;
+    readonly diffHistory = this.#workspaceStore.preSigningDiffHistory;
+    readonly saving = this.#workspaceStore.savingPreSigning;
+    readonly actionError = this.#workspaceStore.preSigningActionError;
+    readonly commandMessage = signal<string | null>(null);
+    readonly contractOptions = computed(() => {
+        const contracts = this.#workspaceStore.preSigningContracts();
+        const options = contracts.map((contract) => ({ label: `${contract.contractNo} · ${contract.customerContractNo ?? contract.status}`, value: contract.id }));
+        for (const id of this.candidateIds()) if (!options.some((option) => option.value === id)) options.push({ label: `合同 ${id}`, value: id });
+        return options;
+    });
+    readonly activeSnapshot = computed(() => {
+        const contract = this.selectedContract();
+        const snapshot = contract?.currentTermSnapshot;
+        return contract?.status === 'active' && snapshot?.snapshotStatus === 'active' && snapshot.id === contract.currentSnapshotId ? snapshot : null;
+    });
+    readonly realPlanId = computed(() => {
+        const readiness = this.readiness();
+        const snapshot = this.activeSnapshot();
+        return readiness && snapshot && !!snapshot.sourcePreparationId && !!readiness.currentPreparation && snapshot.sourceReadinessId === readiness.id && snapshot.sourcePreparationId === readiness.currentPreparation.preparationId ? readiness.initializedReceivablePlanVersionId : null;
+    });
+    readonly canPrepare = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const) && !this.saving() && !this.loading() && this.selectedContract()?.status === 'draft' && this.readiness()?.contractId === this.selectedContractId() && !!this.readiness()?.allowedActions.includes('initialize-contract-snapshot'));
+    readonly canGeneratePlan = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const) && !this.saving() && !this.loading() && !!this.activeSnapshot()?.sourcePreparationId && this.activeSnapshot()?.sourceReadinessId === this.readiness()?.id && this.readiness()?.contractId === this.selectedContractId());
+    readonly initializationGuidance = computed(() => this.canGeneratePlan() ? '合同已生效，可基于当前有效快照生成正式应收计划。' : this.selectedContract()?.status === 'active' ? '请核对有效快照与承接包来源，缺少真实来源时不能生成正式计划。' : '条款准备不代表合同生效；完成审核和确认生效后，才可生成正式应收计划。');
 
     readonly preSigningEntries = computed<PreSigningEntry[]>(() => {
         const projectId = this.projectId();
@@ -220,12 +316,48 @@ export class ProjectPreSigningOverview implements OnInit {
     ngOnInit() {
         const projectId = this.projectId();
         if (projectId) {
-            void this.#workspaceStore.loadPreSigningOverview(projectId).catch(() => undefined);
+            const contractId = this.#route.snapshot.queryParamMap?.get('contractId') ?? null;
+            void this.#workspaceStore.loadPreSigningOverview(projectId, contractId).catch(() => undefined);
         }
     }
 
     projectId(): string {
         return this.#route.parent?.snapshot.paramMap.get('id') ?? this.#route.snapshot.paramMap.get('id') ?? '';
+    }
+
+    selectContract(contractId: string | null) {
+        this.commandMessage.set(null);
+        void this.#workspaceStore.loadPreSigningOverview(this.projectId(), contractId).catch(() => undefined);
+    }
+
+    async prepareTerms() {
+        if (!this.canPrepare()) return;
+        this.commandMessage.set(null);
+        try {
+            const result = await this.#workspaceStore.prepareSelectedContractTerms();
+            this.commandMessage.set(`条款准备版本 ${result.preparationVersion} 已保存，尚未生效。`);
+        } catch { /* Server message is retained by the store. */ }
+    }
+
+    async generatePlan() {
+        if (!this.canGeneratePlan()) return;
+        this.commandMessage.set(null);
+        try {
+            const result = await this.#workspaceStore.generateSelectedReceivablePlan();
+            this.commandMessage.set(`正式应收计划已生成，版本 ${result.planVersion}，标识 ${result.planVersionId}。`);
+        } catch { /* Server message is retained by the store. */ }
+    }
+
+    visibleTerms(readiness: ContractReadinessDetail): ContractCommercialTerms | null {
+        return readiness.financialProjection.mode === 'full' ? readiness.candidateTerms : null;
+    }
+
+    financialDisplay(readiness: ContractReadinessDetail): string {
+        return sensitiveProjectionDisplayText(readiness.financialProjection, '尚无可展示的合同条款。');
+    }
+
+    termSeeds(terms: ContractCommercialTerms): ReceivablePlanSeed[] {
+        return [...terms.receivablePlanSeeds].sort((left, right) => left.sortOrder - right.sortOrder);
     }
 
     preSigningCommandItems(guidance: ProjectWorkspaceGuidanceView): WorkspaceCommandPanelItem[] {
@@ -259,6 +391,7 @@ export class ProjectPreSigningOverview implements OnInit {
     }
 
     readinessFactItems(readiness: ContractReadinessDetail): WorkspaceFactGridItem[] {
+        const snapshot = this.activeSnapshot();
         return [
             {
                 label: '承接包状态',
@@ -283,14 +416,19 @@ export class ProjectPreSigningOverview implements OnInit {
                 detail: readiness.reviewStatus
             },
             {
-                label: '合同快照',
-                value: readiness.initializedContractSnapshotId ?? '待初始化',
-                detail: this.formatDateTime(readiness.contractSnapshotInitializedAt)
+                label: readiness.currentPreparation?.status === 'prepared' ? '条款准备版（未生效）' : '条款准备版本',
+                value: readiness.currentPreparation ? `准备版本 ${readiness.currentPreparation.version} · ${readiness.currentPreparation.status === 'prepared' ? '未生效' : readiness.currentPreparation.status === 'activated' ? '已用于合同生效' : '已替代'}` : '尚未准备',
+                detail: readiness.currentPreparation ? `${readiness.currentPreparation.preparationId} · ${this.formatDateTime(readiness.currentPreparation.preparedAt)}` : null
             },
             {
-                label: '应收计划',
-                value: readiness.initializedReceivablePlanVersionId ?? '待初始化',
-                detail: this.formatDateTime(readiness.receivablePlanInitializedAt)
+                label: '有效合同快照',
+                value: snapshot ? `快照版本 ${snapshot.version}` : '尚未生效',
+                detail: snapshot?.id ?? null
+            },
+            {
+                label: '正式应收计划',
+                value: this.realPlanId() ?? '尚未生成',
+                detail: this.realPlanId() ? this.formatDateTime(readiness.receivablePlanInitializedAt) : null
             },
             {
                 label: '当前版本',

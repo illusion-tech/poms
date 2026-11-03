@@ -8,8 +8,10 @@
  * Do not edit the class manually.
  */
 import { ContractTermSnapshotSummary } from './contract-term-snapshot-summary';
+import { ContractReviewBindingSummary } from './contract-review-binding-summary';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { ContractStatus } from './contract-status';
+import { ContractTermPreparationSummary } from './contract-term-preparation-summary';
 
 
 export interface ContractDetailView {
@@ -31,4 +33,6 @@ export interface ContractDetailView {
     updatedAt: string;
     updatedBy: string | null;
     currentTermSnapshot: ContractTermSnapshotSummary | null;
+    currentPreparation: ContractTermPreparationSummary | null;
+    latestReviewBinding: ContractReviewBindingSummary | null;
 }

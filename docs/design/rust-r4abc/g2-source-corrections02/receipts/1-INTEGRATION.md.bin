@@ -1,0 +1,41 @@
+# R4 Shared / DTO / Native 候选 01
+
+作者为 C；这些候选不是独立审查结果。所有完整产品文件只位于本目录 `products/<repo-relative-path>`，未修改 C 工作树或 Root 工作树的对应产品。原 C19 代码与其 01 冻结文件不再改动。
+
+Root 导入前必须核对 manifest 每件 baseExists/base SHA。新建文件要求目标不存在；现有目标若已不同于 base，不应整文件覆盖，须由 Root 合并后重绑候选。候选绑定 G1 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb` 及正式 dto-freeze/shared-protocol/baseline。原文中的 Pending 已被实际 authority 覆盖，候选作者不再自设准入。
+
+## 完整新契约
+
+- Shared 新增 `ReceivablePlanSeed`、`ContractCommercialTerms`、`ContractTermPreparationStatus/Summary`、`ContractReviewBindingSummary`、`ContractSelectionQuery`。金额/ratio scalar 用 R4 scoped schema，trim、leading zero、正基数/非负税、18,2/0..1四位精确容量均由 BigInt 校验，无 Number/f64。没有全局替换旧 money primitive；future40 actual-cost、commission 与其它域原声明保持不动。
+- A01 必填 contractTerms，合同 UUID 按大小写等价去重约束，原 diffLevel 变 optional，diffItems 继续默认 []。项目级金额/ratio在本批改 scoped scalar，未增加合同合计=项目总报价约束。
+- A05 必填 contractId/candidateTerms，latestDiffResultId/packageStatus/guardDecision 等旧自报输入可省略，items 继续默认 []；服务端真实授权判定由 Rust/A 负责，不能从 DTO 自报字段取得。
+- A04 必填 contractId/diffResultId，attachmentIds 为 UUID[] 默认 []；真实挂载授权/去重/存储由 Root/A domain 执行。A03/A07 的可选 contractId Query DTO 已绑定 controller 参数，传给声明为 Legacy 的 Native reference service。
+- A08/A09 必填 contractId，只保留已声明的 `contractReadinessPackageId?`；Root 已确认不新增 `packageId` alias。`ReadinessInitializationResult` 全部 frozen 字段 required，nullable 明确；targetId 与 actual preparationId/planVersionId 另有输出关联约束，不允许把 package ID 当目标。
+- B detail 的 currentPreparation/latestReviewBinding required-nullable，snapshot.sourcePreparationId required-nullable；create 仅 omitted/draft，signedAmount 正数精确金额；PATCH expectedVersion optional；submit preparationId required。CommandResult 只新增 optional-nullable preparationId，严格 submit/activate result 在它定义后 extend，新增真实身份 required；activate snapshotId required。
+- 19 财务输入仅替换本批 contract/receipt/payable/payment/invoice create/update 金额 scalar。税层合法语法但求和不等仍留 domain422，未在 DTO 增金额元组 refine 导致其变400。unknown/default/nullable/trim原规则保留；新 strict result 自身拒绝额外输出字段。
+- contractTerms/candidateTerms 整体可 masked null；financialProjection 始终复用原 `SensitiveStringFieldProjectionSchema`。没有自创 projection，也未把隐藏金额重新塞到其它 scalar/summary。
+
+DTO 新类放在现 `contract.dto.ts`，现 barrel 已 export *，无须修改 barrel。`approval.dto.ts` 的 SubmitContractReviewRequestDto 自动消费新的 Shared request，因此无需生成无效的相同文件候选。`contract-term-snapshot.controller.ts` 调用已补真实历史 null 的 mapper，签名未变，无须额外候选。
+
+## Native 的真实边界
+
+Native readiness 旧生命周期仍只写历史 UUID marker。它的 request/response 现在明确引用 `contract-readiness.legacy-types.ts`，不将 marker 强行填入新 preparationId/planVersionId/initRecordId。旧 service 运行代码、持久化、校验和既有随机 marker 行为未重写；新增 query 参数仅携带给 Legacy 签名，不冒充实现合同选择语义。
+
+Controller 的 Swagger/DTO 元数据声明新契约供 Root 生成正式 OpenAPI，但 Native 具体返回类型仍为 Legacy，三处输入转换也显式说明是 compile adapter：新 A01/A05 允许省略旧自报字段，旧 service 没有新服务端派生能力。这些转换不是新契约的实现或校验凭证。Root 的原始 Native 参考必须继续使用独立 `1730f304...` checkout/原始 reference DB；不能把当前适配后的 Native 接受/拒绝或旧输出称为新契约 conformance。
+
+B 的历史 detail/preparation/binding 和 snapshot.sourcePreparationId 只返回实际历史缺失 `null`，没有伪造 ID。submit/activate Swagger 使用 strict result DTO，Native 返回显式 LegacyCommandResult，不谎称已具备 preparation。旧 Native 声明 actor 行为未在此编译适配中重写；真正新 Rust writer 必须始终使用 session.sub。
+
+Root 另行授权 `project-handover-query.service.ts` **仅将一个 type import 改为 Legacy 别名并注明 reference-only**；没有修改运行语句、业务判断或输出 fields。静态范围报告单列这项。
+
+## 未运行与剩余编译/集成风险
+
+没有 build、test、Node 执行/语法检查、环境、Git/GitHub、HTTP、PG、browser 操作。这里只做源码读取、完整候选写入和静态声明/范围/哈希复核；不能写为编译或验收 Passed。
+
+Root 集中导入后负责 Shared → DTO → OpenAPI → Rust generated → client → UI 的生成、编译和实际验收。需要重点保留以下真实边界：
+
+1. 旧 Native/API E2E/spec 的显式 Shared fixture 现在可能缺新 required metadata/preparationId/contractTerms；旧审批测试若调用 submitContractReview(...,{})，会与新 Shared required preparationId 冲突。这是潜在 TypeScript 边界，尚无编译错误实测；不要为旧 fixture 编译而放宽新 Shared 契约。应在历史参考侧用 Legacy typing，或在新真实生产者测试传真实身份。
+2. UI 及 generated client 再生成后，旧 ContractStore submit 默认 {}、A05 自报字段编辑器、prepared/active/plan 展示都需 Root 已授权的 UI 适配。新增 nullable latestDiffResultId/diffLevel/reviewStatus 也需由 UI 消费 null。此候选没有写 UI/client/generated。
+3. 新表/实体/migration、A/B/Root Rust 实际产物、附件授权和 review 真实关联不由此 TS 编译适配实现。ReceivablePlanSeed 的合计/retention/unique nodeKey/order、exact sources/同合同/同项目/状态、并发和事务仍由正式 domain 执行。
+4. Root 需核 generated OpenAPI 中新 required/nullable、strict results/新增 query 和三个 scoped schema 的约束映射；未知 JSON 键与实际 Zod 400 错误形状也需按正式 validator 统一验证。没有手写 OpenAPI/client 文件。
+
+`manifest01.json` 列每文件原始 base SHA、新 SHA/长度与修改声明；`static-scope01.json` 仅是文本范围核对，不是 TS AST/typecheck 或业务验收。

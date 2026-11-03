@@ -1,0 +1,20 @@
+# RUST-R4C #105 第一完整实现交接
+
+固定 G1 输入 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，由 Root `g1-gate-authority01.json` 实际签署 G1/G2。原候选 Pending 不再作为拒绝实现的依据。作者只写本独立工作树的 `apps/poms-api-rust/src/contract_finance/` 和本 tmp 目录；没有修改 Root 工作树、公共 lib/Cargo/router、DTO、迁移或 UI。
+
+已实现 19 个完整 operationId 的 `execute(CommonSession, operation_id, id, query, body, Actor)`。Root 负责 HTTP schema/guard、outerTX、最终 common/auth flush 与提交，C 不获取 pool/第二连接，不 begin/commit/rollback，不重复消费 pending auth。所有 SQL 错误通过 `Error::from(sqlx::Error)` 保留给 Root known-constraint 409 allowlist / unknown500。
+
+- 精确金额调用 Root `money/nonnegative_money/money_string`，无 f64 或 DB 静默舍入。税层不一致422；输入金额语法/容量400。日期使用 NaiveDate，时刻用 UTC 毫秒，标准响应显式 null。
+- 写锁 Project → Contract UUID 排序 → Payable → Payment/目标财务行；无锁发现 project 后，锁 Project 并重读。confirmPayment 在全部锁后另发 SUM 查询，保证 fresh confirmed-only 精确累计；即使 payable 仍 partially-paid，也由锁保护余额。相关进度确有变化才 CAS payable。
+- 所选/继承付款合同在 create 与 confirm 均 Active、同项目；应付已绑合同不可覆盖，nullable/omitted继承；合法无合同项目级付款保留。不加 snapshot/plan/合同币种新门槛。
+- 映射保护为只读：解析现 current cost source_id 为 UUID 比较，忽略不相干坏字符串，不做全表不安全 UUID cast；不生产实际成本。prepared mapping cases不认证未来成本producer。
+- true no-op PATCH 不改业务 version/updatedAt、不写audit，也不专为touch请求flush。已有映射/状态规则仍先验证，未授予非法状态的no-op编辑权限。
+- allowedActions 与真实状态和任意付款关系一致；closed未付款无mapping可void并保留closure历史；部分/全付款可close且响应实际paid sum。invoice resolved历史保留，PATCH仍可回正常business status。
+- 每个实际业务变化使用 Root `AuditWrite`/`audit`；actor仅认证Actor.id。Payment确认 audit before/after是显式 `{payment: PaymentSummary, payable: PayableSummary|null}`，包含关联状态/版本/真实settled变化；其余是各自安全财务DTO。没有序列化Actor/session/secret。
+- trace只登记实际成功INSERT及Root audit INSERT；收据只由Root真实outerCOMMIT ACK发布。不虚构无幂等key create的提交后重试exactly-once。
+
+`acceptance-cases01.mjs` 是纯声明，覆盖 19 操作、guard/DTO/nullable/UUID/date/money/version/no-op/状态、全部必要写/audit/auth故障与并发余额。未导入或执行。
+
+未验证项：**没有执行 Rust fmt/clippy/build/test、Node语法检查、HTTP、PG、浏览器或环境命令**。这是可导入统一候选的完整作者源码，不是 G3/G4 或实际业务通过。Root 需导入公共 helper/lib/HTTP 连接后统一构建和运行；如编译/静态或实际验收发现问题，作者只在本独占模块修复。
+
+已向 Root 指出公共 `contract_fact(scope, lock=true)` 需在 SQL WHERE 限定 scope 再锁，避免坏跨项目请求先锁外项目合同；Root拥有该helper。最终 manifest逐文件绑定raw bytes/SHA，正式G1文件仅作输入引用，不由作者回写。

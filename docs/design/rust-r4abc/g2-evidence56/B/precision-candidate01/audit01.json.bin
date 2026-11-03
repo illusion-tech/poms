@@ -1,0 +1,30 @@
+{
+  "kind":"R4B-bounded-18-2-precision-static-audit",
+  "status":"source-review-only-not-runtime-certification",
+  "finding":"No real lossy numeric-JSON path found in the inspected current Contract/common hydration/projection/Receipt/snapshot closure",
+  "proposedProductChanges":[],
+  "paths":[
+    {"edge":"PG Contract signed_amount -> common::find -> read_row","representation":"numeric(18,2)::text -> Option<String> -> js::Value::Text","lossy":false},
+    {"edge":"common managed hydration and writes","representation":"Text clone, String bind, PostgreSQL numeric cast","lossy":false},
+    {"edge":"B create/PATCH -> tracked Contract","representation":"required string -> exact i128 cents -> money_string -> Text","lossy":false},
+    {"edge":"B summary/core hash -> auth projection/wire","representation":"data_text -> String -> Option<String> clone -> JSON string","lossy":false},
+    {"edge":"Root contract_fact","representation":"signed_amount::text -> String","lossy":false},
+    {"edge":"A prepared interface -> B activate -> PG snapshot","representation":"prepared string -> exact i128 -> normalized String bind numeric","lossy":false},
+    {"edge":"snapshot -> full projection and common identity refresh","representation":"explicit numeric::text -> Option<String> -> Text/String","lossy":false},
+    {"edge":"financial Receipt common read/settlement summary","representation":"receipt_amount::text -> Text -> Text clone; old Number branch not selected by this PG path","lossy":false},
+    {"edge":"approval_common::receipt CreateReceipt","representation":"proof metadata only, no amount field","lossy":false}
+  ],
+  "knownGeneralBoundary":"js::Value::parse on arbitrary bare JSON numbers uses f64; no claim made that all old jsonb/173/R5 monetary contracts are migrated",
+  "transactionAndBusinessDelta":"none; independent contract amounts and existing outerTX/CAS/audit/auth rules remain unchanged",
+  "pureVectors":["0.01","90071992547409.93","9007199254740993.01","9999999999999999.99"],
+  "overflowVector":{"input":"10000000000000000.00","expectedStatus":400,"actualResult":"not-run"},
+  "requiredActualChecks":["exact full wire JSON string vs PG signed_amount::text","fresh-request common hydration after create/PATCH","list/detail/lookup and full/masked projections","real preparation/review/activation independent snapshot text values","adjacent receipt_amount::text where exercised"],
+  "purePgReadDefinitions":[
+    "SELECT signed_amount::text FROM poms.contract WHERE id=$1",
+    "SELECT amount_tax_inclusive::text,amount_tax_exclusive::text FROM poms.contract_term_snapshot WHERE id=$1 AND contract_id=$2",
+    "SELECT receipt_amount::text FROM poms.receipt_record WHERE id=$1"
+  ],
+  "runtimeExecuted":false,
+  "sourceModified":false,
+  "scopeExpandedToOld173":false
+}

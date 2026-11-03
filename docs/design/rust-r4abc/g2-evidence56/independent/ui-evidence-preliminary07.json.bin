@@ -1,0 +1,469 @@
+{
+  "schema": "poms-r4abc-independent-ui-evidence-preliminary/v1",
+  "reviewer": "/root/r4_independent_gate; non-author independent reviewer",
+  "reviewedAtUtc": "2026-11-03T14:22:17.5843729Z",
+  "decision": "UI evidence Preliminary Pass within the stated combination",
+  "finalG3Certified": false,
+  "G4Certified": false,
+  "mainDeliveryOrClosurePermission": false,
+  "scope": "Read-only review of four actual Root original-production UI receipts, static runner/proxy/copy provenance, 423 build members, 51 source inputs, and public screenshot originals. No reviewer browser/HTTP/PG/process execution and no product/executor authorship.",
+  "buildBinding": {
+    "originalProductionBuild": "build36; current C05 production source",
+    "exactManifestSha256": "6fbb1318ba16915617e371ed98ec2cc50c3a48c27f7499f83935be9c72ae6dfd",
+    "assetCount": 423,
+    "all423CurrentRawAssetsMatch": true,
+    "allFourRunInventoriesMatch": true,
+    "manifestIndependentlyRecomputedForEveryRun": true,
+    "assetsReceipt": {
+      "file": "tmp/rust-r4abc/root/ui-assets36/receipt36.json",
+      "bytes": 85878,
+      "sha256": "274f84d10295d295331a133a125c58074521b340379eb2999e472fb6289e56ad"
+    },
+    "sourceInputCount": 51,
+    "currentSourceDifferences": [],
+    "sourceReviewPrior": {
+      "file": "tmp/rust-r4abc/independent/implementation-source-preliminary06.json",
+      "bytes": 33239,
+      "sha256": "0d767365d9eca9cbe0c8f01d5575033d2cdb6d57e7336a365eccacacbcc2b500"
+    },
+    "comparedSourcePins": 93,
+    "currentReviewedSourceChanges": [],
+    "limitation": "This is the original admin UI on Linux and Windows browsers against the Linux Rust backend. It does not certify a Windows Rust backend or a new Native lifecycle UI."
+  },
+  "runs": [
+    {
+      "name": "rust-ui-linux-run41-build36",
+      "receipt": {
+        "file": "tmp/rust-r4abc/root/rust-ui-linux-run41-build36/receipt36.json",
+        "bytes": 130195,
+        "sha256": "19b9b3718fcdb7d870cd3ec2503cb1d8d0f8efe4485264f130aa0f908c0db8da"
+      },
+      "completed": false,
+      "browser": "linux",
+      "backend": "linux",
+      "network": 69,
+      "proxyExchanges": 71,
+      "buildMembers": 423,
+      "manifestSha256": "6fbb1318ba16915617e371ed98ec2cc50c3a48c27f7499f83935be9c72ae6dfd",
+      "buildInventoryDifferenceCount": 0,
+      "screenshots": [
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run41-build36/prepared.png",
+          "bytes": 182940,
+          "sha256": "70de32658632a5c3a8e758609175f548df49f619c400739bfe0b2ad238b4cff0",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run41-build36/committed-refresh-failed.png",
+          "bytes": 167350,
+          "sha256": "cf0a7903f3be44c455a54bccf07778887f08145787fe9d82ee80ac3c3f7c0b5f",
+          "matchesReceipt": true
+        }
+      ],
+      "verifiedNetworkCommands": [
+        {
+          "method": "POST",
+          "path": "/api/contract-readiness-packages/ffc59aee-34f2-4c0e-8461-b408bf6eb12d:initializeContractSnapshot",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "contractId": "a18efe15-5cdb-409e-b28c-133ddf8394b8",
+            "expectedVersion": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/contracts/a18efe15-5cdb-409e-b28c-133ddf8394b8:submitReview",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "preparationId": "7814e481-668e-4411-a6d9-3a8b001e182a",
+            "expectedVersion": 1
+          }
+        }
+      ],
+      "nonSuccessResponses": [
+        {
+          "method": "GET",
+          "path": "/api/contracts/a18efe15-5cdb-409e-b28c-133ddf8394b8/approval-record",
+          "query": "",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/api/contracts/a18efe15-5cdb-409e-b28c-133ddf8394b8",
+          "query": "",
+          "status": 500
+        },
+        {
+          "method": "GET",
+          "path": "/api/contracts/a18efe15-5cdb-409e-b28c-133ddf8394b8/approval-record",
+          "query": "",
+          "status": 500
+        },
+        {
+          "method": "GET",
+          "path": "/api/attachments",
+          "query": "?targetType=contract&targetId=a18efe15-5cdb-409e-b28c-133ddf8394b8",
+          "status": 500
+        }
+      ],
+      "allProxyExchangeRawPinsPresent": true
+    },
+    {
+      "name": "rust-ui-linux-run42-build36",
+      "receipt": {
+        "file": "tmp/rust-r4abc/root/rust-ui-linux-run42-build36/receipt36.json",
+        "bytes": 111964,
+        "sha256": "1a848366b895380fd463d5ba046721800a6bbcab4b24bba4deec976f5d2dbf33"
+      },
+      "completed": false,
+      "browser": "linux",
+      "backend": "linux",
+      "network": 44,
+      "proxyExchanges": 46,
+      "buildMembers": 423,
+      "manifestSha256": "6fbb1318ba16915617e371ed98ec2cc50c3a48c27f7499f83935be9c72ae6dfd",
+      "buildInventoryDifferenceCount": 0,
+      "screenshots": [],
+      "verifiedNetworkCommands": [],
+      "nonSuccessResponses": [],
+      "allProxyExchangeRawPinsPresent": true
+    },
+    {
+      "name": "rust-ui-linux-run43-build36",
+      "receipt": {
+        "file": "tmp/rust-r4abc/root/rust-ui-linux-run43-build36/receipt36.json",
+        "bytes": 167261,
+        "sha256": "da7ecc1ee7b2eef1b96204581439f3c41a0e3a108148656da80568c9aa195a2a"
+      },
+      "completed": true,
+      "browser": "linux",
+      "backend": "linux",
+      "network": 123,
+      "proxyExchanges": 126,
+      "buildMembers": 423,
+      "manifestSha256": "6fbb1318ba16915617e371ed98ec2cc50c3a48c27f7499f83935be9c72ae6dfd",
+      "buildInventoryDifferenceCount": 0,
+      "screenshots": [
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run43-build36/route-identity-safe.png",
+          "bytes": 163146,
+          "sha256": "2e4daea50e7b0ff3356c4e07ab505a60ad7d6205e95acad436bc87e47b004eea",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run43-build36/active.png",
+          "bytes": 169938,
+          "sha256": "3ab835416c934ea37c20f4c7dceb04f777aa23d71702b514a250dba118595e8e",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run43-build36/formal-plan.png",
+          "bytes": 190781,
+          "sha256": "c75a440ccc67c99a8fafba49da670417772597e02b23e60883352c4fa3e3d17f",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run43-build36/full-capacity-money.png",
+          "bytes": 170229,
+          "sha256": "80757fbfb3cc399c8e7aceaf9a015e7980986f54f66587a060f872617389bb70",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-linux-run43-build36/reader-masked.png",
+          "bytes": 156773,
+          "sha256": "ede25bd1bfab2ad389f773d0a47589ac597421b99b860848f111664670c691bf",
+          "matchesReceipt": true
+        }
+      ],
+      "verifiedNetworkCommands": [
+        {
+          "method": "POST",
+          "path": "/api/approval-records/1cc5062c-6ea2-48b7-beb4-5931bd600edf:approve",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "expectedVersion": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/approval-records/c7c9f3d5-a760-44a0-a41c-bb28227dfa76:approve",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "expectedVersion": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/contracts/a18efe15-5cdb-409e-b28c-133ddf8394b8:activate",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "expectedVersion": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/contract-readiness-packages/ffc59aee-34f2-4c0e-8461-b408bf6eb12d:initializeReceivablePlan",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "contractId": "a18efe15-5cdb-409e-b28c-133ddf8394b8",
+            "expectedVersion": 3
+          }
+        }
+      ],
+      "nonSuccessResponses": [],
+      "allProxyExchangeRawPinsPresent": true
+    },
+    {
+      "name": "rust-ui-windows-run41-build36",
+      "receipt": {
+        "file": "tmp/rust-r4abc/root/rust-ui-windows-run41-build36/receipt36.json",
+        "bytes": 179128,
+        "sha256": "0470a7f8d80fba371aaea4ecf7f35588086840f7ea61cc2098a06a5cab4f23db"
+      },
+      "completed": true,
+      "browser": "win32",
+      "backend": "linux",
+      "network": 133,
+      "proxyExchanges": 140,
+      "buildMembers": 423,
+      "manifestSha256": "6fbb1318ba16915617e371ed98ec2cc50c3a48c27f7499f83935be9c72ae6dfd",
+      "buildInventoryDifferenceCount": 0,
+      "screenshots": [
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-windows-run41-build36/prepared.png",
+          "bytes": 194451,
+          "sha256": "4fbfdd61616ab108da849a857448ebb99541a01e7ef9b76bd8a35ba1b9d05f5c",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-windows-run41-build36/active.png",
+          "bytes": 183432,
+          "sha256": "021955b28480a2f1746f8ce924966bce5096f3339438289a12314a737ce01fda",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-windows-run41-build36/formal-plan.png",
+          "bytes": 202915,
+          "sha256": "31ae35d387ed638fd9eee7d9e0bf0e45892215761785b2063dd0a78223fbcea5",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-windows-run41-build36/full-capacity-money.png",
+          "bytes": 181362,
+          "sha256": "abc65144ebc646d350134b880b3d972915d886d274ac07ce5c07f2040a0498f5",
+          "matchesReceipt": true
+        },
+        {
+          "file": "tmp/rust-r4abc/root/rust-ui-windows-run41-build36/reader-masked.png",
+          "bytes": 166162,
+          "sha256": "7371cd9564e2e4504b405be35ecd67bd7d91ac9fefee40074321e61275e5300b",
+          "matchesReceipt": true
+        }
+      ],
+      "verifiedNetworkCommands": [
+        {
+          "method": "POST",
+          "path": "/api/contract-readiness-packages/26952f31-3087-4cb1-909a-e3e6ae94b383:initializeContractSnapshot",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "contractId": "dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb",
+            "expectedVersion": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/contracts/dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb:submitReview",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "preparationId": "edd845f2-09fe-435b-bb9f-82280c608a92",
+            "expectedVersion": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/approval-records/6c19623b-b1d0-4bf7-b4b2-46c6d01e147a:approve",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "expectedVersion": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/contracts/dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb:activate",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "expectedVersion": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/contract-readiness-packages/26952f31-3087-4cb1-909a-e3e6ae94b383:initializeReceivablePlan",
+          "query": "",
+          "status": 200,
+          "commandIdentity": {
+            "contractId": "dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb",
+            "expectedVersion": 3
+          }
+        }
+      ],
+      "nonSuccessResponses": [
+        {
+          "method": "GET",
+          "path": "/api/contracts/dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb/approval-record",
+          "query": "",
+          "status": 404
+        }
+      ],
+      "allProxyExchangeRawPinsPresent": true
+    }
+  ],
+  "classification": {
+    "linux41": {
+      "label": "Partial; completed=false remains unchanged",
+      "actualStagesAccepted": [
+        "explicit contract selection without automatic default",
+        "A08 real preparation with snapshotId=null and targetId=preparationId",
+        "independent-contract selection and plan-availability distinction",
+        "real submitReview using the exact preparationId",
+        "committed successful POST followed by actual SELECT permission denial/readback500",
+        "visible committed-but-refresh-failed state, disabled submission and read-only recovery with permission restored"
+      ],
+      "targetContractId": "a18efe15-5cdb-409e-b28c-133ddf8394b8",
+      "preparationId": "7814e481-668e-4411-a6d9-3a8b001e182a",
+      "businessPostCount": 2,
+      "submitPostCount": 1,
+      "failureStage": "same-component-contract-route-and-late-response",
+      "errorName": "TimeoutError",
+      "reasonScope": "Parent reports harness used button for the existing aria-labelled Todo anchor; the source correction is consistent. The private error stack was not read.",
+      "notCertified": "No late-response regression or full lifecycle completion is claimed for run41."
+    },
+    "linux42": {
+      "label": "Partial; completed=false remains unchanged",
+      "inheritedOriginal": "linux41 same target/preparation/submission and build manifest",
+      "repeatedBusinessPosts": 0,
+      "actualFault": "Real old target GET response end delayed while response bytes retained",
+      "failureStage": "same-component-contract-route-and-late-response",
+      "errorName": "Error",
+      "reasonScope": "Parent reports a global same-text locator found a hidden Todo span. Source43 scopes the assertion to app-contract-detail. The private error stack was not read.",
+      "notCertified": "The failed assertion remains failed; this run is not the proof that the displayed B view survived."
+    },
+    "linux43": {
+      "label": "Completed continuation; combined with retained linux41 actual earlier stages",
+      "inheritedOriginal": "tmp/rust-r4abc/root/rust-ui-linux-run41-build36/receipt36.json",
+      "resumeChecks": "Runner verifies original completed=false, original same build manifest, restored permission/read-only recovery, live pending review binding, same preparationId and original submit network identity before continuing.",
+      "noRepeatedA08OrSubmission": true,
+      "lateResponseProof": "Same connected app-contract-detail DOM element across A->B->A(delayed GET end)->B. After releasing A response, B stays displayed and its actual approval succeeds first while A approval is still pending.",
+      "sideApprovedOnly": "1cc5062c-6ea2-48b7-beb4-5931bd600edf",
+      "targetApprovalStillPending": "c7c9f3d5-a760-44a0-a41c-bb28227dfa76",
+      "subsequentActualStages": [
+        "target designated approver decision",
+        "contract remains pending-review before activation, no active snapshot",
+        "real activation creates a distinct snapshot UUID tied to the original preparation",
+        "real A09 returns snapshotId, planVersion target and initRecordId; PG observes one current plan and one init record",
+        "exact numeric18,2 maximum string rendering",
+        "real reader response has null amount and non-full projection; amount absent from rendered body"
+      ],
+      "activeSnapshotId": "2493ed96-02a0-4007-bff8-093151de8324",
+      "browserNetworkItems": 123,
+      "proxyExchanges": 126,
+      "notCertified": "Not described as a fresh single-run execution of all earlier stages."
+    },
+    "windows41": {
+      "label": "Completed single original-UI main chain",
+      "browserPlatform": "win32",
+      "backendPlatform": "linux",
+      "targetContractId": "dcdb7e84-3d6f-4062-9cbb-5f43f6cb1abb",
+      "preparationId": "edd845f2-09fe-435b-bb9f-82280c608a92",
+      "activeSnapshotId": "462f810a-d6a5-4a63-9349-0e23ad28ce89",
+      "actualStages": [
+        "explicit selector",
+        "A08 prepared-not-effective",
+        "cross-contract plan availability",
+        "exact-preparation submit",
+        "designated approver",
+        "distinct effective snapshot activation",
+        "real formal-plan version/node/init",
+        "maximum-money string rendering",
+        "real reader mask"
+      ],
+      "browserNetworkItems": 133,
+      "proxyExchanges": 140,
+      "observations": "Eight total receipt observations: browser process/version, five lifecycle PG row snapshots, maximum-money rendering, reader masking. Additional runner SQL assertions separately inspect review binding and owned namespace.",
+      "expected404": "GET current approval before first submission is a valid absence, not a hidden failed lifecycle command.",
+      "notCertified": "This run does not claim the Linux-only readback ACL fault or delayed-response route scenario."
+    }
+  },
+  "evidenceIntegrity": {
+    "screenshotPinsVerified": 12,
+    "screenshotsVisuallyInspected": [
+      "linux41 committed-refresh-failed.png",
+      "linux43 route-identity-safe.png",
+      "linux43 formal-plan.png",
+      "windows41 prepared.png",
+      "windows41 full-capacity-money.png",
+      "windows41 reader-masked.png"
+    ],
+    "allRunPageErrorsEmpty": true,
+    "allProxyCloseResults": {
+      "serverClosed": true,
+      "pending": 0,
+      "allRawExchangesRetained": true,
+      "failures": 0
+    },
+    "noAppStateInjectionObservedInReadRunner": true,
+    "noHTTPBodyResponseSubstitutionObservedInReadProxy": true,
+    "proxyBoundary": "Real HTTP forwarding preserves status, headers and body bytes. The controlled late response withholds only response end, and ACL fault uses actual REVOKE/GRANT. The static server verifies each asset SHA before serving. Browser cache disabled and owned profiles are used.",
+    "privateRawEvidenceAccess": "None by independent reviewer. Receipts contain hashes/paths for private HTTP originals; only their complete metadata presence and proxy retention implementation were checked. Private contents are not claimed independently read.",
+    "upstreamBoundary": "Upstream inputs come from actual API/internal producer work. No new A01/A05/A04 or finance19 UI is claimed.",
+    "failedAndPartialRelabeling": false,
+    "referenceNativeRelabeling": false
+  },
+  "runnerPins": [
+    {
+      "file": "tools/rust-r4abc/rust-ui41.mjs",
+      "bytes": 17590,
+      "sha256": "38f8cb3faa52dab64674e5032c6e624a216ca87434081d9c90d252a0a704ed9f"
+    },
+    {
+      "file": "tools/rust-r4abc/rust-ui42.mjs",
+      "bytes": 16363,
+      "sha256": "d6f933c12f9dcb56a566bc5c004b77376970da8f889bade2a5ee632e6f5d1dd4"
+    },
+    {
+      "file": "tools/rust-r4abc/rust-ui43.mjs",
+      "bytes": 16456,
+      "sha256": "d92cd2def0c4cccc02551998e678186ba5d5eeee700021323c32bf4dfa965b1c"
+    },
+    {
+      "file": "tools/rust-r4abc/ui-server32.mjs",
+      "bytes": 4513,
+      "sha256": "c9688fb062b2a9e3bccae8253efdd29d882121bd338a8255f49d7c498127b85b"
+    },
+    {
+      "file": "tools/rust-r4abc/prepare-ui36.mjs",
+      "bytes": 2617,
+      "sha256": "b2db0b450a01df55f5323e9e2f4d84fb102b45c180e4b25eb626b3d5885023cd"
+    }
+  ],
+  "unresolvedUiEvidenceBlockers": [],
+  "remainingBeforeFinalG3": [
+    "Root completes exact owned cohort/control/session/seed/catalog/ACL/object/process cleanup and second no-op readback.",
+    "Bind final complete source and all actual evidence/artifact inventories with exact SHA; independently review final sealed package.",
+    "Final independent G3 is a separate decision; fixed commit, main readback and G4 remain separate."
+  ],
+  "parentScope": {
+    "publicOperations": 37,
+    "overall57": "OPEN",
+    "R4stage101": "OPEN"
+  }
+}

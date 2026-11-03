@@ -1,0 +1,41 @@
+# R4B 完整合同源候选
+
+G2输入是固定G1提交 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb` 及Root的 `g1-gate-authority01.json`（G1/G2=true）。旧候选文档中的Pending原件未改。作者只写本独立工作树 `apps/poms-api-rust/src/contracts/**` 与本目录，不调用Git/GitHub、环境、构建、测试、HTTP、PG、WSL或浏览器。
+
+## 交付接口
+
+- `contracts::execute(&mut CommonSession, operation_id, id, query, body, &Actor)`：完整9入口；operationId逐项取正式37清单。
+- `contracts::validate_review_binding(&mut CommonSession, contract_id, approval_id, approve)`：Root现R2真实handler消费；不重复decisionaudit。
+- `mod.rs` 注册本模块内部四文件；Root负责crate lib/router/Cargo/DTO/DDL/UI接线。
+
+| operationId | 实现 |
+| --- | --- |
+| ContractController_list | 真实过滤、createdAt DESC、project批读及逐合同敏感投影 |
+| ContractController_create | project锁、onlydraft、正exact18,2、同TXCT编号、common真实合同、真实audit/actor |
+| ContractController_getById | 当前合同+Active快照投影+仅元数据准备/绑定 |
+| ContractController_updateBasicInfo | project→contract锁、optionalCAS、onlydraft、null/missing、同值0businessversion/audit |
+| ContractController_getCurrentApproval | common真实latest审批、复用R2投影，保空历史404 |
+| ContractController_submitReview | required preparationId、当前core/source/hash、actual active vp_owner、真实Approval/Todo、先同outerTXflush后立即FKbinding/audit/finalflush |
+| ContractController_activate | stale版本409优先、Active重复400、无pending/latestapproved exactbinding、独立snapshot version1/sourcePreparation/seeds/hash、prep/package/contract/audit同TX |
+| ContractController_getByNo | exact contractNo query、原operationId，无旧path alias |
+| ContractTermSnapshotController_getById | 独立六字段投影batch、sourcePreparationId元数据 |
+
+## 公共依赖与边界
+
+正式Root helper：`Actor/Error/AuditWrite/audit/money/money_string/ratio/ratio_string/new_uuid/canonical_hash/lock_project/contract_fact/require_uuid/expected_version/refresh_identity`。使用源签名，不自造公共Decimal/错误协议。`refresh_identity`只用于新snapshot全legacy列，同一旧identity有dirty/queued时拒绝。Contract/Approval/Todo全经现common tracked store，不直接typedSQL改写。
+
+A接口：`contract_readiness::load_preparation(session, contractId, preparationId, require_current_sources)`；true核current/prepared/source/core/hash但不得一律要求draft或无pending，以支持submit/approve/activate；false核历史身份/payload完整性，不要求当前core/source，允许过期或被替代后的reject。A已确认同形core fingerprint及metadata。
+
+提交前准备core hash精确对象为projectId/customerContractNo/signedAmount/currencyCode/signedAt/retentionDueDate，排除status/rowVersion/actor。合同金额从该合同的prepared条款复制，绝不从project总quote或baseline项目总额重填。source/hash真实资格由A loader单一实现。
+
+现冻结审批policy为Native `CONTRACT_REVIEW_APPROVER_USERNAME='vp_owner'`，与实际R2 producer/fixtures一致。代码只按该用户名在当前DB解析UUID并核active，不猜UUID、不用initiator当approver。Root新namespace须有该真实principal；缺失或inactive显式失败，不制造审批人。
+
+敏感投影复用 `auth::projection::plan` 和现 `auth::audit::insert_security_event`，直接借同connection；实际event存在时才common::flush，auth participant一次消费。full read及full-authorized同值PATCH不flush；Root HTTP不能对所有命令无条件finalflush把no-op pendingauth写出。Root已知CodedConflict经R2旧commonHTTP转换不可丢 `preparation_binding_required/payload_changed` code。
+
+必要业务审计使用Root helper。安全before/after DTO不包含raw signedAmount或条款包；meta仅身份、payload/core hash、版本、改变字段等。创建、真实PATCH、生效可能在audit前同outerTXflush业务行以取真实version，后续audit失败仍由Root完整outerrollback；提交严格先materialize Approval/Todo后INSERT立即FKbinding。
+
+## 验证状态
+
+**未编译、未format、未执行任何测试/HTTP/PG/UI**，全部由Root统一候选导入后运行。无实际验收通过结论。`case-definitions01.json`为纯定义，不是runner或已执行结果。
+
+Root需验证：SQLx/borrow/type/strictClippy与fmt；正式migration及immediate FK/unique/CHECK；同outerTX含audit/auth完整回滚；受控同版本竞争；实际assigned principal和Root R2扩展；原9入口+query/schema/客户端；原Angular准备选择/驳回/审核/激活/财务消费；真正source替代与双合同独立条款；exactreadonly identity刷新边界。错误/failed/partial/ignored保持实际标签。

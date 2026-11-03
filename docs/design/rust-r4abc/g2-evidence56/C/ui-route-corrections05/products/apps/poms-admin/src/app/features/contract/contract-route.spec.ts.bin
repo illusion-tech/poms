@@ -1,0 +1,257 @@
+import { NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { ApprovalApi, AuthStore, ContractApi, ContractStatus, ContractStore } from '@poms/admin-data-access';
+import { MessageService } from 'primeng/api';
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { ContractDetail } from './contract-detail';
+
+function contract(id: string, rowVersion = 1) {
+    return {
+        id, projectId: 'project-1', projectName: '城市交通项目', customerName: null,
+        contractNo: `CT-${id}`, customerContractNo: null, status: ContractStatus.Draft,
+        signedAmountProjection: { mode: 'full', value: '1200.00', displayText: '1200.00', fieldPackageKey: 'contract-finance', reasonCode: 'allowed' },
+        currencyCode: 'CNY', currentSnapshotId: null, signedAt: null, retentionDueDate: null, rowVersion,
+        createdAt: '2026-11-03T01:00:00.000Z', createdBy: 'actor-1', updatedAt: '2026-11-03T01:00:00.000Z', updatedBy: 'actor-1',
+        currentTermSnapshot: null, latestReviewBinding: null,
+        currentPreparation: {
+            preparationId: `prepared-${id}`, projectId: 'project-1', contractId: id, version: 7, rowVersion: 1,
+            status: 'prepared', isCurrent: true, sourceReadinessId: `readiness-${id}`, sourceBaselineId: 'baseline-1', sourceDiffResultId: `diff-${id}`,
+            payloadHash: 'a'.repeat(64), preparedAt: '2026-11-03T01:00:00.000Z', preparedBy: 'actor-1', activatedSnapshotId: null, activatedAt: null
+        }
+    };
+}
+
+function approval(id: string) {
+    return {
+        id: `approval-${id}`, approvalType: 'contract-review', businessDomain: 'contract-finance', targetObjectType: 'contract', targetObjectId: id,
+        projectId: 'project-1', currentStatus: 'pending', currentNodeKey: 'review', currentNodeName: '审核', initiatorUserId: 'actor-1',
+        currentApproverUserId: 'actor-1', decision: null, decisionComment: null, targetTitle: '合同审核', targetStatus: 'pending-review',
+        submittedAt: '2026-11-03T01:00:00.000Z', decidedAt: null, closedAt: null, rowVersion: 1,
+        createdAt: '2026-11-03T01:00:00.000Z', updatedAt: '2026-11-03T01:00:00.000Z'
+    };
+}
+
+function acknowledgement(id: string) {
+    return { targetId: id, targetType: 'contract', resultStatus: 'submitted', businessStatusAfter: 'pending-review',
+        approvalRecordId: `approval-${id}`, confirmationRecordId: null, todoItemIds: [], preparationId: `prepared-${id}`, snapshotId: null };
+}
+
+describe('ContractDetail reused route with real ContractStore (UI fixtures only)', () => {
+    let fixture: ComponentFixture<ContractDetail>;
+    let component: ContractDetail;
+    let store: ContractStore;
+    let params: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
+    let contractApi: {
+        contractControllerGetById: jest.Mock;
+        contractControllerGetCurrentApproval: jest.Mock;
+        contractControllerSubmitReview: jest.Mock;
+        contractControllerUpdateBasicInfo: jest.Mock;
+    };
+    let approvalApi: { approvalControllerApproveRecord: jest.Mock; approvalControllerRejectRecord: jest.Mock };
+
+    beforeEach(() => {
+        params = new BehaviorSubject(convertToParamMap({ id: 'contract-A' }));
+        contractApi = {
+            contractControllerGetById: jest.fn().mockImplementation(({ id }: { id: string }) => of(contract(id))),
+            contractControllerGetCurrentApproval: jest.fn().mockReturnValue(of(null)),
+            contractControllerSubmitReview: jest.fn().mockImplementation(({ id }: { id: string }) => of(acknowledgement(id))),
+            contractControllerUpdateBasicInfo: jest.fn()
+        };
+        approvalApi = { approvalControllerApproveRecord: jest.fn(), approvalControllerRejectRecord: jest.fn() };
+    });
+
+    async function settlePage() {
+        // SDK Subject doubles are outside Angular HTTP pending-task tracking. Drain their promise callbacks too.
+        await fixture.whenStable();
+        await new Promise<void>((resolve) => setTimeout(resolve, 0));
+        await fixture.whenStable();
+    }
+
+    async function setup() {
+        await TestBed.configureTestingModule({
+            imports: [ContractDetail],
+            providers: [
+                { provide: ActivatedRoute, useValue: { paramMap: params.asObservable(), snapshot: { paramMap: convertToParamMap({ id: 'contract-A' }) } } },
+                { provide: Router, useValue: { navigate: jest.fn() } },
+                { provide: ContractApi, useValue: contractApi },
+                { provide: ApprovalApi, useValue: approvalApi },
+                { provide: AuthStore, useValue: { currentUser: signal({ id: 'actor-1' }), hasAnyPermission: jest.fn().mockReturnValue(true), refreshTodos: jest.fn().mockResolvedValue(undefined) } }
+            ]
+        }).overrideComponent(ContractDetail, {
+            remove: { imports: [AttachmentPanel] },
+            set: { schemas: [NO_ERRORS_SCHEMA] }
+        }).compileComponents();
+        // Only the unrelated attachment child is omitted; the real detail template, route stream, and store run.
+        fixture = TestBed.createComponent(ContractDetail);
+        component = fixture.componentInstance;
+        store = fixture.debugElement.injector.get(ContractStore);
+        await settlePage();
+    }
+
+    it('shows and submits B on the same instance after late A contract and approval responses', async () => {
+        const lateContractA = new Subject<ReturnType<typeof contract>>();
+        const lateApprovalA = new Subject<ReturnType<typeof approval>>();
+        contractApi.contractControllerGetById.mockImplementation(({ id }: { id: string }) => id === 'contract-A' ? lateContractA : of(contract(id)));
+        contractApi.contractControllerGetCurrentApproval.mockImplementation(({ id }: { id: string }) => id === 'contract-A' ? lateApprovalA : of(null));
+        await setup();
+        const originalInstance = component;
+
+        params.next(convertToParamMap({ id: 'contract-B' }));
+        await settlePage();
+        lateContractA.next(contract('contract-A')); lateContractA.complete();
+        lateApprovalA.next(approval('contract-A')); lateApprovalA.complete();
+        await settlePage();
+
+        expect(component).toBe(originalInstance);
+        expect(component.contract()?.id).toBe('contract-B');
+        expect(store.selectedContract()?.id).toBe('contract-B');
+        expect(component.currentApproval()).toBeNull();
+        expect(store.currentApproval()).toBeNull();
+        expect(fixture.nativeElement.textContent).toContain('CT-contract-B');
+        expect(fixture.nativeElement.textContent).not.toContain('CT-contract-A');
+        await component.approveApproval();
+        expect(approvalApi.approvalControllerApproveRecord).not.toHaveBeenCalled();
+
+        await component.submitReview();
+
+        expect(contractApi.contractControllerSubmitReview).toHaveBeenCalledTimes(1);
+        expect(contractApi.contractControllerSubmitReview).toHaveBeenCalledWith({
+            id: 'contract-B', submitContractReviewRequest: { preparationId: 'prepared-contract-B', expectedVersion: 1, comment: undefined }
+        });
+    });
+
+    it('clears A dialogs, form values, and ACK when the route becomes B', async () => {
+        await setup();
+        await component.submitReview();
+        expect(store.lastAcknowledgement()?.contractId).toBe('contract-A');
+        component.editDialogVisible = true;
+        component.submitReviewDialogVisible = true;
+        component.approveDialogVisible = true;
+        component.rejectDialogVisible = true;
+        component.activateDialogVisible = true;
+        component.editForm = { signedAmount: '999.00', currencyCode: 'USD', customerContractNo: 'A-only' };
+        component.rejectForm = { reason: 'A-only', comment: 'A-only' };
+
+        params.next(convertToParamMap({ id: 'contract-B' }));
+        await settlePage();
+
+        expect(component.contract()?.id).toBe('contract-B');
+        expect(store.lastAcknowledgement()).toBeNull();
+        expect(component.editDialogVisible).toBe(false);
+        expect(component.submitReviewDialogVisible).toBe(false);
+        expect(component.approveDialogVisible).toBe(false);
+        expect(component.rejectDialogVisible).toBe(false);
+        expect(component.activateDialogVisible).toBe(false);
+        expect(component.editForm).toEqual({ signedAmount: '', currencyCode: '', customerContractNo: '' });
+        expect(component.rejectForm).toEqual({ reason: '', comment: '' });
+    });
+
+    it('ignores the A command completion locally after B opens its own dialog', async () => {
+        const latePostA = new Subject<ReturnType<typeof acknowledgement>>();
+        contractApi.contractControllerSubmitReview.mockReturnValue(latePostA);
+        await setup();
+        const previousCommand = component.submitReview();
+        params.next(convertToParamMap({ id: 'contract-B' }));
+        await settlePage();
+        component.openSubmitReviewDialog();
+        expect(component.submitReviewDialogVisible).toBe(true);
+        const messageService = fixture.debugElement.injector.get(MessageService);
+        const addMessage = jest.spyOn(messageService, 'add');
+
+        latePostA.next(acknowledgement('contract-A')); latePostA.complete();
+        await previousCommand;
+        await settlePage();
+
+        expect(component.contract()?.id).toBe('contract-B');
+        expect(component.submitReviewDialogVisible).toBe(true);
+        expect(store.lastAcknowledgement()).toBeNull();
+        expect(addMessage).not.toHaveBeenCalled();
+        expect(contractApi.contractControllerGetById.mock.calls.map(([request]) => request.id)).toEqual(['contract-A', 'contract-B']);
+    });
+
+    it('does not report an old A read error on the B page', async () => {
+        const lateContractA = new Subject<ReturnType<typeof contract>>();
+        const lateApprovalA = new Subject<ReturnType<typeof approval>>();
+        contractApi.contractControllerGetById.mockImplementation(({ id }: { id: string }) => id === 'contract-A' ? lateContractA : of(contract(id)));
+        contractApi.contractControllerGetCurrentApproval.mockImplementation(({ id }: { id: string }) => id === 'contract-A' ? lateApprovalA : of(null));
+        await setup();
+        params.next(convertToParamMap({ id: 'contract-B' }));
+        await settlePage();
+        const addMessage = jest.spyOn(fixture.debugElement.injector.get(MessageService), 'add');
+
+        lateContractA.error(new Error('A-only error'));
+        lateApprovalA.error(new Error('A-only approval error'));
+        await settlePage();
+
+        expect(component.contract()?.id).toBe('contract-B');
+        expect(addMessage).not.toHaveBeenCalled();
+        expect(fixture.nativeElement.textContent).not.toContain('A-only error');
+    });
+
+    it('blocks commands when the returned contract ID differs from the route ID', async () => {
+        await setup();
+        contractApi.contractControllerGetById.mockReturnValue(of(contract('contract-A')));
+        params.next(convertToParamMap({ id: 'contract-B' }));
+        await settlePage();
+
+        expect(component.contract()).toBeNull();
+        expect(component.canSubmitReview()).toBe(false);
+        expect(component.canEditContract()).toBe(false);
+        await component.saveContract();
+        await component.submitReview();
+        expect(contractApi.contractControllerUpdateBasicInfo).not.toHaveBeenCalled();
+        expect(contractApi.contractControllerSubmitReview).not.toHaveBeenCalled();
+    });
+
+    it('keeps the real re-preparation link after editing a draft that already has prepared terms', async () => {
+        await setup();
+        const changed = { ...contract('contract-A', 2), customerContractNo: 'CUSTOMER-UPDATED' };
+        contractApi.contractControllerUpdateBasicInfo.mockReturnValue(of(changed));
+        contractApi.contractControllerGetById.mockReturnValue(of(changed));
+        component.showEditDialog();
+        component.editForm.customerContractNo = 'CUSTOMER-UPDATED';
+
+        await component.saveContract();
+        await settlePage();
+
+        expect(component.hasPreparation()).toBe(true);
+        expect(fixture.nativeElement.textContent).toContain('重新准备合同条款');
+        expect(component.actionHeadline()).not.toContain('草稿已准备就绪');
+        component.navigateToPreparation();
+        expect(TestBed.inject(Router).navigate).toHaveBeenCalledWith(['/projects', 'project-1', 'workspace', 'pre-signing'], { queryParams: { contractId: 'contract-A' } });
+    });
+
+    it.each(['payload_changed', 'source_changed'])('keeps the server %s error and gives a real preparation recovery entry without write retry', async (code) => {
+        const message = '当前合同条款或来源已变化。';
+        contractApi.contractControllerSubmitReview.mockReturnValue(throwError(() => new HttpErrorResponse({ status: 409, error: { code, message } })));
+        await setup();
+        const addMessage = jest.spyOn(fixture.debugElement.injector.get(MessageService), 'add');
+
+        await component.submitReview();
+        await settlePage();
+
+        expect(addMessage).toHaveBeenCalledWith(expect.objectContaining({ severity: 'error', summary: '提交失败', detail: message }));
+        expect(fixture.nativeElement.textContent).toContain(message);
+        expect(fixture.nativeElement.textContent).toContain('前往签约前主线核对');
+        expect(fixture.nativeElement.textContent).toContain('重新准备合同条款');
+        expect(component.canSubmitReview()).toBe(true);
+        expect(contractApi.contractControllerSubmitReview).toHaveBeenCalledTimes(1);
+        expect(contractApi.contractControllerGetById).toHaveBeenCalledTimes(1);
+        component.navigateToPreparation();
+        expect(TestBed.inject(Router).navigate).toHaveBeenCalledWith(['/projects', 'project-1', 'workspace', 'pre-signing'], { queryParams: { contractId: 'contract-A' } });
+    });
+
+    it('stops reading new route params after destroying the component', async () => {
+        await setup();
+        fixture.destroy();
+
+        params.next(convertToParamMap({ id: 'contract-B' }));
+        await Promise.resolve();
+
+        expect(contractApi.contractControllerGetById).toHaveBeenCalledTimes(1);
+        expect(store.selectedContract()).toBeNull();
+    });
+});

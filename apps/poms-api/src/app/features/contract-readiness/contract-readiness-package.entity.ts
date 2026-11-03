@@ -1,12 +1,18 @@
 import { defineEntity } from '@mikro-orm/core';
 import type {
     ContractReadinessGuardDecision,
+    ContractCommercialTerms,
     ContractReadinessItemStatus,
     ContractReadinessItemType,
     ContractReadinessStatus
 } from '@poms/shared-contracts';
+import { Contract } from '../contract/contract.entity';
+import { ProjectBidCommercialProcess } from '../project/project-bid-commercial-process.entity';
+import { ProjectPricingMarginReview } from '../project/project-pricing-margin-review.entity';
+import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
 import { Project } from '../project/project.entity';
 import { CommercialBaselineDiffResult, CommercialReleaseBaseline } from './commercial-release-baseline.entity';
+import { ContractTermPreparation } from './contract-lifecycle.entity';
 
 const p = defineEntity.properties;
 
@@ -18,6 +24,13 @@ export const ContractReadinessPackageSchema = defineEntity({
         { name: 'idx_contract_readiness_package_project_current', properties: ['projectId', 'isCurrent'] },
         { name: 'idx_contract_readiness_package_status', properties: ['packageStatus'] }
     ],
+    uniques: [
+        { name: 'uq_r4_readiness_scope', properties: ['id', 'projectId', 'contractId'] },
+        {
+            name: 'uq_r4_readiness_contract_current',
+            expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.contractId}") where "${columns.isCurrent}" and "${columns.contractId}" is not null`
+        }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
         projectId: () =>
@@ -28,6 +41,22 @@ export const ContractReadinessPackageSchema = defineEntity({
                 .foreignKeyName('contract_readiness_package_project_id_foreign')
                 .updateRule('cascade')
                 .deleteRule('cascade'),
+        // SQL93 adds strong compound scope FKs for these identities; their
+        // non-PK unique tuples are enumerated in the ORM candidate integration map.
+        contractId: () => p.manyToOne(Contract).mapToPk().nullable().fieldName('contract_id').createForeignKeyConstraint(false),
+        candidateTerms: p.json<ContractCommercialTerms>().nullable().fieldName('candidate_terms'),
+        sourceFacts: p.json<Record<string, unknown>>().defaultRaw("'{}'::jsonb").fieldName('source_facts'),
+        payloadHash: p.string().length(64).nullable().fieldName('payload_hash'),
+        currentPreparationId: () => p.manyToOne(ContractTermPreparation).mapToPk().nullable().fieldName('current_preparation_id').createForeignKeyConstraint(false),
+        sourceCostPackageId: () =>
+            p.manyToOne(ProjectTechnicalCostPackage).mapToPk().nullable().fieldName('source_cost_package_id')
+                .foreignKeyName('contract_readiness_package_source_cost_package_id_fkey').updateRule('no action').deleteRule('restrict'),
+        sourceBidProcessId: () =>
+            p.manyToOne(ProjectBidCommercialProcess).mapToPk().nullable().fieldName('source_bid_process_id')
+                .foreignKeyName('contract_readiness_package_source_bid_process_id_fkey').updateRule('no action').deleteRule('restrict'),
+        sourcePricingReviewId: () =>
+            p.manyToOne(ProjectPricingMarginReview).mapToPk().nullable().fieldName('source_pricing_review_id')
+                .foreignKeyName('contract_readiness_package_source_pricing_review_id_fkey').updateRule('no action').deleteRule('restrict'),
         sourceBaselineId: () =>
             p
                 .manyToOne(CommercialReleaseBaseline)

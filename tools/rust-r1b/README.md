@@ -13,7 +13,13 @@ node tools/rust-r1b/json-compat-oracle.mjs --check
 
 `--check` 只比较，不刷新预期。只有经审查的来源或工具变化才运行相应 `--write`，再检查 neutral manifest、生成 Rust 与 golden 的差异；不能为消除测试失败直接重录预期。来源文件 hash 只将 CRLF 规范化为 LF，业务字符串、Unicode、BOM 和裸 CR 保持原状。不同业务域即使恰好具有相同枚举值，也不因此合并类型。
 
-当前入口固定 R1B 的 `SOURCE_HEAD`、R0 对照快照及覆盖计数。后续共享契约变化须由新的冻结切片审阅并推进来源和对照基线，再显式生成；只改 TS 后执行 `--write` 仍会被拒绝。R0 快照是历史派生证据，不是可手工增补业务值的第二权威，本轮保持原快照不变。
+当前 `SOURCE_HEAD` 显式固定为 R4 已审 S3 `4f78bd486ca2118e4700bae560cb25ff08c4b47d`，对应 G1 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`。原七份输入和 working / index / untracked 三项保护完整保留；`buildManifest` 不允许关闭 guard，内存输入覆盖也仅接受与实际来源等价的 CRLF 规范化。新 ORM 不在该既有来源范围内，不通过缩小范围或临时忽略文件绕过检查。
+
+R0 原件 `docs/design/rust-r0-api-operations.json` 保持历史时点，不更新成 current。工具同时核其固定 normalized-text SHA；原455常量的name/path/kind/value/hash，以及原224 enum的owner/schemaId/path/top-level/expression/values/OpenAPI/comparison和完整记录次序逐项比较，仅历史line与current line的变化进入单独provenance remap。当前生成manifest仍保留实际current line/column。未知新增、历史删除、重排、既有payload变化一律拒绝，不能以`>=`或跳过R0替代。
+
+本次唯一登记的post-R0常量是 `CONTRACT_TERM_PREPARATION_STATUSES`；新增enum occurrence仅 `ContractTermPreparationStatusSchema` 顶层，以及 `ReadinessInitializationResultSchema` 的 `targetType/resultStatus/businessStatusAfter` 三字段。工具内登记的是固定S3的声明/完整enum payload/expression/value SHA和精确owner/schemaId/field路径，不保存第二份可编辑wire值。新增项必须全部存在且次序正确；更改需另行明确审查。`r0Witness`分别报告历史455/224、不变payload/order、行号remap和已声明R4增量，不能把增量称作历史R0已包含。coverage中旧名`r0SnapshotCount`表示current R0-compatible候选数，本次456；另列historical455和declaredPostR0新增1。
+
+九个enum helper的原hash和实际TS+Zod runtime oracle保持。`isR4ScaledDecimal`以精确函数SHA登记为非enum的schema refinement，不进入enum evaluator helper集合；其容量语义由R4独立受限检查认证，不由本enum oracle冒称业务通过。S3五个精确schema声明中的无enum refinement callback另以声明SHA限定，既不泛化允许未知函数，也不允许callback隐藏z.enum；其它schema语言保护保持fail-closed。原TS仍由同一oracle执行并比较data、enum arguments和实际Zod options，只允许Zod import。
 
 固定 Linux 构建使用已准备的 [R0E 构建镜像](../rust-r0e/README.md)，并在普通 WSL 用户的 Linux checkout 中运行：
 

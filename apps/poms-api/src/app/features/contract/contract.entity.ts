@@ -1,7 +1,8 @@
 import { defineEntity } from '@mikro-orm/core';
-import { CONTRACT_STATUSES, CONTRACT_TERM_SNAPSHOT_STATUSES, ContractTermSnapshotStatusValue, type ContractStatus, type ContractTermSnapshotStatus } from '@poms/shared-contracts';
+import { CONTRACT_STATUSES, CONTRACT_TERM_SNAPSHOT_STATUSES, ContractTermSnapshotStatusValue, type ContractStatus, type ContractTermSnapshotStatus, type ReceivablePlanSeed } from '@poms/shared-contracts';
 import { CommercialReleaseBaseline } from '../contract-readiness/commercial-release-baseline.entity';
 import { ContractReadinessPackage } from '../contract-readiness/contract-readiness-package.entity';
+import { ContractTermPreparation } from '../contract-readiness/contract-lifecycle.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
@@ -18,6 +19,7 @@ export const ContractSchema = defineEntity({
         { name: 'idx_contract_project_id', properties: ['projectId'] },
         { name: 'idx_contract_status', properties: ['status'] }
     ],
+    uniques: [{ name: 'uq_r4_contract_id_project', properties: ['id', 'projectId'] }],
     checks: [
         {
             name: 'chk_contract_status',
@@ -73,6 +75,12 @@ export const ContractTermSnapshotSchema = defineEntity({
         { name: 'idx_contract_term_snapshot_readiness', properties: ['sourceReadinessId'] }
     ],
     uniques: [
+        { name: 'uq_r4_snapshot_id_contract', properties: ['id', 'contractId'] },
+        { name: 'uq_r4_snapshot_preparation_scope', properties: ['id', 'contractId', 'sourcePreparationId'] },
+        {
+            name: 'uq_r4_snapshot_source_preparation',
+            expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourcePreparationId}") where "${columns.sourcePreparationId}" is not null`
+        },
         {
             name: 'uq_contract_term_snapshot_contract_active',
             expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.snapshotStatus}" = '${ContractTermSnapshotStatusValue.Active}'`
@@ -100,6 +108,11 @@ export const ContractTermSnapshotSchema = defineEntity({
             p.manyToOne(ContractReadinessPackage).mapToPk().nullable().fieldName('source_readiness_id').foreignKeyName('contract_term_snapshot_source_readiness_fk').updateRule('cascade').deleteRule('restrict').comment('来源签约就绪包 ID'),
         sourceBaselineId: () =>
             p.manyToOne(CommercialReleaseBaseline).mapToPk().nullable().fieldName('source_baseline_id').foreignKeyName('contract_term_snapshot_source_baseline_fk').updateRule('cascade').deleteRule('restrict').comment('来源商业放行基线 ID'),
+        // fk_r4_snapshot_preparation_contract is retained as the SQL93 compound
+        // (source_preparation_id, contract_id) scope FK, not a weaker scalar FK.
+        sourcePreparationId: () => p.manyToOne(ContractTermPreparation).mapToPk().nullable().fieldName('source_preparation_id').createForeignKeyConstraint(false),
+        receivablePlanSeeds: p.json<ReceivablePlanSeed[]>().nullable().fieldName('receivable_plan_seeds'),
+        payloadHash: p.string().length(64).nullable().fieldName('payload_hash'),
         version: p.integer().default(1).comment('快照版本号'),
         snapshotStatus: p.string().length(32).default(ContractTermSnapshotStatusValue.Active).fieldName('snapshot_status').$type<ContractTermSnapshotStatus>().comment('快照状态：active/superseded/voided'),
         createdAt: p

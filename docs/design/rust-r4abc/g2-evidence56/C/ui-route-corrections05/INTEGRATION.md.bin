@@ -1,0 +1,33 @@
+# UI route correction05 — C author candidate
+
+C is the implementation/test author, not an independent Gate reviewer. Only files under this candidate directory were written. Root products and frozen C19/Shared/UI01/02/03/04 artifacts remain untouched.
+
+## Exact import boundary
+
+Import the seven full products only after verifying each existing Root base SHA against manifest05. Six existing files use Root's actual04 bytes; `contract-route.spec.ts` is new and must not already exist. Original bytes are preserved under `bases/<relative-path>.bin`.
+
+Root reported admin394/Native26 and lint/build23 passing for the previous source. Those results do not validate05. UI30 belongs to the previous candidate and is not final UI acceptance evidence. C did not execute Node, Angular, build, lint, tests, browser, HTTP, PG, Git, WSL, or environment tools.
+
+## Route and response behavior
+
+- ContractDetail subscribes to paramMap with distinct IDs and takeUntilDestroyed. A route change clears dialogs, form contents, old toasts, and the component-scoped store ACK/readback state before loading the new contract and approval. Leaving the component invalidates outstanding work.
+- An immutable store scope token distinguishes A→B→A. Detail/approval reads also have independent request sequences, so an older same-contract read cannot replace a newer result. Loading/saving/finally updates are fenced too. Response contract IDs and approval target IDs must match the requested contract.
+- The component filters both displayed contract and approval by the live route ID. Command methods use those filtered values and current readiness/loading state. A route change while a command is in flight prevents its later completion/error from closing the new page's dialogs or showing an old-page toast.
+- Every managed draft retains a real “准备/重新准备合同条款” navigation entry. Existing prepared metadata no longer claims that the current core information is already ready. Actual payload_changed/source_changed failures keep the original server error and add an explicit signing-workspace recovery entry. This hint does not add a submit gate or retry a write.
+- The actual POST ACK still returns to its originating caller. A stale scope cannot publish that ACK, initiate old-contract readback, or clear a newer command's saving state. A started04 readback uses private reads bound to its captured scope; it cannot reselect A after the route becomes B.
+- B todo readback passes optional isCurrent to AuthStore.refreshTodos. A successful HTTP result is applied only while the scope/ACK/request remains current. Other auth callers retain the previous default and strict behavior; no unrelated auth flow changes.
+- All retries remain reads. No automatic command retry, new route, RBAC change, financial page, upstream A authoring UI, client generation, or domain lifecycle change was introduced.
+
+## Source tests — not executed
+
+The existing04 source cases are retained. Seventeen new source cases cover:
+
+- Seven store cases: late A detail/approval after B, old finally while B reads are pending, A→B→A identity, same-contract newest request, old A POST ACK while B writes, old started ACK readback after switching to B, and rejection of a write for a different selected scope.
+- Nine real ContractDetail ComponentFixture + real ContractStore cases: same instance switches A→B despite a deliberately stale snapshot; late A detail/approval cannot replace B; B's actual submit request uses B/preparation-B/version; old approval cannot be acted on; dialogs/forms/ACK reset; old POST completion cannot close B's dialog or toast on B; old read failures are suppressed; mismatched returned contract IDs block writes; destroy stops param subscriptions; a draft PATCH retains the re-preparation entry; both payload_changed and source_changed retain the server failure and link to the actual selected-contract signing workspace without retry. The unrelated attachment child alone is omitted in this focused fixture; actual browser acceptance still includes it.
+- One AuthStore case: a delayed todo result is ignored after the caller's scope changes, while the existing04 strict-failure/default-fallback/success cases remain.
+
+The component fixture drains the SDK Subject doubles' promise callbacks before asserting the absence of stale UI effects. SDK fixtures use readable test IDs and are not real producer evidence.
+
+## Root runtime observations still required
+
+Use the same browser component instance to navigate /contracts/A→/contracts/B with A detail/approval deliberately delayed, then release A responses. Confirm URL, visible business number, preparation/review state, and every submitted action target all remain B. Repeat A→B→A, and route change while an A POST or ACK readback is pending. Confirm old ACK/error/toast/finally/todo responses do not replace B's state and that read-only retry never sends another write. Preserve previous failure records and rebuild assets before final UI acceptance.

@@ -1,0 +1,431 @@
+use std::collections::BTreeMap;
+
+use chrono::{DateTime, NaiveDate, Utc};
+use serde_json::{Value as Json, json};
+use sqlx::{PgConnection, Postgres, QueryBuilder, Row};
+use uuid::Uuid;
+
+use super::model::{
+    ContractRecord, data_uuid, data_version, instant, optional_string, optional_value, timestamp,
+    uuid_value,
+};
+use crate::{
+    approval_common::{
+        CommonSession,
+        js::{Data, Value},
+        schema::Table,
+        store as common,
+    },
+    contract_support::{Error, contract_fact, lock_project, require_uuid},
+};
+
+pub(super) async fn contract(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+) -> Result<Option<ContractRecord>, Error> {
+    let handles = common::find(
+        session,
+        Table::Contract,
+        &[("id", vec![uuid_value(id)])],
+        &[],
+        true,
+    )
+    .await?;
+    handles
+        .first()
+        .map(|handle| {
+            Ok(ContractRecord {
+                handle: *handle,
+                data: common::data(session.state, *handle)?,
+            })
+        })
+        .transpose()
+}
+
+pub(super) async fn locked_contract(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+) -> Result<ContractRecord, Error> {
+    let discovered = contract_fact(&mut *session.connection, id, None, false)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("Contract {id} not found")))?;
+    lock_project(&mut *session.connection, discovered.project_id).await?;
+    let locked = contract_fact(
+        &mut *session.connection,
+        id,
+        Some(discovered.project_id),
+        true,
+    )
+    .await?
+    .ok_or_else(|| Error::NotFound(format!("Contract {id} not found")))?;
+    // A two-column lookup bypasses common's id-only shortcut. Its normal
+    // hydration keeps a single identity and refreshes only clean properties.
+    let handles = common::find(
+        session,
+        Table::Contract,
+        &[
+            ("id", vec![uuid_value(id)]),
+            ("projectId", vec![uuid_value(locked.project_id)]),
+        ],
+        &[],
+        true,
+    )
+    .await?;
+    let handle = *handles.first().ok_or(Error::Internal)?;
+    let data = common::data(session.state, handle)?;
+    if data_uuid(&data, "projectId")? != locked.project_id
+        || data_version(&data)? != locked.row_version
+    {
+        return Err(Error::Conflict("Contract changed while acquiring its lock".into()));
+    }
+    Ok(ContractRecord { handle, data })
+}
+
+pub(super) async fn by_number(
+    session: &mut CommonSession<'_, '_>,
+    number: &str,
+) -> Result<Option<ContractRecord>, Error> {
+    let handles = common::find(
+        session,
+        Table::Contract,
+        &[("contractNo", vec![Value::text(number)])],
+        &[],
+        true,
+    )
+    .await?;
+    handles
+        .first()
+        .map(|handle| {
+            Ok(ContractRecord {
+                handle: *handle,
+                data: common::data(session.state, *handle)?,
+            })
+        })
+        .transpose()
+}
+
+pub(super) async fn list(
+    session: &mut CommonSession<'_, '_>,
+    query: &Json,
+) -> Result<Vec<Data>, Error> {
+    let mut sql = QueryBuilder::<Postgres>::new("SELECT id FROM poms.contract WHERE true");
+    if query.get("projectId").is_some() {
+        sql.push(" AND project_id=")
+            .push_bind(require_uuid(query, "projectId")?);
+    }
+    if let Some(status) = optional_string(query, "status")? {
+        sql.push(" AND status=").push_bind(status);
+    }
+    if let Some(keyword) = optional_string(query, "keyword")? {
+        let pattern = format!("%{}%", keyword.trim());
+        sql.push(" AND (contract_no ILIKE ")
+            .push_bind(pattern.clone())
+            .push(" OR customer_contract_no ILIKE ")
+            .push_bind(pattern)
+            .push(")");
+    }
+    sql.push(" ORDER BY created_at DESC");
+    let ids: Vec<Uuid> = sql
+        .build_query_scalar()
+        .fetch_all(&mut *session.connection)
+        .await?;
+    if ids.is_empty() {
+        return Ok(Vec::new());
+    }
+    let handles = common::find(
+        session,
+        Table::Contract,
+        &[("id", ids.into_iter().map(uuid_value).collect())],
+        &[("createdAt", true)],
+        false,
+    )
+    .await?;
+    handles
+        .into_iter()
+        .map(|handle| common::data(session.state, handle).map_err(Error::from))
+        .collect()
+}
+
+pub(super) struct ProjectLabel {
+    pub name: String,
+    pub customer: Option<String>,
+}
+
+pub(super) async fn project_labels(
+    connection: &mut PgConnection,
+    ids: &[Uuid],
+) -> Result<BTreeMap<Uuid, ProjectLabel>, Error> {
+    if ids.is_empty() {
+        return Ok(BTreeMap::new());
+    }
+    let rows = sqlx::query(
+        "SELECT id,project_name,customer_name FROM poms.project WHERE id=ANY($1)",
+    )
+    .bind(ids)
+    .fetch_all(connection)
+    .await?;
+    rows.into_iter()
+        .map(|row| {
+            Ok((
+                row.try_get("id")?,
+                ProjectLabel {
+                    name: row.try_get("project_name")?,
+                    customer: row.try_get("customer_name")?,
+                },
+            ))
+        })
+        .collect()
+}
+
+pub(super) async fn pending_review(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: Uuid,
+) -> Result<bool, Error> {
+    Ok(!common::find(
+        session,
+        Table::Approval,
+        &[
+            ("approvalType", vec![Value::text("contract-review")]),
+            ("targetObjectType", vec![Value::text("contract")]),
+            ("targetObjectId", vec![uuid_value(contract_id)]),
+            ("currentStatus", vec![Value::text("pending")]),
+        ],
+        &[],
+        true,
+    )
+    .await?
+    .is_empty())
+}
+
+pub(super) async fn latest_approval(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: Uuid,
+    approved_only: bool,
+) -> Result<Option<Data>, Error> {
+    let mut filters = vec![
+        ("targetObjectType", vec![Value::text("contract")]),
+        ("targetObjectId", vec![uuid_value(contract_id)]),
+    ];
+    if approved_only {
+        filters.push(("approvalType", vec![Value::text("contract-review")]));
+        filters.push(("currentStatus", vec![Value::text("approved")]));
+    }
+    let handles = common::find(
+        session,
+        Table::Approval,
+        &filters,
+        &[("submittedAt", true), ("createdAt", true)],
+        true,
+    )
+    .await?;
+    handles
+        .first()
+        .map(|handle| common::data(session.state, *handle).map_err(Error::from))
+        .transpose()
+}
+
+pub(super) struct ReviewBinding {
+    pub approval_id: Uuid,
+    pub contract_id: Uuid,
+    pub preparation_id: Uuid,
+    pub preparation_version: i32,
+    pub payload_hash: String,
+    pub created_at: DateTime<Utc>,
+    pub created_by: Uuid,
+}
+
+impl ReviewBinding {
+    pub fn metadata(&self) -> Json {
+        json!({
+            "approvalRecordId": self.approval_id,
+            "contractId": self.contract_id,
+            "preparationId": self.preparation_id,
+            "preparationVersion": self.preparation_version,
+            "payloadHash": self.payload_hash,
+            "createdAt": instant(self.created_at),
+            "createdBy": self.created_by
+        })
+    }
+}
+
+fn binding(row: sqlx::postgres::PgRow) -> Result<ReviewBinding, Error> {
+    Ok(ReviewBinding {
+        approval_id: row.try_get("approval_record_id")?,
+        contract_id: row.try_get("contract_id")?,
+        preparation_id: row.try_get("preparation_id")?,
+        preparation_version: row.try_get("preparation_version")?,
+        payload_hash: row.try_get("payload_hash")?,
+        created_at: row.try_get("created_at")?,
+        created_by: row.try_get("created_by")?,
+    })
+}
+
+pub(super) async fn review_binding(
+    connection: &mut PgConnection,
+    approval_id: Uuid,
+    lock: bool,
+) -> Result<Option<ReviewBinding>, Error> {
+    let sql = format!(
+        "SELECT approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by \
+         FROM poms.contract_review_binding WHERE approval_record_id=$1{}",
+        if lock { " FOR UPDATE" } else { "" }
+    );
+    sqlx::query(&sql)
+        .bind(approval_id)
+        .fetch_optional(connection)
+        .await?
+        .map(binding)
+        .transpose()
+}
+
+pub(super) async fn latest_binding(
+    connection: &mut PgConnection,
+    contract_id: Uuid,
+) -> Result<Option<ReviewBinding>, Error> {
+    sqlx::query(
+        "SELECT b.approval_record_id,b.contract_id,b.preparation_id,b.preparation_version,b.payload_hash,b.created_at,b.created_by \
+         FROM poms.contract_review_binding b \
+         JOIN poms.approval_record a ON a.id=b.approval_record_id \
+         WHERE b.contract_id=$1 ORDER BY a.submitted_at DESC,a.created_at DESC,b.created_at DESC LIMIT 1",
+    )
+    .bind(contract_id)
+    .fetch_optional(connection)
+    .await?
+    .map(binding)
+    .transpose()
+}
+
+pub(super) async fn preparation_metadata(
+    connection: &mut PgConnection,
+    contract_id: Uuid,
+) -> Result<Option<Json>, Error> {
+    let row = sqlx::query(
+        "SELECT id,project_id,contract_id,version,row_version,status,is_current,source_readiness_id,source_baseline_id,source_diff_result_id,\
+         payload_hash,prepared_at,prepared_by,activated_snapshot_id,activated_at \
+         FROM poms.contract_term_preparation WHERE contract_id=$1 AND is_current ORDER BY version DESC LIMIT 1",
+    )
+    .bind(contract_id)
+    .fetch_optional(connection)
+    .await?;
+    row.map(|row| {
+        Ok(json!({
+            "preparationId": row.try_get::<Uuid,_>("id")?,
+            "projectId": row.try_get::<Uuid,_>("project_id")?,
+            "contractId": row.try_get::<Uuid,_>("contract_id")?,
+            "version": row.try_get::<i32,_>("version")?,
+            "rowVersion": row.try_get::<i32,_>("row_version")?,
+            "status": row.try_get::<String,_>("status")?,
+            "isCurrent": row.try_get::<bool,_>("is_current")?,
+            "sourceReadinessId": row.try_get::<Uuid,_>("source_readiness_id")?,
+            "sourceBaselineId": row.try_get::<Uuid,_>("source_baseline_id")?,
+            "sourceDiffResultId": row.try_get::<Uuid,_>("source_diff_result_id")?,
+            "payloadHash": row.try_get::<String,_>("payload_hash")?,
+            "preparedAt": instant(row.try_get("prepared_at")?),
+            "preparedBy": row.try_get::<Uuid,_>("prepared_by")?,
+            "activatedSnapshotId": row.try_get::<Option<Uuid>,_>("activated_snapshot_id")?,
+            "activatedAt": row.try_get::<Option<DateTime<Utc>>,_>("activated_at")?.map(instant)
+        }))
+    })
+    .transpose()
+}
+
+pub(super) struct SnapshotRecord {
+    pub id: Uuid,
+    pub contract_id: Uuid,
+    pub effective_at: DateTime<Utc>,
+    pub effective_by: Option<Uuid>,
+    pub retention_due_date: Option<NaiveDate>,
+    pub amount_tax_inclusive: Option<String>,
+    pub amount_tax_exclusive: Option<String>,
+    pub tax_rate: Option<String>,
+    pub down_payment_rate: Option<String>,
+    pub retention_rate: Option<String>,
+    pub payment_terms: Option<String>,
+    pub source_readiness_id: Option<Uuid>,
+    pub source_baseline_id: Option<Uuid>,
+    pub source_preparation_id: Option<Uuid>,
+    pub version: i32,
+    pub status: String,
+    pub created_at: DateTime<Utc>,
+    pub created_by: Option<Uuid>,
+    pub row_version: i32,
+}
+
+impl SnapshotRecord {
+    pub fn legacy_data(&self) -> Data {
+        crate::approval_common::service::object([
+            ("id", uuid_value(self.id)),
+            ("contractId", uuid_value(self.contract_id)),
+            ("effectiveAt", timestamp(self.effective_at)),
+            ("effectiveBy", self.effective_by.map_or(Value::Null, uuid_value)),
+            ("retentionDueDate", optional_value(self.retention_due_date.map(|date| date.to_string()))),
+            ("amountTaxInclusive", optional_value(self.amount_tax_inclusive.clone())),
+            ("amountTaxExclusive", optional_value(self.amount_tax_exclusive.clone())),
+            ("taxRate", optional_value(self.tax_rate.clone())),
+            ("downPaymentRate", optional_value(self.down_payment_rate.clone())),
+            ("retentionRate", optional_value(self.retention_rate.clone())),
+            ("paymentTerms", optional_value(self.payment_terms.clone())),
+            ("sourceReadinessId", self.source_readiness_id.map_or(Value::Null, uuid_value)),
+            ("sourceBaselineId", self.source_baseline_id.map_or(Value::Null, uuid_value)),
+            ("version", Value::Number(f64::from(self.version))),
+            ("snapshotStatus", Value::text(self.status.clone())),
+            ("createdAt", timestamp(self.created_at)),
+            ("createdBy", self.created_by.map_or(Value::Null, uuid_value)),
+            ("rowVersion", Value::Number(f64::from(self.row_version))),
+        ])
+    }
+}
+
+pub(super) async fn snapshot(
+    connection: &mut PgConnection,
+    id: Uuid,
+) -> Result<Option<SnapshotRecord>, Error> {
+    let row = sqlx::query(
+        "SELECT id,contract_id,effective_at,effective_by,retention_due_date,amount_tax_inclusive::text AS amount_tax_inclusive,\
+         amount_tax_exclusive::text AS amount_tax_exclusive,tax_rate::text AS tax_rate,down_payment_rate::text AS down_payment_rate,\
+         retention_rate::text AS retention_rate,payment_terms,source_readiness_id,source_baseline_id,source_preparation_id,\
+         version,snapshot_status,created_at,created_by,row_version FROM poms.contract_term_snapshot WHERE id=$1",
+    )
+    .bind(id)
+    .fetch_optional(connection)
+    .await?;
+    row.map(|row| {
+        Ok(SnapshotRecord {
+            id: row.try_get("id")?,
+            contract_id: row.try_get("contract_id")?,
+            effective_at: row.try_get("effective_at")?,
+            effective_by: row.try_get("effective_by")?,
+            retention_due_date: row.try_get("retention_due_date")?,
+            amount_tax_inclusive: row.try_get("amount_tax_inclusive")?,
+            amount_tax_exclusive: row.try_get("amount_tax_exclusive")?,
+            tax_rate: row.try_get("tax_rate")?,
+            down_payment_rate: row.try_get("down_payment_rate")?,
+            retention_rate: row.try_get("retention_rate")?,
+            payment_terms: row.try_get("payment_terms")?,
+            source_readiness_id: row.try_get("source_readiness_id")?,
+            source_baseline_id: row.try_get("source_baseline_id")?,
+            source_preparation_id: row.try_get("source_preparation_id")?,
+            version: row.try_get("version")?,
+            status: row.try_get("snapshot_status")?,
+            created_at: row.try_get("created_at")?,
+            created_by: row.try_get("created_by")?,
+            row_version: row.try_get("row_version")?,
+        })
+    })
+    .transpose()
+}
+
+/// The frozen policy is CONTRACT_REVIEW_APPROVER_USERNAME from the Native
+/// dev-platform fixtures and R2 l-producer-recipes. Identity is resolved from
+/// the actual namespace; no remembered UUID or initiator fallback is used.
+pub(super) async fn contract_approver(connection: &mut PgConnection) -> Result<Uuid, Error> {
+    let row = sqlx::query("SELECT id,is_active FROM poms.platform_user WHERE username=$1 FOR SHARE")
+        .bind("vp_owner")
+        .fetch_optional(connection)
+        .await?
+        .ok_or_else(|| Error::Conflict("The contract-review approver is not configured".into()))?;
+    if !row.try_get::<bool, _>("is_active")? {
+        return Err(Error::Conflict("The contract-review approver is inactive".into()));
+    }
+    Ok(row.try_get("id")?)
+}

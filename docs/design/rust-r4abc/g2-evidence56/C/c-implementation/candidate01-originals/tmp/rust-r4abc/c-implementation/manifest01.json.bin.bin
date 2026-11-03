@@ -1,0 +1,53 @@
+{
+  "schema": "poms-r4c-first-complete-implementation/v1",
+  "issue": 105,
+  "owner": "C implementation author, not independent Gate reviewer",
+  "fixedG1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "worktree": "E:/projects/worktrees/poms-r4c-finance/poms",
+  "admission": "Root g1-gate-authority01.json explicitly G1Certified/G2Authorized true; no author Git/GitHub operations",
+  "ownership": ["apps/poms-api-rust/src/contract_finance/**", "tmp/rust-r4abc/c-implementation/**"],
+  "publicEntry": "pub async fn execute(&mut CommonSession, &str, Option<Uuid>, &Value, &Value, &Actor) -> Result<Value, contract_support::Error>",
+  "staticOperationIndex": {
+    "frozenSource": "docs/design/rust-r4abc/inputs/surface37-source01.json",
+    "sourceDeclaredUnique": 19,
+    "frozenUnique": 19,
+    "identityDifferences": [],
+    "evidenceClass": "static source string identity match only; not runtime route registration or acceptance"
+  },
+  "implementation": {
+    "sourceFiles": 3,
+    "sourceRawBytes": 55379,
+    "completeDomainOperations": 19,
+    "scope": "Receipt/Payable/Payment/Invoice existing19; minimal readonly typed-UUID actual-cost mapping guard",
+    "commonDependencies": ["contract_support::Actor/Error", "money/nonnegative_money/money_string", "new_uuid/require_uuid/expected_version", "lock_project/contract_fact", "AuditWrite/audit", "approval_common::CommonSession", "auth::model::clock_now"],
+    "transaction": "All statements borrow one caller connection; no pool/begin/commit/rollback; Root owns outerTX and final common/auth flush",
+    "lockOrder": "discover project read -> Project -> scoped Contracts sorted UUID -> Payable -> Payment/target row -> fresh confirmed SUM",
+    "audit": "Every actual business change uses Root audit in same outerTX, actual actor; no-op PATCH zero business/audit write. Payment confirmation explicit before/after payment+related payable DTOs.",
+    "remainingIntegration": "Root lib/router/common helpers, HTTP schema/guards, final flush and acceptance; author did not write these shared files",
+    "deferred": ["future40 real cost producer", "cost stage full production loop", "new finance UI", "R4 overall stage closeout"]
+  },
+  "verification": {
+    "sourceIdentityRead": "19 declared/frozen IDs match, static only",
+    "sourceForbiddenPatternRead": "No todo!/unimplemented!/panic!/unwrap()/f64/PgPool/transaction lifecycle method matches in module; static text read only",
+    "rustFmtClippyBuildTest": "not-run, Root-owned",
+    "caseSyntaxOrExecution": "not-run, pure definitions only",
+    "httpDatabaseBrowserEnvironment": "not-run, Root-owned",
+    "gitGithub": "not-run, Root-owned",
+    "g3g4": "not-claimed"
+  },
+  "rootFollowups": [
+    "Integrate complete current source set by these hashes before compiling; earlier in-progress Root copy may lack latest fresh-SUM/read guard corrections.",
+    "Public contract_fact(Some(project),lock=true) should scope SQL WHERE before locking a foreign-project Contract, rather than locking first and rejecting afterwards; Root owns helper correction.",
+    "Run unified fmt/clippy/build/test and actual HTTP/PG/fault/concurrency/security/UI matrix; return exact compiler/runtime findings for C-only repair.",
+    "Prepared mapping tests remain reference guard evidence; no fake real producer or submitted-after-unknown-COMMIT idempotency claim."
+  ],
+  "fileCountExcludingManifest": 5,
+  "totalRawBytesExcludingManifest": 79038,
+  "files": [
+    {"path":"apps/poms-api-rust/src/contract_finance/mod.rs","rawBytes":33534,"sha256":"13298e12b81e63658dff86f49a4d7de3b0b5724fd3d9e9e3f38555fc710d6f19","class":"product-source-unbuilt"},
+    {"path":"apps/poms-api-rust/src/contract_finance/model.rs","rawBytes":6902,"sha256":"615a63cb0b4e680843f80798fac256427b5004a661ada4862ecb45c9d3f7def9","class":"product-source-unbuilt"},
+    {"path":"apps/poms-api-rust/src/contract_finance/store.rs","rawBytes":14943,"sha256":"d908ee79c08e608553860f99e8c1014310dac47f895674be8e156760053bcf16","class":"product-source-unbuilt"},
+    {"path":"tmp/rust-r4abc/c-implementation/acceptance-cases01.mjs","rawBytes":20170,"sha256":"aa1fa074fad912d6e6dac82fd2cf3439cc53863b10f2d84fe77ef7877efa748a","class":"pure-definitions-not-executed"},
+    {"path":"tmp/rust-r4abc/c-implementation/handoff01.md","rawBytes":3489,"sha256":"38134c26cba1e070c1773798044e9deacdfcd138a214e8e42bad81539daa3275","class":"author-handoff-not-gate-review"}
+  ]
+}

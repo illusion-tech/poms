@@ -117,13 +117,15 @@ export class AuthStore {
         await this.#acceptAuthSession(session);
     }
 
-    async refreshTodos(): Promise<void> {
+    async refreshTodos(options: { propagateErrors?: boolean; isCurrent?: () => boolean } = {}): Promise<void> {
         if (!this.isAuthenticated()) {
             this.myTodos.set([]);
             return;
         }
 
-        const todos = await firstValueFrom(this.#approvalApi.approvalControllerGetMyTodos().pipe(catchError(() => of([]))));
+        const request = this.#approvalApi.approvalControllerGetMyTodos();
+        const todos = await firstValueFrom(options.propagateErrors ? request : request.pipe(catchError(() => of([]))));
+        if (options.isCurrent && !options.isCurrent()) return;
         this.myTodos.set(todos ?? []);
     }
 

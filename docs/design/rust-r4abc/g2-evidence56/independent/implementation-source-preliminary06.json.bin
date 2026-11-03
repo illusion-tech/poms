@@ -1,0 +1,732 @@
+{
+  "schema": "poms-r4abc-independent-implementation-source-preliminary/v1",
+  "reviewer": "/root/r4_independent_gate; non-author independent reviewer",
+  "reviewedAtUtc": "2026-11-03T13:28:18.2288667Z",
+  "scope": "R4 first37 only: A9 readiness + B9 contracts + C19 finance and bounded necessary producer/approval/session/validation/DTO/ORM/UI adapters",
+  "decision": "implementation-source Preliminary Pass",
+  "implementationSourcePreliminary": "Pass",
+  "G3Certified": false,
+  "G4Certified": false,
+  "mainOrDeliveryOrClosurePermission": false,
+  "independence": {
+    "sourceAuthor": false,
+    "productOrExecutorWritten": false,
+    "reviewOutputOnly": "tmp/rust-r4abc/independent/",
+    "execution": "Read-only source/raw public evidence/hash/JSON/Git identity inspection. No build/test/generator/DB/HTTP/browser/WSL/Git write/GitHub/private evidence execution or access."
+  },
+  "identity": {
+    "root": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+    "branch": "codex/poms-r4abc-first37",
+    "head": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "g1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "productBase": "1730f304c1cf5600721f80b6c06feec24269d387"
+  },
+  "previousReview": {
+    "file": "tmp/rust-r4abc/independent/implementation-source-preliminary05.json",
+    "bytes": 43900,
+    "sha256": "88e3883d4b5ecef6ec6368e439be51bfe17986855f2e6902d3e4c55bf7407e78",
+    "preserved": true,
+    "scope": "C04 backend/current source preliminary and finite ORM/evidence classification. Its sole open UI P2 is superseded only by the affected-source conclusion in this review; no historical result relabeled."
+  },
+  "sourceBinding": {
+    "firstRehashAtUtc": "2026-11-03T13:25:42.3388697Z",
+    "finalRehashAtUtc": "2026-11-03T13:28:18.2288667Z",
+    "previousComparedSourceCount": 92,
+    "changedPreviousFiles": [
+      {
+        "file": "apps/poms-admin/src/app/core/auth/auth.store.spec.ts",
+        "bytes": 19673,
+        "sha256": "78df2cb8980d5b1971e1c66f9e4972abab6c638ea5ec05bf4ff83ac0c556d810",
+        "previousSha256": "9c8eaf148f4d7c53357f2a007f6e7379d02e793367b7d9498686a2c2f0a6bfbb",
+        "changed": true
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-detail.spec.ts",
+        "bytes": 15442,
+        "sha256": "eeea4cc88dacc7783f3dda3e478154de99500c833f1d4f49d68a24319d6cdaf7",
+        "previousSha256": "7cec801235f721e68f2ed777b9e392e0a306ffa934f6bd73ab6d9a4814272c4b",
+        "changed": true
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+        "bytes": 53471,
+        "sha256": "e8270d75e62bff4a66fbfd956dc64acd041ccd0ef63123dd8747d8515476e875",
+        "previousSha256": "97be99281c1da46a2215dc4e7808ef6d101dd0d4b71966ecc014b5830061ce96",
+        "changed": true
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract.store.spec.ts",
+        "bytes": 18114,
+        "sha256": "1e909b7e52e8f8faf87458593f0eff8b89f2e8280013a1b1b4597e436da79820",
+        "previousSha256": "534e3fa4c8ea05f7156da430e259a84c2402a980513fdcf97e215c385a48daed",
+        "changed": true
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+        "bytes": 8745,
+        "sha256": "81252fcaf3aeb6da54c6b63b0335f397f3ae01f10e6655dbcd9851a380e630df",
+        "previousSha256": "ee613b8da595e3e11898233ceaf9146190df31fc898bcd5b6c01d7951d25eb05",
+        "changed": true
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/contract/contract.store.ts",
+        "bytes": 13144,
+        "sha256": "501ebfa43ed4af3cded7fb9d1427c4c44eeeacf8d2721a743e81da29d5b213d1",
+        "previousSha256": "77500861fe1faa8304866a2e0de3c538bead8c0684597daf5e36ad140f28c958",
+        "changed": true
+      }
+    ],
+    "addedSource": "apps/poms-admin/src/app/features/contract/contract-route.spec.ts",
+    "finalSourceCount": 93,
+    "currentPins": [
+      {
+        "file": "apps/poms-admin/src/app/core/auth/auth.store.spec.ts",
+        "bytes": 19673,
+        "sha256": "78df2cb8980d5b1971e1c66f9e4972abab6c638ea5ec05bf4ff83ac0c556d810"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-detail.spec.ts",
+        "bytes": 15442,
+        "sha256": "eeea4cc88dacc7783f3dda3e478154de99500c833f1d4f49d68a24319d6cdaf7"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+        "bytes": 53471,
+        "sha256": "e8270d75e62bff4a66fbfd956dc64acd041ccd0ef63123dd8747d8515476e875"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-flow.spec.ts",
+        "bytes": 4033,
+        "sha256": "19ae0448346338d1d5e0959afb84db574e59095e92cef0f2842b99a83eaac9c0"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-flow.ts",
+        "bytes": 2097,
+        "sha256": "2d4c6bd865ae9dd13cbe64889358c5849860a094cd3298005ed3e9d3be65f482"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-list.ts",
+        "bytes": 21653,
+        "sha256": "e727a07558c7cd06c6127d0a74b9a243aa53ab83a5441c7adba50afa37ba38b7"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-route.spec.ts",
+        "bytes": 14501,
+        "sha256": "40165fda3f1a708f669a8eb70fc0fd4ad395e3a5d8bbb90e21ca7417b53944ef"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract.store.spec.ts",
+        "bytes": 18114,
+        "sha256": "1e909b7e52e8f8faf87458593f0eff8b89f2e8280013a1b1b4597e436da79820"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-pre-signing-overview.spec.ts",
+        "bytes": 9097,
+        "sha256": "e0a7fd9e521dbab8d5f93c0fa263ea7d3faa3a98b9ba387e61b65964cf40d77b"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts",
+        "bytes": 30227,
+        "sha256": "4b50602089ed63dfd32d46e9112890f7393bf1bdc4e219edffc75c32d8638a56"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-workspace.store.spec.ts",
+        "bytes": 81759,
+        "sha256": "79f10ed152a29c1036e5ea58fc87e250da289405c77befc5303c0ca290b5ae19"
+      },
+      {
+        "file": "apps/poms-api-rust/Cargo.lock",
+        "bytes": 77585,
+        "sha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d"
+      },
+      {
+        "file": "apps/poms-api-rust/Cargo.toml",
+        "bytes": 3419,
+        "sha256": "12048cee8734f9df868d7fe0fa4e9cea007cc1e755168edb56106ffaf7140e3e"
+      },
+      {
+        "file": "apps/poms-api-rust/examples/r4_summary_producer.rs",
+        "bytes": 15624,
+        "sha256": "a9a849ce51dff261438e4615afc6255604561956858284227e5cf0ea7c0c81c1"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/error.rs",
+        "bytes": 3326,
+        "sha256": "46af6e7e4d762e7acf8ecafa56d0f94907162a510cae4b3caa129a0bdfb77786"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/receipt.rs",
+        "bytes": 3713,
+        "sha256": "b707f25ecbaceceb90989c3dae6cfa8dd57e2fb9c1b56005aa3eccbeba58d757"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/service.rs",
+        "bytes": 45702,
+        "sha256": "0bd9da6467a496896525d697f2fee280a5de4749fcd8a3e46ef6a6db0ed4c38b"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/session.rs",
+        "bytes": 5265,
+        "sha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/store.rs",
+        "bytes": 35844,
+        "sha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval/domain.rs",
+        "bytes": 30419,
+        "sha256": "8dc7f4127c1d4a9178dbd5677da8e92cf85074aca214677ab015ecf8f40dd96c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval/http.rs",
+        "bytes": 12361,
+        "sha256": "8c1cdfa2ed7a50c7bf305d006eadbd6ee284350a64aca55347e28e79dc212709"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_finance/mod.rs",
+        "bytes": 38429,
+        "sha256": "45b80986957d0f2ab6b5554ae99a9ea1f59e8767121871a2900c9e3cc86f09a1"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_finance/model.rs",
+        "bytes": 6958,
+        "sha256": "2e0051a51f4a8fe3bbe236f65d2e5b42f78a5a47864ba1b72f96c493de6439e9"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_finance/store.rs",
+        "bytes": 16658,
+        "sha256": "879412dd428d6a0007280b41478ada16356d0e6336f21dbe41452dcac98899d9"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+        "bytes": 269,
+        "sha256": "0e7538858a60618f3af151e72fd06d63057ec25132279e636951b9bea232e394"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/service.rs",
+        "bytes": 52959,
+        "sha256": "01aadf6062eeb478b19025c81797157edf05a856e8ef209811a980ad87b48c88"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/source.rs",
+        "bytes": 13813,
+        "sha256": "8451a749d2a566b70ad3fd00e379388c88304be1ce1a3f0bf35de68f006e9f6f"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/store.rs",
+        "bytes": 7410,
+        "sha256": "f095d61373f494fd04b46c511a9289be161c64fa95288340878b2414b01a1224"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+        "bytes": 12690,
+        "sha256": "8f86245eefadbe8e759c52e0d79636f77f1374767ee214bd7c36761c10743d60"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/view.rs",
+        "bytes": 9056,
+        "sha256": "93a037cbddbfbb3cd6917e6707979fffea913ff94c33847128304c62a14599ad"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_support/http.rs",
+        "bytes": 12961,
+        "sha256": "6bfbb2c0b59a2c8a7425d533f3d11cfac92f193ad5bbbbb98644fe0075c4ad2c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+        "bytes": 16326,
+        "sha256": "1fd451795e665f3d3fc72ac3184e77916f847a6de36875edac3d206941636406"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_support/validation.rs",
+        "bytes": 21979,
+        "sha256": "a90cd7cd78e6c911b714b723b288d19076f06bb8e1e70959f8edc1d088b01049"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/mod.rs",
+        "bytes": 252,
+        "sha256": "ea52d357202f3b527f8158b1aaab0f2fc419ac24c3e4288138a6a951517bcbcb"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/model.rs",
+        "bytes": 5775,
+        "sha256": "f382f492c4cfc81a9b08b2884e27e5b4efbfc97fdf5b369fd2e2462b8a96f669"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/projection.rs",
+        "bytes": 6295,
+        "sha256": "7bc50f4b5e1ddcfa459975486c358dff9832d0d528a115a5782220bb6533eb0c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/service.rs",
+        "bytes": 29623,
+        "sha256": "021ae5c9328edbfc0b3dfa2932d1d8e15cc0739a877b1cab3734b1752760947a"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/store.rs",
+        "bytes": 16009,
+        "sha256": "7d848616989c341e8b3ec7845bf255785fc54ad7d00dd0bd772d815a76df4682"
+      },
+      {
+        "file": "apps/poms-api-rust/src/http.rs",
+        "bytes": 27218,
+        "sha256": "2c346b9a8b9e4c1f38f17fe06d8db7d722617ffd2d591a8f798719576cdb7871"
+      },
+      {
+        "file": "apps/poms-api-rust/src/lib.rs",
+        "bytes": 964,
+        "sha256": "dee8d6779ffa6a07e7e5f0008aa13f3d734abce78fa2962ba07adfd06bedd841"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+        "bytes": 29700,
+        "sha256": "12f69da8baae927e3f8325342977e735469bf7b5b55af74cb5f66b6e321e7542"
+      },
+      {
+        "file": "apps/poms-api-rust/src/shared/generated.rs",
+        "bytes": 321222,
+        "sha256": "1638c282c664df348f1b0633e9a1fd0728dd1aa51d072f0132a4441626d6c62b"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/http.rs",
+        "bytes": 30841,
+        "sha256": "b3105ffd17a07f9e39d5b2b1385dd7255d5d2796ba84bdf2ad1834d392e80bd1"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/shared_generated.rs",
+        "bytes": 27745,
+        "sha256": "9bb357a192693edaa5bad2dce3d718ff41f1a6d4e3f62c766a5978646f1db0db"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.entity.ts",
+        "bytes": 10505,
+        "sha256": "39f52cfb382af01d8d9fbeb9ef18757818e057b64d7b51fc6befb27ac677f47f"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+        "bytes": 17715,
+        "sha256": "b28e02909c9dcf6ed85d2edd4a9396cae140c0a04a0074bdb2c0cd644ea4cf03"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts",
+        "bytes": 7484,
+        "sha256": "aab5d667337a051437cd439e4272ceca20c786d3a02bddd86af3f2c818297470"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "bytes": 6466,
+        "sha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.module.ts",
+        "bytes": 1871,
+        "sha256": "786601a5724797ab04eb2846ad30924729d5c1ed14e27afd1e79457b0eb6bbd8"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+        "bytes": 26958,
+        "sha256": "ff7d7bf1bf49aeb1e6a44369a72748299ed189865b46da9042ed08ac6343f3b6"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "bytes": 14430,
+        "sha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+        "bytes": 11108,
+        "sha256": "8f4bfb0961a6d09513f6573b69edfa7a3f1d72dc95d2637013067c3ece2582b5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261103060000_rust_r4abc_contract_lifecycle.ts",
+        "bytes": 14240,
+        "sha256": "d97ea9b8f9c28d7b3c54fdd0824d69eda7fc6519ced5cf703befcb64548344e1"
+      },
+      {
+        "file": "docs/design/rust-r4abc-first37-baseline.md",
+        "bytes": 24956,
+        "sha256": "2838dad037aef613669484ecf9af7141caa82acced5069f1a59d5fdf79aa9269"
+      },
+      {
+        "file": "docs/design/rust-r4abc/dto-freeze01.json",
+        "bytes": 7346,
+        "sha256": "b26654b36db3174a549752b6c18a90c1ff675eed51b9d98f09290cfa9251471f"
+      },
+      {
+        "file": "docs/design/rust-r4abc/schema-freeze01.sql",
+        "bytes": 11869,
+        "sha256": "42113d15a495bf84f6fa57087366b997765620e06f18174482778bdba8cae0ae"
+      },
+      {
+        "file": "docs/design/rust-r4abc/shared-protocol01.md",
+        "bytes": 8306,
+        "sha256": "f8c6be0a114c63ab9ade8b77862acd5d4c3a346f1a9e86fe48740ec7f74b309b"
+      },
+      {
+        "file": "libs/admin/data-access/src/index.ts",
+        "bytes": 13354,
+        "sha256": "ef0df5f9ffa0ea06647eebdd706576012749e99105d8d920a58d7d4c753d4b1b"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+        "bytes": 8745,
+        "sha256": "81252fcaf3aeb6da54c6b63b0335f397f3ae01f10e6655dbcd9851a380e630df"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/contract/contract.store.ts",
+        "bytes": 13144,
+        "sha256": "501ebfa43ed4af3cded7fb9d1427c4c44eeeacf8d2721a743e81da29d5b213d1"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+        "bytes": 48193,
+        "sha256": "4814359fa4b096ec6f44bc32168c44f04091a2c7bc81855eca9a9af99b07b8de"
+      },
+      {
+        "file": "libs/api/contracts/src/lib/contract/contract.dto.ts",
+        "bytes": 4722,
+        "sha256": "c8d5db8660d8fb99c347ee08e6762bc6c442af523afbf465df708b72511dfb7f"
+      },
+      {
+        "file": "libs/shared/api-client/.openapi-generator/FILES",
+        "bytes": 23446,
+        "sha256": "0aac08e2767101c45086620471eddf5463d060c46ec66fd85a1dc3594daa79dc"
+      },
+      {
+        "file": "libs/shared/api-client/api/contract-readiness.service.ts",
+        "bytes": 43503,
+        "sha256": "fbf85e29438c9026a3a3904cd2ee016b55c40efbbcf4dbdf8b196a37098b5122"
+      },
+      {
+        "file": "libs/shared/api-client/api/contract.service.ts",
+        "bytes": 39217,
+        "sha256": "334e6c6ed2378e714500e7d7932978df349041a210c2dc6e2510f867ed6d1f7c"
+      },
+      {
+        "file": "libs/shared/api-client/model/activate-contract-result.ts",
+        "bytes": 503,
+        "sha256": "a3be64167bb491fff7a04fd3ebc8b7197774ded5ca2ce0d416c70a2e6d35be24"
+      },
+      {
+        "file": "libs/shared/api-client/model/command-result.ts",
+        "bytes": 510,
+        "sha256": "41066769a9db158bec71a8ba0573d5d61d42a72ec2c8b3406369b511d0b21e0d"
+      },
+      {
+        "file": "libs/shared/api-client/model/commercial-baseline-review-record-summary.ts",
+        "bytes": 630,
+        "sha256": "93e6377a55e1cd11b497a3fbf2800fa7191f538d4657094d1527dff7adfcc47f"
+      },
+      {
+        "file": "libs/shared/api-client/model/commercial-release-baseline-summary.ts",
+        "bytes": 1539,
+        "sha256": "12f0ab79eb07a0580a5bf70bca70b515fd50971f7bea86f5a9f491ab1644ef32"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-commercial-terms.ts",
+        "bytes": 579,
+        "sha256": "b00ea08b7a7b7071598fa562b24d2bd78cd12c8bb848f9b40a069b22a050aa95"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-detail-view.ts",
+        "bytes": 1313,
+        "sha256": "97a302223a6cb891a57d2c8fc5bf4b1085bfd8949f4600190a64985d99426ee3"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-readiness-detail.ts",
+        "bytes": 1933,
+        "sha256": "7d7d06fd7566c4ef4f232bbb0c42c94d3f243cf18188e5b42a379ad9ae845e9a"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-review-binding-summary.ts",
+        "bytes": 427,
+        "sha256": "0ad875aa67ea6c717163760cef2db712962f9da0b7cf999d7de9e3dce2e0f8a7"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-term-preparation-status.ts",
+        "bytes": 328,
+        "sha256": "7b36730a739609f52d79136cb74d5cea6979ef4f51cc6461876f2b2a7e32db17"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-term-preparation-summary.ts",
+        "bytes": 753,
+        "sha256": "9cb8433ff8044d3017c1fc27f1b107bfe69815bc30b0234fd2e6193f1ed14dff"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-term-snapshot-summary.ts",
+        "bytes": 1172,
+        "sha256": "bd3d2dd06496b714281be8eddbe08727af843942c89e3b6c0bd8d7210fbe4513"
+      },
+      {
+        "file": "libs/shared/api-client/model/create-commercial-release-baseline-request.ts",
+        "bytes": 1118,
+        "sha256": "918d554b4c3c745bcb6de8cbfa6c69c0cc9085e538e248e73c48792f6c7b90a0"
+      },
+      {
+        "file": "libs/shared/api-client/model/create-contract-readiness-package-request.ts",
+        "bytes": 1076,
+        "sha256": "0c47b5cace7433170aaf0d6e173ed4db96e85de6b7be2f4c3b9919f95347a44d"
+      },
+      {
+        "file": "libs/shared/api-client/model/create-contract-request.ts",
+        "bytes": 597,
+        "sha256": "0e740e3a34172412d67ec60f2b0ae330c283439ceb51e91a5e49e46fcc64f87d"
+      },
+      {
+        "file": "libs/shared/api-client/model/initialize-contract-snapshot-from-readiness-package-request.ts",
+        "bytes": 385,
+        "sha256": "4b5e5362301fe263f54078da4046d7aa1bcd5de5ea03e4f78e06d103870f922c"
+      },
+      {
+        "file": "libs/shared/api-client/model/initialize-receivable-plan-from-readiness-package-request.ts",
+        "bytes": 383,
+        "sha256": "36c83ab2d0d7f493a852b02370efffdb3e49187654704be01726016ad702d075"
+      },
+      {
+        "file": "libs/shared/api-client/model/models.ts",
+        "bytes": 27523,
+        "sha256": "34cd75b33107af7f0119b8efd95cc9f2550c7389bab8e1622711bc71e0cf3be9"
+      },
+      {
+        "file": "libs/shared/api-client/model/readiness-initialization-result.ts",
+        "bytes": 1163,
+        "sha256": "1b8d539fe62bb7ba913161b3ac4f297a2dd16a8728accb62bcb084dd02075c19"
+      },
+      {
+        "file": "libs/shared/api-client/model/receivable-plan-seed.ts",
+        "bytes": 404,
+        "sha256": "8ba3e272203ca882ecb6b19df94cc38cd9027b2f590432abc8a1843a36b1841f"
+      },
+      {
+        "file": "libs/shared/api-client/model/review-commercial-release-baseline-diff-request.ts",
+        "bytes": 575,
+        "sha256": "bc92e87c6038276858fad257af7557d9c53c7b8e4fc9d6098f1e18ac27560f61"
+      },
+      {
+        "file": "libs/shared/api-client/model/submit-contract-review-request.ts",
+        "bytes": 321,
+        "sha256": "788788bd2475b554e508a61356387d72f71220f2aa494f5dc28514b12f5051da"
+      },
+      {
+        "file": "libs/shared/api-client/model/submit-contract-review-result.ts",
+        "bytes": 515,
+        "sha256": "b48587631d80417a52b09c687f2812ac18601e93a52a12092b12d648ca62de88"
+      },
+      {
+        "file": "libs/shared/api-client/model/update-contract-basic-info-request.ts",
+        "bytes": 468,
+        "sha256": "c7230fd1fbd617d1f5e0eae73d6af51e91ed9d7b4a88c72bfc42cef0136c4135"
+      },
+      {
+        "file": "libs/shared/api-spec/openapi.json",
+        "bytes": 1154387,
+        "sha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 443953,
+        "sha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120"
+      },
+      {
+        "file": "tools/rust-r4abc/export-validation-input01.mjs",
+        "bytes": 15470,
+        "sha256": "a46c8e6fe1749cca0871034ed96b733557c62969e5a263759f1b1448acb787ba"
+      },
+      {
+        "file": "tools/rust-r4abc/operation-map01.json",
+        "bytes": 20817,
+        "sha256": "8dcea3c86d2d7a7997442a3212cc45e35f467fabe63c4dca99dba606f8101de9"
+      },
+      {
+        "file": "tools/rust-r4abc/validation-input01.json",
+        "bytes": 52677,
+        "sha256": "951145fea7064c122734b5788b71ec6a6fe57cc2d9dd327fd68b40750984c889"
+      }
+    ],
+    "otherPrevious86FilesUnchanged": true,
+    "allExpectedPinsMatchAtFinalRecheck": true,
+    "limitation": "Source review pins 93 specifically reviewed production/source-test/include/tool files. This is not a complete final delivery or all-runtime provenance manifest. The prior unchanged Rust18 crate inventory and evidence bindings remain classified in preliminary05.",
+    "futureChangedSourceRule": "Any change to reviewed or executed source/input after this binding requires affected-source/evidence recheck; do not transplant prior results onto changed bytes."
+  },
+  "c05AuthorManifest": {
+    "file": "docs/design/rust-r4abc/g2-corrections07/ui-route-corrections05/manifest05.json.bin",
+    "bytes": 5890,
+    "sha256": "7c68b58fcdfe2cb57d0257e497b595b7eddd6f1ea48725429f6a1f1090bc4f15",
+    "sevenFiles": true,
+    "matchedAuthorProductSourceFiles": 6,
+    "testSourceException": {
+      "file": "apps/poms-admin/src/app/features/contract/contract-route.spec.ts",
+      "originalSha256": "cc1ae877e1fff7fd5f463697c253336b76b398c328c0e5ac9b77a66f02e713db",
+      "finalSha256": "40165fda3f1a708f669a8eb70fc0fd4ad395e3a5d8bbb90e21ca7417b53944ef",
+      "originalRawBytes": 14501,
+      "finalRawBytes": 14501,
+      "independentlyComparedExactText": true,
+      "soleChange": "set: { schemas: [NO_ERRORS_SCHEMA] } -> add: { schemas: [NO_ERRORS_SCHEMA] }",
+      "reason": "Angular metadata override cannot combine set and remove. Test imports/behavior/assertions otherwise byte-identical.",
+      "authorOriginalPreserved": "docs/design/rust-r4abc/g2-corrections07/ui-route-corrections05/author/apps/poms-admin/src/app/features/contract/contract-route.spec.ts.bin"
+    }
+  },
+  "findings": [
+    {
+      "id": "SRC-05-UI-01",
+      "priority": "P2",
+      "title": "Contract detail and late reads were not fenced to the current routed contract",
+      "status": "Closed in C05 affected-source review",
+      "verifiedCorrection": [
+        "ContractDetail observes live paramMap with distinctUntilChanged and takeUntilDestroyed; each routed page change increments page identity, resets all dialogs/forms/recovery/toasts and selects a new store scope.",
+        "Displayed contract and approval target IDs must match the live route; actions require current matching detail, no pending detail/approval/save or failed ACK refresh.",
+        "ContractStore uses a fresh scope object identity, preserving A->B->A distinction; per-read request counters fence detail/approval/list publication and pending indicators.",
+        "Update/POST completions and saving finalizers are fenced to originating command scope. Late A ACK cannot reselect A or clear B saving state.",
+        "ACK refresh uses private reads with captured scope; stale errors/results cannot overwrite B or its ACK. AuthStore optional isCurrent callback fences the ACK-triggered todo publication.",
+        "All component command/reload completion handlers check originating page identity. Destruction clears the scope and ends route subscription."
+      ],
+      "regressionEvidence": "Root actual route-test37: real ContractDetail template + real ContractStore with delayed SDK Subjects, 1 suite/9 cases passed. Targeted tests are UI fixtures, not real HTTP/browser acceptance.",
+      "runtimeReproductionByReviewer": false
+    }
+  ],
+  "nonBlockingRecoveryNote": {
+    "priorNote": "After editing an already-prepared draft, allow real preparation/re-preparation navigation and preserve server payload_changed/source_changed guidance.",
+    "status": "Implemented and source-reviewed in C05",
+    "verified": "Draft always shows preparation/re-preparation link with exact contractId; original server error remains visible with recovery entry, no automatic write retry and no new business gate."
+  },
+  "sourceReview": {
+    "unchangedBackend": "The previously reviewed A/B/C lifecycle, real/current source identity and producer order, per-contract independence, exact cents/capacity, CAS/project lock order, necessary-write/audit/session outer transaction, exact review binding, active snapshot/plan, finance cumulative/mapping/no-op rules, and sensitive projections retain the same reviewed hashes.",
+    "unchangedRootAdapters": "HTTP/validation/R2 approval validator/R3 baseline bridge and Shared/DTO/ORM source hashes remain unchanged from preliminary05.",
+    "openSourceBlockers": [],
+    "openP1": 0,
+    "openP2": 0,
+    "Native": "Native build/test and original UI reference do not certify the new Rust contract lifecycle."
+  },
+  "acceptedFiniteOrmClassification": {
+    "decision": "Retained from preliminary05; lifecycle entity/migration source unchanged",
+    "finiteOnly": true,
+    "exactCompositeFkExceptions": 16,
+    "equivalentInclusiveNumericCheckDeparse": 3,
+    "realConstraintWeakeningAccepted": false,
+    "proposedSchemaUpdateApplied": false,
+    "rawOwnerAndAppMigrationCheckExitCode": 1,
+    "rawMigrationCheckRelabeledPass": false,
+    "note": "Only the exact 16 stronger composite FK metadata differences, 3 equivalent CHECK deparses, isolated control marker and owner-validated app-role CHECK visibility differences are accepted. Actual transactional DOWN probes remain distinctly labeled in preliminary05; no blanket future drift waiver."
+  },
+  "actualIncrementalEvidence": {
+    "evidencePins": [
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/receipt36.json",
+        "bytes": 11809,
+        "sha256": "32741d63456dff54971ca2ad89b00b6893030ac0e9a4390605aef8a236bbce3e"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/route-test37/receipt37.json",
+        "bytes": 11356,
+        "sha256": "da52fa0f8d120307a095afa89fcbb93f2fb2f9da37567ba0bec8b8714130105a"
+      }
+    ],
+    "rawLogPins": [
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/admin-test-stderr-original.bin",
+        "bytes": 26638,
+        "sha256": "b6f7f7c98a8543b73e1c481c020d598c082c26e7062a03cb81a676bb4a7b5c04"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/admin-test-stdout-original.bin",
+        "bytes": 406,
+        "sha256": "692b979902ff98c107825a1d5e7a33086f231ee01532d57115aea367a2891223"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/build-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/build-stdout-original.bin",
+        "bytes": 831,
+        "sha256": "4147e511abdec5db2dd32f351ebe6a585fcfc47b4dd4cec246f678e848d16eef"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/lint-stderr-original.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks36/lint-stdout-original.bin",
+        "bytes": 647,
+        "sha256": "83349f761e4743e82b32b7cb8fe55e284e08e49503ac7336830c127ac7814412"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/route-test37/stderr-original.bin",
+        "bytes": 1846,
+        "sha256": "df0a8f24fb8aa95d83b287b036255f69ca1115d8e2e702a18a0b3ce90a4c4c46"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/route-test37/stdout-original.bin",
+        "bytes": 396,
+        "sha256": "373e9f9c5ddd54c7e69f87cb3f3bcdccfbe78d9b76e3928a6361cea5c033621b"
+      }
+    ],
+    "tsChecks36": {
+      "receipt": "tmp/rust-r4abc/root/ts-checks36/receipt36.json",
+      "actualByRoot": true,
+      "reviewerOnlyReadback": true,
+      "inputCount": 51,
+      "currentInputDifferences": [
+        {
+          "file": "apps/poms-admin/src/app/features/contract/contract-route.spec.ts",
+          "expected": "cc1ae877e1fff7fd5f463697c253336b76b398c328c0e5ac9b77a66f02e713db",
+          "actual": "40165fda3f1a708f669a8eb70fc0fd4ad395e3a5d8bbb90e21ca7417b53944ef"
+        }
+      ],
+      "buildExitCode": 0,
+      "lintExitCode": 0,
+      "lintTargetsActuallyRun": 2,
+      "adminTestExitCode": 1,
+      "receiptAllPassed": false,
+      "stderrIndependentAnsiStrippedCount": {
+        "passedSuites": 58,
+        "failedSuiteRuns": 1,
+        "setupMetadataErrors": 9
+      },
+      "failedSuite": "contract-route.spec.ts; setup failed before all 9 new test bodies",
+      "preservedFailure": true,
+      "scope": "All production source bytes are unchanged from the successful build/lint and 58 passing suites. Only the failed suite metadata token changed afterward; do not call this entire run Pass."
+    },
+    "routeTest37": {
+      "receipt": "tmp/rust-r4abc/root/route-test37/receipt37.json",
+      "actualByRoot": true,
+      "reviewerOnlyReadback": true,
+      "inputCount": 51,
+      "currentInputDifferences": [],
+      "sourceSha256": "40165fda3f1a708f669a8eb70fc0fd4ad395e3a5d8bbb90e21ca7417b53944ef",
+      "exitCode": 0,
+      "passedSuites": 1,
+      "passedTests": 9,
+      "skippedTests": 0,
+      "cases": [
+        "same reused instance A->B with late A detail/approval; only B submitted",
+        "A dialogs/forms/ACK cleared on B",
+        "late A POST completion leaves B dialog/current ACK intact",
+        "old A read errors do not display on B",
+        "mismatched returned identity blocks actions",
+        "prepared draft edit retains real re-preparation navigation",
+        "payload_changed keeps original error and recovery entry without retry",
+        "source_changed keeps original error and recovery entry without retry",
+        "destroyed component stops new route reads"
+      ],
+      "scope": "Focused Angular UI fixture regression, not browser/HTTP/PG product acceptance."
+    },
+    "priorRuntimeEvidence": "Rust18, Native26, business22, fault26, race28 and ORM19/27 retain preliminary05's exact actual/failed/partial/ignored scope and labels. No unsupported widening.",
+    "newlyReportedMappingAndUiEvidence": "Parent updates about mapping35, reference UI and pending original Rust UI are not promoted into final acceptance by this source-only review."
+  },
+  "remainingBeforeFinalG3": [
+    "Bind the final complete current candidate source, include_str inputs, generated outputs and actual execution artifacts/evidence together.",
+    "Complete and independently read back actual Linux and Windows original UI verification for the corrected candidate, plus owned cohort/control/session/seed/catalog/ACL/object/process cleanup.",
+    "Preserve all failed/partial/non-hit/ignored/Native-reference labels and obtain a separate final independent G3.",
+    "Fixed commit, main synchronization and G4 require their own actual exact-byte/readback review; no permission granted here."
+  ],
+  "parentsRemainOpen": {
+    "overall57": true,
+    "R4stage101": true
+  },
+  "fixedCommitMainAndG4Certified": false
+}

@@ -18,4 +18,5 @@ export interface CommandResult {
     confirmationRecordId: string | null;
     todoItemIds: Array<string>;
     snapshotId?: string | null;
+    preparationId?: string | null;
 }

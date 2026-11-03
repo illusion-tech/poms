@@ -1,0 +1,17 @@
+[1m[33mThe `@nx/jest:jest` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/jest:convert-to-inferred` to migrate to the `@nx/jest/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.[39m[22m
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [0m[7m[37m poms-admin [39m[27m[0m [2mapps/poms-admin/src/app/features/contract/[22m[1mcontract-route.spec.ts[22m
+  ContractDetail reused route with real ContractStore (UI fixtures only)
+    [32m✓[39m [2mshows and submits B on the same instance after late A contract and approval responses (396 ms)[22m
+    [32m✓[39m [2mclears A dialogs, form values, and ACK when the route becomes B (205 ms)[22m
+    [32m✓[39m [2mignores the A command completion locally after B opens its own dialog (131 ms)[22m
+    [32m✓[39m [2mdoes not report an old A read error on the B page (115 ms)[22m
+    [32m✓[39m [2mblocks commands when the returned contract ID differs from the route ID (136 ms)[22m
+    [32m✓[39m [2mkeeps the real re-preparation link after editing a draft that already has prepared terms (131 ms)[22m
+    [32m✓[39m [2mkeeps the server payload_changed error and gives a real preparation recovery entry without write retry (126 ms)[22m
+    [32m✓[39m [2mkeeps the server source_changed error and gives a real preparation recovery entry without write retry (130 ms)[22m
+    [32m✓[39m [2mstops reading new route params after destroying the component (101 ms)[22m
+[1mTest Suites: [22m[1m[32m1 passed[39m[22m, 1 total
+[1mTests:       [22m[1m[32m9 passed[39m[22m, 9 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        [1m[33m4.438 s[39m[22m
+[2mRan all test suites[22m[2m matching [22mapps/poms-admin/src/app/features/contract/contract-route.spec.ts[2m.[22m

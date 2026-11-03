@@ -10,6 +10,7 @@
 
 
 export interface InitializeReceivablePlanFromReadinessPackageRequest {
+    contractId: string;
     contractReadinessPackageId?: string;
     comment?: string;
     expectedVersion?: number;

@@ -25,6 +25,7 @@ export interface ContractTermSnapshotSummary {
     paymentTermsProjection: SensitiveStringFieldProjection;
     sourceReadinessId: string | null;
     sourceBaselineId: string | null;
+    sourcePreparationId: string | null;
     version: number;
     snapshotStatus: ContractTermSnapshotStatus;
     createdAt: string;

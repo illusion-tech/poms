@@ -1,0 +1,597 @@
+{
+  "kind": "current-effective-R4-operation-map",
+  "operations": [
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines",
+      "operationId": "ContractReadinessController_createCommercialReleaseBaseline",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "createCommercialReleaseBaseline",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}",
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getCommercialReleaseBaseline",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}/diff-history",
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getDiffHistory",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "operationId": "ContractReadinessController_reviewDiff",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "reviewDiff",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "createContractReadinessPackage",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/contract-readiness-packages/{id}",
+      "operationId": "ContractReadinessController_getContractReadinessPackage",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getContractReadinessPackage",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-readiness",
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getCurrentContractReadiness",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "initializeContractSnapshot",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+      "operationId": "ContractReadinessController_initializeReceivablePlan",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "initializeReceivablePlan",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts",
+      "operationId": "ContractController_list",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "list",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts/{id}",
+      "operationId": "ContractController_getById",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "getById",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts/{id}/approval-record",
+      "operationId": "ContractController_getCurrentApproval",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "getCurrentApproval",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "POST",
+      "path": "/api/contracts",
+      "operationId": "ContractController_create",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "create",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "PATCH",
+      "path": "/api/contracts/{id}",
+      "operationId": "ContractController_updateBasicInfo",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "updateBasicInfo",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "POST",
+      "path": "/api/contracts/{id}:submitReview",
+      "operationId": "ContractController_submitReview",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "submitReview",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "POST",
+      "path": "/api/contracts/{id}:activate",
+      "operationId": "ContractController_activate",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "activate",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts:lookup",
+      "operationId": "ContractController_getByNo",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractLookupController",
+        "handler": "getByNo",
+        "rawSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/{id}",
+      "operationId": "ContractTermSnapshotController_getById",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract-term-snapshot.controller.ts",
+        "class": "ContractTermSnapshotController",
+        "handler": "getById",
+        "rawSha256": "3e069a4875437013442aa0ada5de147b0fd289873194c7b3b4820924e824242f"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_listReceipts",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listReceipts",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_createReceipt",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createReceipt",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "confirmReceipt",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_listPayables",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listPayables",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_getPayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "getPayable",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_createPayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createPayable",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "PATCH",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_updatePayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "updatePayable",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/payable-records/{id}:close",
+      "operationId": "ContractFinanceController_closePayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "closePayable",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/payable-records/{id}:void",
+      "operationId": "ContractFinanceController_voidPayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "voidPayable",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_listInvoices",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listInvoices",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_getInvoice",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "getInvoice",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_createInvoice",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createInvoice",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "PATCH",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_updateInvoice",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "updateInvoice",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:markException",
+      "operationId": "ContractFinanceController_markInvoiceException",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "markInvoiceException",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:resolveException",
+      "operationId": "ContractFinanceController_resolveInvoiceException",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "resolveInvoiceException",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:close",
+      "operationId": "ContractFinanceController_closeInvoiceRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "closeInvoiceRecord",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_listPayments",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listPayments",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_createPayment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createPayment",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/payment-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmPayment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "confirmPayment",
+        "rawSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+      }
+    }
+  ]
+}

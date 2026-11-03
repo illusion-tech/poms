@@ -16,4 +16,5 @@ export interface UpdateContractBasicInfoRequest {
     signedAt?: string | null;
     retentionDueDate?: string | null;
     updatedBy?: string | null;
+    expectedVersion?: number;
 }

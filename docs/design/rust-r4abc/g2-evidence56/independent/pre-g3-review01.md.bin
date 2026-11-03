@@ -1,0 +1,24 @@
+# R4 首批独立 G3 前静态预审 01
+
+**Preliminary only，不是 G3 Pass。** 审查基线为已准入的 G1 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`；本轮只读 A/B/C 第一完整源码，未运行构建、测试、SQL、HTTP、PG、browser、WSL、private 或 GitHub，也未编写产品或执行器。
+
+A6＋B5＋C3，共14个Rust文件、193,966 B。三组交付索引 SHA 分别为 `f717e686…`、`15cce132…`、`0d06cae6…`；已核 A 导入 Root 的01副本及 B/C 稳定工作树的全部文件长度和哈希，均与索引相符。Root `contract_support` 正在开发，只作接口上下文读取，不当成统一受测候选。
+
+## 两项已确认、尚待02复核的 P1
+
+1. **A把通用摘要元数据当成新报价审批资格。** `contract_readiness/source.rs:98-114`（01 SHA `b50f0649…`）额外要求 summary active、同项目/合同/线索归属及 scenario/package/projection/export 全等。当前已交付的是 R2 通用摘要机制，R3真实放行事实并不等同不存在的 quotation approval handler；该新门槛可能使冻结的真实生产链阻断。Root 已确认：保留原R3要求的真实摘要引用及 lineage，去除A新发明的审批资格；可调用已交付 R2 内部机制实际生产摘要后执行真实R3 HTTP release，准确标成非HTTP摘要产物，不能seed/random或声称报价审批通过。
+2. **适用投标尚待结果，也能进入准备/激活。** `source.rs:57-73` 只排除 lost/cancelled 和不参与/待决策；pricing_path=bid 时只排除 not-applicable，没有排除 pending 结果。真实R3允许参与决策＋pending结果且 blocker_count=0，再 released 得到 ready=true；A01候选因此能继续 A05/A08/B activate。正式签约就绪要求适用竞标结果已形成。Root 已确认按真实 won 限制 bid 路径，direct-commercial/not-required 单列，并加 pending＋R3 ready=true 负例及 won/direct 正例。
+
+两项均为静态可达状态分析，没有伪称运行复现。Root 已派 A 纳入有界02；本文件仍绑定01，不把“已派修正”写成“已验证解决”。
+
+## B/C 稳定01代码结论
+
+本轮在所读范围内没有另外发现确定的 P1/P2。
+
+B 的关键结构与冻结输入相符：draft-only及同TX编号、optional CAS/实际dirty PATCH、exact preparation/core/hash与审批绑定、同outerTX先flush真实Approval/Todo再binding、拒绝后同准备重提、真实独立snapshot version1和prep/package/Contract原子变更、必要audit、仅metadata的准备/绑定读模型与敏感投影、只刷新exact ContractTerm身份。
+
+C 已核：19入口、exact金额和税层、Project→排序Contract→Payable→Payment锁序；合同省略/null继承及Active/同项目/应付绑定一致性；锁后刷新confirmed SUM及余额，真实settled返回和关联payable审计；typed UUID成本映射guard、同值PATCH零业务版本/审计、发票异常历史和allowedActions。代码使用调用方借入连接，未自行开启/提交事务；本批也未声称真实成本producer。
+
+这只是静态结构结论，不认证编译、真实SQL约束、并发、故障回滚或UI。Root尚未完成的公共接线不被列为作者缺陷；pure case和索引保留未执行标签。正式G3应另绑定最终统一源码和Root实际原件，再由本非作者审查。
+
+完整输入 pin、发现触发条件、冻结依据和证据边界见 `pre-g3-review01.json`。

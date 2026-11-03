@@ -1,0 +1,3 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+let core=fs.readFileSync('tools/rust-r4abc/fixture-core03.mjs','utf8');assert(core.includes("'GET','/api/auth/session'"));core=core.replace("'GET','/api/auth/session'","'GET','/api/auth/csrf-token'");fs.writeFileSync('tools/rust-r4abc/fixture-core04.mjs',core,{flag:'wx'});
+const source=fs.readFileSync('tools/rust-r4abc/happy-http05.mjs','utf8').replaceAll('fixture-core02.mjs','fixture-core04.mjs').replaceAll('05','08');fs.writeFileSync('tools/rust-r4abc/happy-http08.mjs',source,{flag:'wx'});console.log('Smoke08 follows the verified /auth/csrf-token endpoint, exact header and login200. Prior attempts retained.');

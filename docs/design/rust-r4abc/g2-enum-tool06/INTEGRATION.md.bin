@@ -1,0 +1,29 @@
+# R4 one-way enum export 工具候选 01
+
+仅候选作者 A；Root负责实际导入、Node/TS AST/runtime oracle/单测、生成、Rust编译与独立审查。没有改实际工具、Shared、OpenAPI、Rust generated、R0历史或其它业务文件。候选只有 `products/tools/rust-r1b/export-shared.mjs`、其现有单测及README。
+
+## 固定输入与保护
+
+Root已实际确认七份SOURCE_SCOPE输入在永久S3 `4f78bd486ca2118e4700bae560cb25ff08c4b47d` clean；本候选只把SOURCE_HEAD显式推进至该S3，不要求新source commit。G1依据 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`。A未执行Git/GitHub或复称自己完成了Root的状态核验。
+
+`assertSourceGuard`原工作树、暂存区、untracked三条命令保持字节相同（LF表示）；SOURCE_SCOPE / SOURCE_PATHS不增删。另明确拒绝 `guard:false`，sourceTexts只允许对实际来源等价的CRLF表示，不允许为生成物注入未审内存来源或忽略未知override键。历史R0文本以原normalized SHA `3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c`固定，不重写或重新录制。
+
+## 新增支持的精确边界
+
+- OTHER_FUNCTION_HASHES只新增Root提供的 `isR4ScaledDecimal` 函数getText/LF SHA `91181096c5c8cc938bd1e3cdc4a99bb987a2480ab551e3cf7f2510abb0c70d27`；不是enum helper。九enum helper hash原样保留，evaluator不把新函数当enum数据helper。
+- 工具内hash-only registry登记一个新const和四个enum occurrence，全部绑定固定S3与G1。const为`CONTRACT_TERM_PREPARATION_STATUSES`，新顶层enum owner/schemaId为`ContractTermPreparationStatusSchema/ContractTermPreparationStatus`，field路径为空。
+- 三个inline owner均为`ReadinessInitializationResultSchema`、schemaId均为`ReadinessInitializationResult`，field路径分别为`targetType`、`resultStatus`、`businessStatusAfter`。这些路径是按现analyzer的ancestor PropertyAssignment与meta遍历规则静态追踪，不用wire值相等猜身份。
+- 新增注册同时核owner完整declaration SHA、完整R0-compatible payload SHA、expression/value SHA及sourceArray/top-level/path。未知项、重复、缺项、改值/改表达式/改字段/重排均拒绝，不允许删旧项为新项腾位置。registry无wire值清单，不另立SSOT。
+- 当前validator会把普通.refine callback里的capacity函数、map、toLowerCase错判为schema helper。候选只支持S3五个精确schema declaration SHA（3个R4金额/ratio、CreateCommercialReleaseBaselineRequest、ReadinessInitializationResult），且callback内不能有z.enum。未知函数、改函数或改callback仍fail-closed。完整声明hash还冻结其它字段/上下文，未来变化需明确再审。
+
+## R0保留方式
+
+455常量和224 enum原数组不改。对current仅剥离精确登记的增量，再逐记录按历史次序比较所有既有字段，唯一移出payload的是`line`。名字、路径、kind、完整value、value hash、schemaId、top-level、expression、OpenAPI值及comparison均仍严格比较。历史数目固定，current恰好456/228；不是`>=`。
+
+`r0Witness`新增positions映射：每个历史index保留原line，记录实际current line/column；全部current declarations/occurrences仍保存真实来源位置。另报告固定G1/S3的已声明增量及实际声明/表达式/值/payload hash，不把旧R0重标成current。原R0 source文件、原Scope与runtimeOracle代码均不修改。
+
+## 计数与未运行边界
+
+候选按固定S3源码静态核得1316顶层const名、649 Schema名；与数据分类666/历史兼容常量456、228 enum occurrence、209 family/787 wire values相互约束。Root必须实际执行analyzer确认；A未运行Node、TS AST、oracle、单测或cargo，不声明这些数是执行通过结果。单测更新了旧硬编码计数，并新增历史删除/变值/重排、行号remap、未知/缺失/重复/篡改增量、helper/callback hash、guard不可关闭和未审override拒绝场景；未执行。
+
+Root导入前按manifest的base SHA核三文件。先运行实际工具，若Node/AST给出精确错误，应保持原stderr、修正候选并另记增量，不能重录R0、降低比较或改TS业务值。成功后再由Root显式生成三现有产物、检查实际current行号与历史witness remap、运行原独立TS+Zod oracle/受限语义/单测及Rust检查；独立reviewer认证后才可形成对应Gate结论。

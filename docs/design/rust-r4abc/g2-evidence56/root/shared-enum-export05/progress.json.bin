@@ -1,0 +1,31 @@
+{
+  "commands": [
+    {
+      "label": "write",
+      "args": [
+        "tools/rust-r1b/export-shared.mjs",
+        "--write"
+      ],
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "label": "check",
+      "args": [
+        "tools/rust-r1b/export-shared.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "label": "tests",
+      "args": [
+        "--test",
+        "tools/rust-r1b/export-shared.test.mjs"
+      ],
+      "exitCode": 0,
+      "error": null
+    }
+  ]
+}

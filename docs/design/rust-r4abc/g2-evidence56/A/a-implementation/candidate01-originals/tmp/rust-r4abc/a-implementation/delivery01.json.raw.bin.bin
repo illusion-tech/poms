@@ -1,0 +1,66 @@
+{
+  "kind": "R4A-first-complete-source-candidate",
+  "issue": 103,
+  "g1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "worktree": "E:/projects/worktrees/poms-r4a-readiness/poms",
+  "createdAt": "2026-11-03T06:37:56.8827531+00:00",
+  "scope": "9 existing operations plus load_preparation",
+  "sourceFiles": [
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+      "byteLength": 269,
+      "sha256": "0e7538858a60618f3af151e72fd06d63057ec25132279e636951b9bea232e394"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/service.rs",
+      "byteLength": 46461,
+      "sha256": "4beb9ffc40ae08cef4f1579fc7c64238ca9440f8fbc89b08e102b59e452be807"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "byteLength": 11084,
+      "sha256": "b50f0649cfa3ad0e2b497c9a13e6c6d5292eb5c60889e60a3ccbcf019abcb957"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/store.rs",
+      "byteLength": 6831,
+      "sha256": "015b70836db5f90f5f15af7870c652c037220d778515949a88cc3bacb76e9a7e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+      "byteLength": 10471,
+      "sha256": "30d4deeb6513615f7dc79d98ca95b60d436c5db70ae3cdc060214185cd31853b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/view.rs",
+      "byteLength": 7411,
+      "sha256": "ffd09e2cafeb55463356c9d87a14f46482320f020d25d26f64d45bcfdc88b0ad"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tmp/rust-r4abc/a-implementation/acceptance-cases01.json",
+      "byteLength": 10394,
+      "sha256": "9991ed8e7632a4b90ef0e16d3fcdbf82f09aba529253a042ed99fe5a5405a82e"
+    },
+    {
+      "path": "tmp/rust-r4abc/a-implementation/delivery01.md",
+      "byteLength": 3608,
+      "sha256": "62e9817361fb8bed5524d3d5f220e3c4db5cd83b284dc2e00dbbffeb4b0aee9a"
+    }
+  ],
+  "caseJsonParsedOnly": true,
+  "caseGroups": 13,
+  "runtimeExecuted": [],
+  "sourceStatus": "complete candidate, uncompiled and untested",
+  "sharedDependencies": [
+    "Root contract_support helpers including new_uuid/expected_version",
+    "Root lib/HTTP registration",
+    "Root schema/DTO/client/UI/migration and R3 baseline bridge"
+  ],
+  "notClaimed": [
+    "compile/fmt/clippy/test pass",
+    "HTTP/PG/UI pass",
+    "G3/G4"
+  ]
+}

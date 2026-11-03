@@ -1,0 +1,58 @@
+{
+  "schema": "poms-r4c-candidate02-compile-correction/v1",
+  "author": "C implementation author",
+  "fixedG1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "supersedes": "candidate01 store source only; original evidence preserved",
+  "actualRootCompilerLog": {
+    "result": "failed with SqlSafeStr E0277; C source correction prepared, not yet recompiled by author",
+    "sha256": "d462ac95e10fde25fc75b7acfef4a84fdd61c130aab1104b50a82638528bbc78",
+    "path": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/root/domain-compile01/stderr-original.bin"
+  },
+  "changedProducts": [
+    {
+      "change": "eight read queries to QueryBuilder<Postgres>, static push fragments and push_bind; imports only otherwise",
+      "newSha256": "0e8bf0cb380082cbefdbc446bfcb54977554425ae263103d574081f1847eaece",
+      "baseRawBytes": 14943,
+      "baseSha256": "d908ee79c08e608553860f99e8c1014310dac47f895674be8e156760053bcf16",
+      "path": "apps/poms-api-rust/src/contract_finance/store.rs",
+      "candidate": "products/apps/poms-api-rust/src/contract_finance/store.rs",
+      "newRawBytes": 15543
+    }
+  ],
+  "currentSourceFiles": [
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/mod.rs",
+      "rawBytes": 33534,
+      "sha256": "13298e12b81e63658dff86f49a4d7de3b0b5724fd3d9e9e3f38555fc710d6f19"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/model.rs",
+      "rawBytes": 6902,
+      "sha256": "615a63cb0b4e680843f80798fac256427b5004a661ada4862ecb45c9d3f7def9"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/store.rs",
+      "rawBytes": 15543,
+      "sha256": "0e8bf0cb380082cbefdbc446bfcb54977554425ae263103d574081f1847eaece"
+    }
+  ],
+  "pureCases": {
+    "executed": false,
+    "sha256": "aa1fa074fad912d6e6dac82fd2cf3439cc53863b10f2d84fe77ef7877efa748a",
+    "path": "../acceptance-cases01.mjs",
+    "changed": false
+  },
+  "originalPreservation": "../candidate01-original-preservation.json",
+  "staticScope": {
+    "prefixUnchangedExceptImports": true,
+    "sharedCandidateChanged": false,
+    "businessLockDtoChanges": false,
+    "suffixFromSettledAmountUnchanged": true,
+    "readQueryBuilderCount": 8
+  },
+  "verification": {
+    "compileTests": "not-run by C; Root-owned",
+    "status": "source candidate02 ready for Root recompile",
+    "httpPgEnvironmentGit": "not-run"
+  }
+}

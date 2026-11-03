@@ -1,0 +1,518 @@
+{
+  "schema": "poms-r4abc-independent-g3/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "role": "Non-author independent Gate reviewer throughout",
+  "reviewedAtUtc": "2026-11-03T16:29:58.4779706Z",
+  "gate": "G3",
+  "decision": "Pass",
+  "G3Certified": true,
+  "certificationScope": "The exact R4 first37 candidate bound below is eligible for a fixed implementation commit on codex/poms-r4abc-first37 only. This is not fixed-commit, main, delivery, Issue closure or G4 certification.",
+  "G4Certified": false,
+  "candidateAnchors": [
+    {
+      "file": "docs/design/rust-r4abc/final-source53.json",
+      "bytes": 337773,
+      "sha256": "5ee6a7f3ab7893e5e840e879ecb18f993f8c6910ccd7ac5066ea511acae81db1"
+    },
+    {
+      "file": "docs/design/rust-r4abc/final-validation57.json",
+      "bytes": 11013,
+      "sha256": "7336469c939c046a966b62353d0d87807b609dbcf3101b11e7d2212ba290eaeb"
+    },
+    {
+      "file": "docs/design/rust-r4abc/validation-supplement59.json",
+      "bytes": 29222,
+      "sha256": "0bc46818a401c666e5468da2421894ea4e84137abd4033d6bb76a77844922d86"
+    }
+  ],
+  "humanCheckpoint": {
+    "file": "docs/design/rust-r4abc/validation-checkpoint57.md",
+    "bytes": 5508,
+    "sha256": "81216d3bed36b001794de8181f9e941552e3e759484a5aa884b00e014cd3043a"
+  },
+  "preservedEvidenceMap": {
+    "file": "docs/design/rust-r4abc/g2-evidence56/origin-map56.json",
+    "bytes": 217382,
+    "sha256": "d7aaa157807969ec3133c3e2f42fb1eac2e88a3df8f7661623c535ca429d0242"
+  },
+  "identity": {
+    "checkout": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+    "branch": "codex/poms-r4abc-first37",
+    "reviewedHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "originalProductBase": "1730f304c1cf5600721f80b6c06feec24269d387",
+    "actualG1Commit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "permanentS3": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "G1AndS3AncestryReadback": true,
+    "fixedImplementationCommitExistsAtReview": false
+  },
+  "authorizedNextAction": {
+    "commitThisExactCandidateOnReviewedBranch": true,
+    "archiveThisIndependentReviewAsByteIdenticalEvidence": true,
+    "fixedCommitBlobReadbackRequired": true,
+    "integrateOrFastForwardMain": false,
+    "publishDeliveryOrCloseIssues": false,
+    "G4Permission": false,
+    "changedProductionOrValidationInputRule": "A change to any bound product or substantive execution/validation input requires affected review and evidence re-binding before its result can use this G3 decision."
+  },
+  "independence": {
+    "sourceAuthor": false,
+    "productEdits": false,
+    "executorEdits": false,
+    "outputWritesOnly": "tmp/rust-r4abc/independent/",
+    "actualRuntimeExecutor": "Root; not this reviewer",
+    "reviewerActions": "Read-only current source/Git identity/index, public original receipts/logs/screenshots, archive-to-origin bytes, JSON/digest comparisons and pure read-only hash/closure analysis.",
+    "noReviewerBuildTestGeneratorDbHttpBrowserWslOrGitWrite": true,
+    "privateContentsRead": false,
+    "noGitHubWrites": true
+  },
+  "scope": {
+    "operations": {
+      "AReadiness": 9,
+      "BContracts": 9,
+      "CFinance": 19,
+      "total": 37
+    },
+    "necessaryAdapters": [
+      "real upstream producer/session/approval integration",
+      "HTTP/validation/R2 approval/R3 baseline bridge",
+      "Shared/DTO/generated client/ORM/migration",
+      "existing contract/readiness/approval/todo UI"
+    ],
+    "businessAuthority": "Frozen G1 rules and user business correctness decisions, not parity with Native bugs.",
+    "excluded": [
+      "whole R4",
+      "actual-cost40 producer delivery",
+      "new A01/A05/A04 authoring UI",
+      "finance19 UI",
+      "new lifecycle Native conformance",
+      "deployment/cutover",
+      "performance claims"
+    ],
+    "issueClosureEligibleOnlyAfterSeparateG4": [
+      103,
+      104,
+      105,
+      102
+    ],
+    "issuesThatRemainOpen": [
+      101,
+      57
+    ]
+  },
+  "sourceAndIndexBinding": {
+    "finalRehashAtUtc": "2026-11-03T16:29:58.4779706Z",
+    "products": 949,
+    "uniqueProducts": 949,
+    "currentRawProductFailures": [],
+    "recursiveCompilationInputs": 326,
+    "independentRecursiveIncludeAndCargoPathClosureCount": 326,
+    "recursivelyScannedRustSources": 251,
+    "recursiveClosureDifference": [],
+    "actualRootLinuxBuildInputRecords": 936,
+    "RootLinuxRawByteDifferences": 0,
+    "all936CurrentRootHashesAlsoMatchFinalProductPins": true,
+    "normalizationCaveat": "No CRLF-only excuse is needed for the 936 actual build-input comparisons: raw bytes are equal.",
+    "completeGeneratedClientFiles": 586,
+    "currentClientInventoryDifference": [],
+    "listedCurrentExecutionSources": 127,
+    "currentListedExecutionSourceFailures": [],
+    "additionalNativeReferenceAdapter": {
+      "file": "tools/rust-r4abc/native-preload31.cjs",
+      "bytes": 1450,
+      "sha256": "3ed7f6b363bb24eed08ab847d1a70c14b4c0a1c0379062f85b40bba4b4254ed8",
+      "purpose": "Original Native listener loopback restriction and nonce-authenticated app.close acknowledgement only; NestFactory original construction, original API and business state remain in use.",
+      "independentlySourceRead": true,
+      "note": "The 127-source manifest glob omits .cjs. This single directly related Native reference/control adapter is explicitly bound here rather than pretending that list is exhaustive."
+    },
+    "previousReviewedSourcePins": 93,
+    "previousReviewedSourceHashChanges": [],
+    "indexedReviewedPaths": 1682,
+    "indexedRawBlobOidDifferences": [],
+    "stagedPathCountAtReadback": 969,
+    "additionalStagedPathReview": "156 paths outside the three manifests' direct pin sets were enumerated: 155 are existing R4 G1/G2 provenance/original-candidate documents and one is the explicitly bound native-preload31.cjs. No additional production path was found.",
+    "indexedReviewedScope": "949 products, 127 listed execution sources, 592 archived originals, 12 supplement originals and the five candidate/checkpoint/map anchors. Git index blob IDs were independently compared to raw worktree blob bytes for this union."
+  },
+  "findings": {
+    "open": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    },
+    "blockers": [],
+    "resolved": [
+      {
+        "id": "A-summary-qualification-P1",
+        "resolution": "Removed invented generic-summary active/target/scenario qualification; real summary identity retained only as lineage. Real current pricing/cost/bid/baseline prerequisites remain."
+      },
+      {
+        "id": "A-bid-result-P1",
+        "resolution": "Applicable bid mode requires actual participate/won facts; direct-commercial substitution remains explicit."
+      },
+      {
+        "id": "SRC-05-UI-01",
+        "priority": "P2",
+        "resolution": "C05 live route identity, immutable A->B->A scope/read/ACK/todo fences, dialog reset and current-route action ownership verified; source and real UI regression evidence bind the unchanged current bytes."
+      }
+    ],
+    "implementationSourceReview": "preliminary05/06 actual affected-source conclusions retained; the previously open route P2 is closed. No unresolved source P0/P1/P2 or new real schema drift remains in this candidate.",
+    "earlierLimitedCheckpoints": "G1, generator input03, enum-tool04, source05/06 and UI07 keep their original scope. They were not individually relabeled as final G3."
+  },
+  "businessReview": {
+    "sourceAndProducerOrder": "Real cost/bid -> B draft -> A01 per-contract reference baseline -> real R3 release -> A05 exact same-contract diff/package -> A04 exact review/attachments -> A08 preparation -> submit/binding -> R2 approve -> atomic active snapshot -> A09 formal plan.",
+    "contractLifecycle": "Preparation identity/version/hash is distinct from snapshot identity/effective version. Approval freezes exact preparation; activation creates a new distinct effective snapshot. A09 consumes the active frozen historical source and real plan/version/node/init identities.",
+    "independenceAndMoney": "Contract amounts/terms/nodes are independent; project quote is neither allocated nor a hard aggregate budget. Exact decimal cents and numeric(18,2) capacity checks avoid f64 rounding; positive amounts and nonnegative tax obey the frozen rules.",
+    "finance": "Selected/inherited payment contract must be Active in the same project; payable binding must agree. Valid project-level no-contract payment remains. Required mapping boundaries apply to the frozen Payable/Invoice mutations, without inventing a Payment confirmation gate.",
+    "transactionAndConcurrency": "Project-first/scoped contract locking, CAS/exact binding, required business/version/snapshot/audit/managed-session writes share the outer transaction. Reads/idempotent repeats/same-value updates retain their frozen no-op behavior.",
+    "projectionsAndUI": "Sensitive projections remain server-derived. UI distinguishes preparation, active snapshot and formal plan and retains successful POST acknowledgement through failed readback; stale routed reads cannot retarget current actions."
+  },
+  "actualValidation": {
+    "finalRustBinary": {
+      "bytes": 314748248,
+      "sha256": "e20a9cc40970f2601ee54636f312b32e04e10c81fb5f7674fa0c565a098b7afd",
+      "evidence": "rust-validation18, actual start-final18, source-equivalence55 and final-openapi57 agree; independent reviewer reads back Root's actual records, not a fresh runtime execution."
+    },
+    "rust": {
+      "fmtFinalExit": 0,
+      "clippyAllTargetsLockedOfflineWarningsDeniedExit": 0,
+      "testsExit": 0,
+      "buildExit": 0,
+      "passed": 310,
+      "failed": 0,
+      "ignored": 54,
+      "rawTestResultSummariesIndependentlySummed": 32,
+      "ignoredBoundary": "54 historical ignored tests remain ignored, not counted as actual acceptance. Original1730 and current source both contain54 ignore attributes."
+    },
+    "Native": {
+      "suites": 74,
+      "tests": 863,
+      "passed": true,
+      "evidence": "actual api-test26 with required VM flags; earlier23 failing api-test remains failed",
+      "newLifecycleConformance": false
+    },
+    "admin": {
+      "suites": 59,
+      "tests": 411,
+      "passed": true,
+      "evidence": "actual complete original Jest admin-final51 raw stderr read back; source unchanged from corrected C05 build36/route37"
+    },
+    "buildAndLint": "Actual admin build36, Native build23 and all three affected projects with lint targets pass. shared-contracts/shared-api-client have no lint target; no invented successful target.",
+    "commonChecks": {
+      "diffCheckExit": 0,
+      "markdownFormatCheckExit": 0,
+      "oneWayEnumCheckExit": 0,
+      "guardedClientCheckExit": 0,
+      "evidence": "common-checks58 originals and supplementary copies match byte-for-byte"
+    },
+    "clientAndShared": {
+      "protectedSourceInputs": 6,
+      "permanentSourceHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+      "generator": "7.20.0 direct pinned JAR; wrapper/config/metadata guards retained",
+      "fullSpec": {
+        "paths": 237,
+        "operations": 291,
+        "schemas": 595
+      },
+      "completeClientFiles": 586,
+      "currentCheckDifferences": 0,
+      "clientWrittenByCheck": false,
+      "metadataPreserved": true,
+      "sharedZodBoundaryTests": 43,
+      "enumToolTests": 14,
+      "enumHistoricalWirePayload": "455 constant and224 enum historical payloads/order were independently compared in review04; only the approved1 constant+4 enum occurrence increment remains."
+    },
+    "finalBinaryOpenapi": {
+      "paths": 167,
+      "operations": 210,
+      "schemas": 595,
+      "originalOperations": 173,
+      "newOperations": 37,
+      "newOperationIdentityDifferences": [],
+      "actualExit": 0
+    },
+    "multicontract": {
+      "actualRequests": 76,
+      "fullGraphNoopGroups": 14,
+      "finalBinary": true,
+      "independentMaximumContractSnapshotAndPlan": true,
+      "projectQuoteBudget": false
+    },
+    "mandatoryWriteFaults": {
+      "total": 59,
+      "domainFault26": 55,
+      "R2ApprovalRace28": 4,
+      "everyTriggerActuallyHitOnce": true,
+      "everyRollbackComparedTables": 113,
+      "allRollbackDifferences": [],
+      "everyTriggerRemovedRetryActuallyCommitted": true,
+      "finalBinary": true
+    },
+    "concurrency": {
+      "actualProjectRowLockBarriers": 6,
+      "foreignContractLockNegative": 1,
+      "finalBinary": true,
+      "note": "The foreign-project negative is not mislabeled as a seventh lock barrier."
+    },
+    "mapping35": {
+      "completed": true,
+      "actualRequests": 15,
+      "typedUppercaseUuidMappingBoundary": true,
+      "blockedPayableAndInvoiceRequests": 422,
+      "afterMappingVoidedMutationsActuallySucceed": true,
+      "ownedActualCostRows": "Two explicit fixtures only, removed after exact readback; no actual-cost producer delivery claim.",
+      "paymentConfirmationNewMappingGate": false
+    },
+    "originalUI": {
+      "independentReview": "tmp/rust-r4abc/independent/ui-evidence-preliminary07.json",
+      "immutableBuild": {
+        "members": 423,
+        "manifestSha256": "6fbb1318ba16915617e371ed98ec2cc50c3a48c27f7499f83935be9c72ae6dfd"
+      },
+      "Linux": {
+        "run41": "Partial preserved; actual prepare, exact submit, real SELECT readback failure and read-only recovery accepted only for their completed stages",
+        "run42": "Partial preserved; failed locator assertion not promoted",
+        "run43": "Completed continuation of same original prepare/submit/binding, no repeated A08/submit; same connected component, delayed A end, B actually approved while A still pending, then A approve/activate/A09/MAX/mask",
+        "browserNetworkItems": 123,
+        "proxyExchanges": 126
+      },
+      "Windows": {
+        "browser": "win32",
+        "backend": "linux",
+        "run41": "One complete original UI main chain",
+        "browserNetworkItems": 133,
+        "proxyExchanges": 140
+      },
+      "privateAppStateInjected": false,
+      "HTTPBodiesMocked": false,
+      "NativeOriginal1730UI": "Linux and Windows login/list/detail are historical reference only."
+    },
+    "capacity13": {
+      "originalCompleted": true,
+      "originalFinalAcceptance": false,
+      "role": "Retained actual prefinal supplementary five-column capacity/project-payment evidence; not relabeled as a final18 run. Final business22/UI separately exercise the maximum contract/snapshot/plan and exact string rendering."
+    }
+  },
+  "boundedReuseDecision": {
+    "decision": "Accept limited equivalence reuse only for the existing163 authorization/CSRF/DTO/masking assertions",
+    "artifact": {
+      "file": "tmp/rust-r4abc/root/boundary-reuse54/receipt54.json",
+      "bytes": 2883,
+      "sha256": "5a8c68b97eb97b6e1932509d5adb226d4133120e5a65b26fba0064dfa19d8bc1"
+    },
+    "original": {
+      "file": "tmp/rust-r4abc/root/negative-surface09/receipt09.json",
+      "bytes": 377267,
+      "sha256": "510010e87235cbdcba113e07ca40e1df1d5959693d6962b60a700c2d0b3dcce7"
+    },
+    "originalFinalAcceptance": false,
+    "originalRemainsPrefinal": true,
+    "originalFileUnmodified": true,
+    "independentlyRecomputedCaseCount": 163,
+    "explicitExpectedStatusAssertions": 163,
+    "statusMismatchCount": 0,
+    "exactChain": {
+      "smoke05ToFmt14BeforeOnly": [
+        "apps/poms-api-rust/src/shared/generated.rs",
+        "apps/poms-api-rust/tests/shared_generated.rs"
+      ],
+      "historicalWirePayloadsPreserved": true,
+      "fmt14AfterToFmt15BeforeOnly": [
+        "apps/poms-api-rust/src/contract_finance/mod.rs",
+        "apps/poms-api-rust/src/contract_readiness/service.rs",
+        "apps/poms-api-rust/src/contract_support/validation.rs"
+      ],
+      "independentlyReviewedClippySemantics": [
+        "Invoice reason late initialization becomes an equivalent match expression",
+        "Private audit function lint attribute only",
+        "Enum nested if becomes the equivalent let-chain"
+      ],
+      "fmt15AfterToFmt18BeforeOnly": [
+        "apps/poms-api-rust/tests/http.rs"
+      ],
+      "currentCrateFilesIdenticalToFinal18": 248,
+      "currentCrateDifferences": [],
+      "immutableResourcePins": [
+        "libs/shared/api-spec/openapi.json",
+        "tools/rust-r4abc/operation-map01.json",
+        "tools/rust-r4abc/component-overrides01.json",
+        "tools/rust-r4abc/validation-input01.json"
+      ],
+      "CargoLockAndToolchainDiffAgainst1730": "No diff",
+      "fmtInitialFailuresRetained": true
+    },
+    "sideEffectBoundary": "The original denial groups record expected security_event additions; they are not claimed as all-table zero-write no-ops. Actual business graph/transaction rollback acceptance comes from final26/28 and the separate final business runs.",
+    "metadataClarification": "receipt54 originalFinalAcceptanceFieldUnchanged:false is a mislabeled copy of the original finalAcceptance=false value. final-validation57 explicitly corrects the interpretation; original09/54 bytes remain unchanged.",
+    "notGranted": "No conversion of all negative09 into a final-binary run, no proof of new lifecycle/fault/race/UI derived from this reuse, and no generic future source-equivalence waiver."
+  },
+  "finiteDriftAcceptance": {
+    "openNewRealDrift": [],
+    "acceptedDbSpecificDifference": {
+      "count": 16,
+      "names": [
+        "fk_r4_diff_baseline_project",
+        "fk_r4_diff_contract_project",
+        "fk_r4_readiness_contract_project",
+        "fk_r4_readiness_current_preparation",
+        "fk_r4_readiness_diff_scope",
+        "fk_r4_preparation_activated_snapshot",
+        "fk_r4_preparation_contract_project",
+        "fk_r4_preparation_diff_scope",
+        "fk_r4_preparation_readiness_scope",
+        "fk_r4_snapshot_preparation_contract",
+        "fk_r4_review_preparation_contract",
+        "fk_r4_plan_contract_project",
+        "fk_r4_plan_preparation_source",
+        "fk_r4_plan_snapshot_scope",
+        "fk_r4_plan_init_contract",
+        "fk_r4_plan_init_snapshot"
+      ],
+      "meaning": "MikroORM metadata cannot express these exact stronger composite referenced-unique tuples. Actual SQL constraints remain validated and retained.",
+      "allDeleteRestrict": true,
+      "proposedDropExecuted": false
+    },
+    "toolNoise": {
+      "equivalentInclusiveNumericRatioChecks": 3,
+      "appRoleHiddenCheckMetadata": 192,
+      "ownerCatalogAlreadyValidated": true,
+      "isolatedControlMarkerSchema": true
+    },
+    "originalOwnerAndAppMigrationCheckExit": 1,
+    "rawMigrationCheckRelabeledPass": false,
+    "downBoundary": "Nonempty lifecycle DOWN actually rejected; empty DOWN actually ran inside an outer transaction and rolled back, restoring all data and columns. This is not described as no DDL ever executed.",
+    "futureDriftWaiver": false
+  },
+  "terminal": {
+    "ownership": {
+      "rustOwnedRows": 964,
+      "NativeOwnedRows": 40,
+      "unknownOwnedRows": 0,
+      "missingSeedRows": 0,
+      "deletedTotal": 1004,
+      "restoredBorrowedRows": {
+        "rust": 2,
+        "Native": 1,
+        "total": 3
+      },
+      "constraintsDisabled": false,
+      "seedRowsDeleted": false,
+      "applyOuterCommitAcknowledged": true
+    },
+    "independentPublicDigestComparison": {
+      "databases": 2,
+      "tablesEach": 113,
+      "originalSeedRowsEach": 529,
+      "applyAfterAndBothNoopBeforeAfterCompared": true,
+      "tableCountOrRawTextDigestMismatches": [],
+      "twoIndependentNoopReadbacks": "cleanup-verify48 andcleanup-verify50",
+      "noDMLOnBothNoopRuns": true
+    },
+    "catalogAndAcl": "Root actual cleanup runner re-read full columns/constraints/indexes/ACL and compared to original catalog before/after; accepted public receipts report exact equality. Independent reviewer inspected the comparison implementation and raw public records, not private full rows.",
+    "objects": {
+      "originalCount": 2,
+      "originalBytes": 86,
+      "preservedRawHashesMatch": true,
+      "runtimeRemaining": 0,
+      "privateOriginalsRetained": true,
+      "reviewerDidNotReadPrivateObjectContents": true
+    },
+    "processes": {
+      "RustFinal18": "Exact owned pid81457 SIGTERM and port release",
+      "NativeLinux": "Exact owned pid87775; real app.close acknowledged and port released",
+      "NativeWindows": "Exact owned pid13084; real app.close acknowledged and port released",
+      "ownedBrowsersRemaining": 0,
+      "allTaskLoopbackPortsReleased": true,
+      "PGStopped": true,
+      "PGVolumeRetained": "poms-r4abc-pg15-data",
+      "privateStateRetained": true,
+      "broadProcessKill": false,
+      "oldEnvironmentsUntouched": true
+    }
+  },
+  "preservation": {
+    "archivedOriginalFiles": 592,
+    "totalBytes": 37256209,
+    "archivedAndLogicalOriginalHashesIndependentlyEqualBeforeAuthorWorktreeArchival": true,
+    "currentSupplementOriginals": 12,
+    "allSupplementOriginalAndStoredHashesEqual": true,
+    "actualSecretNeedlesCheckedByRoot": 295,
+    "RootReportedHits": 0,
+    "independentPrivateSecretScan": false,
+    "privateRootsExcludedFromPublicCopies": true,
+    "failedPartialIgnoredOriginalLabelsPreserved": true,
+    "privateProducerBufferEnvelopes": {
+      "count": 12,
+      "RootExactRoundTripRecords": true,
+      "originalEnvelopesRetained": true,
+      "decodedContentsPublished": false,
+      "reviewerPrivateContentsRead": false
+    },
+    "authorWorktrees": "Root subsequently reports the three new managed author worktrees officially archived after original-byte preservation; this does not change any bound Root product input.",
+    "preservedExamples": [
+      "G1/generation limited checkpoints",
+      "Shared boundary initial failure",
+      "Rust initial fmt/clippy failures",
+      "earlier Native test flags failure",
+      "fault24/25 non-hit harness failures",
+      "mapping34 incorrect harness expectation",
+      "admin36 setup failures",
+      "Linux UI41/42 partials",
+      "all54 historical ignored tests"
+    ]
+  },
+  "evidenceReadback": {
+    "finalIndexedActualReceiptCount": 29,
+    "finalIndexedReceiptPinFailures": [],
+    "priorIndependentAndSupplementPins": [
+      {
+        "file": "tmp/rust-r4abc/independent/implementation-source-preliminary05.json",
+        "bytes": 43900,
+        "sha256": "88e3883d4b5ecef6ec6368e439be51bfe17986855f2e6902d3e4c55bf7407e78"
+      },
+      {
+        "file": "tmp/rust-r4abc/independent/implementation-source-preliminary06.json",
+        "bytes": 33239,
+        "sha256": "0d767365d9eca9cbe0c8f01d5575033d2cdb6d57e7336a365eccacacbcc2b500"
+      },
+      {
+        "file": "tmp/rust-r4abc/independent/ui-evidence-preliminary07.json",
+        "bytes": 19663,
+        "sha256": "1940ef943fbda7c3df64850c4223054f245f9b4455cc851a797cb92fdec275ce"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/boundary-reuse54/receipt54.json",
+        "bytes": 2883,
+        "sha256": "5a8c68b97eb97b6e1932509d5adb226d4133120e5a65b26fba0064dfa19d8bc1"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/negative-surface09/receipt09.json",
+        "bytes": 377267,
+        "sha256": "510010e87235cbdcba113e07ca40e1df1d5959693d6962b60a700c2d0b3dcce7"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/source-equivalence55/receipt55.json",
+        "bytes": 324430,
+        "sha256": "1227570bbf93cfeb0ca75d77218d4e5ced88181d034028c219c5c355519eeb82"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/common-checks58/receipt58.json",
+        "bytes": 2170,
+        "sha256": "f726b1e18301402d776d2ea9a5c9127c2bea104a4a26dda359c9d56b1de8d418"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/admin-final51/receipt51.json",
+        "bytes": 864,
+        "sha256": "bb2437568f647de1c2c3f19ce9e83c77b2adc9a447ce67190eb1d4076819f0b3"
+      }
+    ],
+    "completeThreeAnchorCurrentPinFailures": [],
+    "allPreviousReviewedSourceBytesStillExact": true
+  },
+  "finalConclusion": {
+    "openP0": 0,
+    "openP1": 0,
+    "openP2": 0,
+    "newRealDriftBlockers": 0,
+    "commitCandidateAllowed": true,
+    "noUnfinishedRequiredWorkWithinThisG3Review": true,
+    "nextReview": "After Root creates the fixed implementation commit, independently compare its exact blobs/evidence to this candidate. Main integration and final G4/Issue closure remain separate and are not approved here."
+  }
+}

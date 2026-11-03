@@ -1,0 +1,77 @@
+{
+  "author": "A /root/r4a_readiness",
+  "sourceHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+  "products": [
+    {
+      "path": "tools/rust-r1b/export-shared.mjs",
+      "candidatePath": "products/tools/rust-r1b/export-shared.mjs",
+      "baseSha256": "20b8736dc220c54c7e7c3046ba0817e30fc47b4b5a35c0c5575dbc4cb9bd4d24",
+      "baseByteLength": 49443,
+      "newSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6",
+      "newByteLength": 63064
+    },
+    {
+      "path": "tools/rust-r1b/export-shared.test.mjs",
+      "candidatePath": "products/tools/rust-r1b/export-shared.test.mjs",
+      "baseSha256": "cb2793fc555f20fd0035773eb5be530a696d0922e52c47ccebcfd855e6f5173c",
+      "baseByteLength": 15257,
+      "newSha256": "5525c86dcba920564d38d5751d92e3bedf724fb88e6158205e7633123cbe99f5",
+      "newByteLength": 23869
+    },
+    {
+      "path": "tools/rust-r1b/README.md",
+      "candidatePath": "products/tools/rust-r1b/README.md",
+      "baseSha256": "61b2057139827ded4e9056e2ec4ec74fb36b79d8db6e76534407c9ff66b0e29d",
+      "baseByteLength": 4008,
+      "newSha256": "fa0d1f76e264ad8f84d3ca2494f16675e10e11aea695ecd9b925f0e3a04a136c",
+      "newByteLength": 5966
+    }
+  ],
+  "commands": [
+    {
+      "label": "write",
+      "args": [
+        "tools/rust-r1b/export-shared.mjs",
+        "--write"
+      ],
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "label": "check",
+      "args": [
+        "tools/rust-r1b/export-shared.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "label": "tests",
+      "args": [
+        "--test",
+        "tools/rust-r1b/export-shared.test.mjs"
+      ],
+      "exitCode": 0,
+      "error": null
+    }
+  ],
+  "outputs": [
+    {
+      "file": "tools/rust-r1b/shared-manifest.json",
+      "sha256": "4670737ecb406beb4f887425c8e0991f84843cbbadb99a6db7d34d2feb1b0d34",
+      "bytes": 1484261
+    },
+    {
+      "file": "apps/poms-api-rust/src/shared/generated.rs",
+      "sha256": "1638c282c664df348f1b0633e9a1fd0728dd1aa51d072f0132a4441626d6c62b",
+      "bytes": 321222
+    },
+    {
+      "file": "apps/poms-api-rust/tests/shared_generated.rs",
+      "sha256": "9bb357a192693edaa5bad2dce3d718ff41f1a6d4e3f62c766a5978646f1db0db",
+      "bytes": 27745
+    }
+  ],
+  "runtimeAccepted": false
+}

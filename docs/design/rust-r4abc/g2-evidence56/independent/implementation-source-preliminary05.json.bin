@@ -1,0 +1,924 @@
+{
+  "schema": "poms-r4abc-independent-implementation-source-preliminary/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "reviewedAtUtc": "2026-11-03T13:05:21Z",
+  "scope": "Current Root implementation source and finite existing evidence; not final G3",
+  "decision": "Preliminary Needs-correction: one UI target-identity P2",
+  "backendImplementationSourcePreliminary": "Pass within inspected frozenG1 boundaries",
+  "implementationG3Decision": null,
+  "G3Certified": false,
+  "G4Certified": false,
+  "independence": {
+    "productAuthor": false,
+    "executorAuthor": false,
+    "productMutations": [],
+    "gitWrites": [],
+    "dbHttpBrowserWslPrivateActions": [],
+    "writes": "Only new review outputs under tmp/rust-r4abc/independent"
+  },
+  "identity": {
+    "branch": "codex/poms-r4abc-first37",
+    "S3": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "observedHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+    "G1": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "operations": {
+      "A": 9,
+      "B": 9,
+      "C": 19,
+      "total": 37
+    }
+  },
+  "sourceBinding": {
+    "startedAtUtc": "2026-11-03T12:11:38Z",
+    "initialPins": [
+      {
+        "file": "apps/poms-admin/src/app/core/auth/auth.store.spec.ts",
+        "bytes": 18908,
+        "sha256": "9c8eaf148f4d7c53357f2a007f6e7379d02e793367b7d9498686a2c2f0a6bfbb"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-detail.spec.ts",
+        "bytes": 14790,
+        "sha256": "7cec801235f721e68f2ed777b9e392e0a306ffa934f6bd73ab6d9a4814272c4b"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+        "bytes": 48480,
+        "sha256": "97be99281c1da46a2215dc4e7808ef6d101dd0d4b71966ecc014b5830061ce96"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-flow.spec.ts",
+        "bytes": 4033,
+        "sha256": "19ae0448346338d1d5e0959afb84db574e59095e92cef0f2842b99a83eaac9c0"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-flow.ts",
+        "bytes": 2097,
+        "sha256": "2d4c6bd865ae9dd13cbe64889358c5849860a094cd3298005ed3e9d3be65f482"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract-list.ts",
+        "bytes": 21653,
+        "sha256": "e727a07558c7cd06c6127d0a74b9a243aa53ab83a5441c7adba50afa37ba38b7"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/contract/contract.store.spec.ts",
+        "bytes": 8542,
+        "sha256": "534e3fa4c8ea05f7156da430e259a84c2402a980513fdcf97e215c385a48daed"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-pre-signing-overview.spec.ts",
+        "bytes": 9097,
+        "sha256": "e0a7fd9e521dbab8d5f93c0fa263ea7d3faa3a98b9ba387e61b65964cf40d77b"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts",
+        "bytes": 30227,
+        "sha256": "4b50602089ed63dfd32d46e9112890f7393bf1bdc4e219edffc75c32d8638a56"
+      },
+      {
+        "file": "apps/poms-admin/src/app/features/project/project-workspace.store.spec.ts",
+        "bytes": 81759,
+        "sha256": "79f10ed152a29c1036e5ea58fc87e250da289405c77befc5303c0ca290b5ae19"
+      },
+      {
+        "file": "apps/poms-api-rust/examples/r4_summary_producer.rs",
+        "bytes": 15624,
+        "sha256": "a9a849ce51dff261438e4615afc6255604561956858284227e5cf0ea7c0c81c1"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/error.rs",
+        "bytes": 3326,
+        "sha256": "46af6e7e4d762e7acf8ecafa56d0f94907162a510cae4b3caa129a0bdfb77786"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/receipt.rs",
+        "bytes": 3713,
+        "sha256": "b707f25ecbaceceb90989c3dae6cfa8dd57e2fb9c1b56005aa3eccbeba58d757"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/service.rs",
+        "bytes": 45702,
+        "sha256": "0bd9da6467a496896525d697f2fee280a5de4749fcd8a3e46ef6a6db0ed4c38b"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/session.rs",
+        "bytes": 5265,
+        "sha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval_common/store.rs",
+        "bytes": 35844,
+        "sha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval/domain.rs",
+        "bytes": 30419,
+        "sha256": "8dc7f4127c1d4a9178dbd5677da8e92cf85074aca214677ab015ecf8f40dd96c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/approval/http.rs",
+        "bytes": 12361,
+        "sha256": "8c1cdfa2ed7a50c7bf305d006eadbd6ee284350a64aca55347e28e79dc212709"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_finance/mod.rs",
+        "bytes": 38429,
+        "sha256": "45b80986957d0f2ab6b5554ae99a9ea1f59e8767121871a2900c9e3cc86f09a1"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_finance/model.rs",
+        "bytes": 6958,
+        "sha256": "2e0051a51f4a8fe3bbe236f65d2e5b42f78a5a47864ba1b72f96c493de6439e9"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_finance/store.rs",
+        "bytes": 16658,
+        "sha256": "879412dd428d6a0007280b41478ada16356d0e6336f21dbe41452dcac98899d9"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+        "bytes": 269,
+        "sha256": "0e7538858a60618f3af151e72fd06d63057ec25132279e636951b9bea232e394"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/service.rs",
+        "bytes": 52959,
+        "sha256": "01aadf6062eeb478b19025c81797157edf05a856e8ef209811a980ad87b48c88"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/source.rs",
+        "bytes": 13813,
+        "sha256": "8451a749d2a566b70ad3fd00e379388c88304be1ce1a3f0bf35de68f006e9f6f"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/store.rs",
+        "bytes": 7410,
+        "sha256": "f095d61373f494fd04b46c511a9289be161c64fa95288340878b2414b01a1224"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+        "bytes": 12690,
+        "sha256": "8f86245eefadbe8e759c52e0d79636f77f1374767ee214bd7c36761c10743d60"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_readiness/view.rs",
+        "bytes": 9056,
+        "sha256": "93a037cbddbfbb3cd6917e6707979fffea913ff94c33847128304c62a14599ad"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_support/http.rs",
+        "bytes": 12961,
+        "sha256": "6bfbb2c0b59a2c8a7425d533f3d11cfac92f193ad5bbbbb98644fe0075c4ad2c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+        "bytes": 16326,
+        "sha256": "1fd451795e665f3d3fc72ac3184e77916f847a6de36875edac3d206941636406"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contract_support/validation.rs",
+        "bytes": 21979,
+        "sha256": "a90cd7cd78e6c911b714b723b288d19076f06bb8e1e70959f8edc1d088b01049"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/mod.rs",
+        "bytes": 252,
+        "sha256": "ea52d357202f3b527f8158b1aaab0f2fc419ac24c3e4288138a6a951517bcbcb"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/model.rs",
+        "bytes": 5775,
+        "sha256": "f382f492c4cfc81a9b08b2884e27e5b4efbfc97fdf5b369fd2e2462b8a96f669"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/projection.rs",
+        "bytes": 6295,
+        "sha256": "7bc50f4b5e1ddcfa459975486c358dff9832d0d528a115a5782220bb6533eb0c"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/service.rs",
+        "bytes": 29623,
+        "sha256": "021ae5c9328edbfc0b3dfa2932d1d8e15cc0739a877b1cab3734b1752760947a"
+      },
+      {
+        "file": "apps/poms-api-rust/src/contracts/store.rs",
+        "bytes": 16009,
+        "sha256": "7d848616989c341e8b3ec7845bf255785fc54ad7d00dd0bd772d815a76df4682"
+      },
+      {
+        "file": "apps/poms-api-rust/src/http.rs",
+        "bytes": 27218,
+        "sha256": "2c346b9a8b9e4c1f38f17fe06d8db7d722617ffd2d591a8f798719576cdb7871"
+      },
+      {
+        "file": "apps/poms-api-rust/src/lib.rs",
+        "bytes": 964,
+        "sha256": "dee8d6779ffa6a07e7e5f0008aa13f3d734abce78fa2962ba07adfd06bedd841"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+        "bytes": 29700,
+        "sha256": "12f69da8baae927e3f8325342977e735469bf7b5b55af74cb5f66b6e321e7542"
+      },
+      {
+        "file": "apps/poms-api-rust/src/shared/generated.rs",
+        "bytes": 321222,
+        "sha256": "1638c282c664df348f1b0633e9a1fd0728dd1aa51d072f0132a4441626d6c62b"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/http.rs",
+        "bytes": 30841,
+        "sha256": "b3105ffd17a07f9e39d5b2b1385dd7255d5d2796ba84bdf2ad1834d392e80bd1"
+      },
+      {
+        "file": "apps/poms-api-rust/tests/shared_generated.rs",
+        "bytes": 27745,
+        "sha256": "9bb357a192693edaa5bad2dce3d718ff41f1a6d4e3f62c766a5978646f1db0db"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.entity.ts",
+        "bytes": 10505,
+        "sha256": "39f52cfb382af01d8d9fbeb9ef18757818e057b64d7b51fc6befb27ac677f47f"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+        "bytes": 17715,
+        "sha256": "b28e02909c9dcf6ed85d2edd4a9396cae140c0a04a0074bdb2c0cd644ea4cf03"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts",
+        "bytes": 7484,
+        "sha256": "aab5d667337a051437cd439e4272ceca20c786d3a02bddd86af3f2c818297470"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "bytes": 6466,
+        "sha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.module.ts",
+        "bytes": 1871,
+        "sha256": "786601a5724797ab04eb2846ad30924729d5c1ed14e27afd1e79457b0eb6bbd8"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+        "bytes": 26958,
+        "sha256": "ff7d7bf1bf49aeb1e6a44369a72748299ed189865b46da9042ed08ac6343f3b6"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "bytes": 14430,
+        "sha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+        "bytes": 11108,
+        "sha256": "8f4bfb0961a6d09513f6573b69edfa7a3f1d72dc95d2637013067c3ece2582b5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261103060000_rust_r4abc_contract_lifecycle.ts",
+        "bytes": 14240,
+        "sha256": "d97ea9b8f9c28d7b3c54fdd0824d69eda7fc6519ced5cf703befcb64548344e1"
+      },
+      {
+        "file": "docs/design/rust-r4abc-first37-baseline.md",
+        "bytes": 24956,
+        "sha256": "2838dad037aef613669484ecf9af7141caa82acced5069f1a59d5fdf79aa9269"
+      },
+      {
+        "file": "docs/design/rust-r4abc/dto-freeze01.json",
+        "bytes": 7346,
+        "sha256": "b26654b36db3174a549752b6c18a90c1ff675eed51b9d98f09290cfa9251471f"
+      },
+      {
+        "file": "docs/design/rust-r4abc/schema-freeze01.sql",
+        "bytes": 11869,
+        "sha256": "42113d15a495bf84f6fa57087366b997765620e06f18174482778bdba8cae0ae"
+      },
+      {
+        "file": "docs/design/rust-r4abc/shared-protocol01.md",
+        "bytes": 8306,
+        "sha256": "f8c6be0a114c63ab9ade8b77862acd5d4c3a346f1a9e86fe48740ec7f74b309b"
+      },
+      {
+        "file": "libs/admin/data-access/src/index.ts",
+        "bytes": 13354,
+        "sha256": "ef0df5f9ffa0ea06647eebdd706576012749e99105d8d920a58d7d4c753d4b1b"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+        "bytes": 8655,
+        "sha256": "ee613b8da595e3e11898233ceaf9146190df31fc898bcd5b6c01d7951d25eb05"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/contract/contract.store.ts",
+        "bytes": 9823,
+        "sha256": "77500861fe1faa8304866a2e0de3c538bead8c0684597daf5e36ad140f28c958"
+      },
+      {
+        "file": "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+        "bytes": 48193,
+        "sha256": "4814359fa4b096ec6f44bc32168c44f04091a2c7bc81855eca9a9af99b07b8de"
+      },
+      {
+        "file": "libs/api/contracts/src/lib/contract/contract.dto.ts",
+        "bytes": 4722,
+        "sha256": "c8d5db8660d8fb99c347ee08e6762bc6c442af523afbf465df708b72511dfb7f"
+      },
+      {
+        "file": "libs/shared/api-client/.openapi-generator/FILES",
+        "bytes": 23446,
+        "sha256": "0aac08e2767101c45086620471eddf5463d060c46ec66fd85a1dc3594daa79dc"
+      },
+      {
+        "file": "libs/shared/api-client/api/contract-readiness.service.ts",
+        "bytes": 43503,
+        "sha256": "fbf85e29438c9026a3a3904cd2ee016b55c40efbbcf4dbdf8b196a37098b5122"
+      },
+      {
+        "file": "libs/shared/api-client/api/contract.service.ts",
+        "bytes": 39217,
+        "sha256": "334e6c6ed2378e714500e7d7932978df349041a210c2dc6e2510f867ed6d1f7c"
+      },
+      {
+        "file": "libs/shared/api-client/model/activate-contract-result.ts",
+        "bytes": 503,
+        "sha256": "a3be64167bb491fff7a04fd3ebc8b7197774ded5ca2ce0d416c70a2e6d35be24"
+      },
+      {
+        "file": "libs/shared/api-client/model/command-result.ts",
+        "bytes": 510,
+        "sha256": "41066769a9db158bec71a8ba0573d5d61d42a72ec2c8b3406369b511d0b21e0d"
+      },
+      {
+        "file": "libs/shared/api-client/model/commercial-baseline-review-record-summary.ts",
+        "bytes": 630,
+        "sha256": "93e6377a55e1cd11b497a3fbf2800fa7191f538d4657094d1527dff7adfcc47f"
+      },
+      {
+        "file": "libs/shared/api-client/model/commercial-release-baseline-summary.ts",
+        "bytes": 1539,
+        "sha256": "12f0ab79eb07a0580a5bf70bca70b515fd50971f7bea86f5a9f491ab1644ef32"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-commercial-terms.ts",
+        "bytes": 579,
+        "sha256": "b00ea08b7a7b7071598fa562b24d2bd78cd12c8bb848f9b40a069b22a050aa95"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-detail-view.ts",
+        "bytes": 1313,
+        "sha256": "97a302223a6cb891a57d2c8fc5bf4b1085bfd8949f4600190a64985d99426ee3"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-readiness-detail.ts",
+        "bytes": 1933,
+        "sha256": "7d7d06fd7566c4ef4f232bbb0c42c94d3f243cf18188e5b42a379ad9ae845e9a"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-review-binding-summary.ts",
+        "bytes": 427,
+        "sha256": "0ad875aa67ea6c717163760cef2db712962f9da0b7cf999d7de9e3dce2e0f8a7"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-term-preparation-status.ts",
+        "bytes": 328,
+        "sha256": "7b36730a739609f52d79136cb74d5cea6979ef4f51cc6461876f2b2a7e32db17"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-term-preparation-summary.ts",
+        "bytes": 753,
+        "sha256": "9cb8433ff8044d3017c1fc27f1b107bfe69815bc30b0234fd2e6193f1ed14dff"
+      },
+      {
+        "file": "libs/shared/api-client/model/contract-term-snapshot-summary.ts",
+        "bytes": 1172,
+        "sha256": "bd3d2dd06496b714281be8eddbe08727af843942c89e3b6c0bd8d7210fbe4513"
+      },
+      {
+        "file": "libs/shared/api-client/model/create-commercial-release-baseline-request.ts",
+        "bytes": 1118,
+        "sha256": "918d554b4c3c745bcb6de8cbfa6c69c0cc9085e538e248e73c48792f6c7b90a0"
+      },
+      {
+        "file": "libs/shared/api-client/model/create-contract-readiness-package-request.ts",
+        "bytes": 1076,
+        "sha256": "0c47b5cace7433170aaf0d6e173ed4db96e85de6b7be2f4c3b9919f95347a44d"
+      },
+      {
+        "file": "libs/shared/api-client/model/create-contract-request.ts",
+        "bytes": 597,
+        "sha256": "0e740e3a34172412d67ec60f2b0ae330c283439ceb51e91a5e49e46fcc64f87d"
+      },
+      {
+        "file": "libs/shared/api-client/model/initialize-contract-snapshot-from-readiness-package-request.ts",
+        "bytes": 385,
+        "sha256": "4b5e5362301fe263f54078da4046d7aa1bcd5de5ea03e4f78e06d103870f922c"
+      },
+      {
+        "file": "libs/shared/api-client/model/initialize-receivable-plan-from-readiness-package-request.ts",
+        "bytes": 383,
+        "sha256": "36c83ab2d0d7f493a852b02370efffdb3e49187654704be01726016ad702d075"
+      },
+      {
+        "file": "libs/shared/api-client/model/models.ts",
+        "bytes": 27523,
+        "sha256": "34cd75b33107af7f0119b8efd95cc9f2550c7389bab8e1622711bc71e0cf3be9"
+      },
+      {
+        "file": "libs/shared/api-client/model/readiness-initialization-result.ts",
+        "bytes": 1163,
+        "sha256": "1b8d539fe62bb7ba913161b3ac4f297a2dd16a8728accb62bcb084dd02075c19"
+      },
+      {
+        "file": "libs/shared/api-client/model/receivable-plan-seed.ts",
+        "bytes": 404,
+        "sha256": "8ba3e272203ca882ecb6b19df94cc38cd9027b2f590432abc8a1843a36b1841f"
+      },
+      {
+        "file": "libs/shared/api-client/model/review-commercial-release-baseline-diff-request.ts",
+        "bytes": 575,
+        "sha256": "bc92e87c6038276858fad257af7557d9c53c7b8e4fc9d6098f1e18ac27560f61"
+      },
+      {
+        "file": "libs/shared/api-client/model/submit-contract-review-request.ts",
+        "bytes": 321,
+        "sha256": "788788bd2475b554e508a61356387d72f71220f2aa494f5dc28514b12f5051da"
+      },
+      {
+        "file": "libs/shared/api-client/model/submit-contract-review-result.ts",
+        "bytes": 515,
+        "sha256": "b48587631d80417a52b09c687f2812ac18601e93a52a12092b12d648ca62de88"
+      },
+      {
+        "file": "libs/shared/api-client/model/update-contract-basic-info-request.ts",
+        "bytes": 468,
+        "sha256": "c7230fd1fbd617d1f5e0eae73d6af51e91ed9d7b4a88c72bfc42cef0136c4135"
+      },
+      {
+        "file": "libs/shared/api-spec/openapi.json",
+        "bytes": 1154387,
+        "sha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 443953,
+        "sha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120"
+      }
+    ],
+    "extraIncludeAndToolPins": [
+      {
+        "file": "tools/rust-r4abc/operation-map01.json",
+        "bytes": 20817,
+        "sha256": "8dcea3c86d2d7a7997442a3212cc45e35f467fabe63c4dca99dba606f8101de9"
+      },
+      {
+        "file": "tools/rust-r4abc/validation-input01.json",
+        "bytes": 52677,
+        "sha256": "951145fea7064c122734b5788b71ec6a6fe57cc2d9dd327fd68b40750984c889"
+      },
+      {
+        "file": "tools/rust-r4abc/export-validation-input01.mjs",
+        "bytes": 15470,
+        "sha256": "a46c8e6fe1749cca0871034ed96b733557c62969e5a263759f1b1448acb787ba"
+      },
+      {
+        "file": "apps/poms-api-rust/Cargo.toml",
+        "bytes": 3419,
+        "sha256": "12048cee8734f9df868d7fe0fa4e9cea007cc1e755168edb56106ffaf7140e3e"
+      },
+      {
+        "file": "apps/poms-api-rust/Cargo.lock",
+        "bytes": 77585,
+        "sha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d"
+      }
+    ],
+    "current87HashRecheckAtUtc": "2026-11-03T13:00:29Z",
+    "changesAmong87DuringReview": [],
+    "existingRust18AfterFileCount": 248,
+    "currentFilesDifferingFromRust18After": [],
+    "includeStrSourcePinFailures": [],
+    "operationMapVersusCurrentSpecIdentityFailures": [],
+    "limitation": "Rust18's own before/after list covers crate files. The external include_str operation-map/validation-input/full-spec are independently pinned here; Root must include them with existing copy/generation provenance in the final integrated evidence. No unsupported claim of a fresh execution for this review.",
+    "futureChangedSourceRule": "Recheck changed bytes and affected evidence before final independent G3; this record remains bound to this C04/current source round."
+  },
+  "findings": [
+    {
+      "id": "SRC-05-UI-01",
+      "priority": "P2",
+      "title": "Contract detail and late reads are not fenced to the current routed contract",
+      "status": "Root confirmed; C05 correction assigned, not yet independently reviewed",
+      "sourcePins": [
+        {
+          "file": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+          "bytes": 48480,
+          "sha256": "97be99281c1da46a2215dc4e7808ef6d101dd0d4b71966ecc014b5830061ce96"
+        },
+        {
+          "file": "libs/admin/data-access/src/lib/contract/contract.store.ts",
+          "bytes": 9823,
+          "sha256": "77500861fe1faa8304866a2e0de3c538bead8c0684597daf5e36ad140f28c958"
+        }
+      ],
+      "locations": [
+        "ContractDetail.ngOnInit/ngOnDestroy and canSubmitReview/canApprove/canActivate",
+        "ContractStore.loadContract/loadCurrentApproval and post-command reload paths"
+      ],
+      "trigger": "Navigate from /contracts/A to /contracts/B using a same-route-config in-app link, or allow an old A read to finish after the singleton store has been cleared and a B detail is loading.",
+      "defect": "Detail reads route.snapshot.id only once and does not subscribe to paramMap. Store loads unconditionally write selectedContract/currentApproval without a route/identity generation check. Existing action predicates validate status and preparation binding, not routed view ownership.",
+      "businessImpact": "The URL/user context can identify B while the page still displays or acts on A, including approval/submission/activation actions. Backend guards authorize the submitted entity and cannot detect the user's stale routed intent.",
+      "requiredCorrection": "React to routed ID changes; invalidate old detail/approval reads and command ACK reloads with identity/generation fences or cancellation; clear old dialogs/ACK state; prevent stale A completions from writing the B view or reopening its actions.",
+      "requiredRegression": "Same reused component changes A->B; late old detail and old approval completions after B; navigation/destruction during acknowledged-command reload; only B state/actions survive.",
+      "evidenceClass": "Static reachable UI identity defect; no browser reproduction claimed by reviewer"
+    }
+  ],
+  "nonBlockingRecoveryNote": {
+    "topic": "Prepared draft core edit needs a visible re-preparation path",
+    "detail": "A draft core edit leaves historical/current preparation metadata prepared; backend correctly rejects stale core at submit. C04 hides the preparation link when hasPreparation is true and can still say prepared-ready. Root was advised to keep a draft prepare/reprepare navigation entry and explicit payload_changed/source_changed recovery guidance.",
+    "separateGateOrUnapprovedBackendChangeRequired": false
+  },
+  "earlierAFindings": {
+    "PRE_G3_01": "Closed in current source: actual summary identity is lineage only; active/target/scenario display metadata does not qualify pricing and is excluded from freshness hash.",
+    "PRE_G3_02": "Closed in current source: applicable bid path requires exact current participate+won and applicable mode; direct/not-required substitution is explicit.",
+    "sourceRef": "apps/poms-api-rust/src/contract_readiness/source.rs pinned above"
+  },
+  "sourceReview": {
+    "readiness": [
+      "Real R3 current cost/bid/pricing/baseline references and exact project amounts/currency/lossless ratios",
+      "Independent same-contract reference/candidate/seeds, complete supported diff severities and true attachment relationship checks",
+      "A05->A04 exact review and same-package CAS/status refresh; mutable baseline latestDiff/rowVersion excluded from prepared freshness",
+      "Real preparation versions/hash/core binding and historical rejection loader",
+      "A09 real active snapshot to plan/version/nodes/init; immutable historical source remains valid after unrelated project pricing; exact initialization no-op"
+    ],
+    "contracts": [
+      "Draft-only create and same-connection numbering",
+      "Optional expectedVersion with lock/CAS and real dirty PATCH",
+      "Exact preparationId/version/hash/core review binding, real approver/todo/approval",
+      "Middle common flush materializes immediate FK references within same outer transaction",
+      "Distinct active snapshot UUID/version1 copied from exact approved preparation, prep/package/Contract/audit atomicity",
+      "Metadata-only new preparation/binding projections and exact immutable ContractTerm refresh"
+    ],
+    "finance": [
+      "19 operation dispatch and exact18,2 arithmetic/tax tuple",
+      "Project->sorted Contracts->Payable->Payment locking and typed source identity",
+      "Active/same-project/inherited/selected payable contract consistency; legal no-contract project payments retained",
+      "Fresh confirmed SUM after locks, checked remaining and actual settled projection",
+      "Read-only actual-cost mapping guards with parsed UUID identity and current statuses; no false real-cost-producer certificate",
+      "Same-value PATCH zero business version/time/audit; invoice exception history/allowedActions"
+    ],
+    "RootAdapters": [
+      "37 inventory route identity, authorization/CSRF/session and UUID path parsing",
+      "Finite current Shared/OpenAPI request closure, scalar/default/trim/unknown stripping and required-field/duplicate-ID refinements",
+      "One Root outer transaction, required business/audit/auth coflush and exact no-op reads, unknown commit safe error boundary",
+      "R2 binding validation and mandatory decision audit inside actual common command TX; coded conflict/known uniqueness preserved",
+      "R3 same-project actual draft/effective baseline and immutable project source validation in existing project-locked release TX"
+    ],
+    "SharedDtoAndUi": [
+      "Current Shared/DTO/client remain bound to admitted S3 contract; previous scoped generator/enum reviews retained",
+      "C04 displays preparation/approval binding/active snapshot/formal plan separately; exact IDs rather than marker aliases",
+      "Sensitive string amounts and ratios remain projected without JS Number precision conversion",
+      "Command ACK versus failed read refresh separated; project readiness selector has request-generation guards",
+      "Open route/late-read P2 is limited to contract detail/store ownership handling and awaits C05"
+    ],
+    "orm": [
+      "Forward SQL93 adds real lifecycle persistence and strong scoped constraints",
+      "Entity fields/types/defaults/version/current/unique match the frozen SQL boundary; real composite SQL FKs remain authoritative",
+      "No generated weaker scalar FK substitution or schema-update DROP accepted",
+      "Guarded DOWN refuses nonempty lifecycle data; explicit empty DOWN probe was transactional and rolled back"
+    ]
+  },
+  "acceptedFiniteOrmClassification": {
+    "receipt": "tmp/rust-r4abc/root/orm-classify27/receipt27.json",
+    "migrationSourceSha256": "d97ea9b8f9c28d7b3c54fdd0824d69eda7fc6519ced5cf703befcb64548344e1",
+    "finite16": [
+      {
+        "table": "commercial_baseline_diff_result",
+        "constraint": "fk_r4_diff_baseline_project",
+        "definition": "FOREIGN KEY (baseline_id, project_id) REFERENCES poms.commercial_release_baseline(id, project_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "commercial_baseline_diff_result",
+        "constraint": "fk_r4_diff_contract_project",
+        "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_readiness_package",
+        "constraint": "fk_r4_readiness_contract_project",
+        "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_readiness_package",
+        "constraint": "fk_r4_readiness_current_preparation",
+        "definition": "FOREIGN KEY (current_preparation_id, contract_id) REFERENCES poms.contract_term_preparation(id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_readiness_package",
+        "constraint": "fk_r4_readiness_diff_scope",
+        "definition": "FOREIGN KEY (latest_diff_result_id, source_baseline_id, project_id, contract_id) REFERENCES poms.commercial_baseline_diff_result(id, baseline_id, project_id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_term_preparation",
+        "constraint": "fk_r4_preparation_activated_snapshot",
+        "definition": "FOREIGN KEY (activated_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_term_preparation",
+        "constraint": "fk_r4_preparation_contract_project",
+        "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_term_preparation",
+        "constraint": "fk_r4_preparation_diff_scope",
+        "definition": "FOREIGN KEY (source_diff_result_id, source_baseline_id, project_id, contract_id) REFERENCES poms.commercial_baseline_diff_result(id, baseline_id, project_id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_term_preparation",
+        "constraint": "fk_r4_preparation_readiness_scope",
+        "definition": "FOREIGN KEY (source_readiness_id, project_id, contract_id) REFERENCES poms.contract_readiness_package(id, project_id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_term_snapshot",
+        "constraint": "fk_r4_snapshot_preparation_contract",
+        "definition": "FOREIGN KEY (source_preparation_id, contract_id) REFERENCES poms.contract_term_preparation(id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "contract_review_binding",
+        "constraint": "fk_r4_review_preparation_contract",
+        "definition": "FOREIGN KEY (preparation_id, contract_id) REFERENCES poms.contract_term_preparation(id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "receivable_plan_version",
+        "constraint": "fk_r4_plan_contract_project",
+        "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "receivable_plan_version",
+        "constraint": "fk_r4_plan_preparation_source",
+        "definition": "FOREIGN KEY (source_preparation_id, source_readiness_id, contract_id) REFERENCES poms.contract_term_preparation(id, source_readiness_id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "receivable_plan_version",
+        "constraint": "fk_r4_plan_snapshot_scope",
+        "definition": "FOREIGN KEY (snapshot_id, contract_id, source_preparation_id) REFERENCES poms.contract_term_snapshot(id, contract_id, source_preparation_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "receivable_plan_init_record",
+        "constraint": "fk_r4_plan_init_contract",
+        "definition": "FOREIGN KEY (plan_version_id, contract_id) REFERENCES poms.receivable_plan_version(id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      },
+      {
+        "table": "receivable_plan_init_record",
+        "constraint": "fk_r4_plan_init_snapshot",
+        "definition": "FOREIGN KEY (snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT",
+        "classification": "accepted-db-specific-difference",
+        "reason": "MikroORM7 cannot map the referenced composite unique tuple; mandatory stronger SQL93 constraint remains validated and was not dropped"
+      }
+    ],
+    "decision16": "Accepted only as accepted-db-specific-difference: mandatory stronger SQL93 composite constraints exist, names are in frozenDDL and migration, and are deliberately retained despite MikroORM metadata omission.",
+    "threeEquivalentChecks": [
+      {
+        "table": "contract_term_preparation",
+        "constraint": "contract_term_preparation_down_payment_rate_check",
+        "actual": "CHECK (((down_payment_rate >= (0)::numeric) AND (down_payment_rate <= (1)::numeric)))",
+        "proposed": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_down_payment_rate_check\" check (\"down_payment_rate\" between 0 and 1);",
+        "classification": "tool-noise",
+        "reason": "PostgreSQL deparses BETWEEN numeric boundaries into equivalent >= and <= expressions"
+      },
+      {
+        "table": "contract_term_preparation",
+        "constraint": "contract_term_preparation_retention_rate_check",
+        "actual": "CHECK (((retention_rate >= (0)::numeric) AND (retention_rate <= (1)::numeric)))",
+        "proposed": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_retention_rate_check\" check (\"retention_rate\" between 0 and 1);",
+        "classification": "tool-noise",
+        "reason": "PostgreSQL deparses BETWEEN numeric boundaries into equivalent >= and <= expressions"
+      },
+      {
+        "table": "contract_term_preparation",
+        "constraint": "contract_term_preparation_tax_rate_check",
+        "actual": "CHECK (((tax_rate >= (0)::numeric) AND (tax_rate <= (1)::numeric)))",
+        "proposed": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_tax_rate_check\" check (\"tax_rate\" between 0 and 1);",
+        "classification": "tool-noise",
+        "reason": "PostgreSQL deparses BETWEEN numeric boundaries into equivalent >= and <= expressions"
+      }
+    ],
+    "decisionThree": "tool-noise: PostgreSQL BETWEEN0..1 deparses to inclusive>=0 AND<=1; no semantic bound change",
+    "marker": {
+      "classification": "tool-noise",
+      "objects": [
+        "r4abc_control.marker",
+        "r4abc_control"
+      ],
+      "reason": "Isolated acceptance marker is intentionally absent from application ORM metadata; no suggested DROP was executed"
+    },
+    "applicationRoleVisibility": {
+      "count": 192,
+      "allAlreadyValidatedInOwnerCatalog": true,
+      "classification": "tool-noise",
+      "reason": "Application role cannot read owner CHECK metadata fully; owner comparison is the structural authority"
+    },
+    "downBoundaries": [
+      {
+        "backend": "rust",
+        "downExecutedBeforeRollback": false,
+        "guardErrorCode": "P0001",
+        "allRowsAndColumnsRestored": true
+      },
+      {
+        "backend": "native",
+        "downExecutedBeforeRollback": true,
+        "guardErrorCode": null,
+        "allRowsAndColumnsRestored": true
+      }
+    ],
+    "autoSchemaUpdateOrSuggestedDropExecuted": false,
+    "ownerMigrationCheckExit": 1,
+    "appMigrationCheckExit": 1,
+    "rawMigrationCheckRelabeledPass": false,
+    "unlistedDifferencesAccepted": false,
+    "newRealDrift": []
+  },
+  "actualEvidenceReadback": {
+    "pins": [
+      {
+        "file": "tmp/rust-r4abc/root/rust-validation18/receipt18.json",
+        "bytes": 158659,
+        "sha256": "a59de46cfad21b87cfd9d7b4caaadbeca3c3e546515b344725affebcfc220d10"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/ts-checks23/receipt23.json",
+        "bytes": 12184,
+        "sha256": "9e277778531483fedd9480fa3ed738ed21477a406d2b47914b4ff231c8abf3b7"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/api-test26/receipt26.json",
+        "bytes": 616,
+        "sha256": "c02457d48bc22fc22e08823d7ecd88018c77d6dec96a64c61f6c9c8b266edcfd"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/business22/receipt22.json",
+        "bytes": 708859,
+        "sha256": "b2d59e72cea354eeb135717a69a7c089432e251a5a8eaede60110bf0af91f7ae"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/fault26/receipt26.json",
+        "bytes": 2683683,
+        "sha256": "ef09347d629769ff25a0b740420d0320114f122a39077a16094fd870384f0fc4"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/race28/receipt28.json",
+        "bytes": 548055,
+        "sha256": "f2cfc1c58651d78c21e5dfd5a552a517ad22beb1085ccb712b8f7367cd58cfaf"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/orm-check19/receipt19.json",
+        "bytes": 5997,
+        "sha256": "bf137c806807d03d784b85cb6b4a0869e2c13d15829363346ec7c9301d149709"
+      },
+      {
+        "file": "tmp/rust-r4abc/root/orm-classify27/receipt27.json",
+        "bytes": 101609,
+        "sha256": "c64e77472aa67be94e5ac06bed8f449f13589112a8dcaaa19f7c85bb6ec36f8a"
+      }
+    ],
+    "rust18": {
+      "sourceFilesAfter": 248,
+      "currentHashMismatches": [],
+      "initialFmtExit": 1,
+      "fmtApplyExit": 0,
+      "finalFmtExit": 0,
+      "clippyExit": 0,
+      "testExit": 0,
+      "buildExit": 0,
+      "ignoredTests": "Retain actual opt-in/fixture ignored labels; not counted as acceptance.",
+      "executableSha256": "e20a9cc40970f2601ee54636f312b32e04e10c81fb5f7674fa0c565a098b7afd",
+      "businessAcceptance": false
+    },
+    "ts23": {
+      "buildExit": 0,
+      "lintExit": 0,
+      "adminTestExit": 0,
+      "adminSuites": 58,
+      "adminTests": 394,
+      "apiTestExit": 1,
+      "receiptAllPassed": false,
+      "boundary": "C04/pre-C05 build/lint/test evidence; raw23 API failure preserved, not silently converted to Pass."
+    },
+    "nativeApi26": {
+      "exitCode": 0,
+      "suites": 74,
+      "tests": 863,
+      "boundary": "Correct documented Node VM execution; Native new lifecycle conformance remains false."
+    },
+    "business22": {
+      "httpRequests": 76,
+      "wholeGraphNoOpGroups": 14,
+      "changedGroups": 0,
+      "independentAmounts": [
+        "9999999999999999.99",
+        "70000.00"
+      ],
+      "noProjectQuoteBudget": true,
+      "actualSourceReplacement": true,
+      "finalAcceptance": false
+    },
+    "fault26": {
+      "faults": 55,
+      "httpRequests": 250,
+      "allActualHitCounts": 1,
+      "beforeTableCountPerFault": 113,
+      "afterTableCountPerFault": 113,
+      "independentBeforeAfterCountAndRawDigestMismatches": [],
+      "changedTablesAcrossEachFailedTransaction": [],
+      "retry": "Each trigger is disarmed before the expected successful same-command retry; Root HTTP returns success only after TX commit ACK.",
+      "mechanism": "Read-only inspected Root executor: exact row predicate, nontransactional hit sequence, assertion hit=1/status500, complete graph comparison, disarm and retry.",
+      "historical24And25": "Non-hit/harness failures remain historical failed evidence and are not counted in these55."
+    },
+    "race28": {
+      "scenarios": 7,
+      "controlledLockRaces": 6,
+      "foreignProjectLockNegative": 1,
+      "observedWaitersBeforeRelease": true,
+      "results": {
+        "doubleActivate": [
+          200,
+          409
+        ],
+        "doublePrepare": [
+          200,
+          200
+        ],
+        "doublePlan": [
+          200,
+          200
+        ],
+        "paymentRemaining": [
+          200,
+          422
+        ],
+        "doubleConfirm": [
+          200,
+          409
+        ],
+        "realSourceReplacementThenSubmit": [
+          201,
+          409
+        ]
+      },
+      "approvalFaults": 4,
+      "eachHit": 1,
+      "eachGraphTables": 113,
+      "eachChangedTables": 0,
+      "realSource": "Source replacement queues first under observed Project lock; submit rejects source_changed without new approval.",
+      "finalGate": false
+    },
+    "scope": "Finite existing actual witnesses were read; reviewer did not run DB/HTTP/browser or infer that unfinished UI/cleanup is complete."
+  },
+  "remainingBeforeFinalG3": [
+    "Root imports and validates C05 routed-identity correction; independent affected-source/test review closes SRC-05-UI-01",
+    "Bind final complete current production source, include_str inputs and actual execution artifacts/evidence together",
+    "Complete actual Linux and Windows original UI verification and owned cohort/control/session/seed/catalog/ACL/object/process cleanup",
+    "Preserve failed/partial/non-hit/ignored/Native-reference labels and obtain a separate final independent G3"
+  ],
+  "openFindingCounts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 1
+  },
+  "mainOrDeliveryOrClosurePermission": false,
+  "fixedCommitMainAndG4Certified": false,
+  "parentsRemainOpen": [
+    101,
+    57
+  ]
+}

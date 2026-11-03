@@ -1,0 +1,254 @@
+$ErrorActionPreference = 'Stop'
+$rootPath = 'E:/projects/worktrees/poms-r3hijk-next28/poms'
+$candidatePath = 'E:/projects/worktrees/poms-r4c-finance/poms/tmp/rust-r4abc/ui-route-corrections05'
+$utf8 = [System.Text.UTF8Encoding]::new($false)
+function Read-Source([string]$relativePath) {
+    $script:relativePath = $relativePath
+    $script:text = [System.IO.File]::ReadAllText((Join-Path $rootPath $relativePath)).Replace("`r`n", "`n")
+}
+function Replace-Once([string]$old, [string]$new) {
+    $count = [regex]::Matches($script:text, [regex]::Escape($old)).Count
+    if ($count -ne 1) { throw "Expected one replacement, found $count for: $old" }
+    $script:text = $script:text.Replace($old, $new)
+}
+function Write-Candidate {
+    $destination = Join-Path (Join-Path $candidatePath 'products') $script:relativePath
+    [System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($destination)) | Out-Null
+    [System.IO.File]::WriteAllText($destination, $script:text, $utf8)
+}
+Read-Source 'apps/poms-admin/src/app/features/contract/contract-detail.spec.ts'
+Replace-Once "import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';" "import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';`nimport { BehaviorSubject } from 'rxjs';"
+Replace-Once '        clearSelectedContract: jest.Mock;' "        clearSelectedContract: jest.Mock;`n        setContractScope: jest.Mock;"
+Replace-Once @'
+    beforeEach(async () => {
+        selectedContract = signal<ContractDetailView | null>(createContract());
+'@ @'
+    beforeEach(async () => {
+        const routeParams = new BehaviorSubject(convertToParamMap({ id: 'contract-1' }));
+        selectedContract = signal<ContractDetailView | null>(createContract());
+'@
+Replace-Once "            loadContract: jest.fn().mockResolvedValue(createContract())," @'
+            loadContract: jest.fn().mockImplementation(async () => {
+                const contract = createContract();
+                selectedContract.set(contract);
+                return contract;
+            }),
+'@
+Replace-Once @'
+            clearSelectedContract: jest.fn()
+'@ @'
+            clearSelectedContract: jest.fn(),
+            setContractScope: jest.fn(() => {
+                selectedContract.set(null);
+                currentApproval.set(null);
+                contractStoreMock.lastAcknowledgement.set(null);
+                contractStoreMock.commandRefreshError.set(null);
+            })
+'@
+Replace-Once @'
+                    useValue: {
+                        snapshot: {
+                            paramMap: convertToParamMap({ id: 'contract-1' })
+'@ @'
+                    useValue: {
+                        paramMap: routeParams.asObservable(),
+                        snapshot: {
+                            paramMap: convertToParamMap({ id: 'contract-1' })
+'@
+Write-Candidate
+
+Read-Source 'apps/poms-admin/src/app/features/contract/contract.store.spec.ts'
+Replace-Once "import { of, throwError } from 'rxjs';" "import { of, Subject, throwError } from 'rxjs';"
+Replace-Once '        expect(refreshTodos).toHaveBeenCalledWith({ propagateErrors: true });' '        expect(refreshTodos).toHaveBeenCalledWith({ propagateErrors: true, isCurrent: expect.any(Function) });'
+Replace-Once "describe('ContractStore acknowledged commands (UI fixtures, not producer acceptance)', () => {" @'
+function approvalRecord(contractId: string, id = 'approval-1') {
+    return {
+        id, approvalType: 'contract-review', businessDomain: 'contract-finance', targetObjectType: 'contract', targetObjectId: contractId,
+        projectId: 'project-1', currentStatus: 'pending', currentNodeKey: 'review', currentNodeName: '审核', initiatorUserId: 'actor-1',
+        currentApproverUserId: 'actor-1', decision: null, decisionComment: null, targetTitle: '合同审核', targetStatus: 'pending-review',
+        submittedAt: '2026-11-03T01:00:00.000Z', decidedAt: null, closedAt: null, rowVersion: 1,
+        createdAt: '2026-11-03T01:00:00.000Z', updatedAt: '2026-11-03T01:00:00.000Z'
+    };
+}
+
+describe('ContractStore acknowledged commands (UI fixtures, not producer acceptance)', () => {
+'@
+$addition = @'
+
+    it('keeps B detail and approval when old A responses arrive after B is loaded', async () => {
+        const oldDetail = new Subject<ReturnType<typeof contractDetail>>();
+        const oldApproval = new Subject<ReturnType<typeof approvalRecord>>();
+        const detailB = { ...contractDetail(), id: 'contract-2', rowVersion: 3 };
+        const approvalB = approvalRecord('contract-2', 'approval-2');
+        contractApi.contractControllerGetById.mockReturnValueOnce(oldDetail).mockReturnValueOnce(of(detailB));
+        contractApi.contractControllerGetCurrentApproval.mockReturnValueOnce(oldApproval).mockReturnValueOnce(of(approvalB));
+        const previous = Promise.all([store.loadContract('contract-1'), store.loadCurrentApproval('contract-1')]);
+        await Promise.all([store.loadContract('contract-2'), store.loadCurrentApproval('contract-2')]);
+
+        oldDetail.next(contractDetail());
+        oldDetail.complete();
+        oldApproval.next(approvalRecord('contract-1'));
+        oldApproval.complete();
+        await previous;
+
+        expect(store.selectedContract()?.id).toBe('contract-2');
+        expect(store.currentApproval()?.targetObjectId).toBe('contract-2');
+        expect(store.currentApproval()?.id).toBe('approval-2');
+    });
+
+    it('does not let old request finally handlers clear B pending read indicators', async () => {
+        const oldDetail = new Subject<ReturnType<typeof contractDetail>>();
+        const newDetail = new Subject<ReturnType<typeof contractDetail>>();
+        const oldApproval = new Subject<ReturnType<typeof approvalRecord>>();
+        const newApproval = new Subject<ReturnType<typeof approvalRecord>>();
+        contractApi.contractControllerGetById.mockReturnValueOnce(oldDetail).mockReturnValueOnce(newDetail);
+        contractApi.contractControllerGetCurrentApproval.mockReturnValueOnce(oldApproval).mockReturnValueOnce(newApproval);
+        const previous = Promise.all([store.loadContract('contract-1'), store.loadCurrentApproval('contract-1')]);
+        const current = Promise.all([store.loadContract('contract-2'), store.loadCurrentApproval('contract-2')]);
+        oldDetail.next(contractDetail()); oldDetail.complete();
+        oldApproval.next(approvalRecord('contract-1')); oldApproval.complete();
+        await previous;
+
+        expect(store.selectedContract()).toBeNull();
+        expect(store.currentApproval()).toBeNull();
+        expect(store.loading()).toBe(true);
+        expect(store.loadingApproval()).toBe(true);
+
+        newDetail.next({ ...contractDetail(), id: 'contract-2' }); newDetail.complete();
+        newApproval.next(approvalRecord('contract-2')); newApproval.complete();
+        await current;
+        expect(store.loading()).toBe(false);
+        expect(store.loadingApproval()).toBe(false);
+    });
+
+    it('distinguishes an old A scope from a later A scope after A to B to A', async () => {
+        const oldDetail = new Subject<ReturnType<typeof contractDetail>>();
+        const oldApproval = new Subject<ReturnType<typeof approvalRecord>>();
+        const freshA = { ...contractDetail(), rowVersion: 9 };
+        const freshApprovalA = { ...approvalRecord('contract-1', 'approval-new'), rowVersion: 9 };
+        contractApi.contractControllerGetById.mockReturnValueOnce(oldDetail).mockReturnValueOnce(of({ ...contractDetail(), id: 'contract-2' })).mockReturnValueOnce(of(freshA));
+        contractApi.contractControllerGetCurrentApproval.mockReturnValueOnce(oldApproval).mockReturnValueOnce(of(approvalRecord('contract-2'))).mockReturnValueOnce(of(freshApprovalA));
+        const previous = Promise.all([store.loadContract('contract-1'), store.loadCurrentApproval('contract-1')]);
+        await Promise.all([store.loadContract('contract-2'), store.loadCurrentApproval('contract-2')]);
+        await Promise.all([store.loadContract('contract-1'), store.loadCurrentApproval('contract-1')]);
+        oldDetail.next(contractDetail()); oldDetail.complete();
+        oldApproval.next(approvalRecord('contract-1')); oldApproval.complete();
+        await previous;
+
+        expect(store.selectedContract()?.rowVersion).toBe(9);
+        expect(store.currentApproval()?.id).toBe('approval-new');
+    });
+
+    it('keeps the newest same-contract detail and approval reads', async () => {
+        const oldDetail = new Subject<ReturnType<typeof contractDetail>>();
+        const oldApproval = new Subject<ReturnType<typeof approvalRecord>>();
+        contractApi.contractControllerGetById.mockReturnValueOnce(oldDetail).mockReturnValueOnce(of({ ...contractDetail(), rowVersion: 8 }));
+        contractApi.contractControllerGetCurrentApproval.mockReturnValueOnce(oldApproval).mockReturnValueOnce(of({ ...approvalRecord('contract-1', 'approval-new'), rowVersion: 8 }));
+        const previous = Promise.all([store.loadContract('contract-1'), store.loadCurrentApproval('contract-1')]);
+        await Promise.all([store.loadContract('contract-1'), store.loadCurrentApproval('contract-1')]);
+        oldDetail.next(contractDetail()); oldDetail.complete();
+        oldApproval.next(approvalRecord('contract-1')); oldApproval.complete();
+        await previous;
+
+        expect(store.selectedContract()?.rowVersion).toBe(8);
+        expect(store.currentApproval()?.rowVersion).toBe(8);
+    });
+
+    it('does not publish a late A POST ACK or clear saving while B has a command in flight', async () => {
+        const postA = new Subject<ReturnType<typeof acknowledgement>>();
+        const postB = new Subject<ReturnType<typeof acknowledgement>>();
+        const ackA = acknowledgement('submit-review');
+        const ackB = { ...acknowledgement('submit-review'), targetId: 'contract-2', preparationId: 'preparation-2' };
+        contractApi.contractControllerSubmitReview.mockReturnValueOnce(postA).mockReturnValueOnce(postB);
+        const previous = store.submitReview('contract-1', { preparationId: 'preparation-1' });
+        store.setContractScope('contract-2');
+        const current = store.submitReview('contract-2', { preparationId: 'preparation-2' });
+        postA.next(ackA); postA.complete();
+        await expect(previous).resolves.toBe(ackA);
+
+        expect(store.saving()).toBe(true);
+        expect(store.lastAcknowledgement()).toBeNull();
+        expect(contractApi.contractControllerGetById).not.toHaveBeenCalled();
+        expect(refreshTodos).not.toHaveBeenCalled();
+
+        contractApi.contractControllerGetById.mockReturnValue(of({ ...contractDetail(), id: 'contract-2' }));
+        postB.next(ackB); postB.complete();
+        await expect(current).resolves.toBe(ackB);
+        expect(store.lastAcknowledgement()?.contractId).toBe('contract-2');
+        expect(store.saving()).toBe(false);
+    });
+
+    it('fences an already-started A ACK readback after switching to B', async () => {
+        const oldDetail = new Subject<ReturnType<typeof contractDetail>>();
+        const oldApproval = new Subject<ReturnType<typeof approvalRecord>>();
+        const ackA = acknowledgement('submit-review');
+        contractApi.contractControllerSubmitReview.mockReturnValue(of(ackA));
+        contractApi.contractControllerGetById.mockReturnValueOnce(oldDetail).mockReturnValueOnce(of({ ...contractDetail(), id: 'contract-2' }));
+        contractApi.contractControllerGetCurrentApproval.mockReturnValueOnce(oldApproval).mockReturnValueOnce(of(approvalRecord('contract-2')));
+        const previous = store.submitReview('contract-1', { preparationId: 'preparation-1' });
+        await Promise.resolve();
+        expect(contractApi.contractControllerGetById).toHaveBeenCalledWith({ id: 'contract-1' });
+        const todoScopeIsCurrent: () => boolean = refreshTodos.mock.calls[0][0].isCurrent;
+        expect(todoScopeIsCurrent()).toBe(true);
+        store.setContractScope('contract-2');
+        expect(todoScopeIsCurrent()).toBe(false);
+        await Promise.all([store.loadContract('contract-2'), store.loadCurrentApproval('contract-2')]);
+        oldDetail.error(new Error('旧合同读取失败。'));
+        oldApproval.next(approvalRecord('contract-1')); oldApproval.complete();
+        await expect(previous).resolves.toBe(ackA);
+
+        expect(store.selectedContract()?.id).toBe('contract-2');
+        expect(store.currentApproval()?.targetObjectId).toBe('contract-2');
+        expect(store.lastAcknowledgement()).toBeNull();
+        expect(store.commandRefreshError()).toBeNull();
+        expect(store.refreshingAcknowledgement()).toBe(false);
+    });
+
+    it('rejects a contract command for a different selected scope before sending a write', async () => {
+        store.setContractScope('contract-2');
+
+        await expect(store.submitReview('contract-1', { preparationId: 'preparation-1' })).rejects.toThrow('当前页面合同已变化');
+
+        expect(contractApi.contractControllerSubmitReview).not.toHaveBeenCalled();
+    });
+'@
+$closing = $text.LastIndexOf("`n});")
+if ($closing -lt 0) { throw 'Missing final describe close' }
+$text = $text.Insert($closing, $addition)
+Write-Candidate
+
+Read-Source 'libs/admin/data-access/src/lib/auth/auth.store.ts'
+Replace-Once '    async refreshTodos(options: { propagateErrors?: boolean } = {}): Promise<void> {' '    async refreshTodos(options: { propagateErrors?: boolean; isCurrent?: () => boolean } = {}): Promise<void> {'
+Replace-Once @'
+        const todos = await firstValueFrom(options.propagateErrors ? request : request.pipe(catchError(() => of([]))));
+        this.myTodos.set(todos ?? []);
+'@ @'
+        const todos = await firstValueFrom(options.propagateErrors ? request : request.pipe(catchError(() => of([]))));
+        if (options.isCurrent && !options.isCurrent()) return;
+        this.myTodos.set(todos ?? []);
+'@
+Write-Candidate
+
+Read-Source 'apps/poms-admin/src/app/core/auth/auth.store.spec.ts'
+Replace-Once "import { of, throwError } from 'rxjs';" "import { of, Subject, throwError } from 'rxjs';"
+Replace-Once "    it('updates currentUser from profile self-service response', async () => {" @'
+    it('does not publish a delayed todo result after its caller scope is invalidated', async () => {
+        const previousTodos = [createTodo()];
+        const delayedTodos = new Subject<TodoItemSummary[]>();
+        let current = true;
+        store.currentUser.set(createUser());
+        store.myTodos.set(previousTodos);
+        approvalApiMock.approvalControllerGetMyTodos.mockReturnValue(delayedTodos);
+        const reading = store.refreshTodos({ propagateErrors: true, isCurrent: () => current });
+
+        current = false;
+        delayedTodos.next([{ ...createTodo(), id: 'old-scope-todo' }]);
+        delayedTodos.complete();
+        await expect(reading).resolves.toBeUndefined();
+
+        expect(store.myTodos()).toBe(previousTodos);
+    });
+
+    it('updates currentUser from profile self-service response', async () => {
+'@
+Write-Candidate

@@ -512,6 +512,7 @@ impl ApprovalCommonService {
             let mut borrowed = CommonSession {
                 connection: &mut tx,
                 state: &mut child,
+                request_id: session.request_id.clone(),
                 participant: session.participant.as_mut().map(|participant| {
                     &mut **participant as &mut dyn super::session::CommonFlushParticipant
                 }),

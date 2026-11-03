@@ -19,9 +19,9 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { ActivateContractRequest } from '../model/activate-contract-request';
 // @ts-ignore
-import { ApprovalRecordSummary } from '../model/approval-record-summary';
+import { ActivateContractResult } from '../model/activate-contract-result';
 // @ts-ignore
-import { CommandResult } from '../model/command-result';
+import { ApprovalRecordSummary } from '../model/approval-record-summary';
 // @ts-ignore
 import { ContractDetailView } from '../model/contract-detail-view';
 // @ts-ignore
@@ -34,6 +34,8 @@ import { ContractTermSnapshotSummary } from '../model/contract-term-snapshot-sum
 import { CreateContractRequest } from '../model/create-contract-request';
 // @ts-ignore
 import { SubmitContractReviewRequest } from '../model/submit-contract-review-request';
+// @ts-ignore
+import { SubmitContractReviewResult } from '../model/submit-contract-review-result';
 // @ts-ignore
 import { UpdateContractBasicInfoRequest } from '../model/update-contract-basic-info-request';
 
@@ -102,9 +104,9 @@ export class ContractApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommandResult>;
-    public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommandResult>>;
-    public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommandResult>>;
+    public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ActivateContractResult>;
+    public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ActivateContractResult>>;
+    public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ActivateContractResult>>;
     public contractControllerActivate(requestParameters: ContractControllerActivateRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
@@ -153,7 +155,7 @@ export class ContractApi extends BaseService {
 
         let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:activate`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ActivateContractResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: activateContractRequest,
@@ -521,9 +523,9 @@ export class ContractApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommandResult>;
-    public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommandResult>>;
-    public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommandResult>>;
+    public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SubmitContractReviewResult>;
+    public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SubmitContractReviewResult>>;
+    public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SubmitContractReviewResult>>;
     public contractControllerSubmitReview(requestParameters: ContractControllerSubmitReviewRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
@@ -572,7 +574,7 @@ export class ContractApi extends BaseService {
 
         let localVarPath = `/api/contracts/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:submitReview`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<SubmitContractReviewResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: submitContractReviewRequest,

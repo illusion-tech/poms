@@ -1,0 +1,747 @@
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApprovalStatus, AttachmentTargetType, AuthStore, ContractStatus, ContractStore } from '@poms/admin-data-access';
+import type { ApprovalStatus as ApprovalStatusCode, ContractStatus as ContractStatusCode } from '@poms/shared-contracts';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { AttachmentPanel } from '../../shared/ui/attachment-panel';
+import { SectionCard } from '../../shared/ui/sectioncard';
+import { BUSINESS_FINANCE_PERMISSION_KEYS, isSensitiveProjectionFull, sensitiveProjectionDisplayText } from '../../shared/ui/sensitive-visibility';
+import { contractAmountDisplay, hasApprovedPreparationBinding, hasCurrentContractPreparation, isValidContractAmount } from './contract-flow';
+import { approvalStatusLabelOrFallback, approvalStatusSeverityOrFallback, contractStatusLabelOrFallback, contractStatusSeverityOrFallback } from '../../shared/ui/status-presentation';
+
+type ApprovalStatusPresentationValue = ApprovalStatus | ApprovalStatusCode;
+type ContractStatusPresentationValue = ContractStatus | ContractStatusCode;
+
+@Component({
+    selector: 'app-contract-detail',
+    standalone: true,
+    imports: [CommonModule, FormsModule, SectionCard, TagModule, ButtonModule, InputTextModule, MessageModule, SelectModule, DialogModule, TextareaModule, ToastModule, AttachmentPanel],
+    providers: [ContractStore, MessageService],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: `
+        <p-toast />
+        @if (commandRefreshError(); as refreshError) {
+            <p-message severity="warn" styleClass="mb-4 w-full">
+                <div class="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <div class="font-medium">{{ acknowledgedStatus() }}，刷新失败</div>
+                        <p class="mt-1 text-sm">{{ refreshError }} 请重新加载后核对当前状态。</p>
+                    </div>
+                    <p-button label="重新加载合同、审批与待办" icon="pi pi-refresh" [outlined]="true" severity="secondary" [loading]="refreshingAcknowledgement()" (onClick)="reloadAcknowledgedState()" />
+                </div>
+            </p-message>
+        }
+        @if (loading()) {
+            <div class="flex items-center justify-center py-20">
+                <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+            </div>
+        } @else if (contract()) {
+            <div class="flex flex-col gap-6">
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBack()" class="cursor-pointer" />
+                        <div>
+                            <h1 class="text-xl font-semibold text-surface-950 dark:text-surface-0">合同 {{ contract()!.contractNo }}</h1>
+                            <span class="text-sm text-surface-500 dark:text-surface-400">{{ contract()!.projectName }} / 版本 {{ contract()!.rowVersion }}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-end gap-2">
+                        <p-tag [value]="getStatusName(contract()!.status)" [severity]="getStatusSeverity(contract()!.status)" />
+                        @if (approvalStatusLabel()) {
+                            <p-tag [value]="approvalStatusLabel()!" [severity]="approvalStatusSeverity()" />
+                        }
+                        @if (canEditContract()) {
+                            <p-button label="编辑" icon="pi pi-pencil" severity="primary" [rounded]="true" (onClick)="showEditDialog()" class="cursor-pointer" />
+                        }
+                    </div>
+                </div>
+
+                <section-card>
+                    <ng-template #title>当前操作</ng-template>
+                    <ng-template #action>
+                        @if (loadingApproval()) {
+                            <span class="text-xs text-surface-500 dark:text-surface-400 flex items-center gap-2">
+                                <i class="pi pi-spin pi-spinner"></i>
+                                正在同步审批状态
+                            </span>
+                        }
+                    </ng-template>
+                    <div class="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div class="flex-1 space-y-2">
+                            <p class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ actionHeadline() }}</p>
+                            <p class="text-sm text-surface-500 dark:text-surface-400">{{ actionDescription() }}</p>
+                            @if (currentApproval()) {
+                                <div class="flex flex-wrap items-center gap-2 pt-1">
+                                    <span class="text-xs text-surface-400 dark:text-surface-500">审批节点：{{ currentApproval()!.currentNodeName ?? currentApproval()!.currentNodeKey }}</span>
+                                    @if (currentApproval()!.currentApproverUserId) {
+                                        <span class="text-xs text-surface-400 dark:text-surface-500">当前处理人：{{ currentApproval()!.currentApproverUserId }}</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            @if (canManageContractFinance() && contract()!.status === contractStatus.Draft && !hasPreparation()) {
+                                <p-button label="准备合同条款" icon="pi pi-file-edit" [outlined]="true" (onClick)="navigateToPreparation()" />
+                            }
+                            @if (canSubmitReview()) {
+                                <p-button label="提交审核" icon="pi pi-send" severity="warn" [rounded]="true" (onClick)="openSubmitReviewDialog()" class="cursor-pointer" />
+                            }
+                            @if (canApprove()) {
+                                <p-button label="审批通过" icon="pi pi-check" severity="success" [rounded]="true" (onClick)="openApproveDialog()" class="cursor-pointer" />
+                            }
+                            @if (canReject()) {
+                                <p-button label="驳回" icon="pi pi-times" severity="danger" [rounded]="true" (onClick)="openRejectDialog()" class="cursor-pointer" />
+                            }
+                            @if (canActivate()) {
+                                <p-button label="确认生效" icon="pi pi-verified" severity="primary" [rounded]="true" (onClick)="openActivateDialog()" class="cursor-pointer" />
+                            }
+                        </div>
+                    </div>
+                </section-card>
+
+                <section-card>
+                    <ng-template #title>合同条款版本与审核绑定</ng-template>
+                    <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+                        <div class="space-y-2">
+                            <div class="font-medium">{{ contract()!.currentPreparation?.status === 'prepared' ? '准备版（未生效）' : '条款准备版本' }}</div>
+                            @if (contract()!.currentPreparation; as preparation) {
+                                <div>准备版本 {{ preparation.version }} · {{ preparation.status === 'activated' ? '已承接生效' : preparation.status === 'prepared' ? '待审核 / 生效' : '已替代' }}</div>
+                                <div class="break-all text-xs text-surface-500">{{ preparation.preparationId }}</div>
+                                <div class="text-sm">准备时间：{{ preparation.preparedAt | date: 'yyyy-MM-dd HH:mm' }}</div>
+                            } @else {
+                                <p class="text-sm text-surface-500">尚未准备合同条款，请先前往项目签约前主线。</p>
+                            }
+                        </div>
+                        <div class="space-y-2">
+                            <div class="font-medium">审核绑定</div>
+                            @if (contract()!.latestReviewBinding; as binding) {
+                                <div>绑定准备版本 {{ binding.preparationVersion }}</div>
+                                <div class="break-all text-xs text-surface-500">准备标识：{{ binding.preparationId }}</div>
+                                <div class="break-all text-xs text-surface-500">审批标识：{{ binding.approvalRecordId }}</div>
+                            } @else {
+                                <p class="text-sm text-surface-500">尚未形成审核绑定。</p>
+                            }
+                        </div>
+                        <div class="space-y-2">
+                            <div class="font-medium">有效合同快照</div>
+                            @if (contract()!.currentTermSnapshot; as activeSnapshot) {
+                                <div>快照版本 {{ activeSnapshot.version }} · {{ activeSnapshot.snapshotStatus }}</div>
+                                <div class="break-all text-xs text-surface-500">{{ activeSnapshot.id }}</div>
+                                <div class="break-all text-xs text-surface-500">来源准备：{{ activeSnapshot.sourcePreparationId ?? '历史快照未记录' }}</div>
+                            } @else {
+                                <p class="text-sm text-surface-500">尚未生效；准备版本不代表有效快照。</p>
+                            }
+                        </div>
+                    </div>
+                </section-card>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <!-- Basic Info -->
+                    <section-card class="xl:col-span-2">
+                        <ng-template #title>合同信息</ng-template>
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">POMS 合同编号</span>
+                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ contract()!.contractNo }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">客户合同编号</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.customerContractNo ?? '-' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">关联项目</span>
+                                <span class="text-sm font-medium text-primary cursor-pointer hover:underline" (click)="navigateToProject()">{{ contract()!.projectName }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">客户名称</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.customerName ?? '-' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">签约金额</span>
+                                <span class="text-sm font-medium text-surface-950 dark:text-surface-0">{{ formatSensitiveAmountProjection(contract()!.signedAmountProjection, contract()!.currencyCode) }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">合同状态</span>
+                                <p-tag [value]="getStatusName(contract()!.status)" [severity]="getStatusSeverity(contract()!.status)" />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">当前快照</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0 break-all">{{ contract()!.currentSnapshotId ?? '-' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">签约日期</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.signedAt ? (contract()!.signedAt | date: 'yyyy-MM-dd') : '-' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">币种</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.currencyCode }}</span>
+                            </div>
+                        </div>
+                    </section-card>
+
+                    <section-card>
+                        <ng-template #title>审批摘要</ng-template>
+                        @if (loadingApproval()) {
+                            <div class="flex items-center justify-center py-10">
+                                <i class="pi pi-spin pi-spinner text-2xl text-primary"></i>
+                            </div>
+                        } @else if (currentApproval()) {
+                            <div class="flex flex-col gap-4 mt-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">审批状态</span>
+                                    <p-tag [value]="getApprovalStatusName(currentApproval()!.currentStatus)" [severity]="getApprovalStatusSeverity(currentApproval()!.currentStatus)" />
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">审批节点</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">{{ currentApproval()!.currentNodeName ?? currentApproval()!.currentNodeKey }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">发起人</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0 break-all">{{ currentApproval()!.initiatorUserId }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">当前审批人</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0 break-all">{{ currentApproval()!.currentApproverUserId ?? '-' }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">提交时间</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">{{ currentApproval()!.submittedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">业务状态</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">{{ getStatusName(currentApproval()!.targetStatus ?? contract()!.status) }}</span>
+                                </div>
+                                @if (currentApproval()!.decisionComment) {
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-xs text-surface-500 dark:text-surface-400">审批意见</span>
+                                        <div class="rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 px-3 py-2 text-sm text-surface-700 dark:text-surface-200 whitespace-pre-wrap">
+                                            {{ currentApproval()!.decisionComment }}
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        } @else {
+                            <div class="py-10 text-center">
+                                <i class="pi pi-inbox text-3xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
+                                <p class="text-sm text-surface-500 dark:text-surface-400">当前没有关联审批记录</p>
+                            </div>
+                        }
+                    </section-card>
+
+                    <!-- Audit Info -->
+                    <section-card class="xl:col-span-2">
+                        <ng-template #title>核心条款</ng-template>
+                        @if (contract()!.currentTermSnapshot; as snapshot) {
+                            <div class="grid grid-cols-2 gap-4 mt-4">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">税率（比例）</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ formatSensitiveRatioProjection(snapshot.taxRateProjection) }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">含税金额</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ formatSensitiveAmountProjection(snapshot.amountTaxInclusiveProjection, contract()!.currencyCode) }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">未税金额</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">
+                                        {{ formatSensitiveAmountProjection(snapshot.amountTaxExclusiveProjection, contract()!.currencyCode) }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">首付款比例</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ formatSensitiveRatioProjection(snapshot.downPaymentRateProjection) }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">质保金比例</span>
+                                    <span class="text-sm font-medium text-surface-950 dark:text-surface-0">
+                                        {{ formatSensitiveRatioProjection(snapshot.retentionRateProjection) }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">质保期届满日期</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0">
+                                        {{ snapshot.retentionDueDate ?? '-' }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1 xl:col-span-2">
+                                    <span class="text-xs text-surface-500 dark:text-surface-400">付款条款</span>
+                                    <span class="text-sm text-surface-950 dark:text-surface-0 whitespace-pre-wrap">
+                                        {{ sensitiveProjectionDisplayText(snapshot.paymentTermsProjection, '-') }}
+                                    </span>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="py-10 text-center">
+                                <i class="pi pi-file-edit text-3xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
+                                <p class="text-sm text-surface-500 dark:text-surface-400">
+                                    {{ contract()!.status === contractStatus.Active ? '当前合同尚未生成条款快照' : '合同未生效，条款快照将在生效后生成' }}
+                                </p>
+                            </div>
+                        }
+                    </section-card>
+
+                    @if (canReadContractAttachment()) {
+                        <app-attachment-panel
+                            class="xl:col-span-3"
+                            [targetType]="contractAttachmentTargetType"
+                            [targetId]="contract()!.id"
+                            [canWrite]="canWriteContractAttachment()"
+                            title="合同附件"
+                            description="保存合同草案、法务修订版、盖章合同、补充协议、中标通知和履约资料。"
+                        />
+                    }
+
+                    <section-card class="xl:col-span-3">
+                        <ng-template #title>审计追踪</ng-template>
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mt-4">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">创建时间</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.createdAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">创建人</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.createdBy ?? '-' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">最后更新</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.updatedAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">更新人</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.updatedBy ?? '-' }}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-surface-500 dark:text-surface-400">版本号</span>
+                                <span class="text-sm text-surface-950 dark:text-surface-0">{{ contract()!.rowVersion }}</span>
+                            </div>
+                        </div>
+                    </section-card>
+                </div>
+            </div>
+
+            <!-- Edit Dialog -->
+            <p-dialog [(visible)]="editDialogVisible" [modal]="true" header="编辑合同" [style]="{ width: '30rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <p-message severity="info" styleClass="w-full">POMS 合同编号由系统生成，编辑时只能维护客户合同编号等业务信息。</p-message>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">客户合同编号</label>
+                        <input pInputText [(ngModel)]="editForm.customerContractNo" class="w-full" placeholder="客户或甲方法务系统编号，可为空" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">签约金额 <span class="text-red-500">*</span></label>
+                        <input pInputText [(ngModel)]="editForm.signedAmount" class="w-full" [class.border-red-500]="editSubmitAttempted && !isValidAmount(editForm.signedAmount)" placeholder="正数，最多两位小数" />
+                        @if (editSubmitAttempted && !isValidAmount(editForm.signedAmount)) {
+                            <span class="text-red-500 text-xs">请输入大于 0 的有效金额，最多两位小数</span>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">币种</label>
+                        <p-select [(ngModel)]="editForm.currencyCode" [options]="currencyOptions" optionLabel="label" optionValue="value" class="w-full" appendTo="body" />
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="cancelEdit()" />
+                        <p-button label="保存" (onClick)="saveContract()" [loading]="saving()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="submitReviewDialogVisible" [modal]="true" header="提交合同审核" [style]="{ width: '34rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-orange-800 dark:border-orange-900/60 dark:bg-orange-950/30 dark:text-orange-200">
+                        提交后合同将进入待审核状态，普通编辑会被锁定，审批动作将通过统一待办流转。
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">提交说明</label>
+                        <textarea pTextarea [(ngModel)]="submitReviewForm.comment" [rows]="4" class="w-full" placeholder="可填写本次提交审核的背景说明"></textarea>
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="submitReviewDialogVisible = false" />
+                        <p-button label="提交审核" icon="pi pi-send" severity="warn" (onClick)="submitReview()" [loading]="saving()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="approveDialogVisible" [modal]="true" header="审批通过" [style]="{ width: '34rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-900/60 dark:bg-green-950/30 dark:text-green-200">
+                        审批通过后，合同仍保持待审核业务状态，需由业务侧执行“确认生效”完成正式生效。
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">审批意见</label>
+                        <textarea pTextarea [(ngModel)]="approveForm.comment" [rows]="4" class="w-full" placeholder="可填写审批通过说明"></textarea>
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="approveDialogVisible = false" />
+                        <p-button label="确认通过" icon="pi pi-check" severity="success" (onClick)="approveApproval()" [loading]="saving()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="rejectDialogVisible" [modal]="true" header="驳回审批" [style]="{ width: '34rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">驳回原因</label>
+                        <input pInputText [(ngModel)]="rejectForm.reason" class="w-full" placeholder="请输入驳回原因" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">补充说明</label>
+                        <textarea pTextarea [(ngModel)]="rejectForm.comment" [rows]="4" class="w-full" placeholder="可补充需要申请人修正的内容"></textarea>
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="rejectDialogVisible = false" />
+                        <p-button label="确认驳回" icon="pi pi-times" severity="danger" (onClick)="rejectApproval()" [loading]="saving()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="activateDialogVisible" [modal]="true" header="确认合同生效" [style]="{ width: '34rem' }" styleClass="p-fluid">
+                <div class="flex flex-col gap-4 py-4">
+                    <div class="rounded-2xl border border-primary-200 bg-primary-50 px-4 py-3 text-sm text-primary-800 dark:border-primary-900/60 dark:bg-primary-950/30 dark:text-primary-200">
+                        生效后将生成当前有效合同快照标识，合同进入正式生效状态。
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-surface-900 dark:text-surface-0 font-medium">生效说明</label>
+                        <textarea pTextarea [(ngModel)]="activateForm.comment" [rows]="4" class="w-full" placeholder="可填写生效确认说明"></textarea>
+                    </div>
+                </div>
+
+                <ng-template #footer>
+                    <div class="flex justify-end gap-2">
+                        <p-button label="取消" severity="secondary" [outlined]="true" (onClick)="activateDialogVisible = false" />
+                        <p-button label="确认生效" icon="pi pi-verified" severity="primary" (onClick)="activateContract()" [loading]="saving()" />
+                    </div>
+                </ng-template>
+            </p-dialog>
+        } @else {
+            <div class="py-20 text-center">
+                <i class="pi pi-exclamation-triangle text-4xl text-surface-300 dark:text-surface-600 mb-3 block"></i>
+                <p class="text-surface-500 dark:text-surface-400">合同未找到</p>
+                <p-button label="返回列表" icon="pi pi-arrow-left" [text]="true" (onClick)="goBack()" class="mt-4 cursor-pointer" />
+            </div>
+        }
+    `
+})
+export class ContractDetail implements OnInit, OnDestroy {
+    readonly #route = inject(ActivatedRoute);
+    readonly #router = inject(Router);
+    readonly #contractStore = inject(ContractStore);
+    readonly #authStore = inject(AuthStore);
+    readonly #messageService = inject(MessageService);
+
+    readonly contract = this.#contractStore.selectedContract;
+    readonly currentApproval = this.#contractStore.currentApproval;
+    readonly loading = this.#contractStore.loading;
+    readonly loadingApproval = this.#contractStore.loadingApproval;
+    readonly saving = this.#contractStore.saving;
+    readonly commandRefreshError = this.#contractStore.commandRefreshError;
+    readonly refreshingAcknowledgement = this.#contractStore.refreshingAcknowledgement;
+    readonly acknowledgedStatus = computed(() => {
+        switch (this.#contractStore.lastAcknowledgement()?.action) {
+            case 'submit-review': return '已提交';
+            case 'activate': return '已生效';
+            case 'approve':
+            case 'reject': return '审批已处理';
+            default: return '操作已完成';
+        }
+    });
+    readonly hasCurrentCommandState = computed(() => !this.commandRefreshError() && !this.refreshingAcknowledgement());
+    readonly currentUser = computed(() => this.#authStore.currentUser());
+    readonly contractStatus = ContractStatus;
+    readonly isCurrentApprover = computed(() => this.currentApproval()?.currentApproverUserId === this.currentUser()?.id);
+    readonly canManageContractFinance = computed(() => this.#authStore.hasAnyPermission(BUSINESS_FINANCE_PERMISSION_KEYS));
+    readonly formatSensitiveAmountProjection = contractAmountDisplay;
+    readonly formatSensitiveRatioProjection = sensitiveProjectionDisplayText;
+    readonly sensitiveProjectionDisplayText = sensitiveProjectionDisplayText;
+    readonly canReadContractSignedAmount = computed(() => isSensitiveProjectionFull(this.contract()?.signedAmountProjection));
+    readonly canEditContract = computed(() => this.hasCurrentCommandState() && this.canManageContractFinance() && this.canReadContractSignedAmount() && this.contract()?.status === ContractStatus.Draft);
+    readonly hasPreparation = computed(() => hasCurrentContractPreparation(this.contract()));
+    readonly canSubmitReview = computed(() => this.hasCurrentCommandState() && this.canManageContractFinance() && this.contract()?.status === ContractStatus.Draft && this.hasPreparation());
+    readonly canApprove = computed(() => this.hasCurrentCommandState() && this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
+    readonly canReject = computed(() => this.hasCurrentCommandState() && this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending && this.isCurrentApprover());
+    readonly canActivate = computed(() => this.hasCurrentCommandState() && this.contract()?.status === ContractStatus.PendingReview && this.canManageContractFinance() && hasApprovedPreparationBinding(this.contract(), this.currentApproval()));
+    readonly contractAttachmentTargetType = AttachmentTargetType.Contract;
+    readonly canReadContractAttachment = computed(() => this.#authStore.hasAnyPermission(['project:read'] as const));
+    readonly canWriteContractAttachment = computed(() => this.#authStore.hasAnyPermission(['project:write'] as const));
+    readonly approvalStatusLabel = computed(() => {
+        const status = this.currentApproval()?.currentStatus;
+        return status ? this.getApprovalStatusName(status) : null;
+    });
+    readonly approvalStatusSeverity = computed(() => {
+        const status = this.currentApproval()?.currentStatus;
+        return status ? this.getApprovalStatusSeverity(status) : undefined;
+    });
+    readonly actionHeadline = computed(() => {
+        if (this.commandRefreshError()) return `${this.acknowledgedStatus()}，请先重新加载当前状态`;
+        if (this.contract()?.status === ContractStatus.Draft && !this.hasPreparation()) return '请先准备本合同条款，再提交审核';
+        if (this.canSubmitReview()) return '合同草稿已准备就绪，可提交进入审核流程';
+        if (this.canApprove()) return '你是当前审批人，可以直接处理这条合同审核';
+        if (this.canReject()) return '你可以驳回当前审批，合同将退回草稿';
+        if (this.canActivate()) return '审批已通过，下一步应确认合同正式生效';
+        if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending) return '合同正在审批流转中，等待当前审批人处理';
+        if (this.contract()?.status === ContractStatus.Active) return '合同已正式生效，可作为后续台账与联动依据';
+        return '当前没有可执行的命令动作';
+    });
+    readonly actionDescription = computed(() => {
+        if (this.commandRefreshError()) return '已收到操作成功回执；后续读取未完成，请使用重新加载入口核对合同、审批与待办。';
+        if (this.contract()?.status === ContractStatus.Draft && !this.hasPreparation()) return '请前往项目签约前主线，选择本合同并准备真实条款版本。';
+        if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Approved && !this.canActivate()) return '当前审核与准备版本的绑定尚不完整或不一致，请刷新并核对后再确认生效。';
+        if (this.canSubmitReview()) return '提交审核后将生成审批记录与统一待办，详情页进入审批追踪状态。';
+        if (this.canApprove()) return '审批通过后仍需业务侧执行“确认生效”，以避免审批状态和业务状态混用。';
+        if (this.canReject()) return '驳回将关闭当前待办，并把合同状态退回草稿，便于业务侧继续修订。';
+        if (this.canActivate()) return '确认生效将承接已审核绑定的准备版本，形成独立的有效合同快照。';
+        if (this.contract()?.status === ContractStatus.PendingReview && this.currentApproval()?.currentStatus === ApprovalStatus.Pending) return '审批入口保留在业务页面，统一待办仅作为聚合入口。';
+        if (this.contract()?.status === ContractStatus.Active) return '当前合同已完成审核与生效闭环，后续可以继续接回款、发票等切片。';
+        return '请结合当前合同状态与审批摘要继续推进。';
+    });
+
+    editDialogVisible = false;
+    editSubmitAttempted = false;
+    submitReviewDialogVisible = false;
+    approveDialogVisible = false;
+    rejectDialogVisible = false;
+    activateDialogVisible = false;
+    editForm = { signedAmount: '', currencyCode: '', customerContractNo: '' };
+    submitReviewForm = { comment: '' };
+    approveForm = { comment: '' };
+    rejectForm = { reason: '', comment: '' };
+    activateForm = { comment: '' };
+
+    currencyOptions = [
+        { label: '人民币 (CNY)', value: 'CNY' },
+        { label: '美元 (USD)', value: 'USD' },
+        { label: '欧元 (EUR)', value: 'EUR' }
+    ];
+
+    ngOnInit() {
+        const id = this.#route.snapshot.paramMap.get('id');
+        if (id) {
+            void Promise.all([this.#contractStore.loadContract(id), this.#contractStore.loadCurrentApproval(id)]).catch((error: unknown) => {
+                this.#messageService.add({ severity: 'error', summary: '读取失败', detail: this.getErrorMessage(error), life: 5000 });
+            });
+        }
+    }
+
+    ngOnDestroy() {
+        this.#contractStore.clearSelectedContract();
+    }
+
+    goBack() {
+        this.#router.navigate(['/contracts']);
+    }
+
+    navigateToProject() {
+        const c = this.contract();
+        if (c) this.#router.navigate(['/projects', c.projectId]);
+    }
+
+    navigateToPreparation() {
+        const contract = this.contract();
+        if (contract) void this.#router.navigate(['/projects', contract.projectId, 'workspace', 'pre-signing'], { queryParams: { contractId: contract.id } });
+    }
+
+    isValidAmount(value: string): boolean {
+        return isValidContractAmount(value);
+    }
+
+    showEditDialog() {
+        const c = this.contract();
+        if (!c) return;
+        this.editForm = { signedAmount: c.signedAmountProjection.value ?? '', currencyCode: c.currencyCode, customerContractNo: c.customerContractNo ?? '' };
+        this.editSubmitAttempted = false;
+        this.editDialogVisible = true;
+    }
+
+    cancelEdit() {
+        this.editSubmitAttempted = false;
+        this.editDialogVisible = false;
+    }
+
+    async saveContract() {
+        this.editSubmitAttempted = true;
+        const c = this.contract();
+        if (!c || !this.isValidAmount(this.editForm.signedAmount)) return;
+
+        try {
+            await this.#contractStore.updateContract(c.id, {
+                signedAmount: this.editForm.signedAmount,
+                currencyCode: this.editForm.currencyCode,
+                customerContractNo: this.optionalText(this.editForm.customerContractNo),
+                expectedVersion: c.rowVersion
+            });
+            this.editDialogVisible = false;
+            this.editSubmitAttempted = false;
+            this.#messageService.add({ severity: 'success', summary: '保存成功', detail: '合同基础信息已更新', life: 3000 });
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '保存失败', detail: this.getErrorMessage(error), life: 4000 });
+            return;
+        }
+    }
+
+    optionalText(value: string): string | null {
+        const trimmed = value.trim();
+        return trimmed.length > 0 ? trimmed : null;
+    }
+
+    openSubmitReviewDialog() {
+        if (!this.canSubmitReview()) return;
+        this.submitReviewForm = { comment: '' };
+        this.submitReviewDialogVisible = true;
+    }
+
+    async submitReview() {
+        const c = this.contract();
+        const preparation = c?.currentPreparation;
+        if (!c || !preparation || !this.canSubmitReview()) {
+            this.#messageService.add({ severity: 'warn', summary: '请先准备条款', detail: '当前合同缺少可送审的真实准备版本。', life: 4000 });
+            return;
+        }
+
+        try {
+            await this.#contractStore.submitReview(c.id, {
+                preparationId: preparation.preparationId,
+                comment: this.submitReviewForm.comment || undefined,
+                expectedVersion: c.rowVersion
+            });
+            this.submitReviewDialogVisible = false;
+            this.#notifyAcknowledgedResult('提交成功', '合同已进入审核流程');
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '提交失败', detail: this.getErrorMessage(error), life: 4000 });
+        }
+    }
+
+    openApproveDialog() {
+        this.approveForm = { comment: '' };
+        this.approveDialogVisible = true;
+    }
+
+    async approveApproval() {
+        const approval = this.currentApproval();
+        if (!approval) return;
+
+        try {
+            await this.#contractStore.approveRecord(approval.id, approval.rowVersion, this.approveForm.comment || undefined);
+            this.approveDialogVisible = false;
+            this.#notifyAcknowledgedResult('审批完成', '合同审核已通过，待业务确认生效');
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '审批失败', detail: this.getErrorMessage(error), life: 4000 });
+        }
+    }
+
+    openRejectDialog() {
+        this.rejectForm = { reason: '', comment: '' };
+        this.rejectDialogVisible = true;
+    }
+
+    async rejectApproval() {
+        const approval = this.currentApproval();
+        if (!approval || !this.rejectForm.reason.trim()) return;
+
+        try {
+            await this.#contractStore.rejectRecord(approval.id, this.rejectForm.reason.trim(), approval.rowVersion, this.rejectForm.comment || undefined);
+            this.rejectDialogVisible = false;
+            this.#notifyAcknowledgedResult('已驳回', '合同已退回草稿，待业务修订后重新提交');
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '驳回失败', detail: this.getErrorMessage(error), life: 4000 });
+        }
+    }
+
+    openActivateDialog() {
+        if (!this.canActivate()) return;
+        this.activateForm = { comment: '' };
+        this.activateDialogVisible = true;
+    }
+
+    async activateContract() {
+        const c = this.contract();
+        if (!c || !this.canActivate()) return;
+
+        try {
+            await this.#contractStore.activateContract(c.id, {
+                comment: this.activateForm.comment || undefined,
+                expectedVersion: c.rowVersion
+            });
+            this.activateDialogVisible = false;
+            this.#notifyAcknowledgedResult('生效成功', '合同已切换为正式生效状态');
+        } catch (error) {
+            this.#messageService.add({ severity: 'error', summary: '生效失败', detail: this.getErrorMessage(error), life: 4000 });
+        }
+    }
+
+    async reloadAcknowledgedState() {
+        const refreshed = await this.#contractStore.reloadAcknowledgedState();
+        if (refreshed) this.#messageService.add({ severity: 'success', summary: '已重新加载', detail: '合同、审批与待办已更新', life: 3000 });
+    }
+
+    #notifyAcknowledgedResult(summary: string, detail: string) {
+        const refreshError = this.commandRefreshError();
+        this.#messageService.add(refreshError
+            ? { severity: 'warn', summary: `${this.acknowledgedStatus()}，刷新失败`, detail: `${refreshError} 请重新加载后核对当前状态。`, life: 6000 }
+            : { severity: 'success', summary, detail, life: 3000 });
+    }
+
+    getStatusName(status: ContractStatusPresentationValue): string {
+        return contractStatusLabelOrFallback(status);
+    }
+
+    getStatusSeverity(status: ContractStatusPresentationValue) {
+        return contractStatusSeverityOrFallback(status);
+    }
+
+    getApprovalStatusName(status: ApprovalStatusPresentationValue): string {
+        return approvalStatusLabelOrFallback(status);
+    }
+
+    getApprovalStatusSeverity(status: ApprovalStatusPresentationValue) {
+        return approvalStatusSeverityOrFallback(status);
+    }
+
+    getErrorMessage(error: unknown): string {
+        if (typeof error === 'object' && error !== null) {
+            const candidate = error as {
+                error?: { message?: string };
+                message?: string;
+            };
+            if (candidate.error?.message) {
+                return candidate.error.message;
+            }
+            if (candidate.message) {
+                return candidate.message;
+            }
+        }
+
+        return '请求未成功，请稍后重试';
+    }
+}

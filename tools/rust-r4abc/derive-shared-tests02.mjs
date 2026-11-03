@@ -1,0 +1,6 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+let s=fs.readFileSync('tools/rust-r4abc/shared-contract-tests01.ts','utf8');
+s=s.replace("const contractId='00000000-0000-4000-8000-000000000002';","const contractId='a1000000-0000-4000-8000-000000000002';");
+const marker="console.log(JSON.stringify({kind:'R4-real-shared-schema-boundary-tests'";assert(s.includes(marker));
+s=s.replace(marker,"ok(!ReadinessInitializationResultSchema.safeParse({...prepared,snapshotId}).success, 'prepared is not an effective snapshot');\nok(!ReadinessInitializationResultSchema.safeParse({...prepared,resultStatus:'initialized'}).success, 'prepared receipt status is coherent');\nok(!ReadinessInitializationResultSchema.safeParse({...initialized,newVersionId:preparationId}).success, 'newVersionId is the actual plan');\nok(!ReadinessInitializationResultSchema.safeParse({...initialized,snapshotId:null}).success, 'formal plan has an effective snapshot');\nok(!ReadinessInitializationResultSchema.safeParse({...initialized,planVersion:null}).success, 'formal plan has a persisted version');\n"+marker);
+fs.writeFileSync('tools/rust-r4abc/shared-contract-tests02.ts',s,{flag:'wx'});console.log('Shared tests02 retain failed01 and add conditional product-identity cases.');

@@ -1,0 +1,187 @@
+{
+  "kind": "R4-ORM-first-complete-static-source-candidate",
+  "issue": 103,
+  "owner": "A; candidate author, not independent reviewer",
+  "g1BaseReportedByRoot": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "createdAt": "2026-11-03T08:44:13.2588286+00:00",
+  "worktree": "E:/projects/worktrees/poms-r4a-readiness/poms",
+  "candidateOnly": true,
+  "actualProductFilesModified": [],
+  "files": [
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.entity.ts",
+      "candidatePath": "products/apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.entity.ts",
+      "baseExists": true,
+      "baseSha256": "c83d8150d4eefcc50235e2e57a170d9e15819677632e3bbd7534d11e7b2a0606",
+      "baseByteLength": 9083,
+      "newSha256": "39f52cfb382af01d8d9fbeb9ef18757818e057b64d7b51fc6befb27ac677f47f",
+      "newByteLength": 10505
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts",
+      "candidatePath": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts",
+      "baseExists": true,
+      "baseSha256": "24c128e038429acb1e45ae54b15133e62abb707e51d39b96f97fcc08e23ed49f",
+      "baseByteLength": 5014,
+      "newSha256": "aab5d667337a051437cd439e4272ceca20c786d3a02bddd86af3f2c818297470",
+      "newByteLength": 7484
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "candidatePath": "products/apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "baseExists": true,
+      "baseSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "baseByteLength": 9907,
+      "newSha256": "8f4bfb0961a6d09513f6573b69edfa7a3f1d72dc95d2637013067c3ece2582b5",
+      "newByteLength": 11108
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.module.ts",
+      "candidatePath": "products/apps/poms-api/src/app/features/contract-readiness/contract-readiness.module.ts",
+      "baseExists": true,
+      "baseSha256": "0c4fd625c3e914ad6af9b3213ffafffde750eab5c6d530232bd911db79d5b489",
+      "baseByteLength": 1423,
+      "newSha256": "786601a5724797ab04eb2846ad30924729d5c1ed14e27afd1e79457b0eb6bbd8",
+      "newByteLength": 1871
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+      "candidatePath": "products/apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+      "baseExists": false,
+      "baseSha256": null,
+      "baseByteLength": 0,
+      "newSha256": "b28e02909c9dcf6ed85d2edd4a9396cae140c0a04a0074bdb2c0cd644ea4cf03",
+      "newByteLength": 17715
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "base-pins01.json",
+      "sha256": "120d6db5520c1dbb1c95fc589447f17bb6db4340b4ec3e070290ae7a74d24989",
+      "byteLength": 1395
+    },
+    {
+      "path": "INTEGRATION.md",
+      "sha256": "32b9c924cdacdc3b6a5f967cf3657b7ff546573ae9104c7fe1487e9cb1ad3b73",
+      "byteLength": 9411
+    },
+    {
+      "path": "catalog-alignment01.json",
+      "sha256": "58b7a0e5c619ed27b18bfc6b0c083ad78091d0d4798a2cd890002c3b42f22598",
+      "byteLength": 290350
+    },
+    {
+      "path": "catalog-alignment02.json",
+      "sha256": "8d0bf4b44b32fb06f7d1544e18210b21db012fb9c474c17393eb771c3181ea3e",
+      "byteLength": 285849
+    },
+    {
+      "path": "guard-alignment01.json",
+      "sha256": "891f6f1d3a10a00b709faec124e533b74f7a1a7f78a28a201791872678722e06",
+      "byteLength": 43679
+    },
+    {
+      "path": "input-pins01.json",
+      "sha256": "3fd59929262d0dd2e30cf772dcbb1cc54f690dd6c933ece525e654ad61f4e763",
+      "byteLength": 6599
+    }
+  ],
+  "schemaAndCatalog": {
+    "tableCountInPublicCatalog": 113,
+    "schemaCountInCandidateFiles": 15,
+    "columnCount": 216,
+    "newTables": 6,
+    "newTableColumns": 79,
+    "newChecks": 24,
+    "missingStaticColumns": 0,
+    "duplicateStaticColumns": 0,
+    "staticColumnFindings": 0,
+    "missingExplicitNewGuardNames": 0,
+    "missingExplicitNewIndexNames": 0,
+    "scopeDbExtraCount": 16,
+    "activeAlignment": "catalog-alignment02.json",
+    "sourceScannerInitialFindingsPreserved": "catalog-alignment01.json"
+  },
+  "scopeExtras": {
+    "names": [
+      "fk_r4_diff_baseline_project",
+      "fk_r4_diff_contract_project",
+      "fk_r4_readiness_contract_project",
+      "fk_r4_readiness_current_preparation",
+      "fk_r4_readiness_diff_scope",
+      "fk_r4_review_preparation_contract",
+      "fk_r4_preparation_activated_snapshot",
+      "fk_r4_preparation_contract_project",
+      "fk_r4_preparation_diff_scope",
+      "fk_r4_preparation_readiness_scope",
+      "fk_r4_snapshot_preparation_contract",
+      "fk_r4_plan_init_contract",
+      "fk_r4_plan_init_snapshot",
+      "fk_r4_plan_contract_project",
+      "fk_r4_plan_preparation_source",
+      "fk_r4_plan_snapshot_scope"
+    ],
+    "status": "Root actual migration-check and independent decision required",
+    "rules": "Keep exact SQL93 strong constraints. Do not apply generated DROP or replace with weaker scalar FKs. No blanket FK waiver."
+  },
+  "sharedTypes": [
+    "ContractCommercialTerms",
+    "ReceivablePlanSeed",
+    "ContractTermPreparationStatus",
+    "CONTRACT_TERM_PREPARATION_STATUSES"
+  ],
+  "sdkVersion": "7.0.11",
+  "frozenRustFilesUnchanged": 6,
+  "nativeActualProductChecks": [
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.entity.ts",
+      "aActualUnchanged": true,
+      "rootFileExists": true,
+      "rootCurrentSha256": "c83d8150d4eefcc50235e2e57a170d9e15819677632e3bbd7534d11e7b2a0606",
+      "expectedBaseSha256": "c83d8150d4eefcc50235e2e57a170d9e15819677632e3bbd7534d11e7b2a0606"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts",
+      "aActualUnchanged": true,
+      "rootFileExists": true,
+      "rootCurrentSha256": "24c128e038429acb1e45ae54b15133e62abb707e51d39b96f97fcc08e23ed49f",
+      "expectedBaseSha256": "24c128e038429acb1e45ae54b15133e62abb707e51d39b96f97fcc08e23ed49f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "aActualUnchanged": true,
+      "rootFileExists": true,
+      "rootCurrentSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6",
+      "expectedBaseSha256": "bbf371f538ad03a83df0f5e2d49663e416a1de79f334241a7075753c68ee71c6"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.module.ts",
+      "aActualUnchanged": true,
+      "rootFileExists": true,
+      "rootCurrentSha256": "0c4fd625c3e914ad6af9b3213ffafffde750eab5c6d530232bd911db79d5b489",
+      "expectedBaseSha256": "0c4fd625c3e914ad6af9b3213ffafffde750eab5c6d530232bd911db79d5b489"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+      "aActualUnchanged": true,
+      "rootFileExists": false,
+      "expectedBaseSha256": null
+    }
+  ],
+  "runtimeExecuted": [],
+  "notClaimed": [
+    "TypeScript build or lint pass",
+    "Node/SDK metadata discovery pass",
+    "migration-check pass",
+    "DB execution or data-row review",
+    "Native lifecycle producer delivery",
+    "G3/G4"
+  ],
+  "rootRequired": [
+    "base-SHA safe import of exactly five products",
+    "current Shared types and actual Native TypeScript compile/lint",
+    "Nest autoLoad and CLI actual discovery/hydration identity check",
+    "catalog and migration-check classification including exact16 compound scope FKs",
+    "independent non-author review before any Gate claim"
+  ]
+}

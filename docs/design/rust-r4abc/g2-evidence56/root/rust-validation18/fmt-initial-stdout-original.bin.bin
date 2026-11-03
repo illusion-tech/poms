@@ -1,0 +1,32 @@
+Diff in /home/wangzishi/projects/poms-rust-r4abc/apps/poms-api-rust/tests/http.rs:609:
+ }
+ 
+ #[test]
+-fn openapi_has_two_hundred_ten_operations_and_preserves_existing_health_schemas()
+--> TestResult {
++fn openapi_has_two_hundred_ten_operations_and_preserves_existing_health_schemas() -> TestResult {
+     let document = serde_json::to_value(http::openapi())?;
+     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
+     let paths = document["paths"].as_object().ok_or("missing paths")?;
+Diff in /home/wangzishi/projects/poms-rust-r4abc/apps/poms-api-rust/tests/http.rs:636:
+     let mut identities = std::collections::BTreeSet::new();
+     for operation in operations {
+         let path = operation["path"].as_str().ok_or("missing R4 path")?;
+-        let method = operation["method"].as_str().ok_or("missing R4 method")?.to_ascii_lowercase();
+-        let id = operation["operationId"].as_str().ok_or("missing R4 identity")?;
++        let method = operation["method"]
++            .as_str()
++            .ok_or("missing R4 method")?
++            .to_ascii_lowercase();
++        let id = operation["operationId"]
++            .as_str()
++            .ok_or("missing R4 identity")?;
+         assert!(identities.insert(id));
+-        assert_eq!(document["paths"][path][&method], existing["paths"][path][&method]);
++        assert_eq!(
++            document["paths"][path][&method],
++            existing["paths"][path][&method]
++        );
+         assert_eq!(document["paths"][path][&method]["operationId"], id);
+     }
+     // Preserve all delivered R3 operations against the independent Native spec.

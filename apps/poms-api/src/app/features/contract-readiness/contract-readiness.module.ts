@@ -12,6 +12,14 @@ import { ContractReadinessController } from './contract-readiness.controller';
 import { ContractReadinessPackage, ContractReadinessPackageItem } from './contract-readiness-package.entity';
 import { ContractReadinessPackageRepository } from './contract-readiness-package.repository';
 import { ContractReadinessService } from './contract-readiness.service';
+import {
+    CommercialBaselineReviewAttachment,
+    ContractTermPreparation,
+    ContractReviewBinding,
+    ReceivablePlanVersion,
+    ReceivablePlanNode,
+    ReceivablePlanInitRecord
+} from './contract-lifecycle.entity';
 
 @Module({
     imports: [
@@ -21,7 +29,13 @@ import { ContractReadinessService } from './contract-readiness.service';
             CommercialBaselineDiffItem,
             CommercialBaselineReviewRecord,
             ContractReadinessPackage,
-            ContractReadinessPackageItem
+            ContractReadinessPackageItem,
+            CommercialBaselineReviewAttachment,
+            ContractTermPreparation,
+            ContractReviewBinding,
+            ReceivablePlanVersion,
+            ReceivablePlanNode,
+            ReceivablePlanInitRecord
         ]),
         ProjectModule
     ],

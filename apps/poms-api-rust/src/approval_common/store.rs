@@ -477,6 +477,7 @@ pub async fn flush(session: &mut CommonSession<'_, '_>) -> Result<(), CommonFail
         session.state.trace.begin(true);
         let result = {
             let mut borrowed = CommonSession {
+                request_id: session.request_id.clone(),
                 connection: &mut tx,
                 state: session.state,
                 participant: session.participant.as_mut().map(|participant| {

@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
-import { CommercialDiffLevel, CommercialDiffReviewStatus, ContractReadinessGuardDecision, type ContractReadinessDetail, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { AuthStore, CommercialDiffLevel, CommercialDiffReviewStatus, ContractReadinessGuardDecision, type ContractReadinessDetail, ContractReadinessItemStatus, ContractReadinessItemType, ContractReadinessStatus, ProjectStage, ProjectStatus, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectPreSigningOverview } from './project-pre-signing-overview';
 
 function createGuidance(overrides: Partial<ProjectWorkspaceGuidanceView> = {}): ProjectWorkspaceGuidanceView {
@@ -43,6 +43,10 @@ function createReadiness(overrides: Partial<ContractReadinessDetail> = {}): Cont
     return {
         id: 'readiness-1',
         projectId: 'project-1',
+        contractId: 'contract-1',
+        candidateTerms: null,
+        currentPreparation: null,
+        financialProjection: { fieldPackageKey: 'contract-finance', mode: 'full', value: null, displayText: '尚无可展示条款', reasonCode: 'allowed' },
         sourceBaselineId: 'source-baseline-1',
         commercialReleaseBaselineId: 'commercial-baseline-1',
         latestDiffResultId: 'diff-1',
@@ -100,6 +104,7 @@ describe('ProjectPreSigningOverview', () => {
             imports: [ProjectPreSigningOverview],
             providers: [
                 provideRouter([]),
+                { provide: AuthStore, useValue: { hasAnyPermission: jest.fn().mockReturnValue(true) } },
                 {
                     provide: ActivatedRoute,
                     useValue: {
@@ -109,7 +114,8 @@ describe('ProjectPreSigningOverview', () => {
                             }
                         },
                         snapshot: {
-                            paramMap: convertToParamMap({})
+                            paramMap: convertToParamMap({}),
+                            queryParamMap: convertToParamMap({ contractId: 'contract-1' })
                         }
                     }
                 },
@@ -120,6 +126,16 @@ describe('ProjectPreSigningOverview', () => {
                         contractReadiness: readinessSignal,
                         loadingPreSigning: loadingSignal,
                         preSigningError: errorSignal,
+                        preSigningContractId: signal<string | null>('contract-1'),
+                        preSigningContract: signal(null),
+                        preSigningContracts: signal([]),
+                        preSigningCandidateIds: signal<string[]>([]),
+                        preSigningDiffHistory: signal(null),
+                        preSigningInitialization: signal(null),
+                        savingPreSigning: signal(false),
+                        preSigningActionError: signal<string | null>(null),
+                        prepareSelectedContractTerms: jest.fn(),
+                        generateSelectedReceivablePlan: jest.fn(),
                         loadPreSigningOverview
                     }
                 }
@@ -127,9 +143,7 @@ describe('ProjectPreSigningOverview', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(ProjectPreSigningOverview);
-        fixture.detectChanges();
         await fixture.whenStable();
-        fixture.detectChanges();
     }
 
     beforeEach(() => {
@@ -141,7 +155,7 @@ describe('ProjectPreSigningOverview', () => {
 
         const text = fixture.nativeElement.textContent;
 
-        expect(loadPreSigningOverview).toHaveBeenCalledWith('project-1');
+        expect(loadPreSigningOverview).toHaveBeenCalledWith('project-1', 'contract-1');
         expect(text).toContain('签约前主线');
         expect(text).toContain('商务收口');
         expect(text).toContain('报价审批结论尚未放行。');
@@ -162,15 +176,14 @@ describe('ProjectPreSigningOverview', () => {
 
         const text = fixture.nativeElement.textContent;
 
-        expect(text).toContain('尚未形成承接包');
-        expect(text).toContain('签约就绪承接包尚未形成');
-        expect(text).toContain('先补齐签约前评估、范围、报价和合同前置事实');
+        expect(text).toContain('本合同的签约就绪承接包尚未形成');
+        expect(text).toContain('先补齐项目报价与本合同的条款承接事实');
     });
 
     it('renders the store error without inventing fallback data', async () => {
         await setup(null);
         errorSignal.set('你没有权限查看当前工作区。');
-        fixture.detectChanges();
+        await fixture.whenStable();
 
         const text = fixture.nativeElement.textContent;
 

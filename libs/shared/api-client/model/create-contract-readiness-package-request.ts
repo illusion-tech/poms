@@ -10,14 +10,17 @@
 import { ContractReadinessStatus } from './contract-readiness-status';
 import { ContractReadinessPackageItemInput } from './contract-readiness-package-item-input';
 import { ContractReadinessGuardDecision } from './contract-readiness-guard-decision';
+import { ContractCommercialTerms } from './contract-commercial-terms';
 
 
 export interface CreateContractReadinessPackageRequest {
     projectId: string;
+    contractId: string;
+    candidateTerms: ContractCommercialTerms;
     sourceBaselineId: string;
-    latestDiffResultId: string;
-    packageStatus: ContractReadinessStatus;
-    guardDecision: ContractReadinessGuardDecision;
+    latestDiffResultId?: string;
+    packageStatus?: ContractReadinessStatus;
+    guardDecision?: ContractReadinessGuardDecision;
     currentEffectiveDecisionSummary?: string | null;
     blockingReasonSummary?: string | null;
     missingPrerequisiteCount?: number;

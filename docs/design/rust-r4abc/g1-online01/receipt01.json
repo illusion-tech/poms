@@ -1,0 +1,567 @@
+{
+  "kind": "R4-first37-actual-online-G1-freeze-readback",
+  "createdAt": "2026-11-03T05:55:57.605Z",
+  "baselineCommit": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+  "candidate": {
+    "file": "docs/design/rust-r4abc/g1-candidate-manifest01.json",
+    "bytes": 123657,
+    "rawBytesSha256": "cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36"
+  },
+  "independentReview": {
+    "file": "tmp/rust-r4abc/independent/g1-independent-review01.json",
+    "bytes": 14955,
+    "rawBytesSha256": "e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318",
+    "storedAt": "docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin",
+    "decision": "Pass"
+  },
+  "comments": [
+    {
+      "issue": 103,
+      "id": 6596576421,
+      "url": "https://github.com/illusion-tech/poms/issues/103#issuecomment-6596576421",
+      "body": "R4 首批联合 G1 已冻结。\n\n- G1 commit: `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，分支 `codex/poms-r4abc-first37`。\n- Baseline: [联合实施基线](https://github.com/illusion-tech/poms/blob/2f613c312c9e41b3ed5ac59edf5e9db63842c1cb/docs/design/rust-r4abc-first37-baseline.md)。\n- Source manifest: `docs/design/rust-r4abc/g1-candidate-manifest01.json` SHA256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`；491文件、313去重来源、37唯一入口（A9/B9/C19），与既有Rust173 overlap=0。\n- Independent review: `docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin` SHA256 `e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318`，Pass/P0–P3=0。\n- 四项用户裁决已冻结：真实合同prepared→exact审核绑定→原子Active快照→正式应收计划；正数两位金额且拒绝超容量；付款同项目Active合同及应付绑定规则（保留无合同项目付款）；每合同独立金额/条款/节点，不自动分摊或强制合计，来源与差异可审计。\n- 同outerTX、Approval先materialize再binding、audit/auth一次参与、source freshness、typedUUID/金额/日期/选择器及新DDL/DTO/UI协议明确。\n- 线上本冻结读回后允许本批三线G2；Root集中迁移/共享接线/实际HTTP-PG-UI/fault-race验收。当前仅G1完成，产品实现、实际验收、独立G3/fixed/main/G4尚未完成。\n- 仅本批103/104/105/102在自身G4后可关闭，R4父#101和总体#57持续Open；移交/实际成本producer/经营/验收完工归档及完整R4另批。\n"
+    },
+    {
+      "issue": 104,
+      "id": 6596577453,
+      "url": "https://github.com/illusion-tech/poms/issues/104#issuecomment-6596577453",
+      "body": "R4 首批联合 G1 已冻结。\n\n- G1 commit: `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，分支 `codex/poms-r4abc-first37`。\n- Baseline: [联合实施基线](https://github.com/illusion-tech/poms/blob/2f613c312c9e41b3ed5ac59edf5e9db63842c1cb/docs/design/rust-r4abc-first37-baseline.md)。\n- Source manifest: `docs/design/rust-r4abc/g1-candidate-manifest01.json` SHA256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`；491文件、313去重来源、37唯一入口（A9/B9/C19），与既有Rust173 overlap=0。\n- Independent review: `docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin` SHA256 `e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318`，Pass/P0–P3=0。\n- 四项用户裁决已冻结：真实合同prepared→exact审核绑定→原子Active快照→正式应收计划；正数两位金额且拒绝超容量；付款同项目Active合同及应付绑定规则（保留无合同项目付款）；每合同独立金额/条款/节点，不自动分摊或强制合计，来源与差异可审计。\n- 同outerTX、Approval先materialize再binding、audit/auth一次参与、source freshness、typedUUID/金额/日期/选择器及新DDL/DTO/UI协议明确。\n- 线上本冻结读回后允许本批三线G2；Root集中迁移/共享接线/实际HTTP-PG-UI/fault-race验收。当前仅G1完成，产品实现、实际验收、独立G3/fixed/main/G4尚未完成。\n- 仅本批103/104/105/102在自身G4后可关闭，R4父#101和总体#57持续Open；移交/实际成本producer/经营/验收完工归档及完整R4另批。\n"
+    },
+    {
+      "issue": 105,
+      "id": 6596579031,
+      "url": "https://github.com/illusion-tech/poms/issues/105#issuecomment-6596579031",
+      "body": "R4 首批联合 G1 已冻结。\n\n- G1 commit: `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，分支 `codex/poms-r4abc-first37`。\n- Baseline: [联合实施基线](https://github.com/illusion-tech/poms/blob/2f613c312c9e41b3ed5ac59edf5e9db63842c1cb/docs/design/rust-r4abc-first37-baseline.md)。\n- Source manifest: `docs/design/rust-r4abc/g1-candidate-manifest01.json` SHA256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`；491文件、313去重来源、37唯一入口（A9/B9/C19），与既有Rust173 overlap=0。\n- Independent review: `docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin` SHA256 `e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318`，Pass/P0–P3=0。\n- 四项用户裁决已冻结：真实合同prepared→exact审核绑定→原子Active快照→正式应收计划；正数两位金额且拒绝超容量；付款同项目Active合同及应付绑定规则（保留无合同项目付款）；每合同独立金额/条款/节点，不自动分摊或强制合计，来源与差异可审计。\n- 同outerTX、Approval先materialize再binding、audit/auth一次参与、source freshness、typedUUID/金额/日期/选择器及新DDL/DTO/UI协议明确。\n- 线上本冻结读回后允许本批三线G2；Root集中迁移/共享接线/实际HTTP-PG-UI/fault-race验收。当前仅G1完成，产品实现、实际验收、独立G3/fixed/main/G4尚未完成。\n- 仅本批103/104/105/102在自身G4后可关闭，R4父#101和总体#57持续Open；移交/实际成本producer/经营/验收完工归档及完整R4另批。\n"
+    },
+    {
+      "issue": 102,
+      "id": 6596581251,
+      "url": "https://github.com/illusion-tech/poms/issues/102#issuecomment-6596581251",
+      "body": "R4 首批联合 G1 已冻结。\n\n- G1 commit: `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，分支 `codex/poms-r4abc-first37`。\n- Baseline: [联合实施基线](https://github.com/illusion-tech/poms/blob/2f613c312c9e41b3ed5ac59edf5e9db63842c1cb/docs/design/rust-r4abc-first37-baseline.md)。\n- Source manifest: `docs/design/rust-r4abc/g1-candidate-manifest01.json` SHA256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`；491文件、313去重来源、37唯一入口（A9/B9/C19），与既有Rust173 overlap=0。\n- Independent review: `docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin` SHA256 `e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318`，Pass/P0–P3=0。\n- 四项用户裁决已冻结：真实合同prepared→exact审核绑定→原子Active快照→正式应收计划；正数两位金额且拒绝超容量；付款同项目Active合同及应付绑定规则（保留无合同项目付款）；每合同独立金额/条款/节点，不自动分摊或强制合计，来源与差异可审计。\n- 同outerTX、Approval先materialize再binding、audit/auth一次参与、source freshness、typedUUID/金额/日期/选择器及新DDL/DTO/UI协议明确。\n- 线上本冻结读回后允许本批三线G2；Root集中迁移/共享接线/实际HTTP-PG-UI/fault-race验收。当前仅G1完成，产品实现、实际验收、独立G3/fixed/main/G4尚未完成。\n- 仅本批103/104/105/102在自身G4后可关闭，R4父#101和总体#57持续Open；移交/实际成本producer/经营/验收完工归档及完整R4另批。\n"
+    },
+    {
+      "issue": 101,
+      "id": 6596581691,
+      "url": "https://github.com/illusion-tech/poms/issues/101#issuecomment-6596581691",
+      "body": "R4 首批联合 G1 已冻结；仅限首批 #102，完整 R4 阶段尚未交付。\n\n- G1 commit: `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，分支 `codex/poms-r4abc-first37`。\n- Baseline: [联合实施基线](https://github.com/illusion-tech/poms/blob/2f613c312c9e41b3ed5ac59edf5e9db63842c1cb/docs/design/rust-r4abc-first37-baseline.md)。\n- Source manifest: `docs/design/rust-r4abc/g1-candidate-manifest01.json` SHA256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`；491文件、313去重来源、37唯一入口（A9/B9/C19），与既有Rust173 overlap=0。\n- Independent review: `docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin` SHA256 `e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318`，Pass/P0–P3=0。\n- 四项用户裁决已冻结：真实合同prepared→exact审核绑定→原子Active快照→正式应收计划；正数两位金额且拒绝超容量；付款同项目Active合同及应付绑定规则（保留无合同项目付款）；每合同独立金额/条款/节点，不自动分摊或强制合计，来源与差异可审计。\n- 同outerTX、Approval先materialize再binding、audit/auth一次参与、source freshness、typedUUID/金额/日期/选择器及新DDL/DTO/UI协议明确。\n- 线上本冻结读回后允许本批三线G2；Root集中迁移/共享接线/实际HTTP-PG-UI/fault-race验收。当前仅G1完成，产品实现、实际验收、独立G3/fixed/main/G4尚未完成。\n- 仅本批103/104/105/102在自身G4后可关闭，R4父#101和总体#57持续Open；移交/实际成本producer/经营/验收完工归档及完整R4另批。\n"
+    },
+    {
+      "issue": 57,
+      "id": 6596582215,
+      "url": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6596582215",
+      "body": "R4 首批联合 G1 已冻结；总体迁移保持 Open。\n\n- G1 commit: `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`，分支 `codex/poms-r4abc-first37`。\n- Baseline: [联合实施基线](https://github.com/illusion-tech/poms/blob/2f613c312c9e41b3ed5ac59edf5e9db63842c1cb/docs/design/rust-r4abc-first37-baseline.md)。\n- Source manifest: `docs/design/rust-r4abc/g1-candidate-manifest01.json` SHA256 `cb653499442e5f390715b6f44f8d0fd67ec0d145ddcb5d165e13235ff3c34f36`；491文件、313去重来源、37唯一入口（A9/B9/C19），与既有Rust173 overlap=0。\n- Independent review: `docs/design/rust-r4abc/g1-evidence/independent/g1-independent-review01.json.bin` SHA256 `e4d7af755ebebb331d39bd0ea0965b298d6d09108d0e20f428022fcf421ea318`，Pass/P0–P3=0。\n- 四项用户裁决已冻结：真实合同prepared→exact审核绑定→原子Active快照→正式应收计划；正数两位金额且拒绝超容量；付款同项目Active合同及应付绑定规则（保留无合同项目付款）；每合同独立金额/条款/节点，不自动分摊或强制合计，来源与差异可审计。\n- 同outerTX、Approval先materialize再binding、audit/auth一次参与、source freshness、typedUUID/金额/日期/选择器及新DDL/DTO/UI协议明确。\n- 线上本冻结读回后允许本批三线G2；Root集中迁移/共享接线/实际HTTP-PG-UI/fault-race验收。当前仅G1完成，产品实现、实际验收、独立G3/fixed/main/G4尚未完成。\n- 仅本批103/104/105/102在自身G4后可关闭，R4父#101和总体#57持续Open；移交/实际成本producer/经营/验收完工归档及完整R4另批。\n"
+    }
+  ],
+  "commands": [
+    {
+      "name": "before",
+      "args": [
+        "graphql",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/01-before-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/01-before-stdout-original.bin",
+        "bytes": 29966,
+        "rawBytesSha256": "0d8a3105b063e2704e5bf12292d24031f430a337ff1d30d8e09d1addc049f11b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/01-before-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "checklist-103",
+      "args": [
+        "repos/illusion-tech/poms/issues/103",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/02-checklist-103-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/02-checklist-103-stdout-original.bin",
+        "bytes": 4325,
+        "rawBytesSha256": "eb83b5cd84785c6b8ea8e942a79970ce696b2e15c0c761c4a8f0960396e5a17c"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/02-checklist-103-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-103",
+      "args": [
+        "repos/illusion-tech/poms/issues/103/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/03-comment-103-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/03-comment-103-stdout-original.bin",
+        "bytes": 3266,
+        "rawBytesSha256": "dd697477dd137369a93f87e27a399dec4abc2a1c3438f6157b2a7615f5e3afda"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/03-comment-103-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "checklist-104",
+      "args": [
+        "repos/illusion-tech/poms/issues/104",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/04-checklist-104-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/04-checklist-104-stdout-original.bin",
+        "bytes": 4272,
+        "rawBytesSha256": "1d1778f54786351e3d01386c3dfd3101d9bbc4c8739224daa21dc4a91e6df2ae"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/04-checklist-104-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-104",
+      "args": [
+        "repos/illusion-tech/poms/issues/104/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/05-comment-104-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/05-comment-104-stdout-original.bin",
+        "bytes": 3266,
+        "rawBytesSha256": "8a3f0e0f067e72218b3c4459abf303eea21e53f4ceed9072684d1968aa5883c1"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/05-comment-104-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "checklist-105",
+      "args": [
+        "repos/illusion-tech/poms/issues/105",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/06-checklist-105-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/06-checklist-105-stdout-original.bin",
+        "bytes": 4300,
+        "rawBytesSha256": "6fe95e67b35c0fa0c8bd79dd1bbe6a4de5736e3ed18e5d71711a7d5b878c5709"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/06-checklist-105-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-105",
+      "args": [
+        "repos/illusion-tech/poms/issues/105/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/07-comment-105-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/07-comment-105-stdout-original.bin",
+        "bytes": 3266,
+        "rawBytesSha256": "77646bc7b6aee7540c3f128f21f3b7ece22d35661b09d77c83bf8dd449b4615d"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/07-comment-105-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "checklist-102",
+      "args": [
+        "repos/illusion-tech/poms/issues/102",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/08-checklist-102-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/08-checklist-102-stdout-original.bin",
+        "bytes": 5069,
+        "rawBytesSha256": "029fd803ac117d95d9944ff388c9c79bd1ec623a66d95e166786c8d8b9213bce"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/08-checklist-102-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-102",
+      "args": [
+        "repos/illusion-tech/poms/issues/102/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/09-comment-102-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/09-comment-102-stdout-original.bin",
+        "bytes": 3266,
+        "rawBytesSha256": "5955b38ef7836c371e9732327089ddcf243891596a9dab6531cf3b78082e33b5"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/09-comment-102-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-101",
+      "args": [
+        "repos/illusion-tech/poms/issues/101/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/10-comment-101-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/10-comment-101-stdout-original.bin",
+        "bytes": 3317,
+        "rawBytesSha256": "bee99b31466dea115454748a6dba0160d5a0bbbfa375ca39a4831af9d4e0f2fa"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/10-comment-101-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "comment-57",
+      "args": [
+        "repos/illusion-tech/poms/issues/57/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/11-comment-57-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/11-comment-57-stdout-original.bin",
+        "bytes": 3290,
+        "rawBytesSha256": "d3812e5f53ebcf04570578a11f3360ac2cc4f05371110cd1477b4f432092d170"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/11-comment-57-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "after",
+      "args": [
+        "graphql",
+        "--input",
+        "tmp/rust-r4abc/root/g1-online01/12-after-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4abc/root/g1-online01/12-after-stdout-original.bin",
+        "bytes": 40898,
+        "rawBytesSha256": "e230807a0ddf62b38de954c762cec97295ce26257b255a74b001f50e55f3a9c4"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4abc/root/g1-online01/12-after-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "origins": [
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/01-before-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/01-before-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/01-before-input.json.bin",
+      "bytes": 805,
+      "rawBytesSha256": "3db9d18e7352c0760007677aa68f1d33047a63113e29808289b7e287a39e4537"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/01-before-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/01-before-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/01-before-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/01-before-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/01-before-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/01-before-stdout-original.bin.bin",
+      "bytes": 29966,
+      "rawBytesSha256": "0d8a3105b063e2704e5bf12292d24031f430a337ff1d30d8e09d1addc049f11b"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/02-checklist-103-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/02-checklist-103-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/02-checklist-103-input.json.bin",
+      "bytes": 1913,
+      "rawBytesSha256": "d37ff85cb3f95996fb4ae4d1a294f7f0e220dd3a8aa47730da06b728401ef19e"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/02-checklist-103-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/02-checklist-103-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/02-checklist-103-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/02-checklist-103-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/02-checklist-103-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/02-checklist-103-stdout-original.bin.bin",
+      "bytes": 4325,
+      "rawBytesSha256": "eb83b5cd84785c6b8ea8e942a79970ce696b2e15c0c761c4a8f0960396e5a17c"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/03-comment-103-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/03-comment-103-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/03-comment-103-input.json.bin",
+      "bytes": 1619,
+      "rawBytesSha256": "17d92d3233e071f93d7382c88bf9261f4f31ceec1a293820e369560bba2aa5ab"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/03-comment-103-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/03-comment-103-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/03-comment-103-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/03-comment-103-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/03-comment-103-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/03-comment-103-stdout-original.bin.bin",
+      "bytes": 3266,
+      "rawBytesSha256": "dd697477dd137369a93f87e27a399dec4abc2a1c3438f6157b2a7615f5e3afda"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/04-checklist-104-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/04-checklist-104-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/04-checklist-104-input.json.bin",
+      "bytes": 1857,
+      "rawBytesSha256": "00ef67aace7f8b3071c569fd869c8c83a87270c3166137f7e6043274f47bbd88"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/04-checklist-104-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/04-checklist-104-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/04-checklist-104-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/04-checklist-104-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/04-checklist-104-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/04-checklist-104-stdout-original.bin.bin",
+      "bytes": 4272,
+      "rawBytesSha256": "1d1778f54786351e3d01386c3dfd3101d9bbc4c8739224daa21dc4a91e6df2ae"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/05-comment-104-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/05-comment-104-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/05-comment-104-input.json.bin",
+      "bytes": 1619,
+      "rawBytesSha256": "17d92d3233e071f93d7382c88bf9261f4f31ceec1a293820e369560bba2aa5ab"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/05-comment-104-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/05-comment-104-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/05-comment-104-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/05-comment-104-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/05-comment-104-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/05-comment-104-stdout-original.bin.bin",
+      "bytes": 3266,
+      "rawBytesSha256": "8a3f0e0f067e72218b3c4459abf303eea21e53f4ceed9072684d1968aa5883c1"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/06-checklist-105-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/06-checklist-105-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/06-checklist-105-input.json.bin",
+      "bytes": 1879,
+      "rawBytesSha256": "994bf38de75e121497db1b2df1e8ac67876f056f69461a81946f5fa1dde52307"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/06-checklist-105-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/06-checklist-105-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/06-checklist-105-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/06-checklist-105-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/06-checklist-105-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/06-checklist-105-stdout-original.bin.bin",
+      "bytes": 4300,
+      "rawBytesSha256": "6fe95e67b35c0fa0c8bd79dd1bbe6a4de5736e3ed18e5d71711a7d5b878c5709"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/07-comment-105-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/07-comment-105-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/07-comment-105-input.json.bin",
+      "bytes": 1619,
+      "rawBytesSha256": "17d92d3233e071f93d7382c88bf9261f4f31ceec1a293820e369560bba2aa5ab"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/07-comment-105-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/07-comment-105-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/07-comment-105-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/07-comment-105-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/07-comment-105-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/07-comment-105-stdout-original.bin.bin",
+      "bytes": 3266,
+      "rawBytesSha256": "77646bc7b6aee7540c3f128f21f3b7ece22d35661b09d77c83bf8dd449b4615d"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/08-checklist-102-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/08-checklist-102-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/08-checklist-102-input.json.bin",
+      "bytes": 2636,
+      "rawBytesSha256": "de30e3fa73fa546139bebe2e066d0bb5221b12c4aa48782c771c5a6d40a30294"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/08-checklist-102-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/08-checklist-102-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/08-checklist-102-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/08-checklist-102-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/08-checklist-102-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/08-checklist-102-stdout-original.bin.bin",
+      "bytes": 5069,
+      "rawBytesSha256": "029fd803ac117d95d9944ff388c9c79bd1ec623a66d95e166786c8d8b9213bce"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/09-comment-102-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/09-comment-102-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/09-comment-102-input.json.bin",
+      "bytes": 1619,
+      "rawBytesSha256": "17d92d3233e071f93d7382c88bf9261f4f31ceec1a293820e369560bba2aa5ab"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/09-comment-102-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/09-comment-102-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/09-comment-102-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/09-comment-102-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/09-comment-102-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/09-comment-102-stdout-original.bin.bin",
+      "bytes": 3266,
+      "rawBytesSha256": "5955b38ef7836c371e9732327089ddcf243891596a9dab6531cf3b78082e33b5"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/10-comment-101-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/10-comment-101-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/10-comment-101-input.json.bin",
+      "bytes": 1670,
+      "rawBytesSha256": "a18a65a9dc5e786e08d59fe9c90104637c95017987e73284a2eb3cf6505548ee"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/10-comment-101-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/10-comment-101-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/10-comment-101-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/10-comment-101-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/10-comment-101-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/10-comment-101-stdout-original.bin.bin",
+      "bytes": 3317,
+      "rawBytesSha256": "bee99b31466dea115454748a6dba0160d5a0bbbfa375ca39a4831af9d4e0f2fa"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/11-comment-57-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/11-comment-57-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/11-comment-57-input.json.bin",
+      "bytes": 1645,
+      "rawBytesSha256": "81189b8f25771b8ff8142c3976ddb48616e8988b26d5ab2967114535680b3eaf"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/11-comment-57-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/11-comment-57-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/11-comment-57-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/11-comment-57-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/11-comment-57-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/11-comment-57-stdout-original.bin.bin",
+      "bytes": 3290,
+      "rawBytesSha256": "d3812e5f53ebcf04570578a11f3360ac2cc4f05371110cd1477b4f432092d170"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/12-after-input.json",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/12-after-input.json.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/12-after-input.json.bin",
+      "bytes": 853,
+      "rawBytesSha256": "42c5ff8e1acd03b07137d56e5401427ff81949b3f305c9e8e7febd4ed6fca1e5"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/12-after-stderr-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/12-after-stderr-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/12-after-stderr-original.bin.bin",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "logicalOrigin": "tmp/rust-r4abc/root/g1-online01/12-after-stdout-original.bin",
+      "storedAt": "docs/design/rust-r4abc/g1-online01/12-after-stdout-original.bin.bin",
+      "file": "docs/design/rust-r4abc/g1-online01/12-after-stdout-original.bin.bin",
+      "bytes": 40898,
+      "rawBytesSha256": "e230807a0ddf62b38de954c762cec97295ce26257b255a74b001f50e55f3a9c4"
+    }
+  ],
+  "parentRelationsVerified": true,
+  "allSixRemainOpen": true,
+  "G1Certified": true,
+  "G2Authorized": true,
+  "implementationDelivered": false,
+  "runtimeAccepted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

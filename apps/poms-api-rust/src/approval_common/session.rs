@@ -77,6 +77,8 @@ pub struct CommonSession<'connection, 'state> {
     pub connection: &'connection mut PgConnection,
     pub state: &'state mut CommonState,
     pub participant: Option<&'state mut dyn CommonFlushParticipant>,
+    /// Request correlation only; never a credential or persisted session value.
+    pub request_id: Option<String>,
 }
 
 impl<'connection, 'state> CommonSession<'connection, 'state> {
@@ -88,6 +90,7 @@ impl<'connection, 'state> CommonSession<'connection, 'state> {
             connection,
             state,
             participant: None,
+            request_id: None,
         }
     }
 
@@ -100,6 +103,7 @@ impl<'connection, 'state> CommonSession<'connection, 'state> {
             connection,
             state,
             participant: Some(participant),
+            request_id: None,
         }
     }
 }

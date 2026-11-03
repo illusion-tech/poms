@@ -1,0 +1,23 @@
+# 生成输入检查点 S3 独立审查 03
+
+结论：**Pass，仅准许受限生成输入提交 S3**。P0/P1/P2 阻断为0。不是整批G3、运行验收、主线合入或Issue关闭许可。
+
+受审候选为 `docs/design/rust-r4abc/generator-checkpoint02/candidate03.json`，8641 B，SHA-256 `77b0e6b1eb5d5f73e78c1af8eccf33988ce8303216aefdca2c47178b4eab273e`；分支 `codex/poms-r4abc-first37`，当前HEAD/G1 `2f613c312c9e41b3ed5ac59edf5e9db63842c1cb`。审查者保持非作者，只读代码、JSON、Git状态与公开原件，未执行生成器、测试、环境或业务操作。
+
+## 独立核验
+
+- 10个source input长度/哈希全部匹配候选。新规范为完整 **237 paths /291 operations /595 schemas**；原585个schema名全部保留，新增10、修改21、删除0。完整path名和method/path/operationId三元组均相同；仅B submit/activate响应、A03/A07 query这4个operation对象改变，其余287完全相同。全部增量属于已冻结G1的37入口及必要契约消费范围。
+- 生成器相对保全原件及Git的唯一代码变化是 `loadBaseline` 精确schema数585→595。Git working/index/untracked、源fingerprint、固定config/wrapper/JAR和完整path/op/schema**精确集合**保护均保留；输入/输出固定、metadata保护、生成树完整性与生成前后快照也未放宽。
+- 六个protected source按原UTF-8／仅CRLF→LF的hash约定核对，全相符。Generator7.20.0、wrapper2.41.0、JAR SHA `871e0155…`、config及metadata路径不变。旧baseline原件与当前baseline仍原字节相同，sourceHead仍为旧 `1a941e8…`、库存仍585，等待固定S3后显式更新。
+- 旧sourceHead的 `.gitattributes` 差异包含已提交R2M/R3历史证据规则及R4两条binary规则，不能简写成只有最后两条；当前G1的attrs没有本检查点新改动。本次仅冻结已审 `ea040b2c…` 指纹，不豁免任何保护。
+- 16项有限证据对象的长度/哈希核对无误。实际OpenAPI导出exit0；首次client write被旧source guard拒绝且失败原件保留，当前client无tracked/untracked修改。Shared failed01确实失败于“formal plan requires initialization record”；Passed02的43项断言实际exit0，source hash精确对应当前Shared `a6f85a12…`。Native build01实际exit0，但只认证先前structural8文件的编译边界，不冒称最新完整ORM/UI候选或Native新生命周期已验收。
+
+Shared新增字段、严格回执、金额语法及A08/A09条件refine与G1一致。Native local legacy类型及实际null缺省清楚保留旧参考行为，没有填入虚构准备/快照/计划ID。候选03是本审查pin权威；02和checkpoint文档内的02引用保留为较早输入阶段记录。
+
+## 受限许可
+
+Root可在**本batch分支**永久保留S3，只纳入candidate03的 `allowedSourceCheckpointFiles` **10个精确输入文件**，以及直接相关检查点文档、本审查、公开导出／拒绝／43测试／有限build原件及来源映射。不得把其余Rust领域、HTTP、ORM、UI等未最终验收修改一并解释为获准交付。
+
+随后将 `client-baseline.sourceHead` 绑定**该固定S3 SHA**，六protected指纹及完整237/291/595名称库存显式绑定本次受审规范，再运行原guarded write/check。不得使用可变HEAD、Rust subset、动态下限或绕过dirty/index/untracked检查；旧baseline/spec/generator及初次拒绝继续原字节保留。
+
+本许可不准合main、关闭Issue、声明实现G3/整批交付或运行通过。全部真实HTTP/PG/UI/fault/race、最终统一构建与契约/迁移对齐、独立最终G3、固定提交/main集成及G4仍另行完成；#101/#57保持Open。完整证据、10文件及六pin见 `generator-input-checkpoint03.json`。

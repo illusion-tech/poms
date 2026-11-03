@@ -1,7 +1,8 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
-import { AttachmentStore, AttachmentTargetType, AuthStore, ContractStatus, ContractStore, ContractTermSnapshotStatus, DictionaryStore, type AttachmentSummary, type AttachmentUploadProgressState, type ContractDetailView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { BehaviorSubject } from 'rxjs';
+import { AttachmentStore, AttachmentTargetType, AuthStore, ContractStatus, ContractStore, ContractTermSnapshotStatus, DictionaryStore, type AttachmentSummary, type AttachmentUploadProgressState, type ContractCommandAcknowledgement, type ContractDetailView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import type { DomainApprovalRecord } from '@poms/shared-contracts';
 import { MessageService } from 'primeng/api';
 import { AttachmentPanel } from '../../shared/ui/attachment-panel';
@@ -54,6 +55,8 @@ function createContract(overrides: Partial<ContractDetailView> = {}): ContractDe
         updatedAt: '2026-04-26T08:00:00.000Z',
         updatedBy: 'user-1',
         currentTermSnapshot: null,
+        currentPreparation: null,
+        latestReviewBinding: null,
         ...overrides
     };
 }
@@ -73,6 +76,7 @@ function createTermSnapshot(overrides: Partial<NonNullable<ContractDetailView['c
         paymentTermsProjection: sensitiveProjection('30% 首付，65% 阶段款，5% 质保金'),
         sourceReadinessId: null,
         sourceBaselineId: null,
+        sourcePreparationId: null,
         version: 1,
         snapshotStatus: ContractTermSnapshotStatus.Active,
         createdAt: '2026-04-26T08:00:00.000Z',
@@ -107,14 +111,20 @@ describe('ContractDetail', () => {
         loading: ReturnType<typeof signal<boolean>>;
         loadingApproval: ReturnType<typeof signal<boolean>>;
         saving: ReturnType<typeof signal<boolean>>;
+        lastAcknowledgement: ReturnType<typeof signal<ContractCommandAcknowledgement | null>>;
+        commandRefreshError: ReturnType<typeof signal<string | null>>;
+        refreshingAcknowledgement: ReturnType<typeof signal<boolean>>;
+        reloadAcknowledgedState: jest.Mock;
         loadContract: jest.Mock;
         loadCurrentApproval: jest.Mock;
         updateContract: jest.Mock;
         clearSelectedContract: jest.Mock;
+        setContractScope: jest.Mock;
     };
     let currentUser: ReturnType<typeof signal<SanitizedUserWithOrgUnits | null>>;
 
     beforeEach(async () => {
+        const routeParams = new BehaviorSubject(convertToParamMap({ id: 'contract-1' }));
         selectedContract = signal<ContractDetailView | null>(createContract());
         currentApproval = signal<DomainApprovalRecord<ContractStatus> | null>(null);
         contractStoreMock = {
@@ -123,10 +133,24 @@ describe('ContractDetail', () => {
             loading: signal(false),
             loadingApproval: signal(false),
             saving: signal(false),
-            loadContract: jest.fn().mockResolvedValue(createContract()),
+            lastAcknowledgement: signal<ContractCommandAcknowledgement | null>(null),
+            commandRefreshError: signal<string | null>(null),
+            refreshingAcknowledgement: signal(false),
+            reloadAcknowledgedState: jest.fn().mockResolvedValue(true),
+            loadContract: jest.fn().mockImplementation(async () => {
+                const contract = createContract();
+                selectedContract.set(contract);
+                return contract;
+            }),
             loadCurrentApproval: jest.fn().mockResolvedValue(null),
             updateContract: jest.fn().mockResolvedValue(createContract()),
-            clearSelectedContract: jest.fn()
+            clearSelectedContract: jest.fn(),
+            setContractScope: jest.fn(() => {
+                selectedContract.set(null);
+                currentApproval.set(null);
+                contractStoreMock.lastAcknowledgement.set(null);
+                contractStoreMock.commandRefreshError.set(null);
+            })
         };
         attachmentStoreMock = {
             attachments: signal<AttachmentSummary[]>([]),
@@ -173,6 +197,7 @@ describe('ContractDetail', () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
+                        paramMap: routeParams.asObservable(),
                         snapshot: {
                             paramMap: convertToParamMap({ id: 'contract-1' })
                         }
@@ -220,12 +245,11 @@ describe('ContractDetail', () => {
 
         fixture = TestBed.createComponent(ContractDetail);
         component = fixture.componentInstance;
-        fixture.detectChanges();
         await fixture.whenStable();
-        fixture.detectChanges();
     });
 
-    it('renders POMS and customer contract numbers separately', () => {
+    it('renders POMS and customer contract numbers separately', async () => {
+        await fixture.whenStable();
         const text = fixture.nativeElement.textContent;
 
         expect(contractStoreMock.loadContract).toHaveBeenCalledWith('contract-1');
@@ -240,7 +264,7 @@ describe('ContractDetail', () => {
         });
     });
 
-    it('masks finance fields and draft actions when the user lacks contract finance permission', () => {
+    it('masks finance fields and draft actions when the user lacks contract finance permission', async () => {
         const user = currentUser();
         if (!user) {
             throw new Error('current user is required');
@@ -254,7 +278,7 @@ describe('ContractDetail', () => {
                 signedAmountProjection: sensitiveProjection(null)
             })
         );
-        fixture.detectChanges();
+        await fixture.whenStable();
 
         const text = fixture.nativeElement.textContent;
         const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button'))
@@ -267,19 +291,19 @@ describe('ContractDetail', () => {
         expect(buttonText).not.toContain('提交审核');
     });
 
-    it('renders contract term projections without frontend permission inference', () => {
+    it('renders contract term projections without frontend permission inference', async () => {
         selectedContract.set(
             createContract({
                 currentTermSnapshot: createTermSnapshot()
             })
         );
-        fixture.detectChanges();
+        await fixture.whenStable();
 
         const text = fixture.nativeElement.textContent;
 
-        expect(text).toContain('13.00%');
-        expect(text).toContain('30.00%');
-        expect(text).toContain('5.00%');
+        expect(text).toContain('0.13');
+        expect(text).toContain('0.30');
+        expect(text).toContain('0.05');
         expect(text).toContain('30% 首付，65% 阶段款，5% 质保金');
 
         selectedContract.set(
@@ -292,12 +316,41 @@ describe('ContractDetail', () => {
                 })
             })
         );
-        fixture.detectChanges();
+        await fixture.whenStable();
 
         const maskedText = fixture.nativeElement.textContent;
         expect(maskedText).toContain('经营敏感字段已隐藏');
-        expect(maskedText).not.toContain('13.00%');
+        expect(maskedText).not.toContain('0.13');
         expect(maskedText).not.toContain('30% 首付，65% 阶段款，5% 质保金');
+    });
+
+    it('shows an acknowledged write separately from failed refresh and offers a read-only reload', async () => {
+        contractStoreMock.lastAcknowledgement.set({
+            action: 'submit-review', contractId: 'contract-1', result: {
+                targetId: 'contract-1', targetType: 'contract', resultStatus: 'submitted', businessStatusAfter: 'pending-review',
+                approvalRecordId: 'approval-1', confirmationRecordId: null, todoItemIds: ['todo-1'], preparationId: 'preparation-1'
+            }
+        });
+        contractStoreMock.commandRefreshError.set('审批摘要暂时不可用。');
+        contractStoreMock.reloadAcknowledgedState.mockImplementation(async () => {
+            contractStoreMock.commandRefreshError.set(null);
+            return true;
+        });
+        await fixture.whenStable();
+
+        const text = fixture.nativeElement.textContent;
+        expect(text).toContain('已提交，刷新失败');
+        expect(text).toContain('审批摘要暂时不可用。');
+        expect(text).toContain('重新加载合同、审批与待办');
+        expect(text).not.toContain('提交失败');
+        expect(component.canEditContract()).toBe(false);
+        expect(component.canSubmitReview()).toBe(false);
+
+        await component.reloadAcknowledgedState();
+        await fixture.whenStable();
+
+        expect(contractStoreMock.reloadAcknowledgedState).toHaveBeenCalledTimes(1);
+        expect(fixture.nativeElement.textContent).not.toContain('已提交，刷新失败');
     });
 
     it('updates customer contract number without sending an internal contract number', async () => {
@@ -313,7 +366,8 @@ describe('ContractDetail', () => {
         expect(contractStoreMock.updateContract).toHaveBeenCalledWith('contract-1', {
             signedAmount: ' 1280000.00 ',
             currencyCode: 'CNY',
-            customerContractNo: 'KH-HT-NEW'
+            customerContractNo: 'KH-HT-NEW',
+            expectedVersion: 1
         });
         expect(contractStoreMock.updateContract.mock.calls[0][1]).not.toHaveProperty('contractNo');
     });

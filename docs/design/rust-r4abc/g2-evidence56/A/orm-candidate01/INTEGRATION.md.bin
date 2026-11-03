@@ -1,0 +1,60 @@
+# R4 ORM 纯源码候选 01
+
+Owner A（候选作者），Issue #103。Root 仍独占实际 Native/shared 写入、迁移、metadata discovery、构建和数据库执行；reviewer须保持非作者。本目录只交五件候选副本，不改实际产品、冻结 Rust 六件、SQL、DTO/Shared、controller/service/client/UI。候选依据 A 工作树 G1 Native 基线；Root须逐件核对 `base-pins01.json` / `manifest01.json` 的 base SHA 后再导入。
+
+## 输入和已完成边界
+
+- 字段SSOT：`docs/design/rust-r4abc/schema-freeze01.sql`。Root提供的公开 `poms_r4abc_rust-catalog01.json` 仅含 columns/constraints/indexes/ACL；A只读该公开catalog，没有读receipt指向的private rows，没有访问数据库。
+- 本机只读 SDK：Root工作树 `node_modules/@mikro-orm/core` **7.0.11**；读取defineEntity/metadata types及少量实际实现，未执行Node或SDK。Shared类型从Root当前 `shared-contracts.ts` 核名：`ContractCommercialTerms`、`ReceivablePlanSeed`、`ContractTermPreparationStatus`、`CONTRACT_TERM_PREPARATION_STATUSES`。
+- 五件候选：新增 `contract-lifecycle.entity.ts` 六类；补baseline/diff、package、contract/snapshot映射；`ContractReadinessModule.forFeature`登记全部六类。CLI现有 `apps/poms-api/src/**/*.entity.ts` glob可见同文件，Nest现有autoLoad使用forFeature，不为此新增模块依赖或provider。
+- 新金额是string，明确 `numeric(18,2)` precision18/scale2；ratio是string `numeric(5,4)`；date为 `p.date()`，timestamptz为datetime且新表显式columnType。UUID属性使用真实目标class的lazy `manyToOne().mapToPk()`；actor字段按实际DDL保留UUID标量，不新造平台用户FK。
+- 新表version无隐含default，rowVersion正整数/default1并用version()，current default true；status无隐含default。JSON default/nullable、UUID默认、nullable新列与实际catalog对应。新prepared/plan timestamp只保留DDL的now default，不添加新的Native lifecycle onUpdate/producer。
+- 实际单列FK的名称、ON UPDATE NO ACTION和ON DELETE RESTRICT明确映射；原cascade/legacy映射、source与comment保持。全部新增CHECK、唯一约束、独立unique index、partial current/index和review降序index都在metadata中列名表达，不改变SQL。
+
+## 复合scope FK：16条有限额外DB规则
+
+这些不是可删的冗余约束，也不是弱化DDL的许可。候选把单UUID身份映射到真实class，但对**只有复合scope FK支持的单列身份**设置 `createForeignKeyConstraint(false)`，防止schema generator发明不存在的较弱single-column FK。真实SQL93强复合约束原样保留。
+
+SDK的 `joinColumns/ownColumns/referencedColumnNames` API确实存在，不能由此推断非PK唯一tuple可安全作为 `mapToPk(string)` 的实体身份。7.0.11 `MetadataValidator.validateTargetKey` 明确要求单属性unique，排除composite unique；discovery默认按目标primary properties推导column types。A没有通过Node/metadata/hydration试验去证明高级多列映射正确，因此本候选不伪造目标composite PK、重复列、隐藏tuple身份或影子relation。下列范围是显式DB额外规则，需Root实际检查及独立审查，不能把migration-check写成无drift。
+
+| 表 | 必须保留的约束名 | 本地列 → 目标唯一列 |
+| --- | --- | --- |
+| commercial_baseline_diff_result | fk_r4_diff_contract_project | contract_id,project_id → contract(id,project_id) |
+| commercial_baseline_diff_result | fk_r4_diff_baseline_project | baseline_id,project_id → commercial_release_baseline(id,project_id) |
+| contract_readiness_package | fk_r4_readiness_contract_project | contract_id,project_id → contract(id,project_id) |
+| contract_readiness_package | fk_r4_readiness_current_preparation | current_preparation_id,contract_id → contract_term_preparation(id,contract_id) |
+| contract_readiness_package | fk_r4_readiness_diff_scope | latest_diff_result_id,source_baseline_id,project_id,contract_id → commercial_baseline_diff_result(id,baseline_id,project_id,contract_id) |
+| contract_term_preparation | fk_r4_preparation_contract_project | contract_id,project_id → contract(id,project_id) |
+| contract_term_preparation | fk_r4_preparation_readiness_scope | source_readiness_id,project_id,contract_id → contract_readiness_package(id,project_id,contract_id) |
+| contract_term_preparation | fk_r4_preparation_diff_scope | source_diff_result_id,source_baseline_id,project_id,contract_id → commercial_baseline_diff_result(id,baseline_id,project_id,contract_id) |
+| contract_term_preparation | fk_r4_preparation_activated_snapshot | activated_snapshot_id,contract_id → contract_term_snapshot(id,contract_id) |
+| contract_term_snapshot | fk_r4_snapshot_preparation_contract | source_preparation_id,contract_id → contract_term_preparation(id,contract_id) |
+| contract_review_binding | fk_r4_review_preparation_contract | preparation_id,contract_id → contract_term_preparation(id,contract_id) |
+| receivable_plan_version | fk_r4_plan_contract_project | contract_id,project_id → contract(id,project_id) |
+| receivable_plan_version | fk_r4_plan_snapshot_scope | snapshot_id,contract_id,source_preparation_id → contract_term_snapshot(id,contract_id,source_preparation_id) |
+| receivable_plan_version | fk_r4_plan_preparation_source | source_preparation_id,source_readiness_id,contract_id → contract_term_preparation(id,source_readiness_id,contract_id) |
+| receivable_plan_init_record | fk_r4_plan_init_contract | plan_version_id,contract_id → receivable_plan_version(id,contract_id) |
+| receivable_plan_init_record | fk_r4_plan_init_snapshot | snapshot_id,contract_id → contract_term_snapshot(id,contract_id) |
+
+所有16条均为catalog中实际validated约束，NO ACTION update / RESTRICT delete，列顺序必须保持。活动静态对照 `catalog-alignment02.json` 附逐条原定义和列映射。若schema差异提出DROP这些约束，不得执行；可由Root/reviewer将这**精确16条**裁决为有界 `accepted-db-specific-difference`，或在已核实正确的高级metadata表示后修订候选。不是全局忽略FK差异，也不允许后续未知约束借此过关。
+
+静态文本扫描覆盖五文件内15个schema/216列（其中六新表79列），02对照未发现列遗漏、重复或声明的type/nullable/default差异。初次01扫描将六处既有跨行builder识别为unknown、另有一处既有Shared enum default未展开，01原样保留；02只修正扫描器理解，没有为消除扫描器差异修改产品候选。这不是实际SDK discovery或schema比较结果，CHECK规范化、relation水合与DDL差异仍待Root实际执行。
+
+## 唯一、检查和循环身份
+
+- 新PK：review attachment为(review_record_id,attachment_id) composite PK；review binding的approval_record_id是PK且真实FK，无新的uuid default；其余四表UUID PK default gen_random_uuid()。
+- 约束与unique index区别按catalog表达：ordinary UNIQUE使用properties，独立 `uq_r4_preparation_exact` 用CREATE UNIQUE INDEX expression；全部partial indexes保留准确谓词和名称；review index保留created_at DESC。
+- preparation激活CHECK完整保留：activated必须三真实activation字段非空，其它状态三字段皆空；所有金额/ratio/版本/JSON/hash/node序号CHECK有名映射。没有把typed terms/seed数组默认成空来伪造真实初始化。
+- 所有循环实体关系使用现有 `properties: { field: () => p.manyToOne(Class)... }` 惯例。SDK defineEntity.js的property getter推迟factory求值；preparation↔snapshot、package↔currentPreparation、baseline↔diff均不在顶层直接解引用class。实际discovery是否成功仍需Root执行。
+- Prepared状态直接引用Shared；Plan status只用SQL93列内literal union（active/superseded/voided），未新增第二套public enum。已有 `CommercialReleaseBaselineStatus` / `ContractAmendmentStatus` 原样保留。
+- PK/legacy索引名称如已有snapshot `pk_contract_term_snapshot`、旧numeric/comment/date默认值可能仍呈现已有schema比较噪声。没有借本候选改历史DDL或猜测新基线；Root实际结果应区分 `existing-baseline-drift` / `tool-noise` 与本批新增真实差异。
+
+## Root导入及必需真实验证
+
+1. 核Root目标四文件base SHA和新文件不存在；只导入manifest的五个products，保留A原候选。
+2. 当前Root Shared新类型与五文件一同编译；保留原Native作为历史参考，不引入Node preparation/activation/plan producer。
+3. 实际TypeScript编译/lint、Nest autoLoad及CLI discovery；核六classes只有六表、无重复entity、无额外列或错误relation、无TDZ。
+4. 对已迁移隔离库实际metadata/schema/migration-check，逐项核新列null/type/default/precision、PK/unique/check/partial/index/FK和ACL未改。保存生成差异，不执行任何DROP或重建强scope约束的建议DDL。
+5. 检查已冻结93migration与实体映射、Rust typed SQL和Shared接口的一致性，再结合真正producer/HTTP/PG用例形成统一候选证据。Readonly candidate source与静态catalog对照不是这些实际检查的替代。
+
+本交付未执行build/test/Node/metadata discovery/DB/HTTP/browser/WSL/Git/GitHub/安装；没有schema pass、migration-check pass或G3结论。所有差异分类与接受仍由Root和非作者reviewer签署。

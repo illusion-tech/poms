@@ -1,0 +1,360 @@
+{
+  "schema": "poms-r4abc-independent-generator-input-checkpoint/v1",
+  "reviewer": "/root/r4_independent_gate",
+  "reviewedAtUtc": "2026-11-03T08:12:33Z",
+  "checkpoint": "S3-input-only",
+  "decision": "Pass",
+  "permissionClass": "restricted source-checkpoint commit permission",
+  "independent": true,
+  "productOrGeneratorOrTestAuthor": false,
+  "candidate": {
+    "file": "docs/design/rust-r4abc/generator-checkpoint02/candidate03.json",
+    "bytes": 8641,
+    "sha256": "77b0e6b1eb5d5f73e78c1af8eccf33988ce8303216aefdca2c47178b4eab273e",
+    "branch": "codex/poms-r4abc-first37",
+    "observedHead": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "G1": "2f613c312c9e41b3ed5ac59edf5e9db63842c1cb",
+    "sourceInputs": [
+      {
+        "file": "libs/shared/api-spec/openapi.json",
+        "bytes": 1154387,
+        "rawBytesSha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+      },
+      {
+        "file": "tools/openapi/shared-api-client.mjs",
+        "bytes": 20791,
+        "rawBytesSha256": "457afadd1f9c8d62b886ded595e8c40f6755db6b033001f0e6c35480911e2f50"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 443953,
+        "rawBytesSha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120"
+      },
+      {
+        "file": "libs/api/contracts/src/lib/contract/contract.dto.ts",
+        "bytes": 4722,
+        "rawBytesSha256": "c8d5db8660d8fb99c347ee08e6762bc6c442af523afbf465df708b72511dfb7f"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "bytes": 6466,
+        "rawBytesSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+        "bytes": 2714,
+        "rawBytesSha256": "9a4cac49065ebea267678e4d899a8451bf22214928175b050efe19e91aed97b2"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+        "bytes": 26958,
+        "rawBytesSha256": "ff7d7bf1bf49aeb1e6a44369a72748299ed189865b46da9042ed08ac6343f3b6"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "bytes": 14430,
+        "rawBytesSha256": "b95f59d5f03fa5528ca4e5eb442972f022b6f5ed9540ca65e947c4235afdf4c7"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+        "bytes": 225,
+        "rawBytesSha256": "224363c6ea883812afe20a168ec5c7d5b815f14b041cd85903d2b9c0733ac92d"
+      },
+      {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts",
+        "bytes": 28861,
+        "rawBytesSha256": "9a20590eefa09b22cc20113916a6f70830a6ce536a17255a0914cbc77f4539a5"
+      }
+    ],
+    "sourceInputLengthOrHashMismatches": [],
+    "allowedSourceCheckpointFiles": [
+      "libs/shared/api-spec/openapi.json",
+      "tools/openapi/shared-api-client.mjs",
+      "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts"
+    ]
+  },
+  "authority": {
+    "frozenG1": "docs/design/rust-r4abc-first37-baseline.md + dto-freeze01.json + shared-protocol01.md at2f613c31",
+    "scope": "The existing37 R4 operations' shared DTO/read-model/query/strict result and bounded Native compilation-adapter changes were explicitly authorized by G1. No new method/path/operationId or extra R4 delivery is approved.",
+    "nativeBoundary": "Legacy local types and actual null absence retain historical Native semantics; no fabricated preparation/snapshot/plan identities. New lifecycle conformance remains a Rust and updated-UI acceptance target.",
+    "candidatePrecedence": "candidate03 is the reviewed pin authority. candidate02 and the checkpoint document's candidate02 reference remain historical input-stage records and do not override03 source hashes."
+  },
+  "fullInventoryIndependentReadback": {
+    "evidenceClass": "structural JSON comparison of old full-spec raw original and current full spec, not generator execution by reviewer",
+    "oldSpec": {
+      "file": "docs/design/rust-r4abc/generator-checkpoint02/full-spec-before-original.json.bin",
+      "bytes": 1129410,
+      "sha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    },
+    "newSpec": {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1154387,
+      "sha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+    },
+    "old": {
+      "paths": 237,
+      "operations": 291,
+      "schemas": 585
+    },
+    "current": {
+      "paths": 237,
+      "operations": 291,
+      "schemas": 595
+    },
+    "exactPathNamesEqual": true,
+    "exactMethodPathOperationIdTriplesEqual": true,
+    "addedSchemas": [
+      "ActivateContractResult",
+      "ContractCommercialTerms",
+      "ContractReviewBindingSummary",
+      "ContractTermPreparationStatus",
+      "ContractTermPreparationSummary",
+      "R4NonnegativeMoneyString",
+      "R4PositiveMoneyString",
+      "R4RatioString",
+      "ReceivablePlanSeed",
+      "SubmitContractReviewResult"
+    ],
+    "changedSchemas": [
+      "CommandResult",
+      "CommercialBaselineReviewRecordSummary",
+      "CommercialReleaseBaselineSummary",
+      "ContractDetailView",
+      "ContractReadinessDetail",
+      "ContractTermSnapshotSummary",
+      "CreateCommercialReleaseBaselineRequest",
+      "CreateContractReadinessPackageRequest",
+      "CreateContractRequest",
+      "CreateInvoiceRecordRequest",
+      "CreatePayableRecordRequest",
+      "CreatePaymentRecordRequest",
+      "CreateReceiptRecordRequest",
+      "InitializeContractSnapshotFromReadinessPackageRequest",
+      "InitializeReceivablePlanFromReadinessPackageRequest",
+      "ReadinessInitializationResult",
+      "ReviewCommercialReleaseBaselineDiffRequest",
+      "SubmitContractReviewRequest",
+      "UpdateContractBasicInfoRequest",
+      "UpdateInvoiceRecordRequest",
+      "UpdatePayableRecordRequest"
+    ],
+    "removedSchemas": [],
+    "addedSchemaCount": 10,
+    "changedSchemaCount": 21,
+    "allOld585NamesRetained": true,
+    "changedOperationObjects": [
+      {
+        "method": "post",
+        "path": "/api/contracts/{id}:submitReview",
+        "operationId": "ContractController_submitReview"
+      },
+      {
+        "method": "post",
+        "path": "/api/contracts/{id}:activate",
+        "operationId": "ContractController_activate"
+      },
+      {
+        "method": "get",
+        "path": "/api/commercial-release-baselines/{id}/diff-history",
+        "operationId": "ContractReadinessController_getDiffHistory"
+      },
+      {
+        "method": "get",
+        "path": "/api/projects/{projectId}/contract-readiness",
+        "operationId": "ContractReadinessController_getCurrentContractReadiness"
+      }
+    ],
+    "changedOperationObjectCount": 4,
+    "unchangedOperationObjects": 287,
+    "deltaWithinFrozenG1": true
+  },
+  "generatorProtectionReview": {
+    "before": {
+      "file": "docs/design/rust-r4abc/generator-checkpoint02/generator-before-original.mjs.bin",
+      "bytes": 20791,
+      "sha256": "238485bb33dea5421fb7592ba4d89458c4bf8d54b1ed913193057a1bdf8d2a4d"
+    },
+    "after": {
+      "file": "tools/openapi/shared-api-client.mjs",
+      "bytes": 20791,
+      "sha256": "457afadd1f9c8d62b886ded595e8c40f6755db6b033001f0e6c35480911e2f50"
+    },
+    "exactOnlyCodeDelta": "loadBaseline: full schemas exact585 -> exact595; byte/text comparison equals that single replacement and Git diff contains only that line",
+    "protectedSources": [
+      {
+        "file": "libs/shared/api-spec/openapi.json",
+        "sha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+      },
+      {
+        "file": "tools/openapi/typescript-angular.config.json",
+        "sha256": "66ab0dcda041e7a04d1adec65827d89269d30bd3336f6a707fdbd99dc5e9512d"
+      },
+      {
+        "file": "openapitools.json",
+        "sha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce"
+      },
+      {
+        "file": "package.json",
+        "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+      },
+      {
+        "file": ".gitattributes",
+        "sha256": "ea040b2c6fc5fc9d75695f5451b5f2280c1a3b371687ebe19d2883259e9e3ca8"
+      }
+    ],
+    "protectedSourceNormalization": "Verified all6 SHA256 with original UTF-8 text after CRLF-to-LF-only convention",
+    "guardBodiesUnchanged": {
+      "gitWorkingTreeAgainstFixedSourceHead": true,
+      "gitIndexAgainstFixedSourceHead": true,
+      "untrackedProtectedPaths": true,
+      "protectedSourceFingerprintChecks": true,
+      "configurationWrapperGeneratorAndJarPins": true,
+      "fullExactPathsMethodsOperationIdsAndSchemaNameSets": true
+    },
+    "additionalPreservedControls": [
+      "local-only $ref generation",
+      "fixed input/output paths",
+      "fixed metadata filenames",
+      "generated tree completeness",
+      "case-collision and symlink checks",
+      "input/client snapshots before and after generation",
+      "safe owned temporary cleanup",
+      "no input/output CLI override"
+    ],
+    "configurationAndJarMetadata": {
+      "version": "7.20.0",
+      "wrapperVersion": "2.41.0",
+      "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+      "officialUrl": "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.20.0/openapi-generator-cli-7.20.0.jar",
+      "configuration": "tools/openapi/typescript-angular.config.json"
+    },
+    "unchangedBaseline": {
+      "file": "tools/openapi/shared-api-client-baseline.json",
+      "oldSourceHead": "1a941e8047c6269b52ef4ae8174e5f450f1db2f6",
+      "sha256": "eefebcb336462d9adb317885eebd1deb4294a52b38dbf76a075a757274a95f1a",
+      "equalsPreservedBeforeOriginal": true,
+      "stillDescribes585UntilPostS3Update": true
+    },
+    "attributesClarification": "The old1a941 sourceHead predates cumulative committed R2M/R3 evidence attributes as well as the two R4 binary patterns. Current .gitattributes is already in G1, has no new checkpoint edit, and is frozen by the reviewed ea040... fingerprint. The mismatch is not solely the two latest R4 lines.",
+    "noGuardWaiverOrBypassApproved": true
+  },
+  "finiteEvidenceReadback": {
+    "originalReceiptsAndPublicOutputsChecked": 16,
+    "byteOrHashMismatches": [],
+    "sourceMapping": "Only public /mnt/e/projects/worktrees/poms-r3hijk-next28/poms/ paths were mapped to the Root Windows checkout; no private original was read",
+    "initialFullExport": {
+      "file": "tmp/rust-r4abc/root/contract-generation01/progress.json",
+      "command": "nx run poms-api:openapi --skip-nx-cache",
+      "exitCode": 0,
+      "outputRetained": true,
+      "currentFullSpecMatchesReviewedInventory": true
+    },
+    "initialClientWrite": {
+      "exitCode": 1,
+      "failureClass": "expected existing frozen-source guard rejection",
+      "observedProtectedPaths": [
+        ".gitattributes",
+        "libs/shared/api-spec/openapi.json"
+      ],
+      "originalStdoutAndStderrRetained": true,
+      "currentClientTrackedChanges": [],
+      "currentClientUntrackedFiles": [],
+      "clientGenerationOrDeliveryCertified": false
+    },
+    "sharedFailed01": {
+      "file": "tmp/rust-r4abc/root/shared-schema-failed01/receipt01.json",
+      "sha256": "3965fe9c0eba826c19619d5f990ac5d5a1e176ddfdac2068c6e39454c1ff70d4",
+      "exitCode": 1,
+      "observedAssertion": "formal plan requires initialization record",
+      "labelRetained": "failed"
+    },
+    "sharedPassed02": {
+      "file": "tmp/rust-r4abc/root/shared-schema-passed02/receipt01.json",
+      "sha256": "b21ec726e7de46da79aafad3e2a5c68dcc5508a44cb9d1939b98707993ba6942",
+      "exitCode": 0,
+      "assertions": 43,
+      "currentSharedSourceSha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120",
+      "testSource": {
+        "file": "tools/rust-r4abc/shared-contract-tests02.ts",
+        "bytes": 5205,
+        "rawBytesSha256": "810a70f145fdbc3bb14bdf68e2541355ea938b8584b06fa63e029f0116c160d7"
+      },
+      "meaningfulBoundaries": [
+        "exact money/ratio ranges and invalid syntax",
+        "draft-only contract and preparation required",
+        "parsed UUID contractTerms uniqueness",
+        "query scalar rejection",
+        "actual A08/A09 target identity",
+        "A08 no active snapshot or plan",
+        "A09 real snapshot/version/init record and coherent states",
+        "valid tax tuple syntax retained for domain422"
+      ],
+      "businessOrDatabaseRuntimeExecuted": false
+    },
+    "nativeBuild01": {
+      "file": "tmp/rust-r4abc/root/native-build01/receipt01.json",
+      "sha256": "3191286d2555255f7400c5965361167e64b2aad3ac2468c0816b3ac2efed468e",
+      "exitCode": 0,
+      "observedOutput": "webpack compiled successfully and poms-api build target succeeded",
+      "boundary": "Prior structural8-file compilation variant; current conditional-refine source is covered by43 schema tests. No claim that the complete final ORM/UI/runtime candidate or new Native lifecycle was built or accepted."
+    },
+    "reviewerExecutedProductOrGeneratorOrTests": false
+  },
+  "restrictedPermission": {
+    "allowed": true,
+    "permanentCheckpointName": "S3",
+    "branchOnly": "codex/poms-r4abc-first37",
+    "sourceFiles": [
+      "libs/shared/api-spec/openapi.json",
+      "tools/openapi/shared-api-client.mjs",
+      "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "libs/api/contracts/src/lib/contract/contract.dto.ts",
+      "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "apps/poms-api/src/app/features/contract-readiness/contract-readiness.legacy-types.ts",
+      "apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts",
+      "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "apps/poms-api/src/app/features/contract/contract.legacy-types.ts",
+      "apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts"
+    ],
+    "accompanyingMaterial": "Only directly related checkpoint documentation, this review, preserved public export/guard rejection/schema-test/build evidence and their pinned source originals/mappings. No unrelated runtime/domain/UI/entity changes may be bundled as approved delivery.",
+    "requiredSequence": [
+      "Commit and permanently retain the exact reviewed10 source bytes plus directly related evidence/docs on this batch branch as fixed S3; keep a commit/blob readback",
+      "Set client-baseline.sourceHead to that explicit immutable S3 SHA, never mutable HEAD or a replaceable alias",
+      "Freeze all6 protected fingerprints to the reviewed values and full237-path/291-operation/595-schema exact inventories derived from reviewed spec4a508c09...",
+      "Run the original guarded client write and check with unchanged7.20.0 JAR/wrapper/config/metadata/source guards; retain both results and any failure",
+      "Continue final implementation validation independently; do not treat S3 or generator success as actual business acceptance"
+    ],
+    "originalBaselineAndRejectedAttemptMustRemain": true,
+    "mayMergeOrWriteMain": false,
+    "mayCloseIssues": false,
+    "mayClaimImplementationG3": false,
+    "mayClaimWholeBatchDelivery": false,
+    "mayClaimRuntimeAcceptance": false
+  },
+  "blockersForThisRestrictedInputCommit": [],
+  "openFindingCountsForThisCheckpoint": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "implementationG3Decision": null,
+  "G3Certified": false,
+  "G4Certified": false,
+  "parentsRemainOpen": [
+    101,
+    57
+  ],
+  "remainingAcceptance": "All actual HTTP/PG/UI/fault/race, complete integrated source/build/client/migration alignment, independent finalG3, fixed-commit/main integration and G4 remain separate and unapproved here.",
+  "reviewerMutationsOutsideReviewOutput": []
+}

@@ -1,0 +1,20 @@
+# R4A 候选02：摘要来源门槛与竞标结果限定修正
+
+根据独立 pre-G3 发现，候选01的 A source collector 额外把 generic `approval_summary_snapshot` 的 active 状态、project/contract/lead target映射，以及 scenario/package/projection/export全等当成签约资格；这超出了冻结R3报价事实的授权边界。同次审查还发现适用竞标的 `participate + resultStatus=pending` 可因既有R3已released而错误放行。候选02仅修正这两项，其余A规则不变。
+
+唯一修改的产品文件是 `apps/poms-api-rust/src/contract_readiness/source.rs`：
+
+- 摘要引用仍须指向实际存在的 `approval_summary_snapshot` 记录；缺失时给出“报价事实缺少已存在的摘要来源记录”的解释性阻断。没有随机ID、补seed或绕FK。
+- 删除摘要 active、target kind/对象归属及 scenario/package/projection/export全等资格检查；generic summary不表示报价审批通过，不增加不存在的quotation-review流程或handler。
+- `sourceFacts.summary`仅保留真实记录 `id`。不再把摘要全行hash/rowVersion纳入资格freshness，避免摘要状态/上下文变化通过hash比较间接恢复同一额外门槛。真实current R3 pricing ID/version、decision/ready/blockers/conditions和cost/bid/baseline/currency/project source金额校验完整保留。
+- 原真实summary ID继续固化在package/preparation sourceFacts及其payloadHash对应的审计来源链中；不是新的授权事实。
+- pricingPath=bid 只认同引用当前真实竞标、decision=participate、resultStatus=won的适用竞标路径；pending/lost/cancelled/not-applicable不能授予准备资格。
+- direct-commercial 按 Root 对 formal“非投标可由直接商务替代”的精确解释单列：真实current mode须direct-commercial/not-required，对应decision须participate/not-required；lost/cancelled阻断，pending/not-applicable/won不再套用竞标结果硬门槛。替代资格来自真实current direct报价released/conditional、必备条件齐备、成本/币种/商业基线一致。实际投标mode+pending不能改pricingPath或省略ref绕路。
+- `sourceFacts.bidQualification`保存实际path/mode/decision/result/blockerCount/reference及pathQualified；顶层`bidApplicability`由真实process mode决定，合法且源条件齐备的direct路径明确`substitution=current-direct-pricing`。pending仍存pending，不伪称won；真实投标mode即使caller选择direct仍是applicable。
+- body资源断言仍只认DTO精确字段`contractReadinessPackageId`（可选），必须等于path；本次不修改service，不添加`packageId`别名，也不把Root的unknown-strip当成断言。
+
+Root实际验收通过已交付R2 `create_summary_snapshot_with_session` 的真实非HTTP机制产生generic summary引用，再用真实R3 HTTP release承接；不称其为报价审批，不扩新增HTTP或handler。
+
+候选01九份原件（6源文件、原case/MD、原delivery索引）已在修正前按原索引SHA/长度核对并原字节保全于 `candidate01-originals/`，映射见 `candidate01-preservation02.json`。原delivery01/cases01/MD未修改；`acceptance-cases02.json`仅覆盖摘要门槛和竞标结果相关旧断言，另确认既有body断言字段名，包含14组纯定义，其余原case仍适用。旧候选01生成的sourceFacts/payload保持原件，不就地重标为候选02验收；Root用候选02新run真实生产并保存实际结果。
+
+本次未构建、未格式化、未测试，未执行HTTP/PG/browser/WSL/Git/GitHub。仅完成源码修正、JSON语法解析和原字节散列记录。Root导入候选02后另作实际编译与完整producer/fault/race验收；本交付不是G3或业务通过结论。

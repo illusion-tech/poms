@@ -21,6 +21,10 @@ pub struct CommonFailure {
     pub message: Text,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sqlstate: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub code: Option<String>,
+    #[serde(skip_serializing)]
+    pub constraint: Option<String>,
 }
 
 impl CommonFailure {
@@ -30,6 +34,8 @@ impl CommonFailure {
             status: Some(status.as_u16()),
             message: message.into(),
             sqlstate: None,
+            code: None,
+            constraint: None,
         }
     }
 
@@ -39,6 +45,8 @@ impl CommonFailure {
             status: None,
             message: message.into(),
             sqlstate: None,
+            code: None,
+            constraint: None,
         }
     }
 
@@ -53,6 +61,8 @@ impl CommonFailure {
                         .bytes()
                         .all(|byte| byte.is_ascii_uppercase() || byte.is_ascii_digit())
             }),
+            code: None,
+            constraint: None,
         }
     }
 }
@@ -89,6 +99,7 @@ impl From<sqlx::Error> for CommonFailure {
                 message.push_str(detail);
             }
             let mut failure = Self::database(database.code().map(|code| code.into_owned()));
+            failure.constraint = database.constraint().map(str::to_owned);
             failure.message = Text::from(message);
             failure
         } else {

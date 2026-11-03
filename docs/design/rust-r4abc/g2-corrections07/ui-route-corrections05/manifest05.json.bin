@@ -1,0 +1,115 @@
+{
+  "schema": "poms-r4-ui-route-corrections/v1",
+  "author": "C implementation and source-test author; not independent Gate reviewer",
+  "base": "Root actual04 bytes individually SHA-checked; Root product files not written by C",
+  "scope": "R4 existing ContractDetail/ContractStore and directly required optional AuthStore response publication fence",
+  "fileCount": 7,
+  "totalProductRawBytes": 143090.0,
+  "newSourceCases": 17,
+  "rootPriorReportedChecks": "admin394 + Native26, lint/build23 passed for prior04 only; not05 validation",
+  "uiEvidence": "UI30 prior candidate asset only, not final UI acceptance",
+  "verification": {
+    "nodeAngularBuildLintTestsBrowserHttpPgGitWslEnvironment": "not-run by C",
+    "staticSourceAndBytes": "completed"
+  },
+  "artifacts": [
+    "INTEGRATION.md",
+    "bases/<path>.bin",
+    "metadata-attempts/manifest05-total-null01.json.bin (pre-delivery metadata attempt; source products unchanged)",
+    "metadata-attempts/manifest05-before-recovery01.json.bin (superseded pre-delivery metadata)"
+  ],
+  "files": [
+    {
+      "path": "libs/admin/data-access/src/lib/contract/contract.store.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 9823,
+      "baseSha256": "77500861fe1faa8304866a2e0de3c538bead8c0684597daf5e36ad140f28c958",
+      "newRawBytes": 13144,
+      "newSha256": "501ebfa43ed4af3cded7fb9d1427c4c44eeeacf8d2721a743e81da29d5b213d1",
+      "changes": [
+        "immutable selected-contract scope identity and per-read request publication fences",
+        "fenced loading/saving/list/update completions; response identity checks",
+        "captured-scope post-ACK readback, stale ACK suppression, read-only retry, scoped todo publisher callback"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 48480,
+      "baseSha256": "97be99281c1da46a2215dc4e7808ef6d101dd0d4b71966ecc014b5830061ce96",
+      "newRawBytes": 53471,
+      "newSha256": "e8270d75e62bff4a66fbfd956dc64acd041ccd0ef63123dd8747d8515476e875",
+      "changes": [
+        "live paramMap with DestroyRef-bound subscription; reset dialogs/forms/toasts/ACK on route switch",
+        "displayed contract and approval target must match live route",
+        "all async command and reload completions fenced by originating page identity",
+        "draft always offers real preparation/re-preparation navigation; server payload_changed/source_changed errors remain visible with recovery hint; no new gate or write retry"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-detail.spec.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 14790,
+      "baseSha256": "7cec801235f721e68f2ed777b9e392e0a306ffa934f6bd73ab6d9a4814272c4b",
+      "newRawBytes": 15442,
+      "newSha256": "eeea4cc88dacc7783f3dda3e478154de99500c833f1d4f49d68a24319d6cdaf7",
+      "changes": [
+        "preserve04 cases; update route observable and scoped store mock to match real component contract"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract.store.spec.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 8542,
+      "baseSha256": "534e3fa4c8ea05f7156da430e259a84c2402a980513fdcf97e215c385a48daed",
+      "newRawBytes": 18114,
+      "newSha256": "1e909b7e52e8f8faf87458593f0eff8b89f2e8280013a1b1b4597e436da79820",
+      "changes": [
+        "preserve04 cases; add seven scope/request/ACK concurrency source cases and todo callback identity assertions"
+      ]
+    },
+    {
+      "path": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 8655,
+      "baseSha256": "ee613b8da595e3e11898233ceaf9146190df31fc898bcd5b6c01d7951d25eb05",
+      "newRawBytes": 8745,
+      "newSha256": "81252fcaf3aeb6da54c6b63b0335f397f3ae01f10e6655dbcd9851a380e630df",
+      "changes": [
+        "optional isCurrent callback gates publication of fulfilled todo read only; previous default/strict callers unchanged"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/core/auth/auth.store.spec.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 18908,
+      "baseSha256": "9c8eaf148f4d7c53357f2a007f6e7379d02e793367b7d9498686a2c2f0a6bfbb",
+      "newRawBytes": 19673,
+      "newSha256": "78df2cb8980d5b1971e1c66f9e4972abab6c638ea5ec05bf4ff83ac0c556d810",
+      "changes": [
+        "preserve04 cases; add delayed todo result rejected from publication after scope invalidation"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-route.spec.ts",
+      "baseExists": false,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": null,
+      "baseSha256": null,
+      "newRawBytes": 14501,
+      "newSha256": "cc1ae877e1fff7fd5f463697c253336b76b398c328c0e5ac9b77a66f02e713db",
+      "changes": [
+        "nine real ContractDetail fixture + real ContractStore source cases with delayed SDK Subjects and explicit preparation recovery",
+        "same reused instance changes route while snapshot stays A; submitted request must target B",
+        "late read/error/ACK and destruction behavior; attachment child omitted only in focused fixture",
+        "PATCH with existing preparation keeps re-preparation navigation; two server codes preserve original failure without automatic write retry"
+      ]
+    }
+  ]
+}

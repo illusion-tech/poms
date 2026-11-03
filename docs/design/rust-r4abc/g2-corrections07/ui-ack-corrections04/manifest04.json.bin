@@ -1,0 +1,101 @@
+{
+  "schema": "poms-r4-ui-ack-corrections/v1",
+  "author": "C source author; not independent Gate reviewer",
+  "baseRule": "Root current source after actual02 and03 import; original bytes preserved per file",
+  "scope": "four B write commands, detail ACK-aware feedback, direct optional AuthStore strict read, and three focused spec sources",
+  "verification": {
+    "staticSourceAndBytes": "completed",
+    "nodeAngularBuildLintTestsBrowser": "not-run by C"
+  },
+  "files": [
+    {
+      "path": "libs/admin/data-access/src/lib/contract/contract.store.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 7495,
+      "baseSha256": "f16db722b803230b2d5d4f17225a123d11afd48e160fc563cc66adbe351864eb",
+      "newRawBytes": 9823,
+      "newSha256": "77500861fe1faa8304866a2e0de3c538bead8c0684597daf5e36ad140f28c958",
+      "changes": [
+        "save exact successful POST result and action separately from readback errors for four B commands",
+        "post-ACK detail/approval/todos allSettled; preserve every read failure and return original ACK",
+        "read-only retry entry and clear reset; original write rejection remains unchanged"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-detail.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 46121,
+      "baseSha256": "a5d4dbc00753c0fad2323b0d1f326bebdbec151a947d852ed36fcdea9fef76a4",
+      "newRawBytes": 48480,
+      "newSha256": "97be99281c1da46a2215dc4e7808ef6d101dd0d4b71966ecc014b5830061ce96",
+      "changes": [
+        "persistent ACK-aware warning with read-only reload button",
+        "correct success/warning toast for four completed B commands; original POST error catches retained",
+        "block actions based on stale business state until readback succeeds; no write retry"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract-detail.spec.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 12674,
+      "baseSha256": "8322e8188933c192a04b15dba3120a77574c97827eda9194774a0860d6f02de4",
+      "newRawBytes": 14790,
+      "newSha256": "7cec801235f721e68f2ed777b9e392e0a306ffa934f6bd73ab6d9a4814272c4b",
+      "changes": [
+        "fixture signals for ACK/readback state",
+        "warning and read-only reload UI test; no actual producer or browser evidence"
+      ]
+    },
+    {
+      "path": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 8543,
+      "baseSha256": "7bb648c0897a6b0e3ba479dfa18c20be3ade50eadf2a9d5825d3acfb64d8a661",
+      "newRawBytes": 8655,
+      "newSha256": "ee613b8da595e3e11898233ceaf9146190df31fc898bcd5b6c01d7951d25eb05",
+      "changes": [
+        "optional propagateErrors=true preserves old todos and exposes actual request failure to B ACK readback",
+        "existing default callers retain their previous empty-list fallback; no other auth behavior changed"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/core/auth/auth.store.spec.ts",
+      "baseExists": true,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": 16586,
+      "baseSha256": "7dfcee9609294b5c14f50eb526a6ae87e72042bcde478ee6da923ffb2097c604",
+      "newRawBytes": 18908,
+      "newSha256": "9c8eaf148f4d7c53357f2a007f6e7379d02e793367b7d9498686a2c2f0a6bfbb",
+      "changes": [
+        "actual AuthStore strict todo failure retains old state and rejects unchanged cause",
+        "default refresh failure remains fulfilled empty-list fallback",
+        "strict success updates the actual returned todo array"
+      ]
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/contract/contract.store.spec.ts",
+      "baseExists": false,
+      "baseRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+      "baseRawBytes": null,
+      "baseSha256": null,
+      "newRawBytes": 8542,
+      "newSha256": "534e3fa4c8ea05f7156da430e259a84c2402a980513fdcf97e215c385a48daed",
+      "changes": [
+        "four real POST ACK plus read failure cases and read-only retry post-count invariants",
+        "four actual write-error propagation cases and no readback",
+        "approval/todo read failure and scoped ACK clear cases; fixtures only"
+      ]
+    }
+  ],
+  "fileCount": 6,
+  "totalProductRawBytes": 109198.0,
+  "artifacts": [
+    "INTEGRATION.md",
+    "manifest04-draft.json",
+    "bases/<relative-path>.bin"
+  ]
+}

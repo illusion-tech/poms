@@ -10,6 +10,10 @@ import type {
     CommissionRuleExplanationView,
     ContractHandoverSummaryView,
     ContractReadinessDetail,
+    ContractDetailView,
+    ContractSummary,
+    ContractDiffReviewHistoryView,
+    ReadinessInitializationResult,
     CreateProjectBidCommercialProcessRequest,
     CreateProjectPricingMarginReviewRequest,
     ProjectBidCommercialProcessSummary,
@@ -24,7 +28,7 @@ import type {
     ProjectVarianceRiskExplanationView,
     ProjectWorkspaceGuidanceView
 } from '@poms/shared-api-client';
-import { AttachmentHandoverApi, BASE_PATH, CommissionApi, CommissionRoleAssignmentsApi, ContractReadinessApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
+import { AttachmentHandoverApi, BASE_PATH, CommissionApi, CommissionRoleAssignmentsApi, ContractApi, ContractReadinessApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
 import { firstValueFrom, type Observable } from 'rxjs';
 
 type WorkspaceErrorKind =
@@ -63,6 +67,7 @@ export class ProjectWorkspaceStore {
     readonly #projectHandoverApi = inject(ProjectHandoverApi);
     readonly #attachmentHandoverApi = inject(AttachmentHandoverApi);
     readonly #contractReadinessApi = inject(ContractReadinessApi);
+    readonly #preSigningContractApi = inject(ContractApi);
     readonly #commissionApi = inject(CommissionApi);
     readonly #commissionRoleAssignmentsApi = inject(CommissionRoleAssignmentsApi);
 
@@ -70,6 +75,17 @@ export class ProjectWorkspaceStore {
     readonly #contractHandoverSummary = signal<ContractHandoverSummaryView | null>(null);
     readonly #projectHandoverDetail = signal<ProjectHandoverDetailView | null>(null);
     readonly #contractReadiness = signal<ContractReadinessDetail | null>(null);
+    readonly #preSigningContracts = signal<ContractSummary[]>([]);
+    readonly #preSigningContract = signal<ContractDetailView | null>(null);
+    readonly #preSigningContractId = signal<string | null>(null);
+    readonly #preSigningCandidateIds = signal<string[]>([]);
+    readonly #preSigningDiffHistory = signal<ContractDiffReviewHistoryView | null>(null);
+    readonly #preSigningInitialization = signal<ReadinessInitializationResult | null>(null);
+    readonly #savingPreSigning = signal(false);
+    readonly #preSigningActionError = signal<string | null>(null);
+    #preSigningRequest = 0;
+    #preSigningCommand = 0;
+    #preSigningProjectId: string | null = null;
     readonly #technicalCostWorkspace = signal<ProjectTechnicalCostWorkspaceView | null>(null);
     readonly #bidCommercialWorkspace = signal<ProjectBidCommercialWorkspaceView | null>(null);
     readonly #bidCommercialProcessHistory = signal<ProjectBidCommercialProcessSummary[]>([]);
@@ -127,6 +143,14 @@ export class ProjectWorkspaceStore {
     readonly contractHandoverSummary = this.#contractHandoverSummary.asReadonly();
     readonly projectHandoverDetail = this.#projectHandoverDetail.asReadonly();
     readonly contractReadiness = this.#contractReadiness.asReadonly();
+    readonly preSigningContracts = this.#preSigningContracts.asReadonly();
+    readonly preSigningContract = this.#preSigningContract.asReadonly();
+    readonly preSigningContractId = this.#preSigningContractId.asReadonly();
+    readonly preSigningCandidateIds = this.#preSigningCandidateIds.asReadonly();
+    readonly preSigningDiffHistory = this.#preSigningDiffHistory.asReadonly();
+    readonly preSigningInitialization = this.#preSigningInitialization.asReadonly();
+    readonly savingPreSigning = this.#savingPreSigning.asReadonly();
+    readonly preSigningActionError = this.#preSigningActionError.asReadonly();
     readonly technicalCostWorkspace = this.#technicalCostWorkspace.asReadonly();
     readonly bidCommercialWorkspace = this.#bidCommercialWorkspace.asReadonly();
     readonly bidCommercialProcessHistory = this.#bidCommercialProcessHistory.asReadonly();
@@ -353,31 +377,128 @@ export class ProjectWorkspaceStore {
         }
     }
 
-    async loadPreSigningOverview(projectId: string): Promise<ContractReadinessDetail | null> {
+    async loadPreSigningOverview(projectId: string, contractId?: string | null): Promise<ContractReadinessDetail | null> {
+        const request = ++this.#preSigningRequest;
+        if (this.#preSigningProjectId !== projectId) {
+            this.#preSigningContracts.set([]);
+            this.#preSigningCandidateIds.set([]);
+        }
+        this.#preSigningProjectId = projectId;
         this.#loadingPreSigning.set(true);
         this.#preSigningError.set(null);
+        this.#preSigningActionError.set(null);
+        this.#preSigningContractId.set(contractId ?? null);
+        this.#contractReadiness.set(null);
+        this.#preSigningContract.set(null);
+        this.#preSigningDiffHistory.set(null);
+        this.#preSigningInitialization.set(null);
 
         try {
-            const readiness = await firstValueFrom(
-                this.#contractReadinessApi.contractReadinessControllerGetCurrentContractReadiness({
-                    projectId
-                })
-            );
+            const contracts = await firstValueFrom(this.#preSigningContractApi.contractControllerList({ projectId }));
+            if (request !== this.#preSigningRequest) return null;
+            this.#preSigningContracts.set(contracts);
+            // Selection is explicit, including when only one contract exists.
+            if (!contractId) return null;
+            const contract = await firstValueFrom(this.#preSigningContractApi.contractControllerGetById({ id: contractId }));
+            if (request !== this.#preSigningRequest) return null;
+            if (contract.projectId.toLowerCase() !== projectId.toLowerCase()) throw new Error('所选合同不属于当前项目。');
+            this.#preSigningContract.set(contract);
+            this.#preSigningContractId.set(contract.id);
+            let readiness: ContractReadinessDetail;
+            try {
+                readiness = await firstValueFrom(this.#contractReadinessApi.contractReadinessControllerGetCurrentContractReadiness({ projectId, contractId: contract.id }));
+            } catch (error) {
+                if (this.#isMissingWorkspaceView(error)) return null;
+                throw error;
+            }
+            if (request !== this.#preSigningRequest) return null;
+            if (readiness.contractId?.toLowerCase() !== contract.id.toLowerCase()) throw new Error('承接包与所选合同不一致，请刷新后重试。');
+            const history = await firstValueFrom(this.#contractReadinessApi.contractReadinessControllerGetDiffHistory({ id: readiness.sourceBaselineId, contractId: contract.id }));
+            if (request !== this.#preSigningRequest) return null;
             this.#contractReadiness.set(readiness);
+            this.#preSigningDiffHistory.set(history);
+            this.#preSigningCandidateIds.set([]);
             return readiness;
         } catch (error) {
-            if (this.#isMissingWorkspaceView(error)) {
-                this.#contractReadiness.set(null);
-                this.#preSigningError.set(null);
-                return null;
-            }
-
+            if (request !== this.#preSigningRequest) return null;
             this.#contractReadiness.set(null);
-            this.#preSigningError.set(this.#readWorkspaceError(error, 'pre-signing'));
+            this.#captureContractSelection(error);
+            this.#preSigningError.set(this.#preSigningErrorMessage(error));
             throw error;
         } finally {
-            this.#loadingPreSigning.set(false);
+            if (request === this.#preSigningRequest) this.#loadingPreSigning.set(false);
         }
+    }
+
+    async prepareSelectedContractTerms(): Promise<ReadinessInitializationResult> {
+        return this.#initializeSelectedContract('preparation');
+    }
+
+    async generateSelectedReceivablePlan(): Promise<ReadinessInitializationResult> {
+        return this.#initializeSelectedContract('plan');
+    }
+
+    async #initializeSelectedContract(kind: 'preparation' | 'plan'): Promise<ReadinessInitializationResult> {
+        const readiness = this.#contractReadiness();
+        const contract = this.#preSigningContract();
+        if (this.#savingPreSigning()) throw new Error('当前操作尚未完成，请稍候。');
+        if (!readiness || !contract || readiness.contractId !== contract.id) throw new Error('请先选择合同并读取其承接包。');
+        if (kind === 'preparation' && (contract.status !== 'draft' || !readiness.allowedActions.includes('initialize-contract-snapshot'))) throw new Error('当前合同条款尚不具备准备条件，请核对阻断项。');
+        const snapshot = contract.currentTermSnapshot;
+        if (kind === 'plan' && (contract.status !== 'active' || !snapshot || snapshot.snapshotStatus !== 'active' || snapshot.id !== contract.currentSnapshotId || snapshot.sourceReadinessId !== readiness.id || !snapshot.sourcePreparationId)) throw new Error('正式应收计划需要已生效合同及其真实有效快照。');
+        const request = this.#preSigningRequest;
+        const command = ++this.#preSigningCommand;
+        this.#savingPreSigning.set(true);
+        this.#preSigningActionError.set(null);
+        let acknowledged = false;
+        try {
+            const body = { contractId: contract.id, contractReadinessPackageId: readiness.id, expectedVersion: readiness.rowVersion };
+            const result = kind === 'preparation'
+                ? await firstValueFrom(this.#contractReadinessApi.contractReadinessControllerInitializeContractSnapshot({ id: readiness.id, initializeContractSnapshotFromReadinessPackageRequest: body }))
+                : await firstValueFrom(this.#contractReadinessApi.contractReadinessControllerInitializeReceivablePlan({ id: readiness.id, initializeReceivablePlanFromReadinessPackageRequest: body }));
+            if (result.contractId !== contract.id || result.sourceReadinessId !== readiness.id) throw new Error('返回结果与所选合同或承接包不一致，请刷新后核对。');
+            if (kind === 'preparation' && (result.targetType !== 'contract-term-preparation' || result.targetId !== result.preparationId || result.snapshotId !== null)) throw new Error('条款准备回执不完整，请刷新后核对。');
+            if (kind === 'plan' && (result.targetType !== 'receivable-plan-version' || result.targetId !== result.planVersionId || !result.snapshotId || !result.initRecordId)) throw new Error('应收计划回执不完整，请刷新后核对。');
+            acknowledged = true;
+            if (request === this.#preSigningRequest) this.#preSigningInitialization.set(result);
+            // targetId is a preparation/plan product, never the package to reload.
+            const [updatedReadiness, updatedContract] = await Promise.all([
+                firstValueFrom(this.#contractReadinessApi.contractReadinessControllerGetContractReadinessPackage({ id: result.sourceReadinessId })),
+                firstValueFrom(this.#preSigningContractApi.contractControllerGetById({ id: contract.id }))
+            ]);
+            if (request === this.#preSigningRequest) {
+                this.#contractReadiness.set(updatedReadiness);
+                this.#preSigningContract.set(updatedContract);
+                this.#preSigningInitialization.set(result);
+            }
+            return result;
+        } catch (error) {
+            if (request === this.#preSigningRequest) {
+                this.#captureContractSelection(error);
+                const message = this.#preSigningErrorMessage(error);
+                this.#preSigningActionError.set(acknowledged ? `操作已返回成功，后续读取失败，请刷新核对：${message}` : message);
+            }
+            throw error;
+        } finally {
+            if (command === this.#preSigningCommand) this.#savingPreSigning.set(false);
+        }
+    }
+
+    #captureContractSelection(error: unknown): void {
+        if (!(error instanceof HttpErrorResponse) || error.status !== 409) return;
+        const payload = error.error as { code?: unknown; candidateContractIds?: unknown } | null;
+        if (payload?.code === 'contract_selection_required') {
+            this.#preSigningCandidateIds.set(Array.isArray(payload.candidateContractIds) ? payload.candidateContractIds.filter((id): id is string => typeof id === 'string') : []);
+            this.#preSigningContractId.set(null);
+            this.#preSigningContract.set(null);
+            this.#contractReadiness.set(null);
+        }
+    }
+
+    #preSigningErrorMessage(error: unknown): string {
+        if (error instanceof HttpErrorResponse && typeof error.error?.message === 'string') return error.error.message;
+        if (error instanceof Error) return error.message;
+        return '请求未成功，请刷新后重试。';
     }
 
     async loadTechnicalCostWorkspace(projectId: string): Promise<ProjectTechnicalCostWorkspaceView> {
@@ -693,6 +814,17 @@ export class ProjectWorkspaceStore {
     }
 
     clear() {
+        ++this.#preSigningRequest;
+        ++this.#preSigningCommand;
+        this.#preSigningProjectId = null;
+        this.#preSigningContracts.set([]);
+        this.#preSigningContract.set(null);
+        this.#preSigningContractId.set(null);
+        this.#preSigningCandidateIds.set([]);
+        this.#preSigningDiffHistory.set(null);
+        this.#preSigningInitialization.set(null);
+        this.#preSigningActionError.set(null);
+        this.#savingPreSigning.set(false);
         this.#guidance.set(null);
         this.#contractHandoverSummary.set(null);
         this.#projectHandoverDetail.set(null);

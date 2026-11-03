@@ -10,6 +10,7 @@
 
 
 export interface InitializeContractSnapshotFromReadinessPackageRequest {
+    contractId: string;
     contractReadinessPackageId?: string;
     comment?: string;
     expectedVersion?: number;
