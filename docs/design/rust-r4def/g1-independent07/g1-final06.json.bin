@@ -1,0 +1,128 @@
+{
+  "kind": "R4DEF-independent-G1-final-review06",
+  "verdict": "Pass",
+  "reviewScope": "Independent static G1 design/input certification only; not implementation or runtime acceptance",
+  "reviewedAtUtc": "2026-11-03T20:53:17.917Z",
+  "reviewedCommit": "57f64d6c0aef99430acc3b4ed7d99d00074d59f4",
+  "mainBaseline": "565661b9113372de4da6662a4a692fbfd2296dd6",
+  "manifest": {
+    "file": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
+    "rawBytesSha256": "8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147",
+    "independentlyMatched": true
+  },
+  "G1Certified": true,
+  "onlineG1FreezeAlreadyExecutedByReviewer": false,
+  "G2Authorized": false,
+  "G2Status": "Product implementation may start after Root metadata commit/push and actual online G1 freeze/readback on the same immutable business input; worktree preparation is allowed",
+  "productChanged": false,
+  "runtimeExecuted": false,
+  "sqlExecuted": false,
+  "counts": {
+    "sourcePins": 435,
+    "outputPins": 5,
+    "D": 7,
+    "E": 11,
+    "F": 12,
+    "total": 30,
+    "existing": 28,
+    "new": 2,
+    "currentRust": 210,
+    "expectedRustAfterImplementation": 240,
+    "targetFullOperations": 293,
+    "targetFullSchemas": 624,
+    "schemaChanges": 63,
+    "normalizationRecords": 13
+  },
+  "evidence": {
+    "checks": "tmp/rust-r4def/independent/g1-final06-checks.json",
+    "normalization": "tmp/rust-r4def/independent/g1-final06-normalization.json",
+    "review": "tmp/rust-r4def/independent/g1-final06.md"
+  },
+  "checks": {
+    "sourceCurrentRawAndCommittedBlobs": "435/435 matched",
+    "outputs": "5/5 matched",
+    "operationAndSchemaAuthority": "matched",
+    "localRefs": "all resolved",
+    "requiredProperties": "all defined",
+    "forbiddenOpenAPI30Vocabulary": 0,
+    "legacyNullableEnumWitness": "passed",
+    "docsMarkdown": "ran-and-passed",
+    "latestCommitDiffCheck": "ran-and-passed",
+    "cumulativeMainToCandidateDiffCheck": "ran-and-passed",
+    "productAppsLibsDiff": "empty",
+    "productBuildLintTests": "not required for static G1; required as applicable in G2/G3",
+    "sqlHttpPgBrowserConcurrencyFaultAndCleanup": "not run; required actual G2/G3/G4 evidence"
+  },
+  "remainingP0P1P2Blockers": [],
+  "closedFindings": {
+    "G103B01": "13 recorded OpenAPI3.0 equivalence operations; nullable enum explicitly preserves null; no type:null or const remains",
+    "G103B02": "root-projection05 authority supersedes F fixed-operating interpretation; granular LABOR/mixed/predecessor-derived monetary groups require dual sensitive authorization, whole-group masking, protected writes403, safe errors and same-session dual-package security events",
+    "G103B03": "Precise binary evidence attributes preserve old02 failed SQL bytes while actual cumulative diff check passes",
+    "G103B04": "ownership04 concretely freezes D/E/F modules, D controlled B/R2/UI scope, Root shared/C/migration/contract/generator/environment integration and reviewer boundary",
+    "G105B01": "measurementBasis enum now contains explicit JSON null with nullable=true; legacy null and valid enum witnesses pass; all other target contract values unchanged since05"
+  },
+  "businessReview": {
+    "handover": "Real all-contract snapshot/preparation/review/plan chain; explicit duties and actual self-confirmation; locked source-changed rejection; safe summary; final handover and receipt freeze atomic; pending amendments preserve old Active; activated change and plan switch atomic; no fixture producers",
+    "execution": "Handover confirmed is a fact; R5 effective role freeze and same-chain admission remain required",
+    "cost": "Money18,2; rate15,4; quantity10,2; exact HALF_UP; deterministic allocation residuals and complete atomic batch replacement; real source/currency/stage provenance; any personal-rate overlap split; no automatic historical rewriting or inclusion",
+    "transaction": "Same outer CommonSession for required business/version/payload/evidence/audit/auth/security writes; one commit; errors propagate; unknown commit not falsely called rolled back",
+    "schema": "Composite FK/unique/current/source and version responsibilities statically reviewed; same guarded session must prove cross-row invariants; SQL and live-history preflight not executed",
+    "ui": "Minimal real selectors/duties/self/final confirmation/amendment/rebaseline path; current route/version guards; generated contracts and sensitive projections consumed; real browser evidence remains required"
+  },
+  "allowedRootNextSteps": {
+    "pureMetadataCommitAndPush": true,
+    "metadataScope": [
+      "Record this independent Pass, reviewer/time/input commit and hashes",
+      "Gate/status/tracker/issue/checklist/reference/receipt metadata",
+      "Preserve evidence bytes and binary attributes; append new evidence without overwriting prior failures",
+      "Do not alter manifest06, selected outputs, raw source originals, business/DTO/DDL/permission/precision/state/validation semantics under a metadata label"
+    ],
+    "onlineG1Freeze": true,
+    "onlineFreezeScope": [
+      106,
+      107,
+      108,
+      109
+    ],
+    "onlineFreezeRequires": "Publish exact reviewed commit/manifest/review linkage and verify real readback; parent101/root57 remain open",
+    "G2WorktreePreparation": true,
+    "G2ProductImplementationAllowedAfter": [
+      "Root commits and pushes only permitted metadata",
+      "Online G1 freeze and readback actually succeed",
+      "D/E/F managed worktrees use the same freeze metadata commit/business baseline",
+      "Authors obey ownership04 and protocol01; Root alone runs shared runtime acceptance and integrates common files"
+    ],
+    "repeatBusinessPermissionQuestionRequired": false,
+    "businessOrContractDriftRequires": "New precise corrective input and independent review; do not mutate this certificate or old frozen evidence"
+  },
+  "preservedPriorEvidence": [
+    "preflight01",
+    "preflight02-root-d",
+    "g1-final03.json",
+    "g1-final03.md",
+    "g1-final05.json",
+    "g1-final05.md",
+    "joint-g1-02",
+    "joint-g1-03",
+    "joint-g1-04",
+    "joint-g1-05"
+  ],
+  "closeoutBoundary": {
+    "onlyAfterRealG4": [
+      107,
+      108,
+      109,
+      106
+    ],
+    "mustRemainOpen": [
+      101,
+      57
+    ],
+    "G3G4CertifiedByThisReview": false
+  },
+  "modelRegistration": {
+    "target": "gpt-6.1-sol",
+    "effort": "max",
+    "fast": "unverified"
+  }
+}

@@ -1,0 +1,38 @@
+# R4 DEF 独立 G1 最终审查 06
+
+**G1 = Pass，剩余 P0/P1/P2 阻断为 0。此为静态设计与冻结输入审查，不是实现或运行验收。**
+
+- 审查提交：`57f64d6c0aef99430acc3b4ed7d99d00074d59f4`。
+- 权威 manifest：`docs/design/rust-r4def/joint-g1-06/manifest06.json`。
+- 原字节 SHA-256：`8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147`。
+- 审查时 HEAD 匹配且工作树干净。产品 apps/libs 相对 main 基线无差异，没有提前产品编码、SQL 执行或业务实跑。
+
+## 独立核验证据
+
+435 个来源的当前文件、冻结原件和指定提交内 blob 的字节/哈希全部匹配，5 个输出全部匹配。D7/E11/F12，共30操作；完整目标293操作、624 schemas、63变更；291个既有 method/path/operationId均保留。schema authority、全部本地refs、required字段闭合。
+
+13条归一化已经复核：无 type:null/const；measurementBasis 的 enum 显式含 null，legacy-null及三个合法值均接受，非法字符串和数字拒绝。相比05，完整目标契约只有这一个 enum 取值补齐；业务来源不变，变动来源仅打包器。SQL哈希与已审版本相同。
+
+全库 Markdown、最近提交及 main基线→当前提交累计 diff check 均实际通过。详细结果见同目录 `g1-final06-checks.json`、`g1-final06-normalization.json`。
+
+## 原阻断的收口
+
+- OpenAPI3.0规范载体与nullable enum值域已一致，保留13条等价转换记录。
+- Root05显式覆盖F固定operating条款；真实来源含LABOR、mixed或前代冻结依据时，basis/result/evidence/tax/receipt及可逆金额组要求operating+labor双敏感授权；任缺读取整组mask，治理写入403，错误无隐藏计算值，双包安全事件同CommonSession。
+- 精确binary属性保护old02失败SQL与原字节；累计检查已通过，旧失败标签/原件未改写。
+- ownership04明确D/E/F独占模块、D受控B/R2与UI、Root公共/C invoice/契约/迁移/生成物/运行环境和reviewer边界。
+- preflight中的E全部费用/非labor投影、个人率任意相交拆分、Fregistered→confirmed完整原子producer、D锁内self-confirm和安全摘要均保持；发票真实币种来源/单字段修正、香港业务日/跨日验证已明确。
+
+D多合同真实快照/准备/审核/计划、旧Active在待审变更期间有效、新snapshot与plan原子切换、旧receipt不复制重挂、重新移交材料需真实本人重新确认，已形成可实现且可验证的冻结边界。费用18,2、率15,4、quantity10,2、精确HALF_UP、三层计量和确定尾差、整批原子替代、历史不静默改写与not included一致。
+
+## 允许Root继续的边界
+
+Root现在可将本非作者Pass、提交/manifest/审查哈希和reviewer/date写入纯gate/status/tracker/issue/receipt/reference metadata，提交并推送，实际完成#106/#107/#108/#109线上G1冻结和读回。不得以metadata名义改变manifest06、所选输出、冻结source原件或业务/DTO/DDL/权限/状态/验证语义。候选原件中的Pending/false保留其生成时事实，当前审查结论由本独立证书承载。
+
+线上冻结和读回成功后，允许D/E/F从相同冻结metadata提交/业务基线进入独立托管工作树G2，遵守ownership04/protocol01；准备工作树本身允许，不需重复询问已获授权的业务选择。Root单点集成共享文件并运行公共环境验收。
+
+## 实际验收仍待执行
+
+Rust/API/admin及受影响库检查、完整Shared/DTO/spec/client生成、migration/entity/DDL对齐、真实上游生产链、权限/CSRF/敏感矩阵、来源/版本/跨项目/精度/替代/并发、每个必要写点故障和同事务回滚、真实UI、精确清理与连续零变化，都必须由G2/G3/G4实际证据证明。未知commit结果不可伪称已回滚。静态契约见证不是HTTP/PG/浏览器实跑，也不是独立G3/G4。
+
+G4仅收本批#107/#108/#109/#106；#101/#57保持Open。handover confirmed不替代R5有效角色冻结与execution同链准入。03/05 Block和所有preflight/失败/partial原件继续保留。
