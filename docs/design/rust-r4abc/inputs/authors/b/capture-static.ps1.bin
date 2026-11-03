@@ -1,0 +1,192 @@
+$ErrorActionPreference = 'Stop'
+$auditRoot = 'E:\projects\worktrees\poms-r3hijk-next28\poms'
+$outputRoot = Join-Path $auditRoot 'tmp\rust-r4abc\input-b'
+if ((Resolve-Path -LiteralPath $outputRoot).Path -ne $outputRoot) { throw 'Unexpected output root' }
+$baseline = '1730f304c1cf5600721f80b6c06feec24269d387'
+$explicitSources = @(
+    '.agents/skills/poms-implementation-governance/SKILL.md',
+    '.agents/skills/poms-implementation-governance/references/governance-summary.md',
+    '.agents/skills/poms-implementation-governance/references/source-map.md',
+    '.agents/skills/poms-github-task-governance/SKILL.md',
+    'docs/design/backend-rust-migration-plan.md',
+    'docs/design/api-route-canonical-inventory.md',
+    'docs/design/rust-r0-api-contract-inventory.md',
+    'docs/design/interface-command-design.md',
+    'docs/design/contract-finance-design.md',
+    'docs/design/phase2-presigning-contract-readiness-workspace.md',
+    'docs/design/workflow-and-approval-design.md',
+    'docs/design/schema-ddl-design.md',
+    'docs/design/archive/slices/rust-r2l-lookup-baseline.md',
+    'docs/design/archive/slices/ex-21-contract-term-snapshot-core-terms-corrective-checkpoint.md',
+    'docs/design/archive/slices/ex-35a-business-number-generation-runtime-baseline.md',
+    'docs/design/rust-r3ab/input-b-contract.txt',
+    'libs/shared/contracts/src/lib/shared-contracts.ts',
+    'libs/shared/api-spec/openapi.json',
+    'libs/api/contracts/src/lib/contract/contract.dto.ts',
+    'libs/api/contracts/src/lib/approval/approval.dto.ts',
+    'libs/shared/api-client/api/contract.service.ts',
+    'libs/admin/data-access/src/lib/contract/contract.store.ts',
+    'apps/poms-api/src/app/features/contract/contract.controller.ts',
+    'apps/poms-api/src/app/features/contract/contract-term-snapshot.controller.ts',
+    'apps/poms-api/src/app/features/contract/contract.service.ts',
+    'apps/poms-api/src/app/features/contract/contract.repository.ts',
+    'apps/poms-api/src/app/features/contract/contract.entity.ts',
+    'apps/poms-api/src/app/features/contract/contract.module.ts',
+    'apps/poms-api/src/app/features/contract/contract.service.spec.ts',
+    'apps/poms-api/src/app/features/contract/contract.controller.spec.ts',
+    'apps/poms-api/src/app/features/contract/contract-amendment.repository.spec.ts',
+    'apps/poms-api/src/app/features/approval/approval.service.ts',
+    'apps/poms-api/src/app/features/approval/approval-record.entity.ts',
+    'apps/poms-api/src/app/features/approval/todo-item.entity.ts',
+    'apps/poms-api/src/app/features/business-number/business-number.service.ts',
+    'apps/poms-api/src/app/features/business-number/business-number-sequence.entity.ts',
+    'apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.ts',
+    'apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.repository.ts',
+    'apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts',
+    'apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.repository.ts',
+    'apps/poms-api/src/app/features/contract-readiness/commercial-release-baseline.entity.ts',
+    'apps/poms-api/src/app/features/project/project.entity.ts',
+    'apps/poms-api/src/app/features/project/project.repository.ts',
+    'apps/poms-api/src/app/features/project/project.service.ts',
+    'apps/poms-api/src/app/features/project-handover/project-handover-command.service.ts',
+    'apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts',
+    'apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts',
+    'apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.service.ts',
+    'apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection.policy.ts',
+    'apps/poms-api/src/app/core/sensitive-field-projection/sensitive-field-projection-request-context.ts',
+    'apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts',
+    'apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts',
+    'apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts',
+    'apps/poms-api/src/app/core/runtime-audit/security-event.entity.ts',
+    'apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts',
+    'apps/poms-api/src/app/core/auth/auth-session.entity.ts',
+    'apps/poms-api/src/app/features/platform/platform-user.entity.ts',
+    'apps/poms-api/src/app/features/platform/role.entity.ts',
+    'apps/poms-api/src/app/features/platform/user-role-assignment.entity.ts',
+    'apps/poms-api/src/app/features/platform/role-permission-assignment.entity.ts',
+    'apps/poms-api/src/app/features/platform/org-unit.entity.ts',
+    'apps/poms-api/src/app/features/platform/user-org-membership.entity.ts',
+    'apps/poms-api-e2e/src/poms-api/contract-workflow.e2e-spec.ts',
+    'apps/poms-api-e2e/src/poms-api/contract-readiness-workflow.e2e-spec.ts',
+    'apps/poms-api-e2e/src/support/contract-api.ts',
+    'apps/poms-api-e2e/src/support/approval-api.ts',
+    'apps/poms-admin/src/app/features/contract/contract-list.ts',
+    'apps/poms-admin/src/app/features/contract/contract-detail.ts',
+    'apps/poms-admin-e2e/src/contract-management.journey.spec.ts',
+    'apps/poms-api-rust/src/lib.rs',
+    'apps/poms-api-rust/src/http.rs',
+    'apps/poms-api-rust/src/database.rs',
+    'apps/poms-api-rust/src/compat/scalars.rs',
+    'apps/poms-api-rust/src/compat/json.rs',
+    'apps/poms-api-rust/src/shared/generated.rs',
+    'apps/poms-api-rust/src/approval/context.rs',
+    'apps/poms-api-rust/src/approval/domain.rs',
+    'apps/poms-api-rust/src/approval/service.rs',
+    'apps/poms-api-rust/src/approval/http.rs',
+    'apps/poms-api-rust/src/approval_common/mod.rs',
+    'apps/poms-api-rust/src/approval_common/schema.rs',
+    'apps/poms-api-rust/src/approval_common/domain_schema.rs',
+    'apps/poms-api-rust/src/approval_common/session.rs',
+    'apps/poms-api-rust/src/approval_common/service.rs',
+    'apps/poms-api-rust/src/approval_common/store.rs',
+    'apps/poms-api-rust/src/approval_common/transition.rs',
+    'apps/poms-api-rust/src/approval_common/receipt.rs',
+    'apps/poms-api-rust/src/auth/projection.rs',
+    'apps/poms-api-rust/src/auth/store.rs',
+    'apps/poms-api-rust/src/auth/model.rs',
+    'apps/poms-api-rust/src/auth/guards.rs',
+    'apps/poms-api-rust/src/business_numbers/service.rs',
+    'apps/poms-api-rust/src/projects/model.rs',
+    'apps/poms-api-rust/src/projects/store.rs',
+    'apps/poms-api-rust/src/projects/service.rs',
+    'apps/poms-api-rust/src/project_technical_cost/service.rs',
+    'apps/poms-api-rust/src/project_pricing_margin/service.rs',
+    'apps/poms-api-rust/src/handover_facts/mod.rs',
+    'tools/rust-r2ef/e-authority.json',
+    'tools/rust-r1b/shared-manifest.json'
+)
+$migrationFiles = @(Get-ChildItem -LiteralPath (Join-Path $auditRoot 'apps/poms-api/src/migrations') -Filter '*.ts' -File | Sort-Object Name)
+$closureFiles = foreach ($relativeDirectory in @('apps/poms-api-rust/src/approval', 'apps/poms-api-rust/src/approval_common', 'apps/poms-api-rust/src/business_numbers', 'apps/poms-api/src/app/features/contract', 'apps/poms-api/src/app/features/contract-readiness')) {
+    Get-ChildItem -LiteralPath (Join-Path $auditRoot $relativeDirectory) -Recurse -File
+}
+$allSources = @($explicitSources) + @($migrationFiles | ForEach-Object { [IO.Path]::GetRelativePath($auditRoot, $_.FullName).Replace('\', '/') }) + @($closureFiles | ForEach-Object { [IO.Path]::GetRelativePath($auditRoot, $_.FullName).Replace('\', '/') })
+$manifest = foreach ($relative in ($allSources | Sort-Object -Unique)) {
+    $path = Join-Path $auditRoot $relative
+    $item = Get-Item -LiteralPath $path
+    $hash = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()
+    [ordered]@{ path = $relative; bytes = $item.Length; sha256 = $hash; hashKind = 'raw-file-bytes'; reviewLevel = 'see audit.md semantic read map; hashing alone is not semantic review' }
+}
+$spec = Get-Content -LiteralPath (Join-Path $auditRoot 'libs/shared/api-spec/openapi.json') -Raw | ConvertFrom-Json -AsHashtable
+$operationRows = @()
+foreach ($path in $spec.paths.Keys) {
+    foreach ($method in $spec.paths[$path].Keys) {
+        if ($method -notin @('get','post','patch','put','delete','head','options','trace')) { continue }
+        $operation = $spec.paths[$path][$method]
+        if ($operation.tags -notcontains 'contract') { continue }
+        $operationRows += [ordered]@{ method = $method.ToUpperInvariant(); path = $path; operationId = $operation.operationId; original = $operation }
+    }
+}
+if ($operationRows.Count -ne 9) { throw ('Expected exactly nine contract operations, got ' + $operationRows.Count) }
+$pending = [Collections.Generic.Queue[string]]::new()
+$seen = [Collections.Generic.HashSet[string]]::new()
+$operationText = ConvertTo-Json -InputObject $operationRows -Depth 100
+foreach ($match in [regex]::Matches($operationText, '#/components/schemas/([^"\s]+)')) { $pending.Enqueue($match.Groups[1].Value) }
+$schemas = [ordered]@{}
+while ($pending.Count -gt 0) {
+    $name = $pending.Dequeue()
+    if (-not $seen.Add($name)) { continue }
+    if (-not $spec.components.schemas.ContainsKey($name)) { throw ('Missing schema reference ' + $name) }
+    $schemas[$name] = $spec.components.schemas[$name]
+    $schemaText = ConvertTo-Json -InputObject $schemas[$name] -Depth 100
+    foreach ($match in [regex]::Matches($schemaText, '#/components/schemas/([^"\s]+)')) { $pending.Enqueue($match.Groups[1].Value) }
+}
+$targetTables = @('contract', 'contract_term_snapshot', 'contract_amendment', 'approval_record', 'todo_item', 'business_number_sequence', 'project', 'contract_readiness_package', 'contract_readiness_package_item', 'commercial_release_baseline', 'commercial_baseline_diff_result', 'commercial_baseline_diff_item', 'commercial_baseline_review_record', 'audit_log', 'security_event', 'auth_session', 'platform_user', 'role', 'user_role_assignment', 'role_permission_assignment', 'org_unit', 'user_org_membership')
+$migrationRefs = foreach ($migration in $migrationFiles) {
+    $lines = Get-Content -LiteralPath $migration.FullName
+    $hits = @()
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        $tables = @($targetTables | Where-Object { $lines[$i] -match ('(?<![A-Za-z_])' + [regex]::Escape($_) + '(?![A-Za-z_])') })
+        if ($tables.Count -gt 0) { $hits += [ordered]@{ line = $i + 1; tables = $tables; text = $lines[$i] } }
+    }
+    if ($hits.Count -gt 0) { [ordered]@{ path = [IO.Path]::GetRelativePath($auditRoot, $migration.FullName).Replace('\', '/'); hits = $hits } }
+}
+$bundle = [ordered]@{ kind = 'static-source-manifest-not-execution'; suppliedBaseline = $baseline; baselineGitVerifiedByB = $false; sourceFiles = @($manifest); count = @($manifest).Count }
+$slice = [ordered]@{ kind = 'static-openapi-contract-slice-not-runtime-verification'; source = 'libs/shared/api-spec/openapi.json'; operations = @($operationRows | Sort-Object path,method); recursiveSchemas = $schemas; operationCount = 9; schemaCount = $schemas.Count }
+$refs = [ordered]@{ kind = 'static-migration-line-reference-index-not-live-catalog'; targetTables = $targetTables; migrationFilesScanned = $migrationFiles.Count; files = @($migrationRefs); caveat = 'Line evidence includes both up/down. Read complete named migrations/entity definitions for multiline context; no DDL was executed.' }
+$entityRows = foreach ($relative in $explicitSources | Where-Object { $_.EndsWith('.entity.ts') }) {
+    $rawSource = Get-Content -LiteralPath (Join-Path $auditRoot $relative) -Raw
+    foreach ($match in [regex]::Matches($rawSource, '(?ms)^export const (?<class>[A-Za-z0-9_]+) = defineEntity\(\{.*?^\}\);')) {
+        $tableMatch = [regex]::Match($match.Value, "tableName: '([^']+)'")
+        if ($tableMatch.Success -and $targetTables -contains $tableMatch.Groups[1].Value) {
+            [ordered]@{ table = 'poms.' + $tableMatch.Groups[1].Value; source = $relative; sourceLine = ($rawSource.Substring(0, $match.Index) -split "`n").Count; declaration = $match.Groups['class'].Value; completeDefineEntitySource = $match.Value }
+        }
+    }
+}
+$bundle | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath (Join-Path $outputRoot 'source-manifest.json') -Encoding utf8NoBOM
+$slice | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath (Join-Path $outputRoot 'openapi-slice.json') -Encoding utf8NoBOM
+$refs | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath (Join-Path $outputRoot 'migration-reference-index.json') -Encoding utf8NoBOM
+[ordered]@{ kind = 'complete-declared-entity-source-static-not-catalog'; tableCount = @($entityRows).Count; tables = @($entityRows); note = 'Complete defineEntity blocks preserve every declared column, FK, index, unique, CHECK and default. Complete 92-migration hashes and reference index preserve historical evolution; not a live schema certification.' } | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath (Join-Path $outputRoot 'table-entity-source.json') -Encoding utf8NoBOM
+foreach ($entry in $manifest) {
+    $after = (Get-FileHash -LiteralPath (Join-Path $auditRoot $entry.path) -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($after -ne $entry.sha256) { throw ('Input changed during capture: ' + $entry.path) }
+}
+$auditInput = Get-Content -LiteralPath (Join-Path $outputRoot 'audit.json') -Raw | ConvertFrom-Json -AsHashtable
+$caseInput = Get-Content -LiteralPath (Join-Path $outputRoot 'case-definitions.json') -Raw | ConvertFrom-Json -AsHashtable
+$graphInput = Get-Content -LiteralPath (Join-Path $outputRoot 'dependency-graph.json') -Raw | ConvertFrom-Json -AsHashtable
+if ($auditInput.operations.Count -ne 9 -or $auditInput.chains.Count -ne 13 -or $auditInput.tables.Count -ne 24) { throw 'Static audit shape mismatch' }
+$expectedOperations = @($operationRows | ForEach-Object { $_.method + ' ' + $_.path + ' ' + $_.operationId } | Sort-Object)
+$declaredOperations = @($auditInput.operations | ForEach-Object { $_.method + ' ' + $_.path + ' ' + $_.operationId } | Sort-Object)
+if (($expectedOperations -join "`n") -cne ($declaredOperations -join "`n")) { throw 'Static nine-operation mapping differs from source spec' }
+$caseIds = [Collections.Generic.HashSet[string]]::new()
+foreach ($case in $caseInput.cases) { if (-not $caseIds.Add($case.id)) { throw 'Duplicate pure case ID' } }
+$nodeIds = [Collections.Generic.HashSet[string]]::new()
+foreach ($node in $graphInput.nodes) { if (-not $nodeIds.Add($node.id)) { throw 'Duplicate graph node ID' } }
+foreach ($edge in $graphInput.edges) { if (-not $nodeIds.Contains($edge.from) -or -not $nodeIds.Contains($edge.to)) { throw 'Graph has dangling edge' } }
+$artifactNames = @('capture-static.ps1', 'audit.json', 'audit.md', 'shared-interface-proposal.md', 'case-definitions.json', 'dependency-graph.json', 'source-manifest.json', 'openapi-slice.json', 'migration-reference-index.json', 'table-entity-source.json')
+$artifactRows = foreach ($name in $artifactNames) {
+    $artifactPath = Join-Path $outputRoot $name
+    [ordered]@{ path = 'tmp/rust-r4abc/input-b/' + $name; bytes = (Get-Item -LiteralPath $artifactPath).Length; sha256 = (Get-FileHash -LiteralPath $artifactPath -Algorithm SHA256).Hash.ToLowerInvariant() }
+}
+$seal = [ordered]@{ kind = 'R4B-input-delivery-raw-manifest-not-Gate-not-test'; baselineSuppliedByRoot = $baseline; issueSuppliedByRoot = 104; files = @($artifactRows); selfHashExcluded = 'delivery-manifest.json is the root manifest; its digest is returned separately'; staticSummary = [ordered]@{ sourceFiles = @($manifest).Count; sourceMigrations = $migrationFiles.Count; existingEntityDefinitions = @($entityRows).Count; operations = 9; recursiveSchemas = $schemas.Count; internalChains = 13; existingAndProposedTables = 24; pureCaseDefinitions = $caseIds.Count; recipes = $caseInput.recipes.Count; graphNodes = $nodeIds.Count; graphEdges = $graphInput.edges.Count }; productExecution = $false; sourceStableBeforeAfter = $true }
+$seal | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath (Join-Path $outputRoot 'delivery-manifest.json') -Encoding utf8NoBOM
+[ordered]@{ staticCapture = 'completed'; files = @($manifest).Count; contractOperations = $operationRows.Count; recursiveSchemas = $schemas.Count; migrationsScanned = $migrationFiles.Count; casesDefined = $caseIds.Count; productsBuiltOrRun = $false; deliveryManifestSha256 = (Get-FileHash -LiteralPath (Join-Path $outputRoot 'delivery-manifest.json') -Algorithm SHA256).Hash.ToLowerInvariant() } | ConvertTo-Json -Compress

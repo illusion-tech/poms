@@ -1,5 +1,7 @@
 # POMS 表结构冻结设计
 
+> 2026-11-03：R4首批按 [联合基线](rust-r4abc-first37-baseline.md) 增真实contract_term_preparation、contract_review_binding、receivable_plan_version/node/init_record及商业复核附件关联；旧有效ContractTermSnapshot不扩prepared状态，source_preparation_id历史nullable、新生产严格绑定。精确字段以 `rust-r4abc/schema-freeze01.sql` 为G1候选输入。
+
 **文档状态**: Active
 **最后更新**: 2026-04-29
 **适用范围**: `POMS` 第一阶段逻辑表结构冻结设计，以及第二阶段第一批、第二批、第三批实现映射写回前的逻辑表补点基线

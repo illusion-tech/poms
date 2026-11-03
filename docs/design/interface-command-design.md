@@ -1,5 +1,7 @@
 # POMS 接口命令设计
 
+> 2026-11-03：R4首批37既有canonical入口的请求/响应/query增量、preparationId与真实snapshotId/planVersionId及strict结果，以 [联合基线](rust-r4abc-first37-baseline.md) 和 `rust-r4abc/dto-freeze01.json` 为当前G1候选；路由不增减，合同级来源及审核精确绑定不得回退为旧随机marker。
+
 **文档状态**: Active
 **最后更新**: 2026-04-29
 **适用范围**: `POMS` 第一阶段接口命令边界基线，以及第二阶段第一批、第二批、第三批实现映射写回前的命令补点输入

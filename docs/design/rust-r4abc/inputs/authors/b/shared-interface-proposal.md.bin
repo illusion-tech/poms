@@ -1,0 +1,100 @@
+# R4 A/B/C 与 R2 合同消费共享接口候选
+
+本文件定义待 Root 联合 G1 冻结的接口，不声明任何新 Rust method、SQL 表、DTO 或测试已存在。产品、共享协议、路由、`lib.rs`、Cargo、DDL与正式治理由 Root 单写。
+
+## 已核的实际可复用接口
+
+- `business_numbers::BusinessNumberService::next_with_connection(&mut PgConnection, BusinessNumberScope, DateTime<Utc>)`：不获取第二连接、不控制调用者事务。B create传 `Contract`，与contract INSERT同TX。
+- `projects::store::find(&mut PgConnection, id: &str)`：调用者连接查询 ProjectRow。不要在已开R4事务里调用自取pool连接的服务方法。
+- `CommonSession::borrow` / `borrow_with_participant`：借入 `connection/state/participant`。三个字段 public；每请求同一CommonState。
+- `approval_common::store::{find,create,assign,persist,flush}`：Contract/Approval/Todo已支持实际tracked读写；ContractTerm在R2 schema中明确read_only。
+- R2 `ApprovalService::{approve_with_session,reject_with_session}` → `ApprovalCommonService::resolve_public_decision_with` → `OriginalApprovalDomain::apply_with_session` 是现存真实接口；common command会在**同connection** begin transaction/savepoint，没有另取pool连接。
+- `CommonFlushParticipant` 只有一个participant槽；现 `PendingAuthentication` 是请求局部一次消费auth coflush。不得假设它已自动组合准备/快照/业务审计。
+- `auth::projection::plan` 是纯投影和pending security event，可复用真实batch边界；它本身不提交事件。
+
+## A → B：合同级准备产物
+
+建议新候选签名（最终命名由 Root 冻结）：
+
+```rust
+// All wrappers are distinct domain identities; this is an interface definition.
+async fn resolve_preparation_for_review(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: ContractId,
+    preparation_id: PreparationId,
+) -> Result<PreparedTerms, R4Error>;
+
+async fn load_approved_preparation_for_activation(
+    session: &mut CommonSession<'_, '_>,
+    approval_id: ApprovalId,
+    contract_id: ContractId,
+) -> Result<ApprovedPreparedTerms, R4Error>;
+```
+
+`PreparedTerms` 至少包含 `preparationId/contractId/projectId/version/rowVersion/status/isCurrent`、合同独立的精确六terms、`retentionDueDate`、不可变合同核心属性fingerprint、source readiness/baseline/diff ID和版本、实际R3来源ID/版本、preparedAt/By、payloadHash。typed正式plan seed由A按该合同保存，B不重拼。用户第四裁决已明确：每份合同金额、条款、应收节点独立；不复制项目总报价、不自动分摊、不强制合同金额合计等于项目报价；来源与差异必须可审计。
+
+调用必须位于 Root 持有的同outerTX及connection；loader不提交、不rollback、不取第二连接。A准备时和B送审/激活时都做实际同合同/项目/状态与版本校验，不能返回一个项目级随机UUID。当前source diff无row_version，必须使用真实source锁/不可变引用，不能虚构CAS列。锁顺序由Root结合现R2写组顺序统一，避免A/B/R2各自设计相互等待。
+
+`preparedAt` 表示准备事实，不使用Active snapshot的effectiveAt。独立 `contract_term_preparation`，status为prepared/superseded/activated；当前Active snapshot状态不扩成prepared。Root已确认首次Active snapshot.version从1开始，与preparation.version独立；source_preparation_id至多关联一个真实产物。
+
+## B submit 与 R2 消费
+
+```rust
+async fn submit_review_with_session(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: ContractId,
+    actor: Actor,
+    input: SubmitReview { preparation_id: PreparationId, expected_version: Option<i32>, comment: Option<String> },
+) -> Result<CommandResult, R4Error>;
+```
+
+这是新候选method，不是现有API。Root HTTP开启outerTX，B校验draft、expectedVersion、没有pending attempt和A真实准备；`contract_review_binding` 把**真实approval_record_id**绑定 `contract_id/preparation_id/preparation_version/payloadHash`。创建approval/todo、合同pending-review、绑定、必要审计/session全部原子提交。
+
+binding每approval唯一，可同一未失效准备在拒绝后形成新的审批attempt，故不能对preparation_id单独全局unique。准备payload或上游source改变不修改已有binding；新准备显式supersede，旧待审绑定仍指向旧身份并在消费/激活验证时按规则拒绝。合同关键属性变化不允许在旧prep上送审。
+
+R2实际handler只做有界扩展：通过同CommonSession读绑定，校验目标合同/项目/准备精确版本与payload；approved仍pending-review同值no-op，rejected变draft。审批、todo、域和必要审计/session在同事务。不能以新placeholder callback代替已有handler，不能将common-only golden当R4真实链结果。
+
+送审 `CommandResult.snapshotId` 不填PreparationId；它不是生效快照。Root需冻结 `preparationId` 回执扩展或detail/approval绑定读模型，使原UI能识别真实选择。审批收据仍保真实approval/todo身份。
+
+## B activate 与统一身份图
+
+```rust
+async fn activate_with_session(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: ContractId,
+    actor: Actor,
+    input: ActivateContract { expected_version: Option<i32>, comment: Option<String> },
+) -> Result<CommandResult, R4Error>;
+```
+
+仅消费该合同latest approved binding的exact PreparationId，检查无pending review、未supersede、核心属性/来源满足冻结规则；同TX创建独立 `ContractTermSnapshot` UUID和 `source_preparation_id` FK，CAS合同Active/currentSnapshotId、准备activated，写必要audit/session。任一失败全部回滚。返回的是新ActiveSnapshotId；不得选择项目latest terms替换已审版本。
+
+建议source_preparation_id历史nullable，B新写必须nonnull；partial unique(source_preparation_id)防同准备重复产快照。现每合同唯一Active索引保持。Root冻结确切DDL及可能composite FK，B不写迁移。
+
+可行实现方向是在同outerTX里执行prep/binding/snapshot typed SQL，共同Contract/Approval/Todo仍通过现CommonState；common flush把pending auth一次消费，业务audit使用同借入connection。新TypedSQL触碰已由common加载的ContractTerm时必须exact refresh/invalidate对应身份，不允许两份陈旧视图。此helper当前不存在，Root需明确实现/证明；不得全局clear所有tracked对象或静默解禁R2 read_only。
+
+现common nested savepoint release不等于outerCOMMIT。`WriteTrace`是内存写跟踪，不是数据库审计或owned证明。只有Root实际outerCOMMIT ACK+before-absence/PG证据后可发布收据；COMMIT未知标incomplete。
+
+## B → C：最小真实合同事实
+
+```rust
+async fn load_contract_fact(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: ContractId,
+    project_scope: Option<ProjectId>,
+    lock: ContractLock,
+) -> Result<Option<ContractFact>, R4Error>;
+// ContractFact: { id: ContractId, project_id: ProjectId, status: ContractStatus }
+```
+
+C已确认只需上述事实。C命令借同连接并持有锁/状态校验到commit：receipt/关联payable/关联invoice使用真实Active合同与同项目；payment所选合同也Active同项目、payable已绑定时必须一致。B真实fixture从draft→A准备→R2审核→B激活生产，C不能seed active假冒B生产。
+
+C可读B的currentSnapshotId证明来源，但不要给全部19财务入口增加snapshot非空新门槛。只有正式应收计划明确要求Active+有效snapshot及A冻结seed。A/B/C互相调用应用服务和借入连接，不跨Node/Rust HTTP调用维持事务。
+
+## G1仍需Root落字的细项
+
+1. 新表全部column/constraint名字、准备source版本/contract fingerprint/typed计划seed结构和payload canonical hash规则。
+2. Submit DTO的required preparationId、Preparation/Binding读模型与收据，原UI选择和显示；Active snapshot sourcePreparationId公开投影。
+3. source变化与复核后的精确有效性predicate、同准备重提、prepared supersede和repeat activate结果。首次Active version从1且独立于准备版本已由Root确认。
+4. 必要业务audit eventType、before/after/source/actor字段与同TX写法；legacy createdBy/updatedBy如何兼容而不冒名。
+5. outerTX生命周期、统一锁序、exact身份视图同步与auth一次消费规则，经过非作者G1审查后才进入产品实现。

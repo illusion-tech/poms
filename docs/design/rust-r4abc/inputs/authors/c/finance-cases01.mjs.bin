@@ -1,0 +1,219 @@
+// Pure acceptance definitions only. No imports, I/O, product calls or executable runner.
+// C is the implementation author. These declarations are not execution evidence.
+export const metadata = {
+  schema: 'poms-r4c-pure-cases/v1',
+  baseline: '1730f304c1cf5600721f80b6c06feec24269d387',
+  owner: 'C implementation author',
+  operations: 'operations19.json',
+  semantics: 'entry-semantics19.json',
+  audit: 'finance-g1-audit01.json',
+  execution: 'not-run',
+  syntaxCheck: 'node --check only; separately recorded',
+  gate: 'requires non-author joint G1 Pass and online freeze before implementation',
+  actualExecutionOwner: 'Root',
+  referenceVsTarget: 'Observe Native independently; business-correctness fixes must not inherit bug-level Native output as acceptance oracle',
+  costScope: '19 finance routes and read-only mapping guard; actual cost producer and full cost loop deferred to later cost slice/R4 stage',
+  mandatoryAudit: 'User ruling: each actual business state/content change writes audit_log in the same transaction; no-op PATCH no version or business audit; Root exact serde binding required',
+};
+
+export const harnessRequirements = {
+  environments: ['isolated same-origin Native PG15 copy', 'isolated same-origin Rust PG15 copy'],
+  isolation: 'Root owns namespace, ports, fixture IDs, cleanup and lifecycle; preserve PG17 and old evidence',
+  productBinding: ['exact source/candidate hashes', 'runtime identity', 'original request/response bytes', 'before/after PostgreSQL graph', 'actual transaction receipts', 'requestId'],
+  uiAxes: ['Linux managed Nest', 'Linux managed Rust', 'Windows native managed Nest', 'Windows native browser with external Rust'],
+  uiScope: 'Only existing readiness/contract/approval/to-do pages and their auth/projection behavior; no original finance page exists in the audited frontend',
+  notAllowed: ['seed active contract and label real B producer', 'seed current mapping and label real cost producer', 'execute these definitions from C', 'infer pass counts from declarative entries', 'unlabelled differential equality against a known Native bug'],
+};
+
+export const realProducerChain = [
+  { id: 'C-PRODUCER-01', owner: 'Root R3', action: 'Produce real customer/project/technical-cost/bid-commercial/pricing facts through frozen R3 service/HTTP chain', bind: 'project; pricing/readiness source versions', forbid: 'pre-created active contract fixture' },
+  { id: 'C-PRODUCER-02', owner: 'B', action: 'POST /api/contracts; draft for actual project', bind: 'contractDraft.id; rowVersion' },
+  { id: 'C-PRODUCER-03', owner: 'A', action: 'Real readiness current package from R3-derived readiness; initialize terms with explicit contractDraft.id', bind: 'contractTermPreparation.id/version; snapshotId remains null', forbid: 'UUID marker labelled real active snapshot' },
+  { id: 'C-PRODUCER-04', owner: 'B with R2 real handler', action: 'Submit exact prepared version -> approval/to-do -> actual approve', bind: 'approved preparation identity and review version', assert: 'same reviewed contract and preparation, not replacement substituted after review' },
+  { id: 'C-PRODUCER-05', owner: 'B', action: 'Activate reviewed contract; same TX prepared->effective active snapshot and CAS contract active/currentSnapshotId', bind: 'activeContract.id/projectId/status; activeSnapshot.id/sourcePreparationId', assert: 'real persisted snapshot ID differs from preparation ID; no seed active shortcut' },
+  { id: 'C-PRODUCER-06', owner: 'A optional separate formal-plan case', action: 'Initialize real receivable_plan_version/nodes/init_record only after Active valid snapshot', bind: 'formalPlanVersion/nodes/initRecord', assert: 'sum exact contract amount; actual rows exist', note: 'Not a hard prerequisite for C receipt creation' },
+];
+
+export const primaryFinanceFlow = [
+  { id: 'C-H01', operation: 'ContractFinanceController_createReceipt', path: '/api/contracts/${activeContract.id}/receipt-records', body: { receiptAmount: '100000.00', receiptDate: '2026-11-03T00:15:20.123Z' }, status: 201, bind: 'receipt', assert: ['contract/project from actual active entity', 'pending-confirmation', 'manual source default', 'confirmedAt/By=null', 'rowVersion=1', 'no cost insert'] },
+  { id: 'C-H02', operation: 'ContractFinanceController_confirmReceipt', path: '/api/receipt-records/${receipt.id}:confirm', body: { expectedVersion: '${receipt.rowVersion}' }, status: 200, bind: 'confirmedReceipt', assert: ['confirmed', 'authenticated actor UUID', 'server confirmedAt', 'one rowVersion transition', 'no commission or cost auto-production'] },
+  { id: 'C-H03', operation: 'ContractFinanceController_listReceipts', path: '/api/contracts/${activeContract.id}/receipt-records', status: 200, assert: ['bare array', 'created receipt present', 'datetime not sliced', 'receipt_date desc, created_at desc'] },
+  { id: 'C-H04', operation: 'ContractFinanceController_createPayable', path: '/api/projects/${project.id}/payable-records', body: { contractId: '${activeContract.id}', vendorName: '供应商甲', costCategory: 'implementation', payableDescription: '实施采购', amountExcludingTax: '100.00', taxAmount: '13.00', amountIncludingTax: '113.00', expectedPaymentDate: '2026-11-30' }, status: 201, bind: 'payable', assert: ['recorded', 'CNY', 'attachmentCount=0', 'three separate exact money fields', 'zero settled sum', 'no cost insert'] },
+  { id: 'C-H05', operation: 'ContractFinanceController_updatePayable', path: '/api/payable-records/${payable.id}', body: { evidenceSummary: '订单与交付凭据', expectedVersion: '${payable.rowVersion}' }, status: 200, bind: 'updatedPayable', assert: ['recorded', 'changed evidence persisted', 'missing fields retained', 'actual confirmed settled sum'] },
+  { id: 'C-H06', operation: 'ContractFinanceController_createPayment', path: '/api/projects/${project.id}/payment-records', body: { payableRecordId: '${payable.id}', amountExcludingTax: '40.00', taxAmount: '5.20', amountIncludingTax: '45.20', paymentDate: '2026-11-03T00:20:00.000Z', costCategory: 'implementation' }, status: 201, bind: 'paymentFirst', assert: ['contract inherited from payable', 'currency inherited', 'recorded', 'confirmation fields null', 'source manual', 'no cost insert'] },
+  { id: 'C-H07', operation: 'ContractFinanceController_confirmPayment', path: '/api/payment-records/${paymentFirst.id}:confirm', body: { expectedVersion: '${paymentFirst.rowVersion}' }, status: 200, assert: ['confirmed payment', 'payable partially-paid', 'confirmed sum40.00', 'same transaction', 'actor/time persisted'] },
+  { id: 'C-H08', operation: 'ContractFinanceController_listPayments', path: '/api/projects/${project.id}/payment-records', status: 200, assert: ['bare array', 'three money values and datetime preserved', 'payment_date desc, created_at desc'] },
+  { id: 'C-H09', operation: 'ContractFinanceController_listPayables', path: '/api/projects/${project.id}/payable-records', status: 200, assert: ['payable partially-paid', 'settledAmountExcludingTax=40.00', 'only confirmed payments sum'] },
+  { id: 'C-H10', operation: 'ContractFinanceController_getPayable', path: '/api/payable-records/${payable.id}', status: 200, assert: ['settledAmountExcludingTax=40.00', 'allowedActions includes close', 'no update/voided when payment linked', 'reflects actual executable rules'] },
+  { id: 'C-H11', operation: 'ContractFinanceController_closePayable', path: '/api/payable-records/${payable.id}:close', body: { reason: '不再采购剩余部分', comment: '保留已付事实', expectedVersion: '${currentPayable.rowVersion}' }, status: 200, assert: ['closed/time/reason newline comment', 'settled remains40.00', 'payment remains confirmed', 'no physical deletion', 'future payment create/confirm blocked'] },
+  { id: 'C-H12', operation: 'ContractFinanceController_createPayable', fixture: 'independent unpaid payable through real create', bodyProfile: 'validPayable', status: 201, bind: 'unpaidPayable' },
+  { id: 'C-H13', operation: 'ContractFinanceController_voidPayable', path: '/api/payable-records/${unpaidPayable.id}:void', body: { reason: '重复采购承诺', expectedVersion: '${unpaidPayable.rowVersion}' }, status: 200, assert: ['voided/time/reason', 'no payment and mapping', 'retained row', 'allowedActions empty'] },
+  { id: 'C-H14', operation: 'ContractFinanceController_createInvoice', path: '/api/projects/${project.id}/invoice-records', body: { contractId: '${activeContract.id}', invoiceType: 'output', invoiceNumber: '${run.uniqueInvoiceNumber}', invoiceAmount: '188000.00', invoiceDate: '2026-11-03' }, status: 201, bind: 'outputInvoice', assert: ['draft/none', 'exception and close fields explicit null', 'contract/project real active binding'] },
+  { id: 'C-H15', operation: 'ContractFinanceController_updateInvoice', path: '/api/invoice-records/${outputInvoice.id}', body: { status: 'issued', expectedVersion: '${outputInvoice.rowVersion}' }, status: 200, bind: 'issuedInvoice', assert: ['issued', 'money/date preserved'] },
+  { id: 'C-H16', operation: 'ContractFinanceController_markInvoiceException', path: '/api/invoice-records/${outputInvoice.id}:markException', body: { reason: '票面金额待核', comment: '已联系开票方', expectedVersion: '${issuedInvoice.rowVersion}' }, status: 200, bind: 'openExceptionInvoice', assert: ['status exception', 'exceptionStatus open', 'reason newline comment', 'resolution null', 'only resolve-exception action'] },
+  { id: 'C-H17', operation: 'ContractFinanceController_resolveInvoiceException', path: '/api/invoice-records/${outputInvoice.id}:resolveException', body: { resolution: '核验通过', comment: '凭据归档', expectedVersion: '${openExceptionInvoice.rowVersion}' }, status: 200, bind: 'resolvedInvoice', assert: ['status remains exception', 'exceptionStatus resolved', 'original reason retained', 'resolution newline comment', 'actions update/mark-exception/close'] },
+  { id: 'C-H18', operation: 'ContractFinanceController_updateInvoice', path: '/api/invoice-records/${outputInvoice.id}', body: { status: 'verified', expectedVersion: '${resolvedInvoice.rowVersion}' }, status: 200, bind: 'verifiedResolvedInvoice', assert: ['PATCH remains executable', 'verified/resolved', 'exception reason and resolution retained', 'output invoice cannot serve input-invoice cost producer'] },
+  { id: 'C-H19', operation: 'ContractFinanceController_closeInvoiceRecord', path: '/api/invoice-records/${outputInvoice.id}:close', body: { reason: '发票流程收口', expectedVersion: '${verifiedResolvedInvoice.rowVersion}' }, status: 200, assert: ['closed', 'closure trace', 'exception history retained', 'allowedActions empty'] },
+  { id: 'C-H20', operation: 'ContractFinanceController_getInvoice', path: '/api/invoice-records/${outputInvoice.id}', status: 200, assert: ['explicit nulls and retained history', 'allowedActions agrees with closed domain state'] },
+  { id: 'C-H21', operation: 'ContractFinanceController_listInvoices', path: '/api/projects/${project.id}/invoice-records', status: 200, assert: ['bare array', 'invoice_date desc, created_at desc', 'business date unchanged'] },
+];
+
+export const guardsAndContracts = [
+  { id: 'C-G01', applyTo: 'all19 operations', input: 'missing session cookie', expected: '401 session_missing; zero finance writes' },
+  { id: 'C-G02', applyTo: 'all19 operations', input: 'expired/revoked/disabled-account session', expected: '401 exact existing code and required security audit; zero finance writes' },
+  { id: 'C-G03', applyTo: 'all19 operations', input: 'valid session without contract:finance:manage', expected: '403 permission_denied with event; zero finance writes' },
+  { id: 'C-G04', applyTo: '13 unsafe operations', input: 'missing/mismatched/foreign-session CSRF header or cookie', expected: '403 csrf_failed and event; no domain calls/writes' },
+  { id: 'C-G05', applyTo: '6 GET operations', input: 'valid permitted session without CSRF', expected: 'success; auth touch observed independently' },
+  { id: 'C-G06', applyTo: 'each frozen path', input: 'wrong method, HEAD, OPTIONS, uppercase route literal, one/two trailing slash, encoded action, malformed URI component', expectedPolicy: 'Root shared HTTP baseline; preserve operationId/canonical uniqueness; do not count HEAD as extra operation' },
+  { id: 'C-G07', applyTo: 'all request DTOs', input: 'null/array/primitive body, invalid field type, absent required field, disallowed null', expected: '400 original validation protocol; no finance mutation' },
+  { id: 'C-G08', applyTo: 'all request DTOs', input: 'valid payload plus unknown fields including status/actor/system timestamps where not permitted', expected: 'unknown keys stripped; no unauthorized persistence' },
+  { id: 'C-G09', applyTo: 'payable/invoice PATCH', input: 'empty or only expectedVersion after unknown strip', expected: '400 at least one updatable field' },
+  { id: 'C-G10', applyTo: '4 parent lists', input: 'valid UUID absent parent', expected: '200 [] without invented parent404' },
+  { id: 'C-G11', applyTo: 'detail/mutation/creates needing existing parent', input: 'valid UUID absent target', expected: '404 controlled target message' },
+  { id: 'C-G12', applyTo: 'body UUID fields', input: 'malformed UUID, numeric JSON, empty string', expected: '400 Zod UUID protocol; null allowed only explicitly nullable fields' },
+  { id: 'C-G13', applyTo: 'UUID domain comparisons and detail mapping queries', input: 'uppercase representation of the same valid UUID', expected: 'same domain identity/association and mapping guard; canonical loaded entity UUID for source_id', targetCorrectnessOnly: true, nativeRisk: 'raw string comparison/mapping query bug not acceptance oracle' },
+  { id: 'C-G14', applyTo: 'path UUID values', input: 'malformed UUID vs percent-decode failure', expectedPolicy: 'Root explicit safe path/URI error mapping; no claim of observed Native status' },
+];
+
+export const versionAndRetryCases = {
+  versionedOperations: ['confirmReceipt', 'updatePayable', 'closePayable', 'voidPayable', 'updateInvoice', 'markInvoiceException', 'resolveInvoiceException', 'closeInvoiceRecord', 'confirmPayment'],
+  cases: [
+    { id: 'C-V01', applyTo: 'all9 versioned operations', input: 'stale expectedVersion with otherwise valid state', expected: '409; unchanged finance rows/versions/traces' },
+    { id: 'C-V02', applyTo: 'all9 versioned operations', input: 'stale expectedVersion and invalid terminal state', expected: '409 version guard precedes state422' },
+    { id: 'C-V03', applyTo: 'all9 versioned operations', input: 'omitted expectedVersion', expected: 'legal DTO; lock/CAS against loaded row version still enforced' },
+    { id: 'C-V04', applyTo: 'all9 versioned operations', input: 'expectedVersion null/0/-1/1.5/string', expected: '400 schema; no write' },
+    { id: 'C-V05', applyTo: 'confirmReceipt/confirmPayment/close/void', input: 'repeat after success with original supplied version', expected: '409; no duplicate transition' },
+    { id: 'C-V06', applyTo: 'confirmReceipt/confirmPayment/close/void', input: 'repeat after success with latest or omitted version', expected: '422 illegal state; no duplicate transition' },
+    { id: 'C-V07', applyTo: 'payable/invoice PATCH', input: 'same values with valid version and pending managed session', expected: 'No business row_version/updated_at change and no business audit by user ruling; Root preserves required managed-session boundary separately' },
+    { id: 'C-V08', applyTo: '4 creates', input: 'failure injected before commit then retry', expected: 'full transaction rollback first; one successful new entity on retry' },
+    { id: 'C-V09', applyTo: 'receipt/payable/payment create', input: 'commit succeeded but response lost then blindly retry', expected: 'no exactly-once guarantee exists; no idempotency key; preserve ambiguity/read-back requirement', excludedFromIdempotentAcceptance: true },
+    { id: 'C-V10', applyTo: 'invoice create', input: 'same invoiceNumber retry after original committed', expected: '409 unique invoice_no and no duplicate entity' },
+  ],
+};
+
+export const moneyCases = {
+  policy: 'Root proposed unified decimal syntax/number validation400, finance state422; exact tax sum mismatch422 proposal; final joint G1 owns exact error shape',
+  amountFields: ['receiptAmount', 'invoiceAmount', 'amountExcludingTax', 'taxAmount', 'amountIncludingTax'],
+  accepted: [
+    { value: '0.01', for: 'positive base/inclusive or tax', expected: 'exact one cent' },
+    { value: '0001.20', for: 'all money', expected: 'exact1.20; leading zeros allowed by Root common syntax' },
+    { value: ' 10.20 ', for: 'all money', expected: 'trim then exact10.20' },
+    { value: '9999999999999999.99', for: 'all money', expected: 'numeric18,2 maximum accepted with no f64 conversion' },
+    { value: '9007199254740991.99', for: 'all money', expected: 'exact cents retained beyond safe JS integer' },
+    { value: '0', for: 'taxAmount only', expected: 'known zero tax, distinct from null' },
+    { excluding: '0.10', tax: '0.20', including: '0.30', expected: 'exact equality; no tolerance needed' },
+    { excluding: '10.00', tax: null, including: null, expected: 'unknown tax/inclusive stay null' },
+    { excluding: '10.00', tax: '1.00', including: null, expected: 'known tax and unknown inclusive allowed, no inference' },
+    { excluding: '10.00', tax: null, including: '11.00', expected: 'unknown tax allowed, no inference' },
+  ],
+  rejected: [
+    { values: ['0', '0.00', '-0', '-1.00'], for: 'positive receipt/invoice/excluding/inclusive', expectedStatus: 400, note: 'ordinary negative adjustments deferred to explicit later flow' },
+    { values: ['-0.01'], for: 'taxAmount', expectedStatus: 400 },
+    { values: ['1.001', '0.0001', '9999999999999999.999'], for: 'all money', expectedStatus: 400, note: 'no DB silent rounding' },
+    { values: ['10000000000000000', '10000000000000000.00'], for: 'all money', expectedStatus: 400, note: 'exact numeric18,2 capacity check' },
+    { values: ['NaN', 'Infinity', '-Infinity', '1e2', '0x10', '+1', '1,000.00', '.5', '1.', ''], for: 'all money', expectedStatus: 400, note: 'Root ordinary unsigned decimal syntax, not JS Number grammar' },
+    { values: [1, 1.5, null, true], for: 'nonnull money fields', expectedStatus: 400 },
+    { excluding: '10.00', tax: '1.00', including: '11.01', expectedStatus: 422, note: 'valid strings but inconsistent resulting business money tuple; Root final freeze owns rule' },
+  ],
+  checkedAggregation: [
+    { input: ['0.10', '0.20'], expectedSum: '0.30' },
+    { input: ['9007199254740991.98', '0.01'], expectedSum: '9007199254740991.99' },
+    { input: 'confirmed rows only; exclude recorded/draft/voided', expected: 'settled sum matches database facts on list/detail/mutation responses' },
+  ],
+  laterCostRange: { financeValue: '100000000000.00', finance: 'valid18,2', laterCost15Scale4: 'out of range; later producer must reject without truncation/partial commit', notCurrentBatchProducerTest: true },
+};
+
+export const datesAndNullCases = [
+  { id: 'C-DATE01', input: 'receipt/payment 2026-11-03T00:15:20.123Z', expected: 'same instant/timestamptz; response full datetime' },
+  { id: 'C-DATE02', input: 'receipt/payment date-only', expected: '400; date not datetime' },
+  { id: 'C-DATE03', input: 'payable expectedPaymentDate or invoiceDate datetime', expected: '400; date-only schema' },
+  { id: 'C-DATE04', input: '2028-02-29 valid date; 2027-02-29/2026-04-31 invalid date', expected: 'valid accepted, invalid400; database date not timezone shifted' },
+  { id: 'C-DATE05', input: 'legal business date around UTC/Asia-Hong-Kong day boundary', expected: 'date string unchanged; Native Date mapper business-zone behavior recorded separately' },
+  { id: 'C-DATE06', input: 'datetime offset, seconds/fraction precision, UTC form', expectedPolicy: 'original z.iso.datetime acceptance through shared validator; no broadening to every ISO timestamp without freeze' },
+  { id: 'C-NULL01', input: 'create nullable contract/tax/inclusive/evidence omitted', expected: 'explicit response null; currency CNY/count0/source manual where defined' },
+  { id: 'C-NULL02', input: 'PATCH nullable contract/tax/inclusive/evidence missing vs explicit null', expected: 'missing retains; null clears allowed field; output invoice cannot clear contract' },
+  { id: 'C-NULL03', input: 'payment bound payable plus contractId omitted or null', expected: 'inherit payable contract; Active same project; no bypass', note: 'DTO remains nullable optional' },
+  { id: 'C-NULL04', input: 'project-level payment no payable and no contract', expected: 'valid project-level payment; never force contract required', formalSource: 'contract-finance-design.md:157,162-163,503-504' },
+  { id: 'C-NULL05', input: 'unbound payable with no selected contract', expected: 'valid project-level payment; contractId remains null' },
+];
+
+export const financeStateCases = [
+  { id: 'C-S01', input: 'receipt create against real draft/pending-review/terminated/completed contract', expected: '422 non-Active; no insert' },
+  { id: 'C-S02', input: 'real Active snapshot exists but formal receivable plan not initialized', expected: 'receipt create succeeds; no new receipt-plan hard gate' },
+  { id: 'C-S03', input: 'payable create/update with missing/wrong-project contract', expected: '404; typed identity comparison' },
+  { id: 'C-S04', input: 'output invoice without contract; input invoice without contract', expected: 'output422; input201' },
+  { id: 'C-S05', input: 'bound invoice/payable with same-project non-Active contract', expected: '422' },
+  { id: 'C-S06', input: 'payment selected/inherited non-Active contract', expected: '422 even if same project; user correctness ruling' },
+  { id: 'C-S07', input: 'payment explicitly selects a different Active contract from bound payable', expected: '422; never override binding' },
+  { id: 'C-S08', input: 'unbound payable or no payable; selected same-project Active contract', expected: 'legal; selected different-project/missing404' },
+  { id: 'C-S09', input: 'payment wrong payable project or currency; payable completed/closed/voided/draft', expected: 'wrong project404; currency or state422; zero insert' },
+  { id: 'C-S10', input: 'payable any linked payment including recorded pending', expected: 'void422; detail does not advertise voided' },
+  { id: 'C-S11', input: 'partially-paid/completed payable close without current mapping', expected: '200; exact settled sum retained; no payment lost; detail advertises close' },
+  { id: 'C-S12', input: 'closed payable without any payment/current mapping then void', expected: '200; preserve close history and add void history; already voided422' },
+  { id: 'C-S13', input: 'payable update after partial/full payment', expected: '422; no changing commitment amount/date/core fields' },
+  { id: 'C-S14', input: 'invoice open exception patch/close or duplicate mark', expected: '422; no bypass; resolve only valid action' },
+  { id: 'C-S15', input: 'invoice resolved exception then PATCH verified', expected: '200; preserve resolved history; allowedActions includes update/mark-exception/close' },
+  { id: 'C-S16', input: 'invoice resolved exception then mark new exception', expected: '200; new open reason, resolution null per original explicit operation' },
+  { id: 'C-S17', input: 'closed invoice update/mark/resolve/close', expected: '422 valid latest version; actions empty' },
+  { id: 'C-S18', input: 'duplicate global invoiceNumber within or across projects under concurrent create/PATCH', expected: '409 controlled uniqueness; one owner; full failed-TX rollback' },
+];
+
+export const preparedMappingGuardCases = {
+  label: 'prepared-state reference only; not real Rust cost producer acceptance',
+  preparationRules: ['source finance row must be produced by real C endpoint', 'mapping row must be a legitimate project/source/status shape', 'Root records mapping fixture original SQL/raw bytes/hash and cleanup ownership', 'no source status changed into impossible producer state to manufacture proof'],
+  cases: [
+    { id: 'C-M01', source: 'payable-record', currentStatuses: ['registered', 'confirmed', 'included'], assert: 'update/close/void422; detail actions empty, including isIncludedInProjectCost=false' },
+    { id: 'C-M02', source: 'invoice-record', currentStatuses: ['confirmed', 'included'], assert: 'update/mark/resolve/close422; detail actions empty', note: 'The generic guard also includes registered statically, but do not invent an unproducible registered invoice mapping merely for runtime coverage' },
+    { id: 'C-M03', source: 'payable/invoice', nonCurrentStatuses: ['draft', 'voided', 'replaced'], assert: 'do not block otherwise permitted source action' },
+    { id: 'C-M04', source: 'same source_id but different source_type', assert: 'no false mapping match' },
+    { id: 'C-M05', source: 'mapped source looked up through uppercase UUID path', assert: 'mapping guard still applies using loaded canonical entity.id' },
+    { id: 'C-M06', source: 'current procurement mapping plus payable recorded/partially-paid', assert: 'new payment/confirm progress may continue without changing commitment amount; source edit/close/void still blocked' },
+  ],
+  deferredRealCostLoop: { status: 'deferred-not-executed-not-certified', owner: 'later project-cost slice and R4 stage', chain: ['real Active contract', 'real confirmed payment/input verified invoice/procurement payable', 'real cost producer with source lock/expectedSourceVersion/business number/insert same TX', 'current mapping uniqueness', 'source mutation blocked and no double-count default inclusion'], currentBatchExtraOperations: 0 },
+};
+
+export const concurrencyCases = [
+  { id: 'C-C01', scenario: 'same receipt confirm twice with same expectedVersion', barrier: 'both ready before source lock', expected: 'one success and one409; one confirmation, no duplicate write' },
+  { id: 'C-C02', scenario: 'same invoice/payable mutation with same expectedVersion', barrier: 'competing commands target same source row', expected: 'one committed transition; loser409; exact final version/traces' },
+  { id: 'C-C03', scenario: 'same payment confirm twice', expected: 'one success and one409; amount counted once' },
+  { id: 'C-C04', scenario: 'payable100; confirmed20; two different recorded payments50+50, both would leave stale view partially-paid', expected: 'one confirm succeeds; other recomputes exact total120 and rejects422; final sum70 not120', targetCorrectnessOnly: true, note: 'Critical unchanged-status optimistic-dirty gap; explicit payable lock required' },
+  { id: 'C-C05', scenario: 'payable100; two pending payments40+60; concurrent confirm', expected: 'serialized valid confirmations both succeed; exact100 completed; no false oversettlement' },
+  { id: 'C-C06', scenario: 'createPayment vs voidPayable with zero earlier payment', expected: 'one serial order: void first -> create422; create first -> void422; never both commit incompatible facts' },
+  { id: 'C-C07', scenario: 'update commitment vs confirmPayment', expected: 'payable lock serializes; confirm checks latest exact amount and lawful state; no overpay/lost update' },
+  { id: 'C-C08', scenario: 'closePayable vs confirmPayment', expected: 'one serial order; close first blocks confirm; confirm first preserves paid sum when close follows; no partial graph' },
+  { id: 'C-C09', scenario: 'current mapping insertion vs source mutation', currentScope: 'prepared guard reference only; no real cost producer in this batch', expected: 'no claim of real production concurrency proof; later producer must lock same source protocol', deferredProducer: true },
+  { id: 'C-C10', scenario: 'session revoked/changed during pending managed flush after business changes', expected: 'managed session CAS failure rolls back all required business writes; independently committed auth raw touch labelled separately' },
+];
+
+export const failureGraphCases = {
+  execution: 'not-run; Root must supply real PG fault mechanism and keep all raw receipts',
+  graphBeforeAfter: ['receipt_record for owned IDs', 'payable_record plus all linked payment_record rows and sum', 'invoice_record', 'relevant contract/project relationship rows', 'project_actual_cost_record source mappings', 'mandatory business audit_log rows for actual entity and action', 'auth_session raw touch snapshot vs managed pending flush snapshot', 'required auth security events where guards were actually invoked'],
+  commands: [
+    { commands: ['createReceipt', 'createPayable', 'createInvoice', 'createPayment'], faultNodes: ['before INSERT', 'after INSERT before audit', 'mandatory audit_log INSERT failure', 'after audit before managed session flush', 'during required managed session flush', 'after all statements before COMMIT'], expected: 'all inserted business/audit rows absent after failed TX; no version/trace residue; clean retry creates one record and one required audit', exception: 'independently committed auth raw touch may remain and must be separately recorded' },
+    { commands: ['confirmReceipt'], faultNodes: ['before receipt CAS', 'after receipt CAS before audit', 'mandatory audit_log INSERT', 'after audit before managed session', 'managed session CAS/write', 'pre-COMMIT'], expected: 'receipt status/confirmedAt/By/version/time and audit restore; retry succeeds once with correct actor audit' },
+    { commands: ['updatePayable', 'closePayable', 'voidPayable'], faultNodes: ['after source/mapping/payment checks', 'after source CAS', 'mandatory audit_log INSERT', 'after audit before managed session', 'managed session write', 'pre-COMMIT'], expected: 'all source values/status/version/reasons/times and audit restore; payments/cost mappings untouched; retry revalidates state' },
+    { commands: ['updateInvoice', 'markInvoiceException', 'resolveInvoiceException', 'closeInvoiceRecord'], faultNodes: ['before invoice CAS', 'after invoice CAS', 'unique invoice_no collision', 'mandatory audit_log INSERT', 'after audit before managed session', 'managed session write', 'pre-COMMIT'], expected: 'business+exception+closure history/version and audit unchanged on failure; retry valid once' },
+    { commands: ['confirmPayment'], faultNodes: ['after payable lock/recomputed sum before writes', 'after payment CAS', 'after payable progress CAS', 'mandatory audit_log INSERT', 'after audit before managed session', 'managed session write', 'pre-COMMIT'], expected: 'payment+payable+business audit+managed session same TX rollback; no confirmed orphan/phantom progress/changed sum/version/actor/time; retry exact once' },
+  ],
+  auditRule: 'Mandatory transactional target audit is now in scope by user ruling; Native had no finance audit producer. Exact Root serde and safe before/after protocol must be bound before G1 freezes.',
+  notInCurrentGraph: ['business-number cost allocation', 'actual-cost INSERT', 'commission auto-recompute', 'formal-plan rows from C receipt action'],
+  retryAmbiguity: 'Post-COMMIT response loss is a separate ambiguous transport outcome, never a pre-COMMIT rollback. No new generic idempotency guarantee exists.',
+};
+
+export const mandatoryAuditCases = [
+  { id: 'C-AUD01', applyTo: '13 write operations when actual content/state changes', expected: 'Exactly required audit_log with entityType Receipt/Payable/Payment/Invoice, actual UUID entityId, exact full operationId action, authenticated session.sub actor; before/after/reason follow Root exact serde' },
+  { id: 'C-AUD02', input: 'DTO includes forged actor/entityId/action/before/after/createdBy', expected: 'Unknown DTO fields stripped; server-derived actual actor/entity/action prevail; no attacker-controlled audit identity' },
+  { id: 'C-AUD03', applyTo: 'payable/invoice same-value PATCH', expected: 'No business row_version/updated_at delta; no new business audit; required managed session flush observed separately' },
+  { id: 'C-AUD04', input: 'Audit INSERT fails after any business INSERT/CAS including payment/payable pair', expected: 'Entire business+audit+required managed-session TX rolls back; retry has one required audit and one effective transition' },
+  { id: 'C-AUD05', input: 'Managed session failure after successful business audit INSERT', expected: 'Business and audit both roll back; no orphan success audit for failed command' },
+  { id: 'C-AUD06', input: '401/403/400/404/409/422 command rejection', expected: 'No success business audit; existing required auth security audit retained only when actual guard invokes it' },
+  { id: 'C-AUD07', input: 'Two concurrent effective changes', expected: 'Audit corresponds only to committed transitions with actual versions; rejected contender produces no success business audit' },
+  { id: 'C-AUD08', input: 'Multiple independent contracts exceed project quote in aggregate', expected: 'No invented project hard total or automatic allocation gate; each contract amount/source difference independently auditable; C receipt/payment scope does not add a project quote cap' },
+];
+
+export const uiAcceptanceCases = [
+  { id: 'C-UI01', axes: 'all Root applicable four axes', page: 'original contract list/detail', action: 'real draft/review/approval/activation from A/B', expected: 'same active contract/source snapshot visible; raw finance sensitive scalar not leaked; audit/projection labels retained' },
+  { id: 'C-UI02', axes: 'all Root applicable four axes', page: 'original readiness/contract flow', action: 'initialize per-contract real preparation and formal plan at permitted time', expected: 'preparation is not fake snapshot; real plan only after Active valid snapshot; C receives actual active entity' },
+  { id: 'C-UI03', axes: 'all Root applicable four axes', page: 'original auth/approval todo surfaces', action: 'session/CSRF/no-permission/conflict and successful refresh', expected: 'original observable states preserved; no synthetic finance screen' },
+  { id: 'C-UI04', axes: 'C finance19 HTTP/PG evidence', page: 'N/A original frontend has no finance API consumer', action: 'label API cases as HTTP/PG, not original UI', expected: 'no false UI pass claim; deferred later cost/commission UI remains incomplete' },
+];

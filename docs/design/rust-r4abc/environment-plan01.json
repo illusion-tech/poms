@@ -1,0 +1,41 @@
+{
+  "kind": "R4-first37-new-namespace-environment-plan",
+  "status": "G1-design-only; resources not yet created",
+  "namespace": "poms-r4abc",
+  "rootWindowsCheckout": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "rootWindowsBranch": "codex/poms-r4abc-first37",
+  "rootLinuxCheckout": "/home/wangzishi/projects/poms-rust-r4abc",
+  "nativeReferenceLinuxCheckout": "/home/wangzishi/projects/poms-native-r4abc-reference",
+  "nativeReferenceSource": "1730f304c1cf5600721f80b6c06feec24269d387; old semantics reference only",
+  "candidateSource": "immutable G1 commit plus explicit G2 product manifest; never live mutable implicit HEAD",
+  "plannedPorts": {"pg":24433,"nativeLinux":14400,"nativeWindows":14410,"rust":14500,"ui":14600},
+  "portRule": "Root preflights each host and records actual binding; occupied ports trigger new explicit plan delta, no process eviction",
+  "postgres": {
+    "major":15,
+    "container":"poms-r4abc-pg15",
+    "volume":"poms-r4abc-pg15-data",
+    "databases":["poms_r4abc_native","poms_r4abc_rust"],
+    "applicationRoles":["poms_r4abc_native_app","poms_r4abc_rust_app"],
+    "schemaMigrationOwner":"Root-only existing Native MikroORM migration runner; original92 plus declared R4 additions",
+    "secrets":"fresh generated task-specific, private file only; never old private, inline tool output, committed files, or public raw row strings",
+    "fixtureBoundary":"fresh synthetic actor/org/role IDs <=64-character codes, explicit ownership registration and immutable seed/catalog/ACL fingerprints; no assumed remembered IDs",
+    "preserve":"PG17 and all old environments/private/volumes untouched; new volume retained after normal stop"
+  },
+  "authors": {
+    "A":{"module":"apps/poms-api-rust/src/contract_readiness","issue":103},
+    "B":{"module":"apps/poms-api-rust/src/contracts","issue":104},
+    "C":{"module":"apps/poms-api-rust/src/contract_finance","issue":105},
+    "worktreeRule":"Root uses create_worktree after independent G1 Pass and actual online freeze, detached at exact G1 commit; Root exclusively Git, authors source-only; no product edits before admission"
+  },
+  "publicCachePolicy":"Only public dependencies/browser/container images after exact version/hash readback may be reused read-only. New isolated target/profile/output. No whole old private, browser profile or 34GB target copy. Source base pinned separately from runtime evidence.",
+  "actualAcceptance": {
+    "contractProducer":"real project/cost/bid -> B draft -> A01 -> R3 pricing release -> A05/A04/A08 -> B submit/R2 review/activate -> A09",
+    "financeProducer":"C facts against those real active contracts; prepared actual-cost mappings only for negative guards, not claimed real cost producer",
+    "ui":"Linux and Windows browsers against Rust for new contract/readiness/approval flow; corresponding Native baseline captures are historical reference, not new-contract conformance; no invented finance UI",
+    "faults":"registered mandatory business/snapshot/binding/plan/audit/session edges, precommit trigger/permission faults with proven hit and full rollback; keep failed and corrected attempts",
+    "races":"controlled lock/barrier ordering and independent PG sessions, source replacement/current uniqueness/expectedVersion/payment remaining/initialization identity",
+    "privacy":"private full sensitive graph; public explicit safe typed projections and per-table digests, never credentials hidden inside serialized row strings",
+    "cleanup":"owned-only IDs, before-absence plus successful create/outerACK plus live PG proof; two no-op cleanup reads, full seed/catalog/ACL/object restoration, exact process identity graceful stop and bound-port release"
+  },
+  "gates":{"G1Certified":false,"G2Authorized":false,"runtimeExecuted":false,"G3Certified":false,"G4Certified":false}
+}

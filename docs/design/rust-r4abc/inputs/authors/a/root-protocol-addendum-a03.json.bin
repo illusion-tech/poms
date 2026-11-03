@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 3,
+  "evidenceClass": "append-only-G1-protocol-candidate",
+  "authority": "Root latest freeze following user final decision; A has not executed GitHub reads or runtime validation",
+  "supersedesOnlyConflictingProposalText": ["audit-a02.md", "audit-a02.json", "cases-a01.json"],
+  "priorPackagePreserved": "package-manifest-a01.json",
+  "issuesFromRootOnlineReadback": { "stage": 101, "batch": 102, "A": 103, "B": 104, "C": 105 },
+  "gate": "G1 candidate only; no G2",
+  "contractTerms": {
+    "A01": "Project draft baseline includes contractTerms[] with at least one explicit contractId and unique parsed UUID identity. Each item owns its own money/rates/downPayment/retention/paymentTerms/typedSeeds.",
+    "projectAmounts": "Project-level amounts only represent the real R3 project pricing source and its validation.",
+    "forbidden": ["copy project quote total into each contract", "automatic allocation", "sum(contract amounts)=project quote constraint", "hard budget limit", "contract-versus-project quote3% calculation"],
+    "A05": "Explicit contractId, optional same-contract candidateTerms. Compare its independent baseline.referenceTerms with candidateTerms and actual Contract.signedAmount/currency/version. Missing same-contract reference blocks; no first/other-contract fallback.",
+    "diffRules": "3% amount deviation, margin bands, down-payment thresholds, tax/node/date/retention rules apply only within the same contract's reference/candidate facts. Project quote changes enter source audit only.",
+    "marginInputNote": "Root freezes same-contract grossMarginRate/band or same-contract cost evidence needed by the band rule. Project total cost cannot serve as every contract's cost; missing evidence blocks explainably without allocation."
+  },
+  "diffProtocol": {
+    "A03": "contractId query selects same-contract diff history; selection_required when ambiguous; no latest arbitrary fallback",
+    "A04": "required contractId + diffResultId; source/project/contract/version checked under TX",
+    "A05": "persist real contractDiff and blocked/review-required package when needed",
+    "reviewCompletion": "A04 exact review recomputes same package guard/status/rowVersion in the same TX",
+    "query": "GET never creates or refreshes business facts"
+  },
+  "preservedChosenModel": {
+    "preparation": "contract_term_preparation: prepared/superseded/activated; real immutable per-contract terms/seeds/source versions",
+    "A08": "explicit contractId -> preparationId; snapshotId null before real active snapshot; no preparation ID in initializedContractSnapshotId",
+    "binding": "contract_review_binding exact preparationId",
+    "BActivation": "one TX produces a different active snapshot UUID with source_preparation_id and activates contract; audit/session included",
+    "A09": "Active contract/current effective snapshot -> real plan/version/nodes/init record from immutable typed seeds; sum equals that contract's own inclusive amount"
+  },
+  "caseOverlays": [
+    { "ids": ["A-chain01","A-chain02"], "replace": "A01 project source + contractTerms[]; A05 explicit contractId/candidateTerms, then exact diff review; project source pricing consistency is separate from independent contract amount" },
+    { "ids": ["A-diff01"], "replace": "All threshold vectors compare same-contract reference vs candidate. Contract partial amount versus projecttotal alone cannot trigger3% deviation." },
+    { "ids": ["A-source01","A-source02"], "replace": "project quote-source mismatch belongs to source audit; same-contract candidate/reference difference belongs to contractDiff" },
+    { "ids": ["A-multi01"], "replace": "contract sum differs from project quote and is allowed after each contract's own source/diff/review rules; no aggregate budget equality" }
+  ],
+  "additionalPureVectors": ["empty contractTerms", "duplicate parsed contractId", "uppercase/lowercase equivalent contractId duplicate", "missing selected contractTerms", "wrong-project contractTerms", "candidate amount inconsistent with actual signedAmount", "missing same-contract margin evidence", "reference=candidate on a contract whose amount is only part of project quote"],
+  "remainingRootProtocolFreeze": ["exact Shared/DTO/OpenAPI/client/UI shapes and selection_required DTO", "nullable/source-only baseline latestDiff result semantics before a contractDiff exists", "contractTerms and candidate immutable payload/source hashes", "ratio/date/retention validation and within-contract cent rule", "same-contract margin field/source and role/attachment/projection checks", "new migrations/FKs/uniques/CAS and CommonSession borrowing adapters"],
+  "runtimeExecuted": []
+}

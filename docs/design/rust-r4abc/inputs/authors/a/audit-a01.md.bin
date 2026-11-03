@@ -1,0 +1,152 @@
+# R4A contract-readiness：G0 / G1 静态输入审计候选 01
+
+日期：2026-11-03。Owner：A；目标配置 `gpt-6.1-sol / max`，Fast 无运行证据、保持未核实。Root 给定基线 `1730f304c1cf5600721f80b6c06feec24269d387`；A 未运行 Git，不能独立证明 HEAD。唯一写入边界为 `tmp/rust-r4abc/input-a/`。
+
+结论：**9 个现有 HTTP 操作的静态接口输入可核对；完整业务 G1 尚不具备进入 G2 的条件。** 两个初始化的产物、合同级归属、正式应收计划持久化、R3 来源闭合与差异派生须先裁决。下述 Native 行为是源码事实，不是应复制的业务目标。A 没有执行 build、test、HTTP、PostgreSQL、browser、WSL、Git、GitHub、安装或任何 private 证据访问。
+
+## 1. 证据层次和交付
+
+- `source-manifest-a01.json`：86 个当前文件的 SHA-256、原字节长度、行数及 `source-originals/` 原字节副本。该初次清单的总长度聚合为 null，逐文件长度有效；汇总修正在 `source-manifest-a02.json`，a01 原样保留。
+- `surface-a01.json`：从当前 OpenAPI 文件静态抽取，9 唯一 method/path、9 唯一 operationId、24 个传递 schema。不是请求执行，也不覆盖 Zod 的 trim / 默认值 / 类型转换。
+- `audit-a01.json`：可供联合基线引用的机器输入、调用图、表约束、未决事项。
+- `cases-a01.json`、`probes-a01.sql`：只定义由 Root 执行的实际 Native 参考和 Rust 业务验证；A 未执行这些定义。
+
+定义层依据当前正式 command / DTO / query / table-freeze / schema-DDL / contract-finance 文档。历史层仅使用 `archive/slices/ex-15e1-approval-contract-readiness-route-baseline.md` 解释 route direct cutover，不能凭历史 `Pass` 认证本次行为。当前实现层为所捕获 TypeScript、Rust 上游、迁移、Shared、OpenAPI、客户端与现存测试定义。三层在 JSON 中分别标注。
+
+## 2. 九操作的唯一身份
+
+公共前缀为 `/api`；canonical inventory 中不含该统一前缀。下表的操作 ID 来自当前 OpenAPI，canonical 行来自 `api-route-canonical-inventory.md`。
+
+| A ID | Method / path | operationId | Canonical capability / 行 | 权限 / 成功状态 |
+| --- | --- | --- | --- | --- |
+| A01 | POST `/api/commercial-release-baselines` | `ContractReadinessController_createCommercialReleaseBaseline` | `createCommercialReleaseBaseline` / 138 | `project:write` / 201 |
+| A02 | GET `/api/commercial-release-baselines/{id}` | `ContractReadinessController_getCommercialReleaseBaseline` | `getCommercialReleaseBaseline` / 139 | `project:read` / 200 |
+| A03 | GET `/api/commercial-release-baselines/{id}/diff-history` | `ContractReadinessController_getDiffHistory` | `getCommercialReleaseBaselineDiffHistory` / 140 | `project:read` / 200 |
+| A04 | POST `/api/commercial-release-baselines/{id}:reviewDiff` | `ContractReadinessController_reviewDiff` | `reviewCommercialReleaseBaselineDiff` / 141 | `project:write` / 200 |
+| A05 | POST `/api/contract-readiness-packages` | `ContractReadinessController_createContractReadinessPackage` | `createContractReadinessPackage` / 142 | `project:write` / 201 |
+| A06 | GET `/api/contract-readiness-packages/{id}` | `ContractReadinessController_getContractReadinessPackage` | `getContractReadinessPackage` / 143 | `project:read` / 200 |
+| A07 | GET `/api/projects/{projectId}/contract-readiness` | `ContractReadinessController_getCurrentContractReadiness` | `getProjectContractReadiness` / 144 | `project:read` / 200 |
+| A08 | POST `/api/contract-readiness-packages/{id}:initializeContractSnapshot` | `ContractReadinessController_initializeContractSnapshot` | `initializeContractTermSnapshotFromReadinessPackage` / 145 | `project:write` / 200 |
+| A09 | POST `/api/contract-readiness-packages/{id}:initializeReceivablePlan` | `ContractReadinessController_initializeReceivablePlan` | `initializeReceivablePlanFromReadinessPackage` / 146 | `project:write` / 200 |
+
+当前 controller 对 action `:` 使用转义字面冒号。旧 `/review-diff`、`/initialize-contract-snapshot`、`/initialize-receivable-plan` 和 project `/contract-readiness/current` 不是现有正式路由；本片不得重新引入 alias。四个 GET 无 query DTO；path 在当前 OpenAPI 只声明 string，controller 也没有 UUID pipe。资源身份业务上仍是内部 UUID，Rust 应按 UUID 值比较，包括大写文本；外部编码 `baselineCode` 不能替代 UUID。
+
+## 3. 全输入 / 返回 / 类型与状态
+
+Shared 为 `libs/shared/contracts/src/lib/shared-contracts.ts`，API DTO 是 `createZodDto` 的直接包装（`libs/api/contracts/src/lib/contract/contract.dto.ts`），OpenAPI 和 generated client 不形成另一套业务真源。完整 JSON Schema 见 `surface-a01.json`。
+
+### 3.1 请求字段
+
+- A01（Shared 6477–6498）：必填 `projectId:uuid`、`baselineCode:trim,1..64`、`diffLevel`；`quotationReviewId:uuid|null?`；`grossMarginSummary/paymentTermsSummary/diffSummary/paymentTerms:string<=1000|null?`；`amountTaxInclusive/amountTaxExclusive/taxRate/downPaymentRate/retentionRate:string<=64|null?`；`diffItems` 默认 `[]`；`createdBy/updatedBy:uuid|null?`。diff item（6463–6475）含 `fieldKey/fieldLabel:trim,1..128`、old/new summary `<=1000|null?`、必填 `diffLevel`、`isBlocking:boolean?`、`sortOrder:int>=0?`。
+- A04（6500–6510）：`diffDecision:approved|rejected`；`reviewedFieldKeys:string[]=[]`；`comment:trim,<=1000?`；`attachmentIds:string[]=[]`（不是 UUID schema）；`expectedVersion:positive integer?`。当前 service 完全忽略 attachmentIds；不检查 reviewedFieldKeys 是否覆盖真实必比字段，也不分销售/财务两角色。不能把一个 `project:write` 的复核等同正式设计中的双角色复核。
+- A05（6527–6543）：必填 `projectId/sourceBaselineId/latestDiffResultId:uuid`、`packageStatus`、`guardDecision`；`currentEffectiveDecisionSummary/blockingReasonSummary:string<=1000|null?`；`missingPrerequisiteCount:int>=0?`；`items=[]`；`createdBy/updatedBy:uuid|null?`。item（6512–6525）含必填 `itemType`、`itemKey:trim,1..128`、`label:trim,1..128`、`status`；summary `<=1000|null?`、responsibleRole `<=128|null?`、navigationHint `<=255|null?`、sortOrder `int>=0?`。没有 source workspace / source ID / version / typed receivable node 字段。
+- A08/A09（6545–6563）：`contractReadinessPackageId:uuid?`、`comment:trim,<=1000?`、`expectedVersion:positive integer?`，三字段均可省略。controller 仅把 path id、session actor 和 expectedVersion 传入 service，body package ID 与 comment 被忽略。path/body 不同资源现可被静默接受，业务冻结应明确拒绝还是移除冗余字段；不能悄悄把 body 作为新的资源身份。
+- A02/A03/A06 的 `id`，A07 的 `projectId`：当前 path string、无 query/body。A07 没包时返回 404，不写包。
+
+### 3.2 返回字段
+
+- `CommercialReleaseBaselineSummary`（5939–5967）：id/projectId、baselineCode、quotationReviewId、baselineStatus、isCurrent；两个摘要和六个核心条款（两个金额、三个比例、paymentTerms）；latestDiffResultId、diffLevel、reviewStatus、diffSummary；rowVersion、createdAt/By、updatedAt/By。
+- `ContractDiffReviewHistoryView`（5969–5977）：baseline、diffItems、reviewHistory。diff item 有 id/fieldKey/fieldLabel/oldValueSummary/newValueSummary/diffLevel/isBlocking/sortOrder；review record 有 id/baselineId/diffResultId/projectId/decision/reviewedFieldKeys/comment/reviewerUserId/createdAt。
+- `ContractReadinessDetail`（5995–6024）：id/projectId/sourceBaselineId/commercialReleaseBaselineId（后者映射同一 sourceBaselineId）/latestDiffResultId；diffLevel/reviewStatus/packageStatus/guardDecision；currentEffectiveDecisionSummary/blockingReasonSummary/missingPrerequisiteCount；两个 initialized IDs、两个 initializedAt；isCurrent/rowVersion、createdAt/By/updatedAt/By；allowedActions、items。item 有 id/itemType/itemKey/label/summary/status/responsibleRole/navigationHint/sortOrder。
+- `CommercialDiffReviewResult`（6565–6574）：targetId、diffResultId、baselineReviewDecision、resultStatus（现为 `reviewed`）。
+- `ReadinessInitializationResult`（6576–6588）：targetId、targetType（现 `ContractReadinessPackage`）、sourceReadinessId、resultStatus（现 `initialized`）、businessStatusAfter、snapshotId/newVersionId（对应目标有 ID，另一字段显式 null）。返回没有 rowVersion、初始化记录 ID、审计 ID。
+
+### 3.3 日期、金额、UUID、版本
+
+当前 A 没有业务 `date` 输入；所有 created/updated/reviewed/initialized 时间是 `timestamptz`，service 用 `toISOString()` 输出 UTC datetime。将来计划节点应为 `date` 而非 datetime，必须先冻结字段，不能解析自由文本 `paymentTerms` 猜日期。B 的 `retention_due_date` 是 `date`，不得套成本模块 datetime 处理。
+
+两金额持久化 `numeric(18,2)`，tax/downPayment/retention 为 `numeric(5,4)`，返回 decimal string。当前 DTO 只做长度，无数字格式、精度、正负、比例范围或金额关系校验；DB 隐式舍入/报错不是业务验证。R3 pricing 税率为 `numeric(18,8)`、金额为 `numeric(18,2)`，故接入 A 的四位比例会产生真实精度边界。建议用 Decimal 在入库前验证、禁止浮点；跨域四位/八位精度及舍入口径须明确选择，不能默认截断。币种在 R3 pricing 与 B Contract 存在，A baseline 没有 currencyCode；必须冻结同币种来源关系。
+
+全部引用是内部 UUID。`quotationReviewId` 当前是裸 UUID，没有对应 FK/存在性检查；不能擅自解释成 pricing review ID 或 approval record ID。actor 在 A04/A08/A09 来自 `req.user.sub`，A01/A05 的 createdBy/updatedBy 却由 body 决定，存在伪造归属边界；新实现应以 session actor 为操作留痕身份，旧 body 字段兼容策略由 Root 冻结。
+
+baseline、package 有 `row_version`（ORM `version()`）；diff result / diff item / review record / package item 没有 row version。A 没有业务 version / supersedes_id 链，靠 isCurrent（baseline 另设 `superseded`）替代。expectedVersion 全部可选；A04 和两 init 都在事务前比较，事务内重读后不再显式比较原 expectedVersion。ORM 自身版本机制不能证明整个来源链 CAS 或无并发覆盖，须实际测同源冲突和错误回滚。
+
+## 4. 当前命令、查询与调用图
+
+### 4.1 当前五写四读
+
+- A01：ProjectService.findById → findCurrentByProjectId（只对当前同 code 提前 409）→ TX：把所有 current baseline 标 superseded → 写 baseline → flush → 写 diff result/items 并回填 latestDiffResultId → flush → DTO。level/status 全来自请求：prompt→not-required，否则 pending-review。项目存在检查、同 code 检查均在 TX 外；没有项目锁、当前唯一约束、自动差异算法、R3 来源查询。
+- A02：baseline by ID → latest diff by ID → map；A03 再并行读当前 diff 的 items（sortOrder ASC）和 review records（createdAt ASC）。所谓 diff-history 不是所有 diff rounds；它只返回 baseline.latestDiffResultId 的历史。无 mutation / 自刷新调用。
+- A04：baseline by ID → 事务外 expectedVersion → latest diff；prompt 拒绝复核；reapproval-required 不能批准（400），拒绝时记录 rejected。TX 重读 baseline/diff，插 review record，更新 diff review status/decision/time 和 baseline.updatedBy，flush。没有 review-status 状态门槛，重复复核会再插记录；没有字段覆盖验证、双角色验证、attachment 留存或 RuntimeAuditService 调用。
+- A05：project → baseline（检查 projectId）→ diff（检查 baselineId）；仅 guardDecision=allowed 时检查 diff ready；TX 替换所有 project current 包，写包和文本 items。没有验证 baseline.isCurrent/status、baseline.latestDiffResultId、diff.projectId、R3 上游、生效审批链、missingCount 与 items 一致；没有锁和 current 唯一约束。
+- A06/A07：package by ID/current → diff + items → map allowedActions。current 仅 `{projectId,isCurrent:true}` 按 updatedAt/createdAt 倒序择一，无唯一数据库保证，历史包可用 A06 回看。
+- A08/A09：package → 事务外 expectedVersion → diff；只拒 packageStatus=blocked 或 guardDecision=blocked，diff ready 后 TX 重读包，给单字段 `existing ?? randomUUID()`，更新时间、updatedBy，flush；返回成功。没有检查 current、source baseline current、实际 missing/items，也没有 real producer。
+
+`isDiffReadyForContract`：prompt 总允许；review-required 仅 reviewStatus=approved；reapproval-required 总拒。`buildAllowedActions` 只有 guard=allowed 且 package!=blocked 且 diff ready 才展示两初始化；但写服务 guard=review-required 仍可执行，构成静态可见的读写守卫不一致。初始化重复使用同 ID、每次改时间，所以不能声称幂等 no-op。
+
+### 4.2 真正的跨模块边
+
+1. A04 controller 的 session actor → A service → `commercial_baseline_review_record`。这是业务复核记录，不是 runtime audit log。
+2. A08 → package.initializedContractSnapshotId（预留 UUID）→ B `ContractService.activate` 173–209 → A.resolveActivationReadiness(projectId) + A.findContractReadinessById → baseline six core terms → `ContractTermSnapshotRepository.createActiveSnapshotIfAbsent` → 真正 snapshot INSERT → B Contract active/currentSnapshotId。Native 目前不把 snapshot 写与合同 activate 写显式包在一个服务 TX；A 引用在创建时并不保证实体存在。
+3. A09 → package.initializedReceivablePlanVersionId（预留 UUID）→ ProjectHandoverQueryService 433–456 仅以非空判断 initialized，460–478 仅以非空解除阻断。没有计划实体存在性校验。
+4. C `ContractFinanceService/Repository` 既不生产也不消费 Plan；ReceiptRecord 只有 project/contract FK，没有 receivablePlanId。不能通过新增 receipt plan 门槛掩盖 A 缺口。
+5. Admin `ProjectWorkspaceStore.loadContractReadiness` 仅调用 A07，预签约总览显示状态、两初始化 ID/时间；现有 UI 未证实存在 A 五写按钮。生成客户端和 E2E helper 提供九操作调用入口，不能用 UI 未调用作为删入口依据。
+
+## 5. 初始化生产者结论与必须裁决的输入
+
+**当前 A08/A09 都是标记写入，不是真生产者。** A08 真 snapshot 后置由 B activate 补产；A09 目前没有任何真实计划生产者。全 current features / migrations 搜索没有 `receivable_plan_version` / `contract_snapshot_init_record` / `receivable_plan_init_record` 的实体或创建迁移，正式设计中这些表的存在不能当作数据库实况。
+
+定义要求：command 126–127/181 要真实快照和正式计划/初始化留痕；command 303 又要求有效 snapshot 在合同生效/变更命令内派生。contract-finance 152–155 明确一项目多合同、每合同一当前有效 snapshot、一个 snapshot 可有多条计划；273/291–292 要 Plan 基于有效 snapshot 且合同已生效。schema-DDL 459–465 定义两类 init record，553–555 要非放行不可成功、同来源基线/差异、六工作区输入锁定。
+
+现 A08/A09 请求没有 contractId，package 也无 contractId；snapshot.contractId 必填且当前状态只有 active/superseded/voided。单个 project current package 持一个 snapshot ID，被多个合同激活时会冲突或错误共用；不能取项目第一份合同解决。`receivable-seed` item 只有 label/summary 自由文本，没有金额/日期/节点顺序/质保标志，paymentTerms 也只是 string，无法安全生产正式计划。
+
+需要 Root / 用户冻结的最小选择：
+
+1. 合同级目标：package 绑定明确 contractId 还是 package 内拆 contract-level outputs；保持 project current 查询聚合的方式。若补 DTO/列，须先正式 G1 与 migration 输入；不能在服务内部猜目标。
+2. A08 生产时点：是生成可审计的初始化准备产物，在 B activate 中形成有效 snapshot，还是 A08 即生成真实 snapshot 并由 B 切换生效。若采用准备产物，接口返回/状态必须能区别准备与有效，不能随机 UUID+initialized 冒称实体完成；若预生成 snapshot，需要明确非生效状态及其 schema/unique 约束。
+3. A09：保持“正式 Plan”语义，合同已 active、当前有效 snapshot、结构化 seed 和真实版本/节点/初始化记录整体 TX；若本批只做引用预留，应明确不把 A09 计入业务交付，并另开正式补片，不能仍叫 initialized。建议按正式设计补足生产链；范围需先批准。
+4. 版本与幂等：同 package+contract+source chain 的重复初始化是返回同一真实产物且无业务/时间/version/audit重复变化，还是作为显式重新初始化产生新版本；并发胜者数量、冲突、被替代包限制必须固定。
+5. R3 与 diff：真实来源引用和差异算法见下一节，不得接受任意自报 released/allowed 再直接放行。
+
+## 6. 数据表、约束和版本链
+
+当前 A 六表由 `Migration20260405113000` 创建；`Migration20260422031100` 只补 baseline/snapshot 六条款及 snapshot 来源链。
+
+| 当前表 | 真实键/约束 | 版本/缺口 |
+| --- | --- | --- |
+| commercial_release_baseline | UUID PK；project FK cascade；(project_id,baseline_code) UNIQUE；latest_diff_result FK set null；project+is_current 普通索引 | row_version；is_current/status；无当前 partial UNIQUE；quotation_review_id 裸UUID；无 supersedes/version |
+| commercial_baseline_diff_result | UUID PK；baseline/project 两独立 FK cascade；baseline+createdAt、reviewStatus 索引 | 无 row_version；无 contract_id/diff_status；未保证 project 与 baseline 同属 |
+| commercial_baseline_diff_item | UUID PK；diff_result FK cascade；(diff_result,sort_order) 普通索引 | 无 (diff_result,field_key) UNIQUE；无行版本 |
+| commercial_baseline_review_record | UUID PK；baseline/diff/project 三独立 FK cascade；diff+createdAt、project 索引 | actor UUID 非 FK；reviewedFieldKeys JSONB；无不可改审计 enforcement；无 row_version |
+| contract_readiness_package | UUID PK；project cascade、baseline/diff restrict FK；project+current、status 普通索引 | row_version；is_current；两个 initialized IDs 都无产物 FK；无 contract_id、source workspace refs、version/supersedes/current UNIQUE |
+| contract_readiness_package_item | UUID PK；package FK cascade；package+sort_order 普通索引 | 无 (package,item_key) UNIQUE；无 typed seed/source/version |
+
+没有 CHECK 约束固化 A 的字符串 enum、nonnegative missingCount/sortOrder 或状态组合。ORM `$type` 不构成数据库约束。FK 各自存在不保证整条 project→baseline→diff→package 同源，Rust TX 必须显式核对；如追加复合FK或unique/CHECK，先补SQL再映射，旧库兼容检查由Root执行。
+
+定义层差异：table-freeze 238–250 还要求 package.contract_id/source_workspace_key、两初始化记录、baseline/review linkage；schema-DDL 545–555 建议 item key 唯一、diff field key 唯一、project+baseline current 唯一、六工作区锁定。Native 当前按 project 一条 current，比文档 project+baseline 唯一更宽/不同；不能不经裁决扩成每baseline一条后仍让project current查询择一。
+
+B snapshot 当前有 contract active partial unique（`uq_contract_term_snapshot_contract_active`）、snapshot status CHECK、source readiness/baseline FK、version int default1 / rowVersion。它不能替代 A 的正式生产及多合同归属定义。ReceivablePlanVersion 的正式 FK/版本/当前唯一只在设计里，当前无对应迁移；不能生成DDL后冒称已执行。
+
+## 7. R3 真实上游如何消费
+
+当前 A 不消费 R3 cost/bid/pricing，只查 Project 是否存在。A01 允许无 quotationReviewId；A05 允许自报 ready/allowed；测试 helper 默认 null quotationReviewId、单条 checklist，就能构造“可初始化”包。现存测试并未证明 R3→A 真实承接。
+
+可用的真实 R3 来源：
+
+- `project_technical_cost_package`：id/project/version/is_current/status、allow_next_stage、technical_feasibility_decision、tax_review_status、blocker_count、currency 与三金额层。`store::current` 只取 current+effective；R3 writer 用项目行锁、CAS supersede、child rows 和 session pending flush 同 TX。
+- `project_bid_commercial_process`：id/project/version/current/status、bidMode/decision/resultStatus/blockerCount，材料/时间线来源。按 direct-commercial/not-required 与 bid 两路径验证，不能把 lost/cancelled 作为可签约来源。
+- `project_pricing_margin_review`：id/project/version/current/status、technicalCostPackageId/bidCommercialProcessId、commercialReleaseBaselineId、quote金额/税率/币种、decision/readyForContracting/blockerCount、approvalScenarioKey/summaryPackageKey/summarySnapshotId/projectionLevel/exportPolicy、条件项。当前 R3 `released/conditional-release` 仍要求已有 baseline ID 和摘要引用；表有 baseline FK，形成“先有 baseline 再记录 released”的现存写顺序。
+
+因此需先冻结 QuotationReview 逻辑名与真实 pricing row / approval record 的映射，不能把 A.quotationReviewId 直接强转成任一ID。建议在 A05 生成/确认可初始化包时，借用同一 `PgConnection`，以项目锁与 R3 writer 同步，读取并锁定明确的 source IDs/versions 与同源审批摘要；将其持久化为真实 source refs。A01 可先持久化待闭合的商业条款候选，A05 只有在 pricing release 链闭合后放行；是否保留 effective baseline 的旧状态名以及候选生命周期需 Root 冻结。若改为 pricing 命令原子派生 baseline，属于跨片语义变更，不能暗改既已完成 R3。
+
+正式文档要求金额偏离3%、毛利审批带、首付款20%及5百分点、税率/计税变化、节点增删重排及日期10天、尾款质保范围承诺的差异分级。当前 A 接口直接接受 diffLevel/items，无对应合同草稿或结构化计划可比较。至少要冻结差异计算所需的左右来源、Decimal/日期边界、双角色复核记录，再决定兼容body是断言输入还是受控派生入口；当前实现不应成为算法真源。
+
+## 8. 认证、事务、CAS、审计与回执
+
+Native global guard 顺序：SessionAuthGuard → AuthCsrfGuard → PermissionsGuard（auth.module）；所有 A endpoint cookie session。POST 需 CSRF header/cookie/session token 一致，GET免CSRF。缺会话401，CSRF失败403 `csrf_failed`，权限失败403 `permission_denied`；后两者有安全事件，session非法有安全事件。A controller 无资源级组织/主责检查或敏感字段裁剪；正式角色投影需求不能由project:read单一权限静态替代。
+
+AppModule 的全局 interceptor 只有 ZodSerializer，不能凭 RuntimeAuditModule 被导入就推断 A 成功命令自动有 audit。A service/module 没注入 RuntimeAuditService，也不调用 recordAuditLog；current review record是其唯一显式业务留痕。两create actor由body、init comment忽略，是业务留痕缺口。
+
+建议 Root 的公共协议统一借入会话/连接：A各写在单TX内锁项目/目标→复核来源/状态/expectedVersion→写产物/父链/子项→必要成功audit→flush pending session→commit；任一步失败整体 rollback，不允许模块内部另开连接。B激活借入同TX调用A resolver，返回 package/baseline/diff各UUID+版本+核心条款+真实输出状态与合同归属；C计划生产如进入本批也同协议。锁顺序建议统一 project→contract→package→baseline→diff→current snapshot/plan，再由Root最终确定并覆盖跨片并发，不凭静态锁图声称无死锁。
+
+实际命令回执由Root冻结：运行ID/候选二进制哈希/精确源manifest、请求method/raw path/body（凭据脱敏）、原始status/headers/body、session actor/权限矩阵、before/after完整行及audit/session delta、commit/rollback/触发故障、correlation ID、cleanup cohort与二次no-op。Native参考和Rust业务assertion分列，失败/partial不得回写成pass。
+
+## 9. 必要实际验证方案
+
+Root 必须使用新隔离 cohort，经真实 R3 HTTP 产生 cost→bid/direct→pricing，随后A基线/差异/包→B合同审批激活→正式计划（按已批准设计）→C真实到账确认；不能只INSERT“已就绪”空图或使用旧seed marker作为真实链。
+
+`cases-a01.json` 给出完整method/path/body模板、引用和预期。至少包括九入口正/反向、不同actor/权限、CSRF/会话生命周期、UUID大写/跨项目、金额及日期边界、当前替代、未复核/重审/缺项/guard不一致、真实产物存在性、重复初始化、两合同隔离、故障回滚和受控并发。每个有状态场景都要求 `probes-a01.sql` 的原始前后完整行，不只比 count；查询 no-op 应在 session touch 已处置的条件下核业务表0变化，session/安全事件变化单列。
+
+故障至少在 baseline/diff/item、review record/diff update、package/items、snapshot/contract、plan version/nodes/init record、success audit、pending session flush 各持久化边施加真实PG拒写或窄trigger失败；记录触发命中及所有此前写回滚。并发以barrier同时发HTTP，覆盖同项目不同code建baseline、同source建package、approve/reject同version、init/init同目标、两初始化争同包version、来源被R3替代与A放行、B激活与来源替代；记录所有响应及终态唯一当前/版本/孤儿/audit/session，不只“并发请求完成”。
+
+本次执行状态：源码阅读与静态JSON抽取已完成；其余实际验证全部 **未执行（A禁止执行，交Root）**。无 HTTP/PG/UI Pass、无 G2/G3/G4、无产品实现交付结论。

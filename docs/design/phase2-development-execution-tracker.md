@@ -765,3 +765,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 ### 2026-11-03 R3 独立实际 G4 终审 Pass
 
 [最终非作者实际G4签署](archive/slices/rust-r3m/C/g4-independent-actual-review01.json)已Pass，仅认证本R3收口及当前58/58阶段交付；#98/#99/#100/#97/#85 Closed，#57持续Open、仅R3完成，R4–R7仍Todo。实施552211dd、原字节归档/固定提交/main及六Issue实际原文读回一致，311受测产品输入无变。最终写回只追加本签署与当前状态，G1/G3候选、失败/partial/quarantine/ignored、Native参考和平台留白保持原标签。托管作者工作树因应用活动引用保留，22ignored原件已保全，不影响已终止的验收运行态。
+
+
+### 2026-11-03 R4 首批 G0 与联合 G1 候选
+
+用户已授权启动 [R4 #101](https://github.com/illusion-tech/poms/issues/101) 首批 [#102](https://github.com/illusion-tech/poms/issues/102)，原生 A#103/B#104/C#105 已建立并读回。当前37唯一公开入口为签约就绪9、合同9、财务19；313份当前静态来源与AST/spec/canonical清单已捕获，[联合基线](rust-r4abc-first37-baseline.md)及精确DTO/DDL/同事务协议进入非作者G1审查，尚未准入G2。四项用户裁决明确真实合同准备/审核激活/正式计划、正数两位金额、付款归属、每合同独立金额与来源差异审计。R0–R3交付不变；R4 Doing/G1待冻结、R5–R7 Todo，#101/#57保持Open，本批完成也不能关闭整个R4。

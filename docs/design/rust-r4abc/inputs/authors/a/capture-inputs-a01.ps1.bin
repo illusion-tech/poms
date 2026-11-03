@@ -1,0 +1,138 @@
+$ErrorActionPreference = 'Stop'
+$taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
+$outputRoot = [IO.Path]::GetFullPath($PSScriptRoot)
+if (-not $outputRoot.StartsWith(($taskRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar), [StringComparison]::OrdinalIgnoreCase)) { throw 'Output must stay inside the assigned workspace directory.' }
+$sources = [ordered]@{
+    definition = @(
+        'docs/design/backend-rust-migration-plan.md',
+        'docs/design/api-route-canonical-inventory.md',
+        'docs/adr/015-api-route-canonical-grammar.md',
+        'docs/adr/016-union-request-body-schema-first-modeling.md',
+        'docs/adr/017-admin-web-cookie-session-auth.md',
+        'docs/adr/018-rust-backend-and-sqlx-persistence.md',
+        'docs/design/interface-command-design.md',
+        'docs/design/interface-openapi-dto-design.md',
+        'docs/design/query-view-boundary-design.md',
+        'docs/design/data-model-prerequisites.md',
+        'docs/design/table-structure-freeze-design.md',
+        'docs/design/schema-ddl-design.md',
+        'docs/design/contract-finance-design.md',
+        'docs/design/business-authorization-matrix.md',
+        'docs/design/phase2-presigning-contract-readiness-workspace.md',
+        'docs/design/phase2-presigning-workspace-handoff-map.md'
+    )
+    historical_definition = @('docs/design/archive/slices/ex-15e1-approval-contract-readiness-route-baseline.md')
+    current_implementation = @(
+        'libs/shared/contracts/src/lib/shared-contracts.ts',
+        'libs/api/contracts/src/lib/contract/contract.dto.ts',
+        'libs/shared/api-spec/openapi.json',
+        'libs/shared/api-client/api/contract-readiness.service.ts',
+        'libs/admin/data-access/src/lib/project/project-workspace.store.ts',
+        'apps/poms-admin/src/app/features/project/project-pre-signing-overview.ts',
+        'apps/poms-api/src/app/app.module.ts',
+        'apps/poms-api/src/app/core/auth/auth.module.ts',
+        'apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts',
+        'apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts',
+        'apps/poms-api/src/app/core/auth/guards/permissions.guard.ts',
+        'apps/poms-api/src/app/core/auth/auth-session.service.ts',
+        'apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts',
+        'apps/poms-api/src/app/features/contract/contract.service.ts',
+        'apps/poms-api/src/app/features/contract/contract.repository.ts',
+        'apps/poms-api/src/app/features/contract/contract.entity.ts',
+        'apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts',
+        'apps/poms-api/src/app/features/contract-finance/contract-finance.repository.ts',
+        'apps/poms-api/src/app/features/contract-finance/receipt-record.entity.ts',
+        'apps/poms-api/src/app/features/project-handover/project-handover-query.service.ts',
+        'apps/poms-api/src/app/features/project/project.service.ts',
+        'apps/poms-api/src/app/features/project/project-pricing-margin-review.entity.ts',
+        'apps/poms-api/src/migrations/Migration20260405113000_init_contract_readiness_chain.ts',
+        'apps/poms-api/src/migrations/Migration20260422031100_add_contract_term_snapshot_core_fields.ts',
+        'apps/poms-api/src/migrations/Migration20260322233000_init_contract.ts',
+        'apps/poms-api/src/migrations/Migration20260327170000_init_contract_finance_facts.ts',
+        'apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts',
+        'apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts',
+        'apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts',
+        'apps/poms-api-rust/src/project_technical_cost/service.rs',
+        'apps/poms-api-rust/src/project_technical_cost/store.rs',
+        'apps/poms-api-rust/src/project_bid_commercial/service.rs',
+        'apps/poms-api-rust/src/project_bid_commercial/store.rs',
+        'apps/poms-api-rust/src/project_pricing_margin/service.rs',
+        'apps/poms-api-rust/src/project_pricing_margin/store.rs'
+    )
+    current_test_definition_not_execution = @(
+        'apps/poms-api-e2e/src/poms-api/contract-readiness-workflow.e2e-spec.ts',
+        'apps/poms-api-e2e/src/support/contract-api.ts',
+        'apps/poms-api-e2e/src/support/test-data.ts'
+    )
+}
+$featureRoot = Join-Path $taskRoot 'apps/poms-api/src/app/features/contract-readiness'
+$sources.current_implementation += @(Get-ChildItem -LiteralPath $featureRoot -File | Where-Object { $_.Name -notlike '*.spec.ts' } | ForEach-Object { [IO.Path]::GetRelativePath($taskRoot, $_.FullName).Replace('\','/') })
+$sources.current_test_definition_not_execution += 'apps/poms-api/src/app/features/contract-readiness/contract-readiness.service.spec.ts'
+$generatedModelNames = @(
+    'commercial-release-baseline-summary', 'commercial-release-baseline-status', 'commercial-diff-level', 'commercial-diff-review-status',
+    'commercial-baseline-review-decision', 'commercial-baseline-diff-item', 'commercial-baseline-review-record-summary',
+    'contract-diff-review-history-view', 'contract-readiness-detail', 'contract-readiness-item', 'contract-readiness-status',
+    'contract-readiness-item-type', 'contract-readiness-item-status', 'contract-readiness-guard-decision',
+    'create-commercial-release-baseline-request', 'create-commercial-baseline-diff-item-input',
+    'review-commercial-release-baseline-diff-request', 'create-contract-readiness-package-request',
+    'contract-readiness-package-item-input', 'initialize-contract-snapshot-from-readiness-package-request',
+    'initialize-receivable-plan-from-readiness-package-request', 'commercial-diff-review-result', 'readiness-initialization-result'
+)
+foreach ($modelName in $generatedModelNames) { $sources.current_implementation += "libs/shared/api-client/model/$modelName.ts" }
+$manifest = @()
+foreach ($kind in $sources.Keys) {
+    foreach ($relativePath in $sources[$kind]) {
+        $absolutePath = [IO.Path]::GetFullPath((Join-Path $taskRoot $relativePath))
+        if (-not (Test-Path -LiteralPath $absolutePath -PathType Leaf)) { throw "Missing formal source $relativePath" }
+        $bytes = [IO.File]::ReadAllBytes($absolutePath)
+        $digest = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+        $destination = Join-Path $outputRoot ('source-originals/' + $relativePath + '.raw.bin')
+        if (Test-Path -LiteralPath $destination) { throw "Refusing to replace captured original $destination" }
+        [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination)) | Out-Null
+        [IO.File]::WriteAllBytes($destination, $bytes)
+        $manifest += [ordered]@{ path = $relativePath; kind = $kind; sha256 = $digest; byteLength = $bytes.LongLength; rawOriginal = [IO.Path]::GetRelativePath($outputRoot, $destination).Replace('\','/'); lineCount = [IO.File]::ReadAllLines($absolutePath).Length }
+    }
+}
+$capturedByteLength = 0L
+foreach ($entry in $manifest) { $capturedByteLength += [long]$entry['byteLength'] }
+$manifestDocument = [ordered]@{
+    schemaVersion = 1
+    evidenceClass = 'static-source-capture-only'
+    baselineCommitReportedByRoot = '1730f304c1cf5600721f80b6c06feec24269d387'
+    baselineGitIndependentlyVerifiedByA = $false
+    captureTimeUtc = [DateTimeOffset]::UtcNow.ToString('o')
+    sourceCount = $manifest.Count
+    sourceByteLength = $capturedByteLength
+    sourceFiles = $manifest
+    prohibitedActionsPerformed = @()
+    limitations = @('No Git, GitHub, build, test, HTTP, PostgreSQL, browser, WSL or private evidence access was performed by A.', 'Raw bytes describe the observed working files; Root must compare this manifest with the fixed baseline and joint G1 input.')
+}
+$manifestPath = Join-Path $outputRoot 'source-manifest-a01.json'
+if (Test-Path -LiteralPath $manifestPath) { throw 'Refusing to replace the original source manifest.' }
+[IO.File]::WriteAllText($manifestPath, ($manifestDocument | ConvertTo-Json -Depth 12) + "`n", [Text.UTF8Encoding]::new($false))
+$spec = Get-Content -Raw -LiteralPath (Join-Path $taskRoot 'libs/shared/api-spec/openapi.json') | ConvertFrom-Json -AsHashtable
+$operations = @()
+$schemaNames = [Collections.Generic.HashSet[string]]::new()
+function Add-SchemaReferences([object]$node) {
+    if ($node -is [Collections.IDictionary]) {
+        if ($node.Contains('$ref') -and $node['$ref'] -like '#/components/schemas/*') {
+            $name = $node['$ref'].Substring('#/components/schemas/'.Length)
+            if ($schemaNames.Add($name)) { Add-SchemaReferences $spec.components.schemas[$name] }
+        }
+        foreach ($value in $node.Values) { Add-SchemaReferences $value }
+    } elseif ($node -is [Collections.IEnumerable] -and $node -isnot [string]) { foreach ($value in $node) { Add-SchemaReferences $value } }
+}
+foreach ($path in $spec.paths.Keys) {
+    foreach ($method in $spec.paths[$path].Keys) {
+        $operation = $spec.paths[$path][$method]
+        if ($operation.tags -contains 'ContractReadiness') {
+            $operations += [ordered]@{ method = $method.ToUpperInvariant(); path = $path; operation = $operation }
+            Add-SchemaReferences $operation
+        }
+    }
+}
+$schemaClosure = [ordered]@{}
+foreach ($name in @($schemaNames | Sort-Object)) { $schemaClosure[$name] = $spec.components.schemas[$name] }
+$surface = [ordered]@{ evidenceClass = 'static-openapi-source-extraction'; operationCount = $operations.Count; uniqueMethodPathCount = @($operations | ForEach-Object { $_.method + ' ' + $_.path } | Select-Object -Unique).Count; uniqueOperationIdCount = @($operations | ForEach-Object { $_.operation.operationId } | Select-Object -Unique).Count; operations = $operations; transitiveSchemaCount = $schemaClosure.Count; schemas = $schemaClosure; caveat = 'JSON Schema/OpenAPI source only; this is not HTTP execution or runtime schema validation. Zod-only trim/default/refinement semantics must also be read from shared-contracts.ts.' }
+[IO.File]::WriteAllText((Join-Path $outputRoot 'surface-a01.json'), ($surface | ConvertTo-Json -Depth 80) + "`n", [Text.UTF8Encoding]::new($false))
+[ordered]@{ sourceCount = $manifest.Count; sourceByteLength = $manifestDocument.sourceByteLength; operationCount = $operations.Count; schemaCount = $schemaClosure.Count } | ConvertTo-Json

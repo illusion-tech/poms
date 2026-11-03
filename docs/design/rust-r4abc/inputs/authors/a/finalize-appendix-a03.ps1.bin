@@ -1,0 +1,25 @@
+$ErrorActionPreference = 'Stop'
+$outputRoot = [IO.Path]::GetFullPath($PSScriptRoot)
+$priorPath = Join-Path $outputRoot 'package-manifest-a01.json'
+$prior = Get-Content -Raw -LiteralPath $priorPath | ConvertFrom-Json -AsHashtable
+$mismatches = @()
+foreach ($entry in $prior.artifactFiles) {
+    $filePath = Join-Path $outputRoot $entry.path
+    $bytes = [IO.File]::ReadAllBytes($filePath)
+    $sha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+    if ($sha -ne $entry.sha256 -or $bytes.LongLength -ne $entry.byteLength) { $mismatches += $entry.path }
+}
+$null = Get-Content -Raw -LiteralPath (Join-Path $outputRoot 'root-protocol-addendum-a03.json') | ConvertFrom-Json -AsHashtable
+$priorSha = (Get-FileHash -LiteralPath $priorPath -Algorithm SHA256).Hash.ToLowerInvariant()
+$proof = [ordered]@{evidenceClass='static-append-only-integrity';timeUtc=[DateTimeOffset]::UtcNow.ToString('o');priorPackage='package-manifest-a01.json';priorPackageSha256=$priorSha;priorArtifactCount=$prior.artifactFiles.Count;priorArtifactMismatchCount=$mismatches.Count;priorArtifactMismatches=$mismatches;addendumJsonParse='parsed only; not case execution';runtimeExecuted=@()}
+if ($mismatches.Count -gt 0) { throw 'A prior sealed artifact changed.' }
+[IO.File]::WriteAllText((Join-Path $outputRoot 'appendix-verification-a03.json'), ($proof | ConvertTo-Json -Depth 8) + "`n", [Text.UTF8Encoding]::new($false))
+$newFiles=@()
+foreach ($name in @('root-protocol-addendum-a03.md','root-protocol-addendum-a03.json','finalize-appendix-a03.ps1','appendix-verification-a03.json')) {
+    $filePath=Join-Path $outputRoot $name
+    $bytes=[IO.File]::ReadAllBytes($filePath)
+    $newFiles += [ordered]@{path=$name;sha256=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant();byteLength=$bytes.LongLength}
+}
+$package=[ordered]@{schemaVersion=2;evidenceClass='G1-candidate-append-only-package';owner='A';issue=103;stageIssue=101;batchIssue=102;timeUtc=[DateTimeOffset]::UtcNow.ToString('o');previousPackage='package-manifest-a01.json';previousPackageSha256=$priorSha;previousArtifactsUnchanged=$true;sourceManifest='source-manifest-a02.json';rawSourceCount=92;rawSourceByteLength=3087565;activeInputs=@('audit-a02.md','audit-a02.json','root-protocol-addendum-a03.md','root-protocol-addendum-a03.json');precedence='Root protocol addendum a03 overrides only conflicting proposal text in sealed a02; no source/old package rewrite';pureCaseBase='cases-a01.json';pureCaseOverlay='root-protocol-addendum-a03.json';pureSqlProbes='probes-a01.sql';appendedFiles=$newFiles;runtimeExecuted=@();gate='Candidate only; Root shared protocol freeze and independent/online G1 remain required.'}
+[IO.File]::WriteAllText((Join-Path $outputRoot 'package-manifest-a02.json'), ($package | ConvertTo-Json -Depth 12) + "`n", [Text.UTF8Encoding]::new($false))
+[ordered]@{package='package-manifest-a02.json';sha256=(Get-FileHash -LiteralPath (Join-Path $outputRoot 'package-manifest-a02.json') -Algorithm SHA256).Hash.ToLowerInvariant();byteLength=(Get-Item -LiteralPath (Join-Path $outputRoot 'package-manifest-a02.json')).Length;priorPackageSha256=$priorSha;priorArtifactMismatchCount=$mismatches.Count;appendedFiles=$newFiles} | ConvertTo-Json -Depth 8

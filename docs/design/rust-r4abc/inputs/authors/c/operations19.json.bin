@@ -1,0 +1,787 @@
+{
+  "schema": "poms-r4c-operations/v1",
+  "scope": "C 19 existing public HTTP operations",
+  "sourceManifest": "source-manifest01.json",
+  "totalOperations": 19,
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_listReceipts",
+      "controllerMethod": "listReceipts",
+      "canonicalPathWithoutApiPrefix": "/contracts/{contractId}/receipt-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": false,
+      "bodySchemaRef": null,
+      "parameters": [
+        {
+          "name": "contractId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_createReceipt",
+      "controllerMethod": "createReceipt",
+      "canonicalPathWithoutApiPrefix": "/contracts/{contractId}/receipt-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/CreateReceiptRecordRequest",
+      "parameters": [
+        {
+          "name": "contractId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "controllerMethod": "confirmReceipt",
+      "canonicalPathWithoutApiPrefix": "/receipt-records/{id}:confirm",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/ConfirmReceiptRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_listPayables",
+      "controllerMethod": "listPayables",
+      "canonicalPathWithoutApiPrefix": "/projects/{projectId}/payable-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": false,
+      "bodySchemaRef": null,
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_createPayable",
+      "controllerMethod": "createPayable",
+      "canonicalPathWithoutApiPrefix": "/projects/{projectId}/payable-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/CreatePayableRecordRequest",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_getPayable",
+      "controllerMethod": "getPayable",
+      "canonicalPathWithoutApiPrefix": "/payable-records/{id}",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": false,
+      "bodySchemaRef": null,
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordDetailView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_updatePayable",
+      "controllerMethod": "updatePayable",
+      "canonicalPathWithoutApiPrefix": "/payable-records/{id}",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/UpdatePayableRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/payable-records/{id}:close",
+      "operationId": "ContractFinanceController_closePayable",
+      "controllerMethod": "closePayable",
+      "canonicalPathWithoutApiPrefix": "/payable-records/{id}:close",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/ClosePayableRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/payable-records/{id}:void",
+      "operationId": "ContractFinanceController_voidPayable",
+      "controllerMethod": "voidPayable",
+      "canonicalPathWithoutApiPrefix": "/payable-records/{id}:void",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/VoidPayableRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_listInvoices",
+      "controllerMethod": "listInvoices",
+      "canonicalPathWithoutApiPrefix": "/projects/{projectId}/invoice-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": false,
+      "bodySchemaRef": null,
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_createInvoice",
+      "controllerMethod": "createInvoice",
+      "canonicalPathWithoutApiPrefix": "/projects/{projectId}/invoice-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/CreateInvoiceRecordRequest",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_getInvoice",
+      "controllerMethod": "getInvoice",
+      "canonicalPathWithoutApiPrefix": "/invoice-records/{id}",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": false,
+      "bodySchemaRef": null,
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordDetailView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_updateInvoice",
+      "controllerMethod": "updateInvoice",
+      "canonicalPathWithoutApiPrefix": "/invoice-records/{id}",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/UpdateInvoiceRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:markException",
+      "operationId": "ContractFinanceController_markInvoiceException",
+      "controllerMethod": "markInvoiceException",
+      "canonicalPathWithoutApiPrefix": "/invoice-records/{id}:markException",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/MarkInvoiceExceptionRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:resolveException",
+      "operationId": "ContractFinanceController_resolveInvoiceException",
+      "controllerMethod": "resolveInvoiceException",
+      "canonicalPathWithoutApiPrefix": "/invoice-records/{id}:resolveException",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/ResolveInvoiceExceptionRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:close",
+      "operationId": "ContractFinanceController_closeInvoiceRecord",
+      "controllerMethod": "closeInvoiceRecord",
+      "canonicalPathWithoutApiPrefix": "/invoice-records/{id}:close",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/CloseInvoiceRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_listPayments",
+      "controllerMethod": "listPayments",
+      "canonicalPathWithoutApiPrefix": "/projects/{projectId}/payment-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": false,
+      "bodySchemaRef": null,
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_createPayment",
+      "controllerMethod": "createPayment",
+      "canonicalPathWithoutApiPrefix": "/projects/{projectId}/payment-records",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/CreatePaymentRecordRequest",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/payment-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmPayment",
+      "controllerMethod": "confirmPayment",
+      "canonicalPathWithoutApiPrefix": "/payment-records/{id}:confirm",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLines": "docs/design/api-route-canonical-inventory.md:251-269",
+      "permission": "contract:finance:manage",
+      "cookieSession": true,
+      "csrfRequired": true,
+      "bodySchemaRef": "#/components/schemas/ConfirmPaymentRecordRequest",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "evidenceClass": "new-static-extraction-not-HTTP-observation"
+    }
+  ]
+}

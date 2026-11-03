@@ -1,0 +1,29 @@
+$ErrorActionPreference = 'Stop'
+$taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
+$outputRoot = [IO.Path]::GetFullPath($PSScriptRoot)
+$priorPath = Join-Path $outputRoot 'source-manifest-a01.json'
+$prior = Get-Content -Raw -LiteralPath $priorPath | ConvertFrom-Json -AsHashtable
+$files = @($prior.sourceFiles)
+$additionalPaths = @(
+    'apps/poms-api/src/app/features/approval/approval.service.ts',
+    'apps/poms-api/src/app/features/approval/approval-record.entity.ts',
+    'apps/poms-api-rust/src/approval/domain.rs',
+    'apps/poms-api-rust/src/approval_common/service.rs',
+    'apps/poms-api-rust/src/approval_common/model.rs',
+    'docs/design/phase2-presigning-pricing-margin-workspace.md'
+)
+foreach ($relativePath in $additionalPaths) {
+    $absolutePath = [IO.Path]::GetFullPath((Join-Path $taskRoot $relativePath))
+    $bytes = [IO.File]::ReadAllBytes($absolutePath)
+    $destination = [IO.Path]::GetFullPath((Join-Path $outputRoot ('source-originals/' + $relativePath + '.raw.bin')))
+    if (-not $destination.StartsWith(($outputRoot + [IO.Path]::DirectorySeparatorChar), [StringComparison]::OrdinalIgnoreCase)) { throw 'Invalid output path.' }
+    if (Test-Path -LiteralPath $destination) { throw 'Refusing to replace prior captured bytes.' }
+    [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination)) | Out-Null
+    [IO.File]::WriteAllBytes($destination, $bytes)
+    $files += [ordered]@{ path = $relativePath; kind = $(if ($relativePath.StartsWith('docs/')) { 'definition' } else { 'current_implementation' }); sha256 = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant(); byteLength = $bytes.LongLength; rawOriginal = [IO.Path]::GetRelativePath($outputRoot, $destination).Replace('\','/'); lineCount = [IO.File]::ReadAllLines($absolutePath).Length }
+}
+$totalBytes = 0L
+foreach ($entry in $files) { $totalBytes += [long]$entry['byteLength'] }
+$document = [ordered]@{ schemaVersion = 2; evidenceClass = 'static-source-capture-only'; baselineCommitReportedByRoot = $prior.baselineCommitReportedByRoot; baselineGitIndependentlyVerifiedByA = $false; captureTimeUtc = [DateTimeOffset]::UtcNow.ToString('o'); priorManifest = 'source-manifest-a01.json'; priorManifestSha256 = (Get-FileHash -LiteralPath $priorPath -Algorithm SHA256).Hash.ToLowerInvariant(); correction = 'a01 per-file byte lengths were valid; dictionary aggregation produced null total. a02 recomputes total explicitly and adds six later-read sources; a01 raw evidence is preserved.'; sourceCount = $files.Count; sourceByteLength = $totalBytes; sourceFiles = $files; limitations = $prior.limitations }
+[IO.File]::WriteAllText((Join-Path $outputRoot 'source-manifest-a02.json'), ($document | ConvertTo-Json -Depth 14) + "`n", [Text.UTF8Encoding]::new($false))
+[ordered]@{ sourceCount = $files.Count; sourceByteLength = $totalBytes; addedSourceCount = $additionalPaths.Count } | ConvertTo-Json

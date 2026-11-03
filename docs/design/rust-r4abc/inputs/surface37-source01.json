@@ -1,0 +1,4855 @@
+{
+  "kind": "R4-first37-current-AST-spec-canonical-join",
+  "evidenceClass": "static-input-only",
+  "base": "1730f304c1cf5600721f80b6c06feec24269d387",
+  "branch": "codex/poms-r4abc-first37",
+  "createdAt": "2026-11-03T05:29:01.325Z",
+  "counts": {
+    "A": 9,
+    "B": 9,
+    "C": 19,
+    "total": 37,
+    "existingRust": 173,
+    "overlap": 0,
+    "newToRust": 37,
+    "transitiveSchemas": 75
+  },
+  "sourcePins": [
+    {
+      "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "bytes": 5540,
+      "rawBytesSha256": "57b648c14e573ca788a40a97b782d107f71112e57eaaf8f2e55c9b9f4b890cbf"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "bytes": 14097,
+      "rawBytesSha256": "453dbb75dd5c981a8d8ddbdd3047a17516d1b6630310333a4c090cbd7a000416"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract/contract-term-snapshot.controller.ts",
+      "bytes": 2063,
+      "rawBytesSha256": "3e069a4875437013442aa0ada5de147b0fd289873194c7b3b4820924e824242f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "bytes": 9325,
+      "rawBytesSha256": "32228aaf373a31f26ec908df7f4447652726b37e962c9421cf22886fc28f39b8"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1129410,
+      "rawBytesSha256": "ea52612847ee2204c78e72979a798698d950f8486da667d8427111aea7c8e40a"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 172058,
+      "rawBytesSha256": "dbe968cf522ab653e69637b21bab1229d3fb10fd13f7b3b3d468b6534f56b5f4"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r3m/evidence/integrity01/rust-openapi-stdout-original.bin",
+      "bytes": 1011717,
+      "rawBytesSha256": "0e31ba312e3a939a6513d0dbf6f44a66394d54b5ff8fabb9c1ba0c86231b5adc"
+    }
+  ],
+  "operations": [
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "POST",
+      "path": "/api/commercial-release-baselines",
+      "key": "POST /commercial-release-baselines",
+      "operationId": "ContractReadinessController_createCommercialReleaseBaseline",
+      "controller": "ContractReadinessController",
+      "handler": "createCommercialReleaseBaseline",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 25,
+      "canonical": {
+        "line": 138,
+        "domain": "contract-readiness",
+        "capability": "createCommercialReleaseBaseline",
+        "key": "POST /commercial-release-baselines",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateCommercialReleaseBaselineRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommercialReleaseBaselineSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}",
+      "key": "GET /commercial-release-baselines/{id}",
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "controller": "ContractReadinessController",
+      "handler": "getCommercialReleaseBaseline",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 33,
+      "canonical": {
+        "line": 139,
+        "domain": "contract-readiness",
+        "capability": "getCommercialReleaseBaseline",
+        "key": "GET /commercial-release-baselines/{id}",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommercialReleaseBaselineSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}/diff-history",
+      "key": "GET /commercial-release-baselines/{id}/diff-history",
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "controller": "ContractReadinessController",
+      "handler": "getDiffHistory",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 41,
+      "canonical": {
+        "line": 140,
+        "domain": "contract-readiness",
+        "capability": "getCommercialReleaseBaselineDiffHistory",
+        "key": "GET /commercial-release-baselines/{id}/diff-history",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractDiffReviewHistoryView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "key": "POST /commercial-release-baselines/{id}:reviewDiff",
+      "operationId": "ContractReadinessController_reviewDiff",
+      "controller": "ContractReadinessController",
+      "handler": "reviewDiff",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 49,
+      "canonical": {
+        "line": 141,
+        "domain": "contract-readiness",
+        "capability": "reviewCommercialReleaseBaselineDiff",
+        "key": "POST /commercial-release-baselines/{id}:reviewDiff",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReviewCommercialReleaseBaselineDiffRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommercialDiffReviewResult"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "key": "POST /contract-readiness-packages",
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "controller": "ContractReadinessController",
+      "handler": "createContractReadinessPackage",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 58,
+      "canonical": {
+        "line": 142,
+        "domain": "contract-readiness",
+        "capability": "createContractReadinessPackage",
+        "key": "POST /contract-readiness-packages",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateContractReadinessPackageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractReadinessDetail"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "GET",
+      "path": "/api/contract-readiness-packages/{id}",
+      "key": "GET /contract-readiness-packages/{id}",
+      "operationId": "ContractReadinessController_getContractReadinessPackage",
+      "controller": "ContractReadinessController",
+      "handler": "getContractReadinessPackage",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 66,
+      "canonical": {
+        "line": 143,
+        "domain": "contract-readiness",
+        "capability": "getContractReadinessPackage",
+        "key": "GET /contract-readiness-packages/{id}",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractReadinessDetail"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-readiness",
+      "key": "GET /projects/{projectId}/contract-readiness",
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "controller": "ContractReadinessController",
+      "handler": "getCurrentContractReadiness",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 74,
+      "canonical": {
+        "line": 144,
+        "domain": "contract-readiness",
+        "capability": "getProjectContractReadiness",
+        "key": "GET /projects/{projectId}/contract-readiness",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractReadinessDetail"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "key": "POST /contract-readiness-packages/{id}:initializeContractSnapshot",
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "controller": "ContractReadinessController",
+      "handler": "initializeContractSnapshot",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 82,
+      "canonical": {
+        "line": 145,
+        "domain": "contract-readiness",
+        "capability": "initializeContractTermSnapshotFromReadinessPackage",
+        "key": "POST /contract-readiness-packages/{id}:initializeContractSnapshot",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InitializeContractSnapshotFromReadinessPackageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadinessInitializationResult"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "A",
+      "issue": 103,
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+      "key": "POST /contract-readiness-packages/{id}:initializeReceivablePlan",
+      "operationId": "ContractReadinessController_initializeReceivablePlan",
+      "controller": "ContractReadinessController",
+      "handler": "initializeReceivablePlan",
+      "controllerFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+      "controllerLine": 91,
+      "canonical": {
+        "line": 146,
+        "domain": "contract-readiness",
+        "capability": "initializeReceivablePlanFromReadinessPackage",
+        "key": "POST /contract-readiness-packages/{id}:initializeReceivablePlan",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InitializeReceivablePlanFromReadinessPackageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadinessInitializationResult"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "GET",
+      "path": "/api/contracts",
+      "key": "GET /contracts",
+      "operationId": "ContractController_list",
+      "controller": "ContractController",
+      "handler": "list",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 40,
+      "canonical": {
+        "line": 516,
+        "domain": "contract",
+        "capability": "listContracts",
+        "key": "GET /contracts",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": false,
+          "in": "query",
+          "schema": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          }
+        },
+        {
+          "name": "status",
+          "required": false,
+          "in": "query",
+          "schema": {
+            "$ref": "#/components/schemas/ContractStatus"
+          }
+        },
+        {
+          "name": "keyword",
+          "required": false,
+          "in": "query",
+          "schema": {
+            "minLength": 1,
+            "maxLength": 128,
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "GET",
+      "path": "/api/contracts/{id}",
+      "key": "GET /contracts/{id}",
+      "operationId": "ContractController_getById",
+      "controller": "ContractController",
+      "handler": "getById",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 60,
+      "canonical": {
+        "line": 227,
+        "domain": "contract",
+        "capability": "getContract",
+        "key": "GET /contracts/{id}",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractDetailView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "GET",
+      "path": "/api/contracts/{id}/approval-record",
+      "key": "GET /contracts/{id}/approval-record",
+      "operationId": "ContractController_getCurrentApproval",
+      "controller": "ContractController",
+      "handler": "getCurrentApproval",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 74,
+      "canonical": {
+        "line": 224,
+        "domain": "contract",
+        "capability": "getContractApprovalRecord",
+        "key": "GET /contracts/{id}/approval-record",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "POST",
+      "path": "/api/contracts",
+      "key": "POST /contracts",
+      "operationId": "ContractController_create",
+      "controller": "ContractController",
+      "handler": "create",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 87,
+      "canonical": {
+        "line": 517,
+        "domain": "contract",
+        "capability": "createContract",
+        "key": "POST /contracts",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateContractRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "PATCH",
+      "path": "/api/contracts/{id}",
+      "key": "PATCH /contracts/{id}",
+      "operationId": "ContractController_updateBasicInfo",
+      "controller": "ContractController",
+      "handler": "updateBasicInfo",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 108,
+      "canonical": {
+        "line": 225,
+        "domain": "contract",
+        "capability": "updateContract",
+        "key": "PATCH /contracts/{id}",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateContractBasicInfoRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "POST",
+      "path": "/api/contracts/{id}:submitReview",
+      "key": "POST /contracts/{id}:submitReview",
+      "operationId": "ContractController_submitReview",
+      "controller": "ContractController",
+      "handler": "submitReview",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 126,
+      "canonical": {
+        "line": 226,
+        "domain": "contract",
+        "capability": "submitContractReview",
+        "key": "POST /contracts/{id}:submitReview",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SubmitContractReviewRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandResult"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "POST",
+      "path": "/api/contracts/{id}:activate",
+      "key": "POST /contracts/{id}:activate",
+      "operationId": "ContractController_activate",
+      "controller": "ContractController",
+      "handler": "activate",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 135,
+      "canonical": {
+        "line": 229,
+        "domain": "contract",
+        "capability": "activateContract",
+        "key": "POST /contracts/{id}:activate",
+        "status": "aligned"
+      },
+      "permission": "project:write",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ActivateContractRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandResult"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "GET",
+      "path": "/api/contracts:lookup",
+      "key": "GET /contracts:lookup",
+      "operationId": "ContractController_getByNo",
+      "controller": "ContractLookupController",
+      "handler": "getByNo",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+      "controllerLine": 156,
+      "canonical": {
+        "line": 518,
+        "domain": "contract",
+        "capability": "getContractByNumber",
+        "key": "GET /contracts:lookup",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "contractNo",
+          "required": true,
+          "in": "query",
+          "schema": {
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractDetailView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "issue": 104,
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/{id}",
+      "key": "GET /contract-term-snapshots/{id}",
+      "operationId": "ContractTermSnapshotController_getById",
+      "controller": "ContractTermSnapshotController",
+      "handler": "getById",
+      "controllerFile": "apps/poms-api/src/app/features/contract/contract-term-snapshot.controller.ts",
+      "controllerLine": 21,
+      "canonical": {
+        "line": 228,
+        "domain": "contract",
+        "capability": "getContractTermSnapshot",
+        "key": "GET /contract-term-snapshots/{id}",
+        "status": "aligned"
+      },
+      "permission": "project:read",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractTermSnapshotSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "key": "GET /contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_listReceipts",
+      "controller": "ContractFinanceController",
+      "handler": "listReceipts",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 38,
+      "canonical": {
+        "line": 251,
+        "domain": "contract-finance",
+        "capability": "listReceiptRecords",
+        "key": "GET /contracts/{contractId}/receipt-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "contractId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "key": "POST /contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_createReceipt",
+      "controller": "ContractFinanceController",
+      "handler": "createReceipt",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 46,
+      "canonical": {
+        "line": 252,
+        "domain": "contract-finance",
+        "capability": "createReceiptRecord",
+        "key": "POST /contracts/{contractId}/receipt-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "contractId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateReceiptRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "key": "POST /receipt-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "controller": "ContractFinanceController",
+      "handler": "confirmReceipt",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 54,
+      "canonical": {
+        "line": 253,
+        "domain": "contract-finance",
+        "capability": "confirmReceiptRecord",
+        "key": "POST /receipt-records/{id}:confirm",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmReceiptRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payable-records",
+      "key": "GET /projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_listPayables",
+      "controller": "ContractFinanceController",
+      "handler": "listPayables",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 63,
+      "canonical": {
+        "line": 254,
+        "domain": "contract-finance",
+        "capability": "listPayableRecords",
+        "key": "GET /projects/{projectId}/payable-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "GET",
+      "path": "/api/payable-records/{id}",
+      "key": "GET /payable-records/{id}",
+      "operationId": "ContractFinanceController_getPayable",
+      "controller": "ContractFinanceController",
+      "handler": "getPayable",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 71,
+      "canonical": {
+        "line": 255,
+        "domain": "contract-finance",
+        "capability": "getPayableRecord",
+        "key": "GET /payable-records/{id}",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordDetailView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payable-records",
+      "key": "POST /projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_createPayable",
+      "controller": "ContractFinanceController",
+      "handler": "createPayable",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 79,
+      "canonical": {
+        "line": 256,
+        "domain": "contract-finance",
+        "capability": "createPayableRecord",
+        "key": "POST /projects/{projectId}/payable-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreatePayableRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "PATCH",
+      "path": "/api/payable-records/{id}",
+      "key": "PATCH /payable-records/{id}",
+      "operationId": "ContractFinanceController_updatePayable",
+      "controller": "ContractFinanceController",
+      "handler": "updatePayable",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 87,
+      "canonical": {
+        "line": 257,
+        "domain": "contract-finance",
+        "capability": "updatePayableRecord",
+        "key": "PATCH /payable-records/{id}",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdatePayableRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/payable-records/{id}:close",
+      "key": "POST /payable-records/{id}:close",
+      "operationId": "ContractFinanceController_closePayable",
+      "controller": "ContractFinanceController",
+      "handler": "closePayable",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 95,
+      "canonical": {
+        "line": 258,
+        "domain": "contract-finance",
+        "capability": "closePayableRecord",
+        "key": "POST /payable-records/{id}:close",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ClosePayableRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/payable-records/{id}:void",
+      "key": "POST /payable-records/{id}:void",
+      "operationId": "ContractFinanceController_voidPayable",
+      "controller": "ContractFinanceController",
+      "handler": "voidPayable",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 104,
+      "canonical": {
+        "line": 259,
+        "domain": "contract-finance",
+        "capability": "voidPayableRecord",
+        "key": "POST /payable-records/{id}:void",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/VoidPayableRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayableRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "key": "GET /projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_listInvoices",
+      "controller": "ContractFinanceController",
+      "handler": "listInvoices",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 113,
+      "canonical": {
+        "line": 260,
+        "domain": "contract-finance",
+        "capability": "listInvoiceRecords",
+        "key": "GET /projects/{projectId}/invoice-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "GET",
+      "path": "/api/invoice-records/{id}",
+      "key": "GET /invoice-records/{id}",
+      "operationId": "ContractFinanceController_getInvoice",
+      "controller": "ContractFinanceController",
+      "handler": "getInvoice",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 121,
+      "canonical": {
+        "line": 261,
+        "domain": "contract-finance",
+        "capability": "getInvoiceRecord",
+        "key": "GET /invoice-records/{id}",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordDetailView"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "key": "POST /projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_createInvoice",
+      "controller": "ContractFinanceController",
+      "handler": "createInvoice",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 129,
+      "canonical": {
+        "line": 262,
+        "domain": "contract-finance",
+        "capability": "createInvoiceRecord",
+        "key": "POST /projects/{projectId}/invoice-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateInvoiceRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "PATCH",
+      "path": "/api/invoice-records/{id}",
+      "key": "PATCH /invoice-records/{id}",
+      "operationId": "ContractFinanceController_updateInvoice",
+      "controller": "ContractFinanceController",
+      "handler": "updateInvoice",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 137,
+      "canonical": {
+        "line": 263,
+        "domain": "contract-finance",
+        "capability": "updateInvoiceRecord",
+        "key": "PATCH /invoice-records/{id}",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateInvoiceRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:markException",
+      "key": "POST /invoice-records/{id}:markException",
+      "operationId": "ContractFinanceController_markInvoiceException",
+      "controller": "ContractFinanceController",
+      "handler": "markInvoiceException",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 145,
+      "canonical": {
+        "line": 264,
+        "domain": "contract-finance",
+        "capability": "markInvoiceException",
+        "key": "POST /invoice-records/{id}:markException",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MarkInvoiceExceptionRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:resolveException",
+      "key": "POST /invoice-records/{id}:resolveException",
+      "operationId": "ContractFinanceController_resolveInvoiceException",
+      "controller": "ContractFinanceController",
+      "handler": "resolveInvoiceException",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 154,
+      "canonical": {
+        "line": 265,
+        "domain": "contract-finance",
+        "capability": "resolveInvoiceException",
+        "key": "POST /invoice-records/{id}:resolveException",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ResolveInvoiceExceptionRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:close",
+      "key": "POST /invoice-records/{id}:close",
+      "operationId": "ContractFinanceController_closeInvoiceRecord",
+      "controller": "ContractFinanceController",
+      "handler": "closeInvoiceRecord",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 163,
+      "canonical": {
+        "line": 266,
+        "domain": "contract-finance",
+        "capability": "closeInvoiceRecord",
+        "key": "POST /invoice-records/{id}:close",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CloseInvoiceRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payment-records",
+      "key": "GET /projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_listPayments",
+      "controller": "ContractFinanceController",
+      "handler": "listPayments",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 172,
+      "canonical": {
+        "line": 267,
+        "domain": "contract-finance",
+        "capability": "listPaymentRecords",
+        "key": "GET /projects/{projectId}/payment-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRecordList"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payment-records",
+      "key": "POST /projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_createPayment",
+      "controller": "ContractFinanceController",
+      "handler": "createPayment",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 180,
+      "canonical": {
+        "line": 268,
+        "domain": "contract-finance",
+        "capability": "createPaymentRecord",
+        "key": "POST /projects/{projectId}/payment-records",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreatePaymentRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "issue": 105,
+      "method": "POST",
+      "path": "/api/payment-records/{id}:confirm",
+      "key": "POST /payment-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmPayment",
+      "controller": "ContractFinanceController",
+      "handler": "confirmPayment",
+      "controllerFile": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+      "controllerLine": 188,
+      "canonical": {
+        "line": 269,
+        "domain": "contract-finance",
+        "capability": "confirmPaymentRecord",
+        "key": "POST /payment-records/{id}:confirm",
+        "status": "aligned"
+      },
+      "permission": "contract:finance:manage",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmPaymentRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ]
+    }
+  ],
+  "schemas": {
+    "ActivateContractRequest": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "ApprovalDecision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "rejected"
+      ]
+    },
+    "ApprovalRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "approvalType": {
+          "$ref": "#/components/schemas/ApprovalType"
+        },
+        "businessDomain": {
+          "$ref": "#/components/schemas/BusinessDomain"
+        },
+        "targetObjectType": {
+          "$ref": "#/components/schemas/TargetObjectType"
+        },
+        "targetObjectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "currentStatus": {
+          "$ref": "#/components/schemas/ApprovalStatus"
+        },
+        "currentNodeKey": {
+          "type": "string"
+        },
+        "currentNodeName": {
+          "type": "string",
+          "nullable": true
+        },
+        "initiatorUserId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "currentApproverUserId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "decision": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ApprovalDecision"
+            }
+          ],
+          "nullable": true
+        },
+        "decisionComment": {
+          "type": "string",
+          "nullable": true
+        },
+        "targetTitle": {
+          "type": "string",
+          "nullable": true
+        },
+        "targetStatus": {
+          "type": "string",
+          "nullable": true
+        },
+        "submittedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "decidedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "closedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "approvalType",
+        "businessDomain",
+        "targetObjectType",
+        "targetObjectId",
+        "projectId",
+        "currentStatus",
+        "currentNodeKey",
+        "currentNodeName",
+        "initiatorUserId",
+        "currentApproverUserId",
+        "decision",
+        "decisionComment",
+        "targetTitle",
+        "targetStatus",
+        "submittedAt",
+        "decidedAt",
+        "closedAt",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ApprovalStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    },
+    "ApprovalType": {
+      "type": "string",
+      "enum": [
+        "contract-review",
+        "commission-payout-approval",
+        "commission-adjustment-approval"
+      ]
+    },
+    "BusinessDomain": {
+      "type": "string",
+      "enum": [
+        "contract-finance",
+        "commission",
+        "sales",
+        "project-handover"
+      ]
+    },
+    "CloseInvoiceRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "ClosePayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "CommandResult": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetType": {
+          "type": "string"
+        },
+        "resultStatus": {
+          "type": "string"
+        },
+        "businessStatusAfter": {
+          "type": "string"
+        },
+        "approvalRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "confirmationRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "todoItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "snapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "targetId",
+        "targetType",
+        "resultStatus",
+        "businessStatusAfter",
+        "approvalRecordId",
+        "confirmationRecordId",
+        "todoItemIds"
+      ]
+    },
+    "CommercialBaselineDiffItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "fieldKey": {
+          "type": "string"
+        },
+        "fieldLabel": {
+          "type": "string"
+        },
+        "oldValueSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "newValueSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "isBlocking": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "id",
+        "fieldKey",
+        "fieldLabel",
+        "oldValueSummary",
+        "newValueSummary",
+        "diffLevel",
+        "isBlocking",
+        "sortOrder"
+      ]
+    },
+    "CommercialBaselineReviewDecision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "rejected"
+      ]
+    },
+    "CommercialBaselineReviewHistory": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CommercialBaselineReviewRecordSummary"
+      }
+    },
+    "CommercialBaselineReviewRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "baselineId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "diffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "decision": {
+          "$ref": "#/components/schemas/CommercialBaselineReviewDecision"
+        },
+        "reviewedFieldKeys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "type": "string",
+          "nullable": true
+        },
+        "reviewerUserId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "baselineId",
+        "diffResultId",
+        "projectId",
+        "decision",
+        "reviewedFieldKeys",
+        "comment",
+        "reviewerUserId",
+        "createdAt"
+      ]
+    },
+    "CommercialDiffLevel": {
+      "type": "string",
+      "enum": [
+        "prompt",
+        "review-required",
+        "reapproval-required"
+      ]
+    },
+    "CommercialDiffReviewResult": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "diffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "baselineReviewDecision": {
+          "$ref": "#/components/schemas/CommercialBaselineReviewDecision"
+        },
+        "resultStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "targetId",
+        "diffResultId",
+        "baselineReviewDecision",
+        "resultStatus"
+      ]
+    },
+    "CommercialDiffReviewStatus": {
+      "type": "string",
+      "enum": [
+        "not-required",
+        "pending-review",
+        "approved",
+        "rejected"
+      ]
+    },
+    "CommercialReleaseBaselineStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "effective",
+        "superseded"
+      ]
+    },
+    "CommercialReleaseBaselineSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "baselineCode": {
+          "type": "string"
+        },
+        "quotationReviewId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "baselineStatus": {
+          "$ref": "#/components/schemas/CommercialReleaseBaselineStatus"
+        },
+        "isCurrent": {
+          "type": "boolean"
+        },
+        "grossMarginSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "paymentTermsSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountTaxInclusive": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountTaxExclusive": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxRate": {
+          "type": "string",
+          "nullable": true
+        },
+        "downPaymentRate": {
+          "type": "string",
+          "nullable": true
+        },
+        "retentionRate": {
+          "type": "string",
+          "nullable": true
+        },
+        "paymentTerms": {
+          "type": "string",
+          "nullable": true
+        },
+        "latestDiffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "reviewStatus": {
+          "$ref": "#/components/schemas/CommercialDiffReviewStatus"
+        },
+        "diffSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "baselineCode",
+        "quotationReviewId",
+        "baselineStatus",
+        "isCurrent",
+        "grossMarginSummary",
+        "paymentTermsSummary",
+        "amountTaxInclusive",
+        "amountTaxExclusive",
+        "taxRate",
+        "downPaymentRate",
+        "retentionRate",
+        "paymentTerms",
+        "latestDiffResultId",
+        "diffLevel",
+        "reviewStatus",
+        "diffSummary",
+        "rowVersion",
+        "createdAt",
+        "createdBy",
+        "updatedAt",
+        "updatedBy"
+      ]
+    },
+    "ConfirmPaymentRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "ConfirmReceiptRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "ContractDetailView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string",
+          "nullable": true
+        },
+        "contractNo": {
+          "type": "string"
+        },
+        "customerContractNo": {
+          "type": "string",
+          "nullable": true
+        },
+        "status": {
+          "$ref": "#/components/schemas/ContractStatus"
+        },
+        "signedAmountProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "currencyCode": {
+          "type": "string"
+        },
+        "currentSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "currentTermSnapshot": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ContractTermSnapshotSummary"
+            }
+          ],
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "projectName",
+        "customerName",
+        "contractNo",
+        "customerContractNo",
+        "status",
+        "signedAmountProjection",
+        "currencyCode",
+        "currentSnapshotId",
+        "signedAt",
+        "retentionDueDate",
+        "rowVersion",
+        "createdAt",
+        "createdBy",
+        "updatedAt",
+        "updatedBy",
+        "currentTermSnapshot"
+      ]
+    },
+    "ContractDiffReviewHistoryView": {
+      "type": "object",
+      "properties": {
+        "baseline": {
+          "$ref": "#/components/schemas/CommercialReleaseBaselineSummary"
+        },
+        "diffItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CommercialBaselineDiffItem"
+          }
+        },
+        "reviewHistory": {
+          "$ref": "#/components/schemas/CommercialBaselineReviewHistory"
+        }
+      },
+      "required": [
+        "baseline",
+        "diffItems",
+        "reviewHistory"
+      ]
+    },
+    "ContractList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ContractSummary"
+      }
+    },
+    "ContractReadinessDetail": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "sourceBaselineId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "commercialReleaseBaselineId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "latestDiffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "reviewStatus": {
+          "$ref": "#/components/schemas/CommercialDiffReviewStatus"
+        },
+        "packageStatus": {
+          "$ref": "#/components/schemas/ContractReadinessStatus"
+        },
+        "guardDecision": {
+          "$ref": "#/components/schemas/ContractReadinessGuardDecision"
+        },
+        "currentEffectiveDecisionSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "blockingReasonSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "missingPrerequisiteCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "initializedContractSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "initializedReceivablePlanVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "contractSnapshotInitializedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "receivablePlanInitializedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "isCurrent": {
+          "type": "boolean"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ContractReadinessItem"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "sourceBaselineId",
+        "commercialReleaseBaselineId",
+        "latestDiffResultId",
+        "diffLevel",
+        "reviewStatus",
+        "packageStatus",
+        "guardDecision",
+        "currentEffectiveDecisionSummary",
+        "blockingReasonSummary",
+        "missingPrerequisiteCount",
+        "initializedContractSnapshotId",
+        "initializedReceivablePlanVersionId",
+        "contractSnapshotInitializedAt",
+        "receivablePlanInitializedAt",
+        "isCurrent",
+        "rowVersion",
+        "createdAt",
+        "createdBy",
+        "updatedAt",
+        "updatedBy",
+        "allowedActions",
+        "items"
+      ]
+    },
+    "ContractReadinessGuardDecision": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "review-required",
+        "blocked"
+      ]
+    },
+    "ContractReadinessItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "itemType": {
+          "$ref": "#/components/schemas/ContractReadinessItemType"
+        },
+        "itemKey": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string",
+          "nullable": true
+        },
+        "status": {
+          "$ref": "#/components/schemas/ContractReadinessItemStatus"
+        },
+        "responsibleRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "navigationHint": {
+          "type": "string",
+          "nullable": true
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "id",
+        "itemType",
+        "itemKey",
+        "label",
+        "summary",
+        "status",
+        "responsibleRole",
+        "navigationHint",
+        "sortOrder"
+      ]
+    },
+    "ContractReadinessItemStatus": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "conditional",
+        "blocked",
+        "not-applicable"
+      ]
+    },
+    "ContractReadinessItemType": {
+      "type": "string",
+      "enum": [
+        "checklist",
+        "reusable-fact",
+        "blocking-reason",
+        "receivable-seed"
+      ]
+    },
+    "ContractReadinessPackageItemInput": {
+      "type": "object",
+      "properties": {
+        "itemType": {
+          "$ref": "#/components/schemas/ContractReadinessItemType"
+        },
+        "itemKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "status": {
+          "$ref": "#/components/schemas/ContractReadinessItemStatus"
+        },
+        "responsibleRole": {
+          "type": "string",
+          "maxLength": 128,
+          "nullable": true
+        },
+        "navigationHint": {
+          "type": "string",
+          "maxLength": 255,
+          "nullable": true
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "itemType",
+        "itemKey",
+        "label",
+        "status"
+      ]
+    },
+    "ContractReadinessStatus": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "conditional",
+        "blocked"
+      ]
+    },
+    "ContractStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending-review",
+        "active",
+        "terminated",
+        "completed"
+      ]
+    },
+    "ContractSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string",
+          "nullable": true
+        },
+        "contractNo": {
+          "type": "string"
+        },
+        "customerContractNo": {
+          "type": "string",
+          "nullable": true
+        },
+        "status": {
+          "$ref": "#/components/schemas/ContractStatus"
+        },
+        "signedAmountProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "currencyCode": {
+          "type": "string"
+        },
+        "currentSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "projectName",
+        "customerName",
+        "contractNo",
+        "customerContractNo",
+        "status",
+        "signedAmountProjection",
+        "currencyCode",
+        "currentSnapshotId",
+        "signedAt",
+        "retentionDueDate",
+        "rowVersion",
+        "createdAt",
+        "createdBy",
+        "updatedAt",
+        "updatedBy"
+      ]
+    },
+    "ContractTermSnapshotStatus": {
+      "type": "string",
+      "enum": [
+        "active",
+        "superseded",
+        "voided"
+      ]
+    },
+    "ContractTermSnapshotSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "effectiveAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "effectiveBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "amountTaxInclusiveProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "amountTaxExclusiveProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "taxRateProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "downPaymentRateProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "retentionRateProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "paymentTermsProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "sourceReadinessId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "sourceBaselineId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "version": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "snapshotStatus": {
+          "$ref": "#/components/schemas/ContractTermSnapshotStatus"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "id",
+        "contractId",
+        "effectiveAt",
+        "effectiveBy",
+        "retentionDueDate",
+        "amountTaxInclusiveProjection",
+        "amountTaxExclusiveProjection",
+        "taxRateProjection",
+        "downPaymentRateProjection",
+        "retentionRateProjection",
+        "paymentTermsProjection",
+        "sourceReadinessId",
+        "sourceBaselineId",
+        "version",
+        "snapshotStatus",
+        "createdAt",
+        "createdBy",
+        "rowVersion"
+      ]
+    },
+    "CreateCommercialBaselineDiffItemInput": {
+      "type": "object",
+      "properties": {
+        "fieldKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "fieldLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "oldValueSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "newValueSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "isBlocking": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "fieldKey",
+        "fieldLabel",
+        "diffLevel"
+      ]
+    },
+    "CreateCommercialReleaseBaselineRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "baselineCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "quotationReviewId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "grossMarginSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "paymentTermsSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "amountTaxInclusive": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountTaxExclusive": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "taxRate": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "downPaymentRate": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "retentionRate": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "paymentTerms": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "diffSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "diffItems": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CreateCommercialBaselineDiffItemInput"
+          }
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "projectId",
+        "baselineCode",
+        "diffLevel"
+      ]
+    },
+    "CreateContractReadinessPackageRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "sourceBaselineId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "latestDiffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "packageStatus": {
+          "$ref": "#/components/schemas/ContractReadinessStatus"
+        },
+        "guardDecision": {
+          "$ref": "#/components/schemas/ContractReadinessGuardDecision"
+        },
+        "currentEffectiveDecisionSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "blockingReasonSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "missingPrerequisiteCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "items": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ContractReadinessPackageItemInput"
+          }
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "projectId",
+        "sourceBaselineId",
+        "latestDiffResultId",
+        "packageStatus",
+        "guardDecision"
+      ]
+    },
+    "CreateContractRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "customerContractNo": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "nullable": true
+        },
+        "status": {
+          "$ref": "#/components/schemas/ContractStatus"
+        },
+        "signedAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "currencyCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "projectId",
+        "signedAmount"
+      ]
+    },
+    "CreateInvoiceRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "invoiceType": {
+          "$ref": "#/components/schemas/InvoiceRecordType"
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "invoiceAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "invoiceDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        }
+      },
+      "required": [
+        "invoiceType",
+        "invoiceNumber",
+        "invoiceAmount",
+        "invoiceDate"
+      ]
+    },
+    "CreatePayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "vendorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "costCategory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "payableDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "expectedPaymentDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "vendorName",
+        "costCategory",
+        "payableDescription",
+        "amountExcludingTax",
+        "expectedPaymentDate"
+      ]
+    },
+    "CreatePaymentRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "payableRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "paymentDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "costCategory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "sourceType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        }
+      },
+      "required": [
+        "amountExcludingTax",
+        "paymentDate",
+        "costCategory"
+      ]
+    },
+    "CreateReceiptRecordRequest": {
+      "type": "object",
+      "properties": {
+        "receiptAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "receiptDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "sourceType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        }
+      },
+      "required": [
+        "receiptAmount",
+        "receiptDate"
+      ]
+    },
+    "InitializeContractSnapshotFromReadinessPackageRequest": {
+      "type": "object",
+      "properties": {
+        "contractReadinessPackageId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "InitializeReceivablePlanFromReadinessPackageRequest": {
+      "type": "object",
+      "properties": {
+        "contractReadinessPackageId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "InvoiceRecordDetailView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "invoiceType": {
+          "$ref": "#/components/schemas/InvoiceRecordType"
+        },
+        "invoiceNumber": {
+          "type": "string"
+        },
+        "invoiceAmount": {
+          "type": "string"
+        },
+        "invoiceDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/InvoiceRecordStatus"
+        },
+        "exceptionStatus": {
+          "$ref": "#/components/schemas/InvoiceRecordExceptionStatus"
+        },
+        "exceptionReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "exceptionResolution": {
+          "type": "string",
+          "nullable": true
+        },
+        "closedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "closeReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "invoiceType",
+        "invoiceNumber",
+        "invoiceAmount",
+        "invoiceDate",
+        "status",
+        "exceptionStatus",
+        "exceptionReason",
+        "exceptionResolution",
+        "closedAt",
+        "closeReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt",
+        "allowedActions"
+      ]
+    },
+    "InvoiceRecordExceptionStatus": {
+      "type": "string",
+      "enum": [
+        "none",
+        "open",
+        "resolved"
+      ]
+    },
+    "InvoiceRecordList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/InvoiceRecordSummary"
+      }
+    },
+    "InvoiceRecordPatchableStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending-issue",
+        "issued",
+        "received",
+        "verified"
+      ]
+    },
+    "InvoiceRecordStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending-issue",
+        "issued",
+        "received",
+        "verified",
+        "exception",
+        "closed"
+      ]
+    },
+    "InvoiceRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "invoiceType": {
+          "$ref": "#/components/schemas/InvoiceRecordType"
+        },
+        "invoiceNumber": {
+          "type": "string"
+        },
+        "invoiceAmount": {
+          "type": "string"
+        },
+        "invoiceDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/InvoiceRecordStatus"
+        },
+        "exceptionStatus": {
+          "$ref": "#/components/schemas/InvoiceRecordExceptionStatus"
+        },
+        "exceptionReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "exceptionResolution": {
+          "type": "string",
+          "nullable": true
+        },
+        "closedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "closeReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "invoiceType",
+        "invoiceNumber",
+        "invoiceAmount",
+        "invoiceDate",
+        "status",
+        "exceptionStatus",
+        "exceptionReason",
+        "exceptionResolution",
+        "closedAt",
+        "closeReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "InvoiceRecordType": {
+      "type": "string",
+      "enum": [
+        "input",
+        "output"
+      ]
+    },
+    "MarkInvoiceExceptionRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "PayableRecordDetailView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "vendorName": {
+          "type": "string"
+        },
+        "costCategory": {
+          "type": "string"
+        },
+        "payableDescription": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string"
+        },
+        "taxAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "settledAmountExcludingTax": {
+          "type": "string"
+        },
+        "expectedPaymentDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/PayableRecordStatus"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "closedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "closeReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "voidedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "vendorName",
+        "costCategory",
+        "payableDescription",
+        "currency",
+        "amountExcludingTax",
+        "taxAmount",
+        "amountIncludingTax",
+        "settledAmountExcludingTax",
+        "expectedPaymentDate",
+        "status",
+        "evidenceSummary",
+        "attachmentCount",
+        "closedAt",
+        "closeReason",
+        "voidedAt",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt",
+        "allowedActions"
+      ]
+    },
+    "PayableRecordList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PayableRecordSummary"
+      }
+    },
+    "PayableRecordStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "recorded",
+        "partially-paid",
+        "completed",
+        "closed",
+        "voided"
+      ]
+    },
+    "PayableRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "vendorName": {
+          "type": "string"
+        },
+        "costCategory": {
+          "type": "string"
+        },
+        "payableDescription": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string"
+        },
+        "taxAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "settledAmountExcludingTax": {
+          "type": "string"
+        },
+        "expectedPaymentDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/PayableRecordStatus"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "closedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "closeReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "voidedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "vendorName",
+        "costCategory",
+        "payableDescription",
+        "currency",
+        "amountExcludingTax",
+        "taxAmount",
+        "amountIncludingTax",
+        "settledAmountExcludingTax",
+        "expectedPaymentDate",
+        "status",
+        "evidenceSummary",
+        "attachmentCount",
+        "closedAt",
+        "closeReason",
+        "voidedAt",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PaymentRecordList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PaymentRecordSummary"
+      }
+    },
+    "PaymentRecordStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "recorded",
+        "confirmed",
+        "voided"
+      ]
+    },
+    "PaymentRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "payableRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string"
+        },
+        "taxAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "paymentDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "costCategory": {
+          "type": "string"
+        },
+        "sourceType": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/components/schemas/PaymentRecordStatus"
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "payableRecordId",
+        "currency",
+        "amountExcludingTax",
+        "taxAmount",
+        "amountIncludingTax",
+        "paymentDate",
+        "costCategory",
+        "sourceType",
+        "status",
+        "confirmedAt",
+        "confirmedBy",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ReadinessInitializationResult": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetType": {
+          "type": "string"
+        },
+        "sourceReadinessId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "resultStatus": {
+          "type": "string"
+        },
+        "businessStatusAfter": {
+          "type": "string"
+        },
+        "snapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "newVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "targetId",
+        "targetType",
+        "sourceReadinessId",
+        "resultStatus",
+        "businessStatusAfter"
+      ]
+    },
+    "ReceiptRecordList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReceiptRecordSummary"
+      }
+    },
+    "ReceiptRecordStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending-confirmation",
+        "confirmed",
+        "reversed",
+        "voided"
+      ]
+    },
+    "ReceiptRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "receiptAmount": {
+          "type": "string"
+        },
+        "receiptDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "sourceType": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/components/schemas/ReceiptRecordStatus"
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "contractId",
+        "projectId",
+        "receiptAmount",
+        "receiptDate",
+        "sourceType",
+        "status",
+        "confirmedAt",
+        "confirmedBy",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ResolveInvoiceExceptionRequest": {
+      "type": "object",
+      "properties": {
+        "resolution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "resolution"
+      ]
+    },
+    "ReviewCommercialReleaseBaselineDiffRequest": {
+      "type": "object",
+      "properties": {
+        "diffDecision": {
+          "$ref": "#/components/schemas/CommercialBaselineReviewDecision"
+        },
+        "reviewedFieldKeys": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "attachmentIds": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "diffDecision"
+      ]
+    },
+    "SensitiveFieldPackageKey": {
+      "type": "string",
+      "enum": [
+        "contract-finance",
+        "operating-finance",
+        "commission-compensation",
+        "labor-cost-rate",
+        "exception-approval-opinion"
+      ]
+    },
+    "SensitiveProjectionMode": {
+      "type": "string",
+      "enum": [
+        "full",
+        "summary",
+        "masked",
+        "denied"
+      ]
+    },
+    "SensitiveProjectionReasonCode": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "summary-only",
+        "missing-sensitive-read-permission",
+        "field-package-not-applicable"
+      ]
+    },
+    "SensitiveStringFieldProjection": {
+      "type": "object",
+      "properties": {
+        "fieldPackageKey": {
+          "$ref": "#/components/schemas/SensitiveFieldPackageKey"
+        },
+        "mode": {
+          "$ref": "#/components/schemas/SensitiveProjectionMode"
+        },
+        "value": {
+          "type": "string",
+          "nullable": true
+        },
+        "displayText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "reasonCode": {
+          "$ref": "#/components/schemas/SensitiveProjectionReasonCode"
+        }
+      },
+      "required": [
+        "fieldPackageKey",
+        "mode",
+        "value",
+        "displayText",
+        "reasonCode"
+      ]
+    },
+    "SubmitContractReviewRequest": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "TargetObjectType": {
+      "type": "string",
+      "enum": [
+        "contract",
+        "commission-payout",
+        "commission-adjustment",
+        "project",
+        "lead",
+        "customer",
+        "project-handover"
+      ]
+    },
+    "UpdateContractBasicInfoRequest": {
+      "type": "object",
+      "properties": {
+        "customerContractNo": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "nullable": true
+        },
+        "signedAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "currencyCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      }
+    },
+    "UpdateInvoiceRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "invoiceAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "invoiceDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/InvoiceRecordPatchableStatus"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "UpdatePayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "vendorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "costCategory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "payableDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "expectedPaymentDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "VoidPayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    }
+  },
+  "claims": {
+    "G1Certified": false,
+    "G2Authorized": false,
+    "runtimeExecuted": false,
+    "oldNativeSchemaPreserved": true,
+    "newDtoChangesRequireDeclaredFreeze": true
+  }
+}

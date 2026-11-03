@@ -1,0 +1,567 @@
+{
+  "schema": "poms-r4c-entry-semantics/v1",
+  "status": "static G1 candidate; execution not run",
+  "operationInventory": "operations19.json",
+  "contractSchemaClosure": "openapi-finance19.json",
+  "sharedProfiles": "finance-g1-audit01.json#/wireProfiles",
+  "commonPerEntry": {
+    "guard": "cookie session -> unsafe-method CSRF -> contract:finance:manage",
+    "dto": "exact shared-contracts schema via createZodDto; unknown fields stripped",
+    "identifier": "path string at transport, typed UUID in domain; mapping source_id uses canonical loaded entity UUID",
+    "amount": "Root unsigned ordinary checked Decimal, finance18,2 with <=2 fractional places; base>0/tax>=0; syntax/number validation400; exact tax tuple inequality422 proposal",
+    "version": "optional expectedVersion is positive integer; stale is409; all mutations CAS loaded row_version even when caller omitted version",
+    "errors": "schema type/shape400; missing legitimate target404; invalid business state422; stale/CAS409; guard401/403. Native SQL exception HTTP status was not observed. Root owns final common mapping.",
+    "transaction": "Each actual write command: one caller-owned TX for business + mandatory authenticated-actor audit_log + required managed session flush. Native had no finance business audit; target intentionally fixes this by user ruling. No approval/todo/cost inserts.",
+    "session": "pre-existing auth raw touch separate; pending managed session joins business flush; GET may touch auth but no finance-domain writes",
+    "rootOwnership": "common HTTP path/method/HEAD/OPTIONS/URI normalization, Cargo/lib/router, shared error/schema/UI/migration and all actual execution",
+    "audit": "entityType Receipt/Payable/Payment/Invoice, actual UUID entityId, full operationId action, authenticated actor and safe before/after/reason; exact serde Root-owned; no-op PATCH no business version/audit"
+  },
+  "entries": [
+    {
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_listReceipts",
+      "canonicalCommand": "listReceiptRecords",
+      "request": "none; contractId path only",
+      "response": "ReceiptRecordList",
+      "profiles": [
+        "receipt",
+        "common"
+      ],
+      "sourceCaller": "controller.listReceipts -> service.listReceipts -> repo.findReceiptsForContract -> receipt_record",
+      "business": "No parent existence/status validation for list; absent valid parent yields empty list; no pagination/filter",
+      "order": "receipt_date DESC, created_at DESC; equal-key stability must be observed, no invented tie-break",
+      "writes": [],
+      "success": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_createReceipt",
+      "canonicalCommand": "createReceiptRecord",
+      "request": "CreateReceiptRecordRequest",
+      "response": "ReceiptRecordSummary",
+      "profiles": [
+        "receipt",
+        "common"
+      ],
+      "sourceCaller": "controller.createReceipt -> service.createReceipt -> B Contract loader -> repo.createReceipt/persistAndFlushReceipt",
+      "business": "Contract exists then Active; derive contractId/projectId from entity; positive receiptAmount; no new receivable-plan hard gate",
+      "nullDefault": "sourceType omitted -> manual; confirmedAt/By null; receiptDate datetime required",
+      "tx": [
+        "stable active contract read/lock per Root B bridge",
+        "INSERT receipt pending-confirmation",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "receipt_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 201,
+      "reject": {
+        "missingContract": 404,
+        "notActive": 422
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "canonicalCommand": "confirmReceiptRecord",
+      "request": "ConfirmReceiptRecordRequest",
+      "response": "ReceiptRecordSummary",
+      "profiles": [
+        "receipt",
+        "common"
+      ],
+      "sourceCaller": "controller.confirmReceipt(req.user.sub) -> service.confirmReceipt -> repo.findReceiptById/flushReceipt",
+      "business": "load -> expectedVersion check -> pending-confirmation guard -> confirmed; no new receipt or cost",
+      "tx": [
+        "lock receipt",
+        "CAS status/confirmed_at/confirmed_by/updated_at/row_version",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "receipt_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missingReceipt": 404,
+        "staleVersion": 409,
+        "otherStatus": 422
+      },
+      "retry": "after committed confirmation, stale supplied version409; latest/omitted version invalid state422"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_listPayables",
+      "canonicalCommand": "listPayableRecords",
+      "request": "none; projectId path",
+      "response": "PayableRecordList",
+      "profiles": [
+        "payable",
+        "common"
+      ],
+      "sourceCaller": "controller.listPayables -> service.listPayables -> repo.findPayablesForProject + findConfirmedPaymentsForPayableIds",
+      "business": "No parent existence validation; derived settledAmountExcludingTax exact sum of confirmed only; pending ignored",
+      "order": "expected_payment_date DESC, created_at DESC",
+      "writes": [],
+      "success": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_getPayable",
+      "canonicalCommand": "getPayableRecord",
+      "request": "none; id path",
+      "response": "PayableRecordDetailView",
+      "profiles": [
+        "payable",
+        "common"
+      ],
+      "sourceCaller": "controller.getPayable -> service.getPayable -> repo.findPayableById + currentCostMapping + confirmedPayments + anyLinkedPayment guard facts",
+      "business": "Return exact settled sum and allowedActions from executable state/mapping/payment relation table; canonical loaded UUID for mapping lookup",
+      "allowedActions": "finance-g1-audit01.json#/payableActionTable; action key voided retained",
+      "writes": [],
+      "success": 200,
+      "reject": {
+        "missingPayable": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_createPayable",
+      "canonicalCommand": "createPayableRecord",
+      "request": "CreatePayableRecordRequest",
+      "response": "PayableRecordSummary",
+      "profiles": [
+        "payable",
+        "common"
+      ],
+      "sourceCaller": "controller.createPayable -> service.createPayable -> repo.findProjectById + optional B Contract loader -> create/persist payable",
+      "business": "Project exists; nonnull contract Active and same project; exact three-money semantic equality only if both tax/inclusive known",
+      "nullDefault": "contract/tax/inclusive/evidence omitted -> null; currency omitted -> CNY; attachmentCount omitted ->0; closed/void fields null",
+      "tx": [
+        "load project/optional contract with stable domain identity",
+        "INSERT payable recorded",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "payable_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 201,
+      "reject": {
+        "missingProjectOrContractWrongProject": 404,
+        "nonActiveContractOrMoneyMismatch": 422
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_updatePayable",
+      "canonicalCommand": "updatePayableRecord",
+      "request": "UpdatePayableRecordRequest",
+      "response": "PayableRecordSummary",
+      "profiles": [
+        "payable",
+        "common"
+      ],
+      "sourceCaller": "controller.updatePayable -> service.updatePayable -> repo.findPayableById/currentCostMapping/optionalContract/flushPayable",
+      "business": "expectedVersion precedes state; only draft/recorded; current mapping blocks; present contract requires Active same project; validate resulting three-money state",
+      "missingVsNull": "PATCH profile; status not patchable; only expectedVersion not enough; nullable amounts can clear; amount/currency/date null invalid",
+      "tx": [
+        "lock payable",
+        "read current mapping under source protocol",
+        "recheck optional contract and resulting money",
+        "CAS changed fields",
+        "derive actual settled sum",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "payable_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missing": 404,
+        "stale": 409,
+        "stateOrMappingOrTaxMismatch": 422
+      },
+      "noOp": "User ruling: no dirty business field means no business row_version/updated_at change and no business audit; preserve required managed-session flush boundary."
+    },
+    {
+      "method": "POST",
+      "path": "/api/payable-records/{id}:close",
+      "operationId": "ContractFinanceController_closePayable",
+      "canonicalCommand": "closePayableRecord",
+      "request": "ClosePayableRecordRequest",
+      "response": "PayableRecordSummary",
+      "profiles": [
+        "payable",
+        "common"
+      ],
+      "sourceCaller": "controller.closePayable -> service.closePayable -> repo.findPayableById/currentCostMapping/flushPayable",
+      "business": "Allow draft/recorded/partially-paid/completed; deny closed/voided/current mapping; do not remove linked payments; keep nonzero confirmed sum",
+      "tx": [
+        "lock payable",
+        "version/state/current mapping",
+        "CAS closed/closed_at/close_reason incl comment",
+        "exact settled sum",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "payable_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missing": 404,
+        "stale": 409,
+        "terminalOrMapping": 422
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/payable-records/{id}:void",
+      "operationId": "ContractFinanceController_voidPayable",
+      "canonicalCommand": "voidPayableRecord",
+      "request": "VoidPayableRecordRequest",
+      "response": "PayableRecordSummary",
+      "profiles": [
+        "payable",
+        "common"
+      ],
+      "sourceCaller": "controller.voidPayable -> service.voidPayable -> repo.findPayableById/findPaymentsForPayable/currentCostMapping/flushPayable",
+      "business": "Nonvoided, no payment in any status, no current mapping; closed without payment/mapping may void and retain closure history; no physical delete",
+      "tx": [
+        "lock payable same protocol as create/confirmPayment",
+        "version/nonvoided",
+        "any linked payment then mapping guard",
+        "CAS voided/voided_at/void_reason",
+        "exact settled sum",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "payable_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missing": 404,
+        "stale": 409,
+        "alreadyVoidedAnyPaymentOrMapping": 422
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_listInvoices",
+      "canonicalCommand": "listInvoiceRecords",
+      "request": "none; projectId path",
+      "response": "InvoiceRecordList",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.listInvoices -> service.listInvoices -> repo.findInvoicesForProject",
+      "business": "No parent existence validation; preserve explicit null history and business date",
+      "order": "invoice_date DESC, created_at DESC",
+      "writes": [],
+      "success": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_getInvoice",
+      "canonicalCommand": "getInvoiceRecord",
+      "request": "none; id path",
+      "response": "InvoiceRecordDetailView",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.getInvoice -> service.getInvoice -> repo.findInvoiceById/currentCostMapping",
+      "business": "canonical loaded UUID mapping check; allowedActions reflects executable status + orthogonal exception + current mapping",
+      "allowedActions": "finance-g1-audit01.json#/invoiceActionTable",
+      "writes": [],
+      "success": 200,
+      "reject": {
+        "missing": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_createInvoice",
+      "canonicalCommand": "createInvoiceRecord",
+      "request": "CreateInvoiceRecordRequest",
+      "response": "InvoiceRecordSummary",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.createInvoice -> service.createInvoice -> repo.findProjectById/optionalContract/createInvoice/persistAndFlushInvoice",
+      "business": "Project exists; output requires Active same-project contract; input can be unbound; if bound must Active same-project; invoice_no global unique; positive exact money",
+      "tx": [
+        "stable project/contract check",
+        "INSERT invoice draft/none with unique invoice_no",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "invoice_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 201,
+      "reject": {
+        "missingOrWrongProject": 404,
+        "outputUnboundOrNonActive": 422,
+        "duplicateInvoiceNumber": 409
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_updateInvoice",
+      "canonicalCommand": "updateInvoiceRecord",
+      "request": "UpdateInvoiceRecordRequest",
+      "response": "InvoiceRecordSummary",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.updateInvoice -> service.updateInvoice -> repo.findInvoiceById/currentCostMapping/optionalContract/flushInvoice",
+      "business": "Not closed; open exception cannot be bypassed; no current mapping; patch status only draft/pending-issue/issued/received/verified; resolved exception history preserved; output cannot clear contract",
+      "tx": [
+        "lock invoice",
+        "version/state/mapping",
+        "contract and exact money recheck",
+        "CAS changed fields incl invoice_no unique",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "invoice_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missingOrContractWrongProject": 404,
+        "stale": 409,
+        "stateMappingUnboundOutputOrNonActive": 422,
+        "duplicateInvoiceNumber": 409
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:markException",
+      "operationId": "ContractFinanceController_markInvoiceException",
+      "canonicalCommand": "markInvoiceException",
+      "request": "MarkInvoiceExceptionRequest",
+      "response": "InvoiceRecordSummary",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.markInvoiceException -> service.markInvoiceException -> repo.findInvoiceById/currentCostMapping/flushInvoice",
+      "business": "Not closed; no existing open exception; no current mapping; set status exception, exceptionStatus open, reason newline comment; resolution null",
+      "tx": [
+        "lock invoice",
+        "version/state/mapping",
+        "CAS exception fields",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "invoice_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missing": 404,
+        "stale": 409,
+        "closedAlreadyOpenOrMapped": 422
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:resolveException",
+      "operationId": "ContractFinanceController_resolveInvoiceException",
+      "canonicalCommand": "resolveInvoiceException",
+      "request": "ResolveInvoiceExceptionRequest",
+      "response": "InvoiceRecordSummary",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.resolveInvoiceException -> service.resolveInvoiceException -> repo.findInvoiceById/currentCostMapping/flushInvoice",
+      "business": "Requires exception/open and no current mapping; exceptionStatus resolved; resolution newline comment; preserve original reason; status remains exception until separate PATCH/close",
+      "tx": [
+        "lock invoice",
+        "version/state/mapping",
+        "CAS resolved conclusion",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "invoice_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missing": 404,
+        "stale": 409,
+        "notExceptionOpenOrMapped": 422
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:close",
+      "operationId": "ContractFinanceController_closeInvoiceRecord",
+      "canonicalCommand": "closeInvoiceRecord",
+      "request": "CloseInvoiceRecordRequest",
+      "response": "InvoiceRecordSummary",
+      "profiles": [
+        "invoice",
+        "common"
+      ],
+      "sourceCaller": "controller.closeInvoiceRecord -> service.closeInvoiceRecord -> repo.findInvoiceById/currentCostMapping/flushInvoice",
+      "business": "Not closed and no open exception; no current mapping; preserve exception history; set closed/time/reason newline comment",
+      "tx": [
+        "lock invoice",
+        "version/state/mapping",
+        "CAS closed fields",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "invoice_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missing": 404,
+        "stale": 409,
+        "closedOpenExceptionOrMapped": 422
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_listPayments",
+      "canonicalCommand": "listPaymentRecords",
+      "request": "none; projectId path",
+      "response": "PaymentRecordList",
+      "profiles": [
+        "payment",
+        "common"
+      ],
+      "sourceCaller": "controller.listPayments -> service.listPayments -> repo.findPaymentsForProject",
+      "business": "No parent existence validation; timestamps remain datetime; three money fields preserve null vs known zero tax",
+      "order": "payment_date DESC, created_at DESC",
+      "writes": [],
+      "success": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_createPayment",
+      "canonicalCommand": "createPaymentRecord",
+      "request": "CreatePaymentRecordRequest",
+      "response": "PaymentRecordSummary",
+      "profiles": [
+        "payment",
+        "common"
+      ],
+      "sourceCaller": "controller.createPayment -> service.createPayment -> repo.project/payable/contract loaders + createPayment/persistAndFlushPayment",
+      "business": "Project exists; linked payable same-project recorded/partially-paid; chosen/inherited contract Active same-project and equals existing payable binding; currency matches payable; exact tax semantics; no cost insertion",
+      "nullDefault": "missing/null payableRecordId -> null; missing/null contractId inherits payable contract; currency request -> payable ->CNY; sourceType omitted manual; confirmation fields null",
+      "tx": [
+        "project/contract read under Root lock order",
+        "lock linked payable",
+        "recheck association/status/contract/currency",
+        "INSERT payment recorded",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "payment_record",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 201,
+      "reject": {
+        "missingProjectSourceOrWrongProject": 404,
+        "payableStateNonActiveContractBindingCurrencyOrMoney": 422
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/payment-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmPayment",
+      "canonicalCommand": "confirmPaymentRecord",
+      "request": "ConfirmPaymentRecordRequest",
+      "response": "PaymentRecordSummary",
+      "profiles": [
+        "payment",
+        "common"
+      ],
+      "sourceCaller": "controller.confirmPayment(req.user.sub) -> service.confirmPayment -> repo.findPaymentById + optionalPayable + confirmedPayments + flushPayment",
+      "business": "Payment recorded; version first; linked payable recorded/partially-paid; exact confirmed sum+this amount<=commitment; status partially-paid below or completed equal; actor/time; no cost auto-production",
+      "tx": [
+        "use Root fixed order payable->payment when linked; avoid reverse-lock deadlock",
+        "revalidate version/state and exact confirmed sum after locks",
+        "CAS payment confirmed and related payable progress, even if progress label unchanged keep lock",
+        "managed session if pending",
+        "mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded",
+        "commit"
+      ],
+      "writes": [
+        "payment_record",
+        "payable_record when linked/progress changed or protected version required",
+        "auth_session pending flush only",
+        "audit_log mandatory when business changed"
+      ],
+      "success": 200,
+      "reject": {
+        "missingPaymentOrLinkedPayable": 404,
+        "staleOrCAS": 409,
+        "paymentOrPayableStateOrOversettlement": 422
+      },
+      "retry": "after failure all required transaction rows/versions/time/actors revert, then clean retry succeeds once; after success supplied stale409 or latest/omitted invalid-state422"
+    }
+  ]
+}

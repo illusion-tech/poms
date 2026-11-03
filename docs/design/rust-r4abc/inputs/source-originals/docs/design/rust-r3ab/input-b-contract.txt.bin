@@ -1,0 +1,132 @@
+# R3 首批 B：项目基础六操作 G1 输入核对草稿
+
+状态：`G1 input draft / 未冻结 / 禁止据此开工`。来源 `main a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d`，已在新树核实 HEAD。Root 负责联合 G1、Native/Rust 实际见证、环境、测试、非作者审查协调和 G4；B 只读核对后在本目录记录输入。未连接数据库、未运行测试、未接触 private、旧数据库或 PG17。
+
+## 1. 六操作及交付边界
+
+| operationId | 当前 canonical 路径，含全局前缀 | 权限 | 响应 |
+| --- | --- | --- | --- |
+| `ProjectController_list` | `GET /api/projects` | `project:read` | `ProjectListView[]` |
+| `ProjectController_create` | `POST /api/projects` | `project:write` | `ProjectSummary` |
+| `ProjectController_getById` | `GET /api/projects/{id}` | `project:read` | `ProjectDetailView` |
+| `ProjectController_updateBasicInfo` | `PATCH /api/projects/{id}` | `project:write` | `ProjectSummary` |
+| `ProjectController_reassignOwner` | `POST /api/projects/{id}:reassignOwner` | `project:write` | `ProjectOwnerReassignmentResult` |
+| `ProjectController_getByCode` | `GET /api/projects:lookup?projectNo=...` | `project:read` | `ProjectSummary` |
+
+`getByCode` 的生产 controller 现为独立 `ProjectLookupController`，显式保留旧 operationId。lookup 是本片首次 Rust 公共交付；#84 已完成的是 Native 路径治理，不能重复计算 Rust 操作。未添加/保留 `/projects/code/{projectNo}` 或 `/projects/lookup` alias。GET 的隐式 HEAD、Express 路径大小写/尾斜线与 method mismatch 由 Root 依原生产运行见证冻结。
+
+本片不含 timeline、workspace-guidance、验收/完成/归档命令、技术成本、竞标报价工作区/命令、线索转换或 R4 路由。UUID 详情所需的合同、当前竞标、线索、审批摘要读取属于既有详情返回结构的来源读取，不认领这些生产者的 Rust 交付。
+
+B 后续只可实现 `apps/poms-api-rust/src/projects/**`；Root 持有 lib/http/Cargo/shared/生成物/迁移及全局集成。当前没有实现文件。
+
+## 2. 权威输入、标识与日期
+
+- 业务规则来自现行 `project.controller.ts`、`project.service.ts`、`project-query.service.ts`、`project.repository.ts`、实体和原测试，不以 OpenAPI 单独覆盖实际 Native 行为。
+- shared DTO/enum SSOT 是 `libs/shared/contracts/src/lib/shared-contracts.ts`，API DTO 仅为 `createZodDto` 包装。Rust 复用已有单向生成的 `ProjectStage`、`ProjectStatus`、PermissionKey，不改生成物。
+- item identity 为 UUID `id`；系统分配的 `projectNo` 是业务号，`customerProjectNo` 是可空客户侧业务号，三者不可互换。`sourceLeadId` 为可空来源 UUID，公共 create DTO 不接收它。
+- UUID 路径没有 UUID pipe；错误 UUID 必须保留原数据库/异常行为，不能新增 400 验证。DTO 中 `customerId`、`ownerUserId`、`ownerOrgId` 与 query `ownerOrgId` 则受 `z.uuid()` 约束。原输入大小写可能影响 JS 严格相等、dirty 判断与回包，应保留字符串直到必要的 DB 转换并由 Native 见证。
+- 所有项目时间为 `datetime`/PostgreSQL `timestamptz`，wire 为 ISO instant；不得改成 date-only。输入 `plannedSignAt` 为 `z.iso.datetime()`：UTC-Z schema，未启用 offset/local/coerce；controller 再 `new Date()`。输出为 JS `toISOString()` 毫秒精度，必要时复用已有 `js_iso_string`。
+- create 中 plannedSignAt 缺失/null 均存 null；update 缺失保留，显式 null 清空。任何非空字符串先经 DTO 日期 schema；不可接受空串、日期对象、数字或 offset 输入。
+- 编号使用既有 `BusinessNumberService::next_with_connection`，scope `Project`，UTC 年、`PRJ-{year}-{sequence.padStart(6,'0')}`；同事务内原子 upsert `business_number_sequence`，不通过独立 `next()` 连接取号。
+
+## 3. DTO：unknown、null、coercion 与限制
+
+所有输入为 Zod `z.object`，未知属性 strip，无 strict 拒绝，也不成为业务参数。禁止将 unknown 的 `projectNo/status/owner/sourceLeadId/rowVersion/createdBy` 传入服务。
+
+| schema | 可接受字段与处理 |
+| --- | --- |
+| `CreateProjectRequest` | `projectName`: string trim/min1/max255；`customerId`: required UUID；`customerProjectNo`: optional/nullable string trim/min1/max128；`currentStage`: optional 全部 10 个 stage 枚举；`plannedSignAt`: optional/nullable ISO datetime。创建没有额外 presigning stage 限制。 |
+| `ProjectListQuery` | optional `status`/`currentStage` 枚举、`ownerOrgId` UUID、`keyword` trim/min1/max128。无 pagination 或 customerId filter。 |
+| `ProjectLookupQuery` | required `projectNo: z.string().min(1)`，不 trim、不 max64、不 UUID、不 Number coerce；空白、数字文本、Unicode、斜杠冒号加号、65+ 字符均作为原样业务号查询。 |
+| `UpdateProjectBasicInfoRequest` | 四个可选字段 projectName/customerId/customerProjectNo/plannedSignAt；前三者与 create 同约束，customerId 不 nullable；strip 后至少一个已知字段不为 undefined，否则 custom issue `At least one field is required for update`。nullable 两字段显式 null 可满足 refine。 |
+| `ReassignProjectOwnerRequest` | required ownerUserId UUID、optional/nullable ownerOrgId UUID、required reason trim/min1/max1000、optional expectedVersion number/int/positive。无 Number coerce，字符串版本、0、负数、小数、null 均失败。 |
+
+错误 DTO 使用现行 vendor pipe 的 `{ statusCode:400, message:'Validation failed', errors:[...Zod issues] }`；非 Zod schema exception 会省略 errors。格式、路径、issue 顺序、多重错误、Unicode code point 长度/JS trim、异常 object/array length 属性均需与锁定 Zod 实际 oracle 对照，不能只比 400。
+
+query 使用原 simple parser：重复同名目标键为 array，应 DTO 失败；括号键自身是 unknown，不能拿它替代必填标量；`projectNo=A&projectNo[]=B` 保留 A；`+` 解码空格，`%2B` 保留加号，原 decoded scalar 单次透传。lookup unknown query strip。不要选重复键的第一或最后值。
+
+## 4. 创建、更新与主责变更的顺序和持久化
+
+### create
+
+1. `findPlatformUserById(operatorUserId)`；无则 404 `Platform user {id} not found`，此时不检查客户、不取号。
+2. 调 A 唯一 active-customer 内部生产契约；无客户 404，非 active 400；不跟随 mergedInto、alias 或替代客户。
+3. 进入 Project 原事务；同 em/connection 取业务号，然后 create/persist/flush 项目。
+4. 字段：status 固定 active，currentStage 缺省 assessment，sourceLeadId null；customerId/name 来自 A 真实行；customerProjectNo service 再 trim 空值归 null；ownerUserId/createdBy/updatedBy 来自实际 operator，ownerOrgId 来自其 primaryOrgUnitId 或 null。不在 create 新加 owner 活性/组织活性/成员关系校验。
+5. flush 时需保留请求的 managed session 变化、正确提交/失败回滚、序列回滚和真实更新时间；精确 SQL 顺序由 Root 的 Native 见证决定。
+
+### updateBasicInfo
+
+1. 项目 findById，无则 404 `Project {id} not found`。
+2. 只有 status active/blocked 可编辑；否则 400 `Project {id} cannot be edited in status {status}`。服务未按 stage 额外限制。
+3. 仅显式输入的字段更新。projectName 在源码中先赋值；若显式 customerId，再调用 A require active，并同时改 customerId/customerName；随后 customerProjectNo、plannedSignAt；最后 updatedBy=operator。
+4. repository persist(project).flush()，version 列由 ORM 管理。没有公开 expectedVersion 字段；不能把 unknown expectedVersion 变为额外 CAS 预检。
+5. noop 的 rowVersion/updatedAt、`updatedBy` 单独改变、客户名称刷新、失败前 pending 字段是否被 AUTO flush、真实版本竞争均待 Native 见证，不能擅自全事务包住 preflight 或无条件 UPDATE。
+
+### reassignOwner
+
+1. 项目不存在 404；先校验显式 expectedVersion，stale 409 `project version {expected} does not match current version {current}`，然后才校验 editable status active/blocked。
+2. 查目标 platform user：无则 404 `Platform user {id} not found`，isActive === false 则 400 `Platform user {id} is not active`。
+3. ownerOrgId 缺失采用目标用户 primaryOrgUnitId，null 明确清空，显式 UUID 覆盖；非 null 时查组织，无则404 `Org unit {id} not found`，inactive 则400 `Org unit {id} is not active`。没有组织成员关系/主组织一致性限制。
+4. 使用原 JS 严格字符串比较：同 ownerUserId 且同归一 null 的 org，400 `Project {id} already has the requested owner`。
+5. 生成单条 owner-reassignment record(UUID)，保存 previous/new owner user/org、trim reason、同一 now 的 reassignedAt/createdAt、operator 的 reassignedBy/createdBy；改项目 ownerUserId/ownerOrgId/updatedBy。
+6. repository 同一次 persist([project,record]).flush()；项目 CAS 与 record 的落地/回滚应原子，不能把 record insert 独立提交。显式 stale409 与 flush时 ORM CAS失败不能混成同一种错误，后者 Native 待证。
+
+## 5. 查询投影，不缩减既有详情
+
+- list repository 先 createdAt DESC。status/currentStage/ownerOrgId 为 AND；keyword 对 projectNo、projectName、customerName、customerProjectNo 形成 ILIKE OR，原 `%`/`_`/反斜线 SQL pattern 语义保留。
+- list 补 owner displayName/org name（缺失为 null，不要求 active）。每项目取 signedAt 非 null 的合同，排序 signedAt DESC、updatedAt DESC；不要求合同 active。latestMilestoneAt=max(closedAt,latest signedAt)，再将有里程碑排前、milestone DESC、createdAt DESC；保持 stable tie，不新增 id tie-breaker。
+- UUID detail 先项目404，再并行读 owner/user-org、全部 contracts、active approval snapshot、current effective bid process、sourceLead（如有）。客户名称来自项目快照，不实时 join A 客户显示名。
+- contracts 排序 signedAt DESC、updatedAt DESC、createdAt DESC；activeContractCount 只计 status=active，latestContract 是排序首行，不按 active 或 signedAt 非 null 额外筛选。signedAmount 为 numeric(18,2) 文本，不能经 JS/Rust float 改值。
+- snapshot 过滤 targetType=project、targetId、approvalScenarioKey=project-detail、projectionLevel=project-detail、status=active；generatedAt DESC、createdAt DESC 首行；无则 summary 字段全 null。
+- current bid 必须 projectId、isCurrent=true、status=effective，version DESC、effectiveAt DESC、createdAt DESC；无则 `not_configured`；只读摘要，不添加工作区路由。
+- confirmation summary 现行为固定空配置（null id/time、status not_configured、counts=0），不能查询 confirmation 表补成新行为。
+- stageSummary blockingReasons 依次 status blocked→project-status-blocked、status closed 或 stage closed-lost/closed-terminated→project-closed。
+- allowedActions 初始 view-project-workspace；非 closed 且 project:write→edit-project-basic-info；status active/blocked 且 project:write→reassign-project-owner（注意不是沿用 isClosed 条件）；非 closed 且 stage handover/execution/acceptance/completed 且任一五项 commission manage 权限→manage-project-commission。保留该判断与 update 服务 status 限制的既有差别。
+- getByCode 必须 exact `project_no = supplied decoded scalar`，未命中404 `Project no {projectNo} not found`；返回基础 summary，不调 getProjectDetail，不构造 generatedAt/allowedActions/敏感投影。
+
+## 6. 鉴权、审计与请求身份图
+
+- 所有六操作全局 SessionAuthGuard→AuthCsrfGuard→PermissionsGuard→DTO。写命令要 session+CSRF+project:write；查询要 session+project:read，GET/HEAD 无 CSRF。保留 auth/session、csrf_failed、permission_denied 的原结构和拒绝审计，DTO 不抢先于 guard。
+- UUID detail 对 `contract-finance` package、key=`field` 调现有敏感投影，rawValue=latestContract.signedAmount、full display=`amount currency`、targetType=project、targetId=project.id、原请求 path/method/requestId/ip/userAgent。缺敏感权限且非 null 时 masked 并在返回前 flush `sensitive_field.masked`；无合同/空rawValue为 full/null/field-package-not-applicable，不写隐藏审计。
+- 复用 `auth::projection::project_fields` 和既有 RuntimeAudit/AuthService，不能用纯 projection plan 直接返回而遗漏 audit。审计失败应沿原失败行为返回，不伪造成功读。
+- create/update/reassign 没有专门 runtime business audit 事件；owner-reassignment record 是本身权威动作记录。不能新增事件或把它替换成 security audit。
+- 现 Rust `ResolvedSession.user_snapshot`、role_snapshots、pending_flush 是请求局部 identity graph。B 查询/创建操作者、或 self target user，需复核原 MikroORM hydration：非 null 刷新和 null nullable保留可能影响 primaryOrgUnitId。禁止全局缓存或直接忽略 request snapshot。读取 DTO 成功与 no-op/失败不能无条件 flush；敏感审计/业务 flush 的 managed session 联动由 Root actual 冻结。
+
+## 7. A/B 联合内部契约与集成顺序
+
+Root 已提出唯一签名：
+
+```rust
+pub async fn require_active_customer_with_connection(
+    connection: &mut PgConnection,
+    id: &str,
+) -> Result<ActiveCustomerReference, CustomersError>;
+
+pub struct ActiveCustomerReference {
+    pub id: Uuid,
+    pub display_name: String,
+}
+```
+
+语义：无锁；按 id 查当前真实 customer；不存在404 `Customer {id} not found`；status!=active400 `Customer {id} is not active`；无 UUID pipe 的路径沿原 DB500；CustomersError 的404/400/DB500需公开可复用映射。B 通过该接口消费 A，不重复读取 customer SQL、stub active 客户或跟随合并客户。
+
+B create 在 operator query 后、begin project事务前消费该接口；update 在 project/status 检查后、最终 flush 前且仅显式 customerId时消费。源代码事务位置优先，Native 若揭示隐式 flush 差异，先交 Root checkpoint 裁决。
+
+验收依赖：先 A Rust 真实创建客户→B Rust 创建项目→B list/detail/exact lookup/update/reassign→回读 A/Rust/Native 观察关联结果。B 的 actual 集成不能用 Node/SQL stand-in 代替 A 客户生产者。Native 对照辅助 fixture、合同/线索/摘要的受控既有事实注入须标注 observer，不认证未迁移生产者。
+
+## 8. 原测试覆盖与待见证项
+
+原 controller tests 覆盖 lookup exact/no-detail/404、create Date与operator、update plannedSignAt null/undefined、owner参数、详情 query调用和404；原 service tests 覆盖create默认/缺operator、更新状态/客户快照/日期保留/404、主责记录/显式stale/状态/目标用户缺失inactive/组织缺失；原 query tests 覆盖名称与里程碑、完整详情/当前竞标摘要、closed actions；lookup-route.spec 有真实 routing+throw-only service 及直接 DTO/pipe 测试。
+
+原 routing spec 明示普通 Jest 编译缺 design:paramtypes，因此不能替代 Native HTTP DTO/auth/DB/audit 证据；所有原测试在本次仅阅读，未执行。缺失的 active customer跨A、并发/无效org/同owner、noop、复杂 list 排序、多来源详情/敏感审计、完整 DTO issue、方法/URI 边界由本目录 acceptance-matrix.md 交 Root 实际执行。
+
+待 Root G1 裁决/Native实际见证：
+
+1. reassignOwner `@Post` 无 `@HttpCode`，虽然 @ApiOkResponse 声明200，Nest 默认实际应201；见证后保留 `existing-baseline-drift`，不静默改实际行为或完整 spec。
+2. 显式 stale409 vs ORM flush CAS失败（无定制 OptimisticLock filter，候选为generic500），记录/项目/session/序列的精确事务边界和SQL执行顺序。
+3. update在客户读取前已改projectName；AUTO flush 是否导致提前持久化与错误后的可观察变化，以 Native wire/DB witness为准。
+4. no-op版本/更新时间、request-local self userorg hydration、uppercase UUID严格比较与回包、时间精度/年边界、同级排序 NULL/tie 行为。
+5. Root统一服务构造/顶层router/OpenAPI adapter与来源hash；B只给projects模块入口，冻结前不自行选定公共签名。
+
+完整来源 raw SHA256 见 sources.json；本文件与验收矩阵仅为输入草稿，没有 G1 Pass、G2 实现或任何 actual 验收结论。

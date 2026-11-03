@@ -1,0 +1,62 @@
+$ErrorActionPreference = 'Stop'
+$taskOwned = 'E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/input-c'
+$taskOwnedFull = [System.IO.Path]::GetFullPath($taskOwned)
+$taskSourceFiles = @()
+foreach ($taskManifestName in @('source-manifest01.json', 'source-supplement02.json')) {
+    $taskManifest = Get-Content -LiteralPath (Join-Path $taskOwned $taskManifestName) -Raw | ConvertFrom-Json -Depth 100
+    foreach ($taskEntry in $taskManifest.files) {
+        $taskSnapshot = [System.IO.Path]::GetFullPath((Join-Path $taskOwned $taskEntry.snapshot))
+        if (-not $taskSnapshot.StartsWith($taskOwnedFull + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) { throw 'Snapshot path escaped owned scope' }
+        $taskFile = Get-Item -LiteralPath $taskSnapshot
+        $taskSha = (Get-FileHash -LiteralPath $taskSnapshot -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($taskFile.Length -ne $taskEntry.rawBytes -or $taskSha -ne $taskEntry.sha256) { throw ('Snapshot mismatch: ' + $taskEntry.path) }
+        $taskSourceFiles += $taskEntry
+    }
+}
+$taskOps = Get-Content -LiteralPath (Join-Path $taskOwned 'operations19.json') -Raw | ConvertFrom-Json -Depth 100
+$taskSemantics = Get-Content -LiteralPath (Join-Path $taskOwned 'entry-semantics19.json') -Raw | ConvertFrom-Json -Depth 100
+$taskAudit = Get-Content -LiteralPath (Join-Path $taskOwned 'finance-g1-audit01.json') -Raw | ConvertFrom-Json -Depth 100
+$taskSubset = Get-Content -LiteralPath (Join-Path $taskOwned 'openapi-finance19.json') -Raw | ConvertFrom-Json -Depth 100
+if ($taskOps.operations.Count -ne 19 -or $taskSemantics.entries.Count -ne 19) { throw 'Operation/semantics count mismatch' }
+$taskOpKeys = @($taskOps.operations | ForEach-Object { $_.method + ' ' + $_.path + ' ' + $_.operationId } | Sort-Object)
+$taskSemanticsKeys = @($taskSemantics.entries | ForEach-Object { $_.method + ' ' + $_.path + ' ' + $_.operationId } | Sort-Object)
+if (($taskOpKeys | Select-Object -Unique).Count -ne 19 -or @(Compare-Object -ReferenceObject $taskOpKeys -DifferenceObject $taskSemanticsKeys).Count -ne 0) { throw 'Operation identities differ or duplicate' }
+if ($taskSourceFiles.Count -ne 89) { throw 'Expected 89 source snapshots' }
+$taskCasePath = Join-Path $taskOwned 'finance-cases01.mjs'
+$taskProcessInfo = [System.Diagnostics.ProcessStartInfo]::new()
+$taskProcessInfo.FileName = 'node'
+$taskProcessInfo.UseShellExecute = $false
+$taskProcessInfo.CreateNoWindow = $true
+$taskProcessInfo.RedirectStandardOutput = $true
+$taskProcessInfo.RedirectStandardError = $true
+$taskProcessInfo.ArgumentList.Add('--check')
+$taskProcessInfo.ArgumentList.Add($taskCasePath)
+$taskProcess = [System.Diagnostics.Process]::new()
+$taskProcess.StartInfo = $taskProcessInfo
+$taskStartedAt = [DateTime]::UtcNow.ToString('o')
+if (-not $taskProcess.Start()) { throw 'node --check could not start' }
+$taskStdout = $taskProcess.StandardOutput.ReadToEnd()
+$taskStderr = $taskProcess.StandardError.ReadToEnd()
+$taskProcess.WaitForExit()
+$taskExitCode = $taskProcess.ExitCode
+$taskEncoding = [System.Text.UTF8Encoding]::new($false)
+[System.IO.File]::WriteAllBytes((Join-Path $taskOwned 'syntax-stdout-original02.bin'), $taskEncoding.GetBytes($taskStdout))
+[System.IO.File]::WriteAllBytes((Join-Path $taskOwned 'syntax-stderr-original02.bin'), $taskEncoding.GetBytes($taskStderr))
+$taskCaseHash = (Get-FileHash -LiteralPath $taskCasePath -Algorithm SHA256).Hash.ToLowerInvariant()
+$taskSyntaxReceipt = [ordered]@{ schema = 'poms-r4c-pure-case-syntax-receipt/v1'; startedAtUtc = $taskStartedAt; finishedAtUtc = [DateTime]::UtcNow.ToString('o'); executable = 'node'; arguments = @('--check', $taskCasePath); exitCode = $taskExitCode; source = 'finance-cases01.mjs'; sourceSha256 = $taskCaseHash; stdoutOriginal = 'syntax-stdout-original02.bin'; stdoutBytes = $taskEncoding.GetByteCount($taskStdout); stderrOriginal = 'syntax-stderr-original02.bin'; stderrBytes = $taskEncoding.GetByteCount($taskStderr); executionScope = 'JavaScript syntax parse only; pure definitions not executed'; supersedesSyntaxReceipt = 'case-syntax-check01.json' }
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'case-syntax-check02.json'), ($taskSyntaxReceipt | ConvertTo-Json -Depth 20) + [Environment]::NewLine, $taskEncoding)
+if ($taskExitCode -ne 0) { throw 'Final pure case syntax check failed' }
+$taskFinalAudit = Get-Content -LiteralPath (Join-Path $taskOwned 'finance-g1-audit01.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+$taskFinalAudit.acceptanceStatus.pureCaseSyntax = 'node --check exit0; final source hash bound by case-syntax-check02.json; definitions not executed'
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'finance-g1-audit01.json'), ($taskFinalAudit | ConvertTo-Json -Depth 100) + [Environment]::NewLine, $taskEncoding)
+$taskIntegrity = [ordered]@{ schema = 'poms-r4c-static-input-integrity/v1'; checkedAtUtc = [DateTime]::UtcNow.ToString('o'); sourceSnapshots = $taskSourceFiles.Count; sourceRawBytes = ($taskSourceFiles | ForEach-Object { $_.rawBytes } | Measure-Object -Sum).Sum; rawHashesMatchManifests = $true; uniqueOperationIdentities = 19; semanticIdentitiesMatchOriginalOpenApi = $true; schemaClosure = @($taskSubset.components.schemas.PSObject.Properties).Count; pureCaseSyntax = 'node --check exit0'; pureCaseSha256 = $taskCaseHash; runtimeAcceptance = 'not-run'; independentReview = 'not-run'; onlineFreeze = 'not-run'; noProductEditsByAuthor = 'C authored only owned input-c directory; Root must verify repository-wide state independently' }
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'static-integrity01.json'), ($taskIntegrity | ConvertTo-Json -Depth 20) + [Environment]::NewLine, $taskEncoding)
+$taskArtifactFiles = @()
+foreach ($taskFile in (Get-ChildItem -LiteralPath $taskOwned -Recurse -File | Sort-Object -Property FullName)) {
+    $taskRelative = [System.IO.Path]::GetRelativePath($taskOwnedFull, $taskFile.FullName).Replace([char]92, [char]47)
+    if ($taskRelative -eq 'artifact-manifest01.json') { continue }
+    $taskArtifactFiles += [ordered]@{ path = $taskRelative; rawBytes = $taskFile.Length; sha256 = (Get-FileHash -LiteralPath $taskFile.FullName -Algorithm SHA256).Hash.ToLowerInvariant(); evidenceClass = $(if ($taskRelative.StartsWith('sources/')) { 'raw-source-snapshot' } elseif ($taskRelative.StartsWith('syntax-') -or $taskRelative.StartsWith('case-syntax-check')) { 'syntax-only-preparation-receipt' } else { 'authored-or-derived-G1-input-not-executed-acceptance' }) }
+}
+$taskArtifactManifest = [ordered]@{ schema = 'poms-r4c-artifact-manifest/v1'; createdAtUtc = [DateTime]::UtcNow.ToString('o'); parentReportedBaseline = '1730f304c1cf5600721f80b6c06feec24269d387'; owner = 'C implementation author'; excludesSelf = $true; fileCount = $taskArtifactFiles.Count; totalRawBytes = ($taskArtifactFiles | ForEach-Object { $_.rawBytes } | Measure-Object -Sum).Sum; sourceFiles = 89; sourceRawBytes = $taskIntegrity.sourceRawBytes; runtimeAcceptance = 'not-run'; independentG1 = 'not-run'; onlineG1Freeze = 'not-run'; files = $taskArtifactFiles }
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'artifact-manifest01.json'), ($taskArtifactManifest | ConvertTo-Json -Depth 30) + [Environment]::NewLine, $taskEncoding)
+[ordered]@{ inputFiles = $taskArtifactManifest.fileCount; inputRawBytes = $taskArtifactManifest.totalRawBytes; sourceFiles = 89; sourceRawBytes = $taskIntegrity.sourceRawBytes; operations = 19; syntaxExitCode = $taskExitCode; artifactManifestSha256 = (Get-FileHash -LiteralPath (Join-Path $taskOwned 'artifact-manifest01.json') -Algorithm SHA256).Hash.ToLowerInvariant() } | ConvertTo-Json -Compress

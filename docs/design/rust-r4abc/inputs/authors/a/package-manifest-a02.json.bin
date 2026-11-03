@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "evidenceClass": "G1-candidate-append-only-package",
+  "owner": "A",
+  "issue": 103,
+  "stageIssue": 101,
+  "batchIssue": 102,
+  "timeUtc": "2026-11-03T05:26:04.5555780+00:00",
+  "previousPackage": "package-manifest-a01.json",
+  "previousPackageSha256": "e73cdf0f1b825845dcd56f4dd4274d6854f0018e18166fc496bc877fda67eefb",
+  "previousArtifactsUnchanged": true,
+  "sourceManifest": "source-manifest-a02.json",
+  "rawSourceCount": 92,
+  "rawSourceByteLength": 3087565,
+  "activeInputs": [
+    "audit-a02.md",
+    "audit-a02.json",
+    "root-protocol-addendum-a03.md",
+    "root-protocol-addendum-a03.json"
+  ],
+  "precedence": "Root protocol addendum a03 overrides only conflicting proposal text in sealed a02; no source/old package rewrite",
+  "pureCaseBase": "cases-a01.json",
+  "pureCaseOverlay": "root-protocol-addendum-a03.json",
+  "pureSqlProbes": "probes-a01.sql",
+  "appendedFiles": [
+    {
+      "path": "root-protocol-addendum-a03.md",
+      "sha256": "3d7fe7bff5092d496062c523656080ad3df35bd3c2b5f879d30e1a758f70d717",
+      "byteLength": 4674
+    },
+    {
+      "path": "root-protocol-addendum-a03.json",
+      "sha256": "7900ae5600da889ef5666f379038914d9a5daf56829bb9740c7799afb9b5e8d9",
+      "byteLength": 4685
+    },
+    {
+      "path": "finalize-appendix-a03.ps1",
+      "sha256": "f482271ffd7dd527041da309c0cbf87630979514d8961da0d22d3f21502f84bc",
+      "byteLength": 3280
+    },
+    {
+      "path": "appendix-verification-a03.json",
+      "sha256": "2ace1df8889095b4bd65a199c8cdafab1beffbfc794b3b07b51136448e0d9792",
+      "byteLength": 432
+    }
+  ],
+  "runtimeExecuted": [],
+  "gate": "Candidate only; Root shared protocol freeze and independent/online G1 remain required."
+}

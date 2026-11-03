@@ -1,0 +1,101 @@
+{
+  "kind": "R4-first37-authorized-schema-delta",
+  "status": "G1-candidate",
+  "sourceSchema": "inputs/surface37-source01.json",
+  "notation": "Object fields below are required unless suffixed with ?. Nullable is explicit. Unlisted existing fields keep their existing source schema. This is design input, not generated or executable code.",
+  "newTypes": {
+    "ReceivablePlanSeed": {
+      "nodeKey": "trimmed string 1..64",
+      "label": "trimmed string 1..128",
+      "plannedAmount": "positive exact numeric(18,2) decimal string",
+      "plannedDate": "real calendar YYYY-MM-DD",
+      "isRetentionNode": "boolean",
+      "sortOrder": "nonnegative integer",
+      "note?": "string<=1000|null"
+    },
+    "ContractCommercialTerms": {
+      "contractId": "uuid",
+      "amountTaxInclusive": "positive exact numeric(18,2) decimal string",
+      "amountTaxExclusive": "positive exact numeric(18,2) decimal string",
+      "taxRate": "ratio 0..1 at most 4 decimal places",
+      "downPaymentRate": "ratio 0..1 at most 4 decimal places",
+      "retentionRate": "ratio 0..1 at most 4 decimal places",
+      "retentionDueDate": "real calendar YYYY-MM-DD|null",
+      "paymentTerms": "trimmed string 1..1000",
+      "receivablePlanSeeds": "ReceivablePlanSeed[] length>=1, unique nodeKey and sortOrder, sum=contract inclusive cents"
+    },
+    "ContractTermPreparationSummary": {
+      "preparationId": "uuid",
+      "projectId": "uuid",
+      "contractId": "uuid",
+      "version": "positive integer",
+      "rowVersion": "positive integer",
+      "status": "prepared|superseded|activated",
+      "isCurrent": "boolean",
+      "sourceReadinessId": "uuid",
+      "sourceBaselineId": "uuid",
+      "sourceDiffResultId": "uuid",
+      "payloadHash": "lowercase sha256 hex",
+      "preparedAt": "RFC3339 datetime",
+      "preparedBy": "uuid",
+      "activatedSnapshotId": "uuid|null",
+      "activatedAt": "RFC3339 datetime|null"
+    },
+    "ContractReviewBindingSummary": {
+      "approvalRecordId": "uuid",
+      "contractId": "uuid",
+      "preparationId": "uuid",
+      "preparationVersion": "positive integer",
+      "payloadHash": "lowercase sha256 hex",
+      "createdAt": "RFC3339 datetime",
+      "createdBy": "uuid"
+    },
+    "ContractSelectionQuery": {"contractId?": "uuid"},
+    "SubmitContractReviewResult": {"extends": "CommandResult", "preparationId": "uuid"},
+    "ActivateContractResult": {"extends": "CommandResult", "preparationId": "uuid", "snapshotId": "uuid"}
+  },
+  "requestDeltas": {
+    "CreateCommercialReleaseBaselineRequest": {"add": {"contractTerms": "ContractCommercialTerms[] length>=1, unique contractId"}, "legacyNonAuthoritative": ["diffLevel", "diffItems", "diffSummary", "createdBy", "updatedBy"]},
+    "CreateContractReadinessPackageRequest": {"add": {"contractId": "uuid", "candidateTerms": "ContractCommercialTerms"}, "legacyNonAuthoritative": ["latestDiffResultId", "packageStatus", "guardDecision", "currentEffectiveDecisionSummary", "blockingReasonSummary", "missingPrerequisiteCount", "items", "createdBy", "updatedBy"], "legacyFieldsOptional": true},
+    "ReviewCommercialReleaseBaselineDiffRequest": {"add": {"contractId": "uuid", "diffResultId": "uuid"}, "attachmentIds": "uuid[] default[]; deduplicated; real authorized same-project/contract active links"},
+    "InitializeContractSnapshotFromReadinessPackageRequest": {"add": {"contractId": "uuid"}},
+    "InitializeReceivablePlanFromReadinessPackageRequest": {"add": {"contractId": "uuid"}},
+    "SubmitContractReviewRequest": {"add": {"preparationId": "uuid"}},
+    "UpdateContractBasicInfoRequest": {"add": {"expectedVersion?": "positive integer"}},
+    "CreateContractRequest": {"signedAmount": "required positive exact numeric(18,2) decimal string", "status?": "draft only"}
+  },
+  "responseDeltas": {
+    "CommercialReleaseBaselineSummary": {"add": {"contractTerms": "ContractCommercialTerms[]|null when sensitive projection hides financial terms", "currencyCode": "string", "financialProjection": "SensitiveStringFieldProjection"}, "nullableChanges": ["latestDiffResultId", "diffLevel", "reviewStatus"]},
+    "CommercialBaselineReviewRecordSummary": {"add": {"attachmentIds": "uuid[]"}},
+    "ContractReadinessDetail": {"add": {"contractId": "uuid|null for historical unbound packages", "candidateTerms": "ContractCommercialTerms|null when absent/historical/hidden", "currentPreparation": "ContractTermPreparationSummary|null", "financialProjection": "SensitiveStringFieldProjection"}},
+    "ContractDetailView": {"add": {"currentPreparation": "ContractTermPreparationSummary|null", "latestReviewBinding": "ContractReviewBindingSummary|null"}},
+    "ContractTermSnapshotSummary": {"add": {"sourcePreparationId": "uuid|null for historical snapshots"}},
+    "CommandResult": {"add": {"preparationId?": "uuid|null"}},
+    "ReadinessInitializationResult": {
+      "replaceWithRequiredFields": {
+        "targetId": "uuid = actual preparation id for A08, actual plan version id for A09",
+        "targetType": "contract-term-preparation|receivable-plan-version",
+        "sourceReadinessId": "uuid",
+        "contractId": "uuid",
+        "resultStatus": "prepared|initialized",
+        "businessStatusAfter": "prepared|active",
+        "preparationId": "uuid",
+        "preparationVersion": "positive integer",
+        "snapshotId": "uuid|null",
+        "newVersionId": "uuid|null",
+        "planVersionId": "uuid|null",
+        "planVersion": "positive integer|null",
+        "initRecordId": "uuid|null"
+      },
+      "A08": "targetType=contract-term-preparation/resultStatus=prepared/businessStatusAfter=prepared; snapshotId,newVersionId,planVersionId,planVersion,initRecordId are null; real preparationId/version required",
+      "A09": "targetType=receivable-plan-version/resultStatus=initialized/businessStatusAfter=active; actual source preparationId/version, actual snapshotId, newVersionId=planVersionId, actual planVersion/initRecordId all nonnull"
+    }
+  },
+  "projection": {
+    "permission": "contract:finance:sensitive:read",
+    "A": "Existing auth::projection::plan with ContractFinancePackage. Unauthorized: old scalar money/ratio/payment text and summaries null, contractTerms/candidateTerms null, financialProjection mode masked, diff old/new values and package item free-text summaries masked. Metadata IDs/status/version/prepared binding stay readable. Actual pending security event and auth flush in same successful read transaction. No hidden raw values in audit or display text.",
+    "B": "Retain all original per-field signedAmount/currentTermsSnapshot projections and events. New preparation/binding summaries contain only identities/version/hash/status/time, no raw terms. Snapshot sourcePreparationId is metadata.",
+    "C": "Preserve current finance permission policy; this batch does not add a new role or assert unavailable business ownership. Necessary operation audit remains transactionally required."
+  },
+  "sharedCodeBoundary": "Root implements Shared/DTO/OpenAPI/client/Rust-generated/UI changes after G1. Native historical reference cannot be made conformant by filling fake preparation/snapshot/plan IDs; legacy Node defects and new Rust correctness are separate evidence classes. Any compile adapter must report actual nullable absence or use explicit legacy local typing, never fabricated domain products."
+}

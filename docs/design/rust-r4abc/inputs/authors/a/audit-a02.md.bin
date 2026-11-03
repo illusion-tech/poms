@@ -1,0 +1,94 @@
+# R4A G1 输入候选 02：合同级准备、激活承接与正式应收计划
+
+本版是活动候选，优先于 `audit-a01.md` 的旧未决方案；a01 保留为用户裁决前的静态观察，不回写历史。当前只做 G0/G1 输入审计，**未进入 G2**，不代表产品实现或 HTTP/PG 验收通过。Root 给定基线 `1730f304c1cf5600721f80b6c06feec24269d387`；A 未运行 Git / GitHub，Issue 编号待 Root 在线回执绑定。
+
+已捕获 **92 个正式来源，3,087,565 原字节**，逐文件 SHA-256/长度/行数和原字节路径见 `source-manifest-a02.json`。a01 清单总长度聚合为 null，但每文件长度有效；a02 显式求和并追加六个后来读取的审批/报价来源，旧原件未改。当前 OpenAPI 静态抽取为 **9 个唯一 method/path、9 个唯一 operationId、24 个传递 schema**，见 `surface-a01.json`。这只证明文件级输入形态。
+
+## 1. 已裁决的业务模型
+
+Root 已传达用户裁决：合同级准备 → 审核后激活生效 → 正式应收计划；服务端从真实当前成本/竞标/报价派生就绪。**合同金额独立，每合同明确金额/条款/应收节点，来源和差异可审计；不复制项目总报价、不自动分摊、不强制合同合计等于项目报价，无硬预算分配。** 商业基线可以项目级，但当前包和初始化必须绑定contractId并冻结该合同payload。合同金额使用正有限 Decimal，最多两位、超过 `numeric(18,2)` 拒绝，不隐式舍入；ratio 使用 0..1、最多四位，公共校验由 Root 冻结。付款合同 Active / 同项目与应付归属规则由 C 承接。
+
+Root 已选择独立 **`contract_term_preparation`**：真实合同级待生效版本，状态 `prepared / superseded / activated`。`ContractTermSnapshot` 保持 `active / superseded / voided`；B 激活才创建**不同 UUID** 的 active snapshot，并用 `source_preparation_id` 关联。统一字段 **`preparationId`**。A08 初始化返回真实 preparationId；`snapshotId` 在真实 active snapshot 尚未存在时必须 null；`initializedContractSnapshotId` 不能塞入 preparationId。
+
+B 的 `submitReview` 显式绑定 preparationId 到 Root 将补的 **`contract_review_binding`**。审批、激活不能重新读 project-latest 然后替换已审条款；Root 扩展既有 CommonSession 审批适配，B 生产 active snapshot。A负责准备版本和正式 Plan 输入，Root独占共享DTO/枚举/迁移/公共协议/UI；本文件不实施这些变更。
+
+## 2. 现有九操作和接口证据
+
+`audit-a02.json.surface.operations` 逐项绑定 method/path/operationId/canonical行/权限/DTO/状态和service事务边。canonical 行为 **138–146**；九入口不增减，路径保持当前 action colon grammar。全 DTO 字段与当前返回在 `audit-a01.md` §2–3 和 `surface-a01.json`，注意旧 DTO 尚不支持以下新业务字段；Root须统一修改 Shared→DTO→OpenAPI→client→UI，不能把现schema抽取称新schema已冻结。
+
+当前：A01/A05 `createdBy/updatedBy` 来自body；A04/A08/A09 actor来自session。A04忽略attachmentIds；A08/A09忽略body packageId/comment。两初始化只写随机marker/time，不是真生产。B Native activate后置创建snapshot；正式Plan在当前迁移/实体中不存在，移交却以非空marker判断已初始化。上述均是 `existing-baseline-drift`，新Rust应按已裁决业务纠正。
+
+所有 GET 当前为查询，不触发派生刷新。当前path仅string；新实现按UUID解析值比较，大小写表示同一身份；不得按UUID原始文本判断归属。A金额字段现仅字符串长度验证，DB numeric隐式舍入不是可复制的校验。A条款比例 `numeric(5,4)`、R3 pricing税率 `numeric(18,8)`，Root需在源承接时明确拒绝不可表示精度，不能截断后冒称同一获批条款。
+
+## 3. 非循环的真实来源生产顺序
+
+已核源：Rust `project_pricing_margin/service.rs::references` 106–116 只要求 released/conditional-release/escalation 的 baseline/摘要引用非空；其 create TX 501–509 只锁 Project并读取current cost/bid。`store::insert` 写 baseline FK，无 baseline status 查询；Native `project.service.ts` 818–823同样只判非空。故当前代码**没有要求 baseline.status=effective**。可以先存draft baseline，但现服务也没有“同project/真实payload一致”检查，不能宣称业务循环已经通过实测。
+
+候选生产顺序：
+
+1. 真实HTTP产生current cost/bid或direct-commercial路径；保留ID、业务version、rowVersion、conditions和币种。
+2. A01创建不可变的 **draft 项目商业条款来源候选**；不授予effective/ready，不接受调用方diffLevel/allowed当权威。此时不要求先存在引用本baseline的released pricing。
+3. 既有R3 pricing命令生成released/conditional-release版本，引用该已存在draft baseline；沿用真实current cost/bid校验。
+4. A05在与R3 writer相同的Project行锁/TX里读取真实current cost/bid/pricing和条件项，核pricing.baseline FK、project源金额/税率/币种/不可变payload、readyForContracting及必备条件；另冻结选中合同**独立**金额/条款/typed seeds，计算并留存其相对来源的真实差异。只按已冻结差异复核规则处理，不把合同金额强制等于项目报价。闭合后原子promote来源baseline effective并形成contract-bound server-derived readiness/source refs。自报状态最多作为一致性断言；不可信来源不能产生可准备结论。
+5. 若需复核，A05先存真实contractDiff和review-required/blocked包；A04 body显式contractId+diffResultId，对exact diff完成复核后同TX重算关联包guard/status/version，GET不写。A08再显式contractId，核目标草稿、当前来源与该合同差异/复核，生产不可变prepared条款与节点。B提交/审核绑定同一准备版本；激活原子产有效snapshot。
+6. A09仅从该Active合同有效snapshot的冻结节点创建真实Plan/version/nodes/init record；不让caller重填正式计划。
+
+Root最小代码影响建议（A只读）：`project_pricing_margin/service.rs::create/references` 与一个borrowed-connection baseline读取桥，增加draft候选真实存在/同project/不可变payload和quote金额币种的验证；store可复用Root新A持久化reader，不能再开独立连接。若Native还用于完整参考运行，应明确它只是历史参考，或Root做必要新schema兼容；A不为旧缺陷做强制双端相等。
+
+需回归现R3 released / conditional / escalation / pending / rejected，错project/缺baseline/UUID大小写/金额币种不一致、current cost/bid替代竞态、原R3真实链和摘要引用；不是只添加新A happy path。
+
+当前Shared ApprovalType只有contract-review及两类commission approval，没有quotation-review handler；不能凭任意summarySnapshotId宣称执行了不存在的报价审批，也不隐式扩出本批新报价审批API。真实R3报价事实源与其已冻结授权边界仍应保留。
+
+## 4. 合同级来源、查询和多合同选择
+
+建议A05的package与diff明确 `contractId`，current唯一范围改为 `(project_id,contract_id)`；A06按packageID保留历史回看。A07保持原路由，增加 `ContractReadinessCurrentQuery { contractId?: uuid }`：
+
+- 显式contractId：验证合同归属project，读该合同current；跨项目/缺包404。
+- 无contractId且无current包：仍404。
+- 无contractId且恰一份合同current：返回同一detail，兼容现调用方，并在detail明确contractId。
+- 无contractId且多份合同current：409 `contract_selection_required`，返回candidateContractIds；UI通过B合同lookup显示选择器并显式带contractId重查。不能择updatedAt最新、第一份或last。
+
+Admin `ProjectWorkspaceStore.loadContractReadiness` 是现A07真实调用方（362–364），`ProjectPreSigningOverview`显示marker。Root需加selector状态、真实prepared/active/plan分列与未就绪原因，不能显示准备ID为已生效快照。history GET不刷新current或生成产物。
+
+同一项目baseline有多个合同diff时，A03建议同样提供contractId query，A04必须显式contractId+diffResultId，不能沿用baseline.latestDiff指针任意复核另一合同；初始draft项目来源尚无contractDiff时latestDiffResultId需可空/明确source-only，由Root冻结返回兼容形态，不能伪造一份“已通过”diff。
+
+用户已最终排除硬预算分配。每份合同独立明确金额、条款和节点，A05冻结实际合同payload及商业来源/真实差异；不能复制项目总报价、自动分摊或设置“合同合计=项目报价”约束。先前allocation候选被本裁决替代。一个新合同的新project pricing不应影响早已Active合同的正式计划：A09沿用该合同已生效snapshot/source/seeds，不再要求那些已冻结的R3源仍是project-current。
+
+## 5. 真实准备版本和typed seeds
+
+`contract_term_preparation`建议字段：UUID、project_id/contract_id、正整数version、is_current、supersedes_id、status；source_readiness/baseline/diff及cost/bid/pricing ID/version；contract_row_version_at_preparation；currency；两金额、tax/downPayment/retention比例、paymentTerms、retention_due_date；payload_hash；prepared_at/by；activated_snapshot_id/at/by；row_version。状态之外的条款/来源/节点不可原地覆盖。
+
+约束建议：`UNIQUE(contract_id,version)`、每合同一current、`UNIQUE(contract_id,source_readiness_id,payload_hash)`作exact初始化身份；同项目/同合同来源由TX显式校验并尽可能复合FK。一次完全相同初始化返回已有真实preparation，业务timestamp/version/audit无重复变化；源变化只在合同draft且无绑定pending review时显式创建version+1、旧version superseded；审批绑定不能追latest。
+
+typed seed最小字段：nodeKey（唯一trim1..64）、label（trim1..128）、plannedAmount（正exact18,2）、plannedDate（真实日历YYYY-MM-DD）、isRetentionNode、sortOrder（非负且不重）、可选note。至少一节点；金额总和与**该合同自己的**inclusive cents严格相等，与项目报价合计无关；质保节点与冻结质保条件/届满日一致。比例派生金额和合同内尾差处理必须有Root明确规则才可使用；显式金额输入不许静默舍入。来源为每合同明确的结构化DTO/UI，冻结在contract-bound readiness中并保留项目商业基线来源/差异，readiness→prepared→active snapshot保持同payload；不能从paymentTerms或summary自由文本解析。
+
+## 6. 正式Plan持久化与幂等
+
+按formal table-freeze / schema-DDL补真实 `receivable_plan_version`：contract_id、snapshot_id、source_readiness_id、source_preparation_id、version/is_current/supersedes/status、payload_hash、initialized_at/by、row_version；`receivable_plan_node`存节点字段；`receivable_plan_init_record`存真实产物和初始化actor/comment/结论。Root负责迁移、枚举与约束。
+
+建议约束：每合同version唯一/一个current；初始产物 `(contract_id,snapshot_id)`唯一；节点key和sortOrder各版本内唯一；真实FK连接contract/snapshot/preparation/readiness；金额正、order非负、状态CHECK。A09锁定Active合同与current active snapshot后，只用冻结seed生成version+nodes+init record+必要audit/session，整体TX。完全相同重试返回同真实产物，禁止新时间/新节点/新audit；冲突payload拒绝。后续计划替代必须由明确新获批snapshot/rebaseline驱动，保留历史；不能把A09改成任意覆盖计划的入口。
+
+C已交叉核实：ReceiptRecord无receivablePlanId，财务既不消费也不生产Plan；不增加receipt-plan前置门槛。应另测Active+有效snapshot、尚未A09也能按C规则登记普通回款，同时独立测试A09真实Plan生产。
+
+## 7. A/B共享接口与原子边界
+
+A与B建议由Root冻结以下borrowed-context接口，全部禁止自开连接/commit：
+
+| 接口 | 输入 | 返回/边界 |
+| --- | --- | --- |
+| derive_current_readiness_source | &mut PgConnection、ProjectId、明确ContractId/版本 | current cost/bid/pricing/source IDs+versions、结构化条款/节点、派生prerequisites/diff |
+| resolve_preparation_for_review | &mut PgConnection或CommonSession、ContractId、PreparationId、expected versions | exact immutable prepared payload/hash/source；B提交TX里写binding |
+| load_approved_preparation_for_activation | &mut CommonSession、ApprovalRecordId、ContractId | exact approved binding+prepared，禁止fallback到latest |
+| initialize_formal_receivable_plan | &mut PgConnection、ReadinessId、ContractId、SnapshotId、actor/session/expected versions | real persisted PlanVersionId/initRecordId/version/status；单TX |
+
+Root选择的binding表为 `contract_review_binding`，不是宽泛地给ApprovalRecord追加不受控JSON。B approval/activate锁定同prepared绑定；active snapshot创建、Contract.status/currentSnapshotId更新、preparation activated、必要audit和managed session flush整体提交/回滚。A所有expectedVersion检查在TX内；Project锁与R3 writer共享，来源替代不得在另连接穿透。锁顺序由Root最终统一，建议project→contract→preparation/binding→readiness→baseline/diff→snapshot/plan。
+
+现A没有success runtime audit调用，review record不是audit。新必要audit至少包含actor、request correlation、源链/合同/preparation/plan IDs、前后状态、comment/hash；只能在成功业务TX提交后存在。授权/CSRF安全事件仍遵循公共guard语义，独立于业务回滚和query no-op统计。
+
+## 8. 实际验收输入与剩余冻结
+
+`cases-a01.json`有 **31组纯定义**，包含真实direct/bid闭环、九入口认证/CSRF、UUID大写和归属、金额/ratio/date/node边界、派生来源、正式差异阈值/复核、项目多合同选择、prepared/active UUID分离、exact审批绑定、正式计划/幂等、逐边PG拒写、受控并发与四GET业务no-op。`probes-a01.sql`只含只读探针；未来表探针明确注释待Root DDL定名，不伪装现库。
+
+Root实际验证须保存原始HTTP和完整PG前后行、catalog约束、成功audit/managed session、故障命中、barrier时序与自有cohort清理二次no-op。Native旧marker只作参考观察，Rust断言按用户模型；不能因Native假成功要求Rust也假成功。当前已捕获的失败/partial/uncertified/ignored历史不会改标签。
+
+尚须Root正式冻结：publicDTO/返回/枚举、A07/A03选择器和A04 exact diff DTO、A05→A04状态重算协议、每合同typed seed来源/retention尾差、diff角色覆盖/附件/投影、迁移和CommonSession协议；合同金额独立及不设项目硬预算已经用户裁决，不再待选择。再经联合G1独审和在线冻结后才派新worktree进入G2。A本次未构建、未测试、未发HTTP、未查PG、未开browser/WSL、未执行Git/GitHub、未访问private、未改产品/正式治理。

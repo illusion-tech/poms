@@ -1,0 +1,114 @@
+# R4B 合同、条款与真实审核/生效链 G0/G1 输入候选
+
+本包只做当前源码审计和实施输入定义。未修改产品、正式治理或旧原件，未进行 Git/GitHub、环境、构建、测试、HTTP、PG、浏览器或 WSL 操作。`case-definitions.json` 是纯定义，不是已执行验收。仅静态文件捕获脚本用于读取源码、计算原字节 SHA 和生成本目录输入。
+
+- Root 提供基线：`1730f304c1cf5600721f80b6c06feec24269d387`；分支：`codex/poms-r4abc-first37`。B 未调用 Git 独立核 HEAD。
+- Root 告知 Issue 归属：R4 `#101` → 首批 `#102` → B `#104`；线上状态与回执由 Root 持有。本包不声称自行读取过 Issue。
+- 作者：`/root/r4b_contract`。调度目标 `gpt-6.1-sol` / `max`；Fast 未核实，模型服务层实际状态没有独立证明。
+- 当前 Gate：G1 候选，待 Root 公共 DDL/DTO/身份图冻结、非作者独审和实际线上冻结；不构成进入 G2 的许可。
+
+## 当前范围与复用边界
+
+B 迁移完整 **9 个唯一 HTTP 操作**。`GET /contracts:lookup` 在 #84 已完成的是 Native canonical 路径及完整 spec/client，R2L/lookup 基线明确增加 Rust 业务操作 **0**；当前 Rust `lib.rs` 没有合同 HTTP 模块。B 因此需要交付这条 Rust lookup。审计初期把它误判为既有 Rust 交付，已向 Root 主动更正，机器清单以本结论为准。
+
+R2 已交付真实 `OriginalApprovalDomain::apply_with_session` 的 `contract-review` 消费分支，及四个审批/待办 HTTP 操作。B 复用这些实现，只由 Root 对合同准备版本绑定、必要审计和同事务身份图做有界扩展；不重新迁移 R2 路由，不把已有框架或旧 seed 消费证明当作本批真实生产链验收。
+
+`ContractAmendment` 现有 entity/repository 是真实输入，但九操作里没有创建、提交、生效合同变更的 HTTP 生产者。其唯一版本/当前约束和 handover 读取链纳入图，本批不能据此宣称变更或移交已闭环。首批以外 53 个 R4 HTTP、R5、迁移接管、部署、性能结论均不在 B 交付。
+
+## 九操作映射
+
+`/api` 是运行前缀；canonical 表不把 query 拼进路径。21 个递归 OpenAPI schema、完整 parameter/request/response 元数据已从现有规范静态摘取到 `openapi-slice.json`。
+
+| ID | Method / runtime path | operationId | Canonical action / DTO | Guard / receipt |
+| --- | --- | --- | --- | --- |
+| B01 | `GET /api/contracts` | `ContractController_list` | `listContracts`；`ContractListQueryDto` → `ContractSummary[]` | `project:read`；200 数组，金额敏感投影 |
+| B02 | `POST /api/contracts` | `ContractController_create` | `createContract`；`CreateContractRequestDto` → `ContractDto` | `project:write` + CSRF；201，真实 draft/CT 编号/版本 |
+| B03 | `GET /api/contracts/{id}` | `ContractController_getById` | `getContract`；path id → `ContractDetailViewDto` | `project:read`；200，当前生效快照内联 |
+| B04 | `PATCH /api/contracts/{id}` | `ContractController_updateBasicInfo` | `updateContract`；`UpdateContractBasicInfoRequestDto` | `project:write` + CSRF；200，draft 限制/实际 dirty CAS |
+| B05 | `GET /api/contracts/{id}/approval-record` | `ContractController_getCurrentApproval` | `getContractApprovalRecord` → `ApprovalRecordDto` | `project:read`；200，真实最新审批，空历史404 |
+| B06 | `POST /api/contracts/{id}:submitReview` | `ContractController_submitReview` | `submitContractReview`；Root 补必填 `preparationId` | `project:write` + CSRF；submitted，真实 approval/todo，精确准备绑定 |
+| B07 | `POST /api/contracts/{id}:activate` | `ContractController_activate` | `activateContract`；`ActivateContractRequestDto` | `project:write` + CSRF；activated，真实 ActiveSnapshotId |
+| B08 | `GET /api/contracts:lookup` | `ContractController_getByNo` | `getContractByNumber`；`ContractLookupQueryDto` | `project:read`；exact `contractNo` query，200 detail/404 |
+| B09 | `GET /api/contract-term-snapshots/{id}` | `ContractTermSnapshotController_getById` | `getContractTermSnapshot` → snapshot DTO | `project:read`；200，独立六字段投影批次 |
+
+所有 canonical 当前已存在、aligned；本批允许必要 DTO/DDL/UI 补齐，路径、方法与 operationId 不因此新增别名。旧 `/contracts/no/{contractNo}` 不恢复。
+
+## 已核源码事实与本批业务裁决
+
+1. Native create 已在 `em.transactional` 内调用 `BusinessNumberService.next('contract', new Date(), em)`，编号和合同 INSERT 共用 EM。Rust 现有 `next_with_connection(&mut PgConnection, Contract, at)` 可直接复用；不用独立 `next()` 连接。UTC 年、`CT-{YYYY}-{pad6}`、唯一稳定不保证连续是已决编号边界。独立预留可允许失败占号，但这里没有该业务需求，并破坏现有同事务原子边界，故不采用。
+2. Native create 接受任意共享 status，能绕过审核直接 active。本批按 Root 转达的用户裁决修为 omitted/draft，禁止 pending-review/active 等绕过。合同台账金额必须 `>0`，有限十进制、至多两位、适配 `numeric(18,2)`；最大 `9999999999999999.99`，拒绝指数/NaN/负值/零/超精度/溢出，禁止 `f64` 或存储默舍入。Root 负责公共 DTO 与 actor 输入兼容策略。
+3. Native submit 已在同一 TX 写合同 pending-review、真实 `approval_record` 和 high/open `todo_item`，但没有绑定条款版本。本批显式 `preparationId`，使用新 `contract_review_binding` 固定本次 actual ApprovalId 对应的不可变准备产物，全部写及必要审计/会话同事务。
+4. R2 approve 分支把合同 pending-review 再赋同值；common store 实际 no-op，不写合同、不涨合同版本。reject 写 draft 并 CAS。这是可复用的真实消费行为，不把批准等同合同生效。审批实际 expectedVersion/pending/assignee/todo/目标顺序和约束仍需要本批真实来源链复验。
+5. Native A 初始化只预留 UUID，不创建产物；项目可多合同却共用项目级快照 ID。用户已裁决 **合同级真实准备 → 审核后激活生效 → 正式应收计划**。Root 已选择独立 `contract_term_preparation(prepared/superseded/activated)`，保留现 Active snapshot 状态/effectiveAt 语义。A initialize 必须显式 `contractId`，返回真实 `preparationId`，不再返回假 Active snapshot ID。
+6. Native activate 缺失外层 TX，先独立保存 snapshot，再保存 contract；失败可能留下部分写。Rust 必须同一个 outer TX 消费 **latest approved binding 的 exact preparationId**，校验同合同/项目、未 supersede、合同核心属性与冻结准备一致、来源有效；新建独立 Active snapshot UUID，写 `source_preparation_id` FK，CAS 合同/currentSnapshotId 与 preparation→activated，必要 audit/auth 一起提交或回滚。不得临时改挂 project 最新 baseline。
+7. reject 后可以重用未 supersede、来源一致、条款/合同核心属性未变的同准备版本，或建立新版本。新准备替代旧准备应明确 supersede，不能悄悄改待审 binding；合同关键属性或上游来源变化必须新准备或明确差异复核。
+
+准备版本与生效版本是两条不同语义链。Root已确认初次 Active snapshot.version 从1开始，即使准备已迭代到v3；由 sourcePreparationId 回溯准备版本，source_preparation_id至多关联一个真实产物。exact DDL/constraint/DTO 仍由 Root 联合 G1 最终冻结，不冒称已实现。
+
+Root转达的用户第四裁决同时明确：每份合同金额、条款、应收节点独立，不复制项目总报价、不自动分摊、不强制合同金额合计等于项目报价。A准备保存该合同的真实条款、R3来源与差异/复核链；B只消费审批绑定的合同级冻结值，不能把Native baseline的项目总金额直接复制到每份合同。
+
+## 类型、日期、查询和敏感投影
+
+命名/enum/permission 以 `shared-contracts.ts` 为权威，OpenAPI 是 HTTP 投影。`ApiOkResponse` 不能当运行时 serializer。Native path id 未使用 UUID pipe；Root 可以按业务正确性统一有效 UUID 错误协议，不能误把 SQL 字符串或外部合同号当内部身份。
+
+- 内部使用区分 `ContractId`、`ProjectId`、`PreparationId`、`SnapshotId`、`ApprovalId`、`ReadinessId`、`BaselineId` 的类型及数据库 typed equality，合法 uppercase spelling 不导致另一个业务身份。Rust 既有 `UuidText` 可保 wire spelling，但它不是域隔离类型。
+- `signedAt/effectiveAt/preparedAt/submittedAt/decidedAt/createdAt/updatedAt` 是时间点；`retentionDueDate` 是 `date`，必须日历有效且禁止通过 `.slice(0,10)` 把 datetime 蒙混过去。准备和生效的时间不可混用。
+- amount 为 `numeric(18,2)`；A 的三比例为 `numeric(5,4)`。R3 `decimal_input(scale4)` 默认容量是 `numeric(18,4)`，不能直接误当比例物理容量。A 返回已经验证的 typed Decimal/terms，B 复制精确值，不再舍入。
+- PATCH 未传与显式 null 分开；nullable 字段可清空，currency/amount 不可 null；至少一个已识别字段。PATCH 原 DTO 无 expectedVersion，内部仍必须对实际 dirty 更新 CAS；same-value 无业务版本/updatedAt伪变更。
+- 列表后端 keyword 只对内/外合同号 `ILIKE`，不按 project/customer 名称过滤；顺序为 createdAt DESC。业务号 lookup required string min1，不 trim/coerce/max64/Unicode归一化，保持 exact equality。
+- 合同 signedAmount 单字段投影，targetType=`contract`；snapshot 六字段成一批，targetType=`ContractSnapshot`。无敏感权限的非null字段 masked；null 为 full/null/not-applicable，不入hidden keys。detail/lookup 两个批次分别审计；snapshot 独立查询只有一批。
+- 复用 `auth::projection::plan` 的真实 pending event，再在必要事务中持久化。actual originalUrl/query/encoding 优先，fallback 只在请求 URL 缺失时使用。full权限或全null不新增敏感事件。
+
+## 非 HTTP 和持久化闭包
+
+`audit.json.chains` 为每条链分列 source→caller、读写表、Native/target TX、CAS/version、audit、managed session、no-op；共13条链，不用空占位代替真实依赖。`dependency-graph.json` 的22节点/35边区分当前已存在实现与本批待实现生产者。
+
+```mermaid
+flowchart LR
+  R3[真实R3来源和版本] --> A[A派生就绪]
+  N[R2同连接编号] --> D[B真实draft]
+  R3 --> D
+  D --> P[A合同级真实preparation]
+  A --> P
+  P --> S[B submitReview]
+  S --> X[真实approval和todo与binding]
+  X --> R[R2真实contract-review消费]
+  R -->|reject| D
+  R -->|approved但合同仍pending-review| V[B精确准备版本activate]
+  P --> V
+  V --> K[独立Active snapshot及sourcePreparation FK]
+  V --> C[contract Active/currentSnapshot]
+  C --> F[C真实财务写入]
+  K --> Q[A正式应收计划]
+  C --> Q
+  T[同一outerTX connection identity graph与必要audit/auth] --> S
+  T --> R
+  T --> V
+```
+
+22张当前关联表的完整 `defineEntity` 原文将保存于 `table-entity-source.json`，包括所有声明 column/default/index/FK/unique/CHECK；`migration-reference-index.json` 覆盖全部92迁移中的相关 SQL 行及其来源SHA。它是静态定义链，不是 live catalog 校验；旧 EX56B 的 PascalCase enum 经 EX58B direct cutover 后为小写 code，不能只读旧迁移就报当前漂移。
+
+B 直接写合同/条款（含新prepare/binding消费）、审批、todo、编号及必要audit/session；A 读源包括 readiness/baseline/diff/item/review，R3 project、auth principal闭包均明确。`contract.current_snapshot_id` 当前没有FK，approval target/project/actor也是逻辑UUID，没有 pending-target唯一；不能在G1里虚构数据库已替服务兜底。现 snapshot 有每合同唯一active；amendment有合同version唯一和当前partial unique，但没有本批真实producer。
+
+新 `contract_term_preparation` / `contract_review_binding` 及 `source_preparation_id` 的具体字段、约束、迁移、DTO/client/UI由 Root 单写。`audit.json.tables` 将现表完整约束与这两张尚不存在表的建议分开，不能把建议当当前 catalog。
+
+## 共享接口和实际验证要求
+
+`shared-interface-proposal.md` 明确 A→B、R2消费、B→C 与 shared session 的候选签名，以及已有接口的能力限制。R2 `Table::ContractTerm` 当前 read_only，不能直接解禁通用表写权限；Root 需要给 typed snapshot/preparation SQL 和 common Contract/Approval/Todo 一个实际统一身份视图。
+
+`case-definitions.json` 定义真实生产者recipe、全部九入口、输入/金额/日期/typedUUID、驳回重提、准确绑定、两合同、重复/并发、故障/整体回滚、coflush、原UI及C消费。必须实际观测 PG rows/versions/COMMIT与源来源，定义不表示通过。
+
+原 `contract-management.journey.spec.ts` 使用 `page.route(...fulfill...)`，还喂旧 raw signedAmount而不是投影，只能作为已有控件线索，不能认证真实Rust/UI。需要原 Angular contract list/detail、readiness、approval/todo和finance页面，实际身份/CSRF/client请求和数据库读回，禁止以mock成功抵交付。
+
+Root 执行一轮适用共享回归与本批业务矩阵，不机械逐片重跑相同候选；来源/行为变化再补受影响检查。Rust静态/实际PG/HTTP/原UI/完整OpenAPI+client/migration实体DDL齐备后，仍需要非作者G3、固定提交、集成及G4的分别回执。
+
+## 文件和证据等级
+
+- `audit.json`：9操作、DTO/SSOT、13链、24表（22现表＋2新表提案）、已决/待定项和验证计划。
+- `openapi-slice.json`：现有规范静态原operation及21递归schemas；不含本批尚未冻结的准备DTO扩展。
+- `table-entity-source.json`：当前实体完整声明的静态摘取，所有新表仍不存在。
+- `source-manifest.json`：逐文件原始byte length/SHA-256；`capture-static.ps1` 对捕获前后输入再hash确认稳定。无LF归一化，无Git HEAD验证。
+- `migration-reference-index.json`：92迁移静态相关行，包含up/down；需要上下文时读所列原文件，不执行任何DDL。
+- `dependency-graph.json`、`shared-interface-proposal.md`、`case-definitions.json`：目标关系与纯定义，不是产品结果。
+
+语义精读覆盖完整Native contract service/repository/entity/module/controllers/mapper；approval的真实合同submit、decision与latest/todo消费分支；A activation/init与实体/repository；R2 common transaction/session/contract decision/store CAS/no-op/receipt；R3 project caller-connection/Decimal/UuidText；相关正式设计、UI/store和现有E2E线索。整份commission结算算法、所有92migration全文、全量shared schema/全部生成client未逐行语义审阅，属于按相关段落读取/机械摘取/原字节hash等级，不把hash-only升级为完整业务审查。

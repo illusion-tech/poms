@@ -1,0 +1,25 @@
+$ErrorActionPreference = 'Stop'
+$taskRepo = 'E:/projects/worktrees/poms-r3hijk-next28/poms'
+$taskOwned = Join-Path $taskRepo 'tmp/rust-r4abc/input-c'
+$taskSupplementFiles = @(
+    'docs/design/interface-command-design.md',
+    'docs/design/phase2-cost-source-to-project-record-mapping.md',
+    'docs/design/archive/slices/ex-06-procurement-fact-prerequisite-baseline.md',
+    'docs/design/archive/slices/ex-06d-payable-payment-tax-semantics-baseline.md'
+)
+$taskEntries = @()
+foreach ($taskRelative in $taskSupplementFiles) {
+    $taskSource = Join-Path $taskRepo $taskRelative
+    $taskDestination = [System.IO.Path]::GetFullPath((Join-Path $taskOwned ('sources/' + $taskRelative)))
+    if (-not $taskDestination.StartsWith([System.IO.Path]::GetFullPath($taskOwned) + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) { throw 'Out of scope' }
+    if (Test-Path -LiteralPath $taskDestination) { throw 'Refuse overwrite' }
+    $taskBytes = [System.IO.File]::ReadAllBytes($taskSource)
+    $taskSha = [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($taskBytes)).ToLowerInvariant()
+    [System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($taskDestination)) | Out-Null
+    [System.IO.File]::WriteAllBytes($taskDestination, $taskBytes)
+    if ($taskSha -ne (Get-FileHash -LiteralPath $taskSource -Algorithm SHA256).Hash.ToLowerInvariant() -or $taskSha -ne (Get-FileHash -LiteralPath $taskDestination -Algorithm SHA256).Hash.ToLowerInvariant()) { throw 'Unstable copy' }
+    $taskEntries += [ordered]@{ path = $taskRelative; rawBytes = $taskBytes.Length; sha256 = $taskSha; snapshot = 'sources/' + $taskRelative; evidenceClass = 'new-static-supplement'; sourceStableDuringCapture = $true; copyRawShaMatches = $true }
+}
+$taskManifest = [ordered]@{ schema = 'poms-r4c-source-supplement/v1'; createdAtUtc = [DateTime]::UtcNow.ToString('o'); parentReportedBaseline = '1730f304c1cf5600721f80b6c06feec24269d387'; baseManifest = 'source-manifest01.json'; count = $taskEntries.Count; totalRawBytes = ($taskEntries | ForEach-Object { $_.rawBytes } | Measure-Object -Sum).Sum; files = $taskEntries }
+[System.IO.File]::WriteAllText((Join-Path $taskOwned 'source-supplement02.json'), ($taskManifest | ConvertTo-Json -Depth 20) + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
+[ordered]@{ sourceFiles = $taskManifest.count; totalRawBytes = $taskManifest.totalRawBytes } | ConvertTo-Json -Compress

@@ -1,5 +1,7 @@
 # POMS Schema 与 DDL 细化设计
 
+> 2026-11-03：R4首批新增prepared版本、exact review binding和真实receivable plan版本/节点/init记录，以及合同级package/diff/附件关联的精确DDL设计输入见 `rust-r4abc/schema-freeze01.sql` 与 [联合基线](rust-r4abc-first37-baseline.md)。G2以新forward migration/entity落地；当前未执行DDL。
+
 **文档状态**: Active
 **最后更新**: 2026-04-29
 **适用范围**: `POMS` 第一阶段 schema / DDL 级细化基线，以及第二阶段第一批、第二批、第三批实现映射写回前的 DDL 补点输入

@@ -1,5 +1,7 @@
 # API Canonical Inventory
 
+> 2026-11-03：R4首批迁移37个既有canonical入口，不新增/删除method/path。A03/A07的contractId query、合同准备/计划/审批绑定及金额语义改变已纳 [联合基线](rust-r4abc-first37-baseline.md) 和 `rust-r4abc/dto-freeze01.json`，G1冻结后才准入DTO/controller/client。authoritative行本身保持aligned。
+
 **文档状态**: Active
 **最后更新**: 2026-10-26
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表

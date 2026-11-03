@@ -1,0 +1,4149 @@
+{
+  "kind": "static-migration-line-reference-index-not-live-catalog",
+  "targetTables": [
+    "contract",
+    "contract_term_snapshot",
+    "contract_amendment",
+    "approval_record",
+    "todo_item",
+    "business_number_sequence",
+    "project",
+    "contract_readiness_package",
+    "contract_readiness_package_item",
+    "commercial_release_baseline",
+    "commercial_baseline_diff_result",
+    "commercial_baseline_diff_item",
+    "commercial_baseline_review_record",
+    "audit_log",
+    "security_event",
+    "auth_session",
+    "platform_user",
+    "role",
+    "user_role_assignment",
+    "role_permission_assignment",
+    "org_unit",
+    "user_org_membership"
+  ],
+  "migrationFilesScanned": 92,
+  "files": [
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322193000_init_project.ts",
+      "hits": [
+        {
+          "line": 9,
+          "tables": [
+            "project"
+          ],
+          "text": "            `create table \"poms\".\"project\" (\"id\" uuid not null default gen_random_uuid(), \"project_code\" varchar(64) not null, \"project_name\" varchar(255) not null, \"customer_id\" uuid null, \"status\" varchar(32) not null, \"current_stage\" varchar(64) not null, \"owner_org_id\" uuid null, \"owner_user_id\" uuid null, \"planned_sign_at\" timestamptz null, \"closed_at\" timestamptz null, \"closed_reason\" text null, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, \"updated_at\" timestamptz not null default now(), \"updated_by\" uuid null, constraint \"project_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 12,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"project\" is 'POMS 第一阶段项目主链路主体表';`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"id\" is '项目主键';`);"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"project_code\" is '项目编号';`);"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"project_name\" is '项目名称';`);"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"customer_id\" is '客户标识，第一阶段先保留业务引用';`);"
+        },
+        {
+          "line": 17,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"status\" is '项目当前主状态';`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"current_stage\" is '项目当前阶段';`);"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"owner_org_id\" is '项目归属组织标识';`);"
+        },
+        {
+          "line": 20,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"owner_user_id\" is '项目负责人标识';`);"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"planned_sign_at\" is '预计签约时间';`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"closed_at\" is '项目关闭时间';`);"
+        },
+        {
+          "line": 23,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"closed_reason\" is '项目关闭原因';`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"row_version\" is '乐观锁版本号';`);"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"created_by\" is '创建人标识';`);"
+        },
+        {
+          "line": 27,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"updated_at\" is '最后更新时间';`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"updated_by\" is '最后更新人标识';`);"
+        },
+        {
+          "line": 30,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" add constraint \"project_project_code_unique\" unique (\"project_code\");`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`create index \"idx_project_status\" on \"poms\".\"project\" (\"status\");`);"
+        },
+        {
+          "line": 32,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`create index \"idx_project_current_stage\" on \"poms\".\"project\" (\"current_stage\");`);"
+        },
+        {
+          "line": 33,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`create index \"idx_project_owner_org_id\" on \"poms\".\"project\" (\"owner_org_id\");`);"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"project\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322233000_init_contract.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "            `create table \"poms\".\"contract\" (\"id\" uuid not null default gen_random_uuid(), \"project_id\" uuid not null, \"contract_no\" varchar(64) not null, \"status\" varchar(32) not null, \"signed_amount\" numeric(18,2) not null default 0, \"currency_code\" varchar(16) not null default 'CNY', \"current_snapshot_id\" uuid null, \"signed_at\" timestamptz null, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, \"updated_at\" timestamptz not null default now(), \"updated_by\" uuid null, constraint \"contract_pkey\" primary key (\"id\"), constraint \"contract_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict);`"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"contract\" is 'POMS 第一阶段合同主表';`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"id\" is '合同主键';`);"
+        },
+        {
+          "line": 11,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"project_id\" is '所属项目标识';`);"
+        },
+        {
+          "line": 12,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"contract_no\" is '合同编号';`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"status\" is '合同状态';`);"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"signed_amount\" is '合同签约金额';`);"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"currency_code\" is '币种代码';`);"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"current_snapshot_id\" is '当前生效条款快照标识';`);"
+        },
+        {
+          "line": 17,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"signed_at\" is '签约时间';`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"row_version\" is '乐观锁版本号';`);"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "line": 20,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"created_by\" is '创建人标识';`);"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"updated_at\" is '最后更新时间';`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"updated_by\" is '最后更新人标识';`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" add constraint \"contract_contract_no_unique\" unique (\"contract_no\");`);"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_project_id\" on \"poms\".\"contract\" (\"project_id\");`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_status\" on \"poms\".\"contract\" (\"status\");`);"
+        },
+        {
+          "line": 30,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"contract\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260322235500_init_approval_and_todo.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "            `create table \"poms\".\"approval_record\" (\"id\" uuid not null default gen_random_uuid(), \"approval_type\" varchar(64) not null, \"business_domain\" varchar(64) not null, \"target_object_type\" varchar(64) not null, \"target_object_id\" uuid not null, \"project_id\" uuid null, \"current_status\" varchar(32) not null, \"current_node_key\" varchar(64) not null, \"initiator_user_id\" uuid not null, \"current_approver_user_id\" uuid null, \"decision\" varchar(32) null, \"decision_comment\" text null, \"submitted_at\" timestamptz not null, \"decided_at\" timestamptz null, \"closed_at\" timestamptz null, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"updated_at\" timestamptz not null default now(), constraint \"approval_record_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"approval_record\" is 'POMS 第一阶段统一审批记录表';`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`create index \"idx_approval_record_target\" on \"poms\".\"approval_record\" (\"target_object_type\", \"target_object_id\");`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`create index \"idx_approval_record_status\" on \"poms\".\"approval_record\" (\"current_status\");`);"
+        },
+        {
+          "line": 11,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`create index \"idx_approval_record_approver\" on \"poms\".\"approval_record\" (\"current_approver_user_id\");`);"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "            `create table \"poms\".\"todo_item\" (\"id\" uuid not null default gen_random_uuid(), \"source_type\" varchar(64) not null, \"source_id\" uuid not null, \"todo_type\" varchar(64) not null, \"business_domain\" varchar(64) not null, \"target_object_type\" varchar(64) not null, \"target_object_id\" uuid not null, \"project_id\" uuid null, \"title\" varchar(255) not null, \"summary\" text null, \"assignee_user_id\" uuid not null, \"status\" varchar(32) not null, \"priority\" varchar(16) not null, \"due_at\" timestamptz null, \"completed_at\" timestamptz null, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"updated_at\" timestamptz not null default now(), constraint \"todo_item_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"todo_item\" is 'POMS 第一阶段统一待办表';`);"
+        },
+        {
+          "line": 17,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`create index \"idx_todo_item_assignee_status\" on \"poms\".\"todo_item\" (\"assignee_user_id\", \"status\");`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`create index \"idx_todo_item_target\" on \"poms\".\"todo_item\" (\"target_object_type\", \"target_object_id\");`);"
+        },
+        {
+          "line": 20,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "            `create unique index \"uq_todo_item_open_source\" on \"poms\".\"todo_item\" (\"source_type\", \"source_id\", \"assignee_user_id\") where \"status\" in ('open', 'processing');`"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"todo_item\" cascade;`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"approval_record\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325153000_init_platform_governance_core.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "            `create table \"poms\".\"org_unit\" (\"id\" uuid not null default gen_random_uuid(), \"name\" varchar(128) not null, \"code\" varchar(64) not null, \"description\" text null, \"parent_id\" uuid null, \"is_active\" boolean not null default true, \"display_order\" integer not null default 0, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, \"updated_at\" timestamptz not null default now(), \"updated_by\" uuid null, constraint \"org_unit_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_unit\" add constraint \"org_unit_code_unique\" unique (\"code\");`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`create index \"idx_org_unit_parent_id\" on \"poms\".\"org_unit\" (\"parent_id\");`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`create index \"idx_org_unit_is_active\" on \"poms\".\"org_unit\" (\"is_active\");`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "role"
+          ],
+          "text": "            `create table \"poms\".\"role\" (\"id\" uuid not null default gen_random_uuid(), \"role_key\" varchar(64) not null, \"name\" varchar(128) not null, \"description\" text null, \"is_active\" boolean not null default true, \"is_system_role\" boolean not null default false, \"display_order\" integer not null default 0, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, \"updated_at\" timestamptz not null default now(), \"updated_by\" uuid null, constraint \"role_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"role\" add constraint \"role_role_key_unique\" unique (\"role_key\");`);"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`create index \"idx_role_is_active\" on \"poms\".\"role\" (\"is_active\");`);"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "            `create table \"poms\".\"platform_user\" (\"id\" uuid not null default gen_random_uuid(), \"username\" varchar(64) not null, \"display_name\" varchar(128) not null, \"email\" varchar(255) null, \"phone\" varchar(64) null, \"avatar_url\" varchar(512) null, \"is_active\" boolean not null default true, \"primary_org_unit_id\" uuid null, \"last_login_at\" timestamptz null, \"row_version\" integer not null default 1, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, \"updated_at\" timestamptz not null default now(), \"updated_by\" uuid null, constraint \"platform_user_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" add constraint \"platform_user_username_unique\" unique (\"username\");`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`create index \"idx_platform_user_is_active\" on \"poms\".\"platform_user\" (\"is_active\");`);"
+        },
+        {
+          "line": 23,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`create index \"idx_platform_user_primary_org_unit_id\" on \"poms\".\"platform_user\" (\"primary_org_unit_id\");`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "            `create table \"poms\".\"user_role_assignment\" (\"id\" uuid not null default gen_random_uuid(), \"user_id\" uuid not null, \"role_id\" uuid not null, \"status\" varchar(32) not null default 'active', \"assigned_at\" timestamptz not null default now(), \"assigned_by\" uuid null, \"revoked_at\" timestamptz null, \"revoked_by\" uuid null, \"change_reason\" text null, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, constraint \"user_role_assignment_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`create index \"idx_user_role_assignment_user_id_status\" on \"poms\".\"user_role_assignment\" (\"user_id\", \"status\");`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`create index \"idx_user_role_assignment_role_id_status\" on \"poms\".\"user_role_assignment\" (\"role_id\", \"status\");`);"
+        },
+        {
+          "line": 30,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`create unique index \"uq_user_role_assignment_active\" on \"poms\".\"user_role_assignment\" (\"user_id\", \"role_id\") where \"status\" = 'active';`);"
+        },
+        {
+          "line": 33,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "            `create table \"poms\".\"user_org_membership\" (\"id\" uuid not null default gen_random_uuid(), \"user_id\" uuid not null, \"org_unit_id\" uuid not null, \"membership_type\" varchar(32) not null, \"status\" varchar(32) not null default 'active', \"assigned_at\" timestamptz not null default now(), \"assigned_by\" uuid null, \"revoked_at\" timestamptz null, \"revoked_by\" uuid null, \"change_reason\" text null, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, constraint \"user_org_membership_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 35,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`create index \"idx_user_org_membership_user_id_status\" on \"poms\".\"user_org_membership\" (\"user_id\", \"status\");`);"
+        },
+        {
+          "line": 36,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`create index \"idx_user_org_membership_org_unit_id_status\" on \"poms\".\"user_org_membership\" (\"org_unit_id\", \"status\");`);"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`create unique index \"uq_user_org_membership_active\" on \"poms\".\"user_org_membership\" (\"user_id\", \"org_unit_id\") where \"status\" = 'active';`);"
+        },
+        {
+          "line": 38,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`create unique index \"uq_user_primary_org_membership_active\" on \"poms\".\"user_org_membership\" (\"user_id\") where \"status\" = 'active' and \"membership_type\" = 'primary';`);"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "            `create table \"poms\".\"role_permission_assignment\" (\"id\" uuid not null default gen_random_uuid(), \"role_id\" uuid not null, \"permission_key\" varchar(128) not null, \"status\" varchar(32) not null default 'active', \"assigned_at\" timestamptz not null default now(), \"assigned_by\" uuid null, \"revoked_at\" timestamptz null, \"revoked_by\" uuid null, \"change_reason\" text null, \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, constraint \"role_permission_assignment_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 43,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`create index \"idx_role_permission_assignment_role_id_status\" on \"poms\".\"role_permission_assignment\" (\"role_id\", \"status\");`);"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`create index \"idx_role_permission_assignment_permission_key\" on \"poms\".\"role_permission_assignment\" (\"permission_key\");`);"
+        },
+        {
+          "line": 45,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`create unique index \"uq_role_permission_assignment_active\" on \"poms\".\"role_permission_assignment\" (\"role_id\", \"permission_key\") where \"status\" = 'active';`);"
+        },
+        {
+          "line": 47,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_unit\" add constraint \"org_unit_parent_id_foreign\" foreign key (\"parent_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 48,
+          "tables": [
+            "platform_user",
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" add constraint \"platform_user_primary_org_unit_id_foreign\" foreign key (\"primary_org_unit_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "platform_user",
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_role_assignment\" add constraint \"user_role_assignment_user_id_foreign\" foreign key (\"user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 50,
+          "tables": [
+            "role",
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_role_assignment\" add constraint \"user_role_assignment_role_id_foreign\" foreign key (\"role_id\") references \"poms\".\"role\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 51,
+          "tables": [
+            "platform_user",
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_org_membership\" add constraint \"user_org_membership_user_id_foreign\" foreign key (\"user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 52,
+          "tables": [
+            "org_unit",
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_org_membership\" add constraint \"user_org_membership_org_unit_id_foreign\" foreign key (\"org_unit_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "role",
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"role_permission_assignment\" add constraint \"role_permission_assignment_role_id_foreign\" foreign key (\"role_id\") references \"poms\".\"role\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 57,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"role_permission_assignment\" drop constraint if exists \"role_permission_assignment_role_id_foreign\";`);"
+        },
+        {
+          "line": 58,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_org_membership\" drop constraint if exists \"user_org_membership_org_unit_id_foreign\";`);"
+        },
+        {
+          "line": 59,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_org_membership\" drop constraint if exists \"user_org_membership_user_id_foreign\";`);"
+        },
+        {
+          "line": 60,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_role_assignment\" drop constraint if exists \"user_role_assignment_role_id_foreign\";`);"
+        },
+        {
+          "line": 61,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"user_role_assignment\" drop constraint if exists \"user_role_assignment_user_id_foreign\";`);"
+        },
+        {
+          "line": 62,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" drop constraint if exists \"platform_user_primary_org_unit_id_foreign\";`);"
+        },
+        {
+          "line": 63,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_unit\" drop constraint if exists \"org_unit_parent_id_foreign\";`);"
+        },
+        {
+          "line": 64,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"role_permission_assignment\" cascade;`);"
+        },
+        {
+          "line": 65,
+          "tables": [
+            "user_org_membership"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"user_org_membership\" cascade;`);"
+        },
+        {
+          "line": 66,
+          "tables": [
+            "user_role_assignment"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"user_role_assignment\" cascade;`);"
+        },
+        {
+          "line": 67,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"platform_user\" cascade;`);"
+        },
+        {
+          "line": 68,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"role\" cascade;`);"
+        },
+        {
+          "line": 69,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"org_unit\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325180000_add_password_hash_to_platform_user.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" add column \"password_hash\" varchar(255) null;`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" drop column \"password_hash\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325190000_init_commission_s10.ts",
+      "hits": [
+        {
+          "line": 31,
+          "tables": [
+            "project"
+          ],
+          "text": "        // commission_role_assignment: per-project versioned participant set"
+        },
+        {
+          "line": 55,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commission_role_assignment\" add constraint \"commission_role_assignment_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260325200000_init_commission_s11.ts",
+      "hits": [
+        {
+          "line": 33,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commission_calculation\" add constraint \"commission_calculation_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 65,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commission_payout\" add constraint \"commission_payout_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260327090000_init_commission_s12.ts",
+      "hits": [
+        {
+          "line": 28,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commission_adjustment\" add constraint \"commission_adjustment_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260327170000_init_contract_finance_facts.ts",
+      "hits": [
+        {
+          "line": 25,
+          "tables": [
+            "contract"
+          ],
+          "text": "            foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\")"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 57,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 63,
+          "tables": [
+            "contract"
+          ],
+          "text": "            foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "            `create table \"poms\".\"audit_log\" ("
+        },
+        {
+          "line": 22,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`create index \"idx_audit_log_occurred_at\" on \"poms\".\"audit_log\" (\"occurred_at\");`);"
+        },
+        {
+          "line": 23,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`create index \"idx_audit_log_target\" on \"poms\".\"audit_log\" (\"target_type\", \"target_id\", \"occurred_at\");`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`create index \"idx_audit_log_event_type\" on \"poms\".\"audit_log\" (\"event_type\", \"occurred_at\");`);"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`create index \"idx_audit_log_operator_id\" on \"poms\".\"audit_log\" (\"operator_id\", \"occurred_at\");`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "security_event"
+          ],
+          "text": "            `create table \"poms\".\"security_event\" ("
+        },
+        {
+          "line": 46,
+          "tables": [
+            "security_event"
+          ],
+          "text": "        this.addSql(`create index \"idx_security_event_occurred_at\" on \"poms\".\"security_event\" (\"occurred_at\");`);"
+        },
+        {
+          "line": 47,
+          "tables": [
+            "security_event"
+          ],
+          "text": "        this.addSql(`create index \"idx_security_event_event_type\" on \"poms\".\"security_event\" (\"event_type\", \"occurred_at\");`);"
+        },
+        {
+          "line": 48,
+          "tables": [
+            "security_event"
+          ],
+          "text": "        this.addSql(`create index \"idx_security_event_actor_id\" on \"poms\".\"security_event\" (\"actor_id\", \"occurred_at\");`);"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "security_event"
+          ],
+          "text": "        this.addSql(`create index \"idx_security_event_path\" on \"poms\".\"security_event\" (\"path\", \"occurred_at\");`);"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "security_event"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"security_event\" cascade;`);"
+        },
+        {
+          "line": 54,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"audit_log\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260404074500_add_org_unit_structure_constraints.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "            `create unique index \"uq_org_unit_parent_name_ci\" on \"poms\".\"org_unit\" ((coalesce(\"parent_id\", '00000000-0000-0000-0000-000000000000'::uuid)), (lower(\"name\")));`"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`create index \"idx_org_unit_parent_display_order\" on \"poms\".\"org_unit\" (\"parent_id\", \"display_order\", \"created_at\");`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_unit\" add constraint \"chk_org_unit_parent_not_self\" check (\"parent_id\" is null or \"parent_id\" <> \"id\");`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_unit\" drop constraint if exists \"chk_org_unit_parent_not_self\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260405100000_extract_local_credential_and_add_verified_fields.ts",
+      "hits": [
+        {
+          "line": 11,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "            `alter table \"poms\".\"local_credential\" add constraint \"local_credential_user_id_foreign\" foreign key (\"user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete cascade;`"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        // Migrate existing password hashes from platform_user into local_credential"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "            `insert into \"poms\".\"local_credential\" (\"id\", \"user_id\", \"password_hash\") select gen_random_uuid(), \"id\", \"password_hash\" from \"poms\".\"platform_user\" where \"password_hash\" is not null;`"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        // Drop password_hash from platform_user"
+        },
+        {
+          "line": 20,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" drop column \"password_hash\";`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        // Add email_verified and phone_verified to platform_user"
+        },
+        {
+          "line": 23,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" add column \"email_verified\" boolean not null default false;`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" add column \"phone_verified\" boolean not null default false;`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" add column \"password_hash\" varchar(255) null;`);"
+        },
+        {
+          "line": 33,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "            `update \"poms\".\"platform_user\" u set \"password_hash\" = lc.\"password_hash\" from \"poms\".\"local_credential\" lc where lc.\"user_id\" = u.\"id\";`"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" drop column \"email_verified\";`);"
+        },
+        {
+          "line": 38,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"platform_user\" drop column \"phone_verified\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260405113000_init_contract_readiness_chain.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            create table \"poms\".\"commercial_release_baseline\" ("
+        },
+        {
+          "line": 25,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            `create unique index \"commercial_release_baseline_project_code_unique\" on \"poms\".\"commercial_release_baseline\" (\"project_id\", \"baseline_code\");`"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            `create index \"idx_commercial_release_baseline_project_current\" on \"poms\".\"commercial_release_baseline\" (\"project_id\", \"is_current\");`"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            `create index \"idx_commercial_release_baseline_status\" on \"poms\".\"commercial_release_baseline\" (\"baseline_status\");`"
+        },
+        {
+          "line": 35,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            create table \"poms\".\"commercial_baseline_diff_result\" ("
+        },
+        {
+          "line": 49,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            `create index \"idx_commercial_baseline_diff_result_baseline\" on \"poms\".\"commercial_baseline_diff_result\" (\"baseline_id\", \"created_at\");`"
+        },
+        {
+          "line": 52,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            `create index \"idx_commercial_baseline_diff_result_review_status\" on \"poms\".\"commercial_baseline_diff_result\" (\"review_status\");`"
+        },
+        {
+          "line": 56,
+          "tables": [
+            "commercial_baseline_diff_item"
+          ],
+          "text": "            create table \"poms\".\"commercial_baseline_diff_item\" ("
+        },
+        {
+          "line": 70,
+          "tables": [
+            "commercial_baseline_diff_item"
+          ],
+          "text": "            `create index \"idx_commercial_baseline_diff_item_result_sort\" on \"poms\".\"commercial_baseline_diff_item\" (\"diff_result_id\", \"sort_order\");`"
+        },
+        {
+          "line": 74,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "            create table \"poms\".\"commercial_baseline_review_record\" ("
+        },
+        {
+          "line": 88,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "            `create index \"idx_commercial_baseline_review_record_diff_result\" on \"poms\".\"commercial_baseline_review_record\" (\"diff_result_id\", \"created_at\");`"
+        },
+        {
+          "line": 91,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "            `create index \"idx_commercial_baseline_review_record_project\" on \"poms\".\"commercial_baseline_review_record\" (\"project_id\");`"
+        },
+        {
+          "line": 95,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            create table \"poms\".\"contract_readiness_package\" ("
+        },
+        {
+          "line": 119,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            `create index \"idx_contract_readiness_package_project_current\" on \"poms\".\"contract_readiness_package\" (\"project_id\", \"is_current\");`"
+        },
+        {
+          "line": 122,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            `create index \"idx_contract_readiness_package_status\" on \"poms\".\"contract_readiness_package\" (\"package_status\");`"
+        },
+        {
+          "line": 126,
+          "tables": [
+            "contract_readiness_package_item"
+          ],
+          "text": "            create table \"poms\".\"contract_readiness_package_item\" ("
+        },
+        {
+          "line": 141,
+          "tables": [
+            "contract_readiness_package_item"
+          ],
+          "text": "            `create index \"idx_contract_readiness_package_item_package_sort\" on \"poms\".\"contract_readiness_package_item\" (\"package_id\", \"sort_order\");`"
+        },
+        {
+          "line": 145,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            alter table \"poms\".\"commercial_release_baseline\""
+        },
+        {
+          "line": 147,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 151,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            alter table \"poms\".\"commercial_baseline_diff_result\""
+        },
+        {
+          "line": 153,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            foreign key (\"baseline_id\") references \"poms\".\"commercial_release_baseline\" (\"id\")"
+        },
+        {
+          "line": 157,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            alter table \"poms\".\"commercial_baseline_diff_result\""
+        },
+        {
+          "line": 159,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 163,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            alter table \"poms\".\"commercial_release_baseline\""
+        },
+        {
+          "line": 165,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            foreign key (\"latest_diff_result_id\") references \"poms\".\"commercial_baseline_diff_result\" (\"id\")"
+        },
+        {
+          "line": 169,
+          "tables": [
+            "commercial_baseline_diff_item"
+          ],
+          "text": "            alter table \"poms\".\"commercial_baseline_diff_item\""
+        },
+        {
+          "line": 171,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            foreign key (\"diff_result_id\") references \"poms\".\"commercial_baseline_diff_result\" (\"id\")"
+        },
+        {
+          "line": 175,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "            alter table \"poms\".\"commercial_baseline_review_record\""
+        },
+        {
+          "line": 177,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            foreign key (\"baseline_id\") references \"poms\".\"commercial_release_baseline\" (\"id\")"
+        },
+        {
+          "line": 181,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "            alter table \"poms\".\"commercial_baseline_review_record\""
+        },
+        {
+          "line": 183,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            foreign key (\"diff_result_id\") references \"poms\".\"commercial_baseline_diff_result\" (\"id\")"
+        },
+        {
+          "line": 187,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "            alter table \"poms\".\"commercial_baseline_review_record\""
+        },
+        {
+          "line": 189,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 193,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            alter table \"poms\".\"contract_readiness_package\""
+        },
+        {
+          "line": 195,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 199,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            alter table \"poms\".\"contract_readiness_package\""
+        },
+        {
+          "line": 201,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "            foreign key (\"source_baseline_id\") references \"poms\".\"commercial_release_baseline\" (\"id\")"
+        },
+        {
+          "line": 205,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            alter table \"poms\".\"contract_readiness_package\""
+        },
+        {
+          "line": 207,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "            foreign key (\"latest_diff_result_id\") references \"poms\".\"commercial_baseline_diff_result\" (\"id\")"
+        },
+        {
+          "line": 211,
+          "tables": [
+            "contract_readiness_package_item"
+          ],
+          "text": "            alter table \"poms\".\"contract_readiness_package_item\""
+        },
+        {
+          "line": 213,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "            foreign key (\"package_id\") references \"poms\".\"contract_readiness_package\" (\"id\")"
+        },
+        {
+          "line": 219,
+          "tables": [
+            "contract_readiness_package_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_readiness_package_item\" drop constraint if exists \"contract_readiness_package_item_package_id_foreign\";`);"
+        },
+        {
+          "line": 220,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_readiness_package\" drop constraint if exists \"contract_readiness_package_latest_diff_result_id_foreign\";`);"
+        },
+        {
+          "line": 221,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_readiness_package\" drop constraint if exists \"contract_readiness_package_source_baseline_id_foreign\";`);"
+        },
+        {
+          "line": 222,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_readiness_package\" drop constraint if exists \"contract_readiness_package_project_id_foreign\";`);"
+        },
+        {
+          "line": 223,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_baseline_review_record\" drop constraint if exists \"commercial_baseline_review_record_project_id_foreign\";`);"
+        },
+        {
+          "line": 224,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_baseline_review_record\" drop constraint if exists \"commercial_baseline_review_record_diff_result_id_foreign\";`);"
+        },
+        {
+          "line": 225,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_baseline_review_record\" drop constraint if exists \"commercial_baseline_review_record_baseline_id_foreign\";`);"
+        },
+        {
+          "line": 226,
+          "tables": [
+            "commercial_baseline_diff_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_baseline_diff_item\" drop constraint if exists \"commercial_baseline_diff_item_diff_result_id_foreign\";`);"
+        },
+        {
+          "line": 227,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop constraint if exists \"commercial_release_baseline_latest_diff_result_id_foreign\";`);"
+        },
+        {
+          "line": 228,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_baseline_diff_result\" drop constraint if exists \"commercial_baseline_diff_result_project_id_foreign\";`);"
+        },
+        {
+          "line": 229,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_baseline_diff_result\" drop constraint if exists \"commercial_baseline_diff_result_baseline_id_foreign\";`);"
+        },
+        {
+          "line": 230,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop constraint if exists \"commercial_release_baseline_project_id_foreign\";`);"
+        },
+        {
+          "line": 233,
+          "tables": [
+            "contract_readiness_package_item"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"contract_readiness_package_item\";`);"
+        },
+        {
+          "line": 237,
+          "tables": [
+            "contract_readiness_package"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"contract_readiness_package\";`);"
+        },
+        {
+          "line": 241,
+          "tables": [
+            "commercial_baseline_review_record"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"commercial_baseline_review_record\";`);"
+        },
+        {
+          "line": 244,
+          "tables": [
+            "commercial_baseline_diff_item"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"commercial_baseline_diff_item\";`);"
+        },
+        {
+          "line": 248,
+          "tables": [
+            "commercial_baseline_diff_result"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"commercial_baseline_diff_result\";`);"
+        },
+        {
+          "line": 253,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"commercial_release_baseline\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260405164244_init_actual_cost.ts",
+      "hits": [
+        {
+          "line": 9,
+          "tables": [
+            "role"
+          ],
+          "text": "    this.addSql(`comment on column \"poms\".\"internal_cost_rate_version\".\"rate_scope_type\" is '生效范围类型：PERSON / ROLE';`);"
+        },
+        {
+          "line": 91,
+          "tables": [
+            "project"
+          ],
+          "text": "    this.addSql(`alter table \"poms\".\"project_actual_cost_record\" add constraint \"project_actual_cost_record_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260411120000_align_actual_cost_rate_version.ts",
+      "hits": [
+        {
+          "line": 12,
+          "tables": [
+            "role"
+          ],
+          "text": "        when \"rate_scope_type\" = 'ROLE' and \"role_code\" is not null then concat('ROLE:', \"role_code\", ':', \"rate_unit\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412152000_add_invoice_record.ts",
+      "hits": [
+        {
+          "line": 30,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 36,
+          "tables": [
+            "contract"
+          ],
+          "text": "            foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412193000_add_expense_record.ts",
+      "hits": [
+        {
+          "line": 35,
+          "tables": [
+            "project"
+          ],
+          "text": "      foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "contract"
+          ],
+          "text": "      foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260412212000_add_payable_record.ts",
+      "hits": [
+        {
+          "line": 33,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 39,
+          "tables": [
+            "contract"
+          ],
+          "text": "            foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+      "hits": [
+        {
+          "line": 74,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"shared_cost_allocation_result\" add constraint \"shared_cost_allocation_result_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        },
+        {
+          "line": 139,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"accounting_tax_treatment_snapshot\" add constraint \"accounting_tax_treatment_snapshot_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        },
+        {
+          "line": 166,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"operating_baseline_package\" add constraint \"operating_baseline_package_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        },
+        {
+          "line": 235,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project_operating_snapshot\" add constraint \"project_operating_snapshot_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        },
+        {
+          "line": 273,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"period_closing_snapshot\" add constraint \"period_closing_snapshot_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260414130000_ex07b_operating_restatement_record.ts",
+      "hits": [
+        {
+          "line": 31,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"operating_restatement_record\" add constraint \"operating_restatement_record_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415090000_ex08a1_project_handover_core.ts",
+      "hits": [
+        {
+          "line": 8,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": " * 延迟 FK 例外。approval_summary_snapshot 与 contract_term_snapshot"
+        },
+        {
+          "line": 100,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415130000_ex08b3b0_contract_amendment.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "            `create table \"poms\".\"contract_amendment\" (\"id\" uuid not null default gen_random_uuid(), \"contract_id\" uuid not null, \"version\" integer not null, \"is_current\" boolean not null default false, \"supersedes_id\" uuid null, \"status\" varchar(32) not null default 'draft', \"created_at\" timestamptz not null default now(), \"created_by\" uuid null, \"updated_at\" timestamptz not null default now(), \"updated_by\" uuid null, \"row_version\" integer not null default 1, constraint \"contract_amendment_pkey\" primary key (\"id\"));`"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"contract_amendment\" is '合同变更版本表';`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"id\" is '主键';`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"contract_id\" is '所属合同 ID';`);"
+        },
+        {
+          "line": 11,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"version\" is '合同变更版本号';`);"
+        },
+        {
+          "line": 12,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"is_current\" is '是否当前有效变更版本';`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"supersedes_id\" is '被替代的合同变更版本';`);"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"status\" is '状态：draft/submitted/approved/effective/superseded/voided';`);"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"created_by\" is '创建人';`);"
+        },
+        {
+          "line": 17,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"updated_at\" is '最后更新时间';`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"updated_by\" is '最后更新人';`);"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_amendment\".\"row_version\" is '乐观锁版本号';`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "contract",
+            "contract_amendment"
+          ],
+          "text": "            `alter table \"poms\".\"contract_amendment\" add constraint \"contract_amendment_contract_id_foreign\" foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\") on update cascade on delete restrict;`"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "            `alter table \"poms\".\"contract_amendment\" add constraint \"contract_amendment_supersedes_id_foreign\" foreign key (\"supersedes_id\") references \"poms\".\"contract_amendment\" (\"id\") on update cascade on delete set null;`"
+        },
+        {
+          "line": 27,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_amendment_contract\" on \"poms\".\"contract_amendment\" (\"contract_id\");`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_amendment_status\" on \"poms\".\"contract_amendment\" (\"status\");`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_amendment_supersedes\" on \"poms\".\"contract_amendment\" (\"supersedes_id\");`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "            `alter table \"poms\".\"contract_amendment\" add constraint \"uq_contract_amendment_contract_version\" unique (\"contract_id\", \"version\");`"
+        },
+        {
+          "line": 34,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "            `create unique index \"uq_contract_amendment_contract_current\" on \"poms\".\"contract_amendment\" (\"contract_id\") where \"is_current\" = true;`"
+        },
+        {
+          "line": 39,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"contract_amendment\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415131000_ex08b3b0_rebaseline_amendment_fk.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "            `alter table \"poms\".\"contract_handover_rebaseline_record\" add constraint \"contract_handover_rebaseline_record_contract_amendment_id_forei\" foreign key (\"contract_amendment_id\") references \"poms\".\"contract_amendment\" (\"id\") on update cascade on delete restrict;`"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415142000_ex08b3b1_rebaseline_project_chain.ts",
+      "hits": [
+        {
+          "line": 9,
+          "tables": [
+            "contract_amendment"
+          ],
+          "text": "            from \"poms\".\"contract_amendment\" ca"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "contract"
+          ],
+          "text": "            inner join \"poms\".\"contract\" c on c.\"id\" = ca.\"contract_id\""
+        },
+        {
+          "line": 18,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "            create table \"poms\".\"contract_term_snapshot\" ("
+        },
+        {
+          "line": 18,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"contract_term_snapshot\" is '合同条款生效快照';`);"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"id\" is '主键';`);"
+        },
+        {
+          "line": 20,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"contract_id\" is '所属合同 ID';`);"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"effective_at\" is '生效时间';`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"effective_by\" is '生效操作人';`);"
+        },
+        {
+          "line": 23,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"snapshot_status\" is '快照状态：active/superseded/voided';`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"created_by\" is '创建人';`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"row_version\" is '乐观锁版本号';`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "            alter table \"poms\".\"contract_term_snapshot\""
+        },
+        {
+          "line": 30,
+          "tables": [
+            "contract"
+          ],
+          "text": "            foreign key (\"contract_id\") references \"poms\".\"contract\" (\"id\")"
+        },
+        {
+          "line": 33,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_term_snapshot_contract_effective\" on \"poms\".\"contract_term_snapshot\" (\"contract_id\", \"effective_at\" desc);`);"
+        },
+        {
+          "line": 34,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_term_snapshot_status\" on \"poms\".\"contract_term_snapshot\" (\"snapshot_status\");`);"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "            on \"poms\".\"contract_term_snapshot\" (\"contract_id\")"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "            foreign key (\"effective_handover_baseline_snapshot_id\") references \"poms\".\"contract_term_snapshot\" (\"id\")"
+        },
+        {
+          "line": 50,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "            foreign key (\"effective_baseline_after_id\") references \"poms\".\"contract_term_snapshot\" (\"id\")"
+        },
+        {
+          "line": 97,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 140,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"contract_term_snapshot\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416130000_ex09a_commission_freeze_chain.ts",
+      "hits": [
+        {
+          "line": 21,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "            'alter table \"poms\".\"commission_role_assignment\" add constraint \"cra_effective_handover_baseline_fk\" foreign key (\"effective_handover_baseline_snapshot_id\") references \"poms\".\"contract_term_snapshot\" (\"id\") on update cascade on delete restrict;'"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260416143000_ex09d_commission_freeze_dispute_chain.ts",
+      "hits": [
+        {
+          "line": 42,
+          "tables": [
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"commission_freeze_dispute_record\" add constraint \"cfdr_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;`"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418170000_ex13a_operating_signal_model.ts",
+      "hits": [
+        {
+          "line": 50,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"data_maturity_evaluation_result_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        },
+        {
+          "line": 113,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"operating_signal_evaluation_result_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        },
+        {
+          "line": 229,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"operating_signal_gate_binding_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\");`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts",
+      "hits": [
+        {
+          "line": 61,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;"
+        },
+        {
+          "line": 169,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;"
+        },
+        {
+          "line": 265,
+          "tables": [
+            "project"
+          ],
+          "text": "            foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete cascade;"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260419120000_ex14d_retention_due_fact_source.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" add column \"retention_due_date\" date null;`);"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"retention_due_date\" is '质保期届满日期';`);"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"retention_due_date\" date null;`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"retention_due_date\" is '质保期届满日期';`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"retention_due_date\";`);"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" drop column if exists \"retention_due_date\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260421110000_ex17_project_list_and_create_semantics.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" add column \"customer_name\" varchar(255) null;`);"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"customer_name\" is '客户名称';`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop column if exists \"customer_name\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260422031100_add_contract_term_snapshot_core_fields.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        // commercial_release_baseline: 新增结构化条款列"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" add column \"amount_tax_inclusive\" numeric(18,2) null;`);"
+        },
+        {
+          "line": 7,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"commercial_release_baseline\".\"amount_tax_inclusive\" is '含税金额';`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" add column \"amount_tax_exclusive\" numeric(18,2) null;`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"commercial_release_baseline\".\"amount_tax_exclusive\" is '未税金额';`);"
+        },
+        {
+          "line": 12,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" add column \"tax_rate\" numeric(5,4) null;`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"commercial_release_baseline\".\"tax_rate\" is '税率，如 0.13';`);"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" add column \"down_payment_rate\" numeric(5,4) null;`);"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"commercial_release_baseline\".\"down_payment_rate\" is '首付款比例';`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" add column \"retention_rate\" numeric(5,4) null;`);"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"commercial_release_baseline\".\"retention_rate\" is '质保金比例';`);"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" add column \"payment_terms\" varchar(1000) null;`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"commercial_release_baseline\".\"payment_terms\" is '付款条款文本或 JSON 摘要';`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        // contract_term_snapshot: 新增核心条款列与来源链"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"amount_tax_inclusive\" numeric(18,2) null;`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"amount_tax_inclusive\" is '含税金额';`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"amount_tax_exclusive\" numeric(18,2) null;`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"amount_tax_exclusive\" is '未税金额';`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"tax_rate\" numeric(5,4) null;`);"
+        },
+        {
+          "line": 32,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"tax_rate\" is '税率';`);"
+        },
+        {
+          "line": 34,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"down_payment_rate\" numeric(5,4) null;`);"
+        },
+        {
+          "line": 35,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"down_payment_rate\" is '首付款比例';`);"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"retention_rate\" numeric(5,4) null;`);"
+        },
+        {
+          "line": 38,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"retention_rate\" is '质保金比例';`);"
+        },
+        {
+          "line": 40,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"payment_terms\" varchar(1000) null;`);"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"payment_terms\" is '付款条款';`);"
+        },
+        {
+          "line": 43,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"source_readiness_id\" uuid null;`);"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"source_readiness_id\" is '来源签约就绪包 ID';`);"
+        },
+        {
+          "line": 46,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"source_baseline_id\" uuid null;`);"
+        },
+        {
+          "line": 47,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"source_baseline_id\" is '来源商业放行基线 ID';`);"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add column \"version\" int not null default 1;`);"
+        },
+        {
+          "line": 50,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract_term_snapshot\".\"version\" is '快照版本号';`);"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_term_snapshot_baseline\" on \"poms\".\"contract_term_snapshot\" (\"source_baseline_id\");`);"
+        },
+        {
+          "line": 54,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`create index \"idx_contract_term_snapshot_readiness\" on \"poms\".\"contract_term_snapshot\" (\"source_readiness_id\");`);"
+        },
+        {
+          "line": 56,
+          "tables": [
+            "contract_term_snapshot",
+            "contract_readiness_package"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add constraint \"contract_term_snapshot_source_readiness_fk\" foreign key (\"source_readiness_id\") references \"poms\".\"contract_readiness_package\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 57,
+          "tables": [
+            "contract_term_snapshot",
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add constraint \"contract_term_snapshot_source_baseline_fk\" foreign key (\"source_baseline_id\") references \"poms\".\"commercial_release_baseline\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 61,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop constraint if exists \"contract_term_snapshot_source_baseline_fk\";`);"
+        },
+        {
+          "line": 62,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop constraint if exists \"contract_term_snapshot_source_readiness_fk\";`);"
+        },
+        {
+          "line": 67,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"version\";`);"
+        },
+        {
+          "line": 68,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"source_baseline_id\";`);"
+        },
+        {
+          "line": 69,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"source_readiness_id\";`);"
+        },
+        {
+          "line": 70,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"payment_terms\";`);"
+        },
+        {
+          "line": 71,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"retention_rate\";`);"
+        },
+        {
+          "line": 72,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"down_payment_rate\";`);"
+        },
+        {
+          "line": 73,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"tax_rate\";`);"
+        },
+        {
+          "line": 74,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"amount_tax_exclusive\";`);"
+        },
+        {
+          "line": 75,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop column if exists \"amount_tax_inclusive\";`);"
+        },
+        {
+          "line": 77,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop column if exists \"payment_terms\";`);"
+        },
+        {
+          "line": 78,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop column if exists \"retention_rate\";`);"
+        },
+        {
+          "line": 79,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop column if exists \"down_payment_rate\";`);"
+        },
+        {
+          "line": 80,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop column if exists \"tax_rate\";`);"
+        },
+        {
+          "line": 81,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop column if exists \"amount_tax_exclusive\";`);"
+        },
+        {
+          "line": 82,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"commercial_release_baseline\" drop column if exists \"amount_tax_inclusive\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260423130000_ex23_acceptance_record.ts",
+      "hits": [
+        {
+          "line": 24,
+          "tables": [
+            "project"
+          ],
+          "text": "                constraint \"acceptance_record_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424100000_ex24_project_completion_record.ts",
+      "hits": [
+        {
+          "line": 22,
+          "tables": [
+            "project"
+          ],
+          "text": "                constraint \"project_completion_record_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict,"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424143000_ex25_project_archive_record.ts",
+      "hits": [
+        {
+          "line": 23,
+          "tables": [
+            "project"
+          ],
+          "text": "                constraint \"project_archive_record_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+      "hits": [
+        {
+          "line": 32,
+          "tables": [
+            "project"
+          ],
+          "text": "                constraint \"project_technical_cost_package_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict,"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+      "hits": [
+        {
+          "line": 30,
+          "tables": [
+            "project"
+          ],
+          "text": "                constraint \"project_bid_commercial_process_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict,"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+      "hits": [
+        {
+          "line": 45,
+          "tables": [
+            "project"
+          ],
+          "text": "                constraint \"project_pricing_margin_review_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict,"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "commercial_release_baseline"
+          ],
+          "text": "                constraint \"project_pricing_margin_review_commercial_release_baseline_id_fo\" foreign key (\"commercial_release_baseline_id\") references \"poms\".\"commercial_release_baseline\" (\"id\") on update cascade on delete restrict,"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260425113000_ex32_project_source_lead.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" add column \"source_lead_id\" uuid null;`);"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"source_lead_id\" is '项目来源线索标识';`);"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"project\" add constraint \"project_source_lead_id_foreign\" foreign key (\"source_lead_id\") references \"poms\".\"lead\" (\"id\") on update cascade on delete restrict;`"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`create index \"idx_project_source_lead_id\" on \"poms\".\"project\" (\"source_lead_id\");`);"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop constraint if exists \"project_source_lead_id_foreign\";`);"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop column if exists \"source_lead_id\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260426113000_ex35a_business_number_generation.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "            create table \"poms\".\"business_number_sequence\" ("
+        },
+        {
+          "line": 20,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"business_number_sequence\" is 'POMS 业务编号序列表';`);"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"id\" is '主键';`);"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"scope\" is '编号范围';`);"
+        },
+        {
+          "line": 23,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"period\" is '编号周期';`);"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"next_value\" is '下一个可用序号';`);"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"prefix\" is '编号前缀';`);"
+        },
+        {
+          "line": 26,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"padding\" is '序号补零宽度';`);"
+        },
+        {
+          "line": 27,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"description\" is '说明';`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"row_version\" is '乐观锁版本号';`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "line": 30,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"business_number_sequence\".\"updated_at\" is '最后更新时间';`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"business_number_sequence\" add constraint \"uq_business_number_sequence_scope_period\" unique (\"scope\", \"period\");`);"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" rename column \"project_code\" to \"project_no\";`);"
+        },
+        {
+          "line": 38,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" rename constraint \"project_project_code_unique\" to \"project_project_no_unique\";`);"
+        },
+        {
+          "line": 39,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" add column \"customer_project_no\" varchar(128) null;`);"
+        },
+        {
+          "line": 40,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"project_no\" is '项目编号';`);"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"customer_project_no\" is '客户项目编号';`);"
+        },
+        {
+          "line": 43,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" add column \"customer_contract_no\" varchar(128) null;`);"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"contract_no\" is '合同编号';`);"
+        },
+        {
+          "line": 45,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"contract\".\"customer_contract_no\" is '客户合同编号';`);"
+        },
+        {
+          "line": 79,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "            insert into \"poms\".\"business_number_sequence\" (\"scope\", \"period\", \"next_value\", \"prefix\", \"padding\", \"description\")"
+        },
+        {
+          "line": 86,
+          "tables": [
+            "project"
+          ],
+          "text": "                select 'project', extract(year from coalesce(created_at, now()))::text, 'PRJ', '项目编号',"
+        },
+        {
+          "line": 88,
+          "tables": [
+            "project"
+          ],
+          "text": "                from \"poms\".\"project\""
+        },
+        {
+          "line": 90,
+          "tables": [
+            "contract"
+          ],
+          "text": "                select 'contract', extract(year from coalesce(created_at, now()))::text, 'CT', '合同编号',"
+        },
+        {
+          "line": 92,
+          "tables": [
+            "contract"
+          ],
+          "text": "                from \"poms\".\"contract\""
+        },
+        {
+          "line": 126,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" drop column if exists \"customer_contract_no\";`);"
+        },
+        {
+          "line": 127,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop column if exists \"customer_project_no\";`);"
+        },
+        {
+          "line": 128,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" rename constraint \"project_project_no_unique\" to \"project_project_code_unique\";`);"
+        },
+        {
+          "line": 129,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" rename column \"project_no\" to \"project_code\";`);"
+        },
+        {
+          "line": 132,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"business_number_sequence\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260429100000_ex41a_project_owner_reassignment_record.ts",
+      "hits": [
+        {
+          "line": 25,
+          "tables": [
+            "project"
+          ],
+          "text": "                references \"poms\".\"project\" (\"id\")"
+        },
+        {
+          "line": 43,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"owner_org_id\" is '项目销售主责组织标识';`);"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"owner_user_id\" is '项目销售主责人标识';`);"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"owner_org_id\" is '项目归属组织标识';`);"
+        },
+        {
+          "line": 50,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"owner_user_id\" is '项目负责人标识';`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260429140000_ex42_customer_master_data.ts",
+      "hits": [
+        {
+          "line": 28,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"customer\" add constraint \"customer_owner_org_id_foreign\" foreign key (\"owner_org_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"customer\" add constraint \"customer_owner_user_id_foreign\" foreign key (\"owner_user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 88,
+          "tables": [
+            "project"
+          ],
+          "text": "                select \"customer_name\", \"created_at\" from \"poms\".\"project\" where \"customer_name\" is not null"
+        },
+        {
+          "line": 157,
+          "tables": [
+            "project"
+          ],
+          "text": "            update \"poms\".\"project\" project"
+        },
+        {
+          "line": 160,
+          "tables": [
+            "project"
+          ],
+          "text": "            where project.\"customer_name\" is not null"
+        },
+        {
+          "line": 161,
+          "tables": [
+            "project"
+          ],
+          "text": "              and lower(coalesce(nullif(regexp_replace(btrim(project.\"customer_name\"), '[[:space:]]+', ' ', 'g'), ''), '未命名客户')) ="
+        },
+        {
+          "line": 164,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`update \"poms\".\"project\" set \"customer_id\" = null where \"customer_name\" is null;`);"
+        },
+        {
+          "line": 165,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"customer_id\" is '客户主数据标识';`);"
+        },
+        {
+          "line": 166,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" add constraint \"project_customer_id_foreign\" foreign key (\"customer_id\") references \"poms\".\"customer\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 167,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`create index \"idx_project_customer_id\" on \"poms\".\"project\" (\"customer_id\");`);"
+        },
+        {
+          "line": 170,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "            insert into \"poms\".\"business_number_sequence\" (\"scope\", \"period\", \"next_value\", \"prefix\", \"padding\", \"description\")"
+        },
+        {
+          "line": 183,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "                \"next_value\" = greatest(\"poms\".\"business_number_sequence\".\"next_value\", excluded.\"next_value\"),"
+        },
+        {
+          "line": 193,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop constraint if exists \"project_customer_id_foreign\";`);"
+        },
+        {
+          "line": 194,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"project\".\"customer_id\" is '客户标识，第一阶段先保留业务引用';`);"
+        },
+        {
+          "line": 200,
+          "tables": [
+            "business_number_sequence"
+          ],
+          "text": "        this.addSql(`delete from \"poms\".\"business_number_sequence\" where \"scope\" = 'customer';`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430120000_ex44_sales_follow_up_record.ts",
+      "hits": [
+        {
+          "line": 30,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"sales_follow_up_record\" add constraint \"sales_follow_up_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"sales_follow_up_record\" add constraint \"sales_follow_up_owner_org_id_foreign\" foreign key (\"owner_org_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 32,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"sales_follow_up_record\" add constraint \"sales_follow_up_owner_user_id_foreign\" foreign key (\"owner_user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete set null;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+      "hits": [
+        {
+          "line": 38,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment\" add constraint \"chk_attachment_category\" check (\"category\" in ('customer_profile', 'demand', 'communication', 'technical', 'solution', 'quotation', 'bid', 'contract', 'delivery', 'acceptance', 'finance', 'internal_assessment', 'other'));`);"
+        },
+        {
+          "line": 63,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_target_type\" check (\"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales_follow_up'));`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501110000_ex56a_project_status_stage_checks.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop constraint if exists \"chk_project_status\";`);"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop constraint if exists \"chk_project_current_stage\";`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "project"
+          ],
+          "text": "            update \"poms\".\"project\""
+        },
+        {
+          "line": 21,
+          "tables": [
+            "project"
+          ],
+          "text": "            update \"poms\".\"project\""
+        },
+        {
+          "line": 41,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" add constraint \"chk_project_status\" check (\"status\" in ('active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'));`);"
+        },
+        {
+          "line": 43,
+          "tables": [
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"project\" add constraint \"chk_project_current_stage\" check (\"current_stage\" in ('assessment', 'scope-confirmation', 'commercial-closure', 'contracting', 'handover', 'execution', 'acceptance', 'completed', 'closed-lost', 'closed-terminated'));`"
+        },
+        {
+          "line": 48,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop constraint if exists \"chk_project_current_stage\";`);"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project\" drop constraint if exists \"chk_project_status\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260501120000_ex56b_todo_approval_enum_checks.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_approval_type\";`);"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_business_domain\";`);"
+        },
+        {
+          "line": 7,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_target_object_type\";`);"
+        },
+        {
+          "line": 8,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_current_status\";`);"
+        },
+        {
+          "line": 9,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_decision\";`);"
+        },
+        {
+          "line": 10,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_source_type\";`);"
+        },
+        {
+          "line": 11,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_todo_type\";`);"
+        },
+        {
+          "line": 12,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_business_domain\";`);"
+        },
+        {
+          "line": 13,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_target_object_type\";`);"
+        },
+        {
+          "line": 14,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_status\";`);"
+        },
+        {
+          "line": 15,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_priority\";`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "contract",
+            "approval_record"
+          ],
+          "text": "            `alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_approval_type\" check (\"approval_type\" in ('contract-review', 'commission-payout-approval', 'commission-adjustment-approval'));`"
+        },
+        {
+          "line": 21,
+          "tables": [
+            "contract",
+            "approval_record",
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_business_domain\" check (\"business_domain\" in ('contract-finance', 'commission', 'sales', 'project-handover'));`"
+        },
+        {
+          "line": 24,
+          "tables": [
+            "contract",
+            "approval_record",
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_target_object_type\" check (\"target_object_type\" in ('Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover'));`"
+        },
+        {
+          "line": 27,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "            `alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_current_status\" check (\"current_status\" in ('pending', 'approved', 'rejected'));`"
+        },
+        {
+          "line": 30,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "            `alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_decision\" check (\"decision\" in ('approved', 'rejected'));`"
+        },
+        {
+          "line": 33,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "            `alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_source_type\" check (\"source_type\" in ('ApprovalRecord', 'ConfirmationRecord', 'SalesFollowUpRecord'));`"
+        },
+        {
+          "line": 36,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "            `alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_todo_type\" check (\"todo_type\" in ('approval', 'confirmation', 'sales_follow_up_reminder'));`"
+        },
+        {
+          "line": 39,
+          "tables": [
+            "contract",
+            "todo_item",
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_business_domain\" check (\"business_domain\" in ('contract-finance', 'commission', 'sales', 'project-handover'));`"
+        },
+        {
+          "line": 42,
+          "tables": [
+            "contract",
+            "todo_item",
+            "project"
+          ],
+          "text": "            `alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_target_object_type\" check (\"target_object_type\" in ('Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover'));`"
+        },
+        {
+          "line": 45,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "            `alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_status\" check (\"status\" in ('open', 'processing', 'completed', 'canceled'));`"
+        },
+        {
+          "line": 47,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_priority\" check (\"priority\" in ('low', 'normal', 'high', 'urgent'));`);"
+        },
+        {
+          "line": 51,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_priority\";`);"
+        },
+        {
+          "line": 52,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_status\";`);"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_target_object_type\";`);"
+        },
+        {
+          "line": 54,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_business_domain\";`);"
+        },
+        {
+          "line": 55,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_todo_type\";`);"
+        },
+        {
+          "line": 56,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_source_type\";`);"
+        },
+        {
+          "line": 57,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_decision\";`);"
+        },
+        {
+          "line": 58,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_current_status\";`);"
+        },
+        {
+          "line": 59,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_target_object_type\";`);"
+        },
+        {
+          "line": 60,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_business_domain\";`);"
+        },
+        {
+          "line": 61,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_approval_type\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260502100000_ex56d1_contract_finance_enum_checks.ts",
+      "hits": [
+        {
+          "line": 5,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" drop constraint if exists \"chk_contract_status\";`);"
+        },
+        {
+          "line": 6,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop constraint if exists \"chk_contract_term_snapshot_status\";`);"
+        },
+        {
+          "line": 17,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" add constraint \"chk_contract_status\" check (\"status\" in ('draft', 'pending-review', 'active', 'terminated', 'completed'));`);"
+        },
+        {
+          "line": 18,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" add constraint \"chk_contract_term_snapshot_status\" check (\"snapshot_status\" in ('active', 'superseded', 'voided'));`);"
+        },
+        {
+          "line": 40,
+          "tables": [
+            "contract_term_snapshot"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract_term_snapshot\" drop constraint if exists \"chk_contract_term_snapshot_status\";`);"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "contract"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"contract\" drop constraint if exists \"chk_contract_status\";`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts",
+      "hits": [
+        {
+          "line": 11,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "            update \"poms\".\"approval_record\""
+        },
+        {
+          "line": 13,
+          "tables": [
+            "contract"
+          ],
+          "text": "                when 'Contract' then 'contract'"
+        },
+        {
+          "line": 16,
+          "tables": [
+            "project"
+          ],
+          "text": "                when 'Project' then 'project'"
+        },
+        {
+          "line": 19,
+          "tables": [
+            "project"
+          ],
+          "text": "                when 'ProjectHandover' then 'project-handover'"
+        },
+        {
+          "line": 22,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "            where \"target_object_type\" in ('Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover');"
+        },
+        {
+          "line": 25,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "            update \"poms\".\"todo_item\""
+        },
+        {
+          "line": 38,
+          "tables": [
+            "contract"
+          ],
+          "text": "                    when 'Contract' then 'contract'"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "project"
+          ],
+          "text": "                    when 'Project' then 'project'"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "project"
+          ],
+          "text": "                    when 'ProjectHandover' then 'project-handover'"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "               or \"target_object_type\" in ('Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover');"
+        },
+        {
+          "line": 54,
+          "tables": [
+            "contract"
+          ],
+          "text": "                when 'Contract' then 'contract'"
+        },
+        {
+          "line": 57,
+          "tables": [
+            "project"
+          ],
+          "text": "                when 'Project' then 'project'"
+        },
+        {
+          "line": 60,
+          "tables": [
+            "project"
+          ],
+          "text": "                when 'ProjectHandover' then 'project-handover'"
+        },
+        {
+          "line": 63,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "            where \"target_type\" in ('Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover');"
+        },
+        {
+          "line": 68,
+          "tables": [
+            "contract"
+          ],
+          "text": "                when 'Contract' then 'contract'"
+        },
+        {
+          "line": 71,
+          "tables": [
+            "project"
+          ],
+          "text": "                when 'Project' then 'project'"
+        },
+        {
+          "line": 74,
+          "tables": [
+            "project"
+          ],
+          "text": "                when 'ProjectHandover' then 'project-handover'"
+        },
+        {
+          "line": 77,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "            where \"target_type\" in ('Contract', 'CommissionPayout', 'CommissionAdjustment', 'Project', 'Lead', 'Customer', 'ProjectHandover');"
+        },
+        {
+          "line": 79,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`update \"poms\".\"audit_log\" set \"event_type\" = replace(\"event_type\", 'sales_follow_up.', 'sales-follow-up.') where \"event_type\" like 'sales\\\\_follow\\\\_up.%' escape '\\\\';`);"
+        },
+        {
+          "line": 80,
+          "tables": [
+            "audit_log"
+          ],
+          "text": "        this.addSql(`update \"poms\".\"audit_log\" set \"target_type\" = 'sales-follow-up-record' where \"target_type\" = 'sales_follow_up_record';`);"
+        },
+        {
+          "line": 99,
+          "tables": [
+            "role"
+          ],
+          "text": "                \"rate_scope_type\" = case \"rate_scope_type\" when 'PERSON' then 'person' when 'ROLE' then 'role' else \"rate_scope_type\" end,"
+        },
+        {
+          "line": 101,
+          "tables": [
+            "role"
+          ],
+          "text": "                \"rate_key\" = replace(replace(replace(replace(\"rate_key\", 'PERSON:', 'person:'), 'ROLE:', 'role:'), ':HOUR', ':hour'), ':DAY', ':day')"
+        },
+        {
+          "line": 102,
+          "tables": [
+            "role"
+          ],
+          "text": "            where \"rate_scope_type\" in ('PERSON', 'ROLE')"
+        },
+        {
+          "line": 105,
+          "tables": [
+            "role"
+          ],
+          "text": "               or \"rate_key\" like 'ROLE:%'"
+        },
+        {
+          "line": 142,
+          "tables": [
+            "role"
+          ],
+          "text": "                \"source_ref_no\" = replace(replace(replace(replace(\"source_ref_no\", 'PERSON:', 'person:'), 'ROLE:', 'role:'), ':HOUR', ':hour'), ':DAY', ':day')"
+        },
+        {
+          "line": 148,
+          "tables": [
+            "role"
+          ],
+          "text": "               or \"source_ref_no\" like 'ROLE:%'"
+        },
+        {
+          "line": 184,
+          "tables": [
+            "approval_record"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" drop constraint if exists \"chk_approval_record_target_object_type\";`);"
+        },
+        {
+          "line": 185,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_source_type\";`);"
+        },
+        {
+          "line": 186,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_todo_type\";`);"
+        },
+        {
+          "line": 187,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" drop constraint if exists \"chk_todo_item_target_object_type\";`);"
+        },
+        {
+          "line": 347,
+          "tables": [
+            "contract",
+            "approval_record",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_target_object_type\" check (\"target_object_type\" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));`);"
+        },
+        {
+          "line": 348,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_source_type\" check (\"source_type\" in ('approval-record', 'confirmation-record', 'sales-follow-up-record'));`);"
+        },
+        {
+          "line": 349,
+          "tables": [
+            "todo_item"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_todo_type\" check (\"todo_type\" in ('approval', 'confirmation', 'sales-follow-up-reminder'));`);"
+        },
+        {
+          "line": 350,
+          "tables": [
+            "contract",
+            "todo_item",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_target_object_type\" check (\"target_object_type\" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));`);"
+        },
+        {
+          "line": 355,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_target_type\" check (\"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up'));`);"
+        },
+        {
+          "line": 365,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_scope_type\" check (\"rate_scope_type\" in ('person', 'role'));`);"
+        },
+        {
+          "line": 418,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"internal_cost_rate_version\".\"rate_scope_type\" is '生效范围类型：person / role';`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260503170000_ex58c_configurable_dictionary_runtime.ts",
+      "hits": [
+        {
+          "line": 71,
+          "tables": [
+            "contract"
+          ],
+          "text": "                ('attachment-category', 'contract', '合同资料', '合同草案、盖章合同、补充协议等合同材料', 80, true),"
+        },
+        {
+          "line": 93,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "            insert into \"poms\".\"role_permission_assignment\" (\"role_id\", \"permission_key\")"
+        },
+        {
+          "line": 95,
+          "tables": [
+            "role"
+          ],
+          "text": "            from \"poms\".\"role\""
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+      "hits": [
+        {
+          "line": 34,
+          "tables": [
+            "role"
+          ],
+          "text": "                \"role\" varchar(64) not null,"
+        },
+        {
+          "line": 132,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"opportunity_stakeholder\" add constraint \"opportunity_stakeholder_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 135,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_role\" check (\"role\" in ('decision-maker', 'influencer', 'end-user', 'technical-evaluator', 'procurement-contact', 'finance-legal', 'sponsor', 'blocker', 'unknown', 'other'));`);"
+        },
+        {
+          "line": 142,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"competitor_intelligence_record\" add constraint \"competitor_intelligence_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 150,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"sales_discovery_record\" add constraint \"sales_discovery_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 155,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"business_discussion_thread_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 156,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"business_discussion_thread\" add constraint \"chk_business_discussion_thread_target\" check (\"target_object_type\" in ('customer', 'lead', 'project'));`);"
+        },
+        {
+          "line": 189,
+          "tables": [
+            "role"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"opportunity_stakeholder\".\"role\" is '当前机会中的角色';`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_target_type\" check (\"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up', 'project-handover'));`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"project_handover_attachment_selection\" add constraint \"project_handover_attachment_selection_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 62,
+          "tables": [
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment_download_package\" add constraint \"attachment_download_package_project_id_foreign\" foreign key (\"project_id\") references \"poms\".\"project\" (\"id\") on update cascade on delete restrict;`);"
+        },
+        {
+          "line": 144,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_target_type\" check (\"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up'));`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507130000_ex64b_identity_provider_config.ts",
+      "hits": [
+        {
+          "line": 51,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "            insert into \"poms\".\"role_permission_assignment\" (\"role_id\", \"permission_key\")"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "role"
+          ],
+          "text": "            from \"poms\".\"role\""
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507143000_ex64c_external_identity_binding.ts",
+      "hits": [
+        {
+          "line": 35,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"external_identity\" add constraint \"external_identity_poms_user_id_foreign\" foreign key (\"poms_user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete restrict;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507160000_ex64d_identity_provider_oauth_grant.ts",
+      "hits": [
+        {
+          "line": 35,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "            `alter table \"poms\".\"identity_provider_oauth_grant\" add constraint \"identity_provider_oauth_grant_poms_user_id_foreign\" foreign key (\"poms_user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete restrict;`"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260507173000_ex64e_external_login_ticket.ts",
+      "hits": [
+        {
+          "line": 32,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"external_login_ticket\" add constraint \"external_login_ticket_poms_user_id_foreign\" foreign key (\"poms_user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete restrict;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+      "hits": [
+        {
+          "line": 49,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "            insert into \"poms\".\"role_permission_assignment\" (\"role_id\", \"permission_key\")"
+        },
+        {
+          "line": 51,
+          "tables": [
+            "role"
+          ],
+          "text": "            from \"poms\".\"role\""
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+      "hits": [
+        {
+          "line": 48,
+          "tables": [
+            "contract",
+            "project"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_target_type\" check (\"target_type\" is null or \"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up', 'project-handover'));`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260513100000_ex66b_auth_session.ts",
+      "hits": [
+        {
+          "line": 6,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "            create table \"poms\".\"auth_session\" ("
+        },
+        {
+          "line": 27,
+          "tables": [
+            "auth_session",
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"auth_session\" add constraint \"auth_session_user_id_foreign\" foreign key (\"user_id\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete cascade;`);"
+        },
+        {
+          "line": 28,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"auth_session\" add constraint \"chk_auth_session_status\" check (\"status\" in ('active', 'revoked', 'expired'));`);"
+        },
+        {
+          "line": 29,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"auth_session\" add constraint \"chk_auth_session_revoked_reason\" check ((\"revoked_reason\" is null or (\"revoked_reason\")::text = any ((array['logout'::character varying, 'admin-revoked'::character varying, 'password-reset'::character varying, 'account-disabled'::character varying, 'session-rotated'::character varying])::text[])));`);"
+        },
+        {
+          "line": 31,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`create unique index \"auth_session_token_hash_unique\" on \"poms\".\"auth_session\" (\"token_hash\");`);"
+        },
+        {
+          "line": 32,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`create index \"idx_auth_session_token_hash\" on \"poms\".\"auth_session\" (\"token_hash\");`);"
+        },
+        {
+          "line": 33,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`create index \"idx_auth_session_user_status\" on \"poms\".\"auth_session\" (\"user_id\", \"status\");`);"
+        },
+        {
+          "line": 34,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`create index \"idx_auth_session_status_idle_expires\" on \"poms\".\"auth_session\" (\"status\", \"idle_expires_at\");`);"
+        },
+        {
+          "line": 35,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`create index \"idx_auth_session_status_absolute_expires\" on \"poms\".\"auth_session\" (\"status\", \"absolute_expires_at\");`);"
+        },
+        {
+          "line": 37,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on table \"poms\".\"auth_session\" is 'Admin Web 服务端 opaque 认证会话';`);"
+        },
+        {
+          "line": 38,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"id\" is '认证会话主键';`);"
+        },
+        {
+          "line": 39,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"token_hash\" is 'opaque session token SHA-256 摘要';`);"
+        },
+        {
+          "line": 40,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"csrf_token_hash\" is '当前 CSRF token SHA-256 摘要';`);"
+        },
+        {
+          "line": 41,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"user_id\" is '绑定的 POMS 用户标识';`);"
+        },
+        {
+          "line": 42,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"status\" is '会话状态';`);"
+        },
+        {
+          "line": 43,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"idle_expires_at\" is '空闲超时时间';`);"
+        },
+        {
+          "line": 44,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"absolute_expires_at\" is '绝对超时时间';`);"
+        },
+        {
+          "line": 45,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"last_seen_at\" is '最近一次成功认证时间';`);"
+        },
+        {
+          "line": 46,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"revoked_at\" is '撤销时间';`);"
+        },
+        {
+          "line": 47,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"revoked_reason\" is '撤销原因';`);"
+        },
+        {
+          "line": 48,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"created_ip\" is '创建会话时的请求 IP';`);"
+        },
+        {
+          "line": 49,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"last_ip\" is '最近一次成功认证 IP';`);"
+        },
+        {
+          "line": 50,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"created_user_agent\" is '创建会话时的 User-Agent';`);"
+        },
+        {
+          "line": 51,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"row_version\" is '乐观锁版本号';`);"
+        },
+        {
+          "line": 52,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"created_at\" is '创建时间';`);"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`comment on column \"poms\".\"auth_session\".\"updated_at\" is '最后更新时间';`);"
+        },
+        {
+          "line": 57,
+          "tables": [
+            "auth_session"
+          ],
+          "text": "        this.addSql(`drop table if exists \"poms\".\"auth_session\" cascade;`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260526100000_ex67a_system_setting.ts",
+      "hits": [
+        {
+          "line": 45,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`delete from \"poms\".\"role_permission_assignment\" where \"permission_key\" = 'platform:system-settings:manage';`);"
+        },
+        {
+          "line": 51,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "            insert into \"poms\".\"role_permission_assignment\" (\"role_id\", \"permission_key\")"
+        },
+        {
+          "line": 53,
+          "tables": [
+            "role"
+          ],
+          "text": "            from \"poms\".\"role\""
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260529120000_ex70a_lead_source_dictionary_direct_cutover.ts",
+      "hits": [
+        {
+          "line": 65,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "        this.addSql(`delete from \"poms\".\"role_permission_assignment\" where \"permission_key\" = 'lead:source:manage';`);"
+        }
+      ]
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260610120000_ex72b_external_org_sync_persistence.ts",
+      "hits": [
+        {
+          "line": 125,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "            `alter table \"poms\".\"external_org_source\" add constraint \"external_org_source_authoritative_org_unit_id_foreign\" foreign key (\"authoritative_org_unit_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete restrict;`"
+        },
+        {
+          "line": 131,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "            `alter table \"poms\".\"external_department_mapping\" add constraint \"external_department_mapping_org_unit_id_foreign\" foreign key (\"org_unit_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete set null;`"
+        },
+        {
+          "line": 134,
+          "tables": [
+            "platform_user"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_sync_run\" add constraint \"org_sync_run_requested_by_foreign\" foreign key (\"requested_by\") references \"poms\".\"platform_user\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 136,
+          "tables": [
+            "org_unit"
+          ],
+          "text": "        this.addSql(`alter table \"poms\".\"org_sync_diff_item\" add constraint \"org_sync_diff_item_org_unit_id_foreign\" foreign key (\"org_unit_id\") references \"poms\".\"org_unit\" (\"id\") on update cascade on delete set null;`);"
+        },
+        {
+          "line": 158,
+          "tables": [
+            "role_permission_assignment"
+          ],
+          "text": "            insert into \"poms\".\"role_permission_assignment\" (\"role_id\", \"permission_key\")"
+        },
+        {
+          "line": 160,
+          "tables": [
+            "role"
+          ],
+          "text": "            from \"poms\".\"role\""
+        }
+      ]
+    }
+  ],
+  "caveat": "Line evidence includes both up/down. Read complete named migrations/entity definitions for multiline context; no DDL was executed."
+}

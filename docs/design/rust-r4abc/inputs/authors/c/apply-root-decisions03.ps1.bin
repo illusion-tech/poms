@@ -1,0 +1,54 @@
+$ErrorActionPreference = 'Stop'
+$taskOwned = 'E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4abc/input-c'
+$taskEncoding = [System.Text.UTF8Encoding]::new($false)
+$taskAuditPath = Join-Path $taskOwned 'finance-g1-audit01.json'
+$taskAudit = Get-Content -LiteralPath $taskAuditPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+$taskAudit.rootRelayedUserDecisions += [ordered]@{ id = 'C-D07'; decision = 'Every successful actual finance content/state change writes mandatory audit_log in same TX. Actor is authenticated session.sub, not DTO. No-op PATCH adds no business version or business audit. No new finance organization/role restriction in this batch.'; evidence = 'Root message relaying user fourth ruling' }
+$taskAudit.rootRelayedUserDecisions += [ordered]@{ id = 'C-D08'; decision = 'Each contract has its own amount and auditable source/difference. No project quote hard total cap or automatic allocation across contracts.'; evidence = 'Root message relaying user fourth ruling' }
+$taskAudit.wireProfiles.common.moneySyntaxProposal = 'Root common syntax: trim, unsigned ordinary decimal [0-9]+(?:\.[0-9]{1,2})?, leading zeros allowed; base>0/tax>=0; numeric18,2 exact capacity. Syntax/number validation400; tax tuple inequality422 proposal pending joint freeze.'
+$taskAudit.transactionProposal.allWriteCommands = 'One PostgreSQL TX for actual business change + mandatory audit_log + required managed session flush; CAS loaded version even when request version omitted; any required write failure rolls entire graph back.'
+$taskAudit.transactionProposal.suggestedOrder = @('Root fixed source/relationship lock order', 'source mapping eligibility read after source lock', 'business CAS/INSERT and any related payable progress', 'mandatory audit_log with authenticated actor and exact operationId', 'required managed session flush in Root framework order', 'commit')
+$taskAudit.transactionProposal.noOpPatch = 'User ruling: same-value PATCH does not bump business row_version/updated_at and does not create business audit; still respect original required managed-session flush boundary frozen by Root.'
+$taskAudit.auditAndSession = [ordered]@{
+    nativeFinanceAuditLogProducer = $false
+    targetMandatoryBusinessAudit = $true
+    scope = 'All 13 write operations when they actually change business content/state; creates always change; no-op PATCH excluded.'
+    entityTypes = [ordered]@{ receipt = 'Receipt'; payable = 'Payable'; payment = 'Payment'; invoice = 'Invoice' }
+    entityId = 'Actual finance entity UUID; confirmPayment related payable changes included in before/after under Root exact protocol; no extra invented operation'
+    action = 'Full exact ContractFinanceController_<method> operationId'
+    actor = 'Authenticated session.user.sub UUID; reject/strip request-forged actor and never trust DTO'
+    beforeAfter = 'Root owns exact serde protocol. Include necessary safe business fields, actor/reason, changed state/content/version/source association; never raw session/CSRF/password tokens.'
+    exactSerdeProtocol = 'Root to freeze in joint input; C does not invent final audit payload schema'
+    transaction = 'Business INSERT/CAS + related payable progress + mandatory audit + required managed session flush same TX; no success if audit write fails'
+    noOpPatch = 'No business version/time change and no new business audit; managed-session boundary remains separately observable'
+    currentFinanceApprovalTodoConfirmationProducer = $false
+    requiredBusinessTraces = @('receipt confirmed_at/by', 'payment confirmed_at/by', 'payable closed_at/reason and voided_at/reason', 'invoice exception_reason/resolution and closed_at/reason', 'mandatory target audit_log with authenticated actor')
+    globalSecurityAudit = 'Global guards retain original auth/session/CSRF/permission events; business audit is distinct'
+    preExistingRawSessionTouch = 'Independently committed authentication raw touch remains separately labelled, not falsely rolled back with domain TX'
+    managedSessionFlush = 'Existing required pending flush joins business/audit TX under Root framework ordering'
+    organizationRbac = 'No new finance organization/role restriction this batch; original contract:finance:manage retained; later role ruling separate'
+}
+foreach ($taskDrift in $taskAudit.drift) {
+    if ($taskDrift.id -eq 'F8') { $taskDrift.status = 'user-ruling-mandatory-audit-in-scope-no-new-RBAC'; $taskDrift.fact = 'Native has no finance audit_log producer. Target now requires transactional business audit; exact serde owned by Root. No new organization/role rule.' }
+}
+$taskAudit.acceptanceStatus.pureCaseSyntax = 'Final node --check receipt02 to be generated after this amendment; definitions not executed'
+[System.IO.File]::WriteAllText($taskAuditPath, ($taskAudit | ConvertTo-Json -Depth 100) + [Environment]::NewLine, $taskEncoding)
+$taskEntryPath = Join-Path $taskOwned 'entry-semantics19.json'
+$taskEntries = Get-Content -LiteralPath $taskEntryPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+$taskEntries.commonPerEntry.amount = 'Root unsigned ordinary checked Decimal, finance18,2 with <=2 fractional places; base>0/tax>=0; syntax/number validation400; exact tax tuple inequality422 proposal'
+$taskEntries.commonPerEntry.transaction = 'Each actual write command: one caller-owned TX for business + mandatory authenticated-actor audit_log + required managed session flush. Native had no finance business audit; target intentionally fixes this by user ruling. No approval/todo/cost inserts.'
+$taskEntries.commonPerEntry.audit = 'entityType Receipt/Payable/Payment/Invoice, actual UUID entityId, full operationId action, authenticated actor and safe before/after/reason; exact serde Root-owned; no-op PATCH no business version/audit'
+foreach ($taskEntry in $taskEntries.entries) {
+    if ($taskEntry.method -ne 'GET') {
+        $taskEntry.writes += 'audit_log mandatory when business changed'
+        $taskTxSteps = @()
+        foreach ($taskStep in $taskEntry.tx) {
+            if ($taskStep -eq 'commit') { $taskTxSteps += 'mandatory business audit_log, same TX, authenticated actor; exact Root serde; no-op PATCH excluded' }
+            $taskTxSteps += $taskStep
+        }
+        $taskEntry.tx = $taskTxSteps
+    }
+    if ($taskEntry.Contains('noOp')) { $taskEntry.noOp = 'User ruling: no dirty business field means no business row_version/updated_at change and no business audit; preserve required managed-session flush boundary.' }
+}
+[System.IO.File]::WriteAllText($taskEntryPath, ($taskEntries | ConvertTo-Json -Depth 100) + [Environment]::NewLine, $taskEncoding)
+[ordered]@{ amended = @('finance-g1-audit01.json','entry-semantics19.json'); policy = 'Root relayed user fourth ruling; no product code or case execution' } | ConvertTo-Json -Compress

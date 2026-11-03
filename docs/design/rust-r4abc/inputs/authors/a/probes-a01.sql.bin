@@ -1,0 +1,136 @@
+-- PURE READ-ONLY PROBE DEFINITIONS. A HAS NOT EXECUTED SQL.
+-- Root binds psql variables project_id, contract_id, contract2_id, session_id and
+-- cohort UUIDs from a new actual run. Run current-schema sections on Native/Rust;
+-- run proposed-schema sections only after Root's approved migration is present.
+-- Capture unfiltered full JSON rows in private runtime; redact credentials in
+-- public proof. Hash/count summaries supplement, not replace, the full originals.
+
+-- P0: table existence establishes that a design table is not assumed to exist.
+select n.nspname, c.relname, c.relkind
+from pg_catalog.pg_class c
+join pg_catalog.pg_namespace n on n.oid = c.relnamespace
+where n.nspname = 'poms'
+  and c.relname in ('commercial_release_baseline','commercial_baseline_diff_result',
+    'commercial_baseline_diff_item','commercial_baseline_review_record',
+    'contract_readiness_package','contract_readiness_package_item',
+    'contract_term_preparation','contract_review_binding','contract_snapshot_init_record',
+    'contract_term_snapshot','receivable_plan_version','receivable_plan_node','receivable_plan_init_record')
+order by c.relname;
+
+-- P1: full current A source graph, including historical superseded records.
+select jsonb_build_object(
+  'baseline', (select coalesce(jsonb_agg(to_jsonb(b) order by b.id), '[]'::jsonb)
+    from poms.commercial_release_baseline b where b.project_id = :'project_id'::uuid),
+  'diff', (select coalesce(jsonb_agg(to_jsonb(d) order by d.id), '[]'::jsonb)
+    from poms.commercial_baseline_diff_result d where d.project_id = :'project_id'::uuid),
+  'diffItems', (select coalesce(jsonb_agg(to_jsonb(i) order by i.id), '[]'::jsonb)
+    from poms.commercial_baseline_diff_item i join poms.commercial_baseline_diff_result d on d.id=i.diff_result_id
+    where d.project_id = :'project_id'::uuid),
+  'reviews', (select coalesce(jsonb_agg(to_jsonb(r) order by r.id), '[]'::jsonb)
+    from poms.commercial_baseline_review_record r where r.project_id = :'project_id'::uuid),
+  'readiness', (select coalesce(jsonb_agg(to_jsonb(p) order by p.id), '[]'::jsonb)
+    from poms.contract_readiness_package p where p.project_id = :'project_id'::uuid),
+  'readinessItems', (select coalesce(jsonb_agg(to_jsonb(i) order by i.id), '[]'::jsonb)
+    from poms.contract_readiness_package_item i join poms.contract_readiness_package p on p.id=i.package_id
+    where p.project_id = :'project_id'::uuid)
+) as full_a_source_graph;
+
+-- P2: real R3 chain must be captured, not inferred from readiness text or IDs.
+select 'cost' as source_type, to_jsonb(c) as full_row
+from poms.project_technical_cost_package c where c.project_id=:'project_id'::uuid
+union all
+select 'bid', to_jsonb(b) from poms.project_bid_commercial_process b where b.project_id=:'project_id'::uuid
+union all
+select 'pricing', to_jsonb(r) from poms.project_pricing_margin_review r where r.project_id=:'project_id'::uuid;
+select to_jsonb(i) as pricing_condition
+from poms.project_pricing_margin_condition_item i
+join poms.project_pricing_margin_review r on r.id=i.review_id
+where r.project_id=:'project_id'::uuid order by i.review_id, i.sort_order, i.id;
+
+-- P3: Native exposes markers even when no real output exists. Preserve that fact.
+select p.id as readiness_id, p.project_id, p.is_current, p.row_version,
+  p.initialized_contract_snapshot_id, s.id as actual_snapshot_id,
+  s.contract_id as actual_snapshot_contract_id, s.snapshot_status,
+  p.initialized_receivable_plan_version_id, p.contract_snapshot_initialized_at,
+  p.receivable_plan_initialized_at
+from poms.contract_readiness_package p
+left join poms.contract_term_snapshot s on s.id=p.initialized_contract_snapshot_id
+where p.project_id=:'project_id'::uuid order by p.id;
+
+-- P4: all real contract/snapshot rows for two-contract ownership and atomicity.
+select to_jsonb(c) as full_contract_row from poms.contract c
+where c.project_id=:'project_id'::uuid order by c.id;
+select to_jsonb(s) as full_snapshot_row from poms.contract_term_snapshot s
+join poms.contract c on c.id=s.contract_id where c.project_id=:'project_id'::uuid
+order by s.contract_id, s.version, s.id;
+
+-- P5: explicit cross-source ownership and duplicate current checks.
+select p.id, p.project_id, b.project_id as baseline_project_id,
+  d.project_id as diff_project_id, d.baseline_id, p.source_baseline_id,
+  p.latest_diff_result_id, b.latest_diff_result_id as baseline_latest_diff_id
+from poms.contract_readiness_package p
+join poms.commercial_release_baseline b on b.id=p.source_baseline_id
+join poms.commercial_baseline_diff_result d on d.id=p.latest_diff_result_id
+where p.project_id=:'project_id'::uuid order by p.id;
+select project_id, count(*) as current_baselines from poms.commercial_release_baseline
+where project_id=:'project_id'::uuid and is_current group by project_id having count(*) > 1;
+-- Root changes the next package grouping to (project_id,contract_id) after its
+-- explicit contract-scoped migration. Do not run the old project-only invariant
+-- against an intentionally multi-contract current model and misclassify it.
+select project_id, count(*) as native_current_packages from poms.contract_readiness_package
+where project_id=:'project_id'::uuid and is_current group by project_id;
+select diff_result_id, field_key, count(*) from poms.commercial_baseline_diff_item
+where diff_result_id in (select id from poms.commercial_baseline_diff_result where project_id=:'project_id'::uuid)
+group by diff_result_id,field_key having count(*)>1;
+select package_id,item_key,count(*) from poms.contract_readiness_package_item
+where package_id in (select id from poms.contract_readiness_package where project_id=:'project_id'::uuid)
+group by package_id,item_key having count(*)>1;
+
+-- P6: exact catalog proof for current and new constraints, never generated DDL.
+select c.relname, con.conname, con.contype, pg_get_constraintdef(con.oid,true) as definition
+from pg_catalog.pg_constraint con join pg_catalog.pg_class c on c.oid=con.conrelid
+join pg_catalog.pg_namespace n on n.oid=c.relnamespace
+where n.nspname='poms' and c.relname in ('commercial_release_baseline','commercial_baseline_diff_result',
+  'commercial_baseline_diff_item','commercial_baseline_review_record','contract_readiness_package',
+  'contract_readiness_package_item','contract_term_preparation','contract_review_binding',
+  'contract_term_snapshot','receivable_plan_version','receivable_plan_node','receivable_plan_init_record')
+order by c.relname,con.conname;
+select tablename,indexname,indexdef from pg_catalog.pg_indexes
+where schemaname='poms' and tablename in ('commercial_release_baseline','contract_readiness_package',
+  'contract_term_preparation','contract_term_snapshot','receivable_plan_version','receivable_plan_node')
+order by tablename,indexname;
+
+-- P7: POST/GET actor/session effects are separate from business no-op assertions.
+-- Runtime credentials stay private; remove hash/token properties for public proof.
+select to_jsonb(s)-'token_hash'-'csrf_token_hash' as public_session_state
+from poms.auth_session s where s.id=:'session_id'::uuid;
+select to_jsonb(a) as full_business_audit from poms.audit_log a
+where a.target_id::text in (:'contract_id', :'contract2_id')
+order by a.occurred_at,a.id;
+-- Root must also capture audit rows for the concrete baseline/readiness/prep/plan
+-- UUIDs from the run and security events for each correlation request ID.
+
+-- P8: PROPOSED-SCHEMA ONLY. Exact column names are subject to Root's G1 freeze.
+-- Preparation/plan children and FK order must be finalized with Root DDL first.
+-- select to_jsonb(p) from poms.contract_term_preparation p
+--   where p.contract_id in (:'contract_id'::uuid,:'contract2_id'::uuid) order by p.contract_id,p.version;
+-- select to_jsonb(b) from poms.contract_review_binding b
+--   where b.contract_id in (:'contract_id'::uuid,:'contract2_id'::uuid) order by b.approval_record_id;
+-- select to_jsonb(v) from poms.receivable_plan_version v
+--   where v.contract_id in (:'contract_id'::uuid,:'contract2_id'::uuid) order by v.contract_id,v.version;
+-- select to_jsonb(n) from poms.receivable_plan_node n
+--   join poms.receivable_plan_version v on v.id=n.plan_version_id
+--   where v.contract_id in (:'contract_id'::uuid,:'contract2_id'::uuid) order by v.id,n.sort_order,n.id;
+-- select to_jsonb(i) from poms.receivable_plan_init_record i
+--   join poms.receivable_plan_version v on v.id=i.receivable_plan_version_id
+--   where v.contract_id in (:'contract_id'::uuid,:'contract2_id'::uuid) order by i.id;
+-- select v.contract_id,v.snapshot_id,sum(n.planned_amount)::text as sum_amount,
+--   max(s.amount_tax_inclusive)::text as snapshot_amount
+--   from poms.receivable_plan_version v join poms.receivable_plan_node n on n.plan_version_id=v.id
+--   join poms.contract_term_snapshot s on s.id=v.snapshot_id
+--   where v.contract_id in (:'contract_id'::uuid,:'contract2_id'::uuid)
+--   group by v.contract_id,v.snapshot_id having sum(n.planned_amount)<>max(s.amount_tax_inclusive);
+
+-- P9: No mutation/cleanup/failure trigger is defined here. Root must derive exact
+-- owned cohort mutations and fault injection from its actual live schema/run,
+-- capture them as new reviewable artifacts, and preserve failed/partial runs.

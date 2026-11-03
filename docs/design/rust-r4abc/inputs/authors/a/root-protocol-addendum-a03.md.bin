@@ -1,0 +1,37 @@
+# R4A G1 协议补充 03（追加，旧封包不改）
+
+Root 最新冻结输入优先于 `audit-a02.md/json`、`cases-a01.json` 中尚未精确区分项目来源和合同差异的建议。`package-manifest-a01.json` 及其原件保持原字节；本增量由 `package-manifest-a02.json` 单独绑定。当前仍是 G1 候选、没有进入 G2。
+
+Issue 身份已由 Root 在线读回提供：R4 stage **#101**、首批 parent **#102**、A **#103**、B **#104**、C **#105**。A未自行访问GitHub，不把Root读回表述为A执行。
+
+## 1. 项目来源与合同reference的精确边界
+
+A01 的项目级draft商业基线新增 **`contractTerms[]`**。至少一项，每项显式contractId，contractId唯一；每项记录该合同自己的金额、税率、首付款、质保、条款与typed应收节点。**没有合同金额合计等于项目报价的约束，没有硬预算、自动分摊或复制项目总报价。** 项目级金额只对应真实R3报价来源和其来源校验。
+
+A05 必须显式contractId，可提供该合同candidateTerms。差异计算只比较：
+
+1. baseline.contractTerms中同contractId的**独立referenceTerms**；
+2. 本次该合同candidateTerms（不提供时只可取同合同referenceTerms，不能从project总额填充）；
+3. 真实Contract.signedAmount、合同币种/版本和其他真实草稿事实。
+
+缺少该合同referenceTerms时拒绝准备，并给出来源缺口；不得取另一合同条款、按合同比例猜分配或把项目总额当合同reference。candidateTerms和真实signedAmount不一致必须显式验证并按Root冻结DTO/草稿变更协议处理，不能静默改写合同。
+
+formal 3%金额偏离、毛利审批带、首付款分界/百分点、税率、节点增删重排/日期、质保等规则均在**同一合同**reference/candidate内执行。项目总quote变化只进入来源审核，不能直接把合同独立金额对项目总报价算3%偏离。毛利带如需比较，须有同合同grossMarginRate/band或同合同成本依据；项目成本合计不能直接当每份合同成本。Root应冻结字段和来源，缺依据作为解释清楚的阻断，不自动分摊。
+
+## 2. 合同级diff和状态生成顺序
+
+A03 `diff-history` 增加contractId query，不能让项目baseline的某个latest diff代替选中合同。A04 body必填contractId+diffResultId。多合同未选择时使用Root冻结的selection-required协议；不取first/latest。
+
+A05先生成真实contractDiff及review-required/blocked包；A04复核exact diff后，在**同一TX**重算并更新同一package的guard/status/rowVersion。expected版本、diff来源和contract归属均在TX内检查。GET不生成、刷新或修改任何业务事实。后续A08 prepared、B审核绑定和激活、A09正式计划均消费该合同冻结payload及精确来源链。
+
+Root已定的其他边界不变：独立contract_term_preparation；A08返回preparationId且snapshotId=null；B contract_review_binding绑定exact准备版本，激活创建不同active snapshot UUID/source_preparation_id；A09在Active合同有效snapshot上使用冻结typed seeds生产真实Plan，节点sum等于该合同自身inclusive金额。
+
+## 3. 对已封31组纯case的覆盖补充
+
+- A-chain01/A-chain02：A01输入改为项目来源条款加显式contractTerms[]；A05显式contractId与可选candidateTerms。先A05真实diff、再A03/A04 exact复核、再A08；旧case中的源金额一致仅指project来源与真实R3报价，不要求合同金额等于项目报价。
+- A-diff01：3%/毛利带/首付/税率/节点等vector均使用同一contractTerms.reference与candidate。增加“合同金额仅为项目总quote一部分但本合同reference=candidate”的向量，不应错误命中大额偏离。
+- A-source01/A-source02：project quote与baseline项目来源不一致属于source审核；合同candidate与本合同reference不同属于合同diff。不得混成一个金额等式。
+- A-multi01：两合同金额合计与project quote不同本身不失败；各合同独立reference/candidate/diff/复核合格后仍可分别prepared/active/Plan。确保没有跨合同reference匹配、隐式分摊或共享snapshot ID。
+- 增加纯向量：contractTerms为空、重复contractId、缺选中合同、大小写等值UUID重复、错project合同、candidate与真实signedAmount不一致、无同合同毛利带依据。全部要求明确错误/阻断且无部分prepared/active/Plan写入。
+
+本补充没有执行任何case、SQL、build、test、HTTP、PG、browser或Git/GitHub。实际运行与正式统一DTO/DDL/共享协议仍由Root执行，经联合G1独审和线上冻结后再进入G2。

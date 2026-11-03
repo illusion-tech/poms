@@ -1,0 +1,498 @@
+{
+  "schema": "poms-r4c-g1-audit/v1",
+  "slice": "RUST-R4C",
+  "owner": "C implementation author; not independent Gate reviewer",
+  "issue": null,
+  "parentReportedBaseline": "1730f304c1cf5600721f80b6c06feec24269d387",
+  "baselineVerification": "Root-reported; C forbidden from Git operations",
+  "targetConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "max",
+    "fast": "unverified",
+    "runtimeConfigurationProof": false
+  },
+  "status": "G1-candidate-awaiting-joint-independent-review-and-online-freeze",
+  "productImplementationAuthorizedAtThisPoint": false,
+  "publicOperations": 19,
+  "getOperations": 6,
+  "writeOperations": 13,
+  "sourceManifests": [
+    "source-manifest01.json",
+    "source-supplement02.json"
+  ],
+  "publicContracts": [
+    "operations19.json",
+    "openapi-finance19.json",
+    "entry-semantics19.json"
+  ],
+  "pureCases": "finance-cases01.mjs",
+  "evidenceLabels": {
+    "newFacts": "This run static source capture and source analysis only",
+    "historicalReuse": "EX06/EX06D/EX37B1/EX56D1 formal scope and original test definitions; no inherited test pass",
+    "preparedState": "Legally shaped current cost mapping fixtures may exercise read guards; never cost producer proof",
+    "runtimeAcceptance": "not-run",
+    "businessProducerChain": "A/B typed interfaces and cases prepared only; actual native and Rust execution remains Root-owned"
+  },
+  "rootRelayedUserDecisions": [
+    {
+      "id": "C-D01",
+      "decision": "Ordinary receipt and invoice money is finite positive decimal, at most 2 fractional places, within numeric(18,2). Reject overflow and silent rounding. Negative adjustments require a future explicit flow.",
+      "evidence": "Root task message relaying user ruling; not an online freeze receipt"
+    },
+    {
+      "id": "C-D02",
+      "decision": "A selected payment contract is Active and belongs to the same project. If payable has a contract, the selected or inherited contract must equal it. An unbound payable may use a same-project Active contract.",
+      "evidence": "Root task message relaying user ruling"
+    },
+    {
+      "id": "C-D03",
+      "decision": "C remains 19 existing routes plus minimum read-only cost mapping protection. Real cost producer belongs to later project-cost slice; R4 stage closes the full production loop. A prepared mapping fixture proves guard behavior only.",
+      "evidence": "Root task message relaying user ruling"
+    },
+    {
+      "id": "C-D04",
+      "decision": "A prepared contract terms version is persisted and reviewed for one actual contract; activation makes the reviewed version effective in the same transaction. Formal receivable plan requires Active contract and valid snapshot. Do not add a receipt-plan hard gate.",
+      "evidence": "Root task message relaying user ruling; A/B/Root own implementation"
+    },
+    {
+      "id": "C-D05",
+      "decision": "Use typed UUID domain equality and canonical entity UUID for mapping source_id. allowedActions must reflect formally executable actions and association conditions. Payable summaries derive exact confirmed payment sums.",
+      "evidence": "Root accepted precise correctness corrections"
+    },
+    {
+      "id": "C-D06",
+      "decision": "Preserve invoice exception history independently from patchable business status; missing allowedActions must not create a new PATCH prohibition.",
+      "evidence": "Root accepted precise correctness correction"
+    },
+    {
+      "id": "C-D07",
+      "decision": "Every successful actual finance content/state change writes mandatory audit_log in same TX. Actor is authenticated session.sub, not DTO. No-op PATCH adds no business version or business audit. No new finance organization/role restriction in this batch.",
+      "evidence": "Root message relaying user fourth ruling"
+    },
+    {
+      "id": "C-D08",
+      "decision": "Each contract has its own amount and auditable source/difference. No project quote hard total cap or automatic allocation across contracts.",
+      "evidence": "Root message relaying user fourth ruling"
+    }
+  ],
+  "guards": {
+    "everyOperationPermission": "contract:finance:manage",
+    "orderedNativeGuards": [
+      "SessionAuthGuard",
+      "AuthCsrfGuard",
+      "PermissionsGuard"
+    ],
+    "sessionMissingOrInvalid": "401 with existing session error code",
+    "csrf": "13 unsafe methods require cookie/header double-submit and session binding; GET exempt",
+    "csrfFailure": "403 csrf_failed and security event",
+    "permissionFailure": "403 permission_denied and security event",
+    "noDomainWritesOnDeny": true,
+    "source": "sources/apps/poms-api/src/app/core/auth/auth.module.ts and guards/*"
+  },
+  "wireProfiles": {
+    "receipt": {
+      "ids": [
+        "id uuid",
+        "contractId uuid",
+        "projectId uuid",
+        "confirmedBy nullable uuid"
+      ],
+      "money": [
+        "receiptAmount string -> positive exact decimal numeric(18,2)"
+      ],
+      "dateTimes": [
+        "receiptDate",
+        "confirmedAt nullable",
+        "createdAt",
+        "updatedAt"
+      ],
+      "sourceType": "open trimmed string min1 max32; omitted create -> manual; null invalid",
+      "version": "rowVersion integer; confirm expectedVersion optional positive integer",
+      "createState": "pending-confirmation",
+      "confirmTransition": "pending-confirmation -> confirmed; server actor/time; CAS"
+    },
+    "payable": {
+      "ids": [
+        "id uuid",
+        "projectId uuid",
+        "contractId nullable uuid"
+      ],
+      "money": [
+        "amountExcludingTax positive string decimal18,2",
+        "taxAmount nullable nonnegative string decimal18,2",
+        "amountIncludingTax nullable positive string decimal18,2",
+        "settledAmountExcludingTax exact sum confirmed payments, fixed scale2 string"
+      ],
+      "businessDates": [
+        "expectedPaymentDate date-only"
+      ],
+      "dateTimes": [
+        "closedAt nullable",
+        "voidedAt nullable",
+        "createdAt",
+        "updatedAt"
+      ],
+      "optionalNullableCreate": [
+        "contractId",
+        "taxAmount",
+        "amountIncludingTax",
+        "evidenceSummary"
+      ],
+      "optionalNonNullCreate": [
+        "currency default CNY",
+        "attachmentCount default0"
+      ],
+      "patchMissing": "retain stored field",
+      "patchExplicitNull": "clear only contractId/taxAmount/amountIncludingTax/evidenceSummary",
+      "patchRefinement": "at least one updatable field; expectedVersion alone fails",
+      "reasonComment": "reason trimmed min1 max1000; optional nullable comment min1 max1000; append newline plus trimmed nonempty comment",
+      "createState": "recorded",
+      "version": "rowVersion integer; update/close/void expectedVersion optional positive integer"
+    },
+    "payment": {
+      "ids": [
+        "id uuid",
+        "projectId uuid",
+        "contractId nullable uuid",
+        "payableRecordId nullable uuid",
+        "confirmedBy nullable uuid"
+      ],
+      "money": [
+        "amountExcludingTax positive string decimal18,2",
+        "taxAmount nullable nonnegative string decimal18,2",
+        "amountIncludingTax nullable positive string decimal18,2"
+      ],
+      "dateTimes": [
+        "paymentDate",
+        "confirmedAt nullable",
+        "createdAt",
+        "updatedAt"
+      ],
+      "sourceType": "open trimmed string min1 max32; omitted create -> manual; null invalid",
+      "contractDefault": "request contractId missing/null -> payable contractId if any -> null; selected/inherited nonnull contract must Active and same project; bound payable must match",
+      "unboundProjectPayment": "No contract and/or payable is legal. Do not turn selected-contract rule into mandatory contract. Formal contract-finance-design.md:157,162-163,503-504.",
+      "currencyDefault": "request currency -> payable currency -> CNY; must equal linked payable currency",
+      "createState": "recorded",
+      "confirmTransition": "recorded -> confirmed; source actor/time; update payable payment progress in same transaction",
+      "version": "rowVersion integer; confirm expectedVersion optional positive integer"
+    },
+    "invoice": {
+      "ids": [
+        "id uuid",
+        "projectId uuid",
+        "contractId nullable uuid"
+      ],
+      "money": [
+        "invoiceAmount positive exact string decimal18,2"
+      ],
+      "businessDates": [
+        "invoiceDate date-only"
+      ],
+      "dateTimes": [
+        "closedAt nullable",
+        "createdAt",
+        "updatedAt"
+      ],
+      "optionalNullableCreate": [
+        "contractId"
+      ],
+      "patchMissing": "retain stored field",
+      "patchExplicitNull": "clear contractId only; output invoice cannot become unbound",
+      "patchRefinement": "at least one contractId/invoiceNumber/invoiceAmount/invoiceDate/status; expectedVersion alone fails",
+      "patchableStatuses": [
+        "draft",
+        "pending-issue",
+        "issued",
+        "received",
+        "verified"
+      ],
+      "createState": {
+        "status": "draft",
+        "exceptionStatus": "none",
+        "exceptionReason": null,
+        "exceptionResolution": null,
+        "closedAt": null,
+        "closeReason": null
+      },
+      "exceptionTransitions": [
+        "mark -> status=exception, exceptionStatus=open, reason retained, resolution=null",
+        "resolve requires exception/open -> exceptionStatus=resolved; retain reason, save resolution; status remains exception",
+        "after resolved PATCH may return to allowed business status while retaining resolved history",
+        "close requires not closed and no open exception; preserve reason/resolution"
+      ],
+      "version": "rowVersion integer; update/markException/resolveException/close expectedVersion optional positive integer"
+    },
+    "common": {
+      "unknownFields": "original Zod object strips unknown fields; do not persist them",
+      "bodyIdentifiers": "original z.uuid validation; internal typed UUID equality",
+      "pathIdentifiers": "original string params; Native malformed-id HTTP result not observed. Root common transport freezes safe errors; no C claim of observed 500.",
+      "expectedVersionOmitted": "allowed contract; retain transactional lock/CAS against loaded actual version",
+      "expectedVersionNullZeroNegativeString": "invalid schema, 400 under common validation protocol",
+      "numericMoneyJson": "invalid schema; money wire input is string",
+      "dateTimeSchema": "z.iso.datetime() original default; exact UTC/offset acceptance inherited through shared validation contract",
+      "dateSchema": "z.iso.date() with valid calendar date",
+      "taxEquality": "when both nonnull including=excluding+tax exactly; no f64 tolerance; no inference for unknown null amounts",
+      "outputNullableFields": "emit explicit nulls required by response schema; do not omit them",
+      "formatOutOfRangePolicyOwner": "Root common decimal/HTTP bridge; syntax and positivity failures must be controlled and precede writes",
+      "moneySyntaxProposal": "Root common syntax: trim, unsigned ordinary decimal [0-9]+(?:\\.[0-9]{1,2})?, leading zeros allowed; base>0/tax>=0; numeric18,2 exact capacity. Syntax/number validation400; tax tuple inequality422 proposal pending joint freeze."
+    }
+  },
+  "payableActionTable": {
+    "statusBasis": [
+      "contract-finance-design.md:232-244,285-298",
+      "interface-command-design.md:117-121",
+      "phase2-cost-source-to-project-record-mapping.md:520-527",
+      "current ContractFinanceService update/close/void conditions"
+    ],
+    "proposalStatus": "Explicit consolidation of existing executable behavior; awaiting Root joint freeze, not a new restriction inferred from UI",
+    "commonConditions": {
+      "anyCurrentMapping": "registered/confirmed/included payable-record mapping blocks update/close/void",
+      "anyLinkedPayment": "all statuses block void, including recorded pending payments",
+      "voidActionWireKey": "voided",
+      "progress": "create/confirm payment remains separately allowed only when payable recorded/partially-paid even if mapped"
+    },
+    "rows": [
+      {
+        "status": "draft",
+        "updateWithoutMapping": true,
+        "closeWithoutMapping": true,
+        "voidWithoutMappingAndWithoutAnyPayment": true,
+        "createPayment": false
+      },
+      {
+        "status": "recorded",
+        "updateWithoutMapping": true,
+        "closeWithoutMapping": true,
+        "voidWithoutMappingAndWithoutAnyPayment": true,
+        "createPayment": true
+      },
+      {
+        "status": "partially-paid",
+        "updateWithoutMapping": false,
+        "closeWithoutMapping": true,
+        "voidWithoutMappingAndWithoutAnyPayment": true,
+        "createPayment": true,
+        "legalProductionNote": "Normally confirmed payment exists, so void is blocked by relation; close retains paid sum and facts"
+      },
+      {
+        "status": "completed",
+        "updateWithoutMapping": false,
+        "closeWithoutMapping": true,
+        "voidWithoutMappingAndWithoutAnyPayment": true,
+        "createPayment": false,
+        "legalProductionNote": "Normally confirmed payment exists, so void is blocked by relation; close retains paid sum and facts"
+      },
+      {
+        "status": "closed",
+        "updateWithoutMapping": false,
+        "closeWithoutMapping": false,
+        "voidWithoutMappingAndWithoutAnyPayment": true,
+        "createPayment": false,
+        "closedThenVoid": "Keep original closedAt/closeReason plus new voidedAt/voidReason; no physical delete or source remapping"
+      },
+      {
+        "status": "voided",
+        "updateWithoutMapping": false,
+        "closeWithoutMapping": false,
+        "voidWithoutMappingAndWithoutAnyPayment": false,
+        "createPayment": false
+      }
+    ],
+    "expectedVersion": "stale expectedVersion always 409 before state guard; no new version bump on rejected action"
+  },
+  "invoiceActionTable": {
+    "mappedAnyState": [],
+    "closed": [],
+    "exceptionOpen": [
+      "resolve-exception"
+    ],
+    "exceptionResolved": [
+      "update",
+      "mark-exception",
+      "close"
+    ],
+    "nonClosedNoOpenException": [
+      "update",
+      "mark-exception",
+      "close"
+    ],
+    "statusAfterResolution": "exception until explicit permitted PATCH or close; exceptionStatus/history retained",
+    "reopenException": "markException allowed after resolved; clears old resolution for new open event per original contract; no new history table added in C"
+  },
+  "transactionProposal": {
+    "currencyAndMoney": "checked exact Decimal or integer cents; reject overflow; no f64 or silent numeric(18,2) rounding",
+    "lockOrderOwner": "Root joint freeze across A/B/C and future cost adapter",
+    "suggestedOrder": [
+      "Root fixed source/relationship lock order",
+      "source mapping eligibility read after source lock",
+      "business CAS/INSERT and any related payable progress",
+      "mandatory audit_log with authenticated actor and exact operationId",
+      "required managed session flush in Root framework order",
+      "commit"
+    ],
+    "allWriteCommands": "One PostgreSQL TX for actual business change + mandatory audit_log + required managed session flush; CAS loaded version even when request version omitted; any required write failure rolls entire graph back.",
+    "confirmPayment": "serialize by payable row even when progress status text stays partially-paid; sum confirmed payments in same connection after lock; add current payment once; compare exact against commitment; write payable+payment+managed session in one transaction",
+    "createPaymentVersusVoid": "same payable lock serializes association insertion and void guard so cannot create linked payment after invalidating payable",
+    "sourceVersusCostMapping": "C source mutation locks source row; later cost producer must lock same source before eligibility check and mapping insert. C read-only predicate alone cannot promise future producer serialization.",
+    "nativePartialCommitClaim": "No runtime claim. One Native EM.flush can include multiple managed entities; static absence of explicit transaction does not prove observed partial commit.",
+    "noOpPatch": "User ruling: same-value PATCH does not bump business row_version/updated_at and does not create business audit; still respect original required managed-session flush boundary frozen by Root."
+  },
+  "auditAndSession": {
+    "nativeFinanceAuditLogProducer": false,
+    "targetMandatoryBusinessAudit": true,
+    "scope": "All 13 write operations when they actually change business content/state; creates always change; no-op PATCH excluded.",
+    "entityTypes": {
+      "receipt": "Receipt",
+      "payable": "Payable",
+      "payment": "Payment",
+      "invoice": "Invoice"
+    },
+    "entityId": "Actual finance entity UUID; confirmPayment related payable changes included in before/after under Root exact protocol; no extra invented operation",
+    "action": "Full exact ContractFinanceController_<method> operationId",
+    "actor": "Authenticated session.user.sub UUID; reject/strip request-forged actor and never trust DTO",
+    "beforeAfter": "Root owns exact serde protocol. Include necessary safe business fields, actor/reason, changed state/content/version/source association; never raw session/CSRF/password tokens.",
+    "exactSerdeProtocol": "Root to freeze in joint input; C does not invent final audit payload schema",
+    "transaction": "Business INSERT/CAS + related payable progress + mandatory audit + required managed session flush same TX; no success if audit write fails",
+    "noOpPatch": "No business version/time change and no new business audit; managed-session boundary remains separately observable",
+    "currentFinanceApprovalTodoConfirmationProducer": false,
+    "requiredBusinessTraces": [
+      "receipt confirmed_at/by",
+      "payment confirmed_at/by",
+      "payable closed_at/reason and voided_at/reason",
+      "invoice exception_reason/resolution and closed_at/reason",
+      "mandatory target audit_log with authenticated actor"
+    ],
+    "globalSecurityAudit": "Global guards retain original auth/session/CSRF/permission events; business audit is distinct",
+    "preExistingRawSessionTouch": "Independently committed authentication raw touch remains separately labelled, not falsely rolled back with domain TX",
+    "managedSessionFlush": "Existing required pending flush joins business/audit TX under Root framework ordering",
+    "organizationRbac": "No new finance organization/role restriction this batch; original contract:finance:manage retained; later role ruling separate"
+  },
+  "costBoundary": {
+    "financeWritesActualCost": false,
+    "financeReads": "project_actual_cost_record(source_type,source_id,record_status) only for source guard and allowedActions",
+    "guardSourceTypes": [
+      "payable-record",
+      "invoice-record"
+    ],
+    "guardActiveStatuses": [
+      "registered",
+      "confirmed",
+      "included"
+    ],
+    "nonCurrentStatuses": [
+      "draft",
+      "voided",
+      "replaced"
+    ],
+    "guardSourceId": "entity.id canonical UUID string; source_id column is varchar(64), no finance FK",
+    "laterRealProducer": "ProjectCostService.createProjectActualCostRecord via POST /api/projects/{projectId}/actual-cost-records",
+    "laterProducerBranches": [
+      {
+        "costType": "payment-fact",
+        "source": "same-project confirmed PaymentRecord",
+        "targetStatus": "confirmed",
+        "sourceType": "payment-record",
+        "defaultIncluded": false
+      },
+      {
+        "costType": "invoice",
+        "source": "same-project input verified InvoiceRecord without open exception",
+        "targetStatus": "confirmed",
+        "sourceType": "invoice-record",
+        "defaultIncluded": false
+      },
+      {
+        "costType": "procurement",
+        "source": "same-project PayableRecord not draft/voided",
+        "targetStatus": "registered",
+        "sourceType": "payable-record",
+        "defaultIncluded": false
+      }
+    ],
+    "laterDependency": "typed finance source load/lock + sourceVersion/status + exact money/currency/date. No dependency on migration completion of all 40 project-cost operations.",
+    "crossModuleMoneyRange": "finance18,2 vs cost15,4; later producer validates narrower cost numeric range independently",
+    "currentBatchProof": "Only source facts produced by real A/B/C chain plus legally shaped prepared mapping guard fixtures. Full real-cost production loop is deferred and unaccepted in this batch."
+  },
+  "receivablePlanBoundary": {
+    "receiptHasReceivablePlanForeignKey": false,
+    "financeConsumesReceivablePlan": false,
+    "financeProducesReceivablePlan": false,
+    "rootDecision": "A/B/Root implement real per-contract prepared terms and active valid-snapshot formal plan; C adds no receipt-plan hard gate"
+  },
+  "originalUiBoundary": {
+    "financeScreensExistence": "No ContractFinanceApi consumer in scanned original Angular app/data-access; existing ContractStore uses ContractApi and ApprovalApi only",
+    "applicableUi": [
+      "real readiness and contract creation/review/activation",
+      "session/CSRF/permission and original sensitive contract projection",
+      "approval todo refresh"
+    ],
+    "finance19Proof": "real HTTP + database state/transaction evidence; not invented finance UI",
+    "fourAxes": "Root owns exact Linux managed Nest/Rust and Windows native managed Nest/external Rust matrix and labels; C only prepares definitions"
+  },
+  "drift": [
+    {
+      "id": "F1",
+      "classification": "existing-baseline-drift",
+      "status": "user-ruling-recorded",
+      "fact": "receipt/invoice schema only nonempty string; correct positive decimal2 and overflow checks required"
+    },
+    {
+      "id": "F2",
+      "classification": "existing-baseline-drift",
+      "status": "user-ruling-recorded",
+      "fact": "payment contract originally only same-project; correct Active and payable binding rules required"
+    },
+    {
+      "id": "F3",
+      "classification": "existing-baseline-drift",
+      "status": "Root-accepted-correction-proposal",
+      "fact": "allowedActions under/over-reports actual execute conditions"
+    },
+    {
+      "id": "F4",
+      "classification": "existing-baseline-drift",
+      "status": "Root-accepted-correction",
+      "fact": "payable mutation summary returns constant zero instead of actual confirmed sum"
+    },
+    {
+      "id": "F5",
+      "classification": "existing-baseline-drift",
+      "status": "static-risk-runtime-unobserved",
+      "fact": "no explicit lock serializes payable confirmed sum; prospective concurrent oversettlement case must be exercised"
+    },
+    {
+      "id": "F6",
+      "classification": "existing-baseline-drift",
+      "status": "Root-accepted-correction",
+      "fact": "raw UUID case equality and raw source_id lookups can break domain identity/mapping guards"
+    },
+    {
+      "id": "F7",
+      "classification": "existing-baseline-drift",
+      "status": "runtime-error-projection-not-observed",
+      "fact": "malformed path UUID, duplicate invoice_no, invalid numeric and ORM lock error HTTP statuses require controlled common error mapping"
+    },
+    {
+      "id": "F8",
+      "classification": "design-change-required",
+      "status": "user-ruling-mandatory-audit-in-scope-no-new-RBAC",
+      "fact": "Native has no finance audit_log producer. Target now requires transactional business audit; exact serde owned by Root. No new organization/role rule."
+    },
+    {
+      "id": "F9",
+      "classification": "existing-baseline-drift",
+      "status": "Root-user-ruling-A-B-owned",
+      "fact": "old readiness markers are not real term/receivable plan records"
+    }
+  ],
+  "acceptanceStatus": {
+    "sourceCapture": "completed static preparation",
+    "pureCaseSyntax": "node --check exit0; final source hash bound by case-syntax-check02.json; definitions not executed",
+    "nativeRuntimeObservation": "not-run",
+    "rustImplementation": "not-started",
+    "databaseHttpConcurrencyFaultUi": "not-run",
+    "independentG1": "not-run",
+    "onlineG1Freeze": "not-run",
+    "stageAcceptance": "not-claimed"
+  }
+}

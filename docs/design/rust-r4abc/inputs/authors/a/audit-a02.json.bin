@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 2,
+  "evidenceClass": "G0-G1-static-input-candidate",
+  "activeRevision": true,
+  "supersedesForBusinessProposal": "audit-a01.md",
+  "scope": "R4A: contract-readiness existing 9 HTTP operations, their real upstream/downstream and necessary user-authorized preparation/plan persistence inputs",
+  "owner": "A",
+  "baseline": {
+    "rootReportedCommit": "1730f304c1cf5600721f80b6c06feec24269d387",
+    "independentlyVerifiedWithGitByA": false,
+    "sourceManifest": "source-manifest-a02.json",
+    "sourceCount": 92,
+    "sourceByteLength": 3087565,
+    "rawSourceOriginals": "source-originals/"
+  },
+  "configuration": { "targetModel": "gpt-6.1-sol", "targetReasoningEffort": "max", "fastObserved": "unverified" },
+  "issueIdentity": { "r4Parent": null, "batchParent": null, "slice": null, "onlineStateReadByA": false, "source": "Await Root-issued IDs; A is forbidden to access GitHub and does not infer issue numbers." },
+  "gate": {
+    "status": "candidate-for-joint-G1-review",
+    "productImplementationAuthorizedHere": false,
+    "G2EnteredByA": false,
+    "rootFreezeStillRequired": ["public DTO and OpenAPI additions", "typed seed persistence and plan state enums", "contract-level current/diff selection and independent contract payload", "approval binding and shared CommonSession adapter", "ratio/date/rounding/input compatibility decisions"],
+    "completedByA": ["static source reading", "raw-byte source capture and SHA/length inventory", "9-operation and 24-schema static OpenAPI extraction", "case/probe definitions only"],
+    "notExecuted": ["build", "unit/integration tests", "HTTP", "PostgreSQL", "browser", "WSL", "Git", "GitHub", "installation", "private evidence access"]
+  },
+  "userDecisionsDeliveredByRoot": [
+    {
+      "id": "U1",
+      "decision": "合同级准备→审核后激活生效→正式应收计划",
+      "effects": ["initializeContractSnapshot requires explicit contractId and a real prepared term version", "B review/approval binds the exact preparation; activation changes effective business facts atomically", "initializeReceivablePlan requires Active contract and current effective snapshot and creates that contract's real formal plan", "server derives readiness from actual current cost/bid/pricing", "necessary persistence, DTO and UI work are included in Root's shared scope"],
+      "priority": "overrides old document or Native marker behavior"
+    },
+    { "id": "U2", "decision": "合同金额/普通回款/发票使用正有限decimal，最多2位，超numeric(18,2)范围拒绝，不默舍入；ratio仍0..1 scale4另冻结" },
+    { "id": "U3", "decision": "付款所选合同Active且同项目；应付若绑定合同则付款合同必须一致", "ARelevance": "contract/source ownership checks must use the same parsed UUID identity; C owns finance behavior" }
+    ,{ "id": "U4-final", "decision": "合同金额独立，来源与差异必须可审计。每合同明确金额/条款/应收节点；不复制项目总报价、不自动分摊、不强制合同合计等于项目报价，无硬预算分配。商业基线可项目级来源；当前包和初始化必须绑定contractId并冻结合同core金额/条款/节点与来源/差异。", "priority": "supersedes earlier allocation/equality proposals" }
+  ],
+  "sourceLayers": {
+    "definition": ["interface-command-design.md:126-128,181-182,303-305", "interface-openapi-dto-design.md:233-234", "contract-finance-design.md:152-155,272-292", "schema-ddl-design.md:442-489,545-555", "table-structure-freeze-design.md:99-103,238-250", "phase2-presigning-contract-readiness-workspace.md:142-167"],
+    "historicalDefinition": ["archive/slices/ex-15e1-approval-contract-readiness-route-baseline.md: route direct-cutover only; no current runtime or business certification"],
+    "currentImplementation": ["source-manifest-a02.json lists every raw file", "contract-readiness.service.ts:342-387 stores marker IDs only", "contract.service.ts:195-214 later produces a real active snapshot", "project-handover-query.service.ts:433-478 trusts plan marker non-null", "ContractFinance has no plan producer/consumer"],
+    "newProposal": "Everything under proposedBusinessModel is G1 input for Root review, not an implemented or accepted schema."
+  },
+  "surface": {
+    "source": "surface-a01.json",
+    "uniqueOperationCount": 9,
+    "uniqueMethodPathCount": 9,
+    "uniqueOperationIdCount": 9,
+    "transitiveSchemaCount": 24,
+    "canonicalInventory": "docs/design/api-route-canonical-inventory.md",
+    "globalPrefix": "/api",
+    "changes": "No new public path is proposed by A; Root must freeze added DTO fields and semantics on the existing paths.",
+    "operations": [
+      { "id": "A01", "method": "POST", "path": "/api/commercial-release-baselines", "operationId": "ContractReadinessController_createCommercialReleaseBaseline", "canonicalLine": 138, "canonicalCapability": "createCommercialReleaseBaseline", "permission": "project:write", "status": 201, "request": "CreateCommercialReleaseBaselineRequest", "response": "CommercialReleaseBaselineSummary", "sourceLines": [25,31], "serviceLines": [39,115], "currentTransaction": "supersede baselines + insert baseline + diff result/items + latest pointer; project and duplicate check outside TX" },
+      { "id": "A02", "method": "GET", "path": "/api/commercial-release-baselines/{id}", "operationId": "ContractReadinessController_getCommercialReleaseBaseline", "canonicalLine": 139, "canonicalCapability": "getCommercialReleaseBaseline", "permission": "project:read", "status": 200, "request": null, "response": "CommercialReleaseBaselineSummary", "sourceLines": [33,39], "serviceLines": [117,125], "currentTransaction": "read baseline + latest diff; no business write" },
+      { "id": "A03", "method": "GET", "path": "/api/commercial-release-baselines/{id}/diff-history", "operationId": "ContractReadinessController_getDiffHistory", "canonicalLine": 140, "canonicalCapability": "getCommercialReleaseBaselineDiffHistory", "permission": "project:read", "status": 200, "request": null, "response": "ContractDiffReviewHistoryView", "sourceLines": [41,47], "serviceLines": [127,149], "currentTransaction": "read baseline/latest diff/items/review records only; history covers current diff result only" },
+      { "id": "A04", "method": "POST", "path": "/api/commercial-release-baselines/{id}:reviewDiff", "operationId": "ContractReadinessController_reviewDiff", "canonicalLine": 141, "canonicalCapability": "reviewCommercialReleaseBaselineDiff", "permission": "project:write", "status": 200, "request": "ReviewCommercialReleaseBaselineDiffRequest", "response": "CommercialDiffReviewResult", "sourceLines": [49,56], "serviceLines": [151,202], "currentTransaction": "reviewRecord + diff status/decision/time + baseline.updatedBy; version/guard checks before TX; actor is session user" },
+      { "id": "A05", "method": "POST", "path": "/api/contract-readiness-packages", "operationId": "ContractReadinessController_createContractReadinessPackage", "canonicalLine": 142, "canonicalCapability": "createContractReadinessPackage", "permission": "project:write", "status": 201, "request": "CreateContractReadinessPackageRequest", "response": "ContractReadinessDetail", "sourceLines": [58,64], "serviceLines": [204,271], "currentTransaction": "supersede project current packages + package/items; source/allowed checks outside TX; body supplies state" },
+      { "id": "A06", "method": "GET", "path": "/api/contract-readiness-packages/{id}", "operationId": "ContractReadinessController_getContractReadinessPackage", "canonicalLine": 143, "canonicalCapability": "getContractReadinessPackage", "permission": "project:read", "status": 200, "request": null, "response": "ContractReadinessDetail", "sourceLines": [66,72], "serviceLines": [273,282], "currentTransaction": "read package/diff/items; allowedActions derived without writes" },
+      { "id": "A07", "method": "GET", "path": "/api/projects/{projectId}/contract-readiness", "operationId": "ContractReadinessController_getCurrentContractReadiness", "canonicalLine": 144, "canonicalCapability": "getProjectContractReadiness", "permission": "project:read", "status": 200, "request": null, "response": "ContractReadinessDetail", "sourceLines": [74,80], "serviceLines": [284,293], "currentTransaction": "read current package by updatedAt/createdAt; no package -> 404; no business write" },
+      { "id": "A08", "method": "POST", "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot", "operationId": "ContractReadinessController_initializeContractSnapshot", "canonicalLine": 145, "canonicalCapability": "initializeContractTermSnapshotFromReadinessPackage", "permission": "project:write", "status": 200, "request": "InitializeContractSnapshotFromReadinessPackageRequest", "response": "ReadinessInitializationResult", "sourceLines": [82,89], "serviceLines": [295,301,342,387], "currentTransaction": "updates package marker/time/actor only; no ContractTermSnapshot insertion", "newMeaning": "real contract-specific prepared term version, still not effective" },
+      { "id": "A09", "method": "POST", "path": "/api/contract-readiness-packages/{id}:initializeReceivablePlan", "operationId": "ContractReadinessController_initializeReceivablePlan", "canonicalLine": 146, "canonicalCapability": "initializeReceivablePlanFromReadinessPackage", "permission": "project:write", "status": 200, "request": "InitializeReceivablePlanFromReadinessPackageRequest", "response": "ReadinessInitializationResult", "sourceLines": [91,98], "serviceLines": [299,301,342,387], "currentTransaction": "updates package marker/time/actor only; no formal plan persistence exists", "newMeaning": "real formal plan version/nodes from that Active contract's frozen active snapshot seeds" }
+    ]
+  },
+  "dtoNotes": {
+    "fullCurrentOpenapiClosure": "surface-a01.json",
+    "sharedRequestRanges": ["6463-6498 baseline/diff-item", "6500-6510 reviewDiff", "6512-6543 readiness/items", "6545-6563 initialization"],
+    "sharedResponseRanges": ["5904-6024 baseline/history/readiness", "6565-6588 command results"],
+    "currentPath": "plain string, no UUID parse pipe; resource identity must become parsed internal UUID",
+    "currentIgnoredBodyFields": { "A04": ["attachmentIds"], "A08": ["contractReadinessPackageId", "comment"], "A09": ["contractReadinessPackageId", "comment"] },
+    "currentCallerSuppliedActor": ["A01.createdBy", "A01.updatedBy", "A05.createdBy", "A05.updatedBy"],
+    "newActorRule": "session actor is authoritative for business and audit; preserve legitimate provenance as explicit source metadata, never treat caller-createdBy as operator",
+    "currentEmptyDefaults": ["A01.diffItems=[]", "A04.reviewedFieldKeys=[]", "A04.attachmentIds=[]", "A05.items=[]"],
+    "currentExpectedVersion": "optional positive integer on A04/A08/A09, checked before TX; new mutations must validate CAS inside the transaction",
+    "dateMoneyUuid": { "money": "positive finite decimal string, precision18 scale<=2, no exponent/NaN/Infinity/sign coercion or silent rounding; max 9999999999999999.99", "ratio": "0..1, <=4 decimals, exact decimal; Root freezes all shared ratio validation", "timestamps": "UTC RFC3339/ISO datetime; not plan date", "planDate": "valid YYYY-MM-DD calendar date; no timezone conversion", "uuid": "parse as UUID and compare by value; upper/lowercase textual identity must be equal", "crossPrecision": "R3 pricing.tax_rate numeric(18,8), A current baseline numeric(5,4): non-representable approved source rate must fail explicitly or be re-approved under a Root-frozen conversion, never truncate", "currency": "freeze from real source and validate selected contract currency equality; current A has no currency column" }
+  },
+  "currentStateAndGuard": {
+    "baselineStatus": ["draft", "effective", "superseded"],
+    "diffLevel": ["prompt", "review-required", "reapproval-required"],
+    "reviewStatus": ["not-required", "pending-review", "approved", "rejected"],
+    "packageStatus": ["ready", "conditional", "blocked"],
+    "guardDecision": ["allowed", "review-required", "blocked"],
+    "itemType": ["checklist", "reusable-fact", "blocking-reason", "receivable-seed"],
+    "itemStatus": ["ready", "conditional", "blocked", "not-applicable"],
+    "readinessPredicate": "guard=allowed && package!=blocked && (diff.prompt || diff.review-required+approved)",
+    "nativeMutationPredicateBug": "initialize only rejects blocked guard/status; guard=review-required can still initialize when diff is ready",
+    "nativeMissingChecks": ["package current", "baseline current/effective", "baseline.latest_diff_result_id equals selected diff", "diff.project_id matches source project", "all prerequisite source records", "missingCount and items consistency", "exact prepared approval binding"]
+  },
+  "currentPersistence": [
+    { "table": "commercial_release_baseline", "keys": ["UUID PK", "project FK cascade", "UNIQUE(project_id,baseline_code)", "latest_diff_result_id FK set null"], "version": "row_version; is_current; baseline_status; no business version/supersedes", "absent": ["partial current UNIQUE", "quotation_review FK", "source pricing FK", "currency"] },
+    { "table": "commercial_baseline_diff_result", "keys": ["UUID PK", "baseline FK cascade", "project FK cascade"], "version": "none", "absent": ["contract_id", "source input versions", "row_version", "cross-FK same-project guarantee"] },
+    { "table": "commercial_baseline_diff_item", "keys": ["UUID PK", "diff_result FK cascade"], "version": "none", "absent": ["UNIQUE(diff_result_id,field_key)"] },
+    { "table": "commercial_baseline_review_record", "keys": ["UUID PK", "baseline/diff/project independent FK cascade"], "version": "append performed by service but no database immutability enforcement", "absent": ["review actor role evidence", "required field coverage", "attachment persistence"] },
+    { "table": "contract_readiness_package", "keys": ["UUID PK", "project FK cascade", "baseline/diff FK restrict"], "version": "row_version and project is_current, no version/supersedes", "absent": ["contract_id", "source version references", "current partial UNIQUE", "initialized IDs target FKs"] },
+    { "table": "contract_readiness_package_item", "keys": ["UUID PK", "package FK cascade"], "version": "none", "absent": ["UNIQUE(package_id,item_key)", "source_workspace_key/id/version", "typed plan seeds"] }
+  ],
+  "callGraph": {
+    "nodes": ["cookie-session/CSRF/permission", "ContractReadinessController", "ContractReadinessService", "ProjectService", "A six tables", "ContractService.activate", "ContractTermSnapshotRepository", "Contract/ContractTermSnapshot", "ProjectHandoverQueryService", "ProjectWorkspaceStore", "ProjectPreSigningOverview", "ContractFinanceService", "R3 cost/bid/pricing stores", "RuntimeAuditService"],
+    "edges": [
+      { "from": "cookie-session/CSRF/permission", "to": "ContractReadinessController", "kind": "all9; POST CSRF; global guard order in AuthModule" },
+      { "from": "ContractReadinessController", "to": "ContractReadinessService", "kind": "five writes/four queries; actor passed only review/init" },
+      { "from": "ContractReadinessService", "to": "ProjectService", "kind": "create baseline/package checks only project existence" },
+      { "from": "ContractReadinessService", "to": "A six tables", "kind": "actual current read/write persistence" },
+      { "from": "ContractService.activate", "to": "ContractReadinessService", "kind": "project current readiness resolver + package read" },
+      { "from": "ContractService.activate", "to": "ContractTermSnapshotRepository", "kind": "Native real active snapshot producer using A reserved ID" },
+      { "from": "ContractTermSnapshotRepository", "to": "Contract/ContractTermSnapshot", "kind": "snapshot write; later contract pointer/status write lacks explicit combined service TX" },
+      { "from": "ProjectHandoverQueryService", "to": "A six tables", "kind": "through readiness DTO; treats plan marker as initialized without checking plan" },
+      { "from": "ProjectWorkspaceStore", "to": "ContractReadinessController", "kind": "GET current readiness" },
+      { "from": "ProjectPreSigningOverview", "to": "ProjectWorkspaceStore", "kind": "display readiness and initialized IDs/times" },
+      { "from": "ContractReadinessService", "to": "R3 cost/bid/pricing stores", "kind": "ABSENT in Native; required new real source reader" },
+      { "from": "ContractFinanceService", "to": "A plan marker", "kind": "ABSENT; no plan producer or consumer" },
+      { "from": "ContractReadinessService", "to": "RuntimeAuditService", "kind": "ABSENT in Native successful commands; new necessary audits must join TX" }
+    ]
+  },
+  "upstreamR3": {
+    "actualTables": ["project_technical_cost_package", "project_bid_commercial_process", "project_pricing_margin_review", "project_pricing_margin_condition_item", "approval_summary_snapshot"],
+    "availableRefs": "All three R3 version stores expose current/by-id with parsed UUID; writers lock poms.project and CAS supersede under same TX; share that serialization instead of reading latest on another connection.",
+    "nativeCurrentGap": "A only checks project and own baseline/diff. A.quotation_review_id is unvalidated nullable UUID. R3 released/conditional-release needs an existing commercial_release_baseline FK and summary references. No quotation-review ApprovalType/handler exists in current Shared/Rust approval source.",
+    "nonCyclicProductionProposal": [
+      "Real cost/bid current versions exist.",
+      "A01 creates an immutable draft project commercial-terms source candidate; it does not grant readiness or claim release. Current pricing-pending inputs, if present, are server-read and captured; caller cannot set effective/ready/diff decisions.",
+      "Existing R3 pricing create records a released/conditional-release current version referencing that existing draft baseline ID, after existing R3 current cost/bid checks; no need to require a released pricing row before creating that referenced draft.",
+      "A05 locks project/selected contract and reads actual current cost/bid/pricing, conditions and linked summary. It validates the project pricing baseline FK, source freshness and project source payload, readyForContracting and required conditions; separately freezes explicit selected-contract amounts/terms/typed seeds, computes and audits differences against the commercial source, and derives contract-bound readiness. Contract amounts are independent: no project-total copying, allocation, sum-equality or hard budget. The source baseline promotion and source-bound package remain atomic; blocked actual source/diff/review facts cannot be overridden by body flags.",
+      "A05 first persists the real contract-specific diff and a derived blocked/review-required package when review is needed. A04 explicitly names contractId+diffResultId, records required decisions against that exact diff and recomputes its associated current package guard/status under the same TX. A08 then binds explicit contractId, checks its draft/source/package versions and approved computed diff and produces immutable prepared terms. B review binds one exact prepared version; B activation never swaps to project-latest terms.",
+      "A09 consumes only that contract's active snapshot frozen typed seeds after B activation and writes its real plan/version/nodes/init record atomically."
+    ],
+    "fieldChangesProposed": ["baseline.source_pricing_margin_review_id real FK and explicit currency; legacy quotationReviewId cannot be an arbitrary business truth", "draft project baseline immutable payload hash; released pricing refers to the same project source payload", "package explicit contractId and independently specified contractCoreTerms/typed seed payload hash", "package source refs for cost/bid/pricing IDs/versions and summary context, instead of only summaries", "contract-specific diff input version/contract ID and computed auditable field values; differences are evaluated under the frozen review rules, not a forced equality", "body packageStatus/guard/missingCount/diffLevel become derived or consistency assertions", "typed contract seeds freeze in readiness and travel unchanged through prepared/active snapshot to plan"],
+    "revalidation": "if current source changes before preparation/approval/activation, reject stale chain and require explicit new preparation/review; do not auto-switch an approved binding"
+  },
+  "proposedBusinessModel": {
+    "status": "Root shared-contract/DDL review required; no product file changed",
+    "preferredPreparationPersistence": {
+      "table": "contract_term_preparation",
+      "reason": "Root explicitly chose this separate real preparation table; ContractTermSnapshot keeps only active/superseded/voided and is produced with a different UUID at activation.",
+      "fields": ["id UUID PK", "contract_id/project_id", "version int positive", "is_current", "supersedes_id self FK", "status prepared|superseded|activated", "source_readiness_id/source_baseline_id/source_diff_result_id", "source cost/bid/pricing IDs and versions", "contract_row_version_at_preparation", "currency_code", "amount_tax_inclusive/exclusive numeric(18,2)", "tax_rate/down_payment_rate/retention_rate numeric(5,4)", "payment_terms", "retention_due_date date", "payload_hash", "prepared_at/by", "activated_snapshot_id nullable FK", "activated_at/by nullable", "row_version"],
+      "constraints": ["UNIQUE(contract_id,version)", "one current preparation per contract", "UNIQUE(contract_id,source_readiness_id,payload_hash) idempotency identity", "cross-project/contract/source equality in TX and composite FKs where practical", "immutable terms/source/seeds after insertion; status transitions only via CAS", "prepared rows are never current active contract snapshots"],
+      "reprepare": "Draft contract only, no pending review bound to old preparation; source/input changes produce version+1 and supersede old prepared row inside the same TX. Rejected review may produce a new explicit preparation. Pending/approved binding cannot silently follow latest preparation.",
+      "initializationResult": "Root froze preparationId as the unified field; identify preparationId/preparedVersion/status=prepared, sourceReadinessId, contractId and rowVersion. snapshotId is null until a real active snapshot exists. The package initializedContractSnapshotId must never hold a preparationId."
+    },
+    "reviewBinding": {
+      "preferredTable": "contract_review_binding",
+      "fields": ["approval_record_id UNIQUE FK", "contract_id FK", "preparation_id FK", "prepared_payload_hash", "bound_at/by"],
+      "reason": "Current ApprovalRecord has no JSON payload or prepared-version field; a real immutable binding avoids relying on latest lookup or widening all approval record shapes.",
+      "submit": "B submitContractReview must choose and persist an explicit preparation, validate it belongs to the draft contract, and bind it in the same approval/todo/contract/session/audit TX.",
+      "decision": "approve/reject reads the binding and exact preparation/source facts; decision cannot approve some later package/version. Root owns the existing CommonSession approval handler extension.",
+      "activate": "lock exact approved binding, preparation and contract; validate source chain, create active ContractTermSnapshot with source_preparation_id, copy immutable terms/seeds, set Contract.current_snapshot_id/status, set preparation activated, record necessary success audit and flush pending session, one TX. A failure after snapshot INSERT leaves neither active snapshot nor active contract nor activated preparation nor success audit/session mutation."
+    },
+    "typedSeed": {
+      "proposedFields": { "nodeKey": "trimmed nonempty <=64, unique in source payload", "label": "trimmed nonempty <=128", "plannedAmount": "positive exact decimal18,2", "plannedDate": "valid YYYY-MM-DD", "isRetentionNode": "boolean", "sortOrder": "nonnegative integer, unique per source payload", "note": "optional <=1000" },
+      "source": "explicit per-contract commercial terms entered through Root-owned DTO/UI and frozen in the contract-bound readiness package with real project commercial source references and auditable differences; not copied from project totals, not allocated automatically, not parsed from paymentTerms prose or readiness.summary",
+      "validation": ["nonempty nodes", "sum(plannedAmount) equals frozen selected-contract inclusive total exactly in cents", "duplicate nodeKey/sortOrder rejected", "date validity checked without timezone conversion", "retention nodes/amounts conform to frozen retention terms and due date", "Root freezes any within-contract cent rounding rule before using ratio-derived amounts; no implicit rounding, project allocation or invented date"],
+      "immutability": "copy/hash through prepared terms and active snapshot; A09 request cannot replace amount/date/node content"
+    },
+    "formalPlan": {
+      "versionTable": "receivable_plan_version",
+      "versionFields": ["id", "contract_id", "snapshot_id", "source_readiness_id", "source_preparation_id", "version", "is_current", "supersedes_id", "status", "payload_hash", "initialized_at/by", "row_version"],
+      "nodeTable": "receivable_plan_node",
+      "nodeFields": ["id", "plan_version_id", "node_key", "label", "planned_amount numeric(18,2)", "planned_date date", "is_retention_node", "sort_order", "status"],
+      "initRecordTable": "receivable_plan_init_record",
+      "constraints": ["version UNIQUE(contract_id,version)", "one current plan per contract", "UNIQUE(contract_id,snapshot_id) for initial production identity", "node UNIQUE(plan_version_id,node_key)", "node UNIQUE(plan_version_id,sort_order)", "FKs to real contract/snapshot/preparation/readiness", "positive amounts/valid enum/nonnegative order CHECKs"],
+      "guard": "Active contract + selected current active snapshot + exact readiness/preparation/source binding + typed seeds frozen at activation; no caller plan rewrite",
+      "idempotency": "same contract/snapshot/source-payload returns the already persisted version/nodes/init record without new version, timestamps or duplicate success audit; any conflicting payload is a conflict, not a silent overwrite",
+      "versionReplacement": "only explicit later approved snapshot/rebaseline can create a new version and supersede prior current plan atomically; initial A09 must not rewrite an active plan from mutable text",
+      "scopeLimit": "do not add a plan prerequisite to ordinary ReceiptRecord creation to hide the former marker gap; C's receipt command keeps its user-approved contract/amount rules"
+    },
+    "sharedInterfaces": [
+      { "name": "derive_current_readiness_source", "borrowedContext": "&mut PgConnection plus actor/request context", "input": ["ProjectId", "optional explicit ContractId/draftVersion"], "returns": ["typed source chain ids+versions", "currency/amounts/rates/seeds", "computed prerequisites", "computed diff and required reviews"], "transaction": "caller owns project lock and TX; no own connection or commit" },
+      { "name": "resolve_preparation_for_review", "borrowedContext": "&mut PgConnection or caller CommonSession", "input": ["ContractId", "PreparationId", "expected contract/preparation versions"], "returns": ["immutable prepared payload/hash", "source chain", "typed seeds"], "transaction": "B submit owns lock/TX; A resolver does not mutate or create a fallback" },
+      { "name": "load_approved_preparation_for_activation", "borrowedContext": "&mut CommonSession", "input": ["ApprovalRecordId", "ContractId"], "returns": ["approved exact binding", "prepared payload", "source freshness verdict"], "transaction": "B activate owns one TX; Root owns shared approval handler/schema changes" },
+      { "name": "initialize_formal_receivable_plan", "borrowedContext": "&mut PgConnection plus actor/session/request context", "input": ["ReadinessId", "ContractId", "SnapshotId", "expected versions"], "returns": ["persisted PlanVersionId", "initRecordId", "version/status/rowVersion"], "transaction": "A09 or Root-owned plan adapter owns one TX; flush session/audit before commit" }
+    ],
+    "queryContract": "Proposed ContractReadinessCurrentQuery has contractId?:UUID. A05 package/diff explicitly bind contractId, current partial UNIQUE(project_id,contract_id). A07 with contractId validates project ownership and returns that contract's current detail; without query: zero current packages->404, exactly one distinct contract->same detail for compatibility, multiple distinct contracts->409 contract_selection_required with candidateContractIds. UI chooses a contract using B lookup and re-requests explicitly. A06 historical by package ID is unchanged. Never choose first/latest arbitrary contract; GET remains business no-op.",
+    "multiContractAllocation": "User final decision: each contract has independent explicit amounts/terms/typed seeds. Project commercial baseline is an auditable source/comparison; no project-total copy, no automatic allocation, no contract-sum=project-quote constraint and no hard budget. Package/diff/init bind contractId. Once Active, A09 uses its frozen snapshot/seeds and must not require project R3 pricing to remain current after unrelated later contract pricing."
+  },
+  "transactionsAndEvidence": {
+    "globalGuardOrder": ["SessionAuthGuard", "AuthCsrfGuard", "PermissionsGuard"],
+    "currentSuccessAudit": "no recordAuditLog call in A service; review record is not a runtime audit",
+    "newAtomicBoundary": "source/status/UUID/CAS checks, parent/child/output writes, necessary success audit, pending session flush and commit/rollback stay in one borrowed TX",
+    "suggestedLockOrderForRootFinalization": ["project", "contract", "preparation/binding", "readiness", "baseline/diff", "active snapshot/current plan"],
+    "requiredFailurePoints": ["baseline/diff/items", "review record/diff CAS", "readiness/source refs/items", "preparation/seeds/init record", "approval binding/todo", "active snapshot/contract/preparation activated", "plan version/nodes/init record", "necessary success audit", "managed session flush"],
+    "nativeVsRust": "Native reference captures observed current behavior; Rust expected assertions follow user decisions and business semantics. Differences caused by fixed marker/guard/partial-write bugs are classified, not used as Rust compatibility failures.",
+    "caseDefinitions": "cases-a01.json",
+    "readOnlyProbeDefinitions": "probes-a01.sql",
+    "proofBoundary": "No runtime proof exists in this A input package. Root actual runs must attach immutable raw HTTP/PG/fault/concurrency/session/audit and cleanup receipts under a new run ID."
+  },
+  "remainingDecisionsForRootFreeze": [
+    "Publish the Root-chosen contract_term_preparation and contract_review_binding DTO/state/schema mapping consistently.",
+    "Freeze A07 optional-contractId query, unique-single compatibility and multi-contract selection_required error DTO; no arbitrary first contract.",
+    "Freeze A03 diff-history contractId selection and A04 explicit contractId+diffResultId, A05 real diff creation->A04 exact review and package recomputation; a draft project source without contract diff cannot fabricate latestDiffResultId.",
+    "Freeze new real pricing source FK, draft baseline promotion and backward-compatible meaning of quotationReviewId.",
+    "Freeze explicit per-contract typed seed retention/currency/date/ratio validation and any within-contract cent rounding rule; no project allocation or aggregate equality requirement.",
+    "Freeze exact diff role coverage, attachments and sensitive field projections from formal authorization design.",
+    "Freeze Root-owned shared CommonSession, migration, DTO/OpenAPI/client/UI changes and independent joint G1 review."
+  ]
+}

@@ -1,0 +1,151 @@
+# RUST-R4C contract-finance：G1 静态审计候选 01
+
+- 作者：C（实现作者，非独立 Gate 审查者）。父代理提供基线：`1730f304c1cf5600721f80b6c06feec24269d387`；C 未执行 Git 验证。
+- 目标配置：`gpt-6.1-sol` / `max`；按父代理分派记录，Fast 未核实。本文件不证明运行时模型或服务层实际状态。
+- 范围：现有 contract-finance **19** 个 HTTP 操作；其 Native service/repository/entities/DTO/shared/OpenAPI/canonical、原 Angular 消费边界、必要 project-cost 引用。
+- 分类：`cross-layer-high-risk`，迁移既有 API/持久化/金额/版本与跨表事务；19 项之外的公共路由接线由 Root 独占。
+- 当前状态：**G1 输入候选，作者自查完成不等于独立 Pass，不允许据此进入 G2。** 用户裁决已由 Root 转达并纳入；Issue 编号、联合非作者 Pass 和线上冻结待补。
+- 写入范围仅 `tmp/rust-r4abc/input-c/`。本阶段没有产品改动、构建、测试、HTTP、数据库、浏览器、WSL、private、安装、Git 或 GitHub 操作。
+
+## 1. 可复核原件与派生物
+
+`source-manifest01.json` 保全 **85 文件、2,795,107 原字节**，逐文件列 SHA-256、来源相对路径、`sources/` 原字节副本、捕获后来源与副本相等。原件包括整个 shared-contracts、原 OpenAPI、所有 finance Native 文件及相关 generated models。捕获是本次新做的静态事实，不是旧验收的复用。
+
+`source-supplement02.json` 另保全 4 份状态/命令/来源映射正式文档，106,344 原字节；两清单合计 **89 文件、2,901,451 原字节**。旧 EX06 的单金额和旧路由已被后续 EX06D/EX15E4 覆盖，只复用仍适用的对象/关系边界，不作为金额或公开路径 SSOT。
+
+`operations19.json` 从保全的原 OpenAPI 提取恰好 19 个 method/path/operationId、参数、响应和请求 `$ref`。`openapi-finance19.json` 是 19 操作及 30 schema 的传递闭包；它是派生子集，不覆盖原 OpenAPI 原件。`entry-semantics19.json` 列每入口域规则、必要事务与预期错误边界。`finance-cases01.mjs` 仅导出纯声明对象，无请求/DB/浏览器或产品导入；只有语法检查可执行。
+
+旧文档（EX-37B1、EX-56D1、旧 Native unit/E2E）仅复用范围/字段/场景定义。没有运行这些测试，没有继承其历史 Passed。原 Nest/mock 用例不证明本批 Rust 与 PG15 实际通过。Root 提供的 B/A 接口约定尚为准备状态，不能替代真实生产者执行证据。
+
+静态采集准备有两次修正：首轮错误假定单独 `contract-term-snapshot.entity.ts`，实际实体在 `contract.entity.ts`，读取因不存在而停止；其次汇总器对 OrderedDictionary 得到 `totalRawBytes=null`，已改为显式取数求和。已有 raw 副本只允许同 SHA 复用，禁止覆盖不同来源。以上是准备错误，不属于产品测试失败，也没有标为验收通过。
+
+## 2. 19 个入口与 SSOT
+
+完整唯一键以 `operations19.json` 为准。canonical 见 `docs/design/api-route-canonical-inventory.md:251–269`，均 `aligned`；原件保全该文件全文。路径在公开部署中有 `/api` 前缀，canonical 表省略该前缀。
+
+| method | path（含 /api） | operationId 后缀 |
+| --- | --- | --- |
+| GET | /api/contracts/{contractId}/receipt-records | listReceipts |
+| POST | /api/contracts/{contractId}/receipt-records | createReceipt |
+| POST | /api/receipt-records/{id}:confirm | confirmReceipt |
+| GET | /api/projects/{projectId}/payable-records | listPayables |
+| GET | /api/payable-records/{id} | getPayable |
+| POST | /api/projects/{projectId}/payable-records | createPayable |
+| PATCH | /api/payable-records/{id} | updatePayable |
+| POST | /api/payable-records/{id}:close | closePayable |
+| POST | /api/payable-records/{id}:void | voidPayable |
+| GET | /api/projects/{projectId}/invoice-records | listInvoices |
+| GET | /api/invoice-records/{id} | getInvoice |
+| POST | /api/projects/{projectId}/invoice-records | createInvoice |
+| PATCH | /api/invoice-records/{id} | updateInvoice |
+| POST | /api/invoice-records/{id}:markException | markInvoiceException |
+| POST | /api/invoice-records/{id}:resolveException | resolveInvoiceException |
+| POST | /api/invoice-records/{id}:close | closeInvoiceRecord |
+| GET | /api/projects/{projectId}/payment-records | listPayments |
+| POST | /api/projects/{projectId}/payment-records | createPayment |
+| POST | /api/payment-records/{id}:confirm | confirmPayment |
+
+上表 operationId 的共同前缀是 `ContractFinanceController_`。19 项中 6 个 GET、13 个命令；4 个 create 返回 201，其余成功返回 200。列表是裸数组，无分页/过滤请求。父实体不存在时现有列表不主动查父，合规 UUID 一般返回空数组，不将其擅改成 404。
+
+共享契约的财务 schema 直接通过 `createZodDto` 提供 DTO；不得手写另一套字段 SSOT。完整 schema、枚举顺序、required/nullable/optional/unknown strip 以保全 shared-contracts 和原 OpenAPI 为准，不能仅由派生表重建。
+
+## 3. 守卫、会话、审计与原 UI
+
+Native 全局顺序：`SessionAuthGuard` → `AuthCsrfGuard` → `PermissionsGuard`；每个财务入口都声明 `contract:finance:manage`。GET 不需 CSRF，13 命令需会话绑定的双提交 Cookie/header。401/403 各错误 code 与 security-event 独立保留；输入无效与域拒绝不得写业务表。公开 method/path 不变，HEAD、OPTIONS、大小写、尾 slash、URI decode 和错误包由 Root 公共 HTTP 桥一次冻结/验收，C 不争抢共享路由。
+
+Native 财务 service/repository 没有调用 `RuntimeAuditService`、approval、todo 或 confirmation。当前明确财务留痕字段为 receipt/payment 的 `confirmed_at/by`，payable 的 close/void reason/time，invoice 的 exception reason/resolution 和 close reason/time；不能声称 Native 已有财务 audit_log。用户第四裁决已要求本批修正：13 个写入口凡实际改变业务内容/状态，必须与业务写同事务写 `audit_log`；actor 从认证 session.sub 取得，entityType 为 Receipt/Payable/Payment/Invoice，entityId 为实际 UUID，action 为完整 operationId，before/after 与 reason 依 Root 精确安全序列化协议。不得信任 DTO 伪造 actor。同值无 dirty PATCH 不增业务版本/updatedAt、不写业务审计。本批不新增财务归口角色/RBAC，也不新增审批 handler，保留 `contract:finance:manage`；后续角色裁决另批。
+
+认证会话存在 raw touch 与 request-local managed flush：不是所有 GET 无副作用，也不能把前置独立 raw touch 与业务 TX 合并重写成一个不存在的 Native 事务。C 命令的真实 SQLx 事务内必须在既有框架规定的位置调用 `flush_managed_session`，与本次必要业务写及新增 mandatory audit 同成同败；前置 touch 若已独立提交，快照应单列而不谎称回滚。用原 session id、row_version、last_seen/idle/updated_at 验证实际边界。故障图已纳入 audit INSERT 失败及 audit 成功后 session 失败。Root 的精确 serde 协议尚待联合输入绑定，C 不自造最终审计 JSON。
+
+原 Angular `ContractStore` 仅注入 `ContractApi` 和 `ApprovalApi`，不是 `ContractFinanceApi`；当前 contract detail/list 与 project contract-handover 没有 19 财务调用页面。故本批适合的四组合原 UI 范围是原合同/readiness生产者、登录/CSRF/权限、敏感合同投影和待办刷新；财务 19 项通过真实 HTTP＋PG 留痕验证。不能发明一个财务页面或将直接浏览器 fetch 改称原 UI 操作。Linux managed Nest/Rust、Windows 原生 managed Nest / external Rust 的最终组合与资源所有权由 Root 核定，C 不执行。
+
+## 4. 金额、日期、可空与 UUID
+
+财务实体的金额列均 `numeric(18,2)`：receipt_amount、invoice_amount、payable/payment amount_excluding_tax/tax_amount/amount_including_tax。API 输入/输出是字符串，不能用 f64 或 JS Number 汇总。未税主体与含税（非空时）必须大于 0；税额允许 0；两个税字段同时存在时应精确满足含税=未税+税额。仅一字段有值时现实现允许其余未知，不推算、不把 null 转 0。用户已裁决普通 receipt/invoice 采用有限正十进制、最多 2 位、18,2 溢出拒绝，不复制源 schema 仅检查非空长度的漏洞；负数调整另走后续明确流程。本轮普通 payable/payment 采用相同精度与范围，保留主体正数、税额非负规则。
+
+Node 金额实现存在 `Number`、`toFixed(2)` 和 `0.0001` 容差。它可静态确认是浮点逻辑；具体漂移样本尚未运行，不能报“实测漂移”。Pure case 包含大整数 `9007199254740991.99`、0.10+0.20、最大范围 `9999999999999999.99`、溢出 `10000000000000000.00`、第三位小数和非十进制形式。用户已裁决最多 2 位且禁止 DB 静默舍入，超精度和非有限值拒绝。字面语法由 Root 公共 decimal helper 统一，建议普通不含指数的十进制数字串；这项建议不冒称原 Zod 已有 regex。
+
+项目成本金额列是 `numeric(15,4)`，11 位整数，范围比 finance(18,2)窄；finance 合法金额不保证可映射为成本。未来成本 producer 应独立检查 `99999999999.9999` 上界，金额不可因映射失败截断、降精度或部分提交。当前财务只读 guard 无金额转换。
+
+- receiptDate/paymentDate：`z.iso.datetime()`；persist timestamptz；响应 UTC ISO（含 JS .sssZ 形式）。明确测试日期/时间语义，不将其 slice 为业务日期。
+- expectedPaymentDate/invoiceDate：`z.iso.date()`；persist date；响应 YYYY-MM-DD。Native `Date` 兼容 mapper 用 `Asia/Hong_Kong` 取业务日，string 按前 10 位；SQLx 使用 date 原值，不转 UTC 日。
+- confirmedAt/createdAt/updatedAt/closedAt/voidedAt：timestamp；确认、关闭、作废时刻与 actor 分别留痕。固定时钟与自然时钟场景分列。
+- create 可空 contractId：payable/invoice，payment 还可空 payableRecordId；缺省落 null。payment 的 `dto.contractId ?? payable.contractId ?? null` 意味显式 null 也会继承应付合同，不等于“强制去掉合同”。
+- 项目级付款可没有 contract/payable；应付未绑定且未选合同也合法。Active/同项目约束只在选中或继承非空合同时适用，不强加合同必填。正式依据 contract-finance-design.md:157、162–163、503–504；未给出共享说明字段的现有 DTO 不擅加新必填字段。
+- PATCH contractId/taxAmount/amountIncludingTax/evidenceSummary：missing 保持现值，显式 null 清空；其他字段 null 不合 schema。PATCH 至少一个可更新字段，只有 expectedVersion 不算更新。
+- expectedVersion：9 个现有更新/动作接受 optional 正整数。省略仍要做数据库并发保护；显式 null、0、负数、字符串都不合法。实际状态/内容改变必须 row_version 递增且 updated_at 更新；同值无 dirty PATCH 按用户裁决保持业务版本/时间并不写业务audit，不以“每个请求都递增”实现。
+- 用户已裁决同值无 dirty PATCH 不增业务版本、不写业务审计；认证 managed session 的独立边界仍由 Root 现有框架协议明确保留。每合同金额独立，来源/差异可审计，不增加项目报价硬总额或自动分摊门槛。
+- UUID：body 用 z.uuid；path 是 string，无 ParseUUIDPipe。typed UUID 的语义身份与原始 URI 分开。跨表 project/contract/payable 比较用 UUID 值，成本 varchar source_id 用已加载实体 UUID 的规范串。不要复制原 raw 大小写比较和 raw id 映射漏查。
+
+## 5. 持久化与关系
+
+| 表 | 真实 FK | 关键约束 / 逻辑关系 |
+| --- | --- | --- |
+| receipt_record | contract_id→contract（cascade）；project_id→project（cascade） | amount18,2；receipt datetime；status check；project/status index；confirmed_by 是 UUID 列而非 User FK |
+| payable_record | project_id→project（cascade）；contract_id→contract（set null） | 三金额18,2；expected_payment_date date；status check；project/status index；close/void nullable痕迹 |
+| payment_record | project_id→project（cascade）；contract_id→contract（set null）；payable_record_id→payable_record（set null） | 三金额18,2；payment datetime；status check；payable索引；confirmed_by非User FK |
+| invoice_record | project_id→project（cascade）；contract_id→contract（set null） | invoice_no全局unique；amount18,2；date；invoice type/status/exception check；项目和合同状态索引 |
+| project_actual_cost_record（只读guard） | project_id→project；另有成本替代等自身关系 | source_type/source_id 是 varchar 逻辑引用，无 finance FK；按精确来源和当前状态判断，不可只查 isIncluded |
+
+receipt **没有 receivablePlanId**，finance 全链不生产/消费 ReceivablePlan。A 当前 marker 不能冒充真实计划；正式设计 contract-finance-design.md:273、291–292 的 active合同＋有效条款快照与正式应收计划约束由 A/B/Root 单独裁决。C 的回款只消费 B 真实 active 合同，不伪造已完成的应收计划，也不自行新增 receipt 的 plan 依赖。
+
+迁移链：初建 receipt/payment → add_invoice → add_payable/payment.payable FK → EX06D 明确三金额并删除旧 payment_amount/registered_amount/paid_amount → EX56D1 enum checks → EX58B 将旧 `void` 变 `voided`、成本大写 enum 变 kebab-case 并重建约束。不得把迁移链中间时点（如 uppercase PAYMENT_RECORD）当当前源值。
+
+## 6. 当前 source→caller→写图
+
+所有 19 入口由 controller 直接调用同名 service 方法，再访问 `ContractFinanceRepository`。没有额外内置 callback、Cron、后台 job 或隐藏自动成本写。module 只注册上述 4 表、Project/Contract 与只读 ProjectActualCostRecord。跨域真实 caller 是 `ProjectCostService`，借用 finance repo 的 payment/invoice/payable source loader；commission 通过自己的 repository 消费 confirmed receipt/payment，是后续消费者，不纳本批 R5。
+
+必要财务命令事务图：
+
+1. createReceipt：B typed contract loader → 校验 active → INSERT receipt(pending-confirmation, actor空) → 必要managed session flush → commit。合同 id/project id 从加载实体取得。
+2. confirmReceipt：锁 receipt → expectedVersion/状态 → CAS receipt confirmed + actor/time/version → 必要session flush → commit。重复确认不新增记录，不隐式冲销或重算。
+3. createPayable：读真实 project；可选active合同同项目 → 三金额一致性 → INSERT recorded → session → commit。
+4. update/close/voidPayable：锁 payable → expectedVersion/状态 → 在同锁协议下查当前成本映射；void还要查任意已关联付款（pending也阻断） → CAS payable及痕迹 → session → commit。响应真实 settled汇总。
+5. createInvoice：读 project；output必须active合同，input可无合同，存在则active且同项目 → INSERT draft/none → session → commit。invoice_no unique并发重复走受控409，不让SQL错误泄漏。
+6. update/mark/resolve/closeInvoice：锁 invoice → expectedVersion/状态 → 成本映射保护 → CAS invoice/异常历史与关闭痕迹 → session → commit。新审计若裁决加入，则同TX。
+7. createPayment：读 project；可选应付在同项目且 recorded/partially-paid，锁应付以与void/update/confirm串行；币种同应付；用户裁决所选合同必须active同项目，应付已绑定合同则必须一致，未绑定才可选同项目active合同；missing/null可继承既有应付绑定，不能借null绕过一致性 → INSERT recorded → session → commit。
+8. confirmPayment：按统一锁序锁应付（如存在）与付款 → 校验 payment expectedVersion/recorded；重读应付可付款状态、精确sum所有confirmed付款＋当前付款≤承诺未税金额 → CAS payment confirmed/actor/time与payable partially-paid或completed → session → commit。即使应付状态文字没变也必须持有锁以防汇总并发越界。
+
+上述每个实际写图统一加入 mandatory audit INSERT，再依 Root 框架完成必要 managed session flush，均在 commit 前同一事务；同值 PATCH 无业务 CAS/audit。锁序由 Root 公共协调冻结（建议 project/contract 必要时→payable→payment，invoice/receipt按自身实体；下游成本producer先锁同一 source，后插mapping）。不得两个service各自拿第二连接或在回调commit；session/audit/业务写失败必须共同回滚。原 Node 一个 `flushPayment()` 会 flush 同EM受管实体，因此不能在没跑Native SQL证据前断言“Node必然部分提交”；本审计只确认没有显式汇总串行化协议。
+
+## 7. 成本生产者与后续 40 项的最小依赖
+
+财务模块 **不是实际成本落账 producer**。它只读 `project_actual_cost_record`，`source_type=payable-record/invoice-record`＋`source_id=源实体UUID`＋record_status in registered/confirmed/included 时阻断源更新/关闭/作废等。`voided/replaced/draft` 不视为当前映射。不能只看 is_included_in_project_cost，未纳入的 registered procurement 也必须保护。
+
+真实 producer 在 `ProjectCostService.createProjectActualCostRecord` 的分支：
+
+| costType | 必要源事实 | 写入结果 | 默认纳入 |
+| --- | --- | --- | --- |
+| payment-fact | 同项目 confirmed PaymentRecord；expectedSourceVersion可选；无current映射 | confirmed cost，source payment-record，复制三金额/币种，源payment日期→occurredOn，business number cost-payment-fact | false |
+| invoice | 同项目 input＋verified、无open异常；无current映射 | confirmed cost，source invoice-record，含税=invoice金额，未税/税空，币种CNY，business number cost-invoice | false |
+| procurement | 同项目 payable非draft/voided；无registered/confirmed/included current映射 | registered cost，source payable-record，复制三金额/币种/附件，business number cost-procurement | false |
+
+公共 producer 是另一个模块的 `POST /api/projects/{projectId}/actual-cost-records`（ProjectCostController_createProjectActualCostRecord，5分支 union），不是这19项。Native 三分支业务编号分配先于 cost save，当前没有包住编号/插入的显式事务；不能据此要求 Rust 复制编号部分提交。source_id为字符串逻辑引用，部分唯一索引分别保护 payment-fact confirmed/included、invoice confirmed/included、procurement registered/confirmed/included。
+
+后续 project-cost 40 项最小依赖：C 提供 typed source loaders/必要source row lock、现有源版本与状态、精确金额/币种/业务日；成本提供同TX source→current mapping查询及source锁协议。无需先迁40项才写财务guard。用户已裁决本批C仅19路由＋最小只读成本guard；真实成本producer归后续cost切片、R4全阶段再认证完整闭环。现存合法 prepared mapping fixture可验guard，但标签必须是prepared-state，不是producer验收；Native真实producer观察也不能计入Rust生产交付。C19与成本40分别计数，无循环门槛。
+
+## 8. 已确认/疑似漂移与待裁决
+
+下列均是本轮静态新事实；没有运行故障或并发验证。
+
+- **F1 existing-baseline-drift，已获用户裁决**：receipt/invoice非空金额字符串可绕过正数规则，可能依赖DB解析、舍入、溢出报错；本片修为精确十进制正数、2位与范围，错误格式/业务边界由Root公共桥统一。
+- **F2 existing-baseline-drift，已获用户裁决**：createPayment只查关联合同同项目、不要求active且可覆盖应付绑定；本片修为active同项目、已有应付合同必须一致。
+- **F3 existing-baseline-drift，Root已指定修复方向**：Payable allowedActions与实际close/void条件不一致；Invoice异常resolved只列close，但PATCH可status恢复。投影改为与既有正式可执行规则一致，不反向禁PATCH，不把动作标签`voided`随手改名；显式状态表见 `finance-g1-audit01.json`。
+- **F4 existing-baseline-drift，需修正**：update/close/voidPayable返回settledAmountExcludingTax固定0.00；关闭已部分支付时与事实汇总矛盾。Rust响应应精确真实汇总。
+- **F5 风险待实证**：confirmPayment sum+校验无显式锁；starting partially-paid且仍partially-paid时应付不脏写，ORM版本可能无法防两笔总额越界。Rust必须显式锁，不复制该风险。
+- **F6 existing-baseline-drift，需修正**：raw路径UUID与已归一实体projectId直接字符串比较可误404；get detail用raw id查varchar source_id可漏成本映射。typed UUID比较、用实体id查询。
+- **F7 错误状态待实测**：path UUID未验证、invoice_no唯一冲突、money SQL解析/overflow和ORM optimistic-lock错误的Native HTTP映射不能由静态源码认证为500或409。Root运行后按真实业务正确性冻结受控错误。
+- **F8 design-change-required，用户已裁决**：本批所有实际业务改变追加同事务 mandatory audit_log；同值 PATCH 不增业务版本/审计。原权限保留，不新增财务归口角色/RBAC。精确审计 serde 由 Root 公共输入单一冻结，不能静默省略此必要写。
+- **F9 独立业务问题**：A UUID marker没有真实receivable_plan，已告A/Root，C不以虚构plan/fk解堵。
+
+## 9. 将来验收与故障图定义
+
+pure cases覆盖：19入口基本/无权/错误method；9版本动作 stale409/optional/null；body UUID与path UUID、date/dateTime、missing/null、unknown strip；金额边界；active合同→回款确认→应付付款累计→发票异常与恢复→真实成本映射保护；每个必要写节点故障后完整PG图、session边界与成功重试；同资源同版本竞争、应付sum竞争、source映射与编辑/作废竞争。
+
+故障快照最少包含四财务表、关联合同/project、project_actual_cost_record、auth_session（raw touch与managed分列）、mandatory业务audit_log和实际触发的security事件。本批不写成本编号或cost producer；后续真正成本切片才纳 business_number_sequence 及成本插入故障图。每个节点故障需验证本事务所有业务行/版本/actor/time/audit全恢复，前置独立touch按实况保留，再重试只生成一次预期业务结果和必要audit。不能仅查主行，不能把Pure数组数目当实际通过数。
+
+重试单独区分提交前失败与提交后响应丢失。4个create DTO没有幂等key，receipt/payable/payment在成功后盲重试可以新建第二行；invoice仅靠invoice_no唯一约束拒绝重复。只对提交前故障完整回滚后重试断言一个成功结果，不宣称通用exactly-once。提交后不明结果须保留标签并读回确认，不能暗增幂等API。确认/终态动作已成功后用旧version重试409，最新版或省略version按非法状态422。
+
+`finance-cases01.mjs` 已执行且只执行 `node --check`，exit=0、无输出；定义未导入或运行。Root 联合G1尚需绑定共同金额语法400与税和不等422的最终错误形状、pathUUID/SQL错误映射、mandatory audit精确serde以及既有managed session flush协议；同值PATCH零业务版本/零业务audit已由用户裁决。语法结果不属于业务验收。
+
+G3由Root运行合并候选：fmt/clippy/cargo unit+release、shared enum/contract与完整OpenAPI/client保护、真实隔离PG15、HTTP、并发/故障、原UI四组合适用页、source+candidate SHA绑定；Native对照只认证已观察行为，业务缺陷单列修复。PG17与旧环境保留。财务作者不自签独立Gate，未获联合非作者Pass与线上冻结不得开始实现。

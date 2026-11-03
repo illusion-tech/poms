@@ -1,0 +1,53 @@
+$ErrorActionPreference = 'Stop'
+$outputRoot = [IO.Path]::GetFullPath($PSScriptRoot)
+$taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
+$manifest = Get-Content -Raw -LiteralPath (Join-Path $outputRoot 'source-manifest-a02.json') | ConvertFrom-Json -AsHashtable
+$rawFailures = @()
+$liveDifferences = @()
+$total = 0L
+foreach ($entry in $manifest.sourceFiles) {
+    $rawPath = Join-Path $outputRoot $entry.rawOriginal
+    $bytes = [IO.File]::ReadAllBytes($rawPath)
+    $sha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+    $total += $bytes.LongLength
+    if ($sha -ne $entry.sha256 -or $bytes.LongLength -ne $entry.byteLength) { $rawFailures += $entry.path }
+    $liveBytes = [IO.File]::ReadAllBytes((Join-Path $taskRoot $entry.path))
+    $liveSha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($liveBytes)).ToLowerInvariant()
+    if ($liveSha -ne $entry.sha256 -or $liveBytes.LongLength -ne $entry.byteLength) { $liveDifferences += [ordered]@{path=$entry.path; capturedSha256=$entry.sha256; currentSha256=$liveSha; capturedByteLength=$entry.byteLength; currentByteLength=$liveBytes.LongLength} }
+}
+$parsed = @()
+foreach ($file in Get-ChildItem -LiteralPath $outputRoot -File | Where-Object { $_.Extension -eq '.json' -and $_.Name -notin @('static-verification-a01.json','package-manifest-a01.json') }) {
+    $null = Get-Content -Raw -LiteralPath $file.FullName | ConvertFrom-Json -AsHashtable
+    $parsed += $file.Name
+}
+$audit = Get-Content -Raw -LiteralPath (Join-Path $outputRoot 'audit-a02.json') | ConvertFrom-Json -AsHashtable
+$cases = Get-Content -Raw -LiteralPath (Join-Path $outputRoot 'cases-a01.json') | ConvertFrom-Json -AsHashtable
+$proof = [ordered]@{
+    schemaVersion=1
+    evidenceClass='static-json-parse-and-raw-byte-integrity-only'
+    notRuntimeTest=$true
+    timeUtc=[DateTimeOffset]::UtcNow.ToString('o')
+    parsedJson=$parsed
+    capturedSourceCount=$manifest.sourceFiles.Count
+    rawOriginalByteLength=$total
+    rawOriginalMismatchCount=$rawFailures.Count
+    rawOriginalMismatches=$rawFailures
+    currentWorkingFileDifferenceCount=$liveDifferences.Count
+    currentWorkingFileDifferences=$liveDifferences
+    currentWorkingFileNote='Source captures are immutable point-in-time inputs. Root must classify any later shared working-file change and compare with the exact baseline before joint G1.'
+    operationCount=$audit.surface.operations.Count
+    uniqueOperationCount=@($audit.surface.operations | ForEach-Object { $_.method + ' ' + $_.path } | Select-Object -Unique).Count
+    caseGroupCount=$cases.cases.Count
+    uniqueCaseIdCount=@($cases.cases | ForEach-Object { $_.id } | Select-Object -Unique).Count
+    runtimeChecksExecuted=@()
+}
+if ($rawFailures.Count -ne 0 -or $total -ne $manifest.sourceByteLength) { throw 'Captured source integrity failed.' }
+[IO.File]::WriteAllText((Join-Path $outputRoot 'static-verification-a01.json'), ($proof | ConvertTo-Json -Depth 12) + "`n", [Text.UTF8Encoding]::new($false))
+$artifacts=@()
+foreach ($file in Get-ChildItem -LiteralPath $outputRoot -File | Where-Object { $_.Name -ne 'package-manifest-a01.json' } | Sort-Object -Property Name) {
+    $bytes=[IO.File]::ReadAllBytes($file.FullName)
+    $artifacts += [ordered]@{path=$file.Name;sha256=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant();byteLength=$bytes.LongLength}
+}
+$package=[ordered]@{schemaVersion=1;evidenceClass='G1-candidate-static-input-package';owner='A';baselineReportedByRoot=$manifest.baselineCommitReportedByRoot;timeUtc=[DateTimeOffset]::UtcNow.ToString('o');activeAudit=@('audit-a02.md','audit-a02.json');sourceManifest='source-manifest-a02.json';rawSourceFiles=92;rawSourceByteLength=3087565;historicalCandidates=@('audit-a01.md','source-manifest-a01.json');artifactFiles=$artifacts;notExecuted=@('case definitions','SQL probes','build','tests','HTTP','PostgreSQL','browser','WSL','Git','GitHub','installation');gate='Candidate only; Root protocol freeze, independent joint G1 and online freeze remain required.'}
+[IO.File]::WriteAllText((Join-Path $outputRoot 'package-manifest-a01.json'), ($package | ConvertTo-Json -Depth 12) + "`n", [Text.UTF8Encoding]::new($false))
+[ordered]@{rawSourceCount=$manifest.sourceFiles.Count;rawSourceByteLength=$total;rawSourceMismatchCount=$rawFailures.Count;workingFileDifferenceCount=$liveDifferences.Count;caseGroups=$cases.cases.Count;artifactFileCount=$artifacts.Count;packageSha256=(Get-FileHash -LiteralPath (Join-Path $outputRoot 'package-manifest-a01.json') -Algorithm SHA256).Hash.ToLowerInvariant()} | ConvertTo-Json

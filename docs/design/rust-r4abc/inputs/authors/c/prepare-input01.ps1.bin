@@ -1,0 +1,114 @@
+$ErrorActionPreference = 'Stop'
+$taskRepoRoot = 'E:/projects/worktrees/poms-r3hijk-next28/poms'
+$taskOutputRoot = [System.IO.Path]::GetFullPath((Join-Path $taskRepoRoot 'tmp/rust-r4abc/input-c'))
+$taskSourceRoot = Join-Path $taskOutputRoot 'sources'
+if (-not $taskOutputRoot.StartsWith([System.IO.Path]::GetFullPath((Join-Path $taskRepoRoot 'tmp/rust-r4abc')) + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) { throw 'Unexpected output scope' }
+$taskFiles = [System.Collections.Generic.List[string]]::new()
+@'
+docs/design/backend-rust-migration-plan.md
+docs/design/contract-finance-design.md
+docs/design/api-route-canonical-inventory.md
+docs/adr/004-contract-finance-domain-module-boundary.md
+docs/adr/015-api-route-canonical-grammar.md
+docs/design/archive/slices/ex-37b1-contract-finance-projection-only-cleanup-baseline.md
+docs/design/archive/slices/ex-56d-finance-commission-project-cost-enum-convergence-baseline.md
+libs/api/contracts/src/lib/contract-finance/contract-finance.dto.ts
+libs/api/contracts/src/lib/project-cost/project-cost.dto.ts
+libs/shared/contracts/src/lib/shared-contracts.ts
+libs/shared/api-spec/openapi.json
+libs/shared/api-client/api/contract-finance.service.ts
+libs/shared/api-client/api/project-cost.service.ts
+apps/poms-api/src/main.ts
+apps/poms-api/src/app/app.module.ts
+apps/poms-api/src/app/core/auth/auth.module.ts
+apps/poms-api/src/app/core/auth/auth-session.service.ts
+apps/poms-api/src/app/core/auth/auth-session.repository.ts
+apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts
+apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts
+apps/poms-api/src/app/core/auth/guards/permissions.guard.ts
+apps/poms-api/src/app/core/date/business-date.utils.ts
+apps/poms-api/src/app/features/contract/contract.entity.ts
+apps/poms-api/src/app/features/project/project.entity.ts
+apps/poms-api/src/app/features/project-cost/project-cost.controller.ts
+apps/poms-api/src/app/features/project-cost/project-cost.service.ts
+apps/poms-api/src/app/features/project-cost/project-cost.repository.ts
+apps/poms-api/src/app/features/project-cost/project-cost.module.ts
+apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts
+apps/poms-api/src/migrations/Migration20260327170000_init_contract_finance_facts.ts
+apps/poms-api/src/migrations/Migration20260412152000_add_invoice_record.ts
+apps/poms-api/src/migrations/Migration20260412212000_add_payable_record.ts
+apps/poms-api/src/migrations/Migration20260413093000_ex06d_payable_payment_tax_semantics.ts
+apps/poms-api/src/migrations/Migration20260418194500_ex14a_nullable_reference_fk_rules.ts
+apps/poms-api/src/migrations/Migration20260502100000_ex56d1_contract_finance_enum_checks.ts
+apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts
+apps/poms-api/src/migrations/Migration20260405164244_init_actual_cost.ts
+apps/poms-api/src/migrations/Migration20260412121500_add_payment_fact_source_current_unique.ts
+apps/poms-api/src/migrations/Migration20260412174000_add_invoice_source_current_unique.ts
+apps/poms-api/src/migrations/Migration20260412233000_add_procurement_source_current_unique.ts
+apps/poms-api/src/migrations/Migration20260502120000_ex56d2_project_cost_operating_enum_checks.ts
+apps/poms-api-e2e/src/poms-api/contract-finance-workflow.e2e-spec.ts
+apps/poms-api-e2e/src/support/contract-finance-api.ts
+libs/admin/data-access/src/lib/contract/contract.store.ts
+apps/poms-admin/src/app/features/contract/contract-detail.ts
+apps/poms-admin/src/app/features/contract/contract-list.ts
+apps/poms-admin/src/app/features/project/project-contract-handover.ts
+apps/poms-api-rust/src/error.rs
+apps/poms-api-rust/src/auth/store.rs
+apps/poms-api-rust/src/approval_common/session.rs
+'@ -split '\r?\n' | Where-Object { $_ } | ForEach-Object { $taskFiles.Add($_) }
+Get-ChildItem -LiteralPath (Join-Path $taskRepoRoot 'apps/poms-api/src/app/features/contract-finance') -File | ForEach-Object { $taskFiles.Add('apps/poms-api/src/app/features/contract-finance/' + $_.Name) }
+Get-ChildItem -LiteralPath (Join-Path $taskRepoRoot 'libs/shared/api-client/model') -File | Where-Object { $_.Name -match '^(receipt-record|payable-record|payment-record|invoice-record|create-receipt-record|confirm-receipt-record|create-payable-record|update-payable-record|close-payable-record|void-payable-record|create-payment-record|confirm-payment-record|create-invoice-record|update-invoice-record|close-invoice-record|mark-invoice-exception|resolve-invoice-exception)' } | ForEach-Object { $taskFiles.Add('libs/shared/api-client/model/' + $_.Name) }
+$taskManifestEntries = @()
+foreach ($taskRelative in ($taskFiles | Sort-Object -Unique)) {
+    $taskOriginal = Join-Path $taskRepoRoot $taskRelative
+    $taskDestination = [System.IO.Path]::GetFullPath((Join-Path $taskSourceRoot $taskRelative))
+    if (-not $taskDestination.StartsWith($taskSourceRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) { throw 'Source destination escaped owned scope' }
+    $taskBefore = Get-Item -LiteralPath $taskOriginal
+    $taskBytes = [System.IO.File]::ReadAllBytes($taskOriginal)
+    $taskSourceHash = [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($taskBytes)).ToLowerInvariant()
+    if (Test-Path -LiteralPath $taskDestination) {
+        $taskExistingHash = (Get-FileHash -LiteralPath $taskDestination -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($taskExistingHash -ne $taskSourceHash) { throw ('Refuse changed snapshot overwrite: ' + $taskDestination) }
+    } else {
+        [System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($taskDestination)) | Out-Null
+        [System.IO.File]::WriteAllBytes($taskDestination, $taskBytes)
+    }
+    $taskCopiedHash = (Get-FileHash -LiteralPath $taskDestination -Algorithm SHA256).Hash.ToLowerInvariant()
+    $taskAfterHash = (Get-FileHash -LiteralPath $taskOriginal -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($taskSourceHash -ne $taskCopiedHash -or $taskSourceHash -ne $taskAfterHash) { throw ('Unstable source or copy: ' + $taskRelative) }
+    $taskManifestEntries += [ordered]@{ path = $taskRelative; rawBytes = $taskBytes.Length; sha256 = $taskSourceHash; snapshot = 'sources/' + $taskRelative; evidenceClass = 'new-static-capture'; sourceLastWriteUtc = $taskBefore.LastWriteTimeUtc.ToString('o'); sourceStableDuringCapture = $true; copyRawShaMatches = $true }
+}
+$taskManifest = [ordered]@{ schema = 'poms-r4c-source-manifest/v1'; createdAtUtc = [DateTime]::UtcNow.ToString('o'); owner = 'C-implementation-author'; parentReportedBaseline = '1730f304c1cf5600721f80b6c06feec24269d387'; baselineVerification = 'Root-reported; no Git access by C'; captureScope = 'Only static source files copied under tmp/rust-r4abc/input-c; no runtime acceptance'; count = $taskManifestEntries.Count; totalRawBytes = ($taskManifestEntries | ForEach-Object { $_.rawBytes } | Measure-Object -Sum).Sum; files = $taskManifestEntries }
+[System.IO.File]::WriteAllText((Join-Path $taskOutputRoot 'source-manifest01.json'), ($taskManifest | ConvertTo-Json -Depth 100) + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
+$taskSpec = Get-Content -LiteralPath (Join-Path $taskSourceRoot 'libs/shared/api-spec/openapi.json') -Raw | ConvertFrom-Json -Depth 100
+$taskOperations = @()
+$taskSubsetPaths = [ordered]@{}
+$taskRefNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+foreach ($taskPath in $taskSpec.paths.PSObject.Properties) {
+    foreach ($taskMethod in $taskPath.Value.PSObject.Properties) {
+        if ($taskMethod.Value.tags -notcontains 'ContractFinance') { continue }
+        $taskOp = $taskMethod.Value
+        if (-not $taskSubsetPaths.Contains($taskPath.Name)) { $taskSubsetPaths[$taskPath.Name] = [ordered]@{} }
+        $taskSubsetPaths[$taskPath.Name][$taskMethod.Name] = $taskOp
+        foreach ($taskRef in [regex]::Matches(($taskOp | ConvertTo-Json -Depth 100 -Compress), '#/components/schemas/([^"\\]+)')) { [void]$taskRefNames.Add($taskRef.Groups[1].Value) }
+        $taskOperations += [ordered]@{ method = $taskMethod.Name.ToUpperInvariant(); path = $taskPath.Name; operationId = $taskOp.operationId; controllerMethod = $taskOp.operationId -replace '^ContractFinanceController_', ''; canonicalPathWithoutApiPrefix = $taskPath.Name -replace '^/api', ''; canonicalStatus = 'aligned'; canonicalInventoryLines = 'docs/design/api-route-canonical-inventory.md:251-269'; permission = 'contract:finance:manage'; cookieSession = $true; csrfRequired = $taskMethod.Name -ne 'get'; bodySchemaRef = $taskOp.requestBody.content.'application/json'.schema.'$ref'; parameters = $taskOp.parameters; responses = $taskOp.responses; security = $taskOp.security; evidenceClass = 'new-static-extraction-not-HTTP-observation' }
+    }
+}
+if ($taskOperations.Count -ne 19) { throw 'Finance operation count not 19' }
+$taskSubsetSchemas = [ordered]@{}
+do {
+    $taskAdded = $false
+    foreach ($taskRefName in @($taskRefNames)) {
+        if ($taskSubsetSchemas.Contains($taskRefName)) { continue }
+        $taskSchema = $taskSpec.components.schemas.$taskRefName
+        if ($null -eq $taskSchema) { throw ('Missing schema ' + $taskRefName) }
+        $taskSubsetSchemas[$taskRefName] = $taskSchema
+        foreach ($taskNestedRef in [regex]::Matches(($taskSchema | ConvertTo-Json -Depth 100 -Compress), '#/components/schemas/([^"\\]+)')) { [void]$taskRefNames.Add($taskNestedRef.Groups[1].Value) }
+        $taskAdded = $true
+    }
+} while ($taskAdded)
+$taskOpOutput = [ordered]@{ schema = 'poms-r4c-operations/v1'; scope = 'C 19 existing public HTTP operations'; sourceManifest = 'source-manifest01.json'; totalOperations = $taskOperations.Count; operations = $taskOperations }
+[System.IO.File]::WriteAllText((Join-Path $taskOutputRoot 'operations19.json'), ($taskOpOutput | ConvertTo-Json -Depth 100) + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
+$taskSubset = [ordered]@{ openapi = $taskSpec.openapi; info = $taskSpec.info; paths = $taskSubsetPaths; components = [ordered]@{ schemas = $taskSubsetSchemas; securitySchemes = $taskSpec.components.securitySchemes }; evidenceClass = 'derived-subset; original OpenAPI raw bytes preserved in sources'; sourceManifest = 'source-manifest01.json' }
+[System.IO.File]::WriteAllText((Join-Path $taskOutputRoot 'openapi-finance19.json'), ($taskSubset | ConvertTo-Json -Depth 100) + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
+[ordered]@{ preparation = 'static-capture-and-extraction-only'; sourceFiles = $taskManifest.count; totalRawBytes = $taskManifest.totalRawBytes; operations = $taskOperations.Count; schemaClosure = $taskSubsetSchemas.Count; runtimeChecksExecuted = 0 } | ConvertTo-Json -Compress
