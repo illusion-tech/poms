@@ -1,0 +1,57 @@
+{
+  "kind": "semantic-preserving-OpenAPI30-vocabulary-normalization",
+  "vocabularyNormalizations": [
+    {
+      "path": "/components/schemas/AccountingTaxTreatmentSnapshotSummary/properties/currency",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/AccountingTaxTreatmentSnapshotSummary/properties/evidenceId",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/CostStageAttributionSnapshotSummary/properties/evidenceId",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/CostStageAttributionSnapshotSummary/properties/evidenceBusinessDate",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/SharedCostAllocationBasisSummary/properties/currency",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/SharedCostAllocationBasisSummary/properties/measurementBasis",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/SharedCostAllocationBasisSummary/properties/measurementBasis",
+      "rule": "nullable enum explicitly includes null; preserve the original null branch"
+    },
+    {
+      "path": "/components/schemas/SharedCostAllocationBasisSummary/properties/evidenceId",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/SharedCostAllocationResultSummary/properties/evidenceId",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/R4FSourceEvidence/properties/kind",
+      "rule": "const -> singleton enum; same accepted value"
+    },
+    {
+      "path": "/components/schemas/R4FManualAssessmentEvidence/properties/kind",
+      "rule": "const -> singleton enum; same accepted value"
+    },
+    {
+      "path": "/components/schemas/R4FSharedCostAllocationShareItem/properties/allocationRatio",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    },
+    {
+      "path": "/components/schemas/R4FSharedCostAllocationShareItem/properties/allocationSummary",
+      "rule": "oneOf [T,null] -> nullable T; same accepted values"
+    }
+  ]
+}

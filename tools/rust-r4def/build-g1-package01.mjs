@@ -38,6 +38,10 @@ function openApi30(value, at) {
         output = { ...rest, ...(only.$ref ? { allOf: [only] } : only), nullable: true };
         vocabularyNormalizations.push({ path: at, rule: `${keyword} [T,null] -> nullable T; same accepted values` });
     }
+    if (output.nullable === true && Array.isArray(output.enum) && !output.enum.includes(null)) {
+        output.enum = [...output.enum, null];
+        vocabularyNormalizations.push({ path: at, rule: 'nullable enum explicitly includes null; preserve the original null branch' });
+    }
     return output;
 }
 const proposed = new Map();
@@ -106,6 +110,7 @@ function assert30(value) {
     Object.values(value).forEach(assert30);
 }
 assert30(target);
+assert(target.components.schemas.SharedCostAllocationBasisSummary.properties.measurementBasis.enum.includes(null), 'Legacy-unverified nullable measurement basis must retain null');
 const schemaChanges = [...proposed].filter(([name, { schema }]) => stable(schema) !== stable(full.components.schemas[name]));
 const inputFiles = ['.gitattributes', 'docs/design/rust-r4def-next30-baseline.md', `${folder}/ownership04.md`, `${folder}/root-projection05.json`, `${folder}/protocol01.md`, `${folder}/user-decisions01.json`, `${folder}/root-decisions02.json`, `${folder}/root-source-currency01.sql`, dFile, `${folder}/D-g1-candidate01.md`, `${folder}/D-schema-candidate01.sql`, eFile, `${folder}/E-g1-candidate02.md`, `${folder}/${e.ddlCandidate?.file?.split('/').at(-1) ?? e.ddlCandidate?.path?.split('/').at(-1) ?? 'E-schema-candidate02.sql'}`, fFile, `${folder}/F-g1-candidate01.md`, `${folder}/F-schema-candidate01.sql`, 'docs/design/api-route-canonical-inventory.md', 'libs/shared/api-spec/openapi.json', 'tools/rust-r4def/build-g1-package01.mjs'];
 // The corrected candidate must explicitly name a real SQL file.
