@@ -1,0 +1,235 @@
+{
+  "kind": "R3M-independent-actual-main552-and-archive-commit-review",
+  "createdAtUTC": "2026-11-03 03:37:19 UTC",
+  "reviewer": "/root/r3_final_gate_review",
+  "independentNonAuthor": true,
+  "modelConfiguration": {
+    "registeredTarget": "gpt-6.1-sol",
+    "registeredReasoningEffort": "max",
+    "runtimeIntrospection": "unavailable",
+    "Fast": "unverified"
+  },
+  "implementation": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "archiveCommit": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "archiveParent": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "decision": "Pass",
+  "findings": [],
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "scope": "已实际核验 main552 整合；对归档提交4b078的全部对象、差异、原字节映射、精确旧输入和当前治理写回作有界独立复核。只允许 main 从552快进到4b078，不授权G4或Issue关闭。",
+  "readBoundary": {
+    "GitExecuted": false,
+    "GitHubCalled": false,
+    "environmentDBBrowserOrBuildExecuted": false,
+    "privateFilesRead": false,
+    "primaryCheckoutMutated": false,
+    "writesOnly": "tmp/rust-r3m/final-review/",
+    "method": "Actual primary/public bytes and Root raw command receipts were independently hashed/read. Git commit/tree/blob identities and canonical pin resolution were recomputed; author metadata flags alone were not certification."
+  },
+  "actualMain552": {
+    "accepted": true,
+    "primaryRoot": "E:/projects/poms",
+    "RootSourceAdmissionReviewed": true,
+    "primaryBefore": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+    "actualFFTarget": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+    "actualRootCommands": 12,
+    "rawCommandStreamsActuallyHashed": 24,
+    "streamMismatches": 0,
+    "primaryBranchReadback": "main",
+    "primaryWasCleanAtAdmission": true,
+    "primaryCleanAfterFF": true,
+    "actualPushAndRemoteReadback": "552211dda9a5d31500a231cdbdfa40907aa01f5d refs/heads/main",
+    "primaryProductFilesActuallyRehashed": 311,
+    "productRawExact": 311,
+    "primaryProtectedFilesActuallyRehashed": 1373,
+    "protectedRawExact": 1358,
+    "existingCRLFOnlyRepresentations": 15,
+    "all15PreexistingRawHashesStillExact": true,
+    "normalizedLFOnlyMatchesFrozenBytes": true,
+    "normalizationWasReadOnly": true,
+    "primary782PublicOriginalsActuallyRehashed": 782,
+    "byteMismatches": 0,
+    "proof": {
+      "file": "docs/design/archive/slices/rust-r3m/main-integration-proof01.json",
+      "bytes": 848871,
+      "rawBytesSha256": "7ac41ebf8c9cac032d5d0c574873608ef72907c3cd642ee7756c48f80235d472"
+    }
+  },
+  "archiveGitObjects": {
+    "commitSHA1IndependentlyRecomputed": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+    "parentExactlyImplementation": true,
+    "treeSHA1IndependentlyRebuilt": "59d2a76938544816c7a436d0f659c05d264b402d",
+    "parent552TreeSHA1Rebuilt": "33d35d3b56c91266b10ef15e40d3a190a8a3f09b",
+    "currentTreeLeafRows": 10881,
+    "currentTreeDirectories": 959,
+    "noRenameDeltaPaths": 2835,
+    "added": 1923,
+    "deleted": 904,
+    "modified": 8,
+    "declaredVsDerivedDeltaMismatches": 0,
+    "addedOrModifiedBlobsActuallyGitSHA1Hashed": 1931,
+    "blobMismatches": 0,
+    "appsLibsPackageLockAttributesDifferences": 0,
+    "taskBranchRawReadback": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3 refs/heads/codex/poms-r3-closeout",
+    "taskWorkingTreeCleanAtExport": true,
+    "RootExportCommandsActuallyRead": 7,
+    "rawCommandStreamsActuallyHashed": 14,
+    "streamMismatches": 0,
+    "export": {
+      "file": "tmp/rust-r3m/root/archive-commit-export01/report01.json",
+      "bytes": 6364,
+      "rawBytesSha256": "de644f0c54577f3d18d1ee5eb22b74204e2aacac6bfbf7c121ecfb8284c70729"
+    }
+  },
+  "archiveRawProvenance": {
+    "physicalStagedOriginalsRelocated": 1907,
+    "GitTracked552OriginalsRelocated": 904,
+    "all904OldAndNewGitBlobIDsEqual": true,
+    "newlyStagedOriginalsBeforeRelocation": 1003,
+    "newOriginalClassification": {
+      "newPublicOriginals": 991,
+      "exactOldG1ProductSnapshots": 9,
+      "independentFixedReviewCopy": 1,
+      "actualMainProofCopy": 1,
+      "publicOriginMap": 1
+    },
+    "explanation": "1907 is the physical pre-relocation set, not a claim of 1907 Git deletions. The 904 parent-tracked moves and 1003 newer staged originals have separate exact provenance.",
+    "exactSnapshotMappings": 26,
+    "snapshotComposition": {
+      "previouslySealedGovernanceVersions": 17,
+      "exactOriginal546ProductGitBlobs": 9
+    },
+    "all9OldProductSnapshotGitBlobIDsIndependentlyMatched546": true,
+    "noCRLFReconstructionNeededForThose9": true,
+    "snapshotLengthAndSHA256MustMatchFrozenExpectation": true,
+    "oldFrozenG1G3AndScopeBytesUnrewritten": true,
+    "originalBytePackageMembers": 782,
+    "originalBytePackageMembersRetained": true,
+    "activeLifecycleRootPathAbsent": true,
+    "oldRootBaselineAbsent": true,
+    "compatibilityRootAliasesCreated": 0,
+    "privateCopied": false,
+    "labels": "failed, partial, stopped, quarantine, ignored and prior uncertified reports remain original bytes and retain their labels",
+    "originMap": {
+      "file": "docs/design/archive/slices/rust-r3m/archive-origin-map.json",
+      "bytes": 1134248,
+      "rawBytesSha256": "e75a109f2acf2edcb5f4de1bcb9dcaed0f952d74159ae6c64057c029ec39e205"
+    },
+    "publicOriginMap": {
+      "file": "docs/design/archive/slices/rust-r3m/public-evidence-origin-map02.json",
+      "bytes": 547061,
+      "rawBytesSha256": "1b77b636ef1a1e737bf208c0fac9deb40dceb154047407c3094b779bbe1a845d"
+    }
+  },
+  "canonicalPinResolver": {
+    "sourceRead": "tools/rust-r3m/archive-resolver01.mjs",
+    "exactIdentity": "logical repository-relative path plus bytes plus SHA256",
+    "positivePinOccurrencesIndependentlyResolvedAndChecked": 8799,
+    "uniqueCanonicalPublicTargetsActuallyHashed": 3718,
+    "mismatches": 0,
+    "sourceChecks": "Refuses absolute/traversal input and symlink targets, checks containment/regular single-link file and exact bytes/hash. Snapshots precede moves and published originals; legacy active path prefix maps to canonical archive only.",
+    "RootActualNegativeCases": [
+      "traversal",
+      "absolute-private",
+      "wrong-size",
+      "wrong-hash"
+    ],
+    "all4ActualNegativesRejected": true,
+    "reviewerDidNotOpenTheNegativePrivatePath": true,
+    "supportedE1ReplayActualResult": "211e0f25ea901ed51b13cf5aed56453ac3fa259fcd4b9d918bc48aecea926403",
+    "supportedE1AliasesAbsent": true,
+    "replayDoesNotClaimHistoricalRawExecutorsRunUnadapted": true,
+    "verification": {
+      "file": "docs/design/archive/slices/rust-r3m/verification/archive-check01/report01.json",
+      "bytes": 21471,
+      "rawBytesSha256": "471e8f5adcc44fb65e1358ff5d851f4ed02ec02688369b0c9c4af1e45ec729d5"
+    }
+  },
+  "boundedCurrentMetadata": {
+    "modifiedLongLivedFiles": 8,
+    "sixMarkdownExpectedReproductionMatches": true,
+    "twoJSONExpectedReproductionMatches": true,
+    "reconstruction": "Read primary552 versions; independently reproduce declared canonical-link rewrites, current Gate fields/header/rows and append. Compare complete content while permitting only Markdown table padding/separator-width formatting.",
+    "all58OperationObjectsDeepEqual": true,
+    "status": "G4Ready-after-fixed-main-and-original-byte-archive",
+    "completeR3StageCertified": false,
+    "G4Certified": false,
+    "issueClosureAllowed": false,
+    "closedIssues": [],
+    "overall57Open": true,
+    "parent85Open": true,
+    "newNonArchiveFiles": [
+      "docs/design/archive/slices/rust-r3m-closeout.md",
+      "tools/rust-r3m/archive-resolver01.mjs"
+    ],
+    "noOtherChangedPathScope": true,
+    "futureR4R5R6R7NotCertified": true
+  },
+  "metadataValidation": {
+    "actualWholeDocMarkdownExit": 0,
+    "actualCachedWhitespaceExit": 0,
+    "actualWorktreeWhitespaceExit": 0,
+    "actualCheckRawStreamsRehashed": 6,
+    "streamMismatches": 0,
+    "report": {
+      "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/report01.json",
+      "bytes": 2646,
+      "rawBytesSha256": "067684bbf47691b893dfdbe8f5e19f67345b047c4926215c6fce806bb998ba69"
+    },
+    "noAdditionalProductTestRerunRequired": "The archive commit changes no apps/libs/manifests/lock/attributes or tested product input."
+  },
+  "managedAuthorWorktrees": {
+    "ignoredPublicOriginalsIndependentlyRehashed": 22,
+    "originalAndCanonicalMismatch": 0,
+    "actualManagedArchiveAttempts": 3,
+    "all3Rejected": true,
+    "actualReason": "Another active task still uses this worktree.",
+    "managedArchiveCompleted": false,
+    "forcedTaskTermination": false,
+    "otherWorktreesTouched": false,
+    "trackedSourceStillPresent": true,
+    "materialBusinessGateImpact": false,
+    "rationale": "All scoped deliveries and ignored originals are preserved. Retained managed task references are a tooling lifecycle remainder, separate from the completed owned API/browser/PG/keepalive terminal. No claim that those worktrees were archived.",
+    "receipt": "docs/design/archive/slices/rust-r3m/verification/author-worktrees01/managed-archive-receipt01.json"
+  },
+  "auditorCorrection": {
+    "prior": "archive-object-audit01.json",
+    "corrected": "archive-object-audit02.json",
+    "classification": "tool-noise",
+    "detail": "First comparison assumed all 1907 physical staged originals existed in parent Git. Exact parent-tracked 904 and newly staged 1003 classification resolves that diagnostic; commit/tree/blob and raw delta computations were correct."
+  },
+  "supportingReports": [
+    {
+      "file": "tmp/rust-r3m/final-review/main552-audit01.json",
+      "bytes": 1766,
+      "rawBytesSha256": "c1d9d541e1fe15852c135355d6b0ce7c5607f668d1f56580986b55926e8d629e"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/archive-object-audit02.json",
+      "bytes": 2695,
+      "rawBytesSha256": "9da3bb1b1e3b120fc4155e9ae039187a7b4069a866cd377a8f2ab380427dec1a"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/archive-pin-audit01.json",
+      "bytes": 683,
+      "rawBytesSha256": "1b1b34c930ff83cc0eb8ff64869557c20b41f4eb4a674e33b576e4c5d44c2a9b"
+    }
+  ],
+  "mainImplementationCertified": true,
+  "archiveCommitReviewed": true,
+  "mainArchiveIntegrationAllowed": true,
+  "mainArchiveIntegrationTarget": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "mainArchiveIntegrationScope": "Only Root's fast-forward from exact main552 to exact archive commit4b078 and subsequent actual push/readback. Preserve preexisting primary raw representations.",
+  "archiveCommitActuallyOnMainCertified": false,
+  "G4Certified": false,
+  "issueClosureAllowed": false,
+  "issueClosureAuthorized": false,
+  "overall57MustRemainOpen": true,
+  "remainingRequiredWork": [
+    "Root actual main FF/push to4b078 and exact current/remote readback.",
+    "Prepare the concrete 6-Issue G4 bodies/comments/checklists and local writeback plan for independent preclose review.",
+    "Preserve this review and linked audit originals through an incremental exact-byte map.",
+    "Independent G4 preclose permission and actual final verification; no Issue closure is authorized by this report."
+  ]
+}

@@ -1,7 +1,7 @@
 # RUST-R3 范围、依赖与本批边界
 
-- 状态（2026-11-03）：R3 HTTP58/58；收口#97/#98–100的G3/fixed已Pass、main已集成并完成原字节归档，当前G4Ready；独立关闭许可待审，#85/#57保持Open。
-- 父项：[R3 #85](https://github.com/illusion-tech/poms/issues/85)；总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。
+- 状态（2026-11-03）：R3 HTTP58/58及#97完整阶段G4已实际发布，#85/#97/#98–100 Closed；#57继续Open，R4–R7仍待推进，最终独立读回另附。
+- 已完成阶段：[R3 #85](https://github.com/illusion-tech/poms/issues/85)；总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。
 - 当前来源：main `5041275d7ad82af4becbb4462e7213ffe465bc7a`；R2 #67/#80 和路由 #61/#84 已 Closed。早期范围拆分起点为 `a3a8c167f9cbeefc591dbaf2e75e7d5de9ce470d`。
 - 当前清单：[58 个操作的当前 controller/spec/canonical 复核](rust-r3-operation-slices.json)。旧 R0 只作历史映射，不照抄其中已切换的 lookup 路径。
 
@@ -12,7 +12,7 @@
 
 58项互斥分配：A8+B6交付14；C成本3+D竞标3+E联系人3+F跟进4+G报价3交付16；H线索14、I情报10、J讨论2、K项目综合工作区2交付28。全部完成各自独立G3/G4、main集成和原生子Issue关闭，不遗漏或重复计数。联系人3从原情报13拆分。
 
-当前Rust R3累计 **58/58 HTTP**；旧30/58、剩余28是前批时点。完整阶段验收仍未完成。#84/#61只完成Native路径与参数治理，不重复计Rust交付。当前[联合收口G1候选](archive/slices/rust-r3m/lifecycle/rust-r3-closeout-baseline.md)与[机器状态](rust-r3-closeout-status.json)承接内部机制、审批归属、E1退出及阶段验收。
+当前Rust R3累计 **58/58 HTTP**；旧30/58、剩余28是前批时点。完整阶段已按#97实际G4收口，最终独立读回另附。#84/#61只完成Native路径与参数治理，不重复计Rust交付。当前[联合收口G1候选](archive/slices/rust-r3m/lifecycle/rust-r3-closeout-baseline.md)与[机器状态](rust-r3-closeout-status.json)承接内部机制、审批归属、E1退出及阶段验收。
 
 ## 依赖与并行
 
@@ -53,3 +53,8 @@
 
 
 2026-11-03：实现 `552211dda9a5d31500a231cdbdfa40907aa01f5d` 已通过独立固定提交复核并FF/push main；[当前收口索引](archive/slices/rust-r3m-closeout.md)与[原字节映射](archive/slices/rust-r3m/archive-origin-map.json)承接本批生命周期。当前G4Ready，独立关闭许可及线上实际G4待审；#97/#98–100/#85/#57仍Open，R4–R7不计完成。
+
+
+### 2026-11-03 R3 实际线上 G4 收口
+
+[#98](https://github.com/illusion-tech/poms/issues/98#issuecomment-6595054929)、[#99](https://github.com/illusion-tech/poms/issues/99#issuecomment-6595057649)、[#100](https://github.com/illusion-tech/poms/issues/100#issuecomment-6595061372)、[#97](https://github.com/illusion-tech/poms/issues/97#issuecomment-6595066649)、[#85](https://github.com/illusion-tech/poms/issues/85#issuecomment-6595071041)已按[独立关闭许可](archive/slices/rust-r3m/C/g4-closeout-preflight01.json)及具体六Issue方案实际关闭；[#57状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6595074559)仅勾选R3并保持Open，R4–R7仍Todo。[原始线上读回](archive/slices/rust-r3m/g4-online-receipt01.json)核六项body/comment与获批计划原文相同、父子顺序正确。当前G4OnlineApplied，最后独立实际G4签署另附；历史原件不回写、311产品不变。

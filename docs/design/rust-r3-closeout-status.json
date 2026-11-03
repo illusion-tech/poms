@@ -1,7 +1,7 @@
 {
   "kind": "R3-closeout-current-stage-status",
   "base": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
-  "phase": "G4Ready-after-fixed-main-and-original-byte-archive",
+  "phase": "G4-online-applied-awaiting-independent-actual-review",
   "batchIssue": 97,
   "childIssues": [
     98,
@@ -15,8 +15,8 @@
   "G1Certified": true,
   "G3Certified": true,
   "G4Certified": false,
-  "stageIntegrationComplete": false,
-  "parent85Open": true,
+  "stageIntegrationComplete": true,
+  "parent85Open": false,
   "overall57Open": true,
   "independentG1Pass": true,
   "independentG1Review": {
@@ -65,5 +65,28 @@
     "bytes": 1134248,
     "rawBytesSha256": "e75a109f2acf2edcb5f4de1bcb9dcaed0f952d74159ae6c64057c029ec39e205"
   },
-  "closedIssues": []
+  "closedIssues": [
+    98,
+    99,
+    100,
+    97,
+    85
+  ],
+  "G4OnlineApplied": true,
+  "independentActualG4ReviewPending": true,
+  "G4PrecloseReview": {
+    "file": "docs/design/archive/slices/rust-r3m/C/g4-closeout-preflight01.json",
+    "bytes": 12612,
+    "rawBytesSha256": "7917ed458d3ffd037276cfd250b1eb5933f5740d3285ffe4ce76fa148ca576dc"
+  },
+  "G4OnlineReceipt": {
+    "file": "docs/design/archive/slices/rust-r3m/g4-online-receipt01.json",
+    "bytes": 24460,
+    "rawBytesSha256": "b6b264449fc53a17f22682ec3306198798d6c1158ba3db68a86273fe851df7b0"
+  },
+  "G4Plan": {
+    "file": "docs/design/archive/slices/rust-r3m/g4-plan01/plan01.json",
+    "bytes": 50628,
+    "rawBytesSha256": "ed536e88071ad73981cf89b6355db9fb5e626edb407bffce6fd6f9cfef406b51"
+  }
 }

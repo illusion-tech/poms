@@ -2,19 +2,19 @@
 
 **最后更新**: 2026-11-03
 **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
-**当前状态**: R0/R1/R2完成；R3 HTTP58/58、收口批G3/fixed已Pass且main已集成，当前G4Ready；#85/#57仍Open
+**当前状态**: R0/R1/R2/R3已交付；R3 HTTP58/58及#97阶段收口G4已实际发布，#85/#97/#98–100 Closed；#57 Open，R4–R7 Todo
 **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
 
 ## 1. 状态与在线映射
 
 2026-11-03 用户授权启动完整 R3 收口批。原生关系为 #85 → [#97](https://github.com/illusion-tech/poms/issues/97) → #98（Lead内部机制）、#99（销售/项目内部链）、#100（交付审计/E1/阶段验收）；总体#57继续Open。联合G1已冻结，三线补缺及统一候选实际验收完成，独立G3/G4待审，详见[联合基线候选](archive/slices/rust-r3m/lifecycle/rust-r3-closeout-baseline.md)与[当前机器状态](rust-r3-closeout-status.json)。独立联合G1及线上冻结后才进入产品补缺；全部实际阶段验收和独立G3/G4完成才可关闭#85。
 
-| 收口任务          | 负责人       | 状态  | 当前 Gate                                |
-| ----------------- | ------------ | ----- | ---------------------------------------- |
-| RUST-R3-CO #97    | Root         | Doing | G3/fixed已Pass、main已集成，G4关闭许可待 |
-| RUST-R3-CO-A #98  | A            | Doing | G3/fixed已Pass、main已集成，G4关闭许可待 |
-| RUST-R3-CO-B #99  | B            | Doing | G3/fixed已Pass、main已集成，G4关闭许可待 |
-| RUST-R3-CO-C #100 | D + Root执行 | Doing | G3/fixed已Pass、main已集成，G4关闭许可待 |
+| 收口任务          | 负责人       | 状态 | 当前 Gate                            |
+| ----------------- | ------------ | ---- | ------------------------------------ |
+| RUST-R3-CO #97    | Root         | Done | G4已按许可实际发布；最终独立读回另附 |
+| RUST-R3-CO-A #98  | A            | Done | G4已按许可实际发布；最终独立读回另附 |
+| RUST-R3-CO-B #99  | B            | Done | G4已按许可实际发布；最终独立读回另附 |
+| RUST-R3-CO-C #100 | D + Root执行 | Done | G4已按许可实际发布；最终独立读回另附 |
 
 2026-10-26 初查尚无 Rust 任务；R0F 按用户授权建立 [总体 #57](https://github.com/illusion-tech/poms/issues/57) → [R0 #58](https://github.com/illusion-tech/poms/issues/58) → [R0F #59](https://github.com/illusion-tech/poms/issues/59) 原生父子关系。[R1 #60](https://github.com/illusion-tech/poms/issues/60) 的 R1A–E 均已交付；R1E 实现 afbf4ee5 已集成推送，父阶段与子项 G4 随本归档提交及 Issue 同步生效。[lookup 裁决 #61](https://github.com/illusion-tech/poms/issues/61) 及其原生子项当前已 Closed（历次 Todo 描述仅代表原时点）。GitHub 拥有任务状态，本页保留输入与映射。
 
@@ -34,15 +34,15 @@
 
 ## 3. 后续阶段输入与完成边界
 
-| 阶段 | 状态  | 必需输入                                         | 交付边界                                                                            |
-| ---- | ----- | ------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| R1   | Done  | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A–E 七操作、认证与基础已交付；G4 随本归档提交及 Issue 同步生效，不代表 R2–R7 完成 |
-| R2   | Done  | R1与R2A–M冻结输入和阶段验收                      | #67/#80 Closed；108/108公共操作及冻结阶段集成验收完成                               |
-| R3   | Doing | R2已完成；58项当前归属与逐片Gate                 | #86–#96 scoped G4 Closed，HTTP58/58；完整阶段未完成，#85/#57 Open                   |
-| R4   | Todo  | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                              |
-| R5   | Todo  | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                                      |
-| R6   | Todo  | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                                         |
-| R7   | Todo  | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                                        |
+| 阶段 | 状态 | 必需输入                                         | 交付边界                                                                            |
+| ---- | ---- | ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| R1   | Done | R0 完整基线、依赖锁定、隔离数据库与认证/错误合同 | R1A–E 七操作、认证与基础已交付；G4 随本归档提交及 Issue 同步生效，不代表 R2–R7 完成 |
+| R2   | Done | R1与R2A–M冻结输入和阶段验收                      | #67/#80 Closed；108/108公共操作及冻结阶段集成验收完成                               |
+| R3   | Done | R2及R3联合G1/G3/fixed/main/归档和实际G4          | #86–100对应交付与#85关闭；HTTP58/58及完整阶段收口，#57保持Open                      |
+| R4   | Todo | R3、合同/资金/成本/移交版本及并发矩阵            | 合同至执行与经营事实源                                                              |
+| R5   | Todo | R4、提成金额样本/冻结/调整/结算矩阵              | 提成业务全链路                                                                      |
+| R6   | Todo | R5、目标 Linux/PG 实况、迁移接管与单实例设计     | 空库/存量/回滚/真实集成演练                                                         |
+| R7   | Todo | R6 通过、完整版本冻结、切换授权与窗口            | 统一切换、观察、旧运行时退出                                                        |
 
 | R1 子切片 | 状态 | Gate / 交付                                                                                                                                                                                                                          |
 | --------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -341,3 +341,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 
 
 2026-11-03：实现 `552211dda9a5d31500a231cdbdfa40907aa01f5d` 已通过独立固定提交复核并FF/push main；[当前收口索引](archive/slices/rust-r3m-closeout.md)与[原字节映射](archive/slices/rust-r3m/archive-origin-map.json)承接本批生命周期。当前G4Ready，独立关闭许可及线上实际G4待审；#97/#98–100/#85/#57仍Open，R4–R7不计完成。
+
+
+### 2026-11-03 R3 实际线上 G4 收口
+
+[#98](https://github.com/illusion-tech/poms/issues/98#issuecomment-6595054929)、[#99](https://github.com/illusion-tech/poms/issues/99#issuecomment-6595057649)、[#100](https://github.com/illusion-tech/poms/issues/100#issuecomment-6595061372)、[#97](https://github.com/illusion-tech/poms/issues/97#issuecomment-6595066649)、[#85](https://github.com/illusion-tech/poms/issues/85#issuecomment-6595071041)已按[独立关闭许可](archive/slices/rust-r3m/C/g4-closeout-preflight01.json)及具体六Issue方案实际关闭；[#57状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6595074559)仅勾选R3并保持Open，R4–R7仍Todo。[原始线上读回](archive/slices/rust-r3m/g4-online-receipt01.json)核六项body/comment与获批计划原文相同、父子顺序正确。当前G4OnlineApplied，最后独立实际G4签署另附；历史原件不回写、311产品不变。

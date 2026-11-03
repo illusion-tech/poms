@@ -1,0 +1,185 @@
+{
+  "kind": "R3-actual-archive-only-commit-export",
+  "commit": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "parent": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "commitObject": {
+    "file": "tmp/rust-r3m/root/archive-commit-export01/03-stdout-original.bin",
+    "bytes": 583,
+    "rawBytesSha256": "2283d6c9b4868f9e5ed3a9d246a1eb7575d0c7dba36cd72abaff82ee0992ee8b"
+  },
+  "recursiveTree": {
+    "file": "tmp/rust-r3m/root/archive-commit-export01/04-stdout-original.bin",
+    "bytes": 1423246,
+    "rawBytesSha256": "e4b1a87fadd74992c5e0e364789eff1b9feca554bfa2f7f3da5ec9d3df75bb06"
+  },
+  "delta": {
+    "file": "tmp/rust-r3m/root/archive-commit-export01/06-stdout-original.bin",
+    "bytes": 273701,
+    "rawBytesSha256": "24b60e20e9d4986234bb19236d53bbeea15b54e9f260906375aea814db7105bd"
+  },
+  "commands": [
+    {
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/01-stdout-original.bin",
+        "bytes": 41,
+        "rawBytesSha256": "e7610e2866e0979b0bdc8cc0ed920f096572d1efb332d519cd045e02047783d6"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/01-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "args": [
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/02-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/02-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "args": [
+        "cat-file",
+        "commit",
+        "4b078edfbf47cbc7901e0929c98fa6c726b20ef3"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/03-stdout-original.bin",
+        "bytes": 583,
+        "rawBytesSha256": "2283d6c9b4868f9e5ed3a9d246a1eb7575d0c7dba36cd72abaff82ee0992ee8b"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/03-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "args": [
+        "ls-tree",
+        "-r",
+        "-z",
+        "--full-tree",
+        "4b078edfbf47cbc7901e0929c98fa6c726b20ef3"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/04-stdout-original.bin",
+        "bytes": 1423246,
+        "rawBytesSha256": "e4b1a87fadd74992c5e0e364789eff1b9feca554bfa2f7f3da5ec9d3df75bb06"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/04-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "args": [
+        "diff",
+        "--quiet",
+        "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+        "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+        "--",
+        "apps",
+        "libs",
+        "package.json",
+        "pnpm-lock.yaml",
+        ".gitattributes"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/05-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/05-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "args": [
+        "diff",
+        "--no-renames",
+        "--name-status",
+        "-z",
+        "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+        "4b078edfbf47cbc7901e0929c98fa6c726b20ef3"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/06-stdout-original.bin",
+        "bytes": 273701,
+        "rawBytesSha256": "24b60e20e9d4986234bb19236d53bbeea15b54e9f260906375aea814db7105bd"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/06-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "args": [
+        "ls-remote",
+        "--heads",
+        "origin",
+        "codex/poms-r3-closeout"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/07-stdout-original.bin",
+        "bytes": 75,
+        "rawBytesSha256": "ffc3d27b20b23e2b031cf38d2aba582e416902018a29973516fe4a2c942ebf2c"
+      },
+      "stderr": {
+        "file": "tmp/rust-r3m/root/archive-commit-export01/07-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "source": {
+    "file": "tmp/rust-r3m/root/export-archive-commit01.mjs",
+    "bytes": 2667,
+    "rawBytesSha256": "b9d66dabb47152652fe46a3cc3d113bf2aa4e2babef1ab90b12665b71d07ac2a"
+  },
+  "workingTreeClean": true,
+  "taskBranchReadBack": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "appsLibrariesManifestsAndAttributesUnchanged": true,
+  "all311TestedProductInputsExact": true,
+  "mainCurrently": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "archiveOriginMap": {
+    "file": "docs/design/archive/slices/rust-r3m/archive-origin-map.json",
+    "bytes": 1134248,
+    "rawBytesSha256": "e75a109f2acf2edcb5f4de1bcb9dcaed0f952d74159ae6c64057c029ec39e205"
+  },
+  "archiveVerification": {
+    "file": "docs/design/archive/slices/rust-r3m/verification/archive-check01/report01.json",
+    "bytes": 21471,
+    "rawBytesSha256": "471e8f5adcc44fb65e1358ff5d851f4ed02ec02688369b0c9c4af1e45ec729d5"
+  },
+  "metadataVerification": {
+    "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/report01.json",
+    "bytes": 2646,
+    "rawBytesSha256": "067684bbf47691b893dfdbe8f5e19f67345b047c4926215c6fce806bb998ba69"
+  },
+  "G4Certified": false
+}

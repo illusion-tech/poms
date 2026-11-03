@@ -21,7 +21,6 @@
     "businessNumbers": "A/B open the business transaction, then allocate through the independent shared pool next entry; committed counter gaps survive failed entity writes, per corrective4fda3a1a",
     "activeCustomer": "A real producer and original transaction-external lookup consumed by B",
     "future": [
-      "R3 closeout #97: current non-HTTP completeness, manual-score approval and uniform-candidate stage integration",
       "R4 contract / R5 commission producers and their stage-level command integration remain separately owned"
     ],
     "deliveredLeadConversionAndManualApproval": {
@@ -54,7 +53,7 @@
     },
     "stageCloseout": {
       "issue": 97,
-      "phase": "G4Ready-after-fixed-main-and-original-byte-archive",
+      "phase": "G4-online-applied-awaiting-independent-actual-review",
       "candidate": "final01",
       "artifactSha256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
       "publicOperationDelta": 0,
@@ -65,7 +64,23 @@
       "G3Certified": true,
       "implementation": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
       "fixedCommitCertified": true,
-      "mainIntegrated": true
+      "mainIntegrated": true,
+      "G4OnlineApplied": true,
+      "G4Certified": false,
+      "closedIssues": [
+        98,
+        99,
+        100,
+        97,
+        85
+      ],
+      "overall57Open": true,
+      "actualReadback": {
+        "file": "docs/design/archive/slices/rust-r3m/g4-online-receipt01.json",
+        "bytes": 24460,
+        "rawBytesSha256": "b6b264449fc53a17f22682ec3306198798d6c1158ba3db68a86273fe851df7b0"
+      },
+      "independentFinalReviewPending": true
     }
   },
   "sources": [

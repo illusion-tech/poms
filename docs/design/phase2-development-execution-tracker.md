@@ -755,3 +755,8 @@ R3 父 [#85](https://github.com/illusion-tech/poms/issues/85) 已建立为 #57 �
 
 
 2026-11-03：实现 `552211dda9a5d31500a231cdbdfa40907aa01f5d` 已通过独立固定提交复核并FF/push main；[当前收口索引](archive/slices/rust-r3m-closeout.md)与[原字节映射](archive/slices/rust-r3m/archive-origin-map.json)承接本批生命周期。当前G4Ready，独立关闭许可及线上实际G4待审；#97/#98–100/#85/#57仍Open，R4–R7不计完成。
+
+
+### 2026-11-03 R3 实际线上 G4 收口
+
+[#98](https://github.com/illusion-tech/poms/issues/98#issuecomment-6595054929)、[#99](https://github.com/illusion-tech/poms/issues/99#issuecomment-6595057649)、[#100](https://github.com/illusion-tech/poms/issues/100#issuecomment-6595061372)、[#97](https://github.com/illusion-tech/poms/issues/97#issuecomment-6595066649)、[#85](https://github.com/illusion-tech/poms/issues/85#issuecomment-6595071041)已按[独立关闭许可](archive/slices/rust-r3m/C/g4-closeout-preflight01.json)及具体六Issue方案实际关闭；[#57状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6595074559)仅勾选R3并保持Open，R4–R7仍Todo。[原始线上读回](archive/slices/rust-r3m/g4-online-receipt01.json)核六项body/comment与获批计划原文相同、父子顺序正确。当前G4OnlineApplied，最后独立实际G4签署另附；历史原件不回写、311产品不变。

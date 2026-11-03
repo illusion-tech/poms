@@ -1,0 +1,75 @@
+{
+  "kind": "R3-independent-archive-Git-object-and-physical-provenance-audit",
+  "createdAt": "2026-11-03T03:27:27.1180450Z",
+  "commit": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "computedCommit": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "commitMatches": true,
+  "parent": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "parentMatches": true,
+  "computedNewTree": {
+    "oid": "59d2a76938544816c7a436d0f659c05d264b402d",
+    "directories": 959,
+    "leaves": 10881
+  },
+  "declaredNewTree": "59d2a76938544816c7a436d0f659c05d264b402d",
+  "treeMatches": true,
+  "computedParentTree": {
+    "oid": "33d35d3b56c91266b10ef15e40d3a190a8a3f09b",
+    "directories": 881,
+    "leaves": 9862
+  },
+  "parentTreeMatchesPrior552": true,
+  "derivedDelta": 2835,
+  "rawDeclaredDelta": 2835,
+  "deltaMismatches": [],
+  "currentAddedModifiedBlobsHashed": 1931,
+  "blobMismatches": [],
+  "productLibManifestAttributesDelta": [],
+  "physicalMoveMap": 1907,
+  "provenanceCategories": {
+    "newPublic": 991,
+    "newG1Snapshot": 9,
+    "fixedReviewCopy": 1,
+    "publicOriginMap": 1,
+    "tracked": 904,
+    "mainProofCopy": 1
+  },
+  "physicalVsGitMeaning": "1907 physical staged originals, including 904 already tracked at 552 and 1003 freshly preserved originals before canonical relocation. They are not 1907 Git deletions.",
+  "provenanceFailures": [],
+  "allPhysicalArchiveTargetsRawRehashedByPinAudit": true,
+  "deltaGroups": [
+    {
+      "Name": "A",
+      "Count": 1923
+    },
+    {
+      "Name": "D",
+      "Count": 904
+    },
+    {
+      "Name": "M",
+      "Count": 8
+    }
+  ],
+  "nonArchiveChangedPaths": [
+    "docs/design/archive/slices/rust-r3m-closeout.md",
+    "docs/design/backend-rust-migration-plan.md",
+    "docs/design/phase2-development-execution-tracker.md",
+    "docs/design/poms-design-progress.md",
+    "docs/design/README.md",
+    "docs/design/rust-migration-execution-tracker.md",
+    "docs/design/rust-r3-closeout-status.json",
+    "docs/design/rust-r3-operation-slices.json",
+    "docs/design/rust-r3-scope-and-dependencies.md",
+    "tools/rust-r3m/archive-resolver01.mjs"
+  ],
+  "priorAttempt": {
+    "file": "tmp/rust-r3m/final-review/archive-object-audit01.json",
+    "bytes": 101907,
+    "rawBytesSha256": "3d7f019d85f32d361ea2891048cbad077dcc35aba612f3367e0bcd471c78dcae",
+    "classification": "tool-noise: first audit assumed every physical staged original had existed in parent Git tree. Tracked 904 moves all match; 1003 newer staged records have exact public/snapshot/Gate/proof provenance as classified here."
+  },
+  "GitExecuted": false,
+  "privateRead": false,
+  "G4Certified": false
+}

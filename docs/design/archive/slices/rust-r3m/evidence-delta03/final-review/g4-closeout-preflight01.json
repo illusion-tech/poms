@@ -1,0 +1,269 @@
+{
+  "kind": "R3M-independent-G4-closeout-preflight",
+  "createdAtUTC": "2026-11-03T03:55:29.9101365Z",
+  "reviewer": "/root/r3_final_gate_review",
+  "independentNonAuthor": true,
+  "modelConfiguration": {
+    "registeredTarget": "gpt-6.1-sol",
+    "registeredReasoningEffort": "max",
+    "runtimeIntrospection": "unavailable",
+    "Fast": "unverified"
+  },
+  "decision": "Pass",
+  "findings": [],
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "precloseApproved": true,
+  "issueClosureAllowed": true,
+  "G4Certified": false,
+  "actuallyPublishedByReviewer": false,
+  "plan": {
+    "file": "tmp/rust-r3m/root/g4-plan01/plan01.json",
+    "bytes": 50628,
+    "rawBytesSha256": "ed536e88071ad73981cf89b6355db9fb5e626edb407bffce6fd6f9cfef406b51"
+  },
+  "approvedPublisher": {
+    "file": "tmp/rust-r3m/root/publish-g4-plan03.mjs",
+    "bytes": 4764,
+    "rawBytesSha256": "b88142d790744bc62ac3d9e4b75103893a1ec31fa5128d0904a9039e7cb5f73d",
+    "unexecutedPriorPublishers": [
+      "publish-g4-plan01.mjs",
+      "publish-g4-plan02.mjs"
+    ]
+  },
+  "implementation": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "archiveCommit": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "mainRequiredBeforePublication": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3",
+  "publicationOrder": [
+    98,
+    99,
+    100,
+    97,
+    85,
+    57
+  ],
+  "closeOnly": [
+    98,
+    99,
+    100,
+    97,
+    85
+  ],
+  "keepOpen": [
+    57
+  ],
+  "permittedIssueMutation": "Only the exact approved after.body/state/state_reason payload and exact comment for these 6 issues. Exactly 5 closed with completed reason; #57 remains open.",
+  "reviewMethod": {
+    "GitExecuted": false,
+    "GitHubCalled": false,
+    "environmentDBBrowserOrBuildExecuted": false,
+    "privateFilesRead": false,
+    "writesOnly": "tmp/rust-r3m/final-review/",
+    "fullSixBeforeAndAfterBodiesAndCommentsRead": true,
+    "authority": "Concrete raw issue/native-child snapshots and plan were checked against independent product, fixed-commit, main and archive reviews. Closure permission does not come from author certification flags or waiting."
+  },
+  "actualPrerequisites": {
+    "priorG3Accepted": true,
+    "fixed552Accepted": true,
+    "actualArchiveMain4bAccepted": true,
+    "actualRootArchiveMainCommands": 12,
+    "rawStreamsActuallyRehashed": 24,
+    "streamMismatches": 0,
+    "actualPrimaryCanonicalOriginalsRehashed": 1907,
+    "canonicalOriginalMismatches": 0,
+    "actualPrimaryTestedProductsRehashed": 311,
+    "productMismatches": 0,
+    "activeLifecycleAliasesAbsentOnPrimary": true,
+    "mainRemoteActualReadback": "4b078edfbf47cbc7901e0929c98fa6c726b20ef3 refs/heads/main",
+    "primaryWasAndIsCleanAtRootCapture": true,
+    "sixIssueSnapshotsOpen": true,
+    "expectedBeforeBodiesExactlyEqualCapturedRawIssueBodies": true,
+    "capturedIssueNumbers": [
+      98,
+      99,
+      100,
+      97,
+      85,
+      57
+    ],
+    "nativeChildren97": [
+      98,
+      99,
+      100
+    ],
+    "nativeChildren97InitiallyOpen": true,
+    "nativeChildren85": [
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97
+    ],
+    "otherNativeChildren85AlreadyClosed": [
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96
+    ],
+    "nativeParentsCloseOnlyAfterLiveChildClosedReadback": true,
+    "allPlanSourcePinsRehashed": true,
+    "uniqueImmutableBLinks": 5,
+    "all5LinksTargetActualFilesOnPublished4bMain": true
+  },
+  "perIssueScope": {
+    "57": "Keep OPEN; tick R3 only, retain R0/R1/R2 completed and R4-R7 Todo. R4 needs a separate G1; no automatic future implementation or overall migration completion.",
+    "85": "Close complete R3 stage only after all native children, including #97, are actually closed; existing #86-96 HTTP deliveries plus non-HTTP/Lead approval and stage closeout.",
+    "97": "Close only after #98/#99/#100 are actually closed; joint frozen input, unified candidate acceptance and independent Gate chain; no additional HTTP count.",
+    "98": "Lead materialized score/explanation, stored-tuple normal approval/revocation, authorized historical fallback in caller transaction, necessary-write rollback, CAS, conversion and real attachment evidence.",
+    "99": "Customer/Contact typed CAS409, true business no-op, typed UUID immediate projection, sales/project/F-Todo/cost/bid/pricing and query chains; future prepared facts remain distinct from future production commands.",
+    "100": "Delivery audit and honest ignored classification, supported E1 exit, unified M0-M5 actual acceptance, safe rerun/quarantine distinction, Native reference axes and complete terminal evidence."
+  },
+  "evidenceAndNonExpansion": {
+    "testedCandidate": "final01 / f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+    "cargo": "306 passed / 54 ignored; 53 DB opt-in and 1 explicit child fixture remain separately classified",
+    "UI": "16 captures = 8 Rust business passes + 8 Native reference captures; no Native business-pass claim",
+    "WindowsRust": "Windows browser to Linux Rust only; no Windows native Rust certification",
+    "contracts": "173 Rust operations/138 paths/585 schemas unchanged; 579 client and 92 migration raw files protected; no regeneration claim",
+    "schema": "Read-only check classified existing differences, zero new unclassified drift and zero executed DDL",
+    "terminal": "4471 owned rows removed; all107 seed/catalog/428ACL/log settings and second cleanup zero changes; 11 originals/486B preserved; owned runtime API/browser/PG/keepalive and runtime object copies zero",
+    "E1": "Exact five aliases removed; supported Windows/Linux replay retained",
+    "historicalLabels": "failed/partial/stopped/quarantine/ignored and historical Pending/uncertified flags remain immutable",
+    "future": "No R4-R7 completion, deployment, cutover, migration takeover or performance claim",
+    "managedWTs": "3 managed archive attempts rejected due other active task references; 22 ignored public originals preserved; no forced termination or false managed-archive completion; no material runtime Gate blocker"
+  },
+  "allow57R3CheckboxOnlyBeforeVariance": true,
+  "approved57BeforeVariance": {
+    "appliesOnlyToIssue": 57,
+    "precondition": "Execute approved order after #85 and all five closure readbacks have succeeded, while #57 is still open.",
+    "acceptedBeforeForms": [
+      "exact expectedBeforeBody",
+      "exact expectedBeforeBody with its single fullwidth-colon literal - [ ] R3 #85： changed to - [x] R3 #85："
+    ],
+    "rationale": "The approved final body already completes R3 after #85 closure. A same-reference task-checkbox change is consistent with that exact outcome.",
+    "allOtherCharactersMustBeIdentical": true,
+    "anyOtherBodyOrStateChangeStopsPublicationAndRequiresReplan": true,
+    "afterBodyAndCommentRemainExactFrozenPlan": true,
+    "independentPureMatcherCheck": {
+      "needleCount": 1,
+      "UTF8LengthSame": true,
+      "UTF16LengthSame": true,
+      "changedCharacters": 1,
+      "changedIndex": 194,
+      "fromCodePoint": 32,
+      "toCodePoint": 120,
+      "reverseExactlyOriginal": true
+    }
+  },
+  "postPublicationMetadataCommitAllowed": true,
+  "postPublicationMetadataScope": {
+    "requiresActualExactAllSixReadbackReceipt": true,
+    "allowedCurrentFiles": [
+      "docs/design/rust-r3-closeout-status.json",
+      "docs/design/rust-r3-operation-slices.json",
+      "docs/design/backend-rust-migration-plan.md",
+      "docs/design/rust-migration-execution-tracker.md",
+      "docs/design/rust-r3-scope-and-dependencies.md",
+      "docs/design/phase2-development-execution-tracker.md",
+      "docs/design/README.md",
+      "docs/design/poms-design-progress.md"
+    ],
+    "canonicalCloseoutIndex": "docs/design/archive/slices/rust-r3m-closeout.md",
+    "archiveArea": "docs/design/archive/slices/rust-r3m/",
+    "allowedWork": "Write actual issue/checklist delivery states and evidence pointers into current metadata, update canonical closeout index, preserve exact before/publication/readback/review originals with additive origin maps, run required Markdown/whitespace checks, and commit/push/fast-forward only these metadata/preservation changes.",
+    "boundedExecutorSource": "Metadata/preservation/check executors may be retained as exact evidence; no runtime behavior or product implementation change is authorized.",
+    "existingImmutableMembersMustNotBeRewritten": true,
+    "historicalPendingFailedPartialQuarantineIgnoredNotUpgraded": true,
+    "all58OperationObjectsMustRemainDeepEqual": true,
+    "all311TestedProductRawInputsMustRemainExact": true,
+    "protectedInputsAndExisting15PrimaryRawCRLFRepresentationsMustRemainPreserved": true,
+    "appsLibsPackageLockAttributesMustRemainUnchanged": true,
+    "noPublicAPIContractSchemaClientMigrationPermissionOrDeploymentChange": true,
+    "noRootCompatibilityAliasesRecreated": true,
+    "onlyApproved5IssuesDeliveredDoneAnd57Open": true,
+    "R4R5R6R7StayTodo": true,
+    "mayMarkDeliveredIssueStateDoneFromExactReadback": true,
+    "finalIndependentActualG4ReviewMustRemainPending": true,
+    "mustNotClaimFinalIndependentActualG4PassBeforeThatReview": true,
+    "G4CertifiedMayFinalizeOnlyAfterIndependentActualReport": true,
+    "newMetadataCommitAndActualMainRemoteReadbackMustBeProvidedForFinalReview": true,
+    "noForcedManagedWTOrOtherTaskTermination": true
+  },
+  "evidencePins": [
+    {
+      "file": "tmp/rust-r3m/root/archive-main-integration02/report01.json",
+      "bytes": 8441,
+      "rawBytesSha256": "d9a3a2710d4e062b57f0312e5895d1ba1c3553aa0339f92cddad238270684fb7"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/archive-main-review01.json",
+      "bytes": 11098,
+      "rawBytesSha256": "bd26e3fa7abd15f578bc1c473caf55c82c9d79481898a2c2c57bf9d0af535f88"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g4-preclose-prerequisite-audit01.json",
+      "bytes": 765,
+      "rawBytesSha256": "cac18c1844fc152cc0821642e556ce5757db24febee61c1eb7e3e09464e185bb"
+    }
+  ],
+  "actualG4PublicationCertified": false,
+  "independentActualG4Pending": true,
+  "overall57MustRemainOpen": true,
+  "publisher03Review": {
+    "exactPlanHashMustStillMatch": true,
+    "precloseApprovalAndIssueClosurePermissionRequired": true,
+    "currentRemoteMainMustEqualB": true,
+    "freshBeforeStateMustBeOpen": true,
+    "freshBodyMustBeApprovedBeforeOrSingleExplicit57Variant": true,
+    "parentNativeChildrenMustAllBeClosedBeforeParentMutation": true,
+    "exactAfterBodyStateAndClosedReasonReadback": true,
+    "exactPostedCommentReadback": true,
+    "only5ClosesAnd57OpenFinalAssertion": true,
+    "rawApiStdoutStderrAndExitRetainedEachCall": true,
+    "appendOnlyExecutionProgressLedger": true,
+    "interruptedOrFailedAttemptCannotBeRelabelledComplete": true,
+    "actualReceiptG4OnlineAppliedMayBeTrueButG4CertifiedMustRemainFalse": true,
+    "independentActualG4ReviewRequired": true,
+    "finalAnnouncedReviewSHACommandArgumentRequired": true,
+    "actualFullwidthLiteralOneOccurrenceAsserted": true
+  },
+  "resolvedPublicationFindings": [
+    {
+      "priority": "P2",
+      "scope": "unexecuted publisher02 only",
+      "status": "resolved in publisher03 before approval or publication",
+      "reason": "publisher02 ASCII colon needle did not match actual plan57 fullwidth colon",
+      "correction": "publisher03 uses actual U+FF1A literal, requires exactly 1 occurrence, only toggles the checkbox, and requires exact final signed review SHA as CLI argument",
+      "planSHAUnchanged": "ed536e88071ad73981cf89b6355db9fb5e626edb407bffce6fd6f9cfef406b51"
+    }
+  ],
+  "unsignedDraftHistory": [
+    {
+      "file": "tmp/rust-r3m/final-review/g4-closeout-preflight01.failed-draft.raw.bin",
+      "bytes": 10642,
+      "rawBytesSha256": "2d0192709fa4887b8be90a9f94e4af9283c5e874ecf56e7a6566f1ad0f08f430",
+      "status": "unannounced draft failed readback validation and was invalidated before publication"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/g4-closeout-preflight01.publisher02-rejected.json",
+      "bytes": 11718,
+      "rawBytesSha256": "1ec17b328447c1bf518ce8fe2a4bcc25e1ba35775af4a34e4035ef9f90f60f76",
+      "status": "explicit approval false until publisher03 correction"
+    }
+  ],
+  "finalSignatureMustBeAnnouncedBeforeConsumption": true
+}
