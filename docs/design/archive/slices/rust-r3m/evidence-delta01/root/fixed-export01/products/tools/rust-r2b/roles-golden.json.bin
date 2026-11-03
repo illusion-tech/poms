@@ -1,0 +1,2768 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "9734515f84ebe1a4833d207124adbfbe378f691f",
+  "oracle": "Actual original shared Zod schemas; successful payloads and complete raw issues",
+  "cases": [
+    {
+      "name": "CreateRoleRequest:missing",
+      "schema": "CreateRoleRequest",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:string",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:empty",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:missing",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:null",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:array",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:string",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:empty",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for update"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:missing",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:null",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:array",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:string",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:empty",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:missing",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:null",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:array",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:string",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:empty",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "permissionKeys"
+            ],
+            "message": "Invalid input: expected array, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:minimal-trim",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:strip",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"isSystemRole\":true,\"isActive\":false,\"unknown\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:nullable",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":null,\"displayOrder\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"description\":null,\"displayOrder\":0}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":null,\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-boolean",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":true,\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":[],\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-boolean",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"description\":null}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-boolean",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:displayOrder-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:displayOrder-boolean",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:displayOrder-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:displayOrder-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-astral-64",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-astral-65",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-surrogate",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"\\ud800\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"\\ud800\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-array-one",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":[0],\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-array-too-long",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too big: expected array to have <=64 items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-zero",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":0},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-large",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":65},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-string",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":\"0\"},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-radix",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":\"0x1000\"},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":null},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-bool",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":true},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-empty-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":[]},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":[65]},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":{}},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "roleKey"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:roleKey-length-unconvertible",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":{\"length\":{\"toString\":null}},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-astral-128",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-astral-129",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-surrogate",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"\\ud800\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-array-one",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":[0]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-array-too-long",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected array to have <=128 items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-zero",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-large",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":129}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-string",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":\"0\"}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-radix",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":\"0x1000\"}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":null}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-bool",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":true}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-empty-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":[]}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":[129]}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:name-length-unconvertible",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-astral-1000",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-astral-1001",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-surrogate",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"description\":\"\\ud800\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-array-one",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":[0]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-array-too-long",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-zero",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":0}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-large",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":1001}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-string",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":\"0\"}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-radix",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":\"0x1000\"}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-null",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":null}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-bool",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":true}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-empty-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":[]}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-array",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":[1001]}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-object",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:description-length-unconvertible",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"description\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "name": "CreateRoleRequest:trim-\"\"",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:trim-\"  \"",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"  \",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "roleKey"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:trim-\"﻿ x \"",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"﻿ x \",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"x\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:trim-\"x\"",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"x\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"x\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number--1",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number--1",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version--1",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number-0",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"displayOrder\":0}"
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number-0",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":0}"
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version-0",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number-1.5",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number-1.5",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version-1.5",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number--1.5",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":-1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number--1.5",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":-1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version--1.5",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":-1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number-3",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number-3",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version-3",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number-2147483648",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"displayOrder\":2147483648}"
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number-2147483648",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":2147483648}"
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version-2147483648",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":2147483648}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number-9007199254740991",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"roleKey\":\"key\",\"name\":\"Name\",\"displayOrder\":9007199254740991}"
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number-9007199254740991",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"displayOrder\":9007199254740991}"
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version-9007199254740991",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number-9007199254740992",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number-9007199254740992",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version-9007199254740992",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRoleRequest:number--9007199254740992",
+      "schema": "CreateRoleRequest",
+      "inputRaw": "{\"roleKey\":\" key \",\"name\":\" Name \",\"displayOrder\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:number--9007199254740992",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:version--9007199254740992",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"expectedVersion\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:infinity",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"displayOrder\":1e999}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:strip-only",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"roleKey\":\"other\",\"expectedVersion\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one field is required for update"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:empty-name",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"name\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:clear-description",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"description\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":null}"
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:null-name",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"name\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:three-invalid",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"name\":1,\"description\":false,\"displayOrder\":\"x\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received number"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "displayOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:length-nan",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"name\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleRequest:length-unconvertible",
+      "schema": "UpdateRoleRequest",
+      "inputRaw": "{\"name\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:ignored-but-valid",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"reason\":\"\",\"comment\":\" c \",\"expectedVersion\":999}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"reason\":\"\",\"comment\":\" c \",\"expectedVersion\":999}"
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:three-nulls",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"reason\":null,\"comment\":null,\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received null"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received null"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:long-reason-comment",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"reason\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"comment\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          },
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "comment"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:array-length",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"reason\":[],\"comment\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "comment"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:length-nan",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"reason\":{\"length\":{}},\"comment\":{\"length\":-1}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "reason"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "reason"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "comment"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRoleActivationRequest:length-unconvertible",
+      "schema": "UpdateRoleActivationRequest",
+      "inputRaw": "{\"reason\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:permissions-129",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{\"permissionKeys\":[]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKeys\":[]}"
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:permissions-130",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{\"permissionKeys\":[\"project:read\",\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKeys\":[\"project:read\",\"project:read\"]}"
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:permissions-131",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{\"permissionKeys\":[\"platform:users:manage\",\"platform:roles:manage\",\"platform:navigation:manage\",\"platform:org-units:manage\",\"platform:dictionaries:manage\",\"platform:identity-providers:manage\",\"platform:org-sync:manage\",\"platform:attachment-storage-providers:manage\",\"platform:system-settings:manage\",\"customer:read\",\"customer:write\",\"commission:rule-versions:manage\",\"commission:assignments:manage\",\"commission:calculations:manage\",\"commission:payouts:manage\",\"commission:adjustments:manage\",\"contract:finance:manage\",\"contract:finance:sensitive:read\",\"operating:finance:sensitive:read\",\"commission:amount:sensitive:read\",\"labor-cost-rate:sensitive:read\",\"exception-approval-opinion:sensitive:read\",\"lead:read\",\"lead:write\",\"lead:assign\",\"lead:score:override\",\"project:read\",\"project:write\",\"project:delete\",\"nav:dashboard:view\",\"nav:customers:view\",\"nav:platform:view\",\"nav:leads:view\",\"nav:attachments:view\",\"nav:projects:view\",\"nav:contracts:view\",\"nav:profile:view\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKeys\":[\"platform:users:manage\",\"platform:roles:manage\",\"platform:navigation:manage\",\"platform:org-units:manage\",\"platform:dictionaries:manage\",\"platform:identity-providers:manage\",\"platform:org-sync:manage\",\"platform:attachment-storage-providers:manage\",\"platform:system-settings:manage\",\"customer:read\",\"customer:write\",\"commission:rule-versions:manage\",\"commission:assignments:manage\",\"commission:calculations:manage\",\"commission:payouts:manage\",\"commission:adjustments:manage\",\"contract:finance:manage\",\"contract:finance:sensitive:read\",\"operating:finance:sensitive:read\",\"commission:amount:sensitive:read\",\"labor-cost-rate:sensitive:read\",\"exception-approval-opinion:sensitive:read\",\"lead:read\",\"lead:write\",\"lead:assign\",\"lead:score:override\",\"project:read\",\"project:write\",\"project:delete\",\"nav:dashboard:view\",\"nav:customers:view\",\"nav:platform:view\",\"nav:leads:view\",\"nav:attachments:view\",\"nav:projects:view\",\"nav:contracts:view\",\"nav:profile:view\"]}"
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:permissions-132",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{\"permissionKeys\":[\"legacy:unknown\",null,9,{}]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "permissionKeys",
+              0
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "permissionKeys",
+              1
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "permissionKeys",
+              2
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "permissionKeys",
+              3
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:permissions-133",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{\"permissionKeys\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "permissionKeys"
+            ],
+            "message": "Invalid input: expected array, received null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssignRolePermissionsRequest:permissions-134",
+      "schema": "AssignRolePermissionsRequest",
+      "inputRaw": "{\"permissionKeys\":\"project:read\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "array",
+            "code": "invalid_type",
+            "path": [
+              "permissionKeys"
+            ],
+            "message": "Invalid input: expected array, received string"
+          }
+        ]
+      }
+    }
+  ]
+}

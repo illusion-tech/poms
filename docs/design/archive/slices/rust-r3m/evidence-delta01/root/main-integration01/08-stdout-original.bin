@@ -1,0 +1,2093 @@
+Updating 5041275d..552211dd
+Fast-forward
+ .gitattributes                                     |      7 +
+ .../src/app/features/lead/lead-list.spec.ts        |      7 +-
+ apps/poms-admin/src/app/features/lead/lead-list.ts |      2 +-
+ .../poms-api-rust/src/customer_contacts/service.rs |     33 +-
+ apps/poms-api-rust/src/customer_contacts/store.rs  |      5 +-
+ apps/poms-api-rust/src/customers/service.rs        |    194 +-
+ apps/poms-api-rust/src/customers/store.rs          |      9 +-
+ apps/poms-api-rust/src/leads/scoring.rs            |      8 +-
+ apps/poms-api-rust/src/leads/service.rs            |    636 +-
+ apps/poms-api-rust/src/leads/store.rs              |     68 +
+ docs/design/README.md                              |     10 +
+ docs/design/backend-rust-migration-plan.md         |     14 +-
+ .../design/phase2-development-execution-tracker.md |     10 +
+ docs/design/poms-design-progress.md                |     10 +
+ docs/design/rust-migration-execution-tracker.md    |     21 +-
+ docs/design/rust-r3-closeout-baseline.md           |     87 +
+ docs/design/rust-r3-closeout-status.json           |     50 +
+ docs/design/rust-r3-operation-slices.json          |     41 +-
+ docs/design/rust-r3-scope-and-dependencies.md      |     24 +-
+ .../rust-r3cdefg/g1-operation-slices-original.json |   1348 -
+ .../input-a/native-fixture-draft01.mjs             |    132 -
+ .../input-b/native-fixture-draft01.mjs             |    109 -
+ docs/design/rust-r3hijk-delivery-status.json       |      2 +-
+ .../design/rust-r3m/C/g1-independent-review01.json |    866 +
+ docs/design/rust-r3m/C/g1-independent-review01.md  |     22 +
+ docs/design/rust-r3m/C/g1-root-d-preaudit01.json   |    205 +
+ .../design/rust-r3m/C/g3-independent-review01.json |    373 +
+ .../rust-r3m/C/write-g1-independent-review01.mjs   |    224 +
+ .../rust-r3m/C/write-g1-root-d-preaudit01.mjs      |     75 +
+ .../evidence/a-input/native-fixture-draft01.mjs    |     88 +
+ .../01-stage.catalog-and-current-candidate.json    |     35 +
+ ...al-customer-contact-lead-project-producers.json |    144 +
+ .../acceptance-nest-final01-10/report01.json       |    590 +
+ ...-four-journey-prerequisites-linux-native01.json |    501 +
+ .../acceptance-nest-final02-43/report01.json       |   2512 +
+ ...our-journey-prerequisites-windows-native01.json |    501 +
+ .../acceptance-nest-final02-44/report01.json       |   2514 +
+ ...-four-journey-prerequisites-linux-native02.json |    501 +
+ .../acceptance-nest-final02-47/report01.json       |   2512 +
+ .../acceptance-rust-baseline01-01/report01.json    |    270 +
+ ...aseline.customer-other-actor-business-noop.json |    123 +
+ ...ustomer-uppercase-owner-org-immediate-view.json |    207 +
+ .../acceptance-rust-baseline01-02/report01.json    |    972 +
+ ...aseline.customer-other-actor-business-noop.json |    123 +
+ ...ustomer-uppercase-owner-org-immediate-view.json |    207 +
+ ...seline.customer-normal-CAS-conflict-is-500.json |    185 +
+ ...ustomer_contact-normal-CAS-conflict-is-500.json |    210 +
+ ...manual-system-score-and-breakdown-disagree.json |    510 +
+ ...erride-command-response-disagrees-with-GET.json |    197 +
+ ...e-derived-UI-date-only-request-is-rejected.json |    141 +
+ .../acceptance-rust-baseline01-03/report01.json    |   3351 +
+ .../01-stage.catalog-and-current-candidate.json    |     35 +
+ ...al-customer-contact-lead-project-producers.json |    144 +
+ .../acceptance-rust-final01-10/report01.json       |    582 +
+ .../01-A.customer.create.json                      |    113 +
+ .../02-A.customer.detail.initial.json              |    103 +
+ .../03-A.aliases.initial.json                      |     80 +
+ .../04-A.alias.create.json                         |     92 +
+ .../05-A.aliases.after-create.json                 |     90 +
+ .../06-A.alias.delete-primary-denied.json          |     89 +
+ .../07-A.alias.delete.json                         |     93 +
+ .../08-A.aliases.after-delete.json                 |     80 +
+ .../09-A.customer.update.json                      |    128 +
+ .../10-A.customer.list.json                        |     98 +
+ .../11-B.project.create.json                       |    117 +
+ .../12-B.project.list.json                         |     89 +
+ .../13-B.project.lookup.json                       |     92 +
+ .../14-B.project.detail.json                       |    148 +
+ .../15-B.project.update.json                       |    115 +
+ .../16-B.project.reassign.json                     |    104 +
+ .../17-B.project.owner-detail.json                 |    148 +
+ .../18-B.project.stale-owner-command.json          |    123 +
+ .../19-A.customer.aggregate-detail.json            |    103 +
+ .../20-A.customer.workspace.json                   |    148 +
+ .../21-C.cost.create.v1.json                       |    179 +
+ .../22-C.cost.create.v2.json                       |    179 +
+ .../acceptance-rust-final01-11/23-C.cost.list.json |    120 +
+ .../24-C.cost.workspace.json                       |    171 +
+ .../25-G.pricing.create.direct.json                |    175 +
+ .../26-D.bid.create.v1.json                        |    174 +
+ .../27-D.bid.create.v2.json                        |    174 +
+ .../acceptance-rust-final01-11/28-D.bid.list.json  |    120 +
+ .../29-D.bid.workspace.json                        |    158 +
+ .../30-G.pricing.create.bid.json                   |    175 +
+ .../31-G.pricing.list.json                         |    146 +
+ .../32-G.pricing.workspace.json                    |    188 +
+ .../33-G.pricing.stale-cost-rejected.json          |    122 +
+ .../34-E.contact.create.json                       |    119 +
+ .../35-E.contact.list-created.json                 |     93 +
+ .../36-E.contact.update.json                       |    161 +
+ .../37-E.contact.list-updated.json                 |     93 +
+ .../38-F.followup.create.json                      |    139 +
+ .../39-F.followup.list-created.json                |    105 +
+ .../40-aux.todo.writer.created.json                |     93 +
+ .../41-F.followup.replace.json                     |    197 +
+ .../42-F.followup.history-replaced.json            |    138 +
+ .../43-F.followup.active-replaced.json             |    105 +
+ .../44-A.workspace.active-followup.json            |    171 +
+ .../45-aux.todo.writer.replaced.json               |     69 +
+ .../46-aux.todo.other.replaced.json                |     93 +
+ .../47-F.followup.replace-stale.json               |    113 +
+ .../48-F.followup.void-version-mismatch.json       |    106 +
+ .../49-F.followup.void.json                        |    189 +
+ .../50-F.followup.active-voided.json               |     72 +
+ .../51-F.followup.history-voided.json              |    138 +
+ .../52-aux.todo.other.voided.json                  |     69 +
+ .../53-A.workspace.voided-followups.json           |    148 +
+ ...F-required-audit-real-independent-producer.json |     58 +
+ .../55-F.required-audit.replace-rollback.json      |    118 +
+ .../56-F.required-audit.void-rollback.json         |    111 +
+ .../acceptance-rust-final01-11/report01.json       |  20398 ++
+ .../01-business-text-UUID-money-date-inputs.json   |    490 +
+ ...mantic-system-snapshot-noop-and-real-facts.json |    866 +
+ .../03-atomic-main-snapshot-claim.json             |    398 +
+ .../04-atomic-main-snapshot-assign.json            |    398 +
+ .../05-atomic-main-snapshot-qualify.json           |    388 +
+ .../06-atomic-main-snapshot-close.json             |    388 +
+ .../07-atomic-required-audit-submit.json           |    388 +
+ .../08-atomic-required-audit-approve.json          |    442 +
+ .../09-atomic-required-audit-reject.json           |    442 +
+ .../10-atomic-required-audit-revoke.json           |    584 +
+ ...ingle-optimistic-write-exactly-one-success.json |    432 +
+ .../12-replacement-approval-exactly-once.json      |    711 +
+ .../13-I-typed-projection-and-semantic-noop.json   |    384 +
+ ...4-number-reservation-no-pool-self-deadlock.json |   1406 +
+ .../acceptance-rust-final01-12/report01.json       |  16777 ++
+ ...-real-active-attachment-category-producers.json |     90 +
+ ...ead-intelligence-followup-upload-producers.json |   2690 +
+ .../acceptance-rust-final01-13/report01.json       |  11340 +
+ .../01-B.chain.cost.v1.json                        |    182 +
+ .../02-B.chain.cost.v2.json                        |    182 +
+ .../03-B.chain.cost.history.json                   |    122 +
+ .../04-B.chain.cost.workspace.json                 |    173 +
+ .../05-B.chain.pricing.direct.json                 |    178 +
+ .../06-B.chain.bid.v1.json                         |    157 +
+ .../07-B.chain.bid.v2.json                         |    157 +
+ .../08-B.chain.bid.history.json                    |    122 +
+ .../09-B.chain.bid.workspace.json                  |    136 +
+ .../10-B.chain.pricing.bid.json                    |    178 +
+ .../11-B.chain.pricing.history.json                |    148 +
+ .../12-B.chain.pricing.workspace.json              |    190 +
+ .../13-B.chain.pricing.stale-cost-rejected.json    |   3662 +
+ .../14-B.chain.required-child.cost.json            |   3691 +
+ .../15-B.chain.required-child.bid.json             |   3666 +
+ .../16-B.chain.required-child.pricing.json         |   3661 +
+ .../acceptance-rust-final01-14/report01.json       |  23306 ++
+ .../acceptance-rust-final01-15/report01.json       |   5229 +
+ ...ublic-pool-claim-assignment-close-and-read.json |   2560 +
+ ...valid.override-reject-and-revoke-lifecycle.json |    664 +
+ ...ce_record-changed-update-and-nonempty-list.json |    258 +
+ ...ry_record-changed-update-and-nonempty-list.json |    243 +
+ .../acceptance-rust-final01-16/report01.json       |  12306 +
+ .../01-B.repair-real-producers.json                |     95 +
+ .../02-B.customer.noop.other.json                  |   2518 +
+ .../03-B.customer.noop.owner-org-case.json         |   2585 +
+ .../04-B.customer.change.other.json                |   2518 +
+ .../05-B.customer.change.owner-org-uppercase.json  |   2585 +
+ .../06-B.contact.noop.other.json                   |   2503 +
+ .../07-B.customer-cas.json                         |   2664 +
+ .../08-B.contact-cas.json                          |   2676 +
+ .../09-B.required-write.customer-update.json       |   2600 +
+ .../10-B.required-write.contact-update.json        |   2600 +
+ .../11-B.required-write.contact-audit.json         |   2600 +
+ .../acceptance-rust-final01-17/report01.json       |  31935 +++
+ ...normal-manual-reuses-coherent-stored-tuple.json |    498 +
+ ...ctive-command-effective-matches-GET-and-PG.json |    976 +
+ ...r.normal-revoke-keeps-current-system-tuple.json |    393 +
+ ...04-A.repair.legacy-missing-atomic-fallback.json |    642 +
+ ...A.repair.legacy-mismatched-atomic-fallback.json |    713 +
+ ...red-lead_score_snapshot-rollback-and-retry.json |    458 +
+ ...gacy-required-audit_log-rollback-and-retry.json |    458 +
+ .../acceptance-rust-final01-18/report01.json       |  13972 +
+ ...normal-manual-reuses-coherent-stored-tuple.json |    498 +
+ ...ctive-command-effective-matches-GET-and-PG.json |    976 +
+ ...r.normal-revoke-keeps-current-system-tuple.json |    393 +
+ ...04-A.repair.legacy-missing-atomic-fallback.json |    642 +
+ ...A.repair.legacy-mismatched-atomic-fallback.json |    713 +
+ ...red-lead_score_snapshot-rollback-and-retry.json |    458 +
+ ...gacy-required-audit_log-rollback-and-retry.json |    458 +
+ ...-snapshot-failure-rolls-back-system-repair.json |    537 +
+ ...ead-UPDATE-denial-is-actual-fallback-write.json |    538 +
+ ...rmal-matched-decision-does-not-UPDATE-Lead.json |    261 +
+ ...A.repair.legacy-dual-approval-exactly-once.json |    592 +
+ ...A.repair.legacy-revocation-atomic-fallback.json |  11139 +
+ ...revocation-late-snapshot-failure-and-retry.json |  11475 +
+ ...ed-tuple-under-real-concurrent-fact-commit.json |    394 +
+ .../acceptance-rust-final01-19/report01.json       |  43030 ++++
+ .../01-F-empty-serialized.project.same-owner.json  |    334 +
+ .../02-F-empty-serialized.lead.same-owner.json     |    365 +
+ .../03-F-empty-serialized.customer.same-owner.json |    344 +
+ ...-empty-serialized.project.different-owners.json |    334 +
+ ...5-F-stream-necessary-write-fault.todo_item.json |    362 +
+ ...cessary-write-fault.sales_follow_up_record.json |    366 +
+ .../acceptance-rust-final01-20/report01.json       |   9777 +
+ .../01-uuid.current-real-contact-producer.json     |     46 +
+ .../02-uuid.same-identity.lead.stakeholder.json    |    247 +
+ .../03-uuid.same-identity.lead.competitor.json     |    228 +
+ .../04-uuid.same-identity.lead.discovery.json      |    213 +
+ .../05-uuid.same-identity.project.stakeholder.json |    247 +
+ .../06-uuid.same-identity.project.competitor.json  |    228 +
+ .../07-uuid.same-identity.project.discovery.json   |    213 +
+ .../08-uuid.same-gap-collection.lead.json          |    107 +
+ .../09-uuid.same-gap-collection.project.json       |    107 +
+ ...reject.stakeholder.different-lead-customer.json |    622 +
+ ...ect.stakeholder.different-project-customer.json |    622 +
+ .../12-uuid.reject.stakeholder.missing-lead.json   |    622 +
+ .../13-uuid.reject.stakeholder.invalid-lead.json   |    633 +
+ ...ect.stakeholder.different-contact-customer.json |    622 +
+ .../15-uuid.normal-patch-noop.stakeholder.json     |    189 +
+ ....required-audit-rollback.stakeholder.PATCH.json |    613 +
+ ....reject.competitor.different-lead-customer.json |    622 +
+ ...ject.competitor.different-project-customer.json |    622 +
+ .../19-uuid.reject.competitor.missing-lead.json    |    622 +
+ .../20-uuid.reject.competitor.invalid-lead.json    |    633 +
+ .../21-uuid.normal-patch-noop.competitor.json      |    175 +
+ ...d.required-audit-rollback.competitor.PATCH.json |    615 +
+ ...d.reject.discovery.different-lead-customer.json |    621 +
+ ...eject.discovery.different-project-customer.json |    621 +
+ .../25-uuid.reject.discovery.missing-lead.json     |    621 +
+ .../26-uuid.reject.discovery.invalid-lead.json     |    632 +
+ .../27-uuid.normal-patch-noop.discovery.json       |    163 +
+ ...id.required-audit-rollback.discovery.PATCH.json |    617 +
+ ...rue-I-to-H-score-and-J-reference-consumers.json |    435 +
+ .../acceptance-rust-final01-21/report01.json       |  20407 ++
+ .../01-I-concurrent-stakeholder.json               |    234 +
+ .../02-I-concurrent-competitor.json                |    224 +
+ .../03-I-concurrent-discovery.json                 |    215 +
+ ...wo-comments-shared-session-due-maintenance.json |    196 +
+ .../acceptance-rust-final01-22/report01.json       |   7335 +
+ .../01-F.concurrent.replace-replace.json           |    497 +
+ .../02-F.concurrent.void-void.json                 |    436 +
+ .../03-F.concurrent.replace-void.json              |    443 +
+ .../acceptance-rust-final01-23/report01.json       |   8356 +
+ ...nt-four-journey-prerequisites-linux-rust01.json |    501 +
+ .../acceptance-rust-final01-41/report01.json       |   2466 +
+ ...normal-manual-reuses-coherent-stored-tuple.json |    498 +
+ ...ctive-command-effective-matches-GET-and-PG.json |    976 +
+ ...r.normal-revoke-keeps-current-system-tuple.json |    393 +
+ ...04-A.repair.legacy-missing-atomic-fallback.json |    642 +
+ ...A.repair.legacy-mismatched-atomic-fallback.json |    713 +
+ ...red-lead_score_snapshot-rollback-and-retry.json |  28600 +++
+ ...gacy-required-audit_log-rollback-and-retry.json |  29082 +++
+ ...-snapshot-failure-rolls-back-system-repair.json |  29607 +++
+ ...ead-UPDATE-denial-is-actual-fallback-write.json |  30090 +++
+ ...rmal-matched-decision-does-not-UPDATE-Lead.json |    261 +
+ ...A.repair.legacy-dual-approval-exactly-once.json |    592 +
+ ...A.repair.legacy-revocation-atomic-fallback.json |  16040 ++
+ ...revocation-late-snapshot-failure-and-retry.json |  32150 +++
+ ...ed-tuple-under-real-concurrent-fact-commit.json |    394 +
+ .../acceptance-rust-final02-24/report01.json       | 183995 +++++++++++++
+ .../acceptance-rust-final02-25/report01.json       |   5139 +
+ ...date-boundary.explicit-null.actual-convert.json |  38195 +++
+ ...date-boundary.blank-omitted.actual-convert.json |  38934 +++
+ .../acceptance-rust-final02-26/report01.json       |  84445 ++++++
+ .../acceptance-rust-final02-27/quarantine01.json   |     48 +
+ .../acceptance-rust-final02-28/quarantine01.json   |     72 +
+ ...SRF-all-any-policy-and-zero-business-delta.json |  47052 ++++
+ ...-guard58.raw-route-method-and-parser-order.json |    833 +
+ ...guard58.shared-auth-lifecycle-each-adapter.json |   3601 +
+ ...xisting-session-next-authorization-refresh.json |    193 +
+ .../acceptance-rust-final02-29/report01.json       |  94364 +++++++
+ ...nt-four-journey-prerequisites-linux-rust02.json |    501 +
+ .../acceptance-rust-final02-42/report01.json       |   2466 +
+ ...-four-journey-prerequisites-windows-rust01.json |    501 +
+ .../acceptance-rust-final02-45/report01.json       |   2468 +
+ ...nt-four-journey-prerequisites-linux-rust03.json |    501 +
+ .../acceptance-rust-final02-46/report01.json       |   2466 +
+ .../admin-checks01/admin-lint-stderr-original.bin  |    Bin 0 -> 272 bytes
+ .../admin-checks01/admin-lint-stdout-original.bin  |    Bin 0 -> 361 bytes
+ .../admin-production-build-stderr-original.bin     |    Bin
+ .../admin-production-build-stdout-original.bin     |    Bin 0 -> 4713 bytes
+ .../admin-checks01/lead-unit-stderr-original.bin   |    Bin 0 -> 3143 bytes
+ .../admin-checks01/lead-unit-stdout-original.bin   |    Bin 0 -> 389 bytes
+ .../rust-r3m/evidence/admin-checks01/report01.json |   2193 +
+ .../ownership-preflight01.json                     |  10495 +
+ .../report01.json                                  |  11666 +
+ .../ownership-preflight01.json                     |     28 +
+ .../report01.json                                  |   1058 +
+ .../ownership-preflight01.json                     |  58225 +++++
+ .../report01.json                                  |  59455 +++++
+ .../ownership-preflight01.json                     |     28 +
+ .../report01.json                                  |   1097 +
+ .../ownership-preflight01.json                     |  10495 +
+ .../report01.json                                  |  11525 +
+ .../report01.json                                  |   1021 +
+ .../ownership-preflight01.json                     |  47486 ++++
+ .../report01.json                                  |  48509 ++++
+ .../ownership-preflight01.json                     |  58225 +++++
+ .../report01.json                                  |  59294 +++++
+ .../evidence/b-input/native-fixture-draft01.mjs    |    167 +
+ .../c-review/derive-public-json-scan02.mjs         |      5 +
+ .../evidence/c-review/g1-independent-review01.json |    866 +
+ .../c-review/g1-independent-review01.md.bin        |    Bin 0 -> 3200 bytes
+ .../evidence/c-review/g1-root-d-preaudit01.json    |    205 +
+ .../evidence/c-review/g2-actual-m5-preaudit01.json |    221 +
+ .../c-review/g2-continuation-review01.json         |    564 +
+ .../c-review/g2-continuation-review01.md.bin       |    Bin 0 -> 1237 bytes
+ .../c-review/g2-derive-linux-rust-ui-review02.mjs  |      5 +
+ .../c-review/g2-fault-tool-clarification01.json    |    196 +
+ .../c-review/g2-fault-tool-clarification01.md.bin  |    Bin 0 -> 2379 bytes
+ .../c-review/g2-full-ui-guard-review01.json        |    409 +
+ .../c-review/g2-graph-retention-closure01.json     |    608 +
+ .../c-review/g2-linux-rust-ui-review02.json        |    206 +
+ .../c-review/g2-native-integrity-review01.json     |    233 +
+ .../app/features/lead/lead-list.spec.ts.raw.bin    |    Bin 0 -> 55596 bytes
+ .../src/app/features/lead/lead-list.ts.raw.bin     |    Bin 0 -> 134215 bytes
+ .../rust-r3m/g2-a/source-manifest01.json.raw.bin   |    Bin 0 -> 3347 bytes
+ .../a-pure/tmp/rust-r3m/g2-a/handoff01.md.raw.bin  |    Bin 0 -> 6796 bytes
+ .../g2-a/lead-correction-cases01.mjs.raw.bin       |    Bin 0 -> 13518 bytes
+ .../poms-api-rust/src/leads/scoring.rs.raw.bin     |    Bin 0 -> 16347 bytes
+ .../poms-api-rust/src/leads/service.rs.raw.bin     |    Bin 0 -> 84082 bytes
+ .../apps/poms-api-rust/src/leads/store.rs.raw.bin  |    Bin 0 -> 40084 bytes
+ .../tmp/rust-r3m/g2-b/delivery01.json.raw.bin      |    Bin 0 -> 8161 bytes
+ .../tmp/rust-r3m/g2-b/assertions01.mjs.raw.bin     |    Bin 0 -> 6252 bytes
+ ...onverted-project-presigning-chain01.mjs.raw.bin |    Bin 0 -> 17893 bytes
+ .../g2-b/customer-boundaries01.mjs.raw.bin         |    Bin 0 -> 12559 bytes
+ .../src/customer_contacts/service.rs.raw.bin       |    Bin 0 -> 15533 bytes
+ .../src/customer_contacts/store.rs.raw.bin         |    Bin 0 -> 5307 bytes
+ .../poms-api-rust/src/customers/service.rs.raw.bin |    Bin 0 -> 46892 bytes
+ .../poms-api-rust/src/customers/store.rs.raw.bin   |    Bin 0 -> 22337 bytes
+ .../tmp/rust-r3m/g2-d/delivery01.json.raw.bin      |    Bin 0 -> 3293 bytes
+ .../tmp/rust-r3m/g2-d/stage-matrix01.json.raw.bin  |    Bin 0 -> 117673 bytes
+ .../d/tools/rust-r3m/e1-README01.md.raw.bin        |    Bin 0 -> 5524 bytes
+ .../d/tools/rust-r3m/e1-cases01.mjs.raw.bin        |    Bin 0 -> 4926 bytes
+ .../rust-r3m/e1-fixture-expectations01.mjs.raw.bin |    Bin 0 -> 3823 bytes
+ .../d/tools/rust-r3m/e1-registry01.mjs.raw.bin     |    Bin 0 -> 2407 bytes
+ .../d/tools/rust-r3m/e1-replay01.mjs.raw.bin       |    Bin 0 -> 9192 bytes
+ .../d/tools/rust-r3m/e1-resolver01.mjs.raw.bin     |    Bin 0 -> 10003 bytes
+ .../evidence/c-review/g2-source-preaudit01.json    |    747 +
+ .../evidence/c-review/g2-source-preaudit01.md.bin  |    Bin 0 -> 1321 bytes
+ .../c-review/g2-terminal-method-review01.json      |     61 +
+ .../g2-terminal02-schema-quarantine-review01.json  |    189 +
+ .../c-review/g2-terminal03-method-review01.json    |    124 +
+ .../c-review/g2-ui-matrix-clarification01.json     |    544 +
+ .../c-review/g2-ui-matrix-clarification01.md.bin   |    Bin 0 -> 2107 bytes
+ .../c-review/g2-write-actual-m5-review01.mjs       |      8 +
+ .../c-review/g2-write-continuation-review01.mjs    |     69 +
+ .../g2-write-fault-tool-clarification01.mjs        |     93 +
+ .../c-review/g2-write-full-ui-guard-review01.mjs   |     17 +
+ .../g2-write-graph-retention-closure01.mjs         |     17 +
+ .../c-review/g2-write-linux-rust-ui-review01.mjs   |     17 +
+ .../c-review/g2-write-linux-rust-ui-review02.mjs   |     17 +
+ .../g2-write-native-integrity-review01.mjs         |     16 +
+ .../c-review/g2-write-source-preaudit01.mjs        |    128 +
+ .../c-review/g2-write-terminal-method-review01.mjs |     17 +
+ ...write-terminal02-schema-quarantine-review01.mjs |     13 +
+ .../g2-write-terminal03-method-review01.mjs        |      7 +
+ .../g2-write-ui-matrix-clarification01.mjs         |    114 +
+ .../evidence/c-review/public-json-scan02.json      |   2673 +
+ .../c-review/scan-current-public-json01.mjs        |     11 +
+ .../c-review/scan-current-public-json02.mjs        |     11 +
+ .../c-review/write-g1-independent-review01.mjs     |    224 +
+ .../c-review/write-g1-root-d-preaudit01.mjs        |     75 +
+ .../evidence/cohort-cleanup-rust10/report01.json   |    219 +
+ .../evidence/cohort-cleanup-rust11/report01.json   |     39 +
+ .../design/rust-r3m/evidence/coverage-final01.json |  17111 ++
+ .../evidence/d-input/native-fixture-draft01.mjs    |    281 +
+ .../evidence/e1-after-linux02/report01.json        |    918 +
+ .../rust-r3m/evidence/e1-after01/report01.json     |    908 +
+ .../evidence/e1-before-linux02/report01.json       |    923 +
+ .../rust-r3m/evidence/e1-before01/report01.json    |    913 +
+ .../rust-r3m/evidence/e1-removal-linux01.json      |     82 +
+ .../rust-r3m/evidence/e1-removal-win3201.json      |     82 +
+ .../rust-r3m/evidence/environment/migrate01.json   |     20 +
+ .../rust-r3m/evidence/environment/provision01.json |     29 +
+ .../rust-r3m/evidence/environment/seed01.json      |     17 +
+ .../final-review/source-evidence-preaudit01.json   |    575 +
+ .../final-review/source-evidence-preaudit01.md.bin |    Bin 0 -> 5366 bytes
+ .../final-review/terminal-method-preaudit01.json   |     77 +
+ .../evidence/followup-concurrency-business01.mjs   |    335 +
+ .../evidence/foundation-business-regression01.mjs  |    510 +
+ .../design/rust-r3m/evidence/g2-a/handoff01.md.bin |    Bin 0 -> 6796 bytes
+ .../evidence/g2-a/lead-correction-cases01.mjs      |    176 +
+ .../rust-r3m/evidence/g2-a/source-manifest01.json  |     85 +
+ .../design/rust-r3m/evidence/g2-b/assertions01.mjs |     91 +
+ .../g2-b/converted-project-presigning-chain01.mjs  |    186 +
+ .../evidence/g2-b/customer-boundaries01.mjs        |    180 +
+ docs/design/rust-r3m/evidence/g2-b/delivery01.json |    144 +
+ .../rust-r3m/evidence/g2-b/delivery01.md.bin       |    Bin 0 -> 5900 bytes
+ .../evidence/g2-d-audit/auditor-cases01.json       |     24 +
+ .../evidence/g2-d-audit/coverage-auditor01.mjs     |    259 +
+ .../rust-r3m/evidence/g2-d-audit/delivery01.json   |     70 +
+ .../evidence/g2-d-audit/input-contract01.md.bin    |    Bin 0 -> 7446 bytes
+ docs/design/rust-r3m/evidence/g2-d/delivery01.json |     93 +
+ .../rust-r3m/evidence/g2-d/stage-matrix01.json     |   2971 +
+ .../rust-r3m/evidence/graph-oracle-check01.json    |     71 +
+ .../evidence/guard-contract-draft/README01.md.bin  |    Bin 0 -> 6560 bytes
+ .../guard-contract-draft/guard58-plan01.mjs        |     89 +
+ .../guard-contract-draft/guard58-run01.mjs         |    159 +
+ .../guard-contract-draft/guard58-run02.mjs         |    160 +
+ .../guard-contract-draft/guard58-run03.mjs         |    160 +
+ .../guard-contract-draft/guard58-run04.mjs         |    162 +
+ .../guard-contract-draft/integrity-run01.mjs       |     52 +
+ .../evidence/guard-contract-draft/schema-run01.mjs |    110 +
+ .../guard-contract-draft/syntax-review01.json      |     41 +
+ .../rust-r3m/evidence/input-a/g1-input01.json      |    287 +
+ .../rust-r3m/evidence/input-a/g1-input01.md.bin    |    Bin 0 -> 12580 bytes
+ .../rust-r3m/evidence/input-a/input-pins01.json    |    474 +
+ .../evidence/input-a/lead-stage-cases01.mjs        |    204 +
+ .../rust-r3m/evidence/input-b/g1-input01.json      |   1715 +
+ .../rust-r3m/evidence/input-b/g1-input01.md.bin    |    Bin 0 -> 11771 bytes
+ .../evidence/input-d/acceptance-cases01.json       |    122 +
+ .../rust-r3m/evidence/input-d/g1-input01.json      |   4434 +
+ .../rust-r3m/evidence/input-d/g1-input01.md.bin    |    Bin 0 -> 6872 bytes
+ .../evidence/input-d/score-cases-addendum01.json   |     30 +
+ .../evidence/integrity01/report01.json}            |   6149 +-
+ .../integrity01/rust-openapi-stderr-original.bin   |    Bin
+ .../integrity01/rust-openapi-stdout-original.bin   |    Bin 0 -> 1011717 bytes
+ .../rust-r3m/evidence/linux-browser-pin.json       |    344 +
+ docs/design/rust-r3m/evidence/m0-progress01.json   |   5144 +
+ docs/design/rust-r3m/evidence/m0-progress02.json   |   5727 +
+ .../evidence/native-build01/report01.json}         |   1697 +-
+ .../evidence/native-build01/stderr-original.bin    |    Bin
+ .../evidence/native-build01/stdout-original.bin    |    Bin 0 -> 863 bytes
+ .../object-process-terminal01/partial01.json       |    194 +
+ .../object-process-terminal03/report01.json        |    303 +
+ .../object-process-terminal04/report01.json        |    268 +
+ .../rust-r3m/evidence/public-privacy-check01.json  |   2296 +
+ .../root/acceptance-definition-adoption01.json     |     67 +
+ .../rust-r3m/evidence/root/baseline-cohort01.json  |      9 +
+ .../rust-r3m/evidence/root/baseline-cohort02.json  |      9 +
+ .../rust-r3m/evidence/root/baseline-cohort03.json  |      9 +
+ .../root/baseline-witness-correction02.json        |     21 +
+ .../root/baseline-witness-correction03.json        |     17 +
+ .../evidence/root/candidate-baseline01.json        |   1246 +
+ .../rust-r3m/evidence/root/candidate-build01.json  |   1576 +
+ .../rust-r3m/evidence/root/candidate-final01.json  |   1590 +
+ .../cleanup-guard-request-registration28-02.json   |    834 +
+ .../root/cleanup-guard-request-registration28.json |    832 +
+ .../cleanup-guard-request-registration29-02.json   |    834 +
+ .../root/cleanup-guard-request-registration29.json |    832 +
+ .../root/concurrency-runner-derivation01.json      |     72 +
+ .../evidence/root/context-derivation01.json        |     48 +
+ .../evidence/root/context-derivation02.json        |     19 +
+ .../evidence/root/context-derivation03.json        |     19 +
+ .../rust-r3m/evidence/root/current-candidate.json  |   1590 +
+ .../evidence/root/environment-derivation01.json    |     72 +
+ .../evidence/root/g0-issue-registration.json       |    367 +
+ .../evidence/root/g0-online01/01-before-input.json |      3 +
+ .../g0-online01/01-before-stderr-original.log.bin  |    Bin
+ .../g0-online01/01-before-stdout-original.json     |      1 +
+ .../root/g0-online01/02-create-batch-input.json    |      4 +
+ .../02-create-batch-stderr-original.log.bin        |    Bin
+ .../02-create-batch-stdout-original.json           |      1 +
+ ...3-children-before-batch-stderr-original.log.bin |    Bin
+ .../03-children-before-batch-stdout-original.json  |      1 +
+ .../root/g0-online01/04-attach-batch-input.json    |      3 +
+ .../04-attach-batch-stderr-original.log.bin        |    Bin
+ .../04-attach-batch-stdout-original.json           |      1 +
+ ...05-children-after-batch-stderr-original.log.bin |    Bin
+ .../05-children-after-batch-stdout-original.json   |      1 +
+ .../root/g0-online01/06-create-A-input.json        |      4 +
+ .../06-create-A-stderr-original.log.bin            |    Bin
+ .../g0-online01/06-create-A-stdout-original.json   |      1 +
+ .../07-children-before-A-stderr-original.log.bin   |    Bin
+ .../07-children-before-A-stdout-original.json      |      1 +
+ .../root/g0-online01/08-attach-A-input.json        |      3 +
+ .../08-attach-A-stderr-original.log.bin            |    Bin
+ .../g0-online01/08-attach-A-stdout-original.json   |      1 +
+ .../09-children-after-A-stderr-original.log.bin    |    Bin
+ .../09-children-after-A-stdout-original.json       |      1 +
+ .../evidence/root/g0-online01/10-g0-A-input.json   |      3 +
+ .../g0-online01/10-g0-A-stderr-original.log.bin    |    Bin
+ .../root/g0-online01/10-g0-A-stdout-original.json  |      1 +
+ .../root/g0-online01/11-create-B-input.json        |      4 +
+ .../11-create-B-stderr-original.log.bin            |    Bin
+ .../g0-online01/11-create-B-stdout-original.json   |      1 +
+ .../12-children-before-B-stderr-original.log.bin   |    Bin
+ .../12-children-before-B-stdout-original.json      |      1 +
+ .../root/g0-online01/13-attach-B-input.json        |      3 +
+ .../13-attach-B-stderr-original.log.bin            |    Bin
+ .../g0-online01/13-attach-B-stdout-original.json   |      1 +
+ .../14-children-after-B-stderr-original.log.bin    |    Bin
+ .../14-children-after-B-stdout-original.json       |      1 +
+ .../evidence/root/g0-online01/15-g0-B-input.json   |      3 +
+ .../g0-online01/15-g0-B-stderr-original.log.bin    |    Bin
+ .../root/g0-online01/15-g0-B-stdout-original.json  |      1 +
+ .../root/g0-online01/16-create-D-input.json        |      4 +
+ .../16-create-D-stderr-original.log.bin            |    Bin
+ .../g0-online01/16-create-D-stdout-original.json   |      1 +
+ .../17-children-before-D-stderr-original.log.bin   |    Bin
+ .../17-children-before-D-stdout-original.json      |      1 +
+ .../root/g0-online01/18-attach-D-input.json        |      3 +
+ .../18-attach-D-stderr-original.log.bin            |    Bin
+ .../g0-online01/18-attach-D-stdout-original.json   |      1 +
+ .../19-children-after-D-stderr-original.log.bin    |    Bin
+ .../19-children-after-D-stdout-original.json       |      1 +
+ .../evidence/root/g0-online01/20-g0-D-input.json   |      3 +
+ .../g0-online01/20-g0-D-stderr-original.log.bin    |    Bin
+ .../root/g0-online01/20-g0-D-stdout-original.json  |      1 +
+ .../root/g0-online01/21-g0-batch-input.json        |      3 +
+ .../21-g0-batch-stderr-original.log.bin            |    Bin
+ .../g0-online01/21-g0-batch-stdout-original.json   |      1 +
+ .../root/g0-online01/22-parent-85-input.json       |      3 +
+ .../22-parent-85-stderr-original.log.bin           |    Bin
+ .../g0-online01/22-parent-85-stdout-original.json  |      1 +
+ .../root/g0-online01/23-parent-57-input.json       |      3 +
+ .../23-parent-57-stderr-original.log.bin           |    Bin
+ .../g0-online01/23-parent-57-stdout-original.json  |      1 +
+ .../evidence/root/g0-online01/24-after-input.json  |      3 +
+ .../g0-online01/24-after-stderr-original.log.bin   |    Bin
+ .../root/g0-online01/24-after-stdout-original.json |      1 +
+ .../evidence/root/g1-commit-message01.txt.bin      |    Bin 0 -> 462 bytes
+ .../root/g1-online01/preflight-failure01.json      |     12 +
+ .../01-before-97-stderr-original.log.bin           |    Bin
+ .../g1-online02/01-before-97-stdout-original.json  |      1 +
+ .../02-comments-97-stderr-original.log.bin         |    Bin
+ .../02-comments-97-stdout-original.json            |      1 +
+ .../root/g1-online02/03-freeze-97-input.json       |      3 +
+ .../03-freeze-97-stderr-original.log.bin           |    Bin
+ .../g1-online02/03-freeze-97-stdout-original.json  |      1 +
+ .../root/g1-online02/04-body-97-input.json         |      3 +
+ .../g1-online02/04-body-97-stderr-original.log.bin |    Bin
+ .../g1-online02/04-body-97-stdout-original.json    |      1 +
+ .../05-verify-comment-97-stderr-original.log.bin   |    Bin
+ .../05-verify-comment-97-stdout-original.json      |      1 +
+ .../06-after-97-stderr-original.log.bin            |    Bin
+ .../g1-online02/06-after-97-stdout-original.json   |      1 +
+ .../07-before-98-stderr-original.log.bin           |    Bin
+ .../g1-online02/07-before-98-stdout-original.json  |      1 +
+ .../08-comments-98-stderr-original.log.bin         |    Bin
+ .../08-comments-98-stdout-original.json            |      1 +
+ .../root/g1-online02/09-freeze-98-input.json       |      3 +
+ .../09-freeze-98-stderr-original.log.bin           |    Bin
+ .../g1-online02/09-freeze-98-stdout-original.json  |      1 +
+ .../root/g1-online02/10-body-98-input.json         |      3 +
+ .../g1-online02/10-body-98-stderr-original.log.bin |    Bin
+ .../g1-online02/10-body-98-stdout-original.json    |      1 +
+ .../11-verify-comment-98-stderr-original.log.bin   |    Bin
+ .../11-verify-comment-98-stdout-original.json      |      1 +
+ .../12-after-98-stderr-original.log.bin            |    Bin
+ .../g1-online02/12-after-98-stdout-original.json   |      1 +
+ .../13-before-99-stderr-original.log.bin           |    Bin
+ .../g1-online02/13-before-99-stdout-original.json  |      1 +
+ .../14-comments-99-stderr-original.log.bin         |    Bin
+ .../14-comments-99-stdout-original.json            |      1 +
+ .../root/g1-online02/15-freeze-99-input.json       |      3 +
+ .../15-freeze-99-stderr-original.log.bin           |    Bin
+ .../g1-online02/15-freeze-99-stdout-original.json  |      1 +
+ .../root/g1-online02/16-body-99-input.json         |      3 +
+ .../g1-online02/16-body-99-stderr-original.log.bin |    Bin
+ .../g1-online02/16-body-99-stdout-original.json    |      1 +
+ .../17-verify-comment-99-stderr-original.log.bin   |    Bin
+ .../17-verify-comment-99-stdout-original.json      |      1 +
+ .../18-after-99-stderr-original.log.bin            |    Bin
+ .../g1-online02/18-after-99-stdout-original.json   |      1 +
+ .../19-before-100-stderr-original.log.bin          |    Bin
+ .../g1-online02/19-before-100-stdout-original.json |      1 +
+ .../20-comments-100-stderr-original.log.bin        |    Bin
+ .../20-comments-100-stdout-original.json           |      1 +
+ .../root/g1-online02/21-freeze-100-input.json      |      3 +
+ .../21-freeze-100-stderr-original.log.bin          |    Bin
+ .../g1-online02/21-freeze-100-stdout-original.json |      1 +
+ .../root/g1-online02/22-body-100-input.json        |      3 +
+ .../22-body-100-stderr-original.log.bin            |    Bin
+ .../g1-online02/22-body-100-stdout-original.json   |      1 +
+ .../23-verify-comment-100-stderr-original.log.bin  |    Bin
+ .../23-verify-comment-100-stdout-original.json     |      1 +
+ .../24-after-100-stderr-original.log.bin           |    Bin
+ .../g1-online02/24-after-100-stdout-original.json  |      1 +
+ .../25-before-85-stderr-original.log.bin           |    Bin
+ .../g1-online02/25-before-85-stdout-original.json  |      1 +
+ .../26-comments-85-stderr-original.log.bin         |    Bin
+ .../26-comments-85-stdout-original.json            |      1 +
+ .../root/g1-online02/27-freeze-85-input.json       |      3 +
+ .../27-freeze-85-stderr-original.log.bin           |    Bin
+ .../g1-online02/27-freeze-85-stdout-original.json  |      1 +
+ .../root/g1-online02/28-body-85-input.json         |      3 +
+ .../g1-online02/28-body-85-stderr-original.log.bin |    Bin
+ .../g1-online02/28-body-85-stdout-original.json    |      1 +
+ .../29-verify-comment-85-stderr-original.log.bin   |    Bin
+ .../29-verify-comment-85-stdout-original.json      |      1 +
+ .../30-after-85-stderr-original.log.bin            |    Bin
+ .../g1-online02/30-after-85-stdout-original.json   |      1 +
+ .../31-before-57-stderr-original.log.bin           |    Bin
+ .../g1-online02/31-before-57-stdout-original.json  |      1 +
+ .../root/g1-online02/32-body-57-input.json         |      3 +
+ .../g1-online02/32-body-57-stderr-original.log.bin |    Bin
+ .../g1-online02/32-body-57-stdout-original.json    |      1 +
+ .../33-after-57-stderr-original.log.bin            |    Bin
+ .../g1-online02/33-after-57-stdout-original.json   |      1 +
+ .../evidence/root/g2-integration01-failure.json    |     16 +
+ .../rust-r3m/evidence/root/g2-integration02.json   |    244 +
+ .../g2-online01/01-read-97-stderr-original.bin     |    Bin
+ .../g2-online01/01-read-97-stdout-original.json    |      1 +
+ .../root/g2-online01/02-update-97-input.json       |      4 +
+ .../g2-online01/02-update-97-stderr-original.bin   |    Bin
+ .../g2-online01/02-update-97-stdout-original.json  |      1 +
+ .../root/g2-online01/03-comment-97-input.json      |      3 +
+ .../g2-online01/03-comment-97-stderr-original.bin  |    Bin
+ .../g2-online01/03-comment-97-stdout-original.json |      1 +
+ .../g2-online01/04-readback-97-stderr-original.bin |    Bin
+ .../04-readback-97-stdout-original.json            |      1 +
+ .../05-comment-readback-97-stderr-original.bin     |    Bin
+ .../05-comment-readback-97-stdout-original.json    |      1 +
+ .../g2-online01/06-read-98-stderr-original.bin     |    Bin
+ .../g2-online01/06-read-98-stdout-original.json    |      1 +
+ .../root/g2-online01/07-update-98-input.json       |      4 +
+ .../g2-online01/07-update-98-stderr-original.bin   |    Bin
+ .../g2-online01/07-update-98-stdout-original.json  |      1 +
+ .../root/g2-online01/08-comment-98-input.json      |      3 +
+ .../g2-online01/08-comment-98-stderr-original.bin  |    Bin
+ .../g2-online01/08-comment-98-stdout-original.json |      1 +
+ .../g2-online01/09-readback-98-stderr-original.bin |    Bin
+ .../09-readback-98-stdout-original.json            |      1 +
+ .../10-comment-readback-98-stderr-original.bin     |    Bin
+ .../10-comment-readback-98-stdout-original.json    |      1 +
+ .../g2-online01/11-read-99-stderr-original.bin     |    Bin
+ .../g2-online01/11-read-99-stdout-original.json    |      1 +
+ .../root/g2-online01/12-update-99-input.json       |      4 +
+ .../g2-online01/12-update-99-stderr-original.bin   |    Bin
+ .../g2-online01/12-update-99-stdout-original.json  |      1 +
+ .../root/g2-online01/13-comment-99-input.json      |      3 +
+ .../g2-online01/13-comment-99-stderr-original.bin  |    Bin
+ .../g2-online01/13-comment-99-stdout-original.json |      1 +
+ .../g2-online01/14-readback-99-stderr-original.bin |    Bin
+ .../14-readback-99-stdout-original.json            |      1 +
+ .../15-comment-readback-99-stderr-original.bin     |    Bin
+ .../15-comment-readback-99-stdout-original.json    |      1 +
+ .../g2-online01/16-read-100-stderr-original.bin    |    Bin
+ .../g2-online01/16-read-100-stdout-original.json   |      1 +
+ .../root/g2-online01/17-update-100-input.json      |      4 +
+ .../g2-online01/17-update-100-stderr-original.bin  |    Bin
+ .../g2-online01/17-update-100-stdout-original.json |      1 +
+ .../root/g2-online01/18-comment-100-input.json     |      3 +
+ .../g2-online01/18-comment-100-stderr-original.bin |    Bin
+ .../18-comment-100-stdout-original.json            |      1 +
+ .../19-readback-100-stderr-original.bin            |    Bin
+ .../19-readback-100-stdout-original.json           |      1 +
+ .../20-comment-readback-100-stderr-original.bin    |    Bin
+ .../20-comment-readback-100-stdout-original.json   |      1 +
+ .../g2-online01/21-read-85-stderr-original.bin     |    Bin
+ .../g2-online01/21-read-85-stdout-original.json    |      1 +
+ .../root/g2-online01/22-update-85-input.json       |      4 +
+ .../g2-online01/22-update-85-stderr-original.bin   |    Bin
+ .../g2-online01/22-update-85-stdout-original.json  |      1 +
+ .../root/g2-online01/23-comment-85-input.json      |      3 +
+ .../g2-online01/23-comment-85-stderr-original.bin  |    Bin
+ .../g2-online01/23-comment-85-stdout-original.json |      1 +
+ .../g2-online01/24-readback-85-stderr-original.bin |    Bin
+ .../24-readback-85-stdout-original.json            |      1 +
+ .../25-comment-readback-85-stderr-original.bin     |    Bin
+ .../25-comment-readback-85-stdout-original.json    |      1 +
+ .../g2-online01/26-read-57-stderr-original.bin     |    Bin
+ .../g2-online01/26-read-57-stdout-original.json    |      1 +
+ .../root/g2-online01/27-update-57-input.json       |      4 +
+ .../g2-online01/27-update-57-stderr-original.bin   |    Bin
+ .../g2-online01/27-update-57-stdout-original.json  |      1 +
+ .../root/g2-online01/28-comment-57-input.json      |      3 +
+ .../g2-online01/28-comment-57-stderr-original.bin  |    Bin
+ .../g2-online01/28-comment-57-stdout-original.json |      1 +
+ .../g2-online01/29-readback-57-stderr-original.bin |    Bin
+ .../29-readback-57-stdout-original.json            |      1 +
+ .../30-comment-readback-57-stderr-original.bin     |    Bin
+ .../30-comment-readback-57-stdout-original.json    |      1 +
+ .../evidence/root/g2-online01/receipt01.json       |     66 +
+ .../root/governance-before01/README.md.bin         |    Bin 0 -> 44667 bytes
+ .../backend-rust-migration-plan.md.bin             |    Bin 0 -> 72948 bytes
+ .../root/governance-before01/manifest01.json       |    112 +
+ .../phase2-development-execution-tracker.md.bin    |    Bin 0 -> 404833 bytes
+ .../poms-design-progress.md.bin                    |    Bin 0 -> 228298 bytes
+ .../rust-migration-execution-tracker.md.bin        |    Bin 0 -> 54298 bytes
+ .../rust-r3-closeout-status.json.bin               |    Bin 0 -> 968 bytes
+ .../rust-r3-operation-slices.json.bin              |    Bin 0 -> 177599 bytes
+ .../rust-r3-scope-and-dependencies.md.bin          |    Bin 0 -> 4991 bytes
+ .../evidence/root/lead-repair-correction02.json    |     27 +
+ .../evidence/root/lifecycle-derivation01.json      |     31 +
+ .../evidence/root/linux-bootstrap01/report01.json  |     27 +
+ .../root/linux-bootstrap01/stderr-original.bin     |    Bin
+ .../root/linux-bootstrap01/stdout-original.bin     |    Bin 0 -> 2807 bytes
+ .../evidence/root/native-ui-preservation01.json    |   5097 +
+ .../evidence/root/original-log-settings02.json     |     56 +
+ .../evidence/root/original-log-settings03.json     |     56 +
+ .../root/preserved-candidate-terminal01.json       |     34 +
+ .../rust-r3m/evidence/root/public-sync01.json      |    158 +
+ .../rust-r3m/evidence/root/public-sync02.json      |    778 +
+ .../rust-r3m/evidence/root/public-sync03.json      |    813 +
+ .../rust-r3m/evidence/root/public-sync04.json      |   1640 +
+ .../rust-r3m/evidence/root/public-sync05.json      |   1715 +
+ .../rust-r3m/evidence/root/public-sync06.json      |   1780 +
+ .../rust-r3m/evidence/root/public-sync07.json      |   1875 +
+ .../rust-r3m/evidence/root/public-sync08.json      |   1935 +
+ .../rust-r3m/evidence/root/public-sync09.json      |   2130 +
+ .../rust-r3m/evidence/root/public-sync10.json      |   2135 +
+ .../evidence/root/runtime-recovery01/report01.json |     51 +
+ .../evidence/root/source-capsule-final0101.json    |   3746 +
+ .../evidence/root/stage-nest-cohort01.json         |      9 +
+ .../evidence/root/stage-runner-derivation01.json   |     99 +
+ .../evidence/root/stage-rust-cohort01.json         |      9 +
+ .../design/rust-r3m/evidence/root/ui-assets01.json |     25 +
+ .../evidence/root/ui-fixture-correction02.json     |     27 +
+ .../evidence/root/ui-fixture-correction03.json     |     17 +
+ .../evidence/root/ui-linux-native01-cohort01.json  |     10 +
+ .../evidence/root/ui-linux-native02-cohort01.json  |     10 +
+ .../evidence/root/ui-linux-rust01-cohort01.json    |     10 +
+ .../evidence/root/ui-linux-rust02-cohort01.json    |     10 +
+ .../evidence/root/ui-linux-rust03-cohort01.json    |     10 +
+ .../root/ui-windows-native01-cohort01.json         |     10 +
+ .../evidence/root/ui-windows-rust01-cohort01.json  |     10 +
+ .../root/valid-supplement-correction02.json        |     17 +
+ .../root/whole-batch-terminal-input02.json         |    130 +
+ .../root/whole-batch-terminal-input03.json         |    130 +
+ .../evidence/runtime/nest-baseline01-stop01.json   |     16 +
+ .../rust-r3m/evidence/runtime/nest-baseline01.json |     18 +
+ .../rust-r3m/evidence/runtime/nest-final01.json    |     18 +
+ .../evidence/runtime/nest-final02-stop01.json      |     16 +
+ .../rust-r3m/evidence/runtime/nest-final02.json    |     18 +
+ .../evidence/runtime/rust-baseline01-stop01.json   |     16 +
+ .../rust-r3m/evidence/runtime/rust-baseline01.json |     18 +
+ .../rust-r3m/evidence/runtime/rust-final01.json    |     18 +
+ .../evidence/runtime/rust-final02-stop01.json      |     16 +
+ .../rust-r3m/evidence/runtime/rust-final02.json    |     18 +
+ .../runtime/windows-native-terminal01.json         |     10 +
+ .../evidence/runtime/windows-native01.json         |     14 +
+ .../evidence/rust-cache01/copy-raw-manifest01.json | 242500 ++++++++++++++++++
+ .../rust-r3m/evidence/rust-cache01/report01.json   |     42 +
+ .../rust-check01/cargo-clippy-stderr-original.bin  |    Bin 0 -> 9907 bytes
+ .../rust-check01/cargo-clippy-stdout-original.bin  |    Bin
+ .../rust-check01/cargo-fmt-stderr-original.bin     |    Bin
+ .../rust-check01/cargo-fmt-stdout-original.bin     |    Bin
+ .../rust-check01/cargo-release-stderr-original.bin |    Bin 0 -> 9897 bytes
+ .../rust-check01/cargo-release-stdout-original.bin |    Bin
+ .../rust-check01/cargo-test-stderr-original.bin    |    Bin 0 -> 12815 bytes
+ .../rust-check01/cargo-test-stdout-original.bin    |    Bin 0 -> 48364 bytes
+ .../clean-own-package-stderr-original.bin          |    Bin 0 -> 39 bytes
+ .../clean-own-package-stdout-original.bin          |    Bin
+ .../rust-r3m/evidence/rust-check01/report01.json   |   3601 +
+ .../schema-check01/nest-after-catalog.json         |  31583 +++
+ .../schema-check01/nest-before-catalog.json        |  31583 +++
+ .../rust-r3m/evidence/schema-check01/report01.json |    286 +
+ .../schema-check01/rust-after-catalog.json         |  31583 +++
+ .../schema-check01/rust-before-catalog.json        |  31583 +++
+ .../evidence/terminal-draft/README01.md.bin        |    Bin 0 -> 9258 bytes
+ .../evidence/terminal-draft/README02.md.bin        |    Bin 0 -> 1816 bytes
+ .../evidence/terminal-draft/README03.md.bin        |    Bin 0 -> 3322 bytes
+ .../terminal-draft/aggregate-plan-cases01.test.mjs |     33 +
+ .../terminal-draft/aggregate-plan-cases02.test.mjs |     46 +
+ .../terminal-draft/aggregate-plan-cases03.test.mjs |     90 +
+ .../evidence/terminal-draft/aggregate-plan01.mjs   |    148 +
+ .../evidence/terminal-draft/aggregate-plan02.mjs   |    156 +
+ .../evidence/terminal-draft/aggregate-plan03.mjs   |    192 +
+ .../evidence/terminal-draft/aggregate-run01.mjs    |    214 +
+ .../evidence/terminal-draft/aggregate-run02.mjs    |    214 +
+ .../evidence/terminal-draft/aggregate-run03.mjs    |    214 +
+ .../evidence/terminal-draft/derivation02.json      |     76 +
+ .../evidence/terminal-draft/derivation03.json      |    120 +
+ .../terminal-draft/root-pure-cases-stderr01.bin    |    Bin 0 -> 68 bytes
+ .../terminal-draft/root-pure-cases-stderr02.bin    |    Bin
+ .../terminal-draft/root-pure-cases-stderr03.bin    |    Bin
+ .../terminal-draft/root-pure-cases-stderr04.bin    |    Bin
+ .../terminal-draft/root-pure-cases-stdout01.bin    |    Bin
+ .../terminal-draft/root-pure-cases-stdout02.bin    |    Bin 0 -> 1186 bytes
+ .../terminal-draft/root-pure-cases-stdout03.bin    |    Bin 0 -> 1671 bytes
+ .../terminal-draft/root-pure-cases-stdout04.bin    |    Bin 0 -> 2896 bytes
+ .../evidence/terminal-draft/syntax-review01.json   |     32 +
+ .../evidence/terminal-draft/syntax-review02.json   |     32 +
+ docs/design/rust-r3m/evidence/ui-a/README01.md.bin |    Bin 0 -> 2986 bytes
+ .../rust-r3m/evidence/ui-a/lead-journey03.mjs      |    359 +
+ .../rust-r3m/evidence/ui-a/lead-journey04.mjs      |    360 +
+ .../rust-r3m/evidence/ui-a/source-pins01.json      |     72 +
+ docs/design/rust-r3m/evidence/ui-b/README.md.bin   |    Bin 0 -> 9605 bytes
+ .../ui-b/acceptance-definition-correction02.json   |    203 +
+ .../rust-r3m/evidence/ui-b/customer-journey02.mjs  |    339 +
+ .../rust-r3m/evidence/ui-b/customer-journey03.mjs  |    339 +
+ .../rust-r3m/evidence/ui-b/four-journey-cell01.mjs |    166 +
+ .../rust-r3m/evidence/ui-b/project-journey02.mjs   |    436 +
+ .../rust-r3m/evidence/ui-input-linux-native01.json |     60 +
+ .../rust-r3m/evidence/ui-input-linux-native02.json |     60 +
+ .../rust-r3m/evidence/ui-input-linux-rust01.json   |     60 +
+ .../rust-r3m/evidence/ui-input-linux-rust02.json   |     60 +
+ .../rust-r3m/evidence/ui-input-linux-rust03.json   |     60 +
+ .../evidence/ui-input-windows-native01.json        |     60 +
+ .../rust-r3m/evidence/ui-input-windows-rust01.json |     60 +
+ .../evidence/ui-linux-native01-run05/customer.png  |    Bin 0 -> 162866 bytes
+ .../ui-linux-native01-run05/intelligence.png       |    Bin 0 -> 201410 bytes
+ .../evidence/ui-linux-native01-run05/lead.png      |    Bin 0 -> 175895 bytes
+ .../evidence/ui-linux-native01-run05/project.png   |    Bin 0 -> 187422 bytes
+ .../evidence/ui-linux-native01-run05/report01.json |  30879 +++
+ .../bid-native-cause01.json                        |     28 +
+ .../evidence/ui-linux-native02-run06/customer.png  |    Bin 0 -> 163555 bytes
+ .../ui-linux-native02-run06/intelligence.png       |    Bin 0 -> 201806 bytes
+ .../evidence/ui-linux-native02-run06/lead.png      |    Bin 0 -> 175522 bytes
+ .../pricing-native-cause01.json                    |     28 +
+ .../evidence/ui-linux-native02-run06/project.png   |    Bin 0 -> 188150 bytes
+ .../evidence/ui-linux-native02-run06/report01.json |  48346 ++++
+ .../evidence/ui-linux-rust01-run02/report01.json   |    132 +
+ .../evidence/ui-linux-rust01-run03/failure.png     |    Bin 0 -> 191865 bytes
+ .../evidence/ui-linux-rust01-run03/report01.json   |   4489 +
+ .../rust-r3m/evidence/ui-linux-rust02-failure.png  |    Bin 0 -> 188477 bytes
+ .../evidence/ui-linux-rust02-run04/customer.png    |    Bin 0 -> 162332 bytes
+ .../evidence/ui-linux-rust02-run04/failure.png     |    Bin 0 -> 188477 bytes
+ .../evidence/ui-linux-rust02-run04/project.png     |    Bin 0 -> 186800 bytes
+ .../evidence/ui-linux-rust02-run04/report01.json   |  64247 +++++
+ .../evidence/ui-linux-rust03-run05/customer.png    |    Bin 0 -> 162273 bytes
+ .../ui-linux-rust03-run05/intelligence.png         |    Bin 0 -> 200775 bytes
+ .../evidence/ui-linux-rust03-run05/lead.png        |    Bin 0 -> 172758 bytes
+ .../evidence/ui-linux-rust03-run05/project.png     |    Bin 0 -> 186667 bytes
+ .../evidence/ui-linux-rust03-run05/report01.json   |  82009 ++++++
+ .../bid-native-cause01.json                        |     28 +
+ .../ui-windows-native01-run06/customer.png         |    Bin 0 -> 164746 bytes
+ .../ui-windows-native01-run06/intelligence.png     |    Bin 0 -> 229607 bytes
+ .../evidence/ui-windows-native01-run06/lead.png    |    Bin 0 -> 191541 bytes
+ .../pricing-native-cause01.json                    |     28 +
+ .../evidence/ui-windows-native01-run06/project.png |    Bin 0 -> 214193 bytes
+ .../ui-windows-native01-run06/report01.json        |  49521 ++++
+ .../evidence/ui-windows-rust01-run06/customer.png  |    Bin 0 -> 163583 bytes
+ .../ui-windows-rust01-run06/intelligence.png       |    Bin 0 -> 228068 bytes
+ .../evidence/ui-windows-rust01-run06/lead.png      |    Bin 0 -> 188934 bytes
+ .../evidence/ui-windows-rust01-run06/project.png   |    Bin 0 -> 212825 bytes
+ .../evidence/ui-windows-rust01-run06/report01.json |  83679 ++++++
+ .../rust-r3m/evidence/windows-browser-pin.json     |      9 +
+ docs/design/rust-r3m/g1-gate-authority01.json      |     78 +
+ docs/design/rust-r3m/g1-input-manifest01.json      |   8681 +
+ docs/design/rust-r3m/g1-root-supplement01.json     |     22 +
+ docs/design/rust-r3m/g1-root-supplement02.json     |     57 +
+ docs/design/rust-r3m/g1-root-supplement03.json     |     19 +
+ docs/design/rust-r3m/g2-corrective-checkpoint01.md |     13 +
+ docs/design/rust-r3m/g2-corrective-checkpoint02.md |     21 +
+ docs/design/rust-r3m/g2-corrective-checkpoint03.md |     22 +
+ docs/design/rust-r3m/g2-corrective-checkpoint04.md |     10 +
+ docs/design/rust-r3m/g2-corrective-checkpoint05.md |     15 +
+ docs/design/rust-r3m/g3-checkpoint01.md            |     23 +
+ docs/design/rust-r3m/g3-gate-authority01.json      |    175 +
+ docs/design/rust-r3m/g3-input-manifest01.json      |   9215 +
+ docs/design/rust-r3m/g3-package-manifest01.json    |  10290 +
+ .../rust-r3m/g3-writeback01/README.md.before.bin   |    Bin 0 -> 45909 bytes
+ .../backend-rust-migration-plan.md.before.bin      |    Bin 0 -> 74181 bytes
+ ...se2-development-execution-tracker.md.before.bin |    Bin 0 -> 406075 bytes
+ .../poms-design-progress.md.before.bin             |    Bin 0 -> 229540 bytes
+ .../rust-migration-execution-tracker.md.before.bin |    Bin 0 -> 55565 bytes
+ .../rust-r3-closeout-status.json.before.bin        |    Bin 0 -> 1310 bytes
+ .../rust-r3-operation-slices.json.before.bin       |    Bin 0 -> 178044 bytes
+ .../rust-r3-scope-and-dependencies.md.before.bin   |    Bin 0 -> 6262 bytes
+ .../rust-r3m/originals/input-a/g1-input01.json     |    287 +
+ .../rust-r3m/originals/input-a/g1-input01.md       |     57 +
+ .../rust-r3m/originals/input-a/input-pins01.json   |    474 +
+ .../originals/input-a/lead-stage-cases01.mjs       |    204 +
+ .../rust-r3m/originals/input-b/g1-input01.json     |   1715 +
+ .../rust-r3m/originals/input-b/g1-input01.md.bin   |    Bin 0 -> 11771 bytes
+ .../originals/input-d/acceptance-cases01.json      |    122 +
+ .../rust-r3m/originals/input-d/g1-input01.json     |   4434 +
+ .../rust-r3m/originals/input-d/g1-input01.md       |     40 +
+ .../originals/input-d/score-cases-addendum01.json  |     30 +
+ .../originals/root/g0-issue-registration.json      |    367 +
+ .../root/g0-online01/01-before-input.json          |      3 +
+ .../root/g0-online01/01-before-stderr-original.log |      0
+ .../g0-online01/01-before-stdout-original.json     |      1 +
+ .../root/g0-online01/02-create-batch-input.json    |      4 +
+ .../02-create-batch-stderr-original.log            |      0
+ .../02-create-batch-stdout-original.json           |      1 +
+ .../03-children-before-batch-stderr-original.log   |      0
+ .../03-children-before-batch-stdout-original.json  |      1 +
+ .../root/g0-online01/04-attach-batch-input.json    |      3 +
+ .../04-attach-batch-stderr-original.log            |      0
+ .../04-attach-batch-stdout-original.json           |      1 +
+ .../05-children-after-batch-stderr-original.log    |      0
+ .../05-children-after-batch-stdout-original.json   |      1 +
+ .../root/g0-online01/06-create-A-input.json        |      4 +
+ .../g0-online01/06-create-A-stderr-original.log    |      0
+ .../g0-online01/06-create-A-stdout-original.json   |      1 +
+ .../07-children-before-A-stderr-original.log       |      0
+ .../07-children-before-A-stdout-original.json      |      1 +
+ .../root/g0-online01/08-attach-A-input.json        |      3 +
+ .../g0-online01/08-attach-A-stderr-original.log    |      0
+ .../g0-online01/08-attach-A-stdout-original.json   |      1 +
+ .../09-children-after-A-stderr-original.log        |      0
+ .../09-children-after-A-stdout-original.json       |      1 +
+ .../originals/root/g0-online01/10-g0-A-input.json  |      3 +
+ .../root/g0-online01/10-g0-A-stderr-original.log   |      0
+ .../root/g0-online01/10-g0-A-stdout-original.json  |      1 +
+ .../root/g0-online01/11-create-B-input.json        |      4 +
+ .../g0-online01/11-create-B-stderr-original.log    |      0
+ .../g0-online01/11-create-B-stdout-original.json   |      1 +
+ .../12-children-before-B-stderr-original.log       |      0
+ .../12-children-before-B-stdout-original.json      |      1 +
+ .../root/g0-online01/13-attach-B-input.json        |      3 +
+ .../g0-online01/13-attach-B-stderr-original.log    |      0
+ .../g0-online01/13-attach-B-stdout-original.json   |      1 +
+ .../14-children-after-B-stderr-original.log        |      0
+ .../14-children-after-B-stdout-original.json       |      1 +
+ .../originals/root/g0-online01/15-g0-B-input.json  |      3 +
+ .../root/g0-online01/15-g0-B-stderr-original.log   |      0
+ .../root/g0-online01/15-g0-B-stdout-original.json  |      1 +
+ .../root/g0-online01/16-create-D-input.json        |      4 +
+ .../g0-online01/16-create-D-stderr-original.log    |      0
+ .../g0-online01/16-create-D-stdout-original.json   |      1 +
+ .../17-children-before-D-stderr-original.log       |      0
+ .../17-children-before-D-stdout-original.json      |      1 +
+ .../root/g0-online01/18-attach-D-input.json        |      3 +
+ .../g0-online01/18-attach-D-stderr-original.log    |      0
+ .../g0-online01/18-attach-D-stdout-original.json   |      1 +
+ .../19-children-after-D-stderr-original.log        |      0
+ .../19-children-after-D-stdout-original.json       |      1 +
+ .../originals/root/g0-online01/20-g0-D-input.json  |      3 +
+ .../root/g0-online01/20-g0-D-stderr-original.log   |      0
+ .../root/g0-online01/20-g0-D-stdout-original.json  |      1 +
+ .../root/g0-online01/21-g0-batch-input.json        |      3 +
+ .../g0-online01/21-g0-batch-stderr-original.log    |      0
+ .../g0-online01/21-g0-batch-stdout-original.json   |      1 +
+ .../root/g0-online01/22-parent-85-input.json       |      3 +
+ .../g0-online01/22-parent-85-stderr-original.log   |      0
+ .../g0-online01/22-parent-85-stdout-original.json  |      1 +
+ .../root/g0-online01/23-parent-57-input.json       |      3 +
+ .../g0-online01/23-parent-57-stderr-original.log   |      0
+ .../g0-online01/23-parent-57-stdout-original.json  |      1 +
+ .../originals/root/g0-online01/24-after-input.json |      3 +
+ .../root/g0-online01/24-after-stderr-original.log  |      0
+ .../root/g0-online01/24-after-stdout-original.json |      1 +
+ .../markdown-format-check-stderr-original.bin      |    Bin 0 -> 83 bytes
+ .../markdown-format-check-stdout-original.bin      |    Bin
+ .../verification/common-checks01/report01.json     |     85 +
+ .../staged-whitespace-stderr-original.bin          |    Bin
+ .../staged-whitespace-stdout-original.bin          |    Bin
+ .../worktree-whitespace-stderr-original.bin        |    Bin
+ .../worktree-whitespace-stdout-original.bin        |    Bin
+ .../format-current-tracker-stderr-original.bin     |    Bin
+ .../format-current-tracker-stdout-original.bin     |    Bin 0 -> 59 bytes
+ .../markdown-check-stderr-original.bin             |    Bin 0 -> 83 bytes
+ .../markdown-check-stdout-original.bin             |    Bin
+ .../verification/post-g3-checks02/report01.json    |    119 +
+ .../staged-whitespace-stderr-original.bin          |    Bin
+ .../staged-whitespace-stdout-original.bin          |    Bin
+ .../tracker-before-format-original.bin             |    Bin 0 -> 55819 bytes
+ .../worktree-whitespace-stderr-original.bin        |    Bin
+ .../worktree-whitespace-stdout-original.bin        |    Bin
+ .../verification/public-privacy-check02.json       |   2751 +
+ tools/rust-r3m/acceptance-context01.mjs            |     44 +
+ tools/rust-r3m/acceptance-context02.mjs            |     44 +
+ tools/rust-r3m/acceptance-context03.mjs            |     53 +
+ tools/rust-r3m/acceptance-context04.mjs            |     53 +
+ tools/rust-r3m/admin-checks01.mjs                  |     39 +
+ tools/rust-r3m/adopt-g3-pass01.mjs                 |      6 +
+ tools/rust-r3m/audit-m0-progress01.mjs             |     20 +
+ tools/rust-r3m/audit-m0-progress02.mjs             |     20 +
+ tools/rust-r3m/baseline-witness01.mjs              |     80 +
+ tools/rust-r3m/baseline-witness02.mjs              |     82 +
+ tools/rust-r3m/baseline-witness03.mjs              |     82 +
+ tools/rust-r3m/bootstrap-linux.mjs                 |     45 +
+ tools/rust-r3m/capture-candidate-sources01.mjs     |     10 +
+ tools/rust-r3m/cohort-terminal01.mjs               |     82 +
+ tools/rust-r3m/common-checks01.mjs                 |      4 +
+ tools/rust-r3m/converted-presigning01.mjs          |     37 +
+ tools/rust-r3m/copy-windows-ui-input01.mjs         |      8 +
+ tools/rust-r3m/coverage-final01.mjs                |     14 +
+ tools/rust-r3m/customer-repair01.mjs               |     26 +
+ tools/rust-r3m/date-boundary01.mjs                 |     15 +
+ tools/rust-r3m/db-controls01.mjs                   |     12 +
+ tools/rust-r3m/db-controls02.mjs                   |     17 +
+ tools/rust-r3m/db-controls03.mjs                   |      8 +
+ tools/rust-r3m/derive-baseline-witness02.mjs       |     15 +
+ tools/rust-r3m/derive-concurrency-runners01.mjs    |     14 +
+ tools/rust-r3m/derive-context01.mjs                |     41 +
+ tools/rust-r3m/derive-context03.mjs                |     25 +
+ tools/rust-r3m/derive-e1-linux01.mjs               |      3 +
+ tools/rust-r3m/derive-e1-linux02.mjs               |      3 +
+ tools/rust-r3m/derive-environment01.mjs            |     29 +
+ tools/rust-r3m/derive-guard58-run02.mjs            |      3 +
+ tools/rust-r3m/derive-guard58-run03.mjs            |      2 +
+ tools/rust-r3m/derive-guard58-run04.mjs            |      5 +
+ tools/rust-r3m/derive-lead-repair02.mjs            |     22 +
+ tools/rust-r3m/derive-lead-repair03.mjs            |      7 +
+ tools/rust-r3m/derive-lifecycle01.mjs              |     25 +
+ tools/rust-r3m/derive-object-terminal02.mjs        |      9 +
+ tools/rust-r3m/derive-object-terminal03.mjs        |      7 +
+ tools/rust-r3m/derive-stage-runners01.mjs          |     36 +
+ tools/rust-r3m/derive-terminal-input02.mjs         |      6 +
+ tools/rust-r3m/derive-terminal-input03.mjs         |      3 +
+ tools/rust-r3m/derive-ui-prepare02.mjs             |      6 +
+ tools/rust-r3m/derive-ui-run02.mjs                 |      3 +
+ tools/rust-r3m/derive-ui-run03.mjs                 |     15 +
+ tools/rust-r3m/derive-ui-run04.mjs                 |      8 +
+ tools/rust-r3m/derive-ui-run05.mjs                 |      4 +
+ tools/rust-r3m/derive-ui-run06.mjs                 |      3 +
+ tools/rust-r3m/derive-windows-runtime01.mjs        |      6 +
+ tools/rust-r3m/e1-README01.md                      |     41 +
+ tools/rust-r3m/e1-acceptance-linux01.mjs           |     62 +
+ tools/rust-r3m/e1-acceptance-linux02.mjs           |     62 +
+ tools/rust-r3m/e1-acceptance01.mjs                 |     62 +
+ tools/rust-r3m/e1-cases01.mjs                      |     34 +
+ tools/rust-r3m/e1-fixture-expectations01.mjs       |     54 +
+ tools/rust-r3m/e1-registry01.mjs                   |     63 +
+ tools/rust-r3m/e1-replay01.mjs                     |    142 +
+ tools/rust-r3m/e1-resolver01.mjs                   |    185 +
+ tools/rust-r3m/environment.mjs                     |     31 +
+ tools/rust-r3m/fixture-actor03.mjs                 |      4 +
+ tools/rust-r3m/followup-empty-stream01.mjs         |     32 +
+ tools/rust-r3m/followup-source-concurrency01.mjs   |     33 +
+ tools/rust-r3m/foundation-regression01.mjs         |     11 +
+ tools/rust-r3m/freeze-g3-input01.mjs               |      7 +
+ tools/rust-r3m/freeze-online.mjs                   |     54 +
+ tools/rust-r3m/freeze-online02.mjs                 |     54 +
+ tools/rust-r3m/graph-assertions01.mjs              |     25 +
+ tools/rust-r3m/graph-oracle-check01.mjs            |     17 +
+ tools/rust-r3m/integrate-deliveries01.mjs          |     45 +
+ tools/rust-r3m/integrate-deliveries02.mjs          |     45 +
+ tools/rust-r3m/integration-chain01.mjs             |     36 +
+ .../intelligence-discussion-concurrency01.mjs      |      8 +
+ tools/rust-r3m/intelligence-identity01.mjs         |     37 +
+ tools/rust-r3m/lead-business-core01.mjs            |     18 +
+ tools/rust-r3m/lead-repair01.mjs                   |     28 +
+ tools/rust-r3m/lead-repair02.mjs                   |     37 +
+ tools/rust-r3m/lead-repair03.mjs                   |     37 +
+ tools/rust-r3m/native-build01.mjs                  |     25 +
+ tools/rust-r3m/object-process-terminal01.mjs       |     17 +
+ tools/rust-r3m/object-process-terminal02.mjs       |     17 +
+ tools/rust-r3m/object-process-terminal03.mjs       |     17 +
+ tools/rust-r3m/package-evidence01.mjs              |      5 +
+ tools/rust-r3m/post-g3-checks02.mjs                |      4 +
+ tools/rust-r3m/prepare-baseline01.mjs              |     42 +
+ tools/rust-r3m/prepare-g1.mjs                      |     88 +
+ tools/rust-r3m/prepare-rust-cache01.mjs            |     44 +
+ tools/rust-r3m/prepare-terminal-input01.mjs        |      8 +
+ tools/rust-r3m/prepare-terminal-input02.mjs        |      8 +
+ tools/rust-r3m/prepare-terminal-input03.mjs        |      8 +
+ tools/rust-r3m/prepare-ui-assets01.mjs             |      9 +
+ tools/rust-r3m/prepare-windows01.mjs               |     18 +
+ tools/rust-r3m/preserve-native-ui01.mjs            |      3 +
+ tools/rust-r3m/public-privacy-check01.mjs          |      6 +
+ tools/rust-r3m/public-privacy-check02.mjs          |      6 +
+ tools/rust-r3m/publish-g2-complete01.mjs           |      7 +
+ tools/rust-r3m/qa-write-fault01.mjs                |     46 +
+ tools/rust-r3m/quarantine-guard-graphs01.mjs       |      4 +
+ tools/rust-r3m/record-object-partial01.mjs         |      5 +
+ tools/rust-r3m/recover-runtime01.mjs               |     15 +
+ tools/rust-r3m/register-g0.mjs                     |     69 +
+ tools/rust-r3m/remove-e1-aliases-linux01.mjs       |     26 +
+ tools/rust-r3m/remove-e1-aliases-linux02.mjs       |     26 +
+ tools/rust-r3m/remove-e1-aliases01.mjs             |     26 +
+ tools/rust-r3m/runtime.mjs                         |      7 +
+ tools/rust-r3m/rust-validate01.mjs                 |     70 +
+ tools/rust-r3m/source-guard.mjs                    |     34 +
+ tools/rust-r3m/stage-bootstrap01.mjs               |     30 +
+ tools/rust-r3m/stop-runtime01.mjs                  |     27 +
+ tools/rust-r3m/sync-public01.mjs                   |      3 +
+ tools/rust-r3m/sync-public02.mjs                   |      5 +
+ tools/rust-r3m/ui-prepare01.mjs                    |     31 +
+ tools/rust-r3m/ui-prepare02.mjs                    |     31 +
+ tools/rust-r3m/ui-prepare03.mjs                    |     31 +
+ tools/rust-r3m/ui-prepare04.mjs                    |     31 +
+ tools/rust-r3m/ui-run01.mjs                        |     72 +
+ tools/rust-r3m/ui-run02.mjs                        |     72 +
+ tools/rust-r3m/ui-run03.mjs                        |     74 +
+ tools/rust-r3m/ui-run04.mjs                        |     74 +
+ tools/rust-r3m/ui-run05.mjs                        |     74 +
+ tools/rust-r3m/ui-run06.mjs                        |     74 +
+ tools/rust-r3m/ui-runtime-witness01.mjs            |      9 +
+ tools/rust-r3m/ui-runtime-witness02.mjs            |      9 +
+ tools/rust-r3m/ui-server01.mjs                     |      7 +
+ tools/rust-r3m/update-g2-local01.mjs               |      7 +
+ tools/rust-r3m/valid-supplement01.mjs              |     37 +
+ tools/rust-r3m/valid-supplement02.mjs              |     37 +
+ tools/rust-r3m/verify-preserved-candidate01.mjs    |      4 +
+ tools/rust-r3m/windows-runtime01.mjs               |     20 +
+ tools/rust-r3m/wire-client.mjs                     |     24 +
+ 1054 files changed, 2299806 insertions(+), 5293 deletions(-)
+ create mode 100644 docs/design/rust-r3-closeout-baseline.md
+ create mode 100644 docs/design/rust-r3-closeout-status.json
+ delete mode 100644 docs/design/rust-r3cdefg/g1-operation-slices-original.json
+ delete mode 100644 docs/design/rust-r3cdefg/input-a/native-fixture-draft01.mjs
+ delete mode 100644 docs/design/rust-r3cdefg/input-b/native-fixture-draft01.mjs
+ create mode 100644 docs/design/rust-r3m/C/g1-independent-review01.json
+ create mode 100644 docs/design/rust-r3m/C/g1-independent-review01.md
+ create mode 100644 docs/design/rust-r3m/C/g1-root-d-preaudit01.json
+ create mode 100644 docs/design/rust-r3m/C/g3-independent-review01.json
+ create mode 100644 docs/design/rust-r3m/C/write-g1-independent-review01.mjs
+ create mode 100644 docs/design/rust-r3m/C/write-g1-root-d-preaudit01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/a-input/native-fixture-draft01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final01-10/01-stage.catalog-and-current-candidate.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final01-10/02-stage.real-customer-contact-lead-project-producers.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final01-10/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final02-43/01-UI-independent-four-journey-prerequisites-linux-native01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final02-43/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final02-44/01-UI-independent-four-journey-prerequisites-windows-native01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final02-44/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final02-47/01-UI-independent-four-journey-prerequisites-linux-native02.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-nest-final02-47/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-02/01-baseline.customer-other-actor-business-noop.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-02/02-baseline.customer-uppercase-owner-org-immediate-view.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/01-baseline.customer-other-actor-business-noop.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/02-baseline.customer-uppercase-owner-org-immediate-view.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/03-baseline.customer-normal-CAS-conflict-is-500.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/04-baseline.customer_contact-normal-CAS-conflict-is-500.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/05-baseline.manual-system-score-and-breakdown-disagree.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/06-baseline.active-override-command-response-disagrees-with-GET.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/07-baseline.source-derived-UI-date-only-request-is-rejected.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-baseline01-03/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-10/01-stage.catalog-and-current-candidate.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-10/02-stage.real-customer-contact-lead-project-producers.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-10/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/01-A.customer.create.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/02-A.customer.detail.initial.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/03-A.aliases.initial.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/04-A.alias.create.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/05-A.aliases.after-create.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/06-A.alias.delete-primary-denied.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/07-A.alias.delete.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/08-A.aliases.after-delete.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/09-A.customer.update.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/10-A.customer.list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/11-B.project.create.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/12-B.project.list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/13-B.project.lookup.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/14-B.project.detail.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/15-B.project.update.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/16-B.project.reassign.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/17-B.project.owner-detail.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/18-B.project.stale-owner-command.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/19-A.customer.aggregate-detail.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/20-A.customer.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/21-C.cost.create.v1.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/22-C.cost.create.v2.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/23-C.cost.list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/24-C.cost.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/25-G.pricing.create.direct.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/26-D.bid.create.v1.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/27-D.bid.create.v2.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/28-D.bid.list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/29-D.bid.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/30-G.pricing.create.bid.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/31-G.pricing.list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/32-G.pricing.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/33-G.pricing.stale-cost-rejected.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/34-E.contact.create.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/35-E.contact.list-created.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/36-E.contact.update.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/37-E.contact.list-updated.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/38-F.followup.create.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/39-F.followup.list-created.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/40-aux.todo.writer.created.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/41-F.followup.replace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/42-F.followup.history-replaced.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/43-F.followup.active-replaced.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/44-A.workspace.active-followup.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/45-aux.todo.writer.replaced.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/46-aux.todo.other.replaced.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/47-F.followup.replace-stale.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/48-F.followup.void-version-mismatch.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/49-F.followup.void.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/50-F.followup.active-voided.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/51-F.followup.history-voided.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/52-aux.todo.other.voided.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/53-A.workspace.voided-followups.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/54-F-required-audit-real-independent-producer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/55-F.required-audit.replace-rollback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/56-F.required-audit.void-rollback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-11/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/01-business-text-UUID-money-date-inputs.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/02-semantic-system-snapshot-noop-and-real-facts.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/03-atomic-main-snapshot-claim.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/04-atomic-main-snapshot-assign.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/05-atomic-main-snapshot-qualify.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/06-atomic-main-snapshot-close.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/07-atomic-required-audit-submit.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/08-atomic-required-audit-approve.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/09-atomic-required-audit-reject.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/10-atomic-required-audit-revoke.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/11-single-optimistic-write-exactly-one-success.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/12-replacement-approval-exactly-once.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/13-I-typed-projection-and-semantic-noop.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/14-number-reservation-no-pool-self-deadlock.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-12/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-13/01-real-active-attachment-category-producers.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-13/02-chain-real-Lead-intelligence-followup-upload-producers.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-13/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/01-B.chain.cost.v1.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/02-B.chain.cost.v2.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/03-B.chain.cost.history.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/04-B.chain.cost.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/05-B.chain.pricing.direct.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/06-B.chain.bid.v1.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/07-B.chain.bid.v2.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/08-B.chain.bid.history.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/09-B.chain.bid.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/10-B.chain.pricing.bid.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/11-B.chain.pricing.history.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/12-B.chain.pricing.workspace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/13-B.chain.pricing.stale-cost-rejected.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/14-B.chain.required-child.cost.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/15-B.chain.required-child.bid.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/16-B.chain.required-child.pricing.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-14/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-15/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-16/01-valid.public-pool-claim-assignment-close-and-read.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-16/02-valid.override-reject-and-revoke-lifecycle.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-16/03-valid.competitor_intelligence_record-changed-update-and-nonempty-list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-16/04-valid.sales_discovery_record-changed-update-and-nonempty-list.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-16/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/01-B.repair-real-producers.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/02-B.customer.noop.other.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/03-B.customer.noop.owner-org-case.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/04-B.customer.change.other.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/05-B.customer.change.owner-org-uppercase.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/06-B.contact.noop.other.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/07-B.customer-cas.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/08-B.contact-cas.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/09-B.required-write.customer-update.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/10-B.required-write.contact-update.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/11-B.required-write.contact-audit.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-17/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/01-A.repair.normal-manual-reuses-coherent-stored-tuple.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/02-A.repair.active-command-effective-matches-GET-and-PG.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/03-A.repair.normal-revoke-keeps-current-system-tuple.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/04-A.repair.legacy-missing-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/05-A.repair.legacy-mismatched-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/06-A.repair.legacy-required-lead_score_snapshot-rollback-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/07-A.repair.legacy-required-audit_log-rollback-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-18/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/01-A.repair.normal-manual-reuses-coherent-stored-tuple.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/02-A.repair.active-command-effective-matches-GET-and-PG.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/03-A.repair.normal-revoke-keeps-current-system-tuple.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/04-A.repair.legacy-missing-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/05-A.repair.legacy-mismatched-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/06-A.repair.legacy-required-lead_score_snapshot-rollback-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/07-A.repair.legacy-required-audit_log-rollback-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/08-A.repair.second-decision-snapshot-failure-rolls-back-system-repair.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/09-A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/10-A.repair.normal-matched-decision-does-not-UPDATE-Lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/11-A.repair.legacy-dual-approval-exactly-once.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/12-A.repair.legacy-revocation-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/13-A.repair.legacy-revocation-late-snapshot-failure-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/14-A.repair.one-materialized-tuple-under-real-concurrent-fact-commit.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-19/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/01-F-empty-serialized.project.same-owner.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/02-F-empty-serialized.lead.same-owner.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/03-F-empty-serialized.customer.same-owner.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/04-F-empty-serialized.project.different-owners.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/05-F-stream-necessary-write-fault.todo_item.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/06-F-stream-necessary-write-fault.sales_follow_up_record.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-20/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/01-uuid.current-real-contact-producer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/02-uuid.same-identity.lead.stakeholder.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/03-uuid.same-identity.lead.competitor.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/04-uuid.same-identity.lead.discovery.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/05-uuid.same-identity.project.stakeholder.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/06-uuid.same-identity.project.competitor.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/07-uuid.same-identity.project.discovery.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/08-uuid.same-gap-collection.lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/09-uuid.same-gap-collection.project.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/10-uuid.reject.stakeholder.different-lead-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/11-uuid.reject.stakeholder.different-project-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/12-uuid.reject.stakeholder.missing-lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/13-uuid.reject.stakeholder.invalid-lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/14-uuid.reject.stakeholder.different-contact-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/15-uuid.normal-patch-noop.stakeholder.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/16-uuid.required-audit-rollback.stakeholder.PATCH.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/17-uuid.reject.competitor.different-lead-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/18-uuid.reject.competitor.different-project-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/19-uuid.reject.competitor.missing-lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/20-uuid.reject.competitor.invalid-lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/21-uuid.normal-patch-noop.competitor.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/22-uuid.required-audit-rollback.competitor.PATCH.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/23-uuid.reject.discovery.different-lead-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/24-uuid.reject.discovery.different-project-customer.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/25-uuid.reject.discovery.missing-lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/26-uuid.reject.discovery.invalid-lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/27-uuid.normal-patch-noop.discovery.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/28-uuid.required-audit-rollback.discovery.PATCH.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/29-uuid.true-I-to-H-score-and-J-reference-consumers.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-21/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-22/01-I-concurrent-stakeholder.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-22/02-I-concurrent-competitor.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-22/03-I-concurrent-discovery.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-22/04-J-two-comments-shared-session-due-maintenance.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-22/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-23/01-F.concurrent.replace-replace.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-23/02-F.concurrent.void-void.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-23/03-F.concurrent.replace-void.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-23/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-41/01-UI-independent-four-journey-prerequisites-linux-rust01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final01-41/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/01-A.repair.normal-manual-reuses-coherent-stored-tuple.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/02-A.repair.active-command-effective-matches-GET-and-PG.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/03-A.repair.normal-revoke-keeps-current-system-tuple.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/04-A.repair.legacy-missing-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/05-A.repair.legacy-mismatched-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/06-A.repair.legacy-required-lead_score_snapshot-rollback-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/07-A.repair.legacy-required-audit_log-rollback-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/08-A.repair.second-decision-snapshot-failure-rolls-back-system-repair.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/09-A.repair.late-Lead-UPDATE-denial-is-actual-fallback-write.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/10-A.repair.normal-matched-decision-does-not-UPDATE-Lead.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/11-A.repair.legacy-dual-approval-exactly-once.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/12-A.repair.legacy-revocation-atomic-fallback.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/13-A.repair.legacy-revocation-late-snapshot-failure-and-retry.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/14-A.repair.one-materialized-tuple-under-real-concurrent-fact-commit.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-24/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-25/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-26/01-date-boundary.explicit-null.actual-convert.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-26/02-date-boundary.blank-omitted.actual-convert.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-26/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-27/quarantine01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-28/quarantine01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-29/01-guard58.auth-CSRF-all-any-policy-and-zero-business-delta.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-29/02-guard58.raw-route-method-and-parser-order.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-29/03-guard58.shared-auth-lifecycle-each-adapter.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-29/04-guard58.existing-session-next-authorization-refresh.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-29/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-42/01-UI-independent-four-journey-prerequisites-linux-rust02.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-42/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-45/01-UI-independent-four-journey-prerequisites-windows-rust01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-45/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-46/01-UI-independent-four-journey-prerequisites-linux-rust03.json
+ create mode 100644 docs/design/rust-r3m/evidence/acceptance-rust-final02-46/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/admin-lint-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/admin-lint-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/admin-production-build-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/admin-production-build-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/lead-unit-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/lead-unit-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/admin-checks01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-nest01/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-nest01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-nest02/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-nest02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-rust01/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-rust01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-rust02/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-rust02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-nest01/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-nest01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-rust01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-rust02/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-rust02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-rust03/ownership-preflight01.json
+ create mode 100644 docs/design/rust-r3m/evidence/aggregate-terminal-inspect-rust03/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/b-input/native-fixture-draft01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/derive-public-json-scan02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g1-independent-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g1-independent-review01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g1-root-d-preaudit01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-actual-m5-preaudit01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-continuation-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-continuation-review01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-derive-linux-rust-ui-review02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-fault-tool-clarification01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-fault-tool-clarification01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-full-ui-guard-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-graph-retention-closure01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-linux-rust-ui-review02.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-native-integrity-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/RootUI/apps/poms-admin/src/app/features/lead/lead-list.spec.ts.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/RootUI/apps/poms-admin/src/app/features/lead/lead-list.ts.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/a-delivery/tmp/rust-r3m/g2-a/source-manifest01.json.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/a-pure/tmp/rust-r3m/g2-a/handoff01.md.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/a-pure/tmp/rust-r3m/g2-a/lead-correction-cases01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/a/apps/poms-api-rust/src/leads/scoring.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/a/apps/poms-api-rust/src/leads/service.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/a/apps/poms-api-rust/src/leads/store.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b-delivery/tmp/rust-r3m/g2-b/delivery01.json.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b-pure/tmp/rust-r3m/g2-b/assertions01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b-pure/tmp/rust-r3m/g2-b/converted-project-presigning-chain01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b-pure/tmp/rust-r3m/g2-b/customer-boundaries01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customer_contacts/service.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customer_contacts/store.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customers/service.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/b/apps/poms-api-rust/src/customers/store.rs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d-delivery/tmp/rust-r3m/g2-d/delivery01.json.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d-pure/tmp/rust-r3m/g2-d/stage-matrix01.json.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d/tools/rust-r3m/e1-README01.md.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d/tools/rust-r3m/e1-cases01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d/tools/rust-r3m/e1-fixture-expectations01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d/tools/rust-r3m/e1-registry01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d/tools/rust-r3m/e1-replay01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-originals01/d/tools/rust-r3m/e1-resolver01.mjs.raw.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-preaudit01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-source-preaudit01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-terminal-method-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-terminal02-schema-quarantine-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-terminal03-method-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-ui-matrix-clarification01.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-ui-matrix-clarification01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-actual-m5-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-continuation-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-fault-tool-clarification01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-full-ui-guard-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-graph-retention-closure01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-linux-rust-ui-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-linux-rust-ui-review02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-native-integrity-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-source-preaudit01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-terminal-method-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-terminal02-schema-quarantine-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-terminal03-method-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/g2-write-ui-matrix-clarification01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/public-json-scan02.json
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/scan-current-public-json01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/scan-current-public-json02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/write-g1-independent-review01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/c-review/write-g1-root-d-preaudit01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/cohort-cleanup-rust10/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/cohort-cleanup-rust11/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/coverage-final01.json
+ create mode 100644 docs/design/rust-r3m/evidence/d-input/native-fixture-draft01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/e1-after-linux02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/e1-after01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/e1-before-linux02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/e1-before01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/e1-removal-linux01.json
+ create mode 100644 docs/design/rust-r3m/evidence/e1-removal-win3201.json
+ create mode 100644 docs/design/rust-r3m/evidence/environment/migrate01.json
+ create mode 100644 docs/design/rust-r3m/evidence/environment/provision01.json
+ create mode 100644 docs/design/rust-r3m/evidence/environment/seed01.json
+ create mode 100644 docs/design/rust-r3m/evidence/final-review/source-evidence-preaudit01.json
+ create mode 100644 docs/design/rust-r3m/evidence/final-review/source-evidence-preaudit01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/final-review/terminal-method-preaudit01.json
+ create mode 100644 docs/design/rust-r3m/evidence/followup-concurrency-business01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/foundation-business-regression01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/g2-a/handoff01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/g2-a/lead-correction-cases01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/g2-a/source-manifest01.json
+ create mode 100644 docs/design/rust-r3m/evidence/g2-b/assertions01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/g2-b/converted-project-presigning-chain01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/g2-b/customer-boundaries01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/g2-b/delivery01.json
+ create mode 100644 docs/design/rust-r3m/evidence/g2-b/delivery01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/g2-d-audit/auditor-cases01.json
+ create mode 100644 docs/design/rust-r3m/evidence/g2-d-audit/coverage-auditor01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/g2-d-audit/delivery01.json
+ create mode 100644 docs/design/rust-r3m/evidence/g2-d-audit/input-contract01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/g2-d/delivery01.json
+ create mode 100644 docs/design/rust-r3m/evidence/g2-d/stage-matrix01.json
+ create mode 100644 docs/design/rust-r3m/evidence/graph-oracle-check01.json
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/README01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/guard58-plan01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/guard58-run01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/guard58-run02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/guard58-run03.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/guard58-run04.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/integrity-run01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/schema-run01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/guard-contract-draft/syntax-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/input-a/g1-input01.json
+ create mode 100644 docs/design/rust-r3m/evidence/input-a/g1-input01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/input-a/input-pins01.json
+ create mode 100644 docs/design/rust-r3m/evidence/input-a/lead-stage-cases01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/input-b/g1-input01.json
+ create mode 100644 docs/design/rust-r3m/evidence/input-b/g1-input01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/input-d/acceptance-cases01.json
+ create mode 100644 docs/design/rust-r3m/evidence/input-d/g1-input01.json
+ create mode 100644 docs/design/rust-r3m/evidence/input-d/g1-input01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/input-d/score-cases-addendum01.json
+ rename docs/design/{rust-r3cdefg/preflight-native-source-manifest01.json => rust-r3m/evidence/integrity01/report01.json} (78%)
+ create mode 100644 docs/design/rust-r3m/evidence/integrity01/rust-openapi-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/integrity01/rust-openapi-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/linux-browser-pin.json
+ create mode 100644 docs/design/rust-r3m/evidence/m0-progress01.json
+ create mode 100644 docs/design/rust-r3m/evidence/m0-progress02.json
+ rename docs/design/{rust-r3cdefg/g1-input-manifest02.json => rust-r3m/evidence/native-build01/report01.json} (78%)
+ create mode 100644 docs/design/rust-r3m/evidence/native-build01/stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/native-build01/stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/object-process-terminal01/partial01.json
+ create mode 100644 docs/design/rust-r3m/evidence/object-process-terminal03/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/object-process-terminal04/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/public-privacy-check01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/acceptance-definition-adoption01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/baseline-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/baseline-cohort02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/baseline-cohort03.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/baseline-witness-correction02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/baseline-witness-correction03.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/candidate-baseline01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/candidate-build01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/candidate-final01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/cleanup-guard-request-registration28-02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/cleanup-guard-request-registration28.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/cleanup-guard-request-registration29-02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/cleanup-guard-request-registration29.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/concurrency-runner-derivation01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/context-derivation01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/context-derivation02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/context-derivation03.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/current-candidate.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/environment-derivation01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-issue-registration.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/01-before-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/01-before-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/01-before-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/02-create-batch-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/02-create-batch-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/02-create-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/03-children-before-batch-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/03-children-before-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/04-attach-batch-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/04-attach-batch-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/04-attach-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/05-children-after-batch-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/05-children-after-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/06-create-A-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/06-create-A-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/06-create-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/07-children-before-A-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/07-children-before-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/08-attach-A-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/08-attach-A-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/08-attach-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/09-children-after-A-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/09-children-after-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/10-g0-A-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/10-g0-A-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/10-g0-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/11-create-B-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/11-create-B-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/11-create-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/12-children-before-B-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/12-children-before-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/13-attach-B-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/13-attach-B-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/13-attach-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/14-children-after-B-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/14-children-after-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/15-g0-B-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/15-g0-B-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/15-g0-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/16-create-D-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/16-create-D-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/16-create-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/17-children-before-D-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/17-children-before-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/18-attach-D-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/18-attach-D-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/18-attach-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/19-children-after-D-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/19-children-after-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/20-g0-D-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/20-g0-D-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/20-g0-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/21-g0-batch-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/21-g0-batch-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/21-g0-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/22-parent-85-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/22-parent-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/22-parent-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/23-parent-57-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/23-parent-57-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/23-parent-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/24-after-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/24-after-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g0-online01/24-after-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-commit-message01.txt.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online01/preflight-failure01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/01-before-97-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/01-before-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/02-comments-97-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/02-comments-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/03-freeze-97-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/03-freeze-97-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/03-freeze-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/04-body-97-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/04-body-97-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/04-body-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/05-verify-comment-97-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/05-verify-comment-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/06-after-97-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/06-after-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/07-before-98-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/07-before-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/08-comments-98-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/08-comments-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/09-freeze-98-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/09-freeze-98-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/09-freeze-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/10-body-98-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/10-body-98-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/10-body-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/11-verify-comment-98-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/11-verify-comment-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/12-after-98-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/12-after-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/13-before-99-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/13-before-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/14-comments-99-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/14-comments-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/15-freeze-99-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/15-freeze-99-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/15-freeze-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/16-body-99-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/16-body-99-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/16-body-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/17-verify-comment-99-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/17-verify-comment-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/18-after-99-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/18-after-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/19-before-100-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/19-before-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/20-comments-100-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/20-comments-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/21-freeze-100-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/21-freeze-100-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/21-freeze-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/22-body-100-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/22-body-100-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/22-body-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/23-verify-comment-100-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/23-verify-comment-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/24-after-100-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/24-after-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/25-before-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/25-before-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/26-comments-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/26-comments-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/27-freeze-85-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/27-freeze-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/27-freeze-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/28-body-85-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/28-body-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/28-body-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/29-verify-comment-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/29-verify-comment-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/30-after-85-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/30-after-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/31-before-57-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/31-before-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/32-body-57-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/32-body-57-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/32-body-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/33-after-57-stderr-original.log.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g1-online02/33-after-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-integration01-failure.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-integration02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/01-read-97-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/01-read-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/02-update-97-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/02-update-97-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/02-update-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/03-comment-97-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/03-comment-97-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/03-comment-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/04-readback-97-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/04-readback-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/05-comment-readback-97-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/05-comment-readback-97-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/06-read-98-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/06-read-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/07-update-98-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/07-update-98-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/07-update-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/08-comment-98-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/08-comment-98-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/08-comment-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/09-readback-98-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/09-readback-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/10-comment-readback-98-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/10-comment-readback-98-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/11-read-99-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/11-read-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/12-update-99-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/12-update-99-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/12-update-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/13-comment-99-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/13-comment-99-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/13-comment-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/14-readback-99-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/14-readback-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/15-comment-readback-99-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/15-comment-readback-99-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/16-read-100-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/16-read-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/17-update-100-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/17-update-100-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/17-update-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/18-comment-100-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/18-comment-100-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/18-comment-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/19-readback-100-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/19-readback-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/20-comment-readback-100-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/20-comment-readback-100-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/21-read-85-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/21-read-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/22-update-85-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/22-update-85-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/22-update-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/23-comment-85-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/23-comment-85-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/23-comment-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/24-readback-85-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/24-readback-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/25-comment-readback-85-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/25-comment-readback-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/26-read-57-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/26-read-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/27-update-57-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/27-update-57-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/27-update-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/28-comment-57-input.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/28-comment-57-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/28-comment-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/29-readback-57-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/29-readback-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/30-comment-readback-57-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/30-comment-readback-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/g2-online01/receipt01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/README.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/backend-rust-migration-plan.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/manifest01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/phase2-development-execution-tracker.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/poms-design-progress.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/rust-migration-execution-tracker.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/rust-r3-closeout-status.json.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/rust-r3-operation-slices.json.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/governance-before01/rust-r3-scope-and-dependencies.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/lead-repair-correction02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/lifecycle-derivation01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/linux-bootstrap01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/linux-bootstrap01/stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/linux-bootstrap01/stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/root/native-ui-preservation01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/original-log-settings02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/original-log-settings03.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/preserved-candidate-terminal01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync03.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync04.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync05.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync06.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync07.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync08.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync09.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/public-sync10.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/runtime-recovery01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/source-capsule-final0101.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/stage-nest-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/stage-runner-derivation01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/stage-rust-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-assets01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-fixture-correction02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-fixture-correction03.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-linux-native01-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-linux-native02-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-linux-rust01-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-linux-rust02-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-linux-rust03-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-windows-native01-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/ui-windows-rust01-cohort01.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/valid-supplement-correction02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/whole-batch-terminal-input02.json
+ create mode 100644 docs/design/rust-r3m/evidence/root/whole-batch-terminal-input03.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/nest-baseline01-stop01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/nest-baseline01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/nest-final01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/nest-final02-stop01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/nest-final02.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/rust-baseline01-stop01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/rust-baseline01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/rust-final01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/rust-final02-stop01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/rust-final02.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/windows-native-terminal01.json
+ create mode 100644 docs/design/rust-r3m/evidence/runtime/windows-native01.json
+ create mode 100644 docs/design/rust-r3m/evidence/rust-cache01/copy-raw-manifest01.json
+ create mode 100644 docs/design/rust-r3m/evidence/rust-cache01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-clippy-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-clippy-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-fmt-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-fmt-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-release-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-release-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-test-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/cargo-test-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/clean-own-package-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/clean-own-package-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/evidence/rust-check01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/schema-check01/nest-after-catalog.json
+ create mode 100644 docs/design/rust-r3m/evidence/schema-check01/nest-before-catalog.json
+ create mode 100644 docs/design/rust-r3m/evidence/schema-check01/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/schema-check01/rust-after-catalog.json
+ create mode 100644 docs/design/rust-r3m/evidence/schema-check01/rust-before-catalog.json
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/README01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/README02.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/README03.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-plan-cases01.test.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-plan-cases02.test.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-plan-cases03.test.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-plan01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-plan02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-plan03.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-run01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-run02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/aggregate-run03.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/derivation02.json
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/derivation03.json
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stderr01.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stderr02.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stderr03.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stderr04.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stdout01.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stdout02.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stdout03.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stdout04.bin
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/syntax-review01.json
+ create mode 100644 docs/design/rust-r3m/evidence/terminal-draft/syntax-review02.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-a/README01.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/ui-a/lead-journey03.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/ui-a/lead-journey04.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/ui-a/source-pins01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-b/README.md.bin
+ create mode 100644 docs/design/rust-r3m/evidence/ui-b/acceptance-definition-correction02.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-b/customer-journey02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/ui-b/customer-journey03.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/ui-b/four-journey-cell01.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/ui-b/project-journey02.mjs
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-linux-native01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-linux-native02.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-linux-rust01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-linux-rust02.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-linux-rust03.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-windows-native01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-input-windows-rust01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native01-run05/customer.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native01-run05/intelligence.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native01-run05/lead.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native01-run05/project.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native01-run05/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/bid-native-cause01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/customer.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/intelligence.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/lead.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/pricing-native-cause01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/project.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-native02-run06/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust01-run02/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust01-run03/failure.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust01-run03/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust02-failure.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust02-run04/customer.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust02-run04/failure.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust02-run04/project.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust02-run04/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust03-run05/customer.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust03-run05/intelligence.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust03-run05/lead.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust03-run05/project.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-linux-rust03-run05/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/bid-native-cause01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/customer.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/intelligence.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/lead.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/pricing-native-cause01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/project.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-native01-run06/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-rust01-run06/customer.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-rust01-run06/intelligence.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-rust01-run06/lead.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-rust01-run06/project.png
+ create mode 100644 docs/design/rust-r3m/evidence/ui-windows-rust01-run06/report01.json
+ create mode 100644 docs/design/rust-r3m/evidence/windows-browser-pin.json
+ create mode 100644 docs/design/rust-r3m/g1-gate-authority01.json
+ create mode 100644 docs/design/rust-r3m/g1-input-manifest01.json
+ create mode 100644 docs/design/rust-r3m/g1-root-supplement01.json
+ create mode 100644 docs/design/rust-r3m/g1-root-supplement02.json
+ create mode 100644 docs/design/rust-r3m/g1-root-supplement03.json
+ create mode 100644 docs/design/rust-r3m/g2-corrective-checkpoint01.md
+ create mode 100644 docs/design/rust-r3m/g2-corrective-checkpoint02.md
+ create mode 100644 docs/design/rust-r3m/g2-corrective-checkpoint03.md
+ create mode 100644 docs/design/rust-r3m/g2-corrective-checkpoint04.md
+ create mode 100644 docs/design/rust-r3m/g2-corrective-checkpoint05.md
+ create mode 100644 docs/design/rust-r3m/g3-checkpoint01.md
+ create mode 100644 docs/design/rust-r3m/g3-gate-authority01.json
+ create mode 100644 docs/design/rust-r3m/g3-input-manifest01.json
+ create mode 100644 docs/design/rust-r3m/g3-package-manifest01.json
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/README.md.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/backend-rust-migration-plan.md.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/phase2-development-execution-tracker.md.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/poms-design-progress.md.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/rust-migration-execution-tracker.md.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/rust-r3-closeout-status.json.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/rust-r3-operation-slices.json.before.bin
+ create mode 100644 docs/design/rust-r3m/g3-writeback01/rust-r3-scope-and-dependencies.md.before.bin
+ create mode 100644 docs/design/rust-r3m/originals/input-a/g1-input01.json
+ create mode 100644 docs/design/rust-r3m/originals/input-a/g1-input01.md
+ create mode 100644 docs/design/rust-r3m/originals/input-a/input-pins01.json
+ create mode 100644 docs/design/rust-r3m/originals/input-a/lead-stage-cases01.mjs
+ create mode 100644 docs/design/rust-r3m/originals/input-b/g1-input01.json
+ create mode 100644 docs/design/rust-r3m/originals/input-b/g1-input01.md.bin
+ create mode 100644 docs/design/rust-r3m/originals/input-d/acceptance-cases01.json
+ create mode 100644 docs/design/rust-r3m/originals/input-d/g1-input01.json
+ create mode 100644 docs/design/rust-r3m/originals/input-d/g1-input01.md
+ create mode 100644 docs/design/rust-r3m/originals/input-d/score-cases-addendum01.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-issue-registration.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/01-before-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/01-before-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/01-before-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/02-create-batch-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/02-create-batch-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/02-create-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/03-children-before-batch-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/03-children-before-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/04-attach-batch-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/04-attach-batch-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/04-attach-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/05-children-after-batch-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/05-children-after-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/06-create-A-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/06-create-A-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/06-create-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/07-children-before-A-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/07-children-before-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/08-attach-A-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/08-attach-A-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/08-attach-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/09-children-after-A-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/09-children-after-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/10-g0-A-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/10-g0-A-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/10-g0-A-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/11-create-B-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/11-create-B-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/11-create-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/12-children-before-B-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/12-children-before-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/13-attach-B-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/13-attach-B-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/13-attach-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/14-children-after-B-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/14-children-after-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/15-g0-B-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/15-g0-B-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/15-g0-B-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/16-create-D-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/16-create-D-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/16-create-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/17-children-before-D-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/17-children-before-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/18-attach-D-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/18-attach-D-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/18-attach-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/19-children-after-D-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/19-children-after-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/20-g0-D-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/20-g0-D-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/20-g0-D-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/21-g0-batch-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/21-g0-batch-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/21-g0-batch-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/22-parent-85-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/22-parent-85-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/22-parent-85-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/23-parent-57-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/23-parent-57-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/23-parent-57-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/24-after-input.json
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/24-after-stderr-original.log
+ create mode 100644 docs/design/rust-r3m/originals/root/g0-online01/24-after-stdout-original.json
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/markdown-format-check-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/markdown-format-check-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/report01.json
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/staged-whitespace-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/staged-whitespace-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/worktree-whitespace-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/common-checks01/worktree-whitespace-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/format-current-tracker-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/format-current-tracker-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/markdown-check-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/markdown-check-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/report01.json
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/staged-whitespace-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/staged-whitespace-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/tracker-before-format-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/worktree-whitespace-stderr-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/post-g3-checks02/worktree-whitespace-stdout-original.bin
+ create mode 100644 docs/design/rust-r3m/verification/public-privacy-check02.json
+ create mode 100644 tools/rust-r3m/acceptance-context01.mjs
+ create mode 100644 tools/rust-r3m/acceptance-context02.mjs
+ create mode 100644 tools/rust-r3m/acceptance-context03.mjs
+ create mode 100644 tools/rust-r3m/acceptance-context04.mjs
+ create mode 100644 tools/rust-r3m/admin-checks01.mjs
+ create mode 100644 tools/rust-r3m/adopt-g3-pass01.mjs
+ create mode 100644 tools/rust-r3m/audit-m0-progress01.mjs
+ create mode 100644 tools/rust-r3m/audit-m0-progress02.mjs
+ create mode 100644 tools/rust-r3m/baseline-witness01.mjs
+ create mode 100644 tools/rust-r3m/baseline-witness02.mjs
+ create mode 100644 tools/rust-r3m/baseline-witness03.mjs
+ create mode 100644 tools/rust-r3m/bootstrap-linux.mjs
+ create mode 100644 tools/rust-r3m/capture-candidate-sources01.mjs
+ create mode 100644 tools/rust-r3m/cohort-terminal01.mjs
+ create mode 100644 tools/rust-r3m/common-checks01.mjs
+ create mode 100644 tools/rust-r3m/converted-presigning01.mjs
+ create mode 100644 tools/rust-r3m/copy-windows-ui-input01.mjs
+ create mode 100644 tools/rust-r3m/coverage-final01.mjs
+ create mode 100644 tools/rust-r3m/customer-repair01.mjs
+ create mode 100644 tools/rust-r3m/date-boundary01.mjs
+ create mode 100644 tools/rust-r3m/db-controls01.mjs
+ create mode 100644 tools/rust-r3m/db-controls02.mjs
+ create mode 100644 tools/rust-r3m/db-controls03.mjs
+ create mode 100644 tools/rust-r3m/derive-baseline-witness02.mjs
+ create mode 100644 tools/rust-r3m/derive-concurrency-runners01.mjs
+ create mode 100644 tools/rust-r3m/derive-context01.mjs
+ create mode 100644 tools/rust-r3m/derive-context03.mjs
+ create mode 100644 tools/rust-r3m/derive-e1-linux01.mjs
+ create mode 100644 tools/rust-r3m/derive-e1-linux02.mjs
+ create mode 100644 tools/rust-r3m/derive-environment01.mjs
+ create mode 100644 tools/rust-r3m/derive-guard58-run02.mjs
+ create mode 100644 tools/rust-r3m/derive-guard58-run03.mjs
+ create mode 100644 tools/rust-r3m/derive-guard58-run04.mjs
+ create mode 100644 tools/rust-r3m/derive-lead-repair02.mjs
+ create mode 100644 tools/rust-r3m/derive-lead-repair03.mjs
+ create mode 100644 tools/rust-r3m/derive-lifecycle01.mjs
+ create mode 100644 tools/rust-r3m/derive-object-terminal02.mjs
+ create mode 100644 tools/rust-r3m/derive-object-terminal03.mjs
+ create mode 100644 tools/rust-r3m/derive-stage-runners01.mjs
+ create mode 100644 tools/rust-r3m/derive-terminal-input02.mjs
+ create mode 100644 tools/rust-r3m/derive-terminal-input03.mjs
+ create mode 100644 tools/rust-r3m/derive-ui-prepare02.mjs
+ create mode 100644 tools/rust-r3m/derive-ui-run02.mjs
+ create mode 100644 tools/rust-r3m/derive-ui-run03.mjs
+ create mode 100644 tools/rust-r3m/derive-ui-run04.mjs
+ create mode 100644 tools/rust-r3m/derive-ui-run05.mjs
+ create mode 100644 tools/rust-r3m/derive-ui-run06.mjs
+ create mode 100644 tools/rust-r3m/derive-windows-runtime01.mjs
+ create mode 100644 tools/rust-r3m/e1-README01.md
+ create mode 100644 tools/rust-r3m/e1-acceptance-linux01.mjs
+ create mode 100644 tools/rust-r3m/e1-acceptance-linux02.mjs
+ create mode 100644 tools/rust-r3m/e1-acceptance01.mjs
+ create mode 100644 tools/rust-r3m/e1-cases01.mjs
+ create mode 100644 tools/rust-r3m/e1-fixture-expectations01.mjs
+ create mode 100644 tools/rust-r3m/e1-registry01.mjs
+ create mode 100644 tools/rust-r3m/e1-replay01.mjs
+ create mode 100644 tools/rust-r3m/e1-resolver01.mjs
+ create mode 100644 tools/rust-r3m/environment.mjs
+ create mode 100644 tools/rust-r3m/fixture-actor03.mjs
+ create mode 100644 tools/rust-r3m/followup-empty-stream01.mjs
+ create mode 100644 tools/rust-r3m/followup-source-concurrency01.mjs
+ create mode 100644 tools/rust-r3m/foundation-regression01.mjs
+ create mode 100644 tools/rust-r3m/freeze-g3-input01.mjs
+ create mode 100644 tools/rust-r3m/freeze-online.mjs
+ create mode 100644 tools/rust-r3m/freeze-online02.mjs
+ create mode 100644 tools/rust-r3m/graph-assertions01.mjs
+ create mode 100644 tools/rust-r3m/graph-oracle-check01.mjs
+ create mode 100644 tools/rust-r3m/integrate-deliveries01.mjs
+ create mode 100644 tools/rust-r3m/integrate-deliveries02.mjs
+ create mode 100644 tools/rust-r3m/integration-chain01.mjs
+ create mode 100644 tools/rust-r3m/intelligence-discussion-concurrency01.mjs
+ create mode 100644 tools/rust-r3m/intelligence-identity01.mjs
+ create mode 100644 tools/rust-r3m/lead-business-core01.mjs
+ create mode 100644 tools/rust-r3m/lead-repair01.mjs
+ create mode 100644 tools/rust-r3m/lead-repair02.mjs
+ create mode 100644 tools/rust-r3m/lead-repair03.mjs
+ create mode 100644 tools/rust-r3m/native-build01.mjs
+ create mode 100644 tools/rust-r3m/object-process-terminal01.mjs
+ create mode 100644 tools/rust-r3m/object-process-terminal02.mjs
+ create mode 100644 tools/rust-r3m/object-process-terminal03.mjs
+ create mode 100644 tools/rust-r3m/package-evidence01.mjs
+ create mode 100644 tools/rust-r3m/post-g3-checks02.mjs
+ create mode 100644 tools/rust-r3m/prepare-baseline01.mjs
+ create mode 100644 tools/rust-r3m/prepare-g1.mjs
+ create mode 100644 tools/rust-r3m/prepare-rust-cache01.mjs
+ create mode 100644 tools/rust-r3m/prepare-terminal-input01.mjs
+ create mode 100644 tools/rust-r3m/prepare-terminal-input02.mjs
+ create mode 100644 tools/rust-r3m/prepare-terminal-input03.mjs
+ create mode 100644 tools/rust-r3m/prepare-ui-assets01.mjs
+ create mode 100644 tools/rust-r3m/prepare-windows01.mjs
+ create mode 100644 tools/rust-r3m/preserve-native-ui01.mjs
+ create mode 100644 tools/rust-r3m/public-privacy-check01.mjs
+ create mode 100644 tools/rust-r3m/public-privacy-check02.mjs
+ create mode 100644 tools/rust-r3m/publish-g2-complete01.mjs
+ create mode 100644 tools/rust-r3m/qa-write-fault01.mjs
+ create mode 100644 tools/rust-r3m/quarantine-guard-graphs01.mjs
+ create mode 100644 tools/rust-r3m/record-object-partial01.mjs
+ create mode 100644 tools/rust-r3m/recover-runtime01.mjs
+ create mode 100644 tools/rust-r3m/register-g0.mjs
+ create mode 100644 tools/rust-r3m/remove-e1-aliases-linux01.mjs
+ create mode 100644 tools/rust-r3m/remove-e1-aliases-linux02.mjs
+ create mode 100644 tools/rust-r3m/remove-e1-aliases01.mjs
+ create mode 100644 tools/rust-r3m/runtime.mjs
+ create mode 100644 tools/rust-r3m/rust-validate01.mjs
+ create mode 100644 tools/rust-r3m/source-guard.mjs
+ create mode 100644 tools/rust-r3m/stage-bootstrap01.mjs
+ create mode 100644 tools/rust-r3m/stop-runtime01.mjs
+ create mode 100644 tools/rust-r3m/sync-public01.mjs
+ create mode 100644 tools/rust-r3m/sync-public02.mjs
+ create mode 100644 tools/rust-r3m/ui-prepare01.mjs
+ create mode 100644 tools/rust-r3m/ui-prepare02.mjs
+ create mode 100644 tools/rust-r3m/ui-prepare03.mjs
+ create mode 100644 tools/rust-r3m/ui-prepare04.mjs
+ create mode 100644 tools/rust-r3m/ui-run01.mjs
+ create mode 100644 tools/rust-r3m/ui-run02.mjs
+ create mode 100644 tools/rust-r3m/ui-run03.mjs
+ create mode 100644 tools/rust-r3m/ui-run04.mjs
+ create mode 100644 tools/rust-r3m/ui-run05.mjs
+ create mode 100644 tools/rust-r3m/ui-run06.mjs
+ create mode 100644 tools/rust-r3m/ui-runtime-witness01.mjs
+ create mode 100644 tools/rust-r3m/ui-runtime-witness02.mjs
+ create mode 100644 tools/rust-r3m/ui-server01.mjs
+ create mode 100644 tools/rust-r3m/update-g2-local01.mjs
+ create mode 100644 tools/rust-r3m/valid-supplement01.mjs
+ create mode 100644 tools/rust-r3m/valid-supplement02.mjs
+ create mode 100644 tools/rust-r3m/verify-preserved-candidate01.mjs
+ create mode 100644 tools/rust-r3m/windows-runtime01.mjs
+ create mode 100644 tools/rust-r3m/wire-client.mjs

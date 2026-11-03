@@ -1,0 +1,517 @@
+{
+  "kind": "Actual Node Headers/WebIDL plus source-bound native core header grammar; finite source-only, not fetch/HTTP validation",
+  "node": "v24.19.0",
+  "undici": "7.29.0",
+  "nativeRawUtf8Sha256": "28b68c5c4e1336cbc31d4991d5291a02e70edce061e44af92f4f477d8ff4c908",
+  "coreRegex": "/[^\\t\\x20-\\x7e\\x80-\\xff]/",
+  "cases": [
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        10,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "Headers.append: \"a\nb\" is an invalid header value.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        13,
+        10,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "Headers.append: \"a\r\nb\" is an invalid header value.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        32,
+        116,
+        101,
+        120,
+        116,
+        47,
+        112,
+        108,
+        97,
+        105,
+        110,
+        32,
+        9
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          116,
+          101,
+          120,
+          116,
+          47,
+          112,
+          108,
+          97,
+          105,
+          110
+        ]
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        13,
+        10,
+        116,
+        101,
+        120,
+        116,
+        47,
+        112,
+        108,
+        97,
+        105,
+        110,
+        10
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          116,
+          101,
+          120,
+          116,
+          47,
+          112,
+          108,
+          97,
+          105,
+          110
+        ]
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        99,
+        97,
+        102,
+        233
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          99,
+          97,
+          102,
+          233
+        ]
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        160,
+        97,
+        160
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          160,
+          97,
+          160
+        ]
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        256
+      ],
+      "expected": {
+        "success": false,
+        "message": "Cannot convert argument to a ByteString because the character at index 1 has a value of 256 which is greater than 255.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        55296
+      ],
+      "expected": {
+        "success": false,
+        "message": "Cannot convert argument to a ByteString because the character at index 1 has a value of 55296 which is greater than 255.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        0,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "Headers.append: \"a\u0000b\" is an invalid header value.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        9,
+        98
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          97,
+          9,
+          98
+        ]
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        32,
+        10,
+        32
+      ],
+      "expected": {
+        "success": true,
+        "bytes": []
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        127,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "fetch failed / UND_ERR_INVALID_ARG / invalid authorization header",
+        "stage": "native core grammar; wrapper follows original source, no fetch invoked"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        128,
+        98
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          97,
+          128,
+          98
+        ]
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        97,
+        1,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "fetch failed / UND_ERR_INVALID_ARG / invalid authorization header",
+        "stage": "native core grammar; wrapper follows original source, no fetch invoked"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [
+        55357,
+        56832
+      ],
+      "expected": {
+        "success": false,
+        "message": "Cannot convert argument to a ByteString because the character at index 0 has a value of 55357 which is greater than 255.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "authorization",
+      "valueUnits": [],
+      "expected": {
+        "success": true,
+        "bytes": []
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        10,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "Headers.append: \"a\nb\" is an invalid header value.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        13,
+        10,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "Headers.append: \"a\r\nb\" is an invalid header value.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        32,
+        116,
+        101,
+        120,
+        116,
+        47,
+        112,
+        108,
+        97,
+        105,
+        110,
+        32,
+        9
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          116,
+          101,
+          120,
+          116,
+          47,
+          112,
+          108,
+          97,
+          105,
+          110
+        ]
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        13,
+        10,
+        116,
+        101,
+        120,
+        116,
+        47,
+        112,
+        108,
+        97,
+        105,
+        110,
+        10
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          116,
+          101,
+          120,
+          116,
+          47,
+          112,
+          108,
+          97,
+          105,
+          110
+        ]
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        99,
+        97,
+        102,
+        233
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          99,
+          97,
+          102,
+          233
+        ]
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        160,
+        97,
+        160
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          160,
+          97,
+          160
+        ]
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        256
+      ],
+      "expected": {
+        "success": false,
+        "message": "Cannot convert argument to a ByteString because the character at index 1 has a value of 256 which is greater than 255.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        55296
+      ],
+      "expected": {
+        "success": false,
+        "message": "Cannot convert argument to a ByteString because the character at index 1 has a value of 55296 which is greater than 255.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        0,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "Headers.append: \"a\u0000b\" is an invalid header value.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        9,
+        98
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          97,
+          9,
+          98
+        ]
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        32,
+        10,
+        32
+      ],
+      "expected": {
+        "success": true,
+        "bytes": []
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        127,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "fetch failed / UND_ERR_INVALID_ARG / invalid content-type header",
+        "stage": "native core grammar; wrapper follows original source, no fetch invoked"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        128,
+        98
+      ],
+      "expected": {
+        "success": true,
+        "bytes": [
+          97,
+          128,
+          98
+        ]
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        97,
+        1,
+        98
+      ],
+      "expected": {
+        "success": false,
+        "message": "fetch failed / UND_ERR_INVALID_ARG / invalid content-type header",
+        "stage": "native core grammar; wrapper follows original source, no fetch invoked"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [
+        55357,
+        56832
+      ],
+      "expected": {
+        "success": false,
+        "message": "Cannot convert argument to a ByteString because the character at index 0 has a value of 55357 which is greater than 255.",
+        "stage": "actual native Headers/WebIDL constructor"
+      }
+    },
+    {
+      "name": "content-type",
+      "valueUnits": [],
+      "expected": {
+        "success": true,
+        "bytes": []
+      }
+    }
+  ]
+}

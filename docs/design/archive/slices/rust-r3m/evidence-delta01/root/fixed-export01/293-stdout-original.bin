@@ -1,0 +1,545 @@
+{
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "schemas": {
+    "AttachmentStorageProviderConfigListQuery": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "providerType",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "local",
+                "huawei-obs-s3"
+              ]
+            }
+          }
+        },
+        {
+          "key": "status",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "draft",
+                "active",
+                "disabled",
+                "misconfigured"
+              ]
+            }
+          }
+        },
+        {
+          "key": "enabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean",
+              "coerce": true
+            }
+          }
+        }
+      ]
+    },
+    "CreateAttachmentStorageProviderConfigRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "providerType",
+          "rule": {
+            "type": "enum",
+            "values": [
+              "local",
+              "huawei-obs-s3"
+            ]
+          }
+        },
+        {
+          "key": "displayName",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 128
+              }
+            ]
+          }
+        },
+        {
+          "key": "enabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "isDefault",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "endpoint",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 512
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "region",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "bucket",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 255
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "keyPrefix",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 512
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "forcePathStyle",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "accessKeyId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "secretAccessKey",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "UpdateAttachmentStorageProviderConfigRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "displayName",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 128
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "enabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "status",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "draft",
+                "active",
+                "disabled",
+                "misconfigured"
+              ]
+            }
+          }
+        },
+        {
+          "key": "endpoint",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 512
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "region",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "bucket",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 255
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "keyPrefix",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 512
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "forcePathStyle",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "accessKeyId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 2048
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "secretAccessKey",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 2048
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "checks": [
+        {
+          "type": "custom",
+          "check": "custom"
+        }
+      ]
+    },
+    "TestAttachmentStorageProviderConnectionRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "SetDefaultAttachmentStorageProviderRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

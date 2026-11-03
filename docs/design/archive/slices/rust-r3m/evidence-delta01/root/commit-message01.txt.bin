@@ -1,0 +1,9 @@
+fix(lead): 修正 R3 审批与销售链一致性
+
+- 评分与解释采用同一物化结果；正常覆盖沿用匹配系统 tuple，历史缺快照在审批事务内补算，必要写失败整体回滚
+- 修复客户及联系人 CAS409、业务 no-op、组织 UUID 投影和原 UI 签约日期 ISO datetime
+- 同候选完成58入口、审批故障与并发、8 Rust业务UI及8 Native参考、只读schema分类和自有环境终态；退出E1五别名
+- Rust306 passed/54 ignored（53 DB opt-in与1显式child分列），Admin lint/23 focused tests/build；独立G3通过
+- 保留 failed/partial/quarantine/ignored 原件；固定提交、main集成、归档及独立G4另审，#57保持开放
+
+Refs #97 #98 #99 #100 #85

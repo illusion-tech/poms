@@ -1,0 +1,2912 @@
+{
+  "formatVersion": 2,
+  "provenance": {
+    "sourceHead": "033aedd028fc25ea990450a7854fc92c567cfb8a",
+    "deliveryReference": "08daaf45b12307bc4d53e01e509f23d265532de6",
+    "textNormalization": {
+      "encoding": "utf8",
+      "lineEndings": "CRLF-to-LF",
+      "rule": "text.replace(/\\r\\n/g, '\\n')",
+      "preserves": "BOM, bare CR, Unicode, other whitespace and escape sequences",
+      "hashes": "sha256 of normalized UTF-8 text; not raw working-tree bytes"
+    },
+    "typescriptVersion": "6.0.3",
+    "oracleProcessTimezone": "UTC",
+    "installedDependencies": {
+      "zod": "4.6.1",
+      "nestCommon": "12.0.1"
+    },
+    "extractorSha256": "bc488ef595c05fa80061245b491f69590ae95f1c2b90a3dfe93f0b92b71c4fae",
+    "casesSha256": "8b8b1bc52f39974057f429a00a14962bfef02261e418b111cebd39c4f727d838",
+    "sourceManifestSha256": "c62b089a7a2a86af77dd402a6ec603598fc16bcf494674924c2c76e1789034f1",
+    "fileHashes": [
+      {
+        "file": ".gitattributes",
+        "sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c",
+        "normalizedUtf8Bytes": 175
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+        "sha256": "6de2371d28c70eb1b6ead0c2c105142622cfda846e13bb4a4eb123b76299e479",
+        "normalizedUtf8Bytes": 4018
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.spec.ts",
+        "sha256": "1b1186ee4e6ef3388245cdcd8090384e419ef74f9c83ecb93e7357d0d476463a",
+        "normalizedUtf8Bytes": 8476
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "sha256": "9757f1eedc9640875b4328a04f8129149f1c9191eefebae8f35ac7cb2a890622",
+        "normalizedUtf8Bytes": 8133
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.service.spec.ts",
+        "sha256": "5e5ad41bea711f664ad84ae84c56f2946c2cf2102d2ebb7ec2b307c30a305a64",
+        "normalizedUtf8Bytes": 23112
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "sha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89",
+        "normalizedUtf8Bytes": 12139
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth.controller.ts",
+        "sha256": "503ef7836a9141bf11e50ef22a07d0a26e593466d6ee4edbb9e32c40fc8f46e9",
+        "normalizedUtf8Bytes": 13984
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/guards/auth-csrf.guard.ts",
+        "sha256": "df64e3a4963d61d023b19f09f7bfdfd2c647df0e3d64465122dd4293e52207ff",
+        "normalizedUtf8Bytes": 4389
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/guards/session-auth.guard.ts",
+        "sha256": "676c0f69d218fe0b03fcd7965082e5c3880817c0c89fcc73c95dfc3863982a26",
+        "normalizedUtf8Bytes": 3613
+      },
+      {
+        "file": "apps/poms-api/src/app/core/date/business-date.utils.ts",
+        "sha256": "da63a9963433b87f3c81d93104a30556b1c468e4b751ced4f8224e60fbcd8bb2",
+        "normalizedUtf8Bytes": 957
+      },
+      {
+        "file": "apps/poms-api/src/app/core/runtime-audit/audit-log.entity.ts",
+        "sha256": "8cf897ef5c9bd365708dbefbb88158b12e29e18b5881cdbe6dd95aff986f7789",
+        "normalizedUtf8Bytes": 1559
+      },
+      {
+        "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.repository.ts",
+        "sha256": "31d6138f534366d316b176effb050b20ef69ed4db4c1de18abd32ae90376da6d",
+        "normalizedUtf8Bytes": 1890
+      },
+      {
+        "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit.service.ts",
+        "sha256": "0ecf6501a98490ae9ad60787edf82e87d742604df2a32e880d1af7102861fca4",
+        "normalizedUtf8Bytes": 8958
+      },
+      {
+        "file": "apps/poms-api/src/app/core/runtime-audit/security-event.entity.ts",
+        "sha256": "48a83b8ee48adb854277a4ea7def8dc816b1cc29fec984649bcac0740bf3271f",
+        "normalizedUtf8Bytes": 1642
+      },
+      {
+        "file": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.spec.ts",
+        "sha256": "aa7417807c0bcfbce126dfeaf4f15104ef6da23cc3b78368f2ce342720c320fd",
+        "normalizedUtf8Bytes": 1284
+      },
+      {
+        "file": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.ts",
+        "sha256": "6dab7531b6a9220933b48869aa8c8772155d47701ecf602a414cf73cd4b815d9",
+        "normalizedUtf8Bytes": 18725
+      },
+      {
+        "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "sha256": "fc850544456ccafb506bc658c70d4053ace2edb361e646ec500cadb079feac67",
+        "normalizedUtf8Bytes": 134905
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts",
+        "sha256": "d7cb5028f469d71fbeb7bc66f60c81393ada815265028cd68159f824c5f7f109",
+        "normalizedUtf8Bytes": 34012
+      },
+      {
+        "file": "apps/poms-api/src/app/features/contract/contract.service.ts",
+        "sha256": "ae0f90726fc7f43bc18f0a7f0006c04c261d16de267749e471a3005f728fe314",
+        "normalizedUtf8Bytes": 11498
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/local-credential.entity.ts",
+        "sha256": "e40cfc3c062065cf9f7c968c5ccff38dc59c0885ee9a27c98bda6787c629f3ec",
+        "normalizedUtf8Bytes": 1226
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/org-unit.entity.ts",
+        "sha256": "e1e45d41fe21759f3605a92eebce06ef1d4a278fc1c57740e292a34e4b7ba6d3",
+        "normalizedUtf8Bytes": 2409
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform-user.entity.ts",
+        "sha256": "9a51224004ab08a42f130612c82f4a5cd523d6611bff5e57df7f4108e6e80ef0",
+        "normalizedUtf8Bytes": 2144
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform.repository.ts",
+        "sha256": "d8c91a3fa962eaee182294c9f1510dc8b9e44806cca3194554ebee8b17e1ed34",
+        "normalizedUtf8Bytes": 5752
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/platform.service.ts",
+        "sha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db",
+        "normalizedUtf8Bytes": 53069
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/role-permission-assignment.entity.ts",
+        "sha256": "6f4f6a9a4e2aba1863c893901061cf6a70c64bc5632a250cfbccd24f69133a9d",
+        "normalizedUtf8Bytes": 2150
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/role.entity.ts",
+        "sha256": "6bec29616302462af68e65e1529734b1cbc9347be1f93e4411f1f219ef108877",
+        "normalizedUtf8Bytes": 1379
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/user-org-membership.entity.ts",
+        "sha256": "5e70a10cd11deb07270affaaa831c7a1be7d1ffd01682b344c09f3a79d2a18de",
+        "normalizedUtf8Bytes": 2676
+      },
+      {
+        "file": "apps/poms-api/src/app/features/platform/user-role-assignment.entity.ts",
+        "sha256": "cbbaafd90c8ce4237314f153b09cc9fbc44138a88692c6d55c75bc66eee35ca5",
+        "normalizedUtf8Bytes": 2269
+      },
+      {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "sha256": "0f927362f18c05add1bc4d2df0a48a2f5d850b5b93de58e114427b41ad146bc6",
+        "normalizedUtf8Bytes": 154399
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+        "normalizedUtf8Bytes": 435382
+      },
+      {
+        "file": "package.json",
+        "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+        "normalizedUtf8Bytes": 4286
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533",
+        "normalizedUtf8Bytes": 837627
+      }
+    ],
+    "artifactInputs": [
+      {
+        "file": "docs/design/rust-r0-database-inventory.json",
+        "sha256": "4796b8a0eca31f6d59e7d36d3de5a2653ab2ab4dc5d818346c0ebe3de965cbc3",
+        "normalizedUtf8Bytes": 6912040,
+        "referenceCommit": "08daaf45b12307bc4d53e01e509f23d265532de6"
+      }
+    ],
+    "excerpts": [
+      {
+        "evidence": "complete-existing-module",
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+      },
+      {
+        "evidence": "complete-existing-module",
+        "file": "apps/poms-api/src/app/core/date/business-date.utils.ts",
+        "sha256": "da63a9963433b87f3c81d93104a30556b1c468e4b751ced4f8224e60fbcd8bb2"
+      },
+      {
+        "evidence": "complete-existing-module",
+        "file": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.ts",
+        "sha256": "6dab7531b6a9220933b48869aa8c8772155d47701ecf602a414cf73cd4b815d9"
+      },
+      {
+        "evidence": "existing-constant-ast",
+        "identifier": "AuthSessionStatusValue",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+        "line": 6,
+        "endLine": 10,
+        "sha256": "7aced3a8c6ced2e0c590da03c823a17a4d1e360646edbef893d3628c7458e9b4"
+      },
+      {
+        "evidence": "existing-constant-ast",
+        "identifier": "AuthSessionRevokedReasonValue",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+        "line": 14,
+        "endLine": 20,
+        "sha256": "2c96a4967e0b2a61072a463c9009188337fe7c6a73ccbae9ccc8558b2cd036dc"
+      },
+      {
+        "evidence": "existing-constant-ast",
+        "identifier": "AuthSessionErrorCodeValue",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "line": 39,
+        "endLine": 44,
+        "sha256": "3df231a8caa0b8750ba03ddc60a2f4178074f673644a988b7e6a8fc35be3c7c4"
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "CommissionService",
+        "method": "#formatAmount",
+        "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "line": 2506,
+        "endLine": 2508,
+        "sha256": "5bb9cd3bd2ae6e763661b1d6eb0307abd0ec8b0d310508ad2a8ed1028accb1cb",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "CommissionService",
+        "method": "#formatRate",
+        "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "line": 2510,
+        "endLine": 2512,
+        "sha256": "6c358c81267950fafad55ce7ca0c9951eed483a4c70c7b908dc6d6cfc359e690",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "CommissionService",
+        "method": "#toNumber",
+        "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "line": 2514,
+        "endLine": 2516,
+        "sha256": "f0e6fede87e2ce289aeadbe4c0841d4191d80200cbd730b24fa3fb087a330e33",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "CommissionService",
+        "method": "#stringifyDecimal",
+        "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "line": 2518,
+        "endLine": 2520,
+        "sha256": "af14e38b385ec7b3401191fae8f9151b959ad8c76c49c35d6037a4a55f2b9ba1",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "CommissionService",
+        "method": "#parseDecimal",
+        "file": "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "line": 2459,
+        "endLine": 2465,
+        "sha256": "42878bd20db3b7eb77d5c30c5b9aa80ba90c19baf22315a99b7f8beb75a1887c",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toNumber",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2832,
+        "endLine": 2838,
+        "sha256": "a27016154a31b1ba209ff37141afef336f6b1695eeef1348c324483cd4701d03",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "formatAmount",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2881,
+        "endLine": 2883,
+        "sha256": "a829c34fdeb844a8cced3ff0ba3bb1a43d673eaa84e36e27ae9cab3fa7596e8e",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "formatRate",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2885,
+        "endLine": 2887,
+        "sha256": "08272d269f2454ad6b1627198967e0954d23af7ff784b89793b142cfdfed3e74",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toNullableDecimal",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2870,
+        "endLine": 2875,
+        "sha256": "22b39a5ed52f396b44e3af44cbdfcae2a702e503fbfdd4cad2894accad654921",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toDate",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2840,
+        "endLine": 2842,
+        "sha256": "c2d9b976c179748423332da457a0d17ed26ad9ee34ded3322faab3ec66631b58",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toIsoDate",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2844,
+        "endLine": 2850,
+        "sha256": "a3c877910d3f2cfd405fbbd12ad8c652909a18268d4b3e94dbadde213ac564b4",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toNullableDate",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2852,
+        "endLine": 2857,
+        "sha256": "cb905b489226f4cee0141aefb6b2596d885fbc9a8cba0da9b9073b38bc58331d",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toRequiredDateTime",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2859,
+        "endLine": 2861,
+        "sha256": "9fbe617ff143daeffa09550cb0df7e10da73140a2645320cb161e5735dd68956",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ProjectCostService",
+        "method": "toNullableDateTime",
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 2863,
+        "endLine": 2868,
+        "sha256": "b5779bb1b1b254e31321e8edc37528c5f85871081b19fb49eaa3b8a88acb6dba",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException",
+          "toBusinessDateOnly"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ContractFinanceService",
+        "method": "#formatAmount",
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts",
+        "line": 699,
+        "endLine": 701,
+        "sha256": "5bb9cd3bd2ae6e763661b1d6eb0307abd0ec8b0d310508ad2a8ed1028accb1cb",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ContractFinanceService",
+        "method": "#toNumber",
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts",
+        "line": 691,
+        "endLine": 697,
+        "sha256": "e25af9964b7f13a5126ea9fea2ec074cd3091ed230f79e8a1322035114ce2f0f",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ContractFinanceService",
+        "method": "#parsePositiveDecimal",
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts",
+        "line": 675,
+        "endLine": 681,
+        "sha256": "2521d45fbef5cd6226d1ca6fb304d9e5e1580f72c6e4ff0f4c0b33cde288c873",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ContractFinanceService",
+        "method": "#parseNonNegativeDecimal",
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts",
+        "line": 683,
+        "endLine": 689,
+        "sha256": "7887633c72cc444ae516ae3f94cd51f4fd1b92b5267bf738d4470f6503b37b13",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": [
+          "UnprocessableEntityException"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "ContractService",
+        "method": "normalizeDateOnly",
+        "file": "apps/poms-api/src/app/features/contract/contract.service.ts",
+        "line": 252,
+        "endLine": 257,
+        "sha256": "b5e3143415d59130443621d9771577585a92d9cc4b57299f3e3631d387cc11bd",
+        "declaredExternalFields": [],
+        "suppliedLexicalDependencies": []
+      },
+      {
+        "evidence": "existing-constant-ast",
+        "identifier": "AUTH_SESSION_WRITE_RETURNING_SQL",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 48,
+        "endLine": 59,
+        "sha256": "fd8cc675c04dc793fa89b86175a9d392bee762fb5230e4f5bfd9cf86a45ec2a9"
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "AuthSessionRepository",
+        "method": "findWriteSnapshotById",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 80,
+        "endLine": 92,
+        "sha256": "ca500257ce03eafeb0795f8889fa9307209b1d4332bbb8de5578f4b729917829",
+        "declaredExternalFields": [
+          "authSessionRepository"
+        ],
+        "suppliedLexicalDependencies": [
+          "AUTH_SESSION_WRITE_RETURNING_SQL",
+          "AuthSessionStatusValue"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "AuthSessionRepository",
+        "method": "touchLastSeenIfDue",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 94,
+        "endLine": 133,
+        "sha256": "c4ebd44e8247255045a443adaaae8c57d842b701687de5f977776ad7db97da89",
+        "declaredExternalFields": [
+          "authSessionRepository"
+        ],
+        "suppliedLexicalDependencies": [
+          "AUTH_SESSION_WRITE_RETURNING_SQL",
+          "AuthSessionStatusValue"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "AuthSessionRepository",
+        "method": "rotateCsrfTokenForActiveSession",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 135,
+        "endLine": 155,
+        "sha256": "529c6cb263b172e27dc05a1f0d5d4a3bcfa99e249fc2080afee28e6a621799b0",
+        "declaredExternalFields": [
+          "authSessionRepository"
+        ],
+        "suppliedLexicalDependencies": [
+          "AUTH_SESSION_WRITE_RETURNING_SQL",
+          "AuthSessionStatusValue"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "AuthSessionRepository",
+        "method": "expireActiveSession",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 157,
+        "endLine": 177,
+        "sha256": "f101edf79cbea7061f1045d80dc7c6319430c9d822de2cfb34abe289974aae4d",
+        "declaredExternalFields": [
+          "authSessionRepository"
+        ],
+        "suppliedLexicalDependencies": [
+          "AUTH_SESSION_WRITE_RETURNING_SQL",
+          "AuthSessionStatusValue"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "AuthSessionRepository",
+        "method": "revokeActiveSession",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 179,
+        "endLine": 199,
+        "sha256": "aecf06d28434727d59d57f4706cf2a35fb4371b45f353e20efa10e5cd78e09ed",
+        "declaredExternalFields": [
+          "authSessionRepository"
+        ],
+        "suppliedLexicalDependencies": [
+          "AUTH_SESSION_WRITE_RETURNING_SQL",
+          "AuthSessionStatusValue"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-method-ast",
+        "className": "AuthSessionRepository",
+        "method": "revokeActiveSessionsForUser",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.repository.ts",
+        "line": 201,
+        "endLine": 221,
+        "sha256": "4a6e0d2c6f13b6c96e01d608a12dc5ef6e62d203e7882240607675ccd2d8db63",
+        "declaredExternalFields": [
+          "authSessionRepository"
+        ],
+        "suppliedLexicalDependencies": [
+          "AUTH_SESSION_WRITE_RETURNING_SQL",
+          "AuthSessionStatusValue"
+        ]
+      },
+      {
+        "evidence": "unchanged-existing-function-ast",
+        "function": "toDate",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "line": 285,
+        "endLine": 291,
+        "sha256": "6629ac0af86e7a5ad7bd414c984a1883b140025c2f7ab78e87423d275cc48d5b"
+      },
+      {
+        "evidence": "unchanged-existing-function-ast",
+        "function": "applySessionWriteSnapshot",
+        "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "line": 268,
+        "endLine": 279,
+        "sha256": "21584a6d93a14f6c26d5aecad13ad7350f9f9775775ab0d87b329ab3d4bda70a"
+      }
+    ],
+    "runtimeRequirements": "Node >=24.9; installed locked TypeScript/Zod/Nest libraries; runtime patch version is reported separately, not hashed into golden content",
+    "databaseConnected": false,
+    "productConstructorsExecuted": false,
+    "limitations": [
+      "A source-method oracle certifies only the selected helper behavior; it is not a whole-service or HTTP oracle.",
+      "Recording doubles do not execute SQL, row locks, triggers, default values, transactions or driver decoding.",
+      "Internal-helper acceptance does not bypass actual Zod/controller input validation.",
+      "No old/new backend differential run, product schema, migration, seed, external service, performance or database concurrency is certified."
+    ]
+  },
+  "counts": {
+    "dateCases": 17,
+    "contractDateCases": 5,
+    "existingRetentionTestVectors": 4,
+    "moneyInputs": 19,
+    "nullableDecimalCases": 5,
+    "schemaCases": 13,
+    "recordedRepositoryCalls": 10,
+    "timestampSnapshotCases": 3,
+    "sourceFiles": 32,
+    "tables": 10,
+    "fields": 121
+  },
+  "dateResults": [
+    {
+      "id": "null",
+      "input": {
+        "id": "null",
+        "value": null
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": null
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": null
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "undefined",
+      "input": {
+        "id": "undefined",
+        "value": {
+          "$type": "undefined"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": null
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": null
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "empty-string",
+      "input": {
+        "id": "empty-string",
+        "value": ""
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": null
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": null
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "date-before-hk-midnight",
+      "input": {
+        "id": "date-before-hk-midnight",
+        "value": {
+          "$type": "Date",
+          "value": "2026-04-18T15:59:59.999Z"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T15:59:59.999Z"
+      }
+    },
+    {
+      "id": "date-at-hk-midnight",
+      "input": {
+        "id": "date-at-hk-midnight",
+        "value": {
+          "$type": "Date",
+          "value": "2026-04-18T16:00:00.000Z"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "same-instant-string-is-sliced",
+      "input": {
+        "id": "same-instant-string-is-sliced",
+        "value": "2026-04-18T16:00:00.000Z"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "date-hk-midnight-explicit-utc",
+      "input": {
+        "id": "date-hk-midnight-explicit-utc",
+        "value": {
+          "$type": "Date",
+          "value": "2026-04-18T16:00:00.000Z"
+        },
+        "timeZone": "UTC"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "date-only-string",
+      "input": {
+        "id": "date-only-string",
+        "value": "2026-04-19"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "leap-day-string",
+      "input": {
+        "id": "leap-day-string",
+        "value": "2024-02-29"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2024-02-29"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2024-02-29"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2024-02-29T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "leap-day-date",
+      "input": {
+        "id": "leap-day-date",
+        "value": {
+          "$type": "Date",
+          "value": "2024-02-28T16:00:00.000Z"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2024-02-29"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2024-02-29"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2024-02-28T16:00:00.000Z"
+      }
+    },
+    {
+      "id": "positive-offset-string",
+      "input": {
+        "id": "positive-offset-string",
+        "value": "2026-04-19T00:00:00+14:00"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T10:00:00.000Z"
+      }
+    },
+    {
+      "id": "positive-offset-date",
+      "input": {
+        "id": "positive-offset-date",
+        "value": {
+          "$type": "Date",
+          "value": "2026-04-19T00:00:00+14:00"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-18T10:00:00.000Z"
+      }
+    },
+    {
+      "id": "negative-offset-string",
+      "input": {
+        "id": "negative-offset-string",
+        "value": "2026-04-18T23:30:00-08:00"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-19T07:30:00.000Z"
+      }
+    },
+    {
+      "id": "negative-offset-date",
+      "input": {
+        "id": "negative-offset-date",
+        "value": {
+          "$type": "Date",
+          "value": "2026-04-18T23:30:00-08:00"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-04-19"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-04-19T07:30:00.000Z"
+      }
+    },
+    {
+      "id": "invalid-date-object",
+      "input": {
+        "id": "invalid-date-object",
+        "value": {
+          "$type": "Date",
+          "value": "invalid"
+        }
+      },
+      "businessDateOnly": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      },
+      "costDate": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      },
+      "costTimestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "id": "unvalidated-internal-string",
+      "input": {
+        "id": "unvalidated-internal-string",
+        "value": "not-a-valid-date"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "not-a-vali"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "not-a-vali"
+      },
+      "costTimestamp": {
+        "outcome": "throw",
+        "error": {
+          "name": "RangeError",
+          "message": "Invalid time value"
+        }
+      }
+    },
+    {
+      "id": "internal-short-string",
+      "input": {
+        "id": "internal-short-string",
+        "value": "2026-2-9"
+      },
+      "businessDateOnly": {
+        "outcome": "return",
+        "value": "2026-2-9"
+      },
+      "costDate": {
+        "outcome": "return",
+        "value": "2026-2-9"
+      },
+      "costTimestamp": {
+        "outcome": "return",
+        "value": "2026-02-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "contractDateResults": [
+    {
+      "id": "undefined-remains-undefined",
+      "input": {
+        "id": "undefined-remains-undefined",
+        "value": {
+          "$type": "undefined"
+        }
+      },
+      "result": {
+        "outcome": "return",
+        "value": {
+          "$type": "undefined"
+        }
+      }
+    },
+    {
+      "id": "null-remains-null",
+      "input": {
+        "id": "null-remains-null",
+        "value": null
+      },
+      "result": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "empty-remains-empty",
+      "input": {
+        "id": "empty-remains-empty",
+        "value": ""
+      },
+      "result": {
+        "outcome": "return",
+        "value": ""
+      }
+    },
+    {
+      "id": "date-only",
+      "input": {
+        "id": "date-only",
+        "value": "2024-02-29"
+      },
+      "result": {
+        "outcome": "return",
+        "value": "2024-02-29"
+      }
+    },
+    {
+      "id": "timestamp-slice",
+      "input": {
+        "id": "timestamp-slice",
+        "value": "2026-04-18T16:00:00.000Z"
+      },
+      "result": {
+        "outcome": "return",
+        "value": "2026-04-18"
+      }
+    }
+  ],
+  "retentionResults": [
+    {
+      "id": "missing",
+      "sourceTest": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.spec.ts",
+      "testTitle": "returns missing when the retention due date is absent",
+      "result": {
+        "retentionDueDate": null,
+        "retentionDueStatus": "missing"
+      }
+    },
+    {
+      "id": "due-after-midnight",
+      "sourceTest": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.spec.ts",
+      "testTitle": "treats the due date as reached when the business day has started in Asia/Hong_Kong",
+      "result": {
+        "retentionDueDate": "2026-04-19",
+        "retentionDueStatus": "due"
+      }
+    },
+    {
+      "id": "pending-before-midnight",
+      "sourceTest": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.spec.ts",
+      "testTitle": "keeps the due date pending before the business day starts in Asia/Hong_Kong",
+      "result": {
+        "retentionDueDate": "2026-04-19",
+        "retentionDueStatus": "pending"
+      }
+    },
+    {
+      "id": "date-input-normalization",
+      "sourceTest": "apps/poms-api/src/app/features/commission/commission-settlement-write-chain.spec.ts",
+      "testTitle": "normalizes Date inputs with the business day instead of UTC slicing",
+      "result": {
+        "retentionDueDate": "2026-04-19",
+        "retentionDueStatus": "due"
+      }
+    }
+  ],
+  "moneyResults": [
+    {
+      "id": "zero-number",
+      "input": {
+        "id": "zero-number",
+        "value": 0
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "0"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 0
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "0.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "negative-zero",
+      "input": {
+        "id": "negative-zero",
+        "value": {
+          "$type": "number",
+          "value": "-0"
+        }
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "0"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": {
+          "$type": "number",
+          "value": "-0"
+        }
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "0.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "zero-string-scale",
+      "input": {
+        "id": "zero-string-scale",
+        "value": "0.00"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 0
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "0.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "half-cent-1-005",
+      "input": {
+        "id": "half-cent-1-005",
+        "value": "1.005"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1.0050"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "1.005"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1.005
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1.0050"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1.005000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1.00"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1.005
+      }
+    },
+    {
+      "id": "negative-half-cent",
+      "input": {
+        "id": "negative-half-cent",
+        "value": "-1.005"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "-1.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "-1.0050"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "-1.005"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": -1.005
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "-1.0050"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "-1.005000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "-1.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "2-675",
+      "input": {
+        "id": "2-675",
+        "value": "2.675"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "2.67"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "2.6750"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "2.675"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 2.675
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "2.6750"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "2.675000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "2.67"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 2.675
+      }
+    },
+    {
+      "id": "negative-2-675",
+      "input": {
+        "id": "negative-2-675",
+        "value": "-2.675"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "-2.67"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "-2.6750"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "-2.675"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": -2.675
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "-2.6750"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "-2.675000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "-2.67"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "exact-binary-tie",
+      "input": {
+        "id": "exact-binary-tie",
+        "value": "1.125"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1.13"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1.1250"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "1.125"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1.125
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1.1250"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1.125000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1.13"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1.125
+      }
+    },
+    {
+      "id": "negative-exact-binary-tie",
+      "input": {
+        "id": "negative-exact-binary-tie",
+        "value": "-1.125"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "-1.13"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "-1.1250"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "-1.125"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": -1.125
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "-1.1250"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "-1.125000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "-1.13"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "four-place-boundary",
+      "input": {
+        "id": "four-place-boundary",
+        "value": "1.23445"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1.23"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1.2345"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "1.23445"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1.23445
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1.2345"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1.234450"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1.23"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1.23445
+      }
+    },
+    {
+      "id": "six-place-boundary",
+      "input": {
+        "id": "six-place-boundary",
+        "value": "1.2345675"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1.23"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1.2346"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "1.2345675"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1.2345675
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1.2346"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1.234568"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1.23"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1.2345675
+      }
+    },
+    {
+      "id": "beyond-js-safe-integer",
+      "input": {
+        "id": "beyond-js-safe-integer",
+        "value": "9007199254740993.00"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "9007199254740992.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "9007199254740992.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "9007199254740993.00"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 9007199254740992
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "9007199254740992.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "9007199254740992.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "9007199254740992.00"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 9007199254740992
+      }
+    },
+    {
+      "id": "negative-small",
+      "input": {
+        "id": "negative-small",
+        "value": "-0.000001"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "-0.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "-0.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "-0.000001"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": -0.000001
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "-0.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "-0.000001"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "-0.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "leading-trailing-zero-string",
+      "input": {
+        "id": "leading-trailing-zero-string",
+        "value": "0001.2300"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1.23"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1.2300"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "0001.2300"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1.23
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1.2300"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1.230000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1.23"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1.23
+      }
+    },
+    {
+      "id": "internal-exponent",
+      "input": {
+        "id": "internal-exponent",
+        "value": "1e3"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1000.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1000.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "1e3"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1000
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1000.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1000.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1000.00"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1000
+      }
+    },
+    {
+      "id": "internal-large-exponent-format",
+      "input": {
+        "id": "internal-large-exponent-format",
+        "value": "1e21"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "1e+21"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "1e+21"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "1e21"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 1e+21
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "1e+21"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "1e+21"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "1e+21"
+      },
+      "financePositive": {
+        "outcome": "return",
+        "value": 1e+21
+      }
+    },
+    {
+      "id": "internal-empty",
+      "input": {
+        "id": "internal-empty",
+        "value": ""
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": ""
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 0
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "0.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "internal-whitespace",
+      "input": {
+        "id": "internal-whitespace",
+        "value": "  "
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "  "
+      },
+      "commissionValidatedNumber": {
+        "outcome": "return",
+        "value": 0
+      },
+      "costAmount": {
+        "outcome": "return",
+        "value": "0.0000"
+      },
+      "costRate": {
+        "outcome": "return",
+        "value": "0.000000"
+      },
+      "financeAmount": {
+        "outcome": "return",
+        "value": "0.00"
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be greater than 0",
+          "status": 422
+        }
+      }
+    },
+    {
+      "id": "internal-invalid",
+      "input": {
+        "id": "internal-invalid",
+        "value": "not-a-number"
+      },
+      "commissionAmount": {
+        "outcome": "return",
+        "value": "NaN"
+      },
+      "commissionRate": {
+        "outcome": "return",
+        "value": "NaN"
+      },
+      "commissionPassthrough": {
+        "outcome": "return",
+        "value": "not-a-number"
+      },
+      "commissionValidatedNumber": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount 必须是合法数值",
+          "status": 422
+        }
+      },
+      "costAmount": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "Value must be a valid number",
+          "status": 422
+        }
+      },
+      "costRate": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "Value must be a valid number",
+          "status": 422
+        }
+      },
+      "financeAmount": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "value must be a valid number",
+          "status": 422
+        }
+      },
+      "financePositive": {
+        "outcome": "throw",
+        "error": {
+          "name": "UnprocessableEntityException",
+          "message": "fixtureAmount must be a valid number",
+          "status": 422
+        }
+      }
+    }
+  ],
+  "nullableDecimalResults": [
+    {
+      "id": "null",
+      "input": {
+        "id": "null",
+        "value": null
+      },
+      "result": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "undefined",
+      "input": {
+        "id": "undefined",
+        "value": {
+          "$type": "undefined"
+        }
+      },
+      "result": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "string-scale",
+      "input": {
+        "id": "string-scale",
+        "value": "0.0000"
+      },
+      "result": {
+        "outcome": "return",
+        "value": "0.0000"
+      }
+    },
+    {
+      "id": "number",
+      "input": {
+        "id": "number",
+        "value": 1.23
+      },
+      "result": {
+        "outcome": "return",
+        "value": "1.23"
+      }
+    },
+    {
+      "id": "empty-internal",
+      "input": {
+        "id": "empty-internal",
+        "value": ""
+      },
+      "result": {
+        "outcome": "return",
+        "value": ""
+      }
+    }
+  ],
+  "schemaResults": [
+    {
+      "id": "internal-uuid",
+      "input": {
+        "id": "internal-uuid",
+        "schema": "SanitizedUserSchema",
+        "field": "id",
+        "value": "00000000-0000-4000-8000-000000000001"
+      },
+      "result": {
+        "success": true,
+        "data": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "id": "uuid-case",
+      "input": {
+        "id": "uuid-case",
+        "schema": "SanitizedUserSchema",
+        "field": "id",
+        "value": "ABCDEF12-3456-4789-ABCD-ABCDEF123456"
+      },
+      "result": {
+        "success": true,
+        "data": "ABCDEF12-3456-4789-ABCD-ABCDEF123456"
+      }
+    },
+    {
+      "id": "external-string-is-not-internal-uuid",
+      "input": {
+        "id": "external-string-is-not-internal-uuid",
+        "schema": "SanitizedUserSchema",
+        "field": "id",
+        "value": "dept_external_001"
+      },
+      "result": {
+        "success": false,
+        "issues": [
+          {
+            "code": "invalid_format",
+            "path": [],
+            "message": "Invalid UUID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "missing-internal-uuid",
+      "input": {
+        "id": "missing-internal-uuid",
+        "schema": "SanitizedUserSchema",
+        "field": "id",
+        "value": {
+          "$type": "undefined"
+        }
+      },
+      "result": {
+        "success": false,
+        "issues": [
+          {
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nullable-org-id",
+      "input": {
+        "id": "nullable-org-id",
+        "schema": "PlatformUserSummarySchema",
+        "field": "primaryOrgUnitId",
+        "value": null
+      },
+      "result": {
+        "success": true,
+        "data": null
+      }
+    },
+    {
+      "id": "missing-org-id",
+      "input": {
+        "id": "missing-org-id",
+        "schema": "PlatformUserSummarySchema",
+        "field": "primaryOrgUnitId",
+        "value": {
+          "$type": "undefined"
+        }
+      },
+      "result": {
+        "success": false,
+        "issues": [
+          {
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "id": "external-id-not-uuid",
+      "input": {
+        "id": "external-id-not-uuid",
+        "schema": "ExternalDepartmentMappingReplacementItemSchema",
+        "field": "externalDepartmentId",
+        "value": "dept_external_001"
+      },
+      "result": {
+        "success": true,
+        "data": "dept_external_001"
+      }
+    },
+    {
+      "id": "external-id-trim",
+      "input": {
+        "id": "external-id-trim",
+        "schema": "ExternalDepartmentMappingReplacementItemSchema",
+        "field": "externalDepartmentId",
+        "value": "  dept_external_001  "
+      },
+      "result": {
+        "success": true,
+        "data": "dept_external_001"
+      }
+    },
+    {
+      "id": "external-empty-rejected",
+      "input": {
+        "id": "external-empty-rejected",
+        "schema": "ExternalDepartmentMappingReplacementItemSchema",
+        "field": "externalDepartmentId",
+        "value": "   "
+      },
+      "result": {
+        "success": false,
+        "issues": [
+          {
+            "code": "too_small",
+            "path": [],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "id": "external-null-rejected",
+      "input": {
+        "id": "external-null-rejected",
+        "schema": "ExternalDepartmentMappingReplacementItemSchema",
+        "field": "externalDepartmentId",
+        "value": null
+      },
+      "result": {
+        "success": false,
+        "issues": [
+          {
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "id": "membership-primary",
+      "input": {
+        "id": "membership-primary",
+        "schema": "UserOrgUnitMembershipTypeSchema",
+        "value": "primary"
+      },
+      "result": {
+        "success": true,
+        "data": "primary"
+      }
+    },
+    {
+      "id": "membership-secondary",
+      "input": {
+        "id": "membership-secondary",
+        "schema": "UserOrgUnitMembershipTypeSchema",
+        "value": "secondary"
+      },
+      "result": {
+        "success": true,
+        "data": "secondary"
+      }
+    },
+    {
+      "id": "membership-case-sensitive",
+      "input": {
+        "id": "membership-case-sensitive",
+        "schema": "UserOrgUnitMembershipTypeSchema",
+        "value": "PRIMARY"
+      },
+      "result": {
+        "success": false,
+        "issues": [
+          {
+            "code": "invalid_value",
+            "path": [],
+            "message": "Invalid option: expected one of \"primary\"|\"secondary\""
+          }
+        ]
+      }
+    }
+  ],
+  "repositoryResults": [
+    {
+      "id": "find-date-snapshot",
+      "input": {
+        "id": "find-date-snapshot",
+        "method": "findWriteSnapshotById",
+        "args": [
+          "00000000-0000-4000-8000-000000000001"
+        ],
+        "rows": "snapshot-date"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                select\n\n                    \"status\" as \"status\",\n                    \"csrf_token_hash\" as \"csrfTokenHash\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"absolute_expires_at\" as \"absoluteExpiresAt\",\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"revoked_at\" as \"revokedAt\",\n                    \"revoked_reason\" as \"revokedReason\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\"\n\n                from \"poms\".\"auth_session\"\n                where \"id\" = ?;\n            ",
+          "sha256": "8754ee6b47c189fb0b2f8eb88ee65b68f9cddd2d12aa9c40859daeeb4d4346b9",
+          "parameters": [
+            "00000000-0000-4000-8000-000000000001"
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": {
+          "status": "active",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:45:43.000Z"
+          },
+          "absoluteExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T15:30:43.000Z"
+          },
+          "lastSeenAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          },
+          "lastIp": "192.0.2.10",
+          "revokedAt": null,
+          "revokedReason": null,
+          "rowVersion": 3,
+          "updatedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "find-missing",
+      "input": {
+        "id": "find-missing",
+        "method": "findWriteSnapshotById",
+        "args": [
+          "00000000-0000-4000-8000-000000000001"
+        ],
+        "rows": "empty"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                select\n\n                    \"status\" as \"status\",\n                    \"csrf_token_hash\" as \"csrfTokenHash\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"absolute_expires_at\" as \"absoluteExpiresAt\",\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"revoked_at\" as \"revokedAt\",\n                    \"revoked_reason\" as \"revokedReason\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\"\n\n                from \"poms\".\"auth_session\"\n                where \"id\" = ?;\n            ",
+          "sha256": "8754ee6b47c189fb0b2f8eb88ee65b68f9cddd2d12aa9c40859daeeb4d4346b9",
+          "parameters": [
+            "00000000-0000-4000-8000-000000000001"
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "touch-date",
+      "input": {
+        "id": "touch-date",
+        "method": "touchLastSeenIfDue",
+        "args": [
+          {
+            "sessionId": "00000000-0000-4000-8000-000000000001",
+            "now": {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            "ip": "192.0.2.10",
+            "idleTimeoutSeconds": 900,
+            "lastSeenThrottleSeconds": 60
+          }
+        ],
+        "rows": "snapshot-date"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"last_seen_at\" = ?,\n                    \"last_ip\" = coalesce(?, \"last_ip\"),\n                    \"idle_expires_at\" = least(?, \"absolute_expires_at\"),\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"id\" = ?\n                    and \"status\" = ?\n                    and \"last_seen_at\" <= ?\n                    and \"idle_expires_at\" > ?\n                    and \"absolute_expires_at\" > ?\n                returning\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\";\n            ",
+          "sha256": "0e6a1d38f3273186f0d9ba94b84c43987eaa8d979f14674db94f27f4e15d8ee7",
+          "parameters": [
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            "192.0.2.10",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:45:43.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            "00000000-0000-4000-8000-000000000001",
+            "active",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:29:43.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": {
+          "status": "active",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:45:43.000Z"
+          },
+          "absoluteExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T15:30:43.000Z"
+          },
+          "lastSeenAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          },
+          "lastIp": "192.0.2.10",
+          "revokedAt": null,
+          "revokedReason": null,
+          "rowVersion": 3,
+          "updatedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "touch-no-returning-row",
+      "input": {
+        "id": "touch-no-returning-row",
+        "method": "touchLastSeenIfDue",
+        "args": [
+          {
+            "sessionId": "00000000-0000-4000-8000-000000000001",
+            "now": {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            "ip": null,
+            "idleTimeoutSeconds": 900,
+            "lastSeenThrottleSeconds": 60
+          }
+        ],
+        "rows": "empty"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"last_seen_at\" = ?,\n                    \"last_ip\" = coalesce(?, \"last_ip\"),\n                    \"idle_expires_at\" = least(?, \"absolute_expires_at\"),\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"id\" = ?\n                    and \"status\" = ?\n                    and \"last_seen_at\" <= ?\n                    and \"idle_expires_at\" > ?\n                    and \"absolute_expires_at\" > ?\n                returning\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\";\n            ",
+          "sha256": "0e6a1d38f3273186f0d9ba94b84c43987eaa8d979f14674db94f27f4e15d8ee7",
+          "parameters": [
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            null,
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:45:43.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            "00000000-0000-4000-8000-000000000001",
+            "active",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:29:43.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:30:43.000Z"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "csrf-string-snapshot",
+      "input": {
+        "id": "csrf-string-snapshot",
+        "method": "rotateCsrfTokenForActiveSession",
+        "args": [
+          {
+            "sessionId": "00000000-0000-4000-8000-000000000001",
+            "csrfTokenHash": "synthetic-csrf-hash",
+            "now": {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            }
+          }
+        ],
+        "rows": "snapshot-string",
+        "rowOverrides": {
+          "updatedAt": "2026-06-10T07:31:00.000Z"
+        }
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"csrf_token_hash\" = ?,\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"id\" = ?\n                    and \"status\" = ?\n                    and \"idle_expires_at\" > ?\n                    and \"absolute_expires_at\" > ?\n                returning\n\n                    \"status\" as \"status\",\n                    \"csrf_token_hash\" as \"csrfTokenHash\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"absolute_expires_at\" as \"absoluteExpiresAt\",\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"revoked_at\" as \"revokedAt\",\n                    \"revoked_reason\" as \"revokedReason\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\"\n;\n            ",
+          "sha256": "867a91f6a76d4a1d95d8fd98b281c6b718c3d21c46fe76fcd382114141e3e445",
+          "parameters": [
+            "synthetic-csrf-hash",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            },
+            "00000000-0000-4000-8000-000000000001",
+            "active",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": {
+          "status": "active",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": "2026-06-10T07:45:43.000Z",
+          "absoluteExpiresAt": "2026-06-10T15:30:43.000Z",
+          "lastSeenAt": "2026-06-10T07:30:43.000Z",
+          "lastIp": "192.0.2.10",
+          "revokedAt": null,
+          "revokedReason": null,
+          "rowVersion": 3,
+          "updatedAt": "2026-06-10T07:31:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "csrf-no-returning-row",
+      "input": {
+        "id": "csrf-no-returning-row",
+        "method": "rotateCsrfTokenForActiveSession",
+        "args": [
+          {
+            "sessionId": "00000000-0000-4000-8000-000000000001",
+            "csrfTokenHash": "synthetic-csrf-hash",
+            "now": {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            }
+          }
+        ],
+        "rows": "empty"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"csrf_token_hash\" = ?,\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"id\" = ?\n                    and \"status\" = ?\n                    and \"idle_expires_at\" > ?\n                    and \"absolute_expires_at\" > ?\n                returning\n\n                    \"status\" as \"status\",\n                    \"csrf_token_hash\" as \"csrfTokenHash\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"absolute_expires_at\" as \"absoluteExpiresAt\",\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"revoked_at\" as \"revokedAt\",\n                    \"revoked_reason\" as \"revokedReason\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\"\n;\n            ",
+          "sha256": "867a91f6a76d4a1d95d8fd98b281c6b718c3d21c46fe76fcd382114141e3e445",
+          "parameters": [
+            "synthetic-csrf-hash",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            },
+            "00000000-0000-4000-8000-000000000001",
+            "active",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:31:00.000Z"
+            }
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": null
+      }
+    },
+    {
+      "id": "expire",
+      "input": {
+        "id": "expire",
+        "method": "expireActiveSession",
+        "args": [
+          {
+            "sessionId": "00000000-0000-4000-8000-000000000001",
+            "now": {
+              "$type": "Date",
+              "value": "2026-06-10T07:32:00.000Z"
+            }
+          }
+        ],
+        "rows": "snapshot-date",
+        "rowOverrides": {
+          "status": "expired",
+          "revokedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:32:00.000Z"
+          },
+          "updatedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:32:00.000Z"
+          }
+        }
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"status\" = ?,\n                    \"revoked_at\" = ?,\n                    \"revoked_reason\" = null,\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"id\" = ?\n                    and \"status\" = ?\n                returning\n\n                    \"status\" as \"status\",\n                    \"csrf_token_hash\" as \"csrfTokenHash\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"absolute_expires_at\" as \"absoluteExpiresAt\",\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"revoked_at\" as \"revokedAt\",\n                    \"revoked_reason\" as \"revokedReason\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\"\n;\n            ",
+          "sha256": "9cf7c019192a03412e952319adfe51c908841e83a69de8bfee76f5691ea8cf65",
+          "parameters": [
+            "expired",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:32:00.000Z"
+            },
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:32:00.000Z"
+            },
+            "00000000-0000-4000-8000-000000000001",
+            "active"
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": {
+          "status": "expired",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:45:43.000Z"
+          },
+          "absoluteExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T15:30:43.000Z"
+          },
+          "lastSeenAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          },
+          "lastIp": "192.0.2.10",
+          "revokedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:32:00.000Z"
+          },
+          "revokedReason": null,
+          "rowVersion": 3,
+          "updatedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:32:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "revoke",
+      "input": {
+        "id": "revoke",
+        "method": "revokeActiveSession",
+        "args": [
+          {
+            "sessionId": "00000000-0000-4000-8000-000000000001",
+            "reason": "logout",
+            "now": {
+              "$type": "Date",
+              "value": "2026-06-10T07:33:00.000Z"
+            }
+          }
+        ],
+        "rows": "snapshot-string",
+        "rowOverrides": {
+          "status": "revoked",
+          "revokedReason": "logout",
+          "revokedAt": "2026-06-10T07:33:00.000Z",
+          "updatedAt": "2026-06-10T07:33:00.000Z"
+        }
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"status\" = ?,\n                    \"revoked_at\" = ?,\n                    \"revoked_reason\" = ?,\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"id\" = ?\n                    and \"status\" = ?\n                returning\n\n                    \"status\" as \"status\",\n                    \"csrf_token_hash\" as \"csrfTokenHash\",\n                    \"idle_expires_at\" as \"idleExpiresAt\",\n                    \"absolute_expires_at\" as \"absoluteExpiresAt\",\n                    \"last_seen_at\" as \"lastSeenAt\",\n                    \"last_ip\" as \"lastIp\",\n                    \"revoked_at\" as \"revokedAt\",\n                    \"revoked_reason\" as \"revokedReason\",\n                    \"row_version\" as \"rowVersion\",\n                    \"updated_at\" as \"updatedAt\"\n;\n            ",
+          "sha256": "413d2f2a82126f1f23ba8c27f1b7f5a3b0472b37d3a550c5e20166edbae928ff",
+          "parameters": [
+            "revoked",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:33:00.000Z"
+            },
+            "logout",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:33:00.000Z"
+            },
+            "00000000-0000-4000-8000-000000000001",
+            "active"
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": {
+          "status": "revoked",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": "2026-06-10T07:45:43.000Z",
+          "absoluteExpiresAt": "2026-06-10T15:30:43.000Z",
+          "lastSeenAt": "2026-06-10T07:30:43.000Z",
+          "lastIp": "192.0.2.10",
+          "revokedAt": "2026-06-10T07:33:00.000Z",
+          "revokedReason": "logout",
+          "rowVersion": 3,
+          "updatedAt": "2026-06-10T07:33:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "revoke-all",
+      "input": {
+        "id": "revoke-all",
+        "method": "revokeActiveSessionsForUser",
+        "args": [
+          "00000000-0000-4000-8000-000000000002",
+          "admin-revoked",
+          {
+            "$type": "Date",
+            "value": "2026-06-10T07:34:00.000Z"
+          }
+        ],
+        "rows": "two-ids"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"status\" = ?,\n                    \"revoked_at\" = ?,\n                    \"revoked_reason\" = ?,\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"user_id\" = ?\n                    and \"status\" = ?\n                returning\n                    \"id\";\n            ",
+          "sha256": "dab5b916a5ddcfcabfde2aa40977e5ca10aad6d4bdb44eecb6aa347157341f15",
+          "parameters": [
+            "revoked",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:34:00.000Z"
+            },
+            "admin-revoked",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:34:00.000Z"
+            },
+            "00000000-0000-4000-8000-000000000002",
+            "active"
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": 2
+      }
+    },
+    {
+      "id": "revoke-all-empty",
+      "input": {
+        "id": "revoke-all-empty",
+        "method": "revokeActiveSessionsForUser",
+        "args": [
+          "00000000-0000-4000-8000-000000000002",
+          "admin-revoked",
+          {
+            "$type": "Date",
+            "value": "2026-06-10T07:34:00.000Z"
+          }
+        ],
+        "rows": "empty"
+      },
+      "evidence": "actual repository method with recording connection double; SQL is not executed",
+      "calls": [
+        {
+          "sql": "\n                update \"poms\".\"auth_session\"\n                set\n                    \"status\" = ?,\n                    \"revoked_at\" = ?,\n                    \"revoked_reason\" = ?,\n                    \"row_version\" = \"row_version\" + 1,\n                    \"updated_at\" = ?\n                where\n                    \"user_id\" = ?\n                    and \"status\" = ?\n                returning\n                    \"id\";\n            ",
+          "sha256": "dab5b916a5ddcfcabfde2aa40977e5ca10aad6d4bdb44eecb6aa347157341f15",
+          "parameters": [
+            "revoked",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:34:00.000Z"
+            },
+            "admin-revoked",
+            {
+              "$type": "Date",
+              "value": "2026-06-10T07:34:00.000Z"
+            },
+            "00000000-0000-4000-8000-000000000002",
+            "active"
+          ]
+        }
+      ],
+      "result": {
+        "outcome": "return",
+        "value": 0
+      }
+    }
+  ],
+  "timestampResults": [
+    {
+      "id": "raw-date-snapshot",
+      "input": {
+        "status": "active",
+        "csrfTokenHash": "synthetic-csrf-hash",
+        "idleExpiresAt": {
+          "$type": "Date",
+          "value": "2026-06-10T07:45:43.000Z"
+        },
+        "absoluteExpiresAt": {
+          "$type": "Date",
+          "value": "2026-06-10T15:30:43.000Z"
+        },
+        "lastSeenAt": {
+          "$type": "Date",
+          "value": "2026-06-10T07:30:43.000Z"
+        },
+        "lastIp": "192.0.2.10",
+        "revokedAt": null,
+        "revokedReason": null,
+        "rowVersion": 3,
+        "updatedAt": {
+          "$type": "Date",
+          "value": "2026-06-10T07:30:43.000Z"
+        }
+      },
+      "result": {
+        "outcome": "return",
+        "value": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "status": "active",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:45:43.000Z"
+          },
+          "absoluteExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T15:30:43.000Z"
+          },
+          "lastSeenAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          },
+          "lastIp": "192.0.2.10",
+          "revokedAt": null,
+          "revokedReason": null,
+          "rowVersion": 3,
+          "updatedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "raw-string-snapshot",
+      "input": {
+        "status": "active",
+        "csrfTokenHash": "synthetic-csrf-hash",
+        "idleExpiresAt": "2026-06-10T07:45:43.000Z",
+        "absoluteExpiresAt": "2026-06-10T15:30:43.000Z",
+        "lastSeenAt": "2026-06-10T07:30:43.000Z",
+        "lastIp": "192.0.2.10",
+        "revokedAt": null,
+        "revokedReason": null,
+        "rowVersion": 3,
+        "updatedAt": "2026-06-10T07:30:43.000Z"
+      },
+      "result": {
+        "outcome": "return",
+        "value": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "status": "active",
+          "csrfTokenHash": "synthetic-csrf-hash",
+          "idleExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:45:43.000Z"
+          },
+          "absoluteExpiresAt": {
+            "$type": "Date",
+            "value": "2026-06-10T15:30:43.000Z"
+          },
+          "lastSeenAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          },
+          "lastIp": "192.0.2.10",
+          "revokedAt": null,
+          "revokedReason": null,
+          "rowVersion": 3,
+          "updatedAt": {
+            "$type": "Date",
+            "value": "2026-06-10T07:30:43.000Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "invalid-string-timestamp",
+      "input": {
+        "status": "active",
+        "csrfTokenHash": "synthetic-csrf-hash",
+        "idleExpiresAt": "invalid",
+        "absoluteExpiresAt": "2026-06-10T15:30:43.000Z",
+        "lastSeenAt": "2026-06-10T07:30:43.000Z",
+        "lastIp": "192.0.2.10",
+        "revokedAt": null,
+        "revokedReason": null,
+        "rowVersion": 3,
+        "updatedAt": "2026-06-10T07:30:43.000Z"
+      },
+      "result": {
+        "outcome": "throw",
+        "error": {
+          "name": "Error",
+          "message": "Invalid auth session timestamp"
+        }
+      }
+    }
+  ],
+  "enumSources": {
+    "shared": {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "PERMISSION_KEYS": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "USER_ORG_UNIT_MEMBERSHIP_TYPES": [
+        "primary",
+        "secondary"
+      ]
+    },
+    "backendLocal": [
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+        "name": "AuthSessionStatusValue",
+        "value": {
+          "Active": "active",
+          "Revoked": "revoked",
+          "Expired": "expired"
+        }
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+        "name": "AuthSessionRevokedReasonValue",
+        "value": {
+          "Logout": "logout",
+          "AdminRevoked": "admin-revoked",
+          "PasswordReset": "password-reset",
+          "AccountDisabled": "account-disabled",
+          "SessionRotated": "session-rotated"
+        }
+      },
+      {
+        "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts",
+        "name": "AuthSessionErrorCodeValue",
+        "value": {
+          "SessionMissing": "session_missing",
+          "SessionExpired": "session_expired",
+          "SessionRevoked": "session_revoked",
+          "AccountDisabled": "account_disabled"
+        }
+      }
+    ]
+  },
+  "extractionGuards": {
+    "unknownLexicalRejected": true,
+    "unknownMethodRejected": true
+  }
+}

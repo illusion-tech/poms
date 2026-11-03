@@ -1,0 +1,73 @@
+{
+  "kind": "R3-actual-archive-metadata-validation",
+  "completed": true,
+  "source": {
+    "file": "tmp/rust-r3m/root/check-archive-and-commit01.mjs",
+    "bytes": 3428,
+    "rawBytesSha256": "a9a324f3b06e183ee57614e2d4cfc3efee127d513f13a6454beabe77b306f1d3"
+  },
+  "productInputsStillExact": 311,
+  "protectedInputsStillExact": 1373,
+  "checks": [
+    {
+      "name": "whole-doc-markdown",
+      "exe": "E:/.cargo/bin/deno.exe",
+      "args": [
+        "task",
+        "format:md:check"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/whole-doc-markdown-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/whole-doc-markdown-stderr-original.bin",
+        "bytes": 83,
+        "rawBytesSha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd"
+      }
+    },
+    {
+      "name": "staged-whitespace",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/staged-whitespace-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/staged-whitespace-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "worktree-whitespace",
+      "exe": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/worktree-whitespace-stdout-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "docs/design/archive/slices/rust-r3m/verification/archive-metadata-check02/worktree-whitespace-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "managedAuthorWorktrees": "22ignored originals byte-preserved; archive API rejects active-task worktrees, kept without forcing other tasks",
+  "G4Certified": false
+}

@@ -1,0 +1,97 @@
+{
+    "source": "apps/poms-api/src/app/core/platform/dev-platform.fixtures.ts",
+    "sourceSha256": "ba9531566a79a581b00fd73a7fbb2c61810cfb8881d5b5064ee648e762f3623b",
+    "scope": "Original controller fallback only; never credential lookup, seed or evidence of successful authentication",
+    "profiles": [
+        {
+            "id": "00000000-0000-4000-8000-000000000001",
+            "displayName": "平台管理员",
+            "roles": ["platform-admin"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000003", "name": "平台治理中心", "code": "PLATFORM-GOV", "description": "开发环境默认平台治理组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000002",
+            "displayName": "只读用户",
+            "roles": ["project-viewer"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000002", "name": "华南销售一部", "code": "SALES-SOUTH-1", "description": "开发环境默认一线销售组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000003",
+            "displayName": "销售人员",
+            "roles": ["sales-rep"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000002", "name": "华南销售一部", "code": "SALES-SOUTH-1", "description": "开发环境默认一线销售组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000004",
+            "displayName": "销售负责人",
+            "roles": ["sales-lead"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000001", "name": "销售管理中心", "code": "SALES-HQ", "description": "开发环境默认销售管理归口组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000005",
+            "displayName": "售前支持",
+            "roles": ["presales"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000004", "name": "售前支持中心", "code": "PRESALES-CENTER", "description": "开发环境默认售前支持组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000006",
+            "displayName": "商务行政",
+            "roles": ["business-admin"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000005", "name": "商务管理部", "code": "BIZ-OPS", "description": "开发环境默认商务管理组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000007",
+            "displayName": "商务负责人",
+            "roles": ["business-lead"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000005", "name": "商务管理部", "code": "BIZ-OPS", "description": "开发环境默认商务管理组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000008",
+            "displayName": "流程负责人",
+            "roles": ["vp-owner"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000008", "name": "管理层", "code": "MANAGEMENT", "description": "开发环境默认管理层组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000009",
+            "displayName": "公司高层",
+            "roles": ["executive"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000008", "name": "管理层", "code": "MANAGEMENT", "description": "开发环境默认管理层组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000010",
+            "displayName": "项目负责人",
+            "roles": ["project-manager"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000006", "name": "项目交付部", "code": "DELIVERY", "description": "开发环境默认项目交付组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000011",
+            "displayName": "销售助理",
+            "roles": ["sales-assistant"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000001", "name": "销售管理中心", "code": "SALES-HQ", "description": "开发环境默认销售管理归口组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000012",
+            "displayName": "制度维护角色",
+            "roles": ["commission-policy"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000001", "name": "销售管理中心", "code": "SALES-HQ", "description": "开发环境默认销售管理归口组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000013",
+            "displayName": "财务人员",
+            "roles": ["finance-ops"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000007", "name": "财务部", "code": "FINANCE", "description": "开发环境默认财务组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000014",
+            "displayName": "财务负责人",
+            "roles": ["finance-manager"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000007", "name": "财务部", "code": "FINANCE", "description": "开发环境默认财务组织", "membershipType": "primary" }]
+        },
+        {
+            "id": "00000000-0000-4000-8000-000000000015",
+            "displayName": "审计观察",
+            "roles": ["auditor"],
+            "orgUnits": [{ "id": "10000000-0000-4000-8000-000000000009", "name": "审计观察席", "code": "AUDIT", "description": "开发环境默认只读观察组织", "membershipType": "primary" }]
+        }
+    ]
+}

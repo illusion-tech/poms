@@ -1,0 +1,96 @@
+{
+  "kind": "Pure actual Node decoder and bundled Undici source; no HTTP/provider operation",
+  "at": "2026-10-28T21:54:10.100Z",
+  "node": "v24.19.0",
+  "undici": "7.29.0",
+  "nodeBinarySha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+  "undiciSourceUtf8Sha256": "19e00833036e7d25f20da1bc70dd4b19dd3081c051bfc9eea8f70d026534cad4",
+  "cases": [
+    {
+      "name": "gzip-empty",
+      "inputHex": "",
+      "inputBytes": 0,
+      "inputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "success": true,
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gzip-bad-magic-1",
+      "inputHex": "61",
+      "inputBytes": 1,
+      "inputSha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+      "success": true,
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gzip-bad-magic-2",
+      "inputHex": "6162",
+      "inputBytes": 2,
+      "inputSha256": "fb8e20fc2e4c3f248c60c39bd652f3c1347298bb977b8b4d5903b85055620603",
+      "success": false,
+      "error": {
+        "name": "Error",
+        "code": "Z_DATA_ERROR",
+        "message": "incorrect header check"
+      },
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gzip-valid-prefix-1",
+      "inputHex": "1f",
+      "inputBytes": 1,
+      "inputSha256": "ffe679bb831c95b67dc17819c63c5090d221aac6f4c7bf530f594ab43d21fa1e",
+      "success": true,
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gzip-valid-prefix-2",
+      "inputHex": "1f8b",
+      "inputBytes": 2,
+      "inputSha256": "ee98dc6af27a9f1c8cc4aaa2fd05b5f6e7c98f51390253a5263b0d096c3510fe",
+      "success": true,
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gzip-missing-trailer",
+      "inputHex": "1f8b0800000000000003edcab10d80201000c0de297e161dc0c2094820c68480411ab7770babbbfab6dee6e8b5961cfb7ac4739dade41825d59823b5e7ee63c69ddeda535e3659966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559966559fe377f",
+      "inputBytes": 206,
+      "inputSha256": "74d273e969c706a4fad17ebc63bef80caf6fd7fe35067665a27278d45458f6b7",
+      "success": true,
+      "outputBytes": 46080,
+      "outputSha256": "880e93bedfb1f676e3079f351101f830880dc1c55cd0d126fdec0d9dc67ac1b4"
+    },
+    {
+      "name": "zstd-missing-0",
+      "inputHex": "28b52ffd6000b3bd0100d402436f6e74726f6c6c6564204f4253207369676e6564207265616c207472616e73706f7274207061796c6f61640a0100859e415d9501",
+      "inputBytes": 65,
+      "inputSha256": "385ca21bc4dff382c07cf2a3e08da878e18afb970034c2a7eba2bb8103d75e43",
+      "success": true,
+      "outputBytes": 46080,
+      "outputSha256": "880e93bedfb1f676e3079f351101f830880dc1c55cd0d126fdec0d9dc67ac1b4"
+    },
+    {
+      "name": "zstd-missing-1",
+      "inputHex": "28b52ffd6000b3bd0100d402436f6e74726f6c6c6564204f4253207369676e6564207265616c207472616e73706f7274207061796c6f61640a0100859e415d95",
+      "inputBytes": 64,
+      "inputSha256": "589e0802b0d38509425a65da096c5ee46e3f33ad673675b97dc24cf71f189f6a",
+      "success": true,
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "zstd-missing-8",
+      "inputHex": "28b52ffd6000b3bd0100d402436f6e74726f6c6c6564204f4253207369676e6564207265616c207472616e73706f7274207061796c6f61640a",
+      "inputBytes": 57,
+      "inputSha256": "c102d404c9410356a923bf754e853ef4324f391f52d88364e0212b2f49af2755",
+      "success": true,
+      "outputBytes": 0,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

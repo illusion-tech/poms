@@ -1,0 +1,4648 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "7a343c543fe0031d7d6b42c1f7e18a7e861c72b7",
+  "oracle": "Original unchanged Zod4.6.1, finite wire corpus, no DB behavior claim",
+  "cases": [
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "minimal",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "all-invalid",
+      "inputRaw": "{\"domain\":false,\"status\":false,\"keyword\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"secret\":\"not-persisted\",\"isSystem\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "minimal",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "all-invalid",
+      "inputRaw": "{\"domain\":false,\"code\":false,\"name\":false,\"description\":false,\"sortOrder\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "unknown-strip",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"secret\":\"not-persisted\",\"isSystem\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "minimal",
+      "inputRaw": "{\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "all-invalid",
+      "inputRaw": "{\"name\":false,\"description\":false,\"status\":false,\"sortOrder\":false,\"expectedVersion\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received boolean"
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "unknown-strip",
+      "inputRaw": "{\"name\":\" Name \",\"secret\":\"not-persisted\",\"isSystem\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "missing",
+      "inputRaw": null,
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "null",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "array",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received array"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "number",
+      "inputRaw": "1",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "string",
+      "inputRaw": "\"x\"",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "object",
+            "code": "invalid_type",
+            "path": [],
+            "message": "Invalid input: expected object, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "minimal",
+      "inputRaw": "{\"value\":50}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "unknown-only",
+      "inputRaw": "{\"unknown\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received undefined"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "all-invalid",
+      "inputRaw": "{\"value\":false,\"expectedVersion\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          },
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "unknown-strip",
+      "inputRaw": "{\"value\":50,\"secret\":\"not-persisted\",\"isSystem\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:null",
+      "inputRaw": "{\"keyword\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:empty",
+      "inputRaw": "{\"keyword\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:space",
+      "inputRaw": "{\"keyword\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:trim",
+      "inputRaw": "{\"keyword\":\"﻿ x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"x\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:not-trim",
+      "inputRaw": "{\"keyword\":\"x\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"x\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:lone-high",
+      "inputRaw": "{\"keyword\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:lone-low",
+      "inputRaw": "{\"keyword\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"\\udc00\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:astral-at",
+      "inputRaw": "{\"keyword\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:astral-above",
+      "inputRaw": "{\"keyword\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:at",
+      "inputRaw": "{\"keyword\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:above",
+      "inputRaw": "{\"keyword\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:array",
+      "inputRaw": "{\"keyword\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:long-array",
+      "inputRaw": "{\"keyword\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too big: expected array to have <=128 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:object",
+      "inputRaw": "{\"keyword\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:length-large",
+      "inputRaw": "{\"keyword\":{\"length\":129}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:length-nan",
+      "inputRaw": "{\"keyword\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "keyword"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:length-throw",
+      "inputRaw": "{\"keyword\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "keyword:nul",
+      "inputRaw": "{\"keyword\":\"x\\u0000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"keyword\":\"x\\u0000\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:null",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":null,\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:empty",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          },
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:space",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\" \",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          },
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:trim",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"﻿ x \",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"x\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:not-trim",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"x\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:lone-high",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"\\ud800\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:lone-low",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"\\udc00\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:astral-at",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:astral-above",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          },
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:at",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:above",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected string to have <=64 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:array",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":[],\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:long-array",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected array to have <=64 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:object",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":{},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:length-large",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":{\"length\":65},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:length-nan",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":{\"length\":{}},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "code"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [
+              "code"
+            ],
+            "message": "Too big: expected unknown to be <=64"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:length-throw",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":{\"length\":{\"toString\":null}},\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:nul",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"x\\u0000\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:null",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:empty",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:space",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:trim",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"﻿ x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:not-trim",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"x\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:lone-high",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:lone-low",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"\\udc00\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:astral-at",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:astral-above",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:at",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:above",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:array",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:long-array",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected array to have <=128 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:object",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:length-large",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":{\"length\":129}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:length-nan",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:length-throw",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "name:nul",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"x\\u0000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"x\\u0000\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:null",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":null}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:empty",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:space",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:trim",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"﻿ x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:not-trim",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"x\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:lone-high",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:lone-low",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"\\udc00\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:astral-at",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:astral-above",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:at",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:above",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:array",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:long-array",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:object",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:length-large",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":{\"length\":1001}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:length-nan",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:length-throw",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "description:nul",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"description\":\"x\\u0000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"description\":\"x\\u0000\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:null",
+      "inputRaw": "{\"name\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:empty",
+      "inputRaw": "{\"name\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:space",
+      "inputRaw": "{\"name\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:trim",
+      "inputRaw": "{\"name\":\"﻿ x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:not-trim",
+      "inputRaw": "{\"name\":\"x\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:lone-high",
+      "inputRaw": "{\"name\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:lone-low",
+      "inputRaw": "{\"name\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"\\udc00\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:astral-at",
+      "inputRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:astral-above",
+      "inputRaw": "{\"name\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:at",
+      "inputRaw": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:above",
+      "inputRaw": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=128 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:array",
+      "inputRaw": "{\"name\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:long-array",
+      "inputRaw": "{\"name\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected array to have <=128 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:object",
+      "inputRaw": "{\"name\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:length-large",
+      "inputRaw": "{\"name\":{\"length\":129}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:length-nan",
+      "inputRaw": "{\"name\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 128,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected unknown to be <=128"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:length-throw",
+      "inputRaw": "{\"name\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "name:nul",
+      "inputRaw": "{\"name\":\"x\\u0000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"x\\u0000\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:null",
+      "inputRaw": "{\"name\":\" Name \",\"description\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":null}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:empty",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:space",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\" \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:trim",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"﻿ x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"x\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:not-trim",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"x\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"x\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:lone-high",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:lone-low",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"\\udc00\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:astral-at",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:astral-above",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:at",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:above",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=1000 characters"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:array",
+      "inputRaw": "{\"name\":\" Name \",\"description\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected array to have >=1 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:long-array",
+      "inputRaw": "{\"name\":\" Name \",\"description\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received array"
+          },
+          {
+            "origin": "array",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected array to have <=1000 items"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:object",
+      "inputRaw": "{\"name\":\" Name \",\"description\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:length-large",
+      "inputRaw": "{\"name\":\" Name \",\"description\":{\"length\":1001}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:length-nan",
+      "inputRaw": "{\"name\":\" Name \",\"description\":{\"length\":{}}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "description"
+            ],
+            "message": "Invalid input: expected string, received object"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too small: expected unknown to be >=1"
+          },
+          {
+            "origin": "unknown",
+            "code": "too_big",
+            "maximum": 1000,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected unknown to be <=1000"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:length-throw",
+      "inputRaw": "{\"name\":\" Name \",\"description\":{\"length\":{\"toString\":null}}}",
+      "expected": {
+        "success": false,
+        "internalError": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "description:nul",
+      "inputRaw": "{\"name\":\" Name \",\"description\":\"x\\u0000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"description\":\"x\\u0000\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:\"attachment-category\"",
+      "inputRaw": "{\"domain\":\"attachment-category\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"attachment-category\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:\"sales-follow-up-type\"",
+      "inputRaw": "{\"domain\":\"sales-follow-up-type\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"sales-follow-up-type\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:\"expense-category\"",
+      "inputRaw": "{\"domain\":\"expense-category\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"expense-category\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:\"lead-source\"",
+      "inputRaw": "{\"domain\":\"lead-source\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:\"LEAD-SOURCE\"",
+      "inputRaw": "{\"domain\":\"LEAD-SOURCE\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:\" lead-source \"",
+      "inputRaw": "{\"domain\":\" lead-source \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:null",
+      "inputRaw": "{\"domain\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:[]",
+      "inputRaw": "{\"domain\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "domain:{}",
+      "inputRaw": "{\"domain\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:\"attachment-category\"",
+      "inputRaw": "{\"domain\":\"attachment-category\",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"attachment-category\",\"code\":\"web\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:\"sales-follow-up-type\"",
+      "inputRaw": "{\"domain\":\"sales-follow-up-type\",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"sales-follow-up-type\",\"code\":\"web\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:\"expense-category\"",
+      "inputRaw": "{\"domain\":\"expense-category\",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"expense-category\",\"code\":\"web\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:\"lead-source\"",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:\"LEAD-SOURCE\"",
+      "inputRaw": "{\"domain\":\"LEAD-SOURCE\",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:\" lead-source \"",
+      "inputRaw": "{\"domain\":\" lead-source \",\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:null",
+      "inputRaw": "{\"domain\":null,\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:[]",
+      "inputRaw": "{\"domain\":[],\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "domain:{}",
+      "inputRaw": "{\"domain\":{},\"code\":\"web\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:\"active\"",
+      "inputRaw": "{\"status\":\"active\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"status\":\"active\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:\"inactive\"",
+      "inputRaw": "{\"status\":\"inactive\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"status\":\"inactive\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:\"ACTIVE\"",
+      "inputRaw": "{\"status\":\"ACTIVE\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:\" active \"",
+      "inputRaw": "{\"status\":\" active \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:null",
+      "inputRaw": "{\"status\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:[]",
+      "inputRaw": "{\"status\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "status:{}",
+      "inputRaw": "{\"status\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:\"active\"",
+      "inputRaw": "{\"name\":\" Name \",\"status\":\"active\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"status\":\"active\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:\"inactive\"",
+      "inputRaw": "{\"name\":\" Name \",\"status\":\"inactive\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"status\":\"inactive\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:\"ACTIVE\"",
+      "inputRaw": "{\"name\":\" Name \",\"status\":\"ACTIVE\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:\" active \"",
+      "inputRaw": "{\"name\":\" Name \",\"status\":\" active \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:null",
+      "inputRaw": "{\"name\":\" Name \",\"status\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:[]",
+      "inputRaw": "{\"name\":\" Name \",\"status\":[]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "status:{}",
+      "inputRaw": "{\"name\":\" Name \",\"status\":{}}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "active",
+              "inactive"
+            ],
+            "path": [
+              "status"
+            ],
+            "message": "Invalid option: expected one of \"active\"|\"inactive\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a0",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a0\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a0\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a-b",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a-b\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a-b\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:A",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"A\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a_b",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a_b\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:0a",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"0a\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a-",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a-\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a-\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a--b",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a--b\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a--b\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:ä",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"ä\",\"name\":\" Name \"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "string",
+            "code": "invalid_format",
+            "format": "regex",
+            "pattern": "/^[a-z][a-z0-9-]*$/",
+            "path": [
+              "code"
+            ],
+            "message": "Dictionary code must use lower kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a\n",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a\\n\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "code:pattern:a\r\n",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"a\\r\\n\",\"name\":\" Name \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"a\",\"name\":\"Name\"}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:-1",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:-0",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":-0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":0}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:0",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":0}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:1",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":1}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:1.5",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:2147483648",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":2147483648}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:9007199254740991",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:9007199254740992",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:-9007199254740992",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:1e999",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":1e999}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:1.00000000000000001",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":1.00000000000000001}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":1}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:9007199254740990.9",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":9007199254740990.9}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\"Name\",\"sortOrder\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:\"3\"",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:true",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "CreateDictionaryItemRequest",
+      "name": "sortOrder:null",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"web\",\"name\":\" Name \",\"sortOrder\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:-1",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:-0",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":-0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":0}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:0",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":0}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:1",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":1}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:1.5",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:2147483648",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":2147483648}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:9007199254740991",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:9007199254740992",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:-9007199254740992",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:1e999",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":1e999}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:1.00000000000000001",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":1.00000000000000001}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":1}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:9007199254740990.9",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":9007199254740990.9}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"sortOrder\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:\"3\"",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:true",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "sortOrder:null",
+      "inputRaw": "{\"name\":\" Name \",\"sortOrder\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "sortOrder"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:-1",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:-0",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":-0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:0",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":0}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:1",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:1.5",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:2147483648",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"expectedVersion\":2147483648}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:9007199254740991",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:9007199254740992",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:-9007199254740992",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": false,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:1e999",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":1e999}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:1.00000000000000001",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":1.00000000000000001}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:9007199254740990.9",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":9007199254740990.9}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"Name\",\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:\"3\"",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:true",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "expectedVersion:null",
+      "inputRaw": "{\"name\":\" Name \",\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:-1",
+      "inputRaw": "{\"value\":-1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":-1}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:-0",
+      "inputRaw": "{\"value\":-0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":0}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:0",
+      "inputRaw": "{\"value\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":0}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:1",
+      "inputRaw": "{\"value\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":1}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:1.5",
+      "inputRaw": "{\"value\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:2147483648",
+      "inputRaw": "{\"value\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":2147483648}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:9007199254740991",
+      "inputRaw": "{\"value\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:9007199254740992",
+      "inputRaw": "{\"value\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "value"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:-9007199254740992",
+      "inputRaw": "{\"value\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "value"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:1e999",
+      "inputRaw": "{\"value\":1e999}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:1.00000000000000001",
+      "inputRaw": "{\"value\":1.00000000000000001}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":1}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:9007199254740990.9",
+      "inputRaw": "{\"value\":9007199254740990.9}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:\"3\"",
+      "inputRaw": "{\"value\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:true",
+      "inputRaw": "{\"value\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "value:null",
+      "inputRaw": "{\"value\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "value"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:-1",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":-1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:-0",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":-0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":0}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:0",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":0}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:1",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":1}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:1.5",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":1.5}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "int",
+            "format": "safeint",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected int, received number"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:2147483648",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":2147483648}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":2147483648}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:9007199254740991",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":9007199254740991}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:9007199254740992",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_big",
+            "maximum": 9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too big: expected int to be <=9007199254740991"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:-9007199254740992",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":-9007199254740992}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "too_small",
+            "minimum": -9007199254740991,
+            "note": "Integers must be within the safe integer range.",
+            "origin": "int",
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected int to be >=-9007199254740991"
+          },
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:1e999",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":1e999}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "received": "Infinity",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received Infinity"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:1.00000000000000001",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":1.00000000000000001}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":1}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:9007199254740990.9",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":9007199254740990.9}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"value\":50,\"expectedVersion\":9007199254740991}"
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:\"3\"",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":\"3\"}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received string"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:true",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":true}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received boolean"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateSystemSettingRequest",
+      "name": "expectedVersion:null",
+      "inputRaw": "{\"value\":50,\"expectedVersion\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "number",
+            "code": "invalid_type",
+            "path": [
+              "expectedVersion"
+            ],
+            "message": "Invalid input: expected number, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{\"expectedVersion\":1}",
+      "inputRaw": "{\"expectedVersion\":1}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{\"domain\":\"lead-source\",\"code\":\"x\",\"isSystem\":false}",
+      "inputRaw": "{\"domain\":\"lead-source\",\"code\":\"x\",\"isSystem\":false}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{\"description\":null}",
+      "inputRaw": "{\"description\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"description\":null}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{}",
+      "inputRaw": "{}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "At least one updatable field is required"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{\"status\":\"inactive\"}",
+      "inputRaw": "{\"status\":\"inactive\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"status\":\"inactive\"}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{\"sortOrder\":0}",
+      "inputRaw": "{\"sortOrder\":0}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"sortOrder\":0}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "refine:{\"name\":null,\"description\":null}",
+      "inputRaw": "{\"name\":null,\"description\":null}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "name"
+            ],
+            "message": "Invalid input: expected string, received null"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "duplicate-last",
+      "inputRaw": "{\"name\":\"old\",\"name\":\" new \",\"description\":\"a\",\"description\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"new\",\"description\":null}"
+      }
+    },
+    {
+      "schema": "UpdateDictionaryItemRequest",
+      "name": "escaped-key",
+      "inputRaw": "{\"name\":\"old\",\"\\u006eame\":\" new \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"name\":\"new\"}"
+      }
+    },
+    {
+      "schema": "DictionaryItemListQuery",
+      "name": "duplicate-query",
+      "inputRaw": "{\"domain\":[\"lead-source\",\"lead-source\"],\"keyword\":[\"x\",\"y\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "attachment-category",
+              "sales-follow-up-type",
+              "expense-category",
+              "lead-source"
+            ],
+            "path": [
+              "domain"
+            ],
+            "message": "Invalid option: expected one of \"attachment-category\"|\"sales-follow-up-type\"|\"expense-category\"|\"lead-source\""
+          },
+          {
+            "expected": "string",
+            "code": "invalid_type",
+            "path": [
+              "keyword"
+            ],
+            "message": "Invalid input: expected string, received array"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1124 @@
+{
+    "formatVersion": 1,
+    "provenance": {
+        "sourceHead": "1013afef266602e7c98eb433bd0f14483be3d7fd",
+        "normalization": "UTF-8 CRLF -> LF only",
+        "sourceManifest": [
+            { "file": ".gitattributes", "sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c" },
+            { "file": ".prettierrc.json", "sha256": "f166d6ede6e719d2d534412e5b85c49fe2b83a5d08c15d08ae9b26765cca2dfe" },
+            { "file": "apps/poms-api/src/app/core/auth/auth-session.service.ts", "sha256": "d7b3d4f9115a542244dd33b859ce9b08ece45c10908ce3a469c01919418dad89" },
+            { "file": "apps/poms-api/src/app/core/secret/secret-cipher.service.ts", "sha256": "43a50b8181c0fa3773bb3544daaeba5d0639f9c4ec4aa9048e25cd4f1362d84a" },
+            { "file": "apps/poms-api/src/app/features/platform/platform.service.ts", "sha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db" },
+            { "file": "package.json", "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75" },
+            { "file": "pnpm-lock.yaml", "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533" },
+            { "file": "tools/rust-r0f-auth-compat/fixtures/auth-compat.v1.json", "sha256": "a498e7098b3233878eb7ad7110927f620b3fc7d2edc811bbdc49951339b1d479" }
+        ],
+        "generatorSha256": "36f1313fead4602c254a23231db9a889c6007763a86f5234344d3ff8b3fe570a",
+        "casesSha256": "5be672849b80fffc300441e30c41ad8f242ceb41ac4a9d2b71da6a157ca9dbbd",
+        "versions": { "typescript": "6.0.3", "bcryptjs": "3.0.3", "nest": "12.0.1", "prettier": "3.8.5" },
+        "bcryptFiles": [
+            { "file": "package.json", "sha256": "ddeec15021f8f246928cc914f665266e60d0f1eaec05a1c333ece29e2bc30195" },
+            { "file": "index.js", "sha256": "e2f9a84ca97cf0330da7af00f4b93dd4672f391c912306f7047d244cc19e0a5b" },
+            { "file": "umd/index.js", "sha256": "ed01b52b436504d8bb7086d93fee4bd8edbb22d8ed88e1b456e0c604f30e79c4" }
+        ],
+        "originalFunctions": [
+            { "name": "createOpaqueToken", "line": 250, "sha256": "ffd5ebf50d9c193862c2170ceca40ec10b5b3ed6943a2dfb514d04cdf83a45aa" },
+            { "name": "hashToken", "line": 254, "sha256": "e8699cde88a5af570d0fc25dd3d5c44347996b18d2414ae2c83007b876ce70de" }
+        ],
+        "evidence": "Actual original SecretCipherService in isolated VM; actual createOpaqueToken/hashToken AST; installed bcryptjs.compare. process.env is an empty synthetic object populated only with public cases; randomBytes is the sole crypto mock. Imports permit only node:crypto and Nest common. No product env loader, fs/network/DB/app imports or environment inheritance.",
+        "r0CipherWitness": { "cases": 13, "sha256": "8dca5a6b22a7c08eba70c0db0c578c59d47e04cb385c9736fc4e9a50b74efcc6" },
+        "limits": "No account/session persistence, HTTP guard/controller/error filter or production key lifecycle is certified. Invalid hash errors are compared by classification; caller retains existing generic HTTP 500."
+    },
+    "bcryptResults": [
+        { "name": "empty/self", "passwordUnits": [], "hash": "$2b$04$abcdefghijklmnopqrstuubyCG3zY1GIXMyxfivm.ClDiInHzxjiq", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "empty/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuubyCG3zY1GIXMyxfivm.ClDiInHzxjiq",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "empty/suffix", "passwordUnits": [88], "hash": "$2b$04$abcdefghijklmnopqrstuubyCG3zY1GIXMyxfivm.ClDiInHzxjiq", "rawVerify": true, "expected": { "value": false } },
+        {
+            "name": "ascii/self",
+            "passwordUnits": [115, 121, 110, 116, 104, 101, 116, 105, 99, 32, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu2hW.5IQMgCN5GJ/kWuiJRu21zBv6Iry",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu2hW.5IQMgCN5GJ/kWuiJRu21zBv6Iry",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii/suffix",
+            "passwordUnits": [115, 121, 110, 116, 104, 101, 116, 105, 99, 32, 112, 97, 115, 115, 119, 111, 114, 100, 88],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu2hW.5IQMgCN5GJ/kWuiJRu21zBv6Iry",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "whitespace/self",
+            "passwordUnits": [32, 32, 115, 121, 110, 116, 104, 101, 116, 105, 99, 32, 112, 97, 115, 115, 119, 111, 114, 100, 32, 32],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu.Vd5XWSEr9mkpH.a7lDSpN2F1yL3pWq",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "whitespace/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu.Vd5XWSEr9mkpH.a7lDSpN2F1yL3pWq",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "whitespace/suffix",
+            "passwordUnits": [32, 32, 115, 121, 110, 116, 104, 101, 116, 105, 99, 32, 112, 97, 115, 115, 119, 111, 114, 100, 32, 32, 88],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu.Vd5XWSEr9mkpH.a7lDSpN2F1yL3pWq",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "embedded-nul/self", "passwordUnits": [97, 98, 0, 99, 100], "hash": "$2b$04$abcdefghijklmnopqrstuuo18IGPhAd/HzW4M2PTaBFRFTK9llj.O", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "embedded-nul/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuo18IGPhAd/HzW4M2PTaBFRFTK9llj.O",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "embedded-nul/suffix", "passwordUnits": [97, 98, 0, 99, 100, 88], "hash": "$2b$04$abcdefghijklmnopqrstuuo18IGPhAd/HzW4M2PTaBFRFTK9llj.O", "rawVerify": true, "expected": { "value": false } },
+        { "name": "embedded-nul/nul-not-terminator", "passwordUnits": [97, 98], "hash": "$2b$04$abcdefghijklmnopqrstuuo18IGPhAd/HzW4M2PTaBFRFTK9llj.O", "rawVerify": true, "expected": { "value": false } },
+        { "name": "chinese/self", "passwordUnits": [20844, 24320, 27979, 35797, 23494, 30721], "hash": "$2b$04$abcdefghijklmnopqrstuu6fCywcvkcTy29g8C8TvxIzuM/BYwOa2", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "chinese/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu6fCywcvkcTy29g8C8TvxIzuM/BYwOa2",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "chinese/suffix", "passwordUnits": [20844, 24320, 27979, 35797, 23494, 30721, 88], "hash": "$2b$04$abcdefghijklmnopqrstuu6fCywcvkcTy29g8C8TvxIzuM/BYwOa2", "rawVerify": true, "expected": { "value": false } },
+        { "name": "astral/self", "passwordUnits": [55357, 56594, 55357, 56832, 23494, 30721], "hash": "$2b$04$abcdefghijklmnopqrstuu1VRjDeVRMcz4.qHUy4AGMl.3JXcsLJe", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "astral/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu1VRjDeVRMcz4.qHUy4AGMl.3JXcsLJe",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "astral/suffix", "passwordUnits": [55357, 56594, 55357, 56832, 23494, 30721, 88], "hash": "$2b$04$abcdefghijklmnopqrstuu1VRjDeVRMcz4.qHUy4AGMl.3JXcsLJe", "rawVerify": true, "expected": { "value": false } },
+        { "name": "nfc/self", "passwordUnits": [233], "hash": "$2b$04$abcdefghijklmnopqrstuuhLs2FTTXh4aTzDmos5X8XImgHYf5TbO", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "nfc/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuhLs2FTTXh4aTzDmos5X8XImgHYf5TbO",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "nfc/suffix", "passwordUnits": [233, 88], "hash": "$2b$04$abcdefghijklmnopqrstuuhLs2FTTXh4aTzDmos5X8XImgHYf5TbO", "rawVerify": true, "expected": { "value": false } },
+        { "name": "nfc/normalization", "passwordUnits": [101, 769], "hash": "$2b$04$abcdefghijklmnopqrstuuhLs2FTTXh4aTzDmos5X8XImgHYf5TbO", "rawVerify": true, "expected": { "value": false } },
+        { "name": "nfd/self", "passwordUnits": [101, 769], "hash": "$2b$04$abcdefghijklmnopqrstuuMdPOZgfL4Rfg6Rd30rOY2XcX0hEFhDK", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "nfd/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuMdPOZgfL4Rfg6Rd30rOY2XcX0hEFhDK",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "nfd/suffix", "passwordUnits": [101, 769, 88], "hash": "$2b$04$abcdefghijklmnopqrstuuMdPOZgfL4Rfg6Rd30rOY2XcX0hEFhDK", "rawVerify": true, "expected": { "value": false } },
+        { "name": "high-surrogate/self", "passwordUnits": [55296], "hash": "$2b$04$abcdefghijklmnopqrstuuLqpina6i6WrsOSH.XQplM/xESwRo39u", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "high-surrogate/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuLqpina6i6WrsOSH.XQplM/xESwRo39u",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "high-surrogate/suffix", "passwordUnits": [55296, 88], "hash": "$2b$04$abcdefghijklmnopqrstuuLqpina6i6WrsOSH.XQplM/xESwRo39u", "rawVerify": true, "expected": { "value": false } },
+        { "name": "high-surrogate/replacement-not-equivalent", "passwordUnits": [65533], "hash": "$2b$04$abcdefghijklmnopqrstuuLqpina6i6WrsOSH.XQplM/xESwRo39u", "rawVerify": true, "expected": { "value": false } },
+        { "name": "low-surrogate/self", "passwordUnits": [56320], "hash": "$2b$04$abcdefghijklmnopqrstuutx8meMpTl98y1fRF9sRd5O2HReLrIye", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "low-surrogate/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuutx8meMpTl98y1fRF9sRd5O2HReLrIye",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "low-surrogate/suffix", "passwordUnits": [56320, 88], "hash": "$2b$04$abcdefghijklmnopqrstuutx8meMpTl98y1fRF9sRd5O2HReLrIye", "rawVerify": true, "expected": { "value": false } },
+        { "name": "low-surrogate/replacement-not-equivalent", "passwordUnits": [65533], "hash": "$2b$04$abcdefghijklmnopqrstuutx8meMpTl98y1fRF9sRd5O2HReLrIye", "rawVerify": true, "expected": { "value": false } },
+        { "name": "reversed-surrogates/self", "passwordUnits": [56320, 55296], "hash": "$2b$04$abcdefghijklmnopqrstuubgg2uNA9diIFmSqU7yKBLwakvcYZodS", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "reversed-surrogates/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuubgg2uNA9diIFmSqU7yKBLwakvcYZodS",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "reversed-surrogates/suffix", "passwordUnits": [56320, 55296, 88], "hash": "$2b$04$abcdefghijklmnopqrstuubgg2uNA9diIFmSqU7yKBLwakvcYZodS", "rawVerify": true, "expected": { "value": false } },
+        { "name": "surrogate-pair/self", "passwordUnits": [55357, 56832], "hash": "$2b$04$abcdefghijklmnopqrstuujGvHnQ/RwTq6q8Fh4ulj8/rxzzEcm1i", "rawVerify": true, "expected": { "value": true } },
+        {
+            "name": "surrogate-pair/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuujGvHnQ/RwTq6q8Fh4ulj8/rxzzEcm1i",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        { "name": "surrogate-pair/suffix", "passwordUnits": [55357, 56832, 88], "hash": "$2b$04$abcdefghijklmnopqrstuujGvHnQ/RwTq6q8Fh4ulj8/rxzzEcm1i", "rawVerify": true, "expected": { "value": false } },
+        {
+            "name": "ascii-71/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuMCu.k1vM/ywQwiONaEn3oEMlZoCVBd6",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-71/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuMCu.k1vM/ywQwiONaEn3oEMlZoCVBd6",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii-71/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuMCu.k1vM/ywQwiONaEn3oEMlZoCVBd6",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii-72/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-72/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii-72/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-73/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-73/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii-73/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-255/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-255/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii-255/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-256/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "ascii-256/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "ascii-256/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuBzzIgyKkz7xMWYSzkIjUSnxEQFQ0WNe",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-2byte/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 233
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuoVx8RufeJl2sf6nnK3ltb8OHjZZZsny",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-2byte/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuoVx8RufeJl2sf6nnK3ltb8OHjZZZsny",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "split-2byte/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 233, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuoVx8RufeJl2sf6nnK3ltb8OHjZZZsny",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-2byte/boundary-neighbor",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 234
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuoVx8RufeJl2sf6nnK3ltb8OHjZZZsny",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "exact-2byte/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 233
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuup/VDh/S4dWkQtNXwAvunXH52aLDr6g2",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "exact-2byte/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuup/VDh/S4dWkQtNXwAvunXH52aLDr6g2",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "exact-2byte/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 233, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuup/VDh/S4dWkQtNXwAvunXH52aLDr6g2",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "exact-2byte/boundary-neighbor",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 234
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuup/VDh/S4dWkQtNXwAvunXH52aLDr6g2",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "split-4byte/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55357, 56832
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu/V2OT3N08jNwm5j3iq/Gck/xTu2A0s.",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-4byte/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu/V2OT3N08jNwm5j3iq/Gck/xTu2A0s.",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "split-4byte/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55357, 56832, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu/V2OT3N08jNwm5j3iq/Gck/xTu2A0s.",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-4byte/boundary-neighbor",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55357, 56833
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuu/V2OT3N08jNwm5j3iq/Gck/xTu2A0s.",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "exact-4byte/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55357, 56832
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuGVzmpL5/GKd7/MQfNUvZHuO79qrCbLa",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "exact-4byte/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuGVzmpL5/GKd7/MQfNUvZHuO79qrCbLa",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "exact-4byte/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55357, 56832, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuGVzmpL5/GKd7/MQfNUvZHuO79qrCbLa",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "exact-4byte/boundary-neighbor",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55357, 56833
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuGVzmpL5/GKd7/MQfNUvZHuO79qrCbLa",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "split-wtf8/self",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55296
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuHzOzdLLy.e0opRoIzTmgQf527XgtFsu",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-wtf8/wrong",
+            "passwordUnits": [112, 117, 98, 108, 105, 99, 45, 119, 114, 111, 110, 103, 45, 112, 97, 115, 115, 119, 111, 114, 100],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuHzOzdLLy.e0opRoIzTmgQf527XgtFsu",
+            "rawVerify": true,
+            "expected": { "value": false }
+        },
+        {
+            "name": "split-wtf8/suffix",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55296, 88
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuHzOzdLLy.e0opRoIzTmgQf527XgtFsu",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        {
+            "name": "split-wtf8/boundary-neighbor",
+            "passwordUnits": [
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97,
+                97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 55297
+            ],
+            "hash": "$2b$04$abcdefghijklmnopqrstuuHzOzdLLy.e0opRoIzTmgQf527XgtFsu",
+            "rawVerify": true,
+            "expected": { "value": true }
+        },
+        { "name": "prefix-2a-cost-4", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2a$04$abcdefghijklmnopqrstuuYexdlB2G9en8zeDDk8pYEIScpL9mvPu", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2b-cost-4", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2b$04$abcdefghijklmnopqrstuuYexdlB2G9en8zeDDk8pYEIScpL9mvPu", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2y-cost-4", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2y$04$abcdefghijklmnopqrstuuYexdlB2G9en8zeDDk8pYEIScpL9mvPu", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2a-cost-5", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2a$05$abcdefghijklmnopqrstuuQK0DQjmb3BU9xn.EhENXxb1c4GQeyfO", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2b-cost-5", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2b$05$abcdefghijklmnopqrstuuQK0DQjmb3BU9xn.EhENXxb1c4GQeyfO", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2y-cost-5", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2y$05$abcdefghijklmnopqrstuuQK0DQjmb3BU9xn.EhENXxb1c4GQeyfO", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2a-cost-10", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2a$10$abcdefghijklmnopqrstuuHbygi88om5FzGppdpNqcx6qbXrDbcL2", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2b-cost-10", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2b$10$abcdefghijklmnopqrstuuHbygi88om5FzGppdpNqcx6qbXrDbcL2", "rawVerify": true, "expected": { "value": true } },
+        { "name": "prefix-2y-cost-10", "passwordUnits": [112, 117, 98, 108, 105, 99, 0, 55357, 56594], "hash": "$2y$10$abcdefghijklmnopqrstuuHbygi88om5FzGppdpNqcx6qbXrDbcL2", "rawVerify": true, "expected": { "value": true } },
+        { "name": "empty", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "", "rawVerify": false, "expected": { "value": false } },
+        { "name": "short", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzB", "rawVerify": false, "expected": { "value": false } },
+        { "name": "long", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBux", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-prefix",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "!2b$04$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Invalid salt version: !2" } }
+        },
+        { "name": "2x", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2x$04$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "error": { "name": "Error", "message": "Invalid salt revision: x$" } } },
+        {
+            "name": "cost03",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$03$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal number of rounds (4-31): 3" } }
+        },
+        {
+            "name": "cost32",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$32$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal number of rounds (4-31): 32" } }
+        },
+        { "name": "costNaN", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$xx$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        { "name": "round-separator-less", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04!abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "round-separator-greater",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04%abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Missing salt rounds" } }
+        },
+        { "name": "bad-digest", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijklmnopqrstuu!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "rawVerify": false, "expected": { "value": false } },
+        { "name": "noncanonical-salt", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijklmnopqrstuvaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        { "name": "legacy", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2$04$abcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBux", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-salt-0",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$!bcdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 0 != 16" } }
+        },
+        {
+            "name": "bad-salt-1",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$a!cdefghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 0 != 16" } }
+        },
+        {
+            "name": "bad-salt-2",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$ab!defghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 1 != 16" } }
+        },
+        { "name": "bad-salt-3", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abc!efghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-salt-4",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcd!fghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 3 != 16" } }
+        },
+        {
+            "name": "bad-salt-5",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcde!ghijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 3 != 16" } }
+        },
+        {
+            "name": "bad-salt-6",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdef!hijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 4 != 16" } }
+        },
+        { "name": "bad-salt-7", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefg!ijklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-salt-8",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefgh!jklmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 6 != 16" } }
+        },
+        {
+            "name": "bad-salt-9",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghi!klmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 6 != 16" } }
+        },
+        {
+            "name": "bad-salt-10",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghij!lmnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 7 != 16" } }
+        },
+        { "name": "bad-salt-11", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijk!mnopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-salt-12",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijkl!nopqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 9 != 16" } }
+        },
+        {
+            "name": "bad-salt-13",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklm!opqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 9 != 16" } }
+        },
+        {
+            "name": "bad-salt-14",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklmn!pqrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 10 != 16" } }
+        },
+        { "name": "bad-salt-15", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijklmno!qrstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-salt-16",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklmnop!rstuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 12 != 16" } }
+        },
+        {
+            "name": "bad-salt-17",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklmnopq!stuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 12 != 16" } }
+        },
+        {
+            "name": "bad-salt-18",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklmnopqr!tuuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 13 != 16" } }
+        },
+        { "name": "bad-salt-19", "passwordUnits": [112, 117, 98, 108, 105, 99], "hash": "$2b$04$abcdefghijklmnopqrs!uuaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu", "rawVerify": false, "expected": { "value": false } },
+        {
+            "name": "bad-salt-20",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklmnopqrst!uaNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 15 != 16" } }
+        },
+        {
+            "name": "bad-salt-21",
+            "passwordUnits": [112, 117, 98, 108, 105, 99],
+            "hash": "$2b$04$abcdefghijklmnopqrstu!aNoRgelGRsJ2Tm9Zn/HHRlHib6lnzBu",
+            "rawVerify": false,
+            "expected": { "error": { "name": "Error", "message": "Illegal salt length: 15 != 16" } }
+        }
+    ],
+    "encryptions": [
+        {
+            "name": "ascii",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [115, 121, 110, 116, 104, 101, 116, 105, 99, 32, 115, 101, 99, 114, 101, 116],
+            "ivBytes": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "unicode",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [22266, 23450, 20013, 25991, 55357, 56594, 10, 115, 101, 99, 111, 110, 100, 32, 108, 105, 110, 101],
+            "ivBytes": [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
+            "ciphertext": "v1:BgYGBgYGBgYGBgYG:Yd3N5R5aruHwTfTbwE90Rw==:8OsMGcS0bWrytQEhDtTKpA8GFLeCrHqX7FsGCw==",
+            "expected": { "value": "固定中文🔒\nsecond line" }
+        },
+        {
+            "name": "empty",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [],
+            "ivBytes": [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+            "ciphertext": "v1:BwcHBwcHBwcHBwcH:Jsupthu59LIGVTDhlMh21g==:",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "nul",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [114, 97, 119, 0, 115, 101, 99, 114, 101, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:TzD1z9T9xL9CYHmQ41NiNA==:bMwJlKL3eExHjg==",
+            "expected": { "value": "raw\u0000secret" }
+        },
+        {
+            "name": "high-surrogate",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [55296],
+            "ivBytes": [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+            "ciphertext": "v1:CQkJCQkJCQkJCQkJ:juTkHUi1hCqsgzghbZQDGg==:SylK",
+            "expected": { "value": "�" }
+        },
+        {
+            "name": "low-surrogate",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [56320],
+            "ivBytes": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+            "ciphertext": "v1:CgoKCgoKCgoKCgoK:H+avBcr5OZ1I9YPnlNgJPA==:TxxQ",
+            "expected": { "value": "�" }
+        },
+        {
+            "name": "json",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "plaintextUnits": [123, 34, 115, 121, 110, 116, 104, 101, 116, 105, 99, 34, 58, 116, 114, 117, 101, 44, 34, 108, 97, 98, 101, 108, 34, 58, 34, 20013, 25991, 34, 125],
+            "ivBytes": [11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
+            "ciphertext": "v1:CwsLCwsLCwsLCwsL:Xh4jx2KAfG+2NWxRechH8A==:Z018jIWR32I08Xr/Wyov2iiAH9+CqYtjpWCpgQKZ56osGqY=",
+            "expected": { "value": "{\"synthetic\":true,\"label\":\"中文\"}" }
+        }
+    ],
+    "decryptions": [
+        {
+            "name": "extra-fields",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==:ignored:still-ignored",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "version",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v2:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "missing",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "not-ciphertext",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "empty-ciphertext",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "empty-iv",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1::YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "empty-tag",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF::K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "unpadded",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg:K62a8Z4MNhyYUEvKxBjwxg",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "junk-whitespace",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:!# \nBQUFBQUFBQUFBQUF?\t:!# \nYvXFQISr5QYolhIwMSfcYg==?\t:!# \nK62a8Z4MNhyYUEvKxBjwxg==?\t",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "urlsafe",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "unicode-skipped",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:ĀBQUFBQUFBQUFBQUF:ĀYvXFQISr5QYolhIwMSfcYg==:ĀK62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "unicode-lowbyte",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:łőŕņłőŕņłőŕņłőŕņ:řŶŘņőŉœŲĵőřůŬŨŉŷōœŦţřŧĽĽ:ŋĶĲšĸŚĴōŎŨŹřŕŅŶŋŸłŪŷŸŧĽĽ",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "unicode-lowbyte-stop",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:😀BQUFBQUFBQUFBQUF:😀YvXFQISr5QYolhIwMSfcYg==:😀K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "noncanonical-tailbits",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF===:YvXFQISr5QYolhIwMSfcYg===:K62a8Z4MNhyYUEvKxBjwxg===",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "empty-encoded-nonempty-field",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BwcHBwcHBwcHBwcH:Jsupthu59LIGVTDhlMh21g==:==",
+            "expected": { "value": "" }
+        },
+        {
+            "name": "wrong-tag",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:AAAAAAAAAAAAAAAAAAAAAA==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "wrong-ciphertext",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:AAAAAAAAAAAAAAAAAAAAAA==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "wrong-key",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 119, 114, 111, 110, 103, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "custom-error",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v2:a:b:c",
+            "options": { "unreadableMessage": "Synthetic secret is unreadable." },
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Synthetic secret is unreadable." } }
+        },
+        {
+            "name": "nonce-1",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:Aw==:JKN0pSldPcotfuTuqMdNjg==:gXaRq13s",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-2",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwM=:7IjjamPEbWmnY5jltwMmtA==:VDIKegKS",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-3",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMD:6PdNdGlNcxLcAVJfYwzcZQ==:lM4V2APD",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-8",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwM=:ju9QgFcGZsaZLRLdx92TEg==:7zA+MxBc",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-11",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwM=:c7IYSTQwqDijsoSZP6Y/uQ==:iMnx7jTe",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-12",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMD:nnfK3dJKIK6AXZP30y73Mw==:dwfA8EDW",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-13",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAw==:7eJMZ7zo79w9u2mrQE2fBw==:/euHzy2w",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-16",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAwMDAw==:VdGIFVHJRIchPZeTNtlQeg==:/s5Jjd0u",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-31",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw==:NLNy4dBp2cx5P+rx1bPmSA==:HNAHaN4k",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-32",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM=:XaWCQZu5tNf3Ly/RRAJ+wA==:LLKDQ309",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-64",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw==:nE91scbbBexkYdYJ/ZcQJw==:6Dn3Y1tN",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-127",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw==:Rj8M36LIQNnsv8Kx0R2FiQ==:UkgPSvPo",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "nonce-128",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM=:fpJE8w/gxs+RRa7f4qyh0g==:P0eh53cY",
+            "expected": { "value": "public" }
+        },
+        {
+            "name": "tag-0",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF::K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-1",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:Yg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-2",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvU=:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-3",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXF:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-4",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQA==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-5",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQIQ=:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-7",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5Q==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-8",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QY=:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-9",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYo:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-11",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhI=:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "tag-12",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIw:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-13",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMQ==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-14",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSc=:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-15",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfc:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-16",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "value": "synthetic secret" }
+        },
+        {
+            "name": "tag-17",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BQUFBQUFBQUFBQUF:YvXFQISr5QYolhIwMSfcYgE=:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "nonce-129",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:YvXFQISr5QYolhIwMSfcYg==:K62a8Z4MNhyYUEvKxBjwxg==",
+            "expected": { "error": { "name": "BadRequestException", "status": 400, "message": "Secret value is not readable." } }
+        },
+        {
+            "name": "invalid-utf8",
+            "keyUnits": [112, 117, 98, 108, 105, 99, 45, 114, 49, 99, 45, 99, 114, 121, 112, 116, 111, 45, 118, 101, 99, 116, 111, 114, 45, 107, 101, 121],
+            "ciphertext": "v1:BwcHBwcHBwcHBwcH:FvyBPj+Dy0AFrkTae71fVg==:xVv2eQ2Aug==",
+            "expected": { "value": "���\u0000���" }
+        }
+    ],
+    "optionResults": [
+        {
+            "name": "defaults-empty",
+            "env": {},
+            "options": {},
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:wVaI515Xdsyn0wGxhffttg==:Ulk86yCFUyKvlqT2pg==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "primary",
+            "env": { "POMS_SECRET_KEY": "public-primary", "JWT_SECRET": "public-secondary" },
+            "options": {},
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:ZlE4kIUWzxZ6XtbQ/TprHA==:gk1Nd630lbkOnVqJCQ==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "primary-empty",
+            "env": { "POMS_SECRET_KEY": "", "JWT_SECRET": "public-secondary" },
+            "options": {},
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:RIRfq5rT8mc+zsyV58fWhg==:xEuCXuvoN1Q9HqOG6w==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "primary-whitespace",
+            "env": { "POMS_SECRET_KEY": " ", "JWT_SECRET": "public-secondary" },
+            "options": {},
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:ulBd8Y4Rz3sHA6W15xSWmw==:2NeQDD2UaA2yEEySKQ==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "false-is-key",
+            "env": { "POMS_SECRET_KEY": "false" },
+            "options": {},
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:Kjkod2N3YeyV3iwpqQLHfw==:RkduvGE2ztDwomFqWA==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "zero-is-key",
+            "env": { "POMS_SECRET_KEY": "0" },
+            "options": {},
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:qHPJx5U53cS0lkAZvlEUQw==:daCasc4zQ+vvYkrVeg==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "custom-keys",
+            "env": { "CUSTOM_B": "public-custom" },
+            "options": { "envKeys": ["CUSTOM_A", "CUSTOM_B"], "defaultValue": "public-fallback" },
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:xwavSLClDUDmWnq11sfFoA==:9t+RGwpY5M+EEYVtQQ==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "empty-key-list",
+            "env": { "POMS_SECRET_KEY": "unused" },
+            "options": { "envKeys": [], "defaultValue": "public-explicit" },
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:OzYC+J/UNXyuUjvL/wCONA==:4GkI91WyfsbuvKtoPw==",
+            "expected": { "value": "priority-test" }
+        },
+        {
+            "name": "empty-default",
+            "env": {},
+            "options": { "envKeys": [], "defaultValue": "" },
+            "plaintextUnits": [112, 114, 105, 111, 114, 105, 116, 121, 45, 116, 101, 115, 116],
+            "ivBytes": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            "ciphertext": "v1:CAgICAgICAgICAgI:08rmSC07te+PUPAXWw25Ig==:+UjU73V2OzlUSFWMwA==",
+            "expected": { "value": "priority-test" }
+        }
+    ],
+    "tokens": [
+        { "bytes": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "token": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" },
+        { "bytes": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "token": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE" },
+        { "bytes": [127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127], "token": "f39_f39_f39_f39_f39_f39_f39_f39_f39_f39_f38" },
+        { "bytes": [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], "token": "__________________________________________8" }
+    ],
+    "hashes": [
+        { "text": "", "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+        { "text": "synthetic-session-token", "hash": "2782a032f3e6924e58abdaecd170288c829f05e970b79f01c5abda213019cafa" },
+        { "text": "中文 + token", "hash": "93e5059a03c9624bf6d2498f409870fdef580028aa32846a712a6b430dd3ee84" },
+        { "text": "line\nvalue", "hash": "7c0a962949a4ede62e7db95d2e824acc3dcb457863650811acbf50ccb4a4cff2" },
+        { "text": "nul\u0000token", "hash": "7c32d1583ba51750d8239db51c8201bfc29f521e581102ac166f9fa46273b25f" }
+    ],
+    "refusals": { "node:fs": true, "node:net": true, "node:child_process": true, "unknownLexical": true }
+}

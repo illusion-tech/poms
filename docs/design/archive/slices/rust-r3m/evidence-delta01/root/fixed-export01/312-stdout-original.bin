@@ -1,0 +1,551 @@
+{
+  "formatVersion": 1,
+  "kind": "pure-sdk-required-and-render-oracle",
+  "sdkHelpersEvaluated": true,
+  "originalServiceOrmInstancePgExecuted": false,
+  "files": [
+    {
+      "file": "@mikro-orm/core/unit-of-work/ChangeSetPersister.js",
+      "rawBytesSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3",
+      "lfSha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3"
+    },
+    {
+      "file": "@mikro-orm/core/entity/validators.js",
+      "rawBytesSha256": "ed98cfaf3d371d5ee2d067a2fa00141ec31c0553c36e2fb3de4141c20271971c",
+      "lfSha256": "ed98cfaf3d371d5ee2d067a2fa00141ec31c0553c36e2fb3de4141c20271971c"
+    },
+    {
+      "file": "@mikro-orm/core/errors.js",
+      "rawBytesSha256": "7bce1751643265125ac646a3679803465b5b8ad5aac2a28ce29ac54d42fe1047",
+      "lfSha256": "7bce1751643265125ac646a3679803465b5b8ad5aac2a28ce29ac54d42fe1047"
+    },
+    {
+      "file": "@mikro-orm/core/entity/EntityHelper.js",
+      "rawBytesSha256": "0360b206d434a52c226495350d36570f337c699a32c2a00b4db4f41e621133e4",
+      "lfSha256": "0360b206d434a52c226495350d36570f337c699a32c2a00b4db4f41e621133e4"
+    },
+    {
+      "file": "@mikro-orm/core/logging/inspect.js",
+      "rawBytesSha256": "234de029f24ed815f2dddde9dcfeeeddcaa3cb9e6722582b93202ad174f6c949",
+      "lfSha256": "234de029f24ed815f2dddde9dcfeeeddcaa3cb9e6722582b93202ad174f6c949"
+    },
+    {
+      "file": "@mikro-orm/sql/AbstractSqlDriver.js",
+      "rawBytesSha256": "6e87a95cc881855397f074c77a2c181955c80cd324f8c4ead2c970ae0aae2cff",
+      "lfSha256": "6e87a95cc881855397f074c77a2c181955c80cd324f8c4ead2c970ae0aae2cff"
+    }
+  ],
+  "parameterSourceSha256": "9fc097c51b99f7879c73bb01347ed81b0b0f6fcc2424b57517583737e72184b4",
+  "nodeInspectSourceSha256": "d4394ce8d707925ec3b844c22c977ebe037390cc5389e261b8519bff5785394d",
+  "cases": [
+    {
+      "table": "todo_item",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "sourceType": null,
+        "sourceId": "00000000-0000-4000-8000-000000000081",
+        "todoType": "todoType-value",
+        "businessDomain": "businessDomain-value",
+        "targetObjectType": "targetObjectType-value",
+        "targetObjectId": "00000000-0000-4000-8000-000000000081",
+        "title": "title-value",
+        "assigneeUserId": "00000000-0000-4000-8000-000000000081",
+        "status": "status-value",
+        "priority": "priority-value",
+        "rowVersion": 1,
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for TodoItem.sourceType is required, 'null' found\nentity: TodoItem {\n  id: '00000000-0000-4000-8000-000000000081',\n  sourceType: null,\n  sourceId: '00000000-0000-4000-8000-000000000081',\n  todoType: 'todoType-value',\n  businessDomain: 'businessDomain-value',\n  targetObjectType: 'targetObjectType-value',\n  targetObjectId: '00000000-0000-4000-8000-000000000081',\n  title: 'title-value',\n  assigneeUserId: '00000000-0000-4000-8000-000000000081',\n  status: 'status-value',\n  priority: 'priority-value',\n  rowVersion: 1,\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "todo_item",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "sourceType": {
+          "$undefined": true
+        },
+        "sourceId": "00000000-0000-4000-8000-000000000081",
+        "todoType": "todoType-value",
+        "businessDomain": "businessDomain-value",
+        "targetObjectType": "targetObjectType-value",
+        "targetObjectId": "00000000-0000-4000-8000-000000000081",
+        "title": "title-value",
+        "assigneeUserId": "00000000-0000-4000-8000-000000000081",
+        "status": "status-value",
+        "priority": "priority-value",
+        "rowVersion": 1,
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for TodoItem.sourceType is required, 'undefined' found\nentity: TodoItem {\n  id: '00000000-0000-4000-8000-000000000081',\n  sourceId: '00000000-0000-4000-8000-000000000081',\n  todoType: 'todoType-value',\n  businessDomain: 'businessDomain-value',\n  targetObjectType: 'targetObjectType-value',\n  targetObjectId: '00000000-0000-4000-8000-000000000081',\n  title: 'title-value',\n  assigneeUserId: '00000000-0000-4000-8000-000000000081',\n  status: 'status-value',\n  priority: 'priority-value',\n  rowVersion: 1,\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "todo_item",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for TodoItem.sourceType is required, 'undefined' found\nentity: TodoItem { createdAt: 2020-01-01T00:00:00.123Z }"
+    },
+    {
+      "table": "confirmation_participant",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "confirmationRecordId": null,
+        "participantId": "00000000-0000-4000-8000-000000000081",
+        "participantRoleKey": "participantRoleKey-value",
+        "participantStatus": "pending",
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ConfirmationParticipant.confirmationRecordId is required, 'null' found\nentity: ConfirmationParticipant {\n  id: '00000000-0000-4000-8000-000000000081',\n  confirmationRecordId: null,\n  participantId: '00000000-0000-4000-8000-000000000081',\n  participantRoleKey: 'participantRoleKey-value',\n  participantStatus: 'pending',\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "confirmation_participant",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "confirmationRecordId": {
+          "$undefined": true
+        },
+        "participantId": "00000000-0000-4000-8000-000000000081",
+        "participantRoleKey": "participantRoleKey-value",
+        "participantStatus": "pending",
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ConfirmationParticipant.confirmationRecordId is required, 'undefined' found\nentity: ConfirmationParticipant {\n  id: '00000000-0000-4000-8000-000000000081',\n  participantId: '00000000-0000-4000-8000-000000000081',\n  participantRoleKey: 'participantRoleKey-value',\n  participantStatus: 'pending',\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "confirmation_participant",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ConfirmationParticipant.confirmationRecordId is required, 'undefined' found\nentity: ConfirmationParticipant { createdAt: 2020-01-01T00:00:00.123Z }"
+    },
+    {
+      "table": "confirmation_record",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "confirmationType": null,
+        "businessDomain": "businessDomain-value",
+        "targetType": "targetType-value",
+        "targetId": "00000000-0000-4000-8000-000000000081",
+        "status": "pending",
+        "requiredCount": 0,
+        "confirmedCount": 0,
+        "submittedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1
+      },
+      "message": "Value for confirmation-record.confirmationType is required, 'null' found\nentity: ConfirmationRecord {\n  id: '00000000-0000-4000-8000-000000000081',\n  confirmationType: null,\n  businessDomain: 'businessDomain-value',\n  targetType: 'targetType-value',\n  targetId: '00000000-0000-4000-8000-000000000081',\n  status: 'pending',\n  requiredCount: 0,\n  confirmedCount: 0,\n  submittedAt: 2020-01-01T00:00:00.123Z,\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1\n}"
+    },
+    {
+      "table": "confirmation_record",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "confirmationType": {
+          "$undefined": true
+        },
+        "businessDomain": "businessDomain-value",
+        "targetType": "targetType-value",
+        "targetId": "00000000-0000-4000-8000-000000000081",
+        "status": "pending",
+        "requiredCount": 0,
+        "confirmedCount": 0,
+        "submittedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1
+      },
+      "message": "Value for confirmation-record.confirmationType is required, 'undefined' found\nentity: ConfirmationRecord {\n  id: '00000000-0000-4000-8000-000000000081',\n  businessDomain: 'businessDomain-value',\n  targetType: 'targetType-value',\n  targetId: '00000000-0000-4000-8000-000000000081',\n  status: 'pending',\n  requiredCount: 0,\n  confirmedCount: 0,\n  submittedAt: 2020-01-01T00:00:00.123Z,\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1\n}"
+    },
+    {
+      "table": "confirmation_record",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for confirmation-record.confirmationType is required, 'undefined' found\nentity: ConfirmationRecord { createdAt: 2020-01-01T00:00:00.123Z }"
+    },
+    {
+      "table": "approval_summary_snapshot",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "targetType": null,
+        "targetId": "00000000-0000-4000-8000-000000000081",
+        "approvalScenarioKey": "approvalScenarioKey-value",
+        "summaryPackageId": "00000000-0000-4000-8000-000000000081",
+        "summaryPackageKey": "summaryPackageKey-value",
+        "projectionLevel": "projectionLevel-value",
+        "exportPolicy": "exportPolicy-value",
+        "businessStatusAtSnapshot": "businessStatusAtSnapshot-value",
+        "generatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "status": "active",
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1
+      },
+      "message": "Value for ApprovalSummarySnapshot.targetType is required, 'null' found\nentity: ApprovalSummarySnapshot {\n  id: '00000000-0000-4000-8000-000000000081',\n  targetType: null,\n  targetId: '00000000-0000-4000-8000-000000000081',\n  approvalScenarioKey: 'approvalScenarioKey-value',\n  summaryPackageId: '00000000-0000-4000-8000-000000000081',\n  summaryPackageKey: 'summaryPackageKey-value',\n  projectionLevel: 'projectionLevel-value',\n  exportPolicy: 'exportPolicy-value',\n  businessStatusAtSnapshot: 'businessStatusAtSnapshot-value',\n  generatedAt: 2020-01-01T00:00:00.123Z,\n  status: 'active',\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1\n}"
+    },
+    {
+      "table": "approval_summary_snapshot",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "targetType": {
+          "$undefined": true
+        },
+        "targetId": "00000000-0000-4000-8000-000000000081",
+        "approvalScenarioKey": "approvalScenarioKey-value",
+        "summaryPackageId": "00000000-0000-4000-8000-000000000081",
+        "summaryPackageKey": "summaryPackageKey-value",
+        "projectionLevel": "projectionLevel-value",
+        "exportPolicy": "exportPolicy-value",
+        "businessStatusAtSnapshot": "businessStatusAtSnapshot-value",
+        "generatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "status": "active",
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1
+      },
+      "message": "Value for ApprovalSummarySnapshot.targetType is required, 'undefined' found\nentity: ApprovalSummarySnapshot {\n  id: '00000000-0000-4000-8000-000000000081',\n  targetId: '00000000-0000-4000-8000-000000000081',\n  approvalScenarioKey: 'approvalScenarioKey-value',\n  summaryPackageId: '00000000-0000-4000-8000-000000000081',\n  summaryPackageKey: 'summaryPackageKey-value',\n  projectionLevel: 'projectionLevel-value',\n  exportPolicy: 'exportPolicy-value',\n  businessStatusAtSnapshot: 'businessStatusAtSnapshot-value',\n  generatedAt: 2020-01-01T00:00:00.123Z,\n  status: 'active',\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1\n}"
+    },
+    {
+      "table": "approval_summary_snapshot",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalSummarySnapshot.targetType is required, 'undefined' found\nentity: ApprovalSummarySnapshot { createdAt: 2020-01-01T00:00:00.123Z }"
+    },
+    {
+      "table": "approval_summary_package_definition",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "approvalScenarioKey": null,
+        "summaryPackageKey": "summaryPackageKey-value",
+        "projectionLevel": "projectionLevel-value",
+        "exportPolicy": "exportPolicy-value",
+        "fieldRuleVersion": "fieldRuleVersion-value",
+        "status": "active",
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1
+      },
+      "message": "Value for ApprovalSummaryPackageDefinition.approvalScenarioKey is required, 'null' found\nentity: ApprovalSummaryPackageDefinition {\n  id: '00000000-0000-4000-8000-000000000081',\n  approvalScenarioKey: null,\n  summaryPackageKey: 'summaryPackageKey-value',\n  projectionLevel: 'projectionLevel-value',\n  exportPolicy: 'exportPolicy-value',\n  fieldRuleVersion: 'fieldRuleVersion-value',\n  status: 'active',\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1\n}"
+    },
+    {
+      "table": "approval_summary_package_definition",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "approvalScenarioKey": {
+          "$undefined": true
+        },
+        "summaryPackageKey": "summaryPackageKey-value",
+        "projectionLevel": "projectionLevel-value",
+        "exportPolicy": "exportPolicy-value",
+        "fieldRuleVersion": "fieldRuleVersion-value",
+        "status": "active",
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1
+      },
+      "message": "Value for ApprovalSummaryPackageDefinition.approvalScenarioKey is required, 'undefined' found\nentity: ApprovalSummaryPackageDefinition {\n  id: '00000000-0000-4000-8000-000000000081',\n  summaryPackageKey: 'summaryPackageKey-value',\n  projectionLevel: 'projectionLevel-value',\n  exportPolicy: 'exportPolicy-value',\n  fieldRuleVersion: 'fieldRuleVersion-value',\n  status: 'active',\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1\n}"
+    },
+    {
+      "table": "approval_summary_package_definition",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalSummaryPackageDefinition.approvalScenarioKey is required, 'undefined' found\nentity: ApprovalSummaryPackageDefinition { createdAt: 2020-01-01T00:00:00.123Z }"
+    },
+    {
+      "table": "approval_summary_field_projection",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "summarySnapshotId": null,
+        "fieldKey": "fieldKey-value",
+        "visibilityLevel": "visibilityLevel-value",
+        "maskingMode": "maskingMode-value",
+        "exportPolicy": "exportPolicy-value",
+        "fieldOrder": 0,
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalSummaryFieldProjection.summarySnapshotId is required, 'null' found\nentity: ApprovalSummaryFieldProjection {\n  id: '00000000-0000-4000-8000-000000000081',\n  summarySnapshotId: null,\n  fieldKey: 'fieldKey-value',\n  visibilityLevel: 'visibilityLevel-value',\n  maskingMode: 'maskingMode-value',\n  exportPolicy: 'exportPolicy-value',\n  fieldOrder: 0,\n  createdAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "approval_summary_field_projection",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "summarySnapshotId": {
+          "$undefined": true
+        },
+        "fieldKey": "fieldKey-value",
+        "visibilityLevel": "visibilityLevel-value",
+        "maskingMode": "maskingMode-value",
+        "exportPolicy": "exportPolicy-value",
+        "fieldOrder": 0,
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalSummaryFieldProjection.summarySnapshotId is required, 'undefined' found\nentity: ApprovalSummaryFieldProjection {\n  id: '00000000-0000-4000-8000-000000000081',\n  fieldKey: 'fieldKey-value',\n  visibilityLevel: 'visibilityLevel-value',\n  maskingMode: 'maskingMode-value',\n  exportPolicy: 'exportPolicy-value',\n  fieldOrder: 0,\n  createdAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "approval_summary_field_projection",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalSummaryFieldProjection.summarySnapshotId is required, 'undefined' found\nentity: ApprovalSummaryFieldProjection { createdAt: 2020-01-01T00:00:00.123Z }"
+    },
+    {
+      "table": "approval_record",
+      "missing": "null",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "approvalType": null,
+        "businessDomain": "businessDomain-value",
+        "targetObjectType": "targetObjectType-value",
+        "targetObjectId": "00000000-0000-4000-8000-000000000081",
+        "currentStatus": "currentStatus-value",
+        "currentNodeKey": "currentNodeKey-value",
+        "initiatorUserId": "00000000-0000-4000-8000-000000000081",
+        "submittedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1,
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalRecord.approvalType is required, 'null' found\nentity: ApprovalRecord {\n  id: '00000000-0000-4000-8000-000000000081',\n  approvalType: null,\n  businessDomain: 'businessDomain-value',\n  targetObjectType: 'targetObjectType-value',\n  targetObjectId: '00000000-0000-4000-8000-000000000081',\n  currentStatus: 'currentStatus-value',\n  currentNodeKey: 'currentNodeKey-value',\n  initiatorUserId: '00000000-0000-4000-8000-000000000081',\n  submittedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1,\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "approval_record",
+      "missing": "undefined",
+      "input": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "approvalType": {
+          "$undefined": true
+        },
+        "businessDomain": "businessDomain-value",
+        "targetObjectType": "targetObjectType-value",
+        "targetObjectId": "00000000-0000-4000-8000-000000000081",
+        "currentStatus": "currentStatus-value",
+        "currentNodeKey": "currentNodeKey-value",
+        "initiatorUserId": "00000000-0000-4000-8000-000000000081",
+        "submittedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "rowVersion": 1,
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        },
+        "updatedAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalRecord.approvalType is required, 'undefined' found\nentity: ApprovalRecord {\n  id: '00000000-0000-4000-8000-000000000081',\n  businessDomain: 'businessDomain-value',\n  targetObjectType: 'targetObjectType-value',\n  targetObjectId: '00000000-0000-4000-8000-000000000081',\n  currentStatus: 'currentStatus-value',\n  currentNodeKey: 'currentNodeKey-value',\n  initiatorUserId: '00000000-0000-4000-8000-000000000081',\n  submittedAt: 2020-01-01T00:00:00.123Z,\n  rowVersion: 1,\n  createdAt: 2020-01-01T00:00:00.123Z,\n  updatedAt: 2020-01-01T00:00:00.123Z\n}"
+    },
+    {
+      "table": "approval_record",
+      "missing": "sparse-undefined",
+      "input": {
+        "createdAt": {
+          "$date": "2020-01-01T00:00:00.123Z"
+        }
+      },
+      "message": "Value for ApprovalRecord.approvalType is required, 'undefined' found\nentity: ApprovalRecord { createdAt: 2020-01-01T00:00:00.123Z }"
+    }
+  ],
+  "scalars": [
+    {
+      "input": "plain",
+      "output": "'plain'"
+    },
+    {
+      "input": "a'b",
+      "output": "\"a'b\""
+    },
+    {
+      "input": "a\"b",
+      "output": "'a\"b'"
+    },
+    {
+      "input": "a'\"b",
+      "output": "`a'\"b`"
+    },
+    {
+      "input": "a'\"`b",
+      "output": "'a\\'\"`b'"
+    },
+    {
+      "input": "${x}'\"b",
+      "output": "'${x}\\'\"b'"
+    },
+    {
+      "input": "\ud800",
+      "output": "'\\ud800'"
+    },
+    {
+      "input": "\udc00",
+      "output": "'\\udc00'"
+    },
+    {
+      "input": "\udaff",
+      "output": "'\\udaff'"
+    },
+    {
+      "input": "😀",
+      "output": "'😀'"
+    },
+    {
+      "input": "\u0000\u0001\u0007\b\t\n\u000b\f\r\u001f",
+      "output": "'\\x00\\x01\\x07\\b\\t\\n\\x0B\\f\\r\\x1F\\x7F\\x85'"
+    },
+    {
+      "input": "  ",
+      "output": "'  '"
+    },
+    {
+      "input": "\\",
+      "output": "'\\\\'"
+    }
+  ],
+  "insertParams": [
+    {
+      "table": "approval_summary_package_definition",
+      "property": "status",
+      "input": {
+        "$undefined": true
+      },
+      "expected": "active",
+      "entityStillOriginal": true
+    },
+    {
+      "table": "approval_summary_package_definition",
+      "property": "status",
+      "input": null,
+      "expected": "active",
+      "entityStillOriginal": true
+    },
+    {
+      "table": "approval_summary_package_definition",
+      "property": "status",
+      "input": "inactive",
+      "expected": "inactive",
+      "entityStillOriginal": true
+    },
+    {
+      "table": "confirmation_record",
+      "property": "confirmedCount",
+      "input": {
+        "$undefined": true
+      },
+      "expected": 0,
+      "entityStillOriginal": true
+    },
+    {
+      "table": "confirmation_record",
+      "property": "confirmedCount",
+      "input": null,
+      "expected": 0,
+      "entityStillOriginal": true
+    },
+    {
+      "table": "confirmation_record",
+      "property": "confirmedCount",
+      "input": 2,
+      "expected": 2,
+      "entityStillOriginal": true
+    },
+    {
+      "table": "approval_summary_snapshot",
+      "property": "supersedesId",
+      "input": null,
+      "expected": null,
+      "entityStillOriginal": true
+    }
+  ]
+}

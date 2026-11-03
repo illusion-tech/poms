@@ -1,0 +1,5464 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "19f837c9e33fe9cdeb7ca94f3c932c9621cb91d3",
+  "source": "Actual original NavigationService methods; synthetic trees replace data only, never the algorithm",
+  "original": {
+    "fullTree": [
+      {
+        "id": "nav-overview",
+        "key": "overview",
+        "type": "group",
+        "title": "总览",
+        "subtitle": null,
+        "link": null,
+        "icon": "pi pi-th-large",
+        "displayOrder": 0,
+        "isHidden": false,
+        "isDisabled": false,
+        "requiredPermissions": null,
+        "meta": null,
+        "children": [
+          {
+            "id": "nav-dashboard",
+            "key": "dashboard",
+            "type": "basic",
+            "title": "工作台",
+            "subtitle": null,
+            "link": "/dashboard",
+            "icon": "pi pi-home",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:dashboard:view"
+            ],
+            "meta": null,
+            "children": null
+          }
+        ]
+      },
+      {
+        "id": "nav-business",
+        "key": "business",
+        "type": "group",
+        "title": "业务管理",
+        "subtitle": null,
+        "link": null,
+        "icon": "pi pi-briefcase",
+        "displayOrder": 100,
+        "isHidden": false,
+        "isDisabled": false,
+        "requiredPermissions": null,
+        "meta": null,
+        "children": [
+          {
+            "id": "nav-customers",
+            "key": "customers",
+            "type": "basic",
+            "title": "客户管理",
+            "subtitle": null,
+            "link": "/customers",
+            "icon": "pi pi-building",
+            "displayOrder": -20,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:customers:view"
+            ],
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "nav-leads",
+            "key": "leads",
+            "type": "basic",
+            "title": "线索管理",
+            "subtitle": null,
+            "link": "/leads",
+            "icon": "pi pi-compass",
+            "displayOrder": -10,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:leads:view"
+            ],
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "nav-projects",
+            "key": "projects",
+            "type": "basic",
+            "title": "项目管理",
+            "subtitle": null,
+            "link": "/projects",
+            "icon": "pi pi-briefcase",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:projects:view"
+            ],
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "nav-contracts",
+            "key": "contracts",
+            "type": "basic",
+            "title": "合同管理",
+            "subtitle": null,
+            "link": "/contracts",
+            "icon": "pi pi-file-edit",
+            "displayOrder": 10,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:contracts:view"
+            ],
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "nav-attachments",
+            "key": "attachments",
+            "type": "basic",
+            "title": "附件中心",
+            "subtitle": null,
+            "link": "/attachments",
+            "icon": "pi pi-paperclip",
+            "displayOrder": 20,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:attachments:view"
+            ],
+            "meta": null,
+            "children": null
+          }
+        ]
+      },
+      {
+        "id": "nav-platform",
+        "key": "platform",
+        "type": "group",
+        "title": "平台配置",
+        "subtitle": null,
+        "link": null,
+        "icon": "pi pi-cog",
+        "displayOrder": 200,
+        "isHidden": false,
+        "isDisabled": false,
+        "requiredPermissions": null,
+        "meta": null,
+        "children": [
+          {
+            "id": "nav-platform-people-access",
+            "key": "platform.people-access",
+            "type": "collapsable",
+            "title": "人员与权限",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-users",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-users",
+                "key": "platform.users",
+                "type": "basic",
+                "title": "用户管理",
+                "subtitle": null,
+                "link": "/platform/users",
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:users:manage"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-platform-roles",
+                "key": "platform.roles",
+                "type": "basic",
+                "title": "角色与权限",
+                "subtitle": null,
+                "link": "/platform/roles",
+                "icon": "pi pi-shield",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:roles:manage"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform-organization",
+            "key": "platform.organization",
+            "type": "collapsable",
+            "title": "组织架构",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-sitemap",
+            "displayOrder": 10,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-org-units",
+                "key": "platform.org-units",
+                "type": "basic",
+                "title": "组织单元",
+                "subtitle": null,
+                "link": "/platform/org-units",
+                "icon": "pi pi-sitemap",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:org-units:manage"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-platform-external-org-sync",
+                "key": "platform.external-org-sync",
+                "type": "basic",
+                "title": "外部组织同步",
+                "subtitle": null,
+                "link": "/platform/external-org-sync",
+                "icon": "pi pi-sync",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:org-units:manage",
+                  "platform:org-sync:manage"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform-integrations",
+            "key": "platform.integrations",
+            "type": "collapsable",
+            "title": "集成与连接",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-link",
+            "displayOrder": 20,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-identity-providers",
+                "key": "platform.identity-providers",
+                "type": "basic",
+                "title": "企业协同接入",
+                "subtitle": null,
+                "link": "/platform/identity-providers",
+                "icon": "pi pi-id-card",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:identity-providers:manage"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-platform-attachment-storage-providers",
+                "key": "platform.attachment-storage-providers",
+                "type": "basic",
+                "title": "文件存储接入",
+                "subtitle": null,
+                "link": "/platform/attachment-storage-providers",
+                "icon": "pi pi-cloud",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:attachment-storage-providers:manage"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform-business-config",
+            "key": "platform.business-config",
+            "type": "collapsable",
+            "title": "业务配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-sliders-h",
+            "displayOrder": 30,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-dictionaries",
+                "key": "platform.dictionaries",
+                "type": "basic",
+                "title": "业务字典",
+                "subtitle": null,
+                "link": "/platform/dictionaries",
+                "icon": "pi pi-book",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:dictionaries:manage"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-platform-system-settings",
+                "key": "platform.system-settings",
+                "type": "basic",
+                "title": "系统设置",
+                "subtitle": null,
+                "link": "/platform/system-settings",
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:system-settings:manage"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform-system-governance",
+            "key": "platform.system-governance",
+            "type": "collapsable",
+            "title": "系统治理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 40,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-navigation",
+                "key": "platform.navigation",
+                "type": "basic",
+                "title": "导航菜单",
+                "subtitle": null,
+                "link": "/platform/navigation",
+                "icon": "pi pi-bars",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "platform:navigation:manage"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "nav-account",
+        "key": "account",
+        "type": "group",
+        "title": "个人设置",
+        "subtitle": null,
+        "link": null,
+        "icon": "pi pi-user",
+        "displayOrder": 900,
+        "isHidden": false,
+        "isDisabled": false,
+        "requiredPermissions": null,
+        "meta": null,
+        "children": [
+          {
+            "id": "nav-profile",
+            "key": "my_profile",
+            "type": "basic",
+            "title": "个人中心",
+            "subtitle": null,
+            "link": "/profile",
+            "icon": "pi pi-user",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "nav:profile:view"
+            ],
+            "meta": null,
+            "children": null
+          }
+        ]
+      }
+    ],
+    "snapshot": {
+      "targetId": "platform-navigation",
+      "nodeCount": 25,
+      "routeCount": 16,
+      "hiddenCount": 0,
+      "disabledCount": 0,
+      "treeChecksum": "1577eefe99c751232ace066cca70a347575bfbe540cf392fca6175568b6a40c0",
+      "navigationKeys": [
+        "overview",
+        "dashboard",
+        "business",
+        "customers",
+        "leads",
+        "projects",
+        "contracts",
+        "attachments",
+        "platform",
+        "platform.people-access",
+        "platform.users",
+        "platform.roles",
+        "platform.organization",
+        "platform.org-units",
+        "platform.external-org-sync",
+        "platform.integrations",
+        "platform.identity-providers",
+        "platform.attachment-storage-providers",
+        "platform.business-config",
+        "platform.dictionaries",
+        "platform.system-settings",
+        "platform.system-governance",
+        "platform.navigation",
+        "account",
+        "my_profile"
+      ],
+      "routeLinks": [
+        "/dashboard",
+        "/customers",
+        "/leads",
+        "/projects",
+        "/contracts",
+        "/attachments",
+        "/platform/users",
+        "/platform/roles",
+        "/platform/org-units",
+        "/platform/external-org-sync",
+        "/platform/identity-providers",
+        "/platform/attachment-storage-providers",
+        "/platform/dictionaries",
+        "/platform/system-settings",
+        "/platform/navigation",
+        "/profile"
+      ]
+    },
+    "cases": [
+      {
+        "id": "authority-no-permissions",
+        "permissions": [],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-all-permissions",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-customers",
+                "key": "customers",
+                "type": "basic",
+                "title": "客户管理",
+                "subtitle": null,
+                "link": "/customers",
+                "icon": "pi pi-building",
+                "displayOrder": -20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:customers:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-leads",
+                "key": "leads",
+                "type": "basic",
+                "title": "线索管理",
+                "subtitle": null,
+                "link": "/leads",
+                "icon": "pi pi-compass",
+                "displayOrder": -10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:leads:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-contracts",
+                "key": "contracts",
+                "type": "basic",
+                "title": "合同管理",
+                "subtitle": null,
+                "link": "/contracts",
+                "icon": "pi pi-file-edit",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:contracts:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-attachments",
+                "key": "attachments",
+                "type": "basic",
+                "title": "附件中心",
+                "subtitle": null,
+                "link": "/attachments",
+                "icon": "pi pi-paperclip",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:attachments:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-users",
+                    "key": "platform.users",
+                    "type": "basic",
+                    "title": "用户管理",
+                    "subtitle": null,
+                    "link": "/platform/users",
+                    "icon": "pi pi-users",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:users:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-roles",
+                    "key": "platform.roles",
+                    "type": "basic",
+                    "title": "角色与权限",
+                    "subtitle": null,
+                    "link": "/platform/roles",
+                    "icon": "pi pi-shield",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:roles:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-identity-providers",
+                    "key": "platform.identity-providers",
+                    "type": "basic",
+                    "title": "企业协同接入",
+                    "subtitle": null,
+                    "link": "/platform/identity-providers",
+                    "icon": "pi pi-id-card",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:identity-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-attachment-storage-providers",
+                    "key": "platform.attachment-storage-providers",
+                    "type": "basic",
+                    "title": "文件存储接入",
+                    "subtitle": null,
+                    "link": "/platform/attachment-storage-providers",
+                    "icon": "pi pi-cloud",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:attachment-storage-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-dictionaries",
+                    "key": "platform.dictionaries",
+                    "type": "basic",
+                    "title": "业务字典",
+                    "subtitle": null,
+                    "link": "/platform/dictionaries",
+                    "icon": "pi pi-book",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:dictionaries:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-system-settings",
+                    "key": "platform.system-settings",
+                    "type": "basic",
+                    "title": "系统设置",
+                    "subtitle": null,
+                    "link": "/platform/system-settings",
+                    "icon": "pi pi-sliders-h",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:system-settings:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-system-governance",
+                "key": "platform.system-governance",
+                "type": "collapsable",
+                "title": "系统治理",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-cog",
+                "displayOrder": 40,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-navigation",
+                    "key": "platform.navigation",
+                    "type": "basic",
+                    "title": "导航菜单",
+                    "subtitle": null,
+                    "link": "/platform/navigation",
+                    "icon": "pi pi-bars",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:navigation:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "nav-account",
+            "key": "account",
+            "type": "group",
+            "title": "个人设置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-user",
+            "displayOrder": 900,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-profile",
+                "key": "my_profile",
+                "type": "basic",
+                "title": "个人中心",
+                "subtitle": null,
+                "link": "/profile",
+                "icon": "pi pi-user",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:profile:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:users:manage",
+        "permissions": [
+          "platform:users:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-users",
+                    "key": "platform.users",
+                    "type": "basic",
+                    "title": "用户管理",
+                    "subtitle": null,
+                    "link": "/platform/users",
+                    "icon": "pi pi-users",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:users:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:roles:manage",
+        "permissions": [
+          "platform:roles:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-roles",
+                    "key": "platform.roles",
+                    "type": "basic",
+                    "title": "角色与权限",
+                    "subtitle": null,
+                    "link": "/platform/roles",
+                    "icon": "pi pi-shield",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:roles:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:navigation:manage",
+        "permissions": [
+          "platform:navigation:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-system-governance",
+                "key": "platform.system-governance",
+                "type": "collapsable",
+                "title": "系统治理",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-cog",
+                "displayOrder": 40,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-navigation",
+                    "key": "platform.navigation",
+                    "type": "basic",
+                    "title": "导航菜单",
+                    "subtitle": null,
+                    "link": "/platform/navigation",
+                    "icon": "pi pi-bars",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:navigation:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:org-units:manage",
+        "permissions": [
+          "platform:org-units:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:dictionaries:manage",
+        "permissions": [
+          "platform:dictionaries:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-dictionaries",
+                    "key": "platform.dictionaries",
+                    "type": "basic",
+                    "title": "业务字典",
+                    "subtitle": null,
+                    "link": "/platform/dictionaries",
+                    "icon": "pi pi-book",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:dictionaries:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:identity-providers:manage",
+        "permissions": [
+          "platform:identity-providers:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-identity-providers",
+                    "key": "platform.identity-providers",
+                    "type": "basic",
+                    "title": "企业协同接入",
+                    "subtitle": null,
+                    "link": "/platform/identity-providers",
+                    "icon": "pi pi-id-card",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:identity-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:org-sync:manage",
+        "permissions": [
+          "platform:org-sync:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:platform:attachment-storage-providers:manage",
+        "permissions": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-attachment-storage-providers",
+                    "key": "platform.attachment-storage-providers",
+                    "type": "basic",
+                    "title": "文件存储接入",
+                    "subtitle": null,
+                    "link": "/platform/attachment-storage-providers",
+                    "icon": "pi pi-cloud",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:attachment-storage-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:platform:system-settings:manage",
+        "permissions": [
+          "platform:system-settings:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-system-settings",
+                    "key": "platform.system-settings",
+                    "type": "basic",
+                    "title": "系统设置",
+                    "subtitle": null,
+                    "link": "/platform/system-settings",
+                    "icon": "pi pi-sliders-h",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:system-settings:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:customer:read",
+        "permissions": [
+          "customer:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:customer:write",
+        "permissions": [
+          "customer:write"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:commission:rule-versions:manage",
+        "permissions": [
+          "commission:rule-versions:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:commission:assignments:manage",
+        "permissions": [
+          "commission:assignments:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:commission:calculations:manage",
+        "permissions": [
+          "commission:calculations:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:commission:payouts:manage",
+        "permissions": [
+          "commission:payouts:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:commission:adjustments:manage",
+        "permissions": [
+          "commission:adjustments:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:contract:finance:manage",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:contract:finance:sensitive:read",
+        "permissions": [
+          "contract:finance:sensitive:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:operating:finance:sensitive:read",
+        "permissions": [
+          "operating:finance:sensitive:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:commission:amount:sensitive:read",
+        "permissions": [
+          "commission:amount:sensitive:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:labor-cost-rate:sensitive:read",
+        "permissions": [
+          "labor-cost-rate:sensitive:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:exception-approval-opinion:sensitive:read",
+        "permissions": [
+          "exception-approval-opinion:sensitive:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:lead:read",
+        "permissions": [
+          "lead:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:lead:write",
+        "permissions": [
+          "lead:write"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:lead:assign",
+        "permissions": [
+          "lead:assign"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:lead:score:override",
+        "permissions": [
+          "lead:score:override"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:project:read",
+        "permissions": [
+          "project:read"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:project:write",
+        "permissions": [
+          "project:write"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:project:delete",
+        "permissions": [
+          "project:delete"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:nav:dashboard:view",
+        "permissions": [
+          "nav:dashboard:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:nav:customers:view",
+        "permissions": [
+          "nav:customers:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-customers",
+                "key": "customers",
+                "type": "basic",
+                "title": "客户管理",
+                "subtitle": null,
+                "link": "/customers",
+                "icon": "pi pi-building",
+                "displayOrder": -20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:customers:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:nav:platform:view",
+        "permissions": [
+          "nav:platform:view"
+        ],
+        "expectedTree": []
+      },
+      {
+        "id": "authority-single:nav:leads:view",
+        "permissions": [
+          "nav:leads:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-leads",
+                "key": "leads",
+                "type": "basic",
+                "title": "线索管理",
+                "subtitle": null,
+                "link": "/leads",
+                "icon": "pi pi-compass",
+                "displayOrder": -10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:leads:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:nav:attachments:view",
+        "permissions": [
+          "nav:attachments:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-attachments",
+                "key": "attachments",
+                "type": "basic",
+                "title": "附件中心",
+                "subtitle": null,
+                "link": "/attachments",
+                "icon": "pi pi-paperclip",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:attachments:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:nav:projects:view",
+        "permissions": [
+          "nav:projects:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:nav:contracts:view",
+        "permissions": [
+          "nav:contracts:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-contracts",
+                "key": "contracts",
+                "type": "basic",
+                "title": "合同管理",
+                "subtitle": null,
+                "link": "/contracts",
+                "icon": "pi pi-file-edit",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:contracts:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-single:nav:profile:view",
+        "permissions": [
+          "nav:profile:view"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-account",
+            "key": "account",
+            "type": "group",
+            "title": "个人设置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-user",
+            "displayOrder": 900,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-profile",
+                "key": "my_profile",
+                "type": "basic",
+                "title": "个人中心",
+                "subtitle": null,
+                "link": "/profile",
+                "icon": "pi pi-user",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:profile:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-AND-both",
+        "permissions": [
+          "platform:org-units:manage",
+          "platform:org-sync:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-shell-org",
+        "permissions": [
+          "nav:dashboard:view",
+          "platform:org-units:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-shell-org-and-sync",
+        "permissions": [
+          "nav:dashboard:view",
+          "platform:org-units:manage",
+          "platform:org-sync:manage"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "authority-duplicate-and-unknown-raw-permissions",
+        "permissions": [
+          "nav:projects:view",
+          "nav:projects:view",
+          "future:unrecognized"
+        ],
+        "expectedTree": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "authority-full-tree-and-snapshot",
+      "kind": "full-and-snapshot",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [],
+      "observed": {
+        "fullTree": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-customers",
+                "key": "customers",
+                "type": "basic",
+                "title": "客户管理",
+                "subtitle": null,
+                "link": "/customers",
+                "icon": "pi pi-building",
+                "displayOrder": -20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:customers:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-leads",
+                "key": "leads",
+                "type": "basic",
+                "title": "线索管理",
+                "subtitle": null,
+                "link": "/leads",
+                "icon": "pi pi-compass",
+                "displayOrder": -10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:leads:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-contracts",
+                "key": "contracts",
+                "type": "basic",
+                "title": "合同管理",
+                "subtitle": null,
+                "link": "/contracts",
+                "icon": "pi pi-file-edit",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:contracts:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-attachments",
+                "key": "attachments",
+                "type": "basic",
+                "title": "附件中心",
+                "subtitle": null,
+                "link": "/attachments",
+                "icon": "pi pi-paperclip",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:attachments:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-users",
+                    "key": "platform.users",
+                    "type": "basic",
+                    "title": "用户管理",
+                    "subtitle": null,
+                    "link": "/platform/users",
+                    "icon": "pi pi-users",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:users:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-roles",
+                    "key": "platform.roles",
+                    "type": "basic",
+                    "title": "角色与权限",
+                    "subtitle": null,
+                    "link": "/platform/roles",
+                    "icon": "pi pi-shield",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:roles:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-identity-providers",
+                    "key": "platform.identity-providers",
+                    "type": "basic",
+                    "title": "企业协同接入",
+                    "subtitle": null,
+                    "link": "/platform/identity-providers",
+                    "icon": "pi pi-id-card",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:identity-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-attachment-storage-providers",
+                    "key": "platform.attachment-storage-providers",
+                    "type": "basic",
+                    "title": "文件存储接入",
+                    "subtitle": null,
+                    "link": "/platform/attachment-storage-providers",
+                    "icon": "pi pi-cloud",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:attachment-storage-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-dictionaries",
+                    "key": "platform.dictionaries",
+                    "type": "basic",
+                    "title": "业务字典",
+                    "subtitle": null,
+                    "link": "/platform/dictionaries",
+                    "icon": "pi pi-book",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:dictionaries:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-system-settings",
+                    "key": "platform.system-settings",
+                    "type": "basic",
+                    "title": "系统设置",
+                    "subtitle": null,
+                    "link": "/platform/system-settings",
+                    "icon": "pi pi-sliders-h",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:system-settings:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-system-governance",
+                "key": "platform.system-governance",
+                "type": "collapsable",
+                "title": "系统治理",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-cog",
+                "displayOrder": 40,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-navigation",
+                    "key": "platform.navigation",
+                    "type": "basic",
+                    "title": "导航菜单",
+                    "subtitle": null,
+                    "link": "/platform/navigation",
+                    "icon": "pi pi-bars",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:navigation:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "nav-account",
+            "key": "account",
+            "type": "group",
+            "title": "个人设置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-user",
+            "displayOrder": 900,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-profile",
+                "key": "my_profile",
+                "type": "basic",
+                "title": "个人中心",
+                "subtitle": null,
+                "link": "/profile",
+                "icon": "pi pi-user",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:profile:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ],
+        "snapshot": {
+          "targetId": "platform-navigation",
+          "nodeCount": 25,
+          "routeCount": 16,
+          "hiddenCount": 0,
+          "disabledCount": 0,
+          "treeChecksum": "1577eefe99c751232ace066cca70a347575bfbe540cf392fca6175568b6a40c0",
+          "navigationKeys": [
+            "overview",
+            "dashboard",
+            "business",
+            "customers",
+            "leads",
+            "projects",
+            "contracts",
+            "attachments",
+            "platform",
+            "platform.people-access",
+            "platform.users",
+            "platform.roles",
+            "platform.organization",
+            "platform.org-units",
+            "platform.external-org-sync",
+            "platform.integrations",
+            "platform.identity-providers",
+            "platform.attachment-storage-providers",
+            "platform.business-config",
+            "platform.dictionaries",
+            "platform.system-settings",
+            "platform.system-governance",
+            "platform.navigation",
+            "account",
+            "my_profile"
+          ],
+          "routeLinks": [
+            "/dashboard",
+            "/customers",
+            "/leads",
+            "/projects",
+            "/contracts",
+            "/attachments",
+            "/platform/users",
+            "/platform/roles",
+            "/platform/org-units",
+            "/platform/external-org-sync",
+            "/platform/identity-providers",
+            "/platform/attachment-storage-providers",
+            "/platform/dictionaries",
+            "/platform/system-settings",
+            "/platform/navigation",
+            "/profile"
+          ]
+        }
+      }
+    },
+    {
+      "name": "authority-no-permissions",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-all-permissions",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-customers",
+                "key": "customers",
+                "type": "basic",
+                "title": "客户管理",
+                "subtitle": null,
+                "link": "/customers",
+                "icon": "pi pi-building",
+                "displayOrder": -20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:customers:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-leads",
+                "key": "leads",
+                "type": "basic",
+                "title": "线索管理",
+                "subtitle": null,
+                "link": "/leads",
+                "icon": "pi pi-compass",
+                "displayOrder": -10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:leads:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-contracts",
+                "key": "contracts",
+                "type": "basic",
+                "title": "合同管理",
+                "subtitle": null,
+                "link": "/contracts",
+                "icon": "pi pi-file-edit",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:contracts:view"
+                ],
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "nav-attachments",
+                "key": "attachments",
+                "type": "basic",
+                "title": "附件中心",
+                "subtitle": null,
+                "link": "/attachments",
+                "icon": "pi pi-paperclip",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:attachments:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-users",
+                    "key": "platform.users",
+                    "type": "basic",
+                    "title": "用户管理",
+                    "subtitle": null,
+                    "link": "/platform/users",
+                    "icon": "pi pi-users",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:users:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-roles",
+                    "key": "platform.roles",
+                    "type": "basic",
+                    "title": "角色与权限",
+                    "subtitle": null,
+                    "link": "/platform/roles",
+                    "icon": "pi pi-shield",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:roles:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-identity-providers",
+                    "key": "platform.identity-providers",
+                    "type": "basic",
+                    "title": "企业协同接入",
+                    "subtitle": null,
+                    "link": "/platform/identity-providers",
+                    "icon": "pi pi-id-card",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:identity-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-attachment-storage-providers",
+                    "key": "platform.attachment-storage-providers",
+                    "type": "basic",
+                    "title": "文件存储接入",
+                    "subtitle": null,
+                    "link": "/platform/attachment-storage-providers",
+                    "icon": "pi pi-cloud",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:attachment-storage-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-dictionaries",
+                    "key": "platform.dictionaries",
+                    "type": "basic",
+                    "title": "业务字典",
+                    "subtitle": null,
+                    "link": "/platform/dictionaries",
+                    "icon": "pi pi-book",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:dictionaries:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-system-settings",
+                    "key": "platform.system-settings",
+                    "type": "basic",
+                    "title": "系统设置",
+                    "subtitle": null,
+                    "link": "/platform/system-settings",
+                    "icon": "pi pi-sliders-h",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:system-settings:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              },
+              {
+                "id": "nav-platform-system-governance",
+                "key": "platform.system-governance",
+                "type": "collapsable",
+                "title": "系统治理",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-cog",
+                "displayOrder": 40,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-navigation",
+                    "key": "platform.navigation",
+                    "type": "basic",
+                    "title": "导航菜单",
+                    "subtitle": null,
+                    "link": "/platform/navigation",
+                    "icon": "pi pi-bars",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:navigation:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "nav-account",
+            "key": "account",
+            "type": "group",
+            "title": "个人设置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-user",
+            "displayOrder": 900,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-profile",
+                "key": "my_profile",
+                "type": "basic",
+                "title": "个人中心",
+                "subtitle": null,
+                "link": "/profile",
+                "icon": "pi pi-user",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:profile:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:users:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:users:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-users",
+                    "key": "platform.users",
+                    "type": "basic",
+                    "title": "用户管理",
+                    "subtitle": null,
+                    "link": "/platform/users",
+                    "icon": "pi pi-users",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:users:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:roles:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:roles:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-people-access",
+                "key": "platform.people-access",
+                "type": "collapsable",
+                "title": "人员与权限",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-users",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-roles",
+                    "key": "platform.roles",
+                    "type": "basic",
+                    "title": "角色与权限",
+                    "subtitle": null,
+                    "link": "/platform/roles",
+                    "icon": "pi pi-shield",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:roles:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:navigation:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:navigation:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-system-governance",
+                "key": "platform.system-governance",
+                "type": "collapsable",
+                "title": "系统治理",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-cog",
+                "displayOrder": 40,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-navigation",
+                    "key": "platform.navigation",
+                    "type": "basic",
+                    "title": "导航菜单",
+                    "subtitle": null,
+                    "link": "/platform/navigation",
+                    "icon": "pi pi-bars",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:navigation:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:org-units:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:org-units:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:dictionaries:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:dictionaries:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-dictionaries",
+                    "key": "platform.dictionaries",
+                    "type": "basic",
+                    "title": "业务字典",
+                    "subtitle": null,
+                    "link": "/platform/dictionaries",
+                    "icon": "pi pi-book",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:dictionaries:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:identity-providers:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:identity-providers:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-identity-providers",
+                    "key": "platform.identity-providers",
+                    "type": "basic",
+                    "title": "企业协同接入",
+                    "subtitle": null,
+                    "link": "/platform/identity-providers",
+                    "icon": "pi pi-id-card",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:identity-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:org-sync:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:org-sync:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:platform:attachment-storage-providers:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:attachment-storage-providers:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-integrations",
+                "key": "platform.integrations",
+                "type": "collapsable",
+                "title": "集成与连接",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-link",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-attachment-storage-providers",
+                    "key": "platform.attachment-storage-providers",
+                    "type": "basic",
+                    "title": "文件存储接入",
+                    "subtitle": null,
+                    "link": "/platform/attachment-storage-providers",
+                    "icon": "pi pi-cloud",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:attachment-storage-providers:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:platform:system-settings:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:system-settings:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-business-config",
+                "key": "platform.business-config",
+                "type": "collapsable",
+                "title": "业务配置",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sliders-h",
+                "displayOrder": 30,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-system-settings",
+                    "key": "platform.system-settings",
+                    "type": "basic",
+                    "title": "系统设置",
+                    "subtitle": null,
+                    "link": "/platform/system-settings",
+                    "icon": "pi pi-sliders-h",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:system-settings:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:customer:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "customer:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:customer:write",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "customer:write"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:commission:rule-versions:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "commission:rule-versions:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:commission:assignments:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:commission:calculations:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "commission:calculations:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:commission:payouts:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "commission:payouts:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:commission:adjustments:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "commission:adjustments:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:contract:finance:manage",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:contract:finance:sensitive:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "contract:finance:sensitive:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:operating:finance:sensitive:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "operating:finance:sensitive:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:commission:amount:sensitive:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "commission:amount:sensitive:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:labor-cost-rate:sensitive:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "labor-cost-rate:sensitive:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:exception-approval-opinion:sensitive:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "exception-approval-opinion:sensitive:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:lead:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "lead:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:lead:write",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "lead:write"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:lead:assign",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "lead:assign"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:lead:score:override",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "lead:score:override"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:project:read",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "project:read"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:project:write",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "project:write"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:project:delete",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "project:delete"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:nav:dashboard:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:dashboard:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:nav:customers:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:customers:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-customers",
+                "key": "customers",
+                "type": "basic",
+                "title": "客户管理",
+                "subtitle": null,
+                "link": "/customers",
+                "icon": "pi pi-building",
+                "displayOrder": -20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:customers:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:nav:platform:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:platform:view"
+      ],
+      "observed": {
+        "navigation": []
+      }
+    },
+    {
+      "name": "authority-single:nav:leads:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:leads:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-leads",
+                "key": "leads",
+                "type": "basic",
+                "title": "线索管理",
+                "subtitle": null,
+                "link": "/leads",
+                "icon": "pi pi-compass",
+                "displayOrder": -10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:leads:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:nav:attachments:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:attachments:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-attachments",
+                "key": "attachments",
+                "type": "basic",
+                "title": "附件中心",
+                "subtitle": null,
+                "link": "/attachments",
+                "icon": "pi pi-paperclip",
+                "displayOrder": 20,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:attachments:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:nav:projects:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:projects:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:nav:contracts:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:contracts:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-contracts",
+                "key": "contracts",
+                "type": "basic",
+                "title": "合同管理",
+                "subtitle": null,
+                "link": "/contracts",
+                "icon": "pi pi-file-edit",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:contracts:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-single:nav:profile:view",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:profile:view"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-account",
+            "key": "account",
+            "type": "group",
+            "title": "个人设置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-user",
+            "displayOrder": 900,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-profile",
+                "key": "my_profile",
+                "type": "basic",
+                "title": "个人中心",
+                "subtitle": null,
+                "link": "/profile",
+                "icon": "pi pi-user",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:profile:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-AND-both",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "platform:org-units:manage",
+        "platform:org-sync:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-shell-org",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:dashboard:view",
+        "platform:org-units:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-shell-org-and-sync",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:dashboard:view",
+        "platform:org-units:manage",
+        "platform:org-sync:manage"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-overview",
+            "key": "overview",
+            "type": "group",
+            "title": "总览",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-th-large",
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-dashboard",
+                "key": "dashboard",
+                "type": "basic",
+                "title": "工作台",
+                "subtitle": null,
+                "link": "/dashboard",
+                "icon": "pi pi-home",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:dashboard:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          },
+          {
+            "id": "nav-platform",
+            "key": "platform",
+            "type": "group",
+            "title": "平台配置",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-cog",
+            "displayOrder": 200,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-platform-organization",
+                "key": "platform.organization",
+                "type": "collapsable",
+                "title": "组织架构",
+                "subtitle": null,
+                "link": null,
+                "icon": "pi pi-sitemap",
+                "displayOrder": 10,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": [
+                  {
+                    "id": "nav-platform-org-units",
+                    "key": "platform.org-units",
+                    "type": "basic",
+                    "title": "组织单元",
+                    "subtitle": null,
+                    "link": "/platform/org-units",
+                    "icon": "pi pi-sitemap",
+                    "displayOrder": 0,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  },
+                  {
+                    "id": "nav-platform-external-org-sync",
+                    "key": "platform.external-org-sync",
+                    "type": "basic",
+                    "title": "外部组织同步",
+                    "subtitle": null,
+                    "link": "/platform/external-org-sync",
+                    "icon": "pi pi-sync",
+                    "displayOrder": 10,
+                    "isHidden": false,
+                    "isDisabled": false,
+                    "requiredPermissions": [
+                      "platform:org-units:manage",
+                      "platform:org-sync:manage"
+                    ],
+                    "meta": null,
+                    "children": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "authority-duplicate-and-unknown-raw-permissions",
+      "kind": "filtered",
+      "synthetic": false,
+      "tree": "ssot",
+      "permissions": [
+        "nav:projects:view",
+        "nav:projects:view",
+        "future:unrecognized"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "nav-business",
+            "key": "business",
+            "type": "group",
+            "title": "业务管理",
+            "subtitle": null,
+            "link": null,
+            "icon": "pi pi-briefcase",
+            "displayOrder": 100,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "nav-projects",
+                "key": "projects",
+                "type": "basic",
+                "title": "项目管理",
+                "subtitle": null,
+                "link": "/projects",
+                "icon": "pi pi-briefcase",
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": [
+                  "nav:projects:view"
+                ],
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "synthetic-hidden-disabled-and-original-empty-children",
+      "kind": "filtered",
+      "synthetic": true,
+      "tree": [
+        {
+          "id": "id-visible",
+          "key": "visible",
+          "type": "basic",
+          "title": "visible",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-hidden",
+          "key": "hidden",
+          "type": "basic",
+          "title": "hidden",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": true,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-disabled",
+          "key": "disabled",
+          "type": "basic",
+          "title": "disabled",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": true,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-empty-group",
+          "key": "empty-group",
+          "type": "group",
+          "title": "empty-group",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": []
+        },
+        {
+          "id": "id-all-hidden-group",
+          "key": "all-hidden-group",
+          "type": "group",
+          "title": "all-hidden-group",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": [
+            {
+              "id": "id-hidden-child",
+              "key": "hidden-child",
+              "type": "basic",
+              "title": "hidden-child",
+              "subtitle": null,
+              "link": "/example",
+              "icon": null,
+              "displayOrder": 0,
+              "isHidden": true,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            }
+          ]
+        },
+        {
+          "id": "id-all-hidden-basic",
+          "key": "all-hidden-basic",
+          "type": "basic",
+          "title": "all-hidden-basic",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": [
+            {
+              "id": "id-hidden-basic-child",
+              "key": "hidden-basic-child",
+              "type": "basic",
+              "title": "hidden-basic-child",
+              "subtitle": null,
+              "link": "/example",
+              "icon": null,
+              "displayOrder": 0,
+              "isHidden": true,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            }
+          ]
+        },
+        {
+          "id": "id-all-hidden-collapsable",
+          "key": "all-hidden-collapsable",
+          "type": "collapsable",
+          "title": "all-hidden-collapsable",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": [
+            {
+              "id": "id-hidden-collapsable-child",
+              "key": "hidden-collapsable-child",
+              "type": "basic",
+              "title": "hidden-collapsable-child",
+              "subtitle": null,
+              "link": "/example",
+              "icon": null,
+              "displayOrder": 0,
+              "isHidden": true,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            }
+          ]
+        }
+      ],
+      "permissions": [],
+      "observed": {
+        "navigation": [
+          {
+            "id": "id-visible",
+            "key": "visible",
+            "type": "basic",
+            "title": "visible",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-disabled",
+            "key": "disabled",
+            "type": "basic",
+            "title": "disabled",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": true,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-empty-group",
+            "key": "empty-group",
+            "type": "group",
+            "title": "empty-group",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": []
+          },
+          {
+            "id": "id-all-hidden-basic",
+            "key": "all-hidden-basic",
+            "type": "basic",
+            "title": "all-hidden-basic",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "synthetic-stable-order-at-every-level",
+      "kind": "filtered",
+      "synthetic": true,
+      "tree": [
+        {
+          "id": "id-tie-b",
+          "key": "tie-b",
+          "type": "basic",
+          "title": "tie-b",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-negative",
+          "key": "negative",
+          "type": "basic",
+          "title": "negative",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": -1,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-tie-a",
+          "key": "tie-a",
+          "type": "basic",
+          "title": "tie-a",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-nested",
+          "key": "nested",
+          "type": "group",
+          "title": "nested",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 1,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": [
+            {
+              "id": "id-nested-b",
+              "key": "nested-b",
+              "type": "basic",
+              "title": "nested-b",
+              "subtitle": null,
+              "link": "/example",
+              "icon": null,
+              "displayOrder": 0,
+              "isHidden": false,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            },
+            {
+              "id": "id-nested-a",
+              "key": "nested-a",
+              "type": "basic",
+              "title": "nested-a",
+              "subtitle": null,
+              "link": "/example",
+              "icon": null,
+              "displayOrder": 0,
+              "isHidden": false,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            },
+            {
+              "id": "id-nested-negative",
+              "key": "nested-negative",
+              "type": "basic",
+              "title": "nested-negative",
+              "subtitle": null,
+              "link": "/example",
+              "icon": null,
+              "displayOrder": -2,
+              "isHidden": false,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            }
+          ]
+        }
+      ],
+      "permissions": [],
+      "observed": {
+        "navigation": [
+          {
+            "id": "id-negative",
+            "key": "negative",
+            "type": "basic",
+            "title": "negative",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": -1,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-tie-b",
+            "key": "tie-b",
+            "type": "basic",
+            "title": "tie-b",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-tie-a",
+            "key": "tie-a",
+            "type": "basic",
+            "title": "tie-a",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-nested",
+            "key": "nested",
+            "type": "group",
+            "title": "nested",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 1,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "id-nested-negative",
+                "key": "nested-negative",
+                "type": "basic",
+                "title": "nested-negative",
+                "subtitle": null,
+                "link": "/example",
+                "icon": null,
+                "displayOrder": -2,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "id-nested-b",
+                "key": "nested-b",
+                "type": "basic",
+                "title": "nested-b",
+                "subtitle": null,
+                "link": "/example",
+                "icon": null,
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": null
+              },
+              {
+                "id": "id-nested-a",
+                "key": "nested-a",
+                "type": "basic",
+                "title": "nested-a",
+                "subtitle": null,
+                "link": "/example",
+                "icon": null,
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "synthetic-AND-one-of-two",
+      "kind": "filtered",
+      "synthetic": true,
+      "tree": [
+        {
+          "id": "id-null-permissions",
+          "key": "null-permissions",
+          "type": "basic",
+          "title": "null-permissions",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-empty-permissions",
+          "key": "empty-permissions",
+          "type": "basic",
+          "title": "empty-permissions",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": [],
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-and-node",
+          "key": "and-node",
+          "type": "basic",
+          "title": "and-node",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": [
+            "project:read",
+            "lead:read"
+          ],
+          "meta": null,
+          "children": null
+        }
+      ],
+      "permissions": [
+        "project:read",
+        "future:unrecognized"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "id-null-permissions",
+            "key": "null-permissions",
+            "type": "basic",
+            "title": "null-permissions",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-empty-permissions",
+            "key": "empty-permissions",
+            "type": "basic",
+            "title": "empty-permissions",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [],
+            "meta": null,
+            "children": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "synthetic-AND-two-of-two",
+      "kind": "filtered",
+      "synthetic": true,
+      "tree": [
+        {
+          "id": "id-null-permissions",
+          "key": "null-permissions",
+          "type": "basic",
+          "title": "null-permissions",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-empty-permissions",
+          "key": "empty-permissions",
+          "type": "basic",
+          "title": "empty-permissions",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": [],
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-and-node",
+          "key": "and-node",
+          "type": "basic",
+          "title": "and-node",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": [
+            "project:read",
+            "lead:read"
+          ],
+          "meta": null,
+          "children": null
+        }
+      ],
+      "permissions": [
+        "project:read",
+        "lead:read"
+      ],
+      "observed": {
+        "navigation": [
+          {
+            "id": "id-null-permissions",
+            "key": "null-permissions",
+            "type": "basic",
+            "title": "null-permissions",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-empty-permissions",
+            "key": "empty-permissions",
+            "type": "basic",
+            "title": "empty-permissions",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [],
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-and-node",
+            "key": "and-node",
+            "type": "basic",
+            "title": "and-node",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": [
+              "project:read",
+              "lead:read"
+            ],
+            "meta": null,
+            "children": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "synthetic-null-empty-meta-and-divider",
+      "kind": "filtered",
+      "synthetic": true,
+      "tree": [
+        {
+          "id": "id-null",
+          "key": "null",
+          "type": "basic",
+          "title": "null",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-empty",
+          "key": "empty",
+          "type": "basic",
+          "title": "empty",
+          "subtitle": null,
+          "link": "/example",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": {},
+          "children": []
+        },
+        {
+          "id": "id-divider",
+          "key": "divider",
+          "type": "divider",
+          "title": null,
+          "subtitle": null,
+          "link": null,
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": {
+            "public": [
+              true,
+              null,
+              "中文"
+            ]
+          },
+          "children": null
+        }
+      ],
+      "permissions": [],
+      "observed": {
+        "navigation": [
+          {
+            "id": "id-null",
+            "key": "null",
+            "type": "basic",
+            "title": "null",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-empty",
+            "key": "empty",
+            "type": "basic",
+            "title": "empty",
+            "subtitle": null,
+            "link": "/example",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": {},
+            "children": []
+          },
+          {
+            "id": "id-divider",
+            "key": "divider",
+            "type": "divider",
+            "title": null,
+            "subtitle": null,
+            "link": null,
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": {
+              "public": [
+                true,
+                null,
+                "中文"
+              ]
+            },
+            "children": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "synthetic-unfiltered-preorder-duplicates-unicode-checksum",
+      "kind": "full-and-snapshot",
+      "synthetic": true,
+      "tree": [
+        {
+          "id": "id-repeat",
+          "key": "repeat",
+          "type": "basic",
+          "title": "repeat",
+          "subtitle": null,
+          "link": "",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": true,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "repeat-2",
+          "key": "repeat",
+          "type": "basic",
+          "title": "repeat",
+          "subtitle": null,
+          "link": " ",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": false,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": null
+        },
+        {
+          "id": "id-键😀",
+          "key": "键😀",
+          "type": "basic",
+          "title": "键😀",
+          "subtitle": null,
+          "link": "/中文?quoted=\"\\\n",
+          "icon": null,
+          "displayOrder": 0,
+          "isHidden": false,
+          "isDisabled": true,
+          "requiredPermissions": null,
+          "meta": null,
+          "children": [
+            {
+              "id": "id-child",
+              "key": "child",
+              "type": "basic",
+              "title": "child",
+              "subtitle": null,
+              "link": null,
+              "icon": null,
+              "displayOrder": 0,
+              "isHidden": false,
+              "isDisabled": false,
+              "requiredPermissions": null,
+              "meta": null,
+              "children": null
+            }
+          ]
+        }
+      ],
+      "permissions": [],
+      "observed": {
+        "fullTree": [
+          {
+            "id": "id-repeat",
+            "key": "repeat",
+            "type": "basic",
+            "title": "repeat",
+            "subtitle": null,
+            "link": "",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": true,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "repeat-2",
+            "key": "repeat",
+            "type": "basic",
+            "title": "repeat",
+            "subtitle": null,
+            "link": " ",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": false,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": null
+          },
+          {
+            "id": "id-键😀",
+            "key": "键😀",
+            "type": "basic",
+            "title": "键😀",
+            "subtitle": null,
+            "link": "/中文?quoted=\"\\\n",
+            "icon": null,
+            "displayOrder": 0,
+            "isHidden": false,
+            "isDisabled": true,
+            "requiredPermissions": null,
+            "meta": null,
+            "children": [
+              {
+                "id": "id-child",
+                "key": "child",
+                "type": "basic",
+                "title": "child",
+                "subtitle": null,
+                "link": null,
+                "icon": null,
+                "displayOrder": 0,
+                "isHidden": false,
+                "isDisabled": false,
+                "requiredPermissions": null,
+                "meta": null,
+                "children": null
+              }
+            ]
+          }
+        ],
+        "snapshot": {
+          "targetId": "platform-navigation",
+          "nodeCount": 4,
+          "routeCount": 2,
+          "hiddenCount": 1,
+          "disabledCount": 1,
+          "treeChecksum": "f5f5f1450346e950042d41a4f203741e69db269146e4d6f0ef8e7954a384b572",
+          "navigationKeys": [
+            "repeat",
+            "repeat",
+            "键😀",
+            "child"
+          ],
+          "routeLinks": [
+            " ",
+            "/中文?quoted=\"\\\n"
+          ]
+        }
+      }
+    }
+  ]
+}

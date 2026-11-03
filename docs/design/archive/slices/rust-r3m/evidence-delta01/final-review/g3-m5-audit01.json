@@ -1,0 +1,181 @@
+{
+  "kind": "R3M-final-reviewer-independent-actual-M5-public-evidence-audit",
+  "createdAt": "2026-11-03T02:17:31.4861075Z",
+  "reviewer": "/root/r3_final_gate_review",
+  "sources": [
+    {
+      "file": "docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-rust01/report01.json",
+      "bytes": 2098443,
+      "rawBytesSha256": "9ab9c66dbce3bd56f015dabeccb5d7107eca9445af390e77b99a454a07d03254"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-rust02/report01.json",
+      "bytes": 42545,
+      "rawBytesSha256": "73329d08f44c4134c03842290fa9bdc994fc94ae86ca0d02cffebeaf66987a5a"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-nest01/report01.json",
+      "bytes": 420942,
+      "rawBytesSha256": "bb70bb57d9146fb8f44d360be63027aea954b74880ab3ad276f79dd8198daf0a"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/aggregate-terminal-cleanup-nest02/report01.json",
+      "bytes": 40613,
+      "rawBytesSha256": "66239c4e47096b977a20e6a6ff8c9fae956813dbfffd295990086b06fc5d08f8"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/object-process-terminal01/partial01.json",
+      "bytes": 9817,
+      "rawBytesSha256": "499c593a47e2cf268d5dfc8a92d0f6ade0e86999f6c0201a206b417c19b82c89"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/object-process-terminal03/report01.json",
+      "bytes": 15048,
+      "rawBytesSha256": "02f8369448c8de01c25d12cb4996f84bfc02d6c074220bb05a7c66e0c24c7ce2"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/object-process-terminal04/report01.json",
+      "bytes": 13032,
+      "rawBytesSha256": "ca57836b453132af62eb445917413c7479b5d125cce70224c373969a962070e2"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/root/whole-batch-terminal-input03.json",
+      "bytes": 4608,
+      "rawBytesSha256": "52061edd2d3f9b7e02e91e8c8750db4c3ff0e244e5e830d593d7025e11a3f593"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/root/original-log-settings03.json",
+      "bytes": 2270,
+      "rawBytesSha256": "7e888de65dd031ba234c30b285914757dc2ff4ac60103514d53ccda0ef2d8269"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/root/preserved-candidate-terminal01.json",
+      "bytes": 1285,
+      "rawBytesSha256": "2786b75efb59efbe56db2238401b02aac9d66002a60b38a55058486e1c72dbb0"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/root/native-ui-preservation01.json",
+      "bytes": 227828,
+      "rawBytesSha256": "9d17b65b3e3469806c957da1b6cff664d89aba7a96df2ea07af7aa5d10651a07"
+    },
+    {
+      "file": "docs/design/rust-r3m/evidence/terminal-draft/root-pure-cases-stdout04.bin",
+      "bytes": 2896,
+      "rawBytesSha256": "30e1462b4a4d5928ef84b8fc05878caae2f3fc8a79a33c8bd1108453dc61cea0"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-plan03.mjs",
+      "bytes": 20654,
+      "rawBytesSha256": "01953d25b19d5617b932834e99691a0ad180e5acd1d07318a7fd80e226c04b2c"
+    },
+    {
+      "file": "tmp/rust-r3m/terminal-draft/aggregate-run03.mjs",
+      "bytes": 32424,
+      "rawBytesSha256": "6f175c70548c16d4fd148b66cf9264c6c078d6678741e1801bdb5a102118d1d7"
+    },
+    {
+      "file": "tools/rust-r3m/object-process-terminal03.mjs",
+      "bytes": 8279,
+      "rawBytesSha256": "1e50b3309b188fbcd3379a48da04daeb04ca286745a87f8781d37fd19155e239"
+    }
+  ],
+  "reviewMethod": [
+    "read frozen actual executor sources and retained result/report streams; no execution by reviewer",
+    "reconstruct public ownership node graph and check actor primary-key hashes, current cohort/context pins, registered user roots, FK names/table targets and depth",
+    "check exact source-defined nonFK column allowlist and Todo parent/source/assignee/depth/not-FK boundary",
+    "cross-check every table ownership count against actual removed counts and totals",
+    "join 102 actor-null guard roots to 2 exact safe registrations including eventIndex/requestId/method/route/private-original-report hash and original wire byte/hash metadata",
+    "compare 11 original object pins to cleanup inventories and partial/resume/verify preservation lists"
+  ],
+  "pureCases": {
+    "actual": 33,
+    "pass": 33,
+    "fail": 0,
+    "skipped": 0
+  },
+  "ownership": [
+    {
+      "backend": "rust",
+      "nodes": 3727,
+      "uniqueNodes": 3727,
+      "exactUserRoots": 59,
+      "logicalTodoEdges": 28,
+      "guardRoots": 102,
+      "proofFailures": 0,
+      "tableCountMismatches": 0,
+      "removed": 3727
+    },
+    {
+      "backend": "nest",
+      "nodes": 744,
+      "uniqueNodes": 744,
+      "exactUserRoots": 11,
+      "logicalTodoEdges": 9,
+      "guardRoots": 0,
+      "proofFailures": 0,
+      "tableCountMismatches": 0,
+      "removed": 744
+    }
+  ],
+  "databases": {
+    "actualCleanupReports": 4,
+    "all107EarliestSeedExact": 4,
+    "catalogAnd428ACLExact": 4,
+    "originalLoggingSettingsExact": 4,
+    "postCommitReadback": 4,
+    "secondCleanupBothBackendsZero": true,
+    "actualForeignKeys": 207,
+    "logicalEdgesNotCountedAsDatabaseFK": true,
+    "restoredLogSettings": {
+      "log_line_prefix": "%m [%p] ",
+      "log_statement": "none",
+      "log_error_verbosity": "default"
+    },
+    "settingsSource": "earliest actual UI restore statements and raw-source offsets; not guessed defaults",
+    "rootSourceAssertionsAndPublishedPrivatePins": "inspected, private raw SQL/rows not opened"
+  },
+  "objects": {
+    "priorPartialRemainsIncomplete": true,
+    "priorFailure": "Windows CIM launcher path missing; actual exit 1, spawn status null",
+    "originals": 11,
+    "bytes": 486,
+    "priorRemoved": 11,
+    "resumeAdditionalRemoved": 0,
+    "verifyAdditionalRemoved": 0,
+    "remaining": 0,
+    "identicalCleanupPartialResumeVerifyLists": true,
+    "originalPreservedIdentityMismatches": 0,
+    "sourceGuarantees": "copy EXCL and SHA plus complete manifest before unlink; resume only validates exact already-preserved files and absent original paths"
+  },
+  "processes": {
+    "LinuxOwnedBrowserProcesses": 0,
+    "WindowsOwnedBrowserProcesses": 0,
+    "all6LinuxAnd1WindowsAPIJournalIdentitiesStopped": true,
+    "ownedPGStopped": true,
+    "containerId": "4559772fc21fd4f109d4d4567dbf3a43f7901ef422fe696f58a4b895e3f6471c",
+    "sameOriginalProvisionContainer": true,
+    "volumeRetained": true,
+    "privateRetained": true,
+    "keepaliveStopped": true,
+    "portsClosed": [
+      23433,
+      13400,
+      13410,
+      13500,
+      13600
+    ]
+  },
+  "preservation": {
+    "compileSources": 311,
+    "RustArtifactSHA256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+    "NativeUIArtifacts": 423,
+    "NativeUIOriginalPreservedMappingMismatches": 0,
+    "newAcceptanceClaim": false
+  },
+  "newP0P1P2": [],
+  "M5Accepted": true,
+  "privateFilesRead": false,
+  "environmentOrDBOrBrowserOrBuildRunByReviewer": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

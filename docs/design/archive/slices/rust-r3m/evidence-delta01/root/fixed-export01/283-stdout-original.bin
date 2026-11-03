@@ -1,0 +1,1137 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "126ede22bb4b379ae656ccde9cee9d82da383be4",
+  "authority": "Original unchanged Zod node definitions; trim overwrite occurs only on original source trim strings; update object custom refinement remains original At least one updatable field is required",
+  "schemas": {
+    "IdentityProviderConfigListQuery": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "provider",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "feishu"
+              ]
+            }
+          }
+        },
+        {
+          "key": "status",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "draft",
+                "active",
+                "disabled",
+                "misconfigured"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CreateIdentityProviderConfigRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "provider",
+          "rule": {
+            "type": "enum",
+            "values": [
+              "feishu"
+            ]
+          }
+        },
+        {
+          "key": "tenantId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "displayName",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 128
+              }
+            ]
+          }
+        },
+        {
+          "key": "enabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "loginEnabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "bindingEnabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "searchEnabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "clientId",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 255
+              }
+            ]
+          }
+        },
+        {
+          "key": "clientSecret",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "redirectUri",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "type": "string",
+                    "format": "url",
+                    "check": "string_format",
+                    "abort": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "searchRedirectUri",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "type": "string",
+                    "format": "url",
+                    "check": "string_format",
+                    "abort": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "loginScopes",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              },
+              "checks": [
+                {
+                  "check": "max_length",
+                  "maximum": 32
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "searchScopes",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              },
+              "checks": [
+                {
+                  "check": "max_length",
+                  "maximum": 32
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "tenantAllowlist",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              },
+              "checks": [
+                {
+                  "check": "max_length",
+                  "maximum": 32
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "searchGrantMode",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "per-admin",
+                "service-account"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "UpdateIdentityProviderConfigRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "displayName",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 128
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "enabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "loginEnabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "bindingEnabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "searchEnabled",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "key": "clientId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "clientSecret",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "redirectUri",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "type": "string",
+                    "format": "url",
+                    "check": "string_format",
+                    "abort": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "searchRedirectUri",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "type": "string",
+                    "format": "url",
+                    "check": "string_format",
+                    "abort": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "loginScopes",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              },
+              "checks": [
+                {
+                  "check": "max_length",
+                  "maximum": 32
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "searchScopes",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              },
+              "checks": [
+                {
+                  "check": "max_length",
+                  "maximum": 32
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "tenantAllowlist",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "array",
+              "element": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              },
+              "checks": [
+                {
+                  "check": "max_length",
+                  "maximum": 32
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "searchGrantMode",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "per-admin",
+                "service-account"
+              ]
+            }
+          }
+        },
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "checks": [
+        {
+          "type": "custom",
+          "check": "custom"
+        }
+      ]
+    },
+    "TestIdentityProviderConnectionRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "capability",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "basic",
+                "external-org-sync"
+              ]
+            }
+          }
+        },
+        {
+          "key": "externalRootDepartmentId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 128
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ExternalLoginCallbackQuery": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "code",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "state",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 4096
+              }
+            ]
+          }
+        },
+        {
+          "key": "error",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "error_description",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "IdentityProviderOAuthCallbackQuery": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "code",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "state",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 4096
+              }
+            ]
+          }
+        },
+        {
+          "key": "error",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "error_description",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2048
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CreateExternalLoginSessionRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "ticket",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 32
+              },
+              {
+                "check": "max_length",
+                "maximum": 4096
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "ExternalUserSearchQuery": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "q",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 128
+              }
+            ]
+          }
+        },
+        {
+          "key": "limit",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "coerce": true,
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 1,
+                  "inclusive": true
+                },
+                {
+                  "check": "less_than",
+                  "value": 50,
+                  "inclusive": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "BindUserExternalIdentityRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "identityProviderConfigId",
+          "rule": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+          }
+        },
+        {
+          "key": "tenantId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 128
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "subjectId",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 255
+              }
+            ]
+          }
+        },
+        {
+          "key": "unionId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 255
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "subjectDisplayName",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 255
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "avatarUrl",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "type": "string",
+                    "format": "url",
+                    "check": "string_format",
+                    "abort": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "email",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "type": "string",
+                    "format": "email",
+                    "check": "string_format",
+                    "abort": false,
+                    "pattern": "/^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$/"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "mobile",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "min_length",
+                    "minimum": 1
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 64
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "UnbindExternalIdentityRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

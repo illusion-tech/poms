@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "kind": "pure-Node-JSON-stringify-and-native-beta02-regression",
+  "source": {
+    "file": "tmp/rust-r2k/k-http-nest-beta02.json",
+    "sha256": "c1aecaf329e5b2d65a5e254451bd81da69a881af053cc739a5b48b2f62c86a28"
+  },
+  "execution": "Only Node JSON parsing/stringifying existing source/wire inputs; no HTTP/PG/storage",
+  "cases": [
+    {
+      "name": "original-manifest-pretty-to-compact",
+      "inputRaw": "{\n  \"packageId\": \"a0000000-0000-4000-8000-000000000001\",\n  \"handoverId\": \"a0000000-0000-4000-8000-000000000002\",\n  \"projectId\": \"a0000000-0000-4000-8000-000000000003\",\n  \"createdAt\": \"2026-05-05T08:09:11.123Z\",\n  \"expiresAt\": \"2026-05-06T08:09:11.123Z\",\n  \"manifestSummary\": {\n    \"includedCount\": 1,\n    \"excludedCount\": 2,\n    \"includedAttachmentIds\": [\n      \"a0000000-0000-4000-8000-000000000005\"\n    ],\n    \"excludedAttachmentIds\": [\n      \"a0000000-0000-4000-8000-000000000007\"\n    ],\n    \"excludedReasons\": [\n      \"\",\n      \"sensitive-excluded\"\n    ]\n  },\n  \"items\": [\n    {\n      \"selectionId\": \"a0000000-0000-4000-8000-000000000004\",\n      \"attachmentId\": \"a0000000-0000-4000-8000-000000000005\",\n      \"versionGroupId\": \"a0000000-0000-4000-8000-000000000006\",\n      \"displayName\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa😀\",\n      \"category\": \"demand\",\n      \"securityLevel\": \"normal\",\n      \"fileName\": \"001-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\ud83d.bin\",\n      \"sourceRefs\": [\n        {\n          \"sourceType\": \"project\",\n          \"sourceId\": \"a0000000-0000-4000-8000-000000000003\",\n          \"relationType\": \"belongs-to\",\n          \"label\": \"项目附件\"\n        }\n      ]\n    }\n  ]\n}",
+      "expectedRaw": "{\"packageId\":\"a0000000-0000-4000-8000-000000000001\",\"handoverId\":\"a0000000-0000-4000-8000-000000000002\",\"projectId\":\"a0000000-0000-4000-8000-000000000003\",\"createdAt\":\"2026-05-05T08:09:11.123Z\",\"expiresAt\":\"2026-05-06T08:09:11.123Z\",\"manifestSummary\":{\"includedCount\":1,\"excludedCount\":2,\"includedAttachmentIds\":[\"a0000000-0000-4000-8000-000000000005\"],\"excludedAttachmentIds\":[\"a0000000-0000-4000-8000-000000000007\"],\"excludedReasons\":[\"\",\"sensitive-excluded\"]},\"items\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000004\",\"attachmentId\":\"a0000000-0000-4000-8000-000000000005\",\"versionGroupId\":\"a0000000-0000-4000-8000-000000000006\",\"displayName\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa😀\",\"category\":\"demand\",\"securityLevel\":\"normal\",\"fileName\":\"001-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\ud83d.bin\",\"sourceRefs\":[{\"sourceType\":\"project\",\"sourceId\":\"a0000000-0000-4000-8000-000000000003\",\"relationType\":\"belongs-to\",\"label\":\"项目附件\"}]}]}"
+    },
+    {
+      "name": "native-package-body-pretty-to-compact",
+      "inputRaw": "{\n  \"id\": \"dd0ffc08-97e1-4fe3-b363-b1275967356d\",\n  \"handoverId\": \"f81b0a07-86be-423a-b6c0-71642370314e\",\n  \"projectId\": \"26bca94c-a109-4ba5-ba56-fbafa55dbd15\",\n  \"status\": \"ready\",\n  \"manifestSummary\": {\n    \"excludedCount\": 0,\n    \"includedCount\": 2,\n    \"excludedReasons\": [],\n    \"excludedAttachmentIds\": [],\n    \"includedAttachmentIds\": [\n      \"8517c5fa-7bcc-48b0-8387-a7669f61e911\",\n      \"29730ada-f4de-4444-b155-598d0f1aff6f\"\n    ]\n  },\n  \"fileName\": \"project-handover-f81b0a07-86be-423a-b6c0-71642370314e-attachments.zip\",\n  \"expiresAt\": \"2026-10-30T12:26:57.582Z\",\n  \"createdBy\": \"4ce04c52-b728-458c-bcae-06adadc5969b\",\n  \"createdAt\": \"2026-10-29T12:26:57.582Z\",\n  \"downloadedAt\": null,\n  \"downloadCount\": 0,\n  \"failedReason\": null\n}",
+      "expectedRaw": "{\"id\":\"dd0ffc08-97e1-4fe3-b363-b1275967356d\",\"handoverId\":\"f81b0a07-86be-423a-b6c0-71642370314e\",\"projectId\":\"26bca94c-a109-4ba5-ba56-fbafa55dbd15\",\"status\":\"ready\",\"manifestSummary\":{\"excludedCount\":0,\"includedCount\":2,\"excludedReasons\":[],\"excludedAttachmentIds\":[],\"includedAttachmentIds\":[\"8517c5fa-7bcc-48b0-8387-a7669f61e911\",\"29730ada-f4de-4444-b155-598d0f1aff6f\"]},\"fileName\":\"project-handover-f81b0a07-86be-423a-b6c0-71642370314e-attachments.zip\",\"expiresAt\":\"2026-10-30T12:26:57.582Z\",\"createdBy\":\"4ce04c52-b728-458c-bcae-06adadc5969b\",\"createdAt\":\"2026-10-29T12:26:57.582Z\",\"downloadedAt\":null,\"downloadCount\":0,\"failedReason\":null}"
+    },
+    {
+      "name": "strings-whitespace-quote-slash-unicode-lone",
+      "inputRaw": "{\n  \"z\": \"  项目 😀\\t\\n\\\"\\\\ \\ud800  \",\n  \"sourceRefs\": [\n    {\n      \"label\": \" 项目 附件 \",\n      \"sourceId\": \"synthetic\"\n    }\n  ]\n}",
+      "expectedRaw": "{\"z\":\"  项目 😀\\t\\n\\\"\\\\ \\ud800  \",\"sourceRefs\":[{\"label\":\" 项目 附件 \",\"sourceId\":\"synthetic\"}]}"
+    },
+    {
+      "name": "js-integer-property-order",
+      "inputRaw": "{ \"10\": \"ten\", \"2\": \"two\", \"name\": \"名称\" }",
+      "expectedRaw": "{\"2\":\"two\",\"10\":\"ten\",\"name\":\"名称\"}"
+    }
+  ],
+  "package": {
+    "body": {
+      "id": "dd0ffc08-97e1-4fe3-b363-b1275967356d",
+      "handoverId": "f81b0a07-86be-423a-b6c0-71642370314e",
+      "projectId": "26bca94c-a109-4ba5-ba56-fbafa55dbd15",
+      "status": "ready",
+      "manifestSummary": {
+        "excludedCount": 0,
+        "includedCount": 2,
+        "excludedReasons": [],
+        "excludedAttachmentIds": [],
+        "includedAttachmentIds": [
+          "8517c5fa-7bcc-48b0-8387-a7669f61e911",
+          "29730ada-f4de-4444-b155-598d0f1aff6f"
+        ]
+      },
+      "fileName": "project-handover-f81b0a07-86be-423a-b6c0-71642370314e-attachments.zip",
+      "expiresAt": "2026-10-30T12:26:57.582Z",
+      "createdBy": "4ce04c52-b728-458c-bcae-06adadc5969b",
+      "createdAt": "2026-10-29T12:26:57.582Z",
+      "downloadedAt": null,
+      "downloadCount": 0,
+      "failedReason": null
+    },
+    "inputManifestSummaryRaw": "{\n  \"excludedCount\": 0,\n  \"includedCount\": 2,\n  \"excludedReasons\": [],\n  \"excludedAttachmentIds\": [],\n  \"includedAttachmentIds\": [\n    \"8517c5fa-7bcc-48b0-8387-a7669f61e911\",\n    \"29730ada-f4de-4444-b155-598d0f1aff6f\"\n  ]\n}",
+    "expectedBodyRaw": "{\"id\":\"dd0ffc08-97e1-4fe3-b363-b1275967356d\",\"handoverId\":\"f81b0a07-86be-423a-b6c0-71642370314e\",\"projectId\":\"26bca94c-a109-4ba5-ba56-fbafa55dbd15\",\"status\":\"ready\",\"manifestSummary\":{\"excludedCount\":0,\"includedCount\":2,\"excludedReasons\":[],\"excludedAttachmentIds\":[],\"includedAttachmentIds\":[\"8517c5fa-7bcc-48b0-8387-a7669f61e911\",\"29730ada-f4de-4444-b155-598d0f1aff6f\"]},\"fileName\":\"project-handover-f81b0a07-86be-423a-b6c0-71642370314e-attachments.zip\",\"expiresAt\":\"2026-10-30T12:26:57.582Z\",\"createdBy\":\"4ce04c52-b728-458c-bcae-06adadc5969b\",\"createdAt\":\"2026-10-29T12:26:57.582Z\",\"downloadedAt\":null,\"downloadCount\":0,\"failedReason\":null}",
+    "contentLength": 643
+  }
+}

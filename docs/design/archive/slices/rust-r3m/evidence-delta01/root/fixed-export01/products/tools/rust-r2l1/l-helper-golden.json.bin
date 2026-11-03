@@ -1,0 +1,260 @@
+{
+  "formatVersion": 1,
+  "kind": "pure-original-source-helper-oracle",
+  "originalServiceOrmPgNetworkExecuted": false,
+  "sources": [
+    {
+      "path": "apps/poms-api/src/app/features/approval/approval.service.ts",
+      "rawBytesSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d",
+      "lfSha256": "d64a8d8cefadc282a1a69933ad428e077e0eb2b3cc83853b81288136999a557d"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/approval/confirmation.service.ts",
+      "rawBytesSha256": "d7d9cb63e591e5a8b47051ac6ab7b491fad5cb5580c6a76a8d929fe7d163eefc",
+      "lfSha256": "d7d9cb63e591e5a8b47051ac6ab7b491fad5cb5580c6a76a8d929fe7d163eefc"
+    }
+  ],
+  "extractedOriginalCodeSha256": "1ebba24ec90621c74a45f20f29b71a25279d01a386df6c6bd4829b1ae41429d0",
+  "cases": [
+    {
+      "helper": "expectedVersion",
+      "label": "undefined",
+      "actual": 1,
+      "expectedKind": "undefined",
+      "expected": null
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "null",
+      "actual": 1,
+      "expectedKind": "null",
+      "expected": {
+        "status": 409,
+        "message": "confirmation-record version null does not match current version 1"
+      }
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "one",
+      "actual": 1,
+      "expectedKind": "one",
+      "expected": null
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "fraction",
+      "actual": 1,
+      "expectedKind": "fraction",
+      "expected": {
+        "status": 409,
+        "message": "confirmation-record version 1.5 does not match current version 1"
+      }
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "zero",
+      "actual": 1,
+      "expectedKind": "zero",
+      "expected": {
+        "status": 409,
+        "message": "confirmation-record version 0 does not match current version 1"
+      }
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "exponent",
+      "actual": 1,
+      "expectedKind": "exponent",
+      "expected": {
+        "status": 409,
+        "message": "confirmation-record version 1e+21 does not match current version 1"
+      }
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "nan",
+      "actual": 1,
+      "expectedKind": "nan",
+      "expected": {
+        "status": 409,
+        "message": "confirmation-record version NaN does not match current version 1"
+      }
+    },
+    {
+      "helper": "expectedVersion",
+      "label": "infinity",
+      "actual": 1,
+      "expectedKind": "infinity",
+      "expected": {
+        "status": 409,
+        "message": "confirmation-record version Infinity does not match current version 1"
+      }
+    },
+    {
+      "helper": "participants",
+      "input": [],
+      "expected": {
+        "status": 400,
+        "message": "ConfirmationRecord requires at least one participant"
+      }
+    },
+    {
+      "helper": "participants",
+      "input": [
+        "a"
+      ],
+      "expected": null
+    },
+    {
+      "helper": "participants",
+      "input": [
+        "a",
+        "b"
+      ],
+      "expected": null
+    },
+    {
+      "helper": "participants",
+      "input": [
+        "abc",
+        "ABC"
+      ],
+      "expected": null
+    },
+    {
+      "helper": "participants",
+      "input": [
+        "\ud800",
+        "\ud800"
+      ],
+      "expected": {
+        "status": 400,
+        "message": "Duplicate confirmation participant \ud800"
+      }
+    },
+    {
+      "helper": "mapNodeName",
+      "input": "contract-review",
+      "expected": "合同审核"
+    },
+    {
+      "helper": "mapNodeName",
+      "input": "commission-payout-approval",
+      "expected": "提成发放审批"
+    },
+    {
+      "helper": "mapNodeName",
+      "input": "commission-adjustment-approval",
+      "expected": "提成调整审批"
+    },
+    {
+      "helper": "mapNodeName",
+      "input": "unknown",
+      "expected": null
+    },
+    {
+      "helper": "mapNodeName",
+      "input": "\ud800",
+      "expected": null
+    },
+    {
+      "helper": "mapPayoutStageName",
+      "input": "first",
+      "expected": "第一阶段"
+    },
+    {
+      "helper": "mapPayoutStageName",
+      "input": "second",
+      "expected": "第二阶段"
+    },
+    {
+      "helper": "mapPayoutStageName",
+      "input": "final",
+      "expected": "最终阶段"
+    },
+    {
+      "helper": "mapPayoutStageName",
+      "input": "retention",
+      "expected": "质保金结算"
+    },
+    {
+      "helper": "mapPayoutStageName",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "helper": "mapPayoutStageName",
+      "input": "\ud800",
+      "expected": "\ud800"
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "suspend-payout",
+      "expected": "暂停发放"
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "reverse-payout",
+      "expected": "冲销发放"
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "clawback",
+      "expected": "扣回"
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "supplement",
+      "expected": "补发"
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "recalculate",
+      "expected": "重算"
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "helper": "mapAdjustmentTypeName",
+      "input": "\ud800",
+      "expected": "\ud800"
+    },
+    {
+      "helper": "reason",
+      "label": "undefined",
+      "reason": "\ud800",
+      "expected": "\ud800"
+    },
+    {
+      "helper": "reason",
+      "label": "null",
+      "reason": "\ud800",
+      "comment": null,
+      "expected": "\ud800"
+    },
+    {
+      "helper": "reason",
+      "label": "empty",
+      "reason": "\ud800",
+      "comment": "",
+      "expected": "\ud800"
+    },
+    {
+      "helper": "reason",
+      "label": "space",
+      "reason": "\ud800",
+      "comment": " ",
+      "expected": "\ud800\n "
+    },
+    {
+      "helper": "reason",
+      "label": "raw",
+      "reason": "\ud800",
+      "comment": "\udfff",
+      "expected": "\ud800\n\udfff"
+    }
+  ]
+}

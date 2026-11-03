@@ -1,0 +1,505 @@
+{
+    "formatVersion": 1,
+    "provenance": {
+        "sourceHead": "033aedd028fc25ea990450a7854fc92c567cfb8a",
+        "deliveryReference": "ef9fd7f4871eb87167bca1ae04fae8a992ef594c",
+        "normalization": "UTF-8 CRLF -> LF only",
+        "sourceManifest": [
+            { "file": ".gitattributes", "sha256": "ff8a679060f43e75714c1923d2b5f0d3b0a32c5dfd2bd4b0073b193d9e2ddb4c" },
+            { "file": ".prettierrc.json", "sha256": "f166d6ede6e719d2d534412e5b85c49fe2b83a5d08c15d08ae9b26765cca2dfe" },
+            { "file": "apps/poms-api/src/app/core/auth/decorators/authenticated.decorator.ts", "sha256": "605a1a5a0464093da27955cae524b2d9b4e46c08806692c9c0ee989cfe0ba34c" },
+            { "file": "apps/poms-api/src/app/core/auth/decorators/has-any-permissions.decorator.ts", "sha256": "761be292873cc8b0185db299a90d25c5f8faf7854821fcb5de30550c7aba2c65" },
+            { "file": "apps/poms-api/src/app/core/auth/decorators/has-permissions.decorator.ts", "sha256": "78079649972a417dc9582b8604d48b452ba08316dbdf32299760a33c08acdbf3" },
+            { "file": "apps/poms-api/src/app/core/auth/decorators/public.decorator.ts", "sha256": "3605a73aa4696ecacc45e5e3269f571ba41d4bd8018ce155e10b8d2c8bf1bd66" },
+            { "file": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts", "sha256": "b6c605ca8f534d376563477c933d69cd80bfc79a9cdb38e1c3d45d10b1555306" },
+            { "file": "apps/poms-api/src/app/core/runtime-audit/runtime-audit-request.utils.ts", "sha256": "c6db32b268247deb198a0763c2330a8c341f7ec55c40ca271b84e84da13ca3ed" },
+            { "file": "apps/poms-api/src/app/features/platform/platform.repository.ts", "sha256": "d8c91a3fa962eaee182294c9f1510dc8b9e44806cca3194554ebee8b17e1ed34" },
+            { "file": "apps/poms-api/src/app/features/platform/platform.service.ts", "sha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db" },
+            { "file": "apps/poms-api/src/app/features/platform/role-permission-assignment.entity.ts", "sha256": "6f4f6a9a4e2aba1863c893901061cf6a70c64bc5632a250cfbccd24f69133a9d" },
+            { "file": "libs/shared/contracts/src/lib/shared-contracts.ts", "sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a" },
+            { "file": "package.json", "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75" },
+            { "file": "pnpm-lock.yaml", "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533" }
+        ],
+        "sourceManifestSha256": "a04b57dc2abb611260d142d90490afeccc85b2c3f8a0f98869b1afba4e5f42e3",
+        "generatorSha256": "52af29d3bf76a0855f2544e935d576c143fb0fbb39b077a62ecd6b8f2a23eb60",
+        "casesSha256": "c2e5c938b1be449a98a7d3dbaaa43559c9bb8ae16387baa74d8aabfa598ef965",
+        "versions": { "typescript": "6.0.3", "zod": "4.6.1", "@nestjs/common": "12.0.1", "prettier": "3.8.5" },
+        "excerpts": [
+            {
+                "file": "apps/poms-api/src/app/core/auth/guards/permissions.guard.ts",
+                "className": "PermissionsGuard",
+                "method": "canActivate",
+                "line": 21,
+                "sha256": "62663acabc68c11067b16f3d4d8f38a4b2d8ba336e1242188b67799fa821bf6a",
+                "fields": ["#reflector", "#runtimeAuditService"]
+            },
+            {
+                "file": "apps/poms-api/src/app/features/platform/platform.service.ts",
+                "className": "PlatformService",
+                "method": "getPermissionsForUser",
+                "line": 89,
+                "sha256": "2d3c2b6b3f54869f74098e42d239144d7235f8bba69c9c79a345229f5e5e9d2a",
+                "fields": ["platformRepository"]
+            }
+        ],
+        "evidence": "Actual shared Zod schemas and unchanged PermissionsGuard/PlatformService methods. Resolved metadata/repository/audit are boundary doubles. No HTTP/session/Cookie/DB/complete response projection.",
+        "limits": "JSON helpers certify presence and one object key scope, not all Zod scalar/refinement rules. R1C retains authentication, metadata lookup, audit writes, raw persistence and complete response construction."
+    },
+    "descriptors": [
+        {
+            "key": "AuthSessionCsrfHintSchema",
+            "schema": "AuthSessionCsrfHintSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "cookieName", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "headerName", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } }
+            ]
+        },
+        {
+            "key": "CreatePasswordAuthSessionRequestSchema",
+            "schema": "CreatePasswordAuthSessionRequestSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "username", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "password", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } }
+            ]
+        },
+        {
+            "key": "CreatePlatformUserRequestSchema",
+            "schema": "CreatePlatformUserRequestSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "username", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "displayName", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "email", "required": false, "nullable": true, "missing": { "success": true, "output": { "presence": "missing" } } },
+                { "name": "phone", "required": false, "nullable": true, "missing": { "success": true, "output": { "presence": "missing" } } },
+                { "name": "primaryOrgUnitId", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "initialRoleIds", "required": false, "nullable": false, "missing": { "success": true, "output": { "presence": "value", "value": [] } } }
+            ]
+        },
+        {
+            "key": "CurrentAuthSessionViewSchema",
+            "schema": "CurrentAuthSessionViewSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "authenticated", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "status", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_value", "path": [] }] } },
+                { "name": "user", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "permissions", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "expiresAt", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "csrf", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } }
+            ]
+        },
+        { "key": "LogoutAuthSessionRequestSchema", "schema": "LogoutAuthSessionRequestSchema", "unknownKeys": "reject", "fields": [] },
+        { "key": "NavigationItemSchema.meta", "schema": "NavigationItemSchema", "field": "meta", "unknownKeys": "preserve", "fields": [] },
+        {
+            "key": "SanitizedUserWithOrgUnitsSchema",
+            "schema": "SanitizedUserWithOrgUnitsSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "id", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "displayName", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "username", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "roles", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "permissions", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "email", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "avatarUrl", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "isActive", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "lastLoginAt", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "emailVerified", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "phoneVerified", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "phone", "required": true, "nullable": true, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "orgUnits", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } }
+            ]
+        },
+        {
+            "key": "UpdatePlatformUserRequestSchema",
+            "schema": "UpdatePlatformUserRequestSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "displayName", "required": false, "nullable": false, "missing": { "success": true, "output": { "presence": "missing" } } },
+                { "name": "email", "required": false, "nullable": true, "missing": { "success": true, "output": { "presence": "missing" } } },
+                { "name": "phone", "required": false, "nullable": true, "missing": { "success": true, "output": { "presence": "missing" } } },
+                { "name": "avatarUrl", "required": false, "nullable": true, "missing": { "success": true, "output": { "presence": "missing" } } }
+            ]
+        },
+        {
+            "key": "UpdateSystemSettingRequestSchema",
+            "schema": "UpdateSystemSettingRequestSchema",
+            "unknownKeys": "strip",
+            "fields": [
+                { "name": "value", "required": true, "nullable": false, "missing": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] } },
+                { "name": "expectedVersion", "required": false, "nullable": false, "missing": { "success": true, "output": { "presence": "missing" } } }
+            ]
+        }
+    ],
+    "fieldResults": [
+        {
+            "id": "status-missing",
+            "input": { "id": "status-missing", "schema": "CurrentAuthSessionViewSchema", "field": "status", "input": { "presence": "missing" } },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_value", "path": [] }] }
+        },
+        {
+            "id": "status-null",
+            "input": { "id": "status-null", "schema": "CurrentAuthSessionViewSchema", "field": "status", "input": { "presence": "null" } },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": true, "output": { "presence": "null" } }
+        },
+        {
+            "id": "status-value",
+            "input": { "id": "status-value", "schema": "CurrentAuthSessionViewSchema", "field": "status", "input": { "presence": "value", "value": "active" } },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": "active" } }
+        },
+        {
+            "id": "permissions-missing",
+            "input": { "id": "permissions-missing", "schema": "CurrentAuthSessionViewSchema", "field": "permissions", "input": { "presence": "missing" } },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "permissions-null",
+            "input": { "id": "permissions-null", "schema": "CurrentAuthSessionViewSchema", "field": "permissions", "input": { "presence": "null" } },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "permissions-value",
+            "input": { "id": "permissions-value", "schema": "CurrentAuthSessionViewSchema", "field": "permissions", "input": { "presence": "value", "value": [] } },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": [] } }
+        },
+        {
+            "id": "required-email-missing",
+            "input": { "id": "required-email-missing", "schema": "SanitizedUserWithOrgUnitsSchema", "field": "email", "input": { "presence": "missing" } },
+            "descriptor": "SanitizedUserWithOrgUnitsSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "required-email-null",
+            "input": { "id": "required-email-null", "schema": "SanitizedUserWithOrgUnitsSchema", "field": "email", "input": { "presence": "null" } },
+            "descriptor": "SanitizedUserWithOrgUnitsSchema",
+            "result": { "success": true, "output": { "presence": "null" } }
+        },
+        {
+            "id": "required-email-value",
+            "input": { "id": "required-email-value", "schema": "SanitizedUserWithOrgUnitsSchema", "field": "email", "input": { "presence": "value", "value": "synthetic@example.invalid" } },
+            "descriptor": "SanitizedUserWithOrgUnitsSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": "synthetic@example.invalid" } }
+        },
+        {
+            "id": "optional-email-missing",
+            "input": { "id": "optional-email-missing", "schema": "UpdatePlatformUserRequestSchema", "field": "email", "input": { "presence": "missing" } },
+            "descriptor": "UpdatePlatformUserRequestSchema",
+            "result": { "success": true, "output": { "presence": "missing" } }
+        },
+        {
+            "id": "optional-email-null",
+            "input": { "id": "optional-email-null", "schema": "UpdatePlatformUserRequestSchema", "field": "email", "input": { "presence": "null" } },
+            "descriptor": "UpdatePlatformUserRequestSchema",
+            "result": { "success": true, "output": { "presence": "null" } }
+        },
+        {
+            "id": "optional-email-value",
+            "input": { "id": "optional-email-value", "schema": "UpdatePlatformUserRequestSchema", "field": "email", "input": { "presence": "value", "value": "synthetic@example.invalid" } },
+            "descriptor": "UpdatePlatformUserRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": "synthetic@example.invalid" } }
+        },
+        {
+            "id": "default-role-ids-missing",
+            "input": { "id": "default-role-ids-missing", "schema": "CreatePlatformUserRequestSchema", "field": "initialRoleIds", "input": { "presence": "missing" } },
+            "descriptor": "CreatePlatformUserRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": [] } }
+        },
+        {
+            "id": "default-role-ids-null",
+            "input": { "id": "default-role-ids-null", "schema": "CreatePlatformUserRequestSchema", "field": "initialRoleIds", "input": { "presence": "null" } },
+            "descriptor": "CreatePlatformUserRequestSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "default-role-ids-value",
+            "input": { "id": "default-role-ids-value", "schema": "CreatePlatformUserRequestSchema", "field": "initialRoleIds", "input": { "presence": "value", "value": [] } },
+            "descriptor": "CreatePlatformUserRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": [] } }
+        },
+        {
+            "id": "optional-version-missing",
+            "input": { "id": "optional-version-missing", "schema": "UpdateSystemSettingRequestSchema", "field": "expectedVersion", "input": { "presence": "missing" } },
+            "descriptor": "UpdateSystemSettingRequestSchema",
+            "result": { "success": true, "output": { "presence": "missing" } }
+        },
+        {
+            "id": "optional-version-null",
+            "input": { "id": "optional-version-null", "schema": "UpdateSystemSettingRequestSchema", "field": "expectedVersion", "input": { "presence": "null" } },
+            "descriptor": "UpdateSystemSettingRequestSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "optional-version-value",
+            "input": { "id": "optional-version-value", "schema": "UpdateSystemSettingRequestSchema", "field": "expectedVersion", "input": { "presence": "value", "value": 1 } },
+            "descriptor": "UpdateSystemSettingRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": 1 } }
+        },
+        {
+            "id": "csrf-name-missing",
+            "input": { "id": "csrf-name-missing", "schema": "AuthSessionCsrfHintSchema", "field": "cookieName", "input": { "presence": "missing" } },
+            "descriptor": "AuthSessionCsrfHintSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "csrf-name-null",
+            "input": { "id": "csrf-name-null", "schema": "AuthSessionCsrfHintSchema", "field": "cookieName", "input": { "presence": "null" } },
+            "descriptor": "AuthSessionCsrfHintSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "csrf-name-value",
+            "input": { "id": "csrf-name-value", "schema": "AuthSessionCsrfHintSchema", "field": "cookieName", "input": { "presence": "value", "value": "poms_csrf" } },
+            "descriptor": "AuthSessionCsrfHintSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": "poms_csrf" } }
+        }
+    ],
+    "objectResults": [
+        {
+            "id": "login-strip",
+            "input": { "id": "login-strip", "schema": "CreatePasswordAuthSessionRequestSchema", "input": { "username": "synthetic", "password": "public-synthetic", "extra": "drop" } },
+            "descriptor": "CreatePasswordAuthSessionRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": { "username": "synthetic", "password": "public-synthetic" } } }
+        },
+        {
+            "id": "login-empty-strings-not-trimmed",
+            "input": { "id": "login-empty-strings-not-trimmed", "schema": "CreatePasswordAuthSessionRequestSchema", "input": { "username": " ", "password": " " } },
+            "descriptor": "CreatePasswordAuthSessionRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": { "username": " ", "password": " " } } }
+        },
+        {
+            "id": "logout-empty",
+            "input": { "id": "logout-empty", "schema": "LogoutAuthSessionRequestSchema", "input": {} },
+            "descriptor": "LogoutAuthSessionRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": {} } }
+        },
+        {
+            "id": "logout-reject",
+            "input": { "id": "logout-reject", "schema": "LogoutAuthSessionRequestSchema", "input": { "extra": true } },
+            "descriptor": "LogoutAuthSessionRequestSchema",
+            "result": { "success": false, "issues": [{ "code": "unrecognized_keys", "path": [] }] }
+        },
+        {
+            "id": "logout-not-object",
+            "input": { "id": "logout-not-object", "schema": "LogoutAuthSessionRequestSchema", "input": null },
+            "descriptor": "LogoutAuthSessionRequestSchema",
+            "result": { "success": false, "issues": [{ "code": "invalid_type", "path": [] }] }
+        },
+        {
+            "id": "csrf-hint-strip",
+            "input": { "id": "csrf-hint-strip", "schema": "AuthSessionCsrfHintSchema", "input": { "cookieName": "poms_csrf", "headerName": "X-CSRF-Token", "extra": true } },
+            "descriptor": "AuthSessionCsrfHintSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": { "cookieName": "poms_csrf", "headerName": "X-CSRF-Token" } } }
+        },
+        {
+            "id": "profile-strip",
+            "input": {
+                "id": "profile-strip",
+                "schema": "SanitizedUserWithOrgUnitsSchema",
+                "input": {
+                    "id": "90000000-0000-4000-8000-000000000001",
+                    "displayName": "Synthetic",
+                    "username": "synthetic",
+                    "roles": [],
+                    "permissions": ["project:read"],
+                    "email": null,
+                    "avatarUrl": null,
+                    "isActive": true,
+                    "lastLoginAt": null,
+                    "emailVerified": false,
+                    "phoneVerified": false,
+                    "phone": null,
+                    "orgUnits": [],
+                    "passwordHash": "public-synthetic-not-to-be-projected"
+                }
+            },
+            "descriptor": "SanitizedUserWithOrgUnitsSchema",
+            "result": {
+                "success": true,
+                "output": {
+                    "presence": "value",
+                    "value": {
+                        "id": "90000000-0000-4000-8000-000000000001",
+                        "displayName": "Synthetic",
+                        "username": "synthetic",
+                        "roles": [],
+                        "permissions": ["project:read"],
+                        "email": null,
+                        "avatarUrl": null,
+                        "isActive": true,
+                        "lastLoginAt": null,
+                        "emailVerified": false,
+                        "phoneVerified": false,
+                        "phone": null,
+                        "orgUnits": []
+                    }
+                }
+            }
+        },
+        {
+            "id": "session-strip",
+            "input": {
+                "id": "session-strip",
+                "schema": "CurrentAuthSessionViewSchema",
+                "input": { "authenticated": false, "status": null, "user": null, "permissions": [], "expiresAt": null, "csrf": { "cookieName": "poms_csrf", "headerName": "X-CSRF-Token" }, "extra": 1 }
+            },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": { "authenticated": false, "status": null, "user": null, "permissions": [], "expiresAt": null, "csrf": { "cookieName": "poms_csrf", "headerName": "X-CSRF-Token" } } } }
+        },
+        {
+            "id": "session-not-discriminated",
+            "input": {
+                "id": "session-not-discriminated",
+                "schema": "CurrentAuthSessionViewSchema",
+                "input": { "authenticated": true, "status": null, "user": null, "permissions": [], "expiresAt": null, "csrf": { "cookieName": "poms_csrf", "headerName": "X-CSRF-Token" } }
+            },
+            "descriptor": "CurrentAuthSessionViewSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": { "authenticated": true, "status": null, "user": null, "permissions": [], "expiresAt": null, "csrf": { "cookieName": "poms_csrf", "headerName": "X-CSRF-Token" } } } }
+        },
+        {
+            "id": "optional-object-strip",
+            "input": { "id": "optional-object-strip", "schema": "UpdatePlatformUserRequestSchema", "input": { "displayName": "Synthetic", "extra": true } },
+            "descriptor": "UpdatePlatformUserRequestSchema",
+            "result": { "success": true, "output": { "presence": "value", "value": { "displayName": "Synthetic" } } }
+        },
+        {
+            "id": "metadata-preserve",
+            "input": { "id": "metadata-preserve", "schema": "NavigationItemSchema", "field": "meta", "input": { "arbitrary": 1, "nested": { "arbitrary": 2 }, "nullable": null } },
+            "descriptor": "NavigationItemSchema.meta",
+            "result": { "success": true, "output": { "presence": "value", "value": { "arbitrary": 1, "nested": { "arbitrary": 2 }, "nullable": null } } }
+        }
+    ],
+    "permissionResults": [
+        {
+            "id": "missing-declaration",
+            "input": { "id": "missing-declaration", "publicRoute": false, "authenticatedRoute": false, "all": [], "any": [], "userPermissions": [] },
+            "result": { "decision": "missing_declaration", "status": 403, "response": { "message": "Route must be decorated with @Authenticated() or @HasPermissions()", "error": "Forbidden", "statusCode": 403 } },
+            "auditEventCount": 0
+        },
+        {
+            "id": "missing-declaration-despite-all-user-permissions",
+            "input": { "id": "missing-declaration-despite-all-user-permissions", "publicRoute": false, "authenticatedRoute": false, "all": [], "any": [], "userPermissions": ["project:read", "project:write"] },
+            "result": { "decision": "missing_declaration", "status": 403, "response": { "message": "Route must be decorated with @Authenticated() or @HasPermissions()", "error": "Forbidden", "statusCode": 403 } },
+            "auditEventCount": 0
+        },
+        { "id": "public-no-user", "input": { "id": "public-no-user", "publicRoute": true, "authenticatedRoute": false, "all": [], "any": [], "userPermissions": [] }, "result": { "decision": "allow" }, "auditEventCount": 0 },
+        {
+            "id": "public-bypasses-permission-requirement",
+            "input": { "id": "public-bypasses-permission-requirement", "publicRoute": true, "authenticatedRoute": false, "all": ["project:write"], "any": [], "userPermissions": [] },
+            "result": { "decision": "allow" },
+            "auditEventCount": 0
+        },
+        { "id": "authenticated-only", "input": { "id": "authenticated-only", "publicRoute": false, "authenticatedRoute": true, "all": [], "any": [], "userPermissions": [] }, "result": { "decision": "allow" }, "auditEventCount": 0 },
+        {
+            "id": "all-pass",
+            "input": { "id": "all-pass", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read", "project:write"], "any": [], "userPermissions": ["project:read", "project:write"] },
+            "result": { "decision": "allow" },
+            "auditEventCount": 0
+        },
+        {
+            "id": "all-fail",
+            "input": { "id": "all-fail", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read", "project:write"], "any": [], "userPermissions": ["project:read"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "any-pass",
+            "input": { "id": "any-pass", "publicRoute": false, "authenticatedRoute": false, "all": [], "any": ["lead:write", "project:write"], "userPermissions": ["project:write"] },
+            "result": { "decision": "allow" },
+            "auditEventCount": 0
+        },
+        {
+            "id": "any-fail",
+            "input": { "id": "any-fail", "publicRoute": false, "authenticatedRoute": false, "all": [], "any": ["lead:write", "project:write"], "userPermissions": ["project:read"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "all-and-any-pass",
+            "input": { "id": "all-and-any-pass", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read"], "any": ["lead:write", "project:write"], "userPermissions": ["project:read", "project:write"] },
+            "result": { "decision": "allow" },
+            "auditEventCount": 0
+        },
+        {
+            "id": "all-and-any-fail-all",
+            "input": { "id": "all-and-any-fail-all", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read"], "any": ["lead:write", "project:write"], "userPermissions": ["project:write"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "all-and-any-fail-any",
+            "input": { "id": "all-and-any-fail-any", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read"], "any": ["lead:write", "project:write"], "userPermissions": ["project:read"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "authenticated-does-not-bypass-required",
+            "input": { "id": "authenticated-does-not-bypass-required", "publicRoute": false, "authenticatedRoute": true, "all": ["project:write"], "any": [], "userPermissions": ["project:read"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "unknown-raw-does-not-grant-known",
+            "input": { "id": "unknown-raw-does-not-grant-known", "publicRoute": false, "authenticatedRoute": false, "all": ["project:write"], "any": [], "userPermissions": ["legacy:unknown"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "unknown-raw-does-not-block-known",
+            "input": { "id": "unknown-raw-does-not-block-known", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read"], "any": [], "userPermissions": ["legacy:unknown", "project:read"] },
+            "result": { "decision": "allow" },
+            "auditEventCount": 0
+        },
+        {
+            "id": "permission-case-sensitive",
+            "input": { "id": "permission-case-sensitive", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read"], "any": [], "userPermissions": ["PROJECT:READ"] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        },
+        {
+            "id": "permission-duplicates",
+            "input": { "id": "permission-duplicates", "publicRoute": false, "authenticatedRoute": false, "all": ["project:read", "project:read"], "any": [], "userPermissions": ["project:read", "project:read"] },
+            "result": { "decision": "allow" },
+            "auditEventCount": 0
+        },
+        {
+            "id": "empty-permission-string-does-not-grant",
+            "input": { "id": "empty-permission-string-does-not-grant", "publicRoute": false, "authenticatedRoute": false, "all": [], "any": ["project:read"], "userPermissions": [""] },
+            "result": { "decision": "insufficient_permissions", "status": 403, "response": { "statusCode": 403, "code": "permission_denied", "message": "Insufficient permissions" } },
+            "auditEventCount": 1
+        }
+    ],
+    "rawPermissionResults": [
+        {
+            "id": "persisted-unknown-kept-and-deduped",
+            "input": {
+                "id": "persisted-unknown-kept-and-deduped",
+                "userId": "synthetic-user",
+                "activeUserRoles": [
+                    { "userId": "synthetic-user", "roleId": "active-role" },
+                    { "userId": "synthetic-user", "roleId": "inactive-role" }
+                ],
+                "roles": [
+                    { "id": "active-role", "isActive": true },
+                    { "id": "inactive-role", "isActive": false }
+                ],
+                "activeRolePermissions": [
+                    { "roleId": "active-role", "permissionKey": "legacy:unknown" },
+                    { "roleId": "active-role", "permissionKey": "project:read" },
+                    { "roleId": "active-role", "permissionKey": "legacy:unknown" },
+                    { "roleId": "inactive-role", "permissionKey": "platform:users:manage" }
+                ]
+            },
+            "permissions": ["legacy:unknown", "project:read"],
+            "evidence": "unchanged original method with repository boundary double; no SQL or role aggregation implementation in Rust"
+        }
+    ],
+    "refusals": { "unknownLexical": true, "unknownImport": true, "unknownThis": true }
+}

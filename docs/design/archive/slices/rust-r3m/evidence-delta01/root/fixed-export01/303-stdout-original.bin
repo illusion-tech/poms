@@ -1,0 +1,2745 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "f23490d0f0e145fb030d8f070726dd2aa00cf074",
+  "authority": "Frozen original K methods/shared Zod/full K operation/schema slice; no handwritten product oracle",
+  "sources": [
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+      "rawBytesSha256": "91480255c1e9218b86bff6d45b902895c74a93d54611ae5a75eddaae4c236d7d",
+      "normalizedLfSha256": "91480255c1e9218b86bff6d45b902895c74a93d54611ae5a75eddaae4c236d7d"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.entity.ts",
+      "rawBytesSha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8",
+      "normalizedLfSha256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+      "rawBytesSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f",
+      "normalizedLfSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "normalizedLfSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "file": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+      "rawBytesSha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892",
+      "normalizedLfSha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892"
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawBytesSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+      "normalizedLfSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+    }
+  ],
+  "execution": "Pure original Zod, finite synthetic input; no HTTP/PG/storage",
+  "cases": [
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "missing",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received undefined"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-1",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-2",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-3",
+      "inputRaw": "false",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-4",
+      "inputRaw": "0",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-5",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-6",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"preserveManualExclusions\":true,\"includeHistoricalSelections\":true}"
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "root-7",
+      "inputRaw": "{\"unknown\":\"strip\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"preserveManualExclusions\":true,\"includeHistoricalSelections\":true}"
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-8",
+      "inputRaw": "{\"preserveManualExclusions\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-9",
+      "inputRaw": "{\"preserveManualExclusions\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"preserveManualExclusions\":true,\"includeHistoricalSelections\":true}"
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-10",
+      "inputRaw": "{\"preserveManualExclusions\":false}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"preserveManualExclusions\":false,\"includeHistoricalSelections\":true}"
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-11",
+      "inputRaw": "{\"preserveManualExclusions\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-12",
+      "inputRaw": "{\"preserveManualExclusions\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-13",
+      "inputRaw": "{\"preserveManualExclusions\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-14",
+      "inputRaw": "{\"preserveManualExclusions\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-15",
+      "inputRaw": "{\"preserveManualExclusions\":\" \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-16",
+      "inputRaw": "{\"preserveManualExclusions\":\" x \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-17",
+      "inputRaw": "{\"preserveManualExclusions\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-18",
+      "inputRaw": "{\"preserveManualExclusions\":[]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-19",
+      "inputRaw": "{\"preserveManualExclusions\":{}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-20",
+      "inputRaw": "{\"preserveManualExclusions\":[\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-21",
+      "inputRaw": "{\"preserveManualExclusions\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-22",
+      "inputRaw": "{\"preserveManualExclusions\":[\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-23",
+      "inputRaw": "{\"preserveManualExclusions\":[null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "preserveManualExclusions-24",
+      "inputRaw": "{\"preserveManualExclusions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "preserveManualExclusions"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-25",
+      "inputRaw": "{\"includeHistoricalSelections\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-26",
+      "inputRaw": "{\"includeHistoricalSelections\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"preserveManualExclusions\":true,\"includeHistoricalSelections\":true}"
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-27",
+      "inputRaw": "{\"includeHistoricalSelections\":false}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"preserveManualExclusions\":true,\"includeHistoricalSelections\":false}"
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-28",
+      "inputRaw": "{\"includeHistoricalSelections\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-29",
+      "inputRaw": "{\"includeHistoricalSelections\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-30",
+      "inputRaw": "{\"includeHistoricalSelections\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-31",
+      "inputRaw": "{\"includeHistoricalSelections\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-32",
+      "inputRaw": "{\"includeHistoricalSelections\":\" \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-33",
+      "inputRaw": "{\"includeHistoricalSelections\":\" x \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-34",
+      "inputRaw": "{\"includeHistoricalSelections\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-35",
+      "inputRaw": "{\"includeHistoricalSelections\":[]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-36",
+      "inputRaw": "{\"includeHistoricalSelections\":{}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-37",
+      "inputRaw": "{\"includeHistoricalSelections\":[\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-38",
+      "inputRaw": "{\"includeHistoricalSelections\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-39",
+      "inputRaw": "{\"includeHistoricalSelections\":[\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-40",
+      "inputRaw": "{\"includeHistoricalSelections\":[null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "RefreshProjectHandoverAttachmentChecklistRequest",
+      "name": "includeHistoricalSelections-41",
+      "inputRaw": "{\"includeHistoricalSelections\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "includeHistoricalSelections"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "missing",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received undefined"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-43",
+      "inputRaw": "null",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-44",
+      "inputRaw": "[]",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-45",
+      "inputRaw": "false",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-46",
+      "inputRaw": "0",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-47",
+      "inputRaw": "\"\"",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-48",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "root-49",
+      "inputRaw": "{\"unknown\":\"strip\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-50",
+      "inputRaw": "{\"selectionIds\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-51",
+      "inputRaw": "{\"selectionIds\":true}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-52",
+      "inputRaw": "{\"selectionIds\":false}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-53",
+      "inputRaw": "{\"selectionIds\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-54",
+      "inputRaw": "{\"selectionIds\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-55",
+      "inputRaw": "{\"selectionIds\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-56",
+      "inputRaw": "{\"selectionIds\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received string"
+            },
+            {
+              "origin": "string",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Too small: expected string to have >=1 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-57",
+      "inputRaw": "{\"selectionIds\":\" \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-58",
+      "inputRaw": "{\"selectionIds\":\" x \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-59",
+      "inputRaw": "{\"selectionIds\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-60",
+      "inputRaw": "{\"selectionIds\":[]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "array",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Too small: expected array to have >=1 items"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-61",
+      "inputRaw": "{\"selectionIds\":{}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Invalid input: expected array, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-62",
+      "inputRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\"],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-63",
+      "inputRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-64",
+      "inputRaw": "{\"selectionIds\":[\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"selectionIds\":[\"A0000000-0000-4000-8000-000000000001\"],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-65",
+      "inputRaw": "{\"selectionIds\":[null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds",
+                0
+              ],
+              "message": "Invalid input: expected string, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selectionIds-66",
+      "inputRaw": "{\"selectionIds\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds",
+                0
+              ],
+              "message": "Invalid input: expected string, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-67",
+      "inputRaw": "{\"expectedSelectionVersions\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-68",
+      "inputRaw": "{\"expectedSelectionVersions\":true}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-69",
+      "inputRaw": "{\"expectedSelectionVersions\":false}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-70",
+      "inputRaw": "{\"expectedSelectionVersions\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-71",
+      "inputRaw": "{\"expectedSelectionVersions\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-72",
+      "inputRaw": "{\"expectedSelectionVersions\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-73",
+      "inputRaw": "{\"expectedSelectionVersions\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-74",
+      "inputRaw": "{\"expectedSelectionVersions\":\" \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-75",
+      "inputRaw": "{\"expectedSelectionVersions\":\" x \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-76",
+      "inputRaw": "{\"expectedSelectionVersions\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-77",
+      "inputRaw": "{\"expectedSelectionVersions\":[]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedSelectionVersions\":[],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-78",
+      "inputRaw": "{\"expectedSelectionVersions\":{}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "array",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions"
+              ],
+              "message": "Invalid input: expected array, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-79",
+      "inputRaw": "{\"expectedSelectionVersions\":[\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0
+              ],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-80",
+      "inputRaw": "{\"expectedSelectionVersions\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0
+              ],
+              "message": "Invalid input: expected object, received string"
+            },
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                1
+              ],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-81",
+      "inputRaw": "{\"expectedSelectionVersions\":[\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0
+              ],
+              "message": "Invalid input: expected object, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-82",
+      "inputRaw": "{\"expectedSelectionVersions\":[null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "object",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0
+              ],
+              "message": "Invalid input: expected object, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectedSelectionVersions-83",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-84",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":null}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-85",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-86",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":false}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":false}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-87",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-88",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-89",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-90",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":\"\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-91",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":\" \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-92",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":\" x \"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-93",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":\"\\ud800\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-94",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":[]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-95",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":{}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-96",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":[\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-97",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-98",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":[\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-99",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":[null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "confirmedSensitiveExclusion-100",
+      "inputRaw": "{\"confirmedSensitiveExclusion\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "boolean",
+              "code": "invalid_type",
+              "path": [
+                "confirmedSensitiveExclusion"
+              ],
+              "message": "Invalid input: expected boolean, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-101",
+      "inputRaw": "{\"note\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":null}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-102",
+      "inputRaw": "{\"note\":true}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-103",
+      "inputRaw": "{\"note\":false}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-104",
+      "inputRaw": "{\"note\":0}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-105",
+      "inputRaw": "{\"note\":-1}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-106",
+      "inputRaw": "{\"note\":1.5}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-107",
+      "inputRaw": "{\"note\":\"\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-108",
+      "inputRaw": "{\"note\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-109",
+      "inputRaw": "{\"note\":\" x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-110",
+      "inputRaw": "{\"note\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-111",
+      "inputRaw": "{\"note\":[]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-112",
+      "inputRaw": "{\"note\":{}}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-113",
+      "inputRaw": "{\"note\":[\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-114",
+      "inputRaw": "{\"note\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-115",
+      "inputRaw": "{\"note\":[\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-116",
+      "inputRaw": "{\"note\":[null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-117",
+      "inputRaw": "{\"note\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "note"
+              ],
+              "message": "Invalid input: expected string, received array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selection-list-118",
+      "inputRaw": "{\"selectionIds\":[]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "array",
+              "code": "too_small",
+              "minimum": 1,
+              "inclusive": true,
+              "path": [
+                "selectionIds"
+              ],
+              "message": "Too small: expected array to have >=1 items"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selection-list-119",
+      "inputRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",\"a0000000-0000-4000-8000-000000000001\"],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selection-list-120",
+      "inputRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",\"A0000000-0000-4000-8000-000000000001\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",\"A0000000-0000-4000-8000-000000000001\"],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selection-list-121",
+      "inputRaw": "{\"selectionIds\":[\"not-uuid\"]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "invalid_format",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/",
+              "path": [
+                "selectionIds",
+                0
+              ],
+              "message": "Invalid UUID"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "selection-list-122",
+      "inputRaw": "{\"selectionIds\":[\"a0000000-0000-4000-8000-000000000001\",null]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "string",
+              "code": "invalid_type",
+              "path": [
+                "selectionIds",
+                1
+              ],
+              "message": "Invalid input: expected string, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-123",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Invalid input: expected number, received undefined"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-124",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":null,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Invalid input: expected number, received null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-125",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":-1,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-126",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":0,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "number",
+              "code": "too_small",
+              "minimum": 0,
+              "inclusive": false,
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Too small: expected number to be >0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-127",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1}],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-128",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":1.5,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "int",
+              "format": "safeint",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Invalid input: expected int, received number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-129",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":9007199254740991,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":9007199254740991}],\"confirmedSensitiveExclusion\":true}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-130",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":9007199254740992,\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "code": "too_big",
+              "maximum": 9007199254740991,
+              "note": "Integers must be within the safe integer range.",
+              "origin": "int",
+              "inclusive": true,
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Too big: expected int to be <=9007199254740991"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "expectation-131",
+      "inputRaw": "{\"expectedSelectionVersions\":[{\"selectionId\":\"a0000000-0000-4000-8000-000000000001\",\"rowVersion\":\"1\",\"unknown\":\"strip\"}]}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "expected": "number",
+              "code": "invalid_type",
+              "path": [
+                "expectedSelectionVersions",
+                0,
+                "rowVersion"
+              ],
+              "message": "Invalid input: expected number, received string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-132",
+      "inputRaw": "{\"note\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-133",
+      "inputRaw": "{\"note\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "note"
+              ],
+              "message": "Too big: expected string to have <=1000 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-134",
+      "inputRaw": "{\"note\":\"﻿ x \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"x\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-135",
+      "inputRaw": "{\"note\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}"
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-136",
+      "inputRaw": "{\"note\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+      "expected": {
+        "success": false,
+        "response": {
+          "statusCode": 400,
+          "message": "Validation failed",
+          "errors": [
+            {
+              "origin": "string",
+              "code": "too_big",
+              "maximum": 1000,
+              "inclusive": true,
+              "path": [
+                "note"
+              ],
+              "message": "Too big: expected string to have <=1000 characters"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "schema": "CreateProjectHandoverAttachmentDownloadPackageRequest",
+      "name": "note-137",
+      "inputRaw": "{\"note\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"confirmedSensitiveExclusion\":true,\"note\":\"\\ud800\"}"
+      }
+    }
+  ]
+}

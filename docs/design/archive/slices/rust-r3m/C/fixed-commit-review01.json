@@ -1,0 +1,227 @@
+{
+  "kind": "R3M-independent-fixed-commit-review",
+  "createdAtUTC": "2026-11-03 03:04:30 UTC",
+  "reviewer": "/root/r3_final_gate_review",
+  "independentNonAuthor": true,
+  "modelConfiguration": {
+    "registeredTarget": "gpt-6.1-sol",
+    "registeredReasoningEffort": "max",
+    "runtimeIntrospection": "unavailable",
+    "Fast": "unverified"
+  },
+  "commit": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+  "parent": "546c6c243ea6162077cb065ced54c5a8188afe23",
+  "acceptedBase": "5041275d7ad82af4becbb4462e7213ffe465bc7a",
+  "branch": "codex/poms-r3-closeout",
+  "decision": "Pass",
+  "findings": [],
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "scope": "固定提交完整差异、G3后治理写回例外和受测产品输入独立复核；仅允许将本提交快进集成到 main，不授权 G4 或关闭 Issue。",
+  "readBoundary": {
+    "privateFilesRead": false,
+    "GitExecuted": false,
+    "GitHubCalled": false,
+    "environmentDBBrowserOrBuildExecuted": false,
+    "writesOnly": "tmp/rust-r3m/final-review/",
+    "method": "Pure hashes of public raw commit/tree/blob exports, full changed-leaf byte verification, frozen-input rehashing and exact metadata reconstruction. No author certification flag was substituted for these checks."
+  },
+  "fixedExport": {
+    "file": "tmp/rust-r3m/root/fixed-export01/report01.json",
+    "bytes": 4849209,
+    "rawBytesSha256": "b1b61e13adcc9e6b3a8ce59bc00e30606a19bdc1368f7264357d026b44361a1e"
+  },
+  "priorIndependentG3": {
+    "file": "docs/design/rust-r3m/C/g3-independent-review01.json",
+    "bytes": 14965,
+    "rawBytesSha256": "7bbfa094f3e0bf863c162efb557ab7f37c0a3f48b0b09302777a34397c279afc"
+  },
+  "frozenInput": {
+    "file": "docs/design/rust-r3m/g3-input-manifest01.json",
+    "bytes": 371569,
+    "rawBytesSha256": "c5df058d4a2365d8f64c6676ef5e1907b852d8818cedda9858238586dcdd970d"
+  },
+  "frozenPackage": {
+    "file": "docs/design/rust-r3m/g3-package-manifest01.json",
+    "bytes": 421510,
+    "rawBytesSha256": "c670d02966f3f506dfc096db5cb2588900a016fbc432ae0a7b2dec4c94a5e7e6"
+  },
+  "G3Authority": {
+    "file": "docs/design/rust-r3m/g3-gate-authority01.json",
+    "bytes": 7361,
+    "rawBytesSha256": "97f854cbc34e7283f8c6e72bdf44e67d395ff864015db028ebd7f4c5d08b340a"
+  },
+  "GitObjectVerification": {
+    "rawCommitObjectsIndependentlySHA1Verified": 2,
+    "currentCommitSha1": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+    "previousCommitSha1": "546c6c243ea6162077cb065ced54c5a8188afe23",
+    "parentChainMatches": true,
+    "currentTree": {
+      "computedSha1": "33d35d3b56c91266b10ef15e40d3a190a8a3f09b",
+      "declaredCommitTreeMatches": true,
+      "leafRows": 9862,
+      "directoriesRebuilt": 881
+    },
+    "previousTree": {
+      "computedSha1": "5221ba4d33a858781b12b5708418ac15673d61c2",
+      "declaredCommitTreeMatches": true,
+      "leafRows": 8923,
+      "directoriesRebuilt": 745
+    },
+    "algorithm": "Reparse NUL-delimited full recursive ls-tree raw bytes; rebuild every directory using exact Git mode/name/NUL/20-byte-OID payload and bytewise Git directory ordering; hash tree and commit object headers plus payload.",
+    "rawTreeRowsComparedWithExportMetadata": 18785,
+    "rowMismatches": 0,
+    "fullLeafDeltaIncludingModeTypeOidChanges": 966,
+    "declaredDelta": 966,
+    "deltaFieldMismatches": 0,
+    "currentChangedLeafBlobsActuallySHA1Hashed": 961,
+    "currentChangedLeafBlobMismatches": 0,
+    "rawCommandReceipts": 320,
+    "stdoutStderrPinsActuallySHA256Hashed": 640,
+    "commandFailures": 0,
+    "rawStreamMismatches": 0,
+    "renameHeuristicStatisticsNotUsedAsScopeAuthority": true
+  },
+  "deltaScope": {
+    "productPaths": 9,
+    "currentControlPaths": 8,
+    "toolPaths": 125,
+    "currentLifecyclePaths": 37,
+    "frozenEvidencePaths": 782,
+    "deletedAliasPaths": 5,
+    "total": 966,
+    "unexpectedPaths": [],
+    "productDeltaExactlyG3ApprovedNinePaths": true,
+    "extraPostG3Tools": [
+      "tools/rust-r3m/adopt-g3-pass01.mjs",
+      "tools/rust-r3m/post-g3-checks02.mjs"
+    ],
+    "extraPostG3Files": "Only raw independent G3 copy/authority, 8 raw before snapshots, referenced common-check streams, post-G3 checks/formatter receipt and these 2 reviewed metadata/check executors.",
+    "ignoredExporterNotCommitted": "tmp/rust-r3m/root/export-fixed01.mjs",
+    "publicHTTPOperationsAdded": 0,
+    "publicHTTPPathsAdded": 0,
+    "newDTO": 0,
+    "newSchema": 0,
+    "newGeneratedClient": 0,
+    "newMigration": 0
+  },
+  "testedCandidateBinding": {
+    "artifactBytes": 43775864,
+    "artifactSHA256": "f6a9fdeddebcc6c3453c329ba5dbe6ba38f725e9577df006189b91bfff685747",
+    "uniqueExportedProductBlobs": 311,
+    "productBlobGitSHA1AndTestedRawSHA256ActuallyVerified": 311,
+    "productBlobMismatches": 0,
+    "exportManifestMappingMismatches": 0,
+    "current311ProductPinsRehashed": 311,
+    "currentProductMismatches": 0,
+    "current1373ProtectedPinsRehashed": 1373,
+    "protectedUnexpectedMismatches": 0,
+    "current126FrozenToolPinsRehashed": 126,
+    "frozenToolMismatches": 0,
+    "controlsRehashedWithBoundedMetadataChain": 19,
+    "unexplainedControlMismatches": 0,
+    "frozenArchivedMembersRehashed": 782,
+    "frozenMemberMismatches": 0,
+    "originalBytePackageUnchanged": true,
+    "G1G3FrozenInputsUnrewritten": true
+  },
+  "postG3MetadataException": {
+    "accepted": true,
+    "mutatedCurrentFiles": 8,
+    "sixMarkdown": "Exact reproduction of current-Gate phrase replacements and the appended independent G3 paragraph; original raw before bytes match frozen controls. Matching phrases occur in the current status/closeout text, not older historical acceptance conclusions.",
+    "twoJSON": "Only current closeout/status Gate fields and exact review pointer; G4/closure remain false; operation array remains deep equal.",
+    "trackerFormatting": {
+      "beforeLines": 340,
+      "afterLines": 340,
+      "changedLines": [
+        12,
+        13
+      ],
+      "change": "5 table header padding spaces and 5 divider dashes only; other 338 lines exact.",
+      "semanticChange": false,
+      "rawBeforeSeparatelyPreserved": true
+    },
+    "current58OperationObjectsUnchanged": true,
+    "independentG3CopyMatchesOriginalRawBytes": true,
+    "newExecutorsReviewed": true,
+    "newExecutorsScope": "adopt actual independent G3 into bounded metadata; preserve before bytes; format only current tracker; run existing Markdown/whitespace checks and stage declared paths. No product/contract/DB/environment writer added.",
+    "G3AuthorityKeepsG4AndIssueClosureFalse": true,
+    "historicalFailurePartialStoppedQuarantineIgnoredLabelsUnchanged": true
+  },
+  "checks": {
+    "postG3MarkdownWholeDocsExit": 0,
+    "postG3StagedWhitespaceExit": 0,
+    "postG3WorktreeWhitespaceExit": 0,
+    "currentTrackerFormatterExit": 0,
+    "postG3RawStreamsActuallyHashed": 8,
+    "postG3RawStreamMismatches": 0,
+    "commonCheckRawStreamsRemainUnchanged": true,
+    "noProductTestsRerunRequired": "Only reviewed Gate metadata, raw preservation and verification executors changed after G3; the committed 311 product inputs exactly match tested f6."
+  },
+  "E1": {
+    "exactlyFiveAliasDeletions": true,
+    "deletionPathsMatchG3Exit": true,
+    "eachParentAliasGitBlobMatchesPreservedCanonicalBytes": true,
+    "eachCurrentAliasAbsent": true,
+    "canonicalAnd23LegacySourceBytesUnchanged": true,
+    "supportedWindowsLinuxBeforeAfterReplayEvidenceStillRawExact": true,
+    "historicalHardcodeLimitRetained": true
+  },
+  "privacyAndPreservation": {
+    "all782OriginalByteMembersInFixedGitTree": true,
+    "frozenPrivacyScanAndQuarantineMetadataUnchanged": true,
+    "phase27And28UnsafeOriginalsNotAddedToCommit": true,
+    "newGateMetadataAndExecutorsContainNoRuntimeCredentialPayload": true,
+    "currentPrivateOrCompiledStateArtifactsNotAddedToCommit": true,
+    "G3M5RetentionBoundaryUnchanged": true
+  },
+  "RootCommandReceiptReadback": {
+    "source": "Public raw commands captured by Root; reviewer hashed and read receipts without executing Git.",
+    "HEADAtCapture": "552211dda9a5d31500a231cdbdfa40907aa01f5d",
+    "statusPorcelainStdoutBytes": 0,
+    "workingTreeCleanAtCapture": true,
+    "origin": "https://github.com/illusion-tech/poms.git",
+    "authorizedTaskBranchPushExit": 0,
+    "remoteTaskBranchReadback": "552211dda9a5d31500a231cdbdfa40907aa01f5d refs/heads/codex/poms-r3-closeout",
+    "mainNotCertifiedByThisReceipt": true
+  },
+  "auditorToolCorrections": [
+    {
+      "source": "fixed-object-audit01.json -> fixed-object-audit02.json",
+      "classification": "tool-noise",
+      "detail": "First comparison serialized JSON key order. Field-by-field mode/type/oid/file comparison confirms all actual delta entries agree. Tree/commit/blob hash calculations were correct."
+    },
+    {
+      "source": "fixed-metadata-audit01.json -> fixed-metadata-audit02.json",
+      "classification": "tool-noise",
+      "detail": "First table normalizer omitted separator dash-width normalization. Direct inspection confirms only header padding and divider width changed."
+    }
+  ],
+  "supportingReports": [
+    {
+      "file": "tmp/rust-r3m/final-review/fixed-object-audit02.json",
+      "bytes": 2178,
+      "rawBytesSha256": "53b2d2c1daef5fbe17a6ad5f997b6509e848b6e9858703749928d33b7661c1d5"
+    },
+    {
+      "file": "tmp/rust-r3m/final-review/fixed-metadata-audit02.json",
+      "bytes": 2911,
+      "rawBytesSha256": "ecf5ee1d627d4b6ebf936ca2f5f99ffd3f61fe81cb19da51b900c682fa78fb5f"
+    }
+  ],
+  "fixedCommitCertified": true,
+  "metadataExceptionAccepted": true,
+  "mainIntegrationAllowed": true,
+  "mainIntegrationScope": "Only fast-forward the admitted clean primary/main to exact 552211dda9a5d31500a231cdbdfa40907aa01f5d through the verified 5041275 -> 546c6c2 -> 552211 chain; preserve unrelated primary checkout state. Root performs actual integration and remote readback.",
+  "mainCertified": false,
+  "G4Certified": false,
+  "issueClosureAllowed": false,
+  "issueClosureAuthorized": false,
+  "overall57MustRemainOpen": true,
+  "remainingRequiredWork": [
+    "Root actual primary fast-forward/main push and exact source/remote readback.",
+    "Lifecycle original-byte archive, including this report and linked audit attempts/corrections; preserve all original labels and package mappings.",
+    "Independent actual G4 preclose permission and final verification before closing #98/#99/#100/#97/#85; #57 remains open."
+  ]
+}

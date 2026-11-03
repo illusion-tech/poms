@@ -1,0 +1,586 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "POMS API",
+    "description": "Project Oriented Management System API",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "paths": {
+    "/api/platform/attachment-storage-providers": {
+      "get": {
+        "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs",
+        "parameters": [
+          {
+            "name": "providerType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStorageProviderType"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+            }
+          },
+          {
+            "name": "enabled",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigList"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件存储提供商配置列表",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      },
+      "post": {
+        "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttachmentStorageProviderConfigRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "创建附件存储提供商配置",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    "/api/platform/attachment-storage-providers/{id}": {
+      "get": {
+        "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "获取附件存储提供商配置详情",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      },
+      "patch": {
+        "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAttachmentStorageProviderConfigRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "更新附件存储提供商配置",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    "/api/platform/attachment-storage-providers/{id}:testConnection": {
+      "post": {
+        "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAttachmentStorageProviderConnectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConnectionTestResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "测试附件存储提供商配置完整性",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    },
+    "/api/platform/attachment-storage-providers/{id}:set-default": {
+      "post": {
+        "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetDefaultAttachmentStorageProviderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentStorageProviderConfigDetail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "设为默认附件存储提供商",
+        "tags": [
+          "Attachment Storage Provider"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AttachmentStorageProviderType": {
+        "type": "string",
+        "enum": [
+          "local",
+          "huawei-obs-s3"
+        ]
+      },
+      "AttachmentStorageProviderConfigStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "disabled",
+          "misconfigured"
+        ]
+      },
+      "AttachmentStorageProviderConfigList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AttachmentStorageProviderConfigSummary"
+        }
+      },
+      "AttachmentStorageProviderConfigSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "providerType": {
+            "$ref": "#/components/schemas/AttachmentStorageProviderType"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "endpoint": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "bucket": {
+            "type": "string",
+            "nullable": true
+          },
+          "keyPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "forcePathStyle": {
+            "type": "boolean"
+          },
+          "accessKeyConfigured": {
+            "type": "boolean"
+          },
+          "secretAccessKeyConfigured": {
+            "type": "boolean"
+          },
+          "credentialsUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "providerType",
+          "displayName",
+          "status",
+          "enabled",
+          "isDefault",
+          "endpoint",
+          "region",
+          "bucket",
+          "keyPrefix",
+          "forcePathStyle",
+          "accessKeyConfigured",
+          "secretAccessKeyConfigured",
+          "credentialsUpdatedAt",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "CreateAttachmentStorageProviderConfigRequest": {
+        "type": "object",
+        "properties": {
+          "providerType": {
+            "$ref": "#/components/schemas/AttachmentStorageProviderType"
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "endpoint": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "bucket": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "nullable": true
+          },
+          "keyPrefix": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "nullable": true
+          },
+          "forcePathStyle": {
+            "type": "boolean"
+          },
+          "accessKeyId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "secretAccessKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "providerType",
+          "displayName"
+        ]
+      },
+      "AttachmentStorageProviderConfigDetail": {
+        "$ref": "#/components/schemas/AttachmentStorageProviderConfigSummary"
+      },
+      "UpdateAttachmentStorageProviderConfigRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AttachmentStorageProviderConfigStatus"
+          },
+          "endpoint": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "bucket": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "nullable": true
+          },
+          "keyPrefix": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "nullable": true
+          },
+          "forcePathStyle": {
+            "type": "boolean"
+          },
+          "accessKeyId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "nullable": true
+          },
+          "secretAccessKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        }
+      },
+      "TestAttachmentStorageProviderConnectionRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        }
+      },
+      "AttachmentStorageProviderConnectionTestResult": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/AttachmentStorageProviderConnectionTestStatus"
+          },
+          "message": {
+            "type": "string"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "checkedAt"
+        ]
+      },
+      "AttachmentStorageProviderConnectionTestStatus": {
+        "type": "string",
+        "enum": [
+          "success",
+          "failed"
+        ]
+      },
+      "SetDefaultAttachmentStorageProviderRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "pomsSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "poms_session"
+      },
+      "pomsCsrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token"
+      }
+    }
+  }
+}

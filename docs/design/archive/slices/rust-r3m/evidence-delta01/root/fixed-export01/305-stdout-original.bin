@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "kind": "actual-gamma03-derived-K-ordered-JSON-dirty-regression",
+  "execution": "Original source helper + actual locked SDK conversion only; not new DB/runtime execution",
+  "sources": [
+    {
+      "file": "tmp/rust-r2k/k-http-nest-gamma03.json",
+      "sha256": "1ca3a2ee35be440d112fd43fd936ffe65c8a99da20eac03550ce42e5f27a0540"
+    },
+    {
+      "file": "tmp/rust-r2k/k-http-rust-gamma03.json",
+      "sha256": "41f33f5fc1524067164c68834768af97dbcf23c8617032d1b75409c7f36567f5"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "sha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "package": "@mikro-orm/core@7.0.11",
+      "file": "types/JsonType.js",
+      "sha256": "fe59244af0ae5ab547e67622c132b36ff02c1b0f910e1cc9640cedf9f16fb975"
+    },
+    {
+      "package": "@mikro-orm/core@7.0.11",
+      "file": "platforms/Platform.js",
+      "sha256": "49a2b9666d238d001d6439225ad381e1be6d46081deb825327db33c46746d866"
+    },
+    {
+      "package": "@mikro-orm/core@7.0.11",
+      "file": "utils/EntityComparator.js",
+      "sha256": "f50c8ab22d4180c2f49d2b56ecc8ed057fe1134f94415cc3eda5a6be3549a8e2"
+    }
+  ],
+  "compiledHelperSha256": "8b8c5ab5c6e007c6c7fc088cdc319983383014ce66003fe6b9c38a064f0267af",
+  "actual": {
+    "case": "advanced.multisource.refresh",
+    "nativeSelectionId": "2d9ab512-4cb3-4a2d-83dd-a65314bc92ab",
+    "rustSelectionId": "dfc8ae9e-c71e-4752-857b-15df91bcfaa6",
+    "nativeVersions": [
+      2,
+      3
+    ],
+    "rustVersions": [
+      2,
+      2
+    ],
+    "semanticPGRefsBeforeAfterEqual": true,
+    "nativeUpdateShapes": [
+      {
+        "sequence": 4049,
+        "sqlShape": "update \"poms\".\"project_handover_attachment_selection\" set \"source_refs\" = case when (\"id\" = ?text) then ?text when (\"id\" = ?text) then ?text else \"source_refs\" end, \"updated_at\" = case when (\"id\" = ?text) then ?text when (\"id\" = ?text) then ?text else \"updated_at\" end, \"row_version\" = \"row_version\" + ?number where \"id\" in (?text, ?text) returning \"id\", \"row_version\""
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "actual-PG-key-order-to-original-fresh-assignment",
+      "beforeRaw": "[\n  {\n    \"label\": \"项目附件\",\n    \"sourceId\": \"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\n    \"sourceType\": \"project\",\n    \"relationType\": \"normal\"\n  },\n  {\n    \"label\": \"已纳入移交附件\",\n    \"sourceId\": \"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\n    \"sourceType\": \"project-handover\",\n    \"relationType\": \"handover\"\n  }\n]",
+      "afterRaw": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedBefore": "[{\"label\":\"项目附件\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"sourceType\":\"project\",\"relationType\":\"normal\"},{\"label\":\"已纳入移交附件\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"sourceType\":\"project-handover\",\"relationType\":\"handover\"}]",
+      "expectedAfter": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedDirty": true
+    },
+    {
+      "name": "same-managed-order-syntax-whitespace-only",
+      "beforeRaw": "[\n  {\n    \"sourceType\": \"project\",\n    \"sourceId\": \"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\n    \"relationType\": \"normal\",\n    \"label\": \"项目附件\"\n  },\n  {\n    \"sourceType\": \"project-handover\",\n    \"sourceId\": \"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\n    \"relationType\": \"handover\",\n    \"label\": \"已纳入移交附件\"\n  }\n]",
+      "afterRaw": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedBefore": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedAfter": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedDirty": false
+    },
+    {
+      "name": "just-flushed-managed-snapshot-unchanged",
+      "beforeRaw": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "afterRaw": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedBefore": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedAfter": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedDirty": false
+    },
+    {
+      "name": "actual-value-change",
+      "beforeRaw": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "afterRaw": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件 changed\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedBefore": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedAfter": "[{\"sourceType\":\"project\",\"sourceId\":\"2ec70a52-a6c6-442d-a377-4d890d4ef130\",\"relationType\":\"normal\",\"label\":\"项目附件 changed\"},{\"sourceType\":\"project-handover\",\"sourceId\":\"c7e6afea-053a-4c2b-8c93-8ac94b6c8ce9\",\"relationType\":\"handover\",\"label\":\"已纳入移交附件\"}]",
+      "expectedDirty": true
+    }
+  ]
+}

@@ -1,0 +1,717 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "oracle": "Actual unchanged TS private pure helpers and preview util, synthetic values; no repository/storage/database/HTTP/application execution",
+  "cases": [
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-0",
+      "argsRaw": "[\"\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Attachment original filename is required"
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-1",
+      "argsRaw": "[\"\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-2",
+      "argsRaw": "[\" \"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Attachment original filename is required"
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-3",
+      "argsRaw": "[\" \"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-4",
+      "argsRaw": "[\"/\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Attachment original filename is required"
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-5",
+      "argsRaw": "[\"/\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-6",
+      "argsRaw": "[\"\\\\\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Attachment original filename is required"
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-7",
+      "argsRaw": "[\"\\\\\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-8",
+      "argsRaw": "[\"a.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"a.pdf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-9",
+      "argsRaw": "[\"a.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-10",
+      "argsRaw": "[\"C:\\\\folder\\\\资料.PDF\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"资料.PDF\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-11",
+      "argsRaw": "[\"C:\\\\folder\\\\资料.PDF\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-12",
+      "argsRaw": "[\"../folder/ file.pdf \"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"file.pdf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-13",
+      "argsRaw": "[\"../folder/ file.pdf \"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf \""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-14",
+      "argsRaw": "[\".pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\".pdf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-15",
+      "argsRaw": "[\".pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-16",
+      "argsRaw": "[\"..pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"..pdf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-17",
+      "argsRaw": "[\"..pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-18",
+      "argsRaw": "[\"a.pdf/leaf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"leaf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-19",
+      "argsRaw": "[\"a.pdf/leaf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-20",
+      "argsRaw": "[\"a.pdf\\\\leaf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"leaf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-21",
+      "argsRaw": "[\"a.pdf\\\\leaf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-22",
+      "argsRaw": "[\"a.ΣΟΣ\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"a.ΣΟΣ\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-23",
+      "argsRaw": "[\"a.ΣΟΣ\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"σος\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-24",
+      "argsRaw": "[\"a.\\ud800\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"a.\\ud800\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-25",
+      "argsRaw": "[\"a.\\ud800\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\\ud800\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-26",
+      "argsRaw": "[\"a.\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"a.\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-27",
+      "argsRaw": "[\"a.\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-28",
+      "argsRaw": "[\"a..PDF\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"a..PDF\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-29",
+      "argsRaw": "[\"a..PDF\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-30",
+      "argsRaw": "[\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.pd\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-31",
+      "argsRaw": "[\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-32",
+      "argsRaw": "[\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-33",
+      "argsRaw": "[\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-34",
+      "argsRaw": "[\"\\ud800.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"\\ud800.pdf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-35",
+      "argsRaw": "[\"\\ud800.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "sanitizeOriginalName",
+      "name": "filename-36",
+      "argsRaw": "[\"a\\u0000.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"a\\u0000.pdf\""
+      }
+    },
+    {
+      "method": "extractExtension",
+      "name": "extension-37",
+      "argsRaw": "[\"a\\u0000.pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-pdf",
+      "argsRaw": "[\"pdf\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "null"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-PDF",
+      "argsRaw": "[\"PDF\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Unsupported attachment extension PDF"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-png",
+      "argsRaw": "[\"png\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "null"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-jpeg",
+      "argsRaw": "[\"jpeg\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "null"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-md",
+      "argsRaw": "[\"md\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "null"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-zip",
+      "argsRaw": "[\"zip\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "null"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-",
+      "argsRaw": "[\"\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Unsupported attachment extension "
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-exe",
+      "argsRaw": "[\"exe\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Unsupported attachment extension exe"
+      }
+    },
+    {
+      "method": "assertAllowedExtension",
+      "name": "allowed-tar.gz",
+      "argsRaw": "[\"tar.gz\"]",
+      "expected": {
+        "success": false,
+        "status": 400,
+        "message": "Unsupported attachment extension tar.gz"
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "quotation",
+      "argsRaw": "[\"quotation\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"sensitive\""
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "contract",
+      "argsRaw": "[\"contract\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"sensitive\""
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "finance",
+      "argsRaw": "[\"finance\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"sensitive\""
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "internal-assessment",
+      "argsRaw": "[\"internal-assessment\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"sensitive\""
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "demand",
+      "argsRaw": "[\"demand\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"internal\""
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "internal_assessment",
+      "argsRaw": "[\"internal_assessment\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"internal\""
+      }
+    },
+    {
+      "method": "defaultSecurityLevel",
+      "name": "other",
+      "argsRaw": "[\"other\"]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"internal\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "png:image/png",
+      "argsRaw": "[{\"extension\":\"png\",\"mimeType\":\"image/png\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "png:IMAGE/JPEG",
+      "argsRaw": "[{\"extension\":\"png\",\"mimeType\":\"IMAGE/JPEG\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "png:application/pdf",
+      "argsRaw": "[{\"extension\":\"png\",\"mimeType\":\"application/pdf\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "png:text/plain",
+      "argsRaw": "[{\"extension\":\"png\",\"mimeType\":\"text/plain\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpg:image/png",
+      "argsRaw": "[{\"extension\":\"jpg\",\"mimeType\":\"image/png\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpg:IMAGE/JPEG",
+      "argsRaw": "[{\"extension\":\"jpg\",\"mimeType\":\"IMAGE/JPEG\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpg:application/pdf",
+      "argsRaw": "[{\"extension\":\"jpg\",\"mimeType\":\"application/pdf\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpg:text/plain",
+      "argsRaw": "[{\"extension\":\"jpg\",\"mimeType\":\"text/plain\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpeg:image/png",
+      "argsRaw": "[{\"extension\":\"jpeg\",\"mimeType\":\"image/png\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpeg:IMAGE/JPEG",
+      "argsRaw": "[{\"extension\":\"jpeg\",\"mimeType\":\"IMAGE/JPEG\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpeg:application/pdf",
+      "argsRaw": "[{\"extension\":\"jpeg\",\"mimeType\":\"application/pdf\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "jpeg:text/plain",
+      "argsRaw": "[{\"extension\":\"jpeg\",\"mimeType\":\"text/plain\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "webp:image/png",
+      "argsRaw": "[{\"extension\":\"webp\",\"mimeType\":\"image/png\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "webp:IMAGE/JPEG",
+      "argsRaw": "[{\"extension\":\"webp\",\"mimeType\":\"IMAGE/JPEG\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"image\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "webp:application/pdf",
+      "argsRaw": "[{\"extension\":\"webp\",\"mimeType\":\"application/pdf\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "webp:text/plain",
+      "argsRaw": "[{\"extension\":\"webp\",\"mimeType\":\"text/plain\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "pdf:image/png",
+      "argsRaw": "[{\"extension\":\"pdf\",\"mimeType\":\"image/png\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "pdf:IMAGE/JPEG",
+      "argsRaw": "[{\"extension\":\"pdf\",\"mimeType\":\"IMAGE/JPEG\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "pdf:application/pdf",
+      "argsRaw": "[{\"extension\":\"pdf\",\"mimeType\":\"application/pdf\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "pdf:text/plain",
+      "argsRaw": "[{\"extension\":\"pdf\",\"mimeType\":\"text/plain\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "docx:image/png",
+      "argsRaw": "[{\"extension\":\"docx\",\"mimeType\":\"image/png\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "docx:IMAGE/JPEG",
+      "argsRaw": "[{\"extension\":\"docx\",\"mimeType\":\"IMAGE/JPEG\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "docx:application/pdf",
+      "argsRaw": "[{\"extension\":\"docx\",\"mimeType\":\"application/pdf\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"pdf\""
+      }
+    },
+    {
+      "method": "previewKind",
+      "name": "docx:text/plain",
+      "argsRaw": "[{\"extension\":\"docx\",\"mimeType\":\"text/plain\"}]",
+      "expected": {
+        "success": true,
+        "resultRaw": "\"unsupported\""
+      }
+    }
+  ]
+}
