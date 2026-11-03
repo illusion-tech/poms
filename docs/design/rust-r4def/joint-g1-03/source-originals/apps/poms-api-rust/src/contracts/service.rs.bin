@@ -1,0 +1,766 @@
+use serde_json::{Value as Json, json};
+use sqlx::Row;
+use uuid::Uuid;
+
+use super::{
+    model::{
+        ContractRecord, audit_view, contract_core, data_optional_uuid, data_text, data_uuid,
+        data_version, date_only, date_time, nullable_string, optional_string, optional_value,
+        prepared_integer, required_string, timestamp, uuid_value,
+    },
+    projection, store,
+};
+use crate::{
+    approval_common::{
+        ApprovalRecord, CommonSession,
+        js::{Data, Value, decode, get},
+        projection::{self as approval_projection, SuppliedFacts},
+        schema::Table,
+        service::object,
+        store as common,
+    },
+    auth::model::clock_now,
+    business_numbers::{BusinessNumberScope, BusinessNumberService},
+    contract_readiness::load_preparation,
+    contract_support::{
+        Actor, AuditWrite, Error, audit, canonical_hash, expected_version, lock_project, money,
+        money_string, new_uuid, ratio, ratio_string, refresh_identity, require_uuid,
+    },
+};
+
+fn path_id(id: Option<Uuid>) -> Result<Uuid, Error> {
+    id.ok_or_else(|| Error::BadRequest("Contract identity is required".into()))
+}
+
+fn safe_text(input: &Json, field: &str, maximum: usize) -> Result<String, Error> {
+    let value = required_string(input, field)?;
+    let value = value.trim();
+    if value.is_empty() || value.chars().count() > maximum {
+        return Err(Error::BadRequest(format!("{field} has an invalid length")));
+    }
+    Ok(value.into())
+}
+
+fn nullable_trimmed(
+    input: &Json,
+    field: &str,
+    maximum: usize,
+) -> Result<Option<Option<String>>, Error> {
+    nullable_string(input, field)?
+        .map(|value| {
+            value
+                .map(|value| {
+                    let value = value.trim();
+                    if value.is_empty() || value.chars().count() > maximum {
+                        return Err(Error::BadRequest(format!("{field} has an invalid length")));
+                    }
+                    Ok(value.to_owned())
+                })
+                .transpose()
+        })
+        .transpose()
+}
+
+async fn labels_for(
+    session: &mut CommonSession<'_, '_>,
+    data: &Data,
+) -> Result<std::collections::BTreeMap<Uuid, store::ProjectLabel>, Error> {
+    store::project_labels(&mut *session.connection, &[data_uuid(data, "projectId")?]).await
+}
+
+async fn summary(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    data: &Data,
+) -> Result<Json, Error> {
+    let labels = labels_for(session, data).await?;
+    projection::contract_summary(
+        session,
+        actor,
+        data,
+        labels.get(&data_uuid(data, "projectId")?),
+    )
+    .await
+}
+
+async fn detail(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    data: &Data,
+) -> Result<Json, Error> {
+    let id = data_uuid(data, "id")?;
+    let mut result = summary(session, actor, data).await?;
+    let snapshot = match data_optional_uuid(data, "currentSnapshotId")? {
+        None => Json::Null,
+        Some(snapshot_id) => match store::snapshot(&mut *session.connection, snapshot_id).await? {
+            None => Json::Null,
+            Some(snapshot) => {
+                if snapshot.contract_id != id {
+                    return Err(Error::Internal);
+                }
+                projection::snapshot_summary(session, actor, &snapshot).await?
+            }
+        },
+    };
+    let preparation = store::preparation_metadata(&mut *session.connection, id).await?;
+    let binding = store::latest_binding(&mut *session.connection, id)
+        .await?
+        .map(|binding| binding.metadata());
+    let result_object = result.as_object_mut().ok_or(Error::Internal)?;
+    result_object.insert("currentTermSnapshot".into(), snapshot);
+    result_object.insert(
+        "currentPreparation".into(),
+        preparation.unwrap_or(Json::Null),
+    );
+    result_object.insert("latestReviewBinding".into(), binding.unwrap_or(Json::Null));
+    Ok(result)
+}
+
+async fn list(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    query: &Json,
+) -> Result<Json, Error> {
+    let contracts = store::list(session, query).await?;
+    let project_ids = contracts
+        .iter()
+        .map(|contract| data_uuid(contract, "projectId"))
+        .collect::<Result<Vec<_>, _>>()?;
+    let labels = store::project_labels(&mut *session.connection, &project_ids).await?;
+    let mut output = Vec::with_capacity(contracts.len());
+    for contract in contracts {
+        let project = data_uuid(&contract, "projectId")?;
+        output.push(
+            projection::contract_summary(session, actor, &contract, labels.get(&project)).await?,
+        );
+    }
+    Ok(Json::Array(output))
+}
+
+async fn record_audit(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    operation_id: &str,
+    before: Option<Json>,
+    after: &Data,
+    reason: Option<String>,
+    metadata: Json,
+) -> Result<(), Error> {
+    audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation_id.into(),
+            target_type: "Contract".into(),
+            target_id: data_uuid(after, "id")?,
+            project_id: data_uuid(after, "projectId")?,
+            contract_id: Some(data_uuid(after, "id")?),
+            before,
+            after: Some(audit_view(after)?),
+            reason,
+            metadata,
+        },
+    )
+    .await
+}
+
+async fn create(
+    session: &mut CommonSession<'_, '_>,
+    body: &Json,
+    actor: &Actor,
+) -> Result<Json, Error> {
+    if optional_string(body, "status")?.is_some_and(|status| status != "draft") {
+        return Err(Error::BadRequest(
+            "A contract must be created in draft status".into(),
+        ));
+    }
+    let project = require_uuid(body, "projectId")?;
+    let amount = money_string(money(&required_string(body, "signedAmount")?)?);
+    let currency = if body.get("currencyCode").is_some() {
+        safe_text(body, "currencyCode", 16)?
+    } else {
+        "CNY".into()
+    };
+    let external = nullable_trimmed(body, "customerContractNo", 128)?.flatten();
+    let signed_at = nullable_string(body, "signedAt")?
+        .flatten()
+        .map(|value| date_time(&value, "signedAt"))
+        .transpose()?;
+    let retention = nullable_string(body, "retentionDueDate")?
+        .flatten()
+        .map(|value| date_only(&value, "retentionDueDate").map(|date| date.to_string()))
+        .transpose()?;
+    lock_project(&mut *session.connection, project).await?;
+    let at = clock_now();
+    let number = BusinessNumberService::next_with_connection(
+        &mut *session.connection,
+        BusinessNumberScope::Contract,
+        at,
+    )
+    .await?;
+    let id = new_uuid()?;
+    let handle = common::create(
+        session.state,
+        Table::Contract,
+        object([
+            ("id", uuid_value(id)),
+            ("projectId", uuid_value(project)),
+            ("contractNo", Value::text(number)),
+            ("customerContractNo", optional_value(external)),
+            ("status", Value::text("draft")),
+            ("signedAmount", Value::text(amount)),
+            ("currencyCode", Value::text(currency)),
+            ("currentSnapshotId", Value::Null),
+            ("signedAt", signed_at.map_or(Value::Null, timestamp)),
+            ("retentionDueDate", optional_value(retention)),
+            ("rowVersion", Value::Number(1.0)),
+            ("createdAt", timestamp(at)),
+            ("createdBy", uuid_value(actor.id)),
+            ("updatedAt", timestamp(at)),
+            ("updatedBy", uuid_value(actor.id)),
+        ]),
+    );
+    common::flush(session).await?;
+    let data = common::data(session.state, handle)?;
+    record_audit(
+        session,
+        actor,
+        "ContractController_create",
+        None,
+        &data,
+        None,
+        json!({"sourceIds":{"projectId":project},"contractCoreHash":canonical_hash(&contract_core(&data)?)?}),
+    )
+    .await?;
+    summary(session, actor, &data).await
+}
+
+async fn update(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Json,
+    actor: &Actor,
+) -> Result<Json, Error> {
+    let record = store::locked_contract(session, id).await?;
+    expected_version(body, data_version(&record.data)?, "contract")?;
+    let status = data_text(&record.data, "status")?;
+    if status != "draft" {
+        return Err(Error::BadRequest(format!(
+            "Contract {id} cannot be edited in status {status}"
+        )));
+    }
+    let mut changes = Data::new();
+    if body.get("signedAmount").is_some() {
+        changes.insert(
+            "signedAmount".into(),
+            Value::text(money_string(money(&required_string(
+                body,
+                "signedAmount",
+            )?)?)),
+        );
+    }
+    if let Some(value) = nullable_trimmed(body, "customerContractNo", 128)? {
+        changes.insert("customerContractNo".into(), optional_value(value));
+    }
+    if body.get("currencyCode").is_some() {
+        changes.insert(
+            "currencyCode".into(),
+            Value::text(safe_text(body, "currencyCode", 16)?),
+        );
+    }
+    if let Some(value) = nullable_string(body, "signedAt")? {
+        changes.insert(
+            "signedAt".into(),
+            value
+                .map(|value| date_time(&value, "signedAt").map(timestamp))
+                .transpose()?
+                .unwrap_or(Value::Null),
+        );
+    }
+    if let Some(value) = nullable_string(body, "retentionDueDate")? {
+        changes.insert(
+            "retentionDueDate".into(),
+            optional_value(
+                value
+                    .map(|value| date_only(&value, "retentionDueDate").map(|date| date.to_string()))
+                    .transpose()?,
+            ),
+        );
+    }
+    changes.retain(|key, value| get(&record.data, key) != value);
+    if changes.is_empty() {
+        // Ignored legacy actor fields and equal core fields are business no-ops.
+        // Only a real masked-response event can request an authentication flush.
+        return summary(session, actor, &record.data).await;
+    }
+    let changed_fields: Vec<_> = changes.keys().cloned().collect();
+    let before = audit_view(&record.data)?;
+    changes.insert("updatedBy".into(), uuid_value(actor.id));
+    common::assign(session.state, record.handle, changes)?;
+    common::persist(session.state, record.handle)?;
+    common::flush(session).await?;
+    let data = common::data(session.state, record.handle)?;
+    record_audit(
+        session,
+        actor,
+        "ContractController_updateBasicInfo",
+        Some(before),
+        &data,
+        None,
+        json!({"changedFields":changed_fields,"contractCoreHash":canonical_hash(&contract_core(&data)?)?}),
+    )
+    .await?;
+    summary(session, actor, &data).await
+}
+
+fn prepared_string(prepared: &Json, field: &str) -> Result<String, Error> {
+    prepared
+        .get(field)
+        .and_then(Json::as_str)
+        .map(str::to_owned)
+        .ok_or(Error::Internal)
+}
+
+fn verify_prepared(
+    contract: &ContractRecord,
+    preparation_id: Uuid,
+    prepared: &Json,
+) -> Result<(), Error> {
+    if require_uuid(prepared, "id")? != preparation_id
+        || require_uuid(prepared, "contractId")? != data_uuid(&contract.data, "id")?
+        || require_uuid(prepared, "projectId")? != data_uuid(&contract.data, "projectId")?
+    {
+        return Err(Error::Conflict(
+            "Preparation does not belong to this contract and project".into(),
+        ));
+    }
+    if prepared.get("isCurrent").and_then(Json::as_bool) != Some(true)
+        || prepared.get("status").and_then(Json::as_str) != Some("prepared")
+    {
+        return Err(Error::CodedConflict {
+            code: "source_changed",
+            message: "The selected preparation is no longer current and prepared".into(),
+        });
+    }
+    if canonical_hash(&contract_core(&contract.data)?)?
+        != prepared_string(prepared, "contractCoreHash")?
+    {
+        return Err(Error::CodedConflict {
+            code: "payload_changed",
+            message: "Contract core fields changed after preparation; prepare a new version".into(),
+        });
+    }
+    Ok(())
+}
+
+async fn submit(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Json,
+    actor: &Actor,
+) -> Result<Json, Error> {
+    let record = store::locked_contract(session, id).await?;
+    expected_version(body, data_version(&record.data)?, "contract")?;
+    let status = data_text(&record.data, "status")?;
+    if status != "draft" {
+        return Err(Error::BadRequest(format!(
+            "Contract {id} cannot submit review in status {status}"
+        )));
+    }
+    let preparation_id = require_uuid(body, "preparationId")?;
+    let prepared = load_preparation(session, id, preparation_id, true).await?;
+    verify_prepared(&record, preparation_id, &prepared)?;
+    if store::pending_review(session, id).await? {
+        return Err(Error::Conflict(format!(
+            "Contract {id} already has a pending review approval"
+        )));
+    }
+    let approver = store::contract_approver(&mut *session.connection).await?;
+    let approval_id = new_uuid()?;
+    let todo_id = new_uuid()?;
+    let project = data_uuid(&record.data, "projectId")?;
+    let comment = optional_string(body, "comment")?;
+    let before = audit_view(&record.data)?;
+    let at = clock_now();
+    common::assign(
+        session.state,
+        record.handle,
+        object([
+            ("status", Value::text("pending-review")),
+            ("updatedBy", uuid_value(actor.id)),
+        ]),
+    )?;
+    common::persist(session.state, record.handle)?;
+    common::create(
+        session.state,
+        Table::Approval,
+        object([
+            ("id", uuid_value(approval_id)),
+            ("approvalType", Value::text("contract-review")),
+            ("businessDomain", Value::text("contract-finance")),
+            ("targetObjectType", Value::text("contract")),
+            ("targetObjectId", uuid_value(id)),
+            ("projectId", uuid_value(project)),
+            ("currentStatus", Value::text("pending")),
+            ("currentNodeKey", Value::text("contract-review")),
+            ("initiatorUserId", uuid_value(actor.id)),
+            ("currentApproverUserId", uuid_value(approver)),
+            ("decision", Value::Null),
+            ("decisionComment", optional_value(comment.clone())),
+            ("submittedAt", timestamp(at)),
+            ("decidedAt", Value::Null),
+            ("closedAt", Value::Null),
+            ("rowVersion", Value::Number(1.0)),
+            ("createdAt", timestamp(at)),
+            ("updatedAt", timestamp(at)),
+        ]),
+    );
+    common::create(
+        session.state,
+        Table::Todo,
+        object([
+            ("id", uuid_value(todo_id)),
+            ("sourceType", Value::text("approval-record")),
+            ("sourceId", uuid_value(approval_id)),
+            ("todoType", Value::text("approval")),
+            ("businessDomain", Value::text("contract-finance")),
+            ("targetObjectType", Value::text("contract")),
+            ("targetObjectId", uuid_value(id)),
+            ("projectId", uuid_value(project)),
+            (
+                "title",
+                Value::text(format!(
+                    "合同审核：{}",
+                    data_text(&record.data, "contractNo")?
+                )),
+            ),
+            ("summary", optional_value(comment.clone())),
+            ("assigneeUserId", uuid_value(approver)),
+            ("status", Value::text("open")),
+            ("priority", Value::text("high")),
+            ("dueAt", Value::Null),
+            ("completedAt", Value::Null),
+            ("rowVersion", Value::Number(1.0)),
+            ("createdAt", timestamp(at)),
+            ("updatedAt", timestamp(at)),
+        ]),
+    );
+    // The new binding has an immediate approval FK. Materialize common rows
+    // in this same outer transaction before that INSERT, never another pool.
+    common::flush(session).await?;
+    let payload_hash = prepared_string(&prepared, "payloadHash")?;
+    let preparation_version = prepared_integer(&prepared, "version")?;
+    sqlx::query(
+        "INSERT INTO poms.contract_review_binding \
+         (approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by) \
+         VALUES($1,$2,$3,$4,$5,$6,$7)",
+    )
+    .bind(approval_id)
+    .bind(id)
+    .bind(preparation_id)
+    .bind(preparation_version)
+    .bind(&payload_hash)
+    .bind(at)
+    .bind(actor.id)
+    .execute(&mut *session.connection)
+    .await?;
+    session
+        .state
+        .trace
+        .inserted("contract_review_binding", &approval_id.to_string());
+    let after = common::data(session.state, record.handle)?;
+    record_audit(
+        session,
+        actor,
+        "ContractController_submitReview",
+        Some(before),
+        &after,
+        comment,
+        json!({"sourceIds":{
+            "preparationId":preparation_id,"approvalRecordId":approval_id,"todoItemId":todo_id,
+            "readinessId":require_uuid(&prepared,"sourceReadinessId")?,
+            "baselineId":require_uuid(&prepared,"sourceBaselineId")?,
+            "diffResultId":require_uuid(&prepared,"sourceDiffResultId")?
+        },"preparationVersion":preparation_version,"payloadHash":payload_hash}),
+    )
+    .await?;
+    common::flush(session).await?;
+    Ok(json!({
+        "targetId":id,"targetType":"contract","resultStatus":"submitted",
+        "businessStatusAfter":"pending-review","approvalRecordId":approval_id,
+        "confirmationRecordId":null,"todoItemIds":[todo_id],"snapshotId":null,
+        "preparationId":preparation_id
+    }))
+}
+
+async fn bound_preparation(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: Uuid,
+    approval_id: Uuid,
+    approve: bool,
+) -> Result<Option<(store::ReviewBinding, Json)>, Error> {
+    let Some(discovered) =
+        store::review_binding(&mut *session.connection, approval_id, false).await?
+    else {
+        if !approve {
+            return Ok(None);
+        }
+        return Err(Error::CodedConflict {
+            code: "preparation_binding_required",
+            message: "This approval has no contract preparation binding; reject and submit a prepared version".into(),
+        });
+    };
+    if discovered.contract_id != contract_id {
+        return Err(Error::Conflict(
+            "Review binding belongs to a different contract".into(),
+        ));
+    }
+    let prepared =
+        load_preparation(session, contract_id, discovered.preparation_id, approve).await?;
+    let binding = store::review_binding(&mut *session.connection, approval_id, true)
+        .await?
+        .ok_or_else(|| Error::Conflict("Review binding changed while acquiring its lock".into()))?;
+    if binding.contract_id != contract_id
+        || binding.preparation_id != discovered.preparation_id
+        || binding.preparation_id != require_uuid(&prepared, "id")?
+        || contract_id != require_uuid(&prepared, "contractId")?
+        || binding.preparation_version != prepared_integer(&prepared, "version")?
+        || binding.payload_hash != prepared_string(&prepared, "payloadHash")?
+    {
+        return Err(Error::CodedConflict {
+            code: "payload_changed",
+            message: "The immutable review binding does not match its preparation".into(),
+        });
+    }
+    Ok(Some((binding, prepared)))
+}
+
+/// Consumed by the existing R2 domain handler. Decisions and their mandatory
+/// audit stay owned there. Historical rejection must remain possible.
+pub async fn validate_review_binding(
+    session: &mut CommonSession<'_, '_>,
+    contract_id: Uuid,
+    approval_id: Uuid,
+    approve: bool,
+) -> Result<(), Error> {
+    bound_preparation(session, contract_id, approval_id, approve).await?;
+    Ok(())
+}
+
+async fn activate(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Json,
+    actor: &Actor,
+) -> Result<Json, Error> {
+    let record = store::locked_contract(session, id).await?;
+    // A stale explicit version wins over the already-active repeat guard.
+    expected_version(body, data_version(&record.data)?, "contract")?;
+    let status = data_text(&record.data, "status")?;
+    if status != "pending-review" {
+        return Err(Error::BadRequest(format!(
+            "Contract {id} cannot be activated in status {status}"
+        )));
+    }
+    if store::pending_review(session, id).await? {
+        return Err(Error::BadRequest(format!(
+            "Contract {id} still has a pending review approval"
+        )));
+    }
+    let approval = store::latest_approval(session, id, true)
+        .await?
+        .ok_or_else(|| {
+            Error::BadRequest(format!(
+                "Contract {id} cannot be activated without an approved review record"
+            ))
+        })?;
+    let approval_id = data_uuid(&approval, "id")?;
+    let (binding, prepared) = bound_preparation(session, id, approval_id, true)
+        .await?
+        .ok_or(Error::Internal)?;
+    verify_prepared(&record, binding.preparation_id, &prepared)?;
+    let before = audit_view(&record.data)?;
+    let snapshot_id = new_uuid()?;
+    let at = clock_now();
+    let readiness_id = require_uuid(&prepared, "sourceReadinessId")?;
+    let baseline_id = require_uuid(&prepared, "sourceBaselineId")?;
+    let diff_id = require_uuid(&prepared, "sourceDiffResultId")?;
+    let inclusive = money_string(money(&prepared_string(&prepared, "amountTaxInclusive")?)?);
+    let exclusive = money_string(money(&prepared_string(&prepared, "amountTaxExclusive")?)?);
+    let tax = ratio_string(ratio(&prepared_string(&prepared, "taxRate")?)?);
+    let down = ratio_string(ratio(&prepared_string(&prepared, "downPaymentRate")?)?);
+    let retention = ratio_string(ratio(&prepared_string(&prepared, "retentionRate")?)?);
+    let due = prepared
+        .get("retentionDueDate")
+        .filter(|value| !value.is_null())
+        .map(|value| {
+            value
+                .as_str()
+                .ok_or(Error::Internal)
+                .and_then(|value| date_only(value, "retentionDueDate"))
+        })
+        .transpose()?;
+    let payment_terms = prepared_string(&prepared, "paymentTerms")?;
+    let seeds = prepared
+        .get("receivablePlanSeeds")
+        .filter(|value| value.as_array().is_some_and(|values| !values.is_empty()))
+        .ok_or(Error::Internal)?;
+    let payload_hash = prepared_string(&prepared, "payloadHash")?;
+    sqlx::query(
+        "INSERT INTO poms.contract_term_snapshot \
+         (id,contract_id,effective_at,effective_by,retention_due_date,amount_tax_inclusive,amount_tax_exclusive,\
+         tax_rate,down_payment_rate,retention_rate,payment_terms,source_readiness_id,source_baseline_id,version,\
+         snapshot_status,created_at,created_by,row_version,source_preparation_id,receivable_plan_seeds,payload_hash) \
+         VALUES($1,$2,$3,$4,$5,$6::numeric,$7::numeric,$8::numeric,$9::numeric,$10::numeric,$11,$12,$13,1,'active',$3,$4,1,$14,$15,$16)",
+    )
+    .bind(snapshot_id).bind(id).bind(at).bind(actor.id).bind(due)
+    .bind(&inclusive).bind(&exclusive).bind(&tax).bind(&down).bind(&retention)
+    .bind(&payment_terms).bind(readiness_id).bind(baseline_id).bind(binding.preparation_id)
+    .bind(seeds).bind(&payload_hash)
+    .execute(&mut *session.connection).await?;
+    session
+        .state
+        .trace
+        .inserted("contract_term_snapshot", &snapshot_id.to_string());
+    let updated = sqlx::query(
+        "UPDATE poms.contract_term_preparation SET status='activated',activated_snapshot_id=$1,\
+         activated_at=$2,activated_by=$3,updated_at=$2,row_version=row_version+1 \
+         WHERE id=$4 AND contract_id=$5 AND is_current AND status='prepared' AND row_version=$6 AND payload_hash=$7 RETURNING row_version",
+    )
+    .bind(snapshot_id).bind(at).bind(actor.id).bind(binding.preparation_id).bind(id)
+    .bind(prepared_integer(&prepared,"rowVersion")?).bind(&payload_hash)
+    .fetch_optional(&mut *session.connection).await?;
+    if updated.is_none() {
+        return Err(Error::Conflict(
+            "Preparation changed before activation".into(),
+        ));
+    }
+    let package = sqlx::query(
+        "SELECT row_version,initialized_contract_snapshot_id FROM poms.contract_readiness_package \
+         WHERE id=$1 AND contract_id=$2 AND current_preparation_id=$3 AND is_current \
+         AND source_baseline_id=$4 AND latest_diff_result_id=$5 FOR UPDATE",
+    )
+    .bind(readiness_id)
+    .bind(id)
+    .bind(binding.preparation_id)
+    .bind(baseline_id)
+    .bind(diff_id)
+    .fetch_optional(&mut *session.connection)
+    .await?
+    .ok_or_else(|| Error::CodedConflict {
+        code: "source_changed",
+        message: "The preparation's readiness package is no longer current".into(),
+    })?;
+    if package
+        .try_get::<Option<Uuid>, _>("initialized_contract_snapshot_id")?
+        .is_some()
+    {
+        return Err(Error::Conflict(
+            "The readiness package already references a contract snapshot".into(),
+        ));
+    }
+    let package_version: i32 = package.try_get("row_version")?;
+    let updated = sqlx::query(
+        "UPDATE poms.contract_readiness_package SET initialized_contract_snapshot_id=$1,contract_snapshot_initialized_at=$2,\
+         updated_by=$3,updated_at=$2,row_version=row_version+1 WHERE id=$4 AND contract_id=$5 AND row_version=$6 RETURNING row_version",
+    )
+    .bind(snapshot_id).bind(at).bind(actor.id).bind(readiness_id).bind(id).bind(package_version)
+    .fetch_optional(&mut *session.connection).await?;
+    if updated.is_none() {
+        return Err(Error::Conflict(
+            "Readiness package changed during activation".into(),
+        ));
+    }
+    common::assign(
+        session.state,
+        record.handle,
+        object([
+            ("status", Value::text("active")),
+            ("currentSnapshotId", uuid_value(snapshot_id)),
+            ("updatedBy", uuid_value(actor.id)),
+        ]),
+    )?;
+    common::persist(session.state, record.handle)?;
+    common::flush(session).await?;
+    let snapshot = store::snapshot(&mut *session.connection, snapshot_id)
+        .await?
+        .ok_or(Error::Internal)?;
+    refresh_identity(
+        session,
+        Table::ContractTerm,
+        snapshot_id,
+        snapshot.legacy_data(),
+    )?;
+    let after = common::data(session.state, record.handle)?;
+    record_audit(
+        session,actor,"ContractController_activate",Some(before),&after,optional_string(body,"comment")?,
+        json!({"sourceIds":{"preparationId":binding.preparation_id,"approvalRecordId":approval_id,
+            "snapshotId":snapshot_id,"readinessId":readiness_id,"baselineId":baseline_id,"diffResultId":diff_id},
+            "preparationVersion":binding.preparation_version,"snapshotVersion":1,"payloadHash":payload_hash}),
+    ).await?;
+    common::flush(session).await?;
+    Ok(json!({
+        "targetId":id,"targetType":"contract","resultStatus":"activated","businessStatusAfter":"active",
+        "approvalRecordId":approval_id,"confirmationRecordId":null,"todoItemIds":[],
+        "snapshotId":snapshot_id,"preparationId":binding.preparation_id
+    }))
+}
+
+async fn current_approval(session: &mut CommonSession<'_, '_>, id: Uuid) -> Result<Json, Error> {
+    let data = store::latest_approval(session, id, false)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("No approval record found for contract {id}")))?;
+    let record: ApprovalRecord = decode(&Value::Object(data))?;
+    let contract = store::contract(session, id).await?;
+    let facts = SuppliedFacts {
+        contract: contract
+            .as_ref()
+            .map(|contract| approval_projection::ContractFact {
+                contract_no: get(&contract.data, "contractNo").as_text().cloned(),
+                status: get(&contract.data, "status").as_text().cloned(),
+            }),
+        ..SuppliedFacts::default()
+    };
+    serde_json::to_value(approval_projection::approval(&record, &facts))
+        .map_err(|_| Error::Internal)
+}
+
+pub async fn execute(
+    session: &mut CommonSession<'_, '_>,
+    operation_id: &str,
+    id: Option<Uuid>,
+    query: &Json,
+    body: &Json,
+    actor: &Actor,
+) -> Result<Json, Error> {
+    match operation_id {
+        "ContractController_list" => list(session, actor, query).await,
+        "ContractController_create" => create(session, body, actor).await,
+        "ContractController_updateBasicInfo" => update(session, path_id(id)?, body, actor).await,
+        "ContractController_submitReview" => submit(session, path_id(id)?, body, actor).await,
+        "ContractController_activate" => activate(session, path_id(id)?, body, actor).await,
+        "ContractController_getCurrentApproval" => current_approval(session, path_id(id)?).await,
+        "ContractController_getById" => {
+            let id = path_id(id)?;
+            let record = store::contract(session, id)
+                .await?
+                .ok_or_else(|| Error::NotFound(format!("Contract {id} not found")))?;
+            detail(session, actor, &record.data).await
+        }
+        "ContractController_getByNo" => {
+            let number = required_string(query, "contractNo")?;
+            let record = store::by_number(session, &number)
+                .await?
+                .ok_or_else(|| Error::NotFound(format!("Contract no {number} not found")))?;
+            detail(session, actor, &record.data).await
+        }
+        "ContractTermSnapshotController_getById" => {
+            let id = path_id(id)?;
+            let snapshot = store::snapshot(&mut *session.connection, id)
+                .await?
+                .ok_or_else(|| Error::NotFound(format!("ContractTermSnapshot {id} not found")))?;
+            projection::snapshot_summary(session, actor, &snapshot).await
+        }
+        _ => Err(Error::Internal),
+    }
+}
