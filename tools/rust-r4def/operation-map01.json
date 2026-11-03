@@ -1,0 +1,453 @@
+{
+  "kind": "current-effective-R4-next28-operation-map",
+  "operations": [
+    {
+      "group": "D",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-handover",
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "getContractHandoverSummary",
+        "line": 20
+      }
+    },
+    {
+      "group": "D",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/project-handover",
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "getProjectHandoverDetailByProject",
+        "line": 28
+      }
+    },
+    {
+      "group": "D",
+      "method": "GET",
+      "path": "/api/project-handovers/{id}",
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "getProjectHandoverDetailByHandover",
+        "line": 36
+      }
+    },
+    {
+      "group": "D",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}:confirm",
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "confirmProjectHandover",
+        "line": 44
+      }
+    },
+    {
+      "group": "D",
+      "method": "POST",
+      "path": "/api/contract-handover-rebaselines",
+      "operationId": "ProjectHandoverController_rebaselineContractHandover",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "rebaselineContractHandover",
+        "line": 53
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/internal-cost-rate-versions",
+      "operationId": "ProjectCostController_publishInternalCostRateVersion",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "publishInternalCostRateVersion",
+        "line": 104
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "operationId": "ProjectCostController_createProjectActualCostRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "createProjectActualCostRecord",
+        "line": 113
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-bases",
+      "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmSharedCostAllocationBasis",
+        "line": 231
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}",
+      "operationId": "ProjectCostController_getSharedCostAllocationBasis",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getSharedCostAllocationBasis",
+        "line": 240
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}/results",
+      "operationId": "ProjectCostController_listSharedCostAllocationResults",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listSharedCostAllocationResults",
+        "line": 248
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-results/{id}:replace",
+      "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceSharedCostAllocationResult",
+        "line": 256
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+      "operationId": "ProjectCostController_confirmCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmCostStageAttribution",
+        "line": 265
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/cost-stage-attributions/{id}:reclassify",
+      "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "reclassifyCostStageAttribution",
+        "line": 274
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{costRecordId}/stage-attributions",
+      "operationId": "ProjectCostController_listCostStageAttributions",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listCostStageAttributions",
+        "line": 283
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/cost-stage-attributions/{id}",
+      "operationId": "ProjectCostController_getCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getCostStageAttribution",
+        "line": 291
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmAccountingTaxTreatment",
+        "line": 299
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/accounting-tax-treatments/{id}:replace",
+      "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceAccountingTaxTreatment",
+        "line": 308
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "operationId": "ProjectCostController_listAccountingTaxTreatments",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listAccountingTaxTreatments",
+        "line": 317
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/accounting-tax-treatments/{id}",
+      "operationId": "ProjectCostController_getAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getAccountingTaxTreatment",
+        "line": 325
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/expense-records",
+      "operationId": "ProjectCostController_listExpenseRecords",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listExpenseRecords",
+        "line": 401
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/expense-records/{id}",
+      "operationId": "ProjectCostController_getExpenseRecordDetail",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getExpenseRecordDetail",
+        "line": 409
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/expense-records",
+      "operationId": "ProjectCostController_createExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "createExpenseRecord",
+        "line": 417
+      }
+    },
+    {
+      "group": "E",
+      "method": "PATCH",
+      "path": "/api/expense-records/{id}",
+      "operationId": "ProjectCostController_updateExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "updateExpenseRecord",
+        "line": 426
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/expense-records/{id}:confirm",
+      "operationId": "ProjectCostController_confirmExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmExpenseRecord",
+        "line": 434
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/expense-records/{id}:void",
+      "operationId": "ProjectCostController_voidExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "voidExpenseRecord",
+        "line": 444
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "operationId": "ProjectCostController_listProjectActualCostRecords",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listProjectActualCostRecords",
+        "line": 453
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{id}",
+      "operationId": "ProjectCostController_getProjectActualCostRecordDetail",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getProjectActualCostRecordDetail",
+        "line": 461
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}:replace",
+      "operationId": "ProjectCostController_replaceLaborCostRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceLaborCostRecord",
+        "line": 469
+      }
+    }
+  ]
+}

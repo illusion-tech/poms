@@ -377,3 +377,7 @@ R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#1
 [最终非作者实际G4签署](archive/slices/rust-r4abc/g4-actual12.json.bin) Pass，仅认证A9/B9/C19首批37入口；#103/#104/#105/#102 Closed，#101/#57持续Open，完整R4和R5–R7仍未完成。实际实现a2995dfb、永久S3、固定提交/main、原字节归档和六Issue正文/comment/state/native tree读回一致，949产品原字节无变。
 
 当前正式新增交付37，Rust公开surface累计210。最终签署与当前状态的普通metadata写回不改任何产品、Issue正文/状态或既有1390原件；54历史ignored、163有界复用、失败/partial/Native参考与未认领范围保留原标签。
+
+### 2026-11-04 R4 第二批 G0 与联合 G1 准备
+
+已建立 [#106](https://github.com/illusion-tech/poms/issues/106) → D#107/E#108/F#109。28既有入口当前AST/spec/canonical去重完成；用户授权补齐准备/本人确认/受控变更的真实可操作闭环，候选D7/E11/F12共30，其中2新增canonical为planned。职责本人确认/可兼任、R5执行准入分层、成本两位及整批分摊守恒三项已裁决，详见[基线](rust-r4def-next30-baseline.md)和[状态](rust-r4def-delivery-status.json)。当前G1准备、G2未准入、新增正式交付0；成本40已含经营17，不重复计数。仅本批最终可关闭#107/#108/#109/#106，#101/#57持续Open。

@@ -1,0 +1,4954 @@
+{
+  "kind": "R4E-cost-foundation-G1-candidate",
+  "version": 1,
+  "evidenceClass": "static-input-and-design-candidate-only",
+  "createdAt": "2026-11-03T20:16:52.827Z",
+  "base": "565661b9113372de4da6662a4a692fbfd2296dd6",
+  "branch": "codex/poms-r4def-next28",
+  "gateStatus": "Pending",
+  "runtimeExecuted": false,
+  "ddlExecuted": false,
+  "issues": {
+    "child": 108,
+    "batch": 106,
+    "stage": 101,
+    "overall": 57,
+    "parentStageAndOverallRemainOpen": true
+  },
+  "counts": {
+    "E": 11,
+    "batch": 30,
+    "existingBatch": 28,
+    "newBatchD": 2,
+    "unionVariants": 5,
+    "currentCopiedSchemas": 32,
+    "existingInspectedMockTests": 58,
+    "plannedScenarios": 46
+  },
+  "modelRegistration": {
+    "requestedModel": "gpt-6.1-sol",
+    "requestedEffort": "max",
+    "fast": "unverified"
+  },
+  "authority": {
+    "business": "formal phase2 designs plus current explicit user-decisions01; Node is comparison only",
+    "routes": "canonical inventory; precise E rows embedded per operation",
+    "currentFields": "Shared Zod and current OpenAPI; discrepancies explicit",
+    "moneyDecision": "user accepted cents ledger, 4-place rates, 2-place quantity, exact HALF_UP; legacy excess-scale not silently rewritten"
+  },
+  "operations": [
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/internal-cost-rate-versions",
+      "key": "POST /internal-cost-rate-versions",
+      "operationId": "ProjectCostController_publishInternalCostRateVersion",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "publishInternalCostRateVersion",
+        "line": 104
+      },
+      "canonical": [
+        {
+          "line": 154,
+          "domain": "project-cost",
+          "capability": "publishInternalCostRateVersion",
+          "key": "POST /internal-cost-rate-versions",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PublishInternalCostRateVersionRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      },
+      "candidate": {
+        "body": "PublishInternalCostRateVersionRequest",
+        "response": "CommandResult",
+        "scope": "global",
+        "writes": [
+          "internal_cost_rate_version old/new",
+          "audit_log"
+        ],
+        "locking": "transaction advisory rateKey, then current version row; current/key-version/range constraints",
+        "business": [
+          "exactly one person/role identity",
+          "positive rate numeric(15,4), no implicit rounding",
+          "closed date intervals and explicit current predecessor",
+          "old locked labor never recalculated",
+          "optional expectedVersion checked when supplied"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "key": "POST /projects/{projectId}/actual-cost-records",
+      "operationId": "ProjectCostController_createProjectActualCostRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "createProjectActualCostRecord",
+        "line": 113
+      },
+      "canonical": [
+        {
+          "line": 167,
+          "domain": "project-cost",
+          "capability": "registerPaymentFactCostRecord",
+          "key": "POST /projects/{projectId}/actual-cost-records",
+          "status": "aligned"
+        },
+        {
+          "line": 168,
+          "domain": "project-cost",
+          "capability": "registerInvoiceCostRecord",
+          "key": "POST /projects/{projectId}/actual-cost-records",
+          "status": "aligned"
+        },
+        {
+          "line": 169,
+          "domain": "project-cost",
+          "capability": "registerExpenseCostRecord",
+          "key": "POST /projects/{projectId}/actual-cost-records",
+          "status": "aligned"
+        },
+        {
+          "line": 170,
+          "domain": "project-cost",
+          "capability": "registerProcurementCostRecord",
+          "key": "POST /projects/{projectId}/actual-cost-records",
+          "status": "aligned"
+        },
+        {
+          "line": 171,
+          "domain": "project-cost",
+          "capability": "registerLaborCostRecord",
+          "key": "POST /projects/{projectId}/actual-cost-records",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "CreateProjectActualCostRecordRequest",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "costType",
+                "mapping": {
+                  "payment-fact": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest",
+                  "invoice": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest",
+                  "expense": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest",
+                  "procurement": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest",
+                  "labor": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      },
+      "candidate": {
+        "body": "CreateProjectActualCostRecordRequest: strict discriminated union of five variants",
+        "response": "CommandResult",
+        "scope": "project",
+        "writes": [
+          "project_actual_cost_record",
+          "source/calculation basis",
+          "F stage attribution for confirmed records",
+          "audit_log",
+          "business number allocation"
+        ],
+        "business": [
+          "real source in same project and correct eligible status",
+          "optional expectedSourceVersion rechecked under lock",
+          "single current source mapping",
+          "confirmed requires unique historical stage truth",
+          "all new records isIncludedInProjectCost=false",
+          "no economic event absorption decision in this batch",
+          "missing historical stage/confirmation evidence retains registered; F may confirm with evidence atomically"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/expense-records",
+      "key": "GET /projects/{projectId}/expense-records",
+      "operationId": "ProjectCostController_listExpenseRecords",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listExpenseRecords",
+        "line": 401
+      },
+      "canonical": [
+        {
+          "line": 547,
+          "domain": "project-cost",
+          "capability": "listExpenseRecords",
+          "key": "GET /projects/{projectId}/expense-records",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRecordList"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "response": "ExpenseRecordList",
+        "scope": "project",
+        "read": "bare array; expenseDate DESC, createdAt DESC, id; empty []"
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/expense-records/{id}",
+      "key": "GET /expense-records/{id}",
+      "operationId": "ProjectCostController_getExpenseRecordDetail",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getExpenseRecordDetail",
+        "line": 409
+      },
+      "canonical": [
+        {
+          "line": 522,
+          "domain": "project-cost",
+          "capability": "getExpenseRecordDetail",
+          "key": "GET /expense-records/{id}",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRecordDetailView"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "response": "ExpenseRecordDetailView",
+        "scope": "item",
+        "read": "record+current_mapping; missing404; allowedActions exactly match write guards"
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/expense-records",
+      "key": "POST /projects/{projectId}/expense-records",
+      "operationId": "ProjectCostController_createExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "createExpenseRecord",
+        "line": 417
+      },
+      "canonical": [
+        {
+          "line": 548,
+          "domain": "project-cost",
+          "capability": "createExpenseRecord",
+          "key": "POST /projects/{projectId}/expense-records",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateExpenseRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "body": "CreateExpenseRecordRequest",
+        "response": "ExpenseRecordSummary",
+        "scope": "project",
+        "writes": [
+          "expense_record",
+          "audit_log"
+        ],
+        "business": [
+          "project exists, optional contract same project",
+          "active ExpenseCategory dictionary item",
+          "recorded with session audit actor",
+          "gross>0, net/tax nonnegative or unknown; sum exact when both known",
+          "ordinary money numeric18,2; no project-total hard budget"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "PATCH",
+      "path": "/api/expense-records/{id}",
+      "key": "PATCH /expense-records/{id}",
+      "operationId": "ProjectCostController_updateExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "updateExpenseRecord",
+        "line": 426
+      },
+      "canonical": [
+        {
+          "line": 523,
+          "domain": "project-cost",
+          "capability": "updateExpenseRecord",
+          "key": "PATCH /expense-records/{id}",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateExpenseRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "body": "UpdateExpenseRecordRequest",
+        "response": "ExpenseRecordSummary",
+        "scope": "item",
+        "writes": [
+          "expense_record conditional rowVersion update",
+          "audit_log"
+        ],
+        "business": [
+          "at least one mutable field",
+          "draft/recorded only",
+          "null and omitted remain distinct",
+          "revalidate merged amounts and changed dictionary/contract",
+          "optional expectedVersion; mandatory locking/CAS even when absent"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/expense-records/{id}:confirm",
+      "key": "POST /expense-records/{id}:confirm",
+      "operationId": "ProjectCostController_confirmExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmExpenseRecord",
+        "line": 434
+      },
+      "canonical": [
+        {
+          "line": 160,
+          "domain": "project-cost",
+          "capability": "confirmExpenseRecord",
+          "key": "POST /expense-records/{id}:confirm",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmExpenseRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "body": "ConfirmExpenseRecordRequest",
+        "response": "ExpenseRecordSummary",
+        "scope": "item",
+        "writes": [
+          "expense_record",
+          "audit_log"
+        ],
+        "business": [
+          "recorded only",
+          "confirmedAt server clock and confirmedBy actor",
+          "does not implicitly create mapping or include cost"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/expense-records/{id}:void",
+      "key": "POST /expense-records/{id}:void",
+      "operationId": "ProjectCostController_voidExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "voidExpenseRecord",
+        "line": 444
+      },
+      "canonical": [
+        {
+          "line": 161,
+          "domain": "project-cost",
+          "capability": "voidExpenseRecord",
+          "key": "POST /expense-records/{id}:void",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/VoidExpenseRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRecordSummary"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "body": "VoidExpenseRecordRequest",
+        "response": "ExpenseRecordSummary",
+        "scope": "item",
+        "writes": [
+          "expense_record",
+          "audit_log"
+        ],
+        "business": [
+          "reject already voided and any registered/confirmed/included current mapping",
+          "reason/comment retained; server voidedAt",
+          "same project/source lock protocol as mapping; atomic race"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "key": "GET /projects/{projectId}/actual-cost-records",
+      "operationId": "ProjectCostController_listProjectActualCostRecords",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listProjectActualCostRecords",
+        "line": 453
+      },
+      "canonical": [
+        {
+          "line": 546,
+          "domain": "project-cost",
+          "capability": "listProjectActualCostRecords",
+          "key": "GET /projects/{projectId}/actual-cost-records",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectActualCostRecordListView"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "response": "ProjectActualCostRecordListView",
+        "scope": "project",
+        "query": {
+          "type": "object",
+          "properties": {
+            "costType": {
+              "$ref": "#/components/schemas/ProjectActualCostType"
+            },
+            "recordStatus": {
+              "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
+            },
+            "sourceType": {
+              "$ref": "#/components/schemas/ProjectActualCostSourceType"
+            }
+          },
+          "additionalProperties": false
+        },
+        "read": "bare summary array; typed source/status/type filters; date DESC NULLS FIRST, createdAt DESC, id; empty []",
+        "sensitive": "labor-cost-rate projections; raw labor amount/source identity/description/evidence null"
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{id}",
+      "key": "GET /project-actual-cost-records/{id}",
+      "operationId": "ProjectCostController_getProjectActualCostRecordDetail",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getProjectActualCostRecordDetail",
+        "line": 461
+      },
+      "canonical": [
+        {
+          "line": 542,
+          "domain": "project-cost",
+          "capability": "getProjectActualCostRecordDetail",
+          "key": "GET /project-actual-cost-records/{id}",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": null,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectActualCostRecordDetailView"
+              }
+            }
+          }
+        }
+      },
+      "candidate": {
+        "response": "ProjectActualCostRecordDetailView",
+        "scope": "item",
+        "read": "typed locked cost/calculation basis plus real current source status and bidirectional replacement lookup; missing item404",
+        "sensitive": "labor sensitive raw fields removed/null; all sensitive values only through projections"
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}:replace",
+      "key": "POST /project-actual-cost-records/{id}:replace",
+      "operationId": "ProjectCostController_replaceLaborCostRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceLaborCostRecord",
+        "line": 469
+      },
+      "canonical": [
+        {
+          "line": 172,
+          "domain": "project-cost",
+          "capability": "replaceLaborCostRecord",
+          "key": "POST /project-actual-cost-records/{id}:replace",
+          "status": "aligned"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReplaceLaborCostRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      },
+      "candidate": {
+        "body": "ReplaceLaborCostRecordRequest",
+        "response": "CommandResult",
+        "scope": "item",
+        "writes": [
+          "old cost status replaced + rowVersion",
+          "new registered cost with new UUID",
+          "calculation/source basis",
+          "audit_log",
+          "business number allocation"
+        ],
+        "business": [
+          "labor only, registered/confirmed current chain head",
+          "reject included/draft/voided/replaced/existing successor/F locked reference",
+          "preserve project/person-or-role/periodType",
+          "explicit replaceReason; no physical delete or overwrite",
+          "one successor unique; old/new changes atomic"
+        ]
+      },
+      "evidenceClass": "static-input-only",
+      "runtimeExecuted": false
+    }
+  ],
+  "currentSchemas": {
+    "CommandResult": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "targetType": {
+          "type": "string"
+        },
+        "resultStatus": {
+          "type": "string"
+        },
+        "businessStatusAfter": {
+          "type": "string"
+        },
+        "approvalRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "confirmationRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "todoItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "snapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "preparationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "targetId",
+        "targetType",
+        "resultStatus",
+        "businessStatusAfter",
+        "approvalRecordId",
+        "confirmationRecordId",
+        "todoItemIds"
+      ]
+    },
+    "ConfirmExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "CreateExpenseProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "expense"
+          ]
+        },
+        "expenseRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "expenseRecordId"
+      ],
+      "additionalProperties": false
+    },
+    "CreateExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "expenseCategory",
+        "expenseDescription",
+        "expenseDate",
+        "amountIncludingTax"
+      ]
+    },
+    "CreateInvoiceProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "invoice"
+          ]
+        },
+        "invoiceRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "invoiceRecordId"
+      ],
+      "additionalProperties": false
+    },
+    "CreateLaborProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "labor"
+          ]
+        },
+        "laborPersonId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "laborRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "laborPeriodType": {
+          "$ref": "#/components/schemas/LaborCostPeriodType"
+        },
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "actualHours": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "actualPersonDays": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "workSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "rateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        }
+      },
+      "required": [
+        "costType",
+        "laborPeriodType",
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "rateVersionId"
+      ],
+      "additionalProperties": false
+    },
+    "CreatePaymentFactProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "payment-fact"
+          ]
+        },
+        "paymentRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "paymentRecordId"
+      ],
+      "additionalProperties": false
+    },
+    "CreateProcurementProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "procurement"
+          ]
+        },
+        "payableRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "payableRecordId"
+      ],
+      "additionalProperties": false
+    },
+    "DictionaryCode": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "ExpenseCategory": {
+      "$ref": "#/components/schemas/DictionaryCode"
+    },
+    "ExpenseRecordDetailView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string"
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountIncludingTax": {
+          "type": "string"
+        },
+        "taxAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "status": {
+          "$ref": "#/components/schemas/ExpenseRecordStatus"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "voidedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "expenseCategory",
+        "expenseDescription",
+        "expenseDate",
+        "currency",
+        "amountIncludingTax",
+        "taxAmount",
+        "amountExcludingTax",
+        "sourceType",
+        "status",
+        "evidenceSummary",
+        "attachmentCount",
+        "confirmedAt",
+        "confirmedBy",
+        "voidedAt",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt",
+        "allowedActions"
+      ]
+    },
+    "ExpenseRecordList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExpenseRecordSummary"
+      }
+    },
+    "ExpenseRecordStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "recorded",
+        "confirmed",
+        "voided"
+      ]
+    },
+    "ExpenseRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string"
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountIncludingTax": {
+          "type": "string"
+        },
+        "taxAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "status": {
+          "$ref": "#/components/schemas/ExpenseRecordStatus"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "voidedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "contractId",
+        "expenseCategory",
+        "expenseDescription",
+        "expenseDate",
+        "currency",
+        "amountIncludingTax",
+        "taxAmount",
+        "amountExcludingTax",
+        "sourceType",
+        "status",
+        "evidenceSummary",
+        "attachmentCount",
+        "confirmedAt",
+        "confirmedBy",
+        "voidedAt",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ExpenseSourceType": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "reimbursement",
+        "import"
+      ]
+    },
+    "InternalCostRateScopeType": {
+      "type": "string",
+      "enum": [
+        "person",
+        "role"
+      ]
+    },
+    "InternalCostRateUnit": {
+      "type": "string",
+      "enum": [
+        "hour",
+        "day"
+      ]
+    },
+    "LaborCostPeriodType": {
+      "type": "string",
+      "enum": [
+        "week",
+        "month"
+      ]
+    },
+    "ProjectActualCostRecordDetailView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "recordNo": {
+          "type": "string"
+        },
+        "costType": {
+          "$ref": "#/components/schemas/ProjectActualCostType"
+        },
+        "costSubtype": {
+          "type": "string",
+          "nullable": true
+        },
+        "occurredOn": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "accountingPeriod": {
+          "type": "string",
+          "nullable": true
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "includedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "executionStageCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromType": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "stageDerivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "stageLockedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxCostAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "recordStatus": {
+          "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
+        },
+        "isIncludedInProjectCost": {
+          "type": "boolean"
+        },
+        "isHighRisk": {
+          "type": "boolean"
+        },
+        "sourceType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ProjectActualCostSourceType"
+            }
+          ],
+          "nullable": true
+        },
+        "sourceId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceRefNo": {
+          "type": "string",
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "registeredBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "includedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "ownerRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "costDescription": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "riskNote": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "sourceStatusSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "effectivePeriodSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "measurementBasisSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "laborPersonId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "laborRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "laborPeriodType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/LaborCostPeriodType"
+            }
+          ],
+          "nullable": true
+        },
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "actualHours": {
+          "type": "string",
+          "nullable": true
+        },
+        "actualPersonDays": {
+          "type": "string",
+          "nullable": true
+        },
+        "internalCostRate": {
+          "type": "string",
+          "nullable": true
+        },
+        "rateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "laborAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "workSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "deliveryStage": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "recordNo",
+        "costType",
+        "costSubtype",
+        "occurredOn",
+        "accountingPeriod",
+        "registeredAt",
+        "confirmedAt",
+        "includedAt",
+        "executionStageCode",
+        "stageDerivedFromType",
+        "stageDerivedFromId",
+        "stageDerivedAt",
+        "stageLockedAt",
+        "currency",
+        "amountExcludingTax",
+        "taxCostAmount",
+        "amountIncludingTax",
+        "recordStatus",
+        "isIncludedInProjectCost",
+        "isHighRisk",
+        "sourceType",
+        "sourceId",
+        "sourceRefNo",
+        "evidenceSummary",
+        "attachmentCount",
+        "registeredBy",
+        "confirmedBy",
+        "includedBy",
+        "ownerRole",
+        "costDescription",
+        "taxImpactSummary",
+        "riskNote",
+        "supersedesRecordId",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt",
+        "sourceStatusSummary",
+        "effectivePeriodSummary",
+        "measurementBasisSummary",
+        "supersedesSummary",
+        "allowedActions",
+        "laborPersonId",
+        "laborRole",
+        "laborPeriodType",
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "actualHours",
+        "actualPersonDays",
+        "internalCostRate",
+        "rateVersionId",
+        "laborAmount",
+        "workSummary",
+        "deliveryStage"
+      ]
+    },
+    "ProjectActualCostRecordListView": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ProjectActualCostRecordSummary"
+      }
+    },
+    "ProjectActualCostRecordStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "registered",
+        "confirmed",
+        "included",
+        "voided",
+        "replaced"
+      ]
+    },
+    "ProjectActualCostRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "recordNo": {
+          "type": "string"
+        },
+        "costType": {
+          "$ref": "#/components/schemas/ProjectActualCostType"
+        },
+        "costSubtype": {
+          "type": "string",
+          "nullable": true
+        },
+        "occurredOn": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "accountingPeriod": {
+          "type": "string",
+          "nullable": true
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "includedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "executionStageCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromType": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "stageDerivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "stageLockedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxCostAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "recordStatus": {
+          "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
+        },
+        "isIncludedInProjectCost": {
+          "type": "boolean"
+        },
+        "isHighRisk": {
+          "type": "boolean"
+        },
+        "sourceType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ProjectActualCostSourceType"
+            }
+          ],
+          "nullable": true
+        },
+        "sourceId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceRefNo": {
+          "type": "string",
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "registeredBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "includedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "ownerRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "costDescription": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "riskNote": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "recordNo",
+        "costType",
+        "costSubtype",
+        "occurredOn",
+        "accountingPeriod",
+        "registeredAt",
+        "confirmedAt",
+        "includedAt",
+        "executionStageCode",
+        "stageDerivedFromType",
+        "stageDerivedFromId",
+        "stageDerivedAt",
+        "stageLockedAt",
+        "currency",
+        "amountExcludingTax",
+        "taxCostAmount",
+        "amountIncludingTax",
+        "recordStatus",
+        "isIncludedInProjectCost",
+        "isHighRisk",
+        "sourceType",
+        "sourceId",
+        "sourceRefNo",
+        "evidenceSummary",
+        "attachmentCount",
+        "registeredBy",
+        "confirmedBy",
+        "includedBy",
+        "ownerRole",
+        "costDescription",
+        "taxImpactSummary",
+        "riskNote",
+        "supersedesRecordId",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ProjectActualCostSourceType": {
+      "type": "string",
+      "enum": [
+        "payment-record",
+        "invoice-record",
+        "expense-record",
+        "payable-record",
+        "labor"
+      ]
+    },
+    "ProjectActualCostType": {
+      "type": "string",
+      "enum": [
+        "procurement",
+        "invoice",
+        "expense",
+        "payment-fact",
+        "labor"
+      ]
+    },
+    "PublishInternalCostRateVersionRequest": {
+      "type": "object",
+      "properties": {
+        "rateScopeType": {
+          "$ref": "#/components/schemas/InternalCostRateScopeType"
+        },
+        "personId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "roleCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "rateUnit": {
+          "$ref": "#/components/schemas/InternalCostRateUnit"
+        },
+        "rateValue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "effectiveTo": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "changeReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesRateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "rateScopeType",
+        "rateUnit",
+        "rateValue",
+        "currency",
+        "effectiveFrom"
+      ]
+    },
+    "ReplaceLaborCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "actualHours": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "actualPersonDays": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "workSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "rateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "replaceReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "expectedSupersededRecordVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "rateVersionId",
+        "replaceReason"
+      ]
+    },
+    "SensitiveFieldPackageKey": {
+      "type": "string",
+      "enum": [
+        "contract-finance",
+        "operating-finance",
+        "commission-compensation",
+        "labor-cost-rate",
+        "exception-approval-opinion"
+      ]
+    },
+    "SensitiveProjectionMode": {
+      "type": "string",
+      "enum": [
+        "full",
+        "summary",
+        "masked",
+        "denied"
+      ]
+    },
+    "SensitiveProjectionReasonCode": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "summary-only",
+        "missing-sensitive-read-permission",
+        "field-package-not-applicable"
+      ]
+    },
+    "SensitiveStringFieldProjection": {
+      "type": "object",
+      "properties": {
+        "fieldPackageKey": {
+          "$ref": "#/components/schemas/SensitiveFieldPackageKey"
+        },
+        "mode": {
+          "$ref": "#/components/schemas/SensitiveProjectionMode"
+        },
+        "value": {
+          "type": "string",
+          "nullable": true
+        },
+        "displayText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "reasonCode": {
+          "$ref": "#/components/schemas/SensitiveProjectionReasonCode"
+        }
+      },
+      "required": [
+        "fieldPackageKey",
+        "mode",
+        "value",
+        "displayText",
+        "reasonCode"
+      ]
+    },
+    "UpdateExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "VoidExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    }
+  },
+  "proposedSchemas": {
+    "LaborCostSensitiveProjection": {
+      "type": "object",
+      "properties": {
+        "laborPersonId": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "laborRole": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "actualHours": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "actualPersonDays": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "internalCostRate": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "rateVersionId": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "laborAmount": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "amountExcludingTax": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "taxCostAmount": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "amountIncludingTax": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "sourceId": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "sourceRefNo": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "sourceStatusSummary": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "measurementBasisSummary": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "costDescription": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "evidenceSummary": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "workSummary": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        }
+      },
+      "required": [
+        "laborPersonId",
+        "laborRole",
+        "actualHours",
+        "actualPersonDays",
+        "internalCostRate",
+        "rateVersionId",
+        "laborAmount",
+        "amountExcludingTax",
+        "taxCostAmount",
+        "amountIncludingTax",
+        "sourceId",
+        "sourceRefNo",
+        "sourceStatusSummary",
+        "measurementBasisSummary",
+        "costDescription",
+        "evidenceSummary",
+        "workSummary"
+      ],
+      "additionalProperties": false
+    },
+    "ProjectActualCostRecordSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "recordNo": {
+          "type": "string"
+        },
+        "costType": {
+          "$ref": "#/components/schemas/ProjectActualCostType"
+        },
+        "costSubtype": {
+          "type": "string",
+          "nullable": true
+        },
+        "occurredOn": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "accountingPeriod": {
+          "type": "string",
+          "nullable": true
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "includedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "executionStageCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromType": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "stageDerivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "stageLockedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxCostAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "recordStatus": {
+          "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
+        },
+        "isIncludedInProjectCost": {
+          "type": "boolean"
+        },
+        "isHighRisk": {
+          "type": "boolean"
+        },
+        "sourceType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ProjectActualCostSourceType"
+            }
+          ],
+          "nullable": true
+        },
+        "sourceId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceRefNo": {
+          "type": "string",
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "registeredBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "includedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "ownerRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "costDescription": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "riskNote": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "laborSensitiveProjection": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/LaborCostSensitiveProjection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "recordNo",
+        "costType",
+        "costSubtype",
+        "occurredOn",
+        "accountingPeriod",
+        "registeredAt",
+        "confirmedAt",
+        "includedAt",
+        "executionStageCode",
+        "stageDerivedFromType",
+        "stageDerivedFromId",
+        "stageDerivedAt",
+        "stageLockedAt",
+        "currency",
+        "amountExcludingTax",
+        "taxCostAmount",
+        "amountIncludingTax",
+        "recordStatus",
+        "isIncludedInProjectCost",
+        "isHighRisk",
+        "sourceType",
+        "sourceId",
+        "sourceRefNo",
+        "evidenceSummary",
+        "attachmentCount",
+        "registeredBy",
+        "confirmedBy",
+        "includedBy",
+        "ownerRole",
+        "costDescription",
+        "taxImpactSummary",
+        "riskNote",
+        "supersedesRecordId",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt",
+        "laborSensitiveProjection"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "costType": {
+                "const": "labor"
+              }
+            },
+            "required": [
+              "costType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "amountExcludingTax": {
+                "type": "null"
+              },
+              "taxCostAmount": {
+                "type": "null"
+              },
+              "amountIncludingTax": {
+                "type": "null"
+              },
+              "sourceId": {
+                "type": "null"
+              },
+              "sourceRefNo": {
+                "type": "null"
+              },
+              "costDescription": {
+                "type": "null"
+              },
+              "evidenceSummary": {
+                "type": "null"
+              },
+              "laborSensitiveProjection": {
+                "$ref": "#/components/schemas/LaborCostSensitiveProjection"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "laborSensitiveProjection": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ProjectActualCostRecordDetailView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "recordNo": {
+          "type": "string"
+        },
+        "costType": {
+          "$ref": "#/components/schemas/ProjectActualCostType"
+        },
+        "costSubtype": {
+          "type": "string",
+          "nullable": true
+        },
+        "occurredOn": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "accountingPeriod": {
+          "type": "string",
+          "nullable": true
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "includedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "executionStageCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromType": {
+          "type": "string",
+          "nullable": true
+        },
+        "stageDerivedFromId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "stageDerivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "stageLockedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string"
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxCostAmount": {
+          "type": "string",
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "nullable": true
+        },
+        "recordStatus": {
+          "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
+        },
+        "isIncludedInProjectCost": {
+          "type": "boolean"
+        },
+        "isHighRisk": {
+          "type": "boolean"
+        },
+        "sourceType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ProjectActualCostSourceType"
+            }
+          ],
+          "nullable": true
+        },
+        "sourceId": {
+          "type": "string",
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceRefNo": {
+          "type": "string",
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "registeredBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "includedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "ownerRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "costDescription": {
+          "type": "string",
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "riskNote": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "voidReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "sourceStatusSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "effectivePeriodSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "measurementBasisSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "laborPeriodType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/LaborCostPeriodType"
+            }
+          ],
+          "nullable": true
+        },
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "deliveryStage": {
+          "type": "string",
+          "nullable": true
+        },
+        "laborSensitiveProjection": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/LaborCostSensitiveProjection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "recordNo",
+        "costType",
+        "costSubtype",
+        "occurredOn",
+        "accountingPeriod",
+        "registeredAt",
+        "confirmedAt",
+        "includedAt",
+        "executionStageCode",
+        "stageDerivedFromType",
+        "stageDerivedFromId",
+        "stageDerivedAt",
+        "stageLockedAt",
+        "currency",
+        "amountExcludingTax",
+        "taxCostAmount",
+        "amountIncludingTax",
+        "recordStatus",
+        "isIncludedInProjectCost",
+        "isHighRisk",
+        "sourceType",
+        "sourceId",
+        "sourceRefNo",
+        "evidenceSummary",
+        "attachmentCount",
+        "registeredBy",
+        "confirmedBy",
+        "includedBy",
+        "ownerRole",
+        "costDescription",
+        "taxImpactSummary",
+        "riskNote",
+        "supersedesRecordId",
+        "voidReason",
+        "rowVersion",
+        "createdAt",
+        "updatedAt",
+        "sourceStatusSummary",
+        "effectivePeriodSummary",
+        "measurementBasisSummary",
+        "supersedesSummary",
+        "allowedActions",
+        "laborPeriodType",
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "deliveryStage",
+        "laborSensitiveProjection"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "costType": {
+                "const": "labor"
+              }
+            },
+            "required": [
+              "costType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "amountExcludingTax": {
+                "type": "null"
+              },
+              "taxCostAmount": {
+                "type": "null"
+              },
+              "amountIncludingTax": {
+                "type": "null"
+              },
+              "sourceId": {
+                "type": "null"
+              },
+              "sourceRefNo": {
+                "type": "null"
+              },
+              "costDescription": {
+                "type": "null"
+              },
+              "evidenceSummary": {
+                "type": "null"
+              },
+              "sourceStatusSummary": {
+                "type": "null"
+              },
+              "measurementBasisSummary": {
+                "type": "null"
+              },
+              "laborSensitiveProjection": {
+                "$ref": "#/components/schemas/LaborCostSensitiveProjection"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "laborSensitiveProjection": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "proposedQuery": {
+    "type": "object",
+    "properties": {
+      "costType": {
+        "$ref": "#/components/schemas/ProjectActualCostType"
+      },
+      "recordStatus": {
+        "$ref": "#/components/schemas/ProjectActualCostRecordStatus"
+      },
+      "sourceType": {
+        "$ref": "#/components/schemas/ProjectActualCostSourceType"
+      }
+    },
+    "additionalProperties": false
+  },
+  "dtoDeltas": [
+    {
+      "operationIds": [
+        "ProjectCostController_publishInternalCostRateVersion",
+        "ProjectCostController_createProjectActualCostRecord",
+        "ProjectCostController_replaceLaborCostRecord"
+      ],
+      "change": "Declare actual CommandResult response schema on201; no new result fields; currently description-only",
+      "class": "existing-baseline-drift"
+    },
+    {
+      "operationIds": [
+        "ProjectCostController_listProjectActualCostRecords"
+      ],
+      "change": "Declare and validate optional costType/recordStatus/sourceType filters; current runtime interface supports them but OpenAPI omits",
+      "class": "existing-baseline-drift"
+    },
+    {
+      "schema": "ProjectActualCostRecordSummary",
+      "change": "Add required nullable laborSensitiveProjection; labor raw net/tax/gross/sourceId/sourceRefNo/costDescription/evidenceSummary are always null, even for sensitive-authorized user",
+      "class": "design-change-required"
+    },
+    {
+      "schema": "ProjectActualCostRecordDetailView",
+      "change": "Remove raw laborPersonId/laborRole/actualHours/actualPersonDays/internalCostRate/rateVersionId/laborAmount/workSummary; use projection object. Labor raw sourceStatusSummary/measurementBasisSummary always null",
+      "class": "design-change-required"
+    },
+    {
+      "schema": "money request fields",
+      "change": "Keep decimal-string carrier; enforce positive/nonnegative18,2 semantics before SQL. Rate fields retain15,4, quantities10,2",
+      "class": "user-approved-design-change-required"
+    },
+    {
+      "schema": "ConfirmExpenseRecordRequest",
+      "change": "No comment addition and optional expectedVersion retained; formal prose mismatch recorded",
+      "class": "existing-baseline-drift"
+    }
+  ],
+  "sensitiveProjection": {
+    "package": "labor-cost-rate",
+    "requiredPermission": "labor-cost-rate:sensitive:read",
+    "entryPermission": "contract:finance:manage",
+    "entryPermissionDoesNotGrantSensitiveRead": true,
+    "fields": [
+      "laborPersonId",
+      "laborRole",
+      "actualHours",
+      "actualPersonDays",
+      "internalCostRate",
+      "rateVersionId",
+      "laborAmount",
+      "amountExcludingTax",
+      "taxCostAmount",
+      "amountIncludingTax",
+      "sourceId",
+      "sourceRefNo",
+      "sourceStatusSummary",
+      "measurementBasisSummary",
+      "costDescription",
+      "evidenceSummary",
+      "workSummary"
+    ],
+    "unauthorized": {
+      "mode": "masked",
+      "value": null,
+      "reasonCode": "missing-sensitive-read-permission"
+    },
+    "missingOriginal": {
+      "mode": "full",
+      "value": null,
+      "reasonCode": "field-package-not-applicable"
+    },
+    "implementation": "auth::projection::plan; persist its batch SecurityEvent on borrowed CommonSession, not project_fields separate-connection wrapper",
+    "sideChannels": "raw labor money/source identity/measurement/description/evidence removed or null; no zero-value substitute"
+  },
+  "sourceMappingVariants": [
+    {
+      "costType": "payment-fact",
+      "sourceType": "payment-record",
+      "bodyId": "paymentRecordId",
+      "sourceTable": "payment_record",
+      "eligible": [
+        "confirmed"
+      ],
+      "statusAfter": "confirmed only with unique stage/confirmation evidence; otherwise registered pending F evidence-confirm",
+      "amounts": {
+        "net": "amount_excluding_tax",
+        "tax": "tax_amount",
+        "gross": "amount_including_tax"
+      },
+      "currency": "source currency",
+      "occurredOn": "payment_date business-date conversion",
+      "sourceRefNo": "source UUID",
+      "defaults": {
+        "attachmentCount": 0
+      },
+      "guards": [
+        "same project",
+        "source row version",
+        "no current mapping",
+        "unique locked stage before confirmed"
+      ],
+      "isIncludedInProjectCost": false,
+      "immutableBasisRequired": true
+    },
+    {
+      "costType": "invoice",
+      "sourceType": "invoice-record",
+      "bodyId": "invoiceRecordId",
+      "sourceTable": "invoice_record",
+      "eligible": [
+        "input + verified + exception_status != open"
+      ],
+      "statusAfter": "confirmed only with unique stage/confirmation evidence; otherwise registered pending F evidence-confirm",
+      "amounts": {
+        "net": null,
+        "tax": null,
+        "gross": "invoice_amount"
+      },
+      "currency": "explicit persisted source or clearly bound contract immutable currency proof; unknown422; no project/multi-contract guess; Root may add invoice DTO/persistence currency",
+      "occurredOn": "invoice_date",
+      "sourceRefNo": "invoice_no",
+      "guards": [
+        "same project",
+        "no current mapping",
+        "no open exception",
+        "unique locked stage before confirmed"
+      ],
+      "isIncludedInProjectCost": false,
+      "immutableBasisRequired": true
+    },
+    {
+      "costType": "expense",
+      "sourceType": "expense-record",
+      "bodyId": "expenseRecordId",
+      "sourceTable": "expense_record",
+      "eligible": [
+        "confirmed"
+      ],
+      "statusAfter": "confirmed only with unique stage/confirmation evidence; otherwise registered pending F evidence-confirm",
+      "amounts": {
+        "net": "amount_excluding_tax",
+        "tax": "tax_amount",
+        "gross": "amount_including_tax"
+      },
+      "currency": "source currency",
+      "occurredOn": "expense_date",
+      "sourceRefNo": "source UUID",
+      "guards": [
+        "same project",
+        "source row version",
+        "no current mapping",
+        "void/mapping serialization",
+        "unique locked stage before confirmed"
+      ],
+      "isIncludedInProjectCost": false,
+      "immutableBasisRequired": true
+    },
+    {
+      "costType": "procurement",
+      "sourceType": "payable-record",
+      "bodyId": "payableRecordId",
+      "sourceTable": "payable_record",
+      "eligible": [
+        "recorded",
+        "partially-paid",
+        "paid",
+        "closed"
+      ],
+      "statusAfter": "registered",
+      "amounts": {
+        "net": "amount_excluding_tax",
+        "tax": "tax_amount",
+        "gross": "amount_including_tax"
+      },
+      "currency": "source currency",
+      "occurredOn": "expected_payment_date",
+      "sourceRefNo": "source UUID",
+      "guards": [
+        "same project",
+        "draft/voided rejected",
+        "no current mapping including registered",
+        "do not create parallel procurement fact"
+      ],
+      "isIncludedInProjectCost": false,
+      "immutableBasisRequired": true
+    },
+    {
+      "costType": "labor",
+      "sourceType": "labor",
+      "bodyId": "rateVersionId",
+      "sourceTable": "internal_cost_rate_version",
+      "eligible": [
+        "published active/superseded original valid interval covers complete period; retired rejected; replay basis required for historical recalculation"
+      ],
+      "statusAfter": "registered",
+      "amounts": {
+        "net": "explicit HALF_UP laborAmount",
+        "tax": "0.00",
+        "gross": "same laborAmount"
+      },
+      "currency": "rate currency",
+      "occurredOn": "laborPeriodStart",
+      "sourceRefNo": "rateKey (sensitive)",
+      "sourceId": "rateVersionId; never globally unique for labor",
+      "guards": [
+        "rate scope and quantity unit match",
+        "person rate precedence when same person/period eligible",
+        "single person/role summary identity, no same-scope overlapping current intervals",
+        "full period coverage; split rate/stage boundary",
+        "project exists"
+      ],
+      "isIncludedInProjectCost": false,
+      "immutableBasisRequired": true
+    }
+  ],
+  "idempotency": {
+    "scope": "single current mapping per source fact; not response replay",
+    "repeat": "409",
+    "keyField": "none in existing request contract",
+    "currentStatuses": [
+      "registered",
+      "confirmed",
+      "included"
+    ],
+    "singleDocumentSources": [
+      "payment-record",
+      "invoice-record",
+      "expense-record",
+      "payable-record"
+    ],
+    "laborExcludedFromSourceIdUnique": true
+  },
+  "economicEventBoundary": {
+    "implementedInBatch": "source registration/confirmation and stage lock only; every new cost not included",
+    "notChosen": "no Payment-vs-Invoice-vs-Expense inclusion priority chosen by this batch",
+    "provenCurrentRelation": "PaymentRecord.payableRecordId -> PayableRecord",
+    "unprovenRelations": [
+      "InvoiceRecord -> PaymentRecord/PayableRecord",
+      "ExpenseRecord -> PaymentRecord/InvoiceRecord"
+    ],
+    "future": "operating17 must explicitly bind economic event/source chain and amount/tax layer, select absorption and prevent repeated inclusion; contract/project/amount/date similarity is insufficient"
+  },
+  "precision": {
+    "expenseAndLedger": {
+      "database": "numeric(18,2)",
+      "inputMaxScale": 2,
+      "silentRounding": false
+    },
+    "rate": {
+      "database": "numeric(15,4)",
+      "inputMaxScale": 4,
+      "positive": true
+    },
+    "quantity": {
+      "database": "numeric(10,2)",
+      "inputMaxScale": 2,
+      "positive": true,
+      "exactlyOneMatchingUnit": true
+    },
+    "labor": {
+      "rawProductScale": 6,
+      "calculation": "r4=rate*10000; q2=quantity*100; checked p6=r4*q2; cents=(p6+5000)/10000 integer division",
+      "rounding": "HALF_UP",
+      "resultDatabase": "numeric(18,2)",
+      "auditBasis": [
+        "rateVersionId",
+        "rateKey",
+        "captured validity interval",
+        "quantity and unit",
+        "r4",
+        "q2",
+        "p6",
+        "rounding rule/version",
+        "result cents",
+        "actor/time"
+      ],
+      "zeroCentResult": "422, no zero-value cost written; Root resolved",
+      "overflow": "reject before SQL"
+    },
+    "dates": {
+      "business": "strict date-only, inclusive range",
+      "instants": "UTC ISO datetime with milliseconds",
+      "paymentToDate": "business timezone, never UTC substring"
+    },
+    "historical": {
+      "preflightRequired": true,
+      "excessScale": "block migration; preserve originals; no automatic round/update",
+      "rateAndQuantity": "no precision downgrade",
+      "runtimePreflight": "not run"
+    }
+  },
+  "laborSummaryScope": {
+    "identity": "person UUID supplied or unambiguously on person rate; otherwise explicit laborRole or role rate scope",
+    "computedKey": "person:<uuid> else role:<exact controlled code>",
+    "uniqueness": "same project and same explicit subject key, overlapping closed periods, current registered/confirmed/included prohibited",
+    "personnelAffiliation": "not inferred from RBAC/first role member/creator; role-rate usage does not prove employee membership",
+    "crossScopeLimit": "person summary and role aggregate can describe different sets; no unverified membership claim or final inclusion made here"
+  },
+  "currentEntityFieldDeclarations": [
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/expense-record.entity.ts",
+      "fields": [
+        {
+          "name": "id",
+          "line": 28,
+          "currentDeclaration": "id: p.uuid().primary().defaultRaw('gen_random_uuid()'),"
+        },
+        {
+          "name": "projectId",
+          "line": 29,
+          "currentDeclaration": "projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').foreignKeyName('expense_record_project_id_foreign').updateRule('cascade').deleteRule('cascade'),"
+        },
+        {
+          "name": "contractId",
+          "line": 30,
+          "currentDeclaration": "contractId: () => p.manyToOne(Contract).mapToPk().nullable().fieldName('contract_id').foreignKeyName('expense_record_contract_id_foreign').updateRule('cascade').deleteRule('set null'),"
+        },
+        {
+          "name": "expenseCategory",
+          "line": 31,
+          "currentDeclaration": "expenseCategory: p.string().$type<ExpenseCategory>().length(32).fieldName('expense_category'),"
+        },
+        {
+          "name": "expenseDescription",
+          "line": 32,
+          "currentDeclaration": "expenseDescription: p.text().fieldName('expense_description'),"
+        },
+        {
+          "name": "expenseDate",
+          "line": 33,
+          "currentDeclaration": "expenseDate: p.date().fieldName('expense_date'),"
+        },
+        {
+          "name": "currency",
+          "line": 34,
+          "currentDeclaration": "currency: p.string().length(16).default('CNY'),"
+        },
+        {
+          "name": "amountIncludingTax",
+          "line": 35,
+          "currentDeclaration": "amountIncludingTax: p.decimal().precision(15).scale(4).fieldName('amount_including_tax'),"
+        },
+        {
+          "name": "taxAmount",
+          "line": 36,
+          "currentDeclaration": "taxAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_amount'),"
+        },
+        {
+          "name": "amountExcludingTax",
+          "line": 37,
+          "currentDeclaration": "amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax'),"
+        },
+        {
+          "name": "sourceType",
+          "line": 38,
+          "currentDeclaration": "sourceType: p.string().$type<ExpenseSourceType>().length(32).default(ExpenseSourceTypeValue.Manual).fieldName('source_type'),"
+        },
+        {
+          "name": "status",
+          "line": 39,
+          "currentDeclaration": "status: p.string().$type<ExpenseRecordStatus>().length(32),"
+        },
+        {
+          "name": "evidenceSummary",
+          "line": 40,
+          "currentDeclaration": "evidenceSummary: p.text().nullable().fieldName('evidence_summary'),"
+        },
+        {
+          "name": "attachmentCount",
+          "line": 41,
+          "currentDeclaration": "attachmentCount: p.integer().default(0).fieldName('attachment_count'),"
+        },
+        {
+          "name": "confirmedAt",
+          "line": 42,
+          "currentDeclaration": "confirmedAt: p.datetime().nullable().fieldName('confirmed_at'),"
+        },
+        {
+          "name": "confirmedBy",
+          "line": 43,
+          "currentDeclaration": "confirmedBy: p.uuid().nullable().fieldName('confirmed_by'),"
+        },
+        {
+          "name": "voidedAt",
+          "line": 44,
+          "currentDeclaration": "voidedAt: p.datetime().nullable().fieldName('voided_at'),"
+        },
+        {
+          "name": "voidReason",
+          "line": 45,
+          "currentDeclaration": "voidReason: p.text().nullable().fieldName('void_reason'),"
+        },
+        {
+          "name": "rowVersion",
+          "line": 46,
+          "currentDeclaration": "rowVersion: p.integer().version().default(1).fieldName('row_version'),"
+        },
+        {
+          "name": "createdAt",
+          "line": 47,
+          "currentDeclaration": "createdAt: p\n            .datetime()\n            .defaultRaw('now()')\n            .onCreate(() => new Date())\n            .fieldName('created_at'),"
+        },
+        {
+          "name": "updatedAt",
+          "line": 52,
+          "currentDeclaration": "updatedAt: p\n            .datetime()\n            .defaultRaw('now()')\n            .onCreate(() => new Date())\n            .onUpdate(() => new Date())\n            .fieldName('updated_at')"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/internal-cost-rate-version.entity.ts",
+      "fields": [
+        {
+          "name": "id",
+          "line": 53,
+          "currentDeclaration": "id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),"
+        },
+        {
+          "name": "rateKey",
+          "line": 54,
+          "currentDeclaration": "rateKey: p.string().length(128).fieldName('rate_key').comment('成本率唯一键：scope + identity + unit'),"
+        },
+        {
+          "name": "version",
+          "line": 55,
+          "currentDeclaration": "version: p.integer().comment('成本率版本号'),"
+        },
+        {
+          "name": "status",
+          "line": 56,
+          "currentDeclaration": "status: p.string().$type<InternalCostRateVersionStatus>().length(32).default('active').comment('版本状态：active/superseded/retired'),"
+        },
+        {
+          "name": "isCurrent",
+          "line": 57,
+          "currentDeclaration": "isCurrent: p.boolean().default(true).fieldName('is_current').comment('是否当前版本链头'),"
+        },
+        {
+          "name": "rateScopeType",
+          "line": 58,
+          "currentDeclaration": "rateScopeType: p.string().$type<InternalCostRateScopeType>().length(32).fieldName('rate_scope_type').comment('生效范围类型：person / role'),"
+        },
+        {
+          "name": "personId",
+          "line": 59,
+          "currentDeclaration": "personId: p.uuid().nullable().fieldName('person_id').comment('人员标识'),"
+        },
+        {
+          "name": "roleCode",
+          "line": 60,
+          "currentDeclaration": "roleCode: p.string().length(64).nullable().fieldName('role_code').comment('角色编码'),"
+        },
+        {
+          "name": "rateUnit",
+          "line": 61,
+          "currentDeclaration": "rateUnit: p.string().$type<InternalCostRateUnit>().length(32).fieldName('rate_unit').comment('单位：hour / day'),"
+        },
+        {
+          "name": "rateValue",
+          "line": 62,
+          "currentDeclaration": "rateValue: p.decimal().precision(15).scale(4).fieldName('rate_value').comment('成本率'),"
+        },
+        {
+          "name": "currency",
+          "line": 63,
+          "currentDeclaration": "currency: p.string().length(16).default('CNY').comment('币种'),"
+        },
+        {
+          "name": "effectiveFrom",
+          "line": 64,
+          "currentDeclaration": "effectiveFrom: p.date().fieldName('effective_from').comment('生效开始日期'),"
+        },
+        {
+          "name": "effectiveTo",
+          "line": 65,
+          "currentDeclaration": "effectiveTo: p.date().nullable().fieldName('effective_to').comment('生效结束日期'),"
+        },
+        {
+          "name": "publishedAt",
+          "line": 66,
+          "currentDeclaration": "publishedAt: p.datetime().nullable().fieldName('published_at').comment('发布时间'),"
+        },
+        {
+          "name": "publishedBy",
+          "line": 67,
+          "currentDeclaration": "publishedBy: p.uuid().nullable().fieldName('published_by').comment('发布人'),"
+        },
+        {
+          "name": "supersedesRateVersionId",
+          "line": 68,
+          "currentDeclaration": "supersedesRateVersionId: () => p.manyToOne(InternalCostRateVersion).mapToPk().nullable().fieldName('supersedes_rate_version_id').comment('替代的旧版本'),"
+        },
+        {
+          "name": "changeReason",
+          "line": 69,
+          "currentDeclaration": "changeReason: p.text().nullable().fieldName('change_reason').comment('变更原因'),"
+        },
+        {
+          "name": "rowVersion",
+          "line": 70,
+          "currentDeclaration": "rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),"
+        },
+        {
+          "name": "createdAt",
+          "line": 71,
+          "currentDeclaration": "createdAt: p\n            .datetime()\n            .defaultRaw('now()')\n            .onCreate(() => new Date())\n            .fieldName('created_at')\n            .comment('创建时间'),"
+        },
+        {
+          "name": "createdBy",
+          "line": 77,
+          "currentDeclaration": "createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人标识'),"
+        },
+        {
+          "name": "updatedAt",
+          "line": 78,
+          "currentDeclaration": "updatedAt: p\n            .datetime()\n            .defaultRaw('now()')\n            .onCreate(() => new Date())\n            .onUpdate(() => new Date())\n            .fieldName('updated_at')\n            .comment('最后更新时间'),"
+        },
+        {
+          "name": "updatedBy",
+          "line": 85,
+          "currentDeclaration": "updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')"
+        }
+      ]
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "fields": [
+        {
+          "name": "id",
+          "line": 73,
+          "currentDeclaration": "id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),"
+        },
+        {
+          "name": "projectId",
+          "line": 74,
+          "currentDeclaration": "projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),"
+        },
+        {
+          "name": "recordNo",
+          "line": 75,
+          "currentDeclaration": "recordNo: p.string().length(64).unique().fieldName('record_no').comment('记录编号'),"
+        },
+        {
+          "name": "costType",
+          "line": 76,
+          "currentDeclaration": "costType: p.string().$type<ProjectActualCostType>().length(32).fieldName('cost_type').comment('成本类型：procurement/invoice/expense/payment-fact/labor'),"
+        },
+        {
+          "name": "costSubtype",
+          "line": 77,
+          "currentDeclaration": "costSubtype: p.string().length(64).nullable().fieldName('cost_subtype').comment('成本子类型'),"
+        },
+        {
+          "name": "occurredOn",
+          "line": 78,
+          "currentDeclaration": "occurredOn: p.date().nullable().fieldName('occurred_on').comment('发生日期'),"
+        },
+        {
+          "name": "accountingPeriod",
+          "line": 79,
+          "currentDeclaration": "accountingPeriod: p.string().length(32).nullable().fieldName('accounting_period').comment('核算期间'),"
+        },
+        {
+          "name": "registeredAt",
+          "line": 80,
+          "currentDeclaration": "registeredAt: p.datetime().nullable().fieldName('registered_at').comment('登记时间'),"
+        },
+        {
+          "name": "confirmedAt",
+          "line": 81,
+          "currentDeclaration": "confirmedAt: p.datetime().nullable().fieldName('confirmed_at').comment('确认时间'),"
+        },
+        {
+          "name": "includedAt",
+          "line": 82,
+          "currentDeclaration": "includedAt: p.datetime().nullable().fieldName('included_at').comment('纳入口径时间'),"
+        },
+        {
+          "name": "executionStageCode",
+          "line": 83,
+          "currentDeclaration": "executionStageCode: p.string().length(64).nullable().fieldName('execution_stage_code').comment('执行阶段'),"
+        },
+        {
+          "name": "stageDerivedFromType",
+          "line": 84,
+          "currentDeclaration": "stageDerivedFromType: p.string().length(64).nullable().fieldName('stage_derived_from_type').comment('阶段推导来源类型'),"
+        },
+        {
+          "name": "stageDerivedFromId",
+          "line": 85,
+          "currentDeclaration": "stageDerivedFromId: p.string().length(64).nullable().fieldName('stage_derived_from_id').comment('阶段推导来源标识'),"
+        },
+        {
+          "name": "stageDerivedAt",
+          "line": 86,
+          "currentDeclaration": "stageDerivedAt: p.datetime().nullable().fieldName('stage_derived_at').comment('阶段推导时间'),"
+        },
+        {
+          "name": "stageLockedAt",
+          "line": 87,
+          "currentDeclaration": "stageLockedAt: p.datetime().nullable().fieldName('stage_locked_at').comment('阶段锁定时间'),"
+        },
+        {
+          "name": "currency",
+          "line": 88,
+          "currentDeclaration": "currency: p.string().length(16).default('CNY').comment('币种'),"
+        },
+        {
+          "name": "amountExcludingTax",
+          "line": 89,
+          "currentDeclaration": "amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),"
+        },
+        {
+          "name": "taxCostAmount",
+          "line": 90,
+          "currentDeclaration": "taxCostAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_cost_amount').comment('税金成本'),"
+        },
+        {
+          "name": "amountIncludingTax",
+          "line": 91,
+          "currentDeclaration": "amountIncludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）'),"
+        },
+        {
+          "name": "recordStatus",
+          "line": 92,
+          "currentDeclaration": "recordStatus: p.string().$type<ProjectActualCostRecordStatus>().length(32).default(ProjectActualCostRecordStatusValue.Draft).fieldName('record_status').comment('状态：draft/registered/confirmed/included/voided/replaced'),"
+        },
+        {
+          "name": "isIncludedInProjectCost",
+          "line": 93,
+          "currentDeclaration": "isIncludedInProjectCost: p.boolean().default(false).fieldName('is_included_in_project_cost').comment('是否已纳入项目成本'),"
+        },
+        {
+          "name": "isHighRisk",
+          "line": 94,
+          "currentDeclaration": "isHighRisk: p.boolean().default(false).fieldName('is_high_risk').comment('是否高风险'),"
+        },
+        {
+          "name": "sourceType",
+          "line": 95,
+          "currentDeclaration": "sourceType: p.string().$type<ProjectActualCostSourceType | null>().length(64).nullable().fieldName('source_type').comment('来源类型'),"
+        },
+        {
+          "name": "sourceId",
+          "line": 96,
+          "currentDeclaration": "sourceId: p.string().length(64).nullable().fieldName('source_id').comment('来源标识'),"
+        },
+        {
+          "name": "sourceRefNo",
+          "line": 97,
+          "currentDeclaration": "sourceRefNo: p.string().length(128).nullable().fieldName('source_ref_no').comment('来源引用号'),"
+        },
+        {
+          "name": "evidenceSummary",
+          "line": 98,
+          "currentDeclaration": "evidenceSummary: p.text().nullable().fieldName('evidence_summary').comment('依据摘要'),"
+        },
+        {
+          "name": "attachmentCount",
+          "line": 99,
+          "currentDeclaration": "attachmentCount: p.integer().default(0).fieldName('attachment_count').comment('附件数量'),"
+        },
+        {
+          "name": "registeredBy",
+          "line": 100,
+          "currentDeclaration": "registeredBy: p.uuid().nullable().fieldName('registered_by').comment('登记人'),"
+        },
+        {
+          "name": "confirmedBy",
+          "line": 101,
+          "currentDeclaration": "confirmedBy: p.uuid().nullable().fieldName('confirmed_by').comment('确认人'),"
+        },
+        {
+          "name": "includedBy",
+          "line": 102,
+          "currentDeclaration": "includedBy: p.uuid().nullable().fieldName('included_by').comment('纳入口径操作人'),"
+        },
+        {
+          "name": "ownerRole",
+          "line": 103,
+          "currentDeclaration": "ownerRole: p.string().length(64).nullable().fieldName('owner_role').comment('责任角色'),"
+        },
+        {
+          "name": "costDescription",
+          "line": 104,
+          "currentDeclaration": "costDescription: p.text().nullable().fieldName('cost_description').comment('成本说明'),"
+        },
+        {
+          "name": "taxImpactSummary",
+          "line": 105,
+          "currentDeclaration": "taxImpactSummary: p.text().nullable().fieldName('tax_impact_summary').comment('税务影响说明'),"
+        },
+        {
+          "name": "riskNote",
+          "line": 106,
+          "currentDeclaration": "riskNote: p.text().nullable().fieldName('risk_note').comment('风险提示'),"
+        },
+        {
+          "name": "supersedesRecordId",
+          "line": 107,
+          "currentDeclaration": "supersedesRecordId: () => p.manyToOne(ProjectActualCostRecord).mapToPk().nullable().fieldName('supersedes_record_id').comment('替代的旧记录'),"
+        },
+        {
+          "name": "voidReason",
+          "line": 108,
+          "currentDeclaration": "voidReason: p.text().nullable().fieldName('void_reason').comment('作废原因'),\n\n        // 人力成本 (LABOR) 特有字段"
+        },
+        {
+          "name": "laborPersonId",
+          "line": 111,
+          "currentDeclaration": "laborPersonId: p.uuid().nullable().fieldName('labor_person_id').comment('人力成本-人员标识'),"
+        },
+        {
+          "name": "laborRole",
+          "line": 112,
+          "currentDeclaration": "laborRole: p.string().length(64).nullable().fieldName('labor_role').comment('人力成本-角色'),"
+        },
+        {
+          "name": "laborPeriodType",
+          "line": 113,
+          "currentDeclaration": "laborPeriodType: p.string().$type<LaborCostPeriodType | null>().length(32).nullable().fieldName('labor_period_type').comment('人力成本-归集周期类型：week/month'),"
+        },
+        {
+          "name": "laborPeriodStart",
+          "line": 114,
+          "currentDeclaration": "laborPeriodStart: p.date().nullable().fieldName('labor_period_start').comment('人力成本-周期开始'),"
+        },
+        {
+          "name": "laborPeriodEnd",
+          "line": 115,
+          "currentDeclaration": "laborPeriodEnd: p.date().nullable().fieldName('labor_period_end').comment('人力成本-周期结束'),"
+        },
+        {
+          "name": "actualHours",
+          "line": 116,
+          "currentDeclaration": "actualHours: p.decimal().precision(10).scale(2).nullable().fieldName('actual_hours').comment('人力成本-实际工时'),"
+        },
+        {
+          "name": "actualPersonDays",
+          "line": 117,
+          "currentDeclaration": "actualPersonDays: p.decimal().precision(10).scale(2).nullable().fieldName('actual_person_days').comment('人力成本-实际人天'),"
+        },
+        {
+          "name": "internalCostRate",
+          "line": 118,
+          "currentDeclaration": "internalCostRate: p.decimal().precision(15).scale(4).nullable().fieldName('internal_cost_rate').comment('人力成本-采用成本率'),"
+        },
+        {
+          "name": "laborAmount",
+          "line": 119,
+          "currentDeclaration": "laborAmount: p.decimal().precision(15).scale(4).nullable().fieldName('labor_amount').comment('人力成本-计算金额'),"
+        },
+        {
+          "name": "workSummary",
+          "line": 120,
+          "currentDeclaration": "workSummary: p.text().nullable().fieldName('work_summary').comment('人力成本-工作摘要'),"
+        },
+        {
+          "name": "deliveryStage",
+          "line": 121,
+          "currentDeclaration": "deliveryStage: p.string().length(64).nullable().fieldName('delivery_stage').comment('人力成本-交付阶段'),"
+        },
+        {
+          "name": "rateVersionId",
+          "line": 122,
+          "currentDeclaration": "rateVersionId: () => p.manyToOne(InternalCostRateVersion).mapToPk().nullable().fieldName('rate_version_id').comment('人力成本-对应成本率版本'),"
+        },
+        {
+          "name": "rowVersion",
+          "line": 124,
+          "currentDeclaration": "rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),"
+        },
+        {
+          "name": "createdAt",
+          "line": 125,
+          "currentDeclaration": "createdAt: p\n            .datetime()\n            .defaultRaw('now()')\n            .onCreate(() => new Date())\n            .fieldName('created_at')\n            .comment('创建时间'),"
+        },
+        {
+          "name": "createdBy",
+          "line": 131,
+          "currentDeclaration": "createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人标识'),"
+        },
+        {
+          "name": "updatedAt",
+          "line": 132,
+          "currentDeclaration": "updatedAt: p\n            .datetime()\n            .defaultRaw('now()')\n            .onCreate(() => new Date())\n            .onUpdate(() => new Date())\n            .fieldName('updated_at')\n            .comment('最后更新时间'),"
+        },
+        {
+          "name": "updatedBy",
+          "line": 139,
+          "currentDeclaration": "updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')"
+        }
+      ]
+    }
+  ],
+  "ddlCandidate": {
+    "file": "docs/design/rust-r4def/E-schema-candidate01.sql",
+    "bytes": 10189,
+    "rawBytesSha256": "845313ea874c6bf7f385595a67b05e35e3e87238e41e217207d03d15398ff84e",
+    "executed": false,
+    "reviewStatus": "candidate-only; Root migration ownership",
+    "preflight": [
+      "all monetary subcent values/capacity",
+      "source UUID canonical equivalence duplicates",
+      "missing stage truths",
+      "replacement branches",
+      "published rate ranges",
+      "labor same-scope interval overlap"
+    ],
+    "newColumns": [
+      "source_basis jsonb",
+      "calculation_basis jsonb",
+      "basis_origin varchar(32)",
+      "labor_scope_key generated text"
+    ],
+    "legacyBasis": "legacy-unavailable; never fabricate captured originals"
+  },
+  "transactionProtocol": {
+    "signature": "execute(&mut CommonSession, operationId, Option<Uuid>, query, body, &Actor) -> Result<Value, Error>",
+    "owner": "Root pool/outer transaction/pending auth/final flush/commit/rollback",
+    "E": "borrow same connection/state; no pool/commit; all errors propagate",
+    "atomicWrites": [
+      "business facts",
+      "old/new version chains",
+      "business numbers",
+      "source/calculation basis",
+      "stage attribution",
+      "required confirmation/snapshot",
+      "business audit",
+      "projection SecurityEvent",
+      "pending authentication"
+    ],
+    "lockOrder": [
+      "sorted project UUID",
+      "sorted contract UUID",
+      "Payable",
+      "Payment/Invoice/Expense",
+      "sorted CostRecord",
+      "F allocations/stages"
+    ],
+    "globalRate": "stable transaction key lock then rate rows; never acquires projects after rate lock",
+    "globalAudit": "Root adds legitimate nullable-project/global helper; no fabricated UUID"
+  },
+  "FInputContract": {
+    "signature": "load_cost_source_facts(session, costRecordIds, lock)",
+    "fields": [
+      "costRecordId",
+      "rowVersion",
+      "projectId",
+      "costType",
+      "recordStatus",
+      "isIncludedInProjectCost",
+      "currency",
+      "amountExcludingTax?",
+      "taxCostAmount?",
+      "amountIncludingTax?",
+      "sourceType?",
+      "sourceId?",
+      "sourceRowVersion?",
+      "contractId?",
+      "payableRecordId?",
+      "rateVersionId?",
+      "supersedesRecordId?",
+      "replacementId?",
+      "executionStageCode?",
+      "stageLockedAt?",
+      "sourceBasis"
+    ],
+    "amountRule": "typed nullable net/tax/gross; never COALESCE inconsistent layers",
+    "fromF": "derive_and_lock_stage(session,costRecord/sourceFacts,actor); valid source stays registered when stage truth absent; F evidence-confirm writes stage/cost/lock/audit in same outer transaction",
+    "replaceGuard": "reject ordinary labor replacement when F has stable locked references"
+  },
+  "openDecisions": [],
+  "specInventory": [
+    {
+      "line": 833,
+      "group": "publishInternalCostRateVersion",
+      "name": "publishes the first active cost rate version with a stable rate key",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 863,
+      "group": "publishInternalCostRateVersion",
+      "name": "blocks publishing a new current version without an explicit supersedes chain",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 883,
+      "group": "registerPaymentFactCostRecord",
+      "name": "registers a confirmed payment as a payment-fact cost record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 918,
+      "group": "registerPaymentFactCostRecord",
+      "name": "blocks duplicate current payment-fact mapping for the same payment source",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 934,
+      "group": "registerPaymentFactCostRecord",
+      "name": "blocks mapping when payment source is not confirmed",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 952,
+      "group": "registerInvoiceCostRecord",
+      "name": "registers a verified input invoice as an INVOICE cost record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 986,
+      "group": "registerInvoiceCostRecord",
+      "name": "blocks mapping for non-verified invoice status",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1002,
+      "group": "registerInvoiceCostRecord",
+      "name": "blocks duplicate current INVOICE mapping for the same invoice source",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1020,
+      "group": "registerExpenseCostRecord",
+      "name": "registers a confirmed expense as an EXPENSE cost record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1063,
+      "group": "registerExpenseCostRecord",
+      "name": "blocks mapping when expense source is not confirmed",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1079,
+      "group": "registerExpenseCostRecord",
+      "name": "blocks duplicate current EXPENSE mapping for the same expense source",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1097,
+      "group": "registerProcurementCostRecord",
+      "name": "registers a formal payable as a procurement cost record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1133,
+      "group": "registerProcurementCostRecord",
+      "name": "blocks procurement mapping for non-formal payable states",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1151,
+      "group": "expense records",
+      "name": "creates an expense record after validating project and contract ownership",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1186,
+      "group": "expense records",
+      "name": "rejects inconsistent expense amount split",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1201,
+      "group": "expense records",
+      "name": "updates a recorded expense record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1216,
+      "group": "expense records",
+      "name": "confirms a recorded expense record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1228,
+      "group": "expense records",
+      "name": "blocks updating a confirmed expense record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1239,
+      "group": "expense records",
+      "name": "voids an expense record with appended reason/comment",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1253,
+      "group": "expense records",
+      "name": "blocks voiding a mapped expense record",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1265,
+      "group": "expense records",
+      "name": "hides expense actions once a current project cost mapping exists",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1276,
+      "group": "listProjectActualCostRecords",
+      "name": "returns mapped summary rows for project actual cost query",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1339,
+      "group": "getProjectActualCostRecordDetail",
+      "name": "returns labor detail with replacement chain and allowed actions",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1404,
+      "group": "getProjectActualCostRecordDetail",
+      "name": "throws NotFoundException when detail target is missing",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1410,
+      "group": "getProjectActualCostRecordDetail",
+      "name": "returns invoice detail with source summary",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1475,
+      "group": "getProjectActualCostRecordDetail",
+      "name": "returns expense detail with source summary",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1540,
+      "group": "getProjectActualCostRecordDetail",
+      "name": "returns procurement detail with source summary",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1607,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "activates an operating baseline package and supersedes the previous current package",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1653,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "requires a stable handover baseline reference when selecting handover-rebaseline",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1669,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "creates one active period closing snapshot per project period",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1706,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "requires an effective project-owned handover rebaseline record for period closing snapshots",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1740,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "creates a project operating snapshot with stable baseline and action metadata",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1780,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "formats operating snapshot source windows with the business day instead of UTC slicing",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1794,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "rejects handover rebaseline snapshot creation when the record belongs to another project",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1823,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "creates an append-only operating restatement and supersedes the old operating snapshot",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1872,
+      "group": "EX-07B operating baseline and restatement chain",
+      "name": "blocks duplicate active restatement for the same operating snapshot",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1894,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "confirms a shared cost allocation basis and project allocation results",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1937,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "blocks duplicate active shared cost allocation basis for the same source scope",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1954,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "replaces a shared cost allocation result through a supersedes chain",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 1997,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "confirms cost stage attribution and updates the cost record stage lock fields",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2036,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "reclassifies active cost stage attribution without overwriting history",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2086,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "confirms accounting tax treatment for a project",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2119,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "replaces the previous active accounting tax treatment snapshot through a supersedes chain",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2168,
+      "group": "EX-07C allocation, stage attribution, and tax treatment chain",
+      "name": "blocks creating a duplicate active accounting tax treatment snapshot without superseding the current one",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2191,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "records an operating signal review and supersedes the previous active review",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2257,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "rejects stale operating signal reviews when expectedVersion is outdated",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2276,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "returns the operating signal evaluation view with active review overlays",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2315,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "updates commission gate binding and supersedes the previous active gate review",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2407,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "blocks commission gate review payloads that omit blockingReasonCode for block",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2428,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "builds business accounting feedback from the most severe active bindings",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2513,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "masks business outcome operating finance fields without sensitive permission",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2602,
+      "group": "EX-13B operating signal review and downstream views",
+      "name": "returns full projection fields for unified accounting and variance views with sensitive permission",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2662,
+      "group": "registerLaborCostRecord",
+      "name": "registers a labor cost record with calculated amount and traceable rate version",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2697,
+      "group": "registerLaborCostRecord",
+      "name": "throws NotFoundException if the rate version is missing",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2716,
+      "group": "registerLaborCostRecord",
+      "name": "blocks labor records that cross the selected rate version period",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2738,
+      "group": "replaceLaborCostRecord",
+      "name": "throws NotFoundException if original record is not found",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2756,
+      "group": "replaceLaborCostRecord",
+      "name": "throws ConflictException if optimistic locking fails",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    },
+    {
+      "line": 2775,
+      "group": "replaceLaborCostRecord",
+      "name": "successfully replaces a labor cost record using append-only supersedes chain",
+      "evidence": "existing Jest mock-based spec inspected statically; not executed in this preparation"
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "E.producer-payment",
+      "scenario": "A/B real active contract + C confirmed payment -> E mapping -> C current_mapping/guards",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.producer-invoice",
+      "scenario": "C real input verified invoice with no open exception -> E mapping and source detail",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.producer-expense",
+      "scenario": "E recorded expense -> confirm -> map; no fixture mapping producer",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.producer-procurement",
+      "scenario": "C real formal Payable -> E registered not included; C progress remains valid",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.producer-labor",
+      "scenario": "real published rate -> labor hourly/day quantity -> traceable registered record",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.strict-union",
+      "scenario": "all five variants: mixed source IDs, unknown discriminator, amount/status/source spoof",
+      "expectedStatus": 400,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.source-ownership",
+      "scenario": "source missing404, cross-project409, no residual cost/audit/number writes",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.source-version",
+      "scenario": "stale expectedSourceVersion under lock",
+      "expectedStatus": 409,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.source-status",
+      "scenario": "payment unconfirmed, invoice output/unverified/open exception, expense unconfirmed, payable draft/voided",
+      "expectedStatus": 409,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.source-duplicate",
+      "scenario": "repeat same confirmed source ->409 with exactly one current mapping",
+      "expectedStatus": 409,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.source-concurrent",
+      "scenario": "two real HTTP concurrent mappings same source -> one201 one409",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.source-race",
+      "scenario": "mapping vs C update/mark-exception/close and expense void serialize under project/source locks",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.expense-lifecycle",
+      "scenario": "create recorded; patch draft/recorded only; confirm recorded only; void no mapping only",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.expense-optional-null",
+      "scenario": "merged patch, null clears permitted fields only, omitted retains, no mutable fields400",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.expense-tax",
+      "scenario": "strict net+tax=gross; individual known split <=gross; unknown remains null",
+      "expectedStatus": 422,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.expense-dictionary",
+      "scenario": "inactive/unknown category and cross-project contract rejected without write",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.money-capacity",
+      "scenario": "0/negative/nonfinite/exponent/thousands/over18,2/excess-scale rejected, max18,2 accepted",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.contract-budget",
+      "scenario": "independent valid contracts are not rejected by summed project quotation hard budget",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.rate-chain",
+      "scenario": "first version, current successor, wrong key/unit, no explicit predecessor, stale rowVersion",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.rate-overlap",
+      "scenario": "overlapping published validity rejected; inclusive adjacent dates correct",
+      "expectedStatus": 409,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.rate-concurrent",
+      "scenario": "concurrent first publish/supersede only one chain head/current interval",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.rate-history",
+      "scenario": "new rate never mutates locked existing labor value/calculation snapshot",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.rate-scope",
+      "scenario": "person vs role identity, correct matches, no employee affiliation guessed",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.labor-units",
+      "scenario": "hour/day exactly one positive matching quantity, max4 rate/max2 quantity",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.labor-rounding",
+      "scenario": "0.5000*0.01 ->0.01, 0.4999*0.01 ->0.00 then zero-result policy, no floating arithmetic",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.labor-overflow",
+      "scenario": "valid inputs whose exact product exceeds18,2 rejected atomically",
+      "expectedStatus": 422,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.labor-boundaries",
+      "scenario": "cross-rate/cross-stage period rejected; split contiguous subperiods succeed",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.labor-scope-overlap",
+      "scenario": "same project explicit person/role key overlapping week/month current entries conflict; distinct persons share role rate",
+      "expectedStatus": 409,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.labor-no-inferred-membership",
+      "scenario": "person-level and role-aggregate facts do not prove employee membership or economic absorption",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.replace-chain",
+      "scenario": "new UUID differs from old, old replaced/new registered; detail both directions; no physical delete",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.replace-guards",
+      "scenario": "nonlabor/included/draft/voided/replaced/successor/stale/F-locked reject",
+      "expectedStatus": 409,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.replace-race",
+      "scenario": "two successors on same original -> one201 one409; DB unique independently enforced",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.stage-truth",
+      "scenario": "explicit source/history stage only; missing/ambiguous stage stays registered; F evidence-confirm needs truth before confirmed and stage lock",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.stage-presigning",
+      "scenario": "valid presigning stage truth does not require completed handover",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.stage-history",
+      "scenario": "later project stage rename does not move locked historical cost",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.F-real-consumer",
+      "scenario": "F consumes real E rows, explicit amount layer, currency, source lineage, full batch conservation",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.not-included",
+      "scenario": "all new E records not included; no fake absorption priority; future operating17 explicit lineage",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.projection-masked",
+      "scenario": "finance manage only: labor source IDs/person/quantity/rate/per-record money absent from all raw paths and masked value=null",
+      "expectedStatus": 200,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.projection-full",
+      "scenario": "with labor-cost-rate:sensitive:read: full values only inside projections; null field not applicable",
+      "expectedStatus": 200,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.projection-audit",
+      "scenario": "one batch hidden-field SecurityEvent; fail event persistence -> whole outer transaction error",
+      "expectedStatus": 500,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.auth-four-way",
+      "scenario": "unauthenticated/disabled/session/permission/CSRF and authorized matrix on all11",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.query-read",
+      "scenario": "three filters, date null order, stable tiebreak, array empty, replacement/source details schema",
+      "expectedStatus": 200,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.rollback-faults",
+      "scenario": "inject cost/new version/attribution/basis/audit/auth final flush failure: all necessary writes rollback",
+      "expectedStatus": 500,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.global-audit",
+      "scenario": "rate publication audit has legitimate null project dimension; no fabricated project UUID",
+      "expectedStatus": 201,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.migration-preflight",
+      "scenario": "excess-scale legacy, normalized source duplicates, stage holes, branches, rate/labor overlap block; originals preserved",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    },
+    {
+      "id": "E.schema-client",
+      "scenario": "new projection response/query/CommandResult schemas exact Rust/Node/spec/client/UI alignment",
+      "expectedStatus": null,
+      "status": "planned-not-run",
+      "requiresRealHttpOrPostgres": true
+    }
+  ],
+  "checks": {
+    "JSON": "ran and passed: parse, eleven unique operations, five variants, source raw-byte pins self-verified",
+    "docsFormatting": "targeted E Markdown ran and passed; full docs check ran and failed on D-g1-candidate01.md while D author was editing, notified owner",
+    "diffCheck": "git diff --check ran and passed on current tracked diff; new E artifacts also checked separately for whitespace",
+    "RustRuntime": "not run - G1 design only",
+    "NodeRuntime": "not run - G1 design only",
+    "Postgres": "not run - no migration/preflight/acceptance claim"
+  },
+  "sourcePins": [
+    {
+      "file": "docs/design/rust-r4def/inputs/surface28-source01.json",
+      "bytes": 149671,
+      "rawBytesSha256": "8ea7a5bb20005652d28ad38f21e615b34e1a25641e0784b3422ba7d4e269c67b"
+    },
+    {
+      "file": "tools/rust-r4def/operation-map01.json",
+      "bytes": 14474,
+      "rawBytesSha256": "e1e1e846cd92bf105d038e7236d16fb69e877b52d70e2c7114abcbbb703b4cb1"
+    },
+    {
+      "file": "docs/design/rust-r4def/user-decisions01.json",
+      "bytes": 1487,
+      "rawBytesSha256": "2c40015fc0fb2b83cd1bab42cae3d68b9a8777ba96309756f723c409c25825af"
+    },
+    {
+      "file": "docs/design/rust-r4def-next30-baseline.md",
+      "bytes": 6826,
+      "rawBytesSha256": "4d81ff14bb7251e76973de15569403850613312d139e423b8eebc6bdc88eec91"
+    },
+    {
+      "file": "docs/design/phase2-project-actual-cost-records.md",
+      "bytes": 13499,
+      "rawBytesSha256": "9e9db9aa2ea75d286dfc4a2661c75fe958dd6451b63ac823cdfae27205be532f"
+    },
+    {
+      "file": "docs/design/phase2-cost-source-to-project-record-mapping.md",
+      "bytes": 19573,
+      "rawBytesSha256": "9b199e8ff64f6c9e57b81b99a4172346d181cc7dbf28bca320c00b6676f7989b"
+    },
+    {
+      "file": "docs/design/phase2-actual-cost-accumulation-stage-view.md",
+      "bytes": 9928,
+      "rawBytesSha256": "15b061e9dbd587957c39cd82c3a71ce9e3fcecaf27c6e08173d821e0618ec4ef"
+    },
+    {
+      "file": "docs/design/interface-command-design.md",
+      "bytes": 57413,
+      "rawBytesSha256": "acf995fe92b2622f76fcdafea572e4c96a74427f4b44fb2a0cbfe886e482abec"
+    },
+    {
+      "file": "docs/design/interface-openapi-dto-design.md",
+      "bytes": 86510,
+      "rawBytesSha256": "5a0646dada0e6b4e5af9f21da40ba23c24d07808dd73167172598abab73aab3c"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 174152,
+      "rawBytesSha256": "f6dcc5c259dffc12eaa95179c08668c6d5761a30aaa8d556c7210a864dbc37b3"
+    },
+    {
+      "file": "docs/design/schema-ddl-design.md",
+      "bytes": 59919,
+      "rawBytesSha256": "2ecf12e45349296896135ca3af42c6e17fa858fafe9b1fff56b32eb7e59adedc"
+    },
+    {
+      "file": "docs/design/table-structure-freeze-design.md",
+      "bytes": 64519,
+      "rawBytesSha256": "c57dfdd08d412b22e12d68bcde7dcec75879d7b48528234e197c28d192231f65"
+    },
+    {
+      "file": "docs/design/query-view-boundary-design.md",
+      "bytes": 55677,
+      "rawBytesSha256": "847728abfd9a37e5f22aa5c0261a31c36d334a73c775cc82243807e3938ae58c"
+    },
+    {
+      "file": "docs/design/phase2-data-permission-and-sensitive-visibility-design.md",
+      "bytes": 25385,
+      "rawBytesSha256": "a9539e575e5b2274e63017d8fab1bde412c1737cf4b97a23744bb229e1d5ab6f"
+    },
+    {
+      "file": "docs/design/rust-r4-scope-and-dependencies.md",
+      "bytes": 2472,
+      "rawBytesSha256": "006be6e560a36b3539b013af523c4f219d99a54daf4bc80f069f03780b551044"
+    },
+    {
+      "file": "docs/adr/016-union-request-body-schema-first-modeling.md",
+      "bytes": 8610,
+      "rawBytesSha256": "e4a40cdc2c3d80208d9a4d206e8d5c79157f3e8b3b3e5e31920ecce9585d00fa"
+    },
+    {
+      "file": "docs/reference/implementation-baseline-package-template.md",
+      "bytes": 7845,
+      "rawBytesSha256": "ef865b6c010c4d25a74f2d89bc296c4a62435ca3e63fd0e8babc1af0a400690c"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+      "bytes": 25777,
+      "rawBytesSha256": "91630d9b9e6b8121a8229e75bf6838ba9f00879ef9395dc004920aae82d368b8"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+      "bytes": 154399,
+      "rawBytesSha256": "0f927362f18c05add1bc4d2df0a48a2f5d850b5b93de58e114427b41ad146bc6"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.repository.ts",
+      "bytes": 24392,
+      "rawBytesSha256": "3ff2483a8867f95d37a01306d6fa8dc47fbf7cb3ccd104d41564e70719891567"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.module.ts",
+      "bytes": 5412,
+      "rawBytesSha256": "317c6ce9e76cf49c585069de06bee4ceaf490595ca44b580b581023a57bceb57"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-cost.service.spec.ts",
+      "bytes": 130381,
+      "rawBytesSha256": "00fa39b687448583427ce92802608ee9ac279486adf6333c88c2e3da8f95055f"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/expense-record.entity.ts",
+      "bytes": 3396,
+      "rawBytesSha256": "15d1836fb36cf76a94a985af8adc43586e60727b75b34cbb72940086fdd58c25"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/internal-cost-rate-version.entity.ts",
+      "bytes": 5071,
+      "rawBytesSha256": "cdd45dfa2d1c005ab162467d7ad5d2f0defcfb612b2bfafecfcbf1d965f8f605"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "bytes": 11302,
+      "rawBytesSha256": "2be5fae2887eb555a011ad6ca80d6d175aeaf881ae267f7b87864c5e98873278"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260405164244_init_actual_cost.ts",
+      "bytes": 13595,
+      "rawBytesSha256": "53d9ebc777f7287529f31c280cfaee8ac6bac62cb6032089b4a7af65e41710b1"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260411120000_align_actual_cost_rate_version.ts",
+      "bytes": 4317,
+      "rawBytesSha256": "bc8947752c716acafd6cd511bce70af64f25057301c65ec252ac2da0b8036409"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412193000_add_expense_record.ts",
+      "bytes": 2520,
+      "rawBytesSha256": "716c0de0ac3700e3c5484e7b562edc00a834e8196bb6e10fdf2d7882422f0d48"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260412195000_add_expense_source_current_unique.ts",
+      "bytes": 687,
+      "rawBytesSha256": "45e894632ac5783dfef0e8a2e64ef20e1d2a7902e5a261cc168ede0b201ad9aa"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260502120000_ex56d2_project_cost_operating_enum_checks.ts",
+      "bytes": 28473,
+      "rawBytesSha256": "51b76120a3fc144e3a24615d5d398ab6298f4c72da7877bf703bac3c91bccf2b"
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 443953,
+      "rawBytesSha256": "a6f85a12c4cd905e967e77f01971363198d18b4939d427b2a1d786dac3441120"
+    },
+    {
+      "file": "libs/api/contracts/src/lib/project-cost/project-cost.dto.ts",
+      "bytes": 8155,
+      "rawBytesSha256": "92cf1da4823eb50999da05730e26b941820993321082605779eddd51ea888523"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1154387,
+      "rawBytesSha256": "4a508c0934e68b17f0fcaeeeff6f55fe9c94508c8a0de57e81d4f1ed6cfd6775"
+    },
+    {
+      "file": "libs/shared/api-client/api/project-cost.service.ts",
+      "bytes": 177614,
+      "rawBytesSha256": "8a8549a20775cc7b19e63430ecca16f6c891ae4c4bbb0a3e29098a8295d99eeb"
+    },
+    {
+      "file": "libs/shared/api-client/model/replace-labor-cost-record-request.ts",
+      "bytes": 506,
+      "rawBytesSha256": "de9393ec77a215033afb2b81c58e0245f243b38aef4b641efa3e9510c5e8aba8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_finance/mod.rs",
+      "bytes": 38429,
+      "rawBytesSha256": "45b80986957d0f2ab6b5554ae99a9ea1f59e8767121871a2900c9e3cc86f09a1"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_finance/model.rs",
+      "bytes": 6958,
+      "rawBytesSha256": "2e0051a51f4a8fe3bbe236f65d2e5b42f78a5a47864ba1b72f96c493de6439e9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_finance/store.rs",
+      "bytes": 16658,
+      "rawBytesSha256": "879412dd428d6a0007280b41478ada16356d0e6336f21dbe41452dcac98899d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "bytes": 16326,
+      "rawBytesSha256": "1fd451795e665f3d3fc72ac3184e77916f847a6de36875edac3d206941636406"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/http.rs",
+      "bytes": 12961,
+      "rawBytesSha256": "6bfbb2c0b59a2c8a7425d533f3d11cfac92f193ad5bbbbb98644fe0075c4ad2c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/validation.rs",
+      "bytes": 21979,
+      "rawBytesSha256": "a90cd7cd78e6c911b714b723b288d19076f06bb8e1e70959f8edc1d088b01049"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/session.rs",
+      "bytes": 5265,
+      "rawBytesSha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/service.rs",
+      "bytes": 45702,
+      "rawBytesSha256": "0bd9da6467a496896525d697f2fee280a5de4749fcd8a3e46ef6a6db0ed4c38b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/store.rs",
+      "bytes": 35844,
+      "rawBytesSha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/schema.rs",
+      "bytes": 36415,
+      "rawBytesSha256": "57de18e631c7c2cfab49afb9daab7eb5938d4ec5e040d96d1ef54da392768eb9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/domain_schema.rs",
+      "bytes": 88205,
+      "rawBytesSha256": "3063af131554f2baf13b322f08d984eb47051bb8048d3f8a422b955f503645ce"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/projection.rs",
+      "bytes": 8800,
+      "rawBytesSha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8"
+    },
+    {
+      "file": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "bytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8"
+    },
+    {
+      "file": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "bytes": 9479,
+      "rawBytesSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd"
+    },
+    {
+      "file": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "bytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb"
+    }
+  ],
+  "claims": {
+    "G1Pass": false,
+    "implemented": false,
+    "realAcceptance": false,
+    "parentComplete": false,
+    "onlyStaticObservation": true
+  },
+  "rootResolvedTechnicalDecisions": {
+    "origin": "Root message in current chat; design decisions, not runtime evidence",
+    "zeroCents": "422 and no zero-value cost write",
+    "legacyExcessScale": "report and block migration; no automatic rewrite",
+    "historicalRates": "superseded original valid interval usable for explicit supplement/replacement; retired rejected; no replay basis means no recalculation",
+    "invoiceCurrency": "explicit persisted source or clearly bound contract immutable currency proof; unknown422; no project/multi-contract guess; Root may add invoice DTO/persistence currency",
+    "missingStage": "register valid source as registered; F evidence-confirm writes unique stage truth and locks before confirmed; never current-project-stage guess"
+  }
+}

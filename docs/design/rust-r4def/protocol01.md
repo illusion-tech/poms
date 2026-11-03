@@ -1,0 +1,64 @@
+# R4 DEF 公共实现协议候选
+
+本文件与联合 G1 一起评审；当前不单独准入 G2。业务边界及用户原文见[联合基线](../rust-r4def-next30-baseline.md)和[user-decisions01](user-decisions01.json)。
+
+## 1. 公共入口与外层事务
+
+新建 `execution_support::http` 适配 D/E/F 的30项，不修改旧37项清单或旧验收原件。复用统一的会话/CSRF/权限校验、严格请求验证、错误协议和 `contract_support::Actor / Error`。D/E/F 分别提供以下签名：
+
+```rust
+pub async fn execute(
+    session: &mut CommonSession<'_, '_>,
+    operation_id: &str,
+    id: Option<Uuid>,
+    query: &serde_json::Value,
+    body: &serde_json::Value,
+    actor: &Actor,
+) -> Result<serde_json::Value, Error>;
+```
+
+Root 获取连接并 `BEGIN`，借 `CommonSession`、认证参与者和统一 trace；各域不能再取连接、开第二事务、提交、吞错或在提交后补必要审计。返回成功时公共适配器完成必要 flush 和认证 coflush，最后只提交一次。必要写/审计/安全投影/版本任一失败整体回滚；未知提交结果不能被当成业务已回滚。GET 的必要安全事件写入仍属于同一事务。
+
+全局费率发布使用 `contract_support::audit_global` 及 `GlobalAuditWrite`（字段与 `AuditWrite` 相同但没有 project_id / contract_id），metadata 的 projectId/contractId 为 null，不能伪造 UUID。现有项目审计 API 不变。全部新增唯一约束的业务冲突白名单由 Root 汇总，不能把任意数据库错误暴露为客户端冲突。
+
+## 2. 金额、日期与真实来源
+
+金额以十进制字符串持久化和传输，使用精确十进制/整数计算，禁止中途经 JS number/f64。新货币金额18位总精度、2位小数，不允许非有限、超容量或输入隐式舍入；税/未税等允许零的分量与必须正的总额分别验证。
+
+费率四位、工时/人天两位，乘积精确后显式 HALF_UP 到分，记录费率/数量/原乘积/算法版本和最终金额。舍入成0.00的正人力投入拒绝422，不落零金额正式成本。历史非分币金额先审计并阻断受影响迁移，不自动 round；历史不可回放依据不重算。
+
+分摊冻结显式计量层、来源集合/版本、精确正权重、算法及完整项目集合。最大余数法把尾差分配到分；余数相同时按 UUID 字节序，禁止通过请求顺序改变结果。若三层金额齐备，分别分配净额和税额、含税额相加，保证逐项目及整批恒等式；仅含税已知时不得伪造未税/税额。未知币种或混币拒绝，无隐式汇兑。
+
+日期使用 `YYYY-MM-DD`，事件时刻使用 UTC datetime。来源身份、金额层、币种、状态和版本必须可证明；同合同不是同经济事件的证明。当前项目阶段不得替代历史业务日期及证据。注册/确认成本、分摊和税务事实不自动纳入经营成本；未来经营17负责纳入及同经济事件去重。
+
+## 3. 锁、当前版本与阶段
+
+共享写先按 UUID 升序锁所有受影响项目（含来源所属项目和分摊目标项目），然后按稳定顺序锁合同/来源/成本及当前版本记录。相同项目的 E 替代与 F 分摊必须由项目行锁串行化；涉及同批多个项目时不能按请求顺序锁。比较版本、来源有效性、分摊占用和当前指针必须在锁内重读。
+
+替代创建新事实并保留旧事实，唯一当前、禁止分叉及跨项目错误引用由 SQL 约束与锁共同保证。F 调整不得只改一个 result；同事务创建新 basis/完整新 results 并 supersede 旧批，保留逐项替代关系和历史快照。已被当前有效分摊冻结的 E 来源不能普通替代导致分摊漂移。
+
+成本缺乏唯一阶段依据时保持 REGISTERED；F 的公开阶段确认在同一事务中重验来源有效性与版本，将成本推进 CONFIRMED、写 confirmedAt/confirmedBy、递增 rowVersion、写唯一归属事实、锁定阶段并写审计，不能只增加孤立的 attribution。已经 CONFIRMED 的兼容记录须校验同一证据后保留确认时间/责任人，不伪造再次确认。签约前来源可以根据当时真实业务阶段或责任人具证归属，无统一“先完成移交”前置。历史封账/锁定快照的纠正归显式重述，不能普通重分类回写历史。
+
+## 4. 移交与受控合同变更
+
+新 prepare/self-confirm 入口不让 GET 隐式写入，也不以内部 CLI/fixture 代替公开流程。准备显式选择责任人和职责，当前销售 owner 只承担销售主责，不自动成为执行人。允许一人多职责，已认证用户只能确认本人所承担的整组职责；变更材料生成新确认版本，旧签署不得复用。
+
+跨多合同的准备必须冻结当前有效合同集合和各自真实 snapshot/plan，并追到相应准备/审核链；不能要求已生效事实当时的源仍 `is_current`，也不能把一份快照冒充多合同集合。合同新变更未获批准/激活前，旧 Active 事实继续有效；新版本激活后旧待移交材料必须显示 source-changed 并阻断确认。
+
+受控变更复用 B 已有 prepare/review/activate URI，新增的行为/DTO/DDL/审批分支逐项受审；原合同在变更审核期间保持 Active，新 snapshot、amendment binding 和适用正式计划在成功激活时原子切换。再基线化只消费具有精确 before/after 关系的真实 effective amendment，保留历史，生成新依据/摘要/确认链。
+
+移交 status=confirmed 表示移交事实已确认。正式执行准入仍要求 R5 有效角色冻结与同一移交/基线链，本批不能生成虚拟冻结或宣称完整 execution/closure。
+
+## 5. 投影、客户端与遗留适配
+
+权限 `contract:finance:manage` 不是敏感读取权限。财务字段依统一 operating-finance / contract-finance 规则投影；人力人员、费率、工时、金额及可反推值依 labor-cost-rate 投影。原值不能从 source payload、description、evidence、ratio、nullable 旧字段等旁路泄漏。安全事件同 `CommonSession` 汇总写入，不调用另取连接的方便包装器。
+
+Root 按冻结 Shared→DTO→spec→Rust generated→client→UI 顺序接线，保持完整契约和原生成器检查，不把完整 spec 缩成 Rust 子集。新增/变更能力由 Rust 实现；Node 旧服务只作为明确标记的 legacy/reference 编译及生成适配，不以其未实现的新行为作为 Rust 通过依据。
+
+新移交流程提供最小真实 UI：基线/材料版本可见、显式选人/职责、本人确认、最终确认、受控合同变更和再基线化。选人不得要求业务用户猜 UUID，也不扩展平台用户管理权限；可在现有承接读模型按准备动作权限暴露 active 用户最小 id/displayName 选择集。所有输入/选择与回执绑定当前路由/版本，拒绝迟到响应覆盖已切换对象。
+
+## 6. 验收和归属
+
+Root 单写生成物、公共接线、迁移与正式治理，作者只交独占文件和来源指纹。作者不并发运行共享环境；Root 使用全新隔离运行标识、凭据和精确自有数据边界，保留 PG17、旧私有环境和已归档原件。
+
+联合候选至少验证真实 R3→合同→变更→移交→本人确认→附件、资金→成本→分摊/阶段/税务、敏感/权限/CSRF、版本/来源变化、金额极限/尾差、跨项目/替代/并发、每个必要写点故障回滚及重试、真实 UI、精确归属清理和连续两次零变化。平台、失败、partial、ignored 与 Native reference 各自保留标签。独立审查统一候选及实际证据，不用作者自评替代。

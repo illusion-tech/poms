@@ -580,3 +580,9 @@ R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#1
 [最终非作者实际G4签署](archive/slices/rust-r4abc/g4-actual12.json.bin) Pass，仅认证A9/B9/C19首批37入口；#103/#104/#105/#102 Closed，#101/#57持续Open，完整R4和R5–R7仍未完成。实际实现a2995dfb、永久S3、固定提交/main、原字节归档和六Issue正文/comment/state/native tree读回一致，949产品原字节无变。
 
 当前正式新增交付37，Rust公开surface累计210。最终签署与当前状态的普通metadata写回不改任何产品、Issue正文/状态或既有1390原件；54历史ignored、163有界复用、失败/partial/Native参考与未认领范围保留原标签。
+
+### 2026-11-04 R4 第二批 G0 与业务裁决
+
+用户授权 [#106](https://github.com/illusion-tech/poms/issues/106) → D [#107](https://github.com/illusion-tech/poms/issues/107) / E [#108](https://github.com/illusion-tech/poms/issues/108) / F [#109](https://github.com/illusion-tech/poms/issues/109)，原28既有入口已静态去重并与Rust210零重叠。用户进一步批准真实准备/本人确认/受控合同变更与最小UI，候选调整为D7/E11/F12共30；两个新增canonical已登记planned，尚未准入G2。详见[联合基线](rust-r4def-next30-baseline.md)、[用户裁决](rust-r4def/user-decisions01.json)和[当前状态](rust-r4def-delivery-status.json)。
+
+三线先准备精确G1：D真实移交和变更链，E实际成本基础，F整批分摊/阶段/税务；F真实验收消费E及适用D事实。职责允许兼任而只可本人确认，移交事实不绕过R5执行准入；人工精确HALF_UP到分、确定性分摊尾差与完整批次原子替代已明确，历史多位金额不静默改写。经营17与验收完工归档8仍后续，#101/#57保持Open。
