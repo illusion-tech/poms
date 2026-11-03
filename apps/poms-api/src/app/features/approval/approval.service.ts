@@ -1,3 +1,4 @@
+import type { SubmitContractReviewRequest } from "../../core/rust-r4def-frozen-native-reference";
 import { EntityManager, EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
@@ -12,18 +13,7 @@ import {
     TodoStatusValue,
     TodoTypeValue
 } from '@poms/shared-contracts';
-import type {
-    ApprovalDecision,
-    ApprovalRecordSummary,
-    ApproveRecordRequest,
-    CommandResult,
-    RejectApprovalRecordRequest,
-    SubmitCommissionAdjustmentApprovalRequest,
-    SubmitCommissionPayoutApprovalRequest,
-    SubmitContractReviewRequest,
-    TargetObjectType,
-    TodoItemSummary
-} from '@poms/shared-contracts';
+import type { ApprovalDecision, ApprovalRecordSummary, ApproveRecordRequest, CommandResult, RejectApprovalRecordRequest, SubmitCommissionAdjustmentApprovalRequest, SubmitCommissionPayoutApprovalRequest, TargetObjectType, TodoItemSummary } from '@poms/shared-contracts';
 import { randomUUID } from 'node:crypto';
 import {
     COMMISSION_APPROVER_USERNAME,

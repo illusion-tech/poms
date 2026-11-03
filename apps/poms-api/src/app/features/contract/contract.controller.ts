@@ -1,3 +1,4 @@
+import { ActivateContractRequestSchema, SubmitContractReviewRequestSchema, parseFrozenNativeReference } from "../../core/rust-r4def-frozen-native-reference";
 import { Inject, Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -131,7 +132,7 @@ export class ContractController {
     @ApiOperation({ summary: '提交合同审核' })
     @ApiOkResponse({ type: SubmitContractReviewResultDto })
     submitReview(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: SubmitContractReviewRequestDto): Promise<LegacyContractCommandResult> {
-        return this.approvalService.submitContractReview(id, req.user.sub, body);
+        return this.approvalService.submitContractReview(id, req.user.sub, parseFrozenNativeReference(SubmitContractReviewRequestSchema, body));
     }
 
     @Post(':id\\:activate')
@@ -140,7 +141,7 @@ export class ContractController {
     @ApiOperation({ summary: '确认合同生效' })
     @ApiOkResponse({ type: ActivateContractResultDto })
     activate(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ActivateContractRequestDto): Promise<LegacyContractCommandResult> {
-        return this.contractService.activate(id, req.user.sub, body);
+        return this.contractService.activate(id, req.user.sub, parseFrozenNativeReference(ActivateContractRequestSchema, body));
     }
 }
 

@@ -1,6 +1,8 @@
+import type { InvoiceRecordDetailView, InvoiceRecordSummary } from "../../core/rust-r4def-frozen-native-reference";
+import { CreateInvoiceRecordRequestSchema, UpdateInvoiceRecordRequestSchema, parseFrozenNativeReference } from "../../core/rust-r4def-frozen-native-reference";
 import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { InvoiceRecordDetailView, InvoiceRecordSummary, PayableRecordDetailView, PayableRecordSummary, PaymentRecordSummary, ReceiptRecordSummary, UserPayload } from '@poms/shared-contracts';
+import type { PayableRecordDetailView, PayableRecordSummary, PaymentRecordSummary, ReceiptRecordSummary, UserPayload } from '@poms/shared-contracts';
 import {
     ClosePayableRecordRequestDto,
     CloseInvoiceRecordRequestDto,
@@ -131,7 +133,7 @@ export class ContractFinanceController {
     @ApiOperation({ summary: '登记项目发票记录' })
     @ApiCreatedResponse({ type: InvoiceRecordDto })
     createInvoice(@Param('projectId') projectId: string, @Body() body: CreateInvoiceRecordRequestDto): Promise<InvoiceRecordSummary> {
-        return this.contractFinanceService.createInvoice(projectId, body);
+        return this.contractFinanceService.createInvoice(projectId, parseFrozenNativeReference(CreateInvoiceRecordRequestSchema, body));
     }
 
     @Patch('invoice-records/:id')
@@ -139,7 +141,7 @@ export class ContractFinanceController {
     @ApiOperation({ summary: '更新发票记录' })
     @ApiOkResponse({ type: InvoiceRecordDto })
     updateInvoice(@Param('id') id: string, @Body() body: UpdateInvoiceRecordRequestDto): Promise<InvoiceRecordSummary> {
-        return this.contractFinanceService.updateInvoice(id, body);
+        return this.contractFinanceService.updateInvoice(id, parseFrozenNativeReference(UpdateInvoiceRecordRequestSchema, body));
     }
 
     @Post('invoice-records/:id\\:markException')

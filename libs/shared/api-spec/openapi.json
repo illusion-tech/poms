@@ -6693,7 +6693,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6759,7 +6766,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -6780,6 +6794,52 @@
             "required": true,
             "in": "path",
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "payment-record",
+                "invoice-record",
+                "expense-record",
+                "payable-record",
+                "labor"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "recordStatus",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "draft",
+                "registered",
+                "confirmed",
+                "included",
+                "voided",
+                "replaced"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "costType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "procurement",
+                "invoice",
+                "expense",
+                "payment-fact",
+                "labor"
+              ],
               "type": "string"
             }
           }
@@ -7123,7 +7183,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmSharedCostAllocationBasisResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7234,7 +7301,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplaceSharedCostAllocationResultResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7273,7 +7347,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmCostStageAttributionResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7312,7 +7393,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReclassifyCostStageAttributionResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7423,7 +7511,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmAccountingTaxTreatmentResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -7496,7 +7591,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplaceAccountingTaxTreatmentResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -8167,7 +8269,14 @@
         },
         "responses": {
           "201": {
-            "description": "The command result"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -9169,6 +9278,98 @@
           }
         ],
         "summary": "发起合同移交前再基线化",
+        "tags": [
+          "Project Handover"
+        ]
+      }
+    },
+    "/api/projects/{projectId}/project-handovers": {
+      "post": {
+        "operationId": "ProjectHandoverController_prepareProjectHandover",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrepareProjectHandoverRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectHandoverDetailView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "准备真实项目移交与职责确认材料",
+        "tags": [
+          "Project Handover"
+        ]
+      }
+    },
+    "/api/project-handovers/{id}/participant-confirmations": {
+      "post": {
+        "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmProjectHandoverParticipantRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectHandoverDetailView"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "summary": "当前参与人确认本人承担的移交职责",
         "tags": [
           "Project Handover"
         ]
@@ -24290,6 +24491,66 @@
           "effectiveFrom"
         ]
       },
+      "CommandResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds"
+        ]
+      },
       "CreatePaymentFactProjectActualCostRecordRequest": {
         "type": "object",
         "properties": {
@@ -25430,6 +25691,63 @@
           "$ref": "#/components/schemas/OperatingRestatementSummary"
         }
       },
+      "R4FSharedCostAllocationShareItem": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "allocationWeight": {
+            "type": "string",
+            "maxLength": 19,
+            "pattern": "^[0-9]{1,12}(?:\\.[0-9]{1,6})?$"
+          },
+          "allocatedAmount": {
+            "type": "string",
+            "maxLength": 19,
+            "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$"
+          },
+          "allocationRatio": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "allocationSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "projectId",
+          "allocationWeight"
+        ],
+        "additionalProperties": false
+      },
+      "R4FCostSourceVersion": {
+        "type": "object",
+        "properties": {
+          "costRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "costRecordId",
+          "expectedVersion"
+        ],
+        "additionalProperties": false
+      },
       "ConfirmSharedCostAllocationBasisRequest": {
         "type": "object",
         "properties": {
@@ -25456,35 +25774,7 @@
             "minItems": 1,
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "projectId": {
-                  "type": "string",
-                  "format": "uuid",
-                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                },
-                "allocatedAmount": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 64
-                },
-                "allocationRatio": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 64,
-                  "nullable": true
-                },
-                "allocationSummary": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 1000,
-                  "nullable": true
-                }
-              },
-              "required": [
-                "projectId",
-                "allocatedAmount"
-              ]
+              "$ref": "#/components/schemas/R4FSharedCostAllocationShareItem"
             }
           },
           "basisSummary": {
@@ -25498,14 +25788,115 @@
             "minLength": 1,
             "maxLength": 1000,
             "nullable": true
+          },
+          "measurementBasis": {
+            "type": "string",
+            "enum": [
+              "excluding-tax",
+              "tax",
+              "including-tax"
+            ]
+          },
+          "expectedSourceVersions": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/R4FCostSourceVersion"
+            }
           }
         },
         "required": [
           "basisType",
           "sourceCostRecordIds",
           "allocationMethod",
-          "projectShareItems"
-        ]
+          "projectShareItems",
+          "measurementBasis",
+          "expectedSourceVersions"
+        ],
+        "additionalProperties": false
+      },
+      "ConfirmSharedCostAllocationBasisResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "basisId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "allocationResultIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "basisId",
+          "allocationResultIds",
+          "evidenceId"
+        ],
+        "additionalProperties": false
       },
       "OperatingPendingLifecycleStatus": {
         "type": "string",
@@ -25533,17 +25924,6 @@
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "allocatedAmount": {
-            "type": "string"
-          },
-          "allocationRatio": {
-            "type": "string",
-            "nullable": true
-          },
-          "allocationSummary": {
-            "type": "string",
-            "nullable": true
           },
           "status": {
             "$ref": "#/components/schemas/OperatingPendingLifecycleStatus"
@@ -25575,22 +25955,39 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "financialProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "governanceCertification": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "legacy-unverified"
+            ]
           }
         },
         "required": [
           "id",
           "basisId",
           "projectId",
-          "allocatedAmount",
-          "allocationRatio",
-          "allocationSummary",
           "status",
           "effectiveAt",
           "supersedesId",
           "rowVersion",
           "createdAt",
-          "updatedAt"
-        ]
+          "updatedAt",
+          "financialProjection",
+          "evidenceId",
+          "governanceCertification"
+        ],
+        "additionalProperties": false
       },
       "SharedCostAllocationBasisSummary": {
         "type": "object",
@@ -25608,10 +26005,6 @@
           },
           "allocationMethod": {
             "type": "string"
-          },
-          "basisSummary": {
-            "type": "string",
-            "nullable": true
           },
           "status": {
             "$ref": "#/components/schemas/OperatingPendingLifecycleStatus"
@@ -25655,6 +26048,46 @@
             "items": {
               "$ref": "#/components/schemas/SharedCostAllocationResultSummary"
             }
+          },
+          "basisSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "financialProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16,
+            "nullable": true
+          },
+          "measurementBasis": {
+            "type": "string",
+            "enum": [
+              "excluding-tax",
+              "tax",
+              "including-tax",
+              null
+            ],
+            "nullable": true
+          },
+          "sourceRecordCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "governanceCertification": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "legacy-unverified"
+            ]
           }
         },
         "required": [
@@ -25662,7 +26095,6 @@
           "sourceCostScopeKey",
           "basisType",
           "allocationMethod",
-          "basisSummary",
           "status",
           "effectiveAt",
           "effectiveBy",
@@ -25670,8 +26102,16 @@
           "rowVersion",
           "createdAt",
           "updatedAt",
-          "results"
-        ]
+          "results",
+          "basisSummaryProjection",
+          "financialProjection",
+          "currency",
+          "measurementBasis",
+          "sourceRecordCount",
+          "evidenceId",
+          "governanceCertification"
+        ],
+        "additionalProperties": false
       },
       "SharedCostAllocationResultListView": {
         "type": "array",
@@ -25684,8 +26124,8 @@
         "properties": {
           "allocatedAmount": {
             "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "maxLength": 19,
+            "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$"
           },
           "allocationRatio": {
             "type": "string",
@@ -25715,12 +26155,127 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "projectShareItems": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/R4FSharedCostAllocationShareItem"
+            }
+          },
+          "expectedBasisVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
           }
         },
         "required": [
-          "allocatedAmount",
-          "replacementReason"
-        ]
+          "replacementReason",
+          "projectShareItems",
+          "expectedBasisVersion"
+        ],
+        "additionalProperties": false
+      },
+      "ReplaceSharedCostAllocationResultResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "basisId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supersedesBasisId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "allocationResultIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "replacementResultId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supersedesAllocationResultId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "basisId",
+          "supersedesBasisId",
+          "allocationResultIds",
+          "replacementResultId",
+          "supersedesAllocationResultId",
+          "evidenceId"
+        ],
+        "additionalProperties": false
       },
       "ConfirmCostStageAttributionMode": {
         "type": "string",
@@ -25728,6 +26283,103 @@
           "auto",
           "manual"
         ]
+      },
+      "R4FGovernanceEvidence": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/R4FSourceEvidence"
+          },
+          {
+            "$ref": "#/components/schemas/R4FManualAssessmentEvidence"
+          }
+        ]
+      },
+      "R4FSourceEvidence": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "source"
+            ]
+          },
+          "sourceType": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "sourceId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "sourceVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "businessDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "kind",
+          "sourceType",
+          "sourceId",
+          "sourceVersion",
+          "businessDate",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "R4FManualAssessmentEvidence": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "manual"
+            ]
+          },
+          "businessDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "attachmentIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "businessDate",
+          "reason",
+          "evidenceSummary"
+        ],
+        "additionalProperties": false
       },
       "ConfirmCostStageAttributionRequest": {
         "type": "object",
@@ -25763,12 +26415,96 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "attributionEvidence": {
+            "$ref": "#/components/schemas/R4FGovernanceEvidence"
           }
         },
         "required": [
           "stageAttributionMode",
-          "attributedStage"
-        ]
+          "attributedStage",
+          "attributionEvidence"
+        ],
+        "additionalProperties": false
+      },
+      "ConfirmCostStageAttributionResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "attributionSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "costRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "attributionSnapshotId",
+          "costRecordId",
+          "evidenceId"
+        ],
+        "additionalProperties": false
       },
       "ReclassifyCostStageAttributionRequest": {
         "type": "object",
@@ -25800,12 +26536,102 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "attributionEvidence": {
+            "$ref": "#/components/schemas/R4FGovernanceEvidence"
           }
         },
         "required": [
           "newAttributedStage",
-          "reclassifyReason"
-        ]
+          "reclassifyReason",
+          "attributionEvidence"
+        ],
+        "additionalProperties": false
+      },
+      "ReclassifyCostStageAttributionResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "attributionSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "costRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supersedesAttributionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "attributionSnapshotId",
+          "costRecordId",
+          "supersedesAttributionId",
+          "evidenceId"
+        ],
+        "additionalProperties": false
       },
       "CostStageAttributionSnapshotSummary": {
         "type": "object",
@@ -25830,10 +26656,6 @@
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "attributionSummary": {
-            "type": "string",
             "nullable": true
           },
           "status": {
@@ -25872,6 +26694,31 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "attributionSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "evidenceProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "evidenceBusinessDate": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "governanceCertification": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "legacy-unverified"
+            ]
           }
         },
         "required": [
@@ -25880,15 +26727,20 @@
           "attributedStage",
           "attributionMode",
           "lockedBySnapshotId",
-          "attributionSummary",
           "status",
           "supersedesId",
           "handledAt",
           "handledBy",
           "rowVersion",
           "createdAt",
-          "updatedAt"
-        ]
+          "updatedAt",
+          "attributionSummaryProjection",
+          "evidenceProjection",
+          "evidenceId",
+          "evidenceBusinessDate",
+          "governanceCertification"
+        ],
+        "additionalProperties": false
       },
       "CostStageAttributionMode": {
         "type": "string",
@@ -25925,8 +26777,8 @@
           },
           "taxImpactAmount": {
             "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "maxLength": 20,
+            "pattern": "^-?[0-9]{1,16}(?:\\.[0-9]{1,2})?$"
           },
           "taxImpactSummary": {
             "type": "string",
@@ -25940,22 +26792,118 @@
           "taxImpactPendingAmount": {
             "default": "0",
             "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "maxLength": 19,
+            "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$"
           },
           "basisSummary": {
             "type": "string",
             "minLength": 1,
             "maxLength": 2000,
             "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16
+          },
+          "sourceReferences": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/R4FGovernanceEvidence"
+            }
           }
         },
         "required": [
           "taxTreatmentType",
           "deductibilityStatus",
           "taxImpactAmount",
-          "taxImpactSummary"
-        ]
+          "taxImpactSummary",
+          "currency",
+          "sourceReferences"
+        ],
+        "additionalProperties": false
+      },
+      "ConfirmAccountingTaxTreatmentResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "taxTreatmentSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "taxTreatmentSnapshotId",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
+          "evidenceId"
+        ],
+        "additionalProperties": false
       },
       "ReplaceAccountingTaxTreatmentRequest": {
         "type": "object",
@@ -25970,8 +26918,8 @@
           },
           "taxImpactAmount": {
             "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "maxLength": 20,
+            "pattern": "^-?[0-9]{1,16}(?:\\.[0-9]{1,2})?$"
           },
           "taxImpactSummary": {
             "type": "string",
@@ -25985,8 +26933,8 @@
           "taxImpactPendingAmount": {
             "default": "0",
             "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "maxLength": 19,
+            "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$"
           },
           "basisSummary": {
             "type": "string",
@@ -25999,14 +26947,122 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16
+          },
+          "sourceReferences": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/R4FGovernanceEvidence"
+            }
+          },
+          "replacementReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
           }
         },
         "required": [
           "taxTreatmentType",
           "deductibilityStatus",
           "taxImpactAmount",
-          "taxImpactSummary"
-        ]
+          "taxImpactSummary",
+          "currency",
+          "sourceReferences",
+          "replacementReason"
+        ],
+        "additionalProperties": false
+      },
+      "ReplaceAccountingTaxTreatmentResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "targetType": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string"
+          },
+          "businessStatusAfter": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "todoItemIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "taxTreatmentSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supersedesTaxTreatmentSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds",
+          "taxTreatmentSnapshotId",
+          "supersedesTaxTreatmentSnapshotId",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
+          "evidenceId"
+        ],
+        "additionalProperties": false
       },
       "AccountingTaxTreatmentSnapshotSummary": {
         "type": "object",
@@ -26027,21 +27083,8 @@
           "deductibilityStatus": {
             "$ref": "#/components/schemas/AccountingTaxDeductibilityStatus"
           },
-          "taxImpactAmount": {
-            "type": "string"
-          },
           "taxPendingFlag": {
             "type": "boolean"
-          },
-          "taxImpactSummary": {
-            "type": "string"
-          },
-          "taxImpactPendingAmount": {
-            "type": "string"
-          },
-          "basisSummary": {
-            "type": "string",
-            "nullable": true
           },
           "status": {
             "$ref": "#/components/schemas/OperatingPendingLifecycleStatus"
@@ -26079,6 +27122,40 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "taxImpactAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "basisSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "sourceEvidenceProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16,
+            "nullable": true
+          },
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "governanceCertification": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "legacy-unverified"
+            ]
           }
         },
         "required": [
@@ -26086,19 +27163,24 @@
           "projectId",
           "taxTreatmentType",
           "deductibilityStatus",
-          "taxImpactAmount",
           "taxPendingFlag",
-          "taxImpactSummary",
-          "taxImpactPendingAmount",
-          "basisSummary",
           "status",
           "supersedesId",
           "confirmedAt",
           "confirmedBy",
           "rowVersion",
           "createdAt",
-          "updatedAt"
-        ]
+          "updatedAt",
+          "taxImpactAmountProjection",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
+          "basisSummaryProjection",
+          "sourceEvidenceProjection",
+          "currency",
+          "evidenceId",
+          "governanceCertification"
+        ],
+        "additionalProperties": false
       },
       "AccountingTaxTreatmentListView": {
         "type": "array",
@@ -26889,7 +27971,12 @@
             "$ref": "#/components/schemas/ExpenseCategory"
           },
           "expenseDescription": {
-            "type": "string"
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
+            "type": "string",
+            "nullable": true
           },
           "expenseDate": {
             "type": "string",
@@ -26900,13 +27987,26 @@
             "type": "string"
           },
           "amountIncludingTax": {
-            "type": "string"
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
+            "type": "string",
+            "nullable": true
           },
           "taxAmount": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "amountExcludingTax": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -26917,6 +28017,10 @@
             "$ref": "#/components/schemas/ExpenseRecordStatus"
           },
           "evidenceSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -26944,6 +28048,10 @@
             "nullable": true
           },
           "voidReason": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -26961,6 +28069,9 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "financialProjection": {
+            "$ref": "#/components/schemas/ExpenseFinancialProjection"
           }
         },
         "required": [
@@ -26984,8 +28095,10 @@
           "voidReason",
           "rowVersion",
           "createdAt",
-          "updatedAt"
-        ]
+          "updatedAt",
+          "financialProjection"
+        ],
+        "additionalProperties": false
       },
       "ExpenseCategory": {
         "$ref": "#/components/schemas/DictionaryCode"
@@ -27006,6 +28119,82 @@
           "confirmed",
           "voided"
         ]
+      },
+      "ExpenseFinancialProjection": {
+        "type": "object",
+        "properties": {
+          "amountIncludingTax": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "taxAmount": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "amountExcludingTax": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "expenseDescription": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "evidenceSummary": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "voidReason": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          }
+        },
+        "required": [
+          "amountIncludingTax",
+          "taxAmount",
+          "amountExcludingTax",
+          "expenseDescription",
+          "evidenceSummary",
+          "voidReason"
+        ],
+        "additionalProperties": false
+      },
+      "OperatingFinanceSensitiveStringProjection": {
+        "type": "object",
+        "properties": {
+          "fieldPackageKey": {
+            "type": "string",
+            "enum": [
+              "operating-finance"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "full",
+              "masked",
+              "denied"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayText": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "reasonCode": {
+            "type": "string",
+            "enum": [
+              "allowed",
+              "field-package-not-applicable",
+              "missing-sensitive-read-permission"
+            ]
+          }
+        },
+        "required": [
+          "fieldPackageKey",
+          "mode",
+          "value",
+          "displayText",
+          "reasonCode"
+        ],
+        "additionalProperties": false
       },
       "ExpenseRecordList": {
         "type": "array",
@@ -27036,7 +28225,12 @@
             "$ref": "#/components/schemas/ExpenseCategory"
           },
           "expenseDescription": {
-            "type": "string"
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
+            "type": "string",
+            "nullable": true
           },
           "expenseDate": {
             "type": "string",
@@ -27047,13 +28241,26 @@
             "type": "string"
           },
           "amountIncludingTax": {
-            "type": "string"
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
+            "type": "string",
+            "nullable": true
           },
           "taxAmount": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "amountExcludingTax": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27064,6 +28271,10 @@
             "$ref": "#/components/schemas/ExpenseRecordStatus"
           },
           "evidenceSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27091,6 +28302,10 @@
             "nullable": true
           },
           "voidReason": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27114,6 +28329,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "financialProjection": {
+            "$ref": "#/components/schemas/ExpenseFinancialProjection"
           }
         },
         "required": [
@@ -27138,8 +28356,10 @@
           "rowVersion",
           "createdAt",
           "updatedAt",
-          "allowedActions"
-        ]
+          "allowedActions",
+          "financialProjection"
+        ],
+        "additionalProperties": false
       },
       "CreateExpenseRecordRequest": {
         "type": "object",
@@ -27389,14 +28609,26 @@
             "type": "string"
           },
           "amountExcludingTax": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "taxCostAmount": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "amountIncludingTax": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27418,15 +28650,26 @@
             "nullable": true
           },
           "sourceId": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
-            "maxLength": 64,
             "nullable": true
           },
           "sourceRefNo": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "evidenceSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27458,14 +28701,26 @@
             "nullable": true
           },
           "costDescription": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "taxImpactSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "riskNote": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27476,6 +28731,10 @@
             "nullable": true
           },
           "voidReason": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27494,6 +28753,22 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "financialProjection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OperatingCostSensitiveProjection"
+              }
+            ],
+            "nullable": true
+          },
+          "laborSensitiveProjection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LaborCostSensitiveProjection"
+              }
+            ],
+            "nullable": true
           }
         },
         "required": [
@@ -27535,8 +28810,11 @@
           "voidReason",
           "rowVersion",
           "createdAt",
-          "updatedAt"
-        ]
+          "updatedAt",
+          "financialProjection",
+          "laborSensitiveProjection"
+        ],
+        "additionalProperties": false
       },
       "ProjectActualCostType": {
         "type": "string",
@@ -27568,6 +28846,194 @@
           "payable-record",
           "labor"
         ]
+      },
+      "OperatingCostSensitiveProjection": {
+        "type": "object",
+        "properties": {
+          "amountExcludingTax": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "taxCostAmount": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "amountIncludingTax": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "sourceId": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "sourceRefNo": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "costDescription": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "evidenceSummary": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "taxImpactSummary": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "riskNote": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "voidReason": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "measurementBasisSummary": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          },
+          "sourceStatusSummary": {
+            "$ref": "#/components/schemas/OperatingFinanceSensitiveStringProjection"
+          }
+        },
+        "required": [
+          "amountExcludingTax",
+          "taxCostAmount",
+          "amountIncludingTax",
+          "sourceId",
+          "sourceRefNo",
+          "costDescription",
+          "evidenceSummary",
+          "taxImpactSummary",
+          "riskNote",
+          "voidReason",
+          "measurementBasisSummary",
+          "sourceStatusSummary"
+        ],
+        "additionalProperties": false
+      },
+      "LaborCostSensitiveProjection": {
+        "type": "object",
+        "properties": {
+          "laborPersonId": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "laborRole": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "actualHours": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "actualPersonDays": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "internalCostRate": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "rateVersionId": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "laborAmount": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "amountExcludingTax": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "taxCostAmount": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "amountIncludingTax": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "sourceId": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "sourceRefNo": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "sourceStatusSummary": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "measurementBasisSummary": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "costDescription": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "evidenceSummary": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "workSummary": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "taxImpactSummary": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "riskNote": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          },
+          "voidReason": {
+            "$ref": "#/components/schemas/LaborCostRateSensitiveStringProjection"
+          }
+        },
+        "required": [
+          "laborPersonId",
+          "laborRole",
+          "actualHours",
+          "actualPersonDays",
+          "internalCostRate",
+          "rateVersionId",
+          "laborAmount",
+          "amountExcludingTax",
+          "taxCostAmount",
+          "amountIncludingTax",
+          "sourceId",
+          "sourceRefNo",
+          "sourceStatusSummary",
+          "measurementBasisSummary",
+          "costDescription",
+          "evidenceSummary",
+          "workSummary",
+          "taxImpactSummary",
+          "riskNote",
+          "voidReason"
+        ],
+        "additionalProperties": false
+      },
+      "LaborCostRateSensitiveStringProjection": {
+        "type": "object",
+        "properties": {
+          "fieldPackageKey": {
+            "type": "string",
+            "enum": [
+              "labor-cost-rate"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "full",
+              "masked",
+              "denied"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayText": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "reasonCode": {
+            "type": "string",
+            "enum": [
+              "allowed",
+              "field-package-not-applicable",
+              "missing-sensitive-read-permission"
+            ]
+          }
+        },
+        "required": [
+          "fieldPackageKey",
+          "mode",
+          "value",
+          "displayText",
+          "reasonCode"
+        ],
+        "additionalProperties": false
       },
       "ProjectActualCostRecordListView": {
         "type": "array",
@@ -27655,14 +29121,26 @@
             "type": "string"
           },
           "amountExcludingTax": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "taxCostAmount": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "amountIncludingTax": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27684,15 +29162,26 @@
             "nullable": true
           },
           "sourceId": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
-            "maxLength": 64,
             "nullable": true
           },
           "sourceRefNo": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "evidenceSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27724,14 +29213,26 @@
             "nullable": true
           },
           "costDescription": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "taxImpactSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
           "riskNote": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27742,6 +29243,10 @@
             "nullable": true
           },
           "voidReason": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27762,6 +29267,10 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
           },
           "sourceStatusSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27770,6 +29279,10 @@
             "nullable": true
           },
           "measurementBasisSummary": {
+            "enum": [
+              null
+            ],
+            "description": "Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.",
             "type": "string",
             "nullable": true
           },
@@ -27782,16 +29295,6 @@
             "items": {
               "type": "string"
             }
-          },
-          "laborPersonId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "laborRole": {
-            "type": "string",
-            "nullable": true
           },
           "laborPeriodType": {
             "allOf": [
@@ -27813,34 +29316,24 @@
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
             "nullable": true
           },
-          "actualHours": {
-            "type": "string",
-            "nullable": true
-          },
-          "actualPersonDays": {
-            "type": "string",
-            "nullable": true
-          },
-          "internalCostRate": {
-            "type": "string",
-            "nullable": true
-          },
-          "rateVersionId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "laborAmount": {
-            "type": "string",
-            "nullable": true
-          },
-          "workSummary": {
-            "type": "string",
-            "nullable": true
-          },
           "deliveryStage": {
             "type": "string",
+            "nullable": true
+          },
+          "financialProjection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OperatingCostSensitiveProjection"
+              }
+            ],
+            "nullable": true
+          },
+          "laborSensitiveProjection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LaborCostSensitiveProjection"
+              }
+            ],
             "nullable": true
           }
         },
@@ -27889,19 +29382,14 @@
           "measurementBasisSummary",
           "supersedesSummary",
           "allowedActions",
-          "laborPersonId",
-          "laborRole",
           "laborPeriodType",
           "laborPeriodStart",
           "laborPeriodEnd",
-          "actualHours",
-          "actualPersonDays",
-          "internalCostRate",
-          "rateVersionId",
-          "laborAmount",
-          "workSummary",
-          "deliveryStage"
-        ]
+          "deliveryStage",
+          "financialProjection",
+          "laborSensitiveProjection"
+        ],
+        "additionalProperties": false
       },
       "ReplaceLaborCostRecordRequest": {
         "type": "object",
@@ -28630,6 +30118,11 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "nullable": true
           }
         },
         "required": [
@@ -28648,8 +30141,10 @@
           "closeReason",
           "rowVersion",
           "createdAt",
-          "updatedAt"
-        ]
+          "updatedAt",
+          "currencyCode"
+        ],
+        "additionalProperties": false
       },
       "InvoiceRecordType": {
         "type": "string",
@@ -28761,6 +30256,11 @@
             "items": {
               "type": "string"
             }
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "nullable": true
           }
         },
         "required": [
@@ -28780,8 +30280,10 @@
           "rowVersion",
           "createdAt",
           "updatedAt",
-          "allowedActions"
-        ]
+          "allowedActions",
+          "currencyCode"
+        ],
+        "additionalProperties": false
       },
       "CreateInvoiceRecordRequest": {
         "type": "object",
@@ -28807,6 +30309,10 @@
             "type": "string",
             "format": "date",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
           }
         },
         "required": [
@@ -28814,7 +30320,8 @@
           "invoiceNumber",
           "invoiceAmount",
           "invoiceDate"
-        ]
+        ],
+        "additionalProperties": false
       },
       "InvoiceRecordPatchableStatus": {
         "type": "string",
@@ -28856,8 +30363,13 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "currencyCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "MarkInvoiceExceptionRequest": {
         "type": "object",
@@ -29170,6 +30682,12 @@
             "items": {
               "$ref": "#/components/schemas/ContractHandoverContractItemSummary"
             }
+          },
+          "amountTotalsByCurrency": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContractHandoverCurrencyTotal"
+            }
           }
         },
         "required": [
@@ -29180,8 +30698,10 @@
           "currencyCodes",
           "earliestSignedAt",
           "latestSignedAt",
-          "contracts"
-        ]
+          "contracts",
+          "amountTotalsByCurrency"
+        ],
+        "additionalProperties": false
       },
       "ContractHandoverContractItemSummary": {
         "type": "object",
@@ -29225,6 +30745,22 @@
           "currentSnapshotId",
           "signedAt"
         ]
+      },
+      "ContractHandoverCurrencyTotal": {
+        "type": "object",
+        "properties": {
+          "currencyCode": {
+            "type": "string"
+          },
+          "totalSignedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          }
+        },
+        "required": [
+          "currencyCode",
+          "totalSignedAmountProjection"
+        ],
+        "additionalProperties": false
       },
       "ContractHandoverBaselineValidationSummary": {
         "type": "object",
@@ -29512,6 +31048,84 @@
           "blocked"
         ]
       },
+      "ProjectHandoverContractReadiness": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "readinessPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "preparationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "planVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "blocked",
+              "missing"
+            ]
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "contractId",
+          "readinessPackageId",
+          "preparationId",
+          "snapshotId",
+          "planVersionId",
+          "status",
+          "blockingReasons"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverAvailableParticipant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "id",
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
       "ContractHandoverSummaryView": {
         "type": "object",
         "properties": {
@@ -29571,6 +31185,29 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "projectRowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "contractReadiness": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverContractReadiness"
+            }
+          },
+          "availableParticipants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverAvailableParticipant"
+            }
           }
         },
         "required": [
@@ -29587,8 +31224,12 @@
           "exportPolicy",
           "allowedActions",
           "blockingReasons",
-          "generatedAt"
-        ]
+          "generatedAt",
+          "projectRowVersion",
+          "sourcePayloadHash",
+          "contractReadiness"
+        ],
+        "additionalProperties": false
       },
       "ProjectHandoverStatus": {
         "type": "string",
@@ -29713,6 +31354,12 @@
           "confirmedComment": {
             "type": "string",
             "nullable": true
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverResponsibilityInput"
+            }
           }
         },
         "required": [
@@ -29721,8 +31368,10 @@
           "participantDisplayName",
           "participantStatus",
           "confirmedAt",
-          "confirmedComment"
-        ]
+          "confirmedComment",
+          "responsibilities"
+        ],
+        "additionalProperties": false
       },
       "ProjectHandoverParticipantStatus": {
         "type": "string",
@@ -29730,6 +31379,34 @@
           "pending",
           "confirmed",
           "closed"
+        ]
+      },
+      "ProjectHandoverResponsibilityInput": {
+        "type": "object",
+        "properties": {
+          "roleKey": {
+            "$ref": "#/components/schemas/ProjectHandoverResponsibilityRole"
+          },
+          "responsibilitySummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "roleKey",
+          "responsibilitySummary"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverResponsibilityRole": {
+        "type": "string",
+        "enum": [
+          "sales-owner",
+          "business-admin",
+          "technical-support",
+          "execution-owner",
+          "finance"
         ]
       },
       "ProjectHandoverReceiptJudgmentModeSummary": {
@@ -29777,6 +31454,155 @@
           "project-receipt-judgment-freeze",
           "none"
         ]
+      },
+      "ProjectHandoverClosureStatus": {
+        "type": "string",
+        "enum": [
+          "not-started",
+          "handover-in-progress",
+          "handover-confirmed-freeze-pending",
+          "handover-completed-with-commission-freeze",
+          "review-required"
+        ]
+      },
+      "ProjectHandoverExecutionAdmission": {
+        "type": "object",
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "allowed",
+          "blockingReasons"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverBasisItemSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "itemType": {
+            "type": "string",
+            "enum": [
+              "scope",
+              "risk",
+              "receivable",
+              "cost",
+              "responsibility",
+              "attachment",
+              "contract"
+            ]
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string",
+            "description": "Safe constant template from registered source type, UUID, canonical version/status only; never raw cost/risk/labor/finance payload or free explanation."
+          }
+        },
+        "required": [
+          "id",
+          "itemType",
+          "sourceType",
+          "sourceId",
+          "sourceVersion",
+          "summary"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverFrozenMaterials": {
+        "type": "object",
+        "properties": {
+          "basisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "contracts": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverFrozenMaterialContract"
+            }
+          }
+        },
+        "required": [
+          "basisSnapshotId",
+          "sourcePayloadHash",
+          "contracts"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverFrozenMaterialContract": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractTermSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "technicalCostPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "technicalCostVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "scopeItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalScopeItemView"
+            }
+          },
+          "riskItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalRiskItemView"
+            }
+          }
+        },
+        "required": [
+          "contractId",
+          "contractTermSnapshotId",
+          "technicalCostPackageId",
+          "technicalCostVersion",
+          "scopeItems",
+          "riskItems"
+        ],
+        "additionalProperties": false
       },
       "ProjectHandoverDetailView": {
         "type": "object",
@@ -29875,6 +31701,69 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "projectRowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$",
+            "nullable": true
+          },
+          "currentSourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "sourceChanged": {
+            "type": "boolean"
+          },
+          "executionOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "financeConfirmationRequired": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "closureStatus": {
+            "$ref": "#/components/schemas/ProjectHandoverClosureStatus"
+          },
+          "executionAdmission": {
+            "$ref": "#/components/schemas/ProjectHandoverExecutionAdmission"
+          },
+          "handoverBasisItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverBasisItemSummary"
+            }
+          },
+          "frozenMaterials": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectHandoverFrozenMaterials"
+              }
+            ],
+            "nullable": true
           }
         },
         "required": [
@@ -29898,8 +31787,21 @@
           "exportPolicy",
           "allowedActions",
           "blockingReasons",
-          "generatedAt"
-        ]
+          "generatedAt",
+          "projectRowVersion",
+          "handoverBasisSnapshotId",
+          "sourcePayloadHash",
+          "currentSourcePayloadHash",
+          "sourceChanged",
+          "executionOwnerUserId",
+          "financeConfirmationRequired",
+          "version",
+          "closureStatus",
+          "executionAdmission",
+          "handoverBasisItems",
+          "frozenMaterials"
+        ],
+        "additionalProperties": false
       },
       "ConfirmProjectHandoverParticipantConfirmationInput": {
         "type": "object",
@@ -29927,6 +31829,13 @@
           "participantStatus"
         ]
       },
+      "ProjectReceiptJudgmentMode": {
+        "type": "string",
+        "enum": [
+          "project-aggregate",
+          "contract-separate"
+        ]
+      },
       "ConfirmProjectHandoverRequest": {
         "type": "object",
         "properties": {
@@ -29942,9 +31851,7 @@
             }
           },
           "receiptJudgmentMode": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
+            "$ref": "#/components/schemas/ProjectReceiptJudgmentMode"
           },
           "contractSummarySnapshotId": {
             "type": "string",
@@ -29953,15 +31860,35 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
           }
         },
         "required": [
           "participantConfirmations",
-          "contractSummarySnapshotId"
-        ]
+          "contractSummarySnapshotId",
+          "expectedVersion",
+          "handoverBasisSnapshotId",
+          "summarySnapshotId",
+          "sourcePayloadHash"
+        ],
+        "additionalProperties": false
       },
       "ConfirmProjectHandoverResult": {
         "type": "object",
@@ -30008,6 +31935,23 @@
           },
           "exportPolicy": {
             "type": "string"
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "closureStatus": {
+            "$ref": "#/components/schemas/ProjectHandoverClosureStatus"
+          },
+          "executionAdmission": {
+            "$ref": "#/components/schemas/ProjectHandoverExecutionAdmission"
           }
         },
         "required": [
@@ -30019,8 +31963,13 @@
           "effectiveHandoverBaselineSnapshotId",
           "summarySnapshotId",
           "projectionLevel",
-          "exportPolicy"
-        ]
+          "exportPolicy",
+          "handoverBasisSnapshotId",
+          "sourcePayloadHash",
+          "closureStatus",
+          "executionAdmission"
+        ],
+        "additionalProperties": false
       },
       "RebaselineContractHandoverRequest": {
         "type": "object",
@@ -30051,17 +32000,37 @@
           },
           "expectedVersion": {
             "type": "integer",
-            "exclusiveMinimum": true,
-            "maximum": 9007199254740991,
-            "minimum": 0
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
           }
         },
         "required": [
           "contractAmendmentId",
           "rebaselineReason",
           "affectedHandoverItemIds",
-          "effectiveBaselineAfterId"
-        ]
+          "effectiveBaselineAfterId",
+          "expectedVersion",
+          "sourceHandoverId",
+          "handoverBasisSnapshotId",
+          "sourcePayloadHash"
+        ],
+        "additionalProperties": false
       },
       "RebaselineContractHandoverResult": {
         "type": "object",
@@ -30086,14 +32055,168 @@
             "enum": [
               "effective"
             ]
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "replacementHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "affectedHandoverItems": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverBasisItemSummary"
+            }
+          },
+          "currentHandoverBaselineSummary": {
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineSummary"
           }
         },
         "required": [
           "targetId",
           "rebaselineRecordId",
           "effectiveBaselineAfterId",
-          "resultStatus"
-        ]
+          "resultStatus",
+          "sourceHandoverId",
+          "replacementHandoverId",
+          "handoverBasisSnapshotId",
+          "contractSummarySnapshotId",
+          "summarySnapshotId",
+          "sourcePayloadHash",
+          "affectedHandoverItems",
+          "currentHandoverBaselineSummary"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverParticipantInput": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "responsibilities": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverResponsibilityInput"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "responsibilities"
+        ],
+        "additionalProperties": false
+      },
+      "PrepareProjectHandoverRequest": {
+        "type": "object",
+        "properties": {
+          "executionOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "participants": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverParticipantInput"
+            }
+          },
+          "financeConfirmationRequired": {
+            "type": "boolean"
+          },
+          "receiptJudgmentMode": {
+            "$ref": "#/components/schemas/ProjectReceiptJudgmentMode"
+          },
+          "expectedProjectVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "expectedSourceHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "expectedCurrentHandoverVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "executionOwnerUserId",
+          "participants",
+          "financeConfirmationRequired",
+          "receiptJudgmentMode",
+          "expectedProjectVersion",
+          "expectedSourceHash"
+        ],
+        "additionalProperties": false
+      },
+      "ConfirmProjectHandoverParticipantRequest": {
+        "type": "object",
+        "properties": {
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedConfirmationVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "summarySnapshotId",
+          "handoverBasisSnapshotId",
+          "expectedConfirmationVersion"
+        ],
+        "additionalProperties": false
       },
       "ApprovalType": {
         "type": "string",
@@ -30280,66 +32403,6 @@
             "minimum": 0
           }
         }
-      },
-      "CommandResult": {
-        "type": "object",
-        "properties": {
-          "targetId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-          },
-          "targetType": {
-            "type": "string"
-          },
-          "resultStatus": {
-            "type": "string"
-          },
-          "businessStatusAfter": {
-            "type": "string"
-          },
-          "approvalRecordId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "confirmationRecordId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "todoItemIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid",
-              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-            }
-          },
-          "snapshotId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          },
-          "preparationId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
-            "nullable": true
-          }
-        },
-        "required": [
-          "targetId",
-          "targetType",
-          "resultStatus",
-          "businessStatusAfter",
-          "approvalRecordId",
-          "confirmationRecordId",
-          "todoItemIds"
-        ]
       },
       "RejectApprovalRecordRequest": {
         "type": "object",
@@ -31155,11 +33218,17 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "contractAmendmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           }
         },
         "required": [
           "preparationId"
-        ]
+        ],
+        "additionalProperties": false
       },
       "SubmitContractReviewResult": {
         "type": "object",
@@ -31208,6 +33277,12 @@
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractAmendmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
           }
         },
         "required": [
@@ -31218,7 +33293,8 @@
           "approvalRecordId",
           "confirmationRecordId",
           "todoItemIds",
-          "preparationId"
+          "preparationId",
+          "contractAmendmentId"
         ],
         "additionalProperties": false
       },
@@ -31235,8 +33311,19 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "contractAmendmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "ActivateContractResult": {
         "type": "object",
@@ -31284,6 +33371,29 @@
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractAmendmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "beforeSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "snapshotVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "planVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
           }
         },
         "required": [
@@ -31295,7 +33405,11 @@
           "confirmationRecordId",
           "todoItemIds",
           "snapshotId",
-          "preparationId"
+          "preparationId",
+          "contractAmendmentId",
+          "beforeSnapshotId",
+          "snapshotVersion",
+          "planVersionId"
         ],
         "additionalProperties": false
       },
@@ -32012,6 +34126,32 @@
           "not-applicable"
         ]
       },
+      "ContractAmendmentPreparationInput": {
+        "type": "object",
+        "properties": {
+          "sourceSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedContractVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "sourceSnapshotId",
+          "reason",
+          "expectedContractVersion"
+        ],
+        "additionalProperties": false
+      },
       "CreateContractReadinessPackageRequest": {
         "type": "object",
         "properties": {
@@ -32077,6 +34217,9 @@
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
             "nullable": true
+          },
+          "amendment": {
+            "$ref": "#/components/schemas/ContractAmendmentPreparationInput"
           }
         },
         "required": [
@@ -32084,7 +34227,8 @@
           "contractId",
           "candidateTerms",
           "sourceBaselineId"
-        ]
+        ],
+        "additionalProperties": false
       },
       "ContractReadinessItem": {
         "type": "object",
@@ -32279,6 +34423,22 @@
             "items": {
               "$ref": "#/components/schemas/ContractReadinessItem"
             }
+          },
+          "contractAmendmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "sourceContractSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "amendmentStatus": {
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
@@ -32309,8 +34469,12 @@
           "updatedAt",
           "updatedBy",
           "allowedActions",
-          "items"
-        ]
+          "items",
+          "contractAmendmentId",
+          "sourceContractSnapshotId",
+          "amendmentStatus"
+        ],
+        "additionalProperties": false
       },
       "InitializeContractSnapshotFromReadinessPackageRequest": {
         "type": "object",
@@ -32334,11 +34498,17 @@
             "exclusiveMinimum": true,
             "maximum": 9007199254740991,
             "minimum": 0
+          },
+          "contractAmendmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
           }
         },
         "required": [
           "contractId"
-        ]
+        ],
+        "additionalProperties": false
       },
       "ReadinessInitializationResult": {
         "type": "object",
@@ -32410,11 +34580,17 @@
           },
           "planVersion": {
             "type": "integer",
-            "exclusiveMinimum": 0,
+            "minimum": -9007199254740991,
             "maximum": 9007199254740991,
             "nullable": true
           },
           "initRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "contractAmendmentId": {
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
@@ -32434,8 +34610,10 @@
           "newVersionId",
           "planVersionId",
           "planVersion",
-          "initRecordId"
-        ]
+          "initRecordId",
+          "contractAmendmentId"
+        ],
+        "additionalProperties": false
       },
       "InitializeReceivablePlanFromReadinessPackageRequest": {
         "type": "object",

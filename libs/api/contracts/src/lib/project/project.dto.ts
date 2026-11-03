@@ -32,9 +32,11 @@ import {
     ProjectWorkspaceGuidanceViewSchema,
     ReassignProjectOwnerRequestSchema,
     VoidProjectArchiveRecordRequestSchema,
-    UpdateProjectBasicInfoRequestSchema
-} from '@poms/shared-contracts';
-import { createZodDto } from '@poms/vendor-nestjs-zod';
+    UpdateProjectBasicInfoRequestSchema,
+    PrepareProjectHandoverRequestSchema,
+    ConfirmProjectHandoverParticipantRequestSchema,
+} from "@poms/shared-contracts";
+import { createZodDto } from "@poms/vendor-nestjs-zod";
 
 export class AcceptanceRecordDto extends createZodDto(AcceptanceRecordSummarySchema) {}
 
@@ -103,3 +105,7 @@ export class UpdateProjectBasicInfoRequestDto extends createZodDto(UpdateProject
 export class ReassignProjectOwnerRequestDto extends createZodDto(ReassignProjectOwnerRequestSchema) {}
 
 export class ProjectOwnerReassignmentResultDto extends createZodDto(ProjectOwnerReassignmentResultSchema) {}
+
+export class PrepareProjectHandoverRequestDto extends createZodDto(PrepareProjectHandoverRequestSchema) {}
+
+export class ConfirmProjectHandoverParticipantRequestDto extends createZodDto(ConfirmProjectHandoverParticipantRequestSchema) {}

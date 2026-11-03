@@ -1,0 +1,35 @@
+# R4 DEF 独立 S4 生成输入审查 21
+
+**Pass。仅允许本次精确 SourceCheckpoint → literal S4 pin → 原 write/check 序列，不是 G3 或运行验收。**
+
+- Root HEAD：`756d813c9578090fcf8e56821acce01b46b40420`；G2 工作树改动存在且未纳入实现认证。
+- 候选：`docs/design/rust-r4def/generator-input20/candidate20.json`。
+- 候选原字节 SHA-256：`f8ea513e9faa1d2d2a694349bd72c456ac5d756ad58853e94fb2bcd61e586384`。25个精确输入pin已逐字节匹配并保留副本，最终再次匹配。
+
+## 源与完整契约
+
+原完整ts-node exporter的exit0、stdout/stderr、冻结after spec和当前spec哈希一致；命令未使用transpile-only。当前239paths/293operations/626schemas，291旧method/path/operationId和595旧schema全保留；G1目标624个schema也全保留，仅显式新增两个frozenMaterials类型。refs和required闭合，无type:null/const。331个date-time pattern的静态见证均接受UTC Z、拒绝offset输入；不把静态见证当真实HTTP。
+
+material-delta19采用原R3已按project:read公开的scope/risk typed allowlist，字段和类型保持；新增两对象strict。没有sourceFacts、costItems、金额、个人费率或审批意见入口，没有新权限包/alias或新HTTP。真实冻结历史版本及hash、legacy null、参与人所见材料与确认一致仍须G3实跑。原G1 manifest06和历史Block原件保持。
+
+## Native与DTO
+
+冻结Native参考的1994条声明与G1原Shared移除meta后的AST完全相同，meta注册调用为0。六个非controller文件除import外AST不变；四controller的72个旧方法体只增加显式frozen输入校验，两条新D方法明确501，不补假数据、不认证新Node业务。新prepare/self DTO和既有contract detail DTO继续从当前Shared构造；公共metadata没有绑定frozen参考。
+
+## 六项保护与客户端
+
+生成器脚本对当前HEAD只有两处完整库存计数更新291→293、595→626。六保护均保留；六个protectedSources路径不变，指纹匹配；配置、JAR7.20.0及其hash、wrapper、ngVersion21、normalizer、metadata和其他baseline字段不变。
+
+baseline.sourceHead仍为永久S3 `4f78bd486ca2118e4700bae560cb25ff08c4b47d`，该对象是当前HEAD祖先。独立实际调用原assertFrozenSources在S4前按预期拒绝当前输入，未触发客户端生成。586个客户端规范化文件与before20完全相同，client worktree/index/untracked差异均为空。
+
+## 允许的下一步
+
+1. Root再次核25pins，精确暂存受审源与审查/checkpoint证据，保留其他未受审G2改动。
+2. 建立永久S4 SourceCheckpoint；不得squash或替换其身份。
+3. 把baseline.sourceHead唯一改为完整40位literal S4 SHA，禁止HEAD或其他moving ref。
+4. 核六protected源与S4/指纹一致，保持239/293/626全量库存及原配置/JAR/normalizer/metadata。
+5. 执行原`shared-api-client.mjs --write`，随后原`--check`，保存真实回执；不绕guard、不手写生成物。
+
+上述唯一受准许的checkpoint后baseline变化是sourceHead的literal pin。若其他源/契约/guard/配置变动，应保留本版并作精确增量审查。
+
+详细原件在`s4-input21-evidence/evidence.json`、`ast-evidence.json`、`controller-evidence.json`。本审查只写independent目录，未改产品/Issue/作者文件，未生成客户端。Rust实现、DB/HTTP/UI、source锁/历史/敏感/故障/并发/cleanup、G3/G4与关闭Issue均未认证；#101/#57保持Open。

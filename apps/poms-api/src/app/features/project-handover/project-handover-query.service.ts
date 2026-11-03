@@ -1,23 +1,32 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import type { ContractHandoverSummaryView, ProjectHandoverDetailView } from '@poms/shared-contracts';
-// Historical Native reference shape only; no new Rust readiness producer claim.
-import type { LegacyContractReadinessDetail as ContractReadinessDetail } from '../contract-readiness/contract-readiness.legacy-types';
-import type { UserPayload } from '@poms/shared-contracts';
-import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
-import { ConfirmationService, type ConfirmationProgress } from '../approval/confirmation.service';
-import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
-import { ContractReadinessService } from '../contract-readiness/contract-readiness.service';
-import { Contract } from '../contract/contract.entity';
-import { ContractService } from '../contract/contract.service';
-import { Project } from '../project/project.entity';
-import { ProjectService } from '../project/project.service';
-import type { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, ProjectHandover } from './project-handover.entity';
-import { ContractHandoverRebaselineRecordRepository, HandoverBaselineImpactItemRepository, ProjectHandoverRepository, ProjectReceiptJudgmentFreezeRepository } from './project-handover.repository';
+import type { ContractHandoverSummaryView, ProjectHandoverDetailView } from "../../core/rust-r4def-frozen-native-reference";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 
-const CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY = 'handover-confirmation';
-const CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL = 'handover-confirmation';
-const PROJECT_HANDOVER_TARGET_TYPE = 'project-handover';
-const PROJECT_HANDOVER_CONFIRMATION_TYPE = 'project-handover';
+// Historical Native reference shape only; no new Rust readiness producer claim.
+import type { LegacyContractReadinessDetail as ContractReadinessDetail } from "../contract-readiness/contract-readiness.legacy-types";
+import type { UserPayload } from "@poms/shared-contracts";
+import {
+    SensitiveFieldProjectionService,
+    type SensitiveFieldProjectionRequestContext,
+} from "../../core/sensitive-field-projection/sensitive-field-projection.service";
+import { ConfirmationService, type ConfirmationProgress } from "../approval/confirmation.service";
+import { ApprovalSummarySnapshotRepository } from "../approval-summary/approval-summary.repository";
+import { ContractReadinessService } from "../contract-readiness/contract-readiness.service";
+import { Contract } from "../contract/contract.entity";
+import { ContractService } from "../contract/contract.service";
+import { Project } from "../project/project.entity";
+import { ProjectService } from "../project/project.service";
+import type { ContractHandoverRebaselineRecord, HandoverBaselineImpactItem, ProjectHandover } from "./project-handover.entity";
+import {
+    ContractHandoverRebaselineRecordRepository,
+    HandoverBaselineImpactItemRepository,
+    ProjectHandoverRepository,
+    ProjectReceiptJudgmentFreezeRepository,
+} from "./project-handover.repository";
+
+const CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY = "handover-confirmation";
+const CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL = "handover-confirmation";
+const PROJECT_HANDOVER_TARGET_TYPE = "project-handover";
+const PROJECT_HANDOVER_CONFIRMATION_TYPE = "project-handover";
 
 @Injectable()
 export class ProjectHandoverQueryService {
@@ -28,27 +37,40 @@ export class ProjectHandoverQueryService {
         @Inject(ConfirmationService) private readonly confirmationService: ConfirmationService,
         @Inject(ApprovalSummarySnapshotRepository) private readonly approvalSummarySnapshotRepository: ApprovalSummarySnapshotRepository,
         @Inject(ProjectHandoverRepository) private readonly projectHandoverRepository: ProjectHandoverRepository,
-        @Inject(ContractHandoverRebaselineRecordRepository) private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
+        @Inject(ContractHandoverRebaselineRecordRepository)
+        private readonly contractHandoverRebaselineRecordRepository: ContractHandoverRebaselineRecordRepository,
         @Inject(HandoverBaselineImpactItemRepository) private readonly handoverBaselineImpactItemRepository: HandoverBaselineImpactItemRepository,
         @Inject(ProjectReceiptJudgmentFreezeRepository) private readonly projectReceiptJudgmentFreezeRepository: ProjectReceiptJudgmentFreezeRepository,
-        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService
+        @Inject(SensitiveFieldProjectionService) private readonly sensitiveFieldProjectionService: SensitiveFieldProjectionService,
     ) {}
 
-    async getContractHandoverSummary(projectId: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `contract-handover:${projectId}` }): Promise<ContractHandoverSummaryView> {
+    async getContractHandoverSummary(
+        projectId: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `contract-handover:${projectId}` },
+    ): Promise<ContractHandoverSummaryView> {
         const project = await this.findProjectOrThrow(projectId);
         const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
 
         return this.buildContractHandoverSummary(project, latestHandover, user, requestContext);
     }
 
-    async getProjectHandoverDetailByProjectId(projectId: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${projectId}` }): Promise<ProjectHandoverDetailView> {
+    async getProjectHandoverDetailByProjectId(
+        projectId: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${projectId}` },
+    ): Promise<ProjectHandoverDetailView> {
         const project = await this.findProjectOrThrow(projectId);
         const latestHandover = await this.findLatestProjectHandoverByProjectId(projectId);
 
         return this.buildProjectHandoverDetail(project, latestHandover, user, requestContext);
     }
 
-    async getProjectHandoverDetailByHandoverId(handoverId: string, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${handoverId}` }): Promise<ProjectHandoverDetailView> {
+    async getProjectHandoverDetailByHandoverId(
+        handoverId: string,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext = { path: `project-handover:${handoverId}` },
+    ): Promise<ProjectHandoverDetailView> {
         const handover = await this.projectHandoverRepository.findById(handoverId);
         if (!handover) {
             throw new NotFoundException(`ProjectHandover ${handoverId} not found`);
@@ -59,13 +81,23 @@ export class ProjectHandoverQueryService {
         return this.buildProjectHandoverDetail(project, handover, user, requestContext);
     }
 
-    private async buildContractHandoverSummary(project: Project, latestHandover: ProjectHandover | null, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext): Promise<ContractHandoverSummaryView> {
+    private async buildContractHandoverSummary(
+        project: Project,
+        latestHandover: ProjectHandover | null,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext,
+    ): Promise<ContractHandoverSummaryView> {
         const projectId = project.id;
         const [activeContracts, readiness, contractSummarySnapshot, handovers] = await Promise.all([
-            this.contractService.findMany({ projectId, status: 'active' }),
+            this.contractService.findMany({ projectId, status: "active" }),
             this.findCurrentContractReadiness(projectId),
-            this.approvalSummarySnapshotRepository.findActiveByTarget('project', projectId, CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY, CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL),
-            latestHandover ? Promise.resolve([latestHandover]) : this.projectHandoverRepository.findByProjectId(projectId)
+            this.approvalSummarySnapshotRepository.findActiveByTarget(
+                "project",
+                projectId,
+                CONTRACT_HANDOVER_SUMMARY_SCENARIO_KEY,
+                CONTRACT_HANDOVER_SUMMARY_PROJECTION_LEVEL,
+            ),
+            latestHandover ? Promise.resolve([latestHandover]) : this.projectHandoverRepository.findByProjectId(projectId),
         ]);
 
         const selectedHandover = latestHandover ?? handovers[0] ?? null;
@@ -93,27 +125,39 @@ export class ProjectHandoverQueryService {
             exportPolicy: contractSummarySnapshot?.exportPolicy ?? null,
             allowedActions: this.buildAllowedActions(blockingReasons, readiness, contractSummarySnapshot),
             blockingReasons,
-            generatedAt: new Date().toISOString()
+            generatedAt: new Date().toISOString(),
         };
     }
 
-    private async buildProjectHandoverDetail(project: Project, handover: ProjectHandover | null, user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext): Promise<ProjectHandoverDetailView> {
+    private async buildProjectHandoverDetail(
+        project: Project,
+        handover: ProjectHandover | null,
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext,
+    ): Promise<ProjectHandoverDetailView> {
         const [contractHandoverSummary, handoverSummarySnapshot, confirmationProgress] = await Promise.all([
             this.buildContractHandoverSummary(project, handover, user, requestContext),
             handover?.summarySnapshotId ? this.approvalSummarySnapshotRepository.findById(handover.summarySnapshotId) : Promise.resolve(null),
-            handover ? this.confirmationService.findLatestConfirmationProgressByTarget(PROJECT_HANDOVER_TARGET_TYPE, handover.id, PROJECT_HANDOVER_CONFIRMATION_TYPE) : Promise.resolve(null)
+            handover
+                ? this.confirmationService.findLatestConfirmationProgressByTarget(PROJECT_HANDOVER_TARGET_TYPE, handover.id, PROJECT_HANDOVER_CONFIRMATION_TYPE)
+                : Promise.resolve(null),
         ]);
 
         const participantConfirmationSummary = this.buildParticipantConfirmationSummary(confirmationProgress);
         const receiptJudgmentModeSummary = await this.buildReceiptJudgmentModeSummary(project.id);
-        const blockingReasons = this.buildProjectHandoverBlockingReasons(handover, contractHandoverSummary.blockingReasons, handoverSummarySnapshot, participantConfirmationSummary);
+        const blockingReasons = this.buildProjectHandoverBlockingReasons(
+            handover,
+            contractHandoverSummary.blockingReasons,
+            handoverSummarySnapshot,
+            participantConfirmationSummary,
+        );
 
         return {
             handoverId: handover?.id ?? null,
             projectId: project.id,
             projectNo: project.projectNo,
             projectName: project.projectName,
-            handoverStatus: handover?.status ?? 'not-started',
+            handoverStatus: handover?.status ?? "not-started",
             confirmedAt: handover?.confirmedAt?.toISOString() ?? null,
             confirmedBy: handover?.confirmedBy ?? null,
             comment: handover?.comment ?? null,
@@ -129,7 +173,7 @@ export class ProjectHandoverQueryService {
             exportPolicy: handoverSummarySnapshot?.exportPolicy ?? null,
             allowedActions: this.buildProjectHandoverAllowedActions(handover, blockingReasons, contractHandoverSummary.allowedActions, handoverSummarySnapshot),
             blockingReasons,
-            generatedAt: new Date().toISOString()
+            generatedAt: new Date().toISOString(),
         };
     }
 
@@ -147,10 +191,12 @@ export class ProjectHandoverQueryService {
         return handovers[0] ?? null;
     }
 
-    private buildParticipantConfirmationSummary(confirmationProgress: ConfirmationProgress | null): ProjectHandoverDetailView['participantConfirmationSummary'] {
+    private buildParticipantConfirmationSummary(
+        confirmationProgress: ConfirmationProgress | null,
+    ): ProjectHandoverDetailView["participantConfirmationSummary"] {
         if (!confirmationProgress) {
             return {
-                status: 'not-started',
+                status: "not-started",
                 confirmationRecordId: null,
                 requiredCount: 0,
                 confirmedCount: 0,
@@ -160,12 +206,12 @@ export class ProjectHandoverQueryService {
                 confirmedAt: null,
                 closedAt: null,
                 rowVersion: null,
-                participants: []
+                participants: [],
             };
         }
 
-        const pendingCount = confirmationProgress.participants.filter((participant) => participant.participantStatus === 'pending').length;
-        const closedCount = confirmationProgress.participants.filter((participant) => participant.participantStatus === 'closed').length;
+        const pendingCount = confirmationProgress.participants.filter(participant => participant.participantStatus === "pending").length;
+        const closedCount = confirmationProgress.participants.filter(participant => participant.participantStatus === "closed").length;
 
         return {
             status: this.mapParticipantConfirmationStatus(confirmationProgress.status),
@@ -178,36 +224,36 @@ export class ProjectHandoverQueryService {
             confirmedAt: confirmationProgress.confirmedAt,
             closedAt: confirmationProgress.closedAt,
             rowVersion: confirmationProgress.rowVersion,
-            participants: confirmationProgress.participants
+            participants: confirmationProgress.participants,
         };
     }
 
-    private mapParticipantConfirmationStatus(status: string): ProjectHandoverDetailView['participantConfirmationSummary']['status'] {
-        if (status === 'confirmed' || status === 'closed') {
+    private mapParticipantConfirmationStatus(status: string): ProjectHandoverDetailView["participantConfirmationSummary"]["status"] {
+        if (status === "confirmed" || status === "closed") {
             return status;
         }
 
-        return 'pending';
+        return "pending";
     }
 
-    private async buildReceiptJudgmentModeSummary(projectId: string): Promise<ProjectHandoverDetailView['receiptJudgmentModeSummary']> {
+    private async buildReceiptJudgmentModeSummary(projectId: string): Promise<ProjectHandoverDetailView["receiptJudgmentModeSummary"]> {
         const currentFreeze = await this.projectReceiptJudgmentFreezeRepository.findCurrentByProjectId(projectId);
         if (currentFreeze) {
             return {
-                status: 'frozen',
+                status: "frozen",
                 receiptJudgmentMode: currentFreeze.receiptJudgmentMode,
                 sourceType: currentFreeze.sourceType,
                 sourceId: currentFreeze.sourceId,
-                summary: `Receipt judgment mode is frozen from ${currentFreeze.sourceType} ${currentFreeze.sourceId}`
+                summary: `Receipt judgment mode is frozen from ${currentFreeze.sourceType} ${currentFreeze.sourceId}`,
             };
         }
 
         return {
-            status: 'not-frozen',
+            status: "not-frozen",
             receiptJudgmentMode: null,
-            sourceType: 'none',
+            sourceType: "none",
             sourceId: null,
-            summary: 'Receipt judgment mode is frozen by confirmProjectHandover or the downstream receipt judgment freeze chain'
+            summary: "Receipt judgment mode is frozen by confirmProjectHandover or the downstream receipt judgment freeze chain",
         };
     }
 
@@ -215,42 +261,47 @@ export class ProjectHandoverQueryService {
         handover: ProjectHandover | null,
         contractBlockingReasons: string[],
         handoverSummarySnapshot: { id: string } | null,
-        participantConfirmationSummary: ProjectHandoverDetailView['participantConfirmationSummary']
+        participantConfirmationSummary: ProjectHandoverDetailView["participantConfirmationSummary"],
     ): string[] {
         const reasons = [...contractBlockingReasons];
 
         if (!handover) {
-            reasons.push('Project handover record is not prepared');
+            reasons.push("Project handover record is not prepared");
         } else {
             if (!handoverSummarySnapshot) {
-                reasons.push('Project handover summary snapshot is not generated');
+                reasons.push("Project handover summary snapshot is not generated");
             }
 
-            if (participantConfirmationSummary.status === 'not-started') {
-                reasons.push('Project handover participant confirmation is not started');
-            } else if (participantConfirmationSummary.status === 'pending') {
-                reasons.push('Project handover participant confirmation is not complete');
-            } else if (participantConfirmationSummary.status === 'closed') {
-                reasons.push('Project handover participant confirmation is closed');
+            if (participantConfirmationSummary.status === "not-started") {
+                reasons.push("Project handover participant confirmation is not started");
+            } else if (participantConfirmationSummary.status === "pending") {
+                reasons.push("Project handover participant confirmation is not complete");
+            } else if (participantConfirmationSummary.status === "closed") {
+                reasons.push("Project handover participant confirmation is closed");
             }
         }
 
         return [...new Set(reasons)];
     }
 
-    private buildProjectHandoverAllowedActions(handover: ProjectHandover | null, blockingReasons: string[], contractAllowedActions: string[], handoverSummarySnapshot: { id: string } | null): string[] {
-        const actions = new Set(contractAllowedActions.filter((action) => action !== 'confirm-project-handover'));
+    private buildProjectHandoverAllowedActions(
+        handover: ProjectHandover | null,
+        blockingReasons: string[],
+        contractAllowedActions: string[],
+        handoverSummarySnapshot: { id: string } | null,
+    ): string[] {
+        const actions = new Set(contractAllowedActions.filter(action => action !== "confirm-project-handover"));
 
         if (handover && !handoverSummarySnapshot) {
-            actions.add('generate-project-handover-summary-snapshot');
+            actions.add("generate-project-handover-summary-snapshot");
         }
 
-        if (handover && blockingReasons.length === 0 && handover.status === 'draft') {
-            actions.add('confirm-project-handover');
+        if (handover && blockingReasons.length === 0 && handover.status === "draft") {
+            actions.add("confirm-project-handover");
         }
 
-        if (!handover && contractAllowedActions.includes('confirm-project-handover')) {
-            actions.add('prepare-project-handover');
+        if (!handover && contractAllowedActions.includes("confirm-project-handover")) {
+            actions.add("prepare-project-handover");
         }
 
         return [...actions];
@@ -276,42 +327,47 @@ export class ProjectHandoverQueryService {
         return handover?.handoverRebaselineRecordId ? this.contractHandoverRebaselineRecordRepository.findById(handover.handoverRebaselineRecordId) : null;
     }
 
-    private async buildEffectiveContractSetSummary(activeContracts: Contract[], user: UserPayload, requestContext: SensitiveFieldProjectionRequestContext, projectId: string): Promise<ContractHandoverSummaryView['effectiveContractSetSummary']> {
+    private async buildEffectiveContractSetSummary(
+        activeContracts: Contract[],
+        user: UserPayload,
+        requestContext: SensitiveFieldProjectionRequestContext,
+        projectId: string,
+    ): Promise<ContractHandoverSummaryView["effectiveContractSetSummary"]> {
         const signedDates = activeContracts
-            .map((contract) => contract.signedAt)
+            .map(contract => contract.signedAt)
             .filter((signedAt): signedAt is Date => Boolean(signedAt))
             .sort((a, b) => a.getTime() - b.getTime());
-        const totalSignedAmount = sumMoneyStrings(activeContracts.map((contract) => contract.signedAmount));
-        const currencyCodes = [...new Set(activeContracts.map((contract) => contract.currencyCode))].sort();
+        const totalSignedAmount = sumMoneyStrings(activeContracts.map(contract => contract.signedAmount));
+        const currencyCodes = [...new Set(activeContracts.map(contract => contract.currencyCode))].sort();
         const [totalSignedAmountProjection, contractProjections] = await Promise.all([
             this.sensitiveFieldProjectionService.projectStringField({
-                fieldPackageKey: 'contract-finance',
+                fieldPackageKey: "contract-finance",
                 rawValue: activeContracts.length > 0 ? totalSignedAmount : null,
-                displayTextWhenFull: activeContracts.length > 0 ? `${totalSignedAmount} ${currencyCodes.join(' / ')}` : null,
+                displayTextWhenFull: activeContracts.length > 0 ? `${totalSignedAmount} ${currencyCodes.join(" / ")}` : null,
                 user,
-                targetType: 'project',
+                targetType: "project",
                 targetId: projectId,
-                requestContext
+                requestContext,
             }),
             Promise.all(
-                activeContracts.map((contract) =>
+                activeContracts.map(contract =>
                     this.sensitiveFieldProjectionService.projectStringField({
-                        fieldPackageKey: 'contract-finance',
+                        fieldPackageKey: "contract-finance",
                         rawValue: contract.signedAmount,
                         displayTextWhenFull: `${contract.signedAmount} ${contract.currencyCode}`,
                         user,
-                        targetType: 'contract',
+                        targetType: "contract",
                         targetId: contract.id,
-                        requestContext
-                    })
-                )
-            )
+                        requestContext,
+                    }),
+                ),
+            ),
         ]);
 
         return {
             activeContractCount: activeContracts.length,
-            activeContractIds: activeContracts.map((contract) => contract.id),
-            contractNos: activeContracts.map((contract) => contract.contractNo),
+            activeContractIds: activeContracts.map(contract => contract.id),
+            contractNos: activeContracts.map(contract => contract.contractNo),
             totalSignedAmountProjection,
             currencyCodes,
             earliestSignedAt: signedDates[0]?.toISOString() ?? null,
@@ -323,15 +379,15 @@ export class ProjectHandoverQueryService {
                 signedAmountProjection: contractProjections[index] ?? totalSignedAmountProjection,
                 currencyCode: contract.currencyCode,
                 currentSnapshotId: contract.currentSnapshotId ?? null,
-                signedAt: contract.signedAt?.toISOString() ?? null
-            }))
+                signedAt: contract.signedAt?.toISOString() ?? null,
+            })),
         };
     }
 
-    private buildBaselineValidationSummary(readiness: ContractReadinessDetail | null): ContractHandoverSummaryView['contractBaselineValidationSummary'] {
+    private buildBaselineValidationSummary(readiness: ContractReadinessDetail | null): ContractHandoverSummaryView["contractBaselineValidationSummary"] {
         if (!readiness) {
             return {
-                status: 'missing',
+                status: "missing",
                 readinessPackageId: null,
                 sourceBaselineId: null,
                 latestDiffResultId: null,
@@ -341,15 +397,15 @@ export class ProjectHandoverQueryService {
                 guardDecision: null,
                 initializedContractSnapshotId: null,
                 contractSnapshotInitializedAt: null,
-                blockingReasonSummary: 'No current ContractReadinessPackage found for project',
-                missingPrerequisiteCount: 1
+                blockingReasonSummary: "No current ContractReadinessPackage found for project",
+                missingPrerequisiteCount: 1,
             };
         }
 
         const ready = this.isReadinessReady(readiness);
 
         return {
-            status: ready ? 'ready' : 'blocked',
+            status: ready ? "ready" : "blocked",
             readinessPackageId: readiness.id,
             sourceBaselineId: readiness.sourceBaselineId,
             latestDiffResultId: readiness.latestDiffResultId,
@@ -360,64 +416,67 @@ export class ProjectHandoverQueryService {
             initializedContractSnapshotId: readiness.initializedContractSnapshotId,
             contractSnapshotInitializedAt: readiness.contractSnapshotInitializedAt,
             blockingReasonSummary: ready ? null : (readiness.blockingReasonSummary ?? this.mapDiffBlockingReason(readiness)),
-            missingPrerequisiteCount: readiness.missingPrerequisiteCount
+            missingPrerequisiteCount: readiness.missingPrerequisiteCount,
         };
     }
 
     private buildCurrentHandoverBaselineSummary(
         readiness: ContractReadinessDetail | null,
         latestHandover: ProjectHandover | null,
-        latestRebaseline: ContractHandoverRebaselineRecord | null
-    ): ContractHandoverSummaryView['currentHandoverBaselineSummary'] {
-        if (latestRebaseline?.status === 'effective') {
+        latestRebaseline: ContractHandoverRebaselineRecord | null,
+    ): ContractHandoverSummaryView["currentHandoverBaselineSummary"] {
+        if (latestRebaseline?.status === "effective") {
             return {
-                status: 'available',
+                status: "available",
                 baselineSnapshotId: latestRebaseline.effectiveBaselineAfterId,
-                sourceType: 'handover-rebaseline',
+                sourceType: "handover-rebaseline",
                 sourceId: latestRebaseline.id,
-                summary: 'Current handover baseline comes from the latest effective handover rebaseline record'
+                summary: "Current handover baseline comes from the latest effective handover rebaseline record",
             };
         }
 
         if (latestHandover?.effectiveHandoverBaselineSnapshotId) {
             return {
-                status: 'available',
+                status: "available",
                 baselineSnapshotId: latestHandover.effectiveHandoverBaselineSnapshotId,
-                sourceType: 'project-handover',
+                sourceType: "project-handover",
                 sourceId: latestHandover.id,
-                summary: 'Current handover baseline comes from the latest project handover record'
+                summary: "Current handover baseline comes from the latest project handover record",
             };
         }
 
         if (readiness?.initializedContractSnapshotId) {
             return {
-                status: 'available',
+                status: "available",
                 baselineSnapshotId: readiness.initializedContractSnapshotId,
-                sourceType: 'contract-readiness',
+                sourceType: "contract-readiness",
                 sourceId: readiness.id,
-                summary: 'Current handover baseline comes from the current contract readiness package'
+                summary: "Current handover baseline comes from the current contract readiness package",
             };
         }
 
         return {
-            status: 'missing',
+            status: "missing",
             baselineSnapshotId: null,
-            sourceType: 'none',
+            sourceType: "none",
             sourceId: null,
-            summary: 'No initialized contract snapshot or effective handover baseline is available'
+            summary: "No initialized contract snapshot or effective handover baseline is available",
         };
     }
 
-    private buildLatestRebaselineSummary(latestRebaseline: ContractHandoverRebaselineRecord | null, impactItems: HandoverBaselineImpactItem[]): ContractHandoverSummaryView['latestHandoverRebaselineSummary'] {
+    private buildLatestRebaselineSummary(
+        latestRebaseline: ContractHandoverRebaselineRecord | null,
+        impactItems: HandoverBaselineImpactItem[],
+    ): ContractHandoverSummaryView["latestHandoverRebaselineSummary"] {
         if (!latestRebaseline) {
             return {
-                status: 'none',
+                status: "none",
                 rebaselineRecordId: null,
                 effectiveBaselineAfterId: null,
                 handledAt: null,
-                blockingStatus: 'none',
+                blockingStatus: "none",
                 impactItemCount: 0,
-                impactSummary: null
+                impactSummary: null,
             };
         }
 
@@ -426,130 +485,145 @@ export class ProjectHandoverQueryService {
             rebaselineRecordId: latestRebaseline.id,
             effectiveBaselineAfterId: latestRebaseline.effectiveBaselineAfterId,
             handledAt: latestRebaseline.handledAt.toISOString(),
-            blockingStatus: ['processing', 'pending-effective'].includes(latestRebaseline.status) ? 'blocking' : latestRebaseline.status === 'effective' ? 'effective' : 'none',
+            blockingStatus: ["processing", "pending-effective"].includes(latestRebaseline.status)
+                ? "blocking"
+                : latestRebaseline.status === "effective"
+                  ? "effective"
+                  : "none",
             impactItemCount: impactItems.length,
-            impactSummary: impactItems.length === 0 ? null : impactItems.map((item) => `${item.impactType}: ${item.impactSummary}`).join('\n')
+            impactSummary: impactItems.length === 0 ? null : impactItems.map(item => `${item.impactType}: ${item.impactSummary}`).join("\n"),
         };
     }
 
-    private buildReceivablePlanInitSummary(readiness: ContractReadinessDetail | null): ContractHandoverSummaryView['receivablePlanInitSummary'] {
+    private buildReceivablePlanInitSummary(readiness: ContractReadinessDetail | null): ContractHandoverSummaryView["receivablePlanInitSummary"] {
         if (!readiness) {
             return {
-                status: 'blocked',
+                status: "blocked",
                 initializedReceivablePlanVersionId: null,
                 receivablePlanInitializedAt: null,
-                summary: 'No current ContractReadinessPackage found for receivable plan initialization'
+                summary: "No current ContractReadinessPackage found for receivable plan initialization",
             };
         }
 
         if (readiness.initializedReceivablePlanVersionId) {
             return {
-                status: 'initialized',
+                status: "initialized",
                 initializedReceivablePlanVersionId: readiness.initializedReceivablePlanVersionId,
                 receivablePlanInitializedAt: readiness.receivablePlanInitializedAt,
-                summary: 'Receivable plan has been initialized from the current contract readiness package'
+                summary: "Receivable plan has been initialized from the current contract readiness package",
             };
         }
 
         return {
-            status: this.isReadinessReady(readiness) ? 'missing' : 'blocked',
+            status: this.isReadinessReady(readiness) ? "missing" : "blocked",
             initializedReceivablePlanVersionId: null,
             receivablePlanInitializedAt: null,
-            summary: this.isReadinessReady(readiness) ? 'Receivable plan is not initialized from the current contract readiness package' : 'Contract readiness is not ready, receivable plan initialization is blocked'
+            summary: this.isReadinessReady(readiness)
+                ? "Receivable plan is not initialized from the current contract readiness package"
+                : "Contract readiness is not ready, receivable plan initialization is blocked",
         };
     }
 
-    private buildBlockingReasons(activeContracts: Contract[], readiness: ContractReadinessDetail | null, contractSummarySnapshot: { id: string } | null, latestRebaseline: ContractHandoverRebaselineRecord | null): string[] {
+    private buildBlockingReasons(
+        activeContracts: Contract[],
+        readiness: ContractReadinessDetail | null,
+        contractSummarySnapshot: { id: string } | null,
+        latestRebaseline: ContractHandoverRebaselineRecord | null,
+    ): string[] {
         const reasons: string[] = [];
 
         if (activeContracts.length === 0) {
-            reasons.push('No active contract is available for project handover');
+            reasons.push("No active contract is available for project handover");
         }
 
         if (!readiness) {
-            reasons.push('No current ContractReadinessPackage found for project');
+            reasons.push("No current ContractReadinessPackage found for project");
         } else {
             if (!this.isReadinessReady(readiness)) {
                 reasons.push(readiness.blockingReasonSummary ?? this.mapDiffBlockingReason(readiness));
             }
             if (!readiness.initializedContractSnapshotId) {
-                reasons.push('Current contract snapshot is not initialized from readiness package');
+                reasons.push("Current contract snapshot is not initialized from readiness package");
             }
             if (!readiness.initializedReceivablePlanVersionId) {
-                reasons.push('Receivable plan is not initialized from readiness package');
+                reasons.push("Receivable plan is not initialized from readiness package");
             }
         }
 
         if (!contractSummarySnapshot) {
-            reasons.push('Contract handover summary snapshot is not generated');
+            reasons.push("Contract handover summary snapshot is not generated");
         }
 
-        if (latestRebaseline && ['processing', 'pending-effective'].includes(latestRebaseline.status)) {
+        if (latestRebaseline && ["processing", "pending-effective"].includes(latestRebaseline.status)) {
             reasons.push(`Handover rebaseline record ${latestRebaseline.id} is still ${latestRebaseline.status}`);
         }
 
         return [...new Set(reasons)];
     }
 
-    private buildAllowedActions(blockingReasons: string[], readiness: ContractReadinessDetail | null, contractSummarySnapshot: { id: string } | null): string[] {
+    private buildAllowedActions(
+        blockingReasons: string[],
+        readiness: ContractReadinessDetail | null,
+        contractSummarySnapshot: { id: string } | null,
+    ): string[] {
         const actions: string[] = [];
         const readinessReady = readiness ? this.isReadinessReady(readiness) : false;
 
         if (readinessReady && !contractSummarySnapshot) {
-            actions.push('generate-contract-handover-summary-snapshot');
+            actions.push("generate-contract-handover-summary-snapshot");
         }
 
         if (blockingReasons.length === 0) {
-            actions.push('confirm-project-handover');
+            actions.push("confirm-project-handover");
         }
 
         return actions;
     }
 
     private isReadinessReady(readiness: ContractReadinessDetail): boolean {
-        return readiness.guardDecision === 'allowed' && readiness.packageStatus !== 'blocked' && this.isDiffReadyForContract(readiness);
+        return readiness.guardDecision === "allowed" && readiness.packageStatus !== "blocked" && this.isDiffReadyForContract(readiness);
     }
 
     private isDiffReadyForContract(readiness: ContractReadinessDetail): boolean {
-        if (readiness.diffLevel === 'prompt') {
+        if (readiness.diffLevel === "prompt") {
             return true;
         }
 
-        if (readiness.diffLevel === 'review-required') {
-            return readiness.reviewStatus === 'approved';
+        if (readiness.diffLevel === "review-required") {
+            return readiness.reviewStatus === "approved";
         }
 
         return false;
     }
 
     private mapDiffBlockingReason(readiness: ContractReadinessDetail): string {
-        if (readiness.diffLevel === 'review-required' && readiness.reviewStatus !== 'approved') {
-            return 'Commercial release baseline diff still requires review approval before project handover';
+        if (readiness.diffLevel === "review-required" && readiness.reviewStatus !== "approved") {
+            return "Commercial release baseline diff still requires review approval before project handover";
         }
 
-        if (readiness.diffLevel === 'reapproval-required') {
-            return 'Commercial release baseline diff requires a new baseline before project handover';
+        if (readiness.diffLevel === "reapproval-required") {
+            return "Commercial release baseline diff requires a new baseline before project handover";
         }
 
-        if (readiness.guardDecision !== 'allowed') {
+        if (readiness.guardDecision !== "allowed") {
             return `Contract readiness guard decision is ${readiness.guardDecision}`;
         }
 
-        return 'Contract readiness is not ready for project handover';
+        return "Contract readiness is not ready for project handover";
     }
 }
 
 function sumMoneyStrings(values: string[]): string {
     const totalCents = values.reduce((sum, value) => sum + toCents(value), 0n);
-    const sign = totalCents < 0n ? '-' : '';
+    const sign = totalCents < 0n ? "-" : "";
     const abs = totalCents < 0n ? -totalCents : totalCents;
-    return `${sign}${abs / 100n}.${String(abs % 100n).padStart(2, '0')}`;
+    return `${sign}${abs / 100n}.${String(abs % 100n).padStart(2, "0")}`;
 }
 
 function toCents(value: string): bigint {
     const normalized = value.trim();
-    const sign = normalized.startsWith('-') ? -1n : 1n;
-    const [integerPart, decimalPart = ''] = normalized.replace(/^-/, '').split('.');
-    const cents = BigInt(integerPart || '0') * 100n + BigInt(decimalPart.padEnd(2, '0').slice(0, 2) || '0');
+    const sign = normalized.startsWith("-") ? -1n : 1n;
+    const [integerPart, decimalPart = ""] = normalized.replace(/^-/, "").split(".");
+    const cents = BigInt(integerPart || "0") * 100n + BigInt(decimalPart.padEnd(2, "0").slice(0, 2) || "0");
     return sign * cents;
 }

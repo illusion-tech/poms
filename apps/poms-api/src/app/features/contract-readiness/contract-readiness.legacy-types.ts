@@ -1,21 +1,10 @@
+import type { ContractReadinessDetail, CreateContractReadinessPackageRequest } from "../../core/rust-r4def-frozen-native-reference";
 /**
  * Historical Native reference shapes only. This adapter does not implement or
  * certify R4's real prepared terms, review binding, snapshot or receivable plan.
  * Never fill a new required identity with one of the old random UUID markers.
  */
-import type {
-    CommercialBaselineReviewRecordSummary,
-    CommercialDiffLevel,
-    CommercialDiffReviewStatus,
-    CommercialReleaseBaselineSummary,
-    ContractDiffReviewHistoryView,
-    ContractReadinessDetail,
-    ContractReadinessGuardDecision,
-    ContractReadinessStatus,
-    CreateCommercialReleaseBaselineRequest,
-    CreateContractReadinessPackageRequest,
-    ReviewCommercialReleaseBaselineDiffRequest
-} from '@poms/shared-contracts';
+import type { CommercialBaselineReviewRecordSummary, CommercialDiffLevel, CommercialDiffReviewStatus, CommercialReleaseBaselineSummary, ContractDiffReviewHistoryView, ContractReadinessGuardDecision, ContractReadinessStatus, CreateCommercialReleaseBaselineRequest, ReviewCommercialReleaseBaselineDiffRequest } from '@poms/shared-contracts';
 
 export type LegacyCommercialReleaseBaselineSummary = Omit<
     CommercialReleaseBaselineSummary,

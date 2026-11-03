@@ -48,9 +48,16 @@ import {
     SharedCostAllocationResultSummarySchema,
     OperatingSignalEvaluationViewSchema,
     UpdateExpenseRecordRequestSchema,
-    VoidExpenseRecordRequestSchema
-} from '@poms/shared-contracts';
-import { createZodDto } from '@poms/vendor-nestjs-zod';
+    VoidExpenseRecordRequestSchema,
+    ConfirmSharedCostAllocationBasisResultSchema,
+    ReplaceSharedCostAllocationResultResultSchema,
+    ConfirmCostStageAttributionResultSchema,
+    ReclassifyCostStageAttributionResultSchema,
+    ConfirmAccountingTaxTreatmentResultSchema,
+    ReplaceAccountingTaxTreatmentResultSchema,
+    CommandResultSchema,
+} from "@poms/shared-contracts";
+import { createZodDto } from "@poms/vendor-nestjs-zod";
 
 export class ExpenseRecordDto extends createZodDto(ExpenseRecordSummarySchema) {}
 
@@ -140,24 +147,28 @@ export class ProjectActualCostRecordListViewDto extends createZodDto(ProjectActu
 
 export class ProjectActualCostRecordDetailViewDto extends createZodDto(ProjectActualCostRecordDetailViewSchema) {}
 
-export class CreatePaymentFactProjectActualCostRecordRequestDto extends createZodDto(
-    CreatePaymentFactProjectActualCostRecordRequestSchema
-) {}
+export class CreatePaymentFactProjectActualCostRecordRequestDto extends createZodDto(CreatePaymentFactProjectActualCostRecordRequestSchema) {}
 
-export class CreateInvoiceProjectActualCostRecordRequestDto extends createZodDto(
-    CreateInvoiceProjectActualCostRecordRequestSchema
-) {}
+export class CreateInvoiceProjectActualCostRecordRequestDto extends createZodDto(CreateInvoiceProjectActualCostRecordRequestSchema) {}
 
-export class CreateExpenseProjectActualCostRecordRequestDto extends createZodDto(
-    CreateExpenseProjectActualCostRecordRequestSchema
-) {}
+export class CreateExpenseProjectActualCostRecordRequestDto extends createZodDto(CreateExpenseProjectActualCostRecordRequestSchema) {}
 
-export class CreateProcurementProjectActualCostRecordRequestDto extends createZodDto(
-    CreateProcurementProjectActualCostRecordRequestSchema
-) {}
+export class CreateProcurementProjectActualCostRecordRequestDto extends createZodDto(CreateProcurementProjectActualCostRecordRequestSchema) {}
 
-export class CreateLaborProjectActualCostRecordRequestDto extends createZodDto(
-    CreateLaborProjectActualCostRecordRequestSchema
-) {}
+export class CreateLaborProjectActualCostRecordRequestDto extends createZodDto(CreateLaborProjectActualCostRecordRequestSchema) {}
 
 export class ReplaceLaborCostRecordRequestDto extends createZodDto(ReplaceLaborCostRecordRequestSchema) {}
+
+export class ConfirmSharedCostAllocationBasisResultDto extends createZodDto(ConfirmSharedCostAllocationBasisResultSchema) {}
+
+export class ReplaceSharedCostAllocationResultResultDto extends createZodDto(ReplaceSharedCostAllocationResultResultSchema) {}
+
+export class ConfirmCostStageAttributionResultDto extends createZodDto(ConfirmCostStageAttributionResultSchema) {}
+
+export class ReclassifyCostStageAttributionResultDto extends createZodDto(ReclassifyCostStageAttributionResultSchema) {}
+
+export class ConfirmAccountingTaxTreatmentResultDto extends createZodDto(ConfirmAccountingTaxTreatmentResultSchema) {}
+
+export class ReplaceAccountingTaxTreatmentResultDto extends createZodDto(ReplaceAccountingTaxTreatmentResultSchema) {}
+
+export class ProjectCostCommandResultDto extends createZodDto(CommandResultSchema) {}
