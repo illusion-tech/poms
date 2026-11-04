@@ -1,0 +1,125 @@
+{
+  "uuidOrder": "a<b, actual runtime uses ascending UUID bytes",
+  "vectors": [
+    {
+      "name": "gross-primary-half-split-correction",
+      "totalCents": [
+        11,
+        1,
+        12
+      ],
+      "weights": [
+        1,
+        1
+      ],
+      "measurementBasis": "including-tax",
+      "expectedCents": [
+        [
+          6,
+          0,
+          6
+        ],
+        [
+          5,
+          1,
+          6
+        ]
+      ]
+    },
+    {
+      "name": "net-primary-components",
+      "totalCents": [
+        11,
+        1,
+        12
+      ],
+      "weights": [
+        1,
+        1
+      ],
+      "measurementBasis": "excluding-tax",
+      "expectedCents": [
+        [
+          6,
+          1,
+          7
+        ],
+        [
+          5,
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "name": "tax-primary-components",
+      "totalCents": [
+        11,
+        1,
+        12
+      ],
+      "weights": [
+        1,
+        1
+      ],
+      "measurementBasis": "tax",
+      "expectedCents": [
+        [
+          6,
+          1,
+          7
+        ],
+        [
+          5,
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "name": "gross-only-null-preserved",
+      "totalCents": [
+        null,
+        null,
+        1
+      ],
+      "weights": [
+        1,
+        1
+      ],
+      "measurementBasis": "including-tax",
+      "expectedCents": [
+        [
+          null,
+          null,
+          1
+        ],
+        [
+          null,
+          null,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "max-18-2-real-acceptance-input",
+      "net": "9999999999999999.99",
+      "tax": "0.00",
+      "gross": "9999999999999999.99",
+      "weights": [
+        "1.000000",
+        "1.000000"
+      ],
+      "measurementBasis": "including-tax",
+      "expectedGross": [
+        "5000000000000000.00",
+        "4999999999999999.99"
+      ],
+      "runtime": "planned C payable -> E procurement -> F stage/allocation, not-run"
+    }
+  ],
+  "policy": {
+    "id": "selected-measurement-first",
+    "version": 2
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "kind": "R4DEF-G2-allocation-business-corrective-decision48",
+  "capturedAt": "2026-11-04T01:07:20.783Z",
+  "issues": {
+    "batch": 106,
+    "scope": 109,
+    "keepOpen": [
+      101,
+      57
+    ]
+  },
+  "previousG1": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
+  "previousF25": {
+    "file": "tools/rust-r4def/F/delivery25.json",
+    "sha256": "d8133264f1d0a266d51bcf6cfaea6ffd15ead1259815d9e26c20748d1f7cba1f"
+  },
+  "previousF25Sources": [
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "sha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
+      "sha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "sha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
+      "sha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "sha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "sha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "decision": {
+    "questionItemId": "call_fcd3783f7ee340039515b3fb12d521f2:0",
+    "answer": "所选金额层优先（推荐）",
+    "businessPriority": "measurementBasis selects the primary allocation amount; the chosen layer must follow exact weights and deterministic largest remainders"
+  },
+  "requiredBehavior": {
+    "knownAllThree": {
+      "includingTax": "Allocate gross first; allocate net within each gross share capacity; tax is the exact non-negative complement.",
+      "excludingTax": "Allocate net as primary; allocate known tax by exact weights; gross is net plus tax.",
+      "taxCost": "Allocate tax as primary; allocate known net by exact weights; gross is net plus tax."
+    },
+    "unknownLayers": "Preserve null. Never manufacture a zero or a known component from absent evidence.",
+    "totals": "Preserve each known source total and per-share gross=net+tax. A selected known total and every share must stay within the frozen capacity.",
+    "ties": "Use canonical project UUID ordering; request permutation cannot change a result.",
+    "replacement": "Apply the same policy to every member of a complete atomic replacement batch.",
+    "history": "Retain F25 evidence and its original values. New immutable evidence records a distinct calculation policy/version; do not rewrite or reinterpret old history."
+  },
+  "counterexample": {
+    "net": "0.11",
+    "tax": "0.01",
+    "gross": "0.12",
+    "weights": [
+      "1",
+      "1"
+    ],
+    "measurementBasis": "including-tax",
+    "oldGross": [
+      "0.07",
+      "0.05"
+    ],
+    "requiredGross": [
+      "0.06",
+      "0.06"
+    ]
+  },
+  "scope": {
+    "publicOperations": 30,
+    "fullOperations": 293,
+    "fullSchemas": 626,
+    "generatedClientFiles": 616,
+    "publicShapeChanged": false,
+    "DDLChanged": false,
+    "migrations": 94,
+    "newDependencies": false,
+    "unchangedGuards": [
+      {
+        "file": "libs/shared/api-spec/openapi.json",
+        "sha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+      },
+      {
+        "file": "openapitools.json",
+        "sha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce"
+      },
+      {
+        "file": "package.json",
+        "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+      },
+      {
+        "file": ".gitattributes",
+        "sha256": "bce12666cc06f2a09ee2fb51b98d290295804f5472e466b9455d3f6c03c65141"
+      }
+    ]
+  },
+  "implementationAuthorizedByThisRecord": false,
+  "next": "Freeze exact proposal with independent review, then author a new F delivery and rerun affected arithmetic, HTTP, fault and concurrency acceptance.",
+  "priorEvidencePreserved": true
+}

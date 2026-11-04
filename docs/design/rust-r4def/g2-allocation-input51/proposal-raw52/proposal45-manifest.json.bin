@@ -1,0 +1,123 @@
+{
+  "kind": "independently-freezable-selected-main-basis-proposal45",
+  "capturedAt": "2026-11-04T01:07:51.224673+00:00",
+  "decisionAuthority": "Root explicit current-task message: user selected measurementBasis priority; Root decision48/checkpoint and independent review remain Root-owned",
+  "proposalOnly": true,
+  "productImplementationAuthorizedByThisArtifact": false,
+  "publicDtoChanged": false,
+  "ddlChanged": false,
+  "environmentChanged": false,
+  "newPolicy": {
+    "id": "selected-measurement-first",
+    "version": 2,
+    "storedOnlyIn": [
+      "immutable basis evidence frozen_payload.allocationPolicy",
+      "immutable per-result evidence frozen_payload.allocationPolicy"
+    ],
+    "basisAndAllResultPolicyEqual": true,
+    "roundingFamilyColumnUnchanged": "largest-remainder-cents-v1"
+  },
+  "grossPriorityProof": {
+    "floorNetFitsEveryGrossCapacity": "floor(N*w/W)<=floor(G*w/W)<=grossShare",
+    "residualLessThanProjectCount": true,
+    "completion": "sum remaining capacities >= remaining target after every added cent, so an eligible project always exists",
+    "noPerMoneyCentLoop": "at most project count residual corrections",
+    "noValidInput422Fallback": "derived bounds are feasible by construction; exhaustion is an invariant failure, not routine business rejection"
+  },
+  "otherPrimaryLayers": "net/tax each weighted; known full gross=sum; unknown layers stay null; known gross with unknown other component uses lower-bound allocation without publishing an invented component",
+  "historicalPolicy": "F25 bytes/old results/evidence unchanged, no relabel/recompute; only new confirm/full replace bind v2",
+  "pureModelChecks": {
+    "kind": "primary-measurement45-independent-math-proposal-checks",
+    "capturedAt": "2026-11-04T01:06:00.358794+00:00",
+    "propertyCases": 6444,
+    "exhaustiveConstrainedQuotaObjectiveCases": 1980,
+    "failed": 0,
+    "knownCounterexample": "gross primary [6,6], net [6,5], tax [0,1]",
+    "policy": {
+      "id": "selected-measurement-first",
+      "version": 2
+    },
+    "roundingFamilyColumnUnchanged": "largest-remainder-cents-v1",
+    "productionCodeExecuted": false,
+    "httpExecuted": false,
+    "databaseExecuted": false,
+    "productFilesChanged": false,
+    "scope": "pure mathematical reference proposal; not F46 implementation or business runtime acceptance",
+    "referenceRawSha256": "53ea4ca8e4141c097ac2fe34081bbc61c0e8c84278817d27b3ab97507985a74c"
+  },
+  "inputF25FilesVerifiedUnchanged": [
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
+      "bytes": 12775,
+      "rawBytesSha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "bytes": 2330,
+      "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
+      "bytes": 23183,
+      "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "bytes": 43671,
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "artifacts": [
+    {
+      "file": ".gitignore",
+      "bytes": 13,
+      "rawBytesSha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    {
+      "file": "check45.py",
+      "bytes": 5713,
+      "rawBytesSha256": "8bba3e5b253de9035e327fbbceb85635c901f18e298372067f5df947b41fb09f"
+    },
+    {
+      "file": "package45.py",
+      "bytes": 2922,
+      "rawBytesSha256": "a6d5fbfc4b7f5867789b594b16fa09b6aae1533bdf0c13fc2ea2bee1c7d41e92"
+    },
+    {
+      "file": "PROPOSAL45.md",
+      "bytes": 8122,
+      "rawBytesSha256": "24337cbdbac34907985a2480f18bf80042684b98a99c29092d55c16d8ca7521b"
+    },
+    {
+      "file": "reference45.py",
+      "bytes": 5113,
+      "rawBytesSha256": "53ea4ca8e4141c097ac2fe34081bbc61c0e8c84278817d27b3ab97507985a74c"
+    },
+    {
+      "file": "static-model-checks45.json",
+      "bytes": 764,
+      "rawBytesSha256": "12de87bf1ccb25a7e1e4537758c3efe97bdb64dc4ee2d6088480a68c9edbda7b"
+    },
+    {
+      "file": "test-inputs45.json",
+      "bytes": 2195,
+      "rawBytesSha256": "1341d7ff728080aae5db812b299c1aee752205de612064a45612da19d9d42679"
+    }
+  ],
+  "actualF46CodeExecuted": false,
+  "actualPgExecuted": false,
+  "actualHttpExecuted": false,
+  "independentReview": "pending-Root",
+  "committed": false,
+  "pushed": false
+}

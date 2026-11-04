@@ -1,0 +1,13 @@
+**提案45精确复核：Pass，仅准入按此提案实施F46；不是实现或G3通过。**
+
+用户“所选金额层优先”裁决48 SHA 7e32d833c29e2309d3dd6f86f58eed2f907564298d0cfc2d731031dcf7c4b4b3；作者manifest SHA 21e42cc9c027efe25bd7714aba81c6a2a1051f45653e8edaf3c89a4c69ea3943，reference SHA 53ea4ca8e4141c097ac2fe34081bbc61c0e8c84278817d27b3ab97507985a74c。7个artifact及32输入pin逐项匹配，Root和作者F25六源均保持原hash。
+
+未发现P0–P2。独立纯数学复核90756组性质（已知/null、主层、零权重、UUID顺序、容量上限），另90756次未知主层拒绝；upper/lower各4455组枚举所有可行小域向量的精确平方配额最优性及UUID同价优先对照，全部通过。没有执行产品、PG或HTTP。
+
+上界可行性：floor(Cw/W)<=floor(Gw/W)<=gross份额；余量R<n且总剩余gross容量>=R，每步仍有候选。下界可行性：Hamilton(C)对gross floor最多抬高1分，clamp后的delta=R_G-K、abs(delta)<=n；sum(lower)=C<=G保证可补/可减。按精确商差/余数重排而不是一次扫描或逐总金额分钱，不能因cap误422有效输入。
+
+11+1=12分/1:1，gross主层固定6/6，net6/5、tax0/1；net/tax主层独立component可得gross7/5。另一个经典25/26分、权重1500/1500/900/500/500/200反例证明独立分net后clip会丢2分，而受cap的动态缺额分配保持25分。unknown始终null，主component+known gross用下界不违反已知关系，未制造未知component。
+
+准入边界：Root先守hash保全此包；F46仅改分摊必要算法及私有basis/每份result的policy v2并纳入hash，保持公开shape/DDL/依赖/权限/CAS/锁序；旧F25及旧residual=2原样保留，新批/完整替代使用v2，新的主尾差0/1。实现后仍须全受影响真实多项目、MAX、null、替代、投影、回滚和并发验收。
+
+首次锁pin曾Block：原件见precheck-block01及inputs01；并非CRLF，而是工具19行自登记。Root recovery50保全01954…原字节后恢复永久S4 a1c27270…，本次已重新核实所有48 guard。旧Block/48/F25均未回写。完整证明与条件见 [JSON](allocation-proposal45-review48.json)。不签G3/G4、不关闭Issue。
