@@ -1,0 +1,11 @@
+K56 源码预审结论：**Block，P0=0 / P1=0 / P2=1；不是最终 G3。**
+
+精确交付 manifest SHA `09f17e101976b12f5b741e0a9d1e110cae12e7d2a632369d4eae6d1ffd47d82b`。三源与 Root 当前导入逐字节一致，F46 六源未变。全部输入保存在本审查 inputs01 原件，JSON 记录 46 个精确 pins。
+
+P2 `K56-P2-01`：[apps/poms-api-rust/src/attachments/service.rs:1549](E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/attachments/service.rs:1549) 的重复 link，及 [apps/poms-api-rust/src/attachments/service.rs:1580](E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/attachments/service.rs:1580) 的 inactive unlink，成功路径直接 get，没有进入 guarded persist。[apps/poms-api-rust/src/attachments/store.rs:1465](E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/attachments/store.rs:1465) 还会在只剩 source proof 时提前返回。冻结 K55 明确要求无 dirty mutator intent 与重复 tuple 的锁内重查；这两支未落实该保证。此结论来自静态控制流，不冒称已经复现真实竞态。
+
+纠偏限原三文件：显式保留 no-op intent，仍走统一 canonical group/首次 Attachment proof/预期 Link tuple-set 的锁内检查和必要 pending coflush；保留顺序幂等结果及既有无新增成功 audit 的语义。准备证明变化走既定 409。需要两真实会话及 PG 屏障复验 no-op link/unlink 与解除/组变化；不能只补镜像实现的单测。
+
+其余核心设计静态符合：nonce final 与同 buffer 实际 SHA/有界读取；捕获原 runtime、同 SQL 连接 routing 重检；单 complete flush 与必要 audit/auth；完整 active links、首次来源证明、排序组锁、全历史 max+1、一次 early CAS；已知 rollback 全 checkpoint 恢复；Unknown retain+poison；abort commit 后独立无引用检查再删 staging。
+
+作者 fmt/clippy 和两组纯测日志为既有实际原件，20/26 次执行去重为 33 名测试；本 reviewer 未重跑，也没有执行 DB/HTTP/对象或锁。K71 的 Root 正链结果可保持原范围，不能据此覆盖本 P2、32 向量、未知提交、S3 或最终 G3/G4。Root 已收到本项，可登记 K56→K86 纠偏，旧失败与本 Block 原样保留。
