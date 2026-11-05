@@ -1,0 +1,2 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+const source=fs.readFileSync('tools/rust-r4def/prepare-transfer189.mjs','utf8');assert(source.includes('refs/codex-transfers/poms-r4def-e5/'));const next=source.replaceAll('transfer189','transfer189a').replaceAll('plan189','plan189a').replaceAll('refs/codex-transfers/poms-r4def-e5/','refs/codex-transfers/poms-r4def-e5-small/');fs.writeFileSync('tools/rust-r4def/prepare-transfer189a.mjs',next,{flag:'wx'});console.log('Preserved189 local-ref guard failure; using a distinct local namespace');

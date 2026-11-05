@@ -1,0 +1,30 @@
+{
+  "kind": "read-only-local-pack-measurement230",
+  "profile": "pathwalk",
+  "target": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+  "excludedBase": "81cb16950c4b87d2ea14e0fd44134ab310bb2a10",
+  "command": [
+    "git",
+    "-C",
+    "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+    "-c",
+    "pack.usePathWalk=true",
+    "-c",
+    "pack.useSparse=false",
+    "-c",
+    "pack.useBitmaps=false",
+    "pack-objects",
+    "--stdout",
+    "--revs",
+    "--thin",
+    "--delta-base-offset"
+  ],
+  "exitCode": 0,
+  "seconds": 0.468,
+  "bytes": 9579767,
+  "objectCount": 3731,
+  "rawBytesSha256": "d1e5242026dfba5c6a20d4e288739159948010b57a65348789520caa83cc3770",
+  "rootRefsChanged": false,
+  "rootIndexChanged": false,
+  "remoteMutation": false
+}

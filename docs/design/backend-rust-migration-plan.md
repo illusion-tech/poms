@@ -1,6 +1,6 @@
 # POMS 后端 Rust 重构计划
 
-**文档状态**: Active — R0/R1/R2/R3已完成；R4本批G4Ready，技术240/正式210；完整R4仍Doing，#101/#57 Open，R5–R7待推进
+**文档状态**: Active — R0/R1/R2/R3已完成；R4累计67/92、Rust正式240，本批#106/D/E/F已线上G4收口；完整R4仍Doing，#101/#57 Open，R5–R7待推进
 **最后更新**: 2026-11-05
 **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
 **关联文档**:
@@ -598,5 +598,13 @@ R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#1
 本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3](archive/slices/rust-r4def/terminal170/independent-g3.json.bin)及[固定提交复核](archive/slices/rust-r4def/terminal170/fixed-commit-review167.json.bin)通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。实施提交main集成已核；本批归档与Ready治理提交、独立关闭许可、实际线上G4和非作者实际终审继续推进；#101/#57保持Open。
 
 实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
+
+完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+
+### 2026-11-05 R4 第二批实际线上 G4 收口
+
+D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4def/online207/preclose.json.bin)完成实际线上G4；[六Issue读回](archive/slices/rust-r4def/online207/receipt196.json.bin)核四项Closed、#101/#57持续Open。本批D7/E11/F12共30个唯一HTTP正式交付，R4累计 **67/92**、余 **25**（经营17＋验收/完工/归档8），Rust正式公开操作 **240**。当前G4OnlineApplied，非作者实际G4终审另行签署；本条不伪造终审Pass。
+
+实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。[main集成](archive/slices/rust-r4def/online207/ready-main198.json.bin)已核固定提交及永久S4；最终metadata提交与main SHA由Root实际回执提供。
 
 完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。

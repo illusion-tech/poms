@@ -1,0 +1,3 @@
+// Credential stays in process memory and the own-private0600 one-use bridge.
+import assert from'node:assert/strict';import{execFileSync,spawnSync}from'node:child_process';
+const token=execFileSync('gh',['auth','token'],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();assert(/^[A-Za-z0-9_]+$/.test(token));const r=spawnSync('wsl.exe',['-d','Debian','--','/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node','/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4def/linux-token191.mjs','--stage'],{input:token+'\n',encoding:'utf8',timeout:15000,windowsHide:true});assert.equal(r.status,0,'Private one-use credential bridge staging failed');console.log(JSON.stringify({credentialStagedInOwnPrivate:true,credentialPublished:false}));

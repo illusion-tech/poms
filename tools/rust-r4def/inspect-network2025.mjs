@@ -1,0 +1,2 @@
+import fs from'node:fs';
+const b=fs.readFileSync('//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4def/private/git-token191/stderr-2025.bin','utf8');const safe=b.split('\n').filter(l=>/fatal:|error:|RPC failed|remote:/.test(l)&&!/authorization|password=|token=/i.test(l)).slice(0,6).map(l=>l.replace(/github_pat_[A-Za-z0-9_]+|gh[pousr]_[A-Za-z0-9_]+/g,'[redacted]'));console.log(JSON.stringify({safeErrorLines:safe}));

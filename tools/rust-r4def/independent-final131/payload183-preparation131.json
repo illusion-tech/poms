@@ -1,0 +1,222 @@
+{
+  "kind": "independent-R4DEF-concrete-payload183-preparation-review131",
+  "reviewedAtUtc": "2026-11-05T03:49:36.339Z",
+  "status": "Scoped payload reviewed; one sequence wording correction and actual metadata-main proof still required before permission",
+  "plan": {
+    "file": "tools/rust-r4def/closeout/payload183/plan183.json",
+    "bytes": 3652,
+    "sha256": "fdbdad61540547b1ecf5ac595f1695ce22c6a3938069d3f2bf8f043f3d3960e9"
+  },
+  "childChecks": [
+    {
+      "issue": 106,
+      "body": {
+        "file": "tools/rust-r4def/closeout/payload183/body106.md",
+        "bytes": 6061,
+        "sha256": "41f8e98225292effc34ddd783e82d21221cdca400a5a76838bf2866b39c1ddd3"
+      },
+      "businessParagraphsAndImmutableG1LinksPreserved": true,
+      "actualG4FinalSealCheckboxRemainsUnchecked": true
+    },
+    {
+      "issue": 107,
+      "body": {
+        "file": "tools/rust-r4def/closeout/payload183/body107.md",
+        "bytes": 6313,
+        "sha256": "8f2dd851091f38ab9234d4a2df47622c59516fc18b5dce7e9debd9ead06a3e07"
+      },
+      "businessParagraphsAndImmutableG1LinksPreserved": true,
+      "actualG4FinalSealCheckboxRemainsUnchecked": true
+    },
+    {
+      "issue": 108,
+      "body": {
+        "file": "tools/rust-r4def/closeout/payload183/body108.md",
+        "bytes": 6320,
+        "sha256": "e80a361803b040ce1c163b3e128c4e7d4cfd7e1e4963a29122a68df3f2e9f666"
+      },
+      "businessParagraphsAndImmutableG1LinksPreserved": true,
+      "actualG4FinalSealCheckboxRemainsUnchecked": true
+    },
+    {
+      "issue": 109,
+      "body": {
+        "file": "tools/rust-r4def/closeout/payload183/body109.md",
+        "bytes": 6221,
+        "sha256": "e3fc576a0ccfd20891d1db0a14e9389e2039562356bc9d758a2863373a33bd8b"
+      },
+      "businessParagraphsAndImmutableG1LinksPreserved": true,
+      "actualG4FinalSealCheckboxRemainsUnchecked": true
+    }
+  ],
+  "parentChecks": [
+    {
+      "issue": 101,
+      "body": {
+        "file": "tools/rust-r4def/closeout/payload183/body101.md",
+        "bytes": 3534,
+        "sha256": "e56db32cfee282494c465a31b0f65544ddb3b711c5fcc8e23d312e1431991991"
+      },
+      "originalPrefixBytes": 2529,
+      "originalPrefixSHA256": "69c43bb6b3fa7c381c2a1a54c775e11cd1ff32e06f6a883d90b698c4601a2bbf",
+      "prefixByteExact": true,
+      "onlyAppendedManagedBlock": true,
+      "originalIncompleteChecklistUntouched": true,
+      "R2UncheckedFollowupPreserved": false
+    },
+    {
+      "issue": 57,
+      "body": {
+        "file": "tools/rust-r4def/closeout/payload183/body57.md",
+        "bytes": 4501,
+        "sha256": "6bf866e7b78c14c1ed9167c4f3c63be3b7ec1d86034915e5756115c4015c2981"
+      },
+      "originalPrefixBytes": 2685,
+      "originalPrefixSHA256": "ecf2751886e2e000d994de78f48174d6117649fb4be098b5048b555978308738",
+      "prefixByteExact": true,
+      "onlyAppendedManagedBlock": true,
+      "originalIncompleteChecklistUntouched": true,
+      "R2UncheckedFollowupPreserved": true
+    }
+  ],
+  "closeOrder": [
+    107,
+    108,
+    109,
+    106
+  ],
+  "mustRemainOpen": [
+    101,
+    57
+  ],
+  "sixBeforeBodyHashesMatch174": true,
+  "noPlaceholders": true,
+  "commonCommentDoesNotClaimActualG4Pass": true,
+  "explicitProofBeforeFinalCheckboxRequired": true,
+  "precloseBlockingFindings": [
+    {
+      "id": "PAYLOAD183-P2-01",
+      "priority": "P2",
+      "classification": "new-real-drift",
+      "scope": "proposed process wording only; G3/product remains certified",
+      "finding": "The unchecked final line says official accounting updates only after Final+actualG4+Seal, while the approved workflow mirrors online closure in Final before actualG4/Seal.",
+      "line": "- [ ] Final docs/main、独立actual G4终审与Seal；其后才更新正式交付口径。",
+      "required": "Create a separately sealed payload with only this clause corrected: Final mirrors actual online delivery; actualG4/Seal completion authorizes checking the final item. Preserve183."
+    }
+  ],
+  "actualMetadataPublicationNotYetReviewed": true,
+  "precloseAuthorized": false,
+  "issueClosureAuthorized": false,
+  "G3Pass": true,
+  "G4Pass": false,
+  "inputPins": [
+    {
+      "file": "tools/rust-r4def/closeout/payload183/plan183.json",
+      "bytes": 3652,
+      "sha256": "fdbdad61540547b1ecf5ac595f1695ce22c6a3938069d3f2bf8f043f3d3960e9",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/plan183.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/body57.md",
+      "bytes": 4501,
+      "sha256": "6bf866e7b78c14c1ed9167c4f3c63be3b7ec1d86034915e5756115c4015c2981",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/body57.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/body101.md",
+      "bytes": 3534,
+      "sha256": "e56db32cfee282494c465a31b0f65544ddb3b711c5fcc8e23d312e1431991991",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/body101.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/body106.md",
+      "bytes": 6061,
+      "sha256": "41f8e98225292effc34ddd783e82d21221cdca400a5a76838bf2866b39c1ddd3",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/body106.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/body107.md",
+      "bytes": 6313,
+      "sha256": "8f2dd851091f38ab9234d4a2df47622c59516fc18b5dce7e9debd9ead06a3e07",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/body107.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/body108.md",
+      "bytes": 6320,
+      "sha256": "e80a361803b040ce1c163b3e128c4e7d4cfd7e1e4963a29122a68df3f2e9f666",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/body108.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/body109.md",
+      "bytes": 6221,
+      "sha256": "e3fc576a0ccfd20891d1db0a14e9389e2039562356bc9d758a2863373a33bd8b",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/body109.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload183/comment.md",
+      "bytes": 391,
+      "sha256": "aead84c6c33f871e22ece454750a467ef63e20888e46a364d0e820f1a9b23eb2",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/closeout/payload183/comment.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/closeout177/manifest177.json",
+      "bytes": 8095,
+      "sha256": "d4e68777f377295c7717a56ddf627038e521296bfc703aea0a67e67b0364821c",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/E/closeout177/manifest177.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/closeout177/plan177.json",
+      "bytes": 9947,
+      "sha256": "0894f828c6085f289ac319b478ff90f94d79eec04adcacc1b44483aea091dc4b",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/E/closeout177/plan177.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/closeout177/body106.md",
+      "bytes": 5764,
+      "sha256": "983ed71f64c22a55141fdd366f06794e044008b6d6b4dc0ac4c72680d14193d6",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/E/closeout177/body106.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/closeout177/body107.md",
+      "bytes": 6016,
+      "sha256": "795eb1c73def2897d3e880376796bac866bf2094f51c5bbb1418ebd6bf44227f",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/E/closeout177/body107.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/closeout177/body108.md",
+      "bytes": 6023,
+      "sha256": "8ce048a27cb1f86dbc3234ca9def6510ec717e6bcf8e1fe3414114426789865d",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/E/closeout177/body108.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/closeout177/body109.md",
+      "bytes": 5924,
+      "sha256": "b0bb417fca339d3ce1c1019219915c484996f6cc7aa35d828c3ed32e94ea67a0",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/E/closeout177/body109.md.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/github-g3-174/101-after.json",
+      "bytes": 12625,
+      "sha256": "b6a61e1608a87a89599d82f4307d3d5db95cfde259a1157f3e58b65f882c9660",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tmp/rust-r4def/root/github-g3-174/101-after.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/github-g3-174/57-after.json",
+      "bytes": 29732,
+      "sha256": "9486eb89f39d531792fe393107a2d2f7ad8ca1f1d6e86da1f558788c8ce38473",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tmp/rust-r4def/root/github-g3-174/57-after.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/preclose-payload183.mjs",
+      "bytes": 5861,
+      "sha256": "6909ba5ca685fab79cac8fbabc6868c8f272fa75e72ef6e11cda85f380245e98",
+      "snapshot": "tools/rust-r4def/independent-final131/payload183-inputs/tools/rust-r4def/preclose-payload183.mjs.bin"
+    }
+  ],
+  "reviewer": {
+    "privateRead": false,
+    "DBHTTPGitGHOrForeignEntryExecuted": false,
+    "productOrOldEvidenceModified": false,
+    "writesOnly": "tools/rust-r4def/independent-final131/**"
+  }
+}

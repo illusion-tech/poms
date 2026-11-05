@@ -1,0 +1,2 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+const old=fs.readFileSync('tools/rust-r4def/linux-opt221.mjs','utf8'),needle="'-c','pack.threads=2'";assert(old.includes(needle));fs.writeFileSync('tools/rust-r4def/linux-nosparse231.mjs',old.replace(needle,"'-c','pack.useSparse=false','-c','pack.threads=2'").replaceAll('opt221-curl.log','nosparse231-curl.log'),{flag:'wx'});console.log('Prepared only pack.useSparse=false; exact parent leases and all fixed commits retained');

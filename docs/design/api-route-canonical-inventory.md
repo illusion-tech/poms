@@ -104,7 +104,7 @@
 | `project-handover` | `confirmProjectHandover`              | `POST /project-handovers/{id}:confirm`        | `POST /project-handovers/:id:confirm`        | `POST /project-handovers/{id}:confirm`        | `ADR-015` + `interface-openapi-dto-design.md` | `N/A`      | #83 G4 已按裁决统一 `{id}`；原 spec/client 同步且 S2 永久保留。联合 G3、固定提交及 G4 见[归档收口](archive/slices/rust-r2k-closeout.md)，Rust R4 业务另验。 | `B1`  | `aligned` |
 | `project-handover` | `rebaselineContractHandover`          | `POST /contract-handover-rebaselines`         | `POST /contract-handover-rebaselines`        | `POST /contract-handover-rebaselines`         | `ADR-015` + `interface-openapi-dto-design.md` | `N/A`      | 保持                                                                                                                                                        | `B1`  | `aligned` |
 
-RUST-R4D 两项 route surface 已完成真实实现及本批限定验收；当前G4Ready，正式交付尚未计入。精确 DTO、权限和真实生产机制见 [R4 第二批联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)，原G1候选与冻结原件按历史标签保留。
+RUST-R4D 两项 route surface 已完成真实实现及本批限定验收；本批已线上G4收口，正式交付计入D7。精确 DTO、权限和真实生产机制见 [R4 第二批联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)，原G1候选与冻结原件按历史标签保留。
 
 | Domain             | Capability                          | Canonical Route                                          | Current Implemented Route                                | Current Design Route                                     | Authority                       | Drift Type | Action                                                          | Batch | Status    |
 | ------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | ------------------------------- | ---------- | --------------------------------------------------------------- | ----- | --------- |
@@ -576,5 +576,13 @@ RUST-R4D 两项 route surface 已完成真实实现及本批限定验收；当�
 本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3](archive/slices/rust-r4def/terminal170/independent-g3.json.bin)及[固定提交复核](archive/slices/rust-r4def/terminal170/fixed-commit-review167.json.bin)通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。实施提交main集成已核；本批归档与Ready治理提交、独立关闭许可、实际线上G4和非作者实际终审继续推进；#101/#57保持Open。
 
 实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
+
+完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+
+### 2026-11-05 R4 第二批实际线上 G4 收口
+
+D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4def/online207/preclose.json.bin)完成实际线上G4；[六Issue读回](archive/slices/rust-r4def/online207/receipt196.json.bin)核四项Closed、#101/#57持续Open。本批D7/E11/F12共30个唯一HTTP正式交付，R4累计 **67/92**、余 **25**（经营17＋验收/完工/归档8），Rust正式公开操作 **240**。当前G4OnlineApplied，非作者实际G4终审另行签署；本条不伪造终审Pass。
+
+实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。[main集成](archive/slices/rust-r4def/online207/ready-main198.json.bin)已核固定提交及永久S4；最终metadata提交与main SHA由Root实际回执提供。
 
 完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。

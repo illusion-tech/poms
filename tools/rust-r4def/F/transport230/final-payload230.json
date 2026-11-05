@@ -1,0 +1,69 @@
+{
+  "kind": "offline-only-single-original-e5-commit-receive-pack230",
+  "endpoint": "https://github.com/illusion-tech/poms.git/git-receive-pack",
+  "publicHeaders": {
+    "Content-Type": "application/x-git-receive-pack-request",
+    "Accept": "application/x-git-receive-pack-result"
+  },
+  "targetCommit": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+  "parent": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
+  "tree": "27a0e702ab3e3fd40d1f945f77333f9297c4001b",
+  "originalCommitRawBytes": 755,
+  "originalCommitRawBytesSha256": "7e71e971fb2c87a5c95f71b7ed59c422c8b62be595b65213591dad0ab47dc503",
+  "pack": {
+    "file": "original-e5-only.pack",
+    "bytes": 640,
+    "objects": 1,
+    "rawBytesSha256": "ac700db476f62df5e7960f00160fd7cb377be8bbd49344251b96207b5431a818"
+  },
+  "requests": [
+    {
+      "file": "create-exact-e5-temp230.receive-pack.bin",
+      "bytes": 793,
+      "rawBytesSha256": "80969783b7052554135491c650db1f4586c4a65eed2d74b82288ed1fb35c7bea",
+      "old": "0000000000000000000000000000000000000000",
+      "new": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+      "ref": "refs/heads/codex/poms-r4def-transfer-e5-exact230",
+      "capability": "report-status",
+      "expectedReports": [
+        "unpack ok",
+        "ok refs/heads/codex/poms-r4def-transfer-e5-exact230"
+      ],
+      "remoteMutationPerformed": false
+    },
+    {
+      "file": "replace-small25-after29.receive-pack.bin",
+      "bytes": 793,
+      "rawBytesSha256": "520c4f89f3edafc32d7e01626637a26b7f72036a261da1a2581f6ece68bd0fdb",
+      "old": "81cb16950c4b87d2ea14e0fd44134ab310bb2a10",
+      "new": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+      "ref": "refs/heads/codex/poms-r4def-transfer-e5-small-25",
+      "capability": "report-status",
+      "expectedReports": [
+        "unpack ok",
+        "ok refs/heads/codex/poms-r4def-transfer-e5-small-25"
+      ],
+      "remoteMutationPerformed": false
+    }
+  ],
+  "useExactlyOneRequest": true,
+  "requiredActualPreconditions": [
+    "Root freshly verifies authenticated receive-pack advertisement includes report-status",
+    "Remote preloaded part29 is exact 81cb16950c4b87d2ea14e0fd44134ab310bb2a10 and tree 27a0e702ab3e3fd40d1f945f77333f9297c4001b",
+    "Remote d6 parent remains available and main/feature exact-old-SHA expectations remain current",
+    "Selected request old SHA matches actual advertised ref; zero old SHA requires ref absence",
+    "Root supplies authentication through its existing private path; this packet contains no credentials"
+  ],
+  "requiredActualPostconditions": [
+    "HTTP success alone is insufficient: require unpack ok and ok for the exact selected ref",
+    "Fresh exact-SHA remote ref readback equals original e5 before normal main/feature publication",
+    "Temporary refs never merge into main; main/feature receive original e5 only with Root exact-old-SHA lease",
+    "Record selected temporary ref final SHA for later exact-lease cleanup"
+  ],
+  "mainOrFeatureMutationInThisPayload": false,
+  "rootRefsChanged": false,
+  "rootIndexChanged": false,
+  "credentialsRead": false,
+  "networkRequestSent": false,
+  "note": "Locally validated binary protocol candidate. Server acceptance not yet observed. Do not send before part29 preconditions."
+}

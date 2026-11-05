@@ -1,0 +1,2 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+const source=fs.readFileSync('tools/rust-r4def/prepare-transfer185.mjs','utf8');assert(source.includes('3*1024*1024'));let next=source.replaceAll('185','189').replace('3*1024*1024','512*1024').replaceAll('poms-r4def-transfer-e5-','poms-r4def-transfer-e5-small-');fs.writeFileSync('tools/rust-r4def/prepare-transfer189.mjs',next,{flag:'wx'});console.log('Prepared bounded small-pack transfer derivative; fixed e5 unchanged');

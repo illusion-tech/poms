@@ -1,0 +1,173 @@
+{
+  "kind": "Root-supplied-R4DEF-closeout-facts130",
+  "rootVerified": true,
+  "stage": "Final",
+  "closedAt": "2026-11-05T09:06:22.880Z",
+  "implementationCommit": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
+  "metadataCommit": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+  "mainCommit": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+  "finalMetadataCommit": null,
+  "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+  "counts": {
+    "D": 7,
+    "E": 11,
+    "F": 12,
+    "batch": 30,
+    "r4DeliveredAfterFinal": 67,
+    "r4Total": 92,
+    "remaining": 25,
+    "operating": 17,
+    "acceptanceCompletionArchive": 8,
+    "rustTechnical": 240,
+    "rustOfficialBeforeFinal": 210,
+    "rustOfficialAfterFinal": 240,
+    "paths": 239,
+    "operations": 293,
+    "schemas": 626,
+    "clientFiles": 616
+  },
+  "evidence": {
+    "finalValidation": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/final-validation160.json.bin",
+      "rawBytesSha256": "f534252c187f5a37f235ac04f5643f6c0a1706699546d155522d05e778f596f8",
+      "checks": [
+        {
+          "pointer": "/actualAcceptanceAndTerminalReadyForIndependentG3",
+          "equals": true
+        }
+      ]
+    },
+    "cleanup": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin",
+      "rawBytesSha256": "9340515689dba3dcdf9293691d3883bae8c41974980345f14e8b50b8beb36827",
+      "checks": [
+        {
+          "pointer": "/allOperationsMatchReviewedPlan",
+          "equals": true
+        },
+        {
+          "pointer": "/reports/1/outerCommitAcknowledged",
+          "equals": true
+        },
+        {
+          "pointer": "/reports/1/actualTwoNoOps/1/baselineExact",
+          "equals": true
+        }
+      ]
+    },
+    "stopped": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/stopped157.json.bin",
+      "rawBytesSha256": "c89e1b6f49ebda319eacb2143dde4c5af0411d33f8b0811a40808acdc10abdcc",
+      "checks": [
+        {
+          "pointer": "/running",
+          "equals": false
+        },
+        {
+          "pointer": "/stopAcknowledged",
+          "equals": true
+        },
+        {
+          "pointer": "/volumeRetained",
+          "equals": true
+        },
+        {
+          "pointer": "/privateRetained",
+          "equals": true
+        }
+      ]
+    },
+    "independentG3": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/independent-g3.json.bin",
+      "rawBytesSha256": "5fc5301a86a2cdc0709fb43ed824da797056bfaa3910844424b4e378a9c67094",
+      "checks": [
+        {
+          "pointer": "/G3Pass",
+          "equals": true
+        }
+      ]
+    },
+    "fixedCommitReview": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/fixed-commit-review167.json.bin",
+      "rawBytesSha256": "02fc334fcb9745264765de727f4fda64162ab8ae63cda08ab5056dc54faf840a",
+      "checks": [
+        {
+          "pointer": "/fixedCommitVerified",
+          "equals": true
+        }
+      ]
+    },
+    "mainIntegration": {
+      "file": "docs/design/archive/slices/rust-r4def/online207/ready-main198.json.bin",
+      "rawBytesSha256": "b6f8cdaa6da723a32eed0e0876f1f36a9b8586ae551aa633c70aa5bd6ae351b3",
+      "checks": [
+        {
+          "pointer": "/mainIntegrated",
+          "equals": true
+        },
+        {
+          "pointer": "/mainCommit",
+          "equals": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76"
+        }
+      ]
+    },
+    "preclosePermission": {
+      "file": "docs/design/archive/slices/rust-r4def/online207/preclose.json.bin",
+      "rawBytesSha256": "e9754ba496e2d6de28a1f9388f17ca1834139d85dfdc8fa7695d73d13570808f",
+      "checks": [
+        {
+          "pointer": "/precloseApproved",
+          "equals": true
+        },
+        {
+          "pointer": "/payloadSHA256",
+          "equals": "38ae4f7e88cfd386a69684dfd7baec62aa948523db04a6a251465800a87f96c0"
+        }
+      ]
+    },
+    "onlineReadback": {
+      "file": "docs/design/archive/slices/rust-r4def/online207/receipt196.json.bin",
+      "rawBytesSha256": "86e73bda9cfaac983a42d3bf38a3246551fe8d72b4e662f2cb79232ad2ebe4b3",
+      "checks": [
+        {
+          "pointer": "/sixIssueBodiesCommentsAndNativeTreeMatchApprovedPlan",
+          "equals": true
+        }
+      ]
+    },
+    "independentActualG4": {
+      "file": null,
+      "rawBytesSha256": null,
+      "checks": [
+        {
+          "pointer": null,
+          "equals": null
+        }
+      ]
+    }
+  },
+  "assertions": {
+    "exactOwnedCleanup": true,
+    "borrowedOriginalsRestored": true,
+    "secondCleanupNoop": true,
+    "ownedApisStopped": true,
+    "privateAndVolumesRetained": true,
+    "historicalLabelsRetained": true,
+    "s4IsPermanentAncestor": true,
+    "productScopeLimitedToBatch30": true,
+    "sixIssueBodiesCommentsAndNativeTreeMatchApprovedPlan": true,
+    "finalIndependentActualG4Pass": null,
+    "fullR4RemainsIncomplete": true,
+    "r5AndLaterRemainOutOfScope": true
+  },
+  "issueStatePointers": {
+    "57": "/issues/57/state",
+    "101": "/issues/101/state",
+    "106": "/issues/106/state",
+    "107": "/issues/107/state",
+    "108": "/issues/108/state",
+    "109": "/issues/109/state"
+  },
+  "instructions": "Root fills real paths, exact raw SHA256, actual JSON-pointer/value checks and assertions; null is never Pass.",
+  "timestampMeaning": "Actual scoped online closure readback; independent actualG4/Seal pending"
+}
