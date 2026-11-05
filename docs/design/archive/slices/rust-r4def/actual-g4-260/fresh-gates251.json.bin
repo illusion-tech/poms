@@ -1,0 +1,80 @@
+{
+  "kind": "actual-fresh-final-G4-gates251",
+  "capturedAt": "2026-11-05T09:41:57.345Z",
+  "finalMetadataMain": "b11246df4e473a29fdd92485f6179a5112a09f3b",
+  "issues": {
+    "57": {
+      "state": "OPEN",
+      "bodySHA256": "6bf866e7b78c14c1ed9167c4f3c63be3b7ec1d86034915e5756115c4015c2981",
+      "comments": 12,
+      "file": "tmp/rust-r4def/root/g4gate251/57.json",
+      "rawBytesSha256": "4e6f2734355a09dec519f6c448b797512795b9d98b09008c00e9649abd4d4c13"
+    },
+    "101": {
+      "state": "OPEN",
+      "bodySHA256": "e56db32cfee282494c465a31b0f65544ddb3b711c5fcc8e23d312e1431991991",
+      "comments": 7,
+      "file": "tmp/rust-r4def/root/g4gate251/101.json",
+      "rawBytesSha256": "efcf2284621e5082d8594f74f6648929fc9dee6e8f1f5d940c08accde104695d"
+    },
+    "106": {
+      "state": "CLOSED",
+      "bodySHA256": "68e55180997679cfe00da581a4fd9837cac72a6832bbd4763be759f073c9a9d6",
+      "comments": 5,
+      "file": "tmp/rust-r4def/root/g4gate251/106.json",
+      "rawBytesSha256": "56e4762d206b7b801cfc9345ebf845957dda145cf9f58b3b7434ffe1950b240e"
+    },
+    "107": {
+      "state": "CLOSED",
+      "bodySHA256": "a962d5aebc4f43040e37347b30d9436c46165f516616320f564058ce10ad5d44",
+      "comments": 5,
+      "file": "tmp/rust-r4def/root/g4gate251/107.json",
+      "rawBytesSha256": "df7265af5a231bf6d723a7a6c7897b36578eff34b1fdcfd2eaf4e4aed2fa96d7"
+    },
+    "108": {
+      "state": "CLOSED",
+      "bodySHA256": "64fc56ee9a5c4b30cc1f73ce45a3577289d08898a698bbbdf7c83e8fb14de9f1",
+      "comments": 5,
+      "file": "tmp/rust-r4def/root/g4gate251/108.json",
+      "rawBytesSha256": "7c31a55c8fe0321bc33d251b64874c978db21b2ff32c56f6ac2c5df13258dafb"
+    },
+    "109": {
+      "state": "CLOSED",
+      "bodySHA256": "654e743ce4252c6b6c45446b366a35491124fa7b1e7a57e83f557e024b48201b",
+      "comments": 5,
+      "file": "tmp/rust-r4def/root/g4gate251/109.json",
+      "rawBytesSha256": "040120fcdde0411bc3c7a70178e50e91e00a0b87e689a36724d4daf21671ce8b"
+    }
+  },
+  "edges": [
+    {
+      "child": 106,
+      "parent": 101,
+      "parentState": "OPEN"
+    },
+    {
+      "child": 107,
+      "parent": 106,
+      "parentState": "CLOSED"
+    },
+    {
+      "child": 108,
+      "parent": 106,
+      "parentState": "CLOSED"
+    },
+    {
+      "child": 109,
+      "parent": 106,
+      "parentState": "CLOSED"
+    },
+    {
+      "child": 101,
+      "parent": 57,
+      "parentState": "OPEN"
+    }
+  ],
+  "allSixBodyStateCommentGatesMatch": true,
+  "onlyBatchFourClosed": true,
+  "parentsRemainOpen": true,
+  "IssueMutation": false
+}

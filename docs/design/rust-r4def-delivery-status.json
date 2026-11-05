@@ -3,7 +3,7 @@
   "date": "2026-11-05",
   "base": "565661b9113372de4da6662a4a692fbfd2296dd6",
   "branch": "codex/poms-r4def-next28",
-  "stage": "G4OnlineApplied",
+  "stage": "G4Certified",
   "scope": {
     "D": 7,
     "E": 11,
@@ -28,7 +28,7 @@
   "G1Certified": true,
   "G2Authorized": true,
   "fullR4Complete": false,
-  "updatedAt": "2026-11-05T09:06:22.880Z",
+  "updatedAt": "2026-11-05T10:16:40.861Z",
   "G1InputCommit": "57f64d6c0aef99430acc3b4ed7d99d00074d59f4",
   "G1InputManifest": {
     "file": "docs/design/archive/slices/rust-r4def/joint-g1-06/manifest06.json.bin",
@@ -42,7 +42,7 @@
   "gateAuthority": "archive/slices/rust-r4def/g1-gate-authority07.json.bin",
   "officialRustOperations": 240,
   "G3Certified": true,
-  "G4Certified": false,
+  "G4Certified": true,
   "currentPublicContract": {
     "paths": 239,
     "operations": 293,
@@ -74,11 +74,11 @@
     "supportingAttachmentNoopCorrection": "archive/slices/rust-r4def/g2-K86-correction.json.bin",
     "historicalSnapshotOnly": true
   },
-  "finalIndependentActualReviewPending": true,
+  "finalIndependentActualReviewPending": false,
   "implementationCommit": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
   "metadataCommit": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
-  "mainCommit": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
-  "finalMetadataCommit": null,
+  "mainCommit": "b11246df4e473a29fdd92485f6179a5112a09f3b",
+  "finalMetadataCommit": "b11246df4e473a29fdd92485f6179a5112a09f3b",
   "fullR4StageAcceptanceComplete": false,
   "archive": "archive/slices/rust-r4def/archive-origin-map130.json",
   "r4Progress": {
@@ -163,16 +163,16 @@
       ]
     },
     "mainIntegration": {
-      "file": "docs/design/archive/slices/rust-r4def/online207/ready-main198.json.bin",
-      "rawBytesSha256": "b6f8cdaa6da723a32eed0e0876f1f36a9b8586ae551aa633c70aa5bd6ae351b3",
+      "file": "docs/design/archive/slices/rust-r4def/actual-g4-260/final-main-publication.json.bin",
+      "rawBytesSha256": "e39cfad1501de5d1cd6fb594d75d19a0e5b9d3b6e77f37ed7c016c63a987ca87",
       "checks": [
         {
           "pointer": "/mainIntegrated",
           "equals": true
         },
         {
-          "pointer": "/mainCommit",
-          "equals": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76"
+          "pointer": "/metadataCommit",
+          "equals": "b11246df4e473a29fdd92485f6179a5112a09f3b"
         }
       ]
     },
@@ -201,12 +201,16 @@
       ]
     },
     "independentActualG4": {
-      "file": null,
-      "rawBytesSha256": null,
+      "file": "docs/design/archive/slices/rust-r4def/actual-g4-260/actual-g4.json.bin",
+      "rawBytesSha256": "d911ea402af0cf46ae7a26311092cf4b38940f05cc8e274d725a027b0c06b6de",
       "checks": [
         {
-          "pointer": null,
-          "equals": null
+          "pointer": "/G4Pass",
+          "equals": true
+        },
+        {
+          "pointer": "/G4Certified",
+          "equals": true
         }
       ]
     }

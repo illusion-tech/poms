@@ -608,3 +608,11 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。[main集成](archive/slices/rust-r4def/online207/ready-main198.json.bin)已核固定提交及永久S4；最终metadata提交与main SHA由Root实际回执提供。
 
 完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+
+### 2026-11-05 R4 第二批独立实际 G4 终审
+
+D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4def/online207/preclose.json.bin)完成实际线上G4；[六Issue读回](archive/slices/rust-r4def/online207/receipt196.json.bin)核四项Closed、#101/#57持续Open。本批D7/E11/F12共30个唯一HTTP正式交付，R4累计 **67/92**、余 **25**（经营17＋验收/完工/归档8），Rust正式公开操作 **240**。[非作者实际终审](archive/slices/rust-r4def/actual-g4-260/actual-g4.json.bin)已Pass，仅认证本批收口。
+
+实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。[main集成](archive/slices/rust-r4def/actual-g4-260/final-main-publication.json.bin)已核固定提交及永久S4；最终metadata提交与main SHA由Root实际回执提供。
+
+完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。

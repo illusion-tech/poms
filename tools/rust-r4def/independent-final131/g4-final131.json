@@ -1,0 +1,664 @@
+{
+  "kind": "R4DEF-independent-actual-G4-final-certificate131",
+  "reviewedAtUtc": "2026-11-05T10:12:17.163Z",
+  "status": "Pass",
+  "G4Pass": true,
+  "G4Certified": true,
+  "G3Pass": true,
+  "certifiedScope": {
+    "D": 7,
+    "E": 11,
+    "F": 12,
+    "total": 30,
+    "existingPublicOperations": 28,
+    "newPublicOperations": 2,
+    "implementationCommit": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
+    "ReadyMetadataMain": "e5f13b05a47766a4c6a3aa13b7fc7a39799b3e76",
+    "FinalMetadataMain": "b11246df4e473a29fdd92485f6179a5112a09f3b",
+    "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+    "officialRustOperations": 240,
+    "R4Delivered": 67,
+    "R4Total": 92,
+    "R4Remaining": 25,
+    "fullR4Complete": false,
+    "fullR4StageAcceptanceComplete": false,
+    "closeOrder": [
+      107,
+      108,
+      109,
+      106
+    ],
+    "mustRemainOpen": [
+      101,
+      57
+    ]
+  },
+  "implementationAndAcceptance": {
+    "currentRootAndMainProductUnion708Exact": true,
+    "allGeneratedClient616Covered": true,
+    "sixLiteralS4GuardsExact": true,
+    "oneOldGeneratedClientModelAbsent": true,
+    "boundedIndependentG3Reuse": {
+      "file": "tools/rust-r4def/independent-final131/g3-final131.json",
+      "bytes": 20426,
+      "sha256": "5fc5301a86a2cdc0709fb43ed824da797056bfaa3910844424b4e378a9c67094"
+    },
+    "effectiveAcceptanceAuthority": "independent89/114/124 bounded reuse and effective artifacts; Root160 cross-epoch existence index is supporting only",
+    "Rust": "416 passed/54 ignored; ignored cases are not DB acceptance",
+    "Native": "74 suites/863 tests and build50 bounded reuse by identical emitted JS after correction161; current lint161 and tsc161 exit0, only two existing _selection warnings",
+    "Admin": "60 suites/417 tests",
+    "DBAndObjects": "actual149 committed exact2714 operations, dual fresh baseline noops each DB, 62 backed-up literal object removals, own PG15/owned ports stopped/released; retained private/container/volume",
+    "noBusinessReplayForThisReview": true
+  },
+  "actualFinalPublication": {
+    "receipt": {
+      "file": "tmp/rust-r4def/root/metadata250/receipt.json",
+      "bytes": 627,
+      "sha256": "e39cfad1501de5d1cd6fb594d75d19a0e5b9d3b6e77f37ed7c016c63a987ca87"
+    },
+    "mainAndFeatureAndOriginTracking": {
+      "main": "b11246df4e473a29fdd92485f6179a5112a09f3b",
+      "feature": "b11246df4e473a29fdd92485f6179a5112a09f3b",
+      "originMainTracking": "b11246df4e473a29fdd92485f6179a5112a09f3b"
+    },
+    "rawProductBindings": 708,
+    "allArchivedPublishedGitBlobsMatchRaw": 9200,
+    "allCurrentRootAndPrimaryRawArchiveBytesEqual": true,
+    "actualArchiveMaps": [
+      {
+        "file": "docs/design/archive/slices/rust-r4def/archive-origin-map130.json",
+        "bytes": 4642899,
+        "sha256": "34d87feaddef23ace0b5210063794798bcd1a2447b66e432b5db50ba922b3732",
+        "entries": 9079
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json",
+        "bytes": 7855,
+        "sha256": "1010901196c94c61c5abad96f0f09a7db21cd7733fb03f31447c9690b4a9366f",
+        "entries": 23
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4def/increment180/origin-map180.json",
+        "bytes": 17356,
+        "sha256": "63a31e5721ed97dc5867d9779a62fc658d061c11c7e24d908e50e26b80d31c66",
+        "entries": 47
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4def/online207/origin-map207.json",
+        "bytes": 12274,
+        "sha256": "a4a7593ad4e6e2c7023f41de0f7f417060a5a21be0fca0bdfa558574647ba6cf",
+        "entries": 38
+      },
+      {
+        "file": "docs/design/archive/slices/rust-r4def/operational249/origin-map249.json",
+        "bytes": 1348,
+        "sha256": "82dd4ececc1087ff540eb9972cbff23ba588af558f9de33e1dd171e7ce92ee15",
+        "entries": 4
+      }
+    ],
+    "mappedDestinations": 9191,
+    "mappedBytes": 192528029,
+    "additionalControlFiles": [
+      "docs/design/archive/slices/rust-r4def/.gitattributes",
+      "docs/design/archive/slices/rust-r4def/archive-journal130.json",
+      "docs/design/archive/slices/rust-r4def/archive-origin-map130.json",
+      "docs/design/archive/slices/rust-r4def/archive-progress130c.jsonl",
+      "docs/design/archive/slices/rust-r4def/archive-start130c.json",
+      "docs/design/archive/slices/rust-r4def/increment180/origin-map180.json",
+      "docs/design/archive/slices/rust-r4def/online207/origin-map207.json",
+      "docs/design/archive/slices/rust-r4def/operational249/origin-map249.json",
+      "docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json"
+    ],
+    "fullInventory": {
+      "file": "tools/rust-r4def/independent-final131/archive9200-inventory131.json",
+      "bytes": 3268415,
+      "sha256": "b8180301f87be2957f58a2497c8b7d3f868359fe8755174ea987d5ba111733d7"
+    },
+    "onlyFastForwardAndS4Ancestor": true,
+    "actualPushProcessesExit0": true,
+    "mainCleanInActualPublisherReceipt": true
+  },
+  "actualFinalDocs": {
+    "applied": {
+      "file": "tools/rust-r4def/F/closeout130/final-actual207/applied-receipt130.json",
+      "bytes": 4055,
+      "sha256": "9d0bae5b229cd4cd80dee9c7a7aaddde5dfd42ffcdbcfe545c6b46411fea183b"
+    },
+    "allEightCurrentRootAndMainFilesMatchActualAppliedBytes": true,
+    "MarkdownCheck": {
+      "file": "tmp/rust-r4def/root/docs-check208/receipt.json",
+      "bytes": 677,
+      "sha256": "ef89eec7d7f6186e546d236555444f7d7b0e9d752112295484e409577e938171"
+    },
+    "fixedRangeDiffCheck": {
+      "file": "tmp/rust-r4def/root/diff-check252/receipt.json",
+      "bytes": 683,
+      "sha256": "81d437d2b76f7ab0396cebfa7e27ebcb73c9db432775ab957dc4c33aed402d8c"
+    },
+    "currentPreCertificateStatusTruthful": true,
+    "pendingG4AndFinalCommitFieldsToBeUpdatedBySeal": true
+  },
+  "actualOnlineGate": {
+    "receipt": {
+      "file": "tmp/rust-r4def/root/g4gate251/receipt251.json",
+      "bytes": 2539,
+      "sha256": "102eeaf6df7017ab284ef47f30ea173f3151af888658792be5c925ce5779c946"
+    },
+    "capturedAt": "2026-11-05T09:41:57.345Z",
+    "payloadSHA256": "38ae4f7e88cfd386a69684dfd7baec62aa948523db04a6a251465800a87f96c0",
+    "issueChecks": [
+      {
+        "issue": 107,
+        "state": "CLOSED",
+        "bodySHA256": "a962d5aebc4f43040e37347b30d9436c46165f516616320f564058ce10ad5d44",
+        "exactApprovedBodyAndComment": true,
+        "historicalCommentsRetained": true,
+        "comment": "https://github.com/illusion-tech/poms/issues/107#issuecomment-6654020725",
+        "parentOriginalPrefixRetained": false,
+        "finalCheckboxStillUnchecked": true
+      },
+      {
+        "issue": 108,
+        "state": "CLOSED",
+        "bodySHA256": "64fc56ee9a5c4b30cc1f73ce45a3577289d08898a698bbbdf7c83e8fb14de9f1",
+        "exactApprovedBodyAndComment": true,
+        "historicalCommentsRetained": true,
+        "comment": "https://github.com/illusion-tech/poms/issues/108#issuecomment-6654025994",
+        "parentOriginalPrefixRetained": false,
+        "finalCheckboxStillUnchecked": true
+      },
+      {
+        "issue": 109,
+        "state": "CLOSED",
+        "bodySHA256": "654e743ce4252c6b6c45446b366a35491124fa7b1e7a57e83f557e024b48201b",
+        "exactApprovedBodyAndComment": true,
+        "historicalCommentsRetained": true,
+        "comment": "https://github.com/illusion-tech/poms/issues/109#issuecomment-6654031185",
+        "parentOriginalPrefixRetained": false,
+        "finalCheckboxStillUnchecked": true
+      },
+      {
+        "issue": 106,
+        "state": "CLOSED",
+        "bodySHA256": "68e55180997679cfe00da581a4fd9837cac72a6832bbd4763be759f073c9a9d6",
+        "exactApprovedBodyAndComment": true,
+        "historicalCommentsRetained": true,
+        "comment": "https://github.com/illusion-tech/poms/issues/106#issuecomment-6654036562",
+        "parentOriginalPrefixRetained": false,
+        "finalCheckboxStillUnchecked": true
+      },
+      {
+        "issue": 101,
+        "state": "OPEN",
+        "bodySHA256": "e56db32cfee282494c465a31b0f65544ddb3b711c5fcc8e23d312e1431991991",
+        "exactApprovedBodyAndComment": true,
+        "historicalCommentsRetained": true,
+        "comment": "https://github.com/illusion-tech/poms/issues/101#issuecomment-6654041616",
+        "parentOriginalPrefixRetained": true,
+        "finalCheckboxStillUnchecked": false
+      },
+      {
+        "issue": 57,
+        "state": "OPEN",
+        "bodySHA256": "6bf866e7b78c14c1ed9167c4f3c63be3b7ec1d86034915e5756115c4015c2981",
+        "exactApprovedBodyAndComment": true,
+        "historicalCommentsRetained": true,
+        "comment": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6654048429",
+        "parentOriginalPrefixRetained": true,
+        "finalCheckboxStillUnchecked": false
+      }
+    ],
+    "fiveNativeEdges": [
+      {
+        "child": 106,
+        "parent": 101,
+        "parentState": "OPEN"
+      },
+      {
+        "child": 107,
+        "parent": 106,
+        "parentState": "CLOSED"
+      },
+      {
+        "child": 108,
+        "parent": 106,
+        "parentState": "CLOSED"
+      },
+      {
+        "child": 109,
+        "parent": 106,
+        "parentState": "CLOSED"
+      },
+      {
+        "child": 101,
+        "parent": 57,
+        "parentState": "OPEN"
+      }
+    ],
+    "onlyBatchFourClosed": true,
+    "parentsRemainOpen": true,
+    "originalParentPrefixesAndR2UncheckedFollowupRetained": true,
+    "allHistoricalCommentsRetained": true
+  },
+  "permissions": {
+    "SealGovernanceWritebackAndFixedMetadataCommitMain": true,
+    "postSealMirrorApproved": true,
+    "postSealMirrorOnlyTheseReviewedSources": [
+      {
+        "file": "tools/rust-r4def/post-seal272.mjs",
+        "bytes": 1271,
+        "sha256": "602f747106543a0bdcb5a7880cac93cf913dca4f452645140df27204159c3bc1"
+      },
+      {
+        "file": "tools/rust-r4def/post-seal270.mjs",
+        "bytes": 5627,
+        "sha256": "5ec09dc1b5d0df4664d5a217de9345cff7adcedc7364f15760300ff2bce726aa"
+      }
+    ],
+    "permittedMirrorScope": [
+      "Four closed child first status paragraphs and pending/count paragraph updated to actual G4/Seal facts",
+      "Only the four final actualG4/Seal checkboxes may become checked after Seal proof",
+      "Only the managed blocks of OPEN101/57 may mirror240/67of92; preserve original prefix, unfinished checklists and #57 R2 unchecked followup",
+      "Add the truthful linked final comment to the six issues and read back all six bodies/comments/states plus five native edges"
+    ],
+    "executionConditions": [
+      "Publish actual Seal main containing this original tools certificate and proof-backed delivery-status.G4Certified=true/officialRustOperations240; product708 and six S4 guards unchanged",
+      "Before any post-Seal remote write, run the reviewed272 commit-blob guard with this exact certificate SHA and actual Seal commit; require the committed certificate SHA and committed delivery-status fields, then270 requires remote main exactly the Seal commit",
+      "At each issue write require the exact approved186 body and expected CLOSED/OPEN state; stop on unexpected drift; preserve all historical/G1/business text and original parent prefix/R2 unfinished item",
+      "Record actual final mirror results and read back six issue bodies/comments/states and all five native edges; preserve actual partial failures and inspect before any narrower continuation, never blindly replay",
+      "No extra issue closure, unrelated product change, business SQL/HTTP replay, force-main/reset, deploy/cutover or broader R4/R5 certification is authorized"
+    ]
+  },
+  "notYetObservedAtCertification": {
+    "SealWriteback": false,
+    "SealMainPublication": false,
+    "postSeal272CommittedCertificateGuard": false,
+    "postSeal270OnlineMirrorAndFinalReadback": false,
+    "overallFinalBookkeepingComplete": false
+  },
+  "retainedBoundaries": [
+    "S3/external presigned/WORM runtime not certified",
+    "Packet-lost COMMIT ACK not exercised; actual deferred failure classified Unknown-retain",
+    "K78 retries12 but exact parsed request payloads11;abort reason changed",
+    "Late initial failed visibility and read120 wrong expectation remain failed originals;116117 and121 are separate effective proofs",
+    "Optional browser late attachment failure not run; static/helper evidence only",
+    "Original54Rust ignored are notDB acceptance",
+    "FullR4 stage acceptance,R5 effective role freeze/execution,broaderR6,deployment/cutover/performance not certified",
+    "ExistingR2 createUser(initialRoleIds)500 remains57 followup",
+    "Full R4 remains67/92 with25 later operations; #101/#57 remain OPEN",
+    "#57 existing R2 createUser(initialRoleIds)500 remains an unchecked out-of-batch followup",
+    "D/E official author worktrees archived; F current primary retained after actual App refusal, not falsely called all-three-archived",
+    "Original failed/partial checkout, lint50, Git transport, cleanup admission and writer attempts retain their real labels; no retrospective success substitution"
+  ],
+  "findingsP0P1P2": [],
+  "inputPins": [
+    {
+      "file": "tools/rust-r4def/independent-final131/g3-final131.json",
+      "bytes": 20426,
+      "sha256": "5fc5301a86a2cdc0709fb43ed824da797056bfaa3910844424b4e378a9c67094",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/g3-final131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/native161-review131.json",
+      "bytes": 7681,
+      "sha256": "d1f43dc93d80437296245ee4abc3aff6ca0b85ebf63d5f3a1b75fcb1290cdbf0",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/native161-review131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/fixed167-review131.json",
+      "bytes": 4436,
+      "sha256": "02fc334fcb9745264765de727f4fda64162ab8ae63cda08ab5056dc54faf840a",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/fixed167-review131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/archive178-review131.json",
+      "bytes": 7480,
+      "sha256": "c15f60b70855db3ce75f0c814ef66c8253975ff9ba03e4d66ce989cb88fafe12",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/archive178-review131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/payload186-preparation131.json",
+      "bytes": 4877,
+      "sha256": "07e489fbc58f01edc97ff3ada97d952877af5a1c67ffbed02fbcc80df32b4238",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/payload186-preparation131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/preclose186-final131.json",
+      "bytes": 20091,
+      "sha256": "e9754ba496e2d6de28a1f9388f17ca1834139d85dfdc8fa7695d73d13570808f",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/preclose186-final131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/online196-review131.json",
+      "bytes": 18731,
+      "sha256": "e830b11fd92b630a2520652c8e18e47e8aa143f3f0256ede58e97eb40c8b664a",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/online196-review131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/final-source131.json",
+      "bytes": 528857,
+      "sha256": "f7167fa943f508e2e551d735257262a61189cf69201551ced75a926021b0e205",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/independent-final131/final-source131.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/staged-product163/receipt163.json",
+      "bytes": 298989,
+      "sha256": "583a7ccd54316437d6489990a06379007c3a7ee15430cf27b66b113dee6380b6",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/staged-product163/receipt163.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/metadata250/receipt.json",
+      "bytes": 627,
+      "sha256": "e39cfad1501de5d1cd6fb594d75d19a0e5b9d3b6e77f37ed7c016c63a987ca87",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/metadata250/receipt.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/metadata250/admission.json",
+      "bytes": 182,
+      "sha256": "2069f47453111cc97f720a9c8e575cff424b46e2c7c96e650a72e6670552b8a1",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/metadata250/admission.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/metadata250/a-process.json",
+      "bytes": 445,
+      "sha256": "8a58bc24daa6dbb5afb7bace993794aa944f3fa37df9d7f495ee92930ac5fc0f",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/metadata250/a-process.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/metadata250/b-process.json",
+      "bytes": 426,
+      "sha256": "0bb13a88ce1744d91d5080d12ca291ffa885908f45022d9af42f03fee5f4e36c",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/metadata250/b-process.json.bin"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4def/archive-origin-map130.json",
+      "bytes": 4642899,
+      "sha256": "34d87feaddef23ace0b5210063794798bcd1a2447b66e432b5db50ba922b3732",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/archive/slices/rust-r4def/archive-origin-map130.json.bin"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json",
+      "bytes": 7855,
+      "sha256": "1010901196c94c61c5abad96f0f09a7db21cd7733fb03f31447c9690b4a9366f",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json.bin"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4def/increment180/origin-map180.json",
+      "bytes": 17356,
+      "sha256": "63a31e5721ed97dc5867d9779a62fc658d061c11c7e24d908e50e26b80d31c66",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/archive/slices/rust-r4def/increment180/origin-map180.json.bin"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4def/online207/origin-map207.json",
+      "bytes": 12274,
+      "sha256": "a4a7593ad4e6e2c7023f41de0f7f417060a5a21be0fca0bdfa558574647ba6cf",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/archive/slices/rust-r4def/online207/origin-map207.json.bin"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4def/operational249/origin-map249.json",
+      "bytes": 1348,
+      "sha256": "82dd4ececc1087ff540eb9972cbff23ba588af558f9de33e1dd171e7ce92ee15",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/archive/slices/rust-r4def/operational249/origin-map249.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/F/closeout130/final-actual207/applied-receipt130.json",
+      "bytes": 4055,
+      "sha256": "9d0bae5b229cd4cd80dee9c7a7aaddde5dfd42ffcdbcfe545c6b46411fea183b",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/F/closeout130/final-actual207/applied-receipt130.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/F/closeout130/final-actual207/writeback130.json",
+      "bytes": 4104,
+      "sha256": "de546409d46790dd164f78a6e161f3bce05774984733803107e955e5ea518b6f",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/F/closeout130/final-actual207/writeback130.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/facts-final207.json",
+      "bytes": 5374,
+      "sha256": "a39586b1084dc6890ee93adda3efb83a94f686ee5728e74acc93a64d3dd6a60e",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/facts-final207.json.bin"
+    },
+    {
+      "file": "README.md",
+      "bytes": 16017,
+      "sha256": "c3014ac95eb0104df9c1629a82d653f7ef1e0c51cd54bed01a55371771939ffc",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/README.md.bin"
+    },
+    {
+      "file": "docs/design/README.md",
+      "bytes": 56629,
+      "sha256": "8dc047a14a3feb575b0e075df484bf6b94457d0b11c5a78dc2e8a949aa1d2f65",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/README.md.bin"
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "bytes": 86275,
+      "sha256": "14c5d442949887e4ea004d21dca97f69e1d6aa9132ba9182acddc52cd16dcf4a",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/backend-rust-migration-plan.md.bin"
+    },
+    {
+      "file": "docs/design/rust-migration-execution-tracker.md",
+      "bytes": 67227,
+      "sha256": "7fe35c4c31e3a635db67902d3cc5e5df20a4a357964c0883e701767a8ee01212",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/rust-migration-execution-tracker.md.bin"
+    },
+    {
+      "file": "docs/design/phase2-development-execution-tracker.md",
+      "bytes": 418402,
+      "sha256": "1c2255540673466c15cbb0a0b57ee992a6942cce13d42533e6cf3a0515e7d78b",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/phase2-development-execution-tracker.md.bin"
+    },
+    {
+      "file": "docs/design/rust-r4-scope-and-dependencies.md",
+      "bytes": 6529,
+      "sha256": "5dfeb5c712b5dcae7c7509c1047cd65911580f79598b48462a1dd6ebb572ea44",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/rust-r4-scope-and-dependencies.md.bin"
+    },
+    {
+      "file": "docs/design/rust-r4def-delivery-status.json",
+      "bytes": 7722,
+      "sha256": "9b856129273bd712b368975dfbaa5de83a310f4069ff602539242e02e30bbc5c",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/rust-r4def-delivery-status.json.bin"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 177879,
+      "sha256": "2b46025dee168039c9eb5f7cb8b6a398d8276de433c4dc9aff23167b82277510",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/docs/design/api-route-canonical-inventory.md.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/docs-check208/receipt.json",
+      "bytes": 677,
+      "sha256": "ef89eec7d7f6186e546d236555444f7d7b0e9d752112295484e409577e938171",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/docs-check208/receipt.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/diff-check252/receipt.json",
+      "bytes": 683,
+      "sha256": "81d437d2b76f7ab0396cebfa7e27ebcb73c9db432775ab957dc4c33aed402d8c",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/diff-check252/receipt.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/docs-check208/stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/docs-check208/stdout.bin.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/docs-check208/stderr.bin",
+      "bytes": 83,
+      "sha256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/docs-check208/stderr.bin.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/diff-check252/stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/diff-check252/stdout.bin.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/diff-check252/stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/diff-check252/stderr.bin.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/plan186.json",
+      "bytes": 3847,
+      "sha256": "38ae4f7e88cfd386a69684dfd7baec62aa948523db04a6a251465800a87f96c0",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/plan186.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/body57.md",
+      "bytes": 4501,
+      "sha256": "6bf866e7b78c14c1ed9167c4f3c63be3b7ec1d86034915e5756115c4015c2981",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/body57.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/body101.md",
+      "bytes": 3534,
+      "sha256": "e56db32cfee282494c465a31b0f65544ddb3b711c5fcc8e23d312e1431991991",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/body101.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/body106.md",
+      "bytes": 6124,
+      "sha256": "68e55180997679cfe00da581a4fd9837cac72a6832bbd4763be759f073c9a9d6",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/body106.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/body107.md",
+      "bytes": 6376,
+      "sha256": "a962d5aebc4f43040e37347b30d9436c46165f516616320f564058ce10ad5d44",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/body107.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/body108.md",
+      "bytes": 6383,
+      "sha256": "64fc56ee9a5c4b30cc1f73ce45a3577289d08898a698bbbdf7c83e8fb14de9f1",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/body108.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/body109.md",
+      "bytes": 6284,
+      "sha256": "654e743ce4252c6b6c45446b366a35491124fa7b1e7a57e83f557e024b48201b",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/body109.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/payload186/comment.md",
+      "bytes": 391,
+      "sha256": "aead84c6c33f871e22ece454750a467ef63e20888e46a364d0e820f1a9b23eb2",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/closeout/payload186/comment.md.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/online196/receipt196.json",
+      "bytes": 2977,
+      "sha256": "86e73bda9cfaac983a42d3bf38a3246551fe8d72b4e662f2cb79232ad2ebe4b3",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/online196/receipt196.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/receipt251.json",
+      "bytes": 2539,
+      "sha256": "102eeaf6df7017ab284ef47f30ea173f3151af888658792be5c925ce5779c946",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/receipt251.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/107.json",
+      "bytes": 15217,
+      "sha256": "df7265af5a231bf6d723a7a6c7897b36578eff34b1fdcfd2eaf4e4aed2fa96d7",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/107.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/108.json",
+      "bytes": 15204,
+      "sha256": "7c31a55c8fe0321bc33d251b64874c978db21b2ff32c56f6ac2c5df13258dafb",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/108.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/109.json",
+      "bytes": 15097,
+      "sha256": "040120fcdde0411bc3c7a70178e50e91e00a0b87e689a36724d4daf21671ce8b",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/109.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/106.json",
+      "bytes": 14903,
+      "sha256": "56e4762d206b7b801cfc9345ebf845957dda145cf9f58b3b7434ffe1950b240e",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/106.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/101.json",
+      "bytes": 14425,
+      "sha256": "efcf2284621e5082d8594f74f6648929fc9dee6e8f1f5d940c08accde104695d",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/101.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/57.json",
+      "bytes": 32343,
+      "sha256": "4e6f2734355a09dec519f6c448b797512795b9d98b09008c00e9649abd4d4c13",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/57.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/106-parent.json",
+      "bytes": 11212,
+      "sha256": "95a3aeab59b5014ae1530cf21ad53fe39a4028c0b9600a9d077404ae0f454c48",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/106-parent.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/107-parent.json",
+      "bytes": 13847,
+      "sha256": "5b67693297e9a15ba7b2c24cd6a7d8acf968a4ff3ca7720bac71c42f3b30b791",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/107-parent.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/108-parent.json",
+      "bytes": 13847,
+      "sha256": "5b67693297e9a15ba7b2c24cd6a7d8acf968a4ff3ca7720bac71c42f3b30b791",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/108-parent.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/109-parent.json",
+      "bytes": 13847,
+      "sha256": "5b67693297e9a15ba7b2c24cd6a7d8acf968a4ff3ca7720bac71c42f3b30b791",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/109-parent.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/g4gate251/101-parent.json",
+      "bytes": 15937,
+      "sha256": "a95ba675b070a30386dd1e0f6b101abcb0626a57dfc8fd594d6e9bba28c76948",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tmp/rust-r4def/root/g4gate251/101-parent.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/metadata-publish240.mjs",
+      "bytes": 4426,
+      "sha256": "01b2d8276c7635b87995bd0d51dc392260a9aabc65e6c5fed0798a9a648b25d1",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/metadata-publish240.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/g4-gate251.mjs",
+      "bytes": 2095,
+      "sha256": "ecdf9a039e36dcf07be270cb08898aeb35829a572baa1c50eded8c49980b2968",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/g4-gate251.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/post-seal270.mjs",
+      "bytes": 5627,
+      "sha256": "5ec09dc1b5d0df4664d5a217de9345cff7adcedc7364f15760300ff2bce726aa",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/post-seal270.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/post-seal272.mjs",
+      "bytes": 1271,
+      "sha256": "602f747106543a0bdcb5a7880cac93cf913dca4f452645140df27204159c3bc1",
+      "snapshot": "tools/rust-r4def/independent-final131/g4-final-inputs/tools/rust-r4def/post-seal272.mjs.bin"
+    }
+  ],
+  "reviewer": {
+    "nonAuthor": true,
+    "privateRead": false,
+    "DBHTTPGitGHOrForeignEntryExecuted": false,
+    "readOnlyGitMetadataFiles": true,
+    "productOrOldEvidenceModified": false,
+    "writesOnly": "tools/rust-r4def/independent-final131/**"
+  }
+}
