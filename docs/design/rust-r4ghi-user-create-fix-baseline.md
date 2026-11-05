@@ -44,6 +44,7 @@
 - 并发同用户名只有一个提交；角色/组织停用与创建的受控锁次序，不接受预检查后的失效引用。
 - Rust fmt、clippy、build、相关测试与统一候选回归；真实 HTTP/PG 验收和独立 G3/G4。历史 ignored、旧 Node 参考和失败记录保留其标签。
 - 新增关联测试有实际业务不变量，不写重复实现的快照测试。
+- `tests/users_database.rs` 的 `create_preserves_generated_id_child_failure_and_session_flush_order` 只作为历史 W01 / Node 缺陷参考，对 #115 的当前创建行为已 superseded；旧 500 预期不得进入新证书。当前验收必须覆盖创建成功、404/409、due/non-due 会话及必要写故障回滚。
 
 ## 5. 例外与 Gate
 

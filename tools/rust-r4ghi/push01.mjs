@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+assert.equal(process.platform,'win32');
+const commit=process.argv[2],edition=process.argv[3];assert(/^[0-9a-f]{40}$/.test(commit)&&/^\d{2}$/.test(edition));
+const script='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/linux-git01.mjs';
+const node='/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node';
+const auth=spawnSync('gh',['auth','token'],{encoding:null,windowsHide:true});assert.equal(auth.status,0,'Configured GitHub credential unavailable');
+const stage=spawnSync('wsl.exe',['-d','Debian','--',node,script,'--stage'],{input:auth.stdout,encoding:null,windowsHide:true,timeout:30000});
+auth.stdout.fill(0);assert.equal(stage.status,0,'Credential staging failed');
+const push=spawnSync('wsl.exe',['-d','Debian','--',node,script,'--push',commit,edition],{encoding:null,windowsHide:true,timeout:130000});
+process.stdout.write(push.stdout??Buffer.alloc(0));assert.equal(push.status,0,'Push failed; public metadata and private original error retained');
