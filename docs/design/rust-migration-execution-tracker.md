@@ -411,3 +411,16 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。[main集成](archive/slices/rust-r4def/actual-g4-260/final-main-publication.json.bin)已核固定提交及永久S4；最终metadata提交与main SHA由Root实际回执提供。
 
 完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+
+
+<!-- poms-r4ghi-g0 -->
+
+### 2026-11-06 R4 第三批立项与联合 G1 输入审计
+
+已按用户授权建立 [本批 #110](https://github.com/illusion-tech/poms/issues/110) → G#111/H#112/I#113/阶段验收#114；[用户创建关联补缺 #115](https://github.com/illusion-tech/poms/issues/115) 为 #57 独立子项。G9/H8/I8共25既有入口及内部机制正在审计，角色冻结最小依赖、受控阶段推进、回款净税依据、成本纳入口径尚待联合冻结。当前 `G1Pending`、本批产品实现未准入，正式Rust240、R4累计67/92、余25。
+
+[#115 基线](rust-r4ghi-user-create-fix-baseline.md)仅冻结用户创建必要写同事务及真实关联修复，可独立推进；不计入R4新入口。三作者显式gpt-6.1-sol/max，Fast未核实；Root独占公共契约/迁移/路由/生成物/Git及统一环境。完整阶段验收及独立G3/G4通过后才可收口#101，#57保持Open。
+
+[当前状态](rust-r4ghi-delivery-status.json)与[实际G0读回](rust-r4ghi/g0-registration01.json)保留真实Gate；历史已归档交付不重写。
+
+<!-- /poms-r4ghi-g0 -->
